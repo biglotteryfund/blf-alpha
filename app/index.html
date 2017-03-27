@@ -3,11 +3,20 @@
 <head>
     <title>Big Lottery Fund</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
+
+    <h1>What did we fund near you?</h1>
+    <form>
+        <input type="text" name="postcode" placeholder="eg. SW2 3BJ">
+        <input type="submit" value="Look up awards">
+    </form>
+
+
     <h1>Our year in numbers</h1>
     <h2>Key statistics</h2>
-    test
     <dl>
         <dt>Number of awards made</dt>
         <dd>11,779</dd>
@@ -28,8 +37,23 @@
         <dd>&pound;276</dd>
     </dl>
 
-<p>The value of awards we have made this year is significantly reduced from 2014/15. This is due to the timing of grant decisions and does not represent an on-going change in our capacity to make grant awards.</p>
 
-<p>Last year's grant awards were unusually high due to the award of &pound;149 million to the Power to Change Trust, whereas this year is lower than anticipated as a result of some delays to our European matched funding property.</p>
+    <div id='map' style='width: 100%; height: 300px;'></div>
+
+    <p>The value of awards we have made this year is significantly reduced from 2014/15. This is due to the timing of grant decisions and does not represent an on-going change in our capacity to make grant awards.</p>
+
+    <p>Last year's grant awards were unusually high due to the award of &pound;149 million to the Power to Change Trust, whereas this year is lower than anticipated as a result of some delays to our European matched funding property.</p>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
+
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFuZHJld3MiLCJhIjoiY2owczczbWQ2MDAycjMycWxlaTBwOTIzYSJ9.kymhXY2DQq4xyb1Cf5qH2g';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v9'
+        });
+    </script>
+
 </body>
 </html>

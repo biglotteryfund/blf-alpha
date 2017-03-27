@@ -1,4 +1,5 @@
 body {
+    width: 80%;
     max-width: 800px;
     margin: 20px auto;
     font-family: arial;
@@ -12,4 +13,15 @@ dd {
 
 dt {
     margin-bottom: 10px;
+}
+
+input {
+    font-size: 18px;
+    padding: 5px;
+}
+
+input[type='submit'] {
+    background-color: #d5d5ef;
+    border: 1px solid #bdbdbd;
+    padding: 5px 20px;
 }
