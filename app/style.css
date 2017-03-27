@@ -25,3 +25,20 @@ input[type='submit'] {
     border: 1px solid #bdbdbd;
     padding: 5px 20px;
 }
+
+article {
+    height: 200px;
+    overflow: auto;
+    background-color: #eeeeee;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+article ul {
+    margin: 0;
+    padding: 0 0 0 20px;
+}
+
+article li {
+    margin: 10px 0;
+}

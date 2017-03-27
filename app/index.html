@@ -9,9 +9,12 @@
 <body>
 
     <h1>What did we fund near you?</h1>
-    <form>
-        <input type="text" name="postcode" placeholder="eg. SW2 3BJ">
+    <form id="js-lookup">
+        <input type="text" name="postcode" placeholder="eg. SW2 3BJ" id="js-postcode">
         <input type="submit" value="Look up awards">
+        <article>
+            <ul id="js-results"></ul>
+        </article>
     </form>
 
 
@@ -37,15 +40,15 @@
         <dd>&pound;276</dd>
     </dl>
 
-
     <div id='map' style='width: 100%; height: 300px;'></div>
 
     <p>The value of awards we have made this year is significantly reduced from 2014/15. This is due to the timing of grant decisions and does not represent an on-going change in our capacity to make grant awards.</p>
 
     <p>Last year's grant awards were unusually high due to the award of &pound;149 million to the Power to Change Trust, whereas this year is lower than anticipated as a result of some delays to our European matched funding property.</p>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="app.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
-
 
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFuZHJld3MiLCJhIjoiY2owczczbWQ2MDAycjMycWxlaTBwOTIzYSJ9.kymhXY2DQq4xyb1Cf5qH2g';
