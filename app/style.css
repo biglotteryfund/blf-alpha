@@ -1,0 +1,15 @@
+body {
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: arial;
+}
+
+dd {
+    margin: 0 0 20px 0;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+dt {
+    margin-bottom: 10px;
+}
