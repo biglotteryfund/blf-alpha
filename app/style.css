@@ -42,3 +42,7 @@ article ul {
 article li {
     margin: 10px 0;
 }
+
+.map-popup-box h2 {
+    font-size: 13px;
+}
