@@ -1,14 +1,17 @@
 /* global L,mapboxgl */
 'use strict';
 
+// dev test
+const DISABLE_GL = false;
+// const DISABLE_GL = true;
+
 // configure grant data for map
 const grantData = [
     {
         "name": "South West",
         "cartodb_id": 6,
         "totalAwarded": 36520521.98,
-        "numGrants": 1016,
-        "fill": "red"
+        "numGrants": 1016
     },
     {
         "name": "Scotland",
@@ -122,21 +125,16 @@ const START_POS = {
     lng: -1.890401
 };
 
-
 // work out which mapbox to use
-const DISABLE_GL = false;
-// const DISABLE_GL = true;
-
 if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
     L.mapbox.accessToken = MAPBOX_TOKEN;
     MAP = L.mapbox.map('map', 'mapbox.streets').setView([START_POS.lat, START_POS.lng], START_ZOOM);
     fetch(GEOJSON_URL).then(r => r.json()).then(geojson => {
         L.geoJson(geojson, {
                 style: function (feature) {
-                    let data = getGrantDataById(feature.properties.cartodb_id);
                     return {
-                        "color": (data && typeof data.stroke !== 'undefined') ? data.stroke : 'white',
-                        "fillColor": (data && typeof data.fill !== 'undefined') ? data.fill: '#cccccc',
+                        "color": (typeof feature.properties.stroke !== 'undefined') ? feature.properties.stroke : feature.properties.fill,
+                        "fillColor": (typeof feature.properties.fill !== 'undefined') ? feature.properties.fill: '#cccccc',
                         "fillOpacity": 1
                     };
                 },
@@ -166,10 +164,10 @@ if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
             },
             'layout': {},
             'paint': {
-                // 'fill-color': {
-                //     "property": "fill",
-                //     "type": "identity"
-                // },
+                'fill-color': {
+                    "property": "fill",
+                    "type": "identity"
+                },
                 // 'fill-outline-color': {
                 //     "property": "stroke",
                 //     "type": "identity"
