@@ -168,7 +168,7 @@ h4 {
   position: relative;
   height: 0; }
   .intrinsic-wrapper.intrinsic-wrapper--reading {
-    padding-bottom: 56.71875%; }
+    padding-bottom: 57.03125%; }
     @media screen and (min-width: 760px) {
       .intrinsic-wrapper.intrinsic-wrapper--reading {
         padding-bottom: 32.16666667%; } }
@@ -186,7 +186,10 @@ h4 {
     height: 100%; }
 
 .hero__reading {
-  background-image: url(../images/hero-reading.jpg); }
+  background-image: url(../images/hero-reading--mobile.jpg); }
+  @media screen and (min-width: 760px) {
+    .hero__reading {
+      background-image: url(../images/hero-reading.jpg); } }
 
 .hero__stats {
   text-align: center;

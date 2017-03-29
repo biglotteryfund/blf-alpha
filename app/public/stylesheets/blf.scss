@@ -246,7 +246,7 @@ h4 {
 
     // @todo calc this
     &.intrinsic-wrapper--reading {
-        padding-bottom: 56.71875%;
+        padding-bottom: 57.03125%;
         @media screen and (min-width: $mobileBreakpoint) {
             padding-bottom: 32.16666667%;
         }
@@ -271,8 +271,10 @@ h4 {
 }
 
 .hero__reading {
-    background-image: url(../images/hero-reading.jpg);
-    //min-height: 386px;
+   background-image: url(../images/hero-reading--mobile.jpg);
+    @media screen and (min-width: $mobileBreakpoint) {
+        background-image: url(../images/hero-reading.jpg);
+    }
 }
 
 .hero__stats {
