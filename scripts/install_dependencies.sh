@@ -1,4 +1,5 @@
 #!/bin/bash
 yum install -y nginx
-curl -sL https://deb.nodesource.com/setup_6.x | bash -
-apt-get install -y nodejs
+curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+yum install -y nodejs
+
