@@ -4,6 +4,7 @@ $contentGutterWidth: 20%;
 $borderRadius: 30px;
 $mapHeroGutter: 80px;
 $footerGutter: 60px;
+$statCircleRadius: 60px;
 
 $charcoal: #2e2e2e;
 $accentBlue: #57bdef;
@@ -112,7 +113,7 @@ header {
     font-family: 'Poppins', arial, sans-serif;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
     letter-spacing: 3px;
     border: none;
     padding: 5px 40px;
@@ -120,6 +121,7 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     background-color: #ffffff;
     color: $charcoal;
+    vertical-align: top;
 
     &.btn--cta {
         background-color: $ctaPink;
@@ -135,7 +137,7 @@ header {
     background-color: rgba(51, 51, 51, 0.45);
     border: 2px solid #ffffff;
     border-radius: $borderRadius;
-    padding: 6.5px 20px; // to align height
+    padding: 3px 20px; // to align height
     font-size: 16px;
     color: #ffffff;
     margin-right: 10px;
@@ -164,7 +166,7 @@ header {
     background-repeat: no-repeat;
 }
 h2 {
-    font-size: 72px;
+    font-size: 36px;
     line-height: 1.2;
     color: #ffffff;
     font-family: 'Poppins', arial, sans-serif;
@@ -174,7 +176,7 @@ h2 {
 
 h3 {
     color: $charcoal;
-    font-size: 40px;
+    font-size: 20px;
     text-transform: uppercase;
     font-family: 'Poppins', arial, sans-serif;
     font-weight: bold;
@@ -218,14 +220,15 @@ h4 {
         }
 
         dt {
-            font-size: 42px;
+            font-size: 32px;
             color: $charcoal;
             margin-bottom: 5px;
         }
 
         dd {
             color: $minor;
-            font-size: 24px;
+            font-size: 16px;
+            line-height: 1.4;
         }
     }
 
@@ -233,13 +236,13 @@ h4 {
         &:before {
             content: '';
             display: block;
-            width: 80px;
-            height: 80px;
+            width: $statCircleRadius;
+            height: $statCircleRadius;
             border-radius: 100%;
             background-color: $brandBlue;
             margin: 0 auto 20px auto;
             background-repeat: no-repeat;
-            background-size: auto;
+            background-size: auto 50%;
             background-position: center;
         }
 
@@ -346,6 +349,10 @@ footer {
 
     .quick-links {
         margin-bottom: 20px;
+
+        h4 {
+            margin-bottom: 10px;
+        }
     }
 
 }
@@ -361,6 +368,7 @@ aside {
     }
 
     p {
+        font-size: 13px;
         display: table-cell;
     }
 
