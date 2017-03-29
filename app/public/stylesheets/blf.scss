@@ -1,10 +1,15 @@
 $logoHeight: 80px;
 $logoPadding: 10px;
 $contentGutterWidth: 20%;
+$borderRadius: 30px;
+
 $charcoal: #2e2e2e;
 $accentBlue: #57bdef;
+$brandBlue: #48ace5;
 $ctaPink: #ed008c;
-$borderRadius: 30px;
+$minor: #7d7d7d;
+$heroBgStart: #fbfbfb;
+$heroBgEnd: #eaeaea;
 
 * {
     box-sizing: border-box;
@@ -17,10 +22,14 @@ body, html {
     padding: 0;
 }
 
-ul, ol, li, h1, h2, h3, h4, h5, h6 {
+ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd {
     margin: 0;
     padding: 0;
     font-size: 14px;
+}
+
+ol, ul, li {
+    list-style: none;
 }
 
 // base font settings
@@ -149,6 +158,16 @@ header {
         line-height: 1.2;
         color: #ffffff;
         font-family: 'Poppins', arial, sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    h3 {
+        color: $charcoal;
+        font-size: 40px;
+        text-transform: uppercase;
+        font-family: 'Poppins', arial, sans-serif;
+        font-weight: bold;
         text-transform: uppercase;
     }
 }
@@ -157,6 +176,65 @@ header {
 .hero__reading {
     background-image: url(../images/hero-reading.jpg);
     min-height: 386px;
+}
+
+
+.hero__stats {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: $heroBgStart;
+    // @TODO mixin
+    background: -moz-linear-gradient(top, $heroBgStart 0%, $heroBgStart 50%, $heroBgEnd 100%);
+    background: -webkit-linear-gradient(top, $heroBgStart 0%,$heroBgStart 50%,$heroBgEnd 100%);
+    background: linear-gradient(to bottom, $heroBgStart 0%,$heroBgStart 50%,$heroBgEnd 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$heroBgStart}', endColorstr='#{$heroBgEnd}',GradientType=0 );
+
+    .stats {
+        margin-top: 20px;
+
+        li {
+            display: inline-block;
+            width: 24%;
+            vertical-align: top;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        dt {
+            font-size: 42px;
+            color: $charcoal;
+            margin-bottom: 5px;
+        }
+
+        dd {
+            color: $minor;
+            font-size: 24px;
+        }
+    }
+
+    .stats__icon {
+        &:before {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 80px;
+            border-radius: 100%;
+            background-color: $brandBlue;
+            margin: 0 auto 20px auto;
+            background-repeat: no-repeat;
+            background-size: auto;
+            background-position: center;
+        }
+
+        &.stats__icon--hand:before {
+            background-image: url(../images/icon-hand.png);
+        }
+
+        &.stats__icon--bank:before {
+            background-image: url(../images/icon-pig.png);
+        }
+    }
 }
 
 // utils

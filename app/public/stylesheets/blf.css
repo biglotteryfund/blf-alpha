@@ -6,10 +6,13 @@ body, html {
   margin: 0;
   padding: 0; }
 
-ul, ol, li, h1, h2, h3, h4, h5, h6 {
+ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd {
   margin: 0;
   padding: 0;
   font-size: 14px; }
+
+ol, ul, li {
+  list-style: none; }
 
 body, input, textarea {
   font-family: 'Lato', arial, sans-serif; }
@@ -110,11 +113,59 @@ header {
     line-height: 1.2;
     color: #ffffff;
     font-family: 'Poppins', arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase; }
+  .hero h3 {
+    color: #2e2e2e;
+    font-size: 40px;
+    text-transform: uppercase;
+    font-family: 'Poppins', arial, sans-serif;
+    font-weight: bold;
     text-transform: uppercase; }
 
 .hero__reading {
   background-image: url(../images/hero-reading.jpg);
   min-height: 386px; }
+
+.hero__stats {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #fbfbfb;
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #fbfbfb 50%, #eaeaea 100%);
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #fbfbfb 50%, #eaeaea 100%);
+  background: linear-gradient(to bottom, #fbfbfb 0%, #fbfbfb 50%, #eaeaea 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', endColorstr='#eaeaea',GradientType=0 ); }
+  .hero__stats .stats {
+    margin-top: 20px; }
+    .hero__stats .stats li {
+      display: inline-block;
+      width: 24%;
+      vertical-align: top;
+      margin-bottom: 20px;
+      padding: 0 20px; }
+    .hero__stats .stats dt {
+      font-size: 42px;
+      color: #2e2e2e;
+      margin-bottom: 5px; }
+    .hero__stats .stats dd {
+      color: #7d7d7d;
+      font-size: 24px; }
+  .hero__stats .stats__icon:before {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    background-color: #48ace5;
+    margin: 0 auto 20px auto;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center; }
+  .hero__stats .stats__icon.stats__icon--hand:before {
+    background-image: url(../images/icon-hand.png); }
+  .hero__stats .stats__icon.stats__icon--bank:before {
+    background-image: url(../images/icon-pig.png); }
 
 .vert-cent {
   position: absolute;
