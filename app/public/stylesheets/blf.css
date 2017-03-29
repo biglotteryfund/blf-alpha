@@ -22,6 +22,10 @@ body, input, textarea {
   margin-right: 20px; }
   @media screen and (min-width: 760px) {
     .content-area {
+      margin-left: 10%;
+      margin-right: 10%; } }
+  @media screen and (min-width: 980px) {
+    .content-area {
       margin-left: 20%;
       margin-right: 20%; } }
 
@@ -33,6 +37,9 @@ header {
     display: table;
     width: calc(100% - 40px); }
     @media screen and (min-width: 760px) {
+      header .header__content {
+        width: 80%; } }
+    @media screen and (min-width: 980px) {
       header .header__content {
         width: 60%; } }
 
@@ -71,7 +78,8 @@ header {
       background-position: 95% 50%;
       background-size: auto 70%;
       padding: 5px;
-      border: none; }
+      border: none;
+      width: 110px; }
     .nav li a {
       color: #2e2e2e;
       text-decoration: none; }
@@ -89,7 +97,7 @@ header {
   background-color: #ffffff;
   color: #2e2e2e;
   vertical-align: top; }
-  @media screen and (min-width: 760px) {
+  @media screen and (min-width: 980px) {
     .btn {
       padding: 5px 40px; } }
   .btn.btn--cta {
@@ -263,7 +271,7 @@ h4 {
     position: relative;
     height: 100%;
     width: calc(100% - 40px); }
-    @media screen and (min-width: 760px) {
+    @media screen and (min-width: 980px) {
       .hero__map .hero__map__container {
         margin-left: 25%;
         margin-right: 25%;
@@ -333,6 +341,9 @@ aside {
     display: table;
     width: calc(100% - 40px); }
     @media screen and (min-width: 760px) {
+      aside .aside-container {
+        width: 80%; } }
+    @media screen and (min-width: 980px) {
       aside .aside-container {
         width: 60%; } }
   aside p {

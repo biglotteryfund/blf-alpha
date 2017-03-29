@@ -1,7 +1,10 @@
 $mobileBreakpoint: 760px;
+$tabletBreakpoint: 980px;
 
 $contentGutterWidth: 20%;
+$contentGutterTablet: 10%;
 $contentGutterWidthMobile: 20px;
+
 $mapGutterWidth: 25%;
 
 $logoHeight: 80px;
@@ -55,6 +58,11 @@ body, input, textarea {
     margin-right: $contentGutterWidthMobile;
 
     @media screen and (min-width: $mobileBreakpoint) {
+        margin-left: $contentGutterTablet;
+        margin-right: $contentGutterTablet;
+    }
+
+    @media screen and (min-width: $tabletBreakpoint) {
         margin-left: $contentGutterWidth;
         margin-right: $contentGutterWidth;
     }
@@ -70,6 +78,10 @@ header {
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
         @media screen and (min-width: $mobileBreakpoint) {
+            width: #{ 100% - $contentGutterTablet*2 };
+        }
+
+        @media screen and (min-width: $tabletBreakpoint) {
             width: #{ 100% - $contentGutterWidth*2 };
         }
     }
@@ -121,6 +133,10 @@ header {
             background-size: auto 70%;
             padding: 5px;
             border: none;
+            width: 110px;
+            @media screen and (min-width: $tabletBreakpoint) {
+                //width: auto;
+            }
         }
 
         a {
@@ -138,7 +154,7 @@ header {
     letter-spacing: 3px;
     border: none;
     padding: 5px 20px;
-    @media screen and (min-width: $mobileBreakpoint) {
+    @media screen and (min-width: $tabletBreakpoint) {
         padding: 5px 40px;
     }
     border-radius: $borderRadius;
@@ -379,11 +395,17 @@ h4 {
         height: 100%;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @media screen and (min-width: $mobileBreakpoint) {
+        @media screen and (min-width: $tabletBreakpoint) {
             margin-left: $mapGutterWidth;
             margin-right: $mapGutterWidth;
             width: #{100% - $mapGutterWidth*2};
         }
+
+        //@media screen and (min-width: $mobileBreakpoint) {
+        //    margin-left: $mapGutterWidth;
+        //    margin-right: $mapGutterWidth;
+        //    width: #{100% - $mapGutterWidth*2};
+        //}
     }
 
     .hero__map__overlay {
@@ -472,6 +494,10 @@ aside {
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
         @media screen and (min-width: $mobileBreakpoint) {
+            width: #{ 100% - $contentGutterTablet*2 }
+        }
+
+        @media screen and (min-width: $tabletBreakpoint) {
             width: #{ 100% - $contentGutterWidth*2 }
         }
     }
