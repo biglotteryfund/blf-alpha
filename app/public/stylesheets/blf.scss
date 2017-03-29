@@ -1,0 +1,168 @@
+$logoHeight: 80px;
+$logoPadding: 10px;
+$contentGutterWidth: 20%;
+$charcoal: #2e2e2e;
+$accentBlue: #57bdef;
+$ctaPink: #ed008c;
+$borderRadius: 30px;
+
+* {
+    box-sizing: border-box;
+}
+
+// reset
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+ul, ol, li, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+// base font settings
+body, input, textarea {
+    font-family: 'Lato', arial, sans-serif;
+}
+
+.content-area {
+    margin-left: $contentGutterWidth;
+    margin-right: $contentGutterWidth;
+}
+
+header {
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+    z-index: 100;
+    position: relative;
+
+    .header__content {
+        display: table;
+        width: #{ 100% - $contentGutterWidth*2 }
+    }
+}
+
+.logo {
+    width: #{$logoHeight + $logoPadding};
+    height: #{$logoHeight + $logoPadding};
+    background-image: url(../images/logo.gif);
+    background-repeat: no-repeat;
+    background-size: auto $logoHeight;
+    background-position: left center;
+    text-indent: -1000em;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.nav {
+    vertical-align: bottom;
+    display: table-cell;
+    text-align: right;
+
+    li {
+        display: inline-block;
+        font-family: 'Poppins', arial, sans-serif;
+        font-size: 14px;
+        color: $charcoal;
+        margin-right: 20px;
+        padding-bottom: 35px;
+
+        &.selected {
+            border-bottom: 3px solid $accentBlue;
+        }
+
+        &.nav__search {
+            padding-bottom: 0;
+        }
+
+        .has-search-icon {
+            background-image: url(../images/icon-search.png);
+            background-repeat: no-repeat;
+            background-position: 95% 50%;
+            background-size: auto 70%;
+            padding: 5px;
+            border: none;
+        }
+
+        a {
+            color: $charcoal;
+            text-decoration: none;
+        }
+    }
+}
+
+.btn {
+    font-family: 'Poppins', arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 3px;
+    border: none;
+    padding: 5px 40px;
+    border-radius: $borderRadius;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    background-color: #ffffff;
+    color: $charcoal;
+
+    &.btn--cta {
+        background-color: $ctaPink;
+        color: #ffffff;
+    }
+}
+
+.input-big {
+    background-color: rgba(51, 51, 51, 0.45);
+    border: 2px solid #ffffff;
+    border-radius: $borderRadius;
+    padding: 6.5px 20px; // to align height
+    font-size: 16px;
+    color: #ffffff;
+    margin-right: 10px;
+
+    // @TODO make mixin
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #d4d4d4;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+        color: #d4d4d4;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: #d4d4d4;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+        color: #d4d4d4;
+    }
+}
+
+
+
+.hero {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    h2 {
+        font-size: 72px;
+        line-height: 1.2;
+        color: #ffffff;
+        font-family: 'Poppins', arial, sans-serif;
+        text-transform: uppercase;
+    }
+}
+
+
+.hero__reading {
+    background-image: url(../images/hero-reading.jpg);
+    min-height: 386px;
+}
+
+// utils
+
+.vert-cent {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}

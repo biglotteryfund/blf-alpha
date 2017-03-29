@@ -2,54 +2,105 @@
 <html>
 <head>
     <title>Big Lottery Fund</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/blf.css"/>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes'/>
-    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet'/>
-
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
 
-<h1>What did we fund near you?</h1>
-<form action="/lookup" method="get" target="_blank">
-    <input type="text" name="postcode" placeholder="eg. SW2 3BJ">
-    <input type="submit" value="Look up awards">
-</form>
+    <header>
+        <article class="header__content content-area">
+            <h1 class="logo">Big Lottery Fund</h1>
+            <ul class="nav nav--top">
+                <li class="selected"><a href="#">Before you apply</a></li>
+                <li><a href="#">Apply</a></li>
+                <li><a href="#">About</a></li>
+                <li class="nav__search">
+                    <form class="form-search">
+                        <input type="text" class="has-search-icon">
+                        <input type="submit" value="Search" class="btn btn--cta">
+                    </form>
+                </li>
+            </ul>
+        </article>
+    </header>
 
-<h1>Our year in numbers</h1>
-<h2>Key statistics</h2>
-<dl>
-    <dt>Number of awards made</dt>
-    <dd>11,779</dd>
+    <section class="hero hero__reading">
+        <article class="content-area vert-cent">
+            <h2>What did we <br />fund near you?</h2>
+            <form action="/lookup" method="get" target="_blank">
+                <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big">
+                <input type="submit" value="Look up awards" class="btn">
+            </form>
+        </article>
+    </section>
 
-    <dt>Percentage of awards to the voluntary and community sectors</dt>
-    <dd>91.3%</dd>
+    <section class="hero hero__stats">
+        <article class="content-area">
+            <dl class="stats">
+                <dt class="stats__icon stats__icon--cross">11,779</dt>
+                <dd>Number of awards made</dd>
 
-    <dt>Percentage of awards for less than &pound;10,000</dt>
-    <dd>89.1%</dd>
+                <dt class="stats__icon stats__icon--savings">91.3%</dt>
+                <dd>Percentage of awards to the voluntary and community sectors</dd>
 
-    <dt>Largest award made to the Royal Society of Wildlife Trusts</dt>
-    <dd>&pound;33 million</dd>
+                <dt class="stats__icon stats__icon--cross">89.1%</dt>
+                <dd>Percentage of awards for less than &pound;10,000</dd>
 
-    <dt>Total operating costs</dt>
-    <dd>6.6%</dd>
+                <dt class="stats__icon stats__icon--savings">&pound;33 million</dt>
+                <dd>Largest award made to the Royal Society of Wildlife Trusts</dd>
 
-    <dt>Smallest award made through the Communities and Families Fund</dt>
-    <dd>&pound;276</dd>
-</dl>
+                <dt class="stats__icon stats__icon--cross">6.6%</dt>
+                <dd>Total operating costs</dd>
 
-<div id='map' style='width: 100%; height: 450px;'></div>
+                <dt class="stats__icon stats__icon--savings">&pound;276</dt>
+                <dd>Smallest award made through the Communities and Families Fund</dd>
+            </dl>
+        </article>
+    </section>
 
-<p>The value of awards we have made this year is significantly reduced from 2014/15. This is due to the timing of grant
-    decisions and does not represent an on-going change in our capacity to make grant awards.</p>
+    <section class="hero hero__map">
+        <article class="content-area">
+            <div class="hero__map__overlay">
+                <p>Map goes here</p>
+            </div>
+        </article>
+    </section>
 
-<p>Last year's grant awards were unusually high due to the award of &pound;149 million to the Power to Change Trust,
-    whereas this year is lower than anticipated as a result of some delays to our European matched funding property.</p>
+    <footer>
+        <article class="content-area">
+            <ul>
+                <li>1 Address St, London </li>
+                <li>general.enquiries@biglotteryfund.org.uk</li>
+                <li>0222 345 6789</li>
+            </ul>
 
-<script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-supported/v1.2.0/mapbox-gl-supported.js'></script>
-<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-<script src="/javascripts/scripts.js"></script>
+            <h3>Quick links</h3>
+            <ul>
+                <li>Freedom of Information</li>
+                <li>Contact</li>
+                <li>Terms of use</li>
+                <li>Privacy</li>
+                <li>Cookies</li>
+                <li>Site map</li>
+                <li>Accessibility</li>
+            </ul>
+        </article>
+
+        <aside>
+            <article class="content-area">
+                <p>Copyright 2017. All rights reversed.</p>
+                <ul class="social">
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Google+</li>
+                    <li>Instagram</li>
+                </ul>
+            </article>
+        </aside>
+
+    </footer>
 
 </body>
 </html>
