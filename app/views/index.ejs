@@ -7,13 +7,18 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+
+    <!--mapbox-->
+    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet'/>
 </head>
 <body>
 
     <header>
         <article class="header__content content-area">
             <h1 class="logo">Big Lottery Fund</h1>
-            <ul class="nav nav--top">
+            <div class="mobile-only nav nav--mobile"><i class="ion-navicon-round"></i></div>
+            <ul class="nav nav--top desktop-only">
                 <li class="selected"><a href="#">Before you apply</a></li>
                 <li><a href="#">Apply</a></li>
                 <li><a href="#">About</a></li>
@@ -32,7 +37,7 @@
             <article class="content-area vert-cent">
                 <h2>What did we <br />fund near you?</h2>
                 <form action="/lookup" method="get" target="_blank" class="form-fund">
-                    <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big">
+                    <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big" size="12">
                     <input type="submit" value="Look up awards" class="btn">
                 </form>
             </article>
@@ -88,29 +93,31 @@
         </article>
     </section>
 
-    <section class="hero hero__map">
-        <div class="hero__map__bg hero__map__bg--top"></div>
-        <div class="hero__map__bg hero__map__bg--bottom"></div>
+    <div class="intrinsic-wrapper intrinsic-wrapper--map">
+        <section class="intrinsic-stretched hero hero__map">
+            <div class="hero__map__bg hero__map__bg--top"></div>
+            <div class="hero__map__bg hero__map__bg--bottom"></div>
 
-        <article class="hero__map__container content-area">
-            <div class="hero__map__overlay">
-                <p>Map goes here</p>
-            </div>
-        </article>
-    </section>
+            <article class="hero__map__container content-area">
+                <div class="hero__map__overlay">
+                    <div id="map" style="width: 100%; height: 100%;"></div>
+                </div>
+            </article>
+        </section>
+    </div>
 
     <footer>
         <article class="content-area">
             <img src="/images/lottery.png" class="lottery" />
 
-            <ul class="contact">
+            <ul class="contact desktop-only">
                 <li><i class="ion-ios-location"></i> 1 Address St, London </li>
                 <li><i class="ion-email"></i> general.enquiries@biglotteryfund.org.uk</li>
                 <li><i class="ion-ios-telephone"></i> 0222 345 6789</li>
             </ul>
 
             <div class="quick-links">
-                <h4>Quick links</h4>
+                <h4 class="desktop-only">Quick links</h4>
                 <ul>
                     <div class="quick-links__1">
                         <li><i class="ion-chevron-right"></i> Freedom of Information</li>
@@ -121,7 +128,7 @@
                     <div class="quick-links__2">
                         <li><i class="ion-chevron-right"></i> Cookies</li>
                         <li><i class="ion-chevron-right"></i> Site map</li>
-                        <li><i class="ion-chevron-right"></i> Accessibility</li>
+                        <li class="desktop-only"><i class="ion-chevron-right"></i> Accessibility</li>
                     </div>
                 </ul>
             </div>
@@ -129,7 +136,7 @@
 
         <aside>
             <article class="aside-container content-area">
-                <p>Copyright 2017. All rights reserved.</p>
+                <p class="desktop-only">Copyright 2017. All rights reserved.</p>
                 <ul class="social">
                     <a href="#"><li class="ion-social-facebook"></li></a>
                     <a href="#"><li class="ion-social-twitter"></li></a>
@@ -137,9 +144,15 @@
                     <a href="#"><li class="ion-social-instagram"></li></a>
                 </ul>
             </article>
+            <p class="mobile-only copyright-white">Copyright 2017. All rights reserved.</p>
         </aside>
 
     </footer>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-supported/v1.2.0/mapbox-gl-supported.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+    <script src="/javascripts/scripts.js"></script>
 
 </body>
 </html>

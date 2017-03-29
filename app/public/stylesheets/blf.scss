@@ -1,10 +1,16 @@
+$mobileBreakpoint: 760px;
+
+$contentGutterWidth: 20%;
+$contentGutterWidthMobile: 20px;
+$mapGutterWidth: 25%;
+
 $logoHeight: 80px;
 $logoPadding: 10px;
-$contentGutterWidth: 20%;
 $borderRadius: 30px;
+$statCircleRadius: 60px;
+
 $mapHeroGutter: 80px;
 $footerGutter: 60px;
-$statCircleRadius: 60px;
 
 $charcoal: #2e2e2e;
 $accentBlue: #57bdef;
@@ -45,8 +51,13 @@ body, input, textarea {
 }
 
 .content-area {
-    margin-left: $contentGutterWidth;
-    margin-right: $contentGutterWidth;
+    margin-left: $contentGutterWidthMobile;
+    margin-right: $contentGutterWidthMobile;
+
+    @media screen and (min-width: $mobileBreakpoint) {
+        margin-left: $contentGutterWidth;
+        margin-right: $contentGutterWidth;
+    }
 }
 
 header {
@@ -56,7 +67,11 @@ header {
 
     .header__content {
         display: table;
-        width: #{ 100% - $contentGutterWidth*2 }
+        width: calc(100% - #{$contentGutterWidthMobile*2});
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            width: #{ 100% - $contentGutterWidth*2 };
+        }
     }
 }
 
@@ -72,10 +87,16 @@ header {
     vertical-align: middle;
 }
 
+
 .nav {
     vertical-align: bottom;
     display: table-cell;
     text-align: right;
+
+    &.nav--mobile {
+        font-size: 36px;
+        vertical-align: middle;
+    }
 
     li {
         display: inline-block;
@@ -116,7 +137,10 @@ header {
     font-size: 12px;
     letter-spacing: 3px;
     border: none;
-    padding: 5px 40px;
+    padding: 5px 20px;
+    @media screen and (min-width: $mobileBreakpoint) {
+        padding: 5px 40px;
+    }
     border-radius: $borderRadius;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     background-color: #ffffff;
@@ -137,10 +161,15 @@ header {
     background-color: rgba(51, 51, 51, 0.45);
     border: 2px solid #ffffff;
     border-radius: $borderRadius;
-    padding: 3px 20px; // to align height
-    font-size: 16px;
+    font-size: 14px;
+    padding: 5px 10px;
     color: #ffffff;
     margin-right: 10px;
+
+    @media screen and (min-width: $mobileBreakpoint) {
+        font-size: 16px;
+        padding: 3px 20px; // to align height
+    }
 
     // @TODO make mixin
     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -160,7 +189,10 @@ header {
 
 
 h2 {
-    font-size: 36px;
+    font-size: 22px;
+    @media screen and (min-width: $mobileBreakpoint) {
+        font-size: 36px;
+    }
     line-height: 1.2;
     color: #ffffff;
     font-family: 'Poppins', arial, sans-serif;
@@ -198,7 +230,19 @@ h4 {
 
     // @todo calc this
     &.intrinsic-wrapper--reading {
-        padding-bottom: 32.16666667%;
+        padding-bottom: 56.71875%;
+        @media screen and (min-width: $mobileBreakpoint) {
+            padding-bottom: 32.16666667%;
+        }
+    }
+
+    &.intrinsic-wrapper--map {
+        padding-bottom: 120%; // arbitrary
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            padding-bottom: 52.9166666667%;
+            margin-bottom: 40px;
+        }
     }
 
     .intrinsic-stretched {
@@ -231,22 +275,31 @@ h4 {
 
         li {
             display: inline-block;
-            width: 24%;
             vertical-align: top;
             margin-bottom: 20px;
             padding: 0 20px;
+            width: 44%;
+            @media screen and (min-width: $mobileBreakpoint) {
+                width: 24%;
+            }
         }
 
         dt {
-            font-size: 32px;
             color: $charcoal;
             margin-bottom: 5px;
+            font-size: 22px;
+            @media screen and (min-width: $mobileBreakpoint) {
+                font-size: 32px;
+            }
         }
 
         dd {
             color: $minor;
-            font-size: 16px;
             line-height: 1.4;
+            font-size: 14px;
+            @media screen and (min-width: $mobileBreakpoint) {
+                font-size: 16px;
+            }
         }
     }
 
@@ -277,42 +330,45 @@ h4 {
 .hero__map {
     background-image: url(../images/hero-map.jpg);
     height: 635px;
-    margin-bottom: 40px;
+    background-size: cover;
 
     // hackery for overlaid map
-    .hero__map__bg {
+    @media screen and (min-width: $mobileBreakpoint) {
+        background-size: contain;
 
-        &.hero__map__bg--top {
-            &:before,
-            &:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: $contentGutterWidth;
-                height: $mapHeroGutter;
-                background-color: $heroBgEnd;
+        .hero__map__bg {
+            &.hero__map__bg--top {
+                &:before,
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: $mapGutterWidth;
+                    height: $mapHeroGutter;
+                    background-color: $heroBgEnd;
+                }
+                &:after {
+                    left: auto;
+                    right: 0;
+                }
             }
-            &:after {
-                left: auto;
-                right: 0;
-            }
-        }
 
-        &.hero__map__bg--bottom {
-            &:before,
-            &:after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: $contentGutterWidth;
-                height: $mapHeroGutter;
-                background-color: #ffffff;
-            }
-            &:after {
-                left: auto;
-                right: 0;
+            &.hero__map__bg--bottom {
+                &:before,
+                &:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: $mapGutterWidth;
+                    height: $mapHeroGutter;
+                    background-color: #ffffff;
+                }
+                &:after {
+                    left: auto;
+                    right: 0;
+                }
             }
         }
     }
@@ -321,6 +377,13 @@ h4 {
     .hero__map__container {
         position: relative;
         height: 100%;
+        width: calc(100% - #{$contentGutterWidthMobile*2});
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            margin-left: $mapGutterWidth;
+            margin-right: $mapGutterWidth;
+            width: #{100% - $mapGutterWidth*2};
+        }
     }
 
     .hero__map__overlay {
@@ -341,14 +404,27 @@ footer {
 
     .lottery {
         display: block;
-        margin-left: -#{$footerGutter};
         margin-bottom: 20px;
         padding-top: 20px;
+        @media screen and (min-width: $mobileBreakpoint) {
+            margin-left: -#{$footerGutter};
+        }
     }
 
-    li {
+    .contact li,
+    .quick-links li {
         margin-bottom: 10px;
         font-size: 14px;
+
+        padding-bottom: 10px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #3b3b3b;
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            padding-bottom: 0;
+            text-transform: none;
+            border-bottom: none;
+        }
 
         i {
             margin-right: 10px;
@@ -357,12 +433,14 @@ footer {
         }
     }
 
-    .contact,
-    .quick-links,
-    .quick-links__1,
-    .quick-links__2 {
-        float: left;
-        margin-right: $footerGutter;
+    @media screen and (min-width: $mobileBreakpoint) {
+        .contact,
+        .quick-links,
+        .quick-links__1,
+        .quick-links__2 {
+            float: left;
+            margin-right: $footerGutter;
+        }
     }
 
     .quick-links {
@@ -371,6 +449,13 @@ footer {
         h4 {
             margin-bottom: 10px;
         }
+        
+        i {
+            display: none;
+            @media screen and (min-width: $mobileBreakpoint) {
+                display: inline;
+            }
+        }
     }
 
 }
@@ -378,11 +463,17 @@ footer {
 aside {
     clear: left;
     background-color: $footerAlt;
-    padding: 20px;
+    @media screen and (min-width: $mobileBreakpoint) {
+        padding: 20px;
+    }
 
     .aside-container {
         display: table;
-        width: #{ 100% - $contentGutterWidth*2 }
+        width: calc(100% - #{$contentGutterWidthMobile*2});
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            width: #{ 100% - $contentGutterWidth*2 }
+        }
     }
 
     p {
@@ -392,18 +483,41 @@ aside {
 
     .social {
         display: table-cell;
-        text-align: right;
+        text-align: center;
+
+        @media screen and (min-width: $mobileBreakpoint) {
+            text-align: right;
+        }
+
         a {
             color: $footerText;
+            text-decoration: none;
+            margin: 0 15px;
+            &:first-child { margin-left: 0;}
+            &:last-child { margin-right: 0;}
+
+            @media screen and (min-width: $mobileBreakpoint) {
+                margin: 0 5px;
+            }
+
             &:hover {
                 color: #ffffff;
             }
         }
         li {
-            font-size: 20px;
             display: inline-block;
-            margin: 0 5px;
+            font-size: 45px;
+            @media screen and (min-width: $mobileBreakpoint) {
+                font-size: 20px;
+            }
         }
+    }
+
+    .copyright-white {
+        text-align: center;
+        background: #ffffff;
+        display: block;
+        padding: 10px $contentGutterWidthMobile;
     }
 }
 
@@ -414,4 +528,16 @@ aside {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+}
+
+#map {
+    opacity: 0.7;
+}
+
+@media screen and (max-width: #{$mobileBreakpoint - 1px}) {
+    .desktop-only { display: none !important; }
+}
+
+@media screen and (min-width: $mobileBreakpoint) {
+    .mobile-only { display: none !important; }
 }

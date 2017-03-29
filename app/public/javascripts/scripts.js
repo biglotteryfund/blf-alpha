@@ -100,7 +100,7 @@ let formatCurrency = function (n) {
 // build html string for map overlay
 let makeHTMLPopup = function (data) {
     return `<div class="map-popup-box">
-            <h2>${data.name}</h2>
+            <h5>${data.name}</h5>
             <ul>
                 <li><strong>Grants made</strong>: ${data.numGrants}</li>
                 <li><strong>Total awarded</strong>: &pound;${formatCurrency(data.totalAwarded)}</li>
@@ -118,11 +118,11 @@ let onEachFeature = function (feature, layer) {
 
 let MAP;
 const GEOJSON_URL = '/javascripts/geojson/regions.json';
-const START_ZOOM = 5;
+const START_ZOOM = 4.5;
 const MAPBOX_TOKEN = 'pk.eyJ1IjoibWF0dGFuZHJld3MiLCJhIjoiY2owczczbWQ2MDAycjMycWxlaTBwOTIzYSJ9.kymhXY2DQq4xyb1Cf5qH2g';
 const START_POS = {
-    lat: 52.486243,
-    lng: -1.890401
+    lat: 53.789288,
+    lng: -2.240503
 };
 
 // work out which mapbox to use
@@ -175,7 +175,8 @@ if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
                 'fill-opacity': 0.8
             }
         });
-        MAP.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+        // MAP.addControl(new mapboxgl.NavigationControl(), 'top-left');
     });
 
     // bind clicks on layers

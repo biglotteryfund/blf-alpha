@@ -2199,7 +2199,7 @@
         "cartodb_id": 1,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "red"
+        "fill": "#e9ba2e"
       }
     },
     {
@@ -4488,7 +4488,7 @@
         "cartodb_id": 2,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "orange"
+        "fill": "#497d24"
       }
     },
     {
@@ -11705,7 +11705,7 @@
         "cartodb_id": 3,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "yellow"
+        "fill": "#54789c"
       }
     },
     {
@@ -13682,7 +13682,7 @@
         "cartodb_id": 4,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "green"
+        "fill": "#eda42b"
       }
     },
     {
@@ -27649,7 +27649,7 @@
         "cartodb_id": 13,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "turquoise"
+        "fill": "#6a4e8c"
       }
     },
     {
@@ -28950,7 +28950,7 @@
         "cartodb_id": 5,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "indigo"
+        "fill": "#ef786f"
       }
     },
     {
@@ -30977,7 +30977,7 @@
         "cartodb_id": 6,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "violet"
+        "fill": "#307aa0"
       }
     },
     {
@@ -32750,7 +32750,7 @@
         "cartodb_id": 7,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "brown"
+        "fill": "#7cad2f"
       }
     },
     {
@@ -38857,7 +38857,7 @@
         "cartodb_id": 8,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "magenta"
+        "fill": "#ad4077"
       }
     },
     {
@@ -42622,7 +42622,7 @@
         "cartodb_id": 9,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "cyan"
+        "fill": "#80be36"
       }
     },
     {
@@ -50145,7 +50145,7 @@
         "cartodb_id": 10,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "rose"
+        "fill": "#674d89"
       }
     },
     {
@@ -52248,7 +52248,7 @@
         "cartodb_id": 11,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "navy"
+        "fill": "#46a2c9"
       }
     },
     {
@@ -53289,7 +53289,7 @@
         "cartodb_id": 12,
         "created_at": "2015-05-10T13:33:04Z",
         "updated_at": "2015-05-10T13:33:04Z",
-        "fill": "maroon"
+        "fill": "#a2bab7"
       }
     }
   ]

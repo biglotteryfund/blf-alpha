@@ -4,4 +4,4 @@ service nginx restart
 
 cd /var/www/biglotteryfund
 npm install
-pm2 start -f bin/www -n www -i 0
+pm2 restart bin/www -n www -i 0
