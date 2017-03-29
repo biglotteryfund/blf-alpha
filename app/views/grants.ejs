@@ -1,0 +1,8 @@
+<ul>
+    <% grants.forEach(function (g) { %>
+        <li>
+            <%= g.recipientOrganization[0].name %>
+            (&pound;<%= g.amountAwarded %> awarded on <%= g.awardDate %>
+        </li>
+    <% }); %>
+</ul>

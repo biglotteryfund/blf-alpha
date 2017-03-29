@@ -1,7 +1,6 @@
 'use strict';
 const grants = require('./app/grantnav.json');
 const _ = require('lodash');
-const rp = require('request-promise');
 
 let regionsByName = grants.grants.map(g => g.recipientRegionName).filter(g => g !== undefined);
 let regionsCounts = _.countBy(regionsByName);
