@@ -547,6 +547,17 @@ aside {
     }
 }
 
+.bullets {
+    margin: 20px 0;
+}
+
+.bullets li {
+    list-style-type: disc;
+    margin: 0px 0px 15px 20px;
+    text-align: left;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 10px;
+}
 
 // utils
 

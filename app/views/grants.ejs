@@ -1,8 +1,41 @@
-<ul>
-    <% grants.forEach(function (g) { %>
-        <li>
-            <%= g.recipientOrganization[0].name %>
-            (&pound;<%= g.amountAwarded %> awarded on <%= g.awardDate %>
-        </li>
-    <% }); %>
-</ul>
+<!doctype html>
+<html>
+<head>
+    <title>Grants near <%= postcode %> | Big Lottery Fund</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/blf.css"/>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes'/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+    <%- include('inc/header', {}); %>
+
+    <div class="intrinsic-wrapper intrinsic-wrapper--reading">
+        <section class="intrinsic-stretched hero hero__reading">
+            <article class="content-area vert-cent">
+                <h2>Funding near <%= postcode %></h2>
+            </article>
+        </section>
+    </div>
+
+    <section class="hero hero__stats">
+        <article class="content-area">
+            <h3>We awarded <%= grants.length %> grants near you:</h3>
+
+            <ul class="bullets">
+                <% grants.forEach(function (g) { %>
+                    <li>
+                        <%= g.recipientOrganization[0].name %>
+                        (&pound;<%= g.amountAwarded %> awarded on <%= g.awardDate %>
+                    </li>
+                <% }); %>
+            </ul>
+        </article>
+    </section>
+
+    <%- include('inc/footer', {}); %>
+</body>
+</html>

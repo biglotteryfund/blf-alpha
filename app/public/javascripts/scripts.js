@@ -177,6 +177,7 @@ if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
         });
 
         // MAP.addControl(new mapboxgl.NavigationControl(), 'top-left');
+         MAP.scrollZoom.disable();
     });
 
     // bind clicks on layers

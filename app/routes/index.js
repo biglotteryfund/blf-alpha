@@ -23,7 +23,8 @@ router.get('/lookup', function(req, res, next) {
         if (matches.length > 0) {
             console.log(matches);
             res.render('grants', {
-                grants: matches
+                grants: matches,
+                postcode: postcode
             });
         } else {
             res.redirect('/');
