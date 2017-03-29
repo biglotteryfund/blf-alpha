@@ -1,7 +1,7 @@
 #!/bin/bash
-sudo /etc/init.d/httpd stop
+/etc/init.d/httpd stop
 service nginx restart
 
 cd /var/www/biglotteryfund
 npm install
-pm2 start bin/www -n www -i 0
+pm2 start -f bin/www -n www -i 0
