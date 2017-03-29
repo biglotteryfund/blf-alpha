@@ -159,12 +159,6 @@ header {
 
 
 
-.hero {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
 h2 {
     font-size: 36px;
     line-height: 1.2;
@@ -191,11 +185,35 @@ h4 {
     text-transform: uppercase;
 }
 
-.hero__reading {
-    background-image: url(../images/hero-reading.jpg);
-    min-height: 386px;
+.hero {
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
+.intrinsic-wrapper {
+    position: relative;
+    height: 0;
+
+    // @todo calc this
+    &.intrinsic-wrapper--reading {
+        padding-bottom: 32.16666667%;
+    }
+
+    .intrinsic-stretched {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.hero__reading {
+    background-image: url(../images/hero-reading.jpg);
+    //min-height: 386px;
+}
 
 .hero__stats {
     text-align: center;
