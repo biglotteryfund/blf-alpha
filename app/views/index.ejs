@@ -6,6 +6,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes'/>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -29,7 +30,7 @@
     <section class="hero hero__reading">
         <article class="content-area vert-cent">
             <h2>What did we <br />fund near you?</h2>
-            <form action="/lookup" method="get" target="_blank">
+            <form action="/lookup" method="get" target="_blank" class="form-fund">
                 <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big">
                 <input type="submit" value="Look up awards" class="btn">
             </form>
@@ -86,7 +87,10 @@
     </section>
 
     <section class="hero hero__map">
-        <article class="content-area">
+        <div class="hero__map__bg hero__map__bg--top"></div>
+        <div class="hero__map__bg hero__map__bg--bottom"></div>
+
+        <article class="hero__map__container content-area">
             <div class="hero__map__overlay">
                 <p>Map goes here</p>
             </div>
@@ -95,32 +99,40 @@
 
     <footer>
         <article class="content-area">
-            <ul>
-                <li>1 Address St, London </li>
-                <li>general.enquiries@biglotteryfund.org.uk</li>
-                <li>0222 345 6789</li>
+            <img src="/images/lottery.png" class="lottery" />
+
+            <ul class="contact">
+                <li><i class="ion-ios-location"></i> 1 Address St, London </li>
+                <li><i class="ion-email"></i> general.enquiries@biglotteryfund.org.uk</li>
+                <li><i class="ion-ios-telephone"></i> 0222 345 6789</li>
             </ul>
 
-            <h3>Quick links</h3>
-            <ul>
-                <li>Freedom of Information</li>
-                <li>Contact</li>
-                <li>Terms of use</li>
-                <li>Privacy</li>
-                <li>Cookies</li>
-                <li>Site map</li>
-                <li>Accessibility</li>
-            </ul>
+            <div class="quick-links">
+                <h4>Quick links</h4>
+                <ul>
+                    <div class="quick-links__1">
+                        <li><i class="ion-chevron-right"></i> Freedom of Information</li>
+                        <li><i class="ion-chevron-right"></i> Contact</li>
+                        <li><i class="ion-chevron-right"></i> Terms of use</li>
+                        <li><i class="ion-chevron-right"></i> Privacy</li>
+                    </div>
+                    <div class="quick-links__2">
+                        <li><i class="ion-chevron-right"></i> Cookies</li>
+                        <li><i class="ion-chevron-right"></i> Site map</li>
+                        <li><i class="ion-chevron-right"></i> Accessibility</li>
+                    </div>
+                </ul>
+            </div>
         </article>
 
         <aside>
-            <article class="content-area">
-                <p>Copyright 2017. All rights reversed.</p>
+            <article class="aside-container content-area">
+                <p>Copyright 2017. All rights reserved.</p>
                 <ul class="social">
-                    <li>Facebook</li>
-                    <li>Twitter</li>
-                    <li>Google+</li>
-                    <li>Instagram</li>
+                    <a href="#"><li class="ion-social-facebook"></li></a>
+                    <a href="#"><li class="ion-social-twitter"></li></a>
+                    <a href="#"><li class="ion-social-google"></li></a>
+                    <a href="#"><li class="ion-social-instagram"></li></a>
                 </ul>
             </article>
         </aside>
