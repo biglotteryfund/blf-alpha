@@ -7,10 +7,6 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-
-    <!--mapbox-->
-    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet'/>
 </head>
 <body>
 
@@ -84,11 +80,18 @@
 
             <article class="hero__map__container content-area">
                 <div class="hero__map__overlay">
-                    <div class="map-wrapper">
-                        <%- include('inc/uk.svg', {}); %>
+
+                    <div class="map-wrapper"><%- include('inc/uk.svg', {}); %></div>
+
+                    <div class="map-info hidden" id="js-map-info">
+                        <h5 class="map-info__subhead">Region</h5>
+                        <h4 class="map-info__head" id="js-region-name"></h4>
+                        <p class="map-info__num-grants">Number of grants made: <span id="js-num-grants"></span></p>
+                        <p class="map-info__num-awards">Total awarded: <span id="js-num-awards"></span></p>
+                        <hr class="map-info__hr desktop-only">
+                        <p class="map-info__cta"><a class="btn btn--small" id="js-read-more" href="#">Read more</a></p>
                     </div>
-                    <!--<img src="/images/uk.svg" />-->
-                    <!--<div id="map" style="width: 100%; height: 100%;"></div>-->
+
                 </div>
             </article>
         </section>
@@ -96,9 +99,6 @@
 
     <%- include('inc/footer', {}); %>
 
-    <script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-supported/v1.2.0/mapbox-gl-supported.js'></script>
-    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
     <script src="/javascripts/scripts.js"></script>
 
 </body>
