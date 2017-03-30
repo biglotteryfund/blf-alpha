@@ -11,6 +11,7 @@ $logoHeight: 80px;
 $logoPadding: 10px;
 $borderRadius: 30px;
 $statCircleRadius: 60px;
+$mapBoxHeightMobile: 150px;
 
 $mapHeroGutter: 80px;
 $footerGutter: 60px;
@@ -924,7 +925,11 @@ h4 {
 .map-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: calc(100% - #{$mapBoxHeightMobile});
+
+    @media screen and (min-width: $mobileBreakpoint) {
+        height: 100%;
+    }
 
     svg {
         position: absolute;
@@ -932,6 +937,11 @@ h4 {
         top: 0;
         width: 100%;
         height: 100%;
+
+        path:hover {
+            fill: $ctaPink;
+            cursor: pointer;
+        }
     }
 }
 
@@ -943,12 +953,18 @@ h4 {
     background-size: 56px 43px;
     padding: 20px;
     color: #ffffff;
+    height: $mapBoxHeightMobile;
 
-    @media screen and (min-width: $tabletBreakpoint) {
+    @media screen and (min-width: $mobileBreakpoint) {
+        height: auto;
         position: absolute;
         width: 250px;
         z-index: 10;
-        right: -50px;
+        right: -180px;
+        top: 20px;
+    }
+
+    @media screen and (min-width: $tabletBreakpoint) {
         top: $mapHeroGutter + 20px;
     }
 
@@ -1072,24 +1088,6 @@ h4 {
     }
 }
 
-.map-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    svg {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-
-        path:hover {
-            fill: $ctaPink;
-            cursor: pointer;
-        }
-    }
-}
 
 footer {
     background-color: $footer;
