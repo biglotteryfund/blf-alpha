@@ -116,83 +116,87 @@ let onEachFeature = function (feature, layer) {
     }
 };
 
-let MAP;
-const GEOJSON_URL = '/javascripts/geojson/regions.json';
-const START_ZOOM = 4.5;
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibWF0dGFuZHJld3MiLCJhIjoiY2owczczbWQ2MDAycjMycWxlaTBwOTIzYSJ9.kymhXY2DQq4xyb1Cf5qH2g';
-const START_POS = {
-    lat: 53.789288,
-    lng: -2.240503
-};
+// let MAP;
+// const GEOJSON_URL = '/javascripts/geojson/regions.json';
+// const START_ZOOM = 4.5;
+// const MAPBOX_TOKEN = 'pk.eyJ1IjoibWF0dGFuZHJld3MiLCJhIjoiY2owczczbWQ2MDAycjMycWxlaTBwOTIzYSJ9.kymhXY2DQq4xyb1Cf5qH2g';
+// const START_POS = { lat: 53.789288, lng: -2.240503 };
+//
+// // work out which mapbox to use
+// if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
+//     L.mapbox.accessToken = MAPBOX_TOKEN;
+//     MAP = L.mapbox.map('map', 'mapbox.streets').setView([START_POS.lat, START_POS.lng], START_ZOOM);
+//     fetch(GEOJSON_URL).then(r => r.json()).then(geojson => {
+//         L.geoJson(geojson, {
+//                 style: function (feature) {
+//                     return {
+//                         "color": (typeof feature.properties.stroke !== 'undefined') ? feature.properties.stroke : feature.properties.fill,
+//                         "fillColor": (typeof feature.properties.fill !== 'undefined') ? feature.properties.fill: '#cccccc',
+//                         "fillOpacity": 1
+//                     };
+//                 },
+//                 onEachFeature: onEachFeature
+//             }
+//         ).addTo(MAP);
+//
+//     });
+//
+// } else { // use modern mapbox
+//
+//     mapboxgl.accessToken = MAPBOX_TOKEN;
+//     MAP = new mapboxgl.Map({
+//         container: 'map',
+//         style: 'mapbox://styles/mapbox/light-v9',
+//         center: [START_POS.lng, START_POS.lat],
+//         zoom: START_ZOOM
+//     });
+//
+//     MAP.on('load', function () {
+//         MAP.addLayer({
+//             id: 'regions',
+//             type: 'fill',
+//             source: {
+//                 type: 'geojson',
+//                 data: GEOJSON_URL
+//             },
+//             'layout': {},
+//             'paint': {
+//                 'fill-color': {
+//                     "property": "fill",
+//                     "type": "identity"
+//                 },
+//                 // 'fill-outline-color': {
+//                 //     "property": "stroke",
+//                 //     "type": "identity"
+//                 // },
+//                 'fill-opacity': 0.8
+//             }
+//         });
+//
+//         // MAP.addControl(new mapboxgl.NavigationControl(), 'top-left');
+//          MAP.scrollZoom.disable();
+//     });
+//
+//     // bind clicks on layers
+//     MAP.on('click', function (e) {
+//         let features = MAP.queryRenderedFeatures(e.point);
+//         if (!features.length) {
+//             return;
+//         }
+//         let feature = features[0];
+//         let data = getGrantDataById(feature.properties.cartodb_id);
+//         if (data) {
+//             let popup = new mapboxgl.Popup()
+//                 .setLngLat(MAP.unproject(e.point))
+//                 .setHTML(makeHTMLPopup(data))
+//                 .addTo(MAP);
+//         }
+//     });
+// }
 
-// work out which mapbox to use
-if (!mapboxgl.supported() || DISABLE_GL) { // use oldschool mapbox
-    L.mapbox.accessToken = MAPBOX_TOKEN;
-    MAP = L.mapbox.map('map', 'mapbox.streets').setView([START_POS.lat, START_POS.lng], START_ZOOM);
-    fetch(GEOJSON_URL).then(r => r.json()).then(geojson => {
-        L.geoJson(geojson, {
-                style: function (feature) {
-                    return {
-                        "color": (typeof feature.properties.stroke !== 'undefined') ? feature.properties.stroke : feature.properties.fill,
-                        "fillColor": (typeof feature.properties.fill !== 'undefined') ? feature.properties.fill: '#cccccc',
-                        "fillOpacity": 1
-                    };
-                },
-                onEachFeature: onEachFeature
-            }
-        ).addTo(MAP);
-
-    });
-
-} else { // use modern mapbox
-
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-    MAP = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/light-v9',
-        center: [START_POS.lng, START_POS.lat],
-        zoom: START_ZOOM
-    });
-
-    MAP.on('load', function () {
-        MAP.addLayer({
-            id: 'regions',
-            type: 'fill',
-            source: {
-                type: 'geojson',
-                data: GEOJSON_URL
-            },
-            'layout': {},
-            'paint': {
-                'fill-color': {
-                    "property": "fill",
-                    "type": "identity"
-                },
-                // 'fill-outline-color': {
-                //     "property": "stroke",
-                //     "type": "identity"
-                // },
-                'fill-opacity': 0.8
-            }
-        });
-
-        // MAP.addControl(new mapboxgl.NavigationControl(), 'top-left');
-         MAP.scrollZoom.disable();
-    });
-
-    // bind clicks on layers
-    MAP.on('click', function (e) {
-        let features = MAP.queryRenderedFeatures(e.point);
-        if (!features.length) {
-            return;
-        }
-        let feature = features[0];
-        let data = getGrantDataById(feature.properties.cartodb_id);
-        if (data) {
-            let popup = new mapboxgl.Popup()
-                .setLngLat(MAP.unproject(e.point))
-                .setHTML(makeHTMLPopup(data))
-                .addTo(MAP);
-        }
-    });
-}
+console.log('hello');
+let $svg = document.querySelector('svg');
+console.log($svg);
+$svg.addEventListener('click', function (e) {
+    console.log(e.target.getAttribute('data-id'));
+});
