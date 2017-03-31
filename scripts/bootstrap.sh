@@ -6,4 +6,4 @@ npm install
 
 # configure nginx (would be nice to conditionally restart here)
 cp /var/www/biglotteryfund/config/server.conf /etc/nginx/sites-enabled
-sudo service nginx restart
+service nginx restart
