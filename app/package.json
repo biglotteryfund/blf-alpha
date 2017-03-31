@@ -7,9 +7,6 @@
         "dev": "export DEBUG=blf-test:*; nodemon ./bin/www",
         "test": "mocha --bail test/"
     },
-    "pre-commit": [
-        "test"
-    ],
     "dependencies": {
         "body-parser": "~1.16.0",
         "chai": "^3.5.0",
@@ -24,8 +21,5 @@
         "request": "^2.81.0",
         "request-promise": "^4.2.0",
         "serve-favicon": "~2.3.2"
-    },
-    "devDependencies": {
-        "pre-commit": "^1.2.2"
     }
 }
