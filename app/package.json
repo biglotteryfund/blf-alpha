@@ -1,20 +1,31 @@
 {
-  "name": "blf-test",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.16.0",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.0",
-    "ejs": "~2.5.5",
-    "express": "~4.14.1",
-    "morgan": "~1.7.0",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.0",
-    "serve-favicon": "~2.3.2"
-  }
+    "name": "blf-test",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www",
+        "dev": "export DEBUG=blf-test:*; nodemon ./bin/www",
+        "test": "mocha --bail test/"
+    },
+    "pre-commit": [
+        "test"
+    ],
+    "dependencies": {
+        "body-parser": "~1.16.0",
+        "chai": "^3.5.0",
+        "chai-http": "^3.0.0",
+        "config": "^1.25.1",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.0",
+        "ejs": "~2.5.5",
+        "express": "~4.14.1",
+        "mocha": "^3.2.0",
+        "morgan": "~1.7.0",
+        "request": "^2.81.0",
+        "request-promise": "^4.2.0",
+        "serve-favicon": "~2.3.2"
+    },
+    "devDependencies": {
+        "pre-commit": "^1.2.2"
+    }
 }

@@ -27,10 +27,10 @@ router.get('/lookup', (req, res, next) => {
                 postcode: postcode
             });
         } else {
-            res.redirect('/');
+            res.status(302).redirect('/');
         }
     }).catch(() => {
-        res.redirect('/');
+        res.status(302).redirect('/');
     });
 
 });

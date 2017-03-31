@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Pre-commit hooks
+
+PATH="/usr/local/bin:$PATH"
+
+# Validate JS
+JS_SRC_PATTERN="\.js$"
+git diff --cached --name-only | if grep "$JS_SRC_PATTERN"
+then
+    cd app
+    npm test
+fi
+jsValidateResult=$?
+
+# Exit code 1 means don't commit and 0 means do commit
+[ $jsValidateResult -ne 0 ] && exit 1

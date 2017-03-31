@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const config = require('config');
 // const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
