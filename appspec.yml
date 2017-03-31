@@ -4,23 +4,10 @@ files:
   - source: /app
     destination: /var/www/biglotteryfund
 hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies.sh
-      timeout: 300
-      runas: root
-    - location: scripts/setup_pm2.sh
-      timeout: 300
   AfterInstall:
-    - location: scripts/change_permissions.sh
+    - location: scripts/bootstrap.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: scripts/start_nginx.sh
+    - location: scripts/start.sh
       timeout: 300
-      runas: root
-    - location: scripts/start_server.sh
-      timeout: 300
-  ApplicationStop:
-    - location: scripts/stop_server.sh
-      timeout: 300
-      runas: root

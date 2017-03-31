@@ -1,5 +1,0 @@
-apps:
-  - script: bin/www
-    name: blf-alpha
-    instances: 1
-    exec_mode: cluster
