@@ -8,6 +8,8 @@ hooks:
     - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
+    - location: scripts/setup_pm2.sh
+      timeout: 300
   AfterInstall:
     - location: scripts/change_permissions.sh
       timeout: 300
