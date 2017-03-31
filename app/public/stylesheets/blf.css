@@ -395,15 +395,13 @@ aside {
     display: block;
     padding: 10px 20px; }
 
-.bullets {
+.grant-list {
   margin: 20px 0; }
-
-.bullets li {
-  list-style-type: disc;
-  margin: 0px 0px 15px 20px;
-  text-align: left;
-  border-bottom: 1px dotted #ccc;
-  padding-bottom: 10px; }
+  .grant-list li {
+    margin: 0px 0px 15px 20px;
+    text-align: left;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 10px; }
 
 .map-wrapper {
   position: relative;
