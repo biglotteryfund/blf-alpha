@@ -1,25 +1,47 @@
 {
-    "name": "blf-alpha",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node ./bin/www",
-        "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-        "test": "mocha --bail test/"
-    },
-    "dependencies": {
-        "body-parser": "~1.16.0",
-        "chai": "^3.5.0",
-        "chai-http": "^3.0.0",
-        "config": "^1.25.1",
-        "cookie-parser": "~1.4.3",
-        "debug": "~2.6.0",
-        "ejs": "~2.5.5",
-        "express": "~4.14.1",
-        "mocha": "^3.2.0",
-        "morgan": "~1.7.0",
-        "request": "^2.81.0",
-        "request-promise": "^4.2.0",
-        "serve-favicon": "~2.3.2"
-    }
+  "name": "blf-alpha",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
+    "test": "mocha --bail test/"
+  },
+  "dependencies": {
+    "body-parser": "~1.16.0",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "config": "^1.25.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "ejs": "~2.5.5",
+    "express": "~4.14.1",
+    "mocha": "^3.2.0",
+    "morgan": "~1.7.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "serve-favicon": "~2.3.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.1.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-if": "^2.0.2",
+    "gulp-livereload": "^3.8.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-rev-css-url": "^0.1.0",
+    "gulp-rev-delete-original": "^0.2.3",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.5.0",
+    "gulp-uglify": "^2.1.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^7.0.2"
+  }
 }

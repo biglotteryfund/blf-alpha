@@ -1,9 +1,6 @@
-/* global L,mapboxgl */
 'use strict';
+require('./utils');
 
-// dev test
-const DISABLE_GL = false;
-// const DISABLE_GL = true;
 
 // configure grant data for map
 const grantData = [

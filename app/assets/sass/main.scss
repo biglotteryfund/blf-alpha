@@ -281,7 +281,7 @@ h4 {
 }
 
 .hero__reading {
-   background-image: url(../images/hero-reading--mobile.jpg);
+    background-image: url(../images/hero-reading--mobile.jpg);
     @media screen and (min-width: $mobileBreakpoint) {
         background-image: url(../images/hero-reading.jpg);
     }

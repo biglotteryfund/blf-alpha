@@ -3,3 +3,8 @@ node_modules
 .map
 .css.map
 *.log
+logs
+always_restart.txt
+public/images
+public/javascripts
+public/stylesheets
