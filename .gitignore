@@ -5,6 +5,7 @@ node_modules
 *.log
 logs
 always_restart.txt
-public/images
-public/javascripts
-public/stylesheets
+app/public/images
+app/public/javascripts
+app/public/stylesheets
+assets.json
