@@ -1,0 +1,13 @@
+#!/bin/sh
+# to skip the tests, run with the --no-verify argument
+#       i.e. - $ 'git commit --no-verify'
+
+# run the tests
+cd app
+npm test
+
+# store the last exit code in a variable
+RESULT=$?
+
+# return the exit code
+exit $RESULT
