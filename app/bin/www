@@ -5,7 +5,7 @@
  */
 
 var app = require('../server');
-var debug = require('debug')('blf-test:server');
+var debug = require('debug')('blf-alpha:server');
 var http = require('http');
 
 /**

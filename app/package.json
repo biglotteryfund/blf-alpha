@@ -1,10 +1,10 @@
 {
-    "name": "blf-test",
+    "name": "blf-alpha",
     "version": "0.0.0",
     "private": true,
     "scripts": {
         "start": "node ./bin/www",
-        "dev": "export DEBUG=blf-test:*; nodemon ./bin/www",
+        "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
         "test": "mocha --bail test/"
     },
     "dependencies": {
