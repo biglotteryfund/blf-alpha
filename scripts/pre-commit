@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# fix path (for git apps)
+PATH=$PATH:/usr/local/bin:/usr/local/sbin
+
 # to skip the tests, run with the --no-verify argument
 #       i.e. - $ 'git commit --no-verify'
 
