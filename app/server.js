@@ -7,6 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const assets = require('./assets');
 const index = require('./routes/index');
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // configure static files
+app.locals.getCachebustedPath = assets.getCachebustedPath;
 app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: config.get('staticExpiration')
 }));
