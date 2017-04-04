@@ -6,7 +6,9 @@ const config = require('config');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
+// local deps
 const assets = require('./assets');
 const index = require('./routes/index');
 const app = express();
@@ -27,6 +29,17 @@ app.use('/' + assets.assetVirtualDir, express.static(path.join(__dirname, 'publi
     maxAge: config.get('staticExpiration')
 }));
 
+// extract deploy ID from AWS (where provided)
+let deploymentData;
+try {
+    deploymentData = JSON.parse(fs.readFileSync(__dirname + '/config/deploy.json', 'utf8'));
+} catch (e) {
+    console.info('deploy.json not found -- are you in DEV mode?');
+}
+app.locals.deployId = (deploymentData && deploymentData.deploymentId) ? deploymentData.deploymentId : 'DEV';
+
+
+// route binder
 app.use('/', index);
 
 // catch 404 and forward to error handler
