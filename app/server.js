@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 // configure static files
 app.locals.getCachebustedPath = assets.getCachebustedPath;
-app.use(express.static(path.join(__dirname, 'public'), {
+app.use('/' + assets.assetVirtualDir, express.static(path.join(__dirname, 'public'), {
     maxAge: config.get('staticExpiration')
 }));
 

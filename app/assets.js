@@ -1,5 +1,5 @@
 const fs = require('fs');
-const assetVirtualDir = '';
+const assetVirtualDir = 'assets';
 
 // load cachebusted assets
 let assets = {};

@@ -15,5 +15,8 @@ apt-get install -y nginx-extras passenger
 PassengerDisabled="# include /etc/nginx/passenger.conf;"
 PassengerEnabled="include /etc/nginx/passenger.conf;"
 sed -i "s|$PassengerDisabled|$PassengerEnabled|g" /etc/nginx/nginx.conf
+GzipDisabled="# gzip_types"
+GzipEnabled="gzip_types"
+sed -i "s|$GzipDisabled|$GzipEnabled|g" /etc/nginx/nginx.conf
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get install -y nodejs
