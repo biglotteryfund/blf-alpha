@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const helmet = require('helmet');
+const csrf = require('csurf')
+
 
 // local deps
 const assets = require('./assets');
@@ -20,6 +22,7 @@ app.set('view engine', 'ejs');
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+const csrfProtection = csrf({ cookie: true }); // use this to protect POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -38,7 +41,6 @@ app.use(helmet({
     frameguard: {
         action: 'sameorigin'
     },
-    hidePoweredBy: { setTo: 'PHP 4.2.0' }
 }));
 
 // configure static files
