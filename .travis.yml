@@ -4,5 +4,5 @@ node_js:
 before_script:
   - cd app
   - npm install -g gulp
-  - npm install gulp --save-dev
+  - npm install
 script: gulp build --production
