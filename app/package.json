@@ -5,17 +5,19 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "mocha --bail test/"
+    "test": "snyk test && mocha --bail test/"
   },
   "dependencies": {
-    "body-parser": "~1.16.0",
+    "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "config": "^1.25.1",
     "cookie-parser": "~1.4.3",
+    "csurf": "^1.9.0",
     "debug": "~2.6.0",
     "ejs": "~2.5.5",
-    "express": "~4.14.1",
+    "express": "^4.15.2",
+    "helmet": "^3.5.0",
     "mocha": "^3.2.0",
     "morgan": "~1.7.0",
     "request": "^2.81.0",
@@ -42,6 +44,7 @@
     "gulp-uglify": "^2.1.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^7.0.2"
+    "yargs": "^7.0.2",
+    "snyk": "^1.27.0"
   }
 }
