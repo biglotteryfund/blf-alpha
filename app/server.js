@@ -7,6 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const helmet = require('helmet');
 
 // local deps
 const assets = require('./assets');
@@ -22,6 +23,23 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// configure security
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com'],
+            styleSrc: ["'self'", 'code.ionicframework.com', 'fonts.googleapis.com']
+        }
+    },
+    dnsPrefetchControl: {
+        allow: true
+    },
+    frameguard: {
+        action: 'sameorigin'
+    },
+    hidePoweredBy: { setTo: 'PHP 4.2.0' }
+}));
 
 // configure static files
 app.locals.getCachebustedPath = assets.getCachebustedPath;
