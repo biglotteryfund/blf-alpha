@@ -7,6 +7,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const helmet = require('helmet');
+const csrf = require('csurf');
 
 // local deps
 const assets = require('./assets');
@@ -19,9 +21,26 @@ app.set('view engine', 'ejs');
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// configure security
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com'],
+            styleSrc: ["'self'", 'code.ionicframework.com', 'fonts.googleapis.com']
+        }
+    },
+    dnsPrefetchControl: {
+        allow: true
+    },
+    frameguard: {
+        action: 'sameorigin'
+    },
+}));
 
 // configure static files
 app.locals.getCachebustedPath = assets.getCachebustedPath;
