@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "snyk test && mocha --bail test/"
+    "test": "snyk test && mocha --bail test/",
+    "test-ci": "mocha test/"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
