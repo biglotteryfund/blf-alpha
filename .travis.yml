@@ -10,7 +10,8 @@ before_script:
 script: gulp test --production
 
 before_deploy:
-  - zip -r latest *
+  - cd ../
+  - zip -qr latest *
   - mkdir -p dpl_cd_upload
   - mv latest.zip dpl_cd_upload/latest.zip
 

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # install npm deps
-cd /var/www/biglotteryfund
-npm install
+# cd /var/www/biglotteryfund
+# npm install
 
 # front-end build
-npm install -g gulp
-gulp build --production
+# npm install -g gulp
+# gulp build --production
 
 # store deployment ID in a JSON file
 destdir=/var/www/biglotteryfund/config/deploy.json
