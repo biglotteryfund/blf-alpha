@@ -94,17 +94,6 @@ let formatCurrency = function (n) {
     });
 };
 
-// build html string for map overlay
-let makeHTMLPopup = function (data) {
-    return `<div class="map-popup-box">
-            <h5>${data.name}</h5>
-            <ul>
-                <li><strong>Grants made</strong>: ${data.numGrants}</li>
-                <li><strong>Total awarded</strong>: &pound;${formatCurrency(data.totalAwarded)}</li>
-            </ul>
-        </div>`;
-};
-
 let $svg = document.getElementById('js-map-svg');
 let $mapInfo = document.getElementById('js-map-info');
 
