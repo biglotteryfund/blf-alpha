@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const helmet = require('helmet');
 const csrf = require('csurf');
+const i18n = require('i18n-2');
 
 // local deps
 const assets = require('./assets');
@@ -19,12 +20,27 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// middleware
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
 app.use(logger('dev'));
-const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// internationalisation
+i18n.expressBind(app, {
+    locales: ['en', 'cy'],
+    cookieName: 'locale',
+    extension: '.json'
+});
+
+// set locale from cookie
+app.use(function(req, res, next) {
+    req.i18n.setLocaleFromCookie();
+    next();
+});
+
 
 // configure security
 app.use(helmet({
