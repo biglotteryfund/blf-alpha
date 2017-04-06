@@ -19,6 +19,7 @@ const gulpif       = require('gulp-if');
 const eslint       = require('gulp-eslint');
 const babel        = require('gulp-babel');
 const babelify     = require('babelify');
+const mocha        = require('gulp-mocha');
 const rename       = require("gulp-rename");
 
 
@@ -119,17 +120,16 @@ gulp.task('rev', ['styles', 'scripts'], function() {
 });
 
 // run mocha tests
-//gulp.task('mocha', ['build'], function () {
-//    return gulp.src('./test/**/*.js', {
-//        read: false
-//    }).pipe(mocha({
-//        reporter: 'spec',
-//        require: 'env-test'
-//    }))
-//        .once('end', function () {
-//            process.exit();
-//        });
-//});
+gulp.task('mocha', ['build'], function () {
+   return gulp.src('./test/**/*.js', {
+       read: false
+   }).pipe(mocha({
+       reporter: 'spec'
+   }))
+   .once('end', function () {
+       process.exit();
+   });
+});
 
 // run eslint
 gulp.task('lint', function() {
@@ -153,7 +153,7 @@ gulp.task('dev', ['styles', 'scripts', 'watch']);
 gulp.task('build', ['styles', 'scripts', 'rev']);
 
 // used on commit
-//gulp.task('test', ['lint', 'mocha']);
+gulp.task('test', ['lint', 'mocha']);
 
 // watch static files for changes and recompile
 gulp.task('watch', function() {

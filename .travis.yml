@@ -5,4 +5,4 @@ before_script:
   - cd app
   - npm install -g gulp
   - npm install
-script: gulp build --production
+script: gulp test --production

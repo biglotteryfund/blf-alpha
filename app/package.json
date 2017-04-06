@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "snyk test && mocha --bail test/",
-    "test-ci": "mocha test/"
+    "test": "snyk test && mocha --bail test/"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -36,6 +35,7 @@
     "gulp-eslint": "^3.0.1",
     "gulp-if": "^2.0.2",
     "gulp-livereload": "^3.8.1",
+    "gulp-mocha": "^4.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.1.2",
     "gulp-rev-css-url": "^0.1.0",
@@ -43,9 +43,9 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.5.0",
     "gulp-uglify": "^2.1.2",
+    "snyk": "^1.27.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^7.0.2",
-    "snyk": "^1.27.0"
+    "yargs": "^7.0.2"
   }
 }
