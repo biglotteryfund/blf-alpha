@@ -7,11 +7,11 @@ before_script:
   - npm install -g gulp
   - npm install
 
-script: gulp test --production
+script:
+  - gulp test --production
+  - npm prune --production
 
 before_deploy:
-  - cd app
-  - npm prune --production
   - cd ../
   - zip -qr latest *
   - mkdir -p dpl_cd_upload
