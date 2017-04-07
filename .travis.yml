@@ -25,6 +25,7 @@ deploy:
       skip_cleanup: true
       on: &2
         repo: biglotteryfund/blf-alpha
+        branch: master
       bucket: blf-travis-test
     - provider: codedeploy # push major-tagged branches to brand new servers
       region: eu-west-1
@@ -38,7 +39,7 @@ deploy:
       on:
         tags: true
         condition: "$TRAVIS_TAG =~ ^release.*$"
-
+        branch: master
     - provider: codedeploy # deploy regular, minor updates to existing instances
       region: eu-west-1
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
@@ -50,3 +51,4 @@ deploy:
       deployment_group: BLF_Test_In_Place
       on:
         tags: false
+        branch: master
