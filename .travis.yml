@@ -53,5 +53,5 @@ deploy:
       deployment_group: BLF_Test_Fleet
       on:
         tags: true
-        condition: "$TRAVIS_TAG =~ ^release.*$"
+        condition: "$TRAVIS_TAG =~ ^v\d+\.\d+\.\d+$"
         all_branches: true

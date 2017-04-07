@@ -112,8 +112,6 @@ $svg.addEventListener('click', function (e) {
 
 // fake a click on the default region
 let defaultRegion = document.getElementById('js-initial-region');
-var e = document.createEvent('UIEvents');
+let e = document.createEvent('UIEvents');
 e.initUIEvent('click', true, true, window, 1);
 defaultRegion.dispatchEvent(e);
-
-console.log('Major changes here');
