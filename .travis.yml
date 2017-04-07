@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-    - '6'
+  - '6'
 
 before_script:
-    - cd app
-    - npm install -g gulp
-    - npm install
+  - cd app
+  - npm install -g gulp
+  - npm install
 
 script: gulp test --production
 
@@ -16,7 +16,7 @@ before_deploy:
   - mv latest.zip dpl_cd_upload/latest.zip
 
 deploy:
-    - provider: s3
+    - provider: s3 # first upload to s3
       region: eu-west-1
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
       secret_access_key: &1
@@ -26,7 +26,7 @@ deploy:
       on: &2
         repo: biglotteryfund/blf-alpha
       bucket: blf-travis-test
-    - provider: codedeploy
+    - provider: codedeploy # push major-tagged branches to brand new servers
       region: eu-west-1
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
       secret_access_key: *1
@@ -35,4 +35,17 @@ deploy:
       bundle_type: zip
       application: BLF_Test
       deployment_group: BLF_Test_Fleet
-      on: *2
+      on:
+        tags: true
+        condition: "$TRAVIS_TAG == major"
+    - provider: codedeploy # deploy regular, minor updates to existing instances
+      region: eu-west-1
+      access_key_id: AKIAJQ4UBKYUR7O4LMSQ
+      secret_access_key: *1
+      bucket: blf-travis-test
+      key: latest.zip
+      bundle_type: zip
+      application: BLF_Test
+      deployment_group: BLF_Test_In_Place
+      on:
+        tags: false
