@@ -116,4 +116,4 @@ var e = document.createEvent('UIEvents');
 e.initUIEvent('click', true, true, window, 1);
 defaultRegion.dispatchEvent(e);
 
-console.log('This is a major release');
+console.log('Major changes here');
