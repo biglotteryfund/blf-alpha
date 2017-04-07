@@ -10,6 +10,7 @@ before_script:
 script: gulp test --production
 
 before_deploy:
+  - npm prune --production
   - cd ../
   - zip -qr latest *
   - mkdir -p dpl_cd_upload
