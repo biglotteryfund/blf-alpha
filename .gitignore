@@ -8,4 +8,5 @@ always_restart.txt
 app/public/images
 app/public/javascripts
 app/public/stylesheets
+app/public/tests
 assets.json

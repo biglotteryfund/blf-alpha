@@ -51,7 +51,8 @@ const DIRS = {
 const FILES = {
     in: {
         js: 'main.js',
-        css: 'main.scss'
+        css: 'main.scss',
+        test: 'test-main.js'
     },
     out: {
         js: 'app.js',
@@ -90,10 +91,11 @@ gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
         .pipe(livereload());
 });
 
+// compile JavaScript module tests for phantomjs below
 gulp.task('test-scripts', ['clean:test'], function() {
     return browserify({ debug: true })
         .transform(babelify)
-        .require(DIRS.in.test + '/specs/**/*.js', { entry: true })
+        .require(DIRS.in.test + '/specs/' + FILES.in.test, { entry: true })
         .bundle()
         .on('error', function handleError(err) {
             console.error(err.toString());
@@ -148,7 +150,7 @@ gulp.task('mocha', ['build'], function () {
 });
 
 // run phantomjs
-gulp.task('phantomjs', ['mocha'], function () {
+gulp.task('phantomjs', ['mocha', 'test-scripts'], function () {
     return gulp
         .src(testBase + '/runner.html')
         .pipe(mochaPhantomJS());
