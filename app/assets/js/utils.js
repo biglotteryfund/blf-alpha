@@ -42,3 +42,7 @@ if (!Array.prototype.find) {
         }
     });
 }
+
+module.exports = {
+    foo: 'bar'
+};

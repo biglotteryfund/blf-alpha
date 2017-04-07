@@ -1,11 +1,11 @@
 {
   "name": "blf-alpha",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "mocha --bail test/",
+    "test": "gulp test",
     "test-deps": "snyk test"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "gulp-if": "^2.0.2",
     "gulp-livereload": "^3.8.1",
     "gulp-mocha": "^4.3.0",
+    "gulp-mocha-phantomjs": "^0.12.1",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.1.2",
     "gulp-rev-css-url": "^0.1.0",

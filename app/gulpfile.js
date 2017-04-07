@@ -1,31 +1,32 @@
 /* jshint node: true */
 'use strict';
 
-const browserify   = require('browserify');
-const gulp         = require('gulp');
-const source       = require('vinyl-source-stream');
-const buffer       = require('vinyl-buffer');
-const uglify       = require('gulp-uglify');
-const sourcemaps   = require('gulp-sourcemaps');
-const sass         = require('gulp-sass');
-const del          = require('del');
-const livereload   = require('gulp-livereload');
-const rev          = require('gulp-rev');
-const revcssurls   = require('gulp-rev-css-url');
-const revdel       = require('gulp-rev-delete-original');
+const browserify = require('browserify');
+const gulp = require('gulp');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const sass = require('gulp-sass');
+const del = require('del');
+const livereload = require('gulp-livereload');
+const rev = require('gulp-rev');
+const revcssurls = require('gulp-rev-css-url');
+const revdel = require('gulp-rev-delete-original');
 const autoprefixer = require('gulp-autoprefixer');
-const argv         = require('yargs').argv;
-const gulpif       = require('gulp-if');
-const eslint       = require('gulp-eslint');
-const babel        = require('gulp-babel');
-const babelify     = require('babelify');
-const mocha        = require('gulp-mocha');
-const rename       = require("gulp-rename");
-
+const argv = require('yargs').argv;
+const gulpif = require('gulp-if');
+const eslint = require('gulp-eslint');
+const babel = require('gulp-babel');
+const babelify = require('babelify');
+const mocha = require('gulp-mocha');
+const rename = require("gulp-rename");
+const mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 // define main directories
 const inputBase  = './assets/';
 const outputBase = './public/';
+const testBase = './test/';
 
 // outline where static files live (or end up)
 const DIRS = {
@@ -33,13 +34,15 @@ const DIRS = {
         root: inputBase,
         css:  inputBase + 'sass',
         js:   inputBase + 'js',
-        img:  inputBase + 'img'
+        img:  inputBase + 'img',
+        test: testBase
     },
     out: {
         root: outputBase,
         css:  outputBase + 'stylesheets',
         js:   outputBase + 'javascripts',
         img:  outputBase + 'images',
+        test: outputBase + 'tests',
         manifest: inputBase
     }
 };
@@ -52,7 +55,8 @@ const FILES = {
     },
     out: {
         js: 'app.js',
-        css: 'style.css'
+        css: 'style.css',
+        test: 'specs.js'
     },
     assets: 'assets.json'
 };
@@ -62,6 +66,7 @@ gulp.task('clean:css', function() { return del([DIRS.out.css + '/**/*']); });
 gulp.task('clean:js', function()  { return del([DIRS.out.js + '/**/*']); });
 gulp.task('clean:img', function() { return del([DIRS.out.img + '/**/*']); });
 gulp.task('clean:assets', function() { return del([DIRS.out.manifest + '/' + FILES.assets]); });
+gulp.task('clean:test', function() { return del([DIRS.out.test + '/**/*']); });
 
 // copy images to public dir
 gulp.task('copy:img', ['clean:img'], function() {
@@ -83,6 +88,20 @@ gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
         .pipe(gulpif(argv.production, uglify()))
         .pipe(gulp.dest(DIRS.out.js))
         .pipe(livereload());
+});
+
+gulp.task('test-scripts', ['clean:test'], function() {
+    return browserify({ debug: true })
+        .transform(babelify)
+        .require(DIRS.in.test + '/specs/**/*.js', { entry: true })
+        .bundle()
+        .on('error', function handleError(err) {
+            console.error(err.toString());
+            this.emit('end');
+        })
+        .pipe(source(FILES.out.test))
+        .pipe(buffer())
+        .pipe(gulp.dest(DIRS.out.test));
 });
 
 // compile Sass (after cleaning and moving images)
@@ -121,14 +140,18 @@ gulp.task('rev', ['styles', 'scripts'], function() {
 
 // run mocha tests
 gulp.task('mocha', ['build'], function () {
-   return gulp.src('./test/**/*.js', {
+   return gulp.src(testBase + '/test.js', {
        read: false
    }).pipe(mocha({
        reporter: 'spec'
-   }))
-   .once('end', function () {
-       process.exit();
-   });
+   }));
+});
+
+// run phantomjs
+gulp.task('phantomjs', ['mocha'], function () {
+    return gulp
+        .src(testBase + '/runner.html')
+        .pipe(mochaPhantomJS());
 });
 
 // run eslint
@@ -153,7 +176,7 @@ gulp.task('dev', ['styles', 'scripts', 'watch']);
 gulp.task('build', ['styles', 'scripts', 'rev']);
 
 // used on commit
-gulp.task('test', ['lint', 'mocha']);
+gulp.task('test', ['lint', 'mocha', 'phantomjs']);
 
 // watch static files for changes and recompile
 gulp.task('watch', function() {
