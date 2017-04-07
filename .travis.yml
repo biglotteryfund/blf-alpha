@@ -40,18 +40,3 @@ deploy:
       deployment_group: BLF_Test_In_Place
       on:
         tags: false
-
-    # push major-tagged branches to brand new servers
-    - provider: codedeploy
-      region: eu-west-1
-      access_key_id: AKIAJQ4UBKYUR7O4LMSQ
-      secret_access_key: *1
-      bucket: blf-travis-test
-      key: build-$TRAVIS_BUILD_NUMBER.zip
-      bundle_type: zip
-      application: BLF_Test
-      deployment_group: BLF_Test_Fleet
-      on:
-        tags: true
-        condition: "$TRAVIS_TAG =~ ^v\d+\.\d+\.\d+$"
-        all_branches: true
