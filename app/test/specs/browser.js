@@ -1,10 +1,35 @@
 /* global describe, it, expect */
+"use strict";
 
-let utils = require('../../assets/js/utils');
+// let utils = require('../../assets/js/utils');
 
-describe("DOM Tests", function () {
+// describe("DOM Tests", function () {
+//     var el = document.createElement("div");
+//     el.id = "myDiv";
+//     el.innerHTML = "Hi there!";
+//     el.style.background = "#ccc";
+//     document.body.appendChild(el);
+//
+//     var myEl = document.getElementById('myDiv');
+//     it("is in the DOM", function () {
+//         expect(myEl).to.not.equal(null);
+//     });
+//
+//     it("is a child of the body", function () {
+//         expect(myEl.parentElement).to.equal(document.body);
+//     });
+//
+//     it("has the right text", function () {
+//         expect(myEl.innerHTML).to.equal("Hi there!");
+//     });
+//
+//     it("has the right background", function () {
+//         expect(myEl.style.background).to.equal("rgb(204, 204, 204)");
+//     });
+// });
 
-    it("does trivial stuff", function () {
-        expect(utils.foo).to.equal('bar');
-    });
+describe("a test", () => {
+   it("should pass", () => {
+       expect(2 + 2).to.equal(4);
+   });
 });
