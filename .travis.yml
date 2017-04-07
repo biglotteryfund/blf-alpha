@@ -34,7 +34,7 @@ deploy:
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
       secret_access_key: *1
       bucket: blf-travis-test
-      key: build-$TRAVIS_BUILD_NUMBER
+      key: build-$TRAVIS_BUILD_NUMBER.zip
       bundle_type: zip
       application: BLF_Test
       deployment_group: BLF_Test_In_Place
@@ -47,7 +47,7 @@ deploy:
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
       secret_access_key: *1
       bucket: blf-travis-test
-      key: build-$TRAVIS_BUILD_NUMBER
+      key: build-$TRAVIS_BUILD_NUMBER.zip
       bundle_type: zip
       application: BLF_Test
       deployment_group: BLF_Test_Fleet
