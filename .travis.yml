@@ -37,7 +37,8 @@ deploy:
       deployment_group: BLF_Test_Fleet
       on:
         tags: true
-        condition: "$TRAVIS_TAG == major"
+        condition: "$TRAVIS_TAG =~ ^release.*$"
+
     - provider: codedeploy # deploy regular, minor updates to existing instances
       region: eu-west-1
       access_key_id: AKIAJQ4UBKYUR7O4LMSQ
