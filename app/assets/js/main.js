@@ -115,3 +115,5 @@ let defaultRegion = document.getElementById('js-initial-region');
 var e = document.createEvent('UIEvents');
 e.initUIEvent('click', true, true, window, 1);
 defaultRegion.dispatchEvent(e);
+
+console.log('test');
