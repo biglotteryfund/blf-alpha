@@ -3,7 +3,7 @@ node_modules
 .map
 .css.map
 *.log
-logs
+app/logs
 always_restart.txt
 app/public/images
 app/public/javascripts

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const rp = require('request-promise');
 const grants = require('../data/grantnav.json');
+const logger = require('../logger');
 
 router.get('/', (req, res, next) => {
     res.render('index', {});
@@ -27,9 +28,16 @@ router.get('/lookup', (req, res, next) => {
                 postcode: postcode
             });
         } else {
+            logger.log('info', 'GET /lookup found a valid postcode but no matching grants', {
+                postcode: postcode,
+                district: yourDistrict
+            });
             res.status(302).redirect('/');
         }
     }).catch(() => {
+        logger.log('info', 'GET /lookup received an invalid postcode', {
+            postcode: postcode
+        });
         res.status(302).redirect('/');
     });
 
