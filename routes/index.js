@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const rp = require('request-promise');
-const grants = require('../data/grantnav.json');
+const grants = require('../bin/data/grantnav.json');
 const logger = require('../logger');
 
 router.get('/', (req, res, next) => {

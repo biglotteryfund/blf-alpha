@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 
-destdir=./app/config/deploy.json
+destdir=$TRAVIS_BUILD_DIR/config/deploy.json
 touch $destdir
 if [ -f "$destdir" ]
 then

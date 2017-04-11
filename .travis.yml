@@ -3,19 +3,18 @@ node_js:
   - '6'
 
 before_script:
-  - cd app
   - npm install -g gulp
   - npm install
 
 script:
   - gulp test --production
-  - npm prune --production
+  - npm prune --production > /dev/null 2>&1
 
 before_deploy:
-  - cd $TRAVIS_BUILD_DIR
-  - ls
-  - sh scripts/store_deploy_info.sh
-  - zip -qr latest *
+  # run script to store this build ID
+  - sh bin/scripts/store_deploy_info.sh
+  # zip everything (ignore dotfiles, pre-compiled assets and gulpfile)
+  - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
   - mkdir -p dpl_cd_upload
   - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
 

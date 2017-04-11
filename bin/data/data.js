@@ -1,5 +1,5 @@
 'use strict';
-const grants = require('./app/grantnav.json');
+const grants = require('./grantnav.json');
 const _ = require('lodash');
 
 let regionsByName = grants.grants.map(g => g.recipientRegionName).filter(g => g !== undefined);

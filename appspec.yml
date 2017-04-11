@@ -1,17 +1,17 @@
 version: 0.0
 os: linux
 files:
-  - source: /app
+  - source: /
     destination: /var/www/biglotteryfund
 hooks:
   BeforeInstall:
-    - location: scripts/pre-install.sh
+    - location: bin/scripts/pre-install.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: scripts/bootstrap.sh
+    - location: bin/scripts/bootstrap.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: scripts/start.sh
+    - location: bin/scripts/start.sh
       timeout: 300
