@@ -6,8 +6,8 @@ const logFilename = 'blf.log';
 const logFilePath = path.join(__dirname, 'logs', logFilename);
 
 if (process.env.NODE_ENV === 'production') {
+    winston.log('info', 'Logger initialised at ' + logFilePath);
     winston.add(winston.transports.File, {filename: logFilePath});
 }
 
-winston.log('info', 'Logger initialised at ' + logFilePath);
 module.exports = winston;
