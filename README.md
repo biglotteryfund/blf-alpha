@@ -25,13 +25,15 @@ You'll need the following tools installed:
 
 ### Step-by-step
 
+Run these commands in your terminal of choice:
+
 1. Clone this repository:
 
         git clone git@github.com:biglotteryfund/blf-alpha.git
     
 2. Install its dependencies:
 
-        cd app
+        cd blf-alpha
         npm install
         
 3. Check the install worked – try to use `gulp` to build the frontend assets:
