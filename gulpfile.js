@@ -27,6 +27,7 @@ const mochaPhantomJS = require('gulp-mocha-phantomjs');
 const inputBase  = './assets/';
 const outputBase = './public/';
 const testBase = './test/';
+const binBase = './bin/';
 
 // outline where static files live (or end up)
 const DIRS = {
@@ -43,7 +44,7 @@ const DIRS = {
         js:   outputBase + 'javascripts',
         img:  outputBase + 'images',
         test: outputBase + 'tests',
-        manifest: inputBase
+        manifest: binBase
     }
 };
 

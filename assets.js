@@ -5,7 +5,7 @@ const assetVirtualDir = 'assets';
 let assets = {};
 try {
     assets = JSON.parse(
-        fs.readFileSync(__dirname + '/assets/assets.json', 'utf8')
+        fs.readFileSync(__dirname + '/bin/assets.json', 'utf8')
     );
 } catch (e) {
     console.info('assets.json not found -- are you in DEV mode?');
