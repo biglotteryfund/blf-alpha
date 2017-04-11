@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 destdir=./app/config/deploy.json
 touch $destdir
