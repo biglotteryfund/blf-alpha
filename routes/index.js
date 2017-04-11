@@ -6,9 +6,7 @@ const grants = require('../bin/data/grantnav.json');
 const logger = require('../logger');
 
 router.get('/', (req, res, next) => {
-    res.render('index', {
-        env: process.env.NODE_ENV
-    });
+    res.render('index', {});
 });
 
 router.get('/lookup', (req, res, next) => {
