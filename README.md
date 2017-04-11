@@ -74,7 +74,7 @@ The build script generates a zip file of non-dev npm modules and minified static
 
 Currently there is only a single environment, `TEST`. Shortly we'll be adding a `PRODUCTION` environment which can be deployed to manually via CodeDeploy after sanity checking on `TEST`.
 
-Deployments are configured for Travis in `.travis.yml`. Amazon CodeDeploy settings are in `appspec.yml` (this is why the app itself is in a subdirectory: everything above it is not shipped to servers).
+Deployments are configured for Travis in `.travis.yml`. Amazon CodeDeploy settings are in `appspec.yml`.
  
 Please speak to @mattandrews to obtain access to AWS/Jenkins to manage deployment.
 

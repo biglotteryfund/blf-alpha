@@ -8,6 +8,8 @@ chai.use(chaiHttp);
 
 describe('Express application', function () {
     let server;
+    const assets = require('../assets');
+    const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
 
     beforeEach(function () {
         process.env.PORT = 8080;
@@ -23,6 +25,16 @@ describe('Express application', function () {
             .get('/')
             .end((err, res) => {
                 res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('serves static files', (done) => {
+        chai.request(server)
+            .get('/' + CSS_PATH)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.have.header('content-type', /^text\/css/);
                 done();
             });
     });

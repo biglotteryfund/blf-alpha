@@ -178,6 +178,8 @@ gulp.task('dev', ['styles', 'scripts', 'watch']);
 // used on LIVE (add --production flag to uglify files)
 gulp.task('build', ['styles', 'scripts', 'rev']);
 
+gulp.task('build-dev', ['styles', 'scripts']);
+
 // used on commit
 gulp.task('test', ['lint', 'mocha', 'phantomjs']);
 
