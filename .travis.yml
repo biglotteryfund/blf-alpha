@@ -12,9 +12,9 @@ script:
   - npm prune --production
 
 before_deploy:
-  - cd ../
-  - pwd
-  - ./scripts/store_deploy_info.sh
+  - cd $TRAVIS_BUILD_DIR
+  - ls
+  - sh scripts/store_deploy_info.sh
   - zip -qr latest *
   - mkdir -p dpl_cd_upload
   - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
