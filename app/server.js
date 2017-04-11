@@ -55,7 +55,8 @@ try {
 } catch (e) {
     console.info('deploy.json not found -- are you in DEV mode?');
 }
-app.locals.deployId = (deploymentData && deploymentData.deploymentId) ? deploymentData.deploymentId : 'DEV';
+app.locals.deployId = (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV';
+app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV';
 
 
 // route binder

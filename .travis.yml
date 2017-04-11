@@ -13,6 +13,7 @@ script:
 
 before_deploy:
   - cd ../
+  - ./scripts/store_deploy_info.sh
   - zip -qr latest *
   - mkdir -p dpl_cd_upload
   - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip

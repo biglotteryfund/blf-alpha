@@ -9,3 +9,4 @@ app/public/javascripts
 app/public/stylesheets
 app/public/tests
 assets.json
+deploy.json

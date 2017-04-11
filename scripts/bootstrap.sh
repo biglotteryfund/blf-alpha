@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # store deployment ID in a JSON file
-destdir=/var/www/biglotteryfund/config/deploy.json
-touch $destdir
-if [ -f "$destdir" ]
+deploy_file=/var/www/biglotteryfund/config/deploy.json
+touch $deploy_file
+if [ -f "$deploy_file" ]
 then
-    echo "{ \"deploymentId\": \"$DEPLOYMENT_ID\" }" > "$destdir"
+    DEPLOY_PLACEHOLDER="DEPLOY_ID"
+    sed -i "s|$DEPLOY_PLACEHOLDER|$DEPLOYMENT_ID|g" $deploy_file
 fi
 
 # configure nginx (would be nice to conditionally restart here)
