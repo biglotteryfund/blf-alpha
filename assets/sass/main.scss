@@ -2,11 +2,8 @@
 @import '_mixins';
 @import 'reset';
 @import '_utils';
-
-// base font settings
-body, input, textarea {
-    font-family: 'Lato', arial, sans-serif;
-}
+@import 'forms';
+@import 'typography';
 
 .content-area {
     margin-left: $contentGutterWidthMobile;
@@ -128,60 +125,6 @@ header {
         font-size: 10px;
         padding: 3px 15px;
     }
-}
-
-.form-fund {
-    margin-top: 20px;
-}
-
-.input-big {
-    background-color: rgba(51, 51, 51, 0.45);
-    border: 2px solid #ffffff;
-    border-radius: $borderRadius;
-    font-size: 12px;
-    padding: 5px 10px;
-    color: #ffffff;
-    margin-right: 10px;
-
-    @include mq('mobile') {
-        font-size: 14px;
-        padding: 3px 20px; // to align height
-    }
-
-    @include input-placeholder {
-        color: #d4d4d4;
-    }
-}
-
-
-
-h2 {
-    font-size: 22px;
-    @include mq('mobile') {
-        font-size: 36px;
-    }
-    line-height: 1.2;
-    color: #ffffff;
-    font-family: 'Poppins', arial, sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-h3 {
-    color: $charcoal;
-    font-size: 20px;
-    text-transform: uppercase;
-    font-family: 'Poppins', arial, sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-h4 {
-    color: #ffffff;
-    font-size: 16px;
-    font-family: 'Poppins', arial, sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
 }
 
 .hero {
