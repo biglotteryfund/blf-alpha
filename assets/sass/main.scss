@@ -8,15 +8,18 @@
 .content-area {
     margin-left: $contentGutterWidthMobile;
     margin-right: $contentGutterWidthMobile;
+    width: calc(100% - #{$contentGutterWidthMobile * 2});
 
     @include mq('tablet') {
         margin-left: $contentGutterTablet;
         margin-right: $contentGutterTablet;
+        width: calc(100% - #{$contentGutterTablet * 2});
     }
 
     @include mq('desktop') {
         margin-left: $contentGutterWidth;
         margin-right: $contentGutterWidth;
+        width: calc(100% - #{$contentGutterWidth * 2});
     }
 }
 
