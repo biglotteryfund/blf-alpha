@@ -1,0 +1,17 @@
+.vert-cent {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@include mq('mobile', 'max') {
+    .desktop-only { display: none !important; }
+}
+
+@include mq('mobile') {
+    .mobile-only { display: none !important; }
+}
+
+.hidden {
+    display: none;
+}
