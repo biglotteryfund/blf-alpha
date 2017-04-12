@@ -11,7 +11,7 @@
     color: #ffffff;
     margin-right: 10px;
 
-    @include mq('mobile') {
+    @include mq('tablet') {
         font-size: 14px;
         padding: 3px 20px; // to align height
     }

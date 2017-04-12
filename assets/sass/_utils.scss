@@ -8,7 +8,7 @@
     .desktop-only { display: none !important; }
 }
 
-@include mq('mobile') {
+@include mq('tablet') {
     .mobile-only { display: none !important; }
 }
 

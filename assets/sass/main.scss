@@ -9,12 +9,12 @@
     margin-left: $contentGutterWidthMobile;
     margin-right: $contentGutterWidthMobile;
 
-    @include mq('mobile') {
+    @include mq('tablet') {
         margin-left: $contentGutterTablet;
         margin-right: $contentGutterTablet;
     }
 
-    @include mq('tablet') {
+    @include mq('desktop') {
         margin-left: $contentGutterWidth;
         margin-right: $contentGutterWidth;
     }
@@ -30,11 +30,11 @@ header {
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             width: #{ 100% - $contentGutterTablet*2 };
         }
 
-        @include mq('tablet') {
+        @include mq('desktop') {
             width: #{ 100% - $contentGutterWidth*2 };
         }
     }
@@ -112,7 +112,7 @@ header {
     display: inline-block;
     padding: 5px 20px;
 
-    @include mq('tablet') {
+    @include mq('desktop') {
         padding: 5px 40px;
     }
 
@@ -141,7 +141,7 @@ header {
     &.intrinsic-wrapper--reading {
         @include responsive-ratio(640, 365);
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             @include responsive-ratio(1200, 386);
         }
     }
@@ -149,7 +149,7 @@ header {
     &.intrinsic-wrapper--map {
         padding-bottom: 120%; // arbitrary
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             @include responsive-ratio(1200, 635);
             margin-bottom: 40px;
         }
@@ -166,7 +166,7 @@ header {
 
 .hero__reading {
     background-image: url(../images/hero-reading--mobile.jpg);
-    @include mq('mobile') {
+    @include mq('tablet') {
         background-image: url(../images/hero-reading.jpg);
     }
 }
@@ -187,7 +187,7 @@ header {
             margin-bottom: 20px;
             padding: 0 20px;
             width: 44%;
-            @include mq('mobile') {
+            @include mq('tablet') {
                 width: 24%;
             }
         }
@@ -196,7 +196,7 @@ header {
             color: $charcoal;
             margin-bottom: 5px;
             font-size: 22px;
-            @include mq('mobile') {
+            @include mq('tablet') {
                 font-size: 32px;
             }
         }
@@ -205,7 +205,7 @@ header {
             color: $minor;
             line-height: 1.4;
             font-size: 14px;
-            @include mq('mobile') {
+            @include mq('tablet') {
                 font-size: 16px;
             }
         }
@@ -241,7 +241,7 @@ header {
     background-size: cover;
 
     // hackery for overlaid map
-    @include mq('mobile') {
+    @include mq('tablet') {
         background-size: contain;
 
         .hero__map__bg {
@@ -286,13 +286,13 @@ header {
         height: 100%;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             margin-left: $mapGutterWidth;
             margin-right: $mapGutterWidth;
             width: #{100% - $mapGutterWidth*2};
         }
 
-        @include mq('tablet') {
+        @include mq('desktop') {
             margin-left: $mapGutterWidth;
             margin-right: $mapGutterWidth;
             width: #{100% - $mapGutterWidth*2};
@@ -320,7 +320,7 @@ footer {
         display: block;
         margin-bottom: 20px;
         padding-top: 20px;
-        @include mq('mobile') {
+        @include mq('tablet') {
             margin-left: -#{$footerGutter};
         }
     }
@@ -334,7 +334,7 @@ footer {
         text-transform: uppercase;
         border-bottom: 1px solid #3b3b3b;
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             padding-bottom: 0;
             text-transform: none;
             border-bottom: none;
@@ -347,7 +347,7 @@ footer {
         }
     }
 
-    @include mq('mobile') {
+    @include mq('tablet') {
         .contact,
         .quick-links,
         .quick-links__1,
@@ -370,7 +370,7 @@ footer {
 
         i {
             display: none;
-            @include mq('mobile') {
+            @include mq('tablet') {
                 display: inline;
             }
         }
@@ -381,7 +381,7 @@ footer {
 aside {
     clear: left;
     background-color: $footerAlt;
-    @include mq('mobile') {
+    @include mq('tablet') {
         padding: 20px;
     }
 
@@ -389,11 +389,11 @@ aside {
         display: table;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             width: #{ 100% - $contentGutterTablet*2 }
         }
 
-        @include mq('tablet') {
+        @include mq('desktop') {
             width: #{ 100% - $contentGutterWidth*2 }
         }
     }
@@ -407,7 +407,7 @@ aside {
         display: table-cell;
         text-align: center;
 
-        @include mq('mobile') {
+        @include mq('tablet') {
             text-align: right;
         }
 
@@ -418,7 +418,7 @@ aside {
             &:first-child { margin-left: 0;}
             &:last-child { margin-right: 0;}
 
-            @include mq('mobile') {
+            @include mq('tablet') {
                 margin: 0 5px;
             }
 
@@ -429,7 +429,7 @@ aside {
         li {
             display: inline-block;
             font-size: 45px;
-            @include mq('mobile') {
+            @include mq('tablet') {
                 font-size: 20px;
             }
         }
@@ -460,7 +460,7 @@ aside {
     width: 100%;
     height: calc(100% - #{$mapBoxHeightMobile});
 
-    @include mq('mobile') {
+    @include mq('tablet') {
         height: 100%;
     }
 
@@ -488,7 +488,7 @@ aside {
     color: #ffffff;
     height: $mapBoxHeightMobile;
 
-    @include mq('mobile') {
+    @include mq('tablet') {
         height: auto;
         position: absolute;
         width: 250px;
@@ -497,7 +497,7 @@ aside {
         top: 20px;
     }
 
-    @include mq('tablet') {
+    @include mq('desktop') {
         top: $mapHeroGutter + 20px;
     }
 
@@ -507,7 +507,7 @@ aside {
     .map-info__cta {
         display: inline-block;
 
-        @include mq('tablet') {
+        @include mq('desktop') {
             display: block;
         }
     }

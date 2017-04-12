@@ -5,7 +5,7 @@ body, input, textarea {
 
 h2 {
     font-size: 22px;
-    @include mq('mobile') {
+    @include mq('tablet') {
         font-size: 36px;
     }
     line-height: 1.2;
