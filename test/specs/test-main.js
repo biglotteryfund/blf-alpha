@@ -1,1 +1,1 @@
-require('./browser');
+require('./data');

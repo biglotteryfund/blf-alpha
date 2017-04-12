@@ -151,7 +151,7 @@ gulp.task('mocha', ['build'], function () {
 });
 
 // run phantomjs
-gulp.task('phantomjs', ['mocha', 'test-scripts'], function () {
+gulp.task('phantomjs', ['test-scripts'], function () {
     return gulp
         .src(testBase + '/runner.html')
         .pipe(mochaPhantomJS());
@@ -188,4 +188,8 @@ gulp.task('watch', function() {
     livereload.listen();
     gulp.watch(DIRS.in.css + '/**/*.scss', ['styles']);
     gulp.watch(DIRS.in.js + '/**/*.js', ['scripts']);
+});
+
+gulp.task('watch-test', function() {
+    gulp.watch(DIRS.in.test + '/**/*.js', ['phantomjs']);
 });

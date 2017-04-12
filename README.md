@@ -53,12 +53,11 @@ The app comes with several layers of tests to ensure everything works as expecte
 You can run them all with `gulp test` (or `npm test`) but here are the individual suites:
 
 ### Integration tests
-
-We're using Mocha to run these tests which check that the web server starts, serves pages, shows 404s and handles invalid data. You can just run `mocha` from the root directory, or just run `gulp mocha` (which will build the required client-side assets before testing).
+Currently we're using PhantomJS to verify that client-side JavaScript tools work as expected. Run `gulp phantomjs` to run these tests, or load `/test/runner.html` in a browser to see them in-place.
 
 ### Unit tests
 
-Currently we're using PhantomJS to verify that client-side JavaScript tools work as expected. Run `gulp phantomjs` to run these tests, or load `/test/runner.html` in a browser to see them in-place.
+We're using Mocha to run these tests which check that the web server starts, serves pages, shows 404s and handles invalid data. You can just run `mocha` from the root directory, or just run `gulp mocha` (which will build the required client-side assets before testing).
 
 ### Security tests
 
