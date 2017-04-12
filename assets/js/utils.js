@@ -42,3 +42,14 @@ if (!Array.prototype.find) {
         }
     });
 }
+
+// turn 32424.23123 => 32,424.23
+let formatCurrency = function (n) {
+    return n.toFixed(2).replace(/./g, function (c, i, a) {
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+    });
+};
+
+module.exports = {
+    formatCurrency: formatCurrency
+};
