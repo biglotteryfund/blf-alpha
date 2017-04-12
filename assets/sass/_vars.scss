@@ -1,0 +1,35 @@
+$mobileBreakpoint: 760px;
+$tabletBreakpoint: 980px;
+
+$breakpoints: (
+    "mobile": 760px,
+    "tablet": 980px
+);
+
+$contentGutterWidth: 20%;
+$contentGutterTablet: 10%;
+$contentGutterWidthMobile: 20px;
+
+$mapGutterWidth: 25%;
+
+$logoHeight: 80px;
+$logoPadding: 10px;
+$borderRadius: 30px;
+$statCircleRadius: 60px;
+$mapBoxHeightMobile: 150px;
+
+$mapHeroGutter: 80px;
+$footerGutter: 60px;
+
+$charcoal: #2e2e2e;
+$accentBlue: #57bdef;
+$brandBlue: #48ace5;
+$ctaPink: #ed008c;
+$minor: #7d7d7d;
+$heroBgStart: #fbfbfb;
+$heroBgEnd: #eaeaea;
+$mapBoxOff: #f0786f;
+
+$footer: #232323;
+$footerAlt: #121212;
+$footerText: #999999;

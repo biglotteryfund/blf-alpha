@@ -1,33 +1,5 @@
-$mobileBreakpoint: 760px;
-$tabletBreakpoint: 980px;
-
-$contentGutterWidth: 20%;
-$contentGutterTablet: 10%;
-$contentGutterWidthMobile: 20px;
-
-$mapGutterWidth: 25%;
-
-$logoHeight: 80px;
-$logoPadding: 10px;
-$borderRadius: 30px;
-$statCircleRadius: 60px;
-$mapBoxHeightMobile: 150px;
-
-$mapHeroGutter: 80px;
-$footerGutter: 60px;
-
-$charcoal: #2e2e2e;
-$accentBlue: #57bdef;
-$brandBlue: #48ace5;
-$ctaPink: #ed008c;
-$minor: #7d7d7d;
-$heroBgStart: #fbfbfb;
-$heroBgEnd: #eaeaea;
-$mapBoxOff: #f0786f;
-
-$footer: #232323;
-$footerAlt: #121212;
-$footerText: #999999;
+@import '_vars';
+@import '_mixins';
 
 * {
     box-sizing: border-box;
@@ -59,12 +31,12 @@ body, input, textarea {
     margin-left: $contentGutterWidthMobile;
     margin-right: $contentGutterWidthMobile;
 
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         margin-left: $contentGutterTablet;
         margin-right: $contentGutterTablet;
     }
 
-    @media screen and (min-width: $tabletBreakpoint) {
+    @include mq('tablet') {
         margin-left: $contentGutterWidth;
         margin-right: $contentGutterWidth;
     }
@@ -79,11 +51,12 @@ header {
         display: table;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @media screen and (min-width: $mobileBreakpoint) {
+
+        @include mq('mobile') {
             width: #{ 100% - $contentGutterTablet*2 };
         }
 
-        @media screen and (min-width: $tabletBreakpoint) {
+        @include mq('tablet') {
             width: #{ 100% - $contentGutterWidth*2 };
         }
     }
@@ -136,9 +109,6 @@ header {
             padding: 5px;
             border: none;
             width: 110px;
-            @media screen and (min-width: $tabletBreakpoint) {
-                //width: auto;
-            }
         }
 
         a {
@@ -164,7 +134,7 @@ header {
     display: inline-block;
     padding: 5px 20px;
 
-    @media screen and (min-width: $tabletBreakpoint) {
+    @include mq('tablet') {
         padding: 5px 40px;
     }
 
@@ -192,22 +162,12 @@ header {
     color: #ffffff;
     margin-right: 10px;
 
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         font-size: 14px;
         padding: 3px 20px; // to align height
     }
 
-    // @TODO make mixin
-    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: #d4d4d4;
-    }
-    &::-moz-placeholder { /* Firefox 19+ */
-        color: #d4d4d4;
-    }
-    &:-ms-input-placeholder { /* IE 10+ */
-        color: #d4d4d4;
-    }
-    &:-moz-placeholder { /* Firefox 18- */
+    @include input-placeholder {
         color: #d4d4d4;
     }
 }
@@ -216,7 +176,7 @@ header {
 
 h2 {
     font-size: 22px;
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         font-size: 36px;
     }
     line-height: 1.2;
@@ -254,19 +214,19 @@ h4 {
     position: relative;
     height: 0;
 
-    // @todo calc this
     &.intrinsic-wrapper--reading {
-        padding-bottom: 57.03125%;
-        @media screen and (min-width: $mobileBreakpoint) {
-            padding-bottom: 32.16666667%;
+        @include responsive-ratio(640, 365);
+
+        @include mq('mobile') {
+            @include responsive-ratio(1200, 386);
         }
     }
 
     &.intrinsic-wrapper--map {
         padding-bottom: 120%; // arbitrary
 
-        @media screen and (min-width: $mobileBreakpoint) {
-            padding-bottom: 52.9166666667%;
+        @include mq('mobile') {
+            @include responsive-ratio(1200, 635);
             margin-bottom: 40px;
         }
     }
@@ -282,7 +242,7 @@ h4 {
 
 .hero__reading {
     background-image: url(../images/hero-reading--mobile.jpg);
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         background-image: url(../images/hero-reading.jpg);
     }
 }
@@ -292,11 +252,7 @@ h4 {
     padding-top: 20px;
     padding-bottom: 20px;
     background: $heroBgStart;
-    // @TODO mixin
-    background: -moz-linear-gradient(top, $heroBgStart 0%, $heroBgStart 50%, $heroBgEnd 100%);
-    background: -webkit-linear-gradient(top, $heroBgStart 0%,$heroBgStart 50%,$heroBgEnd 100%);
-    background: linear-gradient(to bottom, $heroBgStart 0%,$heroBgStart 50%,$heroBgEnd 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$heroBgStart}', endColorstr='#{$heroBgEnd}',GradientType=0 );
+    @include linear-gradient(to bottom, $heroBgStart 0%, $heroBgStart 50%, $heroBgEnd 100%);
 
     .stats {
         margin-top: 20px;
@@ -307,7 +263,7 @@ h4 {
             margin-bottom: 20px;
             padding: 0 20px;
             width: 44%;
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 width: 24%;
             }
         }
@@ -316,7 +272,7 @@ h4 {
             color: $charcoal;
             margin-bottom: 5px;
             font-size: 22px;
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 font-size: 32px;
             }
         }
@@ -325,7 +281,7 @@ h4 {
             color: $minor;
             line-height: 1.4;
             font-size: 14px;
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 font-size: 16px;
             }
         }
@@ -361,7 +317,7 @@ h4 {
     background-size: cover;
 
     // hackery for overlaid map
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         background-size: contain;
 
         .hero__map__bg {
@@ -406,13 +362,13 @@ h4 {
         height: 100%;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @media screen and (min-width: $mobileBreakpoint) {
+        @include mq('mobile') {
             margin-left: $mapGutterWidth;
             margin-right: $mapGutterWidth;
             width: #{100% - $mapGutterWidth*2};
         }
 
-        @media screen and (min-width: $tabletBreakpoint) {
+        @include mq('tablet') {
             margin-left: $mapGutterWidth;
             margin-right: $mapGutterWidth;
             width: #{100% - $mapGutterWidth*2};
@@ -440,7 +396,7 @@ footer {
         display: block;
         margin-bottom: 20px;
         padding-top: 20px;
-        @media screen and (min-width: $mobileBreakpoint) {
+        @include mq('mobile') {
             margin-left: -#{$footerGutter};
         }
     }
@@ -454,7 +410,7 @@ footer {
         text-transform: uppercase;
         border-bottom: 1px solid #3b3b3b;
 
-        @media screen and (min-width: $mobileBreakpoint) {
+        @include mq('mobile') {
             padding-bottom: 0;
             text-transform: none;
             border-bottom: none;
@@ -467,7 +423,7 @@ footer {
         }
     }
 
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         .contact,
         .quick-links,
         .quick-links__1,
@@ -490,7 +446,7 @@ footer {
 
         i {
             display: none;
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 display: inline;
             }
         }
@@ -501,7 +457,7 @@ footer {
 aside {
     clear: left;
     background-color: $footerAlt;
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         padding: 20px;
     }
 
@@ -509,11 +465,11 @@ aside {
         display: table;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-        @media screen and (min-width: $mobileBreakpoint) {
+        @include mq('mobile') {
             width: #{ 100% - $contentGutterTablet*2 }
         }
 
-        @media screen and (min-width: $tabletBreakpoint) {
+        @include mq('tablet') {
             width: #{ 100% - $contentGutterWidth*2 }
         }
     }
@@ -527,7 +483,7 @@ aside {
         display: table-cell;
         text-align: center;
 
-        @media screen and (min-width: $mobileBreakpoint) {
+        @include mq('mobile') {
             text-align: right;
         }
 
@@ -538,7 +494,7 @@ aside {
             &:first-child { margin-left: 0;}
             &:last-child { margin-right: 0;}
 
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 margin: 0 5px;
             }
 
@@ -549,7 +505,7 @@ aside {
         li {
             display: inline-block;
             font-size: 45px;
-            @media screen and (min-width: $mobileBreakpoint) {
+            @include mq('mobile') {
                 font-size: 20px;
             }
         }
@@ -580,7 +536,7 @@ aside {
     width: 100%;
     height: calc(100% - #{$mapBoxHeightMobile});
 
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         height: 100%;
     }
 
@@ -608,7 +564,7 @@ aside {
     color: #ffffff;
     height: $mapBoxHeightMobile;
 
-    @media screen and (min-width: $mobileBreakpoint) {
+    @include mq('mobile') {
         height: auto;
         position: absolute;
         width: 250px;
@@ -617,7 +573,7 @@ aside {
         top: 20px;
     }
 
-    @media screen and (min-width: $tabletBreakpoint) {
+    @include mq('tablet') {
         top: $mapHeroGutter + 20px;
     }
 
@@ -627,7 +583,7 @@ aside {
     .map-info__cta {
         display: inline-block;
 
-        @media screen and (min-width: $tabletBreakpoint) {
+        @include mq('tablet') {
             display: block;
         }
     }
@@ -671,11 +627,11 @@ aside {
     transform: translateY(-50%);
 }
 
-@media screen and (max-width: #{$mobileBreakpoint - 1px}) {
+@include mq('mobile', 'max') {
     .desktop-only { display: none !important; }
 }
 
-@media screen and (min-width: $mobileBreakpoint) {
+@include mq('mobile') {
     .mobile-only { display: none !important; }
 }
 
