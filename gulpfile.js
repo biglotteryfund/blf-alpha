@@ -35,7 +35,7 @@ const DIRS = {
         root: inputBase,
         css:  inputBase + 'sass',
         js:   inputBase + 'js',
-        img:  inputBase + 'img',
+        img:  inputBase + 'images',
         test: testBase
     },
     out: {

@@ -29,7 +29,6 @@ header {
         display: table;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
-
         @include mq('tablet') {
             width: #{ 100% - $contentGutterTablet*2 };
         }
@@ -51,7 +50,6 @@ header {
     display: table-cell;
     vertical-align: middle;
 }
-
 
 .nav {
     vertical-align: bottom;
