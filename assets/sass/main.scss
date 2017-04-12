@@ -379,15 +379,13 @@ footer {
 aside {
     clear: left;
     background-color: $footerAlt;
-    @include mq('tablet') {
-        padding: 20px;
-    }
 
     .aside-container {
         display: table;
         width: calc(100% - #{$contentGutterWidthMobile*2});
 
         @include mq('tablet') {
+            padding: 20px 0;
             width: #{ 100% - $contentGutterTablet*2 }
         }
 

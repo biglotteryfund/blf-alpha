@@ -4,7 +4,7 @@
     transform: translateY(-50%);
 }
 
-@include mq('mobile', 'max') {
+@include mq('tablet', 'max') {
     .desktop-only { display: none !important; }
 }
 
