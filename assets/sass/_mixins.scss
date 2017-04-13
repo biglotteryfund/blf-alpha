@@ -108,3 +108,19 @@
         clear: both;
     }
 }
+
+@mixin font($font: Poppins) {
+    font-family: "#{$font}", arial, sans-serif;
+}
+
+@mixin font-body() {
+    @include font();
+}
+
+@function palette($color) {
+    @if map-has-key($palette, $color) {
+        @return map-get($palette, $color)
+    }
+    // default colour
+    @return #cccccc;
+}

@@ -1,30 +1,18 @@
-@import 'reset';
-
+// setup / functions etc
 @import '_vars';
 @import '_mixins';
 @import '_utils';
 
-@import 'forms';
-@import 'typography';
+// global styles
+@import 'global/reset';
+@import 'global/layout';
+@import 'global/forms';
+@import 'global/typography';
 
-// layout helper: used within a containing element
-// to center it according to the grid
-.inner {
-    $defaultGutter: map-get($gutters, "default");
-    margin-left: $defaultGutter;
-    margin-right: $defaultGutter;
-    width: calc(100% - #{$defaultGutter * 2});
+// modules
+@import 'modules/header';
 
-    @each $device, $gutter in $gutters {
-        @if map-has-key($breakpoints, $device) {
-            @include mq($device) {
-                margin-left: $gutter;
-                margin-right: $gutter;
-                width: calc(100% - #{$gutter * 2});
-            }
-        }
-    }
-}
+
 
 //header {
 //    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
@@ -45,17 +33,6 @@
 //    }
 //}
 //
-//.logo {
-//    width: #{$logoHeight + $logoPadding};
-//    height: #{$logoHeight + $logoPadding};
-//    background-image: url(../images/logo.gif);
-//    background-repeat: no-repeat;
-//    background-size: auto $logoHeight;
-//    background-position: left center;
-//    text-indent: -1000em;
-//    display: table-cell;
-//    vertical-align: middle;
-//}
 //
 //.nav {
 //    vertical-align: bottom;

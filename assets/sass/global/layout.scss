@@ -1,0 +1,18 @@
+// layout helper: used within a containing element
+// to center it according to the grid
+.inner {
+    $defaultGutter: map-get($gutters, "default");
+    margin-left: $defaultGutter;
+    margin-right: $defaultGutter;
+    width: calc(100% - #{$defaultGutter * 2});
+
+    @each $device, $gutter in $gutters {
+        @if map-has-key($breakpoints, $device) {
+            @include mq($device) {
+                margin-left: $gutter;
+                margin-right: $gutter;
+                width: calc(100% - #{$gutter * 2});
+            }
+        }
+    }
+}
