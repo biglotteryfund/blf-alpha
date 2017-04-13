@@ -1,107 +1,88 @@
-<!doctype html>
-<html>
-<head>
-    <title>Big Lottery Fund | Alpha v0.6</title>
-    <link rel="stylesheet" type="text/css" href="<%= locals.getCachebustedPath('stylesheets/style.css') %>">
-    <!-- deploy <%= deployId %> (build #<%= buildNumber %>) -->
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes'>
-    <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-</head>
-<body>
+<%- include('inc/head', {}); %>
 
-    <%- include('inc/header', {}); %>
-
-    <div class="intrinsic-wrapper intrinsic-wrapper--reading">
-        <section class="intrinsic-stretched hero hero__reading">
-            <article class="content-area vert-cent">
-                <h2>What did we <br />fund near you?</h2>
-                <form action="/lookup" method="get" class="form-fund">
-                    <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big" size="12">
-                    <input type="submit" value="Look up awards" class="btn">
-                </form>
-            </article>
-        </section>
-    </div>
-
-    <section class="hero hero__stats">
-        <article class="content-area">
-            <h3>Our year in numbers</h3>
-            <ul class="stats">
-                <li class="stats__icon stats__icon--hand">
-                    <dl>
-                        <dt>11,779</dt>
-                        <dd>Number of awards made</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon stats__icon--bank">
-                    <dl>
-                        <dt>91.3%</dt>
-                        <dd>Percentage of awards to the voluntary &amp; community sectors</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon stats__icon--hand">
-                    <dl>
-                        <dt>89.1%</dt>
-                        <dd>Percentage of awards for less than &pound;10,000</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon stats__icon--bank">
-                    <dl>
-                        <dt>&pound;650 million</dt>
-                        <dd>Total grantmaking</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon stats__icon--hand">
-                    <dl>
-                        <dt>6.6%</dt>
-                        <dd>Total operating costs</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon stats__icon--bank">
-                    <dl>
-                        <dt>&pound;276</dt>
-                        <dd>Smallest award made through the Communities &amp; Families Fund</dd>
-                    </dl>
-                </li>
-            </ul>
+<div class="intrinsic-wrapper intrinsic-wrapper--reading">
+    <section class="intrinsic-stretched hero hero__reading">
+        <article class="content-area vert-cent">
+            <h2>What did we <br />fund near you?</h2>
+            <form action="/lookup" method="get" class="form-fund">
+                <input type="text" name="postcode" placeholder="eg. SW2 3BJ" class="input-big" size="12">
+                <input type="submit" value="Look up awards" class="btn">
+            </form>
         </article>
     </section>
+</div>
 
-    <div class="intrinsic-wrapper intrinsic-wrapper--map">
-        <section class="intrinsic-stretched hero hero__map">
-            <div class="hero__map__bg hero__map__bg--top"></div>
-            <div class="hero__map__bg hero__map__bg--bottom"></div>
+<section class="hero hero__stats">
+    <article class="content-area">
+        <h3>Our year in numbers</h3>
+        <ul class="stats">
+            <li class="stats__icon stats__icon--hand">
+                <dl>
+                    <dt>11,779</dt>
+                    <dd>Number of awards made</dd>
+                </dl>
+            </li>
 
-            <article class="hero__map__container content-area">
-                <div class="hero__map__overlay">
+            <li class="stats__icon stats__icon--bank">
+                <dl>
+                    <dt>91.3%</dt>
+                    <dd>Percentage of awards to the voluntary &amp; community sectors</dd>
+                </dl>
+            </li>
 
-                    <div class="map-wrapper"><%- include('inc/uk.svg', {}); %></div>
+            <li class="stats__icon stats__icon--hand">
+                <dl>
+                    <dt>89.1%</dt>
+                    <dd>Percentage of awards for less than &pound;10,000</dd>
+                </dl>
+            </li>
 
-                    <div class="map-info hidden" id="js-map-info">
-                        <h5 class="map-info__subhead">Region</h5>
-                        <h4 class="map-info__head" id="js-region-name"></h4>
-                        <p class="map-info__num-grants">Number of grants made: <span id="js-num-grants"></span></p>
-                        <p class="map-info__num-awards">Total awarded: <span id="js-num-awards"></span></p>
-                        <hr class="map-info__hr desktop-only">
-                        <p class="map-info__cta"><a class="btn btn--small" id="js-read-more" href="#">Read more</a></p>
-                    </div>
+            <li class="stats__icon stats__icon--bank">
+                <dl>
+                    <dt>&pound;650 million</dt>
+                    <dd>Total grantmaking</dd>
+                </dl>
+            </li>
 
+            <li class="stats__icon stats__icon--hand">
+                <dl>
+                    <dt>6.6%</dt>
+                    <dd>Total operating costs</dd>
+                </dl>
+            </li>
+
+            <li class="stats__icon stats__icon--bank">
+                <dl>
+                    <dt>&pound;276</dt>
+                    <dd>Smallest award made through the Communities &amp; Families Fund</dd>
+                </dl>
+            </li>
+        </ul>
+    </article>
+</section>
+
+<div class="intrinsic-wrapper intrinsic-wrapper--map">
+    <section class="intrinsic-stretched hero hero__map">
+        <div class="hero__map__bg hero__map__bg--top"></div>
+        <div class="hero__map__bg hero__map__bg--bottom"></div>
+
+        <article class="hero__map__container content-area">
+            <div class="hero__map__overlay">
+
+                <div class="map-wrapper"><%- include('inc/uk.svg', {}); %></div>
+
+                <div class="map-info hidden" id="js-map-info">
+                    <h5 class="map-info__subhead">Region</h5>
+                    <h4 class="map-info__head" id="js-region-name"></h4>
+                    <p class="map-info__num-grants">Number of grants made: <span id="js-num-grants"></span></p>
+                    <p class="map-info__num-awards">Total awarded: <span id="js-num-awards"></span></p>
+                    <hr class="map-info__hr desktop-only">
+                    <p class="map-info__cta"><a class="btn btn--small" id="js-read-more" href="#">Read more</a></p>
                 </div>
-            </article>
-        </section>
-    </div>
 
-    <%- include('inc/footer', {}); %>
+            </div>
+        </article>
+    </section>
+</div>
 
-    <script src="<%= locals.getCachebustedPath('javascripts/app.js') %>"></script>
-
-</body>
-</html>
+<%- include('inc/footer', {}); %>
