@@ -3,6 +3,12 @@ $breakpoints: (
     "desktop": 980px
 );
 
+$gutters: (
+    "default": 20px,
+    "tablet": 10%,
+    "desktop": 20%,
+);
+
 $contentGutterWidth: 20%;
 $contentGutterTablet: 10%;
 $contentGutterWidthMobile: 20px;
