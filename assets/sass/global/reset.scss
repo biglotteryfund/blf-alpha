@@ -11,9 +11,12 @@ body, html {
 ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p {
     margin: 0;
     padding: 0;
-    font-size: 14px;
 }
 
 ol, ul, li {
     list-style: none;
+}
+
+address {
+    font-style: normal;
 }

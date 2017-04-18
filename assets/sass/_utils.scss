@@ -20,6 +20,16 @@
     display: flex;
     align-items: center;
 
+    &.flex--wide-only {
+        @include mq('tablet', 'max') {
+            display: block;
+        }
+    }
+
+    &.flex--top {
+        align-items: flex-start;
+    }
+
     .flex__fill {
         flex-grow: 1;
     }

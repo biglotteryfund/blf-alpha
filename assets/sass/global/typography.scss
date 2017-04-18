@@ -1,8 +1,30 @@
-//// base font settings
-//body, input, textarea {
-//    font-family: 'Lato', arial, sans-serif;
-//}
-//
+// base font settings
+body, p, input, textarea {
+    font-family: 'Roboto', arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', arial, sans-serif;
+}
+
+p {
+    line-height: 1.5;
+    margin-bottom: $spacingUnit;
+}
+
+@mixin heading($level: beta) {
+    @if $level == 'alpha' {
+    } @else if $level == 'beta' {
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+    } @else if $level == 'gamma' {
+    } @else if $level == 'delta' {
+    } @else if $level == 'epsilon' {
+    } @else if $level == 'zeta' {
+    }
+}
+
 //h2 {
 //    font-size: 22px;
 //    @include mq('tablet') {
