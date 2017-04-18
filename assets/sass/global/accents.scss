@@ -1,0 +1,17 @@
+@each $name, $colour in $palette {
+    .accent--#{$name} {
+        .accent-b-t {
+            border-top: 3px solid $colour;
+        }
+
+        .accent-b-b-s:after {
+            content: '';
+            width: 100px;
+            height: 5px;
+            background-color: $colour;
+            display: block;
+            margin-top: $spacingUnit / 2;
+            margin-bottom: $spacingUnit * 2;
+        }
+    }
+}
