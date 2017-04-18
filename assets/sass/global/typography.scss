@@ -23,6 +23,7 @@ a {
     }
 }
 
+// @TODO do we want to make these classes instead of mixins?
 @mixin heading($level: beta) {
     @if $level == 'alpha' {
     } @else if $level == 'beta' {
@@ -31,7 +32,7 @@ a {
         text-transform: uppercase;
     } @else if $level == 'gamma' {
         line-height: 2;
-        width: 400px;
+        width: $blockyWidth;
         margin: $spacingUnit 0;
         span {
             background-color: #eeeeee;

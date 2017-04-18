@@ -6,4 +6,6 @@ $palette: (
     "off-white": #e9e9e9
 );
 
+// which of the above colours should have accents generated?
+// @TODO: do we want a background/foreground mapping here?
 $accents: ('pink', 'blue');

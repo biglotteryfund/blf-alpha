@@ -1,12 +1,14 @@
-// @TODO make this only apply to certain colours?
 @each $name in $accents {
     $colour: palette($name);
 
     .accent--#{$name} {
+
+        // border on top of elements
         .accent-b-t {
             border-top: 3px solid $colour;
         }
 
+        // border below elements *small* (eg. fixed width)
         .accent-b-b-s:after {
             content: '';
             width: 100px;
@@ -16,6 +18,8 @@
             margin-top: $spacingUnit / 2;
             margin-bottom: $spacingUnit * 2;
         }
+
+        // block-colour heading background
         &.h-blocky span {
             background-color: $colour;
         }
