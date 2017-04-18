@@ -46,3 +46,8 @@ $nudgeAmount: $spacingUnit * 2.5;
         padding: $spacingUnit / 2 $spacingUnit * 2;
     }
 }
+
+// the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/
+* + * {
+    margin-top: $spacingUnit;
+}

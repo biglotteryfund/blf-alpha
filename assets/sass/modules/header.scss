@@ -30,6 +30,7 @@
 
     li {
         @include nav-link-style();
+        margin-top: 0;
 
         &.nav__link {
             border-right: 2px solid palette('soft-grey');
@@ -73,8 +74,9 @@
     }
 
     input {
-        width: 100px;
         @include nav-link-style(#000000);
+        margin-top: 0;
+        width: 100px;
         border: 0;
         padding: $spacingUnit / 4;
         border: 1px solid palette('soft-grey');

@@ -9,8 +9,11 @@ body, html {
 }
 
 ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p {
-    margin: 0;
     padding: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    // margin-top is defined by the lobotomised owl
 }
 
 ol, ul, li {
