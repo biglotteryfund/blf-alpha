@@ -1,15 +1,15 @@
 <header>
-    <div class="inner">
-        <h1 class="logo header__item">Big Lottery Fund</h1>
-        <div class="mobile-only nav nav--mobile"><i class="ion-navicon-round"></i></div>
-        <ul class="nav nav--top desktop-only header__item">
-            <li class="selected"><a href="#">Before you apply</a></li>
-            <li><a href="#">Apply</a></li>
-            <li><a href="#">About</a></li>
+    <div class="inner flex">
+        <h1 class="logo">Big Lottery Fund</h1>
+        <!--<div class="mobile-only nav nav&#45;&#45;mobile"><i class="ion-navicon-round"></i></div>-->
+        <ul class="nav desktop-only flex__fill flex">
+            <li class="nav__link selected"><a href="#">Before you apply</a></li>
+            <li class="nav__link"><a href="#">Apply</a></li>
+            <li class="nav__link nav__link--last"><a href="#">About</a></li>
             <li class="nav__search">
                 <form class="form-search">
-                    <input type="text" class="has-search-icon">
-                    <input type="submit" value="Search" class="btn btn--cta">
+                    <i class="form-search__icon ion-search"></i>
+                    <input type="text" placeholder="Search">
                 </form>
             </li>
         </ul>

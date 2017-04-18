@@ -1,3 +1,10 @@
+@mixin nav-link-style($color: palette('blue')) {
+    @include font-body();
+    font-weight: 600;
+    font-size: 14px;
+    color: $color;
+}
+
 .logo {
     width: #{$logoHeight + $logoPadding};
     height: #{$logoHeight + $logoPadding};
@@ -6,36 +13,64 @@
     background-size: auto $logoHeight;
     background-position: left center;
     text-indent: -1000em;
-    display: table-cell;
-    vertical-align: middle;
 }
 
 header {
     width: 100%;
-    display: table;
-}
-
-.header__item {
-    display: table-cell;
 }
 
 .nav {
-    vertical-align: bottom;
-    padding-bottom: 20px; // offset to match logo
+    margin-top: 20px; // offset to match logo
+    margin-left: $spacingUnit;
 
     li {
-        display: inline-block;
-        @include font-body();
-        margin-right: $spacingUnit;
-        font-weight: 600;
-        font-size: 14px;
+        @include nav-link-style();
+
+        &.nav__link {
+            border-right: 2px solid palette('soft-grey');
+            padding-right: $spacingUnit;
+            margin-right: $spacingUnit;
+
+            &.nav__link--last {
+                padding-right: 0;
+                border-right: none;
+            }
+        }
+
 
         &, a {
             color: palette('blue');
-        }
-
-        a {
             text-decoration: none;
         }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    }
+
+    .nav__search {
+        margin-left: auto; // move to right
+
+        input {
+            width: 100px;
+            border: 0;
+            padding: $spacingUnit / 4;
+            @include nav-link-style(#000000);
+
+            @include input-placeholder {
+                @include nav-link-style();
+            }
+        }
+    }
+
+    .form-search__icon {
+        font-size: 23px;
+        line-height: 0;
+        vertical-align: middle;
+        color: palette('soft-grey');
+        margin-right: $spacingUnit / 4;
     }
 }
+
+

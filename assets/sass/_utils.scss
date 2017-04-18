@@ -15,3 +15,12 @@
 .hidden {
     display: none;
 }
+
+.flex {
+    display: flex;
+    align-items: center;
+
+    .flex__fill {
+        flex-grow: 1;
+    }
+}
