@@ -15,41 +15,11 @@
 @import 'modules/header';
 @import 'modules/footer';
 @import 'modules/heroes';
+@import 'modules/btn';
 
 
 
-//
-//.btn {
-//    font-family: 'Poppins', arial, sans-serif;
-//    text-transform: uppercase;
-//    font-weight: bold;
-//    font-size: 12px;
-//    letter-spacing: 3px;
-//    text-decoration: none;
-//    border: none;
-//    border-radius: $borderRadius;
-//    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-//    background-color: #ffffff;
-//    color: $charcoal;
-//    vertical-align: top;
-//    display: inline-block;
-//    padding: 5px 20px;
-//
-//    @include mq('desktop') {
-//        padding: 5px 40px;
-//    }
-//
-//    &.btn--cta {
-//        background-color: $ctaPink;
-//        color: #ffffff;
-//    }
-//
-//    &.btn--small {
-//        font-size: 10px;
-//        padding: 3px 15px;
-//    }
-//}
-//
+
 
 //.hero__map {
 //    background-image: url(../images/hero-map.jpg);
