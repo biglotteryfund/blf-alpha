@@ -37,6 +37,14 @@
             padding-right: $spacingUnit / 2;
             margin-right: $spacingUnit / 2;
 
+            &, a {
+                color: palette('blue');
+                text-decoration: none;
+                @include on-interact {
+                    text-decoration: underline;
+                }
+            }
+
             @include mq('tablet') {
                 padding-right: $spacingUnit;
                 margin-right: $spacingUnit;
@@ -47,16 +55,6 @@
                 border-right: none;
             }
         }
-
-
-        &, a {
-            color: palette('blue');
-            text-decoration: none;
-            @include on-interact {
-                text-decoration: underline;
-            }
-        }
-
 
     }
 }
