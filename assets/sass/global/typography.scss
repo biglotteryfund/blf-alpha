@@ -12,6 +12,17 @@ p {
     margin-bottom: $spacingUnit;
 }
 
+a {
+    color: palette('blue');
+    transition: color 0.3s ease-in-out;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        color: darken(palette('blue'), 20%);
+    }
+}
+
 @mixin heading($level: beta) {
     @if $level == 'alpha' {
     } @else if $level == 'beta' {
