@@ -5,6 +5,10 @@
     color: $color;
 }
 
+.header__inner {
+    position: relative;
+}
+
 .logo {
     width: #{$logoHeight + $logoPadding};
     height: #{$logoHeight + $logoPadding};
@@ -17,15 +21,25 @@
 
 .nav {
     margin-top: 20px; // offset to match logo
-    margin-left: $spacingUnit;
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        margin-left: $spacingUnit;
+        margin-bottom: 0;
+    }
 
     li {
         @include nav-link-style();
 
         &.nav__link {
             border-right: 2px solid palette('soft-grey');
-            padding-right: $spacingUnit;
-            margin-right: $spacingUnit;
+            padding-right: $spacingUnit / 2;
+            margin-right: $spacingUnit / 2;
+
+            @include mq('tablet') {
+                padding-right: $spacingUnit;
+                margin-right: $spacingUnit;
+            }
 
             &.nav__link--last {
                 padding-right: 0;
@@ -44,29 +58,37 @@
         }
 
     }
+}
 
-    .nav__search {
-        margin-left: auto; // move to right
+.nav__search {
+    margin-left: auto; // move to right
+    position: absolute;
+    top: $logoHeight / 3;
+    right: 0;
 
-        input {
-            width: 100px;
-            border: 0;
-            padding: $spacingUnit / 4;
-            @include nav-link-style(#000000);
-
-            @include input-placeholder {
-                @include nav-link-style();
-            }
-        }
+    @include mq('tablet') {
+        position: relative;
+        top: auto;
+        right: auto;
     }
 
-    .form-search__icon {
-        font-size: 23px;
-        line-height: 0;
-        vertical-align: middle;
-        color: palette('soft-grey');
-        margin-right: $spacingUnit / 4;
+    input {
+        width: 100px;
+        @include nav-link-style(#000000);
+        border: 0;
+        padding: $spacingUnit / 4;
+        border: 1px solid palette('soft-grey');
+
+        @include input-placeholder {
+            @include nav-link-style();
+        }
     }
 }
 
-
+.form-search__icon {
+    font-size: 23px;
+    line-height: 0;
+    vertical-align: middle;
+    color: palette('soft-grey');
+    margin-right: $spacingUnit / 4;
+}
