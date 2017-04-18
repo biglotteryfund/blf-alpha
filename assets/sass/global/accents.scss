@@ -1,5 +1,7 @@
 // @TODO make this only apply to certain colours?
-@each $name, $colour in $palette {
+@each $name in $accents {
+    $colour: palette($name);
+
     .accent--#{$name} {
         .accent-b-t {
             border-top: 3px solid $colour;
@@ -13,6 +15,9 @@
             display: block;
             margin-top: $spacingUnit / 2;
             margin-bottom: $spacingUnit * 2;
+        }
+        &.h-blocky span {
+            background-color: $colour;
         }
     }
 }

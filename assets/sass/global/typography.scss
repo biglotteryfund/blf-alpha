@@ -30,11 +30,26 @@ a {
         font-size: 16px;
         text-transform: uppercase;
     } @else if $level == 'gamma' {
+        line-height: 2;
+        width: 400px;
+        margin: $spacingUnit 0;
+        span {
+            background-color: #eeeeee;
+            color: #fff;
+            display: inline;
+            padding: $spacingUnit / 2;
+            box-decoration-break: clone;
+        }
     } @else if $level == 'delta' {
     } @else if $level == 'epsilon' {
     } @else if $level == 'zeta' {
     }
 }
+
+.h-blocky {
+    @include heading('gamma');
+}
+
 
 //h2 {
 //    font-size: 22px;
