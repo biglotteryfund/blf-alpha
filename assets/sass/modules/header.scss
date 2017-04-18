@@ -51,11 +51,11 @@
         &, a {
             color: palette('blue');
             text-decoration: none;
+            @include on-interact {
+                text-decoration: underline;
+            }
         }
 
-        a:hover {
-            text-decoration: underline;
-        }
 
     }
 }

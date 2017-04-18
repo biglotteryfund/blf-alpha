@@ -17,7 +17,7 @@ a {
     transition: color 0.3s ease-in-out;
     text-decoration: none;
 
-    &:hover {
+    @include on-interact {
         text-decoration: underline;
         color: darken(palette('blue'), 20%);
     }
