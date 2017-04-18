@@ -39,6 +39,9 @@
 
             &, a {
                 color: palette('blue');
+            }
+
+            a {
                 text-decoration: none;
                 @include on-interact {
                     text-decoration: underline;
