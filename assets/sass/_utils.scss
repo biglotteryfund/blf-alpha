@@ -34,3 +34,15 @@
         flex-grow: 1;
     }
 }
+
+$nudgeAmount: $spacingUnit * 2.5;
+.nudge-up {
+    margin-top: -$nudgeAmount;
+    position: relative;
+    z-index: 10;
+
+    .nudge__inner {
+        background-color: #ffffff;
+        padding: $spacingUnit / 2 $spacingUnit * 2;
+    }
+}
