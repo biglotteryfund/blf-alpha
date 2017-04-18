@@ -1,3 +1,4 @@
+// @TODO make this only apply to certain colours?
 @each $name, $colour in $palette {
     .accent--#{$name} {
         .accent-b-t {
