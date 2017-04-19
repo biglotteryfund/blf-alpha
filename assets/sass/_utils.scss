@@ -33,25 +33,50 @@
     margin-top: $spacingUnit;
 }
 
+/* ### global ### */
+/* margin */
+@each $name, $data in $marginSizes {
+    .m#{map-get($data, 'suffix')} {
+        margin: $spacingUnit * map-get($data, 'factor');
+    }
+}
+
+/* padding */
+@each $name, $data in $marginSizes {
+    .p#{map-get($data, 'suffix')} {
+        padding: $spacingUnit * map-get($data, 'factor');
+    }
+}
+
 // create margin util classes
 @each $dir, $dirData in $directions {
-    /* #{$dir} */
-    @each $name, $data in $marginSizes {
 
-        .m#{map-get($data, 'suffix')} {
-            margin: $spacingUnit * map-get($data, 'factor');
-        }
+    /* ### #{$dir} ### */
+
+    /* margin */
+
+    @each $name, $data in $marginSizes {
 
         .m-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
             margin-#{$dir}: $spacingUnit * map-get($data, 'factor');
         }
 
-        .p#{map-get($data, 'suffix')} {
-            padding: $spacingUnit * map-get($data, 'factor');
-        }
+    }
 
+    .m-#{map-get($dirData, 'suffix')}-none {
+        margin-#{$dir}: 0
+    }
+
+    /* padding */
+    @each $name, $data in $marginSizes {
         .p-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
             padding-#{$dir}: $spacingUnit * map-get($data, 'factor');
         }
     }
+
+    .p-#{map-get($dirData, 'suffix')}-none {
+        padding-#{$dir}: 0
+    }
+
 }
+
