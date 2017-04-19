@@ -1,17 +1,18 @@
-<header>
-    <article class="header__content content-area">
-        <h1 class="logo">Big Lottery Fund</h1>
-        <div class="mobile-only nav nav--mobile"><i class="ion-navicon-round"></i></div>
-        <ul class="nav nav--top desktop-only">
-            <li class="selected"><a href="#">Before you apply</a></li>
-            <li><a href="#">Apply</a></li>
-            <li><a href="#">About</a></li>
-            <li class="nav__search">
-                <form class="form-search">
-                    <input type="text" class="has-search-icon">
-                    <input type="submit" value="Search" class="btn btn--cta">
-                </form>
-            </li>
-        </ul>
-    </article>
+<header role="banner">
+    <div class="inner header__inner flex flex--wide-only">
+        <a href="#"><h1 class="logo">Big Lottery Fund</h1></a>
+        <nav role="navigation" class="flex__fill">
+            <ul class="nav flex">
+                <li class="nav__link"><a href="#">Before you apply</a></li>
+                <li class="nav__link"><a href="#">Apply</a></li>
+                <li class="nav__link nav__link--last"><a href="#">About</a></li>
+                <li class="nav__search">
+                    <form class="form-search" role="search">
+                        <i class="form-search__icon ion-search"></i>
+                        <input type="text" placeholder="Search">
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </header>

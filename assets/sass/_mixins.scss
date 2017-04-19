@@ -23,6 +23,15 @@
     &::-webkit-input-placeholder { @content; }
 }
 
+@mixin on-interact {
+    &:active,
+    &:focus,
+    &:hover {
+        //outline: none;
+        @content;
+    }
+}
+
 // https://www.sitepoint.com/building-linear-gradient-mixin-sass/
 // @author Chris Eppstein
 
@@ -107,4 +116,20 @@
     &:after {
         clear: both;
     }
+}
+
+@mixin font($font: Poppins) {
+    font-family: "#{$font}", arial, sans-serif;
+}
+
+@mixin font-body() {
+    @include font();
+}
+
+@function palette($color) {
+    @if map-has-key($palette, $color) {
+        @return map-get($palette, $color)
+    }
+    // default colour
+    @return #cccccc;
 }

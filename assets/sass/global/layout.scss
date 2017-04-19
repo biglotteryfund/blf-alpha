@@ -1,0 +1,63 @@
+// layout helper: used within a containing element
+// to center it according to the grid
+.inner {
+    $defaultGutter: map-get($gutters, "default");
+    margin-left: $defaultGutter;
+    margin-right: $defaultGutter;
+    width: calc(100% - #{$defaultGutter * 2});
+
+    @each $device, $gutter in $gutters {
+        @if map-has-key($breakpoints, $device) {
+            @include mq($device) {
+                margin-left: $gutter;
+                margin-right: $gutter;
+                width: calc(100% - #{$gutter * 2});
+            }
+        }
+    }
+}
+
+
+
+.flex {
+    display: flex;
+    align-items: center;
+
+    &.flex--wide-only {
+        @include mq('tablet', 'max') {
+            display: block;
+        }
+    }
+
+    &.flex--top {
+        align-items: flex-start;
+    }
+
+    &.flex--equal {
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: flex-end;
+
+        @include mq('tablet') {
+            > * {
+                width: 50%;
+                margin-top: 0;
+            }
+        }
+    }
+
+    .flex__fill {
+        flex-grow: 1;
+    }
+
+}
+
+.grid__item {
+    margin-bottom: $spacingUnit;
+    .grid__item__inner {
+        height: 100%;
+        @include mq('tablet') {
+            margin-right: $spacingUnit;
+        }
+    }
+}

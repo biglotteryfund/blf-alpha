@@ -1,0 +1,70 @@
+// base font settings
+body, p, input, textarea, button {
+    font-family: 'Roboto', arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', arial, sans-serif;
+    margin: 0;
+}
+
+p {
+    line-height: 1.5;
+}
+
+a {
+    color: palette('blue');
+    transition: color 0.3s ease-in-out;
+    text-decoration: none;
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue'), 20%);
+    }
+}
+
+// heading styles
+
+// blocked-out colourised background
+.t1 {
+    font-weight: 600;
+    max-width: 440px; // @TODO
+    font-size: 20px;
+    line-height: 1.6;
+
+    @include mq('tablet') {
+        font-size: 26px;
+        line-height: 1.6;
+    }
+
+    span {
+        background-color: #eeeeee;
+        color: #fff;
+        display: inline;
+        padding: $spacingUnit / 4 $spacingUnit / 2;
+        box-decoration-break: clone;
+    }
+
+    &.minor {
+        font-size: 18px;
+        line-height: 1.8;
+        max-width: 190px; // @TODO
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+// all-caps
+.t2 {
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.t3 {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+}

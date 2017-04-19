@@ -1,0 +1,36 @@
+footer {
+    background-color: palette('charcoal');
+    color: palette('off-white');
+    font-size: 13px;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        @include on-interact {
+            color: white;
+            text-decoration: underline;
+        }
+    }
+}
+
+.footer__inner {
+    padding: $spacingUnit 0;
+}
+
+.logo-lottery {
+    max-width: 70%;
+    width: auto;
+}
+
+.logo-lottery,
+.footer__header {
+    margin-bottom: $spacingUnit;
+}
+
+.footer__header {
+    margin-top: $spacingUnit;
+    @include mq('tablet') {
+        margin-top: 0;
+    }
+}

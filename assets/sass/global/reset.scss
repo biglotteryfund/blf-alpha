@@ -9,11 +9,21 @@ body, html {
 }
 
 ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p {
-    margin: 0;
     padding: 0;
-    font-size: 14px;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    // margin-top is defined by the lobotomised owl
 }
 
 ol, ul, li {
     list-style: none;
+}
+
+address {
+    font-style: normal;
+}
+
+img {
+    width: 100%;
 }

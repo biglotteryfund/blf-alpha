@@ -1,0 +1,44 @@
+$palette: (
+    "blue": #3266c6,
+    "blue-bg": #e5f3fe,
+
+    "pink": #db4a90,
+    "pink-bg": #fdf6f9,
+
+    "pink-mid": #d84d7b,
+    "pink-mid-bg": #f6d2e2,
+
+    "green": #53b470,
+    "green-bg": #ddf0e2,
+
+    "orange": #f49937,
+    "orange-bg": #fdebd7,
+
+    "soft-grey": #cacaca,
+    "charcoal": #333333,
+    "off-white": #e9e9e9
+);
+
+// which of the above colours should have accents generated?
+$themes: (
+    'pink': (
+        'foreground': palette('pink'),
+        'background': palette('pink-bg')
+    ),
+    'pink-mid': (
+        'foreground': palette('pink-mid'),
+        'background': palette('pink-mid-bg')
+    ),
+    'blue': (
+        'foreground': palette('blue'),
+        'background': palette('blue-bg')
+    ),
+    'green': (
+        'foreground': palette('green'),
+        'background': palette('green-bg')
+    ),
+    'orange': (
+        'foreground': palette('orange'),
+        'background': palette('orange-bg')
+    )
+);

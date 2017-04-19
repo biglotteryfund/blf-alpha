@@ -3,30 +3,54 @@ $breakpoints: (
     "desktop": 980px
 );
 
-$contentGutterWidth: 20%;
-$contentGutterTablet: 10%;
-$contentGutterWidthMobile: 20px;
+$gutters: (
+    "default": 20px,
+    "tablet": 10%,
+    "desktop": 20%,
+);
 
-$mapGutterWidth: 25%;
-
+// logo
 $logoHeight: 80px;
 $logoPadding: 10px;
+
+// globals
+$spacingUnit: 20px;
 $borderRadius: 30px;
-$statCircleRadius: 60px;
-$mapBoxHeightMobile: 150px;
+$nudgeAmount: $spacingUnit * 2.5;
 
-$mapHeroGutter: 80px;
-$footerGutter: 60px;
+// forms
+$baseFormElementFontSize: 16px;
 
-$charcoal: #2e2e2e;
-$accentBlue: #57bdef;
-$brandBlue: #48ace5;
-$ctaPink: #ed008c;
-$minor: #7d7d7d;
-$heroBgStart: #fbfbfb;
-$heroBgEnd: #eaeaea;
-$mapBoxOff: #f0786f;
+// surgical utility classes
+$directions: (
+    'top': ('suffix': 't'),
+    'right': ('suffix': 'r'),
+    'bottom': ('suffix': 'b'),
+    'left': ('suffix': 'l')
+);
 
-$footer: #232323;
-$footerAlt: #121212;
-$footerText: #999999;
+// margin sizes
+$marginSizes: (
+    'default': (
+        'suffix': '',
+        'factor': 1
+    ),
+    //'small': (
+    //    'suffix': '--s',
+    //    'factor': 0.5
+    //),
+    //'large': (
+    //    'suffix': '--l',
+    //    'factor': 2
+    //)
+);
+
+
+//$mapGutterWidth: 25%;
+//
+//$statCircleRadius: 60px;
+//$mapBoxHeightMobile: 150px;
+//
+//$mapHeroGutter: 80px;
+//$footerGutter: 60px;
+//

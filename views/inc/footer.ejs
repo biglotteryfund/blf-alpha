@@ -1,47 +1,38 @@
-    <footer>
-        <article class="content-area">
-            <img src="<%= locals.getCachebustedPath('images/lottery.png') %>" class="lottery" />
+<footer role="contentinfo">
+    <div class="inner footer__inner">
+        <ul class="flex flex--top flex--wide-only">
 
-            <ul class="contact desktop-only">
-                <li><i class="ion-ios-location"></i> 1 Address St, London </li>
-                <li><i class="ion-email"></i> general.enquiries@biglotteryfund.org.uk</li>
-                <li><i class="ion-ios-telephone"></i> 0222 345 6789</li>
-            </ul>
+            <li class="flex__fill">
+                <img src="<%= locals.getCachebustedPath('images/lottery.png') %>" class="logo-lottery" alt="Awarding funds from the National Lottery" />
+                <ul class="list-spaced">
+                    <li><address>1 Plough Place, London EC4A 1DE</address></li>
+                    <li><a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></li>
+                    <li>0345 4 10 20 30</li>
+                </ul>
+            </li>
 
-            <div class="quick-links">
-                <h4 class="desktop-only">Quick links</h4>
-                <ul>
-                    <div class="quick-links__1">
-                        <li><i class="ion-chevron-right"></i> Freedom of Information</li>
-                        <li><i class="ion-chevron-right"></i> Contact</li>
-                        <li><i class="ion-chevron-right"></i> Terms of use</li>
-                        <li><i class="ion-chevron-right"></i> Privacy</li>
+            <li class="flex__fill">
+                <h4 class="footer__header t2">Quick links</h4>
+                <ul class="flex flex--top list-spaced">
+                    <div class="flex__fill">
+                        <li><a href="#">Freedom of Information</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Cookies</a></li>
                     </div>
-                    <div class="quick-links__2">
-                        <li><i class="ion-chevron-right"></i> Cookies</li>
-                        <li><i class="ion-chevron-right"></i> Site map</li>
-                        <li class="desktop-only"><i class="ion-chevron-right"></i> Accessibility</li>
+                    <div class="flex__fill">
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Site map</a></li>
+                        <li><a href="#">Accessibility</a></li>
                     </div>
                 </ul>
-            </div>
-        </article>
+            </li>
 
-        <aside>
-            <article class="aside-container content-area">
-                <p class="desktop-only">Copyright 2017. All rights reserved.</p>
-                <ul class="social">
-                    <a href="#"><li class="ion-social-facebook"></li></a>
-                    <a href="#"><li class="ion-social-twitter"></li></a>
-                    <a href="#"><li class="ion-social-google"></li></a>
-                    <a href="#"><li class="ion-social-instagram"></li></a>
-                </ul>
-            </article>
-            <p class="mobile-only copyright-white">Copyright 2017. All rights reserved.</p>
-        </aside>
+        </ul>
+    </div>
+</footer>
 
-    </footer>
-
-    <script src="<%= locals.getCachebustedPath('javascripts/app.js') %>"></script>
+<script src="<%= locals.getCachebustedPath('javascripts/app.js') %>"></script>
 
 </body>
 </html>

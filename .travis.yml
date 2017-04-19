@@ -1,45 +1,40 @@
 language: node_js
 node_js:
-  - '6'
-
+- '6'
 before_script:
-  - npm install -g gulp
-  - npm install
-
+- npm install -g gulp
+- npm install
 script:
-  - gulp test --production
-  - npm prune --production > /dev/null 2>&1
-
+- gulp test --production
+- npm prune --production > /dev/null 2>&1
 before_deploy:
-  # run script to store this build ID
-  - sh bin/scripts/store_deploy_info.sh
-  # zip everything (ignore dotfiles, pre-compiled assets and gulpfile)
-  - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
-  - mkdir -p dpl_cd_upload
-  - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
-
+- sh bin/scripts/store_deploy_info.sh
+- zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
+- mkdir -p dpl_cd_upload
+- mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
 deploy:
-    # first upload to s3
-    - provider: s3
-      region: eu-west-1
-      access_key_id: AKIAJQ4UBKYUR7O4LMSQ
-      secret_access_key: &1
-        secure: QVmjyOcxtTqPJJyy+gIfXVYGOshkmz2A9PdYBb+RkUJypouWVDSvBfYxjMqwZmVIvhJUlgoRMI9a5oRovjLuvHDw5Mdy5TCNFtVkZx5T0jGN8L4fEDyLjNw1DveuEil4+a87r3v6Jkr05M7LbdvinYac3+OPgN2/mwD4sVRlsCqtllu1jqJX3KvyYp8G6wc/nRwcxhQz6bdMBqP1GRdNRo8ww8cDGpIGiyGTPuFF5alqDobSsGnuuQMLi/p1EUJwxW1IkNLbWMpEy2LUQi4Xs1v3XdrNwuk4xLPa5uWa4usvbEMIPC9Ma72sQOnjumdYM/7s/wMBW6qHZfd/+ONhXZPbIcG5NR5Cj1ew90Xk3cL0AkHDW8hsKMa2mllVuwCtpDlOcVeBgU3riIsc/uhKimByRVHdk+dtQM44J+HsIJCO951GcdUjQ67VbPccIeKf3lZVej6skdP7yogHIGxo/HD8pdH8DkM+CqGDKPQhSU2wUVqaPShr2Hho2THFVnqpLppC7+9AeHZbzFENEmlwXzmEC/FwKgwgMcSuUPTEpUkIWH4tkopXDtO8uYQZRjoWRnO1UDj4+8zA3iRfRUoJbz7c2Hww+MciGUgIj4Iqj3ZRXmC+6o0uIStguMJr5eGD3+mnvla9wU0SR7ZVLZv1unwwz9nl1G/+d6q95aIPUQw=
-      local_dir: dpl_cd_upload
-      skip_cleanup: true
-      on:
-        repo: biglotteryfund/blf-alpha
-      bucket: blf-travis-test
-
-    # deploy regular, minor updates to existing instances
-    - provider: codedeploy
-      region: eu-west-1
-      access_key_id: AKIAJQ4UBKYUR7O4LMSQ
-      secret_access_key: *1
-      bucket: blf-travis-test
-      key: build-$TRAVIS_BUILD_NUMBER.zip
-      bundle_type: zip
-      application: BLF_Test
-      deployment_group: BLF_Test_In_Place
-      on:
-        tags: false
+- provider: s3
+  region: eu-west-1
+  access_key_id: AKIAJQ4UBKYUR7O4LMSQ
+  secret_access_key: &1
+    secure: QVmjyOcxtTqPJJyy+gIfXVYGOshkmz2A9PdYBb+RkUJypouWVDSvBfYxjMqwZmVIvhJUlgoRMI9a5oRovjLuvHDw5Mdy5TCNFtVkZx5T0jGN8L4fEDyLjNw1DveuEil4+a87r3v6Jkr05M7LbdvinYac3+OPgN2/mwD4sVRlsCqtllu1jqJX3KvyYp8G6wc/nRwcxhQz6bdMBqP1GRdNRo8ww8cDGpIGiyGTPuFF5alqDobSsGnuuQMLi/p1EUJwxW1IkNLbWMpEy2LUQi4Xs1v3XdrNwuk4xLPa5uWa4usvbEMIPC9Ma72sQOnjumdYM/7s/wMBW6qHZfd/+ONhXZPbIcG5NR5Cj1ew90Xk3cL0AkHDW8hsKMa2mllVuwCtpDlOcVeBgU3riIsc/uhKimByRVHdk+dtQM44J+HsIJCO951GcdUjQ67VbPccIeKf3lZVej6skdP7yogHIGxo/HD8pdH8DkM+CqGDKPQhSU2wUVqaPShr2Hho2THFVnqpLppC7+9AeHZbzFENEmlwXzmEC/FwKgwgMcSuUPTEpUkIWH4tkopXDtO8uYQZRjoWRnO1UDj4+8zA3iRfRUoJbz7c2Hww+MciGUgIj4Iqj3ZRXmC+6o0uIStguMJr5eGD3+mnvla9wU0SR7ZVLZv1unwwz9nl1G/+d6q95aIPUQw=
+  local_dir: dpl_cd_upload
+  skip_cleanup: true
+  on:
+    repo: biglotteryfund/blf-alpha
+  bucket: blf-travis-test
+- provider: codedeploy
+  region: eu-west-1
+  access_key_id: AKIAJQ4UBKYUR7O4LMSQ
+  secret_access_key: *1
+  bucket: blf-travis-test
+  key: build-$TRAVIS_BUILD_NUMBER.zip
+  bundle_type: zip
+  application: BLF_Test
+  deployment_group: BLF_Test_In_Place
+  on:
+    tags: false
+notifications:
+  slack:
+    rooms:
+      secure: raHMwe3cIkMf3lqoXOeVmTXgZ7DBneG8qddfSHXxf8EQPahCWi1gYxXlAA5xzibJlnE/C0cSCQSxhNZd/C2gXKj0abWQXWAvFW5ETdYwOYVB111THLLuTRAcADTY9QJuRC4SY3EEj6yjMgMjaDLDn2kUm1VrEafYn4nKpKxEUEe0/qtqyWi++uaauwnIH+o7YbODT/xDLTNKwi5ZWVcAFuVLWM8GbP/g/IsteV73gifx022IdXZfCcbiGk5zhXtwX2kZaHEGEkSJCxUmpCz3194yKDH0Wo/pyNaCb4yC6mbTqEAjGSaETim/s6q62U35j4G+xj7IQrsqFd9sqjr+dQMyFhPpsCKbb2mDLxnsgsc3kgru0sogdY9XGf1rlg9gYWoc3TVV8lW25R3awQNgljXKFNxJoLBCPzqYkcnbDG4eIPi9HwJAysEaFz43kzy1g3ECdbynZ9+btZGHo9u9fsnhDf68mkTDrhY2EtLJ04tlyhFo6vxbW9FsEze6apjQHmlcPPj66YJkRlp7yVY10kUh4PkjnJhvLTEDHipVO3r650h1B9mXAIqKqHIG/sf3zFBvfhDNvkjNte2w1VH5ahOarcb/ReAD604lBSvnobNEOdcbe7axCEeBY2fjYrmsxYZgKTnkrB/T+2SyugqIvo7AGbFCtcpMQY55cTPfsJM=

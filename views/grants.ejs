@@ -1,16 +1,15 @@
 <%- include('inc/head', { title: "Grants near " + postcode }); %>
 
-<div class="intrinsic-wrapper intrinsic-wrapper--reading">
-    <section class="intrinsic-stretched hero hero__reading">
-        <article class="content-area vert-cent">
-            <h2>Funding near <%= postcode %></h2>
-        </article>
+<div class="hero hero--reading" role="complementary">
+    <section class="hero__inner">
+        <div class="inner accent--pink nudge-bottom">
+            <h2 class="t1 m-b"><span>Funding near <%= postcode %></span></h2>
+        </div>
     </section>
 </div>
-
-<section class="hero hero__stats">
-    <article class="content-area">
-        <h3>We awarded <%= grants.length %> grants near you:</h3>
+<article role="main" class="accent--pink">
+    <div class="inner p accent-b-t accent-bg">
+        <h3 class="t3">We awarded <%= grants.length %> grants near you:</h3>
 
         <ul class="grant-list">
             <% grants.forEach(function (g) { %>
@@ -20,7 +19,7 @@
                 </li>
             <% }); %>
         </ul>
-    </article>
-</section>
+    </div>
+</article>
 
 <%- include('inc/footer', {}); %>
