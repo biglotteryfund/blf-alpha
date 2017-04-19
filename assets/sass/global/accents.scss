@@ -1,11 +1,12 @@
-@each $name in $accents {
-    $colour: palette($name);
+@each $name, $data in $themes {
+    $fg: map-get($data, 'foreground');
+    $bg: map-get($data, 'background');
 
     .accent--#{$name} {
 
         // border on top of elements
         .accent-b-t {
-            border-top: 3px solid $colour;
+            border-top: 3px solid $fg;
         }
 
         // border below elements *small* (eg. fixed width)
@@ -13,16 +14,21 @@
             content: '';
             width: 100px;
             height: 5px;
-            background-color: $colour;
+            background-color: $fg;
             display: block;
             margin-top: $spacingUnit / 2;
             margin-bottom: $spacingUnit * 2;
         }
 
+        // background colour of theme
+        .accent-bg {
+            background-color: $bg;
+        }
+
         // block-colour heading background
         &.t1 span,
         .t1 span {
-            background-color: $colour;
+            background-color: $fg;
         }
     }
 }
