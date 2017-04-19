@@ -21,16 +21,15 @@
 
 
 
+// @TODO put somewhere better
+.grant-list {
+    margin: $spacingUnit 0;
 
-//.grant-list {
-//    margin: 20px 0;
-//
-//    li {
-//        margin: 0px 0px 15px 20px;
-//        text-align: left;
-//        border-bottom: 1px dotted #ccc;
-//        padding-bottom: 10px;
-//    }
-//}
-//
-//
+    li {
+        margin: 0 0 $spacingUnit 0;
+        text-align: left;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: $spacingUnit;
+    }
+}
+
