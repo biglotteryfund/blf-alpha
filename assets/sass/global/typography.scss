@@ -27,10 +27,15 @@ a {
 
 // blocked-out colourised background
 .t1 {
-    font-size: 26px;
-    line-height: 1.6;
     font-weight: 600;
     max-width: 440px; // @TODO
+    font-size: 20px;
+    line-height: 1.6;
+
+    @include mq('tablet') {
+        font-size: 26px;
+        line-height: 1.6;
+    }
 
     span {
         background-color: #eeeeee;

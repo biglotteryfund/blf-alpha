@@ -26,7 +26,11 @@
 
 .nudge-bottom {
     position: absolute;
-    bottom: $nudgeAmount;
+    bottom: $spacingUnit / 2;
+
+    @include mq('tablet') {
+        bottom: $nudgeAmount;
+    }
 }
 
 // the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/

@@ -13,10 +13,15 @@ $heroes: (
     ),
     'managing-grants': (
         'default': (
+            'width': 644,
+            'height': 460,
+            'filename': '../images/hero/managing-funding--mobile.jpg'
+        ),
+        'tablet': (
             'width': 1367,
             'height': 500,
             'filename': '../images/hero/managing-funding--desktop.jpg'
-        )
+        ),
     )
 );
 
