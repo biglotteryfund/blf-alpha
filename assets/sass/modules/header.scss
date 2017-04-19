@@ -37,6 +37,11 @@
             padding-right: $spacingUnit / 2;
             margin-right: $spacingUnit / 2;
 
+            &.selected,
+            &.selected a {
+                color: palette('pink-alt');
+            }
+
             &, a {
                 color: palette('blue');
             }
