@@ -16,19 +16,42 @@
     display: none;
 }
 
-$nudgeAmount: $spacingUnit * 2.5;
+
 .nudge-up {
     margin-top: -$nudgeAmount;
     position: relative;
     z-index: 10;
+}
 
-    .nudge__inner {
-        background-color: #ffffff;
-        padding: $spacingUnit / 2 $spacingUnit * 2;
-    }
+.nudge-bottom {
+    position: absolute;
+    bottom: $nudgeAmount;
 }
 
 // the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/
 * + * {
     margin-top: $spacingUnit;
+}
+
+// create margin util classes
+@each $dir, $dirData in $directions {
+    /* #{$dir} */
+    @each $name, $data in $marginSizes {
+
+        .m#{map-get($data, 'suffix')} {
+            margin: $spacingUnit * map-get($data, 'factor');
+        }
+
+        .m-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
+            margin-#{$dir}: $spacingUnit * map-get($data, 'factor');
+        }
+
+        .p#{map-get($data, 'suffix')} {
+            padding: $spacingUnit * map-get($data, 'factor');
+        }
+
+        .p-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
+            padding-#{$dir}: $spacingUnit * map-get($data, 'factor');
+        }
+    }
 }

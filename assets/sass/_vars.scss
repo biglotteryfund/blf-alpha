@@ -1,5 +1,3 @@
-@import 'global/palette';
-
 $breakpoints: (
     "tablet": 760px,
     "desktop": 980px
@@ -18,9 +16,42 @@ $logoPadding: 10px;
 // globals
 $spacingUnit: 20px;
 $borderRadius: 30px;
+$nudgeAmount: $spacingUnit * 2.5;
 
 // forms
 $baseFormElementFontSize: 16px;
+
+// surgical utility classes
+$directions: (
+    'top': ('suffix': 't'),
+    'right': ('suffix': 'r'),
+    'bottom': ('suffix': 'b'),
+    'left': ('suffix': 'l')
+);
+
+// margin sizes
+$marginSizes: (
+    'default': (
+        'suffix': '',
+        'factor': 1
+    ),
+    'extra-small': (
+        'suffix': '--x-s',
+        'factor': 0.25
+    ),
+    'small': (
+        'suffix': '--s',
+        'factor': 0.5
+    ),
+    'medium': (
+        'suffix': '--m',
+        'factor': 1.5
+    ),
+    'large': (
+        'suffix': '--l',
+        'factor': 2
+    )
+);
 
 
 //$mapGutterWidth: 25%;
