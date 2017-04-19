@@ -22,31 +22,27 @@ a {
     }
 }
 
-// @TODO do we want to make these classes instead of mixins?
-@mixin heading($level: beta) {
-    @if $level == 'alpha' {
-    } @else if $level == 'beta' {
-        font-weight: 600;
-        font-size: 16px;
-        text-transform: uppercase;
-    } @else if $level == 'gamma' {
-        font-weight: 600;
-        line-height: 2;
-        width: $blockyWidth;
-        margin: $spacingUnit 0;
-        span {
-            background-color: #eeeeee;
-            color: #fff;
-            display: inline;
-            padding: $spacingUnit / 4 $spacingUnit / 2;
-            box-decoration-break: clone;
-        }
-    } @else if $level == 'delta' {
-    } @else if $level == 'epsilon' {
-    } @else if $level == 'zeta' {
+// heading styles
+
+// blocked-out colourised background
+.t1 {
+    font-size: 30px;
+    line-height: 1.6;
+    font-weight: 600;
+    width: 440px; // @TODO
+    margin: $spacingUnit 0;
+    span {
+        background-color: #eeeeee;
+        color: #fff;
+        display: inline;
+        padding: $spacingUnit / 4 $spacingUnit / 2;
+        box-decoration-break: clone;
     }
 }
 
-.h-blocky {
-    @include heading('gamma');
+// all-caps
+.t2 {
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
 }

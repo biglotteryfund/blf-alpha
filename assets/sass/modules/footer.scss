@@ -29,7 +29,6 @@ footer {
 }
 
 .footer__header {
-    @include heading('beta');
     margin-top: $spacingUnit;
     @include mq('tablet') {
         margin-top: 0;
