@@ -5,11 +5,13 @@
     .accent--#{$name} {
 
         // border on top of elements
+        &.accent-b-t,
         .accent-b-t {
             border-top: 3px solid $fg;
         }
 
         // border below elements *small* (eg. fixed width)
+        &.accent-b-b-s:after,
         .accent-b-b-s:after {
             content: '';
             width: 100px;
@@ -21,6 +23,7 @@
         }
 
         // background colour of theme
+        &.accent-bg,
         .accent-bg {
             background-color: $bg;
         }
@@ -29,6 +32,18 @@
         &.t1 span,
         .t1 span {
             background-color: $fg;
+        }
+
+        // hover state for above
+        &.t1,
+        .t1 {
+            a {
+                @include on-interact {
+                    span {
+                        background-color: darken($fg, 10%);
+                    }
+                }
+            }
         }
     }
 }
