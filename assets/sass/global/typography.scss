@@ -5,6 +5,7 @@ body, p, input, textarea, button {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', arial, sans-serif;
+    margin: 0;
 }
 
 p {
@@ -29,13 +30,24 @@ a {
     font-size: 26px;
     line-height: 1.6;
     font-weight: 600;
-    width: 440px; // @TODO
+    max-width: 440px; // @TODO
+
     span {
         background-color: #eeeeee;
         color: #fff;
         display: inline;
         padding: $spacingUnit / 4 $spacingUnit / 2;
         box-decoration-break: clone;
+    }
+
+    &.minor {
+        font-size: 18px;
+        line-height: 1.8;
+        max-width: 190px; // @TODO
+    }
+
+    a {
+        text-decoration: none;
     }
 }
 

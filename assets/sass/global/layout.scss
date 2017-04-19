@@ -49,3 +49,11 @@
     }
 
 }
+
+.grid__item {
+    margin-bottom: $spacingUnit;
+    .grid__item__inner {
+        height: 100%;
+        margin-right: $spacingUnit;
+    }
+}
