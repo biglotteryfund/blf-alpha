@@ -26,11 +26,10 @@ a {
 
 // blocked-out colourised background
 .t1 {
-    font-size: 30px;
+    font-size: 26px;
     line-height: 1.6;
     font-weight: 600;
     width: 440px; // @TODO
-    margin: $spacingUnit 0;
     span {
         background-color: #eeeeee;
         color: #fff;
@@ -45,4 +44,11 @@ a {
     font-weight: 600;
     font-size: 16px;
     text-transform: uppercase;
+}
+
+.t3 {
+    font-size: 18px;
+    line-height: 1.4;
+    color: palette('pink');
+    font-weight: 600;
 }
