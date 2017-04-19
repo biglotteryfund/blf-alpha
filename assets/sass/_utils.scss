@@ -16,11 +16,12 @@
     display: none;
 }
 
-
-.nudge-up {
-    margin-top: -$nudgeAmount;
-    position: relative;
-    z-index: 10;
+@include mq('tablet') {
+    .nudge-up {
+        margin-top: -$nudgeAmount;
+        position: relative;
+        z-index: 10;
+    }
 }
 
 .nudge-bottom {
@@ -79,4 +80,3 @@
     }
 
 }
-
