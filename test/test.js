@@ -31,7 +31,7 @@ describe('Express application', function () {
 
     it('serves static files', (done) => {
         chai.request(server)
-            .get('/' + CSS_PATH)
+            .get(CSS_PATH)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.should.have.header('content-type', /^text\/css/);
