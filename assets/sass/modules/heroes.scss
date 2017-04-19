@@ -10,8 +10,16 @@ $heroes: (
             'height': 386,
             'filename': '../images/hero-reading.jpg'
         ),
+    ),
+    'managing-grants': (
+        'default': (
+            'width': 1367,
+            'height': 500,
+            'filename': '../images/hero/managing-funding--desktop.jpg'
+        )
     )
 );
+
 
 @mixin makeHeroImage($img) {
     @include responsive-ratio(map-get($img, 'width'), map-get($img, 'height'));
