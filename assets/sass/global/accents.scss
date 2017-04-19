@@ -20,7 +20,8 @@
         }
 
         // block-colour heading background
-        &.h-blocky span {
+        &.h-blocky span,
+        .h-blocky span {
             background-color: $colour;
         }
     }

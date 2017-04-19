@@ -20,7 +20,7 @@ describe('Express application', function () {
         server.close();
     });
 
-    it('responds to /', function testSlash(done) {
+    it('responds to /', (done) => {
         chai.request(server)
             .get('/')
             .end((err, res) => {
@@ -39,9 +39,8 @@ describe('Express application', function () {
             });
     });
 
-    it('returns grant data for postcodes', function testSlash(done) {
+    it('returns grant data for postcodes', (done) => {
         let validPostcode = 'B14 7EW';
-
         chai.request(server)
             .get('/lookup')
             .query({
@@ -51,9 +50,9 @@ describe('Express application', function () {
                 res.should.have.status(200);
                 done();
             });
-    });
+    }).timeout(3000);
 
-    it('redirects to homepage for invalid postcodes', function testSlash(done) {
+    it('redirects to homepage for invalid postcodes', (done) => {
         let invalidPostcode = 'ABC 123';
         chai.request(server)
             .get('/lookup')
@@ -66,9 +65,9 @@ describe('Express application', function () {
                 res.should.have.status(302);
                 done();
             });
-    });
+    }).timeout(3000);
 
-    it('404s everything else', function testPath(done) {
+    it('404s everything else', (done) => {
         chai.request(server)
             .get('/foo/bar')
             .end((err, res) => {

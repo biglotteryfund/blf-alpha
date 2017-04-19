@@ -30,6 +30,7 @@ a {
         font-size: 16px;
         text-transform: uppercase;
     } @else if $level == 'gamma' {
+        font-weight: 600;
         line-height: 2;
         width: $blockyWidth;
         margin: $spacingUnit 0;
@@ -37,7 +38,7 @@ a {
             background-color: #eeeeee;
             color: #fff;
             display: inline;
-            padding: $spacingUnit / 2;
+            padding: $spacingUnit / 4 $spacingUnit / 2;
             box-decoration-break: clone;
         }
     } @else if $level == 'delta' {
