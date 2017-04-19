@@ -9,10 +9,6 @@ router.get('/', (req, res, next) => {
     res.render('index', {});
 });
 
-router.get('/new', (req, res, next) => {
-    res.render('new', {});
-});
-
 router.get('/lookup', (req, res, next) => {
 
     let postcode = req.query.postcode;
