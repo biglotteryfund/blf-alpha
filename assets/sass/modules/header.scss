@@ -19,6 +19,12 @@
     text-indent: -1000em;
 }
 
+// container element
+nav {
+    margin-top: 0;
+}
+
+// links themselves
 .nav {
     margin-top: 20px; // offset to match logo
     margin-bottom: $spacingUnit;

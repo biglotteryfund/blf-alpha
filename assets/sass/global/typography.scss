@@ -15,7 +15,6 @@ p {
 a {
     color: palette('blue');
     transition: color 0.3s ease-in-out;
-    text-decoration: none;
 
     @include on-interact {
         text-decoration: underline;
@@ -52,7 +51,7 @@ a {
     }
 
     a {
-        text-decoration: none;
+        color: #ffffff;
     }
 }
 
