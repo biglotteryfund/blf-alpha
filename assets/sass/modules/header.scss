@@ -10,13 +10,18 @@
 }
 
 .logo {
+    $widthToUse: ($logoActualWidth / $logoActualHeight) * $logoDesiredHeight;
     height: $logoDesiredHeight + $logoPadding;
-    width: ($logoActualWidth / $logoActualHeight) * $logoDesiredHeight + $logoPadding;
+    width: $widthToUse + $logoPadding;
     background-image: url(../images/logo.png);
     background-repeat: no-repeat;
     background-size: auto $logoDesiredHeight;
     background-position: left center;
     text-indent: -1000em;
+
+    @include mq('tablet') {
+        margin-left: -($widthToUse / $logoActualWidth) * $logoCropPoint - $logoPadding;
+    }
 }
 
 // container element
