@@ -7,6 +7,9 @@
 
 .header__inner {
     position: relative;
+    @include mq('tablet') {
+        padding: 20px 0 25px 0;
+    }
 }
 
 .logo {
@@ -26,16 +29,19 @@
 
 // container element
 nav {
-    margin-top: 0;
+    margin-top: $spacingUnit !important;
+    @include mq('tablet') {
+        margin-top: 40px !important; // align with logo
+    }
 }
 
 // links themselves
 .nav {
-    margin-top: 20px; // offset to match logo
+    margin-top: 0;
     margin-bottom: $spacingUnit;
 
     @include mq('tablet') {
-        margin-left: $spacingUnit;
+        margin-left: $spacingUnit * 2;
         margin-bottom: 0;
     }
 
@@ -85,6 +91,7 @@ nav {
     right: 0;
 
     @include mq('tablet') {
+        margin-right: -80px; // completely arbitrary
         position: relative;
         top: auto;
         right: auto;
