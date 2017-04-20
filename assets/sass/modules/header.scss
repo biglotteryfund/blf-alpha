@@ -1,7 +1,7 @@
 @mixin nav-link-style($color: palette('blue')) {
     @include font-body();
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     color: $color;
 }
 
@@ -96,7 +96,6 @@ nav {
         width: 100px;
         border: 0;
         padding: $spacingUnit / 4;
-        border: 1px solid palette('soft-grey');
 
         @include input-placeholder {
             @include nav-link-style();
