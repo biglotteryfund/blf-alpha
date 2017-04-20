@@ -15,7 +15,11 @@ footer {
 }
 
 .footer__inner {
-    padding: $spacingUnit 0;
+    padding: 0;
+    
+    @include mq('tablet') {
+        padding: 50px 0 70px 0;
+    }
 }
 
 .logo-lottery {

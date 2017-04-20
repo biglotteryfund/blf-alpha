@@ -58,7 +58,20 @@
 
     .flex__fill {
         flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0;
         margin-top: 0;
+    }
+
+    // @TODO improve this
+    .flex__fill--second {
+        @include mq('tablet') {
+            margin-left: $spacingUnit;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
     }
 
 }
