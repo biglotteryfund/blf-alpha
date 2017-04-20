@@ -10,11 +10,11 @@
 }
 
 .logo {
-    width: #{$logoHeight + $logoPadding};
-    height: #{$logoHeight + $logoPadding};
-    background-image: url(../images/logo.gif);
+    height: $logoDesiredHeight + $logoPadding;
+    width: ($logoActualWidth / $logoActualHeight) * $logoDesiredHeight + $logoPadding;
+    background-image: url(../images/logo.png);
     background-repeat: no-repeat;
-    background-size: auto $logoHeight;
+    background-size: auto $logoDesiredHeight;
     background-position: left center;
     text-indent: -1000em;
 }
@@ -70,7 +70,7 @@
 .nav__search {
     margin-left: auto; // move to right
     position: absolute;
-    top: $logoHeight / 3;
+    top: $logoDesiredHeight / 3;
     right: 0;
 
     @include mq('tablet') {
