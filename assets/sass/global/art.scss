@@ -1,10 +1,9 @@
 .art {
     background-repeat: no-repeat;
     background-position: 90% 80%;
-    background-size: auto 70%;
+    background-size: auto 95%;
     @include mq('tablet') {
         background-position: bottom right;
-        background-size: auto 80%;
     }
 }
 
