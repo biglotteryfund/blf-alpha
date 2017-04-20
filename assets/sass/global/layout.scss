@@ -1,6 +1,7 @@
 // layout helper: used within a containing element
 // to center it according to the grid
-.inner {
+
+@mixin responsiveGutter() {
     $defaultGutter: map-get($gutters, "default");
     margin-left: $defaultGutter;
     margin-right: $defaultGutter;
@@ -17,6 +18,15 @@
     }
 }
 
+.inner {
+    @include responsiveGutter();
+}
+
+.inner--wide-only {
+    @include mq('tablet') {
+        @include responsiveGutter();
+    }
+}
 
 
 .flex {
