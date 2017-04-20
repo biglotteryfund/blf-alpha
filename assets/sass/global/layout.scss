@@ -54,10 +54,21 @@
 
 .grid__item {
     margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        .grid__item__inner {
+            margin-right: $spacingUnit / 2;
+            margin-left: 0;
+        }
+        &:nth-child(2n) {
+            .grid__item__inner {
+                margin-left: $spacingUnit /2;
+                margin-right: 0;
+            }
+        }
+    }
+
     .grid__item__inner {
         height: 100%;
-        @include mq('tablet') {
-            margin-right: $spacingUnit;
-        }
     }
 }
