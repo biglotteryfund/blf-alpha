@@ -44,7 +44,8 @@ footer {
 
 .footer__header {
     margin-top: $spacingUnit;
+
     @include mq('tablet') {
-        margin-top: 0;
+        margin-top: 26px; // arbitrary
     }
 }
