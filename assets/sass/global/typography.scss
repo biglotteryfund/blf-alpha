@@ -14,12 +14,12 @@ p {
 }
 
 a {
-    color: palette('blue');
-    transition: color 0.3s ease-in-out;
+    color: palette('blue-text');
+    transition: color 0.1s ease-in-out;
 
     @include on-interact {
         text-decoration: underline;
-        color: darken(palette('blue'), 20%);
+        color: darken(palette('blue-text'), 20%);
     }
 }
 

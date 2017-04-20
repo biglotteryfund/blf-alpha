@@ -1,17 +1,19 @@
 $palette: (
-    "blue": #3266c6,
+    "blue": #1a44a1,
     "blue-bg": #e5f3fe,
+    "blue-text": #365cc9,
 
-    "pink": #db4a90,
-    "pink-bg": #fdf6f9,
+    "pink": #e92076,
+    "pink-bg": #fef5f9,
+    "pink-text": #e92076,
 
     "pink-mid": #d84d7b,
     "pink-mid-bg": #f6d2e2,
 
-    "green": #53b470,
+    "green": #00bd71,
     "green-bg": #ddf0e2,
 
-    "orange": #f49937,
+    "orange": #ff9315,
     "orange-bg": #fdebd7,
 
     "soft-grey": #cacaca,
@@ -26,7 +28,7 @@ $themes: (
         'background': palette('pink-bg')
     ),
     'pink-mid': (
-        'foreground': palette('pink-mid'),
+        'foreground': palette('pink'), // @TODO is this right?
         'background': palette('pink-mid-bg')
     ),
     'blue': (

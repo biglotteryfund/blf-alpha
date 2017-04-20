@@ -1,4 +1,4 @@
-@mixin nav-link-style($color: palette('blue')) {
+@mixin nav-link-style($color: palette('blue-text')) {
     @include font-body();
     font-weight: 600;
     font-size: 16px;
@@ -56,16 +56,17 @@ nav {
 
             &.selected,
             &.selected a {
-                color: palette('pink');
+                color: palette('pink-text');
             }
 
             &, a {
-                color: palette('blue');
+                color: palette('blue-text');
             }
 
             a {
                 text-decoration: none;
                 @include on-interact {
+                    color: palette('pink-text');
                     text-decoration: underline;
                 }
             }
