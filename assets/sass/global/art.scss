@@ -1,7 +1,11 @@
 .art {
     background-repeat: no-repeat;
-    background-size: auto 80%;
-    background-position: bottom right;
+    background-position: 90% 80%;
+    background-size: auto 70%;
+    @include mq('tablet') {
+        background-position: bottom right;
+        background-size: auto 80%;
+    }
 }
 
 .art--display-the-logo { background-image: url('../images/funding/display-the-logo.png'); }
