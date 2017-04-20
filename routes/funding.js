@@ -4,7 +4,7 @@ const router = express.Router();
 // const logger = require('../logger');
 
 router.get('/funding-guidance/managing-your-funding', (req, res, next) => {
-    res.render('funding/guidance/managing-your-funding.ejs', {
+    res.render('funding/guidance/managing-your-funding', {
         title: "Managing your funding"
     });
 });
