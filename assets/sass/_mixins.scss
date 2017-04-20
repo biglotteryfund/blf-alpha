@@ -133,3 +133,12 @@
     // default colour
     @return #cccccc;
 }
+
+@function relative-line-height($fontSize, $leading) {
+    @return $leading / $fontSize;
+}
+
+@mixin font-and-leading($fontSize, $leading) {
+    font-size: $fontSize;
+    line-height: relative-line-height($fontSize, $leading);
+}

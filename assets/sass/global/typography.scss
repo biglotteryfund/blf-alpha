@@ -9,7 +9,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-    line-height: 1.5;
+    @include font-and-leading(20px, 27px);
+    color: palette('charcoal');
 }
 
 a {
@@ -26,15 +27,14 @@ a {
 
 // blocked-out colourised background
 .t1 {
+    $fontSize: 30px;
     font-weight: 600;
     max-width: 440px; // @TODO
-    font-size: 20px;
-    line-height: 1.6;
 
-    @include mq('tablet') {
-        font-size: 26px;
-        line-height: 1.6;
-    }
+    //@include mq('tablet') {
+        font-size: $fontSize;
+        line-height: relative-line-height($fontSize, 40px);
+    //}
 
     span {
         background-color: #eeeeee;
