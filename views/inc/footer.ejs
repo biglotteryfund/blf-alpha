@@ -1,10 +1,15 @@
 <footer role="contentinfo">
-    <div class="inner footer__inner">
-        <ul class="flex flex--top flex--wide-only">
 
-            <li class="flex__fill">
+    <div class="logo-lottery--mobile">
+        <img src="<%= locals.getCachebustedPath('images/lottery--white.png') %>" class="mobile-only" alt="Awarding funds from the National Lottery" />
+    </div>
+
+    <div class="inner footer__inner m-t-none">
+        <ul class="flex flex--top flex--wide-only m-t-none">
+
+            <li class="flex__fill desktop-only">
                 <img src="<%= locals.getCachebustedPath('images/lottery.png') %>" class="logo-lottery" alt="Awarding funds from the National Lottery" />
-                <ul class="list-spaced">
+                <ul class="list-spaced m-t-none">
                     <li><address>1 Plough Place, London EC4A 1DE</address></li>
                     <li><a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></li>
                     <li>0345 4 10 20 30</li>
@@ -12,8 +17,8 @@
             </li>
 
             <li class="flex__fill">
-                <h4 class="footer__header t2">Quick links</h4>
-                <ul class="flex flex--top list-spaced">
+                <h4 class="footer__header t2 desktop-only">Quick links</h4>
+                <ul class="flex flex--wide-only flex--top list-spaced m-t-none">
                     <div class="flex__fill">
                         <li><a href="#">Freedom of Information</a></li>
                         <li><a href="#">Privacy Policy</a></li>

@@ -23,6 +23,16 @@ footer {
     width: auto;
 }
 
+.logo-lottery--mobile {
+    width: 100%;
+    background-color: #ffffff;
+    padding: $spacingUnit / 2 $spacingUnit;
+    img {
+        width: 270px;
+    }
+}
+
+
 .logo-lottery,
 .footer__header {
     margin-bottom: $spacingUnit;
