@@ -68,23 +68,19 @@
 
     @include mq('tablet') {
         .grid__item__inner {
-                margin-right: $spacingUnit / 2;
-                margin-left: 0;
-            }
-            &:nth-child(2n) {
-                    .grid__item__inner {
-                            margin-left: $spacingUnit /2;
-                            margin-right: 0;
-                        }
-                }
+            margin-right: $spacingUnit / 2;
+            margin-left: 0;
         }
-
-        .grid__item__inner {
-            height: 100%;
-            min-height: 260px;
-
-            @include mq('tablet') {
-                min-height: auto;
+        &:nth-child(2n) {
+            .grid__item__inner {
+                margin-left: $spacingUnit /2;
+                margin-right: 0;
             }
         }
+    }
+
+    .grid__item__inner {
+        height: 100%;
+        min-height: 270px;
+    }
 }
