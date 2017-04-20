@@ -6,7 +6,7 @@ const grants = require('../bin/data/grantnav.json');
 const logger = require('../logger');
 
 router.get('/', (req, res, next) => {
-    res.render('index', {});
+    res.render('pages/index', {});
 });
 
 router.get('/lookup', (req, res, next) => {
@@ -23,7 +23,7 @@ router.get('/lookup', (req, res, next) => {
             }
         });
         if (matches.length > 0) {
-            res.render('grants', {
+            res.render('pages/grants', {
                 grants: matches,
                 postcode: postcode
             });

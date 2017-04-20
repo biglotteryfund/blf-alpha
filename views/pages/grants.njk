@@ -1,18 +1,18 @@
-{% extends "layouts/main.njk" %}
+{% import "components/hero.njk" as hero %}
+{% extends "../layouts/main.njk" %}
 
 {% block title %}Grants near {{ postcode }} | {% endblock %}
 
 {% block content %}
 
-    <div class="hero hero--reading" role="complementary">
-        <section class="hero__inner">
-            <div class="inner accent--pink">
-                <div class="nudge-bottom">
-                    <h2 class="t1 m-b"><span>Funding near {{ postcode }}</span></h2>
-                </div>
-            </div>
-        </section>
-    </div>
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            <h2 class="t1 m-b"><span>Funding near {{ postcode }}</span></h2>
+        </div>
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
+
     <article role="main" class="accent--pink">
         <div class="inner p accent-b-t accent-bg">
             <h3 class="t3">We awarded {{ grants.length }} grants near you:</h3>

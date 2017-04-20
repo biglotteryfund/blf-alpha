@@ -1,20 +1,20 @@
-{% extends "layouts/main.njk" %}
+{% import "components/hero.njk" as hero %}
+
+{% extends "../layouts/main.njk" %}
 
 {% block content %}
 
-    <div class="hero hero--reading" role="complementary">
-        <section class="hero__inner">
-            <div class="inner accent--pink">
-                <div class="nudge-bottom">
-                    <h2 class="t1 m-b"><span>What did we fund near you?</span></h2>
-                    <form class="form-fund form-fund--inline" action="/lookup">
-                        <input type="text" placeholder="eg. B14 7EW" name="postcode">
-                        <input type="submit" class="btn btn--cta" value="Look up awards">
-                    </form>
-                </div>
-            </div>
-        </section>
-    </div>
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            <h2 class="t1 m-b"><span>What did we fund near you?</span></h2>
+            <form class="form-fund form-fund--inline" action="/lookup">
+                <input type="text" placeholder="eg. B14 7EW" name="postcode">
+                <input type="submit" class="btn btn--cta" value="Look up awards">
+            </form>
+        </div>
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
 
     <article role="main" class="accent--pink">
         <div class="inner p accent-b-t accent-bg">
@@ -70,7 +70,7 @@
         <div class="inner p accent-b-t accent-bg">
             <h3 class="t3">Where we fund projects</h3>
             <div class="map-wrapper">
-                {% include "includes/uk-svg.njk" %}
+                {% include "../includes/uk-svg.njk" %}
             </div>
 
             <!--<div class="map-info hidden" id="js-map-info">-->

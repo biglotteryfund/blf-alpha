@@ -1,18 +1,18 @@
+{% import "components/hero.njk" as hero %}
+
 {% extends "layouts/main.njk" %}
 
 {% block title %}Managing your funding | {% endblock %}
 
 {% block content %}
 
-    <div class="hero hero--managing-grants" role="complementary">
-        <section class="hero__inner">
-            <div class="inner accent--pink">
-                <div class="nudge-bottom">
-                    <h2 class="t1 m-b hero__header"><span>Congratulations on getting National Lottery funding!</span></h2>
-                </div>
-            </div>
-        </section>
-    </div>
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            <h2 class="t1 m-b hero__header"><span>Congratulations on getting National Lottery funding!</span></h2>
+        </div>
+    {% endset %}
+
+    {{ hero.header('managing-grants', heroContent, 'pink') }}
 
     <article role="main" class="nudge-up accent--pink">
         <div class="inner p accent-b-t accent-bg">
