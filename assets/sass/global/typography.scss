@@ -27,14 +27,9 @@ a {
 
 // blocked-out colourised background
 .t1 {
-    $fontSize: 30px;
     font-weight: 600;
     max-width: 440px; // @TODO
-
-    //@include mq('tablet') {
-        font-size: $fontSize;
-        line-height: relative-line-height($fontSize, 40px);
-    //}
+    @include font-and-leading(30px, 50px);
 
     span {
         background-color: #eeeeee;
@@ -45,9 +40,8 @@ a {
     }
 
     &.minor {
-        font-size: 18px;
-        line-height: 1.8;
         max-width: 190px; // @TODO
+        @include font-and-leading(18px, 33px);
     }
 
     a {
