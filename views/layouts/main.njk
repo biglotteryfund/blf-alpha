@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}Big Lottery Fund | Alpha v0.6</title>
+        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
+        <!-- deploy {{ deployId }} (build #{{ buildNumber }}) -->
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=yes'>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700" rel="stylesheet">
+        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    </head>
+    <body>
+        {% include "../includes/header.njk" %}
+
+        {% block content %}{% endblock %}
+
+        {% include "../includes/footer.njk" %}
+
+        <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"></script>
+
+    </body>
+</html>

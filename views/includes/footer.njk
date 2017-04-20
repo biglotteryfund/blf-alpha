@@ -1,14 +1,14 @@
 <footer role="contentinfo">
 
     <div class="logo-lottery--mobile">
-        <img src="<%= locals.getCachebustedPath('images/lottery--white.png') %>" class="mobile-only" alt="Awarding funds from the National Lottery" />
+        <img src="{{ 'images/lottery--white.png' | getCachebustedPath }}" class="mobile-only" alt="Awarding funds from the National Lottery" />
     </div>
 
     <div class="inner footer__inner m-t-none">
         <ul class="flex flex--top flex--wide-only m-t-none">
 
             <li class="flex__fill desktop-only">
-                <img src="<%= locals.getCachebustedPath('images/lottery.png') %>" class="logo-lottery" alt="Awarding funds from the National Lottery" />
+                <img src="{{ 'images/lottery.png' | getCachebustedPath }}" class="logo-lottery" alt="Awarding funds from the National Lottery" />
                 <ul class="list-spaced m-t-none">
                     <li><address>1 Plough Place, London EC4A 1DE</address></li>
                     <li><a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></li>
@@ -36,8 +36,3 @@
         </ul>
     </div>
 </footer>
-
-<script src="<%= locals.getCachebustedPath('javascripts/app.js') %>"></script>
-
-</body>
-</html>

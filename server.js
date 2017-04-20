@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const helmet = require('helmet');
+const nunjucks = require('nunjucks');
 // const favicon = require('serve-favicon');
 // const csrf = require('csurf');
 
@@ -19,8 +20,21 @@ app.use('/', require('./routes/index'));
 app.use('/funding', require('./routes/funding'));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'njk');
+
+const appEnv = process.env.NODE_ENV || 'DEV';
+
+const templateEnv = nunjucks.configure('views', {
+    autoescape: true,
+    express: app,
+    noCache: (appEnv.toLowerCase() === 'dev'),
+    watch: (appEnv.toLowerCase() === 'dev')
+});
+
+// register template filters first
+templateEnv.addFilter('getCachebustedPath', function(str) {
+    return assets.getCachebustedPath(str);
+});
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
@@ -47,7 +61,6 @@ app.use(helmet({
 }));
 
 // configure static files
-app.locals.getCachebustedPath = assets.getCachebustedPath;
 app.use('/' + assets.assetVirtualDir, express.static(path.join(__dirname, 'public'), {
     maxAge: config.get('staticExpiration')
 }));
