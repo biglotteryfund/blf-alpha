@@ -100,3 +100,9 @@
     color: palette('soft-grey');
     margin-right: $spacingUnit / 4;
 }
+
+.hero__header {
+    @include mq('tablet') {
+        margin-left: $spacingUnit / 2;
+    }
+}
