@@ -14,6 +14,6 @@ fi
 
 # configure nginx (would be nice to conditionally restart here)
 # do we need to do this every deploy?
-rm /etc/nginx/sites-enabled/default
+rm -f /etc/nginx/sites-enabled/default
 cp /var/www/biglotteryfund/config/server.conf /etc/nginx/sites-enabled
 service nginx restart
