@@ -1,3 +1,4 @@
 {
-    "staticExpiration": 1
+    "staticExpiration": 1,
+    "viewCacheExpiration": 300
 }

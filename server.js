@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
+const cacheControl = require('express-cache-controller');
 // const favicon = require('serve-favicon');
 // const csrf = require('csurf');
 
@@ -15,20 +16,30 @@ const nunjucks = require('nunjucks');
 const assets = require('./assets');
 const app = express();
 
+// get env settings
+const appEnv = process.env.NODE_ENV || 'DEV';
+const IS_DEV = appEnv.toLowerCase() === 'dev';
+
+// cache views
+app.use(cacheControl({
+    maxAge: (IS_DEV) ? 0 : config.get('viewCacheExpiration')
+}));
+
 // route binder
 app.use('/', require('./routes/index'));
 app.use('/funding', require('./routes/funding'));
 
+
 // view engine setup
 app.set('view engine', 'njk');
 
-const appEnv = process.env.NODE_ENV || 'DEV';
+
 
 const templateEnv = nunjucks.configure('views', {
     autoescape: true,
     express: app,
-    noCache: (appEnv.toLowerCase() === 'dev'),
-    watch: (appEnv.toLowerCase() === 'dev')
+    noCache: IS_DEV,
+    watch: IS_DEV
 });
 
 // register template filters first
