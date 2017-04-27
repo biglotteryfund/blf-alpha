@@ -9,11 +9,22 @@ then
     sed -i "s|$DEPLOY_PLACEHOLDER|$DEPLOYMENT_ID|g" $deploy_file
 fi
 
-# TODO - specify NODE_ENV based on deploy group ID
-# eg. if we're deploying to a test env, set to test, else production
+# specify NODE_ENV based on deploy group ID
+nginx_config=/var/www/biglotteryfund/config/server.conf
+APP_ENV_PLACEHOLDER="APP_ENV"
+APP_ENV="dev"
 
-# configure nginx (would be nice to conditionally restart here)
-# do we need to do this every deploy?
+if [ "$APPLICATION_NAME" == "BLF_Test" ]
+then
+    APP_ENV="test"
+elif [ "$APPLICATION_NAME" == "BLF_Live" ]
+then
+    APP_ENV="production"
+fi
+
+sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $nginx_config
+
+# configure nginx
 rm -f /etc/nginx/sites-enabled/default
-cp /var/www/biglotteryfund/config/server.conf /etc/nginx/sites-enabled
+cp $nginx_config /etc/nginx/sites-enabled
 service nginx restart

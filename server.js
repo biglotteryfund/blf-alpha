@@ -29,11 +29,8 @@ app.use(cacheControl({
 app.use('/', require('./routes/index'));
 app.use('/funding', require('./routes/funding'));
 
-
 // view engine setup
 app.set('view engine', 'njk');
-
-
 
 const templateEnv = nunjucks.configure('views', {
     autoescape: true,
@@ -85,6 +82,18 @@ try {
 }
 app.locals.deployId = (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV';
 app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV';
+
+// serve a status page
+app.get('/status', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send({
+        'App environment': process.env.NODE_ENV,
+        'Deploy ID': app.locals.deployId,
+        'Build number': app.locals.buildNumber,
+        'Server start date': new Date()
+    });
+});
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
