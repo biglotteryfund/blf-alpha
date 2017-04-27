@@ -19,6 +19,7 @@ const app = express();
 // get env settings
 const appEnv = process.env.NODE_ENV || 'DEV';
 const IS_DEV = appEnv.toLowerCase() === 'dev';
+const LAUNCH_DATE = new Date();
 
 // cache views
 app.use(cacheControl({
@@ -90,7 +91,7 @@ app.get('/status', (req, res, next) => {
         'App environment': process.env.NODE_ENV,
         'Deploy ID': app.locals.deployId,
         'Build number': app.locals.buildNumber,
-        'Server start date': new Date()
+        'Server start date': LAUNCH_DATE
     });
 });
 
