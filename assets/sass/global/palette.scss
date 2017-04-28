@@ -3,6 +3,8 @@ $palette: (
     "blue-bg": #e5f3fe,
     "blue-text": #365cc9,
 
+    "turquoise": #00adef,
+
     "pink": #e92076,
     "pink-bg": #fef5f9,
     "pink-text": #e92076,
@@ -18,7 +20,8 @@ $palette: (
 
     "soft-grey": #cacaca,
     "charcoal": #333333,
-    "off-white": #e9e9e9
+    "off-white": #e9e9e9,
+    "pale": #fdfefe,
 );
 
 // which of the above colours should have accents generated?
@@ -28,12 +31,16 @@ $themes: (
         'background': palette('pink-bg')
     ),
     'pink-mid': (
-        'foreground': palette('pink'), // @TODO is this right?
+        'foreground': palette('pink'),
         'background': palette('pink-mid-bg')
     ),
     'blue': (
         'foreground': palette('blue'),
-        'background': palette('blue-bg')
+        'background': palette('pale')
+    ),
+    'turquoise': (
+        'foreground': palette('turquoise'),
+        'background': palette('pale')
     ),
     'green': (
         'foreground': palette('green'),

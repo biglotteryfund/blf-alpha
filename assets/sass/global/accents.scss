@@ -2,12 +2,20 @@
     $fg: map-get($data, 'foreground');
     $bg: map-get($data, 'background');
 
+    // @TODO - accents should always be chained
+    // eg accent--$foo accent-bg
     .accent--#{$name} {
 
         // border on top of elements
         &.accent-b-t,
         .accent-b-t {
-            border-top: 3px solid $fg;
+            border-top: 4px solid $fg;
+        }
+
+        // thicker border
+        &.accent-b-t-l,
+        .accent-b-t-l {
+            border-top: 6px solid $fg;
         }
 
         // border below elements *small* (eg. fixed width)
