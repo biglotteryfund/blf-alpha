@@ -16,8 +16,9 @@
     display: none;
 }
 
-@include mq('tablet') {
-    .nudge-up {
+.nudge-up {
+    margin-top: 0;
+    @include mq('tablet') {
         margin-top: -$nudgeAmount;
         position: relative;
         z-index: 10;
