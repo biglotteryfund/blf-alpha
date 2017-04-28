@@ -9,6 +9,8 @@ $gutters: (
     "desktop": 20%,
 );
 
+$maxInnerWidth: 950px;
+
 // logo
 $logo: (
     // actual dimensions
@@ -17,13 +19,13 @@ $logo: (
     "cropPoint": 103px, // where the split starts
     // desired dimensions
     "mobileHeight": 90px,
-    "desktopHeight": 105px,
+    "desktopHeight": 95px,
 );
 
 // globals
 $spacingUnit: 20px;
 $borderRadius: 30px;
-$nudgeAmount: $spacingUnit * 2.5;
+$nudgeAmount: $spacingUnit * 1.25;
 
 // forms
 $baseFormElementFontSize: 16px;

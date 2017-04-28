@@ -18,7 +18,7 @@
     }
 
     @media screen and (min-width: 1200px) {
-        width: 900px;
+        width: $maxInnerWidth;
         margin-left: auto;
         margin-right: auto;
         height: 100%;
@@ -110,7 +110,7 @@
 
     .grid__item__title {
         position: absolute;
-        left: $spacingUnit * 2;
-        bottom: $spacingUnit * 2;
+        left: $spacingUnit * 1.5;
+        bottom: $spacingUnit * 1.5;
     }
 }

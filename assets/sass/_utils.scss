@@ -30,7 +30,7 @@
     bottom: $spacingUnit / 2;
 
     @include mq('tablet') {
-        bottom: $nudgeAmount;
+        bottom: $nudgeAmount + 30px;
     }
 }
 

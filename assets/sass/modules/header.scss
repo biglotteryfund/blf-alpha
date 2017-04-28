@@ -9,7 +9,7 @@
     position: relative;
     padding: 15px 0 20px 0;
     @include mq('tablet') {
-        padding: 20px 0 25px 0;
+        padding: 30px 0 30px 0;
     }
 }
 
@@ -60,7 +60,7 @@ nav {
     margin-bottom: $spacingUnit;
 
     @include mq('tablet') {
-        margin-left: $spacingUnit * 2;
+        margin-left: $spacingUnit * 2.5;
         margin-bottom: 0;
     }
 
@@ -69,9 +69,6 @@ nav {
         margin-top: 0;
 
         &.nav__link {
-            border-right: 2px solid palette('soft-grey');
-            padding-right: $spacingUnit / 2;
-            margin-right: $spacingUnit / 2;
 
             &.selected,
             &.selected a {
@@ -90,14 +87,19 @@ nav {
                 }
             }
 
-            @include mq('tablet') {
-                padding-right: $spacingUnit;
-                margin-right: $spacingUnit;
+            &:after {
+                content: '';
+                border-right: 2px solid palette('soft-grey');
+                border-radius: $borderRadius;
+                margin-left: $spacingUnit * 1.25;
+                margin-right: $spacingUnit * 1.25;
+                vertical-align: middle;
+                height: 15px;
+                display: inline-block;
             }
 
-            &.nav__link--last {
-                padding-right: 0;
-                border-right: none;
+            &.nav__link--last:after {
+                display: none;
             }
         }
 
@@ -125,16 +127,15 @@ nav {
 }
 
 .form-search__icon {
-    font-size: 23px;
+    font-size: 21px;
     line-height: 0;
     vertical-align: middle;
     color: palette('soft-grey');
-    margin-right: $spacingUnit / 4;
 }
 
 .hero__header {
     @include mq('tablet') {
-        margin-left: $spacingUnit / 2;
+        margin-left: $spacingUnit;
     }
 }
 
