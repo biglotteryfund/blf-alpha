@@ -4,6 +4,10 @@
     transform: translateY(-50%);
 }
 
+.pos-rel {
+    position: relative;
+}
+
 @include mq('tablet', 'max') {
     .desktop-only { display: none !important; }
 }

@@ -10,6 +10,12 @@
     // eg accent--$foo accent-bg
     .accent--#{$name} {
 
+        // text color
+        &.accent-text,
+        .accent-text {
+            color: $fg;
+        }
+
         // border on top of elements
         &.accent-b-t,
         .accent-b-t {

@@ -1,0 +1,105 @@
+.stats-holder {
+    position: relative;
+}
+
+.stats-btn {
+    position: absolute;
+    top: 50%;
+    color: palette('blue');
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    left: 0;
+
+    @include mq('tablet') {
+        left: -$spacingUnit*3;
+    }
+
+    @include on-interact {
+        color: lighten(palette('blue'), 20%);
+    }
+
+    &.stats-btn--next {
+        left: auto;
+        right: 0;
+        @include mq('tablet') {
+            right: -$spacingUnit*3;
+        }
+    }
+}
+
+.stats {
+
+    li {
+        margin: 0;
+    }
+
+    dl {
+        text-align: center;
+    }
+
+    dt, dd {
+        @include font-body();
+        margin: 0;
+    }
+
+    dt {
+        color: palette('pink');
+        font-size: 42px;
+        line-height: 1;
+        font-weight: 600;
+        max-width: 150px;
+        margin: 10px auto;
+    }
+
+    dd {
+        color: palette('charcoal');
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        max-width: 150px;
+        margin: auto;
+    }
+}
+
+.grant-list {
+    margin: $spacingUnit 0;
+
+    li {
+        margin: 0 0 $spacingUnit 0;
+        text-align: left;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: $spacingUnit;
+    }
+}
+
+.map-wrapper {
+    width: 50%;
+    margin: auto;
+
+    svg {
+        path:hover {
+            fill: palette('pink');
+            cursor: pointer;
+        }
+    }
+}
+
+.map-info {
+
+    @include mq('tablet') {
+        width: 160px;
+        position: absolute;
+        z-index: 10;
+        right: -$spacingUnit;
+        top: 20px;
+    }
+
+    @include mq('desktop') {
+        width: 250px;
+        top: $spacingUnit * 4;
+        right: -$spacingUnit * 4;
+    }
+
+}
