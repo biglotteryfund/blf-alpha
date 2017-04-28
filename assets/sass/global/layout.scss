@@ -83,6 +83,7 @@
 
 }
 
+
 .grid__item {
     margin-bottom: $spacingUnit;
 
@@ -100,7 +101,16 @@
     }
 
     .grid__item__inner {
-        height: 100%;
-        min-height: 270px;
+        position: relative;
+    }
+
+    .grid__item__poster {
+        display: block;
+    }
+
+    .grid__item__title {
+        position: absolute;
+        left: $spacingUnit * 2;
+        bottom: $spacingUnit * 2;
     }
 }
