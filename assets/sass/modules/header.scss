@@ -7,6 +7,7 @@
 
 .header__inner {
     position: relative;
+    padding: 15px 0 20px 0;
     @include mq('tablet') {
         padding: 20px 0 25px 0;
     }
@@ -139,8 +140,8 @@ nav {
 
 .header__hamburger {
     position: absolute;
-    top: $spacingUnit / 2;
-    right: $spacingUnit / 2;
+    top: $spacingUnit;
+    right: 0;
     font-size: 50px;
     margin-top: 0 !important;
     color: palette('blue');
