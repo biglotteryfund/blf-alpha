@@ -9,6 +9,7 @@ const fs = require('fs');
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
 const cacheControl = require('express-cache-controller');
+const moment = require('moment');
 // const favicon = require('serve-favicon');
 // const csrf = require('csurf');
 
@@ -19,7 +20,7 @@ const app = express();
 // get env settings
 const appEnv = process.env.NODE_ENV || 'DEV';
 const IS_DEV = appEnv.toLowerCase() === 'dev';
-const LAUNCH_DATE = new Date();
+const LAUNCH_DATE = moment();
 
 // cache views
 app.use(cacheControl({
@@ -86,12 +87,15 @@ app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploy
 
 // serve a status page
 app.get('/status', (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader('Content-Type', 'application/json');
     res.send({
-        'App environment': process.env.NODE_ENV,
-        'Deploy ID': app.locals.deployId,
-        'Build number': app.locals.buildNumber,
-        'Server start date': LAUNCH_DATE
+        'APP_ENV': process.env.NODE_ENV,
+        'DEPLOY_ID': app.locals.deployId,
+        'BUILD_NUMBER': app.locals.buildNumber,
+        'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
+        'UPTIME': LAUNCH_DATE.toNow(true)
     });
 });
 
