@@ -1,3 +1,7 @@
+.bg-plain {
+    background-color: #ffffff;
+}
+
 @each $name, $data in $themes {
     $fg: map-get($data, 'foreground');
     $bg: map-get($data, 'background');

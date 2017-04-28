@@ -13,7 +13,7 @@
     input[type="text"] {
         background-color: #ffffff;
         color: #000000;
-        border: 2px solid #ffffff;
+        border: 1px solid palette('soft-grey');
         border-radius: $borderRadius;
         font-size: $baseFormElementFontSize;
         margin-right: $spacingUnit;

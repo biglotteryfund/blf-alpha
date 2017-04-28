@@ -5,7 +5,7 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
+        <div class="nudge-bottom accent--green">
             <h2 class="t1 m-b"><span>What did we fund near you?</span></h2>
             <form class="form-fund form-fund--inline" action="/lookup">
                 <input type="text" aria-label="Enter a postcode" placeholder="eg. B14 7EW" name="postcode">
@@ -14,49 +14,52 @@
         </div>
     {% endset %}
 
-    {{ hero.header('reading', heroContent, 'pink') }}
+    {{ hero.header('data', heroContent, 'pink') }}
 
-    <article role="main" class="accent--pink">
-        <div class="inner p accent-b-t accent-bg">
+    <article role="main" class="nudge-up">
+        <div class="inner p accent--pink accent-b-t bg-plain stats-holder">
             <h3 class="t3">Our year in numbers</h3>
 
-            <ul class="stats">
-                <li class="stats__icon stats__icon--hand">
+            <button class="stats-btn stats-btn--prev js-carousel-prev"><i class="ion-arrow-left-b"></i></button>
+            <button class="stats-btn stats-btn--next js-carousel-next"><i class="ion-arrow-right-b"></i></button>
+
+            <ul class="stats js-carousel">
+                <li class="stats__icon">
                     <dl>
                         <dt>11,779</dt>
-                        <dd>Number of awards made</dd>
+                        <dd>Awards made</dd>
                     </dl>
                 </li>
 
-                <li class="stats__icon stats__icon--bank">
+                <li class="stats__icon">
                     <dl>
                         <dt>91.3%</dt>
                         <dd>Percentage of awards to the voluntary &amp; community sectors</dd>
                     </dl>
                 </li>
 
-                <li class="stats__icon stats__icon--hand">
+                <li class="stats__icon">
                     <dl>
                         <dt>89.1%</dt>
                         <dd>Percentage of awards for less than &pound;10,000</dd>
                     </dl>
                 </li>
 
-                <li class="stats__icon stats__icon--bank">
+                <li class="stats__icon">
                     <dl>
-                        <dt>&pound;650 million</dt>
                         <dd>Total grantmaking</dd>
+                        <dt>&pound;650 million</dt>
                     </dl>
                 </li>
 
-                <li class="stats__icon stats__icon--hand">
+                <li class="stats__icon">
                     <dl>
                         <dt>6.6%</dt>
                         <dd>Total operating costs</dd>
                     </dl>
                 </li>
 
-                <li class="stats__icon stats__icon--bank">
+                <li class="stats__icon">
                     <dl>
                         <dt>&pound;276</dt>
                         <dd>Smallest award made through the Communities &amp; Families Fund</dd>
@@ -67,7 +70,7 @@
     </article>
 
 
-    <article role="main" class="accent--blue">
+    <article role="main" class="accent--turquoise">
         <div class="inner p accent-b-t accent-bg">
             <h3 class="t3">Where we fund projects</h3>
             <div class="map-wrapper">
