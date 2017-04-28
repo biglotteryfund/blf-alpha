@@ -3,12 +3,12 @@ $heroes: (
         'default': (
             'width': 640,
             'height': 365,
-            'filename': '../images/hero-reading--mobile.jpg'
+            'filename': '../images/hero/reading--mobile.jpg'
         ),
         'tablet': (
             'width': 1200,
             'height': 386,
-            'filename': '../images/hero-reading.jpg'
+            'filename': '../images/hero/reading--desktop.jpg'
         ),
     ),
     'managing-grants': (
@@ -21,6 +21,18 @@ $heroes: (
             'width': 1367,
             'height': 500,
             'filename': '../images/hero/managing-funding--desktop.jpg'
+        ),
+    ),
+    'data': (
+        'default': (
+            'width': 644,
+            'height': 460,
+            'filename': '../images/hero/data--mobile.jpg'
+        ),
+        'tablet': (
+            'width': 1367,
+            'height': 500,
+            'filename': '../images/hero/data--desktop.jpg'
         ),
     )
 );
