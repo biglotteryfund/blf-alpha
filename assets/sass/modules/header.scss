@@ -13,17 +13,35 @@
 }
 
 .logo {
-    $widthToUse: ($logoActualWidth / $logoActualHeight) * $logoDesiredHeight;
-    height: $logoDesiredHeight;
-    width: $widthToUse;
+    // actual dimensions
+    $logoWidth: map-get($logo, 'width');
+    $logoHeight: map-get($logo, 'height');
+
+    // calculate mobile width based off desired height
+    $mobileHeight: map-get($logo, 'mobileHeight');
+    $mobileWidth: ($logoWidth / $logoHeight) * $mobileHeight;
+
+    // calculate desktop width based off desired height
+    $desktopHeight: map-get($logo, 'desktopHeight');
+    $desktopWidth: ($logoWidth / $logoHeight) * $desktopHeight;
+
     background-image: url(../images/logo.png);
     background-repeat: no-repeat;
-    background-size: auto $logoDesiredHeight;
     background-position: left center;
     text-indent: -1000em;
 
+    // mobile dimensions
+    height: $mobileHeight;
+    width: $mobileWidth;
+    background-size: auto $mobileHeight;
+
     @include mq('tablet') {
-        margin-left: -($widthToUse / $logoActualWidth) * $logoCropPoint;
+        // desktop dimensions
+        height: $desktopHeight;
+        width: $desktopWidth;
+        background-size: auto $desktopHeight;
+        // nudge outside margins by a relative measure of the crop point
+        margin-left: -($desktopWidth / $logoWidth) * map-get($logo, 'cropPoint');
     }
 }
 
@@ -87,15 +105,9 @@ nav {
 
 .nav__search {
     margin-left: auto; // move to right
-    position: absolute;
-    top: $logoDesiredHeight / 3;
-    right: 0;
 
     @include mq('tablet') {
         margin-right: -80px; // completely arbitrary
-        position: relative;
-        top: auto;
-        right: auto;
     }
 
     input {
@@ -123,4 +135,13 @@ nav {
     @include mq('tablet') {
         margin-left: $spacingUnit / 2;
     }
+}
+
+.header__hamburger {
+    position: absolute;
+    top: $spacingUnit / 2;
+    right: $spacingUnit / 2;
+    font-size: 50px;
+    margin-top: 0 !important;
+    color: palette('blue');
 }

@@ -10,10 +10,15 @@ $gutters: (
 );
 
 // logo
-$logoActualHeight: 104px;
-$logoActualWidth: 206px;
-$logoCropPoint: 103px; // negative margin
-$logoDesiredHeight: 105px;
+$logo: (
+    // actual dimensions
+    "width": 206px,
+    "height": 104px,
+    "cropPoint": 103px, // where the split starts
+    // desired dimensions
+    "mobileHeight": 90px,
+    "desktopHeight": 105px,
+);
 
 // globals
 $spacingUnit: 20px;
