@@ -1,4 +1,6 @@
 {% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
 {% extends "../layouts/main.njk" %}
 
 {% block title %}Grants near {{ postcode }} | {% endblock %}
@@ -7,7 +9,8 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            <h2 class="t1 m-b"><span>Funding near {{ postcode }}</span></h2>
+            {% set title = 'Funding near ' + postcode %}
+            {{ headers.blockheader('h2', title, 30, 'm-b') }}
         </div>
     {% endset %}
 

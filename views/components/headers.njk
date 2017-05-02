@@ -1,0 +1,8 @@
+{% macro blockheader(tag, text, charsToWrap, additionalClasses, link) %}
+    {% set text = text | splitByCharLength(charsToWrap) %}
+    <{{ tag }} class="t1{% if additionalClasses %} {{ additionalClasses }}{% endif %}">{% if link %}<a href="{{ link }}">{% endif %}
+        {%- for line in text %}
+            <span>{{ line | safe}} </span>
+        {%- endfor %}
+    {% if link %}</a>{% endif %}</{{ tag }}>
+{% endmacro %}

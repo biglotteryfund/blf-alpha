@@ -112,5 +112,12 @@
         position: absolute;
         left: $spacingUnit * 1.5;
         bottom: $spacingUnit * 1.5;
+
+        // cribbed from ionicons
+        span:last-child:after {
+            content: "\f10a";
+            font-family: "Ionicons";
+            margin-left: 5px;
+        }
     }
 }

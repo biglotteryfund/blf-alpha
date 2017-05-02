@@ -1,4 +1,5 @@
 {% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
 
 {% extends "../layouts/main.njk" %}
 
@@ -6,7 +7,7 @@
 
     {% set heroContent %}
         <div class="nudge-bottom accent--green">
-            <h2 class="t1 m-b"><span>What did we fund near you?</span></h2>
+            {{ headers.blockheader('h2', 'What did we fund near you?', 30, 'm-b') }}
             <form class="form-fund form-fund--inline" action="/lookup">
                 <input type="text" aria-label="Enter a postcode" placeholder="eg. B14 7EW" name="postcode">
                 <input type="submit" class="btn btn--cta" value="Look up awards">
