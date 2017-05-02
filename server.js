@@ -1,106 +1,19 @@
 'use strict';
 const express = require('express');
-const path = require('path');
-const config = require('config');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const helmet = require('helmet');
-const nunjucks = require('nunjucks');
-const cacheControl = require('express-cache-controller');
-const moment = require('moment');
-// const favicon = require('serve-favicon');
-// const csrf = require('csurf');
-
-// local deps
-const assets = require('./assets');
 const app = express();
 
-// get env settings
-const appEnv = process.env.NODE_ENV || 'DEV';
-const IS_DEV = appEnv.toLowerCase() === 'dev';
-const LAUNCH_DATE = moment();
-
-// cache views
-app.use(cacheControl({
-    maxAge: (IS_DEV) ? 0 : config.get('viewCacheExpiration')
-}));
+// configure boilerplate
+require('./boilerplate/globals')(app);
+require('./boilerplate/security')(app);
+require('./boilerplate/viewEngine')(app);
+require('./boilerplate/static')(app);
+require('./boilerplate/cache')(app);
+require('./boilerplate/middleware')(app);
 
 // route binder
 app.use('/', require('./routes/index'));
+app.use('/status', require('./routes/status'));
 app.use('/funding', require('./routes/funding'));
-
-// view engine setup
-app.set('view engine', 'njk');
-
-const templateEnv = nunjucks.configure('views', {
-    autoescape: true,
-    express: app,
-    noCache: IS_DEV,
-    watch: IS_DEV
-});
-
-// register template filters first
-templateEnv.addFilter('getCachebustedPath', function(str) {
-    return assets.getCachebustedPath(str);
-});
-
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-
-// configure security
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com'],
-            styleSrc: ["'self'", 'code.ionicframework.com', 'fonts.googleapis.com'],
-            connectSrc: ['ws://127.0.0.1:35729/livereload'] // make dev-only?
-        }
-    },
-    dnsPrefetchControl: {
-        allow: true
-    },
-    frameguard: {
-        action: 'sameorigin'
-    },
-}));
-
-// configure static files
-app.use('/' + assets.assetVirtualDir, express.static(path.join(__dirname, 'public'), {
-    maxAge: config.get('staticExpiration')
-}));
-
-// extract deploy ID from AWS (where provided)
-let deploymentData;
-try {
-    deploymentData = JSON.parse(fs.readFileSync(__dirname + '/config/deploy.json', 'utf8'));
-} catch (e) {
-    console.info('deploy.json not found -- are you in DEV mode?');
-}
-app.locals.deployId = (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV';
-app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV';
-
-// serve a status page
-app.get('/status', (req, res, next) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader('Content-Type', 'application/json');
-    res.send({
-        'APP_ENV': process.env.NODE_ENV,
-        'DEPLOY_ID': app.locals.deployId,
-        'BUILD_NUMBER': app.locals.buildNumber,
-        'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
-        'UPTIME': LAUNCH_DATE.toNow(true)
-    });
-});
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
