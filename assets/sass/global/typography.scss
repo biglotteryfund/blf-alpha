@@ -28,8 +28,8 @@ a {
 // blocked-out colourised background
 .t1 {
     font-weight: 600;
-    max-width: 440px; // @TODO
-    @include font-and-leading(30px, 50px);
+    max-width: 440px; // @TODO make factor of font size?
+    @include font-and-leading(28px, 50px);
 
     span {
         background-color: #eeeeee;
@@ -40,7 +40,7 @@ a {
     }
 
     &.minor {
-        max-width: 190px; // @TODO
+        max-width: 200px; // @TODO make factor of font size?
         @include font-and-leading(18px, 33px);
     }
 

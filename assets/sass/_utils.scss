@@ -31,7 +31,7 @@
 
 .nudge-bottom {
     position: absolute;
-    bottom: $spacingUnit / 2;
+    bottom: $spacingUnit;
 
     @include mq('tablet') {
         bottom: $nudgeAmount + 30px;

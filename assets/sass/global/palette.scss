@@ -36,7 +36,8 @@ $themes: (
     ),
     'blue': (
         'foreground': palette('blue'),
-        'background': palette('pale')
+        'background': palette('pale'),
+        'text': palette('blue-text'),
     ),
     'turquoise': (
         'foreground': palette('turquoise'),

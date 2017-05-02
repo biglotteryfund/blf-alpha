@@ -2,6 +2,10 @@
     background-color: #ffffff;
 }
 
+.bordered {
+    border: 1px solid rgba(palette('soft-grey'), 0.5);
+}
+
 @each $name, $data in $themes {
     $fg: map-get($data, 'foreground');
     $bg: map-get($data, 'background');
@@ -66,6 +70,9 @@
 
         &.t3,
         .t3 {
+            @if map-has-key($data, 'text') {
+                $fg: map-get($data, 'text');
+            }
             color: $fg;
         }
     }
