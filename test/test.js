@@ -12,7 +12,7 @@ describe('Express application', function () {
     const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
 
     beforeEach(function () {
-        process.env.PORT = 8080;
+        process.env.PORT = 8090;
         server = require('../bin/www');
     });
 
