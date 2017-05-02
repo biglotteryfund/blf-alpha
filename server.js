@@ -87,6 +87,8 @@ app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploy
 
 // serve a status page
 app.get('/status', (req, res, next) => {
+    // don't cache this page!
+    res.cacheControl = { maxAge: 0 };
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader('Content-Type', 'application/json');
