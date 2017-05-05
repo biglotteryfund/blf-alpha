@@ -8,7 +8,7 @@ module.exports = function (app) {
         contentSecurityPolicy: {
             directives: {
                 defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com'],
-                styleSrc: ["'self'", 'code.ionicframework.com', 'fonts.googleapis.com'],
+                styleSrc: ["'self'", "'unsafe-inline'", 'code.ionicframework.com', 'fonts.googleapis.com'],
                 connectSrc: ['ws://127.0.0.1:35729/livereload'] // make dev-only?
             }
         },
