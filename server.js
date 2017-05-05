@@ -15,21 +15,15 @@ app.use('/status', require('./routes/status'));
 
 const LANG_URL_WELSH = '/welsh';
 
-// middleware to set locale based on URL path
-app.use(function(req, res, next) {
-    const cymru = /^\/welsh\//;
-    const IS_WELSH = (req.url.match(cymru) !== null);
-    return next();
-});
-
+// aka welshify
 // create an array of paths: default (english) and welsh variant
-const welshify = function (mountPath) {
+const cymreigio = function (mountPath) {
     return [mountPath, LANG_URL_WELSH + mountPath];
 };
 
 // router binder
 app.use('/', require('./routes/index'));
-app.use(welshify('/funding'), require('./routes/funding'));
+app.use(cymreigio('/funding'), require('./routes/funding'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
