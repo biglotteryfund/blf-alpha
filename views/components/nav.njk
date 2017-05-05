@@ -1,0 +1,14 @@
+{% macro navlinks(itemClass) %}
+    <li{% if itemClass %} class="{{ itemClass }}"{% endif %}><a href="#">Before you apply</a></li>
+    <li{% if itemClass %} class="{{ itemClass }}"{% endif %}><a href="#">Apply</a></li>
+    <li{% if itemClass %} class="{{ itemClass }} {{ itemClass }}--last"{% endif %}><a href="#">About</a></li>
+    <li class="nav__search">
+        <form class="form-search" role="search" action="/search">
+            <input type="hidden" name="lang" value="en-GB">
+            <input type="hidden" name="type" value="All">
+            <input type="hidden" name="order" value="r">
+            <i class="form-search__icon ion-search"></i>
+            <input aria-label="Search this website" type="text" placeholder="Search" name="q">
+        </form>
+    </li>
+{% endmacro %}
