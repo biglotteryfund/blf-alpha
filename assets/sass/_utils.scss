@@ -74,7 +74,7 @@
     }
 
     .m-#{map-get($dirData, 'suffix')}-none {
-        margin-#{$dir}: 0
+        margin-#{$dir}: 0 !important;;
     }
 
     /* padding */
@@ -85,7 +85,7 @@
     }
 
     .p-#{map-get($dirData, 'suffix')}-none {
-        padding-#{$dir}: 0
+        padding-#{$dir}: 0;
     }
 
 }

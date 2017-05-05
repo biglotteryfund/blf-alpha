@@ -54,6 +54,68 @@ nav {
     }
 }
 
+.nav--offscreen {
+    background-color: palette('blue-text');
+    display: block;
+    position: fixed;
+    z-index: 100;
+    right: -100%;
+    transition: all 0.3s ease-in-out;
+    top: 0;
+    height: 100%;
+    margin-top: 0;
+    width: $offscreenNavWidth;
+
+    li {
+        margin-top: 0;
+        border-bottom: 1px solid darken(palette('blue-text'), 5%);
+
+        &:hover {
+            background-color: darken(palette('blue-text'), 10%);
+        }
+
+        a,
+        &.nav__search {
+            padding: $spacingUnit;
+        }
+
+        &.nav__search {
+            input {
+                background-color: transparent;
+                color: #ffffff;
+                @include input-placeholder {
+                    color: #ffffff;
+                }
+            }
+        }
+
+        .form-search__icon {
+            margin-right: $spacingUnit / 2;
+        }
+
+        a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+        }
+    }
+
+}
+
+// @TODO put this somewhere better
+@include mq('tablet', 'max') {
+    .show-off-canvas {
+
+        .nav--offscreen {
+            right: 0;
+        }
+
+        main {
+            transform: translateX(-$offscreenNavWidth);
+        }
+    }
+}
+
 // links themselves
 .nav {
     margin-top: 0;
@@ -146,4 +208,5 @@ nav {
     font-size: 50px;
     margin-top: 0 !important;
     color: palette('blue');
+    cursor: pointer;
 }
