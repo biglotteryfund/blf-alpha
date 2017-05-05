@@ -1,13 +1,16 @@
 'use strict';
 const carousel = require('./modules/carousel');
+const appConfig = require('../../config/sass.json');
 
-// @TODO - read breakpoint value here from config?
+// read tablet breakpoint from CSS config
+const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
+// configure carousel - screen width: num items
+let carouselBreakpointConfig = { 1: 1 };
+carouselBreakpointConfig[tabletBreakpoint] = 3;
+
 carousel.init({
     selector: '.js-carousel',
-    perPage: {
-        1: 1,
-        760: 3
-    },
+    perPage: carouselBreakpointConfig,
     nextSelector: '.js-carousel-next',
     prevSelector: '.js-carousel-prev',
 });

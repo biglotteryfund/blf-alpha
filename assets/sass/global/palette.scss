@@ -5,6 +5,8 @@ $palette: (
 
     "turquoise": #00adef,
 
+    // @TODO get this from _config.scss
+    // (tried before but wouldn't allow using string in mixins)
     "pink": #e92076,
     "pink-bg": #fef5f9,
     "pink-text": #e92076,

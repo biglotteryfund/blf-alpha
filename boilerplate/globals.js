@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
+const sassConfig = require('../config/sass.json');
 
 module.exports = function (app) {
     // extract deploy ID from AWS (where provided)
@@ -19,7 +20,7 @@ module.exports = function (app) {
     app.locals.metadata = {
         title: config.get('meta.title'),
         description: config.get('meta.description'),
-        themeColor: config.get('meta.themeColor') // @TODO get this from SCSS/config
+        themeColour: sassConfig.themeColour
     };
 
     // get URL middleware

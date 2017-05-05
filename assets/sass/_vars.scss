@@ -1,7 +1,4 @@
-$breakpoints: (
-    "tablet": 760px,
-    "desktop": 980px
-);
+$breakpoints: map-get($appConfig, 'breakpoints');
 
 $gutters: (
     "default": 20px,

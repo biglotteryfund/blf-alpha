@@ -10,3 +10,4 @@ public/stylesheets
 public/tests
 assets.json
 deploy.json
+assets/sass/_config.scss

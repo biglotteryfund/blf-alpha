@@ -25,6 +25,7 @@
     "nunjucks": "^3.0.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
+    "rootbeer": "^1.0.5",
     "serve-favicon": "~2.3.2",
     "winston": "^2.3.1"
   },

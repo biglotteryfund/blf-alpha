@@ -1,4 +1,5 @@
 // setup / functions etc
+@import '_config'; // dynamically generated from JSON via gulp
 @import '_vars';
 @import '_functions';
 @import '_mixins';

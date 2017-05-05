@@ -22,6 +22,9 @@ const babelify = require('babelify');
 const mocha = require('gulp-mocha');
 const rename = require("gulp-rename");
 const mochaPhantomJS = require('gulp-mocha-phantomjs');
+const jsonSass = require('rootbeer');
+const fs = require('fs');
+
 
 // define main directories
 const inputBase  = './assets/';
@@ -36,7 +39,8 @@ const DIRS = {
         css:  inputBase + 'sass',
         js:   inputBase + 'js',
         img:  inputBase + 'images',
-        test: testBase
+        test: testBase,
+        sassConfig: './config'
     },
     out: {
         root: outputBase,
@@ -53,12 +57,14 @@ const FILES = {
     in: {
         js: 'main.js',
         css: 'main.scss',
-        test: 'test-main.js'
+        test: 'test-main.js',
+        sassConfig: 'sass.json'
     },
     out: {
         js: 'app.js',
         css: 'style.css',
-        test: 'specs.js'
+        test: 'specs.js',
+        sassConfig: '_config.scss'
     },
     assets: 'assets.json'
 };
@@ -107,10 +113,25 @@ gulp.task('test-scripts', ['clean:test'], function() {
         .pipe(gulp.dest(DIRS.out.test));
 });
 
+const jsonToSassTask = 'jsonToSass';
+const sassTaskBaseDeps = ['clean:assets', 'clean:css', 'clean:img', 'copy:img'];
+const sassTaskDeps = sassTaskBaseDeps.concat([jsonToSassTask]);
+
+// we share sass task deps here
+// otherwise race conditions mean some images aren't copied etc
+gulp.task(jsonToSassTask, sassTaskBaseDeps, function () {
+    const jsonPath = DIRS.in.sassConfig + '/' + FILES.in.sassConfig;
+    return fs.createReadStream(jsonPath)
+        .pipe(jsonSass({ prefix: '$appConfig: ' }))
+        .pipe(source(jsonPath))
+        .pipe(rename(FILES.out.sassConfig))
+        .pipe(gulp.dest(DIRS.in.css));
+});
+
 // compile Sass (after cleaning and moving images)
 // references to images will be replaced (on --production/LIVE)
 // with cachebusted versions
-gulp.task('styles', ['clean:assets', 'clean:css', 'clean:img', 'copy:img'], function() {
+gulp.task('styles', sassTaskDeps, function() {
     return gulp.src(DIRS.in.css + '/' + FILES.in.css)
         .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({

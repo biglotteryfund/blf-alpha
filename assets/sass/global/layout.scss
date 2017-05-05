@@ -70,7 +70,7 @@
         margin-top: 0;
     }
 
-    // @TODO improve this
+    // @TODO improve this (will there always only be 2 of these?)
     .flex__fill--second {
         @include mq('tablet') {
             margin-left: $spacingUnit;
