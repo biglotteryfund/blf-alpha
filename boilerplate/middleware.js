@@ -19,9 +19,15 @@ module.exports = function (app) {
         extension: '.json'
     });
 
-    // set locale from cookie
     app.use(function(req, res, next) {
-        req.i18n.setLocaleFromCookie();
-        next();
+        const WELSH_LOCALE = 'cy';
+        const CYMRU_URL = /^\/welsh\//;
+        const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
+        if (IS_WELSH) {
+            req.i18n.setLocale(WELSH_LOCALE);
+            res.setHeader('Content-Language', WELSH_LOCALE);
+        }
+        req.app.locals.locale = req.i18n.getLocale();
+        return next();
     });
 };

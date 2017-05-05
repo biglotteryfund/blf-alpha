@@ -1,5 +1,6 @@
+{% import "../components/nav.njk" as nav %}
 <!doctype html>
-<html lang="en">
+<html lang="{{ locale }}">
     <head>
         <title>{% block title %}{% endblock %}Big Lottery Fund | Alpha v0.6</title>
         <!-- deploy {{ deployId }} (build #{{ buildNumber }}) -->
@@ -16,11 +17,18 @@
         {% include "../includes/metadata.njk" %}
     </head>
     <body>
-        {% include "../includes/header.njk" %}
+        <main>
+            {% include "../includes/header.njk" %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
 
-        {% include "../includes/footer.njk" %}
+            {% include "../includes/footer.njk" %}
+        </main>
+        <nav class="mobile-only m-t-none">
+            <ul class="nav--offscreen">
+                {{ nav.navlinks('nav--offscreen__link') }}
+            </ul>
+        </nav>
 
         <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"></script>
 

@@ -43,3 +43,8 @@ if ($svg) {
     e.initUIEvent('click', true, true, window, 1);
     defaultRegion.dispatchEvent(e);
 }
+
+const $mobileNavToggle = document.getElementById('js-mobile-nav-toggle');
+$mobileNavToggle.addEventListener('click', () => {
+   document.body.classList.toggle('show-off-canvas');
+});

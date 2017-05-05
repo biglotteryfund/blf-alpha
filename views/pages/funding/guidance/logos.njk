@@ -1,0 +1,91 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% macro logoBlock(logoImage, logoName, onlyEps = false) %}
+    <img src="{{ logoImage | getCachebustedPath }}" />
+    {% if not onlyEps %}
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (small .jpg)</a>
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (large .jpg)</a>
+    {% endif %}
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (.eps in CMYK)</a>
+{% endmacro %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', 'How to tell people about your lottery funding using our logo', 30, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('logo', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+            <p class="m-t-none">It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.
+            </p>
+            <h3 class="t3a m-t">How to get the logo</h3>
+            <p>We want you to be as flexible and creative as possible with using your grant money. However, you do need to publicly announce your funding award. This page contains logos that you can download to use. We also offer physical objects like plaques, balloons and large 'cheques' that we'll send you for free - you can <a href="#">see the range and order here</a>.</p>
+        </div>
+
+        <div class="inner">
+
+            <h3 class="t3a m-t m-l">English</h3>
+
+            <ul class="flex flex--wide-only flex--equal">
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/en/blue.png', 'blue') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/en/pink.png', 'pink') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/en/pink-white.png', 'white', true) }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/en/blue-white.png', 'white', true) }}
+                    </div>
+                </li>
+            </ul>
+
+            <h3 class="t3a m-t m-l">Bilingual English/Welsh</h3>
+
+            <ul class="flex flex--wide-only flex--equal">
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/bilingual/blue.png', 'blue bilingual') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/bilingual/pink.png', 'pink bilingual') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/bilingual/pink-white.png', 'white bilingual', true) }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/bilingual/blue-white.png', 'white bilingual', true) }}
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </article>
+
+{% endblock %}

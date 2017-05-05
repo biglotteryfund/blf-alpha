@@ -1,3 +1,6 @@
+.bg-dark {
+    background-color: #333333;
+}
 .bg-plain {
     background-color: #ffffff;
 }
@@ -74,6 +77,15 @@
                 $fg: map-get($data, 'text');
             }
             color: $fg;
+        }
+
+        &.btn--cta,
+        .btn--cta {
+            color: #ffffff !important;
+            background-color: $fg !important;
+            @include on-interact {
+                background-color: darken($fg, 10%) !important;
+            }
         }
     }
 }
