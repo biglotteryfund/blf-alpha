@@ -19,6 +19,7 @@
     "express": "^4.15.2",
     "express-cache-controller": "^1.0.1",
     "helmet": "^3.5.0",
+    "i18n-2": "^0.6.3",
     "mocha": "^3.2.0",
     "moment": "^2.18.1",
     "morgan": "~1.7.0",
