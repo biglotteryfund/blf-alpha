@@ -5,6 +5,15 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% macro logoBlock(logoImage, logoName, onlyEps = false) %}
+    <img src="{{ logoImage | getCachebustedPath }}" />
+    {% if not onlyEps %}
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (small .jpg)</a>
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (large .jpg)</a>
+    {% endif %}
+    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (.eps in CMYK)</a>
+{% endmacro %}
+
 {% block content %}
 
     {% set heroContent %}
@@ -22,6 +31,61 @@
             <h3 class="t3a m-t">How to get the logo</h3>
             <p>We want you to be as flexible and creative as possible with using your grant money. However, you do need to publicly announce your funding award. This page contains logos that you can download to use. We also offer physical objects like plaques, balloons and large 'cheques' that we'll send you for free - you can <a href="#">see the range and order here</a>.</p>
         </div>
+
+        <div class="inner">
+
+            <h3 class="t3a m-t m-l">English</h3>
+
+            <ul class="flex flex--wide-only flex--equal">
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/en/blue.png', 'blue') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/en/pink.png', 'pink') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/en/pink-white.png', 'white', true) }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/en/blue-white.png', 'white', true) }}
+                    </div>
+                </li>
+            </ul>
+
+            <h3 class="t3a m-t m-l">Bilingual English/Welsh</h3>
+
+            <ul class="flex flex--wide-only flex--equal">
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/bilingual/blue.png', 'blue bilingual') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
+                        {{ logoBlock('images/logos/bilingual/pink.png', 'pink bilingual') }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/bilingual/pink-white.png', 'white bilingual', true) }}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner bordered p bg-dark">
+                        {{ logoBlock('images/logos/bilingual/blue-white.png', 'white bilingual', true) }}
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
     </article>
 
 {% endblock %}
