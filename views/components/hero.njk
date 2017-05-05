@@ -1,0 +1,9 @@
+{% macro header(name, content, accent) %}
+    <div class="hero {% if name %}hero--{{ name }}{% endif %}" role="complementary">
+        <section class="hero__inner">
+            <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
+                {{ content | safe }}
+            </div>
+        </section>
+    </div>
+{% endmacro %}

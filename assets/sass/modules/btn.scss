@@ -1,0 +1,32 @@
+.btn {
+    background-color: #ffffff;
+    color: palette('charcoal');
+    font-size: $baseFormElementFontSize;
+    text-decoration: none;
+    border: none;
+    border-radius: $borderRadius;
+    vertical-align: top;
+    display: inline-block;
+    padding: $spacingUnit / 4 $spacingUnit;
+
+    @include mq('desktop') {
+        padding: $spacingUnit / 4 $spacingUnit * 2;
+    }
+
+    @include on-interact {
+        background-color: #eeeeee;
+    }
+
+    &.btn--cta {
+        background-color: palette('pink');
+        color: #ffffff;
+        @include on-interact {
+            background-color: darken(palette('pink'), 10%);
+        }
+    }
+
+    &.btn--small {
+        font-size: $baseFormElementFontSize / 1.6;
+        padding: $spacingUnit / 5 $spacingUnit / 1.5;
+    }
+}

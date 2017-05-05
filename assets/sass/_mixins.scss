@@ -1,0 +1,72 @@
+@mixin mq($width, $type: min) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @content;
+        }
+    }
+}
+
+@mixin responsive-ratio($x, $y) {
+    $padding: ( $y / $x ) * 100;
+    padding-bottom: unquote(decimal-round($padding, 2) + '%');
+}
+
+@mixin input-placeholder {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+@mixin on-interact {
+    &:active,
+    &:focus,
+    &:hover {
+        @content;
+    }
+}
+
+// Mixin printing a linear-gradient as well as a plain color fallback
+// @access public
+// @param {String | List | Angle} $direction - Linear gradient direction
+// @param {Arglist} $color-stops - List of color-stops composing the gradient
+@mixin linear-gradient($direction, $color-stops...) {
+    @if is-direction($direction) == false {
+        $color-stops: ($direction, $color-stops);
+        $direction: 180deg;
+    }
+
+    background: nth(nth($color-stops, 1), 1);
+    background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+    background: linear-gradient($direction, $color-stops);
+}
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin font($font: Poppins) {
+    font-family: "#{$font}", arial, sans-serif;
+}
+
+@mixin font-body() {
+    @include font();
+}
+
+@mixin font-and-leading($fontSize, $leading) {
+    font-size: $fontSize;
+    line-height: relative-line-height($fontSize, $leading);
+}
+

@@ -1,0 +1,23 @@
+.form-fund {
+
+    &.form-fund--inline {
+        height: 40px;
+
+        & > * {
+            display: inline-block;
+            margin-top: 0;
+            height: 100%;
+        }
+    }
+
+    input[type="text"] {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid palette('soft-grey');
+        border-radius: $borderRadius;
+        font-size: $baseFormElementFontSize;
+        margin-right: $spacingUnit;
+        padding: $spacingUnit / 4 $spacingUnit / 2;
+
+    }
+}

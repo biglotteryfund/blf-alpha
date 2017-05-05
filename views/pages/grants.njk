@@ -1,0 +1,34 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "../layouts/main.njk" %}
+
+{% block title %}Grants near {{ postcode }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {% set title = 'Funding near ' + postcode %}
+            {{ headers.blockheader('h2', title, 30, 'm-b') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
+
+    <article role="main" class="accent--pink">
+        <div class="inner p accent-b-t accent-bg">
+            <h3 class="t3">We awarded {{ grants.length }} grants near you:</h3>
+
+            <ul class="grant-list">
+                {% for g in grants %}
+                    <li>
+                        {{ g.recipientOrganization[0].name }}
+                        (&pound;{{ g.amountAwarded }} awarded on {{ g.awardDate }})
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+
+{% endblock %}

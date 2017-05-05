@@ -2,10 +2,12 @@ node_modules
 .idea
 .map
 .css.map
-*.log
-logs
+logs/*.log
 always_restart.txt
-app/public/images
-app/public/javascripts
-app/public/stylesheets
+public/images
+public/javascripts
+public/stylesheets
+public/tests
 assets.json
+deploy.json
+assets/sass/_config.scss

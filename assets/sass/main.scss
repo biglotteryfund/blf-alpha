@@ -1,0 +1,22 @@
+// setup / functions etc
+@import '_config'; // dynamically generated from JSON via gulp
+@import '_vars';
+@import '_functions';
+@import '_mixins';
+@import '_utils';
+
+// global styles
+@import 'global/palette';
+@import 'global/reset';
+@import 'global/layout';
+@import 'global/forms';
+@import 'global/typography';
+@import 'global/lists';
+@import 'global/accents';
+
+// modules
+@import 'modules/header';
+@import 'modules/footer';
+@import 'modules/heroes';
+@import 'modules/btn';
+@import 'modules/data';

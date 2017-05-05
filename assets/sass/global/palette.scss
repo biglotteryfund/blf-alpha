@@ -1,0 +1,56 @@
+$palette: (
+    "blue": #1a44a1,
+    "blue-bg": #e5f3fe,
+    "blue-text": #365cc9,
+
+    "turquoise": #00adef,
+
+    // @TODO get this from _config.scss
+    // (tried before but wouldn't allow using string in mixins)
+    "pink": #e92076,
+    "pink-bg": #fef5f9,
+    "pink-text": #e92076,
+
+    "pink-mid": #d84d7b,
+    "pink-mid-bg": #f6d2e2,
+
+    "green": #00bd71,
+    "green-bg": #ddf0e2,
+
+    "orange": #ff9315,
+    "orange-bg": #fdebd7,
+
+    "soft-grey": #cacaca,
+    "charcoal": #333333,
+    "off-white": #e9e9e9,
+    "pale": #fdfefe,
+);
+
+// which of the above colours should have accents generated?
+$themes: (
+    'pink': (
+        'foreground': palette('pink'),
+        'background': palette('pink-bg')
+    ),
+    'pink-mid': (
+        'foreground': palette('pink'),
+        'background': palette('pink-mid-bg')
+    ),
+    'blue': (
+        'foreground': palette('blue'),
+        'background': palette('pale'),
+        'text': palette('blue-text'),
+    ),
+    'turquoise': (
+        'foreground': palette('turquoise'),
+        'background': palette('pale')
+    ),
+    'green': (
+        'foreground': palette('green'),
+        'background': palette('green-bg')
+    ),
+    'orange': (
+        'foreground': palette('orange'),
+        'background': palette('orange-bg')
+    )
+);

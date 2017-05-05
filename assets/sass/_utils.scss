@@ -1,0 +1,99 @@
+.vert-cent {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.pos-rel {
+    position: relative;
+}
+
+@include mq('tablet', 'max') {
+    .desktop-only { display: none !important; }
+}
+
+@include mq('tablet') {
+    .mobile-only { display: none !important; }
+}
+
+.hidden {
+    display: none;
+}
+
+.nudge-up {
+    margin-top: 0;
+    @include mq('tablet') {
+        margin-top: -$nudgeAmount;
+        position: relative;
+        z-index: 10;
+    }
+}
+
+.nudge-bottom {
+    position: absolute;
+    bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        bottom: $nudgeAmount + 30px;
+    }
+}
+
+// the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/
+* + * {
+    margin-top: $spacingUnit;
+}
+
+/* ### global ### */
+/* margin */
+@each $name, $data in $marginSizes {
+    .m#{map-get($data, 'suffix')} {
+        margin: $spacingUnit * map-get($data, 'factor');
+    }
+}
+
+/* padding */
+@each $name, $data in $marginSizes {
+    .p#{map-get($data, 'suffix')} {
+        padding: $spacingUnit * map-get($data, 'factor');
+    }
+}
+
+// create margin util classes
+@each $dir, $dirData in $directions {
+
+    /* ### #{$dir} ### */
+
+    /* margin */
+
+    @each $name, $data in $marginSizes {
+
+        .m-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
+            margin-#{$dir}: $spacingUnit * map-get($data, 'factor');
+        }
+
+    }
+
+    .m-#{map-get($dirData, 'suffix')}-none {
+        margin-#{$dir}: 0
+    }
+
+    /* padding */
+    @each $name, $data in $marginSizes {
+        .p-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
+            padding-#{$dir}: $spacingUnit * map-get($data, 'factor');
+        }
+    }
+
+    .p-#{map-get($dirData, 'suffix')}-none {
+        padding-#{$dir}: 0
+    }
+
+}
+
+.clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}

@@ -1,0 +1,123 @@
+// layout helper: used within a containing element
+// to center it according to the grid
+
+@mixin responsiveGutter() {
+    $defaultGutter: map-get($gutters, "default");
+    margin-left: $defaultGutter;
+    margin-right: $defaultGutter;
+    width: calc(100% - #{$defaultGutter * 2});
+
+    @each $device, $gutter in $gutters {
+        @if map-has-key($breakpoints, $device) {
+            @include mq($device) {
+                margin-left: $gutter;
+                margin-right: $gutter;
+                width: calc(100% - #{$gutter * 2});
+            }
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        width: $maxInnerWidth;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100%;
+    }
+}
+
+.inner {
+    @include responsiveGutter();
+}
+
+.inner--wide-only {
+    @include mq('tablet') {
+        @include responsiveGutter();
+    }
+}
+
+
+.flex {
+    display: flex;
+    align-items: center;
+
+    &.flex--wide-only {
+        @include mq('tablet', 'max') {
+            display: block;
+        }
+    }
+
+    &.flex--top {
+        align-items: flex-start;
+    }
+
+    &.flex--equal {
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: flex-end;
+
+        @include mq('tablet') {
+            > * {
+                width: 50%;
+                margin-top: 0;
+            }
+        }
+    }
+
+    .flex__fill {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0;
+        margin-top: 0;
+    }
+
+    // @TODO improve this (will there always only be 2 of these?)
+    .flex__fill--second {
+        @include mq('tablet') {
+            margin-left: $spacingUnit;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+}
+
+
+.grid__item {
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        .grid__item__inner {
+            margin-right: $spacingUnit / 2;
+            margin-left: 0;
+        }
+        &:nth-child(2n) {
+            .grid__item__inner {
+                margin-left: $spacingUnit /2;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .grid__item__inner {
+        position: relative;
+    }
+
+    .grid__item__poster {
+        display: block;
+    }
+
+    .grid__item__title {
+        position: absolute;
+        left: $spacingUnit * 1.5;
+        bottom: $spacingUnit * 1.5;
+
+        // cribbed from ionicons
+        span:last-child:after {
+            content: "\f10a";
+            font-family: "Ionicons";
+            margin-left: 5px;
+        }
+    }
+}

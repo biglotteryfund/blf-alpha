@@ -1,0 +1,14 @@
+.list-spaced {
+    li {
+        margin-top: $spacingUnit / 2;
+        padding: $spacingUnit $spacingUnit / 2;
+        border-bottom: 1px solid lighten(palette('charcoal'), 10%);
+        margin-bottom: $spacingUnit / 2;
+
+        @include mq('tablet') {
+            padding: 0;
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    }
+}

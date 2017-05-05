@@ -1,0 +1,44 @@
+$breakpoints: map-get($appConfig, 'breakpoints');
+
+$gutters: (
+    "default": 20px,
+    "tablet": 10%,
+    "desktop": 20%,
+);
+
+$maxInnerWidth: 950px;
+
+// logo
+$logo: (
+    // actual dimensions
+    "width": 206px,
+    "height": 104px,
+    "cropPoint": 103px, // where the split starts
+    // desired dimensions
+    "mobileHeight": 90px,
+    "desktopHeight": 95px,
+);
+
+// globals
+$spacingUnit: 20px;
+$borderRadius: 30px;
+$nudgeAmount: $spacingUnit * 1.25;
+
+// forms
+$baseFormElementFontSize: 16px;
+
+// surgical utility classes
+$directions: (
+    'top': ('suffix': 't'),
+    'right': ('suffix': 'r'),
+    'bottom': ('suffix': 'b'),
+    'left': ('suffix': 'l')
+);
+
+// margin sizes
+$marginSizes: (
+    'default': (
+        'suffix': '',
+        'factor': 1
+    )
+);

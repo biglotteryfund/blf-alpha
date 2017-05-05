@@ -1,0 +1,8 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:qs:20170213':
+    - nunjucks > chokidar > fsevents > node-pre-gyp > request > qs:
+        patched: '2017-05-03T09:10:09.993Z'
