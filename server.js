@@ -10,10 +10,20 @@ require('./boilerplate/static')(app);
 require('./boilerplate/cache')(app);
 require('./boilerplate/middleware')(app);
 
-// route binder
-app.use('/', require('./routes/index'));
+// create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
-app.use('/funding', require('./routes/funding'));
+
+const LANG_URL_WELSH = '/welsh';
+
+// aka welshify
+// create an array of paths: default (english) and welsh variant
+const cymreigio = function (mountPath) {
+    return [mountPath, LANG_URL_WELSH + mountPath];
+};
+
+// router binder
+app.use('/', require('./routes/index'));
+app.use(cymreigio('/funding'), require('./routes/funding'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

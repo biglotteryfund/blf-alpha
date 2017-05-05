@@ -8,6 +8,7 @@
     vertical-align: top;
     display: inline-block;
     padding: $spacingUnit / 4 $spacingUnit;
+    text-align: center;
 
     @include mq('desktop') {
         padding: $spacingUnit / 4 $spacingUnit * 2;
@@ -18,15 +19,20 @@
     }
 
     &.btn--cta {
-        background-color: palette('pink');
-        color: #ffffff;
+        color: #333333;
+        background-color: #ffffff;
         @include on-interact {
-            background-color: darken(palette('pink'), 10%);
+            background-color: darken(#ffffff, 10%);
+            text-decoration: none;
         }
     }
 
     &.btn--small {
         font-size: $baseFormElementFontSize / 1.6;
         padding: $spacingUnit / 5 $spacingUnit / 1.5;
+    }
+
+    &.btn--block {
+        display: block;
     }
 }
