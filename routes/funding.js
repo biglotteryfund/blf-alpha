@@ -81,7 +81,7 @@ router.route(PATHS.freeMaterials)
 // help with publicity page
 router.get(PATHS.helpWithPublicity, (req, res, next) => {
     res.render('pages/funding/guidance/help-with-publicity', {
-        title: "Help with publicity"
+        title: "Tell the world about your grant via social media"
     });
 });
 

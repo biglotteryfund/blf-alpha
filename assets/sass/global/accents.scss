@@ -13,31 +13,25 @@
     $fg: map-get($data, 'foreground');
     $bg: map-get($data, 'background');
 
-    // @TODO - accents should always be chained
-    // eg accent--$foo accent-bg
     .accent--#{$name} {
 
         // text color
-        &.accent-text,
-        .accent-text {
+        &.accent-text {
             color: $fg;
         }
 
         // border on top of elements
-        &.accent-b-t,
-        .accent-b-t {
+        &.accent-b-t {
             border-top: 4px solid $fg;
         }
 
         // thicker border
-        &.accent-b-t-l,
-        .accent-b-t-l {
+        &.accent-b-t-l {
             border-top: 6px solid $fg;
         }
 
         // border below elements *small* (eg. fixed width)
-        &.accent-b-b-s:after,
-        .accent-b-b-s:after {
+        &.accent-b-b-s:after {
             content: '';
             width: 100px;
             height: 5px;
@@ -48,8 +42,7 @@
         }
 
         // background colour of theme
-        &.accent-bg,
-        .accent-bg {
+        &.accent-bg {
             background-color: $bg;
         }
 
@@ -71,16 +64,14 @@
             }
         }
 
-        &.t3,
-        .t3 {
+        &.t3 {
             @if map-has-key($data, 'text') {
                 $fg: map-get($data, 'text');
             }
             color: $fg;
         }
 
-        &.btn--cta,
-        .btn--cta {
+        &.btn--cta {
             color: #ffffff !important;
             background-color: $fg !important;
             @include on-interact {
