@@ -1,0 +1,29 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header accent--turquoise') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('logo', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
+            <p class="m-t-none">Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do.</p>
+
+            <p>It is very easy to set up accounts on these social media platforms. It is a good idea to designate someone to be in charge of your social media accounts so you can keep sharing information and respond to any comments.</p>
+
+            <p>We would like you to:</p>
+        </div>
+
+    </article>
+
+{% endblock %}

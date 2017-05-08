@@ -4,10 +4,11 @@ const router = express.Router();
 const materials = require('../config/content/materials.json');
 
 const PATHS = {
-    manageFunding: '/funding-guidance/managing-your-funding',
-    freeMaterials: '/funding-guidance/managing-your-funding/ordering-free-materials',
-    logoIndex:     '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-    logoDownloads: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
+    manageFunding:     '/funding-guidance/managing-your-funding',
+    helpWithPublicity: '/funding-guidance/managing-your-funding/help-with-publicity',
+    freeMaterials:     '/funding-guidance/managing-your-funding/ordering-free-materials',
+    logoIndex:         '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    logoDownloads:     '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
 };
 
 // redirect logoIndex => logoDownloads
@@ -34,6 +35,13 @@ router.get(PATHS.freeMaterials, (req, res, next) => {
     res.render('pages/funding/guidance/order-free-materials', {
         title: req.i18n.__("funding.guidance.order-free-materials.title"),
         materials: materials.categories
+    });
+});
+
+// help with publicity page
+router.get(PATHS.helpWithPublicity, (req, res, next) => {
+    res.render('pages/funding/guidance/help-with-publicity', {
+        title: "Help with publicity"
     });
 });
 
