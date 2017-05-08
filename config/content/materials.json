@@ -1,0 +1,164 @@
+{
+    "categories": [
+        {
+            "title": "Plaques",
+            "items": [
+                {
+                    "name": "Small aluminium equipment plaques",
+                    "dimensions": [115, 80],
+                    "maximum": 4,
+                    "ids": [
+                        {
+                            "en": "BIG-PLAQAS",
+                            "cy": "BIG-PLAQASBI"
+                        }
+                    ]
+                },
+                {
+                    "name": "Perspex plaque",
+                    "dimensions": [310, 260],
+                    "maximum": 1,
+                    "ids": [
+                        {
+                            "en": "BLF-BR089KIT",
+                            "cy": "BLF-BR099KIT"
+                        }
+                    ]
+                },
+                {
+                    "name": "Stainless steel plaque",
+                    "dimensions": [310, 260],
+                    "maximum": 1,
+                    "ids": [
+                        {
+                            "en": "BLF-BR088",
+                            "cy": "BLF-BR098"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Stickers",
+            "info": "Not suitable for children. May damage paintwork, skin and clothing when removed.",
+            "items": [
+                {
+                    "name": "A4 sticker sheets",
+                    "description": "Mixed sizes",
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "en": "BLF-BR01101",
+                            "cy": "BLF-BR06101"
+                        }
+                    ]
+                },
+                {
+                    "name": "Small equipment stickers",
+                    "dimensions": [75, 50],
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "en": "BLF-BR01201",
+                            "cy": "BLF-BR06201"
+                        }
+                    ]
+                },
+                {
+                    "name": "Medium equipment stickers",
+                    "dimensions": [80, 70],
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "en": "BLF-BR01301",
+                            "cy": "BLF-BR06301"
+                        }
+                    ]
+                },
+                {
+                    "name": "Large equipment stickers",
+                    "dimensions": [120, 100],
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "en": "BLF-BR01401",
+                            "cy": "BLF-BR06401"
+                        }
+                    ]
+                },
+                {
+                    "name": "Vehicle stickers",
+                    "description": "Transparent with black or white logo",
+                    "dimensions": [210, 150],
+                    "maximum": 2,
+                    "ids": [
+                        {
+                            "name": "Black logo",
+                            "en": "BIG-VEHBE",
+                            "cy": "BIG-VEHBB"
+                        },
+                        {
+                            "name": "White logo",
+                            "en": "BIG-VEHWE",
+                            "cy": "BIG-VEHBW"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Other items",
+            "items": [
+                {
+                    "name": "Vinyl banner",
+                    "dimensions": [800, 600],
+                    "maximum": 1,
+                    "ids": [
+                        {
+                            "en": "BIG-BANNP",
+                            "cy": "BIG-BANNPBI"
+                        }
+                    ]
+                },
+                {
+                    "name": "Iron-on logo",
+                    "description": "Transfer for clothing",
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "name": "White",
+                            "en": "BIG-IOTBWL",
+                            "cy": "BIG-IOTBWLB"
+                        },
+                        {
+                            "name": "Black",
+                            "en": "BIG-IOTWBL",
+                            "cy": "BIG-IOTWBLB"
+                        }
+                    ]
+                },
+                {
+                    "name": "Balloons",
+                    "maximum": 10,
+                    "ids": [
+                        {
+                            "en": "BIG-EVBLN",
+                            "cy": "BIG-EVBLNBI"
+                        }
+                    ]
+                },
+                {
+                    "name": "Promo cheque",
+                    "dimensions": [610, 305],
+                    "maximum": 1,
+                    "ids": [
+                        {
+                            "en": "BIG-CHQ",
+                            "cy": "BIG-CHQBI"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

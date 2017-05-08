@@ -1,3 +1,9 @@
 {
-    "test": "Hello!"
+	"funding": {
+		"guidance": {
+			"order-free-materials": {
+				"title": "Ordering free materials"
+			}
+		}
+	}
 }

@@ -1,0 +1,54 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('logo', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+
+            {% for category in materials %}
+                <h3 class="m-t">{{ category.title }}</h3>
+                {% if category.info %}<p>{{ category.info }}</p>{% endif %}
+                <ul>
+                {% for item in category.items %}
+                    <li>
+                        <h4>{{ item.name }}
+                            {% if item.dimensions %}
+                                ({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)
+                            {% elif item.description %}
+                                ({{ item.description }})
+                            {% endif %}
+                        </h4>
+                        <p>{% if item.maximum %}(maximum {{ item.maximum }} per project){% endif %}</p>
+                        {% for code in item.ids %}
+                            {% if code.name %}
+                                <h5>{{ code.name }}</h5>
+                            {% endif %}
+                            {#{{ code.en }} / {{ code.cy }}#}
+                            {{ code[locale] }}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+
+
+            {#<div id="app">#}
+                {#hello {% raw %}{{ message }}{% endraw %}#}
+            {#</div>#}
+        </div>
+    </article>
+
+{% endblock %}
