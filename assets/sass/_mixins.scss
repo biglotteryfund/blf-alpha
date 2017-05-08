@@ -12,7 +12,7 @@
 
 @mixin responsive-ratio($x, $y) {
     $padding: ( $y / $x ) * 100;
-    padding-bottom: unquote(decimal-round($padding, 2) + '%');
+    padding-bottom: unquote(decimal-round($padding, 1, ceil) + '%');
 }
 
 @mixin input-placeholder {
