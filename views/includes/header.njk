@@ -1,13 +1,15 @@
 {% import "../components/nav.njk" as nav %}
 
 <header role="banner">
-    <div class="inner header__inner grid grid--wide-only">
-        <a href="/"><h1 class="logo">Big Lottery Fund</h1></a>
-        <nav class="mobile-only header__hamburger" id="js-mobile-nav-toggle"><i class="ion-navicon"></i></nav>
-        <nav role="navigation" class="desktop-only grid__item">
-            <ul class="nav grid">
-                {{ nav.navlinks('nav__link') }}
-            </ul>
-        </nav>
+    <div class="inner header__inner">
+        <div class="grid grid--wide-only">
+            <a href="/"><h1 class="logo">Big Lottery Fund</h1></a>
+            <nav class="mobile-only header__hamburger" id="js-mobile-nav-toggle"><i class="ion-navicon"></i></nav>
+            <nav role="navigation" class="desktop-only grid__item">
+                <ul class="nav grid">
+                    {{ nav.navlinks('nav__link') }}
+                </ul>
+            </nav>
+        </div>
     </div>
 </header>
