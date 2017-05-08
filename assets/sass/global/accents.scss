@@ -71,7 +71,8 @@
             color: $fg;
         }
 
-        &.btn--cta {
+        &.btn--cta,
+        .btn--cta {
             color: #ffffff !important;
             background-color: $fg !important;
             @include on-interact {
