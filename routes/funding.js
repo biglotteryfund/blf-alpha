@@ -31,12 +31,52 @@ router.get(PATHS.manageFunding, (req, res, next) => {
 });
 
 // ordering free materials page
-router.get(PATHS.freeMaterials, (req, res, next) => {
-    res.render('pages/funding/guidance/order-free-materials', {
-        title: req.i18n.__("funding.guidance.order-free-materials.title"),
-        materials: materials.categories
+router.route(PATHS.freeMaterials)
+    .get((req, res, next) => {
+        res.render('pages/funding/guidance/order-free-materials', {
+            title: req.i18n.__("funding.guidance.order-free-materials.title"),
+            materials: materials.categories,
+            quantities: (req.session.quantities) ? req.session.quantities : {}
+        });
+    })
+    .post((req, res, next) => {
+        let itemID = parseInt(req.body.itemID);
+        let categoryID = parseInt(req.body.categoryID);
+        let notAllowedWithItem = req.body.notAllowedWithItem;
+
+        // create storage
+        if (!req.session.quantities) { req.session.quantities = {}; }
+        if (!req.session.quantities[itemID]) { req.session.quantities[itemID] = 0; }
+
+        // find the item data
+        let cat = materials.categories.find(c => c.id === categoryID);
+        let item = cat.items.find(i => i.id === itemID);
+        let maxQuantity = item.maximum;
+
+        // increment or decrement count
+        if (req.body.quantity === 'increase') {
+            const blockedFromAdding = (notAllowedWithItem && req.session.quantities[notAllowedWithItem]);
+            if (!blockedFromAdding && (!maxQuantity || req.session.quantities[itemID] < maxQuantity)) {
+                req.session.quantities[itemID] = req.session.quantities[itemID] + 1;
+            }
+        } else {
+            if (req.session.quantities[itemID] !== 0) {
+                req.session.quantities[itemID] = req.session.quantities[itemID] - 1;
+            }
+        }
+        res.format({
+            html: function () {
+                res.redirect(req.baseUrl + PATHS.freeMaterials);
+            },
+            json: function () {
+                res.send({
+                    status: 'success',
+                    data: req.session.quantities[itemID],
+                    all: req.session.quantities
+                });
+            }
+        });
     });
-});
 
 // help with publicity page
 router.get(PATHS.helpWithPublicity, (req, res, next) => {
