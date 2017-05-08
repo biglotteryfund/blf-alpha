@@ -10,7 +10,9 @@
         }
     }
 
-    input[type="text"] {
+    input,
+    textarea,
+    select {
         background-color: #ffffff;
         color: #000000;
         border: 1px solid palette('soft-grey');
@@ -19,5 +21,9 @@
         margin-right: $spacingUnit;
         padding: $spacingUnit / 4 $spacingUnit / 2;
 
+    }
+
+    .form-fund__item {
+        display: block;
     }
 }

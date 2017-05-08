@@ -1,6 +1,10 @@
 'use strict';
-const carousel = require('./modules/carousel');
+/* global $ */
 const appConfig = require('../../config/sass.json');
+const carousel = require('./modules/carousel');
+const Grapnel = require('./libs/grapnel');
+const router = new Grapnel({ pushState : true });
+require('./modules/data.map');
 
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
@@ -15,36 +19,20 @@ carousel.init({
     prevSelector: '.js-carousel-prev',
 });
 
-
-const regions = require('./data/regions');
-const utils = require('./utils');
-
-let $svg = document.getElementById('js-map-svg');
-let $mapInfo = document.getElementById('js-map-info');
-
-if ($svg) {
-
-    $svg.addEventListener('click', function (e) {
-        let id = e.target.getAttribute('data-id');
-        if (id) {
-            let data = regions.getGrantDataById(id);
-            if (data) {
-                $mapInfo.querySelector('#js-region-name').textContent = data.name;
-                $mapInfo.querySelector('#js-num-grants').textContent = data.numGrants;
-                $mapInfo.querySelector('#js-num-awards').textContent = `£${utils.formatCurrency(data.totalAwarded)}`;
-                $mapInfo.classList.remove('hidden');
+router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
+    $('.js-order-material-btn').on('click', function (e) {
+        e.preventDefault();
+        const $form = $(this).parents('form');
+        let data = $form.serialize();
+        data += '&quantity=' + $(this).val();
+        $.ajax({
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: (response) => {
+                $form.find('.js-material-count').val(response.data);
+                console.log(response);
             }
-        }
+        });
     });
-
-    // fake a click on the default region
-    let defaultRegion = document.getElementById('js-initial-region');
-    let e = document.createEvent('UIEvents');
-    e.initUIEvent('click', true, true, window, 1);
-    defaultRegion.dispatchEvent(e);
-}
-
-const $mobileNavToggle = document.getElementById('js-mobile-nav-toggle');
-$mobileNavToggle.addEventListener('click', () => {
-   document.body.classList.toggle('show-off-canvas');
 });
