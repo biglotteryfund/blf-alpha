@@ -20,7 +20,10 @@
         font-size: $baseFormElementFontSize;
         margin-right: $spacingUnit;
         padding: $spacingUnit / 4 $spacingUnit / 2;
+    }
 
+    input[type="submit"] {
+        border: none;
     }
 
     .form-fund__item {

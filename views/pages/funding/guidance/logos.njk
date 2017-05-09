@@ -8,10 +8,10 @@
 {% macro logoBlock(logoImage, logoName, onlyEps = false) %}
     <img src="{{ logoImage | getCachebustedPath }}" />
     {% if not onlyEps %}
-    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (small .jpg)</a>
-    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (large .jpg)</a>
+        <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(small .jpg)</span></a>
+        <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(large .jpg)</span></a>
     {% endif %}
-    <a href="#" class="btn btn--block btn--cta">Download {{ logoName }} logo (.eps in CMYK)</a>
+    <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(.eps in CMYK)</span></a>
 {% endmacro %}
 
 {% block content %}
@@ -38,7 +38,7 @@
 
             <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                    <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
                         {{ logoBlock('images/logos/en/blue.png', 'blue') }}
                     </div>
                 </li>
@@ -63,7 +63,7 @@
 
             <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l bordered p">
+                    <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
                         {{ logoBlock('images/logos/bilingual/blue.png', 'blue bilingual') }}
                     </div>
                 </li>
