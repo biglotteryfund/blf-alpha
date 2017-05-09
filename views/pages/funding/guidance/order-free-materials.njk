@@ -44,13 +44,13 @@
                                 {% if item.notAllowedWithItem %}
                                     <input type="hidden" name="notAllowedWithItem" value="{{ item.notAllowedWithItem }}">
                                 {% endif %}
-                                <button type="submit" value="decrease" class="js-order-material-btn">-</button>
+                                <button type="submit" name="quantity" value="decrease" class="js-order-material-btn">-</button>
                                 <input type="number"
                                        value="{{ quantities[item.id] or 0 }}"
                                        size="2"
                                        min="0"{% if item.maximum %} max="{{ item.maximum }}"{% endif %}
                                        class="js-material-count">
-                                <button type="submit" value="increase" class="js-order-material-btn">+</button>
+                                <button type="submit" name="quantity" value="increase" class="js-order-material-btn">+</button>
                             </form>
                         {% endfor %}
                     </li>
