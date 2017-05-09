@@ -1,0 +1,68 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header accent--turquoise') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('social', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
+            <p class="m-t-none">Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do.</p>
+
+            <p>It is very easy to set up accounts on these social media platforms. It is a good idea to designate someone to be in charge of your social media accounts so you can keep sharing information and respond to any comments.</p>
+
+            <p>We would like you to:</p>
+
+            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l">
+                        <img src="{{ 'images/funding/social1.jpg' | getCachebustedPath }}" class="grid__item__poster" />
+                        {{ headers.blockheader(
+                            'h4',
+                            'Share your grant news on social media, thanking National Lottery players',
+                            18,
+                            'minor grid__item__title grid__item__title--top'
+                        )}}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l">
+                        <img src="{{ 'images/funding/social2.jpg' | getCachebustedPath }}" class="grid__item__poster" />
+                        {{ headers.blockheader(
+                            'h4',
+                            'Follow the Big Lottery Fund on social media',
+                            18,
+                            'minor grid__item__title grid__item__title--top'
+                        )}}
+                    </div>
+                </li>
+                <li class="grid__item">
+                    <div class="grid__item__inner accent--blue accent-b-t-l">
+                        <img src="{{ 'images/funding/social2.jpg' | getCachebustedPath }}" class="grid__item__poster" />
+                            {{ headers.blockheader(
+                            'h4',
+                            'Use social media to share news of your project throughout your grant',
+                            18,
+                            'minor grid__item__title grid__item__title--top'
+                        )}}
+                    </div>
+                </li>
+            </ul>
+
+            <p>We can then share your stories with the wider National Lottery community!</p>
+            <p>Please always acknowledge National Lottery players' support by using the #NationalLottery hashtag when posting content related to your grant.</p>
+        </div>
+
+    </article>
+
+{% endblock %}

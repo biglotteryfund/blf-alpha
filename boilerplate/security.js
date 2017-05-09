@@ -7,9 +7,9 @@ module.exports = function (app) {
     app.use(helmet({
         contentSecurityPolicy: {
             directives: {
-                defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com'],
+                defaultSrc: ["'self'", 'fonts.gstatic.com', 'code.ionicframework.com', 'ajax.googleapis.com'],
                 styleSrc: ["'self'", "'unsafe-inline'", 'code.ionicframework.com', 'fonts.googleapis.com'],
-                connectSrc: ['ws://127.0.0.1:35729/livereload'] // make dev-only?
+                connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'] // make dev-only?
             }
         },
         dnsPrefetchControl: {

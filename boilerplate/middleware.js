@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
+const session = require('express-session');
+
 // const favicon = require('serve-favicon');
 
 module.exports = function (app) {
@@ -12,13 +14,31 @@ module.exports = function (app) {
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
 
-    // internationalisation
+    // add session
+    const sessionConfig = {
+        // @TODO re-generate and secure in AWS
+        secret: 'gqQpNpuqBVFgnEiXfLvJBGmstieVHPofPkrbnaEEqHyQFmDpsmrVZA6pAcvZzeLQ',
+        name: 'blf-alpha-session',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false }
+    };
+
+    if (app.get('env') === 'production') {
+        app.set('trust proxy', 1);
+        sessionConfig.cookie.secure = true;
+    }
+
+    app.use(session(sessionConfig));
+
+    // setup internationalisation
     i18n.expressBind(app, {
         locales: ['en', 'cy'],
         cookieName: 'locale',
         extension: '.json'
     });
 
+    // inject locale for welsh URLs
     app.use(function(req, res, next) {
         const WELSH_LOCALE = 'cy';
         const CYMRU_URL = /^\/welsh\//;

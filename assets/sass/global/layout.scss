@@ -35,94 +35,106 @@
     }
 }
 
+// @TODO put this somewhere better
+main {
+    transition: all 0.3s ease-in-out;
+}
 
-.flex {
+.grid {
     display: flex;
     align-items: center;
 
-    &.flex--wide-only {
-        @include mq('tablet', 'max') {
-            display: block;
-        }
-    }
-
-    &.flex--top {
-        align-items: flex-start;
-    }
-
-    &.flex--equal {
-        flex-wrap: wrap;
-        align-items: stretch;
-        justify-content: flex-end;
-
-        @include mq('tablet') {
-            > * {
-                width: 50%;
-                margin-top: 0;
-            }
-        }
-    }
-
-    .flex__fill {
+    > .grid__item {
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
         margin-top: 0;
     }
 
-    // @TODO improve this (will there always only be 2 of these?)
-    .flex__fill--second {
-        @include mq('tablet') {
-            margin-left: $spacingUnit;
-        }
-
-        li:last-child {
-            margin-bottom: 0;
-        }
+    &.grid--equal {
+        align-items: stretch;
     }
 
-}
+    &.grid--top {
+        align-items: flex-start;
+    }
 
 
-.grid__item {
-    margin-bottom: $spacingUnit;
-
-    @include mq('tablet') {
-        .grid__item__inner {
-            margin-right: $spacingUnit / 2;
-            margin-left: 0;
-        }
-        &:nth-child(2n) {
-            .grid__item__inner {
-                margin-left: $spacingUnit /2;
-                margin-right: 0;
+    &.grid--wide-only {
+        @include mq('tablet', 'max') {
+            display: block;
+            margin-left: 0 !important;
+            > .grid__item {
+                max-width: 100% !important;
+                margin-left: 0 !important;
             }
         }
     }
 
-    .grid__item__inner {
-        position: relative;
+    &.grid--padded {
+        margin-left: -$spacingUnit;
+
+        > .grid__item {
+            margin-left: $spacingUnit;
+            margin-bottom: $spacingUnit;
+        }
     }
 
-    .grid__item__poster {
-        display: block;
+    &.grid--2-up,
+    &.grid--3-up {
+        flex-wrap: wrap;
     }
 
-    .grid__item__title {
-        position: absolute;
-        left: $spacingUnit * 1.5;
-        bottom: $spacingUnit * 1.5;
+    &.grid--2-up {
+        > .grid__item {
+            flex-basis: 50%;
+        }
 
-        // cribbed from ionicons
-        span:last-child:after {
-            content: "\f10a";
-            font-family: "Ionicons";
-            margin-left: 5px;
+        &.grid--padded {
+            > .grid__item {
+                flex-basis: calc(50% - #{$spacingUnit});
+                max-width: calc(50% - #{$spacingUnit});
+            }
+        }
+    }
+
+    &.grid--3-up {
+        > .grid__item {
+            flex-basis: 33%;
+        }
+
+        &.grid--padded {
+            > .grid__item {
+                flex-basis: calc(33% - #{$spacingUnit});
+                max-width: calc(33% - #{$spacingUnit});
+            }
         }
     }
 }
 
-// @TODO put this somewhere better
-main {
-    transition: all 0.3s ease-in-out;
+
+.grid__item__inner {
+    position: relative;
+}
+
+.grid__item__poster {
+    display: block;
+}
+
+.grid__item__title {
+    position: absolute;
+    left: $spacingUnit * 1.5;
+    bottom: $spacingUnit * 1.5;
+
+    &.grid__item__title--top {
+        top: $spacingUnit;
+        bottom: auto;
+    }
+
+    // cribbed from ionicons
+    span:last-child:after {
+        content: "\f10a";
+        font-family: "Ionicons";
+        margin-left: 5px;
+    }
 }
