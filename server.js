@@ -5,15 +5,14 @@ const app = express();
 // configure boilerplate
 require('./boilerplate/globals')(app);
 require('./boilerplate/security')(app);
-const templateEnv = require('./boilerplate/viewEngine')(app);
+require('./boilerplate/viewEngine')(app);
 require('./boilerplate/static')(app);
 require('./boilerplate/cache')(app);
 require('./boilerplate/middleware')(app);
 
 // hacky way to share globals to macros (which don't inherit them)
-// @TODO improve
 for (let global in app.locals) {
-    templateEnv.addGlobal(global, app.locals[global]);
+    app.get('engineEnv').addGlobal(global, app.locals[global]);
 }
 
 // create status endpoint (used by load balancer)
