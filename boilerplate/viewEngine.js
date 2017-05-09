@@ -41,4 +41,6 @@ module.exports = function (app) {
         return rows;
     });
 
+    return templateEnv;
+
 };

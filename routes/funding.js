@@ -33,10 +33,16 @@ router.get(PATHS.manageFunding, (req, res, next) => {
 // ordering free materials page
 router.route(PATHS.freeMaterials)
     .get((req, res, next) => {
+        let errors = (req.session.errors) ? req.session.errors : false;
+        let values = (req.session.values) ? req.session.values: false;
+        delete req.session.errors;
+        delete req.session.values;
         res.render('pages/funding/guidance/order-free-materials', {
             title: req.i18n.__("funding.guidance.order-free-materials.title"),
             materials: materials.categories,
-            quantities: (req.session.quantities) ? req.session.quantities : {}
+            quantities: (req.session.quantities) ? req.session.quantities : {},
+            formErrors: errors,
+            values: values
         });
     })
     .post((req, res, next) => {
@@ -77,6 +83,27 @@ router.route(PATHS.freeMaterials)
             }
         });
     });
+
+router.post('/test', (req, res, next) => {
+    req.checkBody('yourName', 'Please provide your name').notEmpty();
+    req.checkBody('yourAddress', 'Please provide your address').notEmpty();
+    req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
+    req.checkBody('yourEmail', 'Please provide your email address').notEmpty();
+    req.checkBody('yourProjectName', 'Please provide your project name').notEmpty();
+    req.checkBody('yourProjectID', 'Please provide your project ID number').notEmpty();
+    req.checkBody('yourGrantAmount', 'Please provide your grant amount').notEmpty();
+
+    req.getValidationResult().then((result) => {
+        if (!result.isEmpty()) {
+            req.session.errors = result.array();
+            req.session.values = req.body;
+            res.redirect(req.baseUrl + PATHS.freeMaterials);
+        } else {
+            res.send(req.body);
+        }
+    });
+});
+
 
 // help with publicity page
 router.get(PATHS.helpWithPublicity, (req, res, next) => {

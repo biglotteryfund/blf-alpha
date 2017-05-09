@@ -23,6 +23,12 @@ module.exports = function (app) {
         themeColour: sassConfig.themeColour
     };
 
+    app.locals.getFormErrorForField = function (errorList, fieldName) {
+        if (errorList && errorList.length > 0) {
+            return errorList.find(e => e.param === fieldName);
+        }
+    };
+
     // get URL middleware
     app.use(function(req, res, next) {
         req.app.locals.getCurrentUrl = function () {
