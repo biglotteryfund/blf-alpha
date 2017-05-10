@@ -19,6 +19,11 @@ carousel.init({
     prevSelector: '.js-carousel-prev',
 });
 
+const $mobileNavToggle = document.getElementById('js-mobile-nav-toggle');
+$mobileNavToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('show-off-canvas');
+});
+
 router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
     $('.js-order-material-btn').on('click', function (e) {
         e.preventDefault();
