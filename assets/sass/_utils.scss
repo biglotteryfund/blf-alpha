@@ -97,3 +97,10 @@
         clear: both;
     }
 }
+
+.m-t-flexible {
+    margin-top: 40px;
+    @include mq('tablet') {
+        margin-top: 10px;
+    }
+}

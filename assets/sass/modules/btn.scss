@@ -27,6 +27,13 @@
         }
     }
 
+    &.btn--cta--large {
+        padding: $spacingUnit / 2 $spacingUnit;
+        .lighter {
+            font-weight: 300;
+        }
+    }
+
     &.btn--small {
         font-size: $baseFormElementFontSize / 1.6;
         padding: $spacingUnit / 5 $spacingUnit / 1.5;

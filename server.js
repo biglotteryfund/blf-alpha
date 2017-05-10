@@ -10,6 +10,11 @@ require('./boilerplate/static')(app);
 require('./boilerplate/cache')(app);
 require('./boilerplate/middleware')(app);
 
+// hacky way to share globals to macros (which don't inherit them)
+for (let global in app.locals) {
+    app.get('engineEnv').addGlobal(global, app.locals[global]);
+}
+
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
 

@@ -1,4 +1,5 @@
 {
+    "disableExternal": false,
     "staticExpiration": 1,
     "viewCacheExpiration": 300,
     "meta": {

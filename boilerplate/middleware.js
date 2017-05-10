@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const session = require('express-session');
+const expressValidator = require('express-validator');
 
 // const favicon = require('serve-favicon');
 
@@ -30,6 +31,9 @@ module.exports = function (app) {
     }
 
     app.use(session(sessionConfig));
+
+    // add form validator
+    app.use(expressValidator({}));
 
     // setup internationalisation
     i18n.expressBind(app, {
