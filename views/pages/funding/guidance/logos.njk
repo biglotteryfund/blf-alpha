@@ -5,13 +5,20 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% macro logoBlock(logoImage, logoName, onlyEps = false) %}
-    <img src="{{ logoImage | getCachebustedPath }}" />
+{% macro logoBlock(logoFilename, logoName, locale = 'en', onlyEps = false) %}
+    {% set logoPreview = 'images/logos/' + locale + '/' + logoFilename + '.png' %}
+    <img src="{{ logoPreview | getCachebustedPath }}" />
     {% if not onlyEps %}
-        <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(small .jpg)</span></a>
-        <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(large .jpg)</span></a>
+        <a href="/assets/logos/{{ locale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+            Download {{ logoName }} logo <span class="lighter">(small .jpg)</span>
+        </a>
+        <a href="/assets/logos/{{ locale }}/{{ logoFilename }}-large.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+            Download {{ logoName }} logo <span class="lighter">(large .jpg)</span>
+        </a>
     {% endif %}
-    <a href="#" class="btn btn--block btn--cta btn--cta--large m-t-flexible">Download {{ logoName }} logo <span class="lighter">(.eps in CMYK)</span></a>
+    <a href="/assets/logos/{{ locale }}/{{ logoFilename }}.eps" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+        Download {{ logoName }} logo <span class="lighter">(.eps in CMYK)</span>
+    </a>
 {% endmacro %}
 
 {% block content %}
@@ -39,22 +46,22 @@
             <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                 <li class="grid__item">
                     <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
-                        {{ logoBlock('images/logos/en/blue.png', 'blue') }}
+                        {{ logoBlock('blue', 'blue', 'en') }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
-                        {{ logoBlock('images/logos/en/pink.png', 'pink') }}
+                        {{ logoBlock('pink', 'pink') }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner bordered p bg-dark">
-                        {{ logoBlock('images/logos/en/pink-white.png', 'white', true) }}
+                        {{ logoBlock('pink-white', 'white', onlyEps = true) }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner bordered p bg-dark">
-                        {{ logoBlock('images/logos/en/blue-white.png', 'white', true) }}
+                        {{ logoBlock('blue-white', 'white', onlyEps = true) }}
                     </div>
                 </li>
             </ul>
@@ -64,22 +71,22 @@
             <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                 <li class="grid__item">
                     <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
-                        {{ logoBlock('images/logos/bilingual/blue.png', 'blue bilingual') }}
+                        {{ logoBlock('blue', 'blue bilingual', locale = 'bilingual') }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
-                        {{ logoBlock('images/logos/bilingual/pink.png', 'pink bilingual') }}
+                        {{ logoBlock('pink', 'pink bilingual', locale = 'bilingual') }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner bordered p bg-dark">
-                        {{ logoBlock('images/logos/bilingual/pink-white.png', 'white bilingual', true) }}
+                        {{ logoBlock('pink-white', 'white bilingual', locale = 'bilingual', onlyEps = true) }}
                     </div>
                 </li>
                 <li class="grid__item">
                     <div class="grid__item__inner bordered p bg-dark">
-                        {{ logoBlock('images/logos/bilingual/blue-white.png', 'white bilingual', true) }}
+                        {{ logoBlock('blue-white', 'white bilingual', locale = 'bilingual', onlyEps = true) }}
                     </div>
                 </li>
             </ul>
