@@ -111,6 +111,8 @@ nav {
 @include mq('tablet', 'max') {
     .show-off-canvas {
 
+        overflow: hidden;
+
         .nav--offscreen {
             right: 0;
         }
@@ -221,10 +223,18 @@ nav {
 
 .header__hamburger {
     position: absolute;
-    top: $spacingUnit;
     right: 0;
-    font-size: 50px;
     margin-top: 0 !important;
     color: palette('blue');
     cursor: pointer;
+    top: $spacingUnit * 2;
+    width: 31px;
+    svg {
+        fill: palette('blue-text');
+        position: absolute;
+
+        @include on-interact() {
+            fill: darken(palette('blue-text'), 10%);
+        }
+    }
 }
