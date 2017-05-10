@@ -12,10 +12,12 @@ module.exports = function (app) {
     } catch (e) {
         console.info('deploy.json not found -- are you in DEV mode?');
     }
-    const appEnv = process.env.NODE_ENV || 'DEV';
+    const appEnv = process.env.NODE_ENV || 'dev';
     app.locals.deployId = (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV';
     app.locals.buildNumber = (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV';
-    app.locals.IS_DEV = appEnv.toLowerCase() === 'dev';
+    app.locals.IS_DEV = appEnv === 'dev';
+    app.locals.environment = appEnv;
+    app.locals.config = config;
 
     app.locals.metadata = {
         title: config.get('meta.title'),
