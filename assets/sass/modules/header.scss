@@ -55,7 +55,7 @@ nav {
 }
 
 .nav--offscreen {
-    background-color: palette('blue-text');
+    background-color: palette('blue-nav');
     display: block;
     position: fixed;
     z-index: 100;
@@ -68,10 +68,11 @@ nav {
 
     li {
         margin-top: 0;
-        border-bottom: 1px solid darken(palette('blue-text'), 5%);
+        border-bottom: 2px solid rgba(46, 78, 170, 0.4);
+        font-size: 17px;
 
         &:hover {
-            background-color: darken(palette('blue-text'), 10%);
+            background-color: palette('blue-text');
         }
 
         a,
@@ -81,16 +82,20 @@ nav {
 
         &.nav__search {
             input {
+                font-weight: 300;
                 background-color: transparent;
                 color: #ffffff;
+                padding: 0;
+
                 @include input-placeholder {
                     color: #ffffff;
+                    font-weight: 300;
                 }
             }
         }
 
         .form-search__icon {
-            margin-right: $spacingUnit / 2;
+            color: #ffffff;
         }
 
         a {
@@ -189,11 +194,23 @@ nav {
     }
 }
 
+.form-search__input {
+    @include mq('tablet') {
+        float: right;
+        margin-left: $spacingUnit / 3;
+    }
+}
+
 .form-search__icon {
     font-size: 21px;
     line-height: 0;
     vertical-align: middle;
     color: palette('soft-grey');
+
+    @include mq('tablet') {
+        position: relative;
+        top: 5px; // to line up with the search input
+    }
 }
 
 .hero__header {
