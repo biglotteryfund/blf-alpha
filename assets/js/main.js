@@ -12,6 +12,11 @@ const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', '')
 let carouselBreakpointConfig = { 1: 1 };
 carouselBreakpointConfig[tabletBreakpoint] = 3;
 
+// detect IE to fix broken images
+if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+    $('html').addClass('is-ie');
+}
+
 carousel.init({
     selector: '.js-carousel',
     perPage: carouselBreakpointConfig,
@@ -36,7 +41,6 @@ router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materi
             dataType: 'json',
             success: (response) => {
                 $form.find('.js-material-count').val(response.data);
-                console.log(response);
             }
         });
     });
