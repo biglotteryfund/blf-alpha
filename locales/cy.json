@@ -1,4 +1,9 @@
 {
+	"global": {
+		"brand": {
+			"title": "Cronfa Loteri Fawr"
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {

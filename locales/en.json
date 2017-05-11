@@ -1,4 +1,9 @@
 {
+	"global": {
+		"brand": {
+			"title": "Big Lottery Fund"
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
