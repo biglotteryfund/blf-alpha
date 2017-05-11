@@ -110,7 +110,7 @@ router.post('/test', (req, res, next) => {
 // help with publicity page
 router.get(PATHS.helpWithPublicity, (req, res, next) => {
     res.render('pages/funding/guidance/help-with-publicity', {
-        title: "Tell the world about your grant via social media",
+        title: req.i18n.__("funding.guidance.help-with-publicity.title"),
         description: "Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do"
     });
 });

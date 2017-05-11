@@ -8,6 +8,18 @@
 		"guidance": {
 			"order-free-materials": {
 				"title": "Archebu deunyddiau am ddim"
+			},
+			"help-with-publicity": {
+				"title": "Dywedwch wrth bawb am eich grant trwy gyfryngau cymdeithasol",
+				"body": {
+					"part1": "<p>Mae sianelau cyfryngau cymdeithasol fel Facebook, Twitter ac Instagram yn ddulliau gwych o hysbysebu'ch grant a'r gwaith rydych yn ei wneud.</p><p>Mae'n hawdd iawn i greu cyfrif ar y llwyfannau cyfryngau cymdeithasol hyn. Mae'n syniad da i neilltuo rhywun i reoli eich cyfrifon cyfryngau cymdeithasol er mwyn i chi barhau i rannu gwybodaeth ac ymateb i unrhyw sylwadau.</p><p>Rydym am i chi:</p>",
+					"actions": {
+						"1": "Rannu'r newyddion am eich grant ar gyfryngau cymdeithasol, gan ddiolch i chwaraewyr y Loteri Genedlaethol",
+						"2": "Dilyn y Gronfa Loteri Fawr ar gyfryngau cymdeithasol",
+						"3": "Defnyddio cyfryngau cymdeithasol i rannu newyddion am eich trwy gydol eich grant"
+					},
+					"part2": "<p>Wedyn gallwn rannu'ch storïau  gyda'r gymuned Loteri Genedlaethol ehangach!</p><p>Gofynnir i chi gydnabod cefnogaeth chwaraewyr y Loteri Genedlaethol trwy ddefnyddio'r hashnod #LoteriGenedlaethol wrth bostio cynnwys sy'n gysylltiedig â'ch grant.</p>"
+				}
 			}
 		}
 	}

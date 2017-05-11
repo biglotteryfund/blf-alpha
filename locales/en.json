@@ -8,6 +8,18 @@
 		"guidance": {
 			"order-free-materials": {
 				"title": "Ordering free materials"
+			},
+			"help-with-publicity": {
+				"title": "Tell the world about your grant via social media",
+				"body": {
+					"part1": "<p>Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do.</p><p>It is very easy to set up accounts on these social media platforms. It is a good idea to designate someone to be in charge of your social media accounts so you can keep sharing information and respond to any comments.</p><p>We would like you to:</p>",
+					"actions": {
+						"1": "Share your grant news on social media, thanking National Lottery players",
+						"2": "Follow the Big Lottery Fund on social media",
+						"3": "Use social media to share news of your project throughout your grant"
+					},
+					"part2": "<p>We can then share your stories with the wider National Lottery community!</p><p>Please always acknowledge National Lottery players' support by using the #NationalLottery hashtag when posting content related to your grant.</p>"
+				}
 			}
 		}
 	}
