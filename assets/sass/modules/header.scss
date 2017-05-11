@@ -31,9 +31,17 @@
     background-position: left center;
     background-image: url(../images/logo-new.png);
 
+    .locale--cy & {
+        background-image: url(../images/logo-new--welsh.png);
+    }
+
      // handle broken IE which pixellates our logo
     .is-ie & {
         background-image: url(../images/logo-small.png);
+    }
+
+    .is-ie.locale--cy & {
+        background-image: url(../images/logo-small--welsh.png);
     }
 
     // mobile dimensions
