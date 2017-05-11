@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "gulp test",
+    "test": "gulp test; gulp build-dev",
     "test-deps": "snyk test"
   },
   "dependencies": {
