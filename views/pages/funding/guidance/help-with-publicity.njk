@@ -19,41 +19,9 @@
         <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
             {{ __("funding.guidance.help-with-publicity.body.part1") | safe }}
 
-            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
-                <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <img src="{{ 'images/funding/social1.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="A person's hand interacting with a tablet device" />
-                        {{ headers.blockheader(
-                            'h4',
-                        __("funding.guidance.help-with-publicity.body.actions.1") | safe,
-                            18,
-                            'minor grid__item__title grid__item__title--top'
-                        )}}
-                    </div>
-                </li>
-                <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <img src="{{ 'images/funding/social2.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="A person's hands typing on a laptop keyboard" />
-                        {{ headers.blockheader(
-                            'h4',
-                        __("funding.guidance.help-with-publicity.body.actions.2") | safe,
-                            18,
-                            'minor grid__item__title grid__item__title--top'
-                        )}}
-                    </div>
-                </li>
-                <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <img src="{{ 'images/funding/social3.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="A person's hands tapping on a mobile phone screen" />
-                            {{ headers.blockheader(
-                            'h4',
-                            __("funding.guidance.help-with-publicity.body.actions.3") | safe,
-                            18,
-                            'minor grid__item__title grid__item__title--top'
-                        )}}
-                    </div>
-                </li>
-            </ul>
+            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.1") | safe }}</h3>
+            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.2") | safe }}</h3>
+            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.3") | safe }}</h3>
 
             {{ __("funding.guidance.help-with-publicity.body.part2") | safe }}
 
