@@ -9,7 +9,7 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            {{ headers.blockheader('h2', 'Congratulations on getting National Lottery funding!', 30, 'hero__header') }}
+            {{ headers.blockheader('h2', __("funding.guidance.managing-your-funding.title"), 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -17,8 +17,8 @@
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">You're now part of a family of fantastic organisations that are making communities across the UK better places to be.</h3>
-            <p>We want you to be as flexible and creative as possible with using your grant money. However, you do need to publicly announce your funding award. Whilst we would love you to use a range of ways to do this, here are some you should consider:</p>
+            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header1") }}</h3>
+            {{ __("funding.guidance.managing-your-funding.body.block1") | safe }}
         </div>
 
         <div class="inner">
@@ -32,7 +32,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            'Tell the world about your grant via social media',
+                            __("funding.guidance.managing-your-funding.body.actions.social"),
                             18,
                             'minor grid__item__title',
                             '/funding/funding-guidance/managing-your-funding/help-with-publicity'
@@ -47,7 +47,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            'Get in touch with your local press',
+                            __("funding.guidance.managing-your-funding.body.actions.press"),
                             14,
                             'minor grid__item__title',
                             '#'
@@ -62,7 +62,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            'Display the "Lottery Funded" logo in various appropriate places',
+                            __("funding.guidance.managing-your-funding.body.actions.logo"),
                             18,
                             'minor grid__item__title',
                             '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
@@ -77,7 +77,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            'Consider getting free branded materials',
+                            __("funding.guidance.managing-your-funding.body.actions.free-material"),
                             20,
                             'minor grid__item__title',
                             '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
@@ -88,9 +88,8 @@
         </div>
 
         <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">Why are we asking you to do these things?</h3>
-            <p>You are one of thousands of good causes all over the UK doing amazing things with money raised by National Lottery players. It is very important that you share the good news about your funding and let the public know how they are making life better across the UK by playing National Lottery games.</p>
-            <p>This will also encourage people in your local area to apply for lottery funding, increasing the amount of amazing work that takes place in your community.</p>
+            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header2") }}</h3>
+            {{ __("funding.guidance.managing-your-funding.body.block2") | safe }}
         </div>
     </article>
 

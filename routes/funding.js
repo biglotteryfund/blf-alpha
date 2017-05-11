@@ -26,8 +26,16 @@ router.get(PATHS.logoDownloads, (req, res, next) => {
 // funding management page
 router.get(PATHS.manageFunding, (req, res, next) => {
     res.render('pages/funding/guidance/managing-your-funding', {
-        title: "Managing your funding",
+        title: req.i18n.__("funding.guidance.managing-your-funding.title"),
         description: "We want you to be as flexible and creative as possible with using your grant money"
+    });
+});
+
+// help with publicity page
+router.get(PATHS.helpWithPublicity, (req, res, next) => {
+    res.render('pages/funding/guidance/help-with-publicity', {
+        title: req.i18n.__("funding.guidance.help-with-publicity.title"),
+        description: "Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do"
     });
 });
 
@@ -103,15 +111,6 @@ router.post('/test', (req, res, next) => {
         } else {
             res.send(req.body);
         }
-    });
-});
-
-
-// help with publicity page
-router.get(PATHS.helpWithPublicity, (req, res, next) => {
-    res.render('pages/funding/guidance/help-with-publicity', {
-        title: req.i18n.__("funding.guidance.help-with-publicity.title"),
-        description: "Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do"
     });
 });
 

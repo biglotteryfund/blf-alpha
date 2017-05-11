@@ -61,6 +61,21 @@
 					},
 					"part2": "<p>Wedyn gallwn rannu'ch storïau  gyda'r gymuned Loteri Genedlaethol ehangach!</p><p>Gofynnir i chi gydnabod cefnogaeth chwaraewyr y Loteri Genedlaethol trwy ddefnyddio'r hashnod #LoteriGenedlaethol wrth bostio cynnwys sy'n gysylltiedig â'ch grant.</p>"
 				}
+			},
+			"managing-your-funding": {
+				"title": "Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol!",
+				"body": {
+					"header1": "Rydych yn awr yn rhan o deulu o fudiadau anhygoel sy'n gwneud cymunedau ledled y Deyrnas Unedig yn lleoedd gwell i fyw.",
+					"block1": "<p>Rydym am i chi fod mor hyblyg a chreadigol â phosib wrth ddefnyddio'ch arian grant. Er hynny, mae'n rhaid i chi gyhoeddi eich dyfarniad grant yn gyhoeddus. Rydym am i chi wneud hyn mewn amrywiaeth o ffyrdd, ond dyma rai y dylech eu hystyried:</p>",
+					"actions": {
+						"social": "Dywedwch wrth bawb am eich grant ar gyfryngau cymdeithasol",
+						"press": "Cysylltwch â'ch gwasg leol",
+						"logo": "Dangoswch y logo \"Ariennir gan y Loteri\" mewn amrywiaeth o leoedd priodol",
+						"free-material": "Ystyriwch ddod o hyd i ddeunyddiau am ddim â'n brand arnynt"
+					},
+					"header2": "Pam ydym ni'n gofyn i chi wneud y pethau hyn?",
+					"block2": "<p>Rydych yn un o filoedd o achosion da ar draws y Deyrnas Unedig sy'n gwneud pethau anhygoel gydag arian a godir gan chwaraewyr y Loteri Genedlaethol. Mae'n bwysig iawn i chi rannu'r newyddion da am eich grant a rhoi gwybod i'r cyhoedd sut maent yn gwneud bywyd yn well ar draws y Deyrnas Unedig trwy chwarae gemau'r Loteri Genedlaethol.</p><p>Bydd yn annog pobl yn eich ardal leol i ymgeisio am arian Loteri hefyd, gan ehangu'r gwaith syfrdanol sy'n digwydd yn eich cymuned.</p>"
+				}
 			}
 		}
 	}

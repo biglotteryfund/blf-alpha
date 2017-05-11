@@ -61,6 +61,21 @@
 					},
 					"part2": "<p>We can then share your stories with the wider National Lottery community!</p><p>Please always acknowledge National Lottery players' support by using the #NationalLottery hashtag when posting content related to your grant.</p>"
 				}
+			},
+			"managing-your-funding": {
+				"title": "Congratulations on getting National Lottery funding!",
+				"body": {
+					"header1": "You're now part of a family of fantastic organisations that are making communities across the UK better places to be.",
+					"block1": "<p>We want you to be as flexible and creative as possible with using your grant money. However, you do need to publicly announce your funding award. Whilst we would love you to use a range of ways to do this, here are some you should consider:</p>",
+					"actions": {
+						"social": "Tell the world about your grant via social media",
+						"press": "Get in touch with your local press",
+						"logo": "Display the \"Lottery Funded\" logo in various appropriate places",
+						"free-material": "Consider getting free branded materials"
+					},
+					"header2": "Why are we asking you to do these things?",
+					"block2": "<p>You are one of thousands of good causes all over the UK doing amazing things with money raised by National Lottery players. It is very important that you share the good news about your funding and let the public know how they are making life better across the UK by playing National Lottery games.</p><p>This will also encourage people in your local area to apply for lottery funding, increasing the amount of amazing work that takes place in your community.</p>"
+				}
 			}
 		}
 	}
