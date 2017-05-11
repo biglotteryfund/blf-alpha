@@ -29,20 +29,27 @@ a {
 .t1 {
     @include clearfix();
     font-weight: 600;
-    @include font-and-leading(21px, 42px);
+    @include font-and-leading(20px, 28px);
+    margin-right: $spacingUnit;
+    padding: $spacingUnit / 2;
 
     @include mq('tablet') {
+        padding: 0;
+        margin-right: 0;
         @include font-and-leading(28px, 50px);
     }
 
     span {
-        background-color: #eeeeee;
         color: #fff;
-        padding: $spacingUnit / 2;
-        margin: 0;
-        line-height: 1;
-        float: left;
-        clear: left;
+        display: inline;
+        @include mq('tablet') {
+            background-color: #eeeeee;
+            padding: $spacingUnit / 2;
+            margin: 0;
+            line-height: 1;
+            float: left;
+            clear: left;
+        }
     }
 
     &.minor {

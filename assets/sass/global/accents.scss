@@ -47,9 +47,17 @@
         }
 
         // block-colour heading background
-        &.t1 span,
-        .t1 span {
-            background-color: $fg;
+        &.t1,
+        .t1 {
+            @include mq('tablet', 'max') {
+                background-color: $fg;
+            }
+
+            span {
+                @include mq('tablet') {
+                    background-color: $fg;
+                }
+            }
         }
 
         // hover state for above
