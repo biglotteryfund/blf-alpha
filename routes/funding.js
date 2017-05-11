@@ -19,7 +19,7 @@ router.get(PATHS.logoIndex, (req, res, next) => {
 // logo download page
 router.get(PATHS.logoDownloads, (req, res, next) => {
     res.render('pages/funding/guidance/logos', {
-        title: "Logos"
+        title: req.i18n.__("funding.guidance.logos.title"),
     });
 });
 
