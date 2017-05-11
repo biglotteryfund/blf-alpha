@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
+const config = require('config');
 const session = require('express-session');
 const expressValidator = require('express-validator');
 
@@ -47,12 +48,17 @@ module.exports = function (app) {
         const WELSH_LOCALE = 'cy';
         const CYMRU_URL = /^\/welsh\//;
         const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
+        let localePrefix = '';
         if (IS_WELSH) {
             req.i18n.setLocale(WELSH_LOCALE);
             res.setHeader('Content-Language', WELSH_LOCALE);
+            localePrefix = config.get('i18n.urlPrefix.cy');
         }
         req.app.locals.locale = req.i18n.getLocale();
+        req.app.locals.localePrefix = localePrefix;
+        // @TODO improve this
         app.get('engineEnv').addGlobal('locale', req.app.locals.locale);
+        app.get('engineEnv').addGlobal('localePrefix', req.app.locals.localePrefix);
 
         return next();
     });
