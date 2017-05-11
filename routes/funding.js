@@ -7,7 +7,7 @@ const PATHS = {
     manageFunding:     '/funding-guidance/managing-your-funding',
     helpWithPublicity: '/funding-guidance/managing-your-funding/help-with-publicity',
     freeMaterials:     '/funding-guidance/managing-your-funding/ordering-free-materials',
-    logoIndex:         '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    logoIndex:         '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos', // redirect only
     logoDownloads:     '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
 };
 
