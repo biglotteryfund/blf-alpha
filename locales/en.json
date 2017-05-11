@@ -2,6 +2,26 @@
 	"global": {
 		"brand": {
 			"title": "Big Lottery Fund"
+		},
+		"nav": {
+			"home": "Home",
+			"funding": "Funding",
+			"about": "About"
+		},
+		"contact": {
+			"city": "London",
+			"phone": "0345 4 10 20 30",
+			"email": "general.enquiries@biglotteryfund.org.uk"
+		},
+		"footerLinks": {
+			"title": "Quick links",
+			"foi": "Freedom of Information",
+			"privacy-policy": "Privacy Policy",
+			"terms": "Terms",
+			"cookies": "Cookies",
+			"contact": "Contact",
+			"site-map": "Site map",
+			"accessibility": "Accessibility"
 		}
 	},
 	"funding": {

@@ -2,6 +2,26 @@
 	"global": {
 		"brand": {
 			"title": "Cronfa Loteri Fawr"
+		},
+		"nav": {
+			"home": "Hafan",
+			"funding": "Ariannu",
+			"about": "Amdanom ni"
+		},
+		"contact": {
+			"city": "Llundain",
+			"phone": "0300 123 0735",
+			"email": "ymholiadau.cymru@cronfaloterifawr.org.uk"
+		},
+		"footerLinks": {
+			"title": "Dolenni gwib",
+			"foi": "Rhyddid Gwybodaeth",
+			"privacy-policy": "Polisi Preifatrwydd",
+			"terms": "Telerau",
+			"cookies": "Cwcis",
+			"contact": "Cyswllt",
+			"site-map": "Map o'r wefan",
+			"accessibility": "Hygyrchedd"
 		}
 	},
 	"funding": {

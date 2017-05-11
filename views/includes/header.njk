@@ -1,4 +1,4 @@
-{% import "../components/nav.njk" as nav %}
+{% from "../components/nav.njk" import navlinks with context %}
 
 <header role="banner">
     <div class="inner header__inner">
@@ -15,7 +15,7 @@
             </nav>
             <nav role="navigation" class="desktop-only grid__item">
                 <ul class="nav grid">
-                    {{ nav.navlinks('nav__link') }}
+                    {{ navlinks('nav__link') }}
                 </ul>
             </nav>
         </div>

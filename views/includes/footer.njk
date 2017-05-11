@@ -10,25 +10,25 @@
             <li class="grid__item desktop-only">
                 <img src="{{ 'images/lottery.png' | getCachebustedPath }}" class="logo-lottery" alt="Awarding funds from the National Lottery" />
                 <ul class="list-spaced m-t-none">
-                    <li><address>1 Plough Place, London EC4A 1DE</address></li>
-                    <li><a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></li>
-                    <li>0345 4 10 20 30</li>
+                    <li><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
+                    <li><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></li>
+                    <li>{{ __("global.contact.phone") | safe }}</li>
                 </ul>
             </li>
 
             <li class="grid__item">
-                <h4 class="footer__header t2 desktop-only">Quick links</h4>
+                <h4 class="footer__header t2 desktop-only">{{ __("global.footerLinks.title") | safe }}</h4>
                 <div class="grid grid--wide-only grid--top list-spaced m-t-none">
                     <ul class="grid__item">
-                        <li><a href="/about-big/customer-service/freedom-of-information">Freedom of Information</a></li>
-                        <li><a href="/about-big/customer-service/privacy-policy">Privacy Policy</a></li>
-                        <li><a href="/about-big/customer-service/terms-of-use">Terms</a></li>
-                        <li><a href="/about-big/customer-service/cookies">Cookies</a></li>
+                        <li><a href="/about-big/customer-service/freedom-of-information">{{ __("global.footerLinks.foi") | safe }}</a></li>
+                        <li><a href="/about-big/customer-service/privacy-policy">{{ __("global.footerLinks.privacy-policy") | safe }}</a></li>
+                        <li><a href="/about-big/customer-service/terms-of-use">{{ __("global.footerLinks.terms") | safe }}</a></li>
+                        <li><a href="/about-big/customer-service/cookies">{{ __("global.footerLinks.cookies") | safe }}</a></li>
                     </ul>
                     <ul class="grid__item flex__fill--second">
-                        <li><a href="/about-big/contact-us">Contact</a></li>
-                        <li><a href="/sitemap">Site map</a></li>
-                        <li><a href="/about-big/our-approach/accessibility">Accessibility</a></li>
+                        <li><a href="/about-big/contact-us">{{ __("global.footerLinks.contact") | safe }}</a></li>
+                        <li><a href="/sitemap">{{ __("global.footerLinks.site-map") | safe }}</a></li>
+                        <li><a href="/about-big/our-approach/accessibility">{{ __("global.footerLinks.accessibility") | safe }}</a></li>
                     </ul>
                 </div>
             </li>

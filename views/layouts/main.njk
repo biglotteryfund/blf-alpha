@@ -1,4 +1,4 @@
-{% import "../components/nav.njk" as nav %}
+{% from "../components/nav.njk" import navlinks with context %}
 <!doctype html>
 <html lang="{{ locale }}">
     <head>
@@ -25,10 +25,11 @@
             {% block content %}{% endblock %}
 
             {% include "../includes/footer.njk" %}
+
         </main>
         <nav class="mobile-only m-t-none">
             <ul class="nav--offscreen">
-                {{ nav.navlinks('nav--offscreen__link') }}
+                {{ navlinks('nav--offscreen__link') }}
             </ul>
         </nav>
 
