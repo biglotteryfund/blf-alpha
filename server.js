@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const app = express();
+const config = require('config');
 
 // configure boilerplate
 require('./boilerplate/globals')(app);
@@ -18,16 +19,17 @@ for (let global in app.locals) {
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
 
-const LANG_URL_WELSH = '/welsh';
 
-// aka welshify
-// create an array of paths: default (english) and welsh variant
+// aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = function (mountPath) {
-    return [mountPath, LANG_URL_WELSH + mountPath];
+    let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
+    return [mountPath, welshPath];
 };
 
 // router binder
-app.use('/', require('./routes/index'));
+const homepage = require('./routes/index');
+app.use('/', homepage);
+app.use('/welsh', homepage);
 app.use(cymreigio('/funding'), require('./routes/funding'));
 
 // catch 404 and forward to error handler

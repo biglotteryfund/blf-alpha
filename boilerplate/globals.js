@@ -35,9 +35,21 @@ module.exports = function (app) {
 
     // get URL middleware
     app.use(function(req, res, next) {
-        req.app.locals.getCurrentUrl = function () {
-            return req.protocol + "://" + req.get('host') + req.originalUrl;
+
+        req.app.locals.getCurrentUrl = function (locale) {
+            let currentUrl = req.protocol + "://" + req.get('host') + req.originalUrl;
+            const CYMRU_URL = /\/welsh\//;
+            const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
+            const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
+            if (locale === 'cy' && !IS_WELSH) { // make this URL welsh
+                currentUrl = req.protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + req.originalUrl;
+            } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
+                currentUrl = currentUrl.replace(CYMRU_URL, '/');
+            }
+            return currentUrl;
         };
+
+        app.get('engineEnv').addGlobal('getCurrentUrl', req.app.locals.getCurrentUrl);
         return next();
     });
 

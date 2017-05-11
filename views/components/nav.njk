@@ -2,6 +2,13 @@
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}><a href="/">Home</a></li>
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}><a href="/funding">Funding</a></li>
     <li{% if itemClass %} class="{{ itemClass }} {{ itemClass }}--last"{% endif %}><a href="/about-big">About</a></li>
+    <li{% if itemClass %} class="nav__lang {{ itemClass }} {{ itemClass }}--last"{% endif %}>
+        {% if locale == 'en' %}
+            <a href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+        {% else %}
+            <a href="{{ getCurrentUrl('en') }}">English</a>
+        {% endif %}
+    </li>
     <li class="nav__search">
         <form class="form-search" role="search" action="/search">
             <input type="hidden" name="lang" value="en-GB">

@@ -52,6 +52,8 @@ module.exports = function (app) {
             res.setHeader('Content-Language', WELSH_LOCALE);
         }
         req.app.locals.locale = req.i18n.getLocale();
+        app.get('engineEnv').addGlobal('locale', req.app.locals.locale);
+
         return next();
     });
 };

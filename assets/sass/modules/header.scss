@@ -14,6 +14,7 @@
 }
 
 .logo {
+    display: inline-block;
     // actual dimensions
     $logoWidth: map-get($logo, 'width');
     $logoHeight: map-get($logo, 'height');
@@ -177,6 +178,18 @@ nav {
             }
         }
 
+    }
+}
+
+.nav__lang {
+    @include mq('tablet') {
+        position: absolute;
+        top: $spacingUnit * 2;
+        right: -$spacingUnit * 2;
+        a {
+            color: palette('pink') !important;
+            text-decoration: none;
+        }
     }
 }
 
