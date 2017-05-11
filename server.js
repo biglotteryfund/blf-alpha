@@ -19,17 +19,20 @@ for (let global in app.locals) {
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
 
-
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = function (mountPath) {
     let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
     return [mountPath, welshPath];
 };
 
-// router binder
+// route binding
+
+// homepage couldn't be welshified :(
 const homepage = require('./routes/index');
 app.use('/', homepage);
 app.use('/welsh', homepage);
+
+// all other routes
 app.use(cymreigio('/funding'), require('./routes/funding'));
 
 // catch 404 and forward to error handler
