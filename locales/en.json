@@ -6,7 +6,8 @@
 		"nav": {
 			"home": "Home",
 			"funding": "Funding",
-			"about": "About"
+			"about": "About",
+			"search": "Search"
 		},
 		"contact": {
 			"city": "London",
