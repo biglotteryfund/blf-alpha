@@ -25,12 +25,12 @@ module.exports = function (app) {
         name: 'blf-alpha-session',
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: false }
+        cookie: { secure: false, httpOnly: false }
     };
 
     if (app.get('env') === 'production') {
         app.set('trust proxy', 4);
-        sessionConfig.cookie.secure = true;
+        // sessionConfig.cookie.secure = true;
     }
 
     app.use(session(sessionConfig));
