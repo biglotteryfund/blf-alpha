@@ -43,7 +43,7 @@ module.exports = function (app) {
             const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
             const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
             if (locale === 'cy' && !IS_WELSH) { // make this URL welsh
-                currentUrl = req.protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + req.originalUrl;
+                currentUrl = protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + req.originalUrl;
             } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
                 currentUrl = currentUrl.replace(CYMRU_URL, '/');
             }
