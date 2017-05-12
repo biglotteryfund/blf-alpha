@@ -10,5 +10,8 @@
         "urlPrefix": {
             "cy": "/welsh"
         }
+    },
+    "contrastCookie": {
+        "name": "contrastMode"
     }
 }

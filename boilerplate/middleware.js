@@ -43,7 +43,7 @@ module.exports = function (app) {
         extension: '.json'
     });
 
-    // inject locale for welsh URLs
+    // inject locale and contrast setting for welsh URLs
     app.use(function(req, res, next) {
         const WELSH_LOCALE = 'cy';
         const CYMRU_URL = /^\/welsh\//;
@@ -59,6 +59,16 @@ module.exports = function (app) {
         // @TODO improve this
         app.get('engineEnv').addGlobal('locale', req.app.locals.locale);
         app.get('engineEnv').addGlobal('localePrefix', req.app.locals.localePrefix);
+
+        // get a11y contrast preferences
+        let contrastPref = req.cookies[config.get('contrastCookie.name')];
+        if (contrastPref && contrastPref === 'high') {
+            req.app.locals.highContrast = true;
+            app.get('engineEnv').addGlobal('highContrast', true);
+        } else {
+            req.app.locals.highContrast = false;
+            app.get('engineEnv').addGlobal('highContrast', false);
+        }
 
         return next();
     });

@@ -1,6 +1,6 @@
 {% from "../components/nav.njk" import navlinks with context %}
 <!doctype html>
-<html lang="{{ locale }}" class="locale--{{ locale }}">
+<html lang="{{ locale }}" class="locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
         <!-- deploy {{ deployId }} (build #{{ buildNumber }}) -->
@@ -12,7 +12,7 @@
         <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
         {% endif %}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 
@@ -21,17 +21,17 @@
     <body>
         <main>
             {% include "../includes/header.njk" %}
-
-            {% block content %}{% endblock %}
-
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
             {% include "../includes/footer.njk" %}
-
         </main>
         <nav class="mobile-only m-t-none">
             <ul class="nav--offscreen">
                 {{ navlinks('nav--offscreen__link') }}
             </ul>
         </nav>
+        {% include "../includes/accessibility.njk" %}
 
     {% if not disableExternal %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
