@@ -37,6 +37,11 @@ const getCookieValue = function (a) {
 const isHighContrast = getCookieValue('contrastMode'); // @TODO get from config
 if (isHighContrast === 'high') {
     $('html').addClass('contrast--high');
+    $('#js-contrast-standard').show();
+    $('#js-contrast-high').hide();
+} else {
+    $('#js-contrast-standard').hide();
+    $('#js-contrast-high').show();
 }
 
 // router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {

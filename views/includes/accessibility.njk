@@ -1,10 +1,7 @@
 <nav class="accessibility__nav">
     <ul>
         <li><a tabindex="1" href="#content">Skip to content</a></li>
-        {% if highContrast %}
-            <li><a tabindex="2" href="/contrast/standard?url={{ getCurrentUrl() | urlencode}}">Enable standard contrast mode</a></li>
-        {% else %}
-            <li><a tabindex="2" href="/contrast/high?url={{ getCurrentUrl() | urlencode}}">Enable high contrast mode</a></li>
-        {% endif %}
+        <li><a id="js-contrast-standard" tabindex="2" href="/contrast/standard?url={{ getCurrentUrl() | urlencode}}">Enable standard contrast mode</a></li>
+        <li><a id="js-contrast-high" tabindex="2" href="/contrast/high?url={{ getCurrentUrl() | urlencode}}">Enable high contrast mode</a></li>
     </ul>
 </nav>
