@@ -31,6 +31,7 @@
     "request-promise": "^4.2.0",
     "rootbeer": "^1.0.5",
     "serve-favicon": "~2.3.2",
+    "vary": "^1.1.1",
     "winston": "^2.3.1"
   },
   "devDependencies": {

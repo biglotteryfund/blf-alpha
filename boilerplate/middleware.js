@@ -8,6 +8,8 @@ const session = require('express-session');
 const expressValidator = require('express-validator');
 const favicon = require('serve-favicon');
 const path = require('path');
+const vary = require('vary');
+
 
 module.exports = function (app) {
     app.use(favicon(path.join('public', '/favicon.ico')));
@@ -41,6 +43,11 @@ module.exports = function (app) {
         locales: ['en', 'cy'],
         cookieName: 'locale',
         extension: '.json'
+    });
+
+    app.use(function(req, res, next) {
+        vary(res, 'Cookie');
+        next();
     });
 
     // inject locale and contrast setting for welsh URLs
