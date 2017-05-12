@@ -24,7 +24,7 @@ router.get(PATHS.logoDownloads, (req, res, next) => {
 });
 
 // funding management page
-router.get([PATHS.manageFunding, '/test'], (req, res, next) => {
+router.get(PATHS.manageFunding, (req, res, next) => {
     res.render('pages/funding/guidance/managing-your-funding', {
         title: req.i18n.__("funding.guidance.managing-your-funding.title"),
         description: "We want you to be as flexible and creative as possible with using your grant money"
@@ -40,7 +40,7 @@ router.get(PATHS.helpWithPublicity, (req, res, next) => {
 });
 
 // ordering free materials page
-router.route(PATHS.freeMaterials)
+router.route([PATHS.freeMaterials, '/test'])
     .get((req, res, next) => {
         let errors = (req.session.errors) ? req.session.errors : false;
         let values = (req.session.values) ? req.session.values: false;
