@@ -29,7 +29,7 @@ module.exports = function (app) {
     };
 
     if (app.get('env') === 'production') {
-        app.set('trust proxy', 1);
+        app.set('trust proxy', 4);
         sessionConfig.cookie.secure = true;
     }
 
