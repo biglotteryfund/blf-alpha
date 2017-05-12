@@ -82,7 +82,8 @@ router.route([PATHS.freeMaterials, '/test'])
         }
         res.format({
             html: function () {
-                res.redirect(req.baseUrl + PATHS.freeMaterials);
+                // res.redirect(req.baseUrl + PATHS.freeMaterials);
+                res.redirect(req.baseUrl + '/test');
             },
             json: function () {
                 res.send({

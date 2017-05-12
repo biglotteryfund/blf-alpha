@@ -29,7 +29,8 @@ $mobileNavToggle.addEventListener('click', () => {
     document.documentElement.classList.toggle('show-off-canvas');
 });
 
-router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
+// router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
+router.get('/funding/test', () => {
     $('.js-order-material-btn').on('click', function (e) {
         e.preventDefault();
         const $form = $(this).parents('form');
