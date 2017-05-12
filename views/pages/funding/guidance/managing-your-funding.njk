@@ -42,7 +42,7 @@
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <a href="#">
+                        <a href="{{ localePrefix }}/publicity">
                             <img src="{{ 'images/funding/local-press.jpg' | getCachebustedPath }}" alt="Two cooks in chefs' clothing with another man smiling" />
                         </a>
                         {{ headers.blockheader(
@@ -50,14 +50,14 @@
                             __("funding.guidance.managing-your-funding.body.actions.press"),
                             14,
                             'minor grid__item__title',
-                            '#'
+                            localePrefix + '/publicity'
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--turquoise accent-b-t-l">
-                        <a href="{{ localePrefix }}/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/">
+                        <a href="{{ localePrefix }}/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos">
                             <img src="{{ 'images/funding/display-the-logo.jpg' | getCachebustedPath }}" alt="A man smiling outside the entrance to a bike shop" />
                         </a>
                         {{ headers.blockheader(
