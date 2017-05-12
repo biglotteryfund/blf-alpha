@@ -24,7 +24,7 @@ router.get(PATHS.logoDownloads, (req, res, next) => {
 });
 
 // funding management page
-router.get(PATHS.manageFunding, (req, res, next) => {
+router.get([PATHS.manageFunding, '/test'], (req, res, next) => {
     res.render('pages/funding/guidance/managing-your-funding', {
         title: req.i18n.__("funding.guidance.managing-your-funding.title"),
         description: "We want you to be as flexible and creative as possible with using your grant money"
@@ -94,7 +94,7 @@ router.route(PATHS.freeMaterials)
         });
     });
 
-router.post('/test', (req, res, next) => {
+router.post('/order-materials', (req, res, next) => {
     req.checkBody('yourName', 'Please provide your name').notEmpty();
     req.checkBody('yourAddress', 'Please provide your address').notEmpty();
     req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
