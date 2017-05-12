@@ -29,6 +29,16 @@ $mobileNavToggle.addEventListener('click', () => {
     document.documentElement.classList.toggle('show-off-canvas');
 });
 
+const getCookieValue = function (a) {
+    let b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+};
+
+const isHighContrast = getCookieValue('contrastMode'); // @TODO get from config
+if (isHighContrast === 'high') {
+    $('html').addClass('contrast--high');
+}
+
 // router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
 router.get('/funding/test', () => {
     $('.js-order-material-btn').on('click', function (e) {
