@@ -54,8 +54,10 @@ a {
 
     &.minor {
         @include font-and-leading(18px, 33px);
-        span {
-            padding: $spacingUnit / 3;
+        @include mq('tablet') {
+            span {
+                padding: $spacingUnit / 3;
+            }
         }
     }
 
