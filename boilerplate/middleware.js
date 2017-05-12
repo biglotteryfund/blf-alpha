@@ -6,11 +6,11 @@ const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
 const expressValidator = require('express-validator');
-
-// const favicon = require('serve-favicon');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 module.exports = function (app) {
-    //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+    app.use(favicon(path.join('public', '/favicon.ico')));
     app.use(morgan('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
