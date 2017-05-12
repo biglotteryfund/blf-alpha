@@ -72,6 +72,28 @@
             }
         }
 
+        .contrast--high & {
+            .t1 {
+                @include mq('tablet', 'max') {
+                    background-color: palette('high-contrast-bg') !important;
+                }
+
+                span {
+                    @include mq('tablet') {
+                        background-color: palette('high-contrast-bg') !important;
+                    }
+                }
+            }
+
+            &.btn--cta,
+            .btn--cta {
+                background-color: palette('high-contrast-bg') !important;
+                @include on-interact {
+                    background-color: darken(palette('high-contrast-bg'), 10%) !important;
+                }
+            }
+        }
+
         &.t3 {
             @if map-has-key($data, 'text') {
                 $fg: map-get($data, 'text');

@@ -197,6 +197,10 @@ nav {
         a {
             color: palette('pink') !important;
             text-decoration: none;
+
+            .contrast--high & {
+                color: palette('high-contrast-bg') !important;
+            }
         }
     }
 }
