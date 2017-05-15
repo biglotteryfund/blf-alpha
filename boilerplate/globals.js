@@ -37,7 +37,8 @@ module.exports = function (app) {
     app.use(function(req, res, next) {
 
         req.app.locals.getCurrentUrl = function (locale) {
-            let protocol = (appEnv === 'production') ? 'https' : req.protocol;
+            let headerProtocol = req.get('X-Forwarded-Proto');
+            let protocol = (headerProtocol) ? headerProtocol : req.protocol;
             let currentUrl = protocol + "://" + req.get('host') + req.originalUrl;
             const CYMRU_URL = /\/welsh\//;
             const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
