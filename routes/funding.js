@@ -8,11 +8,13 @@ const PATHS = {
     helpWithPublicity: '/funding-guidance/managing-your-funding/help-with-publicity',
     freeMaterials:     '/funding-guidance/managing-your-funding/ordering-free-materials',
     logoIndex:         '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos', // redirect only
+    logoIndex2:        '/funding-guidance/managing-your-funding/logodownloads', // redirect only
     logoDownloads:     '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
 };
 
+
 // redirect logoIndex => logoDownloads
-router.get(PATHS.logoIndex, (req, res, next) => {
+router.get([PATHS.logoIndex, PATHS.logoIndex2], (req, res, next) => {
     res.redirect(req.baseUrl + PATHS.logoDownloads);
 });
 
