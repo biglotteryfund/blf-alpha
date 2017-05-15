@@ -2,11 +2,12 @@
 
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
-- [ ] Improve routing config and tie routes into language files directly
-- [ ] Add a linkbuilder function
+- [ ] Add a linkbuilder function - should take an object path and return prefix etc
 - [ ] Refactor form input component to make input errors and values global
+- [ ] Improve template globals
 
 # Done 
+- [x] Improve routing config and tie routes into language files directly
 - [x] Pre-commit hook wipes out local dev env CSS
 - [x] Once on a `/welsh` url, should all links be relative to this? 
 - [x] Make passenger pass PROTO header

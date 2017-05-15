@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const sassConfig = require('../config/sass.json');
+const routes = require('../routes/routes');
 
 module.exports = function (app) {
     // extract deploy ID from AWS (where provided)
@@ -18,6 +19,8 @@ module.exports = function (app) {
     app.locals.IS_DEV = appEnv === 'dev';
     app.locals.environment = appEnv;
     app.locals.config = config;
+
+    app.locals.routes = routes.sections;
 
     app.locals.metadata = {
         title: config.get('meta.title'),

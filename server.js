@@ -2,7 +2,6 @@
 const express = require('express');
 const app = express();
 const config = require('config');
-
 const routes = require('./routes/routes');
 
 // configure boilerplate
