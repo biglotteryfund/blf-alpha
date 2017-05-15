@@ -9,7 +9,7 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            {{ headers.blockheader('h2', __("funding.guidance.managing-your-funding.title"), 30, 'hero__header') }}
+            {{ headers.blockheader('h2', copy.title, 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -17,8 +17,8 @@
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header1") }}</h3>
-            {{ __("funding.guidance.managing-your-funding.body.block1") | safe }}
+            <h3 class="t3 m-t-none">{{ copy.body.header1 }}</h3>
+            {{ copy.body.block1 | safe }}
         </div>
 
         <div class="inner">
@@ -32,7 +32,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.social"),
+                            copy.body.actions.social,
                             18,
                             'minor grid__item__title',
                             localePrefix + '/funding/funding-guidance/managing-your-funding/help-with-publicity'
@@ -47,7 +47,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.press"),
+                            copy.body.actions.press,
                             14,
                             'minor grid__item__title',
                             localePrefix + '/publicity'
@@ -62,7 +62,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.logo"),
+                            copy.body.actions.logo,
                             18,
                             'minor grid__item__title',
                             localePrefix + '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
@@ -77,7 +77,7 @@
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.free-material"),
+                            copy.body.actions.freeMaterial,
                             20,
                             'minor grid__item__title',
                             localePrefix + '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
@@ -88,8 +88,8 @@
         </div>
 
         <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header2") }}</h3>
-            {{ __("funding.guidance.managing-your-funding.body.block2") | safe }}
+            <h3 class="t3 m-t-none">{{ copy.body.header2 }}</h3>
+            {{ copy.body.block2 | safe }}
         </div>
     </article>
 

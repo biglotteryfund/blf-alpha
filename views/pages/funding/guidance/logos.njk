@@ -6,11 +6,11 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% macro makeLogoTitle(logoName, logoSize) %}
-    {{ __("funding.guidance.logos.downloads.download") }}
+    {{ copy.downloads.download }}
     {% if locale == 'cy' %}logo{% endif %}
-    {{ __("funding.guidance.logos.downloads.colours." + logoName) }}
+    {{ copy.downloads.colours[logoName] }}
     {% if locale == 'en' %}logo{% endif %}
-    <span class="lighter">({{ __("funding.guidance.logos.downloads.sizes." + logoSize) }})</span>
+    <span class="lighter">({{ copy.downloads.sizes[logoSize] }})</span>
 {% endmacro %}
 
 {% macro logoBlock(logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
@@ -33,21 +33,22 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            {{ headers.blockheader('h2', __("funding.guidance.logos.title"), 30, 'hero__header') }}
+            {{ headers.blockheader('h2', copy.title, 30, 'hero__header') }}
         </div>
     {% endset %}
 
     {{ hero.header('logo', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
+
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
-            {{ __("funding.guidance.logos.body") | safe }}
+            {{ copy.body | safe }}
         </div>
 
         <div class="inner">
 
             {% if locale == 'en' %}
-                <h3 class="t3a m-t m-l">{{ __("funding.guidance.logos.labels.english") | safe }}</h3>
+                <h3 class="t3a m-t m-l">{{ copy.labels.english | safe }}</h3>
 
                 <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                     <li class="grid__item">
@@ -73,7 +74,7 @@
                 </ul>
             {% endif %}
 
-            <h3 class="t3a m-t m-l">{{ __("funding.guidance.logos.labels.bilingual") | safe }}</h3>
+            <h3 class="t3a m-t m-l">{{ copy.labels.bilingual | safe }}</h3>
 
             <ul class="grid grid--wide-only grid--equal grid--2-up grid--padded">
                 <li class="grid__item">
