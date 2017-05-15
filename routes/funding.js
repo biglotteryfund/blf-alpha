@@ -42,6 +42,8 @@ router.get(PATHS.helpWithPublicity, (req, res, next) => {
 // ordering free materials page
 router.route([PATHS.freeMaterials, '/test'])
     .get((req, res, next) => {
+        // this page is dynamic so don't cache it
+        res.cacheControl = { maxAge: 0 };
         let errors = (req.session.errors) ? req.session.errors : false;
         let values = (req.session.values) ? req.session.values: false;
         delete req.session.errors;
