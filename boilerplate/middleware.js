@@ -13,7 +13,13 @@ const vary = require('vary');
 
 module.exports = function (app) {
     app.use(favicon(path.join('public', '/favicon.ico')));
-    app.use(morgan('dev'));
+    let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
+    app.use(morgan(logFormat, {
+        skip: (req, res) => {
+            // don't log status messages
+            return (req.originalUrl === '/status');
+        }
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
