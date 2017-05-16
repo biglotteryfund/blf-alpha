@@ -50,7 +50,25 @@ setGlobal('getFormErrorForField', function (errorList, fieldName) {
     }
 });
 
-app.locals.routes = routes.sections;
+// linkbuilder function for helping with routes
+setGlobal('buildUrl', (sectionName, pageName) => {
+    let localePrefix = getGlobal('localePrefix');
+    let section = routes.sections[sectionName];
+    try {
+        let page = section.pages[pageName];
+        return localePrefix + section.path + page.path;
+    }
+    catch (e) {
+        console.error('Invalid URL build attempted', {
+            sectionName: sectionName,
+            pageName: pageName
+        });
+        let url = '/';
+        if (sectionName) { url += sectionName; }
+        if (pageName) { url += pageName; }
+        return localePrefix + url;
+    }
+});
 
 // look up the current URL and rewrite to another locale
 let getCurrentUrl = function (req, locale) {

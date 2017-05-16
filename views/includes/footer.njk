@@ -20,15 +20,15 @@
                 <h4 class="footer__header t2 desktop-only">{{ __("global.footerLinks.title") | safe }}</h4>
                 <div class="grid grid--wide-only grid--top list-spaced m-t-none">
                     <ul class="grid__item">
-                        <li><a href="{{ localePrefix }}/about-big/customer-service/freedom-of-information">{{ __("global.footerLinks.foi") | safe }}</a></li>
-                        <li><a href="{{ localePrefix }}/about-big/customer-service/privacy-policy">{{ __("global.footerLinks.privacy-policy") | safe }}</a></li>
-                        <li><a href="{{ localePrefix }}/about-big/customer-service/terms-of-use">{{ __("global.footerLinks.terms") | safe }}</a></li>
-                        <li><a href="{{ localePrefix }}/about-big/customer-service/cookies">{{ __("global.footerLinks.cookies") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/customer-service/freedom-of-information') }}">{{ __("global.footerLinks.foi") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/customer-service/privacy-policy') }}">{{ __("global.footerLinks.privacy-policy") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/customer-service/terms-of-use') }}">{{ __("global.footerLinks.terms") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/customer-service/cookies') }}">{{ __("global.footerLinks.cookies") | safe }}</a></li>
                     </ul>
                     <ul class="grid__item flex__fill--second">
-                        <li><a href="{{ localePrefix }}/about-big/contact-us">{{ __("global.footerLinks.contact") | safe }}</a></li>
-                        <li><a href="{{ localePrefix }}/sitemap">{{ __("global.footerLinks.site-map") | safe }}</a></li>
-                        <li><a href="{{ localePrefix }}/about-big/our-approach/accessibility">{{ __("global.footerLinks.accessibility") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/contact-us') }}">{{ __("global.footerLinks.contact") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('sitemap') }}">{{ __("global.footerLinks.site-map") | safe }}</a></li>
+                        <li><a href="{{ buildUrl('about-big/our-approach/accessibility') }}">{{ __("global.footerLinks.accessibility") | safe }}</a></li>
                     </ul>
                 </div>
             </li>

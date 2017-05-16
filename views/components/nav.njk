@@ -1,12 +1,12 @@
 {% macro navlinks(itemClass) %}
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
-        <a href="{{ localePrefix }}/">{{ __("global.nav.home") | safe }}</a>
+        <a href="{{ buildUrl() }}">{{ __("global.nav.home") | safe }}</a>
     </li>
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
-        <a href="{{ localePrefix }}/funding">{{ __("global.nav.funding") | safe }}</a>
+        <a href="{{ buildUrl('funding') }}">{{ __("global.nav.funding") | safe }}</a>
     </li>
     <li{% if itemClass %} class="{{ itemClass }} {{ itemClass }}--last"{% endif %}>
-        <a href="{{ localePrefix }}/about-big">{{ __("global.nav.about") | safe }}</a>
+        <a href="{{ buildUrl('about-big') }}">{{ __("global.nav.about") | safe }}</a>
     </li>
     <li{% if itemClass %} class="nav__lang {{ itemClass }} {{ itemClass }}--last"{% endif %}>
         {% if locale == 'en' %}
