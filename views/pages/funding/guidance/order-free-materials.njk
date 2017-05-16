@@ -93,13 +93,13 @@
             <h2>Order form</h2>
 
             <form class="form-fund" method="post" action="/funding/order-materials">
-                {{ forms.input('yourName', 'Your name', formErrors, values = values) }}
-                {{ forms.input('yourAddress', 'Your address', formErrors, inputType = 'textarea', values = values) }}
-                {{ forms.input('yourNumber', 'Your telephone number', formErrors, inputType = 'tel', values = values) }}
-                {{ forms.input('yourEmail', 'Your email address', formErrors, inputType = 'email', values = values) }}
-                {{ forms.input('yourProjectName', 'Your project name', formErrors, values = values) }}
-                {{ forms.input('yourProjectID', 'Your project ID number', formErrors, values = values) }}
-                {{ forms.input('yourGrantAmount', 'Your grant amount', formErrors, values = values) }}
+                {{ forms.input('yourName', 'Your name') }}
+                {{ forms.input('yourAddress', 'Your address', inputType = 'textarea') }}
+                {{ forms.input('yourNumber', 'Your telephone number', inputType = 'tel') }}
+                {{ forms.input('yourEmail', 'Your email address', inputType = 'email') }}
+                {{ forms.input('yourProjectName', 'Your project name') }}
+                {{ forms.input('yourProjectID', 'Your project ID number') }}
+                {{ forms.input('yourGrantAmount', 'Your grant amount') }}
                 <input type="submit">
             </form>
 

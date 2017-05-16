@@ -39,8 +39,7 @@ module.exports = (pages) => {
             res.cacheControl = { maxAge: 0 };
             let errors = (req.session.errors) ? req.session.errors : false;
             let values = (req.session.values) ? req.session.values: false;
-            delete req.session.errors;
-            delete req.session.values;
+
             let lang = req.i18n.__(freeMaterials.lang);
             res.render(freeMaterials.template, {
                 title: lang.title,
@@ -51,6 +50,9 @@ module.exports = (pages) => {
                 formErrors: errors,
                 values: values
             });
+
+            delete req.session.errors;
+            delete req.session.values;
         })
         .post((req, res, next) => {
             let itemID = parseInt(req.body.itemID);

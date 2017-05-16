@@ -39,5 +39,10 @@ templateEnv.addFilter('splitByCharLength', function (str, length) {
     return rows;
 });
 
+app.use((req, res, next) => {
+    templateEnv.addGlobal('request', req);
+    next();
+});
+
 app.set('view engine', 'njk');
 app.set('engineEnv', templateEnv);
