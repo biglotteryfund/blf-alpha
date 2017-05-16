@@ -59,10 +59,6 @@ setGlobal('buildUrl', (sectionName, pageName) => {
         return localePrefix + section.path + page.path;
     }
     catch (e) {
-        console.error('Invalid URL build attempted', {
-            sectionName: sectionName,
-            pageName: pageName
-        });
         let url = '/';
         if (sectionName) { url += sectionName; }
         if (pageName) { url += pageName; }

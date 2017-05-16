@@ -4,6 +4,7 @@ const router = express.Router();
 const moment = require('moment');
 
 const globals = require('../boilerplate/globals');
+const routes = require('./routes');
 
 const LAUNCH_DATE = moment();
 
@@ -20,6 +21,12 @@ router.get('/', (req, res, next) => {
         'BUILD_NUMBER': appData.buildNumber,
         'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
         'UPTIME': LAUNCH_DATE.toNow(true)
+    });
+});
+
+router.get('/pages', (req, res, next) => {
+    res.render('pagelist', {
+        routes: routes.sections
     });
 });
 
