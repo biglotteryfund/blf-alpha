@@ -46,7 +46,7 @@ module.exports = (pages) => {
                 title: lang.title,
                 copy: lang,
                 description: "Order items free of charge to acknowledge your grant",
-                materials: materials.categories,
+                materials: materials.items,
                 quantities: (req.session.quantities) ? req.session.quantities : {},
                 formErrors: errors,
                 values: values

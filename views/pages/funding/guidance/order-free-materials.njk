@@ -19,45 +19,76 @@
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
 
-            {% for category in materials %}
-                <h3 class="m-t">{{ category.title }}</h3>
-                {% if category.info %}<p>{{ category.info }}</p>{% endif %}
-                <ul>
-                {% for item in category.items %}
-                    <li>
-                        <h4>{{ item.name }}
-                            {% if item.dimensions %}
-                                ({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)
-                            {% elif item.description %}
-                                ({{ item.description }})
+            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
+                {% for item in materials %}
+                    <li class="grid__item">
+                        <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
+                            {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
+                            <img src="{{ imgPath | getCachebustedPath }}" alt="{{ item.name }}">
+                            {{ item.name }}
+
+                            {% if item.multiProduct %}
+                                <select>
+                                    {% for languages in item.products %}
+                                        <optgroup label="{{ languages.name }}">
+                                            {% for item in languages.ids %}
+                                                <option value="{{ item.id }}">{{ item.name }}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <select>
+                                    {% for p in item.products %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endfor %}
+                                </select>
                             {% endif %}
-                        </h4>
-                        <p>{% if item.maximum %}(maximum {{ item.maximum }} per project){% endif %}</p>
-                        {% for code in item.ids %}
-                            {% if code.name %}
-                                <h5>{{ code.name }}</h5>
-                            {% endif %}
-                            <h6>{{ code[locale] }}</h6>
-                            <form method="post" class="js-order-materials">
-                                <input type="hidden" name="categoryID" value="{{ category.id }}">
-                                <input type="hidden" name="itemID" value="{{ item.id }}">
-                                <input type="hidden" name="locale" value="{{ locale }}">
-                                {% if item.notAllowedWithItem %}
-                                    <input type="hidden" name="notAllowedWithItem" value="{{ item.notAllowedWithItem }}">
-                                {% endif %}
-                                <button type="submit" name="quantity" value="decrease" class="js-order-material-btn">-</button>
-                                <input type="number"
-                                       value="{{ quantities[item.id] or 0 }}"
-                                       size="2"
-                                       min="0"{% if item.maximum %} max="{{ item.maximum }}"{% endif %}
-                                       class="js-material-count">
-                                <button type="submit" name="quantity" value="increase" class="js-order-material-btn">+</button>
-                            </form>
-                        {% endfor %}
+
+                        </div>
                     </li>
                 {% endfor %}
-                </ul>
-            {% endfor %}
+            </ul>
+
+            {#{% for category in materials %}#}
+                {#<h3 class="m-t">{{ category.title }}</h3>#}
+                {#{% if category.info %}<p>{{ category.info }}</p>{% endif %}#}
+                {#<ul>#}
+                {#{% for item in category.items %}#}
+                    {#<li>#}
+                        {#<h4>{{ item.name }}#}
+                            {#{% if item.dimensions %}#}
+                                {#({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)#}
+                            {#{% elif item.description %}#}
+                                {#({{ item.description }})#}
+                            {#{% endif %}#}
+                        {#</h4>#}
+                        {#<p>{% if item.maximum %}(maximum {{ item.maximum }} per project){% endif %}</p>#}
+                        {#{% for code in item.ids %}#}
+                            {#{% if code.name %}#}
+                                {#<h5>{{ code.name }}</h5>#}
+                            {#{% endif %}#}
+                            {#<h6>{{ code[locale] }}</h6>#}
+                            {#<form method="post" class="js-order-materials">#}
+                                {#<input type="hidden" name="categoryID" value="{{ category.id }}">#}
+                                {#<input type="hidden" name="itemID" value="{{ item.id }}">#}
+                                {#<input type="hidden" name="locale" value="{{ locale }}">#}
+                                {#{% if item.notAllowedWithItem %}#}
+                                    {#<input type="hidden" name="notAllowedWithItem" value="{{ item.notAllowedWithItem }}">#}
+                                {#{% endif %}#}
+                                {#<button type="submit" name="quantity" value="decrease" class="js-order-material-btn">-</button>#}
+                                {#<input type="number"#}
+                                       {#value="{{ quantities[item.id] or 0 }}"#}
+                                       {#size="2"#}
+                                       {#min="0"{% if item.maximum %} max="{{ item.maximum }}"{% endif %}#}
+                                       {#class="js-material-count">#}
+                                {#<button type="submit" name="quantity" value="increase" class="js-order-material-btn">+</button>#}
+                            {#</form>#}
+                        {#{% endfor %}#}
+                    {#</li>#}
+                {#{% endfor %}#}
+                {#</ul>#}
+            {#{% endfor %}#}
 
             <h2>Order form</h2>
 

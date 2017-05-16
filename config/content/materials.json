@@ -1,179 +1,248 @@
 {
-    "categories": [
+    "items": [
         {
-            "title": "Plaques",
             "id": 1,
-            "items": [
+            "name": "Small aluminium equipment plaque",
+            "image": "plaque-alu.jpg",
+            "dimensions": [
+                115,
+                80
+            ],
+            "maximum": 4,
+            "products": [
                 {
-                    "id": 1,
-                    "name": "Small aluminium equipment plaques",
-                    "dimensions": [115, 80],
-                    "maximum": 4,
+                    "name": "English",
+                    "id": "BIG-PLAQAS"
+                },
+                {
+                    "name": "Welsh",
+                    "id": "BIG-PLAQASBI"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Perspex plaque",
+            "image": "plaque-perspex.jpg",
+            "dimensions": [
+                310,
+                260
+            ],
+            "maximum": 1,
+            "notAllowedWithItem": 3,
+            "products": [
+                {
+                    "name": "English",
+                    "id": "BLF-BR089KIT"
+                },
+                {
+                    "name": "Welsh",
+                    "id": "BLF-BR099KIT"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Stainless steel plaque",
+            "image": "plaque-steel.jpg",
+            "dimensions": [
+                310,
+                260
+            ],
+            "maximum": 1,
+            "notAllowedWithItem": 2,
+            "products": [
+                {
+                    "name": "English",
+                    "id": "BLF-BR088"
+                },
+                {
+                    "name": "Welsh",
+                    "id": "BLF-BR098"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "A4 sticker sheets",
+            "image": "stickers.jpg",
+            "description": "Mixed sizes",
+            "maximum": 10,
+            "multiProduct": true,
+            "products": [
+                {
+                    "name": "English",
                     "ids": [
                         {
-                            "en": "BIG-PLAQAS",
-                            "cy": "BIG-PLAQASBI"
+                            "name": "A4 sticker sheets",
+                            "id": "BLF-BR01101"
+                        },
+                        {
+                            "name": "Small equipment sticker (75mm x 50mm)",
+                            "id": "BLF-BR01201"
+                        },
+                        {
+                            "name": "Medium equipment stickers (80mm x 70mm)",
+                            "id": "BLF-BR01301"
+                        },
+                        {
+                            "name": "Large equipment stickers (120mm x 150mm)",
+                            "id": "BLF-BR01401"
                         }
                     ]
                 },
                 {
-                    "id": 2,
-                    "name": "Perspex plaque",
-                    "dimensions": [310, 260],
-                    "maximum": 1,
-                    "notAllowedWithItem": 3,
+                    "name": "Welsh",
                     "ids": [
                         {
-                            "en": "BLF-BR089KIT",
-                            "cy": "BLF-BR099KIT"
-                        }
-                    ]
-                },
-                {
-                    "id": 3,
-                    "name": "Stainless steel plaque",
-                    "dimensions": [310, 260],
-                    "maximum": 1,
-                    "notAllowedWithItem": 2,
-                    "ids": [
+                            "name": "A4 sticker sheets",
+                            "id": "BLF-BR06101"
+                        },
                         {
-                            "en": "BLF-BR088",
-                            "cy": "BLF-BR098"
+                            "name": "Small equipment stickers (75mm x 50mm)",
+                            "id": "BLF-BR06201"
+                        },
+                        {
+                            "name": "Medium equipment stickers (80mm x 70mm)",
+                            "id": "BLF-BR06301"
+                        },
+                        {
+                            "name": "Large equipment stickers (120mm x 150mm)",
+                            "id": "BLF-BR06401"
                         }
                     ]
                 }
             ]
         },
         {
-            "title": "Stickers",
-            "id": 2,
-            "info": "Not suitable for children. May damage paintwork, skin and clothing when removed.",
-            "items": [
+            "id": 8,
+            "name": "Vehicle stickers",
+            "image": "vehicle.jpg",
+            "description": "Transparent with black or white logo",
+            "dimensions": [
+                210,
+                150
+            ],
+            "maximum": 2,
+            "multiProduct": true,
+            "products": [
                 {
-                    "id": 4,
-                    "name": "A4 sticker sheets",
-                    "description": "Mixed sizes",
-                    "maximum": 10,
-                    "ids": [
-                        {
-                            "en": "BLF-BR01101",
-                            "cy": "BLF-BR06101"
-                        }
-                    ]
-                },
-                {
-                    "id": 5,
-                    "name": "Small equipment stickers",
-                    "dimensions": [75, 50],
-                    "maximum": 10,
-                    "ids": [
-                        {
-                            "en": "BLF-BR01201",
-                            "cy": "BLF-BR06201"
-                        }
-                    ]
-                },
-                {
-                    "id": 6,
-                    "name": "Medium equipment stickers",
-                    "dimensions": [80, 70],
-                    "maximum": 10,
-                    "ids": [
-                        {
-                            "en": "BLF-BR01301",
-                            "cy": "BLF-BR06301"
-                        }
-                    ]
-                },
-                {
-                    "id": 7,
-                    "name": "Large equipment stickers",
-                    "dimensions": [120, 100],
-                    "maximum": 10,
-                    "ids": [
-                        {
-                            "en": "BLF-BR01401",
-                            "cy": "BLF-BR06401"
-                        }
-                    ]
-                },
-                {
-                    "id": 8,
-                    "name": "Vehicle stickers",
-                    "description": "Transparent with black or white logo",
-                    "dimensions": [210, 150],
-                    "maximum": 2,
+                    "name": "English",
                     "ids": [
                         {
                             "name": "Black logo",
-                            "en": "BIG-VEHBE",
-                            "cy": "BIG-VEHBB"
+                            "id": "BIG-VEHBE"
                         },
                         {
                             "name": "White logo",
-                            "en": "BIG-VEHWE",
-                            "cy": "BIG-VEHBW"
+                            "id": "BIG-VEHWE"
+                        }
+                    ]
+                },
+                {
+                    "name": "Welsh",
+                    "ids": [
+                        {
+                            "name": "Black logo",
+                            "id": "BIG-VEHBB"
+                        },
+                        {
+                            "name": "White logo",
+                            "id": "BIG-VEHBW"
                         }
                     ]
                 }
             ]
         },
         {
-            "title": "Other items",
-            "id": 3,
-            "items": [
+            "id": 9,
+            "name": "Vinyl banner",
+            "image": "banner.jpg",
+            "dimensions": [
+                800,
+                600
+            ],
+            "maximum": 1,
+            "products": [
                 {
-                    "id": 9,
-                    "name": "Vinyl banner",
-                    "dimensions": [800, 600],
-                    "maximum": 1,
-                    "ids": [
-                        {
-                            "en": "BIG-BANNP",
-                            "cy": "BIG-BANNPBI"
-                        }
-                    ]
+                    "name": "English",
+                    "id": "BIG-BANNP"
                 },
                 {
-                    "id": 10,
-                    "name": "Iron-on logo",
-                    "description": "Transfer for clothing",
-                    "maximum": 10,
+                    "name": "Welsh",
+                    "id": "BIG-BANNPBI"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Iron-on logo",
+            "image": "transfer.jpg",
+            "description": "Transfer for clothing",
+            "maximum": 10,
+            "multiProduct": true,
+            "products": [
+                {
+                    "name": "English",
                     "ids": [
                         {
                             "name": "White",
-                            "en": "BIG-IOTBWL",
-                            "cy": "BIG-IOTBWLB"
+                            "id": "BIG-IOTBWL"
                         },
                         {
                             "name": "Black",
-                            "en": "BIG-IOTWBL",
-                            "cy": "BIG-IOTWBLB"
+                            "id": "BIG-IOTWBL"
                         }
                     ]
                 },
                 {
-                    "id": 11,
-                    "name": "Balloons",
-                    "maximum": 10,
+                    "name": "Welsh",
                     "ids": [
                         {
-                            "en": "BIG-EVBLN",
-                            "cy": "BIG-EVBLNBI"
+                            "name": "White",
+                            "id": "BIG-IOTBWLB"
+                        },
+                        {
+                            "name": "Black",
+                            "id": "BIG-IOTWBLB"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Balloons",
+            "image": "balloons.jpg",
+            "maximum": 10,
+            "products": [
+                {
+                    "name": "English",
+                    "id": "BIG-EVBLN"
                 },
                 {
-                    "id": 12,
-                    "name": "Promo cheque",
-                    "dimensions": [610, 305],
-                    "maximum": 1,
-                    "ids": [
-                        {
-                            "en": "BIG-CHQ",
-                            "cy": "BIG-CHQBI"
-                        }
-                    ]
+                    "name": "Welsh",
+                    "id": "BIG-EVBLNBI"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Promo cheque",
+            "image": "cheque.jpg",
+            "dimensions": [
+                610,
+                305
+            ],
+            "maximum": 1,
+            "products": [
+                {
+                    "name": "English",
+                    "id": "BIG-CHQ"
+                },
+                {
+                    "name": "Welsh",
+                    "id": "BIG-CHQBI"
                 }
             ]
         }
