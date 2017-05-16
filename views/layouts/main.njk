@@ -3,7 +3,7 @@
 <html lang="{{ locale }}" class="locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
-        <!-- deploy {{ deployId }} (build #{{ buildNumber }}) -->
+        <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 
         <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
         {% if not disableExternal %}

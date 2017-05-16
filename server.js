@@ -1,20 +1,15 @@
 'use strict';
 const express = require('express');
-const app = express();
+const app = module.exports = express();
 const config = require('config');
 
 // configure boilerplate
-require('./boilerplate/globals')(app);
-require('./boilerplate/security')(app);
-require('./boilerplate/viewEngine')(app);
-require('./boilerplate/static')(app);
-require('./boilerplate/cache')(app);
-require('./boilerplate/middleware')(app);
-
-// hacky way to share globals to macros (which don't inherit them)
-for (let global in app.locals) {
-    app.get('engineEnv').addGlobal(global, app.locals[global]);
-}
+require('./boilerplate/viewEngine');
+require('./boilerplate/globals');
+require('./boilerplate/security');
+require('./boilerplate/static');
+require('./boilerplate/cache');
+require('./boilerplate/middleware');
 
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
@@ -52,5 +47,3 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error');
 });
-
-module.exports = app;

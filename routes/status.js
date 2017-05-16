@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
+const globals = require('../boilerplate/globals');
+
 const LAUNCH_DATE = moment();
 
 router.get('/', (req, res, next) => {
@@ -11,10 +13,11 @@ router.get('/', (req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader('Content-Type', 'application/json');
+    const appData = globals.get('appData');
     res.send({
         'APP_ENV': process.env.NODE_ENV,
-        'DEPLOY_ID': req.app.locals.deployId,
-        'BUILD_NUMBER': req.app.locals.buildNumber,
+        'DEPLOY_ID': appData.deployId,
+        'BUILD_NUMBER': appData.buildNumber,
         'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
         'UPTIME': LAUNCH_DATE.toNow(true)
     });
