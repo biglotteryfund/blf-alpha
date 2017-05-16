@@ -2,6 +2,7 @@
 const express = require('express');
 const app = module.exports = express();
 const config = require('config');
+const routes = require('./routes/routes');
 
 // configure boilerplate
 require('./boilerplate/viewEngine');
@@ -28,7 +29,11 @@ app.use('/', homepage);
 app.use('/welsh', homepage);
 
 // all other routes
-app.use(cymreigio('/funding'), require('./routes/funding'));
+for (let section in routes.sections) {
+    let s = routes.sections[section];
+    app.use(cymreigio(s.path), s.handler(s.pages));
+}
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

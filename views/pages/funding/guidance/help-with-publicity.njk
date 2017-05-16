@@ -17,13 +17,13 @@
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
-            {{ __("funding.guidance.help-with-publicity.body.part1") | safe }}
+            {{ copy.body.part1 | safe }}
 
-            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.1") | safe }}</h3>
-            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.2") | safe }}</h3>
-            <h3 class="t3a m-t">{{ __("funding.guidance.help-with-publicity.body.actions.3") | safe }}</h3>
+            <h3 class="t3a m-t">{{ copy.body.actions[1] | safe }}</h3>
+            <h3 class="t3a m-t">{{ copy.body.actions[2] | safe }}</h3>
+            <h3 class="t3a m-t">{{ copy.body.actions[3] | safe }}</h3>
 
-            {{ __("funding.guidance.help-with-publicity.body.part2") | safe }}
+            {{ copy.body.part2 | safe }}
 
         </div>
 

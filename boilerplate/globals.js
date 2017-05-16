@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const sassConfig = require('../config/sass.json');
+const routes = require('../routes/routes');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
@@ -46,6 +47,22 @@ setGlobal('disableExternal', config.get('disableExternal'));
 setGlobal('getFormErrorForField', function (errorList, fieldName) {
     if (errorList && errorList.length > 0) {
         return errorList.find(e => e.param === fieldName);
+    }
+});
+
+// linkbuilder function for helping with routes
+setGlobal('buildUrl', (sectionName, pageName) => {
+    let localePrefix = getGlobal('localePrefix');
+    let section = routes.sections[sectionName];
+    try {
+        let page = section.pages[pageName];
+        return localePrefix + section.path + page.path;
+    }
+    catch (e) {
+        let url = '/';
+        if (sectionName) { url += sectionName; }
+        if (pageName) { url += pageName; }
+        return localePrefix + url;
     }
 });
 

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Page index</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                font-family: arial;
+                line-height: 1.5;
+            }
+
+            h1 {
+                background-color: #eeeeee;
+                margin: 0;
+                padding: 20px 15%;
+            }
+
+            main {
+                width: 70%;
+                margin: 20px auto;
+            }
+
+            h2 {
+                border-bottom: 1px solid #999999;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+            }
+
+            h4 span {
+                font-size: 75%;
+                font-weight: normal;
+                color: #666666;
+            }
+
+            article {
+                margin-left: 40px;
+                margin-bottom: 40px;
+            }
+
+            .status:after {
+                padding: 2px 6px;
+                display: inline-block;
+                color: #ffffff;
+                text-transform: uppercase;
+                font-size: 11px;
+            }
+
+            .status--live:after {
+                background-color: green;
+                content: "Live";
+            }
+            .status--draft:after {
+                background-color: red;
+                content: 'Draft';
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Page index</h1>
+        <main>
+            {% for sectionName, section in routes %}
+                <h2>{{ section.name }}</h2>
+                {% for pageName, page in section.pages %}
+                    <h3>Page #{{ page.code }} &ndash; {{ page.name }} <span class="status {% if page.live %}status--live{% else %}status--draft{% endif %}"></span></h3>
+                    <article>
+                        <h4>Canonical URL <span>(eg. the definitive version of this page)</span></h4>
+                        {% set link = buildUrl(sectionName, pageName) %}
+                        <ul>
+                            <li><strong>EN:</strong> <a href="{{ link }}">{{ link }}</a></li>
+                            <li><strong>CY:</strong> <a href="/welsh{{ link }}">/welsh{{ link }}</a></li>
+                        </ul>
+                        {% if page.aliases %}
+                            <h4>Aliases <span>(these links redirect to the canonical one above)</span></h4>
+                            <ul>
+                                {% for link in page.aliases %}
+                                    <li><a href="{{ link }}">{{ link }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            {% endfor %}
+        </main>
+    </body>
+</html>

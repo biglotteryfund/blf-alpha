@@ -9,7 +9,7 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            {{ headers.blockheader('h2', __("funding.guidance.managing-your-funding.title"), 30, 'hero__header') }}
+            {{ headers.blockheader('h2', copy.title, 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -17,8 +17,8 @@
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header1") }}</h3>
-            {{ __("funding.guidance.managing-your-funding.body.block1") | safe }}
+            <h3 class="t3 m-t-none">{{ copy.body.header1 }}</h3>
+            {{ copy.body.block1 | safe }}
         </div>
 
         <div class="inner">
@@ -27,60 +27,60 @@
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--pink-mid accent-b-t-l">
-                        <a href="{{ localePrefix }}/funding/funding-guidance/managing-your-funding/help-with-publicity">
+                        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
                             <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Three people working together on laptops" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.social"),
+                            copy.body.actions.social,
                             18,
                             'minor grid__item__title',
-                            localePrefix + '/funding/funding-guidance/managing-your-funding/help-with-publicity'
+                            buildUrl('funding', 'helpWithPublicity')
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <a href="{{ localePrefix }}/publicity">
+                        <a href="{{ buildUrl('publicity') }}">
                             <img src="{{ 'images/funding/local-press.jpg' | getCachebustedPath }}" alt="Two cooks in chefs' clothing with another man smiling" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.press"),
+                            copy.body.actions.press,
                             14,
                             'minor grid__item__title',
-                            localePrefix + '/publicity'
+                            buildUrl('publicity')
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--turquoise accent-b-t-l">
-                        <a href="{{ localePrefix }}/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos">
+                        <a href="{{ buildUrl('funding', 'logos') }}">
                             <img src="{{ 'images/funding/display-the-logo.jpg' | getCachebustedPath }}" alt="A man smiling outside the entrance to a bike shop" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.logo"),
+                            copy.body.actions.logo,
                             18,
                             'minor grid__item__title',
-                            localePrefix + '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
+                            buildUrl('funding', 'logos')
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--orange accent-b-t-l">
-                        <a href="{{ localePrefix }}/funding/funding-guidance/managing-your-funding/ordering-free-materials">
+                        <a href="{{ buildUrl('funding', 'freeMaterials') }}">
                             <img src="{{ 'images/funding/free-branded-materials.jpg' | getCachebustedPath }}" alt="Two people crouching down outdoors in an allotment surrounded by plants" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
-                            __("funding.guidance.managing-your-funding.body.actions.free-material"),
+                            copy.body.actions.freeMaterial,
                             20,
                             'minor grid__item__title',
-                            localePrefix + '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
+                            buildUrl('funding', 'freeMaterials')
                         )}}
                     </div>
                 </li>
@@ -88,8 +88,8 @@
         </div>
 
         <div class="inner--wide-only p accent--turquoise accent-b-t accent-bg bordered">
-            <h3 class="t3 m-t-none">{{ __("funding.guidance.managing-your-funding.body.header2") }}</h3>
-            {{ __("funding.guidance.managing-your-funding.body.block2") | safe }}
+            <h3 class="t3 m-t-none">{{ copy.body.header2 }}</h3>
+            {{ copy.body.block2 | safe }}
         </div>
     </article>
 
