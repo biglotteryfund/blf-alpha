@@ -17,33 +17,41 @@
     {{ hero.header('logo', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+        <div class="inner--wide-only p">
 
             <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
                     <li class="grid__item">
-                        <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
+                        <div class="grid__item__inner accent--blue accent-b-t-l bordered p material-item">
                             {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
-                            <img src="{{ imgPath | getCachebustedPath }}" alt="{{ item.name }}">
-                            {{ item.name }}
-
-                            {% if item.multiProduct %}
-                                <select>
-                                    {% for languages in item.products %}
-                                        <optgroup label="{{ languages.name }}">
-                                            {% for item in languages.ids %}
-                                                <option value="{{ item.id }}">{{ item.name }}</option>
-                                            {% endfor %}
-                                        </optgroup>
-                                    {% endfor %}
-                                </select>
-                            {% else %}
-                                <select>
-                                    {% for p in item.products %}
-                                        <option value="{{ p.id }}">{{ p.name }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="material-item__media m-b"
+                                 style="background-image: url({{ imgPath | getCachebustedPath }}">
+                            </div>
+                            <h4>{{ item.name }}</h4>
+                            {% if item.dimensions %}
+                                <p>({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)</p>
                             {% endif %}
+
+                            <aside class="material-item__controls">
+                                {% if item.multiProduct %}
+                                    <select>
+                                        {% for languages in item.products %}
+                                            <optgroup label="{{ languages.name }}">
+                                                {% for item in languages.ids %}
+                                                    <option value="{{ item.id }}">{{ item.name }}</option>
+                                                {% endfor %}
+                                            </optgroup>
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <select>
+                                        {% for p in item.products %}
+                                            <option value="{{ p.id }}">{{ p.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+                                <button class="btn btn--cta m-t-none">Add</button>
+                            </aside>
 
                         </div>
                     </li>
