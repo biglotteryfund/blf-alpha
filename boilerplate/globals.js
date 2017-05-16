@@ -44,7 +44,7 @@ setGlobal('metadata', {
 setGlobal('disableExternal', config.get('disableExternal'));
 
 // a global function for finding errors from a form array
-setGlobal('getFormErrorForField', function (errorList, fieldName) {
+setGlobal('getFormErrorForField', (errorList, fieldName) => {
     if (errorList && errorList.length > 0) {
         return errorList.find(e => e.param === fieldName);
     }
@@ -67,7 +67,7 @@ setGlobal('buildUrl', (sectionName, pageName) => {
 });
 
 // look up the current URL and rewrite to another locale
-let getCurrentUrl = function (req, locale) {
+let getCurrentUrl = (req, locale) => {
     // is this an HTTPS request? make the URL protocol work
     let headerProtocol = req.get('X-Forwarded-Proto');
     let protocol = (headerProtocol) ? headerProtocol : req.protocol;
@@ -86,7 +86,7 @@ let getCurrentUrl = function (req, locale) {
 };
 
 // get URL middleware
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     setGlobal('getCurrentUrl', (locale) => getCurrentUrl(req, locale));
     return next();
 });

@@ -51,13 +51,13 @@ i18n.expressBind(app, {
     extension: '.json'
 });
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     vary(res, 'Cookie');
     next();
 });
 
 // inject locale and contrast setting for welsh URLs
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     const WELSH_LOCALE = 'cy';
     const CYMRU_URL = /^\/welsh\//;
     const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
