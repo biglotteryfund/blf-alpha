@@ -49,14 +49,16 @@ router.get('/funding/test', () => {
     $('.js-order-material-btn').on('click', function (e) {
         e.preventDefault();
         const $form = $(this).parents('form');
+        const url = $form.attr('action');
         let data = $form.serialize();
-        data += '&quantity=' + $(this).val();
+        data += '&action=' + $(this).val();
         $.ajax({
+            url: url,
             type: "POST",
             data: data,
             dataType: 'json',
             success: (response) => {
-                $form.find('.js-material-count').val(response.data);
+                $form.find('.js-material-count').val(response.quantity);
             }
         });
     });

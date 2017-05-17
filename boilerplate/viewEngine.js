@@ -39,5 +39,14 @@ templateEnv.addFilter('splitByCharLength', function (str, length) {
     return rows;
 });
 
+templateEnv.addFilter('lowercaseFirst', function (str) {
+    return str[0].toLowerCase() + str.substring(1);
+});
+
+app.use((req, res, next) => {
+    templateEnv.addGlobal('request', req);
+    next();
+});
+
 app.set('view engine', 'njk');
 app.set('engineEnv', templateEnv);

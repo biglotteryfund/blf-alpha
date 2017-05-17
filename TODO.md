@@ -2,7 +2,6 @@
 
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
-- [ ] Refactor form input component to make input errors and values global
 - [ ] Solution to hardcoded links in locale/lang files? 
 
 # Done 
@@ -13,3 +12,4 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] Make session data work behind Cloudfront (by not caching dynamic pages)
 - [x] Improve template globals
 - [x] Add a linkbuilder function - should take an object path and return prefix etc
+- [x] Refactor form input component to make input errors and values global
