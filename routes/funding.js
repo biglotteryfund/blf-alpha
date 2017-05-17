@@ -60,9 +60,6 @@ module.exports = (pages) => {
             // how many of the current item do they have?
             const currentItemQuantity = _.get(req.session, [orderKey, code, 'quantity'], 0);
 
-            // store the ID of this item
-            _.set(req.session, [orderKey, code, 'id'], id);
-
             // are they blocked from adding this item?
             let hasBlockerItem = false;
 
@@ -80,9 +77,11 @@ module.exports = (pages) => {
 
             if (action === 'increase') {
                 if (!noSpaceLeft && !hasBlockerItem) {
+                    _.set(req.session, [orderKey, code, 'id'], id);
                     _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
                 }
             } else if (currentItemQuantity > 1 && action === 'decrease') {
+                _.set(req.session, [orderKey, code, 'id'], id);
                 _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
             } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
                 _.unset(req.session, [orderKey, code]);
@@ -104,6 +103,7 @@ module.exports = (pages) => {
 
     });
 
+    // serve the materials page
     router.route([freeMaterials.path, '/test'])
         .get((req, res, next) => {
             // this page is dynamic so don't cache it
@@ -129,17 +129,38 @@ module.exports = (pages) => {
             req.checkBody('yourName', 'Please provide your name').notEmpty();
             req.checkBody('yourEmail', 'Please provide your email address').notEmpty();
             req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
-
             req.checkBody('yourAddress1', 'Please provide your address line 1').notEmpty();
             req.checkBody('yourAddress2', 'Please provide your address line 2').notEmpty();
             req.checkBody('yourTown', 'Please provide your town').notEmpty();
             req.checkBody('yourCounty', 'Please provide your county').notEmpty();
             req.checkBody('yourPostcode', 'Please provide your postcode').notEmpty();
-
-
             req.checkBody('yourProjectName', 'Please provide your project name').notEmpty();
             req.checkBody('yourProjectID', 'Please provide your project ID number').notEmpty();
             req.checkBody('yourGrantAmount', 'Please provide your grant amount').notEmpty();
+
+            const makeOrderText = (items, details) => {
+                let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
+                for (let code in items) {
+                    text += `\t- ${code}\t x${items[code].quantity}\n`;
+                }
+                text += "\nThe customer's personal details are below:\n\n";
+
+                text += `          Name: \t ${details.yourName}\n`;
+                text += `         Email: \t ${details.yourEmail}\n`;
+                text += `        Number: \t ${details.yourNumber}\n`;
+                text += `Address line 1: \t ${details.yourAddress1}\n`;
+                text += `Address line 2: \t ${details.yourAddress2}\n`;
+                text += `          Town: \t ${details.yourTown}\n`;
+                text += `        County: \t ${details.yourCounty}\n`;
+                text += `      Postcode: \t ${details.yourPostcode}\n`;
+                text += `  Project Name: \t ${details.yourProjectName}\n`;
+                text += `    Project ID: \t ${details.yourProjectID}\n`;
+                text += `  Grant Amount: \t ${details.yourGrantAmount}\n`;
+
+                text += "\n\nThis email has been automatically generated from the Big Lottery Fund Website.";
+                text += "\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.";
+                return text;
+            };
 
             req.getValidationResult().then((result) => {
                 if (!result.isEmpty()) {
@@ -148,7 +169,13 @@ module.exports = (pages) => {
                     // res.redirect(req.baseUrl + freeMaterials.path);
                     res.redirect(req.baseUrl + '/test#your-details'); // @TODO make config item
                 } else {
-                    res.send(req.body);
+                    let order = {
+                        yourDetails: req.body,
+                        yourOrder: req.session[orderKey]
+                    };
+                    let text = makeOrderText(req.session[orderKey], req.body);
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.send(text);
                 }
             });
         });
