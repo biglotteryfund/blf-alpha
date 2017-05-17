@@ -17,7 +17,14 @@
     {{ hero.header('logo', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only p">
+
+        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+            intro
+        </div>
+
+        <div class="inner">
+
+            <h3 class="t3a m-t m-l">Order Form</h3>
 
             <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
@@ -40,7 +47,7 @@
                                           method="post"
                                           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
                                         <input type="hidden" name="code" value="{{ p.code }}">
-                                        <label class="m-t-none">
+                                        <label class="m-t-none material-item__label">
                                             <strong>{% if p.name %}{{ p.name }} {{ item.name | lowercaseFirst }}{% else %}{{ item.name }}{% endif %}</strong>
                                             in {{ p.language }}
                                         </label>
@@ -68,22 +75,34 @@
                 {% endfor %}
             </ul>
 
-            <h2>Order form</h2>
-
-            <form class="form-fund" method="post">
-                {{ forms.input('yourName', 'Your name') }}
-                {{ forms.input('yourAddress', 'Your address', inputType = 'textarea') }}
-                {{ forms.input('yourNumber', 'Your telephone number', inputType = 'tel') }}
-                {{ forms.input('yourEmail', 'Your email address', inputType = 'email') }}
-                {{ forms.input('yourProjectName', 'Your project name') }}
-                {{ forms.input('yourProjectID', 'Your project ID number') }}
-                {{ forms.input('yourGrantAmount', 'Your grant amount') }}
-                <input type="submit">
-            </form>
-
-
-
         </div>
+
+        <div class="inner accent--blue accent-b-t p">
+            <div class="p">
+                <h3 class="t3a m-t-none">Your Details</h3>
+
+                <form class="inline-form" method="post">
+                    <ul class="grid grid--wide-only grid--3-up grid--padded">
+                        <li class="grid__item">{{ forms.input('yourName', 'Your name') }}</li>
+                        <li class="grid__item">{{ forms.input('yourEmail', 'Your email address', inputType = 'email') }}</li>
+                        <li class="grid__item">{{ forms.input('yourNumber', 'Your telephone number', inputType = 'tel') }}</li>
+
+                        <li class="grid__item">{{ forms.input('yourAddress1', 'Address line 1') }}</li>
+                        <li class="grid__item">{{ forms.input('yourAddress2', 'Address line 2') }}</li>
+                        <li class="grid__item">{{ forms.input('yourTown', 'Town/city') }}</li>
+
+                        <li class="grid__item">{{ forms.input('yourCounty', 'County') }}</li>
+                        <li class="grid__item">{{ forms.input('yourPostcode', 'Postcode') }}</li>
+                        <li class="grid__item">{{ forms.input('yourProjectName', 'Your project name') }}</li>
+
+                        <li class="grid__item">{{ forms.input('yourProjectID', 'Your project ID number') }}</li>
+                        <li class="grid__item">{{ forms.input('yourGrantAmount', 'Your grant amount') }}</li>
+                        <li class="grid__item"><input type="submit" class="accent--turquoise btn btn--cta btn--cta--large"></li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
     </article>
 
 {% endblock %}

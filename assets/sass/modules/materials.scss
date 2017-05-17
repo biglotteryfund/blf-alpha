@@ -5,7 +5,7 @@
     .material-item__controls {
         display: flex;
         margin-top: 0;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         margin-bottom: $spacingUnit;
         padding-bottom: $spacingUnit;
@@ -17,6 +17,10 @@
             border-bottom: none;
         }
 
+        .material-item__label {
+            margin-right: auto;
+        }
+
         .material-item__btn {
             padding-left: 10px;
             padding-right: 10px;
@@ -26,6 +30,7 @@
         .material-item__btn--decrease {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+            margin-left: 10px;
         }
 
         .material-item__btn--increase {

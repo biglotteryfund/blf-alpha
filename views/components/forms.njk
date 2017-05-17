@@ -9,7 +9,8 @@
                type="{{ inputType }}"
                name="{{ fieldName }}"
                id="ff-{{ fieldName }}"{% if required %} required{% endif %}
-               value="{{ request.session.values[fieldName] }}">
+               value="{{ request.session.values[fieldName] }}"
+               placeholder="{{ fieldLabel }}">
     {% endif %}
     {% set error = getFormErrorForField(request.session.errors, fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
