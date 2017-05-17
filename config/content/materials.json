@@ -3,11 +3,8 @@
         {
             "id": 3,
             "name": "Stainless steel plaque",
+            "description": "310mm x 260mm",
             "image": "plaque-steel.jpg",
-            "dimensions": [
-                310,
-                260
-            ],
             "maximum": 1,
             "notAllowedWithItem": 2,
             "products": [
@@ -16,7 +13,7 @@
                     "code": "BLF-BR088"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "code": "BLF-BR098"
                 }
             ]
@@ -24,11 +21,8 @@
         {
             "id": 2,
             "name": "Perspex plaque",
+            "description": "310mm x 260mm",
             "image": "plaque-perspex.jpg",
-            "dimensions": [
-                310,
-                260
-            ],
             "maximum": 1,
             "notAllowedWithItem": 3,
             "products": [
@@ -37,7 +31,7 @@
                     "code": "BLF-BR089KIT"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "code": "BLF-BR099KIT"
                 }
             ]
@@ -45,11 +39,8 @@
         {
             "id": 1,
             "name": "Small aluminium equipment plaque",
+            "description": "115mm x 80mm",
             "image": "plaque-alu.jpg",
-            "dimensions": [
-                115,
-                80
-            ],
             "maximum": 4,
             "products": [
                 {
@@ -57,27 +48,24 @@
                     "code": "BIG-PLAQAS"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "code": "BIG-PLAQASBI"
                 }
             ]
         },
         {
             "id": 9,
-            "name": "Promo cheque",
+            "name": "Acknowledgement cheque",
+            "description": "610mm x 305mm",
             "image": "cheque.jpg",
-            "dimensions": [
-                610,
-                305
-            ],
             "maximum": 1,
             "products": [
                 {
-                    "name": "English",
+                    "language": "English",
                     "code": "BIG-CHQ"
                 },
                 {
-                    "name": "Welsh",
+                    "language": "Welsh & English",
                     "code": "BIG-CHQBI"
                 }
             ]
@@ -85,6 +73,7 @@
         {
             "id": 4,
             "name": "A4 sticker sheets",
+            "description": "mixed sizes",
             "image": "stickers.jpg",
             "maximum": 10,
             "products": [
@@ -94,7 +83,7 @@
                     "code": "BLF-BR01101"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "A4 sticker sheet",
                     "code": "BLF-BR06101"
                 }
@@ -103,22 +92,23 @@
         {
             "id": 8,
             "name": "Balloons",
+            "description": "pack of ten",
             "image": "balloons.jpg",
             "maximum": 10,
             "products": [
                 {
-                    "name": "English",
+                    "language": "English",
                     "code": "BIG-EVBLN"
                 },
                 {
-                    "name": "Welsh",
+                    "language": "Welsh & English",
                     "code": "BIG-EVBLNBI"
                 }
             ]
         },
         {
             "id": 7,
-            "name": "Iron-on transfer",
+            "name": "Iron-on transfer for clothing",
             "image": "transfer.jpg",
             "maximum": 10,
             "products": [
@@ -128,7 +118,7 @@
                     "code": "BIG-IOTBWL"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "White",
                     "code": "BIG-IOTBWLB"
                 },
@@ -138,7 +128,7 @@
                     "code": "BIG-IOTWBL"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "Black",
                     "code": "BIG-IOTWBLB"
                 }
@@ -147,11 +137,8 @@
         {
             "id": 6,
             "name": "Vinyl banner",
+            "description": "800mm x 600mm",
             "image": "banner.jpg",
-            "dimensions": [
-                800,
-                600
-            ],
             "maximum": 1,
             "products": [
                 {
@@ -160,7 +147,7 @@
                     "code": "BIG-BANNP"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "Pink",
                     "code": "BIG-BANNPBI"
                 },
@@ -170,7 +157,7 @@
                     "code": "UNKNOWN-1"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "Blue",
                     "code": "UNKNOWN-2"
                 }
@@ -178,12 +165,9 @@
         },
         {
             "id": 5,
-            "name": "Vehicle stickers",
+            "name": "Vehicle sticker",
+            "description": "210mm x 150mm",
             "image": "vehicle.jpg",
-            "dimensions": [
-                210,
-                150
-            ],
             "maximum": 2,
             "products": [
                 {
@@ -192,7 +176,7 @@
                     "code": "BIG-VEHBE"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "Black logo",
                     "code": "BIG-VEHBB"
                 },
@@ -202,7 +186,7 @@
                     "code": "BIG-VEHWE"
                 },
                 {
-                    "language": "Welsh",
+                    "language": "Welsh & English",
                     "name": "White logo",
                     "code": "BIG-VEHBW"
                 }

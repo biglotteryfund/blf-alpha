@@ -81,8 +81,6 @@ module.exports = (pages) => {
             if (action === 'increase') {
                 if (!noSpaceLeft && !hasBlockerItem) {
                     _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
-                } else {
-                    console.log('cannot add more, either out of space or blocked', noSpaceLeft, hasBlockerItem);
                 }
             } else if (currentItemQuantity > 1 && action === 'decrease') {
                 _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
