@@ -127,9 +127,16 @@ module.exports = (pages) => {
         })
         .post((req, res, next) => {
             req.checkBody('yourName', 'Please provide your name').notEmpty();
-            req.checkBody('yourAddress', 'Please provide your address').notEmpty();
-            req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
             req.checkBody('yourEmail', 'Please provide your email address').notEmpty();
+            req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
+
+            req.checkBody('yourAddress1', 'Please provide your address line 1').notEmpty();
+            req.checkBody('yourAddress2', 'Please provide your address line 2').notEmpty();
+            req.checkBody('yourTown', 'Please provide your town').notEmpty();
+            req.checkBody('yourCounty', 'Please provide your county').notEmpty();
+            req.checkBody('yourPostcode', 'Please provide your postcode').notEmpty();
+
+
             req.checkBody('yourProjectName', 'Please provide your project name').notEmpty();
             req.checkBody('yourProjectID', 'Please provide your project ID number').notEmpty();
             req.checkBody('yourGrantAmount', 'Please provide your grant amount').notEmpty();
@@ -139,7 +146,7 @@ module.exports = (pages) => {
                     req.session.errors = result.array();
                     req.session.values = req.body;
                     // res.redirect(req.baseUrl + freeMaterials.path);
-                    res.redirect(req.baseUrl + '/test');
+                    res.redirect(req.baseUrl + '/test#your-details'); // @TODO make config item
                 } else {
                     res.send(req.body);
                 }

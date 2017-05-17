@@ -1,17 +1,17 @@
 {% macro input(fieldName, fieldLabel, inputType = 'text', required = false) %}
+    {% set error = getFormErrorForField(request.session.errors, fieldName) %}
     <label class="form-fund__item" for="ff-{{ fieldName }}">{{ fieldLabel }}</label>
     {% if inputType == 'textarea' %}
-        <textarea class="form-fund__item"
+        <textarea class="form-fund__item{% if error %} is-error{% endif %}"
                   name="{{ fieldName }}"
+                  placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}">
                   id="ff-{{ fieldName }}"{% if required %} required{% endif %}>{{ request.session.values[fieldName] }}</textarea>
     {% else %}
-        <input class="form-fund__item"
+        <input class="form-fund__item{% if error %} is-error{% endif %}"
                type="{{ inputType }}"
                name="{{ fieldName }}"
                id="ff-{{ fieldName }}"{% if required %} required{% endif %}
                value="{{ request.session.values[fieldName] }}"
-               placeholder="{{ fieldLabel }}">
+               placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}">
     {% endif %}
-    {% set error = getFormErrorForField(request.session.errors, fieldName) %}
-    {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
 {% endmacro %}

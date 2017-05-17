@@ -32,7 +32,7 @@
 }
 
 .inline-form {
-    input{
+    input {
         display: block;
         width: 100%;
         padding: 10px;
@@ -42,6 +42,12 @@
 
         @include input-placeholder {
             font-size: 16px;
+        }
+
+        &.is-error {
+            @include input-placeholder {
+                color: #c6183d;
+            }
         }
     }
 
