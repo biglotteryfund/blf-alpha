@@ -32,50 +32,40 @@
                                 <p>({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)</p>
                             {% endif %}
 
-                            <form class="material-item__controls"
-                                  method="post"
-                                  action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
-                                <input type="hidden" name="action" value="increase">
-                                <select name="code" class="m-t-none">
-                                    {% if item.multiProduct %}
-                                            {% for languages in item.products %}
-                                                <optgroup label="{{ languages.name }}">
-                                                    {% for item in languages.ids %}
-                                                        <option value="{{ item.code }}">{{ item.name }}</option>
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% endfor %}
-                                    {% else %}
-                                            {% for p in item.products %}
-                                                <option value="{{ p.code }}">{{ p.name }}</option>
-                                            {% endfor %}
-                                    {% endif %}
-                                </select>
-                                <button class="btn btn--cta m-t-none">Add</button>
-                            </form>
+                            {% for p in item.products %}
+                                <form class="material-item__controls"
+                                      method="post"
+                                      action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
+                                    <input type="hidden" name="code" value="{{ p.code }}">
+                                    <label>{% if p.name %}{{ p.name }} {% endif %}{{ item.name }} in {{ p.language }}</label>
+                                    <button type="submit"
+                                            value="decrease"
+                                            name="action"
+                                            class="btn btn--cta m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
+                                        -
+                                    </button>
+                                    <input type="text"
+                                           value="{{ orders[p.code].quantity or 0}}"
+                                           class="material-item__quantity js-material-count">
+                                    <button type="submit"
+                                            value="increase"
+                                            name="action"
+                                            class="btn btn--cta m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
+                                        +
+                                    </button>
+                                </form>
+                            {% endfor %}
 
                         </div>
                     </li>
                 {% endfor %}
             </ul>
 
-            {% if orders %}
-                <h2>Order summary</h2>
-                {% for code, order in orders %}
-                    <form method="post"
-                          action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ order.id }}">
-                        <input type="hidden" name="code" value="{{ code }}">
-                        <p>{{ code }}: x{{ order.quantity }} (item {{ order.id }})</p>
-                        <button type="submit" name="action" value="decrease">Decrease</button>
-                        <button type="submit" name="action" value="increase">Increase</button>
-                        <button type="submit" name="action" value="remove">Remove</button>
-                    </form>
-                {% endfor %}
-            {% endif %}
-
             <h2>Order form</h2>
 
-            <form class="form-fund" method="post" action="/funding/order-materials">
+            {{ orderedIds }}
+
+            <form class="form-fund" method="post">
                 {{ forms.input('yourName', 'Your name') }}
                 {{ forms.input('yourAddress', 'Your address', inputType = 'textarea') }}
                 {{ forms.input('yourNumber', 'Your telephone number', inputType = 'tel') }}
