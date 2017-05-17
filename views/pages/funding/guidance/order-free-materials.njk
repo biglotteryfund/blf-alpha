@@ -57,9 +57,7 @@
                                                 class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
                                             -
                                         </button>
-                                        <input type="text"
-                                               value="{{ orders[p.code].quantity or 0}}"
-                                               class="material-item__quantity js-material-count">
+                                        <span class="material-item__quantity js-material-count">{{ orders[p.code].quantity or 0}}</span>
                                         <button type="submit"
                                                 value="increase"
                                                 name="action"

@@ -2,6 +2,14 @@
 
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
+## Order form todo
+- highlight ordered items
+- disable buttons for invalid state
+- add required fields to front-end
+- add email settings
+- add confirmation screen
+- add copy
+
 - [ ] Solution to hardcoded links in locale/lang files? 
 
 # Done 

@@ -58,7 +58,7 @@ router.get('/funding/test', () => {
             data: data,
             dataType: 'json',
             success: (response) => {
-                $form.find('.js-material-count').val(response.quantity);
+                $form.find('.js-material-count').text(response.quantity);
             }
         });
     });
