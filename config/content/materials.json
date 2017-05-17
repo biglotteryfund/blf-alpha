@@ -12,11 +12,11 @@
             "products": [
                 {
                     "name": "English",
-                    "id": "BIG-PLAQAS"
+                    "code": "BIG-PLAQAS"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BIG-PLAQASBI"
+                    "code": "BIG-PLAQASBI"
                 }
             ]
         },
@@ -33,11 +33,11 @@
             "products": [
                 {
                     "name": "English",
-                    "id": "BLF-BR089KIT"
+                    "code": "BLF-BR089KIT"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BLF-BR099KIT"
+                    "code": "BLF-BR099KIT"
                 }
             ]
         },
@@ -54,11 +54,11 @@
             "products": [
                 {
                     "name": "English",
-                    "id": "BLF-BR088"
+                    "code": "BLF-BR088"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BLF-BR098"
+                    "code": "BLF-BR098"
                 }
             ]
         },
@@ -75,19 +75,19 @@
                     "ids": [
                         {
                             "name": "A4 sticker sheets",
-                            "id": "BLF-BR01101"
+                            "code": "BLF-BR01101"
                         },
                         {
                             "name": "Small equipment sticker (75mm x 50mm)",
-                            "id": "BLF-BR01201"
+                            "code": "BLF-BR01201"
                         },
                         {
                             "name": "Medium equipment stickers (80mm x 70mm)",
-                            "id": "BLF-BR01301"
+                            "code": "BLF-BR01301"
                         },
                         {
                             "name": "Large equipment stickers (120mm x 150mm)",
-                            "id": "BLF-BR01401"
+                            "code": "BLF-BR01401"
                         }
                     ]
                 },
@@ -96,26 +96,26 @@
                     "ids": [
                         {
                             "name": "A4 sticker sheets",
-                            "id": "BLF-BR06101"
+                            "code": "BLF-BR06101"
                         },
                         {
                             "name": "Small equipment stickers (75mm x 50mm)",
-                            "id": "BLF-BR06201"
+                            "code": "BLF-BR06201"
                         },
                         {
                             "name": "Medium equipment stickers (80mm x 70mm)",
-                            "id": "BLF-BR06301"
+                            "code": "BLF-BR06301"
                         },
                         {
                             "name": "Large equipment stickers (120mm x 150mm)",
-                            "id": "BLF-BR06401"
+                            "code": "BLF-BR06401"
                         }
                     ]
                 }
             ]
         },
         {
-            "id": 8,
+            "id": 5,
             "name": "Vehicle stickers",
             "image": "vehicle.jpg",
             "description": "Transparent with black or white logo",
@@ -131,11 +131,11 @@
                     "ids": [
                         {
                             "name": "Black logo",
-                            "id": "BIG-VEHBE"
+                            "code": "BIG-VEHBE"
                         },
                         {
                             "name": "White logo",
-                            "id": "BIG-VEHWE"
+                            "code": "BIG-VEHWE"
                         }
                     ]
                 },
@@ -144,18 +144,18 @@
                     "ids": [
                         {
                             "name": "Black logo",
-                            "id": "BIG-VEHBB"
+                            "code": "BIG-VEHBB"
                         },
                         {
                             "name": "White logo",
-                            "id": "BIG-VEHBW"
+                            "code": "BIG-VEHBW"
                         }
                     ]
                 }
             ]
         },
         {
-            "id": 9,
+            "id": 6,
             "name": "Vinyl banner",
             "image": "banner.jpg",
             "dimensions": [
@@ -166,16 +166,16 @@
             "products": [
                 {
                     "name": "English",
-                    "id": "BIG-BANNP"
+                    "code": "BIG-BANNP"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BIG-BANNPBI"
+                    "code": "BIG-BANNPBI"
                 }
             ]
         },
         {
-            "id": 10,
+            "id": 7,
             "name": "Iron-on logo",
             "image": "transfer.jpg",
             "description": "Transfer for clothing",
@@ -187,11 +187,11 @@
                     "ids": [
                         {
                             "name": "White",
-                            "id": "BIG-IOTBWL"
+                            "code": "BIG-IOTBWL"
                         },
                         {
                             "name": "Black",
-                            "id": "BIG-IOTWBL"
+                            "code": "BIG-IOTWBL"
                         }
                     ]
                 },
@@ -200,34 +200,34 @@
                     "ids": [
                         {
                             "name": "White",
-                            "id": "BIG-IOTBWLB"
+                            "code": "BIG-IOTBWLB"
                         },
                         {
                             "name": "Black",
-                            "id": "BIG-IOTWBLB"
+                            "code": "BIG-IOTWBLB"
                         }
                     ]
                 }
             ]
         },
         {
-            "id": 11,
+            "id": 8,
             "name": "Balloons",
             "image": "balloons.jpg",
             "maximum": 10,
             "products": [
                 {
                     "name": "English",
-                    "id": "BIG-EVBLN"
+                    "code": "BIG-EVBLN"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BIG-EVBLNBI"
+                    "code": "BIG-EVBLNBI"
                 }
             ]
         },
         {
-            "id": 12,
+            "id": 9,
             "name": "Promo cheque",
             "image": "cheque.jpg",
             "dimensions": [
@@ -238,11 +238,11 @@
             "products": [
                 {
                     "name": "English",
-                    "id": "BIG-CHQ"
+                    "code": "BIG-CHQ"
                 },
                 {
                     "name": "Welsh",
-                    "id": "BIG-CHQBI"
+                    "code": "BIG-CHQBI"
                 }
             ]
         }

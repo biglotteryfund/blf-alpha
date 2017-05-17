@@ -32,71 +32,46 @@
                                 <p>({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)</p>
                             {% endif %}
 
-                            <aside class="material-item__controls">
-                                {% if item.multiProduct %}
-                                    <select>
-                                        {% for languages in item.products %}
-                                            <optgroup label="{{ languages.name }}">
-                                                {% for item in languages.ids %}
-                                                    <option value="{{ item.id }}">{{ item.name }}</option>
-                                                {% endfor %}
-                                            </optgroup>
-                                        {% endfor %}
-                                    </select>
-                                {% else %}
-                                    <select>
-                                        {% for p in item.products %}
-                                            <option value="{{ p.id }}">{{ p.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                {% endif %}
+                            <form class="material-item__controls"
+                                  method="post"
+                                  action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
+                                <input type="hidden" name="action" value="increase">
+                                <select name="code" class="m-t-none">
+                                    {% if item.multiProduct %}
+                                            {% for languages in item.products %}
+                                                <optgroup label="{{ languages.name }}">
+                                                    {% for item in languages.ids %}
+                                                        <option value="{{ item.code }}">{{ item.name }}</option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% endfor %}
+                                    {% else %}
+                                            {% for p in item.products %}
+                                                <option value="{{ p.code }}">{{ p.name }}</option>
+                                            {% endfor %}
+                                    {% endif %}
+                                </select>
                                 <button class="btn btn--cta m-t-none">Add</button>
-                            </aside>
+                            </form>
 
                         </div>
                     </li>
                 {% endfor %}
             </ul>
 
-            {#{% for category in materials %}#}
-                {#<h3 class="m-t">{{ category.title }}</h3>#}
-                {#{% if category.info %}<p>{{ category.info }}</p>{% endif %}#}
-                {#<ul>#}
-                {#{% for item in category.items %}#}
-                    {#<li>#}
-                        {#<h4>{{ item.name }}#}
-                            {#{% if item.dimensions %}#}
-                                {#({{ item.dimensions[0] }}mm x {{ item.dimensions[1] }}mm)#}
-                            {#{% elif item.description %}#}
-                                {#({{ item.description }})#}
-                            {#{% endif %}#}
-                        {#</h4>#}
-                        {#<p>{% if item.maximum %}(maximum {{ item.maximum }} per project){% endif %}</p>#}
-                        {#{% for code in item.ids %}#}
-                            {#{% if code.name %}#}
-                                {#<h5>{{ code.name }}</h5>#}
-                            {#{% endif %}#}
-                            {#<h6>{{ code[locale] }}</h6>#}
-                            {#<form method="post" class="js-order-materials">#}
-                                {#<input type="hidden" name="categoryID" value="{{ category.id }}">#}
-                                {#<input type="hidden" name="itemID" value="{{ item.id }}">#}
-                                {#<input type="hidden" name="locale" value="{{ locale }}">#}
-                                {#{% if item.notAllowedWithItem %}#}
-                                    {#<input type="hidden" name="notAllowedWithItem" value="{{ item.notAllowedWithItem }}">#}
-                                {#{% endif %}#}
-                                {#<button type="submit" name="quantity" value="decrease" class="js-order-material-btn">-</button>#}
-                                {#<input type="number"#}
-                                       {#value="{{ quantities[item.id] or 0 }}"#}
-                                       {#size="2"#}
-                                       {#min="0"{% if item.maximum %} max="{{ item.maximum }}"{% endif %}#}
-                                       {#class="js-material-count">#}
-                                {#<button type="submit" name="quantity" value="increase" class="js-order-material-btn">+</button>#}
-                            {#</form>#}
-                        {#{% endfor %}#}
-                    {#</li>#}
-                {#{% endfor %}#}
-                {#</ul>#}
-            {#{% endfor %}#}
+            {% if orders %}
+                <h2>Order summary</h2>
+                {% for code, order in orders %}
+                    <form method="post"
+                          action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ order.id }}">
+                        <input type="hidden" name="code" value="{{ code }}">
+                        <p>{{ code }}: x{{ order.quantity }} (item {{ order.id }})</p>
+                        <button type="submit" name="action" value="decrease">Decrease</button>
+                        <button type="submit" name="action" value="increase">Increase</button>
+                        <button type="submit" name="action" value="remove">Remove</button>
+                    </form>
+                {% endfor %}
+            {% endif %}
 
             <h2>Order form</h2>
 

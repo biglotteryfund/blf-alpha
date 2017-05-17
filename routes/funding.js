@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const _ = require('lodash');
 const materials = require('../config/content/materials.json');
 
 // serve a static page (eg. no special dependencies)
@@ -32,6 +33,30 @@ module.exports = (pages) => {
     // manually specify any non-static pages
 
     const freeMaterials = pages.freeMaterials;
+    let orderKey = 'orderedMaterials';
+
+    router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
+        const validActions = ['increase', 'decrease', 'remove'];
+        const action = req.body.action;
+        if (validActions.indexOf(action) !== -1) {
+
+            // @TODO sanitise
+            const id = req.params.id;
+            const code = req.body.code;
+
+            const currentItemQuantity = _.get(req.session, [orderKey, code, 'quantity'], 0);
+            _.set(req.session, [orderKey, code, 'id'], id);
+
+            if (action === 'increase') {
+                _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+            } else if (currentItemQuantity > 1 && action === 'decrease') {
+                _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
+            } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
+                _.unset(req.session, [orderKey, code]);
+            }
+        }
+        res.redirect(req.baseUrl + '/test');
+    });
 
     router.route([freeMaterials.path, '/test'])
         .get((req, res, next) => {
@@ -48,50 +73,62 @@ module.exports = (pages) => {
                 materials: materials.items,
                 quantities: (req.session.quantities) ? req.session.quantities : {},
                 formErrors: errors,
-                values: values
+                values: values,
+                orders: req.session[orderKey]
             });
 
             delete req.session.errors;
-            delete req.session.values;
         })
         .post((req, res, next) => {
-            let itemID = parseInt(req.body.itemID);
-            let categoryID = parseInt(req.body.categoryID);
-            let notAllowedWithItem = req.body.notAllowedWithItem;
 
-            // create storage
-            if (!req.session.quantities) { req.session.quantities = {}; }
-            if (!req.session.quantities[itemID]) { req.session.quantities[itemID] = 0; }
+            // internal ID
+            let id = req.body.id;
+            // product code
+            let code = req.body.code;
 
-            // find the item data
-            let cat = materials.categories.find(c => c.id === categoryID);
-            let item = cat.items.find(i => i.id === itemID);
-            let maxQuantity = item.maximum;
+            const currentItemQuantity = _.get(req.session, [orderKey, code, 'quantity'], 0);
+            _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+            _.set(req.session, [orderKey, code, 'id'], id);
 
-            // increment or decrement count
-            if (req.body.quantity === 'increase') {
-                const blockedFromAdding = (notAllowedWithItem && req.session.quantities[notAllowedWithItem]);
-                if (!blockedFromAdding && (!maxQuantity || req.session.quantities[itemID] < maxQuantity)) {
-                    req.session.quantities[itemID] = req.session.quantities[itemID] + 1;
-                }
-            } else {
-                if (req.session.quantities[itemID] !== 0) {
-                    req.session.quantities[itemID] = req.session.quantities[itemID] - 1;
-                }
-            }
-            res.format({
-                html: function () {
-                    // res.redirect(req.baseUrl + freeMaterials.path);
-                    res.redirect(req.baseUrl + '/test');
-                },
-                json: function () {
-                    res.send({
-                        status: 'success',
-                        data: req.session.quantities[itemID],
-                        all: req.session.quantities
-                    });
-                }
-            });
+            res.redirect(req.baseUrl + '/test');
+
+            // let itemID = parseInt(req.body.itemID);
+            // let categoryID = parseInt(req.body.categoryID);
+            // let notAllowedWithItem = req.body.notAllowedWithItem;
+            //
+            // // create storage
+            // if (!req.session.quantities) { req.session.quantities = {}; }
+            // if (!req.session.quantities[itemID]) { req.session.quantities[itemID] = 0; }
+            //
+            // // find the item data
+            // let cat = materials.categories.find(c => c.id === categoryID);
+            // let item = cat.items.find(i => i.id === itemID);
+            // let maxQuantity = item.maximum;
+            //
+            // // increment or decrement count
+            // if (req.body.quantity === 'increase') {
+            //     const blockedFromAdding = (notAllowedWithItem && req.session.quantities[notAllowedWithItem]);
+            //     if (!blockedFromAdding && (!maxQuantity || req.session.quantities[itemID] < maxQuantity)) {
+            //         req.session.quantities[itemID] = req.session.quantities[itemID] + 1;
+            //     }
+            // } else {
+            //     if (req.session.quantities[itemID] !== 0) {
+            //         req.session.quantities[itemID] = req.session.quantities[itemID] - 1;
+            //     }
+            // }
+            // res.format({
+            //     html: function () {
+            //         // res.redirect(req.baseUrl + freeMaterials.path);
+            //         res.redirect(req.baseUrl + '/test');
+            //     },
+            //     json: function () {
+            //         res.send({
+            //             status: 'success',
+            //             data: req.session.quantities[itemID],
+            //             all: req.session.quantities
+            //         });
+            //     }
+            // });
         });
 
     router.post('/order-materials', (req, res, next) => {
