@@ -2,6 +2,7 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const config = require('config');
 
 let mailConfig = {
     user: process.env.SES_USER,
@@ -25,10 +26,10 @@ let transporter = nodemailer.createTransport({
 
 const send = (text, subject) => {
 
-    // @TODO configure to send to materialSupplierEmail
     let mailOptions = {
+        // @TODO is this the right from address?
         from: 'matt.andrews@biglotteryfund.org.uk',
-        to: 'matt@mattandrews.info, chloealper@gmail.com, mysociety@gmail.com',
+        to: config.get('materialSupplierEmail'),
         subject: subject,
         text: text
     };
