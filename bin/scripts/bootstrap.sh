@@ -11,7 +11,7 @@ then
 fi
 
 # run environment var script to add them to the current shell
-source /var/www/biglotteryfund/config/enb_vars.sh
+source /var/www/biglotteryfund/bin/scripts/env_vars.sh
 
 # specify NODE_ENV based on deploy group ID
 nginx_config=/var/www/biglotteryfund/config/server.conf
