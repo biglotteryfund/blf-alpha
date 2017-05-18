@@ -2,12 +2,23 @@
 const config = require('config');
 const nodemailer = require('nodemailer');
 
+let mailConfig = {
+    user: process.env.SES_USER,
+    password: process.env.SES_PASSWORD
+};
+
+try {
+    mailConfig = JSON.parse(fs.readFileSync('../config/mail.json', 'utf8'));
+} catch (e) {
+    console.info('mail.json not found -- are you in DEV mode?');
+}
+
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
     service: "SES-EU-WEST-1",
     auth: {
-        user: config.get('ses.auth.user'),
-        pass: config.get('ses.auth.password')
+        user: mailConfig.user,
+        pass: mailConfig.password
     }
 });
 

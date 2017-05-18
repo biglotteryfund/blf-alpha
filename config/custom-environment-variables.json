@@ -1,8 +1,0 @@
-{
-    "ses": {
-        "auth": {
-            "user": "SES_USER",
-            "password": "SES_PASSWORD"
-        }
-    }
-}
