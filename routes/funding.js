@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
 const materials = require('../config/content/materials.json');
+const email = require('../modules/mail');
+const moment = require('moment');
 
 // serve a static page (eg. no special dependencies)
 const routeStaticPage = (page) => {
@@ -231,6 +233,10 @@ module.exports = (pages) => {
                         yourOrder: req.session[orderKey]
                     };
                     let text = makeOrderText(req.session[orderKey], req.body);
+
+                    let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+                    email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+
                     res.setHeader('Content-Type', 'text/plain');
                     res.send(text);
                 }

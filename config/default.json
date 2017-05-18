@@ -13,5 +13,11 @@
     },
     "contrastCookie": {
         "name": "contrastMode"
+    },
+    "ses": {
+        "auth": {
+            "user": "FOO",
+            "password": "FOO"
+        }
     }
 }
