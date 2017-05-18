@@ -59,6 +59,7 @@ router.get('/funding/test', () => {
             dataType: 'json',
             success: (response) => {
                 $form.find('.js-material-count').text(response.quantity);
+                $form.toggleClass('is-selected', (response.quantity > 0));
             }
         });
     });
