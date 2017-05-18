@@ -103,13 +103,81 @@ module.exports = (pages) => {
 
     });
 
+    const formFields = [
+        {
+            name: 'yourName',
+            type: 'text',
+            required: true,
+            label: 'Your Name'
+        },
+        {
+            name: 'yourEmail',
+            type: 'text',
+            required: true,
+            label: 'Your email address'
+        },
+        {
+            name: 'yourNumber',
+            type: 'text',
+            required: true,
+            label: 'Your phone number'
+        },
+        {
+            name: 'yourAddress1',
+            type: 'text',
+            required: true,
+            label: 'Your address line 1'
+        },
+        {
+            name: 'yourAddress2',
+            type: 'text',
+            required: false,
+            label: 'Your address line 2'
+        },
+        {
+            name: 'yourTown',
+            type: 'text',
+            required: true,
+            label: 'Your town/city'
+        },
+        {
+            name: 'yourCounty',
+            type: 'text',
+            required: false,
+            label: 'Your county'
+        },
+        {
+            name: 'yourPostcode',
+            type: 'text',
+            required: true,
+            label: 'Your Postcode'
+        },
+        {
+            name: 'yourProjectName',
+            type: 'text',
+            required: true,
+            label: 'Your project name'
+        },
+        {
+            name: 'yourProjectID',
+            type: 'text',
+            required: true,
+            label: 'Your project ID number'
+        },
+        {
+            name: 'yourGrantAmount',
+            type: 'text',
+            required: true,
+            label: 'Your grant amount'
+        }
+    ];
+
     // serve the materials page
     router.route([freeMaterials.path, '/test'])
         .get((req, res, next) => {
             // this page is dynamic so don't cache it
             res.cacheControl = { maxAge: 0 };
             let errors = (req.session.errors) ? req.session.errors : false;
-            let values = (req.session.values) ? req.session.values: false;
 
             let lang = req.i18n.__(freeMaterials.lang);
             res.render(freeMaterials.template, {
@@ -117,26 +185,21 @@ module.exports = (pages) => {
                 copy: lang,
                 description: "Order items free of charge to acknowledge your grant",
                 materials: materials.items,
-                quantities: (req.session.quantities) ? req.session.quantities : {},
+                formFields: formFields,
                 formErrors: errors,
-                values: values,
                 orders: req.session[orderKey]
             });
 
             delete req.session.errors;
         })
         .post((req, res, next) => {
-            req.checkBody('yourName', 'Please provide your name').notEmpty();
-            req.checkBody('yourEmail', 'Please provide your email address').notEmpty();
-            req.checkBody('yourNumber', 'Please provide your phone number').notEmpty();
-            req.checkBody('yourAddress1', 'Please provide your address line 1').notEmpty();
-            req.checkBody('yourAddress2', 'Please provide your address line 2').notEmpty();
-            req.checkBody('yourTown', 'Please provide your town').notEmpty();
-            req.checkBody('yourCounty', 'Please provide your county').notEmpty();
-            req.checkBody('yourPostcode', 'Please provide your postcode').notEmpty();
-            req.checkBody('yourProjectName', 'Please provide your project name').notEmpty();
-            req.checkBody('yourProjectID', 'Please provide your project ID number').notEmpty();
-            req.checkBody('yourGrantAmount', 'Please provide your grant amount').notEmpty();
+
+            formFields.forEach(field => {
+                if (field.required) {
+                    req.checkBody(field.name, 'Please provide ' + field.label).notEmpty();
+                }
+            });
+
 
             const makeOrderText = (items, details) => {
                 let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
@@ -145,19 +208,13 @@ module.exports = (pages) => {
                 }
                 text += "\nThe customer's personal details are below:\n\n";
 
-                text += `          Name: \t ${details.yourName}\n`;
-                text += `         Email: \t ${details.yourEmail}\n`;
-                text += `        Number: \t ${details.yourNumber}\n`;
-                text += `Address line 1: \t ${details.yourAddress1}\n`;
-                text += `Address line 2: \t ${details.yourAddress2}\n`;
-                text += `          Town: \t ${details.yourTown}\n`;
-                text += `        County: \t ${details.yourCounty}\n`;
-                text += `      Postcode: \t ${details.yourPostcode}\n`;
-                text += `  Project Name: \t ${details.yourProjectName}\n`;
-                text += `    Project ID: \t ${details.yourProjectID}\n`;
-                text += `  Grant Amount: \t ${details.yourGrantAmount}\n`;
+                formFields.forEach(field => {
+                    if (details[field.name]) {
+                        text += `\t${field.label}: ${details[field.name]}\n\n`;
+                    }
+                });
 
-                text += "\n\nThis email has been automatically generated from the Big Lottery Fund Website.";
+                text += "\nThis email has been automatically generated from the Big Lottery Fund Website.";
                 text += "\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.";
                 return text;
             };

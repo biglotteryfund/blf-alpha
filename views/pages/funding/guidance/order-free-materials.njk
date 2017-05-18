@@ -81,20 +81,9 @@
 
                 <form class="inline-form" method="post">
                     <ul class="grid grid--wide-only grid--3-up grid--padded">
-                        <li class="grid__item">{{ forms.input('yourName', 'Your name') }}</li>
-                        <li class="grid__item">{{ forms.input('yourEmail', 'Your email address', inputType = 'email') }}</li>
-                        <li class="grid__item">{{ forms.input('yourNumber', 'Your telephone number', inputType = 'tel') }}</li>
-
-                        <li class="grid__item">{{ forms.input('yourAddress1', 'Address line 1') }}</li>
-                        <li class="grid__item">{{ forms.input('yourAddress2', 'Address line 2') }}</li>
-                        <li class="grid__item">{{ forms.input('yourTown', 'Town/city') }}</li>
-
-                        <li class="grid__item">{{ forms.input('yourCounty', 'County') }}</li>
-                        <li class="grid__item">{{ forms.input('yourPostcode', 'Postcode') }}</li>
-                        <li class="grid__item">{{ forms.input('yourProjectName', 'Your project name') }}</li>
-
-                        <li class="grid__item">{{ forms.input('yourProjectID', 'Your project ID number') }}</li>
-                        <li class="grid__item">{{ forms.input('yourGrantAmount', 'Your grant amount') }}</li>
+                        {% for field in formFields %}
+                            <li class="grid__item">{{ forms.input(field.name, field.label, inputType = field.type, required = field.required) }}</li>
+                        {% endfor %}
                         <li class="grid__item"><input type="submit" class="accent--turquoise btn btn--cta btn--cta--large"></li>
                     </ul>
                 </form>

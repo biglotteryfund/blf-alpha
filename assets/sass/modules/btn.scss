@@ -16,11 +16,19 @@
 
     @include on-interact {
         background-color: #eeeeee;
+        outline: none;
+    }
+
+    .contrast--high & {
+        &:active {
+            outline: 3px solid palette('pink');
+        }
     }
 
     &.btn--cta {
         color: #333333;
         background-color: #ffffff;
+
         @include on-interact {
             background-color: darken(#ffffff, 10%);
             text-decoration: none;
