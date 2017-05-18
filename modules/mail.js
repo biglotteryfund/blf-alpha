@@ -1,6 +1,8 @@
 'use strict';
 const config = require('config');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
 
 let mailConfig = {
     user: process.env.SES_USER,
@@ -8,7 +10,7 @@ let mailConfig = {
 };
 
 try {
-    mailConfig = JSON.parse(fs.readFileSync('../config/mail.json', 'utf8'));
+    mailConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/mail.json'), 'utf8'));
 } catch (e) {
     console.info('mail.json not found -- are you in DEV mode?');
 }
