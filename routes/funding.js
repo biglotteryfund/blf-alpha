@@ -40,12 +40,11 @@ module.exports = (pages) => {
     // handle adding/removing items
     router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
         const validActions = ['increase', 'decrease', 'remove'];
-        const action = req.body.action;
 
-        // @TODO sanitise
         // get form parameters
         const id = parseInt(req.params.id);
-        const code = req.body.code;
+        const code = req.sanitize('code').escape();
+        const action = req.sanitize('action').escape();
 
         // look up the item they're adding
         const item = materials.items.find(i => i.id === id);
@@ -196,12 +195,13 @@ module.exports = (pages) => {
         })
         .post((req, res, next) => {
 
+            const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
+
             formFields.forEach(field => {
                 if (field.required) {
-                    req.checkBody(field.name, 'Please provide ' + field.label).notEmpty();
+                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label)).notEmpty();
                 }
             });
-
 
             const makeOrderText = (items, details) => {
                 let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
@@ -212,7 +212,8 @@ module.exports = (pages) => {
 
                 formFields.forEach(field => {
                     if (details[field.name]) {
-                        text += `\t${field.label}: ${details[field.name]}\n\n`;
+                        let safeField = req.sanitize(field.name).escape();
+                        text += `\t${field.label}: ${safeField}\n\n`;
                     }
                 });
 
@@ -222,21 +223,23 @@ module.exports = (pages) => {
             };
 
             req.getValidationResult().then((result) => {
+                // sanitise input
+                for (let key in req.body) {
+                    req.body[key] = req.sanitize(key).escape();
+                }
+
                 if (!result.isEmpty()) {
                     req.session.errors = result.array();
                     req.session.values = req.body;
+
                     // res.redirect(req.baseUrl + freeMaterials.path);
                     res.redirect(req.baseUrl + '/test#your-details'); // @TODO make config item
                 } else {
-                    let order = {
-                        yourDetails: req.body,
-                        yourOrder: req.session[orderKey]
-                    };
                     let text = makeOrderText(req.session[orderKey], req.body);
-
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
                     email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
 
+                    // @TODO update UI
                     res.setHeader('Content-Type', 'text/plain');
                     res.send(text);
                 }
