@@ -10,3 +10,4 @@ export SES_USER=`echo $SES_USER | sed -e 's/^"//' -e 's/"$//'`
 rm -f ~/.bash_profile
 echo 'export SES_USER='$SES_USER >> ~/.bash_profile
 echo 'export SES_PASSWORD='$SES_PASSWORD >> ~/.bash_profile
+source ~/.bash_profile
