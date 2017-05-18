@@ -3,7 +3,9 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Order form todo
-- [ ] add confirmation screen
+- [ ] disable form until valid
+- [ ] add CSRF / refactor view logic
+- [ ] make design tweaks
 
 ## Misc
 - [ ] Solution to hardcoded links in locale/lang files? 
@@ -22,3 +24,4 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] highlight ordered items
 - [x] add email settings
 - [x] add copy
+- [x] add confirmation screen

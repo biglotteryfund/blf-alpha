@@ -10,6 +10,7 @@ router.get('/', (req, res, next) => {
     res.render('pages/index', {});
 });
 
+// handle contrast shifter
 router.get('/contrast/:mode', (req, res, next) => {
     res.cacheControl = { maxAge: 1 };
     let duration = 6 * 30 * 24 * 60 * 60; // 6 months
