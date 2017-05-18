@@ -51,6 +51,18 @@ i18n.expressBind(app, {
     extension: '.json'
 });
 
+// handle overlays
+// @TODO improve this
+app.use((req, res, next) => {
+    if (req.session.showOverlay) {
+        globals.set('showOverlay', true);
+    } else {
+        globals.set('showOverlay', false);
+    }
+    delete req.session.showOverlay;
+    next();
+});
+
 app.use((req, res, next) => {
     vary(res, 'Cookie');
     next();

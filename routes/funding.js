@@ -176,9 +176,18 @@ module.exports = (pages) => {
     // serve the materials page
     router.route([freeMaterials.path, '/test'])
         .get((req, res, next) => {
+
             // this page is dynamic so don't cache it
             res.cacheControl = { maxAge: 0 };
             let errors = (req.session.errors) ? req.session.errors : false;
+
+            let orderStatus;
+            if (req.session.materialFormSuccess) {
+                orderStatus = 'success';
+                req.session.showOverlay = true;
+                delete req.session.materialFormSuccess;
+                delete req.session.showOverlay;
+            }
 
             let lang = req.i18n.__(freeMaterials.lang);
             res.render(freeMaterials.template, {
@@ -188,9 +197,11 @@ module.exports = (pages) => {
                 materials: materials.items,
                 formFields: formFields,
                 formErrors: errors,
-                orders: req.session[orderKey]
+                orders: req.session[orderKey],
+                orderStatus: orderStatus
             });
 
+            // @TODO flash session
             delete req.session.errors;
         })
         .post((req, res, next) => {
@@ -237,11 +248,14 @@ module.exports = (pages) => {
                 } else {
                     let text = makeOrderText(req.session[orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+
+                    // @TODO handle error here?
                     email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
 
-                    // @TODO update UI
-                    res.setHeader('Content-Type', 'text/plain');
-                    res.send(text);
+                    req.session.materialFormSuccess = true;
+                    req.session.showOverlay = true;
+                    // res.redirect(req.baseUrl + freeMaterials.path);
+                    res.redirect(req.baseUrl + '/test'); // @TODO make config item
                 }
             });
         });

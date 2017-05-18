@@ -9,8 +9,14 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
+        {% set heroTitle = title %}
+        {% if orderStatus == 'success' %}
+            {% set heroTitle = 'Thank you for your order. Your delivery will be with you soon.' %}
+        {% elseif orderStatus == 'fail' %}
+            {% set heroTitle = 'Sorry, we were unable to process your order. Please try again soon.' %}
+        {% endif %}
+        <div class="nudge-bottom{% if orderStatus %} is-on-top{% endif %}">
+            {{ headers.blockheader('h2', heroTitle, 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -18,7 +24,9 @@
 
     <article role="main" class="nudge-up">
 
+
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+
             {{ copy.body | safe }}
         </div>
 

@@ -44,6 +44,10 @@ if (isHighContrast === 'high') {
     $('#js-contrast-high').show();
 }
 
+$('#js-close-overlay').on('click', () => {
+    $('#js-overlay').hide();
+});
+
 // router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
 router.get('/funding/test', () => {
     $('.js-order-material-btn').on('click', function (e) {
