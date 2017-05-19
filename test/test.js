@@ -119,7 +119,7 @@ describe('Express application', function () {
                         res.body.should.have.property('status');
                         res.body.status.should.equal('success');
                         res.body.should.have.property('quantity');
-                        res.body.quantity.should.equal(13);
+                        res.body.quantity.should.equal(1);
                         done();
                     });
             });
