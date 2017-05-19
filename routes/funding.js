@@ -86,6 +86,9 @@ module.exports = (pages) => {
                 _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
             } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
                 _.unset(req.session, [orderKey, code]);
+                if (Object.keys(req.session[orderKey]).length === 0) {
+                    delete req.session[orderKey];
+                }
             }
         }
 
@@ -97,7 +100,8 @@ module.exports = (pages) => {
             json: function () {
                 res.send({
                     status: 'success',
-                    quantity: _.get(req.session, [orderKey, code, 'quantity'], 0)
+                    quantity: _.get(req.session, [orderKey, code, 'quantity'], 0),
+                    allOrders: req.session[orderKey]
                 });
             }
         });

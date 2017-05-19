@@ -64,6 +64,12 @@ router.get('/funding/test', () => {
             success: (response) => {
                 $form.find('.js-material-count').text(response.quantity);
                 $form.toggleClass('is-selected', (response.quantity > 0));
+                const submitButton = $('#js-submit-material-order');
+                if (response.allOrders) {
+                    submitButton.removeAttr('disabled');
+                } else {
+                    submitButton.attr('disabled', 'disabled');
+                }
             }
         });
     });

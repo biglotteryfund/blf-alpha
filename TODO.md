@@ -3,7 +3,6 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Order form todo
-- [ ] disable form until valid
 - [ ] add CSRF / refactor view logic
 - [ ] make design tweaks
 
@@ -26,3 +25,4 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] add email settings
 - [x] add copy
 - [x] add confirmation screen
+- [x] disable form until valid

@@ -50,4 +50,8 @@
     &.btn--block {
         display: block;
     }
+
+    &[disabled='disabled'] {
+        background-color: grey !important;
+    }
 }
