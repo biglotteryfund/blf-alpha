@@ -187,6 +187,7 @@ module.exports = (pages) => {
                 req.session.showOverlay = true;
                 delete req.session.materialFormSuccess;
                 delete req.session.showOverlay;
+                delete req.session[orderKey];
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
