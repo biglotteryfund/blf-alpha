@@ -50,7 +50,7 @@ module.exports = (pages) => {
     // PAGE: free materials update endpoint
     const freeMaterials = pages.freeMaterials;
     // handle adding/removing items
-    router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
+    router.route(freeMaterials.path + '/item/:id').post(security.csrfProtection, (req, res, next) => {
 
         // update the session with ordered items
         const code = req.sanitize('code').escape();
