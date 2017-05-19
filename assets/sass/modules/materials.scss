@@ -25,7 +25,7 @@
         justify-content: flex-end;
         align-items: center;
         padding-bottom: $spacingUnit;
-        border-bottom: 1px solid palette('soft-grey');
+        border-bottom: 1px solid #999999;
 
 
         .material-item__label {
@@ -36,6 +36,8 @@
             padding-left: 10px;
             padding-right: 10px;
             width: 30px;
+            height: 26px;
+            border-radius: 15px;
         }
 
         .material-item__btn--decrease {
@@ -56,6 +58,7 @@
             text-align: center;
             font-size: 16px;
             flex-shrink: 0;
+            color: #666666;
         }
     }
 

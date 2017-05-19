@@ -41,5 +41,9 @@ $marginSizes: (
     'default': (
         'suffix': '',
         'factor': 1
+    ),
+    'large': (
+        'suffix': '--l',
+        'factor': 2
     )
 );

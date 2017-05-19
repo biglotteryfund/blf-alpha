@@ -71,11 +71,13 @@ main {
         }
     }
 
+    $paddedGridGutter: 9px; // arbitrary
+
     &.grid--padded {
-        margin-left: -$spacingUnit;
+        margin-left: -$paddedGridGutter;
 
         > .grid__item {
-            margin-left: $spacingUnit;
+            margin-left: $paddedGridGutter;
             margin-bottom: $spacingUnit;
         }
     }
@@ -92,8 +94,8 @@ main {
 
         &.grid--padded {
             > .grid__item {
-                flex-basis: calc(50% - #{$spacingUnit});
-                max-width: calc(50% - #{$spacingUnit});
+                flex-basis: calc(50% - #{$paddedGridGutter});
+                max-width: calc(50% - #{$paddedGridGutter});
             }
         }
     }
@@ -105,8 +107,8 @@ main {
 
         &.grid--padded {
             > .grid__item {
-                flex-basis: calc(33% - #{$spacingUnit});
-                max-width: calc(33% - #{$spacingUnit});
+                flex-basis: calc(33.33333% - #{$paddedGridGutter});
+                max-width: calc(33.33333% - #{$paddedGridGutter});
             }
         }
     }
