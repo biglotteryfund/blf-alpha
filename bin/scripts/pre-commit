@@ -7,7 +7,6 @@ PATH=$PATH:/usr/local/bin:/usr/local/sbin
 #       i.e. - $ 'git commit --no-verify'
 
 # run the tests
-cd app
 npm test
 
 # store the last exit code in a variable
