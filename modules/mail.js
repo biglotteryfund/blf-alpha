@@ -15,16 +15,21 @@ try {
     console.info('mail.json not found -- are you in DEV mode?');
 }
 
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    service: "SES-EU-WEST-1",
-    auth: {
-        user: mailConfig.user,
-        pass: mailConfig.password
-    }
-});
+let transporter = false;
 
 const send = (text, subject) => {
+
+    // only initialise this when we need it
+    if (!transporter) {
+        // create reusable transporter object using the default SMTP transport
+        transporter = nodemailer.createTransport({
+            service: "SES-EU-WEST-1",
+            auth: {
+                user: mailConfig.user,
+                pass: mailConfig.password
+            }
+        });
+    }
 
     let mailOptions = {
         // @TODO is this the right from address?

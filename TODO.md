@@ -3,8 +3,8 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Order form todo
-- [ ] add CSRF / refactor view logic
 - [ ] make design tweaks
+- [ ] write form tests
 
 ## Misc
 - [ ] Solution to hardcoded links in locale/lang files? 
@@ -26,3 +26,5 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] add copy
 - [x] add confirmation screen
 - [x] disable form until valid
+- [x] add CSRF
+- [x] refactor view logic

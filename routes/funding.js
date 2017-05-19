@@ -1,13 +1,20 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const _ = require('lodash');
 const moment = require('moment');
+const _ = require('lodash');
 
 const security = require('../boilerplate/security');
 const email = require('../modules/mail');
-const materials = require('../config/content/materials.json');
 
+const freeMaterialsLogic = {
+    formFields: require('./free-materials/formFields'),
+    modifyItems: require('./free-materials/modifyItems'),
+    materials: require('../config/content/materials.json'),
+    orderKey: 'orderedMaterials'
+};
+
+// @TODO eventually break this out into its own utility module
 // serve a static page (eg. no special dependencies)
 const routeStaticPage = (page) => {
     // redirect any aliases to the canonical path
@@ -29,71 +36,27 @@ const routeStaticPage = (page) => {
 
 module.exports = (pages) => {
 
-    // populate static pages
+    /**
+     * 1. Populate static pages
+     */
     for (let page in pages) {
         if (pages[page].static) { routeStaticPage(pages[page]); }
     }
 
-    // manually specify any non-static pages
+    /**
+     * 2. Manually specify any non-static pages
+     */
 
+    // PAGE: free materials update endpoint
     const freeMaterials = pages.freeMaterials;
-    let orderKey = 'orderedMaterials';
-
     // handle adding/removing items
     router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
-        const validActions = ['increase', 'decrease', 'remove'];
 
-        // get form parameters
-        const id = parseInt(req.params.id);
+        // update the session with ordered items
         const code = req.sanitize('code').escape();
-        const action = req.sanitize('action').escape();
+        freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
 
-        // look up the item they're adding
-        const item = materials.items.find(i => i.id === id);
-
-        // is this a valid item/action?
-        if (item && validActions.indexOf(action) !== -1) {
-
-            let maxQuantity = item.maximum;
-            let notAllowedWithItemId = item.notAllowedWithItem;
-
-            // get all their current orders
-            let orders = _.get(req.session, [orderKey], {});
-
-            // how many of the current item do they have?
-            const currentItemQuantity = _.get(req.session, [orderKey, code, 'quantity'], 0);
-
-            // are they blocked from adding this item?
-            let hasBlockerItem = false;
-
-            if (notAllowedWithItemId) {
-                // check if their current orders contain a blocker
-                for (let code in orders) {
-                    if (orders[code].id === notAllowedWithItemId) {
-                        hasBlockerItem = true;
-                    }
-                }
-            }
-
-            // can they add more of this item?
-            const noSpaceLeft = (currentItemQuantity === maxQuantity);
-
-            if (action === 'increase') {
-                if (!noSpaceLeft && !hasBlockerItem) {
-                    _.set(req.session, [orderKey, code, 'id'], id);
-                    _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
-                }
-            } else if (currentItemQuantity > 1 && action === 'decrease') {
-                _.set(req.session, [orderKey, code, 'id'], id);
-                _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
-            } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
-                _.unset(req.session, [orderKey, code]);
-                if (Object.keys(req.session[orderKey]).length === 0) {
-                    delete req.session[orderKey];
-                }
-            }
-        }
-
+        // handle ajax/standard form updates
         res.format({
             html: function () {
                 // res.redirect(req.baseUrl + freeMaterials.path);
@@ -102,84 +65,15 @@ module.exports = (pages) => {
             json: function () {
                 res.send({
                     status: 'success',
-                    quantity: _.get(req.session, [orderKey, code, 'quantity'], 0),
-                    allOrders: req.session[orderKey]
+                    quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
+                    allOrders: req.session[freeMaterialsLogic.orderKey]
                 });
             }
         });
 
     });
 
-    const formFields = [
-        {
-            name: 'yourName',
-            type: 'text',
-            required: true,
-            label: 'Your Name'
-        },
-        {
-            name: 'yourEmail',
-            type: 'text',
-            required: true,
-            label: 'Your email address'
-        },
-        {
-            name: 'yourNumber',
-            type: 'text',
-            required: true,
-            label: 'Your phone number'
-        },
-        {
-            name: 'yourAddress1',
-            type: 'text',
-            required: true,
-            label: 'Your address line 1'
-        },
-        {
-            name: 'yourAddress2',
-            type: 'text',
-            required: false,
-            label: 'Your address line 2'
-        },
-        {
-            name: 'yourTown',
-            type: 'text',
-            required: true,
-            label: 'Your town/city'
-        },
-        {
-            name: 'yourCounty',
-            type: 'text',
-            required: false,
-            label: 'Your county'
-        },
-        {
-            name: 'yourPostcode',
-            type: 'text',
-            required: true,
-            label: 'Your Postcode'
-        },
-        {
-            name: 'yourProjectName',
-            type: 'text',
-            required: true,
-            label: 'Your project name'
-        },
-        {
-            name: 'yourProjectID',
-            type: 'text',
-            required: true,
-            label: 'Your project ID number'
-        },
-        {
-            name: 'yourGrantAmount',
-            type: 'text',
-            required: true,
-            label: 'Your grant amount'
-        }
-    ];
-
-    // serve the materials page
+    // PAGE: free materials form
     router.route([freeMaterials.path, '/test'])
         .get(security.csrfProtection, (req, res, next) => {
 
@@ -193,7 +87,7 @@ module.exports = (pages) => {
                 req.session.showOverlay = true;
                 delete req.session.materialFormSuccess;
                 delete req.session.showOverlay;
-                delete req.session[orderKey];
+                delete req.session[freeMaterialsLogic.orderKey];
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
@@ -201,10 +95,10 @@ module.exports = (pages) => {
                 title: lang.title,
                 copy: lang,
                 description: "Order items free of charge to acknowledge your grant",
-                materials: materials.items,
-                formFields: formFields,
+                materials: freeMaterialsLogic.materials.items,
+                formFields: freeMaterialsLogic.formFields,
                 formErrors: errors,
-                orders: req.session[orderKey],
+                orders: req.session[freeMaterialsLogic.orderKey],
                 orderStatus: orderStatus,
                 csrfToken: req.csrfToken()
             });
@@ -216,7 +110,7 @@ module.exports = (pages) => {
 
             const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
 
-            formFields.forEach(field => {
+            freeMaterialsLogic.formFields.forEach(field => {
                 if (field.required) {
                     req.checkBody(field.name, 'Please provide ' + lcfirst(field.label)).notEmpty();
                 }
@@ -229,7 +123,7 @@ module.exports = (pages) => {
                 }
                 text += "\nThe customer's personal details are below:\n\n";
 
-                formFields.forEach(field => {
+                freeMaterialsLogic.formFields.forEach(field => {
                     if (details[field.name]) {
                         let safeField = req.sanitize(field.name).escape();
                         text += `\t${field.label}: ${safeField}\n\n`;
@@ -254,7 +148,7 @@ module.exports = (pages) => {
                     // res.redirect(req.baseUrl + freeMaterials.path);
                     res.redirect(req.baseUrl + '/test#your-details'); // @TODO make config item
                 } else {
-                    let text = makeOrderText(req.session[orderKey], req.body);
+                    let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
 
                     // @TODO handle error here?
