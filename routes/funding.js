@@ -2,9 +2,11 @@
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
-const materials = require('../config/content/materials.json');
-const email = require('../modules/mail');
 const moment = require('moment');
+
+const security = require('../boilerplate/security');
+const email = require('../modules/mail');
+const materials = require('../config/content/materials.json');
 
 // serve a static page (eg. no special dependencies)
 const routeStaticPage = (page) => {
@@ -179,7 +181,7 @@ module.exports = (pages) => {
 
     // serve the materials page
     router.route([freeMaterials.path, '/test'])
-        .get((req, res, next) => {
+        .get(security.csrfProtection, (req, res, next) => {
 
             // this page is dynamic so don't cache it
             res.cacheControl = { maxAge: 0 };
@@ -203,13 +205,14 @@ module.exports = (pages) => {
                 formFields: formFields,
                 formErrors: errors,
                 orders: req.session[orderKey],
-                orderStatus: orderStatus
+                orderStatus: orderStatus,
+                csrfToken: req.csrfToken()
             });
 
             // @TODO flash session
             delete req.session.errors;
         })
-        .post((req, res, next) => {
+        .post(security.csrfProtection, (req, res, next) => {
 
             const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
 

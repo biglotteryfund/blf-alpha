@@ -1,8 +1,8 @@
 'use strict';
 const app = require('../server');
 const helmet = require('helmet');
-// const csrf = require('csurf');
-// const csrfProtection = csrf({ cookie: true }); // use this to protect POST data with csrfToken: req.csrfToken()
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
 
 app.use(helmet({
     contentSecurityPolicy: {
@@ -20,3 +20,7 @@ app.use(helmet({
         action: 'sameorigin'
     },
 }));
+
+module.exports = {
+    csrfProtection: csrfProtection
+}
