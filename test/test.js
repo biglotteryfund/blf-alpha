@@ -10,18 +10,38 @@ const { JSDOM } = jsdom;
 
 chai.use(chaiHttp);
 
+let captureStream = (stream) => {
+    let oldWrite = stream.write;
+    let buf = '';
+    stream.write = function(chunk, encoding, callback) {
+        buf += chunk.toString(); // chunk is a String or Buffer
+        oldWrite.apply(stream, arguments);
+    };
+
+    return {
+        unhook: () => {
+            stream.write = oldWrite;
+        },
+        captured: () => {
+            return buf;
+        }
+    };
+};
+
 describe('Express application', function () {
-    let server;
+    let server, hook;
     const assets = require('../assets');
     const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
 
     beforeEach(() =>{
         process.env.PORT = 8090;
         server = require('../bin/www');
+        hook = captureStream(process.stdout);
     });
 
     afterEach(() => {
         server.close();
+        hook.unhook();
     });
 
     it('responds to /', (done) => {
@@ -210,7 +230,56 @@ describe('Express application', function () {
                             done();
                         });
                 });
+        });
 
+        it('should allow ordering with personal details', (done) => {
+            const funding = routes.sections.funding;
+            const path = funding.path + funding.pages.freeMaterials.path;
+
+            const formData = {
+                '_csrf': csrfToken,
+                'skipEmail': true,
+                'yourName': 'Little Bobby Tables',
+                'yourEmail': 'bobby@xkcd.com',
+                'yourNumber': '123456789',
+                'yourAddress1': '123 Fake Street',
+                'yourAddress2': 'Notrealsville',
+                'yourTown': 'Madeuptown',
+                'yourCounty': 'Nonexistentland',
+                'yourPostcode': 'NW1 6XE',
+                'yourProjectName': 'White Hat Testing',
+                'yourProjectID': '666',
+                'yourGrantAmount': '£2038'
+            };
+
+            agent.post(path)
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.redirectTo('/funding/test'); // @TODO change when launching
+                    res.should.have.status(302);
+                    done();
+                });
+        });
+
+        it('should block ordering with missing personal details', (done) => {
+            const funding = routes.sections.funding;
+            const path = funding.path + funding.pages.freeMaterials.path;
+
+            const formData = {
+                '_csrf': csrfToken,
+                'skipEmail': true,
+                'yourName': 'Little Bobby Tables'
+            };
+
+            agent.post(path)
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.redirectTo('/funding/test#your-details'); // @TODO change when launching
+                    res.should.have.status(302);
+                    done();
+                });
         });
 
     });

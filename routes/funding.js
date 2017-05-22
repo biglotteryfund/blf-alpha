@@ -150,14 +150,16 @@ module.exports = (pages) => {
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-
+                    
                     // @TODO handle error here?
-                    email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+                    if (!req.body.skipEmail) { // allow tests to run without sending emeil
+                        email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+                    }
 
                     req.session.materialFormSuccess = true;
                     req.session.showOverlay = true;
                     // res.redirect(req.baseUrl + freeMaterials.path);
-                    res.redirect(req.baseUrl + '/test'); // @TODO make config item
+                    res.redirect(req.baseUrl + '/test');
                 }
             });
         });
