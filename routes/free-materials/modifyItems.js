@@ -49,10 +49,11 @@ module.exports = (req, orderKey, code) => {
             _.set(req.session, [orderKey, code, 'id'], id);
             _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
         } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
-            _.unset(req.session, [orderKey, code]);
-            if (Object.keys(req.session[orderKey]).length === 0) {
-                delete req.session[orderKey];
-            }
+            _.set(req.session, [orderKey, code, 'quantity'], 0);
+            // _.unset(req.session, [orderKey, code]);
+            // if (Object.keys(req.session[orderKey]).length === 0) {
+            //     delete req.session[orderKey];
+            // }
         }
     }
 };

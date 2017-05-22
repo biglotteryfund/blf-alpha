@@ -24,6 +24,7 @@
 
     <article role="main" class="nudge-up">
 
+
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
             {{ copy.body | safe }}
         </div>
@@ -32,14 +33,14 @@
 
             <h3 class="t3a m-t m-l--l">Order Form</h3>
 
-            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
+            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded" id="js-vue">
                 {% for item in materials %}
                     <li class="grid__item">
                         <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
                             <div class="p p-b-none">
                                 <p class="m-t-none">
                                     <strong>{{ item.name }}</strong>
-                                    {% if item.description %} <span class="smaller">({{ item.description }}){% endif %}</span>
+                                    {% if item.description %} <span class="smaller">({{ item.description }}, {{ item.maximum }} max){% endif %}</span>
                                 </p>
 
                                 {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
@@ -50,7 +51,9 @@
 
                             <aside class="material-item__actions">
                                 {% for p in item.products %}
+                                    {% set quantity = orders[p.code].quantity or 0 %}
                                     <form class="p p-b-none{% if orders[p.code].quantity > 0 %} is-selected{% endif %}"
+                                          v-bind:class="{ 'is-selected': (orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false }"
                                           method="post"
                                           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
                                         <input type="hidden" name="code" value="{{ p.code }}">
@@ -62,15 +65,23 @@
                                             </label>
                                             <button type="submit"
                                                     value="decrease"
-                                                    name="action"
+                                                    name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == 0"
                                                     aria-label="Decrease quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
                                                 -
                                             </button>
-                                            <span aria-label="Quantity" class="material-item__quantity js-material-count">{{ orders[p.code].quantity or 0}}</span>
+                                            <div aria-label="Quantity"
+                                                  class="material-item__quantity js-material-count">
+                                                <span class="js-only">
+                                                    <% getQuantity('{{ p.code }}', {{ quantity }}) %>
+                                                </span>
+                                                <noscript>{{ quantity }}</noscript>
+                                            </div>
                                             <button type="submit"
                                                     value="increase"
-                                                    name="action"
+                                                    name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
+                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == {{ item.maximum }}"
                                                     aria-label="Increase quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
                                                 +

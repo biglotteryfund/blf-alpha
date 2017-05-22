@@ -116,3 +116,9 @@
     overflow: hidden;
     position: absolute;
 }
+
+.no-js {
+    .js-only {
+        display: none !important;
+    }
+}
