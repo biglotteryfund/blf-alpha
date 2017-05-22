@@ -40,7 +40,7 @@
                             <div class="p p-b-none">
                                 <p class="m-t-none">
                                     <strong>{{ item.name }}</strong>
-                                    {% if item.description %} <span class="smaller">({{ item.description }}, {{ item.maximum }} max){% endif %}</span>
+                                    {% if item.description %} <span class="smaller">({{ item.description }}{% endif %}</span>
                                 </p>
 
                                 {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
