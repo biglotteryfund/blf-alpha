@@ -91,6 +91,11 @@ module.exports = (pages) => {
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
+            let orders = req.session[freeMaterialsLogic.orderKey];
+            let numOrders = 0;
+            if (orders) {
+                for (let o in orders) { numOrders += orders[o].quantity; }
+            }
             res.render(freeMaterials.template, {
                 title: lang.title,
                 copy: lang,
@@ -98,7 +103,8 @@ module.exports = (pages) => {
                 materials: freeMaterialsLogic.materials.items,
                 formFields: freeMaterialsLogic.formFields,
                 formErrors: errors,
-                orders: req.session[freeMaterialsLogic.orderKey],
+                orders: orders,
+                numOrders: numOrders,
                 orderStatus: orderStatus,
                 csrfToken: req.csrfToken()
             });

@@ -31,7 +31,7 @@ module.exports = (req, orderKey, code) => {
         if (notAllowedWithItemId) {
             // check if their current orders contain a blocker
             for (let code in orders) {
-                if (orders[code].id === notAllowedWithItemId) {
+                if (orders[code].id === notAllowedWithItemId && orders[code].quantity > 0) {
                     hasBlockerItem = true;
                 }
             }
@@ -50,10 +50,6 @@ module.exports = (req, orderKey, code) => {
             _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
         } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
             _.set(req.session, [orderKey, code, 'quantity'], 0);
-            // _.unset(req.session, [orderKey, code]);
-            // if (Object.keys(req.session[orderKey]).length === 0) {
-            //     delete req.session[orderKey];
-            // }
         }
     }
 };

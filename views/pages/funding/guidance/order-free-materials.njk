@@ -22,7 +22,7 @@
 
     {{ hero.header('logo', heroContent, 'blue') }}
 
-    <article role="main" class="nudge-up">
+    <article role="main" class="nudge-up" id="js-vue">
 
 
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
@@ -33,7 +33,7 @@
 
             <h3 class="t3a m-t m-l--l">Order Form</h3>
 
-            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded" id="js-vue">
+            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
                     <li class="grid__item">
                         <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
@@ -52,7 +52,7 @@
                             <aside class="material-item__actions">
                                 {% for p in item.products %}
                                     {% set quantity = orders[p.code].quantity or 0 %}
-                                    <form class="p p-b-none{% if orders[p.code].quantity > 0 %} is-selected{% endif %}"
+                                    <form class="p p-b-none{% if quantity > 0 %} is-selected{% endif %}"
                                           v-bind:class="{ 'is-selected': (orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false }"
                                           method="post"
                                           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
@@ -109,7 +109,8 @@
                             <li class="grid__item">{{ forms.input(field.name, field.label, inputType = field.type, required = field.required) }}</li>
                         {% endfor %}
                         <li class="grid__item">
-                            <input type="submit"{% if not orders %} disabled="disabled"{% endif %}
+                            <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                                   v-bind:disabled="isEmpty()"
                                    class="accent--turquoise btn btn--cta btn--cta--large"
                                    id="js-submit-material-order">
                         </li>

@@ -54,8 +54,9 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
+let fundingRegex = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials|\/funding\/test/;
 // router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
-router.get('/funding/test', () => {
+router.get(fundingRegex, () => {
 
     let allOrderData = {};
 
@@ -71,10 +72,16 @@ router.get('/funding/test', () => {
                 } else {
                     return valueAtPageload;
                 }
+            },
+            isEmpty: function () {
+                let quantity = 0;
+                for (let o in this.orderData) {
+                    quantity += this.orderData[o].quantity;
+                }
+                return (quantity === 0);
             }
         }
     });
-
 
     $('.js-order-material-btn').on('click', function (e) {
         e.preventDefault();
@@ -90,14 +97,6 @@ router.get('/funding/test', () => {
             success: (response) => {
                 allOrderData = response.allOrders;
                 vueApp.orderData = Object.assign({}, vueApp.orderData, response.allOrders);
-
-                // @TODO disable in Vue
-                const submitButton = $('#js-submit-material-order');
-                if (response.allOrders) {
-                    submitButton.removeAttr('disabled');
-                } else {
-                    submitButton.attr('disabled', 'disabled');
-                }
             }
         });
     });
