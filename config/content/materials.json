@@ -2,192 +2,235 @@
     "items": [
         {
             "id": 3,
-            "name": "Stainless steel plaque",
+            "name": {
+                "en": "Stainless steel plaque",
+                "cy": "Plac dur gwrthstaen"
+            },
             "description": "310mm x 260mm",
             "image": "plaque-steel.jpg",
             "maximum": 1,
             "notAllowedWithItem": 2,
             "products": [
                 {
-                    "language": "English",
+                    "language": "monolingual",
                     "code": "BLF-BR088"
                 },
                 {
-                    "language": "Welsh & English",
+                    "language": "bilingual",
                     "code": "BLF-BR098"
                 }
             ]
         },
         {
             "id": 2,
-            "name": "Perspex plaque",
+            "name": {
+                "en": "Perspex plaque",
+                "cy": "Plac persbecs"
+            },
             "description": "310mm x 260mm",
             "image": "plaque-perspex.jpg",
             "maximum": 1,
             "notAllowedWithItem": 3,
             "products": [
                 {
-                    "language": "English",
+                    "language": "monolingual",
                     "code": "BLF-BR089KIT"
                 },
                 {
-                    "language": "Welsh & English",
+                    "language": "bilingual",
                     "code": "BLF-BR099KIT"
                 }
             ]
         },
         {
             "id": 1,
-            "name": "Small aluminium equipment plaque",
+            "name": {
+                "en": "Small aluminium equipment plaque",
+                "cy": "Plac cyfarpar alwminiwm bach"
+            },
             "description": "115mm x 80mm",
             "image": "plaque-alu.jpg",
             "maximum": 4,
             "products": [
                 {
-                    "language": "English",
+                    "language": "monolingual",
                     "code": "BIG-PLAQAS"
                 },
                 {
-                    "language": "Welsh & English",
+                    "language": "bilingual",
                     "code": "BIG-PLAQASBI"
                 }
             ]
         },
         {
             "id": 9,
-            "name": "Acknowledgement cheque",
+            "name": {
+                "en": "Acknowledgement cheque",
+                "cy": "Siec gydnabyddiaeth"
+            },
             "description": "610mm x 305mm",
             "image": "cheque.jpg",
             "maximum": 1,
             "products": [
                 {
-                    "language": "English",
+                    "language": "monolingual",
                     "code": "BIG-CHQ"
                 },
                 {
-                    "language": "Welsh & English",
+                    "language": "bilingual",
                     "code": "BIG-CHQBI"
                 }
             ]
         },
         {
             "id": 4,
-            "name": "A4 sticker sheets",
-            "description": "mixed sizes",
+            "name": {
+                "en": "A4 sticker sheets",
+                "cy": "Taflenni sticeri A4"
+            },
+            "description": {
+                "en": "mixed sizes",
+                "cy": "meintiau cymysg"
+            },
             "image": "stickers.jpg",
             "maximum": 10,
             "products": [
                 {
-                    "language": "English",
-                    "name": "A4 sticker sheet",
+                    "language": "monolingual",
                     "code": "BLF-BR01101"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "A4 sticker sheet",
+                    "language": "bilingual",
                     "code": "BLF-BR06101"
                 }
             ]
         },
         {
             "id": 8,
-            "name": "Balloons",
-            "description": "pack of ten",
+            "name": {
+                "en": "Balloons",
+                "cy": "Balwnau"
+            },
+            "description": {
+                "en": "pack of ten",
+                "cy": "pecyn o ddeg"
+            },
             "image": "balloons.jpg",
             "maximum": 10,
             "products": [
                 {
-                    "language": "English",
+                    "language": "monolingual",
                     "code": "BIG-EVBLN"
                 },
                 {
-                    "language": "Welsh & English",
+                    "language": "bilingual",
                     "code": "BIG-EVBLNBI"
                 }
             ]
         },
         {
             "id": 7,
-            "name": "Iron-on transfer for clothing",
+            "name": {
+                "en": "Iron-on transfer for clothing",
+                "cy": "Trosglwyddyn smwddio ymlaen ar gyfer dillad"
+            },
             "image": "transfer.jpg",
             "maximum": 10,
             "products": [
                 {
-                    "language": "English",
-                    "name": "White",
+                    "language": "monolingual",
+                    "name": {
+                        "en": "White iron-on transfer for clothing",
+                        "cy": "Trosglwyddyn smwddio ymlaen gwyn ar gyfer dillad"
+                    },
                     "code": "BIG-IOTBWL"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "White",
+                    "language": "bilingual",
+                    "name": {
+                        "en": "White iron-on transfer for clothing",
+                        "cy": "Trosglwyddyn smwddio ymlaen gwyn ar gyfer dillad"
+                    },
                     "code": "BIG-IOTBWLB"
                 },
                 {
-                    "language": "English",
-                    "name": "Black",
+                    "language": "monolingual",
+                    "name": {
+                        "en": "Black iron-on transfer for clothing",
+                        "cy": "Trosglwyddyn smwddio ymlaen du ar gyfer dillad"
+                    },
                     "code": "BIG-IOTWBL"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "Black",
+                    "language": "bilingual",
+                    "name": {
+                        "en": "Black iron-on transfer for clothing",
+                        "cy": "Trosglwyddyn smwddio ymlaen du ar gyfer dillad"
+                    },
                     "code": "BIG-IOTWBLB"
                 }
             ]
         },
         {
             "id": 6,
-            "name": "Vinyl banner",
+            "name": {
+                "en": "Vinyl banner (pink)",
+                "cy": "Baner finyl (pinc)"
+            },
             "description": "800mm x 600mm",
             "image": "banner.jpg",
             "maximum": 1,
             "products": [
                 {
-                    "language": "English",
-                    "name": "Pink",
+                    "language": "monolingual",
                     "code": "BIG-BANNP"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "Pink",
+                    "language": "bilingual",
                     "code": "BIG-BANNPBI"
-                },
-                {
-                    "language": "English",
-                    "name": "Blue",
-                    "code": "UNKNOWN-1"
-                },
-                {
-                    "language": "Welsh & English",
-                    "name": "Blue",
-                    "code": "UNKNOWN-2"
                 }
             ]
         },
         {
             "id": 5,
-            "name": "Vehicle sticker",
+            "name": {
+                "en": "Vehicle sticker",
+                "cy": "Sticer cerbyd"
+            },
             "description": "210mm x 150mm",
             "image": "vehicle.jpg",
             "maximum": 2,
             "products": [
                 {
-                    "language": "English",
-                    "name": "Black logo",
+                    "language": "monolingual",
+                    "name": {
+                        "en": "Black logo vehicle sticker",
+                        "cy": "Sticer cerbyd logo du"
+                    },
                     "code": "BIG-VEHBE"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "Black logo",
+                    "language": "bilingual",
+                    "name": {
+                        "en": "Black logo vehicle sticker",
+                        "cy": "Sticer cerbyd logo du"
+                    },
                     "code": "BIG-VEHBB"
                 },
                 {
-                    "language": "English",
-                    "name": "White logo",
+                    "language": "monolingual",
+                    "name": {
+                        "en": "White logo vehicle sticker",
+                        "cy": "Sticer cerbyd logo gwyn"
+                    },
                     "code": "BIG-VEHWE"
                 },
                 {
-                    "language": "Welsh & English",
-                    "name": "White logo",
+                    "language": "bilingual",
+                    "name": {
+                        "en": "White logo vehicle sticker",
+                        "cy": "Sticer cerbyd logo gwyn"
+                    },
                     "code": "BIG-VEHBW"
                 }
             ]
