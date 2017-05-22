@@ -15,6 +15,10 @@
         &.is-selected {
             background-color: #0b438d;
             color: #ffffff;
+
+            .material-item__quantity {
+                color: #ffffff;
+            }
         }
     }
 
