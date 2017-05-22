@@ -2,15 +2,15 @@
     {% set error = getFormErrorForField(request.session.errors, fieldName) %}
     <label class="form-fund__item" for="ff-{{ fieldName }}">{{ fieldLabel }}</label>
     {% if inputType == 'textarea' %}
-        <textarea class="form-fund__item{% if error %} is-error{% endif %}"
+        <textarea class="form-fund__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
                   name="{{ fieldName }}"
                   placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}">
-                  id="ff-{{ fieldName }}"{% if required %} required{% endif %}>{{ request.session.values[fieldName] }}</textarea>
+                  id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}>{{ request.session.values[fieldName] }}</textarea>
     {% else %}
-        <input class="form-fund__item{% if error %} is-error{% endif %}"
+        <input class="form-fund__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
                type="{{ inputType }}"
                name="{{ fieldName }}"
-               id="ff-{{ fieldName }}"{% if required %} required{% endif %}
+               id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ request.session.values[fieldName] }}"
                placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}">
     {% endif %}

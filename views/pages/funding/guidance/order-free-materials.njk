@@ -63,13 +63,15 @@
                                             <button type="submit"
                                                     value="decrease"
                                                     name="action"
+                                                    aria-label="Decrease quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
                                                 -
                                             </button>
-                                            <span class="material-item__quantity js-material-count">{{ orders[p.code].quantity or 0}}</span>
+                                            <span aria-label="Quantity" class="material-item__quantity js-material-count">{{ orders[p.code].quantity or 0}}</span>
                                             <button type="submit"
                                                     value="increase"
                                                     name="action"
+                                                    aria-label="Increase quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
                                                 +
                                             </button>
