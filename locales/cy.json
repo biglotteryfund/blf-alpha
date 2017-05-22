@@ -23,6 +23,13 @@
 			"contact": "Cyswllt",
 			"site-map": "Map o'r wefan",
 			"accessibility": "Hygyrchedd"
+		},
+		"accessibility": {
+			"skipToContent": "Ewch i'r cynnwys",
+			"contrast": {
+				"high": "Galluogi'r modd cyferbynnedd uchel",
+				"standard": "Galluogi'r modd cyferbynnedd safonol"
+			}
 		}
 	},
 	"funding": {
@@ -33,7 +40,14 @@
 				"languageOptions": {
 					"monolingual": "",
 					"bilingual": "yn Gymraeg a Saesneg"
-				}
+				},
+				"orderSubmitted": {
+					"success": "Diolch am eich archeb. Bydd eich nwyddau gyda chi cyn bo hir.",
+					"failure": "Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb. Rhowch gynnig arall arni yn nes ymlaen"
+				},
+				"orderForm": "Ffurflen Archebu",
+				"yourDetails": "Eich Manylion",
+				"submit": "Cyflwyno"
 			},
 			"logos": {
 				"title": "Sut i hysbysu pobl am eich grant Loteri gan ddefnyddio ein logo",

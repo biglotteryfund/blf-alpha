@@ -23,6 +23,13 @@
 			"contact": "Contact",
 			"site-map": "Site map",
 			"accessibility": "Accessibility"
+		},
+		"accessibility": {
+			"skipToContent": "Skip to content",
+			"contrast": {
+				"high": "Enable high contrast mode",
+				"standard": "Enable standard contrast mode"
+			}
 		}
 	},
 	"funding": {
@@ -33,7 +40,14 @@
 				"languageOptions": {
 					"monolingual": "in English",
 					"bilingual": "in Welsh & English"
-				}
+				},
+				"orderSubmitted": {
+					"success": "Thank you for your order. Your delivery will be with you soon.",
+					"failure": "Sorry, we were unable to process your order. Please try again soon."
+				},
+				"orderForm": "Order Form",
+				"yourDetails": "Your Details",
+				"submit": "Submit"
 			},
 			"logos": {
 				"title": "How to tell people about your lottery funding using our logo",

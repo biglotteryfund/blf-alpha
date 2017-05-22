@@ -118,7 +118,8 @@ module.exports = (pages) => {
 
             freeMaterialsLogic.formFields.forEach(field => {
                 if (field.required) {
-                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label)).notEmpty();
+                    // @TODO i18n
+                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label['en'])).notEmpty();
                 }
             });
 
@@ -132,7 +133,7 @@ module.exports = (pages) => {
                 freeMaterialsLogic.formFields.forEach(field => {
                     if (details[field.name]) {
                         let safeField = req.sanitize(field.name).escape();
-                        text += `\t${field.label}: ${safeField}\n\n`;
+                        text += `\t${field.label['en']}: ${safeField}\n\n`;
                     }
                 });
 

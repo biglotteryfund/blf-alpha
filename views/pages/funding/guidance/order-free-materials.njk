@@ -11,9 +11,9 @@
     {% set heroContent %}
         {% set heroTitle = title %}
         {% if orderStatus == 'success' %}
-            {% set heroTitle = 'Thank you for your order. Your delivery will be with you soon.' %}
+            {% set heroTitle = copy.orderSubmitted.success %}
         {% elseif orderStatus == 'fail' %}
-            {% set heroTitle = 'Sorry, we were unable to process your order. Please try again soon.' %}
+            {% set heroTitle = copy.orderSubmitted.failure %}
         {% endif %}
         <div class="nudge-bottom{% if orderStatus %} is-on-top{% endif %}">
             {{ headers.blockheader('h2', heroTitle, 30, 'hero__header') }}
@@ -31,7 +31,7 @@
 
         <div class="inner">
 
-            <h3 class="t3a m-t m-l--l">Order Form</h3>
+            <h3 class="t3a m-t m-l--l">{{ copy.orderForm }}</h3>
 
             <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
@@ -100,17 +100,18 @@
 
         <div class="inner accent--blue accent-b-t p" id="your-details">
             <div class="p">
-                <h3 class="t3a m-t-none">Your Details</h3>
+                <h3 class="t3a m-t-none">{{ copy.yourDetails }}</h3>
 
                 <form class="inline-form" method="post">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     <ul class="grid grid--wide-only grid--3-up grid--padded">
                         {% for field in formFields %}
-                            <li class="grid__item">{{ forms.input(field.name, field.label, inputType = field.type, required = field.required) }}</li>
+                            <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
                         {% endfor %}
                         <li class="grid__item">
                             <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
                                    v-bind:disabled="isEmpty()"
+                                   value="{{ copy.submit }}"
                                    class="accent--turquoise btn btn--cta btn--cta--large"
                                    id="js-submit-material-order">
                         </li>
