@@ -167,7 +167,8 @@ gulp.task('mocha', ['build'], function () {
    return gulp.src(testBase + '/test.js', {
        read: false
    }).pipe(mocha({
-       reporter: 'spec'
+       reporter: 'spec',
+       timeOut: 5000
    }));
 });
 
