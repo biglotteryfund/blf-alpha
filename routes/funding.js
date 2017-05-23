@@ -51,7 +51,9 @@ module.exports = (pages) => {
     const freeMaterials = pages.freeMaterials;
     // handle adding/removing items
     router.route(freeMaterials.path + '/item/:id').post(security.csrfProtection, (req, res, next) => {
-
+        // this page is dynamic so don't cache it
+        res.cacheControl = { maxAge: 0 };
+        
         // update the session with ordered items
         const code = req.sanitize('code').escape();
         freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
