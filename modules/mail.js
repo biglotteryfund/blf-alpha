@@ -32,8 +32,7 @@ const send = (text, subject) => {
     }
 
     let mailOptions = {
-        // @TODO is this the right from address?
-        from: 'matt.andrews@biglotteryfund.org.uk',
+        from: 'noreply@biglotteryfund.org.uk',
         to: config.get('materialSupplierEmail'),
         subject: subject,
         text: text

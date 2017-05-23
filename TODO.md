@@ -3,8 +3,8 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Misc
+- [ ] use production version of vue in non-dev envs
 - [ ] Solution to hardcoded links in locale/lang files? 
-- [ ] disable buttons for invalid state (do we care? needs proper JS app)
 - [ ] remove vary header?
 
 # Done 
@@ -26,3 +26,4 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] refactor view logic
 - [x] make design tweaks
 - [x] write form tests
+- [x] disable buttons for invalid state (do we care? needs proper JS app)
