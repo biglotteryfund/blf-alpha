@@ -1,7 +1,7 @@
 <nav class="accessibility__nav">
     <ul>
-        <li><a tabindex="1" href="#content">Skip to content</a></li>
-        <li><a id="js-contrast-standard" tabindex="2" href="/contrast/standard?url={{ getCurrentUrl() | urlencode}}">Enable standard contrast mode</a></li>
-        <li><a id="js-contrast-high" tabindex="2" href="/contrast/high?url={{ getCurrentUrl() | urlencode}}">Enable high contrast mode</a></li>
+        <li><a tabindex="1" href="#content">{{ __("global.accessibility.skipToContent") | safe }}</a></li>
+        <li><a id="js-contrast-standard" tabindex="2" href="/contrast/standard?url={{ getCurrentUrl() | urlencode}}">{{ __("global.accessibility.contrast.standard") | safe }}</a></li>
+        <li><a id="js-contrast-high" tabindex="2" href="/contrast/high?url={{ getCurrentUrl() | urlencode}}">{{ __("global.accessibility.contrast.high") | safe }}</a></li>
     </ul>
 </nav>

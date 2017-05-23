@@ -2,9 +2,6 @@
 
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
-## Order form todo
-- [ ] write form tests
-
 ## Misc
 - [ ] Solution to hardcoded links in locale/lang files? 
 - [ ] disable buttons for invalid state (do we care? needs proper JS app)
@@ -28,3 +25,4 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [x] add CSRF
 - [x] refactor view logic
 - [x] make design tweaks
+- [x] write form tests

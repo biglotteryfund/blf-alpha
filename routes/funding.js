@@ -91,6 +91,11 @@ module.exports = (pages) => {
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
+            let orders = req.session[freeMaterialsLogic.orderKey];
+            let numOrders = 0;
+            if (orders) {
+                for (let o in orders) { numOrders += orders[o].quantity; }
+            }
             res.render(freeMaterials.template, {
                 title: lang.title,
                 copy: lang,
@@ -98,7 +103,8 @@ module.exports = (pages) => {
                 materials: freeMaterialsLogic.materials.items,
                 formFields: freeMaterialsLogic.formFields,
                 formErrors: errors,
-                orders: req.session[freeMaterialsLogic.orderKey],
+                orders: orders,
+                numOrders: numOrders,
                 orderStatus: orderStatus,
                 csrfToken: req.csrfToken()
             });
@@ -112,7 +118,8 @@ module.exports = (pages) => {
 
             freeMaterialsLogic.formFields.forEach(field => {
                 if (field.required) {
-                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label)).notEmpty();
+                    // @TODO i18n
+                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label['en'])).notEmpty();
                 }
             });
 
@@ -126,7 +133,7 @@ module.exports = (pages) => {
                 freeMaterialsLogic.formFields.forEach(field => {
                     if (details[field.name]) {
                         let safeField = req.sanitize(field.name).escape();
-                        text += `\t${field.label}: ${safeField}\n\n`;
+                        text += `\t${field.label['en']}: ${safeField}\n\n`;
                     }
                 });
 

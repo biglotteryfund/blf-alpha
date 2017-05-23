@@ -11,9 +11,9 @@
     {% set heroContent %}
         {% set heroTitle = title %}
         {% if orderStatus == 'success' %}
-            {% set heroTitle = 'Thank you for your order. Your delivery will be with you soon.' %}
+            {% set heroTitle = copy.orderSubmitted.success %}
         {% elseif orderStatus == 'fail' %}
-            {% set heroTitle = 'Sorry, we were unable to process your order. Please try again soon.' %}
+            {% set heroTitle = copy.orderSubmitted.failure %}
         {% endif %}
         <div class="nudge-bottom{% if orderStatus %} is-on-top{% endif %}">
             {{ headers.blockheader('h2', heroTitle, 30, 'hero__header') }}
@@ -22,7 +22,8 @@
 
     {{ hero.header('logo', heroContent, 'blue') }}
 
-    <article role="main" class="nudge-up">
+    <article role="main" class="nudge-up" id="js-vue">
+
 
         <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
             {{ copy.body | safe }}
@@ -30,7 +31,7 @@
 
         <div class="inner">
 
-            <h3 class="t3a m-t m-l--l">Order Form</h3>
+            <h3 class="t3a m-t m-l--l">{{ copy.orderForm }}</h3>
 
             <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
@@ -38,8 +39,8 @@
                         <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
                             <div class="p p-b-none">
                                 <p class="m-t-none">
-                                    <strong>{{ item.name }}</strong>
-                                    {% if item.description %} <span class="smaller">({{ item.description }}){% endif %}</span>
+                                    <strong>{{ item.name[locale] }}</strong>
+                                    {% if item.description %} <span class="smaller">({{ item.description[locale] or item.description }}){% endif %}</span>
                                 </p>
 
                                 {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
@@ -50,26 +51,38 @@
 
                             <aside class="material-item__actions">
                                 {% for p in item.products %}
-                                    <form class="p p-b-none{% if orders[p.code].quantity > 0 %} is-selected{% endif %}"
+                                    {% set quantity = orders[p.code].quantity or 0 %}
+                                    <form class="p p-b-none{% if quantity > 0 %} is-selected{% endif %}"
+                                          v-bind:class="{ 'is-selected': (orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false }"
                                           method="post"
                                           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
                                         <input type="hidden" name="code" value="{{ p.code }}">
                                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                                         <div class="material-item__controls">
                                             <label class="m-t-none material-item__label">
-                                                <strong>{% if p.name %}{{ p.name }} {{ item.name | lowercaseFirst }}{% else %}{{ item.name }}{% endif %}</strong>
-                                                in {{ p.language }}
+                                                <strong>{% if p.name[locale] %}{{ p.name[locale] }}{% else %}{{ item.name[locale] }}{% endif %}</strong>
+                                                {{ copy.languageOptions[p.language] }}
                                             </label>
                                             <button type="submit"
                                                     value="decrease"
-                                                    name="action"
+                                                    name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == 0"
+                                                    aria-label="Decrease quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
                                                 -
                                             </button>
-                                            <span class="material-item__quantity js-material-count">{{ orders[p.code].quantity or 0}}</span>
+                                            <div aria-label="Quantity"
+                                                  class="material-item__quantity js-material-count">
+                                                <span class="js-only">
+                                                    <% getQuantity('{{ p.code }}', {{ quantity }}) %>
+                                                </span>
+                                                <noscript>{{ quantity }}</noscript>
+                                            </div>
                                             <button type="submit"
                                                     value="increase"
-                                                    name="action"
+                                                    name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
+                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == {{ item.maximum }}"
+                                                    aria-label="Increase quantity"
                                                     class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
                                                 +
                                             </button>
@@ -87,16 +100,18 @@
 
         <div class="inner accent--blue accent-b-t p" id="your-details">
             <div class="p">
-                <h3 class="t3a m-t-none">Your Details</h3>
+                <h3 class="t3a m-t-none">{{ copy.yourDetails }}</h3>
 
                 <form class="inline-form" method="post">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     <ul class="grid grid--wide-only grid--3-up grid--padded">
                         {% for field in formFields %}
-                            <li class="grid__item">{{ forms.input(field.name, field.label, inputType = field.type, required = field.required) }}</li>
+                            <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
                         {% endfor %}
                         <li class="grid__item">
-                            <input type="submit"{% if not orders %} disabled="disabled"{% endif %}
+                            <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                                   v-bind:disabled="isEmpty()"
+                                   value="{{ copy.submit }}"
                                    class="accent--turquoise btn btn--cta btn--cta--large"
                                    id="js-submit-material-order">
                         </li>

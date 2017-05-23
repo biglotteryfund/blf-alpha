@@ -6,11 +6,17 @@ const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
 require('./modules/data.map');
 
+// initialise Vue
+const Vue = require('./libs/vue');
+Vue.options.delimiters = ['<%', '%>'];
+
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
 // configure carousel - screen width: num items
 let carouselBreakpointConfig = { 1: 1 };
 carouselBreakpointConfig[tabletBreakpoint] = 3;
+
+$('html').removeClass('no-js');
 
 // detect IE to fix broken images
 if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
@@ -48,8 +54,35 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
+let fundingRegex = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials|\/funding\/test/;
 // router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
-router.get('/funding/test', () => {
+router.get(fundingRegex, () => {
+
+    let allOrderData = {};
+
+    const vueApp = new Vue({
+        el: '#js-vue',
+        data: {
+            orderData: allOrderData,
+        },
+        methods: {
+            getQuantity: function (code, valueAtPageload) {
+                if (this.orderData[code]) {
+                    return this.orderData[code].quantity;
+                } else {
+                    return valueAtPageload;
+                }
+            },
+            isEmpty: function () {
+                let quantity = 0;
+                for (let o in this.orderData) {
+                    quantity += this.orderData[o].quantity;
+                }
+                return (quantity === 0);
+            }
+        }
+    });
+
     $('.js-order-material-btn').on('click', function (e) {
         e.preventDefault();
         const $form = $(this).parents('form');
@@ -62,14 +95,8 @@ router.get('/funding/test', () => {
             data: data,
             dataType: 'json',
             success: (response) => {
-                $form.find('.js-material-count').text(response.quantity);
-                $form.toggleClass('is-selected', (response.quantity > 0));
-                const submitButton = $('#js-submit-material-order');
-                if (response.allOrders) {
-                    submitButton.removeAttr('disabled');
-                } else {
-                    submitButton.attr('disabled', 'disabled');
-                }
+                allOrderData = response.allOrders;
+                vueApp.orderData = Object.assign({}, vueApp.orderData, response.allOrders);
             }
         });
     });

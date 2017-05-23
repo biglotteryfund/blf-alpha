@@ -1,6 +1,6 @@
 {% from "../components/nav.njk" import navlinks with context %}
 <!doctype html>
-<html lang="{{ locale }}" class="locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
+<html lang="{{ locale }}" class="no-js locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
         <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
