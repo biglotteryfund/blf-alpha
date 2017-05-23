@@ -151,9 +151,7 @@ module.exports = (pages) => {
                 if (!result.isEmpty()) {
                     req.session.errors = result.array();
                     req.session.values = req.body;
-
-                    // res.redirect(req.baseUrl + freeMaterials.path);
-                    res.redirect(req.baseUrl + '/test#your-details'); // @TODO make config item
+                    res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -165,8 +163,7 @@ module.exports = (pages) => {
 
                     req.session.materialFormSuccess = true;
                     req.session.showOverlay = true;
-                    // res.redirect(req.baseUrl + freeMaterials.path);
-                    res.redirect(req.baseUrl + '/test');
+                    res.redirect(req.baseUrl + freeMaterials.path);
                 }
             });
         });
