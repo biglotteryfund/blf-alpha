@@ -50,10 +50,10 @@ module.exports = (pages) => {
     // PAGE: free materials update endpoint
     const freeMaterials = pages.freeMaterials;
     // handle adding/removing items
-    router.route(freeMaterials.path + '/item/:id').post(security.csrfProtection, (req, res, next) => {
+    router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
         // this page is dynamic so don't cache it
         res.cacheControl = { maxAge: 0 };
-        
+
         // update the session with ordered items
         const code = req.sanitize('code').escape();
         freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
@@ -77,7 +77,7 @@ module.exports = (pages) => {
 
     // PAGE: free materials form
     router.route([freeMaterials.path, '/test'])
-        .get(security.csrfProtection, (req, res, next) => {
+        .get((req, res, next) => {
 
             // this page is dynamic so don't cache it
             res.cacheControl = { maxAge: 0 };
@@ -108,13 +108,13 @@ module.exports = (pages) => {
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,
-                csrfToken: req.csrfToken()
+                csrfToken: ''
             });
 
             // @TODO flash session
             delete req.session.errors;
         })
-        .post(security.csrfProtection, (req, res, next) => {
+        .post((req, res, next) => {
 
             const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
 
