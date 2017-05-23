@@ -59,7 +59,6 @@ main {
         align-items: flex-start;
     }
 
-
     &.grid--wide-only {
         @include mq('tablet', 'max') {
             display: block;
@@ -95,47 +94,29 @@ main {
         }
     }
 
-    &.grid--2-up,
-    &.grid--3-up {
-        flex-wrap: wrap;
-    }
+    // output grid cols for 2-up, 3-up etc
+    @for $i from 2 through 4 {
+        $colWidth: 100% / $i;
 
-    &.grid--2-up {
-        > .grid__item {
-            flex-basis: 50%;
-        }
+        &.grid--#{$i}-up {
+            flex-wrap: wrap;
 
-        &.grid--padded {
             > .grid__item {
-                flex-basis: calc(50% - #{$paddedGridGutter});
-                max-width: calc(50% - #{$paddedGridGutter});
+                flex-basis: $colWidth;
             }
-        }
 
-        &.grid--padded--large {
-            > .grid__item {
-                flex-basis: calc(50% - #{$paddedGridGutterLarge});
-                max-width: calc(50% - #{$paddedGridGutterLarge});
+            &.grid--padded {
+                > .grid__item {
+                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutter});
+                    max-width: calc(#{$colWidth} - #{$paddedGridGutter});
+                }
             }
-        }
-    }
 
-    &.grid--3-up {
-        > .grid__item {
-            flex-basis: 33%;
-        }
-
-        &.grid--padded {
-            > .grid__item {
-                flex-basis: calc(33.33333% - #{$paddedGridGutter});
-                max-width: calc(33.33333% - #{$paddedGridGutter});
-            }
-        }
-
-        &.grid--padded--large {
-            > .grid__item {
-                flex-basis: calc(33.33333% - #{$paddedGridGutterLarge});
-                max-width: calc(33.33333% - #{$paddedGridGutterLarge});
+            &.grid--padded--large {
+                > .grid__item {
+                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutterLarge});
+                    max-width: calc(#{$colWidth} - #{$paddedGridGutterLarge});
+                }
             }
         }
     }
