@@ -31,7 +31,7 @@
 
         <div class="inner">
 
-            <h3 class="t3a m-t m-l--l">{{ copy.orderForm }}</h3>
+            <h3 class="t3a m-t--l m-l--l">{{ copy.orderForm }}</h3>
 
             <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
                 {% for item in materials %}
@@ -52,8 +52,9 @@
                             <aside class="material-item__actions">
                                 {% for p in item.products %}
                                     {% set quantity = orders[p.code].quantity or 0 %}
+                                    {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
                                     <form class="p p-b-none{% if quantity > 0 %} is-selected{% endif %}"
-                                          v-bind:class="{ 'is-selected': (orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false }"
+                                          v-bind:class="{ 'is-selected': ((orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false) }"
                                           method="post"
                                           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
                                         <input type="hidden" name="code" value="{{ p.code }}">
@@ -104,7 +105,7 @@
 
                 <form class="inline-form" method="post">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                    <ul class="grid grid--wide-only grid--3-up grid--padded">
+                    <ul class="grid grid--wide-only grid--3-up grid--padded--large">
                         {% for field in formFields %}
                             <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
                         {% endfor %}

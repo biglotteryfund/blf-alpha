@@ -71,7 +71,11 @@ main {
         }
     }
 
-    $paddedGridGutter: 9px; // arbitrary
+    // arbitrary
+    $paddedGridGutter: 9px;
+    $paddedGridGutterLarge: 30px;
+
+    // @TODO generate these classes from a mixin
 
     &.grid--padded {
         margin-left: -$paddedGridGutter;
@@ -79,6 +83,15 @@ main {
         > .grid__item {
             margin-left: $paddedGridGutter;
             margin-bottom: $spacingUnit;
+        }
+    }
+
+    &.grid--padded--large {
+        margin-left: -$paddedGridGutterLarge;
+
+        > .grid__item {
+            margin-left: $paddedGridGutterLarge;
+            margin-bottom: $paddedGridGutterLarge;
         }
     }
 
@@ -98,6 +111,13 @@ main {
                 max-width: calc(50% - #{$paddedGridGutter});
             }
         }
+
+        &.grid--padded--large {
+            > .grid__item {
+                flex-basis: calc(50% - #{$paddedGridGutterLarge});
+                max-width: calc(50% - #{$paddedGridGutterLarge});
+            }
+        }
     }
 
     &.grid--3-up {
@@ -109,6 +129,13 @@ main {
             > .grid__item {
                 flex-basis: calc(33.33333% - #{$paddedGridGutter});
                 max-width: calc(33.33333% - #{$paddedGridGutter});
+            }
+        }
+
+        &.grid--padded--large {
+            > .grid__item {
+                flex-basis: calc(33.33333% - #{$paddedGridGutterLarge});
+                max-width: calc(33.33333% - #{$paddedGridGutterLarge});
             }
         }
     }

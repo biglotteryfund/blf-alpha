@@ -15,10 +15,6 @@
         &.is-selected {
             background-color: #0b438d;
             color: #ffffff;
-
-            .material-item__quantity {
-                color: #ffffff;
-            }
         }
     }
 
@@ -31,17 +27,19 @@
         padding-bottom: $spacingUnit;
         border-bottom: 1px solid #999999;
 
-
         .material-item__label {
             margin-right: auto;
         }
+
+        $btnHeight: 26px;
 
         .material-item__btn {
             padding-left: 10px;
             padding-right: 10px;
             width: 30px;
-            height: 26px;
+            height: $btnHeight;
             border-radius: 15px;
+            line-height: 1;
         }
 
         .material-item__btn--decrease {
@@ -57,11 +55,14 @@
 
         .material-item__quantity {
             width: 30px;
+            height: $btnHeight;
+            line-height: $btnHeight;
             margin-top: 0;
             border: none;
             text-align: center;
             font-size: 16px;
             flex-shrink: 0;
+            background-color: #ffffff;
             color: #666666;
         }
     }
@@ -74,6 +75,6 @@
     }
 
     .material-item__actions {
-        margin-top: auto; // align to bottom
+        //margin-top: auto; // align to bottom
     }
 }

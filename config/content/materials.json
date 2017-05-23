@@ -83,25 +83,22 @@
             ]
         },
         {
-            "id": 4,
+            "id": 6,
             "name": {
-                "en": "A4 sticker sheets",
-                "cy": "Taflenni sticeri A4"
+                "en": "Vinyl banner (pink)",
+                "cy": "Baner finyl (pinc)"
             },
-            "description": {
-                "en": "mixed sizes",
-                "cy": "meintiau cymysg"
-            },
-            "image": "stickers.jpg",
-            "maximum": 10,
+            "description": "800mm x 600mm",
+            "image": "banner.jpg",
+            "maximum": 1,
             "products": [
                 {
                     "language": "monolingual",
-                    "code": "BLF-BR01101"
+                    "code": "BIG-BANNP"
                 },
                 {
                     "language": "bilingual",
-                    "code": "BLF-BR06101"
+                    "code": "BIG-BANNPBI"
                 }
             ]
         },
@@ -125,6 +122,89 @@
                 {
                     "language": "bilingual",
                     "code": "BIG-EVBLNBI"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": {
+                "en": "A4 sticker sheets",
+                "cy": "Taflenni sticeri A4"
+            },
+            "description": {
+                "en": "mixed sizes",
+                "cy": "meintiau cymysg"
+            },
+            "image": "stickers.jpg",
+            "maximum": 10,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BLF-BR01101"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BLF-BR06101"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": {
+                "en": "Small sticker sheet",
+                "cy": "Taflen sticer bach"
+            },
+            "description": "75mm x 50mm",
+            "image": "stickers.jpg",
+            "maximum": 10,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BLF-BR01201"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BLF-BR06201"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": {
+                "en": "Medium sticker sheet",
+                "cy": "Taflen sticer canolig"
+            },
+            "description": "80mm x 70mm",
+            "image": "stickers.jpg",
+            "maximum": 10,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BLF-BR01301"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BLF-BR06301"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": {
+                "en": "Large sticker sheet",
+                "cy": "Taflen sticer mawr"
+            },
+            "description": "120mm x 100mm",
+            "image": "stickers.jpg",
+            "maximum": 10,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BLF-BR01401"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BLF-BR06401"
                 }
             ]
         },
@@ -171,26 +251,7 @@
                 }
             ]
         },
-        {
-            "id": 6,
-            "name": {
-                "en": "Vinyl banner (pink)",
-                "cy": "Baner finyl (pinc)"
-            },
-            "description": "800mm x 600mm",
-            "image": "banner.jpg",
-            "maximum": 1,
-            "products": [
-                {
-                    "language": "monolingual",
-                    "code": "BIG-BANNP"
-                },
-                {
-                    "language": "bilingual",
-                    "code": "BIG-BANNPBI"
-                }
-            ]
-        },
+
         {
             "id": 5,
             "name": {

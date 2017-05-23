@@ -1,5 +1,13 @@
 #!/bin/bash
 
+### NOTE ###
+###############################################
+# CHANGING THIS FILE REQUIRES RE-UPLOADING IT #
+# AND THEN CLONING THE LAUNCH CONFIGURATIONS. #
+# FUTURE DEPLOYS MAY FAIL IF YOU FORGE THIS!! #
+###############################################
+
+
 #install codedeploy agent
 apt-get update
 apt-get install python-pip -y
