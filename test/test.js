@@ -256,7 +256,7 @@ describe('Express application', function () {
                 .send(formData)
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.redirectTo('/funding/test'); // @TODO change when launching
+                    res.should.redirectTo('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
                     res.should.have.status(302);
                     done();
                 });
@@ -276,7 +276,7 @@ describe('Express application', function () {
                 .send(formData)
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.redirectTo('/funding/test#your-details'); // @TODO change when launching
+                    res.should.redirectTo('/funding/funding-guidance/managing-your-funding/ordering-free-materials#your-details');
                     res.should.have.status(302);
                     done();
                 });
