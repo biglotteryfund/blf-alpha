@@ -33,7 +33,7 @@ const send = (text, subject) => {
 
     let mailOptions = {
         from: 'noreply@biglotteryfund.org.uk',
-        to: config.get('materialSupplierEmail'),
+        bcc: config.get('materialSupplierEmail'),
         subject: subject,
         text: text
     };
