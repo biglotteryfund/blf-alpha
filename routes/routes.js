@@ -70,7 +70,7 @@ const vanityRedirects = [
     {
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
-        destination: 'welsh' + routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+        destination: '/welsh' + routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
     }
 ];
 

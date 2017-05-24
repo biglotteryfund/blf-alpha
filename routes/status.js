@@ -26,7 +26,8 @@ router.get('/', (req, res, next) => {
 
 router.get('/pages', (req, res, next) => {
     res.render('pagelist', {
-        routes: routes.sections
+        routes: routes.sections,
+        vanityRedirects: routes.vanityRedirects
     });
 });
 
