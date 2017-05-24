@@ -132,7 +132,9 @@ module.exports = (pages) => {
             const makeOrderText = (items, details) => {
                 let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
                 for (let code in items) {
-                    text += `\t- ${code}\t x${items[code].quantity}\n`;
+                    if (items[code].quantity > 0) {
+                        text += `\t- ${code}\t x${items[code].quantity}\n`;
+                    }
                 }
                 text += "\nThe customer's personal details are below:\n\n";
 
