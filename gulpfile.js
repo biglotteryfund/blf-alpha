@@ -168,7 +168,7 @@ gulp.task('mocha', ['build'], function () {
        read: false
    }).pipe(mocha({
        reporter: 'spec',
-       timeOut: 5000
+       timeOut: 10000
    }));
 });
 
