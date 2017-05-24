@@ -31,7 +31,10 @@ const routes = {
                     lang: "funding.guidance.managing-your-funding",
                     code: 2,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        '/funding-guidance/managing-your-funding/help-with-publicity'
+                    ]
                 },
                 freeMaterials: {
                     name: "Ordering free materials",
@@ -46,7 +49,7 @@ const routes = {
                 },
                 helpWithPublicity: {
                     name: "Help with publicity",
-                    path: "/funding-guidance/managing-your-funding/help-with-publicity",
+                    path: "/funding-guidance/managing-your-funding/social-media",
                     template: "pages/funding/guidance/help-with-publicity",
                     lang: "funding.guidance.help-with-publicity",
                     code: 12,
@@ -63,6 +66,11 @@ const vanityRedirects = [
         name: "Publicity",
         path: "/publicity",
         destination: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+    },
+    {
+        name: "Publicity (Welsh)",
+        path: "/cyhoeddusrwydd",
+        destination: 'welsh' + routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
     }
 ];
 
