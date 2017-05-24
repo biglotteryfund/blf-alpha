@@ -96,6 +96,40 @@
 					"header2": "Why are we asking you to do these things?",
 					"block2": "<p>You are one of thousands of good causes all over the UK doing amazing things with money raised by National Lottery players. It is very important that you share the good news about your funding and let the public know how they are making life better across the UK by playing National Lottery games.</p><p>This will also encourage people in your local area to apply for lottery funding, increasing the amount of amazing work that takes place in your community.</p>"
 				}
+			},
+			"getting-press-coverage": {
+				"title": "How to get press coverage for your grant",
+				"body": "<p>Being awarded National Lottery funding is a huge achievement and great news for your local community. Local newspapers and radio stations will be interested to hear your news. They can help you tell your story and raise awareness in the community.</p><p>This is also an important opportunity to thank National Lottery players for making your work possible.</p>",
+				"sections": [
+					{
+						"title": "Identify which media to target",
+						"text": "Contact newspapers that are available to buy or are given out for free in the area your project is based. If you are unsure which area they cover you can always ring and ask. Think about contacting your local BBC radio station as well as any commercial stations in your area. See if there are any local websites or blogs who might be interested in your story."
+					},
+					{
+						"title": "Find the best contact",
+						"text": "It is worth calling the newsdesk of a newspaper or radio station to tell them your story and ask if there is anyone in particular you should send it through to."
+					},
+					{
+						"title": "Draft a press release",
+						"text": "When writing this think about the importance and impact of your project. How will it make a difference to the people you work with? How will it improve their lives? How will it improve the whole community?"
+					},
+					{
+						"title": "Sending a press release",
+						"text": "Ensure the subject matter of your email covers the story and the area, for example “Wolverhampton Community Centre Awarded National Lottery Funding”. Paste the press release into the body of the email rather than attaching it. And remember to always include your contact details!"
+					},
+					{
+						"title": "Attach an image",
+						"text": "Attaching a high quality image can really improve your chance of gaining publicity. Even photos taken on smartphones can work really well. Think about what you want the photo to say about your project - think about the setting and who to include in the photo. Make sure you provide the names of everyone in the photo and make clear who is who to help the newspaper caption the image properly."
+					},
+					{
+						"title": "Follow up with a phone call",
+						"text": "Journalists receive a lot of press releases each day and it will help if you give them a quick call to highlight your news."
+					},
+					{
+						"title": "Tell us about your success stories",
+						"text": "We would love to hear when you get media coverage in your local area. Get in touch with us to tell us all about it! [press office email to be added]"
+					}
+				]
 			}
 		}
 	}

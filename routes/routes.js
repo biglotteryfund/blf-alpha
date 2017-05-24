@@ -55,6 +55,15 @@ const routes = {
                     code: 12,
                     static: true,
                     live: true
+                },
+                pressCoverage: {
+                    name: "Getting press coverage",
+                    path: "/funding-guidance/managing-your-funding/press",
+                    template: "pages/funding/guidance/getting-press-coverage",
+                    lang: "funding.guidance.getting-press-coverage",
+                    code: 18,
+                    static: true,
+                    live: false
                 }
             }
         }
