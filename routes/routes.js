@@ -58,4 +58,15 @@ const routes = {
     }
 };
 
-module.exports = routes;
+const vanityRedirects = [
+    {
+        name: "Publicity",
+        path: "/publicity",
+        destination: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+    }
+];
+
+module.exports = {
+    sections: routes.sections,
+    vanityRedirects: vanityRedirects
+};
