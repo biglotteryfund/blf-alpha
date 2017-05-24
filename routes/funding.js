@@ -76,6 +76,10 @@ module.exports = (pages) => {
     });
 
     // PAGE: free materials form
+    router.get(freeMaterials.aliases, (req, res, next) => {
+        res.redirect(req.baseUrl + freeMaterials.path);
+    });
+
     router.route([freeMaterials.path, '/test'])
         .get((req, res, next) => {
 

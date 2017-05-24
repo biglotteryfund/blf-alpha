@@ -39,7 +39,10 @@ const routes = {
                     "template": "pages/funding/guidance/order-free-materials",
                     "lang": "funding.guidance.order-free-materials",
                     "code": 3,
-                    "live": false
+                    "live": true,
+                    "aliases": [
+                        '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
+                    ]
                 },
                 "helpWithPublicity": {
                     "name": "Help with publicity",

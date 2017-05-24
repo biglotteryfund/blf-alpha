@@ -74,7 +74,8 @@
                         {% if page.aliases %}
                             <h4>Aliases <span>(these links redirect to the canonical one above)</span></h4>
                             <ul>
-                                {% for link in page.aliases %}
+                                {% for aliasPath in page.aliases %}
+                                    {% set link = buildUrl(sectionName, aliasPath) %}
                                     <li><a href="{{ link }}">{{ link }}</a></li>
                                 {% endfor %}
                             </ul>
