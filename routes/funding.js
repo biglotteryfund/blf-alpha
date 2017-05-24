@@ -134,7 +134,7 @@ module.exports = (pages) => {
 
                 freeMaterialsLogic.formFields.forEach(field => {
                     if (details[field.name]) {
-                        let safeField = req.sanitize(field.name).escape();
+                        let safeField = req.sanitize(field.name).unescape();
                         text += `\t${field.label['en']}: ${safeField}\n\n`;
                     }
                 });
