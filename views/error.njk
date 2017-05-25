@@ -1,3 +1,32 @@
-<h1>{{ message }}</h1>
-<h2>{{ error.status }}</h2>
-<pre>{{ error.stack }}</pre>
+{% import "./components/hero.njk" as hero %}
+{% import "./components/headers.njk" as headers %}
+
+{% extends "./layouts/main.njk" %}
+
+{% block title %}{{ errorTitle }} | Error {{ status }} | {% endblock %}
+
+{% block content %}
+
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', errorTitle, 30, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p accent--pink accent-b-t bg-plain bordered">
+            <h3 class="t3">Error {{ status }} &ndash; {{ message }}</h3>
+            <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
+            <p>If you keep encountering problems accessing our pages, please <a href="mailto:webmaster@biglotteryfund.org.uk">let us know</a>.</p>
+
+            {% if appData.IS_DEV and error.stack %}
+                <h4>Stack trace:</h4>
+                <pre>{{ error.stack }}</pre>
+            {% endif %}
+        </div>
+    </article>
+
+{% endblock %}

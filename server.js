@@ -41,12 +41,21 @@ routes.vanityRedirects.forEach(r => {
     });
 });
 
+const handle404s = () => {
+    let err = new Error('Page not found');
+    err.status = 404;
+    err.friendlyText = "Sorry, we couldn't find that page";
+    return err;
+};
+
+// alias for error pages for old site -> new
+app.get('/error', (req, res, next) => {
+    next(handle404s());
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    next(handle404s());
 });
 
 // error handler
@@ -54,8 +63,10 @@ app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.status = err.status || 500;
+    res.locals.errorTitle = (err.friendlyText) ? err.friendlyText : 'Error: ' + err.message;
 
     // render the error page
-    res.status(err.status || 500);
+    res.status(res.locals.status);
     res.render('error');
 });
