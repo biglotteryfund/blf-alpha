@@ -58,6 +58,10 @@
     }
 }
 
+.p-text {
+    padding: $spacingUnit $spacingUnit $spacingUnit*2 $spacingUnit;
+}
+
 // create margin util classes
 @each $dir, $dirData in $directions {
 
