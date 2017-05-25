@@ -5,7 +5,7 @@ before_script:
 - npm install -g gulp
 - npm install
 script:
-- gulp test --production
+- gulp test --production --timeout 10000
 - npm prune --production > /dev/null 2>&1
 before_deploy:
 - sh bin/scripts/store_deploy_info.sh

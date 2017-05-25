@@ -26,6 +26,7 @@
                 border-bottom: 1px solid #999999;
                 padding-bottom: 10px;
                 margin-bottom: 10px;
+                margin-top: 40px;
             }
 
             h4 span {
@@ -60,8 +61,20 @@
     <body>
         <h1>Page index</h1>
         <main>
+
+            <h2>Vanity URLs</h2>
+            {% for r in vanityRedirects %}
+                <article>
+                    <h3>{{ r.name }}</h3>
+                    <ul>
+                        <li><h4>URL: <a href="{{ r.path }}">{{ r.path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ r.path }}</span></h4></li>
+                        <li><p><strong>Destination: </strong> <a href="{{ r.destination }}">{{ r.destination }}</a></p></li>
+                    </ul>
+                </article>
+            {% endfor %}
+
             {% for sectionName, section in routes %}
-                <h2>{{ section.name }}</h2>
+                <h2>Section: {{ section.name }}</h2>
                 {% for pageName, page in section.pages %}
                     <h3>Page #{{ page.code }} &ndash; {{ page.name }} <span class="status {% if page.live %}status--live{% else %}status--draft{% endif %}"></span></h3>
                     <article>
@@ -74,7 +87,8 @@
                         {% if page.aliases %}
                             <h4>Aliases <span>(these links redirect to the canonical one above)</span></h4>
                             <ul>
-                                {% for link in page.aliases %}
+                                {% for aliasPath in page.aliases %}
+                                    {% set link = buildUrl(sectionName, aliasPath) %}
                                     <li><a href="{{ link }}">{{ link }}</a></li>
                                 {% endfor %}
                             </ul>

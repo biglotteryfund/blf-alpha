@@ -34,6 +34,13 @@ for (let section in routes.sections) {
     app.use(cymreigio(s.path), s.handler(s.pages));
 }
 
+// add vanity redirects
+routes.vanityRedirects.forEach(r => {
+    app.get(r.path, (req, res, next) => {
+        res.redirect(r.destination);
+    });
+});
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
