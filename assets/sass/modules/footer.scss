@@ -23,30 +23,15 @@ footer {
     }
 }
 
-.logo-lottery {
-    max-width: 70%;
-    width: auto;
-}
 
-.logo-lottery--mobile {
-    width: 100%;
-    background-color: #ffffff;
-    padding: $spacingUnit / 2 $spacingUnit;
-    img {
-        width: 270px;
-    }
-}
-
-
-.logo-lottery,
 .footer__header {
     margin-bottom: $spacingUnit;
 }
 
 .footer__header {
-    margin-top: $spacingUnit;
+    margin-top: 0;
 
     @include mq('tablet') {
-        margin-top: 26px; // arbitrary
+        //margin-top: 26px; // arbitrary
     }
 }

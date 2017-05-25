@@ -63,9 +63,11 @@ main {
         @include mq('tablet', 'max') {
             display: block;
             margin-left: 0 !important;
+
             > .grid__item {
                 max-width: 100% !important;
                 margin-left: 0 !important;
+                overflow: hidden;
             }
         }
     }

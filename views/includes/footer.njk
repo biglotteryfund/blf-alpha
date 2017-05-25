@@ -1,16 +1,10 @@
 <footer role="contentinfo">
 
-    <div class="logo-lottery--mobile">
-        <img src="{{ 'images/lottery--white.png' | getCachebustedPath }}" class="mobile-only" alt="Awarding funds from the National Lottery" />
-    </div>
-
     <div class="inner footer__inner m-t-none">
         <ul class="grid grid--top grid--wide-only m-t-none">
-
             <li class="grid__item desktop-only">
-                <img src="{{ 'images/lottery.png' | getCachebustedPath }}" class="logo-lottery" alt="Awarding funds from the National Lottery" />
                 <ul class="list-spaced m-t-none">
-                    <li><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
+                    <li class="m-t-none"><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
                     <li><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></li>
                     <li>{{ __("global.contact.phone") | safe }}</li>
                 </ul>
@@ -25,7 +19,7 @@
                         <li><a href="{{ buildUrl('about-big/customer-service/terms-of-use') }}">{{ __("global.footerLinks.terms") | safe }}</a></li>
                         <li><a href="{{ buildUrl('about-big/customer-service/cookies') }}">{{ __("global.footerLinks.cookies") | safe }}</a></li>
                     </ul>
-                    <ul class="grid__item flex__fill--second">
+                    <ul class="grid__item">
                         <li><a href="{{ buildUrl('about-big/contact-us') }}">{{ __("global.footerLinks.contact") | safe }}</a></li>
                         <li><a href="{{ buildUrl('sitemap') }}">{{ __("global.footerLinks.site-map") | safe }}</a></li>
                         <li><a href="{{ buildUrl('about-big/our-approach/accessibility') }}">{{ __("global.footerLinks.accessibility") | safe }}</a></li>
