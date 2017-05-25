@@ -13,6 +13,7 @@
     }
 }
 
+// @TODO this is quite complex for something that should be relatively simple
 .logo {
     display: inline-block;
     // actual dimensions
@@ -32,6 +33,7 @@
     background-image: url(../images/logo-new.png);
 
     .locale--cy & {
+        transform: scale(1.2);
         background-image: url(../images/logo-new--welsh.png);
     }
 
