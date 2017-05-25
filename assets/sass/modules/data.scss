@@ -27,6 +27,13 @@
             right: -$spacingUnit*3;
         }
     }
+
+    .icon--arrow-left,
+    .icon--arrow-right {
+        width: 24px;
+        height: 40px;
+        fill: #1a44a1;
+    }
 }
 
 .stats {

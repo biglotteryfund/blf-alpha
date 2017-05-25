@@ -21,7 +21,10 @@
             <input type="hidden" name="type" value="All">
             <input type="hidden" name="order" value="r">
             <input class="form-search__input" aria-label="{{ __("global.nav.search") }}" type="text" placeholder="{{ __("global.nav.search") }}" name="q">
-            <i class="form-search__icon ion-search"><span class="visually-hidden">{{ __("global.nav.search") }}</span></i>
+            <i class="form-search__icon">
+                {% include "../includes/svg/search.svg" %}
+                <span class="visually-hidden">{{ __("global.nav.search") }}</span>
+            </i>
         </form>
     </li>
 {% endmacro %}

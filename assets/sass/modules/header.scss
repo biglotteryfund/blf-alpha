@@ -110,7 +110,9 @@ nav {
         }
 
         .form-search__icon {
-            color: #ffffff;
+            .icon--search {
+                fill: #ffffff;
+            }
         }
 
         a {
@@ -235,10 +237,12 @@ nav {
 }
 
 .form-search__icon {
-    font-size: 21px;
-    line-height: 0;
-    vertical-align: middle;
-    color: palette('soft-grey');
+
+    .icon--search {
+        width: 21px;
+        height: 21px;
+        fill: palette('soft-grey');
+    }
 
     @include mq('tablet') {
         position: relative;

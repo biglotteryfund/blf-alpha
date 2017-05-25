@@ -145,10 +145,13 @@ main {
     }
 
     // cribbed from ionicons
-    span:last-child:after {
-        content: "\f10a";
-        font-family: "Ionicons";
-        margin-left: 5px;
+    &.grid__item__title--arrow {
+        svg {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+            fill: #ffffff;
+        }
     }
 }
 
@@ -182,16 +185,13 @@ main {
         @include on-interact {
             cursor: pointer;
             background-color: rgba(255, 255, 255, 0.2);
-            i {
+            .icon--close {
                 color: #ffffff;
             }
         }
 
-        i {
-            font-size: 62px;
-            margin-top: -10px;
-            display: block;
-            color: palette('soft-grey');
+        .icon--close {
+            fill: palette('soft-grey');
         }
     }
 

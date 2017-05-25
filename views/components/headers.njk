@@ -1,8 +1,8 @@
-{% macro blockheader(tag, text, charsToWrap, additionalClasses, link) %}
+{% macro blockheader(tag, text, charsToWrap, additionalClasses, link, showArrow = false) %}
     {% set text = text | splitByCharLength(charsToWrap) %}
     <{{ tag }} class="t1{% if additionalClasses %} {{ additionalClasses }}{% endif %}">{% if link %}<a href="{{ link }}">{% endif %}
         {%- for line in text %}
-            <span>{{ line | safe}} </span>
+            <span>{{ line | safe}} {% if loop.last and showArrow %}{% include "../includes/svg/arrow-right.svg" %}{% endif %}</span>
         {%- endfor %}
     {% if link %}</a>{% endif %}</{{ tag }}>
 {% endmacro %}
