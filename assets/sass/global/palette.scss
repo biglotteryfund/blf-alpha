@@ -5,7 +5,7 @@ $palette: (
     "blue-text": #365cc9,
     "blue-nav": #3c65dd,
 
-    "turquoise": #00aeef,
+    "turquoise": #00adef,
 
     // @TODO get this from sass.json / _config.scss
     // (tried before but wouldn't allow using string in mixins)
@@ -21,6 +21,8 @@ $palette: (
 
     "orange": #ff9315,
     "orange-bg": #fdebd7,
+
+    "cyan": #009098,
 
     "soft-grey": #cacaca,
     "charcoal": #333333,
@@ -54,5 +56,9 @@ $themes: (
     'orange': (
         'foreground': palette('orange'),
         'background': palette('orange-bg')
-    )
+    ),
+    'cyan': (
+        'foreground': palette('cyan'),
+        'background': palette('pale')
+    ),
 );

@@ -200,3 +200,22 @@ main {
 .is-on-top {
     z-index: 100;
 }
+
+
+
+// @TODO make into a module (with better name?)
+.boxed-copy {
+    display: flex;
+    margin-bottom: $spacingUnit * 2;
+
+    .boxed-copy__media {
+        width: 300px;
+        margin-right: $spacingUnit / 2;
+        flex-shrink: 0;
+    }
+
+    .boxed-copy__aside {
+        margin-top: 0;
+    }
+}
+
