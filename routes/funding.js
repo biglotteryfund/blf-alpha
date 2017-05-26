@@ -3,8 +3,9 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
+const routeStatic = require('./routeStatic');
 
-const security = require('../boilerplate/security');
+// const security = require('../boilerplate/security');
 const email = require('../modules/mail');
 
 const freeMaterialsLogic = {
@@ -14,33 +15,13 @@ const freeMaterialsLogic = {
     orderKey: 'orderedMaterials'
 };
 
-// @TODO eventually break this out into its own utility module
-// serve a static page (eg. no special dependencies)
-const routeStaticPage = (page) => {
-    // redirect any aliases to the canonical path
-    if (page.aliases) {
-        router.get(page.aliases, (req, res, next) => {
-            res.redirect(req.baseUrl + page.path);
-        });
-    }
-
-    // serve the canonical path with the supplied template
-    router.get(page.path, (req, res, next) => {
-        let lang = req.i18n.__(page.lang);
-        res.render(page.template, {
-            title: lang.title,
-            copy: lang
-        });
-    });
-};
-
 module.exports = (pages) => {
 
     /**
      * 1. Populate static pages
      */
     for (let page in pages) {
-        if (pages[page].static) { routeStaticPage(pages[page]); }
+        if (pages[page].static) { routeStatic(pages[page], router); }
     }
 
     /**

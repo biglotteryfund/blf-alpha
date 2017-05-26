@@ -1,11 +1,32 @@
 "use strict";
 
 const handlers = {
-    funding: (c) => require('../routes/funding')(c)
+    funding: (c) => require('../routes/funding')(c),
+    toplevel: (c) => require('../routes/toplevel')(c)
 };
 
 const routes = {
     sections: {
+        global: {
+            name: "Global (top-level pages)",
+            path: "",
+            handler: handlers.toplevel,
+            pages: {
+                contact: {
+                    name: "Contact",
+                    path: "/contact",
+                    template: "pages/toplevel/contact",
+                    lang: "toplevel.contact",
+                    code: 4,
+                    static: true,
+                    live: false,
+                    aliases: [
+                        "/about-big/contact-us",
+                        "/help-and-support"
+                    ]
+                }
+            }
+        },
         funding: {
             name: "Funding",
             path: "/funding",

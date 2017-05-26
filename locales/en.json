@@ -32,6 +32,11 @@
 			}
 		}
 	},
+	"toplevel": {
+		"contact": {
+			"body": "test"
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {

@@ -31,7 +31,12 @@ app.use('/welsh', homepage);
 // all other routes
 for (let section in routes.sections) {
     let s = routes.sections[section];
-    app.use(cymreigio(s.path), s.handler(s.pages));
+    let paths = cymreigio(s.path);
+    let handler = s.handler(s.pages);
+    // adding these as an array fails for welsh paths
+    paths.forEach(p => {
+        app.use(p, handler);
+    });
 }
 
 // add vanity redirects
