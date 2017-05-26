@@ -6,7 +6,7 @@
 }
 
 .bordered {
-    border: 1px solid rgba(palette('soft-grey'), 0.5);
+    @include bordered();
 }
 
 @each $name, $data in $themes {

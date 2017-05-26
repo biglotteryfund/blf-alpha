@@ -70,3 +70,6 @@
     line-height: relative-line-height($fontSize, $leading);
 }
 
+@mixin bordered {
+    border: 1px solid rgba(palette('soft-grey'), 0.5);
+}
