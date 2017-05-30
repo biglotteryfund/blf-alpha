@@ -4,10 +4,6 @@
 module.exports = (page, router) => {
     // redirect any aliases to the canonical path
     if (page.aliases) {
-        console.log('adding aliases:', {
-            aliases: page.aliases,
-            destination: page.path
-        });
         router.get(page.aliases, (req, res, next) => {
             res.redirect(req.baseUrl + page.path);
         });
