@@ -43,7 +43,7 @@
         <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"></script>
 
     {# load analytics #}
-    {% if environment == 'production' %}
+    {% if appData.environment == 'production' %}
         <script src="/assets/analytics/ga.js"></script>
     {% else %}
         <script src="/assets/analytics/ga-dev.js"></script>
