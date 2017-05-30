@@ -1,28 +1,10 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
-
-
-{% macro pressBlock(content, color, imagePath) %}
-    <div class="boxed-copy accent--{{ color }} accent-b-t">
-        <div class="grid__item__inner boxed-copy__media">
-            <img src="{{ imagePath | getCachebustedPath }}" alt="" />
-            {{ headers.blockheader(
-            'h4',
-            content.title,
-            20,
-            'minor grid__item__title grid__item__title--top'
-            )}}
-        </div>
-        <div class="boxed-copy__aside p-text">
-            <p>{{ content.text | safe }}</p>
-        </div>
-    </div>
-{% endmacro %}
-
 
 {% block content %}
 
@@ -42,13 +24,13 @@
 
         <div class="inner">
 
-            {{ pressBlock(copy.sections.identify, 'blue', 'images/press/1.jpg') }}
-            {{ pressBlock(copy.sections.find, 'orange', 'images/press/2.jpg') }}
-            {{ pressBlock(copy.sections.draft, 'green', 'images/press/3.jpg') }}
-            {{ pressBlock(copy.sections.send, 'turquoise', 'images/press/4.jpg') }}
-            {{ pressBlock(copy.sections.attach, 'pink', 'images/press/5.jpg') }}
-            {{ pressBlock(copy.sections.follow, 'cyan', 'images/press/6.jpg') }}
-            {{ pressBlock(copy.sections.tell, 'blue', 'images/press/1.jpg') }}
+            {{ segment.segment(copy.sections.identify.title, copy.sections.identify.text, 'blue', 'images/press/1.jpg') }}
+            {{ segment.segment(copy.sections.find.title, copy.sections.find.text, 'orange', 'images/press/2.jpg') }}
+            {{ segment.segment(copy.sections.draft.title, copy.sections.draft.text, 'green', 'images/press/3.jpg') }}
+            {{ segment.segment(copy.sections.send.title, copy.sections.send.text, 'turquoise', 'images/press/4.jpg') }}
+            {{ segment.segment(copy.sections.attach.title, copy.sections.attach.text, 'pink', 'images/press/5.jpg') }}
+            {{ segment.segment(copy.sections.follow.title, copy.sections.follow.text, 'cyan', 'images/press/6.jpg') }}
+            {{ segment.segment(copy.sections.tell.title, copy.sections.tell.text, 'blue', 'images/press/1.jpg') }}
 
 
         </div>
