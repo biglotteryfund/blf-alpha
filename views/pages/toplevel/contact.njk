@@ -1,0 +1,123 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('contact', heroContent, 'turquoise') }}
+
+    <article role="main" class="nudge-up">
+
+        <div class="inner">
+
+            {% set howToGetInContact %}
+                <h3 class="t6 m-t">England</h3>
+                <p>
+                    <span class="t7">Phone</span>: 0345 4 10 20 30<br />
+                    <span class="t7">Text Relay</span>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<br />
+                    <span class="t7">Email</span>: <strong><a class="accent--green accent-text" href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">Address</span>: 1 Plough Place, London, EC4A 1DE
+                </p>
+
+                <h3 class="t6 m-t">Northern Ireland</h3>
+                <p>
+                    <span class="t7">Phone</span>: 028 9055 1455<br />
+                    <span class="t7">Text Relay</span>: 18001 plus 028 9055 1431 (for those with a hearing or speech impairment)<br />
+                    <span class="t7">Fax</span>: 028 9055 1445<br />
+                    <span class="t7">Email</span>: <strong><a class="accent--green accent-text" href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">Address</span>: 1 Cromac Quay, Belfast, BT7 2JD
+                </p>
+
+                <h3 class="t6 m-t">Scotland</h3>
+                <p>
+                    <span class="t7">Phone</span>: 0300 123 7110<br />
+                    <span class="t7">Text Relay</span>: 18001 0300 123 7110 (for those with a hearing or speech impairment)<br />
+                    <span class="t7">British Sign Language</span>: Use contactSCOTLAND-BSL<br />
+                    <span class="t7">Email</span>: <strong><a class="accent--green accent-text" href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">Switchboard</span>: 0141 2421400<br />
+                    <span class="t7">Address</span>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
+                </p>
+
+                <h3 class="t6 m-t">Wales</h3>
+                <p>
+                    <span class="t7">Phone</span>: 0300 123 0735<br />
+                    <span class="t7">Text Relay</span>: 18001 plus 0300 123 0735 (for those with a hearing or speech impairment)<br />
+                    <span class="t7">Email</span>: <strong><a class="accent--green accent-text" href="mailto:enquiries.wales@biglotteryfund.org.uk">enquiries.wales@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">Address</span>: 10th Floor, Helmont House, Churchill Way, Cardiff, CF10 2DY<br />
+                    <span class="t7">Address</span>: 2nd Floor, Ladywell House, Newtown, Powys, SY16 1JB<br />
+                </p>
+            {% endset %}
+
+            {% set queryAboutGrants %}
+                <p>Please contact your funding officer for any queries about an existing grant. If you don’t know who your funding officer is please get in touch with us on using the details above.</p>
+            {% endset %}
+
+            {% set pressQueries %}
+                <h3 class="t6 m-t">England/UK</h3>
+                <p>
+                    <span class="t7">Phone</span>: 020 7211 1888<br />
+                    (out of hours: 07867 500572)<br />
+                    <span class="t7">Email:</span> <strong><a class="accent--green accent-text" href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a></strong>
+                </p>
+
+                <h3 class="t6 m-t">Northen Ireland</h3>
+                <p>
+                    <span class="t7">Phone</span>: 02890 551 432<br />
+                    (out of hours: 07580 811 135)
+                </p>
+
+                <h3 class="t6 m-t">Scotland</h3>
+                <p>
+                    <span class="t7">Phone</span>: 0141 242 1451<br />
+                    (out of hours: 07880 737 157)
+                </p>
+
+                <h3 class="t6 m-t">Wales</h3>
+                <p>
+                    <span class="t7">Phone</span>: 029 2067 8207<br />
+                    (out of hours: 07760 171 431)
+                </p>
+
+            {% endset %}
+
+            {% set feedback %}
+                <p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there’s something important you think we should know, we'd love to hear it. Please email us at <strong><a class="accent--green accent-text" href="mailto:customer.services@biglotteryfund.org.uk">customer.services@biglotteryfund.org.uk</a></strong></p>
+                <p>To give us feedback about our website email <strong><a class="accent--green accent-text" href="mailto:webmaster@biglotteryfund.org.uk">webmaster@biglotteryfund.org.uk</a></strong></p>
+            {% endset %}
+
+            {% set misc %}
+                <h3 class="t6 m-t">Corporate office</h3>
+
+                <p>
+                    1 Plough Place<br />
+                    London<br />
+                    EC4A 1DE
+                </p>
+
+                <p>
+                    <span class="t7">Phone</span>: 020 7211 1800 or 0300 500 5050<br />
+                    <span class="t7">Text Relay</span>: 18001 plus 020 7211 1800 or 0300 500 5050 (for those with a hearing or speech impairment)<br />
+                    <span class="t7">Fax</span>: 020 7211 1750
+                </p>
+            {% endset %}
+
+            {{ segment.segment("How do I get in contact if I have a query about applying for funding?", howToGetInContact, 'blue', 'images/contact/1.jpg') }}
+            {{ segment.segment("How do I get in contact if I have a query about a grant I have been awarded?", queryAboutGrants, 'orange', 'images/contact/2.jpg') }}
+            {{ segment.segment("How do I get in contact if I have a press query?", pressQueries, 'pink', 'images/contact/3.jpg') }}
+            {{ segment.segment("How do I get in contact if I have feedback about your service?", feedback, 'green', 'images/contact/4.jpg') }}
+            {{ segment.segment("How do I get in contact about anything else?", misc, 'turquoise', 'images/contact/5.jpg') }}
+        </div>
+
+    </article>
+
+{% endblock %}

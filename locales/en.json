@@ -32,6 +32,12 @@
 			}
 		}
 	},
+	"toplevel": {
+		"contact": {
+			"title": "Contact us",
+			"body": "test"
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
@@ -103,31 +109,31 @@
 				"sections": {
 					"identify": {
 						"title": "Identify which media to target",
-						"text": "Contact newspapers that are available to buy or are given out for free in the area your project is based. If you are unsure which area they cover you can always ring and ask. Think about contacting your local BBC radio station as well as any commercial stations in your area. See if there are any local websites or blogs who might be interested in your story."
+						"text": "<p>Contact newspapers that are available to buy or are given out for free in the area your project is based. If you are unsure which area they cover you can always ring and ask. Think about contacting your local BBC radio station as well as any commercial stations in your area. See if there are any local websites or blogs who might be interested in your story.</p>"
 					},
 					"find": {
 						"title": "Find the best contact",
-						"text": "It is worth calling the newsdesk of a newspaper or radio station to tell them your story and ask if there is anyone in particular you should send it through to."
+						"text": "<p>It is worth calling the newsdesk of a newspaper or radio station to tell them your story and ask if there is anyone in particular you should send it through to.</p>"
 					},
 					"draft": {
 						"title": "Draft a press release",
-						"text": "When writing this think about the importance and impact of your project. How will it make a difference to the people you work with? How will it improve their lives? How will it improve the whole community?"
+						"text": "<p>When writing this think about the importance and impact of your project. How will it make a difference to the people you work with? How will it improve their lives? How will it improve the whole community?</p>"
 					},
 					"send": {
 						"title": "Sending a press release",
-						"text": "Ensure the subject matter of your email covers the story and the area, for example “Wolverhampton Community Centre Awarded National Lottery Funding”. Paste the press release into the body of the email rather than attaching it. And remember to always include your contact details!"
+						"text": "<p>Ensure the subject matter of your email covers the story and the area, for example “Wolverhampton Community Centre Awarded National Lottery Funding”. Paste the press release into the body of the email rather than attaching it. And remember to always include your contact details!</p>"
 					},
 					"attach": {
 						"title": "Attach an image",
-						"text": "Attaching a high quality image can really improve your chance of gaining publicity. Even photos taken on smartphones can work really well. Think about what you want the photo to say about your project - think about the setting and who to include in the photo. Make sure you provide the names of everyone in the photo and make clear who is who to help the newspaper caption the image properly."
+						"text": "<p>Attaching a high quality image can really improve your chance of gaining publicity. Even photos taken on smartphones can work really well. Think about what you want the photo to say about your project - think about the setting and who to include in the photo. Make sure you provide the names of everyone in the photo and make clear who is who to help the newspaper caption the image properly.</p>"
 					},
 					"follow": {
 						"title": "Follow up with a phone call",
-						"text": "Journalists receive a lot of press releases each day and it will help if you give them a quick call to highlight your news."
+						"text": "<p>Journalists receive a lot of press releases each day and it will help if you give them a quick call to highlight your news.</p>"
 					},
 					"tell": {
 						"title": "Tell us about your success stories",
-						"text": "We would love to hear when you get media coverage in your local area. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Get in touch with us to tell us all about it</a>!"
+						"text": "<p>We would love to hear when you get media coverage in your local area. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Get in touch with us to tell us all about it</a>!</p>"
 					}
 				}
 			}

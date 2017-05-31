@@ -1,0 +1,41 @@
+.segment {
+
+    @include mq('tablet') {
+        display: flex;
+        margin-bottom: $spacingUnit * 2;
+    }
+
+    .segment__media {
+
+        @include mq('tablet', 'max') {
+            width: 210px;
+            margin-left: 18px;
+            float: left;
+            margin-right: 30px;
+        }
+
+        @include mq('tablet') {
+            width: 300px;
+            margin-right: $spacingUnit / 2;
+            flex-shrink: 0;
+        }
+    }
+
+    .segment__aside {
+        background-color: #f5fafb;
+        flex-grow: 1;
+
+        @include mq('tablet', 'max') {
+            margin-top: 0;
+
+            p {
+                margin-top: 0;
+            }
+        }
+
+        @include mq('tablet') {
+            @include bordered();
+            margin-top: 0;
+        }
+    }
+}
