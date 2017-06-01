@@ -18,14 +18,14 @@
 
     <article role="main" class="nudge-up">
 
-        <div class="inner">
+        <div class="inner links-emphasised">
 
             {% set applicationQuery %}
                 <h3 class="t6 m-t">{{ copy.offices.england }}</h3>
                 <p>
                     <span class="t7">{{ copy.methods.phone }}</span>: 0345 4 10 20 30<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0345 4 10 20 30 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <strong><a class="accent--green accent-text" href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a><br />
                     <span class="t7">{{ copy.methods.address }}</span>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE
                 </p>
 
@@ -34,7 +34,7 @@
                     <span class="t7">{{ copy.methods.phone }}</span>: 028 9055 1455<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 028 9055 1431 ({{ copy['hearing-speech-impairment'] }})<br />
                     <span class="t7">{{ copy.methods.fax }}</span>: 028 9055 1445<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <strong><a class="accent--green accent-text" href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a><br />
                     <span class="t7">{{ copy.methods.address }}</span>: 1 Cromac Quay, Belfast, BT7 2JD
                 </p>
 
@@ -43,7 +43,7 @@
                     <span class="t7">{{ copy.methods.phone }}</span>: 0300 123 7110<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 0300 123 7110 ({{ copy['hearing-speech-impairment']}})<br />
                     <span class="t7">{{ copy.methods.bsl }}</span>: {{ copy['bsl-scotland'] }}<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <strong><a class="accent--green accent-text" href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a></strong><br />
+                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a><br />
                     <span class="t7">{{ copy.methods.switchboard }}</span>: 0141 2421400<br />
                     <span class="t7">{{ copy.methods.address }}</span>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
                 </p>
@@ -52,7 +52,7 @@
                 <p>
                     <span class="t7">{{ copy.methods.phone }}</span>: 0300 123 0735<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0300 123 0735 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <strong><a class="accent--green accent-text" href="mailto:{{ copy.wales.email }}">{{ copy.wales.email }}</a></strong><br />
+                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:{{ copy.wales.email }}">{{ copy.wales.email }}</a><br />
                     <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address1 }}<br />
                     <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address2 }}<br />
                 </p>
@@ -67,7 +67,7 @@
                 <p>
                     <span class="t7">{{ copy.methods.phone }}</span>: 020 7211 1888<br />
                     ({{ copy['out-of-hours'] }}: 07867 500572)<br />
-                    <span class="t7">Email:</span> <strong><a class="accent--green accent-text" href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a></strong>
+                    <span class="t7">Email:</span> <a href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a>
                 </p>
 
                 <h3 class="t6 m-t">{{ copy.offices.ni }}</h3>
@@ -91,7 +91,9 @@
             {% endset %}
 
             {% set feedback %}
-                {{ copy.topics.feedback.body | safe }}
+                <div class="links-emphasised">
+                    {{ copy.topics.feedback.body | safe }}
+                </div>
             {% endset %}
 
             {% set other %}
