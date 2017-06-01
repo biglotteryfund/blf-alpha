@@ -97,7 +97,40 @@
 					"block2": "<p>Rydych yn un o filoedd o achosion da ar draws y Deyrnas Unedig sy'n gwneud pethau anhygoel gydag arian a godir gan chwaraewyr y Loteri Genedlaethol. Mae'n bwysig iawn i chi rannu'r newyddion da am eich grant a rhoi gwybod i'r cyhoedd sut maent yn gwneud bywyd yn well ar draws y Deyrnas Unedig trwy chwarae gemau'r Loteri Genedlaethol.</p><p>Bydd yn annog pobl yn eich ardal leol i ymgeisio am arian Loteri hefyd, gan ehangu'r gwaith syfrdanol sy'n digwydd yn eich cymuned.</p>"
 				}
 			},
-			"getting-press-coverage": {}
+			"getting-press-coverage": {
+				"title": "Sut i ddenu sylw i'ch grant yn y wasg",
+				"body": "<p>Mae derbyn grant gan y Loteri Genedlaethol yn gyflawniad campus ac yn newyddion gwych i'ch cymuned leol. Bydd gan bapurau newydd a gorsafoedd radio lleol ddiddordeb mewn clywed eich newyddion. Gallant helpu chi i adrodd eich stori  a chodi ymwybyddiaeth yn y gymuned.</p><p>Dyma gyfle pwysig hefyd i ddiolch i chwaraewyr y Loteri Genedlaethol am wneud eich gwaith yn bosib.</p>",
+				"sections": {
+					"identify": {
+						"title": "Adnabod pa gyfryngau i'w targedu",
+						"text": "<p>Cysylltwch â phapurau newydd sydd ar gael i'w prynu neu a ddosberthir am ddim yn yr ardal mae eich prosiect wedi'i leoli ynddi. Os ydych yn ansicr pa ardal y maent yn adrodd amdani, gallwch ffonio i ofyn. Ystyriwch gysylltu â'ch gorsaf radio BBC leol ynghyd ag unrhyw orsafoedd masnachol yn eich ardal. Edrychwch i weld a oes unrhyw wefannau neu flogiau lleol a allai fod â diddordeb yn eich stori.</p>"
+					},
+					"find": {
+						"title": "Dod o hyd i'r cyswllt gorau",
+						"text": "<p>Mae'n werth ffonio desg newyddion papur newydd neu orsaf radio i adrodd eich stori iddynt a gofyn a oes unrhyw un yn benodol y dylech ei hanfon atynt.</p>"
+					},
+					"draft": {
+						"title": "Drafftio datganiad i'r wasg",
+						"text": "<p>Wrth ysgrifennu hwn, ystyriwch bwysigrwydd ac effaith eich prosiect. Sut bydd yn gwneud gwahaniaeth i'r bobl rydych yn cydweithio â nhw? Sut bydd yn gwella'u bywydau? Sut bydd yn gwella'r gymuned gyfan?</p>"
+					},
+					"send": {
+						"title": "Anfon datganiad i'r wasg",
+						"text": "<p>Gwnewch yn siŵr bod sylwedd eich e-bost yn ymdrin â'r stori a'r ardal, er enghraifft \"Dyfarnwyd Arian y Loteri Genedlaethol i Ganolfan Gymunedol Llanbrynmair\". Gludwch y datganiad i'r wasg yng nghorff yr e-bost yn hytrach na'i atodi. A chofiwch bob amser gynnwys eich manylion cyswllt!</p>"
+					},
+					"attach": {
+						"title": "Atodi llun",
+						"text": "<p>Gall atodi llun o ansawdd da wella'ch cyfle o ddenu cyhoeddusrwydd yn fawr. Gall hyd yn oed lluniau a dynnwyd ar ffonau clyfar weithio'n dda iawn. Ystyriwch yr hyn yr ydych am i'r llun ei ddweud am eich prosiect - ystyriwch y lleoliad a phwy i'w gynnwys yn y llun. Gwnewch yn siŵr eich bod yn cynnwys enwau pawb yn y llun ac eglurwch bwy yw pwy er mwyn helpu'r papur newydd i greu is-bennawd priodol ar gyfer y llun.</p>"
+					},
+					"follow": {
+						"title": "Dilyn i fyny gyda galwad ffôn",
+						"text": "<p>Mae newyddiadurwyr yn derbyn llawer o ddatganiadau i'r wasg bob dydd a bydd yn helpu os byddwch yn rhoi galwad gyflym iddynt i amlygu'ch newyddion chi.</p>"
+					},
+					"tell": {
+						"title": "Dywedwch wrthym am eich llwyddiannau",
+						"text": "<p>Mawr hoffem glywed amdano pan fyddwch yn denu sylw'r cyfryngau yn eich ardal leol. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Cysylltwch â ni er mwyn i ni gael gwybod amdano</a>!</p>"
+					}
+				}
+			}
 		}
 	},
 	"toplevel.contact": "toplevel.contact"
