@@ -120,5 +120,6 @@
     a {
         color: palette('green');
         font-weight: bold;
+        word-break: break-all;
     }
 }
