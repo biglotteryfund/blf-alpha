@@ -42,7 +42,8 @@ router.route('/locales/:locale')
             let l = req.params.locale;
             res.render('langEditor', {
                 json: locales[l],
-                locale: l
+                locale: l,
+                locales: locales
             });
         } else {
             res.redirect('/');

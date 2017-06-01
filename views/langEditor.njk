@@ -4,19 +4,67 @@
         <title>Language editor: {{ locale }}</title>
     </head>
     <body>
-        <div id="js-editor"></div>
 
-        <script src="/assets/jsoneditor/jsoneditor.min.js"></script>
-        <script>
+        <div id="js-vue">
+            <ul>
+                <li v-for="(value, key, index) in locale">
+                    <editor v-bind:section="value" v-bind:label="key"></editor>
+                </li>
+            </ul>
+        </div>
 
-            fetch(window.location, { method: 'post' }).then((r) => r.json()).then((json) => {
-                console.log(json);
-                let editor = new JSONEditor(document.getElementById('js-editor'), {
-                    schema: {json}
-                });
-            });
+        {#<div id="js-vue">#}
+            {#<ul v-for="(value, key, index) in locale">#}
+                {#<li>#}
+                    {#<% index + 1 %>. <% key %> <% gettype(value) %>#}
+                    {#<ul v-for="(value, key, index) in value">#}
+                        {#<% index + 1 %>. <% key %> <% gettype(value) %>#}
+                    {#</ul>#}
+                {#</li>#}
+            {#</ul>#}
+        {#</div>#}
 
-        </script>
+        {% macro editor(key, value) %}
+            <li>
+                {% if value | typeof == 'array' %}
+                    <label>{{ key }}</label>
+                    {% for item in value %}
+                        <input type="text" value="{{ item }}">
+                    {% endfor %}
+                {% elseif value | typeof == 'string' %}
+                    <label>{{ key }}</label>
+                    <input type="text" value="{{ value }}">
+                {% else %}
+                    <h2>{{ key }}</h2>
+                    <ul>
+                        {% for nextKey, nextValue in value %}
+                            {{ editor(nextKey, nextValue) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endmacro %}
+
+        <ul style="display: none">
+            {% for level1, l1 in locales.en %}
+                <li>
+                    {% if l1 | typeof == 'string' %}
+                        <label>{{ level1 }}</label>
+                        <input type="text" value="{{ l1 }}">
+                    {% else %}
+                        <h1>{{ level1 }}</h1>
+                        <ul>
+                            {% for level2, l2 in l1 %}
+                                {{ editor(level2, l2) }}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <script src="/assets/jsoneditor/vue.js"></script>
+        <script src="/assets/jsoneditor/editor.js"></script>
 
     </body>
 </html>

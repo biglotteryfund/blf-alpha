@@ -2,6 +2,7 @@
 const app = require('../server');
 const nunjucks = require('nunjucks');
 const assets = require('../assets');
+const _ = require('lodash');
 
 const IS_DEV = (process.env.NODE_ENV || 'dev') === 'dev';
 
@@ -20,6 +21,14 @@ templateEnv.addFilter('getCachebustedPath', function (str) {
 templateEnv.addFilter('makePhoneLink', function (str) {
     let callable = str.replace(/ /g, '');
     return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
+});
+
+templateEnv.addFilter('typeof', function (obj) {
+    if (_.isArray(obj)) {
+        return 'array';
+    } else {
+        return typeof obj;
+    }
 });
 
 // via http://stackoverflow.com/a/25770787
