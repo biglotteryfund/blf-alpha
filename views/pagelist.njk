@@ -89,8 +89,8 @@
                             <ul>
                                 {% for aliasPath in page.aliases %}
                                     {% set link = buildUrl(sectionName, aliasPath) %}
-                                    <li><a href="{{ link }}">{{ link }}</a></li>
-                                    <li><a href="/welsh{{ link }}">/welsh{{ link }}</a></li>
+                                    <li><strong>EN:</strong> <a href="{{ link }}">{{ link }}</a></li>
+                                    <li><strong>CY:</strong> <a href="/welsh{{ link }}">/welsh{{ link }}</a></li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
