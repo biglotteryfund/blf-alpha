@@ -22,7 +22,11 @@ const routes = {
                     live: false,
                     aliases: [
                         "/about-big/contact-us",
-                        "/help-and-support"
+                        "/help-and-support",
+                        "/england/about-big/contact-us",
+                        "/wales/about-big/contact-us",
+                        "/scotland/about-big/contact-us",
+                        "/northernireland/about-big/contact-us"
                     ]
                 }
             }

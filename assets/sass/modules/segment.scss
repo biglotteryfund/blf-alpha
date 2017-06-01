@@ -8,10 +8,10 @@
     .segment__media {
 
         @include mq('tablet', 'max') {
-            width: 210px;
-            margin-left: 18px;
-            float: left;
-            margin-right: 30px;
+            //width: 210px;
+            //margin-left: 18px;
+            //float: left;
+            //margin-right: 30px;
         }
 
         @include mq('tablet') {

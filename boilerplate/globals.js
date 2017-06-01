@@ -59,8 +59,11 @@ setGlobal('buildUrl', (sectionName, pageName) => {
         return localePrefix + section.path + page.path;
     }
     catch (e) {
-        let url = '/';
-        if (sectionName) { url += sectionName; }
+        // pages from the "global" section have no prefix
+        // and aliases don't drop into the above block
+        const IS_GLOBAL = (sectionName === 'global');
+        let url = IS_GLOBAL ? '' : '/';
+        if (!IS_GLOBAL) { url += sectionName; }
         if (pageName) { url += pageName; }
         return localePrefix + url;
     }

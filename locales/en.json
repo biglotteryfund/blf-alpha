@@ -35,7 +35,53 @@
 	"toplevel": {
 		"contact": {
 			"title": "Contact us",
-			"body": "test"
+			"methods": {
+				"phone": "Phone",
+				"text-relay": "Text Relay",
+				"email": "Email",
+				"address": "Address",
+				"fax": "Fax",
+				"bsl": "British Sign Language",
+				"switchboard": "Switchboard"
+			},
+			"offices": {
+				"england": "England",
+				"ni": "Northern Ireland",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"uk": "UK",
+				"corporate": "Corporate office",
+				"london": "London"
+			},
+			"hearing-speech-impairment": "for those with a hearing or speech impairment",
+			"plus": "plus",
+			"or": "or",
+			"out-of-hours": "out of hours",
+			"bsl-scotland": "Use contactSCOTLAND-BSL",
+			"wales": {
+				"email": "enquiries.wales@biglotteryfund.org.uk",
+				"address1": "10th Floor, Helmont House, Churchill Way, Cardiff, CF10 2DY",
+				"address2": "2nd Floor, Ladywell House, Newtown, Powys, SY16 1JB"
+			},
+			"topics": {
+				"applicationQuery": {
+					"title": "How do I get in contact if I have a query about applying for funding?"
+				},
+				"grantQuery": {
+					"title": "How do I get in contact if I have a query about a grant I have been awarded?",
+					"body": "<p>Please contact your funding officer for any queries about an existing grant. If you don’t know who your funding officer is please get in touch with us using the details above.</p>"
+				},
+				"pressQuery": {
+					"title": "How do I get in contact if I have a press query?"
+				},
+				"feedback": {
+					"title": "How do I get in contact if I have feedback about your service?",
+					"body": "<p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there’s something important you think we should know, we'd love to hear it. Please email us at <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a></p><p>To give us feedback about our website email <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
+				},
+				"other": {
+					"title": "How do I get in contact about anything else?"
+				}
+			}
 		}
 	},
 	"funding": {

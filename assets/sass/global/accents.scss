@@ -115,3 +115,11 @@
 .error {
     color: red;
 }
+
+.links-emphasised {
+    a {
+        color: palette('green');
+        font-weight: bold;
+        word-break: break-all;
+    }
+}

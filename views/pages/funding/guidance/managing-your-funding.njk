@@ -43,7 +43,7 @@
 
                 <li class="grid__item">
                     <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <a href="https://www.theguardian.com/voluntary-sector-network/2013/jan/02/communicate-effectively-media">
+                        <a href="{{ buildUrl('funding', 'pressCoverage') }}">
                             <img src="{{ 'images/funding/local-press.jpg' | getCachebustedPath }}" alt="Two cooks in chefs' clothing with another man smiling" />
                         </a>
                         {{ headers.blockheader(
@@ -51,7 +51,7 @@
                             copy.body.actions.press,
                             14,
                             'minor grid__item__title grid__item__title--arrow',
-                            'https://www.theguardian.com/voluntary-sector-network/2013/jan/02/communicate-effectively-media',
+                            buildUrl('funding', 'pressCoverage'),
                             true
                         )}}
                     </div>
