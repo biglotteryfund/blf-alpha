@@ -17,6 +17,11 @@ templateEnv.addFilter('getCachebustedPath', function (str) {
     return assets.getCachebustedPath(str);
 });
 
+templateEnv.addFilter('makePhoneLink', function (str) {
+    let callable = str.replace(/ /g, '');
+    return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
+});
+
 // via http://stackoverflow.com/a/25770787
 templateEnv.addFilter('splitByCharLength', function (str, length) {
     let rows = [];

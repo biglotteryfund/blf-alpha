@@ -23,7 +23,7 @@
             {% set applicationQuery %}
                 <h3 class="t6 m-t">{{ copy.offices.england }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 0345 4 10 20 30<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0345 4 10 20 30 ({{ copy['hearing-speech-impairment'] }})<br />
                     <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a><br />
                     <span class="t7">{{ copy.methods.address }}</span>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE
@@ -31,7 +31,7 @@
 
                 <h3 class="t6 m-t">{{ copy.offices.ni }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 028 9055 1455<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '028 9055 1455' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 028 9055 1431 ({{ copy['hearing-speech-impairment'] }})<br />
                     <span class="t7">{{ copy.methods.fax }}</span>: 028 9055 1445<br />
                     <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a><br />
@@ -40,17 +40,17 @@
 
                 <h3 class="t6 m-t">{{ copy.offices.scotland }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 0300 123 7110<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0300 123 7110' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 0300 123 7110 ({{ copy['hearing-speech-impairment']}})<br />
                     <span class="t7">{{ copy.methods.bsl }}</span>: {{ copy['bsl-scotland'] }}<br />
                     <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a><br />
-                    <span class="t7">{{ copy.methods.switchboard }}</span>: 0141 2421400<br />
+                    <span class="t7">{{ copy.methods.switchboard }}</span>: {{ '0141 2421400' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods.address }}</span>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
                 </p>
 
                 <h3 class="t6 m-t">{{ copy.offices.wales }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 0300 123 0735<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0300 123 0735' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0300 123 0735 ({{ copy['hearing-speech-impairment'] }})<br />
                     <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:{{ copy.wales.email }}">{{ copy.wales.email }}</a><br />
                     <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address1 }}<br />
@@ -65,27 +65,27 @@
             {% set pressQuery %}
                 <h3 class="t6 m-t">{{ copy.offices.england }}/{{ copy.offices.uk }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 020 7211 1888<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '020 7211 1888' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: 07867 500572)<br />
                     <span class="t7">Email:</span> <a href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a>
                 </p>
 
                 <h3 class="t6 m-t">{{ copy.offices.ni }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 02890 551 432<br />
-                    ({{ copy['out-of-hours'] }}: 07580 811 135)
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '02890 551 432' | makePhoneLink | safe }}<br />
+                    ({{ copy['out-of-hours'] }}: {{ '07580 811 135' | makePhoneLink | safe }})
                 </p>
 
                 <h3 class="t6 m-t">{{ copy.offices.scotland }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 0141 242 1451<br />
-                    ({{ copy['out-of-hours'] }}: 07880 737 157)
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0141 242 1451' | makePhoneLink | safe }}<br />
+                    ({{ copy['out-of-hours'] }}: {{ '07880 737 157' | makePhoneLink | safe }})
                 </p>
 
                 <h3 class="t6 m-t">{{ copy.offices.wales }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 029 2067 8207<br />
-                    ({{ copy['out-of-hours'] }}: 07760 171 431)
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '029 2067 8207' | makePhoneLink | safe }}<br />
+                    ({{ copy['out-of-hours'] }}: {{ '07760 171 431' | makePhoneLink | safe }})
                 </p>
 
             {% endset %}
@@ -106,7 +106,7 @@
                 </p>
 
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: 020 7211 1800 {{ copy.or }} 0300 500 5050<br />
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '020 7211 1800' | makePhoneLink | safe }} {{ copy.or }} {{ '0300 500 5050' | makePhoneLink | safe }}<br />
                     <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 020 7211 1800 {{ copy.or }} 0300 500 5050 ({{ copy['hearing-speech-impairment'] }})<br />
                     <span class="t7">{{ copy.methods.fax }}</span>: 020 7211 1750
                 </p>
