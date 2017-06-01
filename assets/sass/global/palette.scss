@@ -16,6 +16,8 @@ $palette: (
     "pink-mid": #d84d7b,
     "pink-mid-bg": #f6d2e2,
 
+    "pink-dark": #a84d97,
+
     "green": #00bd71,
     "green-bg": #ddf0e2,
 
@@ -39,6 +41,10 @@ $themes: (
     'pink-mid': (
         'foreground': palette('pink'),
         'background': palette('pink-mid-bg')
+    ),
+    'pink-dark': (
+        'foreground': palette('pink-dark'),
+        'background': palette('pale')
     ),
     'blue': (
         'foreground': palette('blue'),
