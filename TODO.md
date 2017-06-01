@@ -8,6 +8,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] Solution to hardcoded links in locale/lang files? 
 - [ ] remove vary header?
 - [ ] make above-text padding 35px not 40px
+- [ ] make mobile nav accessible without JS (and add ARIA roles)
 
 # Done 
 - [x] Improve routing config and tie routes into language files directly

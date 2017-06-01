@@ -32,6 +32,58 @@
 			}
 		}
 	},
+	"toplevel": {
+		"contact": {
+			"title": "Cysylltu â ni",
+			"methods": {
+				"phone": "Ffôn",
+				"text-relay": "Cyfnewid Testun",
+				"email": "E-bost",
+				"address": "Cyfeiriad",
+				"fax": "Ffacs",
+				"bsl": "Iaith Arwyddion Prydeinig",
+				"switchboard": "Switsfwrdd"
+			},
+			"offices": {
+				"england": "Lloegr",
+				"ni": "Gogledd Iwerddon",
+				"scotland": "Yr Alban",
+				"wales": "Cymru",
+				"uk": "Deyrnas Unedig",
+				"corporate": "Swyddfa gorfforaethol",
+				"london": "Llundain"
+			},
+			"hearing-speech-impairment": "ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd",
+			"plus": "plws",
+			"or": "neu",
+			"out-of-hours": "tu allan i oriau",
+			"bsl-scotland": "Defnyddiwch y cyswllt SCOTLAND-BSL",
+			"wales": {
+				"email": "ymholiadau.cymru@cronfaloterifawr.org.uk",
+				"address1": "10fed Llawr, Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY",
+				"address2": "2il Lawr, Tŷ Ladywell, Y Drenewydd, Powys, SY16 1JB"
+			},
+			"topics": {
+				"applicationQuery": {
+					"title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am ymgeisio am ariannu?"
+				},
+				"grantQuery": {
+					"title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am grant a ddyfarnwyd i mi?",
+					"body": "<p>Cysylltwch â'ch swyddog ariannu gydag unrhyw ymholiad am grant sydd gennych yn barod. Os nad ydych yn gwybod pwy yw eich swyddog ariannu, cysylltwch â ni gan ddefnyddio'r manylion uchod.</p>"
+				},
+				"pressQuery": {
+					"title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?"
+				},
+				"feedback": {
+					"title": "Sut ydw i'n cysylltu â chi os bydd gennyf adborth am eich gwasanaeth?",
+					"body": "<p>Rydym yn gwerthfawrogi eich adborth yn fawr. Os oes gennych sylw neu gŵyn am y gwasanaethau a ddarparwn, neu os oes rhywbeth pwysig y credwch y dylem wybod amdano, mawr hoffem glywed oddi wrthych. Anfonwch e-bost atom yn <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a></p><p>I roi adborth i ni am ein gwefan, anfonwch e-bost atom yn <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
+				},
+				"other": {
+					"title": "Sut ydw i'n cysylltu â chi am unrhyw beth arall?"
+				}
+			}
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
@@ -132,6 +184,5 @@
 				}
 			}
 		}
-	},
-	"toplevel.contact": "toplevel.contact"
+	}
 }
