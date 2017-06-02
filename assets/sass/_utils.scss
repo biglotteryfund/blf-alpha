@@ -20,13 +20,27 @@
     display: none;
 }
 
+@mixin nudged-up {
+    margin-top: -$nudgeAmount;
+    position: relative;
+    z-index: 10;
+}
+
+@mixin nudged-down {
+    position: absolute;
+    bottom: $nudgeAmount + 30px;
+}
+
+
 .nudge-up {
     margin-top: 0;
     @include mq('tablet') {
-        margin-top: -$nudgeAmount;
-        position: relative;
-        z-index: 10;
+        @include nudged-up();
     }
+}
+
+.nudge-up--always {
+    @include nudged-up();
 }
 
 .nudge-bottom {
@@ -34,8 +48,12 @@
     bottom: $spacingUnit;
 
     @include mq('tablet') {
-        bottom: $nudgeAmount + 30px;
+        @include nudged-down();
     }
+}
+
+.nudge-bottom--always {
+    @include nudged-down();
 }
 
 // the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/

@@ -9,14 +9,14 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
+        <div class="nudge-bottom--always">
             {{ headers.blockheader('h2', title, 30, 'hero__header') }}
         </div>
     {% endset %}
 
     {{ hero.header('contact', heroContent, 'turquoise') }}
 
-    <article role="main" class="nudge-up">
+    <article role="main" class="nudge-up--always">
 
         <div class="inner links-emphasised">
 
