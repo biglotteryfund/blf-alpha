@@ -68,6 +68,8 @@ const routes = {
                     lang: "funding.guidance.order-free-materials",
                     code: 3,
                     live: true,
+                    isPostable: true,
+                    isWildcard: true,
                     aliases: [
                         '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
                     ]
