@@ -42,7 +42,7 @@ const CF_CONFIGS = {
         }
     },
     live: {
-        distributionId: 'E2WYWBLMWIN5U1___',
+        distributionId: 'E2WYWBLMWIN5U1',
         origins: {
             legacy: 'Custom-www.biglotteryfund.org.uk',
             newSite: 'ELB_LIVE',
@@ -71,7 +71,6 @@ let URLs = {
     legacy: [],
     smallGrants: [
         makeUrlObject('/apply'),
-        makeUrlObject('/lol')
     ],
     smallGrantsTest: [
         makeUrlObject('/testapply')
@@ -221,7 +220,7 @@ getDistributionConfig.then((data) => { // fetching the config worked
 
     // store the old config before changing it, just in case...
     const clone = _.cloneDeep(data);
-    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
     const confPath = `./bin/cloudfront/${timestamp}.json`;
     const confData = JSON.stringify(clone, null, 4);
 
@@ -247,10 +246,22 @@ getDistributionConfig.then((data) => { // fetching the config worked
     // store just the distro config for update
     const conf = data.Distribution.DistributionConfig;
 
+    const getUrls = (item) => {
+        // add a leading slash for comparison's sake
+        let path = item.PathPattern;
+        if (path[0] !== '/') {
+            path = '/' + path;
+        }
+        return path;
+    };
+
+    // record the proposed config change
+    console.log(JSON.stringify(data));
+
     // verify what's being changed
     const paths = {
-        before: clone.Distribution.DistributionConfig.CacheBehaviors.Items.map(i => i.PathPattern),
-        after: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(i => i.PathPattern)
+        before: clone.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
+        after: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
     };
     const pathsRemoved = _.difference(paths.before, paths.after);
     const pathsAdded = _.difference(paths.after, paths.before);
@@ -259,16 +270,20 @@ getDistributionConfig.then((data) => { // fetching the config worked
     console.log('There are currently ' + clone.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' items in the existing behaviours, and ' + data.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' in this one.');
 
     if (pathsRemoved.length) {
-        console.log('The following paths will be removed from Cloudfront:', pathsRemoved);
+        console.log('The following paths will be removed from Cloudfront:', {
+            paths: pathsRemoved
+        });
     }
 
     if (pathsAdded.length) {
-        console.log('The following paths will be added to Cloudfront:', pathsAdded);
+        console.log('The following paths will be added to Cloudfront:', {
+            paths: pathsAdded
+        });
     }
 
     // prompt to confirm change
     let promptSchema =   {
-        description: 'Are you sure you want to make this change to ${CF.distributionId}?',
+        description: `Are you sure you want to make this change to ${CF.distributionId}?`,
         name: 'yesno',
         type: 'string',
         pattern: /y[es]*|n[o]?/,
