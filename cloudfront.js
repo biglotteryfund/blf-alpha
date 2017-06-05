@@ -10,6 +10,9 @@ const prompt = require('prompt');
 const routes = require('./routes/routes');
 const _ = require('lodash');
 const AWS = require('aws-sdk');
+const fs = require('fs');
+const moment = require('moment');
+
 
 // create AWS SDK instance
 const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
@@ -204,8 +207,20 @@ let getDistributionConfig = cloudfront.getDistribution({
 
 // handle response from fetching config
 getDistributionConfig.then((data) => { // fetching the config worked
-    // store the old one before changing it, just in case...
+
+    // store the old config before changing it, just in case...
     const clone = _.cloneDeep(data);
+    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    const confPath = `./bin/cloudfront/${timestamp}.json`;
+    const confData = JSON.stringify(clone, null, 4);
+
+    // write config to file for backup
+    try {
+        fs.writeFileSync(confPath, confData);
+        console.log("A copy of the existing config was saved in " + confPath);
+    } catch (err) {
+        return console.error('Error saving old config', err);
+    }
 
     // store etag for later update
     const etag = data.ETag;
