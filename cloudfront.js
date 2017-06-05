@@ -57,9 +57,10 @@ const IS_LIVE = argv.l;
 const CF = (IS_LIVE) ? CF_CONFIGS.live : CF_CONFIGS.test;
 
 // create a URL object to mark whether a URL is POST-able or not
-const makeUrlObject = (url, isPostable) => {
+const makeUrlObject = (url, isPostable, allowQueryStrings) => {
     return {
         isPostable: isPostable || false,
+        allowQueryStrings: allowQueryStrings || false,
         path: url
     };
 };
@@ -77,7 +78,7 @@ let URLs = {
     ],
     newSite: [
         makeUrlObject('/assets/*'),
-        makeUrlObject('/contrast/*'),
+        makeUrlObject('/contrast/*', false, true),
         makeUrlObject('/error')
     ]
 };
@@ -116,7 +117,7 @@ const BehaviourConfig = {
 };
 
 // create a JSON object configured for the legacy/new paths
-const makeBehaviourItem = (origin, path, isPostable, originServer) => {
+const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originServer) => {
     // the new site is properly cached, the legacy is not
     // so anything legacy should not cache cookies, headers, etc
     const isLegacy = origin !== 'newSite';
@@ -149,7 +150,7 @@ const makeBehaviourItem = (origin, path, isPostable, originServer) => {
                 "Items": [],
                 "Quantity": 0
             },
-            "QueryString": isLegacy
+            "QueryString": (isLegacy || allowQueryStrings)
         },
         "MaxTTL": BehaviourConfig.TTLs.max,
         "PathPattern": path,
@@ -205,7 +206,7 @@ for (let origin in URLs) {
     // get name of origin server (for live/test)
     let originServer = CF.origins[origin];
     links.forEach(url => {
-        let item = makeBehaviourItem(origin, url.path, url.isPostable, originServer);
+        let item = makeBehaviourItem(origin, url.path, url.isPostable, url.allowQueryStrings, originServer);
         behaviours.push(item);
     });
 }
