@@ -9,6 +9,7 @@
     "test-deps": "snyk test"
   },
   "dependencies": {
+    "aws-sdk": "^2.61.0",
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
@@ -59,9 +60,10 @@
     "gulp-uglify": "^2.1.2",
     "jsdom": "^10.1.0",
     "node-sass": "^4.5.3",
+    "prompt": "^1.0.0",
     "snyk": "^1.27.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^7.0.2"
+    "yargs": "^7.1.0"
   }
 }

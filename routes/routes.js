@@ -19,7 +19,7 @@ const routes = {
                     lang: "toplevel.contact",
                     code: 4,
                     static: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         "/about-big/contact-us",
                         "/help-and-support",
@@ -68,6 +68,8 @@ const routes = {
                     lang: "funding.guidance.order-free-materials",
                     code: 3,
                     live: true,
+                    isPostable: true,
+                    isWildcard: true,
                     aliases: [
                         '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
                     ]
@@ -88,7 +90,7 @@ const routes = {
                     lang: "funding.guidance.getting-press-coverage",
                     code: 18,
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         }
