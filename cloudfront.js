@@ -65,16 +65,25 @@ const makeUrlObject = (url, isPostable, allowQueryStrings) => {
     };
 };
 
+// load secret hashes for SGO form
+const SGO_HASH = process.env.SGO_HASH;
+const SGO_HASH_TEST = process.env.SGO_HASH_TEST;
+
+if(!SGO_HASH || !SGO_HASH_TEST) {
+    console.error('Error: could not find SGO hashes. Exiting.');
+    process.exit(1);
+}
+
 // populate other app URLs that aren't in the router
 // or are manual legacy links
 // keys here are mapped to origin servers in config above
 let URLs = {
     legacy: [],
     smallGrants: [
-        makeUrlObject('/apply'),
+        makeUrlObject('/apply-' + SGO_HASH),
     ],
     smallGrantsTest: [
-        makeUrlObject('/testapply')
+        makeUrlObject('/testapply-' + SGO_HASH_TEST)
     ],
     newSite: [
         makeUrlObject('/assets/*'),
