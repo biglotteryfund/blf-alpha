@@ -3,6 +3,8 @@ const argv = require('yargs')
     .boolean('l')
     .alias('l', 'live')
     .describe('l', 'Run this command against the live distribution')
+    .alias('f', 'file')
+    .describe('f', 'Pass an existing config to apply (eg. restore a backup)')
     .help('h')
     .alias('h', 'help')
     .argv;
@@ -13,6 +15,15 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const moment = require('moment');
 
+let customConfig;
+if (argv.file) {
+    try {
+        customConfig = JSON.parse(fs.readFileSync(argv.file, 'utf8'));
+    } catch (err) {
+        console.error('Could not read supplied config file');
+        process.exit(1);
+    }
+}
 
 // create AWS SDK instance
 const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
@@ -225,20 +236,27 @@ getDistributionConfig.then((data) => { // fetching the config worked
     // store etag for later update
     const etag = data.ETag;
 
-    // assign new behaviours
-    data.Distribution.DistributionConfig.CacheBehaviors.Items = behaviours;
-    data.Distribution.DistributionConfig.CacheBehaviors.Quantity = behaviours.length;
+    // are we using a custom config (eg. a backup file)?
+    if (customConfig) {
+        data = customConfig;
+    } else { // assign new behaviours from config here instead
+        data.Distribution.DistributionConfig.CacheBehaviors.Items = behaviours;
+        data.Distribution.DistributionConfig.CacheBehaviors.Quantity = behaviours.length;
+    }
+
+    // store just the distro config for update
     const conf = data.Distribution.DistributionConfig;
 
+    // verify what's being changed
     const paths = {
         before: clone.Distribution.DistributionConfig.CacheBehaviors.Items.map(i => i.PathPattern),
         after: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(i => i.PathPattern)
     };
-
-    console.log('There are currently ' + clone.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' items in the existing behaviours, and ' + data.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' in this one.');
-
     const pathsRemoved = _.difference(paths.before, paths.after);
     const pathsAdded = _.difference(paths.after, paths.before);
+
+    // warn users about changes
+    console.log('There are currently ' + clone.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' items in the existing behaviours, and ' + data.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' in this one.');
 
     if (pathsRemoved.length) {
         console.log('The following paths will be removed from Cloudfront:', pathsRemoved);
@@ -248,8 +266,9 @@ getDistributionConfig.then((data) => { // fetching the config worked
         console.log('The following paths will be added to Cloudfront:', pathsAdded);
     }
 
+    // prompt to confirm change
     let promptSchema =   {
-        description: 'Are you sure you want to make this change?',
+        description: 'Are you sure you want to make this change to ${CF.distributionId}?',
         name: 'yesno',
         type: 'string',
         pattern: /y[es]*|n[o]?/,
@@ -270,6 +289,7 @@ getDistributionConfig.then((data) => { // fetching the config worked
                 IfMatch: etag
             }).promise();
 
+            // respond to update change
             updateDistributionConfig.then((data) => { // the update worked
                 console.log(data);
                 console.log('CloudFront was successfully updated with the new configuration!');
