@@ -252,7 +252,10 @@ getDistributionConfig.then((data) => { // fetching the config worked
         if (path[0] !== '/') {
             path = '/' + path;
         }
-        return path;
+        return {
+            path: path,
+            origin: item.TargetOriginId
+        };
     };
 
     // record the proposed config change
@@ -263,8 +266,8 @@ getDistributionConfig.then((data) => { // fetching the config worked
         before: clone.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
         after: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
     };
-    const pathsRemoved = _.difference(paths.before, paths.after);
-    const pathsAdded = _.difference(paths.after, paths.before);
+    const pathsAdded = _.filter(paths.after, (obj) => !_.find(paths.before, obj));
+    const pathsRemoved = _.filter(paths.before, (obj) => !_.find(paths.after, obj));
 
     // warn users about changes
     console.log('There are currently ' + clone.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' items in the existing behaviours, and ' + data.Distribution.DistributionConfig.CacheBehaviors.Quantity + ' in this one.');
