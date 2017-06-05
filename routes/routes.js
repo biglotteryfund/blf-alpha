@@ -19,7 +19,7 @@ const routes = {
                     lang: "toplevel.contact",
                     code: 4,
                     static: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         "/about-big/contact-us",
                         "/help-and-support",
@@ -90,7 +90,7 @@ const routes = {
                     lang: "funding.guidance.getting-press-coverage",
                     code: 18,
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         }

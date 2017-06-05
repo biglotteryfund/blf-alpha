@@ -179,17 +179,23 @@ for (let s in routes.sections) {
     for (let p in pages) {
         let page = pages[p];
         let url = section.path + page.path;
-        if (page.isWildcard) { url += '*'; }
-        let welshUrl = '/welsh' + url;
-        URLs.newSite.push(makeUrlObject(url, page.isPostable));
-        URLs.newSite.push(makeUrlObject(welshUrl, page.isPostable));
-        if (page.aliases) {
-            page.aliases.forEach(alias => {
-                let url = section.path + alias;
-                let welshUrl = '/welsh' + url;
-                URLs.newSite.push(makeUrlObject(url));
-                URLs.newSite.push(makeUrlObject(welshUrl));
-            });
+        if (page.live) {
+            if (page.isWildcard) {
+                url += '*';
+            }
+            let welshUrl = '/welsh' + url;
+            URLs.newSite.push(makeUrlObject(url, page.isPostable));
+            URLs.newSite.push(makeUrlObject(welshUrl, page.isPostable));
+            if (page.aliases) {
+                page.aliases.forEach(alias => {
+                    let url = section.path + alias;
+                    let welshUrl = '/welsh' + url;
+                    URLs.newSite.push(makeUrlObject(url));
+                    URLs.newSite.push(makeUrlObject(welshUrl));
+                });
+            }
+        } else {
+            console.log('Skipping url for draft status: ' + url);
         }
     }
 }
