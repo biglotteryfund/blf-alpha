@@ -5,13 +5,7 @@
         <div class="grid grid--wide-only">
             <a href="{{ buildUrl('global', '/') }}"><h1 class="logo"><span class="visually-hidden">{{ __("global.brand.title") }}</span></h1></a>
             <nav class="mobile-only header__hamburger" id="js-mobile-nav-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.13 32" aria-labelledby="aria-nav-title" aria-describedby="aria-nav-desc" role="img">
-                    <title id="aria-nav-title">Navigation menu button</title>
-                    <desc id="aria-nav-desc">A "hamburger menu" icon which toggles the mobile navigation menu</desc>
-                    <a xlink:href="#">
-                        <path d="M3 5.38h41c1.38 0 2.5-1.12 2.5-2.5S45.38.38 44 .38H3C1.62.38.5 1.5.5 2.88s1.12 2.5 2.5 2.5zm41 8H3c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h41c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5zm0 13H3c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h41c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/>
-                    </a>
-                </svg>
+                {% include "../includes/svg/hamburger.svg" %}
             </nav>
             <nav role="navigation" class="desktop-only grid__item">
                 <ul class="nav grid">
