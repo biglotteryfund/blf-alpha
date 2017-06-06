@@ -86,6 +86,7 @@
     margin: auto;
 
     svg {
+        width: 100%;
         path:hover {
             fill: palette('pink');
             cursor: pointer;
