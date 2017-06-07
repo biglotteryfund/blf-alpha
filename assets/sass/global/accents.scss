@@ -5,6 +5,10 @@
     background-color: #ffffff;
 }
 
+.bg-pale-green {
+    background-color: palette('pale-green');
+}
+
 .bordered {
     @include bordered();
 }

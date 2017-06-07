@@ -1,6 +1,6 @@
 {% macro navlinks(itemClass) %}
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
-        <a href="{{ buildUrl() }}">{{ __("global.nav.home") | safe }}</a>
+        <a href="{{ buildUrl('global', '/') }}">{{ __("global.nav.home") | safe }}</a>
     </li>
     <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
         <a href="{{ buildUrl('funding') }}">{{ __("global.nav.funding") | safe }}</a>

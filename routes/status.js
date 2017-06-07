@@ -30,9 +30,30 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/pages', (req, res, next) => {
+
+    const totals = {
+        canonical: [],
+        aliases: [],
+        vanityRedirects: routes.vanityRedirects.map(r => r.path)
+    };
+
+    for (let s in routes.sections) {
+        let section = routes.sections[s];
+        for (let p in section.pages) {
+            let page = section.pages[p];
+            if (page.live) {
+                totals.canonical.push(page.name);
+                if (page.aliases) {
+                    page.aliases.forEach(p => totals.aliases.push(p));
+                }
+            }
+        }
+    }
+
     res.render('pagelist', {
         routes: routes.sections,
-        vanityRedirects: routes.vanityRedirects
+        vanityRedirects: routes.vanityRedirects,
+        totals: totals
     });
 });
 

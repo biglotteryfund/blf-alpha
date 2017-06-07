@@ -201,3 +201,23 @@ main {
 .is-on-top {
     z-index: 100;
 }
+
+
+.btn.btn--cta.cta--job {
+    background-color: palette('pink') !important;
+    margin-bottom: 20px;
+    padding-left: $spacingUnit * 4;
+    padding-right: $spacingUnit * 4;
+
+    @include mq('tablet') {
+        margin-bottom: 12px; // arbitrary
+    }
+
+    @include on-interact {
+        background-color: darken(palette('pink'), 10%) !important;
+    }
+}
+
+.google-map {
+    padding: 30px 40px 0 40px;
+}

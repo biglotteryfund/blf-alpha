@@ -31,7 +31,8 @@ carousel.init({
 });
 
 const $mobileNavToggle = document.getElementById('js-mobile-nav-toggle');
-$mobileNavToggle.addEventListener('click', () => {
+$mobileNavToggle.addEventListener('click', (e) => {
+    e.preventDefault();
     document.documentElement.classList.toggle('show-off-canvas');
 });
 

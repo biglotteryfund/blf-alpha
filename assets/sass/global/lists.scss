@@ -12,3 +12,12 @@
         }
     }
 }
+
+.list-bullets {
+    li {
+        list-style-type: disc;
+        margin-left: $spacingUnit;
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+}

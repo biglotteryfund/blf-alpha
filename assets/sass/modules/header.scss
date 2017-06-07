@@ -70,6 +70,16 @@ nav {
 }
 
 .nav--offscreen {
+
+    .no-js & {
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        top: auto;
+        position: relative;
+    }
+
     background-color: palette('blue-nav');
     display: block;
     position: fixed;
@@ -127,7 +137,6 @@ nav {
 // @TODO put this somewhere better
 @include mq('tablet', 'max') {
     .show-off-canvas {
-
         overflow: hidden;
 
         .nav--offscreen {
@@ -264,12 +273,20 @@ nav {
     cursor: pointer;
     top: $spacingUnit * 2;
     width: 31px;
-    svg {
-        fill: palette('blue-text');
-        position: absolute;
 
+    a {
         @include on-interact() {
-            fill: darken(palette('blue-text'), 10%);
+            svg, path {
+                fill: darken(palette('blue-text'), 10%);
+            }
         }
+    }
+
+    svg {
+        position: absolute;
+    }
+
+    svg, path {
+        fill: palette('blue-text');
     }
 }

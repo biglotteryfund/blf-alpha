@@ -62,16 +62,13 @@
         <h1>Page index</h1>
         <main>
 
-            <h2>Vanity URLs</h2>
-            {% for r in vanityRedirects %}
-                <article>
-                    <h3>{{ r.name }}</h3>
-                    <ul>
-                        <li><h4>URL: <a href="{{ r.path }}">{{ r.path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ r.path }}</span></h4></li>
-                        <li><p><strong>Destination: </strong> <a href="{{ r.destination }}">{{ r.destination }}</a></p></li>
-                    </ul>
-                </article>
-            {% endfor %}
+            <h2>Totals</h2>
+            <ul>
+                <li><strong>Live canonical pages</strong>: {{ totals.canonical.length * 2 }} (English and Welsh versions)</li>
+                <li><strong>Live alias pages</strong>: {{ totals.aliases.length * 2 }} (English and Welsh versions)</li>
+                <li><strong>Live vanity redirects</strong>: {{ totals.vanityRedirects.length }}</li>
+                <li><strong>GRAND TOTAL</strong>: {{ totals.canonical.length * 2 + totals.aliases.length * 2}} (Canonical + Aliases)</li>
+            </ul>
 
             {% for sectionName, section in routes %}
                 <h2>Section: {{ section.name }}</h2>
@@ -97,6 +94,18 @@
                     </article>
                 {% endfor %}
             {% endfor %}
+
+            <h2>Vanity URLs</h2>
+            {% for r in vanityRedirects %}
+                <article>
+                    <h3>{{ r.name }}</h3>
+                    <ul>
+                        <li><h4>URL: <a href="{{ r.path }}">{{ r.path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ r.path }}</span></h4></li>
+                        <li><p><strong>Destination: </strong> <a href="{{ r.destination }}">{{ r.destination }}</a></p></li>
+                    </ul>
+                </article>
+            {% endfor %}
+
         </main>
     </body>
 </html>
