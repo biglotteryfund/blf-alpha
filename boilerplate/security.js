@@ -7,7 +7,8 @@ const csrfProtection = csrf({ cookie: true });
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'", 'fonts.gstatic.com', 'ajax.googleapis.com', 'www.google-analytics.com'],
+            defaultSrc: ["'self'", 'fonts.gstatic.com', 'ajax.googleapis.com', 'www.google-analytics.com', 'www.google.com'],
+            frameSrc: ["'self'", 'www.google.com'],
             styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
             connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'], // make dev-only?,
             imgSrc: ["'self'", 'www.google-analytics.com'],

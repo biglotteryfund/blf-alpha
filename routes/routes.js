@@ -28,6 +28,21 @@ const routes = {
                         "/scotland/about-big/contact-us",
                         "/northernireland/about-big/contact-us"
                     ]
+                },
+                jobs: {
+                    name: "Jobs",
+                    path: "/jobs",
+                    template: "pages/toplevel/jobs",
+                    lang: "toplevel.jobs",
+                    code: 7,
+                    static: true,
+                    live: false,
+                    aliases: [
+                        '/about-big/jobs',
+                        '/about-big/jobs/benefits',
+                        '/about-big/jobs/how-to-apply',
+                        '/about-big/jobs/current-vacancies'
+                    ]
                 }
             }
         },

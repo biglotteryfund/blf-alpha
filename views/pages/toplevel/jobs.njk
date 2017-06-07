@@ -1,0 +1,61 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 15, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('jobs', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+
+        <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-green bordered">
+
+            <div class="align--center m-t m-b-l">
+                <a class="cta--job btn btn--cta btn--cta--large" href="https://atsv7.wcn.co.uk/search_engine/jobs.cgi?owner=5031783&ownertype=fair&submitSearchForm=1&submitSearchForm=Search&vac_xtra5031783.30_5031783=&posting_code=53">{{ copy['call-to-action'] }}</a>
+            </div>
+
+            <h3 class="t6 m-t">{{ copy.sections.whyWork.title }}</h3>
+            {{ copy.sections.whyWork.body | safe }}
+
+        </div>
+
+        <div class="inner--wide-only p-text accent--green accent-b-t bg-pale-green bordered">
+            <h3 class="t6 m-t">{{ copy.sections.benefits.title }}</h3>
+            {{ copy.sections.benefits.body | safe }}
+            <ul class="list-bullets">
+                {% for benefit in copy.sections.benefits.list %}
+                    <li class="t7">{{ benefit }}</li>
+                {% endfor %}
+            </ul>
+            {{ copy.sections.benefits.postscript| safe }}
+        </div>
+
+        <div class="inner--wide-only p-text accent--turquoise accent-b-t bg-pale-green bordered">
+            <h3 class="t6 m-t">{{ copy.sections.offices.title }}</h3>
+            <div class="google-map m-t-none">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1ANUmJnn8RObMDFvo50elNW58F7A&hl=en" width="100%" height="480" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="inner--wide-only p-text accent--orange accent-b-t bg-pale-green bordered">
+            <h3 class="t6 m-t">{{ copy.sections.equalities.title }}</h3>
+            {{ copy.sections.equalities.body | safe }}
+        </div>
+
+        <div class="inner">
+            <img src="{{ 'images/equality-sponsors.png' | getCachebustedPath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In Peopke, Business Disability Forum and Living Wage Employer" />
+        </div>
+
+    </article>
+
+{% endblock %}

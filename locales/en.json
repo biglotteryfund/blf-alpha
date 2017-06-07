@@ -69,17 +69,45 @@
 				},
 				"grantQuery": {
 					"title": "How do I get in contact if I have a query about a grant I have been awarded?",
-					"body": "<p>Please contact your funding officer for any queries about an existing grant. If you don’t know who your funding officer is please get in touch with us using the details above.</p>"
+					"body": "<p>Please contact your funding officer for any queries about an existing grant. If you don't know who your funding officer is please get in touch with us using the details above.</p>"
 				},
 				"pressQuery": {
 					"title": "How do I get in contact if I have a press query?"
 				},
 				"feedback": {
 					"title": "How do I get in contact if I have feedback about your service?",
-					"body": "<p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there’s something important you think we should know, we'd love to hear it. Please email us at <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a></p><p>To give us feedback about our website email <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
+					"body": "<p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there's something important you think we should know, we'd love to hear it. Please email us at <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a></p><p>To give us feedback about our website email <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
 				},
 				"other": {
 					"title": "How do I get in contact about anything else?"
+				}
+			}
+		},
+		"jobs": {
+			"title": "Jobs at the Big Lottery Fund",
+			"call-to-action": "View our current vacancies",
+			"sections": {
+				"whyWork": {
+					"title": "Why work for the Big Lottery Fund?",
+					"body": "<blockquote>\"Working at the Big Lottery Fund enables me to play a small part in changing the lives of people in communities across the UK. It is hugely rewarding taking on the challenge of giving the right funds to the right people. I'm surrounded by talented, motivated and inspirational individuals here who are all working to the same goal.\" <footer><cite>Steve Keene, Product Manager, Digital Team</cite></footer></blockquote><blockquote>\"I love the fact that this job enables me to meet so many interesting people, working on so many important projects. If you've a restless imagination, and a love of good people, this is a great place to be.\" <footer><cite>Tom Steinberg, Head of Digital</cite></footer></blockquote>"
+				},
+				"benefits": {
+					"title": "What benefits are available?",
+					"body": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and makes the Big Lottery Fund a better place to work. Benefits include:</p>",
+					"list": [
+						"Generous Civil Service Pension scheme",
+						"Flexible working",
+						"Enhanced paid maternity/paternity leave",
+						"Volunteering leave"
+					],
+					"postscript": "<p>And many more...</p>"
+				},
+				"offices": {
+					"title": "Opportunities across the UK"
+				},
+				"equalities": {
+					"title": "Equalities",
+					"body": "<p>The Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy.</p><p>The Big Lottery Fund will make any reasonable adjustments for applicants with a disability at all stages of the selection process. To assist us, applicants with a disability should declare they have a disability on the application form, and let us know of any requirements.</p><p>The Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice.</p><p>The Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work.</p>"
 				}
 			}
 		}

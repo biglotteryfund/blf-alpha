@@ -1,5 +1,5 @@
 // base font settings
-body, p, input, textarea, button {
+body, p, input, textarea, button, blockquote {
     font-family: 'Roboto', arial, sans-serif;
 }
 
@@ -114,4 +114,21 @@ a {
 
 .smaller {
     font-size: 16px;
+}
+
+blockquote {
+    @include font-and-leading(20px, 27px);
+    margin: 0 0 $spacingUnit 0;
+    font-style: italic;
+
+    footer {
+        display: inline-block;
+    }
+
+    cite {
+        font-style: normal;
+        &:before {
+            content: ' - ';
+        }
+    }
 }
