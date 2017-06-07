@@ -5,7 +5,9 @@
         <div class="grid grid--wide-only">
             <a href="{{ buildUrl('global', '/') }}"><h1 class="logo"><span class="visually-hidden">{{ __("global.brand.title") }}</span></h1></a>
             <nav class="mobile-only header__hamburger" id="js-mobile-nav-toggle">
-                {% include "../includes/svg/hamburger.svg" %}
+                <a href="#nav">
+                    {% include "../includes/svg/hamburger.svg" %}
+                </a>
             </nav>
             <nav role="navigation" class="desktop-only grid__item">
                 <ul class="nav grid">
