@@ -121,6 +121,10 @@ blockquote {
     margin: 0 0 $spacingUnit 0;
     font-style: italic;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     footer {
         display: inline-block;
     }

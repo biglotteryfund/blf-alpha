@@ -219,8 +219,5 @@ main {
 }
 
 .google-map {
-    padding: 30px 0 0 0;
-    @include mq('tablet') {
-        padding: 30px 40px 0 40px;
-    }
+    padding: 30px 40px 0 40px;
 }
