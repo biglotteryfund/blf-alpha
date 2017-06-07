@@ -72,7 +72,9 @@
 					"body": "<p>Please contact your funding officer for any queries about an existing grant. If you don't know who your funding officer is please get in touch with us using the details above.</p>"
 				},
 				"pressQuery": {
-					"title": "How do I get in contact if I have a press query?"
+					"title": "How do I get in contact if I have a press query?",
+					"subtitle": "Broadcast Interviews",
+					"body": "<p>For broadcast interviews with the Big Lottery Fund, the ISDN line for our in-house studio is 020 7211 1688. Please contact the UK press office first on 020 7211 1888 to arrange interviews.</p>"
 				},
 				"feedback": {
 					"title": "How do I get in contact if I have feedback about your service?",

@@ -14,5 +14,6 @@
     "contrastCookie": {
         "name": "contrastMode"
     },
-    "materialSupplierEmail": "matt@mattandrews.info"
+    "materialSupplierEmail": "matt@mattandrews.info",
+    "contactPressAnchor": "press"
 }

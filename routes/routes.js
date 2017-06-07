@@ -1,4 +1,5 @@
 "use strict";
+const config = require('config');
 
 const handlers = {
     funding: (c) => require('../routes/funding')(c),
@@ -112,16 +113,33 @@ const routes = {
     }
 };
 
+const contactPressAnchor = config.get('contactPressAnchor');
+
+const vanityDestinations = {
+    publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
+    contact: routes.sections.global.path + routes.sections.global.pages.contact.path
+};
+
 const vanityRedirects = [
     {
         name: "Publicity",
         path: "/publicity",
-        destination: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+        destination: vanityDestinations.publicity
     },
     {
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
-        destination: '/welsh' + routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+        destination: '/welsh' + vanityDestinations.publicity
+    },
+    {
+        name: "Contact press team",
+        path: "/news-and-events/contact-press-team",
+        destination: vanityDestinations.contact + '#' + contactPressAnchor
+    },
+    {
+        name: "Contact press team (Welsh)",
+        path: "/welsh/news-and-events/contact-press-team",
+        destination: '/welsh' + vanityDestinations.contact + '#' + contactPressAnchor
     }
 ];
 
