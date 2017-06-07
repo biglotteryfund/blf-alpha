@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const generateSchema = require('generate-schema');
 
 const globals = require('../boilerplate/globals');
 const routes = require('./routes');
@@ -57,27 +58,26 @@ router.get('/pages', (req, res, next) => {
     });
 });
 
-router.route('/locales/:locale')
+router.route('/locales/')
     .get((req, res, next) => {
-        if (['en', 'cy'].indexOf(req.params.locale) !== -1) {
-            let l = req.params.locale;
-            res.render('langEditor', {
-                json: locales[l],
-                locale: l,
-                locales: locales
-            });
-        } else {
-            res.redirect('/');
-        }
+        res.render('langEditor', {});
     }).post((req, res, next) => {
-        if (['en', 'cy'].indexOf(req.params.locale) !== -1) {
-            let l = req.params.locale;
-            res.send(locales[l]);
-        } else {
-            res.send({
-                error: true
-            });
-        }
+        res.send({
+            editors: [
+                {
+                    name: "English",
+                    code: 'en',
+                    json: locales.en,
+                    schema: generateSchema.json(locales.en)
+                },
+                {
+                    name: "Welsh",
+                    code: 'cy',
+                    json: locales.cy,
+                    schema: generateSchema.json(locales.cy)
+                }
+            ]
+        });
     });
 
 module.exports = router;

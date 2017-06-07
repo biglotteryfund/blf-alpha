@@ -1,66 +1,46 @@
-Vue.options.delimiters = ['<%', '%>'];
+let editors = {};
 
-const getType = function (obj) {
-    if (Array.isArray(obj)) {
-        return 'array';
-    } else {
-        return typeof obj;
-    }
-}
+fetch(window.location, { method: 'post' }).then((r) => r.json()).then((data) => {
+    data.editors.forEach(editor => {
+        let element = document.getElementById(`js-locale-${editor.code}`);
+        let title = document.getElementById(`js-title-${editor.code}`);
+        title.innerText = editor.name;
+        editors[editor.code] = new JSONEditor(element, {
+            schema: editor.schema,
+            startval: editor.json,
+            disable_edit_json: true,
+            disable_properties: true,
+            theme: 'bootstrap3'
+        });
+    });
 
-Vue.component('field', {
-    props: ['section', 'label'],
-    template: `<div>
-        <h3 v-if="label"><% label %></h3>
-        <input type="text" v-model="this.section" />
-    </div>`
-});
-
-Vue.component('looper', {
-    props: ['section', 'label'],
-    methods: {
-        gettype: getType
-    },
-    template: `<li>
-        <div v-if="gettype(section) === 'array'">
-            <field v-for="(value, key) in section" v-bind:section="value"></field>
-        </div>
-        <div v-if="gettype(section) === 'string'">
-            <field v-bind:section="section" v-bind:label="label"></field>
-        </div>
-        <div v-if="gettype(section) === 'object'">
-            <h2><% label %></h2>
-            <ul>
-                <looper v-for="(value, key) in section" v-bind:section="value" v-bind:label="key"></looper>
-            </ul>
-        </div>
-    </li>`
-});
-
-
-Vue.component('editor', {
-    props: ['section', 'label'],
-    methods: {
-        gettype: getType,
-        getData: function () {
-            console.log(this.section);
+    let makeWysiwyg = (elm) => {
+        if (!elm.data('is-editor')) {
+            elm.height(200);
+            elm.data('is-editor', true);
+            elm.sceditor({
+                plugins: 'xhtml',
+                toolbar: "bold,italic,underline|source",
+                emoticonsEnabled: false,
+                style: '/assets/sceditor/jquery.sceditor.default.min.css'
+            });
         }
-    },
-    template: `<div>
-        <h1><% label %></h1>
-        <looper v-for="(value, key, index) in section" v-bind:section="value" v-bind:label="key"></looper>
-        <button v-on:click="getData()">lol</button>
-    </div>`
-})
+    }
 
-fetch(window.location, { method: 'post' }).then((r) => r.json()).then((json) => {
-    const vueApp = new Vue({
-        el: '#js-vue',
-        data: {
-            locale: json,
-        },
-        methods: {
-            gettype: getType
+    let isHTML = (str) => {
+        return /^<.*?>$/.test(str) && !!$(str)[0];
+    }
+
+    $('.form-control').on('focus', function (e) {
+        let val = $(this).val();
+        if (isHTML(val)) {
+            makeWysiwyg($(this));
         }
     });
+
+    $('#js-get-json').on('click', function (e) {
+        console.log(editors.en.getValue());
+        console.log(editors.cy.getValue());
+    });
+
 });
