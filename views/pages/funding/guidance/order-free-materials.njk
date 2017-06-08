@@ -103,7 +103,7 @@
             <div class="p">
                 <h3 class="t3a m-t-none">{{ copy.yourDetails }}</h3>
 
-                <form class="inline-form" method="post">
+                <form class="inline-form order-form" method="post">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     <ul class="grid grid--wide-only grid--3-up grid--padded--large">
                         {% for field in formFields %}
@@ -113,7 +113,7 @@
                             <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
                                    v-bind:disabled="isEmpty()"
                                    value="{{ copy.submit }}"
-                                   class="accent--turquoise btn btn--cta btn--cta--large"
+                                   class="accent--turquoise btn btn--cta btn--cta--large order-form__btn"
                                    id="js-submit-material-order">
                         </li>
                     </ul>

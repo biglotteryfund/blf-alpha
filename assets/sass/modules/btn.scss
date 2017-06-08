@@ -52,9 +52,6 @@
     }
 
     &[disabled='disabled'] {
-        background-color: grey !important;
-        @include on-interact {
-            background-color: grey !important;
-        }
+        @include disabledBtn();
     }
 }

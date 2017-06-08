@@ -74,7 +74,10 @@
         background-position: center;
     }
 
-    .material-item__actions {
-        //margin-top: auto; // align to bottom
+}
+
+.order-form:invalid {
+    .order-form__btn {
+        @include disabledBtn();
     }
 }

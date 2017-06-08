@@ -73,3 +73,10 @@
 @mixin bordered {
     border: 1px solid rgba(palette('soft-grey'), 0.5);
 }
+
+@mixin disabledBtn {
+    background-color: grey !important;
+    @include on-interact {
+        background-color: grey !important;
+    }
+}
