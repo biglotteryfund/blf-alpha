@@ -18,8 +18,18 @@
     </head>
     <body>
 
-        <div class="container">
-            <h1>Language editor</h1>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Language File Editor</a>
+                </div>
+                <form class="navbar-form navbar-right">
+                    <button type="button" class="btn btn-default" id="js-save-changes">Save changes</button>
+                </form>
+            </div>
+        </nav>
+
+        <div class="container" style="padding-top: 70px;">
             <div class="row">
                 <div class="col-md-6">
                     <h2 id="js-title-en"></h2>
@@ -30,8 +40,6 @@
                     <div id="js-locale-cy" class="js-locale-id" data-locale="cy"></div>
                 </div>
             </div>
-            <button id="js-get-json">Get value</button>
-
         </div>
         <script src="/assets/jsoneditor/jsoneditor.js"></script>
         <script src="/assets/jsoneditor/editor.js"></script>

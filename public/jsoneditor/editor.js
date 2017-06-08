@@ -55,7 +55,7 @@ fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) =
         }
     });
 
-    $('#js-get-json').on('click', function (e) {
+    $('#js-save-changes').on('click', function (e) {
         let data = {
             en: editors.en.getValue(),
             cy: editors.cy.getValue()
