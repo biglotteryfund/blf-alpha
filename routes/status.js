@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
 const generateSchema = require('generate-schema');
 
 const globals = require('../boilerplate/globals');
@@ -9,9 +11,14 @@ const routes = require('./routes');
 
 const LAUNCH_DATE = moment();
 
+const localeFiles = {
+    en: '../locales/en.json',
+    cy: '../locales/cy.json'
+};
+
 const locales = {
-    en: require('../locales/en.json'),
-    cy: require('../locales/cy.json'),
+    en: require(localeFiles.en),
+    cy: require(localeFiles.cy)
 };
 
 router.get('/', (req, res, next) => {
@@ -79,5 +86,29 @@ router.route('/locales/')
             ]
         });
     });
+
+router.post('/locales/update/', (req, res, next) => {
+
+    const json = req.body;
+    let validKeys = ['en', 'cy'];
+    let failedUpdates = [];
+
+    validKeys.forEach(locale => {
+        if (json[locale]) {
+            let jsonToWrite = JSON.stringify(json[locale], null, 4);
+            try {
+                let filePath = path.join(__dirname, `../locales/${locale}.json`);
+                fs.writeFileSync(filePath, jsonToWrite);
+            } catch (err) {
+                failedUpdates.push(locale);
+                return console.error(`Error saving ${locale} language`, err);
+            }
+        }
+    });
+
+    res.send({
+        error: (failedUpdates.length > 0) ? failedUpdates: false
+    });
+});
 
 module.exports = router;

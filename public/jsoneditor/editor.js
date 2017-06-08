@@ -58,14 +58,20 @@ fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) =
     $('#js-get-json').on('click', function (e) {
         let data = {
             en: editors.en.getValue(),
-            cy: editors.cy.getValue(),
+            cy: editors.cy.getValue()
         };
 
         $.post({
             url: '/status/locales/update',
-            data: data,
-            success: function (data) {
-                console.log(data);
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (status) {
+                if (status.error) {
+                    alert('There was an error saving the following languages: ' + status.error)
+                } else {
+                    alert('Languages successfully updated!');
+                }
             }
         });
 
