@@ -65,10 +65,13 @@ router.get('/pages', (req, res, next) => {
     });
 });
 
-router.route('/locales/')
-    .get((req, res, next) => {
-        res.render('langEditor', {});
-    }).post((req, res, next) => {
+// only allow these routes in dev
+if (globals.get('appData').IS_DEV) {
+
+    router.route('/locales/')
+        .get((req, res, next) => {
+            res.render('langEditor', {});
+        }).post((req, res, next) => {
         res.send({
             editors: [
                 {
@@ -87,28 +90,31 @@ router.route('/locales/')
         });
     });
 
-router.post('/locales/update/', (req, res, next) => {
+    router.post('/locales/update/', (req, res, next) => {
 
-    const json = req.body;
-    let validKeys = ['en', 'cy'];
-    let failedUpdates = [];
+        const json = req.body;
+        let validKeys = ['en', 'cy'];
+        let failedUpdates = [];
 
-    validKeys.forEach(locale => {
-        if (json[locale]) {
-            let jsonToWrite = JSON.stringify(json[locale], null, 4);
-            try {
-                let filePath = path.join(__dirname, `../locales/${locale}.json`);
-                fs.writeFileSync(filePath, jsonToWrite);
-            } catch (err) {
-                failedUpdates.push(locale);
-                return console.error(`Error saving ${locale} language`, err);
+        validKeys.forEach(locale => {
+            if (json[locale]) {
+                let jsonToWrite = JSON.stringify(json[locale], null, 4);
+                try {
+                    let filePath = path.join(__dirname, `../locales/${locale}.json`);
+                    fs.writeFileSync(filePath, jsonToWrite);
+                } catch (err) {
+                    failedUpdates.push(locale);
+                    return console.error(`Error saving ${locale} language`, err);
+                }
             }
-        }
+        });
+
+        res.send({
+            error: (failedUpdates.length > 0) ? failedUpdates : false
+        });
+
     });
 
-    res.send({
-        error: (failedUpdates.length > 0) ? failedUpdates: false
-    });
-});
+}
 
 module.exports = router;
