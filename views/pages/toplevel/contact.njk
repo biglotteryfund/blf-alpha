@@ -63,9 +63,7 @@
             {% endset %}
 
             {% set feedback %}
-                <div class="links-emphasised">
-                    {{ copy.topics.feedback.body | safe }}
-                </div>
+                {{ copy.topics.feedback.body | safe }}
             {% endset %}
 
             {% set other %}
@@ -119,6 +117,8 @@
             {{ segment.segment(copy.topics.feedback.title, feedback, 'green', 'images/contact/4.jpg', characterWrap = 18) }}
             {{ segment.segment(copy.topics.other.title, other, 'turquoise', 'images/contact/5.jpg') }}
             {{ segment.segment(copy.topics.pressQuery.title, pressQuery, 'pink', 'images/contact/3.jpg', id = contactPressAnchor) }}
+            {{ segment.segment(copy.topics.complaints.title, copy.topics.complaints.body, 'green-dark', 'images/contact/6.jpg') }}
+            {{ segment.segment(copy.topics.fraud.title, copy.topics.fraud.body, 'brown', 'images/contact/7.jpg') }}
         </div>
 
     </article>

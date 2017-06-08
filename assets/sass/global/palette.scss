@@ -21,10 +21,13 @@ $palette: (
     "green": #00bd71,
     "green-bg": #ddf0e2,
 
+
     "orange": #ff9315,
     "orange-bg": #fdebd7,
 
     "cyan": #009098,
+    "green-dark": #356231,
+    "brown": #8a7967,
 
     "soft-grey": #cacaca,
     "charcoal": #333333,
@@ -66,6 +69,14 @@ $themes: (
     ),
     'cyan': (
         'foreground': palette('cyan'),
+        'background': palette('pale')
+    ),
+    'green-dark': (
+        'foreground': palette('green-dark'),
+        'background': palette('pale')
+    ),
+    'brown': (
+        'foreground': palette('brown'),
         'background': palette('pale')
     ),
 );
