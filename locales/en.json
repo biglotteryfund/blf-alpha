@@ -82,6 +82,14 @@
 				},
 				"other": {
 					"title": "How do I get in contact about anything else?"
+				},
+				"complaints": {
+					"title": "How do I make a complaint?",
+					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint. </p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.  </p><p>\t<a class=\"link-pink\" href=\"#\">View our complaints procedure here</a>. </p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.  </p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are: </p><p>\t<span class=\"t7\">Telephone</span>: 0191 376 1704 </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>   </p><p>\t<span class=\"t7\">Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+				},
+				"fraud": {
+					"title": "How do I report fraud?",
+					"body": "<p>\tThe Big Lottery Fund is committed to preventing and detecting fraud. </p><p>\tIf you suspect that someone is stealing from or defrauding the Big Lottery Fund help us do something about it by phoning us free on 0800 496 9991, or by emailing the details to <a href=\"mailto:fraud@biglotteryfund.org.uk\">fraud@biglotteryfund.org.uk</a>   </p><p>\tAlternatively, you can put your concerns in writing and send them to:  </p><p>\t<span class=\"t7\">Address</span>:<br />Head of Internal Audit <br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
 				}
 			}
 		},
