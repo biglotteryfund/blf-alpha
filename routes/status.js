@@ -2,11 +2,24 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
+const generateSchema = require('generate-schema');
 
 const globals = require('../boilerplate/globals');
 const routes = require('./routes');
 
 const LAUNCH_DATE = moment();
+
+const localeFiles = {
+    en: '../locales/en.json',
+    cy: '../locales/cy.json'
+};
+
+const locales = {
+    en: require(localeFiles.en),
+    cy: require(localeFiles.cy)
+};
 
 router.get('/', (req, res, next) => {
     // don't cache this page!
@@ -51,5 +64,57 @@ router.get('/pages', (req, res, next) => {
         totals: totals
     });
 });
+
+// only allow these routes in dev
+if (globals.get('appData').IS_DEV) {
+
+    router.route('/locales/')
+        .get((req, res, next) => {
+            res.render('langEditor', {});
+        }).post((req, res, next) => {
+        res.send({
+            editors: [
+                {
+                    name: "English",
+                    code: 'en',
+                    json: locales.en,
+                    schema: generateSchema.json(locales.en)
+                },
+                {
+                    name: "Welsh",
+                    code: 'cy',
+                    json: locales.cy,
+                    schema: generateSchema.json(locales.cy)
+                }
+            ]
+        });
+    });
+
+    router.post('/locales/update/', (req, res, next) => {
+
+        const json = req.body;
+        let validKeys = ['en', 'cy'];
+        let failedUpdates = [];
+
+        validKeys.forEach(locale => {
+            if (json[locale]) {
+                let jsonToWrite = JSON.stringify(json[locale], null, 4);
+                try {
+                    let filePath = path.join(__dirname, `../locales/${locale}.json`);
+                    fs.writeFileSync(filePath, jsonToWrite);
+                } catch (err) {
+                    failedUpdates.push(locale);
+                    return console.error(`Error saving ${locale} language`, err);
+                }
+            }
+        });
+
+        res.send({
+            error: (failedUpdates.length > 0) ? failedUpdates : false
+        });
+
+    });
+
+}
 
 module.exports = router;
