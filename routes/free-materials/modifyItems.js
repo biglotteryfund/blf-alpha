@@ -37,6 +37,9 @@ module.exports = (req, orderKey, code) => {
             }
         }
 
+        // store the product name
+        _.set(req.session, [orderKey, code, 'name'], item.name.en);
+
         // can they add more of this item?
         const noSpaceLeft = (currentItemQuantity === maxQuantity);
 

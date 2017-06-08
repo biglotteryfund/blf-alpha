@@ -114,7 +114,7 @@ module.exports = (pages) => {
                 let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
                 for (let code in items) {
                     if (items[code].quantity > 0) {
-                        text += `\t- ${code}\t x${items[code].quantity}\n`;
+                        text += `\t- x${items[code].quantity} ${code}\t (item: ${items[code].name})\n`;
                     }
                 }
                 text += "\nThe customer's personal details are below:\n\n";

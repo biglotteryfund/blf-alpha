@@ -105,11 +105,11 @@
         {
             "id": 8,
             "name": {
-                "en": "Balloons",
+                "en": "Balloon",
                 "cy": "Balwnau"
             },
             "description": {
-                "en": "pack of ten",
+                "en": "pack of one",
                 "cy": "pecyn o ddeg"
             },
             "image": "balloons.jpg",
