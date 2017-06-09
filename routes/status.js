@@ -16,11 +16,6 @@ const localeFiles = {
     cy: '../locales/cy.json'
 };
 
-const locales = {
-    en: require(localeFiles.en),
-    cy: require(localeFiles.cy)
-};
-
 router.get('/', (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
@@ -72,22 +67,27 @@ if (globals.get('appData').IS_DEV) {
         .get((req, res, next) => {
             res.render('langEditor', {});
         }).post((req, res, next) => {
-        res.send({
-            editors: [
-                {
-                    name: "English",
-                    code: 'en',
-                    json: locales.en,
-                    schema: generateSchema.json(locales.en)
-                },
-                {
-                    name: "Welsh",
-                    code: 'cy',
-                    json: locales.cy,
-                    schema: generateSchema.json(locales.cy)
-                }
-            ]
-        });
+            // fetch these each time
+            const locales = {
+                en: require(localeFiles.en),
+                cy: require(localeFiles.cy)
+            };
+            res.send({
+                editors: [
+                    {
+                        name: "English",
+                        code: 'en',
+                        json: locales.en,
+                        schema: generateSchema.json(locales.en)
+                    },
+                    {
+                        name: "Welsh",
+                        code: 'cy',
+                        json: locales.cy,
+                        schema: generateSchema.json(locales.cy)
+                    }
+                ]
+            });
     });
 
     router.post('/locales/update/', (req, res, next) => {
