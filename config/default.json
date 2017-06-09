@@ -15,5 +15,7 @@
         "name": "contrastMode"
     },
     "materialSupplierEmail": "matt@mattandrews.info",
-    "contactPressAnchor": "press"
+    "contactPressAnchor": "press",
+    "contactComplaintsAnchor": "complaints",
+    "contactFraudAnchor": "fraud"
 }

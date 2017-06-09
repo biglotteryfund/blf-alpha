@@ -37,7 +37,7 @@ const routes = {
                     lang: "toplevel.jobs",
                     code: 7,
                     static: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         '/about-big/jobs',
                         '/about-big/jobs/benefits',
@@ -114,6 +114,8 @@ const routes = {
 };
 
 const contactPressAnchor = config.get('contactPressAnchor');
+const contactComplaintsAnchor = config.get('contactComplaintsAnchor');
+const contactFraudAnchor = config.get('contactFraudAnchor');
 
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
@@ -140,6 +142,26 @@ const vanityRedirects = [
         name: "Contact press team (Welsh)",
         path: "/welsh/news-and-events/contact-press-team",
         destination: '/welsh' + vanityDestinations.contact + '#' + contactPressAnchor
+    },
+    {
+        name: "Complaint page",
+        path: '/about-big/customer-service/making-a-complaint',
+        destination: vanityDestinations.contact + '#' + contactComplaintsAnchor
+    },
+    {
+        name: "Complaint page (Welsh)",
+        path: '/welsh/about-big/customer-service/making-a-complaint',
+        destination: '/welsh' + vanityDestinations.contact + '#' + contactComplaintsAnchor
+    },
+    {
+        name: "Fraud page",
+        path: '/about-big/customer-service/fraud',
+        destination: vanityDestinations.contact + '#' + contactFraudAnchor
+    },
+    {
+        name: "Fraud page (Welsh)",
+        path: '/welsh/about-big/customer-service/fraud',
+        destination: '/welsh' + vanityDestinations.contact + '#' + contactFraudAnchor
     }
 ];
 
