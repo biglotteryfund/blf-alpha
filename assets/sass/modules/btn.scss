@@ -55,3 +55,10 @@
         @include disabledBtn();
     }
 }
+
+.btn.btn--pink {
+    background-color: palette('pink') !important;
+    @include on-interact {
+        background-color: darken(palette('pink'), 10%) !important;
+    }
+}

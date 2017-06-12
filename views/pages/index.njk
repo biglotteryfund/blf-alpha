@@ -3,6 +3,21 @@
 
 {% extends "../layouts/main.njk" %}
 
+{% macro statBlock(counter, number, caption, flip = false) %}
+    <li class="stats__icon stats__icon--{{ counter }}">
+        <dl>
+            {% if not flip %}
+                <dt>{{ number }}</dt>
+                <dd>{{ caption }}</dd>
+            {% else %}
+                <dd>{{ number }}</dd>
+                <dt>{{ caption }}</dt>
+            {% endif %}
+        </dl>
+    </li>
+{% endmacro %}
+
+
 {% block content %}
 
     {% set heroContent %}
@@ -10,7 +25,7 @@
             {{ headers.blockheader('h2', 'What did we fund near you?', 30, 'hero__header') }}
             <form class="form-fund form-fund--inline" action="/lookup">
                 <input type="text" aria-label="Enter a postcode" placeholder="eg. B14 7EW" name="postcode">
-                <input type="submit" class="btn btn--cta" value="Look up awards">
+                <input type="submit" class="btn btn--cta btn--pink btn--cta--large" value="Look up awards">
             </form>
         </div>
     {% endset %}
@@ -19,7 +34,7 @@
 
     <article role="main" class="nudge-up">
         <div class="inner p-text accent--pink accent-b-t bg-plain stats-holder">
-            <h3 class="t3">Our year in numbers</h3>
+            <h3 class="t3 m-t">Our year in numbers</h3>
 
             <button class="stats-btn stats-btn--prev js-carousel-prev">
                 {% include "../includes/svg/arrow-left.svg" %}
@@ -32,55 +47,20 @@
             </button>
 
             <ul class="stats js-carousel">
-                <li class="stats__icon">
-                    <dl>
-                        <dt>11,779</dt>
-                        <dd>Awards made</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon">
-                    <dl>
-                        <dt>91.3%</dt>
-                        <dd>Percentage of awards to the voluntary &amp; community sectors</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon">
-                    <dl>
-                        <dt>89.1%</dt>
-                        <dd>Percentage of awards for less than &pound;10,000</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon">
-                    <dl>
-                        <dd>Total grantmaking</dd>
-                        <dt>&pound;650 million</dt>
-                    </dl>
-                </li>
-
-                <li class="stats__icon">
-                    <dl>
-                        <dt>6.6%</dt>
-                        <dd>Total operating costs</dd>
-                    </dl>
-                </li>
-
-                <li class="stats__icon">
-                    <dl>
-                        <dt>&pound;276</dt>
-                        <dd>Smallest award made through the Communities &amp; Families Fund</dd>
-                    </dl>
-                </li>
+                {{ statBlock(1, '11,779', 'Awards made') }}
+                {{ statBlock(2, '91.3%', 'Percentage of awards to the voluntary & community sectors') }}
+                {{ statBlock(3, '89.1%', 'Percentage of awards for less than £10,000') }}
+                {{ statBlock(4, 'Total grantmaking', '£650 million', flip = true) }}
+                {{ statBlock(5, '6.6%', 'Total operating costs') }}
+                {{ statBlock(6, '£276', 'Smallest award made through the Communities £ Families Fund') }}
             </ul>
         </div>
     </article>
 
 
-    <article role="main" class="accent--turquoise">
-        <div class="inner--wide-only p-text accent-b-t accent-bg pos-rel">
-            <h3 class="t3">Where we fund projects</h3>
+    <article role="main" class="accent--turquoise accent-b-t map-holder">
+        <div class="inner--wide-only p-text pos-rel">
+            <h3 class="t3 m-b--l m-t">Where we fund projects</h3>
 
             <div class="map-wrapper">
                 {% include "../includes/uk-svg.njk" %}
@@ -92,7 +72,7 @@
                 <h6 class="t5">Total Grants</h6>
                 <h5 class="t4 m-t accent-text" id="js-num-awards"></h5>
                 <h6 class="t5">Total Awarded</h6>
-                <a class="btn btn--cta btn--small" id="js-read-more" href="#">Find out more</a>
+                <a class="btn btn--cta btn--block" id="js-read-more" href="#">Find out more</a>
             </div>
         </div>
     </article>

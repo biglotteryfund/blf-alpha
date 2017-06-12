@@ -2,6 +2,32 @@
     position: relative;
 }
 
+.stats__icon {
+    margin-top: 0;
+    min-height: 200px;
+    background-size: auto 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+
+    &.stats__icon--1 { background-image: url('../images/data/1.png');}
+    &.stats__icon--2 { background-image: url('../images/data/2.png');}
+    &.stats__icon--3 { background-image: url('../images/data/3.png');}
+    &.stats__icon--4 { background-image: url('../images/data/4.png');}
+    &.stats__icon--5 { background-image: url('../images/data/5.png');}
+    &.stats__icon--6 { background-image: url('../images/data/6.png');}
+    &.stats__icon--7 { background-image: url('../images/data/7.png');}
+    &.stats__icon--8 { background-image: url('../images/data/8.png');}
+    &.stats__icon--9 { background-image: url('../images/data/9.png');}
+
+    dl {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
 .stats-btn {
     position: absolute;
     top: 50%;
@@ -38,11 +64,16 @@
 
 .stats {
 
+    div {
+        margin-top: 0;
+    }
+
     li {
         margin: 0;
     }
 
     dl {
+        margin-top: 0;
         text-align: center;
     }
 
@@ -92,6 +123,10 @@
             cursor: pointer;
         }
     }
+}
+
+.map-holder {
+    background-color: #f0f4ff;
 }
 
 .map-info {
