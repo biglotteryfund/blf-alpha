@@ -10,8 +10,17 @@ const argv = require('yargs')
     .argv;
 const prompt = require('prompt');
 const AWS = require('aws-sdk');
+const request = require('request');
 
 let customBuildNumber = argv.build;
+
+// load secret hashes for SGO form
+const SLACK_URL = process.env.SLACK_URL;
+
+if (!SLACK_URL) {
+    console.error('Error: could not find Slack URL in environment. Exiting.');
+    process.exit(1);
+}
 
 const codeDeployEnvs = {
     test: {
@@ -97,6 +106,30 @@ if (customBuildNumber) {
     });
 }
 
+function postMessageToSlack (title, subtitle, color) {
+    request({
+        url: SLACK_URL,
+        method: 'POST',
+        json: {
+            "text": title,
+            "attachments": [
+                {
+                    "text": subtitle,
+                    "color": color
+                }
+            ]
+        }
+    }, (error, response) => {
+        if (error){
+            console.error('Error sending Slack message', {
+                error: error
+            });
+        } else {
+            console.log('Sent message to Slack!');
+        }
+    });
+}
+
 // make JSON data for deploy config
 function createDeploymentConf (id) {
     return {
@@ -120,30 +153,39 @@ function createDeploymentConf (id) {
         },
         updateOutdatedInstancesOnly: false
     };
-};
+}
 
 function deployRevision (id) {
-    console.log(`Attempting to deploy revision ${id}, please wait...`);
+    let env = (argv.l) ? 'PRODUCTION' : 'TEST';
+    let text = `Attempting to deploy revision ${id} to environment ${env}, please wait...`;
+    postMessageToSlack('Attempting to deploy BLF Alpha:', `Build ${id} to environment ${env}`, 'warning');
+    console.log(text);
     const deployParams = createDeploymentConf(id);
     let attemptDeploy = codedeploy.createDeployment(deployParams).promise();
     attemptDeploy.then((data) => {
-        console.log('Deployment started, monitoring...');
+        let status = 'Deployment started, monitoring...';
+        console.log(status);
+        postMessageToSlack('Deployment has begun', 'Monitoring...', 'warning');
         let deployCheck = codedeploy.waitFor('deploymentSuccessful', { deploymentId: data.deploymentId }).promise();
         deployCheck.then((data) => {
-            console.log('Deployment succeeded!');
+            let status = 'Deployment succeeded!';
+            postMessageToSlack('Deployment succeeded!', ':cool:', 'good');
+            console.log(status);
         }).catch((err) => {
+            postMessageToSlack('Deployment failed!', '```' + JSON.stringify(err) + '```', 'danger');
             console.error('Error deploying revision', {
                 deploymentId: data.deploymentId,
                 error: err
             });
         });
     }).catch((err) => {
+        postMessageToSlack('Could not create deployment!', '```' + JSON.stringify(err) + '```', 'danger');
         console.error('Error creating deployment', {
             buildId: id,
             error: err
         });
     });
-};
+}
 
 // lookup a known revision on TEST
 function getRevision (id) {
