@@ -25,10 +25,20 @@ fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) =
             elm.data('is-editor', true);
             elm.sceditor({
                 plugins: 'xhtml',
-                toolbar: "bold,italic,underline,bulletlist,orderedlist,quote|email,link,unlink|maximize,source",
+                toolbar: "bold,italic,underline,bulletlist,orderedlist,quote|email,link,unlink|maximize,source,pastetext",
                 emoticonsEnabled: false,
-                style: '/assets/sceditor/jquery.sceditor.default.min.css'
+                style: '/assets/sceditor/jquery.sceditor.default.min.css',
+                enablePasteFiltering: true
             });
+
+            $.sceditor.plugins.xhtml.disallowedAttribs = {
+                '*': {
+                    id: null,
+                    dir: null,
+                    style: null,
+                    class: null
+                }
+            };
 
             let updateOriginal = () => {
                 if (editorElm) {
