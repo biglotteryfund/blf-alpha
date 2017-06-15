@@ -122,6 +122,26 @@
 			}
 		}
 	},
+	"about": {
+		"foi": {
+			"title": "Freedom of Information",
+			"sections": {
+				"intro": "<p>foo</p>",
+				"howToRequest": {
+					"title": "bar",
+					"body": "<p>foo</p>"
+				},
+				"forCustomers": {
+					"title": "bar",
+					"body": "<p>foo</p>"
+				},
+				"publicationScheme": {
+					"title": "bar",
+					"body": "<p>foo</p>"
+				}
+			}
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {

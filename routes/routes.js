@@ -3,7 +3,8 @@ const config = require('config');
 
 const handlers = {
     funding: (c) => require('../routes/funding')(c),
-    toplevel: (c) => require('../routes/toplevel')(c)
+    toplevel: (c) => require('../routes/toplevel')(c),
+    about: (c) => require('../routes/about')(c)
 };
 
 const routes = {
@@ -44,6 +45,22 @@ const routes = {
                         '/about-big/jobs/how-to-apply',
                         '/about-big/jobs/current-vacancies'
                     ]
+                }
+            }
+        },
+        about: {
+            name: "About",
+            path: "/about-big",
+            handler: handlers.about,
+            pages: {
+                freedomOfInformation: {
+                    name: "Freedom of Information",
+                    path: "/customer-service/freedom-of-information",
+                    template: "pages/about/freedom-of-information",
+                    lang: "about.foi",
+                    code: 85,
+                    static: true,
+                    live: false
                 }
             }
         },
