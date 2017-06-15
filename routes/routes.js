@@ -152,12 +152,14 @@ const vanityRedirects = [
     {
         name: "Publicity",
         path: "/publicity",
-        destination: vanityDestinations.publicity
+        destination: vanityDestinations.publicity,
+        aliasOnly: true
     },
     {
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
-        destination: '/welsh' + vanityDestinations.publicity
+        destination: '/welsh' + vanityDestinations.publicity,
+        aliasOnly: true
     },
     {
         name: "Contact press team",

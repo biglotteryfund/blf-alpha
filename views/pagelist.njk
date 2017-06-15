@@ -65,9 +65,9 @@
             <h2>Totals</h2>
             <ul>
                 <li><strong>Live canonical pages</strong>: {{ totals.canonical.length * 2 }} (English and Welsh versions)</li>
-                <li><strong>Live alias pages</strong>: {{ totals.aliases.length * 2 }} (English and Welsh versions)</li>
-                <li><strong>Live vanity redirects</strong>: {{ totals.vanityRedirects.length }}</li>
-                <li><strong>GRAND TOTAL</strong>: {{ totals.canonical.length * 2 + totals.aliases.length * 2}} (Canonical + Aliases)</li>
+                <li><strong>Live alias URLs</strong>: {{ totals.aliases.length * 2 + totals.redirectedPages.length }} (links that now point to the above pages)</li>
+                <li><strong>Live vanity redirects</strong>: {{ totals.vanityRedirects.length }} (links that redirect to pages)</li>
+                <li><strong>GRAND TOTAL</strong>: {{ totals.canonical.length * 2 + totals.aliases.length * 2 + totals.redirectedPages.length }} (Canonical + Aliases)</li>
             </ul>
 
             {% for sectionName, section in routes %}
