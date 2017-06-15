@@ -9,6 +9,8 @@
     "test-deps": "snyk test"
   },
   "dependencies": {
+    "absoluteify": "^1.0.3",
+    "absolution": "^1.0.0",
     "aws-sdk": "^2.61.0",
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
@@ -23,6 +25,7 @@
     "express-validator": "^3.2.0",
     "generate-schema": "^2.5.0",
     "helmet": "^3.5.0",
+    "http-proxy": "^1.16.2",
     "i18n-2": "^0.6.3",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",

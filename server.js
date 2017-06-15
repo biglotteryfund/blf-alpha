@@ -3,6 +3,9 @@ const express = require('express');
 const app = module.exports = express();
 const config = require('config');
 const routes = require('./routes/routes');
+const httpProxy = require('http-proxy');
+const request = require('request');
+const absolution = require('absolution');
 
 // configure boilerplate
 require('./boilerplate/viewEngine');
@@ -11,6 +14,34 @@ require('./boilerplate/security');
 require('./boilerplate/static');
 require('./boilerplate/cache');
 require('./boilerplate/middleware');
+
+const legacyUrl = 'https://wwwlegacy.biglotteryfund.org.uk';
+
+// configure proxy for old site
+const proxy = httpProxy.createProxyServer({
+    target: legacyUrl,
+    changeOrigin: true,
+    secure: false
+});
+
+proxy.on('error', function(e) {
+    console.log('Proxy error', e);
+});
+
+// route homepage to old site
+app.get('/home', (req, res, next) => {
+    request({
+        url: legacyUrl,
+        strictSSL: false
+    }, function (error, response, body) {
+        if (error) {
+            res.send(error);
+        } else {
+            body = absolution(body, 'https://www.biglotteryfund.org.uk');
+            res.send(body);
+        }
+    });
+});
 
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/status'));
