@@ -61,6 +61,15 @@ const routes = {
                     code: 85,
                     static: true,
                     live: false
+                },
+                dataProtection: {
+                    name: "Data Protection",
+                    path: "/customer-service/data-protection",
+                    template: "pages/about/data-protection",
+                    lang: "about.dataProtection",
+                    code: 84,
+                    static: true,
+                    live: false
                 }
             }
         },
