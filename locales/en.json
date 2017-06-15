@@ -122,6 +122,26 @@
 			}
 		}
 	},
+	"about": {
+		"foi": {
+			"title": "Freedom of Information",
+			"sections": {
+				"intro": "<p>\tThe <a href=\"http://www.legislation.gov.uk/ukpga/2000/36/contents\">Freedom of Information Act 2000</a> gives a member of the public the right of access to information held by public authorities. All information we hold is eligible for release although we will consider whether any exemptions apply.</p><p>\tFurther information about the Freedom of Information Act 2000, including who the Act applies to, what information you can ask for, how you can request it and how your requests will be dealt with, can be found on <a href=\"https://ico.org.uk/\">the Information Commissioner’s website</a>. </p><p>\tRequests for information relating to the state of the environment are handled under the Environmental Information Regulations 2004 (EIR). Any information that falls under EIR will be released unless an exception applies.</p><p>\tTo request information under these regulations you should follow the same process as for Freedom of Information requests. More information regarding the Environmental Information regulations can be found on the Information Commissioner’s website .</p>",
+				"howToRequest": {
+					"title": "How to request information from us",
+					"body": "<p>\t<span>Much of the information we hold is already available to you. Before you make an official request you should:</span></p><p>\t<ul>\t\t<li>\t\t\tsearch our website for the information<br />\t\t</li>\t\t<li>\t\t\tcheck the Big Lottery Fund’s publication scheme.<br />\t\t</li>\t</ul></p><p>\tIf you would like to request information about The Big Lottery Fund, please email <a href=\"mailto:freedomofinformation@biglotteryfund.org.uk\">freedomofinformation@biglotteryfund.org.uk</a>.</p><p>\tYour request must state your full name and it is helpful if you can give us as much detail as you can about the information that you are looking for. If you aren’t sure what information we hold on a particular topic then we will be happy to offer you further advice and assistance. We will acknowledge your request and must reply in full within 20 working days.</p><p>\tIf you have requested information that relates to a third party we may need to consult with such parties in order to reach a view on whether the information can be released. When consulting with third parties the identity of the requestor will remain confidential and will not be disclosed.</p>"
+				},
+				"forCustomers": {
+					"title": "For customers who have applied or received funding from us",
+					"body": "<p>\tThe Freedom of Information Act 2000 gives members of the public the right to request any information that we hold. This includes information received from third parties, such as, although not limited to grant applicants, grant holders and contractors.</p><p>\tIf you think that there is information in your application that may be exempt from release if requested, then you should let us know when you apply. We will not usually release information about your project whilst it is in the assessment process. Otherwise we will use our judgement as to whether any exemptions will apply to information that has been requested, which we may seek your opinion on. Personal information would be withheld subject to the requirements of the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p><p>\tAlthough you may be considered as a customer, you still have the same rights of access to information as a general member of the public.</p>"
+				},
+				"publicationScheme": {
+					"title": "The Publication Scheme",
+					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Publication%20Scheme/publication_scheme_2015%20V5.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
+				}
+			}
+		}
+	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
