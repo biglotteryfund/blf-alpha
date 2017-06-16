@@ -4,17 +4,21 @@ const helmet = require('helmet');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
+// these URLs won't get the helmet header protection
+const pathsExemptFromHelmet = [
+    '/home'
+];
+
 const defaultSecurityDomains = [
     "'self'",
     'fonts.gstatic.com',
     'ajax.googleapis.com',
     'www.google-analytics.com',
     'www.google.com',
-    'maxcdn.bootstrapcdn.com',
-    'www.biglotteryfund.org.uk'
+    'maxcdn.bootstrapcdn.com'
 ];
 
-app.use(helmet({
+const helmetSettings = helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: defaultSecurityDomains,
@@ -31,8 +35,17 @@ app.use(helmet({
     frameguard: {
         action: 'sameorigin'
     },
-}));
+});
+
+app.use((req, res, next) => {
+    // if (req.path === '/home') {
+    if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
+        next();
+    } else {
+        helmetSettings(req, res, next);
+    }
+});
 
 module.exports = {
     csrfProtection: csrfProtection
-}
+};
