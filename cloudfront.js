@@ -80,10 +80,10 @@ if(!SGO_HASH || !SGO_HASH_TEST) {
 let URLs = {
     legacy: [],
     smallGrants: [
-        makeUrlObject('/apply-' + SGO_HASH),
+        makeUrlObject('/apply-' + SGO_HASH + '/*'),
     ],
     smallGrantsTest: [
-        makeUrlObject('/testapply-' + SGO_HASH_TEST)
+        makeUrlObject('/testapply-' + SGO_HASH_TEST + '/*')
     ],
     newSite: [
         makeUrlObject('/assets/*'),

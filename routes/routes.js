@@ -60,7 +60,7 @@ const routes = {
                     lang: "about.foi",
                     code: 85,
                     static: true,
-                    live: false
+                    live: true
                 },
                 dataProtection: {
                     name: "Data Protection",
@@ -69,7 +69,7 @@ const routes = {
                     lang: "about.dataProtection",
                     code: 84,
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         },
