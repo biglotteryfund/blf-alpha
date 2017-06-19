@@ -40,14 +40,9 @@
     {% if not disableExternal %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     {% endif %}
-        <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"></script>
-
-    {# load analytics #}
-    {% if appData.environment == 'production' %}
-        <script src="/assets/analytics/ga.js"></script>
-    {% else %}
-        <script src="/assets/analytics/ga-dev.js"></script>
-    {% endif %}
+        <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
+                id="js-script-main"
+                data-ga-code="{{ appData.config.get('googleAnalyticsCode') }}"></script>
 
     </body>
 </html>

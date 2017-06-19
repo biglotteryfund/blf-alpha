@@ -1,10 +1,12 @@
 'use strict';
-/* global $ */
+/* global $, ga */
 const appConfig = require('../../config/sass.json');
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
 require('./modules/data.map');
+
+const $thisScript = document.getElementById('js-script-main');
 
 // initialise Vue
 const Vue = require('./libs/vue');
@@ -55,8 +57,19 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
+// setup google analytics
+const uaCode = $thisScript.getAttribute('data-ga-code');
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', uaCode, {
+    'cookieDomain': 'none'
+});
+ga('send', 'pageview');
+
+
 let fundingRegex = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials|\/funding\/test/;
-// router.get('/funding/funding-guidance/managing-your-funding/ordering-free-materials', () => {
 router.get(fundingRegex, () => {
 
     let allOrderData = {};
