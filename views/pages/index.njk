@@ -23,7 +23,7 @@
     {% set heroContent %}
         <div class="nudge-bottom accent--green">
             {{ headers.blockheader('h2', 'What did we fund near you?', 30, 'hero__header') }}
-            <form class="form-fund form-fund--inline" action="/lookup">
+            <form class="form-fund form-fund--inline m-l" action="/lookup">
                 <input type="text" aria-label="Enter a postcode" placeholder="eg. B14 7EW" name="postcode">
                 <input type="submit" class="btn btn--cta btn--pink btn--cta--large" value="Look up awards">
             </form>
@@ -46,7 +46,7 @@
                 <span class="visually-hidden">Next item</span>
             </button>
 
-            <ul class="stats js-carousel">
+            <ul class="stats js-carousel unstyled">
                 {{ statBlock(1, '11,779', 'Awards made') }}
                 {{ statBlock(2, '91.3%', 'Percentage of awards to the voluntary & community sectors') }}
                 {{ statBlock(3, '89.1%', 'Percentage of awards for less than £10,000') }}
