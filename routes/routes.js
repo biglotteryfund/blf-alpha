@@ -60,7 +60,16 @@ const routes = {
                     lang: "about.foi",
                     code: 85,
                     static: true,
-                    live: false
+                    live: true
+                },
+                dataProtection: {
+                    name: "Data Protection",
+                    path: "/customer-service/data-protection",
+                    template: "pages/about/data-protection",
+                    lang: "about.dataProtection",
+                    code: 84,
+                    static: true,
+                    live: true
                 }
             }
         },
@@ -143,12 +152,14 @@ const vanityRedirects = [
     {
         name: "Publicity",
         path: "/publicity",
-        destination: vanityDestinations.publicity
+        destination: vanityDestinations.publicity,
+        aliasOnly: true
     },
     {
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
-        destination: '/welsh' + vanityDestinations.publicity
+        destination: '/welsh' + vanityDestinations.publicity,
+        aliasOnly: true
     },
     {
         name: "Contact press team",

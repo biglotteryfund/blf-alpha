@@ -106,6 +106,18 @@ $heroes: (
             'height': 500,
             'filename': '../images/hero/foi--desktop.jpg'
         )
+    ),
+    'dataProtection': (
+        'default': (
+            'width': 644,
+            'height': 425,
+            'filename': '../images/hero/data-protection--mobile.jpg'
+        ),
+        'tablet': (
+            'width': 1366,
+            'height': 500,
+            'filename': '../images/hero/data-protection--desktop.jpg'
+        )
     )
 );
 

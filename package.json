@@ -42,6 +42,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-es2015": "^6.24.0",
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",

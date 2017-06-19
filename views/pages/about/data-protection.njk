@@ -1,0 +1,27 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 15, 'hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('dataProtection', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+
+        <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale bordered">
+            {{ copy.body | safe }}
+        </div>
+
+    </article>
+
+{% endblock %}

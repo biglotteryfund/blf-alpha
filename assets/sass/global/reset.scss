@@ -16,8 +16,9 @@ ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p {
     // margin-top is defined by the lobotomised owl
 }
 
-ol, ul, li {
-    list-style: none;
+ol, ul, li,
+.unstyled, .unstyled li {
+    list-style-type: none;
 }
 
 address {

@@ -68,7 +68,7 @@
                 "en": "Acknowledgement cheque",
                 "cy": "Siec gydnabyddiaeth"
             },
-            "description": "610mm x 305mm",
+            "description": "400mm x 750mm",
             "image": "cheque.jpg",
             "maximum": 1,
             "products": [

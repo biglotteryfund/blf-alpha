@@ -5,6 +5,10 @@
     background-color: #ffffff;
 }
 
+.bg-pale {
+    background-color: palette('pale');
+}
+
 .bg-pale-green {
     background-color: palette('pale-green');
 }
@@ -120,11 +124,20 @@
     color: red;
 }
 
+@mixin greenLinks {
+    color: palette('green');
+    font-weight: bold;
+    word-break: break-all;
+}
+
+
+a[href^="mailto"] {
+    @include greenLinks;
+}
+
 .links-emphasised {
     a {
-        color: palette('green');
-        font-weight: bold;
-        word-break: break-all;
+        @include greenLinks;
     }
 }
 

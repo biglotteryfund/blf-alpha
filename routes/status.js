@@ -37,7 +37,8 @@ router.get('/pages', (req, res, next) => {
     const totals = {
         canonical: [],
         aliases: [],
-        vanityRedirects: routes.vanityRedirects.map(r => r.path)
+        vanityRedirects: routes.vanityRedirects.filter(r => r.aliasOnly).map(r => r.path),
+        redirectedPages: routes.vanityRedirects.filter(r => !r.aliasOnly).map(r => r.path)
     };
 
     for (let s in routes.sections) {
@@ -52,6 +53,8 @@ router.get('/pages', (req, res, next) => {
             }
         }
     }
+
+
 
     res.render('pagelist', {
         routes: routes.sections,
