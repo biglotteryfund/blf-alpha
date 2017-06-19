@@ -7,3 +7,15 @@ ga('create', 'UA-98908627-1', {
     'cookieDomain': 'none'
 });
 ga('send', 'pageview');
+
+let scriptElm = document.getElementById('js-analytics');
+let ab = {
+    id: scriptElm.getAttribute('data-ab-id'),
+    variant: scriptElm.getAttribute('data-ab-variant')
+};
+
+if (ab.id && ab.variant) {
+    console.log('tracking test', ab);
+    ga('set', 'expId', ab.id);
+    ga('set', 'expVar', ab.variant);
+}

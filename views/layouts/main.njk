@@ -44,9 +44,12 @@
 
     {# load analytics #}
     {% if appData.environment == 'production' %}
-        <script src="/assets/analytics/ga.js"></script>
+        <script id="js-analytics" src="/assets/analytics/ga.js"></script>
     {% else %}
-        <script src="/assets/analytics/ga-dev.js"></script>
+        <script id="js-analytics"
+                src="/assets/analytics/ga-dev.js"{% if ab %}
+                data-ab-id="{{ ab.id }}"
+                data-ab-variant="{{ ab.variantId }}"{% endif %}></script>
     {% endif %}
 
     </body>

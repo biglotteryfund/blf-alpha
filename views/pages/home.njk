@@ -1,0 +1,20 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+
+{% extends "../layouts/main.njk" %}
+
+{% block content %}
+
+    {% set heroContent %}
+        Home
+    {% endset %}
+
+    {{ hero.header('data', heroContent, 'pink') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner p-text accent--pink accent-b-t bg-plain stats-holder">
+            <p>test</p>
+        </div>
+    </article>
+
+{% endblock %}

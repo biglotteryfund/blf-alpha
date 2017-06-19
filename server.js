@@ -6,6 +6,9 @@ const routes = require('./routes/routes');
 const httpProxy = require('http-proxy');
 const request = require('request');
 const absolution = require('absolution');
+const ab = require('express-ab');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 // configure boilerplate
 require('./boilerplate/viewEngine');
@@ -16,6 +19,7 @@ require('./boilerplate/cache');
 require('./boilerplate/middleware');
 
 const legacyUrl = 'https://wwwlegacy.biglotteryfund.org.uk';
+const percentageToSeeNewHomepage = 0;
 
 // configure proxy for old site
 const proxy = httpProxy.createProxyServer({
@@ -24,21 +28,56 @@ const proxy = httpProxy.createProxyServer({
     secure: false
 });
 
+// todo: save this to debug logs
 proxy.on('error', function(e) {
     console.log('Proxy error', e);
 });
 
-// route homepage to old site
-app.get('/home', (req, res, next) => {
+// create an A/B test
+let testHomepage = ab.test('blf-homepage-2017', {
+    cookie: {
+        name: 'blf-ab',
+        maxAge: 123456
+    },
+    id: 'pR1e00a0Q42tSZuvQdaqpA'
+});
+
+// variant A: new homepage
+app.get('/home', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
+    res.render('pages/home', {
+        title: "Homepage"
+    });
+});
+
+// variant B: existing site (proxied)
+app.get('/home', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), (req, res, next) => {
     request({
         url: legacyUrl,
         strictSSL: false
     }, function (error, response, body) {
         if (error) {
+            // @TODO is there a better fix for this?
             res.send(error);
         } else {
+            // convert all links in the document to be root-relative
+            // (only really useful on non-prod envs)
             body = absolution(body, 'https://www.biglotteryfund.org.uk');
-            res.send(body);
+
+            // create GA snippet for tracking experiment
+            const gaCode = `
+                console.log('tracking test', ${JSON.stringify(res.locals.ab)});
+                ga('set', 'expId', '${res.locals.ab.id}');
+                ga('set', 'expVar', ${res.locals.ab.variantId});`;
+
+            // insert GA experiment code into the page
+            const dom = new JSDOM(body);
+            const script = dom.window.document.createElement("script");
+            script.innerHTML = gaCode;
+            dom.window.document.body.appendChild(script);
+
+            res.send(dom.serialize());
+
+            // res.send(body);
         }
     });
 });
