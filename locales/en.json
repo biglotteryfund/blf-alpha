@@ -89,7 +89,7 @@
 				},
 				"fraud": {
 					"title": "How do I report fraud?",
-					"body": "<p>\tThe Big Lottery Fund is committed to preventing and detecting fraud. </p><p>\tIf you suspect that someone is stealing from or defrauding the Big Lottery Fund help us do something about it by getting in touch with us. <br /> </p><p>\t<span class=\"t7\">Phone</span>: 0800 496 9991<br /> </p><p>\t<span class=\"t7\">Address</span>:<br />Head of Internal Audit <br />Big Lottery Fund<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
+					"body": "<p>\tThe Big Lottery Fund is committed to preventing and detecting fraud. </p><p>\tIf you suspect that someone is stealing from or defrauding the Big Lottery Fund help us do something about it by getting in touch with us. <br /> </p><p>\t<span class=\"t7\">Phone</span>: 0800 496 9991<br /> </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:fraud@biglotteryfund.org.uk\">fraud@biglotteryfund.org.uk</a><br /> </p><p>\t<span class=\"t7\">Address</span>:<br />Head of Internal Audit <br />Big Lottery Fund<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
 				}
 			}
 		},
