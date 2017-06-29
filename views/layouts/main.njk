@@ -40,6 +40,7 @@
     {% if not disableExternal %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     {% endif %}
+        <script src="//www.google-analytics.com/cx/api.js"></script>
         <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
                 id="js-script-main"
                 data-ga-code="{{ appData.config.get('googleAnalyticsCode') }}"{% if ab %}
