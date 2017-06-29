@@ -35,8 +35,7 @@ fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) =
                 '*': {
                     id: null,
                     dir: null,
-                    style: null,
-                    class: null
+                    style: null
                 }
             };
 

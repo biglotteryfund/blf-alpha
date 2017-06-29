@@ -17,5 +17,6 @@
     "materialSupplierEmail": "matt@mattandrews.info",
     "contactPressAnchor": "press",
     "contactComplaintsAnchor": "complaints",
-    "contactFraudAnchor": "fraud"
+    "contactFraudAnchor": "fraud",
+    "googleAnalyticsCode": "UA-98908627-1"
 }
