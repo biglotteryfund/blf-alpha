@@ -1,14 +1,15 @@
 {% import "./headers.njk" as headers %}
 
 {% macro segment(title, text, color, imagePath, characterWrap = 20, id) %}
-    <div class="segment accent--{{ color }} accent-b-t"{% if id %} id="{{ id }}"{% endif %}>
+    <div class="segment accent--{{ color }} accent-b-t">
         <div class="grid__item__inner segment__media">
             <img src="{{ imagePath | getCachebustedPath }}" alt="" />
             {{ headers.blockheader(
                 'h4',
                 title,
                 characterWrap,
-                'minor segment__title grid__item__title grid__item__title--top'
+                'minor segment__title grid__item__title grid__item__title--top',
+                id = id
             )}}
         </div>
         <div class="segment__aside p-text">{{ text | safe }}</div>

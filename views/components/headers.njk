@@ -1,7 +1,7 @@
-{% macro blockheader(tag, text, charsToWrap, additionalClasses, link, showArrow = false) %}
+{% macro blockheader(tag, text, charsToWrap, additionalClasses, link, showArrow = false, id = false) %}
     {% if text %}
         {% set text = text | splitByCharLength(charsToWrap) %}
-        <{{ tag }} class="t1{% if additionalClasses %} {{ additionalClasses }}{% endif %}">{% if link %}<a href="{{ link }}">{% endif %}
+        <{{ tag }} class="t1{% if additionalClasses %} {{ additionalClasses }}{% endif %}"{% if id %} id="{{ id }}"{% endif %}>{% if link %}<a href="{{ link }}">{% endif %}
             {%- for line in text %}
                 <span>{{ line | safe}} {% if loop.last and showArrow %}{% include "../includes/svg/arrow-right.svg" %}{% endif %}</span>
             {%- endfor %}
