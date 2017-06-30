@@ -154,6 +154,58 @@ blockquote {
     }
 }
 
+@mixin quoteSymbol($type) {
+    $symbol: '\201C';
+    $align: bottom;
+    @if $type == 'close' {
+        $symbol: '\201D';
+        $align: top;
+    }
+    content: $symbol;
+    color: palette('pink');
+    font-size: 45px;
+    line-height: 1;
+    vertical-align: $align;
+}
+
+.pullquote {
+    margin: $spacingUnit $spacingUnit * 2;
+    p {
+        font-style: italic;
+        color: palette('blue');
+
+        &:first-of-type {
+            &:before {
+                @include quoteSymbol('open');
+            }
+        }
+
+        &:last-of-type {
+            &:after {
+                @include quoteSymbol('close');
+            }
+        }
+    }
+
+    cite {
+        font-family: 'Poppins', arial, sans-serif;
+        @include font-and-leading(14px, 20px);
+        font-weight: 600;
+        letter-spacing: 2px;
+
+        &:before {
+            content: '';
+        }
+    }
+
+    aside {
+        font-size: 13px;
+        font-weight: normal;
+        margin: $spacingUnit / 4 0 $spacingUnit 0;
+        font-style: normal;
+    }
+}
+
 .light {
     font-weight: 100;
 }

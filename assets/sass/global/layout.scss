@@ -48,7 +48,7 @@ main {
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
-        margin-top: 0;
+        margin: 0;
     }
 
     &.grid--equal {
@@ -231,3 +231,4 @@ main {
     margin-left: $gap;
     margin-right: $gap;
 }
+
