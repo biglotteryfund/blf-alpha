@@ -225,3 +225,9 @@ main {
 .google-map {
     padding: 30px 40px 0 40px;
 }
+
+.central-gap {
+    $gap: 20%;
+    margin-left: $gap;
+    margin-right: $gap;
+}
