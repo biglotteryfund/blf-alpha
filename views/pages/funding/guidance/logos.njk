@@ -15,7 +15,9 @@
 
 {% macro logoBlock(logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
     {% set logoPreview = 'images/logos/' + logoLocale + '/' + logoFilename + '.png' %}
-    <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
+    {% if not onlyEps %}<a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg">{% endif %}
+        <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
+    {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
         <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
             {{ makeLogoTitle(logoName, 'small') }}
