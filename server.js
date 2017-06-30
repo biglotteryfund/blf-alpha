@@ -2,13 +2,15 @@
 const express = require('express');
 const app = module.exports = express();
 const config = require('config');
-const routes = require('./routes/routes');
 const httpProxy = require('http-proxy');
 const request = require('request');
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+
+// load app routing list
+const routes = require('./routes/routes');
 
 // configure boilerplate
 require('./boilerplate/viewEngine');
@@ -17,6 +19,11 @@ require('./boilerplate/security');
 require('./boilerplate/static');
 require('./boilerplate/cache');
 require('./boilerplate/middleware');
+
+// get tweets
+const twitter = require('./modules/twitter');
+twitter.initInterval();
+
 
 const legacyUrl = 'https://wwwlegacy.biglotteryfund.org.uk';
 const percentageToSeeNewHomepage = 100;
@@ -44,8 +51,15 @@ let testHomepage = ab.test('blf-homepage-2017', {
 
 // variant A: new homepage
 app.get('/home', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
+    let tweets = twitter.getLatestTweets();
+    console.log(tweets[0]);
+
     res.render('pages/toplevel/home', {
-        title: "Homepage"
+        title: "Homepage",
+        tweets: {
+            first: tweets.slice(0, 3),
+            second: tweets.slice(3, 5)
+        }
     });
 });
 
