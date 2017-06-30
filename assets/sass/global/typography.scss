@@ -62,6 +62,16 @@ a {
         }
     }
 
+    &.minor--smallest {
+        @include font-and-leading(14px, 22px);
+        font-weight: 600;
+        @include mq('tablet') {
+            span {
+                padding: $spacingUnit / 4;
+            }
+        }
+    }
+
     a {
         color: #ffffff;
         text-decoration: none;
@@ -113,6 +123,12 @@ a {
     color: palette('blue')
 }
 
+.t8 {
+    font-family: 'Poppins', arial, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
 .smaller {
     font-size: 16px;
 }
@@ -136,4 +152,8 @@ blockquote {
             content: ' - ';
         }
     }
+}
+
+.light {
+    font-weight: 100;
 }

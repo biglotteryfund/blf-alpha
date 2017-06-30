@@ -19,7 +19,7 @@ require('./boilerplate/cache');
 require('./boilerplate/middleware');
 
 const legacyUrl = 'https://wwwlegacy.biglotteryfund.org.uk';
-const percentageToSeeNewHomepage = 50;
+const percentageToSeeNewHomepage = 100;
 
 // configure proxy for old site
 const proxy = httpProxy.createProxyServer({
@@ -44,7 +44,7 @@ let testHomepage = ab.test('blf-homepage-2017', {
 
 // variant A: new homepage
 app.get('/home', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
-    res.render('pages/home', {
+    res.render('pages/toplevel/home', {
         title: "Homepage"
     });
 });

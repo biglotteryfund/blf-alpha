@@ -33,7 +33,8 @@ $palette: (
     "charcoal": #333333,
     "off-white": #e9e9e9,
     "pale": #fdfefe,
-    "pale-green": #f5fafb
+    "pale-green": #f5fafb,
+    "pale-grey": #f5f6fa
 );
 
 // which of the above colours should have accents generated?
@@ -43,7 +44,7 @@ $themes: (
         'background': palette('pink-bg')
     ),
     'pink-mid': (
-        'foreground': palette('pink'),
+        'foreground': palette('pink-mid'),
         'background': palette('pink-mid-bg')
     ),
     'pink-dark': (
