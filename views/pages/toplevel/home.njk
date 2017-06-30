@@ -17,8 +17,10 @@
         <div class="inner">
             <h3 class="t8 align--center">Here's how you can make a difference in your community...</h3>
 
+            {# funding apply links #}
             <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
 
+                {# under 10k #}
                 <li class="grid__item">
                     <div class="grid__item__inner grid__item__inner--flex accent--pink-mid accent-b-t-l">
                         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
@@ -40,6 +42,7 @@
                     </div>
                 </li>
 
+                {# over 10k #}
                 <li class="grid__item">
                     <div class="grid__item__inner grid__item__inner--flex accent--turquoise accent-b-t-l">
                         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
@@ -60,9 +63,9 @@
                         </a>
                     </div>
                 </li>
-
             </ul>
 
+            {# news posts #}
             <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
                 <li class="grid__item">
                     <h4 class="t3">News item title</h4>
@@ -78,10 +81,12 @@
                 </li>
             </ul>
 
+            {# funding finder #}
             <div class="central-gap">
                 <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue">Find out what we funded</a>
             </div>
 
+            {# case studies #}
             <div class="accent--blue accent-b-t bg-pale-grey">
                 <ul class="unstyled grid grid--2-up grid--equal grid--wide-only m-t-none">
                     <li class="grid__item">
@@ -97,6 +102,31 @@
                     </li>
                 </ul>
             </div>
+
+            {# tweets #}
+            <ul class="unstyled grid grid--wide-only grid--top m-t-none">
+                <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none">
+                    <ul class="unstyled grid grid--2-up grid-equal grid--top grid--padded">
+                        <li class="grid__item">
+                            <ul class="list-bullets">
+                                {% for t in tweets.first %}
+                                    <li>{{ t.text }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="grid__item">
+                            <ul class="list-bullets">
+                                {% for t in tweets.second %}
+                                    <li>{{ t.text }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="grid__item accent--pink accent-b-t m-t-none">
+                    ebulletin
+                </li>
+            </ul>
 
         </div>
     </article>

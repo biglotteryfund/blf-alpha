@@ -51,6 +51,10 @@ main {
         margin: 0;
     }
 
+    > .grid__item--large {
+        flex-grow: 2;
+    }
+
     &.grid--equal {
         align-items: stretch;
     }
