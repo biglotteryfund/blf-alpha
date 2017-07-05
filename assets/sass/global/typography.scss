@@ -129,6 +129,21 @@ a {
     font-size: 18px;
 }
 
+.t9 {
+    font-family: 'Poppins', arial, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: palette('pink');
+    margin-bottom: $spacingUnit / 2;
+    &:after {
+        padding-top: $spacingUnit / 2;
+        border-bottom: 3px solid palette('pink');
+        display: block;
+        content: '';
+        width: 80px;
+    }
+}
+
 .smaller {
     font-size: 16px;
 }

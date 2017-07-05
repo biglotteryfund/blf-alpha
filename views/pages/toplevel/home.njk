@@ -1,5 +1,6 @@
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/headers.njk" as headers %}
+{% import "../../components/forms.njk" as forms %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -115,12 +116,29 @@
             </div>
 
             {# tweets #}
-            <ul class="unstyled grid grid--wide-only grid--top m-t">
-                <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none">
+            <ul class="unstyled grid grid--wide-only grid--equal m-t">
+                <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none p">
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
-                    ebulletin
+                    <form class="form-ebulletin p">
+                        <h3 class="t9">e-bulletin sign up</h3>
+                        <p class="intro">Sign up for our latest news relating to your country</p>
+
+                        {{ forms.radio('location', 'England', 'en') }}
+                        {{ forms.radio('location', 'Wales', 'cy') }}
+                        {{ forms.radio('location', 'Scotland', 'sc') }}
+                        {{ forms.radio('location', 'Northern Ireland', 'ni') }}
+
+                        <div class="grid grid--padded">
+                            {{ forms.input('firstName', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                            {{ forms.input('lastName', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                        </div>
+                        {{ forms.input('organisation', 'Organisation', 'text', required = true) }}
+                        {{ forms.input('email', 'Email', 'email', required = true) }}
+
+                        <input type="submit" value="Subscribe" class="btn btn--cta btn--pink" />
+                    </form>
                 </li>
             </ul>
 
