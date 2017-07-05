@@ -117,22 +117,7 @@
             {# tweets #}
             <ul class="unstyled grid grid--wide-only grid--top m-t">
                 <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none">
-                    <ul class="unstyled grid grid--2-up grid-equal grid--top grid--padded">
-                        <li class="grid__item">
-                            <ul class="list-bullets">
-                                {% for t in tweets.first %}
-                                    <li>{{ t.text }}</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="grid__item">
-                            <ul class="list-bullets">
-                                {% for t in tweets.second %}
-                                    <li>{{ t.text }}</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
+                    <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
                     ebulletin
