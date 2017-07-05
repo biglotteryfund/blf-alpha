@@ -108,7 +108,7 @@ app.get('/home', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), (
 });
 
 // create status endpoint (used by load balancer)
-app.use('/status', require('./routes/status'));
+app.use('/status', require('./routes/toplevel/status'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = function (mountPath) {
@@ -119,7 +119,7 @@ const cymreigio = function (mountPath) {
 // route binding
 
 // homepage couldn't be welshified :(
-const homepage = require('./routes/index');
+const homepage = require('./routes/toplevel/home');
 app.use('/', homepage);
 app.use('/welsh', homepage);
 

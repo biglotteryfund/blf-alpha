@@ -1,6 +1,6 @@
 'use strict';
 const _ = require('lodash');
-const materials = require('../../config/content/materials.json');
+const materials = require('../../../config/content/materials.json');
 
 module.exports = (req, orderKey, code) => {
 

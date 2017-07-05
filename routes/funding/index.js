@@ -3,15 +3,15 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
-const routeStatic = require('./routeStatic');
+const routeStatic = require('../utils/routeStatic');
 
 // const security = require('../boilerplate/security');
-const email = require('../modules/mail');
+const email = require('../../modules/mail');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
     modifyItems: require('./free-materials/modifyItems'),
-    materials: require('../config/content/materials.json'),
+    materials: require('../../config/content/materials.json'),
     orderKey: 'orderedMaterials'
 };
 

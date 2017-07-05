@@ -2,9 +2,9 @@
 const config = require('config');
 
 const handlers = {
-    funding: (c) => require('../routes/funding')(c),
-    toplevel: (c) => require('../routes/toplevel')(c),
-    about: (c) => require('../routes/about')(c)
+    funding: (c) => require('./funding/index')(c),
+    toplevel: (c) => require('./toplevel/index')(c),
+    about: (c) => require('./about/index')(c)
 };
 
 const routes = {
