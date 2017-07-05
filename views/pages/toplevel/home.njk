@@ -3,6 +3,17 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% macro tweetItem(tweet) %}
+    <div class="tweet">
+        <h5 class="tweet__user">
+            {% include "../../includes/svg/twitter.svg" %}
+            <a href="https://www.twitter.com/biglotteryfund">@biglotteryfund</a>
+        </h5>
+        <h6 class="tweet__date">{{ tweet.datePosted.format('DD • MM • YYYY') }}</h6>
+        <p class="tweet_text">{{ tweet.html | safe }}</p>
+    </div>
+{% endmacro %}
+
 {% block content %}
 
     {% set heroContent %}
@@ -104,7 +115,7 @@
             </div>
 
             {# tweets #}
-            <ul class="unstyled grid grid--wide-only grid--top m-t-none">
+            <ul class="unstyled grid grid--wide-only grid--top m-t">
                 <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none">
                     <ul class="unstyled grid grid--2-up grid-equal grid--top grid--padded">
                         <li class="grid__item">

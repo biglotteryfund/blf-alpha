@@ -39,6 +39,7 @@
     "rootbeer": "^1.0.5",
     "serve-favicon": "~2.3.2",
     "twitter": "^1.7.1",
+    "twitter-text": "^1.14.7",
     "vary": "^1.1.1",
     "winston": "^2.3.1"
   },

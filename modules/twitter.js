@@ -1,6 +1,8 @@
 const Twitter = require('twitter');
+const twitterText = require('twitter-text');
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 
 let latestTweets = [];
 
@@ -29,6 +31,15 @@ const twitterClient = new Twitter({
     access_token_secret: twitterConfig.token_secret
 });
 
+const cleanupTweet = (tweet) => {
+    const TWITTER_DATE_FORMAT = 'ddd MMM DD HH:mm:ss ZZ YYYY';
+    tweet.datePosted = moment(tweet.created_at, TWITTER_DATE_FORMAT);
+    tweet.html = twitterText.autoLink(tweet.text, {
+        urlEntities: tweet.entities.urls
+    });
+    return tweet;
+};
+
 const fetchTweets = () => {
     console.log('Fetching tweets...');
     let getLatestTweets = twitterClient.get('statuses/user_timeline', {
@@ -40,6 +51,7 @@ const fetchTweets = () => {
     });
     getLatestTweets.then((data) => {
         console.log('Got some tweets');
+        data = data.map(cleanupTweet);
         latestTweets = data;
     }).catch((err) => {
         console.error('Error fetching tweets', {

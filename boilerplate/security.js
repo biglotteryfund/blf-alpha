@@ -15,7 +15,8 @@ const defaultSecurityDomains = [
     'ajax.googleapis.com',
     'www.google-analytics.com',
     'www.google.com',
-    'maxcdn.bootstrapcdn.com'
+    'maxcdn.bootstrapcdn.com',
+    'platform.twitter.com'
 ];
 
 const helmetSettings = helmet({
