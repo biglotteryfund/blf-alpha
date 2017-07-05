@@ -16,16 +16,20 @@
     {% endif %}
 {% endmacro %}
 
-{% macro radio(fieldName, fieldLabel, id) %}
+{% macro radio(fieldName, options) %}
     {% set error = getFormErrorForField(request.session.errors, fieldName) %}
 
-    <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-           for="ff-radio-{{ fieldName }}-{{ id }}">
-        {{ fieldLabel }}
-        <input type="radio"
-               id="ff-radio-{{ fieldName }}-{{ id }}"
-               name="{{ fieldName }}"
-               value="" />
-    </label>
+    {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
+
+    {% for o in options %}
+        <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+               for="ff-radio-{{ fieldName }}-{{ o[1] }}">
+            {{ o[0] }}
+            <input type="radio"
+                   id="ff-radio-{{ fieldName }}-{{ o[1] }}"
+                   name="{{ fieldName }}"
+                   value="{{ o[0] }}" />
+        </label>
+    {% endfor %}
 
 {% endmacro %}

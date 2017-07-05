@@ -37,11 +37,43 @@ let testHomepage = ab.test('blf-homepage-2017', {
     id: 'pR1e00a0Q42tSZuvQdaqpA'
 });
 
+router.post('/ebulletin', (req, res, next) => {
+    req.checkBody('firstName', 'Please provide your first name').notEmpty();
+    req.checkBody('lastName', 'Please provide your last name').notEmpty();
+    req.checkBody('email', 'Please provide your email address').notEmpty();
+    req.checkBody('location', 'Please choose a country newsletter').notEmpty();
+
+    req.getValidationResult().then((result) => {
+        // sanitise input
+        req.body['firstName'] = req.sanitize('firstName').escape();
+        req.body['lastName'] = req.sanitize('lastName').escape();
+        req.body['email'] = req.sanitize('email').escape();
+        req.body['organisation'] = req.sanitize('organisation').escape();
+        req.body['location'] = req.sanitize('location').escape();
+
+        if (!result.isEmpty()) {
+            req.session.errors = result.array();
+            req.session.values = req.body;
+            res.redirect('/home#ebulletin');
+        } else {
+            // do something
+            res.send({
+                status: 'ok',
+                data: req.body
+            });
+        }
+    });
+});
+
 // variant A: new homepage
 router.get('/home', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
+    // @TODO retrieve form errors/values
     res.render('pages/toplevel/home', {
         title: "Homepage"
     });
+
+    // @TODO flash session
+    delete req.session.errors;
 });
 
 // variant B: existing site (proxied)

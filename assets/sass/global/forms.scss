@@ -111,6 +111,15 @@
         font-size: 22px;
     }
 
+    input {
+        &.is-error {
+            background-color: darken(palette('pale-pink'), 30%);
+            color: #ffffff;
 
+            @include input-placeholder {
+                color: #ffffff;
+            }
+        }
+    }
 
 }

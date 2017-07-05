@@ -5,7 +5,8 @@ module.exports = {
             "always"
         ],
         "no-console": 0,
-        "eqeqeq": 2
+        "eqeqeq": 2,
+        "no-unused-vars": 1
     },
     "env": {
         "es6": true,
