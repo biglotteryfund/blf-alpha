@@ -38,29 +38,24 @@ let testHomepage = ab.test('blf-homepage-2017', {
 });
 
 router.post('/ebulletin', (req, res, next) => {
-    req.checkBody('firstName', 'Please provide your first name').notEmpty();
-    req.checkBody('lastName', 'Please provide your last name').notEmpty();
-    req.checkBody('email', 'Please provide your email address').notEmpty();
-    req.checkBody('location', 'Please choose a country newsletter').notEmpty();
+    req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
+    req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
+    req.checkBody('Email', 'Please provide your email address').notEmpty();
 
     req.getValidationResult().then((result) => {
         // sanitise input
-        req.body['firstName'] = req.sanitize('firstName').escape();
-        req.body['lastName'] = req.sanitize('lastName').escape();
-        req.body['email'] = req.sanitize('email').escape();
-        req.body['organisation'] = req.sanitize('organisation').escape();
-        req.body['location'] = req.sanitize('location').escape();
+        req.body['cd_FIRSTNAME'] = req.sanitize('cd_FIRSTNAME').escape();
+        req.body['cd_LASTNAME'] = req.sanitize('cd_LASTNAME').escape();
+        req.body['Email'] = req.sanitize('Email').escape();
+        req.body['cd_ORGANISATION'] = req.sanitize('cd_ORGANISATION').escape();
 
         if (!result.isEmpty()) {
             req.session.errors = result.array();
             req.session.values = req.body;
             res.redirect('/home#ebulletin');
         } else {
-            // do something
-            res.send({
-                status: 'ok',
-                data: req.body
-            });
+            // send the valid form to the signup endpoint (external)
+            res.redirect(307, 'http://bigmail.org.uk/signup.ashx');
         }
     });
 });

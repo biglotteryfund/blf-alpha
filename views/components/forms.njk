@@ -23,12 +23,12 @@
 
     {% for o in options %}
         <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-               for="ff-radio-{{ fieldName }}-{{ o[1] }}">
+               for="ff-radio-{{ o[2] }}-{{ o[1] }}">
             {{ o[0] }}
             <input type="radio"
-                   id="ff-radio-{{ fieldName }}-{{ o[1] }}"
-                   name="{{ fieldName }}"
-                   value="{{ o[0] }}" />
+                   id="ff-radio-{{ o[2] }}-{{ o[1] }}"
+                   name="{{ o[2] }}"
+                   value="yes" />
         </label>
     {% endfor %}
 

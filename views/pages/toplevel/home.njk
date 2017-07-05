@@ -122,22 +122,27 @@
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
                     <form class="form-ebulletin p" id="ebulletin" method="post" action="/ebulletin">
+
+                        <input type="hidden" name="addressbookid" value="589755">
+                        <input type="hidden" name="userid" value="180445">
+                        <input type="hidden" name="ReturnURL" value="http://bigmail.org.uk/Survey/3V8D-3T/language.aspx">
+
                         <h3 class="t9">e-bulletin sign up</h3>
                         <p class="intro">Sign up for our latest news relating to your country</p>
 
                         {{ forms.radio('location', [
-                            ['England', 'en'],
-                            ['Wales', 'cy'],
-                            ['Scotland', 'sc'],
-                            ['Northern Ireland', 'ni']
+                            ['England', 'en', 'cd_ENGLAND_MAIL'],
+                            ['Wales', 'cy', 'cd_WALES_MAIL'],
+                            ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
+                            ['Northern Ireland', 'ni', 'cd_NI_MAIL']
                         ]) }}
 
                         <div class="grid grid--padded">
-                            {{ forms.input('firstName', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
-                            {{ forms.input('lastName', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                            {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                            {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
                         </div>
-                        {{ forms.input('organisation', 'Organisation', 'text', required = false) }}
-                        {{ forms.input('email', 'Email', 'email', required = true) }}
+                        {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
+                        {{ forms.input('Email', 'Email', 'email', required = true) }}
 
                         <input type="submit" value="Subscribe" class="btn btn--cta btn--pink" />
                     </form>
