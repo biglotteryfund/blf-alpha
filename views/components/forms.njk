@@ -16,7 +16,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro radio(fieldName, options) %}
+{% macro checkboxes(fieldName, options) %}
     {% set error = getFormErrorForField(request.session.errors, fieldName) %}
 
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
@@ -25,7 +25,7 @@
         <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
                for="ff-radio-{{ o[2] }}-{{ o[1] }}">
             {{ o[0] }}
-            <input type="radio"
+            <input type="checkbox"
                    id="ff-radio-{{ o[2] }}-{{ o[1] }}"
                    name="{{ o[2] }}"
                    value="yes" />
