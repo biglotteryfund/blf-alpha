@@ -47,7 +47,7 @@
                             false
                         )}}
                     </div>
-                    <div class="bg-pale-grey p m-t-none bordered">
+                    <div class="bg-pale-grey p-cta m-t-none bordered">
                         <a class="accent--pink-home btn btn--cta btn--block btn--mid" href="#">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
@@ -69,7 +69,7 @@
                             false
                         )}}
                     </div>
-                    <div class="bg-pale-grey p m-t-none bordered">
+                    <div class="bg-pale-grey p-cta m-t-none bordered">
                         <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="#">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
@@ -118,6 +118,14 @@
             <ul class="unstyled grid grid--wide-only grid--equal m-t--l">
                 <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none p">
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                    {# social buttons #}
+                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
+                    </a>
+                    <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
+                    </a>
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
                     <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">

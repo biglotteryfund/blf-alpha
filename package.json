@@ -13,6 +13,7 @@
     "absolution": "^1.0.0",
     "aws-sdk": "^2.61.0",
     "body-parser": "^1.17.1",
+    "bundled-phantomjs-prebuilt": "^2.1.8-0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "config": "^1.25.1",

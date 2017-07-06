@@ -48,7 +48,10 @@
     }
 
     &.btn--mid {
+        $midVertPadding: 10px;
         font-size: 18px;
+        padding-top: $midVertPadding;
+        padding-bottom: $midVertPadding;
     }
 
     &.btn--massive {
@@ -59,9 +62,24 @@
         display: block;
     }
 
+    &.btn--outline {
+        background-color: #ffffff;
+        border: 3px solid #cccccc;
+        font-family: 'Poppins', arial, sans-serif;
+        font-weight: 600;
+    }
+
+
     &[disabled='disabled'] {
         @include disabledBtn();
     }
+}
+
+.btn__icon {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+    margin-right: 5px;
 }
 
 .btn.btn--pink {

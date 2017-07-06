@@ -127,10 +127,11 @@
         }
 
         &.t3 {
+            $customFg: map-get($data, 'foreground');
             @if map-has-key($data, 'text') {
-                $fg: map-get($data, 'text');
+                $customFg: map-get($data, 'text');
             }
-            color: $fg;
+            color: $customFg;
         }
 
         &.btn--cta,
@@ -139,6 +140,16 @@
             background-color: $fg !important;
             @include on-interact {
                 background-color: darken($fg, 10%) !important;
+            }
+        }
+
+        &.btn--outline,
+        .btn--outline {
+            border-color: $fg !important;
+            color: $fg !important;
+
+            .btn__icon {
+                fill: $fg !important;
             }
         }
     }
