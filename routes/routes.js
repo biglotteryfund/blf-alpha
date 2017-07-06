@@ -193,7 +193,7 @@ const vanityRedirects = [
     {
         name: "Complaint page (England)",
         path: '/england/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + contactComplaintsAnchor
+        destination: vanityDestinations.contact + '#' + anchors.contactComplaints
     },
     {
         name: "Complaint page (Welsh)",
