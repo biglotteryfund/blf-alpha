@@ -5,8 +5,9 @@ const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
 // these URLs won't get the helmet header protection
+// @TODO this should only affect the legacy homepage
 const pathsExemptFromHelmet = [
-    '/home'
+    '/'
 ];
 
 const defaultSecurityDomains = [

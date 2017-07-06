@@ -14,6 +14,22 @@ const routes = {
             path: "",
             handler: handlers.toplevel,
             pages: {
+                home: {
+                    name: "Home",
+                    path: "/",
+                    template: "pages/toplevel/home",
+                    lang: "toplevel.home",
+                    code: 0,
+                    static: false,
+                    live: false
+                },
+                ebulletin: {
+                    name: "e-bulletin",
+                    path: "/ebulletin",
+                    static: false,
+                    live: false,
+                    isPostable: true
+                },
                 contact: {
                     name: "Contact",
                     path: "/contact",

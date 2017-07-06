@@ -24,20 +24,16 @@ const cymreigio = function (mountPath) {
 };
 
 // route binding
-
-// homepage couldn't be welshified :(
-const homepage = require('./routes/toplevel/home');
-app.use('/', homepage);
-app.use('/welsh', homepage);
-
-// all other routes
 for (let section in routes.sections) {
     let s = routes.sections[section];
+    // turn /funding into /welsh/funding
     let paths = cymreigio(s.path);
+    // create route handlers for each page path
     let handler = s.handler(s.pages);
-    // adding these as an array fails for welsh paths
-    paths.forEach(p => {
-        app.use(p, handler);
+    // map the top-level section paths (en/cy) to handlers
+    paths.forEach(path => {
+        // (adding these as an array fails for welsh paths)
+        app.use(path, handler);
     });
 }
 
