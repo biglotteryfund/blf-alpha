@@ -118,6 +118,18 @@ $heroes: (
             'height': 500,
             'filename': '../images/hero/data-protection--desktop.jpg'
         )
+    ),
+    'home': (
+        'default': (
+            'width': 1366,
+            'height': 410,
+            'filename': '../images/hero/home--desktop.jpg'
+        ),
+        'tablet': (
+            'width': 1366,
+            'height': 410,
+            'filename': '../images/hero/home--desktop.jpg'
+        )
     )
 );
 
@@ -163,3 +175,23 @@ $heroes: (
     }
 }
 
+.hero__caption {
+    position: relative;
+    height: 100%;
+
+    span {
+        position: absolute;
+        bottom: 20px;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 4px;
+        color: #ffffff;
+        width: auto;
+        height: auto;
+        font-size: 15px;
+
+        //@media screen and (min-width: $widestScreen) {
+        //    right: $spacingUnit
+        //}
+    }
+}

@@ -63,7 +63,7 @@ a {
     }
 
     &.minor--smallest {
-        @include font-and-leading(14px, 22px);
+        @include font-and-leading(18px, 28px);
         font-weight: 600;
         @include mq('tablet') {
             span {
@@ -126,7 +126,7 @@ a {
 .t8 {
     font-family: 'Poppins', arial, sans-serif;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .t9 {
@@ -188,6 +188,7 @@ blockquote {
     p {
         font-style: italic;
         color: palette('blue');
+        @include font-and-leading(24px, 30px);
 
         &:first-of-type {
             &:before {
@@ -204,7 +205,7 @@ blockquote {
 
     cite {
         font-family: 'Poppins', arial, sans-serif;
-        @include font-and-leading(14px, 20px);
+        @include font-and-leading(16px, 20px);
         font-weight: 600;
         letter-spacing: 2px;
 

@@ -47,6 +47,14 @@
         padding: $spacingUnit / 5 $spacingUnit / 1.5;
     }
 
+    &.btn--mid {
+        font-size: 18px;
+    }
+
+    &.btn--massive {
+        font-size: 20px;
+    }
+
     &.btn--block {
         display: block;
     }

@@ -23,20 +23,20 @@
         </div>
     {% endset %}
 
-    {{ hero.header('data', heroContent, 'blue') }}
+    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps, Grant: £14,000') }}
 
-    <article role="main">
+    <article role="main" class="m-t-none">
         <div class="inner">
-            <h3 class="t8 align--center">Here's how you can make a difference in your community...</h3>
+            <h3 class="t8 align--center intro-header">Here's how you can make a difference in your community...</h3>
 
             {# funding apply links #}
-            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
+            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only m-t-none">
 
                 {# under 10k #}
                 <li class="grid__item">
-                    <div class="grid__item__inner grid__item__inner--flex accent--pink-mid accent-b-t-l">
+                    <div class="grid__item__inner grid__item__inner--flex accent--pink-home accent-b-t-l">
                         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
-                            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Three people working together on laptops" />
+                            <img src="{{ 'images/home/under10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Children gardening together" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
@@ -48,7 +48,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey p m-t-none bordered">
-                        <a class="accent--pink-mid btn btn--cta btn--block" href="#">
+                        <a class="accent--pink-home btn btn--cta btn--block btn--mid" href="#">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
                     </div>
@@ -58,7 +58,7 @@
                 <li class="grid__item">
                     <div class="grid__item__inner grid__item__inner--flex accent--turquoise accent-b-t-l">
                         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
-                            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Three people working together on laptops" />
+                            <img src="{{ 'images/home/over10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Two women laughing while sharing a coffee" />
                         </a>
                         {{ headers.blockheader(
                             'h4',
@@ -70,7 +70,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey p m-t-none bordered">
-                        <a class="accent--turquoise btn btn--cta btn--block" href="#">
+                        <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="#">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
                     </div>
@@ -94,15 +94,14 @@
             </ul>
 
             {# funding finder #}
-            <div class="central-gap">
-                <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue">Find out what we funded</a>
+            <div class="central-gap m-b--l">
+                <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue btn--massive">Find out what we funded</a>
             </div>
 
             {# case studies #}
             <div class="accent--blue accent-b-t bg-pale-grey">
                 <ul class="unstyled grid grid--2-up grid--equal grid--wide-only m-t-none">
-                    <li class="grid__item">
-                        <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Three people working together on laptops" />
+                    <li class="grid__item grid__item--image" style="background-image: url({{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }});">
                     </li>
                     <li class="grid__item">
                         <blockquote class="pullquote">
@@ -116,7 +115,7 @@
             </div>
 
             {# tweets #}
-            <ul class="unstyled grid grid--wide-only grid--equal m-t">
+            <ul class="unstyled grid grid--wide-only grid--equal m-t--l">
                 <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none p">
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
@@ -128,7 +127,7 @@
                         <input type="hidden" name="ReturnURL" value="http://bigmail.org.uk/Survey/3V8D-3T/language.aspx">
 
                         <h3 class="t9">e-bulletin sign up</h3>
-                        <p class="intro">Sign up for our latest news relating to your country</p>
+                        <p class="intro">Sign up for our latest news relating to your country:</p>
 
                         {{ forms.checkboxes('location', [
                             ['England', 'en', 'cd_ENGLAND_MAIL'],

@@ -12,15 +12,12 @@ $palette: (
     "pink": #ec008c,
     "pink-bg": #fef5f9,
     "pink-text": #ec008c,
-
     "pink-mid": #d84d7b,
     "pink-mid-bg": #f6d2e2,
-
     "pink-dark": #a84d97,
 
     "green": #00bd71,
     "green-bg": #ddf0e2,
-
 
     "orange": #ff9315,
     "orange-bg": #fdebd7,
@@ -46,6 +43,11 @@ $themes: (
     ),
     'pink-mid': (
         'foreground': palette('pink-mid'),
+        'background': palette('pink-mid-bg')
+    ),
+    // this is a mess, sorry
+    'pink-home': (
+        'foreground': #e6007e,
         'background': palette('pink-mid-bg')
     ),
     'pink-dark': (
@@ -80,5 +82,5 @@ $themes: (
     'brown': (
         'foreground': palette('brown'),
         'background': palette('pale')
-    ),
+    )
 );
