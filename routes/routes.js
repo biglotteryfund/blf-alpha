@@ -139,9 +139,7 @@ const routes = {
     }
 };
 
-const contactPressAnchor = config.get('contactPressAnchor');
-const contactComplaintsAnchor = config.get('contactComplaintsAnchor');
-const contactFraudAnchor = config.get('contactFraudAnchor');
+const anchors = config.get('anchors');
 
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
@@ -164,32 +162,32 @@ const vanityRedirects = [
     {
         name: "Contact press team",
         path: "/news-and-events/contact-press-team",
-        destination: vanityDestinations.contact + '#' + contactPressAnchor
+        destination: vanityDestinations.contact + '#' + anchors.contactPress
     },
     {
         name: "Contact press team (Welsh)",
         path: "/welsh/news-and-events/contact-press-team",
-        destination: '/welsh' + vanityDestinations.contact + '#' + contactPressAnchor
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress
     },
     {
         name: "Complaint page",
         path: '/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + contactComplaintsAnchor
+        destination: vanityDestinations.contact + '#' + anchors.contactComplaints
     },
     {
         name: "Complaint page (Welsh)",
         path: '/welsh/about-big/customer-service/making-a-complaint',
-        destination: '/welsh' + vanityDestinations.contact + '#' + contactComplaintsAnchor
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactComplaints
     },
     {
         name: "Fraud page",
         path: '/about-big/customer-service/fraud',
-        destination: vanityDestinations.contact + '#' + contactFraudAnchor
+        destination: vanityDestinations.contact + '#' + anchors.contactFraud
     },
     {
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
-        destination: '/welsh' + vanityDestinations.contact + '#' + contactFraudAnchor
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
     }
 ];
 

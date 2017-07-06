@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 const argv = require('yargs')
     .boolean('l')
     .alias('l', 'live')
@@ -14,6 +15,7 @@ const _ = require('lodash');
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const moment = require('moment');
+const config = require('config');
 
 let customConfig;
 if (argv.file) {
@@ -92,6 +94,10 @@ let URLs = {
     ]
 };
 
+// lookup cookies from app config
+const cookies = config.get('cookies');
+const cookiesInUse = Object.keys(cookies).map((k) => cookies[k]);
+
 // configure headers, cookies and origin servers for paths
 const BehaviourConfig = {
     protocols: {
@@ -112,8 +118,8 @@ const BehaviourConfig = {
         cookies: {
             "Forward": "whitelist",
             "WhitelistedNames": {
-                "Items": ['blf-alpha-session', '_csrf', 'contrastMode'],
-                "Quantity": 3
+                "Items": cookiesInUse,
+                "Quantity": cookiesInUse.length
             }
         }
     },

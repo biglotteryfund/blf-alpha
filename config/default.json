@@ -11,12 +11,17 @@
             "cy": "/welsh"
         }
     },
-    "contrastCookie": {
-        "name": "contrastMode"
+    "cookies": {
+        "contrast": "contrastMode",
+        "session": "blf-alpha-session",
+        "csrf": "_csrf",
+        "abTest": "blf-ab"
+    },
+    "anchors": {
+        "contactPress": "press",
+        "contactComplaints": "complaints",
+        "contactFraud": "fraud",
+        "ebulletin": "ebulletin"
     },
     "materialSupplierEmail": "matt@mattandrews.info",
-    "contactPressAnchor": "press",
-    "contactComplaintsAnchor": "complaints",
-    "contactFraudAnchor": "fraud",
-    "googleAnalyticsCode": "UA-98908627-1"
 }
