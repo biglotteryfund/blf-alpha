@@ -11,12 +11,33 @@
             "cy": "/welsh"
         }
     },
-    "contrastCookie": {
-        "name": "contrastMode"
+    "cookies": {
+        "contrast": "contrastMode",
+        "session": "blf-alpha-session",
+        "csrf": "_csrf",
+        "abTest": "blf-ab"
+    },
+    "anchors": {
+        "contactPress": "press",
+        "contactComplaints": "complaints",
+        "contactFraud": "fraud",
+        "ebulletin": "ebulletin"
     },
     "materialSupplierEmail": "matt@mattandrews.info",
-    "contactPressAnchor": "press",
-    "contactComplaintsAnchor": "complaints",
-    "contactFraudAnchor": "fraud",
-    "googleAnalyticsCode": "UA-98908627-1"
+    "googleAnalyticsCode": "UA-98908627-1",
+    "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
+    "ebulletinSignup": "http://bigmail.org.uk/signup.ashx",
+    "abTests": {
+        "cookieName": "blf-ab",
+        "tests": {
+            "homepage": {
+                "id": "pR1e00a0Q42tSZuvQdaqpA",
+                "percentage": 100
+            }
+        }
+    },
+    "social": {
+        "facebook": "http://www.facebook.com/BigLotteryFund",
+        "instagram": "https://www.instagram.com/big_lottery_fund"
+    }
 }

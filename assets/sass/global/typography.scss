@@ -62,6 +62,16 @@ a {
         }
     }
 
+    &.minor--smallest {
+        @include font-and-leading(18px, 28px);
+        font-weight: 600;
+        @include mq('tablet') {
+            span {
+                padding: $spacingUnit / 4;
+            }
+        }
+    }
+
     a {
         color: #ffffff;
         text-decoration: none;
@@ -113,6 +123,27 @@ a {
     color: palette('blue')
 }
 
+.t8 {
+    font-family: 'Poppins', arial, sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+}
+
+.t9 {
+    font-family: 'Poppins', arial, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: palette('pink');
+    margin-bottom: $spacingUnit / 2;
+    &:after {
+        padding-top: $spacingUnit / 2;
+        border-bottom: 3px solid palette('pink');
+        display: block;
+        content: '';
+        width: 80px;
+    }
+}
+
 .smaller {
     font-size: 16px;
 }
@@ -136,4 +167,61 @@ blockquote {
             content: ' - ';
         }
     }
+}
+
+@mixin quoteSymbol($type) {
+    $symbol: '\201C';
+    $align: bottom;
+    @if $type == 'close' {
+        $symbol: '\201D';
+        $align: top;
+    }
+    content: $symbol;
+    color: palette('pink');
+    font-size: 45px;
+    line-height: 1;
+    vertical-align: $align;
+}
+
+.pullquote {
+    margin: $spacingUnit $spacingUnit * 2;
+    p {
+        font-style: italic;
+        color: palette('blue');
+        @include font-and-leading(24px, 30px);
+
+        &:first-of-type {
+            &:before {
+                @include quoteSymbol('open');
+            }
+        }
+
+        &:last-of-type {
+            &:after {
+                @include quoteSymbol('close');
+            }
+        }
+    }
+
+    cite {
+        font-family: 'Poppins', arial, sans-serif;
+        @include font-and-leading(16px, 20px);
+        font-weight: 600;
+        letter-spacing: 2px;
+
+        &:before {
+            content: '';
+        }
+    }
+
+    aside {
+        font-size: 13px;
+        font-weight: normal;
+        margin: $spacingUnit / 4 0 $spacingUnit 0;
+        font-style: normal;
+    }
+}
+
+.light {
+    font-weight: 100;
 }

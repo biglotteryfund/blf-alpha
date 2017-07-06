@@ -4,15 +4,31 @@ const helmet = require('helmet');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
-app.use(helmet({
+// these URLs won't get the helmet header protection
+// @TODO this should only affect the legacy homepage
+const pathsExemptFromHelmet = [
+    '/'
+];
+
+const defaultSecurityDomains = [
+    "'self'",
+    'fonts.gstatic.com',
+    'ajax.googleapis.com',
+    'www.google-analytics.com',
+    'www.google.com',
+    'maxcdn.bootstrapcdn.com',
+    'platform.twitter.com'
+];
+
+const helmetSettings = helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'", 'fonts.gstatic.com', 'ajax.googleapis.com', 'www.google-analytics.com', 'www.google.com', 'maxcdn.bootstrapcdn.com'],
-            frameSrc: ["'self'", 'www.google.com'],
-            styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com'],
-            connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'], // make dev-only?,
-            imgSrc: ["'self'", 'www.google-analytics.com'],
-            scriptSrc: ["'self'", "'unsafe-eval'", 'ajax.googleapis.com', 'www.google-analytics.com', 'maxcdn.bootstrapcdn.com']
+            defaultSrc: defaultSecurityDomains,
+            frameSrc: defaultSecurityDomains.concat(['www.google.com']),
+            styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
+            connectSrc: defaultSecurityDomains.concat(['ws://127.0.0.1:35729/livereload']), // make dev-only?,
+            imgSrc: defaultSecurityDomains.concat([]),
+            scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"])
         }
     },
     dnsPrefetchControl: {
@@ -21,8 +37,17 @@ app.use(helmet({
     frameguard: {
         action: 'sameorigin'
     },
-}));
+});
+
+app.use((req, res, next) => {
+    // if (req.path === '/home') {
+    if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
+        next();
+    } else {
+        helmetSettings(req, res, next);
+    }
+});
 
 module.exports = {
     csrfProtection: csrfProtection
-}
+};

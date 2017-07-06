@@ -47,13 +47,42 @@
         padding: $spacingUnit / 5 $spacingUnit / 1.5;
     }
 
+    &.btn--mid {
+        $midVertPadding: 10px;
+        font-size: 18px;
+        padding-top: $midVertPadding;
+        padding-bottom: $midVertPadding;
+    }
+
+    &.btn--massive {
+        font-size: 20px;
+    }
+
     &.btn--block {
         display: block;
     }
 
+    &.btn--outline {
+        padding-left: $spacingUnit;
+        padding-right: $spacingUnit;
+        background-color: #ffffff;
+        border: 3px solid #cccccc;
+        font-family: 'Poppins', arial, sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+
     &[disabled='disabled'] {
         @include disabledBtn();
     }
+}
+
+.btn__icon {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+    margin-right: 5px;
 }
 
 .btn.btn--pink {

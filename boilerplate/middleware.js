@@ -28,7 +28,7 @@ app.use(cookieParser());
 const sessionConfig = {
     // @TODO re-generate and secure in AWS
     secret: 'gqQpNpuqBVFgnEiXfLvJBGmstieVHPofPkrbnaEEqHyQFmDpsmrVZA6pAcvZzeLQ',
-    name: 'blf-alpha-session',
+    name: config.get('cookies.session'),
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, httpOnly: false }
@@ -86,7 +86,7 @@ app.use((req, res, next) => {
     globals.set('localePrefix', localePrefix);
 
     // get a11y contrast preferences
-    let contrastPref = req.cookies[config.get('contrastCookie.name')];
+    let contrastPref = req.cookies[config.get('cookies.contrast')];
     if (contrastPref && contrastPref === 'high') {
         globals.set('highContrast', true);
     } else {

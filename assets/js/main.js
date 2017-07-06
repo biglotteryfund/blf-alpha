@@ -1,5 +1,5 @@
 'use strict';
-/* global $, ga */
+/* global $, ga, cxApi */
 const appConfig = require('../../config/sass.json');
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
@@ -66,8 +66,20 @@ const uaCode = $thisScript.getAttribute('data-ga-code');
 ga('create', uaCode, {
     'cookieDomain': 'none'
 });
-ga('send', 'pageview');
 
+let ab = {
+    id: $thisScript.getAttribute('data-ab-id'),
+    variant: $thisScript.getAttribute('data-ab-variant')
+};
+
+if (ab.id && ab.variant) {
+    console.log('tracking test', ab);
+    ga('set', 'expId', ab.id);
+    ga('set', 'expVar', ab.variant);
+    cxApi.setChosenVariation(ab.variant, ab.id);
+}
+
+ga('send', 'pageview');
 
 let fundingRegex = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials|\/funding\/test/;
 router.get(fundingRegex, () => {

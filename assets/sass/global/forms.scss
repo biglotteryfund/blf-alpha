@@ -65,3 +65,60 @@
     }
 
 }
+
+.form-ebulletin {
+    background-color: palette('pale-pink');
+
+    .intro {
+        font-size: 18px;
+    }
+
+    .form-fund__item {
+        display: block;
+        width: 100%;
+        padding: 3px;
+        background-color: transparent;
+        font-size: 16px;
+        border: none;
+        border-bottom: 2px solid palette('pink');
+        padding-bottom: 6px;
+        margin: $spacingUnit 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    label {
+        display: block;
+        line-height: 1;
+        color: palette('pink');
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    label.form-fund__item {
+        @extend .visually-hidden;
+    }
+
+    input[type='checkbox'] {
+        float: right;
+        font-size: 22px;
+    }
+
+    input {
+        &.is-error {
+            background-color: darken(palette('pale-pink'), 30%);
+            color: #ffffff;
+
+            @include input-placeholder {
+                color: #ffffff;
+            }
+        }
+    }
+
+}

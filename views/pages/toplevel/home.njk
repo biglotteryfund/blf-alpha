@@ -1,0 +1,156 @@
+{% import "../../components/hero.njk" as hero %}
+{% import "../../components/headers.njk" as headers %}
+{% import "../../components/forms.njk" as forms %}
+
+{% extends "../../layouts/main.njk" %}
+
+{% macro tweetItem(tweet) %}
+    <div class="tweet">
+        <h5 class="tweet__user">
+            {% include "../../includes/svg/twitter.svg" %}
+            <a href="https://www.twitter.com/biglotteryfund">@biglotteryfund</a>
+        </h5>
+        <h6 class="tweet__date">{{ tweet.datePosted.format('DD • MM • YYYY') }}</h6>
+        <p class="tweet_text">{{ tweet.html | safe }}</p>
+    </div>
+{% endmacro %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <u>National Lottery</u>", 55, 'minor hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps, Grant: £14,000') }}
+
+    <article role="main" class="m-t-none">
+        <div class="inner">
+            <h3 class="t8 align--center intro-header">Here's how you can make a difference in your community...</h3>
+
+            {# funding apply links #}
+            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only m-t-none">
+
+                {# under 10k #}
+                <li class="grid__item">
+                    <div class="grid__item__inner grid__item__inner--flex accent--pink-home accent-b-t-l">
+                        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
+                            <img src="{{ 'images/home/under10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Children gardening together" />
+                        </a>
+                        {{ headers.blockheader(
+                            'h4',
+                            'Every year thousands of people apply to National Lottery Awards for All for grants between £500 and £10,000',
+                            38,
+                            't1--opaque minor minor--smallest grid__item__title',
+                            buildUrl('funding', 'helpWithPublicity'),
+                            false
+                        )}}
+                    </div>
+                    <div class="bg-pale-grey p-cta m-t-none bordered">
+                        <a class="accent--pink-home btn btn--cta btn--block btn--mid" href="#">
+                            <span class="light">Apply for funding</span> <strong>under £10k</strong>
+                        </a>
+                    </div>
+                </li>
+
+                {# over 10k #}
+                <li class="grid__item">
+                    <div class="grid__item__inner grid__item__inner--flex accent--turquoise accent-b-t-l">
+                        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
+                            <img src="{{ 'images/home/over10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Two women laughing while sharing a coffee" />
+                        </a>
+                        {{ headers.blockheader(
+                            'h4',
+                            'Many people apply for larger sums of money (over £10,000) over longer periods of time',
+                            38,
+                            't1--opaque minor minor--smallest grid__item__title',
+                            buildUrl('funding', 'helpWithPublicity'),
+                            false
+                        )}}
+                    </div>
+                    <div class="bg-pale-grey p-cta m-t-none bordered">
+                        <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="#">
+                            <span class="light">Apply for funding</span> <strong>over £10k</strong>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+            {# news posts #}
+            <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
+                {% for n in news %}
+                    <li class="grid__item">
+                        <h4 class="t3">{{ n.title }}</h4>
+                        <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {# funding finder #}
+            <div class="central-gap m-b--l">
+                <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue btn--massive">Find out what we funded</a>
+            </div>
+
+            {# case studies #}
+            <div class="accent--blue accent-b-t bg-pale-grey">
+                <ul class="unstyled grid grid--2-up grid--equal grid--wide-only m-t-none">
+                    <li class="grid__item grid__item--image" style="background-image: url({{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }});">
+                    </li>
+                    <li class="grid__item">
+                        <blockquote class="pullquote">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam finibus urna laoreet condimentum pharetra. Orci varius natoque penatibus.</p>
+                            <p>Let magnis dis parturient montes, nascetur ridiculus</p>
+                            <cite>Jane Bloggs</cite>
+                            <aside>Project name, Grant amount: £123,456</aside>
+                        </blockquote>
+                    </li>
+                </ul>
+            </div>
+
+            {# tweets #}
+            <ul class="unstyled grid grid--wide-only grid--equal m-t--l">
+                <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none p">
+                    <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </li>
+                <li class="grid__item accent--pink accent-b-t m-t-none">
+                    <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
+
+                        <input type="hidden" name="addressbookid" value="589755">
+                        <input type="hidden" name="userid" value="180445">
+                        <input type="hidden" name="ReturnURL" value="http://bigmail.org.uk/Survey/3V8D-3T/language.aspx">
+
+                        <h3 class="t9">e-bulletin sign up</h3>
+                        <p class="intro">Sign up for our latest news relating to your country:</p>
+
+                        {{ forms.checkboxes('location', [
+                            ['England', 'en', 'cd_ENGLAND_MAIL'],
+                            ['Wales', 'cy', 'cd_WALES_MAIL'],
+                            ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
+                            ['Northern Ireland', 'ni', 'cd_NI_MAIL']
+                        ]) }}
+
+                        <div class="grid grid--padded">
+                            {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                            {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                        </div>
+                        {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
+                        {{ forms.input('Email', 'Email', 'email', required = true) }}
+
+                        <input type="submit" value="Subscribe" class="btn btn--cta btn--pink" />
+                    </form>
+
+                    {# social buttons #}
+                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
+                    </a>
+                    <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </article>
+
+{% endblock %}

@@ -43,10 +43,8 @@ setGlobal('metadata', {
 // add a toggle for offline dev to skip loading external assets
 setGlobal('disableExternal', config.get('disableExternal'));
 
-// if any more of these appear, make this a single object
-setGlobal('contactPressAnchor', config.get('contactPressAnchor'));
-setGlobal('contactComplaintsAnchor', config.get('contactComplaintsAnchor'));
-setGlobal('contactFraudAnchor', config.get('contactFraudAnchor'));
+// make anchors available everywhere (useful for routing and templates)
+setGlobal('anchors', config.get('anchors'));
 
 // a global function for finding errors from a form array
 setGlobal('getFormErrorForField', (errorList, fieldName) => {

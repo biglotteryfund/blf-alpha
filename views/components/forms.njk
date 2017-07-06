@@ -1,17 +1,35 @@
-{% macro input(fieldName, fieldLabel, inputType = 'text', required = false) %}
+{% macro input(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false) %}
     {% set error = getFormErrorForField(request.session.errors, fieldName) %}
     <label class="form-fund__item" for="ff-{{ fieldName }}">{{ fieldLabel }}{% if required %} *{% endif %}</label>
     {% if inputType == 'textarea' %}
-        <textarea class="form-fund__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+        <textarea class="form-fund__item{% if error %} is-error{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}"{% if error %} aria-invalid{% endif %}
                   name="{{ fieldName }}"
                   placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% if required %} *{% endif %}{% endif %}">
                   id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}>{{ request.session.values[fieldName] }}</textarea>
     {% else %}
-        <input class="form-fund__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+        <input class="form-fund__item{% if error %} is-error{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}"{% if error %} aria-invalid{% endif %}
                type="{{ inputType }}"
                name="{{ fieldName }}"
                id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ request.session.values[fieldName] }}"
                placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}{% if required %} *{% endif %}">
     {% endif %}
+{% endmacro %}
+
+{% macro checkboxes(fieldName, options) %}
+    {% set error = getFormErrorForField(request.session.errors, fieldName) %}
+
+    {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
+
+    {% for o in options %}
+        <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+               for="ff-radio-{{ o[2] }}-{{ o[1] }}">
+            {{ o[0] }}
+            <input type="checkbox"
+                   id="ff-radio-{{ o[2] }}-{{ o[1] }}"
+                   name="{{ o[2] }}"
+                   value="yes" />
+        </label>
+    {% endfor %}
+
 {% endmacro %}

@@ -6,14 +6,14 @@ const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
 
-const globals = require('../boilerplate/globals');
-const routes = require('./routes');
+const globals = require('../../boilerplate/globals');
+const routes = require('../routes');
 
 const LAUNCH_DATE = moment();
 
 const localeFiles = {
-    en: '../locales/en.json',
-    cy: '../locales/cy.json'
+    en: '../../locales/en.json',
+    cy: '../../locales/cy.json'
 };
 
 router.get('/', (req, res, next) => {

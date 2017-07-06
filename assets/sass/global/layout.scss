@@ -17,7 +17,7 @@
         }
     }
 
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: $widestScreen) {
         width: $maxInnerWidth;
         margin-left: auto;
         margin-right: auto;
@@ -48,7 +48,11 @@ main {
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
-        margin-top: 0;
+        margin: 0;
+    }
+
+    > .grid__item--large {
+        flex-grow: 2;
     }
 
     &.grid--equal {
@@ -73,7 +77,7 @@ main {
     }
 
     // arbitrary
-    $paddedGridGutter: 9px;
+    $paddedGridGutter: 10px;
     $paddedGridGutterLarge: 30px;
 
     // @TODO generate these classes from a mixin
@@ -124,10 +128,19 @@ main {
     }
 }
 
+.grid__item--image {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
 
 .grid__item__inner {
     position: relative;
     height: 100%;
+}
+
+.grid__item__inner--flex {
+    height: auto;
 }
 
 .grid__item__poster {
@@ -220,4 +233,22 @@ main {
 
 .google-map {
     padding: 30px 40px 0 40px;
+}
+
+.central-gap {
+    $gap: 20%;
+    margin-left: $gap;
+    margin-right: $gap;
+}
+
+.intro-header {
+    margin-top: 15px;
+    margin-bottom: $spacingUnit;
+}
+
+.p-cta {
+    padding-top: 25px;
+    padding-bottom: 30px;
+    padding-left: $spacingUnit;
+    padding-right: $spacingUnit;
 }

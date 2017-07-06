@@ -1,0 +1,36 @@
+.tweet {
+    padding: $spacingUnit;
+
+    .tweet__user {
+        font-family: 'Roboto', arial, sans-serif;
+        font-weight: 700;
+        margin-bottom: 7px;
+        font-size: 16px;
+
+        a {
+            text-decoration: none;
+        }
+    }
+
+    .icon--twitter {
+        width: 20px;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: middle;
+        path {
+            fill: palette('pink')
+        }
+    }
+
+    .tweet__date {
+        font-family: 'Roboto', arial, sans-serif;
+        font-size: 14px;
+        color: #666666;
+        margin-bottom: 7px;
+    }
+
+    .tweet_text {
+        margin-top: 0;
+    }
+
+}
