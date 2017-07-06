@@ -13,6 +13,8 @@ const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
 const logger = require('../../logger');
 
+const news = require('../../bin/data/news.json');
+
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
 const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
@@ -48,7 +50,8 @@ module.exports = (pages) => {
     // variant A: new homepage
     router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
         res.render('pages/toplevel/home', {
-            title: "Homepage"
+            title: "Homepage",
+            news: news.slice(0, 3)
         });
         // @TODO flash session
         delete req.session.errors;
