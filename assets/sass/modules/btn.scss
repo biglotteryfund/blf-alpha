@@ -63,10 +63,13 @@
     }
 
     &.btn--outline {
+        padding-left: $spacingUnit;
+        padding-right: $spacingUnit;
         background-color: #ffffff;
         border: 3px solid #cccccc;
         font-family: 'Poppins', arial, sans-serif;
         font-weight: 600;
+        font-size: 14px;
     }
 
 
