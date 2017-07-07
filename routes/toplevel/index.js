@@ -11,9 +11,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
-const logger = require('../../logger');
-
-const news = require('../../bin/data/news.json');
+const models = require('../../models/index');
 
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
@@ -49,12 +47,16 @@ module.exports = (pages) => {
 
     // variant A: new homepage
     router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
-        res.render('pages/toplevel/home', {
-            title: "Homepage",
-            news: news.slice(0, 3)
+        // get news articles
+        models.News.findAll().then((news) => {
+            // console.log(data);
+            res.render('pages/toplevel/home', {
+                title: "Homepage",
+                news: news
+            });
+            // @TODO flash session
+            delete req.session.errors;
         });
-        // @TODO flash session
-        delete req.session.errors;
     });
 
     // variant B: existing site (proxied)
