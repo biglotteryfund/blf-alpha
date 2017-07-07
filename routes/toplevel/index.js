@@ -48,15 +48,22 @@ module.exports = (pages) => {
     // variant A: new homepage
     router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
         // get news articles
-        models.News.findAll().then((news) => {
-            // console.log(data);
+
+        let serveHomepage = (news) => {
             res.render('pages/toplevel/home', {
                 title: "Homepage",
-                news: news
+                news: news || []
             });
             // @TODO flash session
             delete req.session.errors;
-        });
+        };
+
+        try {
+            models.News.findAll().then(serveHomepage);
+        } catch (e) {
+            console.log('Could not find news posts');
+            serveHomepage();
+        }
     });
 
     // variant B: existing site (proxied)

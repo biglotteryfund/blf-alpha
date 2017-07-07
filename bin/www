@@ -22,16 +22,25 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-// sync database models
-models.sequelize.sync().then(function() {
-    console.log('Database sync complete – app now running on port ' + port);
+var startServer = function () {
     /**
      * Listen on provided port, on all network interfaces.
      */
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
-});
+};
+
+// sync database models
+try {
+    models.sequelize.sync().then(function () {
+        console.log('Database sync complete – app now running on port ' + port);
+        startServer();
+    });
+} catch (e) {
+    console.log('Could not start/sync DB');
+    startServer();
+}
 
 
 /**
