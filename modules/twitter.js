@@ -1,8 +1,7 @@
 const Twitter = require('twitter');
 const twitterText = require('twitter-text');
-const fs = require('fs');
-const path = require('path');
 const moment = require('moment');
+const secrets = require('../modules/secrets');
 
 let latestTweets = [];
 
@@ -11,18 +10,11 @@ const refreshInterval = 1 * 60 * 60 * 1000; // ms
 
 // try to get config from dev env first
 let twitterConfig = {
-    key: process.env.TWITTER_KEY,
-    secret: process.env.TWITTER_SECRET,
-    token_key: process.env.TWITTER_TOKEN_KEY,
-    token_secret: process.env.TWITTER_TOKEN_SECRET
+    key: secrets['twitter.auth.key'],
+    secret: secrets['twitter.auth.secret'],
+    token_key: secrets['twitter.auth.token.key'],
+    token_secret: secrets['twitter.auth.token.secret']
 };
-
-try {
-    // load non-dev credentials from AWS store (if found)
-    twitterConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/twitter.json'), 'utf8'));
-} catch (e) {
-    console.info('twitter.json not found -- are you in DEV mode?');
-}
 
 const twitterClient = new Twitter({
     consumer_key: twitterConfig.key,

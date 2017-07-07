@@ -19,7 +19,7 @@ let deploymentData;
 try {
     deploymentData = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/deploy.json'), 'utf8'));
 } catch (e) {
-    console.info('deploy.json not found -- are you in DEV mode?');
+    // console.info('deploy.json not found -- are you in DEV mode?');
 }
 
 const appEnv = process.env.NODE_ENV || 'dev';
