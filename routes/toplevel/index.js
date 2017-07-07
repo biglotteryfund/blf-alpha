@@ -163,14 +163,14 @@ module.exports = (pages) => {
                     postcode: postcode
                 });
             } else {
-                logger.log('info', 'GET /lookup found a valid postcode but no matching grants', {
+                console.log('GET /lookup found a valid postcode but no matching grants', {
                     postcode: postcode,
                     district: yourDistrict
                 });
                 res.status(302).redirect('/');
             }
         }).catch(() => {
-            logger.log('info', 'GET /lookup received an invalid postcode', {
+            console.log('GET /lookup received an invalid postcode', {
                 postcode: postcode
             });
             res.status(302).redirect('/');

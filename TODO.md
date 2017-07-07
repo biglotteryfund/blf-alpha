@@ -9,6 +9,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] Solution to hardcoded links in locale/lang files? 
 - [ ] remove vary header?
 - [ ] and add ARIA roles to SVGs and mobile nav
+- [ ] use proper session store (mysql?)
 
 
 # Done 
