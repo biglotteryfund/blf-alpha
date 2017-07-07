@@ -7,12 +7,12 @@ const config = require('config');
 const routes = require('./routes/routes');
 
 // configure boilerplate
-require('./boilerplate/viewEngine');
-require('./boilerplate/globals');
-require('./boilerplate/security');
-require('./boilerplate/static');
-require('./boilerplate/cache');
-require('./boilerplate/middleware');
+require('./modules/boilerplate/viewEngine');
+require('./modules/boilerplate/globals');
+require('./modules/boilerplate/security');
+require('./modules/boilerplate/static');
+require('./modules/boilerplate/cache');
+require('./modules/boilerplate/middleware');
 
 // create status endpoint (used by load balancer)
 app.use('/status', require('./routes/toplevel/status'));

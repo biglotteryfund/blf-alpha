@@ -1,0 +1,250 @@
+{
+    "global": {
+        "brand": {
+            "title": "Cronfa Loteri Fawr"
+        },
+        "nav": {
+            "home": "Hafan",
+            "funding": "Ariannu",
+            "about": "Amdanom ni",
+            "search": "Chwilio"
+        },
+        "contact": {
+            "city": "Llundain",
+            "phone": "0300 123 0735",
+            "email": "ymholiadau.cymru@cronfaloterifawr.org.uk"
+        },
+        "footerLinks": {
+            "title": "Dolenni gwib",
+            "foi": "Rhyddid Gwybodaeth",
+            "privacy-policy": "Polisi Preifatrwydd",
+            "terms": "Telerau",
+            "cookies": "Cwcis",
+            "contact": "Cyswllt",
+            "site-map": "Map o'r wefan",
+            "accessibility": "Hygyrchedd"
+        },
+        "accessibility": {
+            "skipToContent": "Ewch i'r cynnwys",
+            "contrast": {
+                "high": "Galluogi'r modd cyferbynnedd uchel",
+                "standard": "Galluogi'r modd cyferbynnedd safonol"
+            }
+        }
+    },
+    "toplevel": {
+        "contact": {
+            "title": "Cysylltu â ni",
+            "methods": {
+                "phone": "Ffôn",
+                "text-relay": "Cyfnewid Testun",
+                "email": "E-bost",
+                "address": "Cyfeiriad",
+                "fax": "Ffacs",
+                "bsl": "Iaith Arwyddion Prydeinig",
+                "switchboard": "Switsfwrdd"
+            },
+            "offices": {
+                "england": "Lloegr",
+                "ni": "Gogledd Iwerddon",
+                "scotland": "Yr Alban",
+                "wales": "Cymru",
+                "uk": "Deyrnas Unedig",
+                "corporate": "Swyddfa gorfforaethol",
+                "london": "Llundain"
+            },
+            "hearing-speech-impairment": "ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd",
+            "plus": "plws",
+            "or": "neu",
+            "out-of-hours": "tu allan i oriau",
+            "bsl-scotland": "Defnyddiwch y cyswllt SCOTLAND-BSL",
+            "wales": {
+                "email": "ymholiadau.cymru@cronfaloterifawr.org.uk",
+                "address1": "10fed Llawr, Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY",
+                "address2": "2il Lawr, Tŷ Ladywell, Y Drenewydd, Powys, SY16 1JB"
+            },
+            "topics": {
+                "applicationQuery": {
+                    "title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am ymgeisio am ariannu?"
+                },
+                "grantQuery": {
+                    "title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am grant a ddyfarnwyd i mi?",
+                    "body": "<p>Cysylltwch â'ch swyddog ariannu gydag unrhyw ymholiad am grant sydd gennych yn barod. Os nad ydych yn gwybod pwy yw eich swyddog ariannu, cysylltwch â ni gan ddefnyddio'r manylion uchod.</p>"
+                },
+                "pressQuery": {
+                    "title": "Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?",
+                    "subtitle": "Cyfweliadau darlledu",
+                    "body": "<p>Am gyfweliadau darlledu gyda'r Gronfa, y llinell ISDN ar gyfer ein stiwdio fewnol yw 020 7211 1688. Cysylltwch â Swyddfa'r Wasg ar 020 7211 1888 yn gyntaf er mwyn trefnu cyfweliadau.</p>"
+                },
+                "feedback": {
+                    "title": "Sut ydw i'n cysylltu â chi os bydd gennyf adborth am eich gwasanaeth?",
+                    "body": "<p>Rydym yn gwerthfawrogi eich adborth yn fawr. Os oes gennych sylw neu gŵyn am y gwasanaethau a ddarparwn, neu os oes rhywbeth pwysig y credwch y dylem wybod amdano, mawr hoffem glywed oddi wrthych. Anfonwch e-bost atom yn <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a></p><p>I roi adborth i ni am ein gwefan, anfonwch e-bost atom yn <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
+                },
+                "other": {
+                    "title": "Sut ydw i'n cysylltu â chi am unrhyw beth arall?"
+                },
+                "complaints": {
+                    "title": "Sut ydw i’n gwneud cwyn?",
+                    "body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Customer%20service%20documents/complaints_procedure_w.pdf\" class=\"link-pink\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span class=\"t7\">Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span class=\"t7\">Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+                },
+                "fraud": {
+                    "title": "Sut ydw i’n hysbysu chi am dwyll?",
+                    "body": "<p>\tMae'r Gronfa Loteri Fawr yn ymroddedig i atal a chanfod twyll.  </p><p>\tOs ydych yn amau bod rhywun yn dwyn gan neu'n twyllo'r Gronfa Loteri Fawr , helpwch ni i wneud rhywbeth amdano trwy gysylltu â ni. </p><p>\t<span class=\"t7\">Ffôn</span>: 0800 496 9991<br /> </p><p>\t<span class=\"t7\">Cyfeiriad</span>:<br />Pennaeth Archwilio Mewnol<br />Cronfa Loteri Fawr<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
+                }
+            }
+        },
+        "jobs": {
+            "title": "Swyddi yn y Gronfa Loteri Fawr",
+            "call-to-action": "Gweld pa swyddi sydd ar gael",
+            "sections": {
+                "whyWork": {
+                    "title": "Pam gweithio i'r Gronfa Loteri Fawr?",
+                    "body": "<blockquote>\t&quot;Mae gweithio yn y Gronfa Loteri Fawr yn fy ngalluogi i chwarae rôl fach mewn newid bywydau pobl mewn cymunedau ar draws y Deyrnas Unedig. Mae'n hynod wobrwyol i ymgymryd â'r her i roi'r grantiau iawn i'r bobl iawn. Mae unigolion dawnus, uchel eu cymhelliad ac ysbrydoledig o'm cwmpas yma sydd i gyd yn gweithio tuag at yr un nod.&quot; <footer><cite>Steve Keene, Rheolwr Cynnyrch, Tîm Digidol</cite></footer> </blockquote><blockquote>\t&quot;Y peth gorau am weithio yn y Gronfa yw bod yn rhan o fudiad sy'n cael cymaint o effaith ar gymunedau ar draws y Deyrnas Unedig a gweld y gwahaniaeth y mae'r arian yn ei wneud i'r cymunedau hyn. Mae gan y staff yma gymaint o fuddsoddiad yn yr hyn y maent yn ei wneud ac rwy'n dwlu ar y ffaith bod gan fy waith ystyr a'i fod yn rhoi ymdeimlad o foddhad i mi bob dydd.&quot;<footer><cite>Kalema White, Cynorthwy-ydd Gweithredol</cite></footer></blockquote></p>"
+                },
+                "benefits": {
+                    "title": "Pa fuddion sydd ar gael?",
+                    "body": "<p>\tCydnabyddwn fod cadw ein pobl yn hapus ac yn iach yn ein galluogi i fod yn fudiad mwy effeithiol ac yn gwneud y Gronfa Loteri Fawr yn lle gwell i weithio. Mae’r buddion yn cynnwys:</p>",
+                    "list": [
+                        "Cynllun pensiwn Gwasanaeth Sifil hael",
+                        "Gweithio hyblyg",
+                        "Absenoldeb mamolaeth/tadolaeth â thâl",
+                        "Absenoldeb gwirfoddoli"
+                    ],
+                    "postscript": "<p>\tA llawer mwy...</p>"
+                },
+                "offices": {
+                    "title": "Cyfleoedd ar draws y Deyrnas Unedig"
+                },
+                "equalities": {
+                    "title": "Cydraddoldeb",
+                    "body": "<p>\tMae’r Gronfa Loteri Fawr yn ymroddedig i ystyried ac ymdrin â materion cydraddoldeb ym mhob agwedd ar ei busnes, gan gynnwys sut rydym yn recriwtio ac yn cyflogi ein staff. Mae hyn yn golygu ein bod yn ystyried anghenion a phrofiadau pobl o gefndiroedd gwahanol (er enghraifft, fesul rhywedd, hil, anabledd a thueddfryd rhywiol) ac rydym yn gweithio i sicrhau ein bod yn osgoi trin pobl yn annheg cymaint â phosib. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn ddefnyddio symbol y 'tic dwbl' ac yn ymrwymedig i gyfweld ag ymgeiswyr sydd ag anableddau os ydynt yn bodloni'r isafswm meini prawf ar gyfer swydd wag.  </p><p>\tBydd y Gronfa Loteri Fawr yn gwneud unrhyw addasiadau rhesymol ar gyfer ymgeisydd sydd ag anabledd ym mhob cam o'r broses ddethol. I'n cynorthwyo ni, dylai ymgeisydd sydd ag anabledd ddatgan bod ganddo/ganddi anabledd ar y ffurflen gais, a'n hysbysu am unrhyw ofynion. </p><p>\tOs oes gennych anabledd sy’n eich atal rhag cwblhau ffurflen ar-lein, cysylltwch â’n llinell ymholiadau ar 0300 123 0735 neu e-bostiwch <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, a fydd yn falch o helpu.</p><p>\tMae gan y Gronfa Loteri Fawr fforwm anableddau sy'n agored i staff anabl a staff sydd â diddordeb mewn materion gysylltiedig ag anableddau at ddiben cefnogaeth, rhannu gwybodaeth a rhoi cyngor. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn Hyrwyddwr Cydraddoldeb Stonewall, gan gefnogi ein hymrwymiad i fod yn lle gwych i weithio ar gyfer staff lesbiaidd, hoyw, deurywiol a thrawsrywiol (LGBT). Yn cydweithio'n agos â Stonewall, rydym wedi sefydlu rhwydwaith staff LGBT fel fforwm ar gyfer hyrwyddo cefnogaeth, rhannu gwybodaeth, dylanwadu ar bolisïau ac arferion y cwmni, ac ymdrin â materion LGBT yn y gwaith.</p>"
+                }
+            }
+        }
+    },
+    "about": {
+        "foi": {
+            "title": "Rhyddid Gwybodaeth",
+            "sections": {
+                "intro": "<p>\tMae <a target=\"_blank\" href=\"http://www.legislation.gov.uk/cy/ukpga/2000/36/contents\">Deddf Rhyddid Gwybodaeth 2000</a> yn rhoi hawl dros fynediad i chi i wybodaeth a ddelir gan awdurdodau cyhoeddus. Mae unrhyw wybodaeth a ddelir gennym yn gymwys i gael ei rhyddhau, ond mae angen cadw rhai darnau o wybodaeth yn gyfrinachol. Gallwn wrthod cais dim ond os: </p><ul>\t<li>\t\tnad oes gennym yr wybodaeth \t</li>\t<li>\t\tdaw'r wybodaeth o dan un o'r eithriadau a ddisgrifir yn y Ddeddf, ac os felly byddwn yn esbonio yn ein hymateb pa eithriad sy'n berthnasol yn ein barn ni \t</li>\t<li>\t\tbydd yn costio mwy na £450 i ddod o hyd i, a chael gafael ar, yr wybodaeth rydych wedi gofyn amdani \t</li>\t<li>\t\tyw'r cais yn afresymol iawn o fewn set o feini prawf a ddefnyddiwn i ddiffinio hyn. \t</li></ul><p>\tMae mwy o wybodaeth am Ddeddf Rhyddid Gwybodaeth 2000, gan gynnwys i bwy mae'r Ddeddf yn berthnasol, pa wybodaeth y gallwch ofyn amdani, sut y gallwch ofyn amdani a sut y caiff eich cais ei drin, ar <a target=\"_blank\" href=\"https://ico.org.uk/about-the-ico/other-languages/welsh/\">wefan y Comisiynydd Gwybodaeth</a> a gwefan y <a target=\"_blank\" href=\"http://www.justice.gov.uk/\">Weinyddiaeth Gyfiawnder</a>.</p>",
+                "howToRequest": {
+                    "title": "Sut i ofyn am wybodaeth gennym ni",
+                    "body": "<p>\tMae llawer o'r wybodaeth a ddelir gennym eisoes ar gael i chi. Cyn i chi wneud cais swyddogol dylech: </p><ul>\t<li>\t\tchwilio ein gwefan am yr wybodaeth \t</li>\t<li>\t\tgwirio cynllun cyhoeddiadau'r Gronfa Loteri Fawr. \t</li></ul><p>\tOs hoffech ofyn am wybodaeth, anfonwch e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>. Mae'n rhaid i'ch cais ddatgan eich enw llawn, a byddai'n ddefnyddiol iawn petai modd i chi roi cymaint o fanylder â phosib am yr wybodaeth rydych yn chwilio amdani. Os nad ydych yn siŵr pa wybodaeth a ddelir gennym ar bwnc penodol, byddwn yn falch o gynnig cyngor a chymorth pellach i chi. Byddwn yn cydnabod eich cais ac mae'n rhaid i ni ddarparu ateb cyflawn o fewn 20 niwrnod gwaith. </p><p>\tOs ydych wedi gofyn am wybodaeth sy'n ymwneud â thrydydd parti mae'n bosib y bydd angen i ni ymgynghori â'r cyfryw bartïon i benderfynu p'un a ellir rhyddhau'r wybodaeth ai beidio. Wrth ymgynghori â thrydydd partïon, bydd hunaniaeth y sawl sy'n gofyn am wybodaeth yn parhau'n gyfrinachol ac ni chaiff ei datgelu.</p>"
+                },
+                "forCustomers": {
+                    "title": "",
+                    "body": ""
+                },
+                "publicationScheme": {
+                    "title": "Y Cynllun Cyhoeddiadau",
+                    "body": "<p>\tMae'r Ddeddf yn mynnu ein bod yn cynhyrchu. Trwy 'cyhoeddiad', rydym yn golygu gwybodaeth sydd ar gael i'r cyhoedd mewn amrywiaeth o fformatau, er enghraifft adroddiadau ar bapur neu dudalennau gwe.  </p><p>\tMae'r cynllun cyhoeddiadau yn ddogfen sy'n disgrifio'r wybodaeth rydym yn ei chyhoeddi fel mater o drefn, ble y gallwch ddod o hyd iddi a p'un a ydym yn codi tâl amdani ai beidio. Nid yw'n rhestr o'n cyhoeddiadau: mae'n disgrifio'r mathau o wybodaeth a gyhoeddwn. Mae rhestr lawn o'n cyhoeddiadau ar gael yn adran cyhoeddiadau y wefan hon.  </p><p>\tMae ein cyhoeddiadau ar gael ar gais yn Braille, print bras, tâp sain, Cymraeg, Saesneg ac ieithoedd cymunedol. </p><p>\tMae ein cyhoeddiadau ar gael ar gais mewn Braille a phrint bras, ar dâp sain ac mewn ieithoedd cymunedol.</p>"
+                }
+            }
+        },
+        "dataProtection": {
+            "title": "Diogelu Data",
+            "body": "<p>\tOs byddwch yn ymgeisio am grant gennym ni, byddwn yn dweud wrthych fel rhan o'r broses ymgeisio sut y byddwn yn defnyddio eich gwybodaeth, ond gallwch weld ein polisi Diogelu Data isod.  </p><p>\tByddwn yn defnyddio'r wybodaeth a roddwch i ni yn ystod ein hasesiad ac am gyfnod llawn unrhyw grant (os caiff ei ddyfarnu) i weinyddu a dadansoddi grantiau ac ar gyfer ein hymchwil ein hunain. Mae’n bosib y byddwn yn rhoi copïau o ran neu’r cyfan o’r wybodaeth hon i unigolion a mudiadau rydym yn ymgynghori â nhw wrth asesu ceisiadau, gweinyddu'r rhaglen, monitro grantiau a gwerthuso prosesau ac effeithiau ariannu. Gall y mudiadau hyn gnnwys cyfrifwyr, gwerthuswyr allanol a mudiadau neu grwpiau eraill sy’n ymwneud â chyflwyno’r rhaglen.  </p><p>\tMae'n bosib y byddwn yn rhannu gwybodaeth gyda mudiadau ac unigolion sydd â diddordeb dilys mewn ceisiadau a grantiau'r Loteri neu raglenni ariannu penodol. Mae'n ddyletswydd arnom i ddiogelu arian cyhoeddus a chan hynny, mae'n bosib y byddwn hefyd yn rhannu gwybodaeth gyda dosbarthwyr eraill y Loteri, mudiadau sy'n darparu arian cyfatebol neu at ddibenion atal a chanfod trosedd.  </p><p>\tMae'n bosib y bydd eich gwybodaeth yn cael ei throsglwyddo i ddarparwr gwasanaethau TG a leolir y tu allan i Ardal Economaidd Ewrop (AEE). Os caiff eich gwybodaeth ei throsglwyddo y tu allan i AEE, byddwn yn sicrhau ei bod yn cael ei diogelu'n briodol.  </p><p>\tMae’n bosib y byddwn yn defnyddio gwybodaeth bersonol a ddarperir gennych er mwyn cyflawni gwiriadau adnabyddiaeth priodol. Gall gwybodaeth bersonol rydych yn ei darparu gael ei datgelu i asiantaeth cyfeirnod credyd neu atal twyll a fydd, o bosib, yn cadw cofnod o’r wybodaeth honno.  </p><p>\tOs byddwch yn darparu gwybodaeth ffug neu anghywir yn eich cais neu unrhyw bryd yn ystod cyfnod unrhyw ariannu a ddyfarnwn i chi ac mae twyll yn cael ei ddatgelu, byddwn yn darparu manylion i asiantaethau atal twyll, er mwyn atal twyll a gwyngalchu arian. Os ydych yn gwmni bydd hyn yn cynnwys enwau Cyfarwyddwyr y Cwmni ar adeg y twyll. Mae'n rhaid i chi ymrwymo i hysbysu'r holl Gyfarwyddwyr, Ymddiriedolwyr ac aelodau Pwyllgor am y rhybudd hwn.  </p><p>\tGallwch gael manylion pellach yn esbonio sut y gellir defnyddio'r wybodaeth a ddelir gan asiantaethau atal twyll gan ein hadran Gwasanaethau i Gwsmeriaid trwy anfon e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, ffonio ein llinell gymorth ar 0300 123 0735, neu ysgrifennu at: <br /><br />Gwasanaeth Cwsmeriaid <br />Cronfa Loteri Fawr <br />10fed Llawr <br />Tŷ Helmont <br />Ffordd Churchill <br />Caerdydd <br />CF10 2DY  </p><p>\tMae’n bosib y byddwn yn defnyddio’r data rydych yn ei ddarparu at ddibenion ymchwil. Cydnabyddwn yr angen am gynnal cyfrinachedd grwpiau bregus ac ni chaiff eu manylion eu cyhoeddi mewn unrhyw ffordd oni bai bod y gyfraith yn mynnu bod hyn yn cael ei wneud.  </p><p>\tYmdrinnir â cheisiadau am ddata personol o dan Ddeddf Diogelu Data 1998. Os ydych am wybod p'un a ydym yn cadw unrhyw wybodaeth bersonol amdanoch ai beidio, dylech ysgrifennu at <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a> </p><p>\tCyfeiriwch at y Ddeddf Diogelu Data yn eich cais. Mae'n ofynnol i chi ddarparu prawf adnabod: </p><ul>\t<li>\t\tllungopi o dudalennau adnabod eich pasbort cyfredol \t</li>\t<li>\t\ttrwydded yrru â llun gyfredol \t</li>\t<li>\t\tbil cyfleustodau gwreiddiol a chyfredol (er enghraifft, trydan), cyfriflen cerdyn credyd neu fanc sy'n cynnwys eich enw a'ch cyfeiriad \t</li></ul><p>\tOs oes angen y dogfennau hyn yn ôl arnoch, byddwn yn eu dychwelyd atoch. Byddai'n ddefnyddiol petaech yn gallu adnabod pa ran o'r Gronfa Loteri Fawr (pa adran, cyfarwyddiaeth neu swyddfa) y credwch sy'n cadw eich data er mwyn hwyluso'r chwilio. <br /><br />Gallwn atal mynediad i'ch gwybodaeth pan fo gennym yr hawl i wneud hynny o dan <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Ddeddf Diogelu Data 1998</a>.</p>"
+        }
+    },
+    "funding": {
+        "guidance": {
+            "order-free-materials": {
+                "title": "Sut i gael deunyddiau â'n brand arnynt am ddim",
+                "body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3 class=\"t3a m-t\">Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p><h3 class=\"t3a m-t\">Ydych chi'n cynnal digwyddiad mawr?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> a all helpu gyda cheisiadau am unrhyw ddeunyddiau arbennig, byddent hefyd yn awyddus i siarad â chi am y posibilrwydd o dynnu lluniau o'ch digwyddiad.</p>",
+                "languageOptions": {
+                    "monolingual": "",
+                    "bilingual": "yn Gymraeg a Saesneg"
+                },
+                "orderSubmitted": {
+                    "success": "Diolch am eich archeb. Bydd eich nwyddau gyda chi cyn bo hir.",
+                    "failure": "Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb. Rhowch gynnig arall arni yn nes ymlaen"
+                },
+                "orderForm": "Ffurflen Archebu",
+                "yourDetails": "Eich Manylion",
+                "submit": "Cyflwyno"
+            },
+            "logos": {
+                "title": "Sut i hysbysu pobl am eich grant Loteri Genedlaethol gan ddefnyddio ein logo",
+                "body": "<p>Mae'n <strong>bwysig iawn</strong> y gall pobl sy'n defnyddio neu’n galw heibio'ch mudiad ddeall yn gyflym ac yn hwylus eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech chi wneud hwn trwy roi ein logo ar wal, gwefan neu gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod y rhan fwyaf o bobl sy'n ymwneud â'ch prosiect yn deall ei fod yn cael ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3 class=\"t3a m-t\">Sut i gael y logo</h3><p>Rydym am i chi fod mor hyblyg a chreadigol â phosib wrth ddefnyddio'ch arian grant. Er hynny, mae'n rhaid i chi gyhoeddi eich dyfarniad grant yn gyhoeddus. Mae'r dudalen hon yn cynnwys logos y gallwch eu lawrlwytho i'w defnyddio. Rydym yn cynnig deunyddiau hefyd, fel placiau, balwnau a 'sieciau' mawr y byddwn yn eu hanfon atoch am ddim - gallwch <a href=\"/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials\">weld beth sydd ar gael ac archebu yma</a>.</p>",
+                "labels": {
+                    "english": "Saesneg",
+                    "bilingual": "Cymraeg/Saesneg dwyieithog"
+                },
+                "downloads": {
+                    "sizes": {
+                        "small": ".jpg bach",
+                        "large": ".jpg mawr",
+                        "eps": ".eps mewn CMYK"
+                    },
+                    "colours": {
+                        "blue": "glas",
+                        "pink": "pinc",
+                        "white": "gwyn"
+                    },
+                    "download": "Lawrlwytho'r"
+                }
+            },
+            "help-with-publicity": {
+                "title": "Dywedwch wrth bawb am eich grant trwy gyfryngau cymdeithasol",
+                "body": {
+                    "part1": "<p>Mae sianelau cyfryngau cymdeithasol fel Facebook, Twitter ac Instagram yn ddulliau gwych o hysbysebu'ch grant a'r gwaith rydych yn ei wneud.</p><p>Mae'n hawdd iawn i greu cyfrif ar y llwyfannau cyfryngau cymdeithasol hyn. Mae'n syniad da i neilltuo rhywun i reoli eich cyfrifon cyfryngau cymdeithasol er mwyn i chi barhau i rannu gwybodaeth ac ymateb i unrhyw sylwadau.</p><p>Rydym am i chi:</p>",
+                    "actions": {
+                        "1": "Rannu'r newyddion am eich grant ar gyfryngau cymdeithasol, gan ddiolch i chwaraewyr y Loteri Genedlaethol",
+                        "2": "Dilyn y Gronfa Loteri Fawr ar gyfryngau cymdeithasol",
+                        "3": "Defnyddio cyfryngau cymdeithasol i rannu newyddion am eich trwy gydol eich grant"
+                    },
+                    "part2": "<p>Wedyn gallwn rannu'ch storïau  gyda'r gymuned Loteri Genedlaethol ehangach!</p><p>Gofynnir i chi gydnabod cefnogaeth chwaraewyr y Loteri Genedlaethol trwy ddefnyddio'r hashnod #LoteriGenedlaethol wrth bostio cynnwys sy'n gysylltiedig â'ch grant.</p>"
+                }
+            },
+            "managing-your-funding": {
+                "title": "Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol!",
+                "body": {
+                    "header1": "Rydych yn awr yn rhan o deulu o fudiadau anhygoel sy'n gwneud cymunedau ledled y Deyrnas Unedig yn lleoedd gwell i fyw.",
+                    "block1": "<p>Rydym am i chi fod mor hyblyg a chreadigol â phosib wrth ddefnyddio'ch arian grant. Er hynny, mae'n rhaid i chi gyhoeddi eich dyfarniad grant yn gyhoeddus. Rydym am i chi wneud hyn mewn amrywiaeth o ffyrdd, ond dyma rai y dylech eu hystyried:</p>",
+                    "actions": {
+                        "social": "Dywedwch wrth bawb am eich grant ar gyfryngau cymdeithasol",
+                        "press": "Cysylltwch â'ch gwasg leol",
+                        "logo": "Lawrlwytho ein logo fel bod pobl yn gwybod am eich grant gan y Loteri Genedlaethol",
+                        "freeMaterial": "Archebu placiau, sticeri, balwnau a mwy am ddim"
+                    },
+                    "header2": "Pam ydym ni'n gofyn i chi wneud y pethau hyn?",
+                    "block2": "<p>Rydych yn un o filoedd o achosion da ar draws y Deyrnas Unedig sy'n gwneud pethau anhygoel gydag arian a godir gan chwaraewyr y Loteri Genedlaethol. Mae'n bwysig iawn i chi rannu'r newyddion da am eich grant a rhoi gwybod i'r cyhoedd sut maent yn gwneud bywyd yn well ar draws y Deyrnas Unedig trwy chwarae gemau'r Loteri Genedlaethol.</p><p>Bydd yn annog pobl yn eich ardal leol i ymgeisio am arian Loteri hefyd, gan ehangu'r gwaith syfrdanol sy'n digwydd yn eich cymuned.</p>"
+                }
+            },
+            "getting-press-coverage": {
+                "title": "Sut i ddenu sylw i'ch grant yn y wasg",
+                "body": "<p>Mae derbyn grant gan y Loteri Genedlaethol yn gyflawniad campus ac yn newyddion gwych i'ch cymuned leol. Bydd gan bapurau newydd a gorsafoedd radio lleol ddiddordeb mewn clywed eich newyddion. Gallant helpu chi i adrodd eich stori  a chodi ymwybyddiaeth yn y gymuned.</p><p>Dyma gyfle pwysig hefyd i ddiolch i chwaraewyr y Loteri Genedlaethol am wneud eich gwaith yn bosib.</p>",
+                "sections": {
+                    "identify": {
+                        "title": "Adnabod pa gyfryngau i'w targedu",
+                        "text": "<p>Cysylltwch â phapurau newydd sydd ar gael i'w prynu neu a ddosberthir am ddim yn yr ardal mae eich prosiect wedi'i leoli ynddi. Os ydych yn ansicr pa ardal y maent yn adrodd amdani, gallwch ffonio i ofyn. Ystyriwch gysylltu â'ch gorsaf radio BBC leol ynghyd ag unrhyw orsafoedd masnachol yn eich ardal. Edrychwch i weld a oes unrhyw wefannau neu flogiau lleol a allai fod â diddordeb yn eich stori.</p>"
+                    },
+                    "find": {
+                        "title": "Dod o hyd i'r cyswllt gorau",
+                        "text": "<p>Mae'n werth ffonio desg newyddion papur newydd neu orsaf radio i adrodd eich stori iddynt a gofyn a oes unrhyw un yn benodol y dylech ei hanfon atynt.</p>"
+                    },
+                    "draft": {
+                        "title": "Drafftio datganiad i'r wasg",
+                        "text": "<p>Wrth ysgrifennu hwn, ystyriwch bwysigrwydd ac effaith eich prosiect. Sut bydd yn gwneud gwahaniaeth i'r bobl rydych yn cydweithio â nhw? Sut bydd yn gwella'u bywydau? Sut bydd yn gwella'r gymuned gyfan?</p>"
+                    },
+                    "send": {
+                        "title": "Anfon datganiad i'r wasg",
+                        "text": "<p>Gwnewch yn siŵr bod sylwedd eich e-bost yn ymdrin â'r stori a'r ardal, er enghraifft \"Dyfarnwyd Arian y Loteri Genedlaethol i Ganolfan Gymunedol Llanbrynmair\". Gludwch y datganiad i'r wasg yng nghorff yr e-bost yn hytrach na'i atodi. A chofiwch bob amser gynnwys eich manylion cyswllt!</p>"
+                    },
+                    "attach": {
+                        "title": "Atodi llun",
+                        "text": "<p>Gall atodi llun o ansawdd da wella'ch cyfle o ddenu cyhoeddusrwydd yn fawr. Gall hyd yn oed lluniau a dynnwyd ar ffonau clyfar weithio'n dda iawn. Ystyriwch yr hyn yr ydych am i'r llun ei ddweud am eich prosiect - ystyriwch y lleoliad a phwy i'w gynnwys yn y llun. Gwnewch yn siŵr eich bod yn cynnwys enwau pawb yn y llun ac eglurwch bwy yw pwy er mwyn helpu'r papur newydd i greu is-bennawd priodol ar gyfer y llun.</p>"
+                    },
+                    "follow": {
+                        "title": "Dilyn i fyny gyda galwad ffôn",
+                        "text": "<p>Mae newyddiadurwyr yn derbyn llawer o ddatganiadau i'r wasg bob dydd a bydd yn helpu os byddwch yn rhoi galwad gyflym iddynt i amlygu'ch newyddion chi.</p>"
+                    },
+                    "tell": {
+                        "title": "Dywedwch wrthym am eich llwyddiannau",
+                        "text": "<p>Mawr hoffem glywed amdano pan fyddwch yn denu sylw'r cyfryngau yn eich ardal leol. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Cysylltwch â ni er mwyn i ni gael gwybod amdano</a>!</p>"
+                    }
+                }
+            }
+        }
+    }
+}

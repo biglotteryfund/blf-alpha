@@ -1,5 +1,5 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const nunjucks = require('nunjucks');
 const assets = require('../assets');
 

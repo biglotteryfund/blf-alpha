@@ -6,14 +6,14 @@ const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
 
-const globals = require('../../boilerplate/globals');
+const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 
 const LAUNCH_DATE = moment();
 
 const localeFiles = {
-    en: '../../locales/en.json',
-    cy: '../../locales/cy.json'
+    en: '../../config/locales/en.json',
+    cy: '../../config/locales/cy.json'
 };
 
 router.get('/', (req, res, next) => {
@@ -103,7 +103,7 @@ if (globals.get('appData').IS_DEV) {
             if (json[locale]) {
                 let jsonToWrite = JSON.stringify(json[locale], null, 4);
                 try {
-                    let filePath = path.join(__dirname, `../locales/${locale}.json`);
+                    let filePath = path.join(__dirname, `../../config/locales/${locale}.json`);
                     fs.writeFileSync(filePath, jsonToWrite);
                 } catch (err) {
                     failedUpdates.push(locale);

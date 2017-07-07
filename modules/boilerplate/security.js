@@ -1,5 +1,5 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const helmet = require('helmet');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
@@ -40,7 +40,6 @@ const helmetSettings = helmet({
 });
 
 app.use((req, res, next) => {
-    // if (req.path === '/home') {
     if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
         next();
     } else {

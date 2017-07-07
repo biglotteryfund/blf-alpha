@@ -1,10 +1,10 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const sassConfig = require('../config/sass.json');
-const routes = require('../routes/routes');
+const sassConfig = require('../../config/sass.json');
+const routes = require('../../routes/routes');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
@@ -30,7 +30,7 @@ setGlobal('appData', {
     buildNumber: (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV',
     IS_DEV: appEnv === 'dev',
     environment: appEnv,
-    config: config // @TODO is this being used?
+    config: config
 });
 
 // configure meta tags

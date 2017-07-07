@@ -1,5 +1,5 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const globals = require('./globals');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -48,7 +48,8 @@ app.use(expressValidator({}));
 i18n.expressBind(app, {
     locales: ['en', 'cy'],
     cookieName: 'locale',
-    extension: '.json'
+    extension: '.json',
+    directory: './config/locales'
 });
 
 // handle overlays

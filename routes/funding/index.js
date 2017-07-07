@@ -5,7 +5,7 @@ const moment = require('moment');
 const _ = require('lodash');
 const routeStatic = require('../utils/routeStatic');
 
-// const security = require('../boilerplate/security');
+// const security = require('../modules/boilerplate/security');
 const email = require('../../modules/mail');
 
 const freeMaterialsLogic = {

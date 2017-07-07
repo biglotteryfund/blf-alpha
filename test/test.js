@@ -31,7 +31,7 @@ let captureStream = (stream) => {
 describe('Express application', function () {
     this.timeout(10000);
     let server, hook;
-    const assets = require('../assets');
+    const assets = require('../modules/assets');
     const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
 
     beforeEach(() =>{
