@@ -46,17 +46,17 @@
                     {% endif %}
                     <form method="post" action="/status/edit-news/{% if id %}{{ id }}{% endif %}">
                         <div class="form-group">
-                            {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan') }}
+                            {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
                         </div>
                         <div class="form-group">
-                            {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story') }}
+                            {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
                         </div>
                         <div class="form-group">
-                            {{ forms.input('link', 'Link', 'text', required = false, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                            {{ forms.input('link', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
                         </div>
                         <button type="submit" class="btn btn-default">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
                         {% if id %}
-                            <button type="submit" name="action" value="delete" class="btn btn-default">Delete article</button>
+                            <button type="submit" name="action" value="delete" class="btn btn-default" id="js-delete">Delete article</button>
                         {% endif %}
                     </form>
                 </div>
@@ -67,5 +67,28 @@
                 border: 2px dotted red;
             }
         </style>
+        <script>
+            var $limitedElms = $('.js-has-char-limit');
+            var remainderText = ' characters remaining';
+            $limitedElms.each(function () {
+                var limit = $(this).data('char-limit');
+                var html = $('<h6 class="pull-right">' + limit + remainderText + '</h6>');
+                html.insertAfter($(this));
+
+                $(this).keyup(function(e) {
+                    var text = $(this).val();
+                    var length = text.length;
+                    var remaining = limit - length;
+                    html.html(remaining + remainderText);
+                    if (remaining <= 0) {
+                        $(this).val(text.substr(0, limit));
+                    }
+                });
+            });
+
+            $('#js-delete').click(function (e) {
+                return confirm("Are you sure you want to delete this article? This can't be undone!");
+            });
+        </script>
     </body>
 </html>
