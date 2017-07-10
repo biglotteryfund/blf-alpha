@@ -17,7 +17,8 @@ const defaultSecurityDomains = [
     'www.google-analytics.com',
     'www.google.com',
     'maxcdn.bootstrapcdn.com',
-    'platform.twitter.com'
+    'platform.twitter.com',
+    'syndication.twitter.com'
 ];
 
 const helmetSettings = helmet({

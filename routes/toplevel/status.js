@@ -155,7 +155,6 @@ router.route(editNewsPath + '/:id?')
             // sanitise input
             req.body['title'] = req.sanitize('title').escape();
             req.body['text'] = req.sanitize('text').escape();
-            req.body['link'] = req.sanitize('link').escape();
 
             if (!result.isEmpty()) {
                 req.session.errors = result.array();
