@@ -78,14 +78,16 @@
             </ul>
 
             {# news posts #}
-            <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
-                {% for n in news %}
-                    <li class="grid__item">
-                        <h4 class="t3">{{ n.title }}</h4>
-                        <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% if news.length %}
+                <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
+                    {% for n in news %}
+                        <li class="grid__item">
+                            <h4 class="t3">{{ n.title }}</h4>
+                            <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
             {# funding finder #}
             <div class="central-gap m-b--l">
