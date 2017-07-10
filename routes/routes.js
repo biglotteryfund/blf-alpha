@@ -159,7 +159,8 @@ const anchors = config.get('anchors');
 
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.global.path + routes.sections.global.pages.contact.path
+    contact: routes.sections.global.path + routes.sections.global.pages.contact.path,
+    managingFunding: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
 };
 
 const vanityRedirects = [
@@ -173,6 +174,12 @@ const vanityRedirects = [
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
         destination: '/welsh' + vanityDestinations.publicity,
+        aliasOnly: true
+    },
+    {
+        name: "Managing Your Funding",
+        path: "/welcome",
+        destination: vanityDestinations.managingFunding,
         aliasOnly: true
     },
     {
