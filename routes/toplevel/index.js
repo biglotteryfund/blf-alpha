@@ -59,7 +59,7 @@ module.exports = (pages) => {
         };
 
         try {
-            models.News.findAll().then(serveHomepage);
+            models.News.findAll({ limit: 3, order: [['updatedAt', 'DESC']] }).then(serveHomepage);
         } catch (e) {
             console.log('Could not find news posts');
             serveHomepage();

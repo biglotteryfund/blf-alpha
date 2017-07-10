@@ -8,6 +8,7 @@ const generateSchema = require('generate-schema');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
+const models = require('../../models/index');
 
 const LAUNCH_DATE = moment();
 
@@ -119,5 +120,73 @@ if (globals.get('appData').IS_DEV) {
     });
 
 }
+
+const editNewsPath = '/edit-news';
+router.route(editNewsPath + '/:id?')
+    .get((req, res, next) => {
+
+        let queries = [];
+        queries.push(models.News.findAll({ order: [['updatedAt', 'DESC']] }));
+
+        if (req.params.id) {
+            queries.push(models.News.findById(req.params.id));
+        }
+
+        Promise.all(queries).then((responses) => {
+            if (req.params.id) {
+                req.session.values = responses[1];
+            }
+            res.render('pages/tools/newsEditor', {
+                news: responses[0],
+                id: req.params.id,
+                status: req.session.newsStatus
+            });
+            // @TODO flash session
+            delete req.session.errors;
+            delete req.session.values;
+            delete req.session.newsStatus;
+        });
+    }).post((req, res, next) => {
+        req.checkBody('title', 'Please provide a title').notEmpty();
+        req.checkBody('text', 'Please provide a summary').notEmpty();
+        req.checkBody('link', 'Please provide a link').notEmpty();
+
+        req.getValidationResult().then((result) => {
+            // sanitise input
+            req.body['title'] = req.sanitize('title').escape();
+            req.body['text'] = req.sanitize('text').escape();
+            req.body['link'] = req.sanitize('link').escape();
+
+            if (!result.isEmpty()) {
+                req.session.errors = result.array();
+                req.session.values = req.body;
+                res.redirect(req.baseUrl + editNewsPath);
+            } else {
+
+                let rowData = {
+                    title: req.body['title'],
+                    text: req.body['text'],
+                    link: req.body['link']
+                };
+
+                if (req.params.id) {
+                    rowData.id = req.params.id;
+                }
+
+                if (req.body.action === 'delete' && req.params.id) {
+                    models.News.destroy({
+                        where: {
+                            id: req.params.id
+                        }
+                    });
+                } else {
+                    models.News.upsert(rowData);
+                }
+
+                req.session.newsStatus = 'success';
+                res.redirect(req.baseUrl + editNewsPath);
+            }
+        });
+    });
 
 module.exports = router;

@@ -1,0 +1,68 @@
+{% import "../../components/forms.njk" as forms %}
+<!doctype html>
+<html>
+    <head>
+        <title>News editor</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">News article editor</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container" style="padding-top: 70px;">
+
+            {% if status === 'success' %}
+                <div class="alert alert-success" role="alert">The article was successfully updated!</div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>All articles <small>(Click to edit)</small></h2>
+                    <ul>
+                        {% for n in news %}
+                            <li><a href="/status/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
+                                (Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    {% if id %}
+                        <h2>Edit article</h2>
+                    {% else %}
+                        <h2>Add a new article</h2>
+                    {% endif %}
+                    <form method="post" action="/status/edit-news/{% if id %}{{ id }}{% endif %}">
+                        <div class="form-group">
+                            {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan') }}
+                        </div>
+                        <div class="form-group">
+                            {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story') }}
+                        </div>
+                        <div class="form-group">
+                            {{ forms.input('link', 'Link', 'text', required = false, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                        </div>
+                        <button type="submit" class="btn btn-default">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
+                        {% if id %}
+                            <button type="submit" name="action" value="delete" class="btn btn-default">Delete article</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <style>
+            .is-error {
+                border: 2px dotted red;
+            }
+        </style>
+    </body>
+</html>
