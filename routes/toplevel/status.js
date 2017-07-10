@@ -5,10 +5,12 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
+const passport = require('passport');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 const models = require('../../models/index');
+const isAuthenticated = require('../../modules/authed');
 
 const LAUNCH_DATE = moment();
 
@@ -122,8 +124,24 @@ if (globals.get('appData').IS_DEV) {
 }
 
 const editNewsPath = '/edit-news';
-router.route(editNewsPath + '/:id?')
+const loginPath = '/login';
+
+router.route(loginPath)
     .get((req, res, next) => {
+        res.render('pages/tools/login', {});
+    });
+
+router.post(loginPath,
+    passport.authenticate('local', {
+        failureRedirect: '/status' + loginPath,
+        successRedirect: '/status' + editNewsPath
+    }),
+    function(req, res) {
+        res.redirect('/');
+    });
+
+router.route(editNewsPath + '/:id?')
+    .get(isAuthenticated, (req, res, next) => {
 
         let queries = [];
         queries.push(models.News.findAll({ order: [['updatedAt', 'DESC']] }));

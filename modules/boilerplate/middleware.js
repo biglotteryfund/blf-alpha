@@ -11,6 +11,10 @@ const expressValidator = require('express-validator');
 const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
+const passport = require('passport');
+
+// load auth strategy
+require('../../modules/boilerplate/auth');
 
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
@@ -40,6 +44,10 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sessionConfig));
+
+// add passport auth
+app.use(passport.initialize());
+app.use(passport.session());
 
 // add form validator
 app.use(expressValidator({}));
