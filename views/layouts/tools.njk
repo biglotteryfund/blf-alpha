@@ -17,7 +17,9 @@
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">BLF Tools</a>
-                    <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong> [<a href="/logout">Log out?</a>]</p>
+                    {% if user %}
+                        <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong> [<a href="/logout">Log out?</a>]</p>
+                    {% endif %}
                 </div>
                 {% block headerAction %}{% endblock %}
             </div>
