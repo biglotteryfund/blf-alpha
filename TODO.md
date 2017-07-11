@@ -3,7 +3,6 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
-- [ ] use proper session store (mysql?)
 - [ ] test DB (but access secrets on travis?)
 - [ ] e-bulletin allows signup without a location
 

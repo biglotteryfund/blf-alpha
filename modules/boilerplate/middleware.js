@@ -13,6 +13,9 @@ const path = require('path');
 const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const models = require('../../models/index');
+const secrets = require('../../modules/secrets');
 
 // load auth strategy
 require('../../modules/boilerplate/auth');
@@ -32,11 +35,14 @@ app.use(cookieParser());
 // add session
 const sessionConfig = {
     // @TODO re-generate and secure in AWS
-    secret: 'gqQpNpuqBVFgnEiXfLvJBGmstieVHPofPkrbnaEEqHyQFmDpsmrVZA6pAcvZzeLQ',
+    secret: secrets['session.secret'],
     name: config.get('cookies.session'),
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false }
+    cookie: { secure: false, httpOnly: false },
+    store: new SequelizeStore({
+        db: models.sequelize
+    })
 };
 
 if (app.get('env') === 'production') {
