@@ -136,18 +136,14 @@ router.route(editNewsPath + '/:id?')
 
         Promise.all(queries).then((responses) => {
             if (req.params.id) {
-                req.session.values = responses[1];
+                req.flash('formValues', responses[1]);
             }
             res.render('pages/tools/newsEditor', {
                 news: responses[0],
                 id: req.params.id,
-                status: req.session.newsStatus,
+                status: req.flash('newsStatus'),
                 user: req.user
             });
-            // @TODO flash session
-            delete req.session.errors;
-            delete req.session.values;
-            delete req.session.newsStatus;
         });
     }).post(isAuthenticated, (req, res, next) => {
         req.checkBody('title', 'Please provide a title').notEmpty();
@@ -160,8 +156,8 @@ router.route(editNewsPath + '/:id?')
             req.body['text'] = req.sanitize('text').escape();
 
             if (!result.isEmpty()) {
-                req.session.errors = result.array();
-                req.session.values = req.body;
+                req.flash('formErrors', result.array());
+                req.flash('formValues', req.body);
                 res.redirect(req.baseUrl + editNewsPath);
             } else {
 
@@ -184,8 +180,7 @@ router.route(editNewsPath + '/:id?')
                 } else {
                     models.News.upsert(rowData);
                 }
-
-                req.session.newsStatus = 'success';
+                req.flash('newsStatus', 'success');
                 res.redirect(req.baseUrl + editNewsPath);
             }
         });

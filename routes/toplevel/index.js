@@ -56,8 +56,6 @@ module.exports = (pages) => {
                 title: "Homepage",
                 news: news || []
             });
-            // @TODO flash session
-            delete req.session.errors;
         };
 
         try {
@@ -139,9 +137,9 @@ module.exports = (pages) => {
             req.body['cd_ORGANISATION'] = req.sanitize('cd_ORGANISATION').escape();
 
             if (!result.isEmpty()) {
-                req.session.errors = result.array();
-                req.session.values = req.body;
-                res.redirect('/home#' + config.get('anchors.ebulletin'));
+                req.flash('formErrors', result.array());
+                req.flash('formValues', req.body);
+                res.redirect('/#' + config.get('anchors.ebulletin'));
             } else {
                 // send the valid form to the signup endpoint (external)
                 res.redirect(307, config.get('ebulletinSignup'));
@@ -220,8 +218,8 @@ module.exports = (pages) => {
             failureFlash: true
         }),
         function(req, res) {
+            // we don't use flash here because it gets unset in the GET route above
             let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : '/login';
-            // @TODO flash session
             delete req.session.redirectUrl;
             res.redirect(redirectUrl);
         });

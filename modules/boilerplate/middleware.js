@@ -12,7 +12,7 @@ const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
 const passport = require('passport');
-const flash = require('connect-flash');
+const flash = require('req-flash');
 
 // load auth strategy
 require('../../modules/boilerplate/auth');

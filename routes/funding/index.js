@@ -66,7 +66,6 @@ module.exports = (pages) => {
 
             // this page is dynamic so don't cache it
             res.cacheControl = { maxAge: 0 };
-            let errors = (req.session.errors) ? req.session.errors : false;
 
             let orderStatus;
             if (req.session.materialFormSuccess) {
@@ -89,15 +88,11 @@ module.exports = (pages) => {
                 description: "Order items free of charge to acknowledge your grant",
                 materials: freeMaterialsLogic.materials.items,
                 formFields: freeMaterialsLogic.formFields,
-                formErrors: errors,
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,
                 csrfToken: ''
             });
-
-            // @TODO flash session
-            delete req.session.errors;
         })
         .post((req, res, next) => {
 
@@ -138,8 +133,8 @@ module.exports = (pages) => {
                 }
 
                 if (!result.isEmpty()) {
-                    req.session.errors = result.array();
-                    req.session.values = req.body;
+                    req.flash('formErrors', result.array());
+                    req.flash('formValues', req.body);
                     res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
