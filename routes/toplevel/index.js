@@ -36,68 +36,60 @@ let testHomepage = ab.test('blf-homepage-2017', {
     id: config.get('abTests.tests.homepage.id') // google experiment ID
 });
 
-module.exports = (pages) => {
+let newHomepage = (req, res, next) => {
+    let serveHomepage = (news) => {
+        res.render('pages/toplevel/home', {
+            title: "Homepage",
+            news: news || []
+        });
+    };
 
-    /**
-     * 1. Populate static pages
-     */
-    for (let page in pages) {
-        if (pages[page].static) { routeStatic(pages[page], router); }
+    // get news articles
+    try {
+        models.News.findAll({ limit: 3, order: [['updatedAt', 'DESC']] }).then(serveHomepage);
+    } catch (e) {
+        console.log('Could not find news posts');
+        serveHomepage();
     }
+};
 
-    // variant A: new homepage
-    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
+let oldHomepage = (req, res, next) => {
+    return rp({
+        url: legacyUrl,
+        strictSSL: false,
+        jar: true
+    }).then((body) => {
+        // convert all links in the document to be root-relative
+        // (only really useful on non-prod envs)
+        body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
-        let serveHomepage = (news) => {
-            res.render('pages/toplevel/home', {
-                title: "Homepage",
-                news: news || []
-            });
-        };
+        // fix meta tags in HTML which use the wrong CNAME
+        body = body.replace(/wwwlegacy/g, 'www');
 
-        // get news articles
-        try {
-            models.News.findAll({ limit: 3, order: [['updatedAt', 'DESC']] }).then(serveHomepage);
-        } catch (e) {
-            console.log('Could not find news posts');
-            serveHomepage();
-        }
-    });
+        // parse the DOM
+        const dom = new JSDOM(body);
 
-    // variant B: existing site (proxied)
-    router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), (req, res, next) => {
-        rp({
-            url: legacyUrl,
-            strictSSL: false,
-            jar: true
-        }).then((body) => {
-            // convert all links in the document to be root-relative
-            // (only really useful on non-prod envs)
-            body = absolution(body, 'https://www.biglotteryfund.org.uk');
-
-            // fix meta tags in HTML which use the wrong CNAME
-            body = body.replace(/wwwlegacy/g, 'www');
-
+        // are we in an A/B test?
+        if (res.locals.ab) {
             // create GA snippet for tracking experiment
             const gaCode = `
-                <script src="//www.google-analytics.com/cx/api.js"></script>
-                <script>
-                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-                    ga('create', '${config.get('googleAnalyticsCode')}', {
-                        'cookieDomain': 'none'
-                    });
-                    // console.log('tracking test', ${JSON.stringify(res.locals.ab)});
-                    ga('set', 'expId', '${res.locals.ab.id}');
-                    ga('set', 'expVar', ${res.locals.ab.variantId});
-                    cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
-                    ga('send', 'pageview');
-                </script>`;
+                    <script src="//www.google-analytics.com/cx/api.js"></script>
+                    <script>
+                        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                                (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+                        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                        ga('create', '${config.get('googleAnalyticsCode')}', {
+                            'cookieDomain': 'none'
+                        });
+                        // console.log('tracking test', ${JSON.stringify(res.locals.ab)});
+                        ga('set', 'expId', '${res.locals.ab.id}');
+                        ga('set', 'expVar', ${res.locals.ab.variantId});
+                        cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
+                        ga('send', 'pageview');
+                    </script>`;
 
             // insert GA experiment code into the page
-            const dom = new JSDOM(body);
             const script = dom.window.document.createElement("div");
             script.innerHTML = gaCode;
             dom.window.document.body.appendChild(script);
@@ -110,14 +102,36 @@ module.exports = (pages) => {
             if (gtm) {
                 gtm.innerHTML = '';
             }
+        }
 
-            res.send(dom.serialize());
-        }).catch(error => {
-            // we failed to fetch from the proxy
-            // @TODO is there a better fix for this?
-            res.send(error);
-        });
+        res.send(dom.serialize());
+
+    }).catch(error => {
+        // we failed to fetch from the proxy
+        // @TODO is there a better fix for this?
+        console.log(error);
+        res.send(error);
     });
+};
+
+module.exports = (pages) => {
+
+    /**
+     * 1. Populate static pages
+     */
+    for (let page in pages) {
+        if (pages[page].static) { routeStatic(pages[page], router); }
+    }
+
+    // variant A: new homepage
+    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
+
+    // variant B: existing site (proxied)
+    router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
+
+    // used for tests: override A/B cohorts
+    router.get('/home', newHomepage);
+    router.get('/legacy', oldHomepage);
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res, next) => {
