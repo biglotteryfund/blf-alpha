@@ -48,7 +48,6 @@ module.exports = (pages) => {
 
     // variant A: new homepage
     router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
-        // get news articles
 
         let serveHomepage = (news) => {
             res.render('pages/toplevel/home', {
@@ -57,6 +56,7 @@ module.exports = (pages) => {
             });
         };
 
+        // get news articles
         try {
             models.News.findAll({ limit: 3, order: [['updatedAt', 'DESC']] }).then(serveHomepage);
         } catch (e) {
@@ -124,6 +124,7 @@ module.exports = (pages) => {
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res, next) => {
+        // @TODO somehow validate that a country was chosen
         req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
         req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
         req.checkBody('Email', 'Please provide your email address').notEmpty();

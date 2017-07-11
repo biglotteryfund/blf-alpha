@@ -245,7 +245,6 @@ getDistributionConfig.then((data) => { // fetching the config worked
     // store the old config before changing it, just in case...
     const clone = _.cloneDeep(data);
     const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-    // const confPath = `../cloudfront/${timestamp}.json`;
     const confPath = path.join(__dirname, `../cloudfront/${timestamp}.json`);
     const confData = JSON.stringify(clone, null, 4);
 

@@ -3,10 +3,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
-const routes = require('../routes/routes');
-
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+
+const routes = require('../routes/routes');
 
 chai.use(chaiHttp);
 
@@ -282,6 +282,19 @@ describe('Express application', function () {
                     done();
                 });
         });
+
+        /* tests to add
+         *
+         *  homepage loads properly, has news
+         *  ebulletin signup
+         *  session/db works
+         *  tools pages are auth protected
+         *  news CRUD works
+         *  GA is loaded
+         *  are form fields working as expected?
+         *  contrast tool exists and sets cookies etc
+         *  welsh URL serves welsh copy
+         */
 
     });
 });

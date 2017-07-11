@@ -4,7 +4,10 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 
 ## To fix
 - [ ] test DB (but access secrets on travis?)
+- [ ] google tag manager / experiment for homepage?
 - [ ] e-bulletin allows signup without a location
+- [ ] db pool size?
+- [ ] CSRF
 
 ## Tech debt
 - [ ] refactor main.js (CS)
