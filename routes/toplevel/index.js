@@ -4,7 +4,6 @@ const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
 const httpProxy = require('http-proxy');
-const request = require('request'); // @TODO do we need this? use rp?
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
@@ -67,25 +66,20 @@ module.exports = (pages) => {
 
     // variant B: existing site (proxied)
     router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), (req, res, next) => {
-        request({
+        rp({
             url: legacyUrl,
             strictSSL: false,
             jar: true
-        }, (error, response, body) => {
-            if (error) {
-                // we failed to fetch from the proxy
-                // @TODO is there a better fix for this?
-                res.send(error);
-            } else {
-                // convert all links in the document to be root-relative
-                // (only really useful on non-prod envs)
-                body = absolution(body, 'https://www.biglotteryfund.org.uk');
+        }).then((body) => {
+            // convert all links in the document to be root-relative
+            // (only really useful on non-prod envs)
+            body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
-                // fix meta tags in HTML which use the wrong CNAME
-                body = body.replace(/wwwlegacy/g, 'www');
+            // fix meta tags in HTML which use the wrong CNAME
+            body = body.replace(/wwwlegacy/g, 'www');
 
-                // create GA snippet for tracking experiment
-                const gaCode = `
+            // create GA snippet for tracking experiment
+            const gaCode = `
                 <script src="//www.google-analytics.com/cx/api.js"></script>
                 <script>
                     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -102,23 +96,26 @@ module.exports = (pages) => {
                     ga('send', 'pageview');
                 </script>`;
 
-                // insert GA experiment code into the page
-                const dom = new JSDOM(body);
-                const script = dom.window.document.createElement("div");
-                script.innerHTML = gaCode;
-                dom.window.document.body.appendChild(script);
+            // insert GA experiment code into the page
+            const dom = new JSDOM(body);
+            const script = dom.window.document.createElement("div");
+            script.innerHTML = gaCode;
+            dom.window.document.body.appendChild(script);
 
-                // try to kill the google tag manager (useful for non-prod envs)
-                // @TODO kill the noscript too?
-                // @TODO don't do this on prod?
-                const scripts = dom.window.document.scripts;
-                let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
-                if (gtm) {
-                    gtm.innerHTML = '';
-                }
-
-                res.send(dom.serialize());
+            // try to kill the google tag manager (useful for non-prod envs)
+            // @TODO kill the noscript too?
+            // @TODO don't do this on prod?
+            const scripts = dom.window.document.scripts;
+            let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
+            if (gtm) {
+                gtm.innerHTML = '';
             }
+
+            res.send(dom.serialize());
+        }).catch(error => {
+            // we failed to fetch from the proxy
+            // @TODO is there a better fix for this?
+            res.send(error);
         });
     });
 
