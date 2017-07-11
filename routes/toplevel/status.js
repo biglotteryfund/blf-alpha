@@ -70,7 +70,9 @@ if (globals.get('appData').IS_DEV) {
 
     router.route('/locales/')
         .get((req, res, next) => {
-            res.render('langEditor', {});
+            res.render('pages/tools/langEditor', {
+                user: req.user
+            });
         }).post((req, res, next) => {
             // fetch these each time
             const locales = {

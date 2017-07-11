@@ -1,95 +1,81 @@
 {% import "../../components/forms.njk" as forms %}
-<!doctype html>
-<html>
-    <head>
-        <title>News editor</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% extends "../../layouts/tools.njk" %}
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+{% block title %}News editor{% endblock %}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% block headerAction %}
+    <form class="navbar-form navbar-right">
+        <a href="/status/edit-news" class="btn btn-default">Add new article</a>
+    </form>
+{% endblock %}
 
-    </head>
-    <body>
+{% block content %}
 
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/status/edit-news">News article editor</a>
-                    <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong> [<a href="/logout">Log out?</a>]</p>
-                </div>
-                <form class="navbar-form navbar-right">
-                    <a href="/status/edit-news" class="btn btn-default">Add new article</a>
-                </form>
-            </div>
-        </nav>
+    {% if status === 'success' %}
+        <div class="alert alert-success" role="alert">The article was successfully updated!</div>
+    {% endif %}
 
-        <div class="container" style="padding-top: 70px;">
-
-            {% if status === 'success' %}
-                <div class="alert alert-success" role="alert">The article was successfully updated!</div>
-            {% endif %}
-            <div class="row">
-                <div class="col-sm-6">
-                    <h2>All articles <small>(Click to edit)</small></h2>
-                    <ul>
-                        {% for n in news %}
-                            <li><a href="/status/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
-                                (Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }})</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    {% if id %}
-                        <h2>Edit article</h2>
-                    {% else %}
-                        <h2>Add a new article</h2>
-                    {% endif %}
-                    <form method="post" action="/status/edit-news/{% if id %}{{ id }}{% endif %}">
-                        <div class="form-group">
-                            {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
-                        </div>
-                        <div class="form-group">
-                            {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
-                        </div>
-                        <div class="form-group">
-                            {{ forms.input('link', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
-                        </div>
-                        <button type="submit" class="btn btn-default">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
-                        {% if id %}
-                            <button type="submit" name="action" value="delete" class="btn btn-default" id="js-delete">Delete article</button>
-                        {% endif %}
-                    </form>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>All articles <small>(Click to edit)</small></h2>
+            <ul>
+                {% for n in news %}
+                    <li><a href="/status/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
+                        (Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }})</li>
+                {% endfor %}
+            </ul>
         </div>
-        <style>
-            .is-error {
-                border: 2px dotted red;
-            }
-        </style>
-        <script>
-            var $limitedElms = $('.js-has-char-limit');
-            var remainderText = ' characters remaining';
-            $limitedElms.each(function () {
-                var limit = $(this).data('char-limit');
-                var html = $('<h6 class="pull-right">' + limit + remainderText + '</h6>');
-                html.insertAfter($(this));
+        <div class="col-sm-6">
+            {% if id %}
+                <h2>Edit article</h2>
+            {% else %}
+                <h2>Add a new article</h2>
+            {% endif %}
+            <form method="post" action="/status/edit-news/{% if id %}{{ id }}{% endif %}">
+                <div class="form-group">
+                    {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('link', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                </div>
+                <button type="submit" class="btn btn-default">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
+                {% if id %}
+                    <button type="submit" name="action" value="delete" class="btn btn-default" id="js-delete">Delete article</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 
-                $(this).keyup(function(e) {
-                    var text = $(this).val();
-                    var length = text.length;
-                    var remaining = limit - length;
-                    html.html(remaining + remainderText);
-                    if (remaining <= 0) {
-                        $(this).val(text.substr(0, limit));
-                    }
-                });
-            });
+    <style>
+        .is-error {
+            border: 2px dotted red;
+        }
+    </style>
 
-            $('#js-delete').click(function (e) {
-                return confirm("Are you sure you want to delete this article? This can't be undone!");
+    <script>
+        var $limitedElms = $('.js-has-char-limit');
+        var remainderText = ' characters remaining';
+        $limitedElms.each(function () {
+            var limit = $(this).data('char-limit');
+            var html = $('<h6 class="pull-right">' + limit + remainderText + '</h6>');
+            html.insertAfter($(this));
+
+            $(this).keyup(function(e) {
+                var text = $(this).val();
+                var length = text.length;
+                var remaining = limit - length;
+                html.html(remaining + remainderText);
+                if (remaining <= 0) {
+                    $(this).val(text.substr(0, limit));
+                }
             });
-        </script>
-    </body>
-</html>
+        });
+
+        $('#js-delete').click(function (e) {
+            return confirm("Are you sure you want to delete this article? This can't be undone!");
+        });
+    </script>
+{% endblock %}
