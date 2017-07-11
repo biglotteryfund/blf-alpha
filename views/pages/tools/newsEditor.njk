@@ -5,7 +5,7 @@
 
 {% block headerAction %}
     <form class="navbar-form navbar-right">
-        <a href="/status/edit-news" class="btn btn-default">Add new article</a>
+        <a href="/tools/edit-news" class="btn btn-default">Add new article</a>
     </form>
 {% endblock %}
 
@@ -20,7 +20,7 @@
             <h2>All articles <small>(Click to edit)</small></h2>
             <ul>
                 {% for n in news %}
-                    <li><a href="/status/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
+                    <li><a href="/tools/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
                         (Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }})</li>
                 {% endfor %}
             </ul>
@@ -31,7 +31,7 @@
             {% else %}
                 <h2>Add a new article</h2>
             {% endif %}
-            <form method="post" action="/status/edit-news/{% if id %}{{ id }}{% endif %}">
+            <form method="post" action="/tools/edit-news/{% if id %}{{ id }}{% endif %}">
                 <div class="form-group">
                     {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
                 </div>

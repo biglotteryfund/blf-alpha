@@ -9,7 +9,6 @@ const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const passport = require('passport');
 
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
@@ -202,31 +201,6 @@ module.exports = (pages) => {
             res.clearCookie(cookieName);
         }
         res.redirect(redirectUrl);
-    });
-
-    const loginPath = '/login';
-
-    router.get(loginPath, (req, res, next) => {
-        res.render('pages/tools/login', {
-            error: req.flash('error'),
-            user: req.user
-        });
-    });
-
-    router.post(loginPath, passport.authenticate('local', {
-            failureRedirect: loginPath,
-            failureFlash: true
-        }),
-        function(req, res) {
-            // we don't use flash here because it gets unset in the GET route above
-            let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : '/login';
-            delete req.session.redirectUrl;
-            res.redirect(redirectUrl);
-        });
-
-    router.get('/logout', function(req, res){
-        req.logout();
-        res.redirect('/');
     });
 
     return router;

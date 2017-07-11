@@ -1,6 +1,6 @@
 let editors = {};
 
-fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) => {
+fetch('/tools/locales', { method: 'post',  credentials: 'same-origin' }).then((r) => r.json()).then((data) => {
     data.editors.forEach(editor => {
         let element = document.getElementById(`js-locale-${editor.code}`);
         let title = document.getElementById(`js-title-${editor.code}`);
@@ -71,7 +71,7 @@ fetch('/status/locales', { method: 'post' }).then((r) => r.json()).then((data) =
         };
 
         $.post({
-            url: '/status/locales/update',
+            url: '/tools/locales/update',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

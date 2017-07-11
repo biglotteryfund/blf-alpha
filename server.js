@@ -14,8 +14,8 @@ require('./modules/boilerplate/static');
 require('./modules/boilerplate/cache');
 require('./modules/boilerplate/middleware');
 
-// create status endpoint (used by load balancer)
-app.use('/status', require('./routes/toplevel/status'));
+// load tools endpoint (including status page for load balancer)
+app.use('/', require('./routes/toplevel/tools'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = function (mountPath) {

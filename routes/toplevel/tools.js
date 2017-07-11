@@ -5,6 +5,7 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
+const passport = require('passport');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
@@ -18,7 +19,8 @@ const localeFiles = {
     cy: '../../config/locales/cy.json'
 };
 
-router.get('/', (req, res, next) => {
+// status page used by load balancer
+router.get('/status', (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,7 +36,8 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/pages', (req, res, next) => {
+// pagelist
+router.get('/status/pages', (req, res, next) => {
 
     const totals = {
         canonical: [],
@@ -56,8 +59,6 @@ router.get('/pages', (req, res, next) => {
         }
     }
 
-
-
     res.render('pagelist', {
         routes: routes.sections,
         vanityRedirects: routes.vanityRedirects,
@@ -65,67 +66,90 @@ router.get('/pages', (req, res, next) => {
     });
 });
 
-// only allow these routes in dev
-if (globals.get('appData').IS_DEV) {
+// login auth
+const loginPath = '/tools/login';
+router.get(loginPath, (req, res, next) => {
+    res.render('pages/tools/login', {
+        error: req.flash('error'),
+        user: req.user
+    });
+});
 
-    router.route('/locales/')
-        .get((req, res, next) => {
-            res.render('pages/tools/langEditor', {
-                user: req.user
-            });
-        }).post((req, res, next) => {
-            // fetch these each time
-            const locales = {
-                en: require(localeFiles.en),
-                cy: require(localeFiles.cy)
-            };
-            res.send({
-                editors: [
-                    {
-                        name: "English",
-                        code: 'en',
-                        json: locales.en,
-                        schema: generateSchema.json(locales.en)
-                    },
-                    {
-                        name: "Welsh",
-                        code: 'cy',
-                        json: locales.cy,
-                        schema: generateSchema.json(locales.cy)
-                    }
-                ]
-            });
+router.post(loginPath, passport.authenticate('local', {
+        failureRedirect: loginPath,
+        failureFlash: true
+    }),
+    function(req, res) {
+        // we don't use flash here because it gets unset in the GET route above
+        let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : '/tools/login';
+        delete req.session.redirectUrl;
+        res.redirect(redirectUrl);
     });
 
-    router.post('/locales/update/', (req, res, next) => {
+// logout path
+router.get('/tools/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
 
-        const json = req.body;
-        let validKeys = ['en', 'cy'];
-        let failedUpdates = [];
-
-        validKeys.forEach(locale => {
-            if (json[locale]) {
-                let jsonToWrite = JSON.stringify(json[locale], null, 4);
-                try {
-                    let filePath = path.join(__dirname, `../../config/locales/${locale}.json`);
-                    fs.writeFileSync(filePath, jsonToWrite);
-                } catch (err) {
-                    failedUpdates.push(locale);
-                    return console.error(`Error saving ${locale} language`, err);
-                }
-            }
+// language file editor tool
+router.route('/tools/locales/')
+    .get(isAuthenticated, (req, res, next) => {
+        res.render('pages/tools/langEditor', {
+            user: req.user
         });
-
+    }).post(isAuthenticated, (req, res, next) => {
+        // fetch these each time
+        const locales = {
+            en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
+            cy: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.cy), 'utf8'))
+        };
         res.send({
-            error: (failedUpdates.length > 0) ? failedUpdates : false
+            editors: [
+                {
+                    name: "English",
+                    code: 'en',
+                    json: locales.en,
+                    schema: generateSchema.json(locales.en)
+                },
+                {
+                    name: "Welsh",
+                    code: 'cy',
+                    json: locales.cy,
+                    schema: generateSchema.json(locales.cy)
+                }
+            ]
         });
+});
 
+// update a language file
+router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
+
+    const json = req.body;
+    let validKeys = ['en', 'cy'];
+    let failedUpdates = [];
+
+    validKeys.forEach(locale => {
+        if (json[locale]) {
+            let jsonToWrite = JSON.stringify(json[locale], null, 4);
+            try {
+                let filePath = path.join(__dirname, `../../config/locales/${locale}.json`);
+                fs.writeFileSync(filePath, jsonToWrite);
+            } catch (err) {
+                failedUpdates.push(locale);
+                return console.error(`Error saving ${locale} language`, err);
+            }
+        }
     });
 
-}
+    res.send({
+        error: (failedUpdates.length > 0) ? failedUpdates : false
+    });
 
-const editNewsPath = '/edit-news';
+});
 
+// edit news articles
+const editNewsPath = '/tools/edit-news';
 router.route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
 

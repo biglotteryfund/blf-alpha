@@ -91,7 +91,8 @@ let URLs = {
     newSite: [
         makeUrlObject('/assets/*'),
         makeUrlObject('/contrast/*', false, true),
-        makeUrlObject('/error')
+        makeUrlObject('/error'),
+        makeUrlObject('/tools/*', true, true)
     ]
 };
 

@@ -12,11 +12,11 @@
         <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
         <h4>Available tools</h4>
         <ul>
-            <li><a href="/status/edit-news">Edit news articles</a></li>
-            <li><a href="/status/locales">Edit language files</a></li>
+            <li><a href="/tools/edit-news">Edit news articles</a></li>
+            <li><a href="/tools/locales">Edit language files</a></li>
         </ul>
     {% else %}
-        <form action="/login" method="post">
+        <form action="/tools/login" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Your username" name="username">
