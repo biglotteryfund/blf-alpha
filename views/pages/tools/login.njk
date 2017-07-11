@@ -1,19 +1,33 @@
-{% if error %}{{ error }}{% endif %}
+{% extends "../../layouts/tools.njk" %}
 
-{% if user %}
-    Logged in as <strong>{{ user.username }}</strong> [<a href="/logout">Log out?</a>]</p>
-{% else %}
-    <form action="/login" method="post">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username"/>
-        </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password"/>
-        </div>
-        <div>
-            <input type="submit" value="Log In"/>
-        </div>
-    </form>
-{% endif %}
+{% block title %}Login panel{% endblock %}
+
+{% block content %}
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+    {% endif %}
+
+    {% if user %}
+        <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
+        <h4>Available tools</h4>
+        <ul>
+            <li><a href="/status/edit-news">Edit news articles</a></li>
+            <li><a href="/status/locales">Edit language files</a></li>
+        </ul>
+    {% else %}
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Your username" name="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Your password" name="password">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Log in"/>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
