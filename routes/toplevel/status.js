@@ -5,7 +5,6 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
-const passport = require('passport');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
@@ -124,21 +123,6 @@ if (globals.get('appData').IS_DEV) {
 }
 
 const editNewsPath = '/edit-news';
-const loginPath = '/login';
-
-router.route(loginPath)
-    .get((req, res, next) => {
-        res.render('pages/tools/login', {});
-    });
-
-router.post(loginPath,
-    passport.authenticate('local', {
-        failureRedirect: '/status' + loginPath,
-        successRedirect: '/status' + editNewsPath
-    }),
-    function(req, res) {
-        res.redirect('/');
-    });
 
 router.route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
@@ -157,14 +141,15 @@ router.route(editNewsPath + '/:id?')
             res.render('pages/tools/newsEditor', {
                 news: responses[0],
                 id: req.params.id,
-                status: req.session.newsStatus
+                status: req.session.newsStatus,
+                user: req.user
             });
             // @TODO flash session
             delete req.session.errors;
             delete req.session.values;
             delete req.session.newsStatus;
         });
-    }).post((req, res, next) => {
+    }).post(isAuthenticated, (req, res, next) => {
         req.checkBody('title', 'Please provide a title').notEmpty();
         req.checkBody('text', 'Please provide a summary').notEmpty();
         req.checkBody('link', 'Please provide a link').notEmpty();

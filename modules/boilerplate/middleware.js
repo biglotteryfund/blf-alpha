@@ -12,6 +12,7 @@ const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
 const passport = require('passport');
+const flash = require('connect-flash');
 
 // load auth strategy
 require('../../modules/boilerplate/auth');
@@ -44,6 +45,7 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sessionConfig));
+app.use(flash());
 
 // add passport auth
 app.use(passport.initialize());
