@@ -156,7 +156,20 @@ module.exports = (pages) => {
                 res.redirect('/#' + config.get('anchors.ebulletin'));
             } else {
                 // send the valid form to the signup endpoint (external)
-                res.redirect(307, config.get('ebulletinSignup'));
+                rp({
+                    method: 'POST',
+                    uri: config.get('ebulletinSignup'),
+                    form: req.body,
+                    resolveWithFullResponse: true,
+                    simple: false, // don't let 302s fail
+                    followAllRedirects: true
+                }).then(response => {
+                    return res.redirect(config.get('ebulletinDestination'));
+                }).catch(error => {
+                    // @TODO show error?
+                    console.log(error);
+                    return res.redirect('/');
+                });
             }
         });
     });
