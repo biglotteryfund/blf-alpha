@@ -14,8 +14,8 @@ let dbCredentials = {
 let sequelize;
 
 if (dbCredentials.host) {
-
-    sequelize = new Sequelize(config.get('database'), dbCredentials.user, dbCredentials.pass, {
+    let databaseName = (process.env.CUSTOM_DB) ? process.env.CUSTOM_DB : config.get('database');
+    sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, {
         host: dbCredentials.host,
         dialect: 'mysql',
         pool: {

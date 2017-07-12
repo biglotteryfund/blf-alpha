@@ -34,7 +34,6 @@ app.use(cookieParser());
 
 // add session
 const sessionConfig = {
-    // @TODO re-generate and secure in AWS
     secret: secrets['session.secret'],
     name: config.get('cookies.session'),
     resave: false,
@@ -44,6 +43,9 @@ const sessionConfig = {
         db: models.sequelize
     })
 };
+
+// create sessions table
+sessionConfig.store.sync();
 
 if (app.get('env') === 'production') {
     app.set('trust proxy', 4);

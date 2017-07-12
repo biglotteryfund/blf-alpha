@@ -40,5 +40,6 @@
         "facebook": "http://www.facebook.com/BigLotteryFund",
         "instagram": "https://www.instagram.com/big_lottery_fund"
     },
-    "database": "website-dev"
+    "database": "website-dev",
+    "database-test": "website-test"
 }

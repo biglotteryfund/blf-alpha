@@ -3,8 +3,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
+const config = require("config");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+
+// use the test database
+process.env.CUSTOM_DB = config.get('database-test');
 
 const routes = require('../routes/routes');
 
@@ -29,7 +33,7 @@ let captureStream = (stream) => {
 };
 
 describe('Express application', function () {
-    this.timeout(10000);
+    this.timeout(20000);
     let server, hook;
     const assets = require('../modules/assets');
     const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
@@ -48,6 +52,15 @@ describe('Express application', function () {
     it('responds to /', (done) => {
         chai.request(server)
             .get('/')
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('serves the new homepage', (done) => {
+        chai.request(server)
+            .get('/home')
             .end((err, res) => {
                 res.should.have.status(200);
                 done();
