@@ -3,9 +3,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
+
 const config = require("config");
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const {JSDOM} = jsdom;
 
 // use the test database
 process.env.CUSTOM_DB = config.get('database-test');
@@ -17,7 +18,7 @@ chai.use(chaiHttp);
 let captureStream = (stream) => {
     let oldWrite = stream.write;
     let buf = '';
-    stream.write = function(chunk, encoding, callback) {
+    stream.write = function (chunk, encoding, callback) {
         buf += chunk.toString(); // chunk is a String or Buffer
         oldWrite.apply(stream, arguments);
     };
@@ -38,7 +39,7 @@ describe('Express application', function () {
     const assets = require('../modules/assets');
     const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
 
-    beforeEach(() =>{
+    beforeEach(() => {
         process.env.PORT = 8090;
         server = require('../bin/www');
         hook = captureStream(process.stdout);
@@ -429,6 +430,79 @@ describe('Express application', function () {
                     return agent.get('/tools/edit-news')
                         .end((err, res) => {
                             res.should.have.status(200);
+                            done();
+                        });
+                });
+        });
+
+    });
+
+    describe("news editor tool", () => {
+
+        let agent;
+        let csrfToken;
+
+        beforeEach((done) => {
+            // grab a valid CSRF token
+            agent = chai.request.agent(server);
+            done();
+            // agent.get('/home')
+            //     .end((err, res) => {
+            //         const dom = new JSDOM(res.text);
+            //         csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
+            //         done();
+            //     });
+        });
+
+        // @TODO delete data afterwards?
+
+        it('should allow authorised staff to post news', (done) => {
+
+            const loginData = {
+                username: 'test',
+                password: 'test',
+                redirectUrl: '/tools/edit-news'
+            };
+
+            // invalid news
+            agent.post('/tools/login')
+                .send(loginData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.cookie(config.get('cookies.session'));
+                    res.should.have.status(302);
+                    res.should.redirectTo('/tools/edit-news');
+                    return agent.post('/tools/edit-news')
+                        .send({
+                            title: 'Broken title',
+                            text: 'Broken text'
+                        })
+                        .redirects(0)
+                        .end((err, res) => {
+                            res.should.have.status(302);
+                            res.should.redirectTo('/tools/edit-news?error');
+                            done();
+                        });
+                });
+
+            // valid news
+            agent.post('/tools/login')
+                .send(loginData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.cookie(config.get('cookies.session'));
+                    res.should.have.status(302);
+                    res.should.redirectTo('/tools/edit-news');
+                    return agent.post('/tools/edit-news')
+                        .send({
+                            title: 'Test title',
+                            text: 'Test text',
+                            link: 'Test link',
+                        })
+                        .redirects(0)
+                        .end((err, res) => {
+                            res.should.have.status(302);
+                            res.should.redirectTo('/tools/edit-news?success');
                             done();
                         });
                 });
