@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 // add session
 const sessionConfig = {
-    secret: secrets['session.secret'],
+    secret: secrets['session.secret'] || process.env.sessionSecret,
     name: config.get('cookies.session'),
     resave: false,
     saveUninitialized: false,
