@@ -15,8 +15,6 @@ const routes = require('../routes/routes');
 
 chai.use(chaiHttp);
 
-console.log(process.env.foo);
-
 let captureStream = (stream) => {
     let oldWrite = stream.write;
     let buf = '';
