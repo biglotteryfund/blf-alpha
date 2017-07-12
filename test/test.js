@@ -79,6 +79,58 @@ describe('Express application', function () {
             });
     });
 
+    describe("e-bulletin signups", () => {
+
+        let agent;
+        let csrfToken;
+
+        beforeEach((done) => {
+            // grab a valid CSRF token
+            agent = chai.request.agent(server);
+            agent.get('/home')
+                .end((err, res) => {
+                    const dom = new JSDOM(res.text);
+                    csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
+                    done();
+                });
+        });
+
+        it('should allow signing up to the e-bulletin', (done) => {
+
+            agent.post('/ebulletin')
+                .send({
+                    '_csrf': csrfToken,
+                    'cd_FIRSTNAME': 'Test',
+                    'cd_LASTNAME': 'Test',
+                    'Email': 'test@test.com',
+                    'cd_ORGANISATION': 'Test'
+                })
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.redirectTo(config.get('ebulletinDestination'));
+                    res.should.have.status(302);
+                    done();
+                });
+        });
+
+        it('should fail signups to the e-bulletin with missing data', (done) => {
+
+            agent.post('/ebulletin')
+                .send({
+                    '_csrf': csrfToken,
+                    'cd_ORGANISATION': 'Test'
+                })
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.redirectTo('/#' + config.get('anchors.ebulletin'));
+                    res.should.have.status(302);
+                    done();
+                });
+        });
+
+    });
+
+
     it('serves static files', (done) => {
         chai.request(server)
             .get(CSS_PATH)
