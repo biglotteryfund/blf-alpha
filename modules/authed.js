@@ -3,6 +3,8 @@ module.exports = (req, res, next) => {
         return next();
     } else {
         req.session.redirectUrl = req.baseUrl + req.path;
-        res.redirect('/tools/login');
+        req.session.save(function () {
+            res.redirect('/tools/login');
+        });
     }
 };

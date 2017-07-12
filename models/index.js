@@ -17,6 +17,7 @@ if (dbCredentials.host) {
     let databaseName = (process.env.CUSTOM_DB) ? process.env.CUSTOM_DB : config.get('database');
     sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, {
         host: dbCredentials.host,
+        logging: false,
         dialect: 'mysql',
         pool: {
             max: 5,

@@ -75,16 +75,31 @@ router.get(loginPath, (req, res, next) => {
     });
 });
 
-router.post(loginPath, passport.authenticate('local', {
-        failureRedirect: loginPath,
-        failureFlash: true
-    }),
-    function(req, res) {
-        // we don't use flash here because it gets unset in the GET route above
-        let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : '/tools/login';
-        delete req.session.redirectUrl;
-        res.redirect(redirectUrl);
-    });
+router.post(loginPath, function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        } else {
+            req.logIn(user, function (err) {
+                if (err) { // user not valid, send them to login again
+                    req.flash('error', info.message);
+                    // save the session to avoid race condition
+                    // see https://github.com/mweibel/connect-session-sequelize/issues/20
+                    req.session.save(function () {
+                        return res.redirect(loginPath);
+                    });
+                } else { // user is valid, send them on
+                    // we don't use flash here because it gets unset in the GET route above
+                    let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : loginPath;
+                    delete req.session.redirectUrl;
+                    req.session.save(function () {
+                        res.redirect(redirectUrl);
+                    });
+                }
+            });
+        }
+    })(req, res, next);
+});
 
 // logout path
 router.get('/tools/logout', function(req, res){
