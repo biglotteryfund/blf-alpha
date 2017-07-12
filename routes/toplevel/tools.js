@@ -182,6 +182,10 @@ router.route(editNewsPath + '/:id?')
 
         Promise.all(queries).then((responses) => {
             if (req.params.id) {
+                if (!responses[1]) {
+                    // return res.sendStatus(404);
+                    return next();
+                }
                 req.flash('formValues', responses[1]);
             }
             res.render('pages/tools/newsEditor', {
@@ -204,7 +208,7 @@ router.route(editNewsPath + '/:id?')
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                res.redirect(req.baseUrl + editNewsPath);
+                res.redirect(req.baseUrl + editNewsPath + '?error');
             } else {
 
                 let rowData = {
@@ -227,7 +231,7 @@ router.route(editNewsPath + '/:id?')
                     models.News.upsert(rowData);
                 }
                 req.flash('newsStatus', 'success');
-                res.redirect(req.baseUrl + editNewsPath);
+                res.redirect(req.baseUrl + editNewsPath + '?success');
             }
         });
     });
