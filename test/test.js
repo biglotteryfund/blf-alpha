@@ -359,18 +359,89 @@ describe('Express application', function () {
                     done();
                 });
         });
+    });
 
-        /* tests to add
-         *
-         *  ebulletin signup
-         *  session/db works
-         *  tools pages are auth protected
-         *  news CRUD works
-         *  GA is loaded
-         *  are form fields working as expected?
-         *  contrast tool exists and sets cookies etc
-         *  welsh URL serves welsh copy
-         */
+    describe("authorisation for tools", () => {
+
+        let agent;
+        let csrfToken;
+
+        beforeEach((done) => {
+            // grab a valid CSRF token
+            agent = chai.request.agent(server);
+            done();
+            // agent.get('/home')
+            //     .end((err, res) => {
+            //         const dom = new JSDOM(res.text);
+            //         csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
+            //         done();
+            //     });
+        });
+
+        it('should block access to staff-only tools', (done) => {
+            agent.get('/tools/edit-news')
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.redirectTo('/tools/login');
+                    res.should.have.status(302);
+                    done();
+                });
+        });
+
+        it('should not allow unauthorised access to staff-only tools', (done) => {
+
+            const formData = {
+                username: 'test',
+                password: 'wrong'
+            };
+
+            agent.post('/tools/login')
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.cookie(config.get('cookies.session'));
+                    res.should.redirectTo('/tools/login');
+                    return agent.get('/tools/edit-news')
+                        .redirects(0)
+                        .end((err, res) => {
+                            res.should.have.status(302);
+                            done();
+                        });
+                });
+
+        });
+
+        it('should allow authorised access to staff-only tools', (done) => {
+
+            const formData = {
+                username: 'test',
+                password: 'test',
+                redirectUrl: '/tools/edit-news'
+            };
+
+            agent.post('/tools/login')
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.cookie(config.get('cookies.session'));
+                    res.should.have.status(302);
+                    res.should.redirectTo('/tools/edit-news');
+                    return agent.get('/tools/edit-news')
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            done();
+                        });
+                });
+        });
 
     });
+
+    /* tests to add
+     *
+     *  news CRUD works
+     *  GA is loaded
+     *  are form fields working as expected?
+     *  contrast tool exists and sets cookies etc
+     *  welsh URL serves welsh copy
+     */
 });

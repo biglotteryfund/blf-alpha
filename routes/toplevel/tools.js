@@ -90,8 +90,13 @@ router.post(loginPath, function(req, res, next) {
                     });
                 } else { // user is valid, send them on
                     // we don't use flash here because it gets unset in the GET route above
-                    let redirectUrl = (req.session.redirectUrl) ? req.session.redirectUrl : loginPath;
-                    delete req.session.redirectUrl;
+                    let redirectUrl = loginPath;
+                    if (req.body.redirectUrl) {
+                        redirectUrl = req.body.redirectUrl;
+                    } else if (req.session.redirectUrl) {
+                        redirectUrl = req.session.redirectUrl;
+                        delete req.session.redirectUrl;
+                    }
                     req.session.save(function () {
                         res.redirect(redirectUrl);
                     });
