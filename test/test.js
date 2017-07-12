@@ -15,6 +15,8 @@ const routes = require('../routes/routes');
 
 chai.use(chaiHttp);
 
+console.log(process.env.foo);
+
 let captureStream = (stream) => {
     let oldWrite = stream.write;
     let buf = '';
@@ -512,7 +514,7 @@ describe('Express application', function () {
 
     /* tests to add
      *
-     *  news CRUD works
+     *  news UD works
      *  GA is loaded
      *  are form fields working as expected?
      *  contrast tool exists and sets cookies etc
