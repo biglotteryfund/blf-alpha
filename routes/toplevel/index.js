@@ -57,8 +57,10 @@ let oldHomepage = (req, res, next) => {
     return rp({
         url: legacyUrl,
         strictSSL: false,
-        jar: true
-    }).then((body) => {
+        jar: true,
+        resolveWithFullResponse: true
+    }).then((response) => {
+        let body = response.body;
         // convert all links in the document to be root-relative
         // (only really useful on non-prod envs)
         body = absolution(body, 'https://www.biglotteryfund.org.uk');
@@ -103,14 +105,15 @@ let oldHomepage = (req, res, next) => {
                 gtm.innerHTML = '';
             }
         }
-
+        // pass the headers
+        res.set(response.headers);
         res.send(dom.serialize());
 
     }).catch(error => {
         // we failed to fetch from the proxy
-        // @TODO is there a better fix for this?
+        // @TODO is there a better fix for this? send them to the new page?
         console.log(error);
-        res.send(error);
+        res.send(JSON.stringify(error));
     });
 };
 

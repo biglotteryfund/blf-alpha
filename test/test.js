@@ -67,6 +67,18 @@ describe('Express application', function () {
             });
     });
 
+    it('serves the legacy homepage', (done) => {
+        chai.request(server)
+            .get('/legacy')
+            .end((err, res) => {
+                // verify the page is coming from a microsoft stack
+                res.should.have.header('X-Powered-By', /^ASP\.NET/);
+                res.should.have.header('X-AspNet-Version');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
     it('serves static files', (done) => {
         chai.request(server)
             .get(CSS_PATH)
@@ -298,7 +310,6 @@ describe('Express application', function () {
 
         /* tests to add
          *
-         *  homepage loads properly, has news
          *  ebulletin signup
          *  session/db works
          *  tools pages are auth protected
