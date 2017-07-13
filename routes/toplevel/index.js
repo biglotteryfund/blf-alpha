@@ -142,6 +142,7 @@ module.exports = (pages) => {
         req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
         req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
         req.checkBody('Email', 'Please provide your email address').notEmpty();
+        req.checkBody('location', 'Please choose a country newsletter').notEmpty();
 
         req.getValidationResult().then((result) => {
             // sanitise input
@@ -157,6 +158,11 @@ module.exports = (pages) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
+
+                // convert location into proper field value
+                let location = req.body['location'];
+                req.body[location] = 'yes';
+                delete req.body['location'];
                 // send the valid form to the signup endpoint (external)
                 rp({
                     method: 'POST',

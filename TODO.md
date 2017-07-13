@@ -3,11 +3,11 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
-- [ ] google tag manager / experiment for homepage?
 - [ ] stop making DB failure optional (bin/www) 
-- [ ] e-bulletin allows signup without a location
 - [ ] db pool size?
 - [ ] CSRF
+- [ ] block search engines from tools
+- [ ] google tag manager / experiment for homepage?
 
 ## Tech debt
 - [ ] refactor main.js (CS)

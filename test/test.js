@@ -104,7 +104,8 @@ describe('Express application', function () {
                     'cd_FIRSTNAME': 'Test',
                     'cd_LASTNAME': 'Test',
                     'Email': 'test@test.com',
-                    'cd_ORGANISATION': 'Test'
+                    'cd_ORGANISATION': 'Test',
+                    'location': 'cd_WALES_MAIL'
                 })
                 .redirects(0)
                 .end((err, res) => {
