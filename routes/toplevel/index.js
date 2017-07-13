@@ -12,6 +12,7 @@ const { JSDOM } = jsdom;
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
 const models = require('../../models/index');
+const robots = require('../../config/robots.json');
 
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
@@ -237,6 +238,15 @@ module.exports = (pages) => {
             res.clearCookie(cookieName);
         }
         res.redirect(redirectUrl);
+    });
+
+    router.get('/robots.txt', (req, res, next) => {
+        res.setHeader('Content-Type', 'text/plain');
+        let text = 'User-agent: *\n';
+        robots.forEach(r => {
+            text += `Disallow: ${r}\n`;
+        });
+        res.send(text);
     });
 
     return router;

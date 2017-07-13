@@ -3,13 +3,11 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
-- [ ] stop making DB failure optional (bin/www) 
-- [ ] db pool size?
 - [ ] CSRF
-- [ ] block search engines from tools
 - [ ] google tag manager / experiment for homepage?
 
 ## Tech debt
+- [ ] db pool size?
 - [ ] refactor main.js (CS)
 - [ ] Add a way to highlight current section in nav?
 - [ ] use production version of vue in non-dev envs
