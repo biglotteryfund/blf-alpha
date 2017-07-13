@@ -19,7 +19,9 @@ const defaultSecurityDomains = [
     'www.google.com',
     'maxcdn.bootstrapcdn.com',
     'platform.twitter.com',
-    'syndication.twitter.com'
+    'syndication.twitter.com',
+    'cdn.syndication.twimg.com',
+    '*.twimg.com'
 ];
 
 const helmetSettings = helmet({
@@ -29,7 +31,7 @@ const helmetSettings = helmet({
             frameSrc: defaultSecurityDomains.concat(['www.google.com']),
             styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
             connectSrc: defaultSecurityDomains.concat(['ws://127.0.0.1:35729/livereload']), // make dev-only?,
-            imgSrc: defaultSecurityDomains.concat([]),
+            imgSrc: defaultSecurityDomains.concat(['data:']),
             scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"])
         }
     },
