@@ -381,7 +381,7 @@ describe('Express application', function () {
         });
 
         it('should block access to staff-only tools', (done) => {
-            agent.get('/tools/edit-news')
+            agent.get('/tools/edit-news/en')
                 .redirects(0)
                 .end((err, res) => {
                     res.should.redirectTo('/tools/login');
@@ -403,7 +403,7 @@ describe('Express application', function () {
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.should.redirectTo('/tools/login');
-                    return agent.get('/tools/edit-news')
+                    return agent.get('/tools/edit-news/en')
                         .redirects(0)
                         .end((err, res) => {
                             res.should.have.status(302);
@@ -418,7 +418,7 @@ describe('Express application', function () {
             const formData = {
                 username: 'test',
                 password: 'test',
-                redirectUrl: '/tools/edit-news'
+                redirectUrl: '/tools/edit-news/en'
             };
 
             agent.post('/tools/login')
@@ -427,8 +427,8 @@ describe('Express application', function () {
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news');
-                    return agent.get('/tools/edit-news')
+                    res.should.redirectTo('/tools/edit-news/en');
+                    return agent.get('/tools/edit-news/en')
                         .end((err, res) => {
                             res.should.have.status(200);
                             done();
@@ -462,7 +462,7 @@ describe('Express application', function () {
             const loginData = {
                 username: 'test',
                 password: 'test',
-                redirectUrl: '/tools/edit-news'
+                redirectUrl: '/tools/edit-news/en'
             };
 
             // invalid news
@@ -472,8 +472,8 @@ describe('Express application', function () {
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news');
-                    return agent.post('/tools/edit-news')
+                    res.should.redirectTo('/tools/edit-news/en');
+                    return agent.post('/tools/edit-news/en')
                         .send({
                             title: 'Broken title',
                             text: 'Broken text'
@@ -481,7 +481,7 @@ describe('Express application', function () {
                         .redirects(0)
                         .end((err, res) => {
                             res.should.have.status(302);
-                            res.should.redirectTo('/tools/edit-news?error');
+                            res.should.redirectTo('/tools/edit-news/en?error');
                             done();
                         });
                 });
@@ -493,8 +493,8 @@ describe('Express application', function () {
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news');
-                    return agent.post('/tools/edit-news')
+                    res.should.redirectTo('/tools/edit-news/en');
+                    return agent.post('/tools/edit-news/en')
                         .send({
                             title: 'Test title',
                             text: 'Test text',
@@ -503,7 +503,7 @@ describe('Express application', function () {
                         .redirects(0)
                         .end((err, res) => {
                             res.should.have.status(302);
-                            res.should.redirectTo('/tools/edit-news?success');
+                            res.should.redirectTo('/tools/edit-news/en?success');
                             done();
                         });
                 });

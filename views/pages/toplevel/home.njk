@@ -82,7 +82,7 @@
                 <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
                     {% for n in news %}
                         <li class="grid__item">
-                            <h4 class="t3">{{ n.title }}</h4>
+                            <h4 class="t3">{{ n.title | safe}}</h4>
                             <p class="m-t--s">{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
                         </li>
                     {% endfor %}

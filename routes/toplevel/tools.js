@@ -168,13 +168,31 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
 
 });
 
+let getLocale = (localeParam) => {
+    // default dodgy locales to english
+    let locale = 'en';
+    if (localeParam) {
+        let validLocales = ['en', 'cy'];
+        if (validLocales.indexOf(localeParam) !== -1) {
+            locale = localeParam;
+        }
+    }
+    return locale;
+};
+
 // edit news articles
 const editNewsPath = '/tools/edit-news';
-router.route(editNewsPath + '/:id?')
+router.route(editNewsPath + '/:locale/:id?')
     .get(isAuthenticated, (req, res, next) => {
+        let locale = getLocale(req.params.locale);
 
         let queries = [];
-        queries.push(models.News.findAll({ order: [['updatedAt', 'DESC']] }));
+        queries.push(models.News.findAll({
+            where: {
+                locale: locale
+            },
+            order: [['updatedAt', 'DESC']]
+        }));
 
         if (req.params.id) {
             queries.push(models.News.findById(req.params.id));
@@ -192,10 +210,15 @@ router.route(editNewsPath + '/:id?')
                 news: responses[0],
                 id: req.params.id,
                 status: req.flash('newsStatus'),
-                user: req.user
+                user: req.user,
+                locale: locale
             });
         });
     }).post(isAuthenticated, (req, res, next) => {
+
+        let locale = getLocale(req.params.locale);
+        let redirectBase = req.baseUrl + editNewsPath + '/' + locale;
+
         req.checkBody('title', 'Please provide a title').notEmpty();
         req.checkBody('text', 'Please provide a summary').notEmpty();
         req.checkBody('link', 'Please provide a link').notEmpty();
@@ -203,20 +226,21 @@ router.route(editNewsPath + '/:id?')
         req.getValidationResult().then((result) => {
             // sanitise input
             req.body['title'] = req.sanitize('title').escape();
-            req.body['text'] = req.sanitize('text').escape();
+            // req.body['text'] = req.sanitize('text');
 
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
                 req.session.save(function () {
-                    res.redirect(req.baseUrl + editNewsPath + '?error');
+                    res.redirect(redirectBase + '?error');
                 });
             } else {
 
                 let rowData = {
                     title: req.body['title'],
                     text: req.body['text'],
-                    link: req.body['link']
+                    link: req.body['link'],
+                    locale: locale
                 };
 
                 if (req.params.id) {
@@ -234,7 +258,7 @@ router.route(editNewsPath + '/:id?')
                 }
                 req.flash('newsStatus', 'success');
                 req.session.save(function () {
-                    res.redirect(req.baseUrl + editNewsPath + '?success');
+                    res.redirect(redirectBase + '?success');
                 });
             }
         });

@@ -1,11 +1,11 @@
 {% import "../../components/forms.njk" as forms %}
 {% extends "../../layouts/tools.njk" %}
 
-{% block title %}News editor{% endblock %}
+{% block title %}News editor | {% if locale == 'en' %}English{% else %}Welsh{% endif %}{% endblock %}
 
 {% block headerAction %}
     <form class="navbar-form navbar-right">
-        <a href="/tools/edit-news" class="btn btn-default">Add new article</a>
+        <a href="/tools/edit-news/{{ locale }}" class="btn btn-default">Add new article</a>
     </form>
 {% endblock %}
 
@@ -15,12 +15,23 @@
         <div class="alert alert-success" role="alert">The article was successfully updated!</div>
     {% endif %}
 
+    <h1>
+        News in {% if locale == 'en' %}English{% else %}Welsh{% endif %}
+        <small>
+            {% if locale == 'en' %}
+                <a href="/tools/edit-news/cy/">Post in Welsh?</a>
+            {% else %}
+                <a href="/tools/edit-news/en/">Post in English?</a>
+            {% endif %}
+        </small>
+    </h1>
+
     <div class="row">
         <div class="col-sm-6">
             <h2>All articles <small>(Click to edit)</small></h2>
             <div class="list-group">
                 {% for n in news %}
-                    <a class="list-group-item{% if id and id == n.id %} active{% endif %}" href="/tools/edit-news/{{ n.id }}">
+                    <a class="list-group-item{% if id and id == n.id %} active{% endif %}" href="/tools/edit-news/{{ locale }}/{{ n.id }}">
                         <h5 class="list-group-item-heading">{{ n.title }}</h5>
                         <p class="list-group-item-text">
                             Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }}
@@ -35,7 +46,7 @@
             {% else %}
                 <h2>Add a new article</h2>
             {% endif %}
-            <form method="post" action="/tools/edit-news/{% if id %}{{ id }}{% endif %}">
+            <form method="post" action="/tools/edit-news/{{ locale }}/{% if id %}{{ id }}{% endif %}">
                 <div class="form-group">
                     {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
                 </div>
