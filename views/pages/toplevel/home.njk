@@ -83,7 +83,7 @@
                     {% for n in news %}
                         <li class="grid__item">
                             <h4 class="t3">{{ n.title }}</h4>
-                            <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
+                            <p class="m-t--s">{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
                         </li>
                     {% endfor %}
                 </ul>
@@ -93,10 +93,13 @@
             <div class="central-gap m-b--l">
                 <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue btn--massive">Find out what we funded</a>
             </div>
+        </div>
+
+        <div class="inner--wide-only">
 
             {# case studies #}
             <div class="accent--blue accent-b-t bg-pale-grey">
-                <ul class="unstyled grid grid--2-up grid--equal grid--wide-only m-t-none">
+                <ul class="unstyled grid grid--2-up grid--equal m-t-none">
                     <li class="grid__item grid__item--image" style="background-image: url({{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }});">
                     </li>
                     <li class="grid__item">
@@ -125,12 +128,14 @@
                         <h3 class="t9">e-bulletin sign up</h3>
                         <p class="intro">Sign up for our latest news relating to your country:</p>
 
-                        {{ forms.radios('location', [
-                            ['England', 'en', 'cd_ENGLAND_MAIL'],
-                            ['Wales', 'cy', 'cd_WALES_MAIL'],
-                            ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
-                            ['Northern Ireland', 'ni', 'cd_NI_MAIL']
-                        ]) }}
+                        <div class="form-ebulletin--grid">
+                            {{ forms.radios('location', [
+                                ['England', 'en', 'cd_ENGLAND_MAIL'],
+                                ['Wales', 'cy', 'cd_WALES_MAIL'],
+                                ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
+                                ['Northern Ireland', 'ni', 'cd_NI_MAIL']
+                            ]) }}
+                        </div>
 
                         <div class="grid grid--padded">
                             {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
@@ -139,7 +144,8 @@
                         {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
                         {{ forms.input('Email', 'Email', 'email', required = true) }}
 
-                        <input type="submit" value="Subscribe" class="btn btn--cta btn--pink" />
+
+                        <input type="submit" value="Subscribe" class="btn btn--cta btn--pink form-ebulletin__btn" />
                     </form>
 
                     {# social buttons #}

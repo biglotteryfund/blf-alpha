@@ -11,7 +11,7 @@
                type="{{ inputType }}"
                name="{{ fieldName }}"
                id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
-               value="{{ request.flash('formValues')[fieldName] }}"
+               value="{{ request.flash('formValues')[fieldName] or '' }}"
                placeholder="{% if error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}{% if required %} *{% endif %}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>
     {% endif %}
     {% if helpText %}
@@ -41,7 +41,7 @@
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
 
     {% for o in options %}
-        <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+        <label class="label--radio{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
                for="ff-radio-{{ o[2] }}-{{ o[1] }}">
             {{ o[0] }}
             <input type="radio"

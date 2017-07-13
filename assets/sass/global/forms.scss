@@ -73,6 +73,24 @@
         font-size: 18px;
     }
 
+
+    .form-ebulletin--grid {
+        @include mq('tablet', 'max') {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+
+            .label--radio {
+                margin: 0;
+                padding: 10px;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 50%;
+            }
+        }
+    }
+
+
     .form-fund__item {
         display: block;
         width: 100%;
@@ -118,6 +136,15 @@
             @include input-placeholder {
                 color: #ffffff;
             }
+        }
+    }
+
+    .form-ebulletin__btn {
+        @include mq('tablet', 'max') {
+            width: 80%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto
         }
     }
 

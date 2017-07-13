@@ -263,6 +263,13 @@ nav {
     @include mq('tablet') {
         margin-left: $spacingUnit;
     }
+
+    @include mq('tablet', 'max') {
+        &.minor {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    }
 }
 
 .header__hamburger {

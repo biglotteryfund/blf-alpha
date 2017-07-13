@@ -72,6 +72,7 @@ main {
                 max-width: 100% !important;
                 margin-left: 0 !important;
                 overflow: hidden;
+                width: auto !important;
             }
         }
     }
@@ -109,6 +110,7 @@ main {
 
             > .grid__item {
                 flex-basis: $colWidth;
+                width: $colWidth;
             }
 
             &.grid--padded {
@@ -129,6 +131,10 @@ main {
 }
 
 .grid__item--image {
+    @include mq('tablet', 'max') {
+        background-size: contain;
+        background-position: top left;
+    }
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -237,6 +243,10 @@ main {
 
 .central-gap {
     $gap: 20%;
+    @include mq('tablet', 'max') {
+        margin-left: $gap / 2;
+        margin-right: $gap / 2;
+    }
     margin-left: $gap;
     margin-right: $gap;
 }
