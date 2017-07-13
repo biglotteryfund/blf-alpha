@@ -17,7 +17,7 @@ const setGlobal = (name, value) => {
 // extract deploy ID from AWS (where provided)
 let deploymentData;
 try {
-    deploymentData = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/deploy.json'), 'utf8'));
+    deploymentData = JSON.parse(fs.readFileSync(path.join(__dirname, '../../config/deploy.json'), 'utf8'));
 } catch (e) {
     // console.info('deploy.json not found -- are you in DEV mode?');
 }
