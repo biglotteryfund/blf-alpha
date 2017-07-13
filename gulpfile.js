@@ -40,7 +40,7 @@ const DIRS = {
         js:   inputBase + 'js',
         img:  inputBase + 'images',
         test: testBase,
-        sassConfig: './config'
+        sassConfig: './config/content'
     },
     out: {
         root: outputBase,

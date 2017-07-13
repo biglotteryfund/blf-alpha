@@ -3,7 +3,7 @@ set -e
 
 # get secrets from parameter store
 
-secrets=/var/www/biglotteryfund/config/secrets.json
+secrets=/var/www/biglotteryfund/config/app/secrets.json
 touch $secrets
 if [ -f "$secrets" ]
 then

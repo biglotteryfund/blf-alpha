@@ -1,0 +1,18 @@
+[
+    {
+        "level": 0,
+        "status": "superadmin"
+    },
+    {
+        "level": 1,
+        "status": "admin"
+    },
+    {
+        "level": 2,
+        "status": "editor"
+    },
+    {
+        "level": 3,
+        "status": "user"
+    }
+]

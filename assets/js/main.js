@@ -1,6 +1,6 @@
 'use strict';
 /* global $, ga, cxApi */
-const appConfig = require('../../config/sass.json');
+const appConfig = require('../../config/content/sass.json');
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });

@@ -3,7 +3,7 @@ const app = require('../../server');
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const sassConfig = require('../../config/sass.json');
+const sassConfig = require('../../config/content/sass.json');
 const routes = require('../../routes/routes');
 
 const getGlobal = (name) => {

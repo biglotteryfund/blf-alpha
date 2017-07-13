@@ -12,7 +12,7 @@ const { JSDOM } = jsdom;
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
 const models = require('../../models/index');
-const robots = require('../../config/robots.json');
+const robots = require('../../config/app/robots.json');
 
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
