@@ -4,10 +4,10 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 
 ## To fix
 - [ ] google tag manager / experiment for homepage?
+- [ ] stop making DB failure optional (bin/www) 
 - [ ] e-bulletin allows signup without a location
 - [ ] db pool size?
 - [ ] CSRF
-- [ ] stop making DB failure optional (bin/www) 
 
 ## Tech debt
 - [ ] refactor main.js (CS)
