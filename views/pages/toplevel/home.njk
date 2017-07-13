@@ -120,32 +120,42 @@
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
                     <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        <input type="hidden" name="addressbookid" value="589755">
-                        <input type="hidden" name="userid" value="180445">
-                        <input type="hidden" name="ReturnURL" value="{{ appData.config.get('ebulletinDestination') }}">
-
                         <h3 class="t9">e-bulletin sign up</h3>
-                        <p class="intro">Sign up for our latest news relating to your country:</p>
 
-                        <div class="form-ebulletin--grid">
-                            {{ forms.radios('location', [
-                                ['England', 'en', 'cd_ENGLAND_MAIL'],
-                                ['Wales', 'cy', 'cd_WALES_MAIL'],
-                                ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
-                                ['Northern Ireland', 'ni', 'cd_NI_MAIL']
-                            ]) }}
-                        </div>
+                        {% if request.flash('ebulletinStatus') %}
+                            {% if request.flash('ebulletinStatus') === 'success' %}
+                                <h5 class="t10">Thank you for subscribing to receive updates and news from the Big Lottery Fund</h5>
+                                <p class="info-msg">Your personal data is important to us and we will not share it with third parties. We are sure you will enjoy hearing from us, but you can unsubscribe at any time if you wish.</p>
+                            {% else %}
+                                <h5 class="t10">There was an error signing you up to the e-bulletin</h5>
+                                <p class="info-msg">It looks like we're experiencing an error with our e-bulletin tool. Please try again later.</p>
+                            {% endif %}
+                        {% else %}
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                            <input type="hidden" name="addressbookid" value="589755">
+                            <input type="hidden" name="userid" value="180445">
+                            <input type="hidden" name="ReturnURL" value="{{ appData.config.get('ebulletinDestination') }}">
 
-                        <div class="grid grid--padded">
-                            {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
-                            {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
-                        </div>
-                        {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
-                        {{ forms.input('Email', 'Email', 'email', required = true) }}
+                            <p class="intro">Sign up for our latest news relating to your country:</p>
 
+                            <div class="form-ebulletin--grid">
+                                {{ forms.radios('location', [
+                                    ['England', 'en', 'cd_ENGLAND_MAIL'],
+                                    ['Wales', 'cy', 'cd_WALES_MAIL'],
+                                    ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
+                                    ['Northern Ireland', 'ni', 'cd_NI_MAIL']
+                                ]) }}
+                            </div>
 
-                        <input type="submit" value="Subscribe" class="btn btn--cta btn--pink form-ebulletin__btn" />
+                            <div class="grid grid--padded">
+                                {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                                {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                            </div>
+                            {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
+                            {{ forms.input('Email', 'Email', 'email', required = true) }}
+
+                            <input type="submit" value="Subscribe" class="btn btn--cta btn--pink form-ebulletin__btn" />
+                        {% endif %}
                     </form>
 
                     {# social buttons #}

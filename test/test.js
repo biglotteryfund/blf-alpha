@@ -109,7 +109,7 @@ describe('Express application', function () {
                 })
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.redirectTo(config.get('ebulletinDestination'));
+                    res.should.redirectTo('/#' + config.get('anchors.ebulletin'));
                     res.should.have.status(302);
                     done();
                 });

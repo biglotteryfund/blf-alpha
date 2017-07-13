@@ -159,12 +159,19 @@ module.exports = (pages) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
-
                 // convert location into proper field value
                 let location = req.body['location'];
                 req.body[location] = 'yes';
                 delete req.body['location'];
                 // send the valid form to the signup endpoint (external)
+
+                let handleSignupError = () => {
+                    req.flash('ebulletinStatus', 'error');
+                    req.session.save(function () {
+                        return res.redirect('/#' + config.get('anchors.ebulletin'));
+                    });
+                };
+
                 rp({
                     method: 'POST',
                     uri: config.get('ebulletinSignup'),
@@ -173,11 +180,19 @@ module.exports = (pages) => {
                     simple: false, // don't let 302s fail
                     followAllRedirects: true
                 }).then(response => {
-                    return res.redirect(config.get('ebulletinDestination'));
+                    if (response.statusCode === 302 || response.statusCode === 200) {
+                        // signup succeeded
+                        req.flash('ebulletinStatus', 'success');
+                        req.session.save(function () {
+                            return res.redirect('/#' + config.get('anchors.ebulletin'));
+                        });
+                    } else {
+                        return handleSignupError();
+                    }
                 }).catch(error => {
-                    // @TODO show error?
-                    console.log(error);
-                    return res.redirect('/');
+                    // signup failed
+                    console.log('Error signing up to ebulletin', error);
+                    return handleSignupError();
                 });
             }
         });
