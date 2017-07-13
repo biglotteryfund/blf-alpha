@@ -1,0 +1,31 @@
+{% extends "../../layouts/tools.njk" %}
+
+{% block title %}Language editor{% endblock %}
+
+{% block extraHead %}
+    <script src="/assets/sceditor/jquery.sceditor.xhtml.min.js"></script>
+    <link rel="stylesheet" href="/assets/sceditor/themes/default.min.css" />
+{% endblock %}
+
+{% block headerAction %}
+    <form class="navbar-form navbar-right">
+        <button type="button" class="btn btn-default" id="js-save-changes">Save changes</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h2 id="js-title-en"></h2>
+            <div id="js-locale-en" class="js-locale-id" data-locale="en"></div>
+        </div>
+        <div class="col-sm-6">
+            <h2 id="js-title-cy"></h2>
+            <div id="js-locale-cy" class="js-locale-id" data-locale="cy"></div>
+        </div>
+    </div>
+    <script src="/assets/jsoneditor/jsoneditor.js"></script>
+    <script src="/assets/jsoneditor/editor.js"></script>
+
+{% endblock %}

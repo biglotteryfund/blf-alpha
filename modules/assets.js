@@ -1,14 +1,13 @@
 const fs = require('fs');
+const path = require('path');
 const assetVirtualDir = 'assets';
 
 // load cachebusted assets
 let assets = {};
 try {
-    assets = JSON.parse(
-        fs.readFileSync(__dirname + '/bin/assets.json', 'utf8')
-    );
+    assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../bin/assets.json'), 'utf8'));
 } catch (e) {
-    console.info('assets.json not found -- are you in DEV mode?');
+    // console.info('assets.json not found -- are you in DEV mode?');
 }
 
 // function for templates

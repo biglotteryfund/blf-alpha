@@ -1,19 +1,12 @@
 'use strict';
 const nodemailer = require('nodemailer');
-const fs = require('fs');
-const path = require('path');
 const config = require('config');
+const secrets = require('../modules/secrets');
 
 let mailConfig = {
-    user: process.env.SES_USER,
-    password: process.env.SES_PASSWORD
+    user: secrets['ses.auth.user'],
+    password: secrets['ses.auth.password']
 };
-
-try {
-    mailConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/mail.json'), 'utf8'));
-} catch (e) {
-    console.info('mail.json not found -- are you in DEV mode?');
-}
 
 let transporter = false;
 

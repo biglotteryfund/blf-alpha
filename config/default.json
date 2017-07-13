@@ -27,6 +27,7 @@
     "googleAnalyticsCode": "UA-98908627-1",
     "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
     "ebulletinSignup": "http://bigmail.org.uk/signup.ashx",
+    "ebulletinDestination": "http://bigmail.org.uk/Survey/3V8D-3T/language.aspx",
     "abTests": {
         "cookieName": "blf-ab",
         "tests": {
@@ -39,5 +40,7 @@
     "social": {
         "facebook": "http://www.facebook.com/BigLotteryFund",
         "instagram": "https://www.instagram.com/big_lottery_fund"
-    }
+    },
+    "database": "website-dev",
+    "database-test": "website-test"
 }

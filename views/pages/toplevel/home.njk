@@ -78,14 +78,16 @@
             </ul>
 
             {# news posts #}
-            <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
-                {% for n in news %}
-                    <li class="grid__item">
-                        <h4 class="t3">{{ n.title }}</h4>
-                        <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% if news.length %}
+                <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
+                    {% for n in news %}
+                        <li class="grid__item">
+                            <h4 class="t3">{{ n.title }}</h4>
+                            <p>{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
             {# funding finder #}
             <div class="central-gap m-b--l">
@@ -115,10 +117,10 @@
                 </li>
                 <li class="grid__item accent--pink accent-b-t m-t-none">
                     <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <input type="hidden" name="addressbookid" value="589755">
                         <input type="hidden" name="userid" value="180445">
-                        <input type="hidden" name="ReturnURL" value="http://bigmail.org.uk/Survey/3V8D-3T/language.aspx">
+                        <input type="hidden" name="ReturnURL" value="{{ appData.config.get('ebulletinDestination') }}">
 
                         <h3 class="t9">e-bulletin sign up</h3>
                         <p class="intro">Sign up for our latest news relating to your country:</p>

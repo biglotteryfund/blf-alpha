@@ -2,7 +2,6 @@ node_modules
 .idea
 .map
 .css.map
-logs/*.log
 always_restart.txt
 public/images
 public/javascripts
@@ -13,3 +12,4 @@ deploy.json
 assets/sass/_config.scss
 addSecrets.sh
 bin/cloudfront
+config/secrets.json

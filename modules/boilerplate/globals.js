@@ -1,10 +1,10 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const sassConfig = require('../config/sass.json');
-const routes = require('../routes/routes');
+const sassConfig = require('../../config/sass.json');
+const routes = require('../../routes/routes');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
@@ -19,7 +19,7 @@ let deploymentData;
 try {
     deploymentData = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/deploy.json'), 'utf8'));
 } catch (e) {
-    console.info('deploy.json not found -- are you in DEV mode?');
+    // console.info('deploy.json not found -- are you in DEV mode?');
 }
 
 const appEnv = process.env.NODE_ENV || 'dev';
@@ -30,7 +30,7 @@ setGlobal('appData', {
     buildNumber: (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV',
     IS_DEV: appEnv === 'dev',
     environment: appEnv,
-    config: config // @TODO is this being used?
+    config: config
 });
 
 // configure meta tags

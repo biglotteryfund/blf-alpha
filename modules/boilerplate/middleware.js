@@ -1,5 +1,5 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const globals = require('./globals');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -11,6 +11,14 @@ const expressValidator = require('express-validator');
 const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
+const passport = require('passport');
+const flash = require('req-flash');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const models = require('../../models/index');
+const secrets = require('../../modules/secrets');
+
+// load auth strategy
+require('../../modules/boilerplate/auth');
 
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
@@ -26,13 +34,18 @@ app.use(cookieParser());
 
 // add session
 const sessionConfig = {
-    // @TODO re-generate and secure in AWS
-    secret: 'gqQpNpuqBVFgnEiXfLvJBGmstieVHPofPkrbnaEEqHyQFmDpsmrVZA6pAcvZzeLQ',
+    secret: secrets['session.secret'] || process.env.sessionSecret,
     name: config.get('cookies.session'),
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false }
+    cookie: { secure: false, httpOnly: false },
+    store: new SequelizeStore({
+        db: models.sequelize
+    })
 };
+
+// create sessions table
+sessionConfig.store.sync();
 
 if (app.get('env') === 'production') {
     app.set('trust proxy', 4);
@@ -40,6 +53,11 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sessionConfig));
+app.use(flash());
+
+// add passport auth
+app.use(passport.initialize());
+app.use(passport.session());
 
 // add form validator
 app.use(expressValidator({}));
@@ -48,7 +66,8 @@ app.use(expressValidator({}));
 i18n.expressBind(app, {
     locales: ['en', 'cy'],
     cookieName: 'locale',
-    extension: '.json'
+    extension: '.json',
+    directory: './config/locales'
 });
 
 // handle overlays

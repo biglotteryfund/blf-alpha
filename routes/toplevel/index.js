@@ -4,16 +4,14 @@ const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
 const httpProxy = require('http-proxy');
-const request = require('request'); // @TODO do we need this? use rp?
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
-const logger = require('../../logger');
-
-const news = require('../../bin/data/news.json');
+const models = require('../../models/index');
 
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
@@ -38,6 +36,87 @@ let testHomepage = ab.test('blf-homepage-2017', {
     id: config.get('abTests.tests.homepage.id') // google experiment ID
 });
 
+let newHomepage = (req, res, next) => {
+    let serveHomepage = (news) => {
+        res.render('pages/toplevel/home', {
+            title: "Homepage",
+            news: news || []
+        });
+    };
+
+    // get news articles
+    try {
+        models.News.findAll({ limit: 3, order: [['updatedAt', 'DESC']] }).then(serveHomepage);
+    } catch (e) {
+        console.log('Could not find news posts');
+        serveHomepage();
+    }
+};
+
+let oldHomepage = (req, res, next) => {
+    return rp({
+        url: legacyUrl,
+        strictSSL: false,
+        jar: true,
+        resolveWithFullResponse: true
+    }).then((response) => {
+        let body = response.body;
+        // convert all links in the document to be root-relative
+        // (only really useful on non-prod envs)
+        body = absolution(body, 'https://www.biglotteryfund.org.uk');
+
+        // fix meta tags in HTML which use the wrong CNAME
+        body = body.replace(/wwwlegacy/g, 'www');
+
+        // parse the DOM
+        const dom = new JSDOM(body);
+
+        // are we in an A/B test?
+        if (res.locals.ab) {
+            // create GA snippet for tracking experiment
+            const gaCode = `
+                    <script src="//www.google-analytics.com/cx/api.js"></script>
+                    <script>
+                        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                                (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+                        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                        ga('create', '${config.get('googleAnalyticsCode')}', {
+                            'cookieDomain': 'none'
+                        });
+                        // console.log('tracking test', ${JSON.stringify(res.locals.ab)});
+                        ga('set', 'expId', '${res.locals.ab.id}');
+                        ga('set', 'expVar', ${res.locals.ab.variantId});
+                        cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
+                        ga('send', 'pageview');
+                    </script>`;
+
+            // insert GA experiment code into the page
+            const script = dom.window.document.createElement("div");
+            script.innerHTML = gaCode;
+            dom.window.document.body.appendChild(script);
+
+            // try to kill the google tag manager (useful for non-prod envs)
+            // @TODO kill the noscript too?
+            // @TODO don't do this on prod?
+            const scripts = dom.window.document.scripts;
+            let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
+            if (gtm) {
+                gtm.innerHTML = '';
+            }
+        }
+        // pass the headers
+        res.set(response.headers);
+        res.send(dom.serialize());
+
+    }).catch(error => {
+        // we failed to fetch from the proxy
+        // @TODO is there a better fix for this? send them to the new page?
+        console.log(error);
+        res.send(JSON.stringify(error));
+    });
+};
+
 module.exports = (pages) => {
 
     /**
@@ -48,74 +127,18 @@ module.exports = (pages) => {
     }
 
     // variant A: new homepage
-    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), (req, res, next) => {
-        res.render('pages/toplevel/home', {
-            title: "Homepage",
-            news: news.slice(0, 3)
-        });
-        // @TODO flash session
-        delete req.session.errors;
-    });
+    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
 
     // variant B: existing site (proxied)
-    router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), (req, res, next) => {
-        request({
-            url: legacyUrl,
-            strictSSL: false,
-            jar: true
-        }, (error, response, body) => {
-            if (error) {
-                // we failed to fetch from the proxy
-                // @TODO is there a better fix for this?
-                res.send(error);
-            } else {
-                // convert all links in the document to be root-relative
-                // (only really useful on non-prod envs)
-                body = absolution(body, 'https://www.biglotteryfund.org.uk');
+    router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
 
-                // fix meta tags in HTML which use the wrong CNAME
-                body = body.replace(/wwwlegacy/g, 'www');
-
-                // create GA snippet for tracking experiment
-                const gaCode = `
-                <script src="//www.google-analytics.com/cx/api.js"></script>
-                <script>
-                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-                    ga('create', '${config.get('googleAnalyticsCode')}', {
-                        'cookieDomain': 'none'
-                    });
-                    // console.log('tracking test', ${JSON.stringify(res.locals.ab)});
-                    ga('set', 'expId', '${res.locals.ab.id}');
-                    ga('set', 'expVar', ${res.locals.ab.variantId});
-                    cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
-                    ga('send', 'pageview');
-                </script>`;
-
-                // insert GA experiment code into the page
-                const dom = new JSDOM(body);
-                const script = dom.window.document.createElement("div");
-                script.innerHTML = gaCode;
-                dom.window.document.body.appendChild(script);
-
-                // try to kill the google tag manager (useful for non-prod envs)
-                // @TODO kill the noscript too?
-                // @TODO don't do this on prod?
-                const scripts = dom.window.document.scripts;
-                let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
-                if (gtm) {
-                    gtm.innerHTML = '';
-                }
-
-                res.send(dom.serialize());
-            }
-        });
-    });
+    // used for tests: override A/B cohorts
+    router.get('/home', newHomepage);
+    router.get('/legacy', oldHomepage);
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res, next) => {
+        // @TODO somehow validate that a country was chosen
         req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
         req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
         req.checkBody('Email', 'Please provide your email address').notEmpty();
@@ -128,12 +151,27 @@ module.exports = (pages) => {
             req.body['cd_ORGANISATION'] = req.sanitize('cd_ORGANISATION').escape();
 
             if (!result.isEmpty()) {
-                req.session.errors = result.array();
-                req.session.values = req.body;
-                res.redirect('/home#' + config.get('anchors.ebulletin'));
+                req.flash('formErrors', result.array());
+                req.flash('formValues', req.body);
+                req.session.save(function () {
+                    res.redirect('/#' + config.get('anchors.ebulletin'));
+                });
             } else {
                 // send the valid form to the signup endpoint (external)
-                res.redirect(307, config.get('ebulletinSignup'));
+                rp({
+                    method: 'POST',
+                    uri: config.get('ebulletinSignup'),
+                    form: req.body,
+                    resolveWithFullResponse: true,
+                    simple: false, // don't let 302s fail
+                    followAllRedirects: true
+                }).then(response => {
+                    return res.redirect(config.get('ebulletinDestination'));
+                }).catch(error => {
+                    // @TODO show error?
+                    console.log(error);
+                    return res.redirect('/');
+                });
             }
         });
     });
@@ -163,14 +201,14 @@ module.exports = (pages) => {
                     postcode: postcode
                 });
             } else {
-                logger.log('info', 'GET /lookup found a valid postcode but no matching grants', {
+                console.log('GET /lookup found a valid postcode but no matching grants', {
                     postcode: postcode,
                     district: yourDistrict
                 });
                 res.status(302).redirect('/');
             }
         }).catch(() => {
-            logger.log('info', 'GET /lookup received an invalid postcode', {
+            console.log('GET /lookup received an invalid postcode', {
                 postcode: postcode
             });
             res.status(302).redirect('/');

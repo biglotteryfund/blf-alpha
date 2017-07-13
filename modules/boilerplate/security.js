@@ -1,5 +1,5 @@
 'use strict';
-const app = require('../server');
+const app = require('../../server');
 const helmet = require('helmet');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
@@ -7,7 +7,8 @@ const csrfProtection = csrf({ cookie: true });
 // these URLs won't get the helmet header protection
 // @TODO this should only affect the legacy homepage
 const pathsExemptFromHelmet = [
-    '/'
+    '/',
+    '/legacy',
 ];
 
 const defaultSecurityDomains = [
@@ -17,7 +18,8 @@ const defaultSecurityDomains = [
     'www.google-analytics.com',
     'www.google.com',
     'maxcdn.bootstrapcdn.com',
-    'platform.twitter.com'
+    'platform.twitter.com',
+    'syndication.twitter.com'
 ];
 
 const helmetSettings = helmet({
@@ -40,7 +42,6 @@ const helmetSettings = helmet({
 });
 
 app.use((req, res, next) => {
-    // if (req.path === '/home') {
     if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
         next();
     } else {
