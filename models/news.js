@@ -10,7 +10,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         link: {
             type: DataTypes.STRING
-        }
+        },
+        locale: {
+            type: DataTypes.STRING
+        },
     });
 
 };
