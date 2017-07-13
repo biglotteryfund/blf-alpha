@@ -153,7 +153,9 @@ module.exports = (pages) => {
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                res.redirect('/#' + config.get('anchors.ebulletin'));
+                req.session.save(function () {
+                    res.redirect('/#' + config.get('anchors.ebulletin'));
+                });
             } else {
                 // send the valid form to the signup endpoint (external)
                 rp({

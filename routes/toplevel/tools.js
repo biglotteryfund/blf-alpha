@@ -208,7 +208,9 @@ router.route(editNewsPath + '/:id?')
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                res.redirect(req.baseUrl + editNewsPath + '?error');
+                req.session.save(function () {
+                    res.redirect(req.baseUrl + editNewsPath + '?error');
+                });
             } else {
 
                 let rowData = {
@@ -231,7 +233,9 @@ router.route(editNewsPath + '/:id?')
                     models.News.upsert(rowData);
                 }
                 req.flash('newsStatus', 'success');
-                res.redirect(req.baseUrl + editNewsPath + '?success');
+                req.session.save(function () {
+                    res.redirect(req.baseUrl + editNewsPath + '?success');
+                });
             }
         });
     });

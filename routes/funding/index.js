@@ -134,7 +134,9 @@ module.exports = (pages) => {
                 if (!result.isEmpty()) {
                     req.flash('formErrors', result.array());
                     req.flash('formValues', req.body);
-                    res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
+                    req.session.save(function () {
+                        res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
+                    });
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
