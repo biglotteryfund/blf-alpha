@@ -47,7 +47,7 @@ routes.vanityRedirects.forEach(r => {
 const handle404s = () => {
     let err = new Error('Page not found');
     err.status = 404;
-    err.friendlyText = "Sorry, we couldn't find that page";
+    err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
     return err;
 };
 
