@@ -18,12 +18,16 @@
     <div class="row">
         <div class="col-sm-6">
             <h2>All articles <small>(Click to edit)</small></h2>
-            <ul>
+            <div class="list-group">
                 {% for n in news %}
-                    <li><a href="/tools/edit-news/{{ n.id }}"><strong>{{ n.title }}</strong></a><br />
-                        (Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }})</li>
+                    <a class="list-group-item{% if id and id == n.id %} active{% endif %}" href="/tools/edit-news/{{ n.id }}">
+                        <h5 class="list-group-item-heading">{{ n.title }}</h5>
+                        <p class="list-group-item-text">
+                            Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }}
+                        </p>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
         <div class="col-sm-6">
             {% if id %}
