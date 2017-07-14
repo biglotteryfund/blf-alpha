@@ -205,9 +205,9 @@ blockquote {
 
 .pullquote {
     @include mq('tablet', 'max') {
-        margin: $spacingUnit $spacingUnit;
+        margin: $spacingUnit $spacingUnit *3 $spacingUnit $spacingUnit;
     }
-    margin: $spacingUnit $spacingUnit * 2;
+    margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
     p {
         font-style: italic;
         color: palette('blue');

@@ -132,8 +132,12 @@ main {
 
 .grid__item--image {
     @include mq('tablet', 'max') {
+        $mobileWidth: 35%;
         background-size: contain;
         background-position: top left;
+        width: $mobileWidth !important;
+        flex-basis: $mobileWidth !important;
+        margin-left: 15px !important;
     }
     background-size: cover;
     background-position: center center;
@@ -261,4 +265,13 @@ main {
     padding-bottom: 30px;
     padding-left: $spacingUnit;
     padding-right: $spacingUnit;
+}
+
+.case-studies {
+    div {
+        margin-top: 0;
+    }
+    li {
+        margin: 0;
+    }
 }
