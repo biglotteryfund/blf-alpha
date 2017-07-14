@@ -92,7 +92,7 @@ let getCurrentUrl = (req, locale) => {
     let protocol = (headerProtocol) ? headerProtocol : req.protocol;
     let currentUrl = protocol + "://" + req.get('host') + req.originalUrl;
     // is the current URL welsh or english?
-    const CYMRU_URL = /\/welsh\//;
+    const CYMRU_URL = /\/welsh(\/|$)/;
     const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
     const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
     // rewrite URL to requested language

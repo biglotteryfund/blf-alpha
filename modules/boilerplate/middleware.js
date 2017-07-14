@@ -90,7 +90,7 @@ app.use((req, res, next) => {
 // inject locale and contrast setting for welsh URLs
 app.use((req, res, next) => {
     const WELSH_LOCALE = 'cy';
-    const CYMRU_URL = /^\/welsh\//;
+    const CYMRU_URL = /^\/welsh(\/|$)/;
     const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
     let localePrefix = '';
 
