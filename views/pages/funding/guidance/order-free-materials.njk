@@ -63,29 +63,33 @@
                                                 <strong>{% if p.name[locale] %}{{ p.name[locale] }}{% else %}{{ item.name[locale] }}{% endif %}</strong>
                                                 {{ copy.languageOptions[p.language] }}
                                             </label>
-                                            <button type="submit"
-                                                    value="decrease"
-                                                    name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == 0"
-                                                    aria-label="Decrease quantity"
-                                                    class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
-                                                -
-                                            </button>
-                                            <div aria-label="Quantity"
-                                                  class="material-item__quantity js-material-count">
-                                                <span class="js-only">
-                                                    <% getQuantity('{{ p.code }}', {{ quantity }}) %>
-                                                </span>
-                                                <noscript>{{ quantity }}</noscript>
-                                            </div>
-                                            <button type="submit"
-                                                    value="increase"
-                                                    name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
-                                                    v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == {{ item.maximum }}"
-                                                    aria-label="Increase quantity"
-                                                    class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
-                                                +
-                                            </button>
+                                            {% if not item.outOfStock %}
+                                                <button type="submit"
+                                                        value="decrease"
+                                                        name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                                                        v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == 0"
+                                                        aria-label="Decrease quantity"
+                                                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
+                                                    -
+                                                </button>
+                                                <div aria-label="Quantity"
+                                                      class="material-item__quantity js-material-count">
+                                                    <span class="js-only">
+                                                        <% getQuantity('{{ p.code }}', {{ quantity }}) %>
+                                                    </span>
+                                                    <noscript>{{ quantity }}</noscript>
+                                                </div>
+                                                <button type="submit"
+                                                        value="increase"
+                                                        name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
+                                                        v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == {{ item.maximum }}"
+                                                        aria-label="Increase quantity"
+                                                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
+                                                    +
+                                                </button>
+                                            {% else %}
+                                                <p class="material-item__oos">Out of stock</p>
+                                            {% endif %}
                                         </div>
                                     </form>
                                 {% endfor %}

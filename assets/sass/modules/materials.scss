@@ -81,3 +81,10 @@
         @include disabledBtn();
     }
 }
+.material-item__oos {
+    margin-top: 0;
+    margin-left: 5px;
+    font-size: 14px;
+    color: #999999;
+    text-align: right;
+}

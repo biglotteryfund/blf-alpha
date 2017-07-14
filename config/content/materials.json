@@ -29,6 +29,7 @@
             },
             "description": "310mm x 260mm",
             "image": "plaque-perspex.jpg",
+            "outOfStock": true,
             "maximum": 1,
             "notAllowedWithItem": 3,
             "products": [
