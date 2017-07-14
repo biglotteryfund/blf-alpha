@@ -130,6 +130,30 @@ $heroes: (
             'height': 410,
             'filename': '../images/hero/home--desktop.jpg'
         )
+    ),
+    'under10k': (
+        'default': (
+            'width': 640,
+            'height': 424,
+            'filename': '../images/hero/under10k--mobile.jpg'
+        ),
+        'tablet': (
+            'width': 1366,
+            'height': 468,
+            'filename': '../images/hero/under10k--desktop.jpg'
+        )
+    ),
+    'over10k': (
+        'default': (
+            'width': 640,
+            'height': 425,
+            'filename': '../images/hero/over10k--mobile.jpg'
+        ),
+        'tablet': (
+            'width': 1366,
+            'height': 446,
+            'filename': '../images/hero/over10k--desktop.jpg'
+        )
     )
 );
 
@@ -176,12 +200,13 @@ $heroes: (
 }
 
 .hero__caption {
+    $spaceBottom: 20px;
     position: relative;
     height: 100%;
 
     span {
         position: absolute;
-        bottom: 20px;
+        bottom: $spaceBottom;
         right: 0;
         background-color: rgba(0, 0, 0, 0.4);
         padding: 4px;
@@ -189,5 +214,9 @@ $heroes: (
         width: auto;
         height: auto;
         font-size: 15px;
+
+        &.nudged {
+            bottom: $nudgeAmount + $spaceBottom;
+        }
     }
 }

@@ -1,0 +1,67 @@
+{% import "../../components/hero.njk" as hero %}
+{% import "../../components/headers.njk" as headers %}
+
+{% extends "../../layouts/main.njk" %}
+
+{% macro projectBlock() %}
+    <div class="grid__item__inner grid__item__inner--flex">
+        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
+            <img src="{{ 'images/home/under10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Children gardening together" />
+        </a>
+    </div>
+    <div class="bg-pale-grey p--s m-t-none">
+        <h4 class="t3">Title</h4>
+        <h6 class="m-t--s t12">Grant amount £7998</h6>
+        <p class="m-t-none t11">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <br /><a href="#" class="link-turquoise">Read more...</a>
+        </p>
+    </div>
+{% endmacro %}
+
+{% block content %}
+
+    {% set heroContent %}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', "The Big Lottery Fund makes grants of more than £10,000, offering flexible funding and support for longer term projects", 55, 'minor hero__header') }}
+        </div>
+    {% endset %}
+
+    {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities, Grant: £1.2M', nudgeCaption = true) }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-grey bordered">
+            <p>Larger grants are made through a variety of programmes in all nations within the United Kingdom. Our funding will enable you to use your local knowledge, strengths and resources to make positive changes in your community, either through your own organisation, or in partnership with others</p>
+
+            <h3 class="t9 t9--c m-t">Want to know more? Start by telling us where your project is going to be</h3>
+
+            <ul class="unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/funding/funding-finder?area=England" class="btn accent--turquoise btn--cta btn--block">England</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/funding/funding-finder?area=Scotland" class="btn accent--turquoise btn--cta btn--block">Scotland</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/funding/funding-finder?area=Wales" class="btn accent--turquoise btn--cta btn--block">Wales</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/funding/funding-finder?area=Northern+Ireland" class="btn accent--turquoise btn--cta btn--block">Northern Ireland</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio" class="btn accent--turquoise btn--cta btn--block">Across the UK</a></li>
+            </ul>
+
+        </div>
+
+        <div class="inner">
+            <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
+            <ul class="unstyled grid grid--2-up grid--padded--large grid--equal grid--wide-only">
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+            </ul>
+
+            <div class="central-gap m-b--l">
+                <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--outline accent--turquoise btn--block">Browse all funded projects</a>
+            </div>
+        </div>
+
+    </article>
+
+
+{% endblock %}

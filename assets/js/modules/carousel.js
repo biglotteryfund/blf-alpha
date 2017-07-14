@@ -13,7 +13,7 @@ const init = function (settings) {
 
     let carouselElm = document.querySelector(settings.selector);
 
-    if (carouselElm.getAttribute('data-per-page')) {
+    if (carouselElm && carouselElm.getAttribute('data-per-page')) {
         carouselBreakpointConfig[tabletBreakpoint] = parseInt(carouselElm.getAttribute('data-per-page'));
     }
 

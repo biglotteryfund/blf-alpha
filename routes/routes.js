@@ -61,6 +61,26 @@ const routes = {
                         '/about-big/jobs/how-to-apply',
                         '/about-big/jobs/current-vacancies'
                     ]
+                },
+                under10k: {
+                    name: "Under 10k",
+                    path: "/under10k",
+                    template: "pages/toplevel/under10k",
+                    lang: "toplevel.under10k",
+                    code: 29,
+                    static: true,
+                    live: false,
+                    aliases: []
+                },
+                over10k: {
+                    name: "Over 10k",
+                    path: "/over10k",
+                    template: "pages/toplevel/over10k",
+                    lang: "toplevel.over10k",
+                    code: 30,
+                    static: true,
+                    live: false,
+                    aliases: []
                 }
             }
         },

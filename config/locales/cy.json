@@ -120,7 +120,9 @@
 					"body": "<p>\tMae’r Gronfa Loteri Fawr yn ymroddedig i ystyried ac ymdrin â materion cydraddoldeb ym mhob agwedd ar ei busnes, gan gynnwys sut rydym yn recriwtio ac yn cyflogi ein staff. Mae hyn yn golygu ein bod yn ystyried anghenion a phrofiadau pobl o gefndiroedd gwahanol (er enghraifft, fesul rhywedd, hil, anabledd a thueddfryd rhywiol) ac rydym yn gweithio i sicrhau ein bod yn osgoi trin pobl yn annheg cymaint â phosib. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn ddefnyddio symbol y 'tic dwbl' ac yn ymrwymedig i gyfweld ag ymgeiswyr sydd ag anableddau os ydynt yn bodloni'r isafswm meini prawf ar gyfer swydd wag.  </p><p>\tBydd y Gronfa Loteri Fawr yn gwneud unrhyw addasiadau rhesymol ar gyfer ymgeisydd sydd ag anabledd ym mhob cam o'r broses ddethol. I'n cynorthwyo ni, dylai ymgeisydd sydd ag anabledd ddatgan bod ganddo/ganddi anabledd ar y ffurflen gais, a'n hysbysu am unrhyw ofynion. </p><p>\tOs oes gennych anabledd sy’n eich atal rhag cwblhau ffurflen ar-lein, cysylltwch â’n llinell ymholiadau ar 0300 123 0735 neu e-bostiwch <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, a fydd yn falch o helpu.</p><p>\tMae gan y Gronfa Loteri Fawr fforwm anableddau sy'n agored i staff anabl a staff sydd â diddordeb mewn materion gysylltiedig ag anableddau at ddiben cefnogaeth, rhannu gwybodaeth a rhoi cyngor. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn Hyrwyddwr Cydraddoldeb Stonewall, gan gefnogi ein hymrwymiad i fod yn lle gwych i weithio ar gyfer staff lesbiaidd, hoyw, deurywiol a thrawsrywiol (LGBT). Yn cydweithio'n agos â Stonewall, rydym wedi sefydlu rhwydwaith staff LGBT fel fforwm ar gyfer hyrwyddo cefnogaeth, rhannu gwybodaeth, dylanwadu ar bolisïau ac arferion y cwmni, ac ymdrin â materion LGBT yn y gwaith.</p>"
 				}
 			}
-		}
+		},
+		"under10k": "under10k",
+		"over10k": "over10k"
 	},
 	"about": {
 		"foi": {

@@ -98,6 +98,13 @@
     }
 }
 
+.btn.btn--pink-mid {
+    background-color: palette('pink-mid') !important;
+    @include on-interact {
+        background-color: darken(palette('pink-mid'), 10%) !important;
+    }
+}
+
 .btn--carousel {
     position: absolute;
     top: 50%;
