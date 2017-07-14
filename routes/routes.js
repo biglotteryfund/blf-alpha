@@ -72,6 +72,16 @@ const routes = {
                     live: false,
                     aliases: []
                 },
+                over10k: {
+                    name: "Over 10k",
+                    path: "/over10k",
+                    template: "pages/toplevel/over10k",
+                    lang: "toplevel.over10k",
+                    code: 30,
+                    static: true,
+                    live: false,
+                    aliases: []
+                }
             }
         },
         about: {

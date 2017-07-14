@@ -166,6 +166,13 @@ a {
     }
 }
 
+.t9--c {
+    color: #333333;
+    &:after {
+        border-bottom-color: palette('turquoise')
+    }
+}
+
 .t10 {
     font-family: 'Roboto', arial, sans-serif;
     font-weight: 600;

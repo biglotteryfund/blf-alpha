@@ -61,7 +61,7 @@
                 {# over 10k #}
                 <li class="grid__item">
                     <div class="grid__item__inner grid__item__inner--flex accent--turquoise accent-b-t-l">
-                        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
+                        <a href="{{ buildUrl('', 'over10k') }}">
                             <img src="{{ 'images/home/over10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Two women laughing while sharing a coffee" />
                         </a>
                         {{ headers.blockheader(
@@ -69,12 +69,12 @@
                             'Many people apply for larger sums of money (over £10,000) over longer periods of time',
                             38,
                             't1--opaque minor minor--smallest grid__item__title',
-                            buildUrl('funding', 'helpWithPublicity'),
+                        buildUrl('', 'over10k'),
                             false
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
-                        <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="#">
+                        <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="{{ buildUrl('', 'over10k') }}">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
                     </div>

@@ -121,7 +121,8 @@
 				}
 			}
 		},
-		"under10k": "under10k"
+		"under10k": "under10k",
+		"over10k": "over10k"
 	},
 	"about": {
 		"foi": {
