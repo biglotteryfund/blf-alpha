@@ -3,7 +3,7 @@
 // serve a static page (eg. no special dependencies)
 module.exports = (page, router) => {
     // redirect any aliases to the canonical path
-    if (page.aliases) {
+    if (page.aliases && page.aliases.length > 0) {
         router.get(page.aliases, (req, res, next) => {
             res.redirect(req.baseUrl + page.path);
         });

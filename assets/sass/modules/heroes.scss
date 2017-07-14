@@ -130,6 +130,18 @@ $heroes: (
             'height': 410,
             'filename': '../images/hero/home--desktop.jpg'
         )
+    ),
+    'under10k': (
+        'default': (
+            'width': 640,
+            'height': 424,
+            'filename': '../images/hero/under10k--mobile.jpg'
+        ),
+        'tablet': (
+            'width': 1366,
+            'height': 468,
+            'filename': '../images/hero/under10k--desktop.jpg'
+        )
     )
 );
 
