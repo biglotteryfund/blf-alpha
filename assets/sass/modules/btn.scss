@@ -97,3 +97,65 @@
         background-color: darken(palette('pink'), 10%) !important;
     }
 }
+
+.btn--carousel {
+    position: absolute;
+    top: 50%;
+    color: palette('blue');
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    left: 0;
+    z-index: 100;
+    margin-top: 0;
+
+    @include mq('tablet') {
+        left: -$spacingUnit*3;
+    }
+
+    @include on-interact {
+        color: lighten(palette('blue'), 20%);
+    }
+
+    &.btn--carousel--next {
+        left: auto;
+        right: 0;
+        @include mq('tablet') {
+            right: -$spacingUnit*3;
+        }
+    }
+
+    .icon--arrow-left,
+    .icon--arrow-right {
+        width: 24px;
+        height: 40px;
+        fill: #1a44a1;
+    }
+
+    &.btn--carousel--round {
+        background-color: palette('pink');
+        border-radius: 100%;
+        height: 40px;
+        width: 40px;
+
+        @include on-interact {
+            background-color: darken(palette('pink'), 5%);
+        }
+
+        &.btn--carousel--next {
+            right: $spacingUnit;
+        }
+
+        &.btn--carousel--prev {
+            left: $spacingUnit;
+        }
+
+        .icon--arrow-left,
+        .icon--arrow-right {
+            fill: #ffffff;
+            text-align: center;
+            height: 36px;
+        }
+    }
+}

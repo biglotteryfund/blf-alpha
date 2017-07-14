@@ -28,39 +28,6 @@
     }
 }
 
-.stats-btn {
-    position: absolute;
-    top: 50%;
-    color: palette('blue');
-    background: none;
-    border: none;
-    font-size: 30px;
-    cursor: pointer;
-    left: 0;
-
-    @include mq('tablet') {
-        left: -$spacingUnit*3;
-    }
-
-    @include on-interact {
-        color: lighten(palette('blue'), 20%);
-    }
-
-    &.stats-btn--next {
-        left: auto;
-        right: 0;
-        @include mq('tablet') {
-            right: -$spacingUnit*3;
-        }
-    }
-
-    .icon--arrow-left,
-    .icon--arrow-right {
-        width: 24px;
-        height: 40px;
-        fill: #1a44a1;
-    }
-}
 
 .stats {
 
