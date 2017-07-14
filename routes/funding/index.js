@@ -68,11 +68,9 @@ module.exports = (pages) => {
             res.cacheControl = { maxAge: 0 };
 
             let orderStatus;
-            if (req.session.materialFormSuccess) {
+            // clear order details if it succeeded
+            if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
-                req.session.showOverlay = true;
-                delete req.session.materialFormSuccess;
-                delete req.session.showOverlay;
                 delete req.session[freeMaterialsLogic.orderKey];
             }
 
@@ -146,9 +144,11 @@ module.exports = (pages) => {
                         email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
                     }
 
-                    req.session.materialFormSuccess = true;
-                    req.session.showOverlay = true;
-                    res.redirect(req.baseUrl + freeMaterials.path);
+                    req.flash('materialFormSuccess', true);
+                    req.flash('showOverlay', true);
+                    req.session.save(function () {
+                        res.redirect(req.baseUrl + freeMaterials.path);
+                    });
                 }
             });
         });
