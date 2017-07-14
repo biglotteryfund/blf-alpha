@@ -168,29 +168,14 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
 
 });
 
-let getLocale = (localeParam) => {
-    // default dodgy locales to english
-    let locale = 'en';
-    if (localeParam) {
-        let validLocales = ['en', 'cy'];
-        if (validLocales.indexOf(localeParam) !== -1) {
-            locale = localeParam;
-        }
-    }
-    return locale;
-};
 
 // edit news articles
 const editNewsPath = '/tools/edit-news';
-router.route(editNewsPath + '/:locale/:id?')
+router.route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
-        let locale = getLocale(req.params.locale);
 
         let queries = [];
         queries.push(models.News.findAll({
-            where: {
-                locale: locale
-            },
             order: [['updatedAt', 'DESC']]
         }));
 
@@ -201,7 +186,6 @@ router.route(editNewsPath + '/:locale/:id?')
         Promise.all(queries).then((responses) => {
             if (req.params.id) {
                 if (!responses[1]) {
-                    // return res.sendStatus(404);
                     return next();
                 }
                 req.flash('formValues', responses[1]);
@@ -210,21 +194,24 @@ router.route(editNewsPath + '/:locale/:id?')
                 news: responses[0],
                 id: req.params.id,
                 status: req.flash('newsStatus'),
-                user: req.user,
-                locale: locale
+                user: req.user
             });
         });
     }).post(isAuthenticated, (req, res, next) => {
 
-        let locale = getLocale(req.params.locale);
-        let redirectBase = req.baseUrl + editNewsPath + '/' + locale;
+        let redirectBase = req.baseUrl + editNewsPath + '/';
 
-        req.checkBody('title', 'Please provide a title').notEmpty();
-        req.checkBody('text', 'Please provide a summary').notEmpty();
-        req.checkBody('link', 'Please provide a link').notEmpty();
+        // validate form
+        req.checkBody('title_en', 'Please provide an English title').notEmpty();
+        req.checkBody('title_cy', 'Please provide a Welsh title').notEmpty();
+        req.checkBody('text_en', 'Please provide an English summary').notEmpty();
+        req.checkBody('text_cy', 'Please provide a Welsh summary').notEmpty();
+        req.checkBody('link_en', 'Please provide an English article link').notEmpty();
+        req.checkBody('link_cy', 'Please provide a Welsh article link').notEmpty();
 
         req.getValidationResult().then((result) => {
             // sanitise input
+            // @TODO use node xss instead
             req.body['title'] = req.sanitize('title').escape();
             // req.body['text'] = req.sanitize('text');
 
@@ -237,10 +224,12 @@ router.route(editNewsPath + '/:locale/:id?')
             } else {
 
                 let rowData = {
-                    title: req.body['title'],
-                    text: req.body['text'],
-                    link: req.body['link'],
-                    locale: locale
+                    title_en: req.body['title_en'],
+                    title_cy: req.body['title_cy'],
+                    text_en: req.body['text_en'],
+                    text_cy: req.body['text_cy'],
+                    link_en: req.body['link_en'],
+                    link_cy: req.body['link_cy'],
                 };
 
                 if (req.params.id) {

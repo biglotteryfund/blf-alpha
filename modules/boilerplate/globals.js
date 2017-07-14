@@ -53,6 +53,19 @@ setGlobal('getFormErrorForField', (errorList, fieldName) => {
     }
 });
 
+// utility to get flash messages in templates (this can cause race conditions otherwise)
+setGlobal('getFlash', (req, key, innerKey) => {
+    if (req.flash) {
+        if (req.flash(key)) {
+            if (!innerKey) {
+                return req.flash(key);
+            } else if (req.flash(key)[innerKey]) {
+                return req.flash(key)[innerKey];
+            }
+        }
+    }
+});
+
 // linkbuilder function for helping with routes
 setGlobal('buildUrl', (sectionName, pageName) => {
     let localePrefix = getGlobal('localePrefix');

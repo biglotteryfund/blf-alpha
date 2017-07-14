@@ -48,9 +48,6 @@ let newHomepage = (req, res, next) => {
     // get news articles
     try {
         models.News.findAll({
-            where: {
-                locale: req.i18n.getLocale()
-            },
             limit: 3,
             order: [['updatedAt', 'DESC']]
         }).then(serveHomepage);

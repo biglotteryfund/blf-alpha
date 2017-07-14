@@ -2,18 +2,24 @@
 
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('news', {
-        title: {
+        title_en: {
             type: DataTypes.STRING
         },
-        text: {
+        title_cy: {
+            type: DataTypes.STRING
+        },
+        text_en: {
             type: DataTypes.TEXT
         },
-        link: {
+        text_cy: {
+            type: DataTypes.TEXT
+        },
+        link_en: {
             type: DataTypes.STRING
         },
-        locale: {
+        link_cy: {
             type: DataTypes.STRING
-        },
+        }
     });
 
 };

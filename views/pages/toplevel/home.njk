@@ -82,8 +82,8 @@
                 <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
                     {% for n in news %}
                         <li class="grid__item">
-                            <h4 class="t3">{{ n.title | safe}}</h4>
-                            <p class="m-t--s">{{ n.text | safe }} <a href="{{ n.link }}" class="link-pink">Read more...</a></p>
+                            <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
+                            <p class="m-t--s">{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
                         </li>
                     {% endfor %}
                 </ul>
@@ -122,7 +122,7 @@
                     <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t9">e-bulletin sign up</h3>
 
-                        {% if request.flash('ebulletinStatus') %}
+                        {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}
                                 <h5 class="t10">Thank you for subscribing to receive updates and news from the Big Lottery Fund</h5>
                                 <p class="info-msg">Your personal data is important to us and we will not share it with third parties. We are sure you will enjoy hearing from us, but you can unsubscribe at any time if you wish.</p>

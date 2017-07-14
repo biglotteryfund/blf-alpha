@@ -5,7 +5,7 @@
 
 {% block headerAction %}
     <form class="navbar-form navbar-right">
-        <a href="/tools/edit-news/{{ locale }}" class="btn btn-default">Add new article</a>
+        <a href="/tools/edit-news/" class="btn btn-default">Add new article</a>
     </form>
 {% endblock %}
 
@@ -15,54 +15,74 @@
         <div class="alert alert-success" role="alert">The article was successfully updated!</div>
     {% endif %}
 
-    <h1>
-        News in {% if locale == 'en' %}English{% else %}Welsh{% endif %}
-        <small>
-            {% if locale == 'en' %}
-                <a href="/tools/edit-news/cy/">Post in Welsh?</a>
-            {% else %}
-                <a href="/tools/edit-news/en/">Post in English?</a>
-            {% endif %}
-        </small>
-    </h1>
+    <h1>News</h1>
+
+    {% if id %}
+        <h2>Edit an article <small>#{{ id }}</small></h2>
+    {% else %}
+        <h2>Add a new article</h2>
+    {% endif %}
+
+    <form method="post" action="/tools/edit-news/{% if id %}{{ id }}{% endif %}">
+        <div class="row">
+
+            <div class="col-sm-6">
+                <h3>English</h3>
+                <div class="form-group">
+                    {{ forms.input('title_en', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('text_en', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('link_en', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3>Welsh</h3>
+                <div class="form-group">
+                    {{ forms.input('title_cy', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. Rhowch amser i roi diolch i’ch gwirfoddolwyr', charLimit = 70) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('text_cy', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
+                </div>
+                <div class="form-group">
+                    {{ forms.input('link_cy', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
+                {% if id %}
+                    <button type="submit" name="action" value="delete" class="btn btn-danger" id="js-delete">Delete article</button>
+                {% endif %}
+            </div>
+        </div>
+
+    </form>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <h2>All articles <small>(Click to edit)</small></h2>
             <div class="list-group">
                 {% for n in news %}
-                    <a class="list-group-item{% if id and id == n.id %} active{% endif %}" href="/tools/edit-news/{{ locale }}/{{ n.id }}">
-                        <h5 class="list-group-item-heading">{{ n.title }}</h5>
+                    <a class="list-group-item{% if id and id == n.id %} active{% endif %}" href="/tools/edit-news/{{ n.id }}">
+                        <h5 class="list-group-item-heading">
+                            <strong>English</strong>: {{ n.title_en }}<br />
+                            <strong>Welsh</strong>: {{ n.title_cy }}<br />
+                        </h5>
                         <p class="list-group-item-text">
-                            Last updated {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }}
+                            Last updated: {{ n.updatedAt | dateFormat("ddd Do MMM YYYY hh:mma") }}
                         </p>
                     </a>
                 {% endfor %}
             </div>
         </div>
-        <div class="col-sm-6">
-            {% if id %}
-                <h2>Edit article</h2>
-            {% else %}
-                <h2>Add a new article</h2>
-            {% endif %}
-            <form method="post" action="/tools/edit-news/{{ locale }}/{% if id %}{{ id }}{% endif %}">
-                <div class="form-group">
-                    {{ forms.input('title', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
-                </div>
-                <div class="form-group">
-                    {{ forms.input('text', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
-                </div>
-                <div class="form-group">
-                    {{ forms.input('link', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
-                </div>
-                <button type="submit" class="btn btn-default">{% if id %}Edit this article{% else %}Add this article{% endif %}</button>
-                {% if id %}
-                    <button type="submit" name="action" value="delete" class="btn btn-default" id="js-delete">Delete article</button>
-                {% endif %}
-            </form>
-        </div>
     </div>
+
 
     <style>
         .is-error {

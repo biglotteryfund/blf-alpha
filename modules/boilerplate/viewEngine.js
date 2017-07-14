@@ -18,6 +18,10 @@ templateEnv.addFilter('getCachebustedPath', function (str) {
     return assets.getCachebustedPath(str);
 });
 
+templateEnv.addFilter('localeify', function (field, locale) {
+    return field + '_' + locale;
+});
+
 templateEnv.addFilter('makePhoneLink', function (str) {
     let callable = str.replace(/ /g, '');
     return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
