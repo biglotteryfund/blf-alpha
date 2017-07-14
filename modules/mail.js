@@ -34,6 +34,7 @@ const send = (text, subject) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            // @TODO handle this better – re-send it?
             return console.error('Error sending email via SES', error);
         }
         console.log('Message %s sent: %s', info.messageId, info.response);

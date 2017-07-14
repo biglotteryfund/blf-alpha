@@ -3,8 +3,9 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
-const routeStatic = require('../utils/routeStatic');
+const xss = require('xss');
 
+const routeStatic = require('../utils/routeStatic');
 const email = require('../../modules/mail');
 
 const freeMaterialsLogic = {
@@ -128,7 +129,7 @@ module.exports = (pages) => {
             req.getValidationResult().then((result) => {
                 // sanitise input
                 for (let key in req.body) {
-                    req.body[key] = req.sanitize(key).escape();
+                    req.body[key] = xss(key);
                 }
 
                 if (!result.isEmpty()) {
@@ -141,7 +142,6 @@ module.exports = (pages) => {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
                     
-                    // @TODO handle error here?
                     if (!req.body.skipEmail) { // allow tests to run without sending emeil
                         email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
                     }

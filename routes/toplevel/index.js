@@ -8,6 +8,7 @@ const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
@@ -142,18 +143,17 @@ module.exports = (pages) => {
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res, next) => {
-        // @TODO somehow validate that a country was chosen
         req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
         req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
         req.checkBody('Email', 'Please provide your email address').notEmpty();
         req.checkBody('location', 'Please choose a country newsletter').notEmpty();
 
         req.getValidationResult().then((result) => {
+
             // sanitise input
-            req.body['cd_FIRSTNAME'] = req.sanitize('cd_FIRSTNAME').escape();
-            req.body['cd_LASTNAME'] = req.sanitize('cd_LASTNAME').escape();
-            req.body['Email'] = req.sanitize('Email').escape();
-            req.body['cd_ORGANISATION'] = req.sanitize('cd_ORGANISATION').escape();
+            for (let key in req.body) {
+                req.body[key] = xss(key);
+            }
 
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
@@ -163,11 +163,11 @@ module.exports = (pages) => {
                 });
             } else {
                 // convert location into proper field value
-                let location = req.body['location'];
+                let location = xss(req.body['location']);
                 req.body[location] = 'yes';
                 delete req.body['location'];
-                // send the valid form to the signup endpoint (external)
 
+                // redirect errors back to the homepage
                 let handleSignupError = () => {
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(function () {
@@ -175,6 +175,7 @@ module.exports = (pages) => {
                     });
                 };
 
+                // send the valid form to the signup endpoint (external)
                 rp({
                     method: 'POST',
                     uri: config.get('ebulletinSignup'),
@@ -182,9 +183,8 @@ module.exports = (pages) => {
                     resolveWithFullResponse: true,
                     simple: false, // don't let 302s fail
                     followAllRedirects: true
-                }).then(response => {
+                }).then(response => { // signup succeeded
                     if (response.statusCode === 302 || response.statusCode === 200) {
-                        // signup succeeded
                         req.flash('ebulletinStatus', 'success');
                         req.session.save(function () {
                             return res.redirect('/#' + config.get('anchors.ebulletin'));
@@ -192,8 +192,7 @@ module.exports = (pages) => {
                     } else {
                         return handleSignupError();
                     }
-                }).catch(error => {
-                    // signup failed
+                }).catch(error => { // signup failed
                     console.log('Error signing up to ebulletin', error);
                     return handleSignupError();
                 });

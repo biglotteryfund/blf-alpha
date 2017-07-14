@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
 const passport = require('passport');
+const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
@@ -210,11 +211,6 @@ router.route(editNewsPath + '/:id?')
         req.checkBody('link_cy', 'Please provide a Welsh article link').notEmpty();
 
         req.getValidationResult().then((result) => {
-            // sanitise input
-            // @TODO use node xss instead
-            req.body['title'] = req.sanitize('title').escape();
-            // req.body['text'] = req.sanitize('text');
-
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
@@ -222,14 +218,14 @@ router.route(editNewsPath + '/:id?')
                     res.redirect(redirectBase + '?error');
                 });
             } else {
-
+                // sanitise input
                 let rowData = {
-                    title_en: req.body['title_en'],
-                    title_cy: req.body['title_cy'],
-                    text_en: req.body['text_en'],
-                    text_cy: req.body['text_cy'],
-                    link_en: req.body['link_en'],
-                    link_cy: req.body['link_cy'],
+                    title_en: xss(req.body['title_en']),
+                    title_cy: xss(req.body['title_cy']),
+                    text_en: xss(req.body['text_en']),
+                    text_cy: xss(req.body['text_cy']),
+                    link_en: xss(req.body['link_en']),
+                    link_cy: xss(req.body['link_cy'])
                 };
 
                 if (req.params.id) {
