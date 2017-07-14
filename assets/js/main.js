@@ -1,6 +1,5 @@
 'use strict';
 /* global $, ga, cxApi */
-const appConfig = require('../../config/content/sass.json');
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
@@ -12,12 +11,6 @@ const $thisScript = document.getElementById('js-script-main');
 const Vue = require('./libs/vue');
 Vue.options.delimiters = ['<%', '%>'];
 
-// read tablet breakpoint from CSS config
-const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
-// configure carousel - screen width: num items
-let carouselBreakpointConfig = { 1: 1 };
-carouselBreakpointConfig[tabletBreakpoint] = 3;
-
 $('html').removeClass('no-js');
 
 // detect IE to fix broken images
@@ -27,7 +20,6 @@ if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('
 
 carousel.init({
     selector: '.js-carousel',
-    perPage: carouselBreakpointConfig,
     nextSelector: '.js-carousel-next',
     prevSelector: '.js-carousel-prev',
 });
