@@ -188,12 +188,13 @@ $heroes: (
 }
 
 .hero__caption {
+    $spaceBottom: 20px;
     position: relative;
     height: 100%;
 
     span {
         position: absolute;
-        bottom: 20px;
+        bottom: $spaceBottom;
         right: 0;
         background-color: rgba(0, 0, 0, 0.4);
         padding: 4px;
@@ -201,5 +202,9 @@ $heroes: (
         width: auto;
         height: auto;
         font-size: 15px;
+
+        &.nudged {
+            bottom: $nudgeAmount + $spaceBottom;
+        }
     }
 }

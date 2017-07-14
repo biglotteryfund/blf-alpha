@@ -1,9 +1,9 @@
-{% macro header(name, content, accent, caption = false) %}
+{% macro header(name, content, accent, caption = false, nudgeCaption = false) %}
     <div class="hero {% if name %}hero--{{ name }}{% endif %}" role="complementary">
         <section class="hero__inner">
             {% if caption %}
-                <div class="inner hero__caption">
-                    <span>{{ caption }}</span>
+                <div class="inner hero__caption desktop-only">
+                    <span{% if nudgeCaption %} class="nudged"{% endif %}>{{ caption }}</span>
                 </div>
             {% endif %}
             <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
