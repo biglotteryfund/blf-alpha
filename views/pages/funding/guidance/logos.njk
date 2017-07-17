@@ -5,6 +5,38 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set howToUseLogo %}
+    <h3 class="t3a m-t-none tab-fallback-title m-b">How to use our logo</h3>
+    <h3 class="t3a">Free branded kit</h3>
+    <p class="m-t-none">We'll also send you free items such as plaques, balloons and large cheques &ndash; <a href="{{ buildUrl('funding', 'freeMaterials') }}">see the full range and order here</a>.</p>
+
+    <h3 class="t3a m-t">Brand guidance &ndash; getting it right</h3>
+    <p class="m-t-none"><a href="#">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at {{ "brand.guidance@biglotteryfund.org.uk" | mailto | safe }}</p>
+
+    <h3 class="t3a m-t">Choosing the right logo format to download</h3>
+    <p class="m-t-none">
+        <strong>Digital</strong> &ndash; best for websites, word documents, PowerPoint and social media<br />
+        <strong>Print</strong> &ndash; best for use when printing posters or leaflets<br />
+        <strong>Vector</strong> &ndash; best to use when working with a professional designer<br />
+    </p>
+
+    <h3 class="t3a m-t">Logo options</h3>
+    <p class="m-t-none">The logo is available in two colours: 100% magenta or 100% cyan. We position the logo in the top right corner of all our communications by default. Always use the logo supplied through official channels and never adapt or recreate it.</p>
+
+    <div class="central-gap">
+        <img src="{{ 'images/logos/examples.png' | getCachebustedPath }}"
+             alt="Examples of our logo"
+             class="width-natural" />
+    </div>
+{% endset %}
+
+{% macro logoTabBar(paneId) %}
+    <ul class="js-tabs tabs unstyled" data-panes="{{ paneId }}">
+        <li><a href="#logos">Logo downloads</a></li>
+        <li><a href="#howto">How to use our logo</a></li>
+    </ul>
+{% endmacro %}
+
 {% macro makeLogoTitle(logoName, logoSize) %}
     {{ copy.downloads.download }}
     {% if locale == 'cy' %}logo{% endif %}
@@ -35,7 +67,7 @@
 
     {% set heroContent %}
         <div class="nudge-bottom">
-            {{ headers.blockheader('h2', copy.title, 30, 'hero__header') }}
+            {{ headers.blockheader('h2', "Using our logo", 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -44,7 +76,10 @@
     <article role="main" class="nudge-up">
 
         <div class="inner--wide-only p-text accent--blue accent-b-t accent-bg bordered">
-            {{ copy.body | safe }}
+            {#{{ copy.body | safe }}#}
+
+            <h3 class="t3a m-t">Thank the players of the National Lottery</h3>
+            <p class="m-t-none">It's really important that people involved with your project understand that it'd been supported by players of the National Lottery &ndash; having our logo somewhere easily visible really helps to do this. You can put the logo on a wall, add it to your website or a piece of equipment &ndash; anywhere where people can see it. You can download our logos below.</p>
 
             <p><strong>To make sure you get the correct logo please tell us where your project is based:</strong></p>
 
@@ -67,16 +102,12 @@
             {# england, scotland and NI #}
             <div class="js-pane tab-pane">
 
-                {# todo: make this a macro? #}
-                <ul class="js-tabs tabs unstyled" data-panes="js-logo-panes-en">
-                    <li><a href="#logos">Logo downloads</a></li>
-                    <li><a href="#howto">How to use our logo</a></li>
-                </ul>
+                {{ logoTabBar('js-logo-panes-en') }}
 
                 <div id="js-logo-panes-en" class="m-t-none">
                     {# logo pane #}
                     <div class="js-pane tab-pane bordered p">
-                        <h3 class="t3a m-t-none tab-fallback-title">{{ copy.labels.english | safe }}</h3>
+                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.labels.english | safe }}</h3>
 
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
@@ -104,8 +135,7 @@
 
                     {# how to #}
                     <div class="js-pane tab-pane bordered p">
-                        <h3 class="t3a m-t-none tab-fallback-title">How to use our logo</h3>
-                        how to use stuff
+                        {{ howToUseLogo | safe }}
                     </div>
                 </div>
 
@@ -114,16 +144,12 @@
             {# wales #}
             <div class="js-pane tab-pane">
 
-                {# todo: make this a macro? #}
-                <ul class="js-tabs tabs unstyled" data-panes="js-logo-panes-cy">
-                    <li><a href="#logos">Logo downloads</a></li>
-                    <li><a href="#howto">How to use our logo</a></li>
-                </ul>
+                {{ logoTabBar('js-logo-panes-cy') }}
 
                 <div id="js-logo-panes-cy" class="m-t-none">
                     {# logo pane #}
                     <div class="js-pane tab-pane bordered p">
-                        <h3 class="t3a m-t-none tab-fallback-title">{{ copy.labels.bilingual | safe }}</h3>
+                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.labels.bilingual | safe }}</h3>
 
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
@@ -151,8 +177,8 @@
 
                     {# how to #}
                     <div class="js-pane tab-pane bordered p">
-                        <h3 class="t3a m-t-none tab-fallback-title">How to use our logo</h3>
-                        how to use stuff (welsh)
+                        <h3 class="t3a m-t-none tab-fallback-title m-b">How to use our logo</h3>
+                        {{ howToUseLogo | safe }}
                     </div>
                 </div>
 
