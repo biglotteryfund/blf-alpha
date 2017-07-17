@@ -54,13 +54,14 @@
                 <li><a href="#howto">How to use our logo</a></li>
             </ul>
 
-            <div id="js-logo-panes">
+            <div id="js-logo-panes" class="m-t-none">
                 {# logo pane #}
-                <div class="js-pane tab-pane">
+                <div class="js-pane tab-pane bordered">
                     {% if locale == 'en' %}
-                        <h3 class="t3a m-t m-l--l">{{ copy.labels.english | safe }}</h3>
+                        {#<h3 class="t3a m-t m-l--l">{{ copy.labels.english | safe }}</h3>#}
+                        <h3 class="t3a m-t tab-fallback-title">{{ copy.labels.english | safe }}</h3>
 
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
                                     {{ logoBlock('blue', 'blue', 'en') }}
@@ -111,7 +112,8 @@
                 </div>
 
                 {# how to #}
-                <div class="js-pane tab-pane">
+                <div class="js-pane tab-pane bordered">
+                    <h3 class="t3a m-t tab-fallback-title">How to use our logo</h3>
                     how to use stuff
                 </div>
             </div>

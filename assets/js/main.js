@@ -14,7 +14,7 @@ const $thisScript = document.getElementById('js-script-main');
 const Vue = require('./libs/vue');
 Vue.options.delimiters = ['<%', '%>'];
 
-$('html').removeClass('no-js');
+$('html').toggleClass('no-js js-on');
 
 // detect IE to fix broken images
 if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
