@@ -1,5 +1,5 @@
 'use strict';
-
+/* global $ */
 let classTrigger = 'js-tabs';
 let paneClassTrigger = 'js-pane';
 let paneAttr = 'data-panes';
@@ -7,25 +7,22 @@ let activeTabClass = 'tab--active';
 let activePaneClass = 'tab-pane--active';
 
 let bindEvents = (tabElm, paneElm) => {
-    let tabs = tabElm.querySelectorAll('li');
-    let panes = paneElm.querySelectorAll(`.${paneClassTrigger}`);
-    [].forEach.call(tabs, (tab, i) => {
-        tab.addEventListener('click', (event) => {
-            let pane = panes[i]; // find corresponding pane
+    let tabs = $('li', tabElm);
+    let panes = $(`> .${paneClassTrigger}`, paneElm);
+
+    tabs.each(function (i) {
+        $(this).on('click', (event) => {
+            let pane = panes.eq(i); // find corresponding pane
             if (pane) {
                 // toggle tab classes
-                let oldActiveTab = tabElm.querySelector(`.${activeTabClass}`);
-                if (oldActiveTab && oldActiveTab.classList) {
-                    oldActiveTab.classList.remove(activeTabClass);
-                }
-                tab.classList.add(activeTabClass);
+                let oldActiveTab = $(`> .${activeTabClass}`, tabElm);
+                oldActiveTab.removeClass(activeTabClass);
+                $(this).addClass(activeTabClass);
 
                 // toggle pane classes
-                let oldActivePane = paneElm.querySelector(`.${activePaneClass}`);
-                if (oldActivePane && oldActivePane.classList) {
-                    oldActivePane.classList.remove(activePaneClass);
-                }
-                pane.classList.add(activePaneClass);
+                let oldActivePane = $(`> .${activePaneClass}`, paneElm);
+                oldActivePane.removeClass(activePaneClass);
+                pane.addClass(activePaneClass);
             }
 
             // prevent anchor scroll
@@ -35,22 +32,22 @@ let bindEvents = (tabElm, paneElm) => {
 };
 
 let init = () => {
-    let tabElms = document.querySelectorAll(`.${classTrigger}`);
-    [].forEach.call(tabElms, (tabElm) => {
-        let paneHolderId = tabElm.getAttribute(paneAttr);
+    let tabElms = $(`.${classTrigger}`);
+    tabElms.each(function () {
+        let paneHolderId = $(this).attr(paneAttr);
         let paneHolder = document.getElementById(paneHolderId);
         if (paneHolder) {
             // mark tab module as active
-            tabElm.classList.add('js-tabs--active');
+            $(this).addClass('js-tabs--active');
             // if no tab is active, mark one out
-            let activeTab = tabElm.querySelector(`.${activeTabClass}`);
-            if (!activeTab) {
-                tabElm.querySelector('li').classList.add(activeTabClass);
-                paneHolder.querySelector('.js-pane').classList.add(activePaneClass);
+            let activeTab = $(this).find(`.${activeTabClass}`);
+            if (activeTab.length === 0) {
+                $(this).find('li').first().addClass(activeTabClass);
+                $('.js-pane', paneHolder).first().addClass(activePaneClass);
             }
 
             // bind click handlers
-            bindEvents(tabElm, paneHolder);
+            bindEvents($(this), paneHolder);
         }
     });
 };
