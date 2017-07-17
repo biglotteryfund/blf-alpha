@@ -107,9 +107,6 @@
                     <span class="t7">{{ copy.methods.phone }}</span>: {{ '029 2067 8236' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07870 566 867' | makePhoneLink | safe }})
                 </p>
-
-                <h3 class="t6 m-t">{{ copy.topics.pressQuery.subtitle }}</h3>
-                {{ copy.topics.pressQuery.body | safe }}
             {% endset %}
 
             {{ segment.segment(copy.topics.applicationQuery.title, applicationQuery, 'blue', 'images/contact/1.jpg') }}
