@@ -3,7 +3,10 @@
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
+
+// load modules
 require('./modules/data.map');
+require('./modules/tabs').init();
 
 const $thisScript = document.getElementById('js-script-main');
 
