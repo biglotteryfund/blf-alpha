@@ -47,10 +47,19 @@
             {{ copy.body | safe }}
 
             <p><strong>To make sure you get the correct logo please tell us where your project is based:</strong></p>
-            <ul class="js-tabs unstyled" data-panes="js-logo-panes">
-                <li><a href="#logos">England, Scotland or Northern Ireland</a></li>
-                <li><a href="#howto">Wales</a></li>
-            </ul>
+
+            <div class="m-l--l m-r--l">
+                <ul class="js-tabs unstyled grid grid--padded grid--equal grid--2-up grid--wide-only"
+                    data-panes="js-logo-panes"
+                    data-no-initial-selection="true">
+                    <li class="grid__item m-b-none">
+                        <a href="#logos" class="btn btn--blue btn--cta btn--block">England, Scotland or Northern Ireland</a>
+                    </li>
+                    <li class="grid__item m-b-none">
+                        <a href="#howto" class="btn btn--blue btn--cta btn--block">Wales</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <div class="inner" id="js-logo-panes">
@@ -58,6 +67,7 @@
             {# england, scotland and NI #}
             <div class="js-pane tab-pane">
 
+                {# todo: make this a macro? #}
                 <ul class="js-tabs tabs unstyled" data-panes="js-logo-panes-en">
                     <li><a href="#logos">Logo downloads</a></li>
                     <li><a href="#howto">How to use our logo</a></li>
@@ -65,45 +75,64 @@
 
                 <div id="js-logo-panes-en" class="m-t-none">
                     {# logo pane #}
-                    <div class="js-pane tab-pane bordered">
-                        {% if locale == 'en' %}
-                            {#<h3 class="t3a m-t m-l--l">{{ copy.labels.english | safe }}</h3>#}
-                            <h3 class="t3a m-t tab-fallback-title">{{ copy.labels.english | safe }}</h3>
+                    <div class="js-pane tab-pane bordered p">
+                        <h3 class="t3a m-t-none tab-fallback-title">{{ copy.labels.english | safe }}</h3>
 
-                            <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
-                                <li class="grid__item">
-                                    <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
-                                        {{ logoBlock('blue', 'blue', 'en') }}
-                                    </div>
-                                </li>
-                                <li class="grid__item">
-                                    <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
-                                        {{ logoBlock('pink', 'pink') }}
-                                    </div>
-                                </li>
-                                <li class="grid__item">
-                                    <div class="grid__item__inner bordered p bg-dark">
-                                        {{ logoBlock('pink-white', 'white', onlyEps = true) }}
-                                    </div>
-                                </li>
-                                <li class="grid__item">
-                                    <div class="grid__item__inner bordered p bg-dark">
-                                        {{ logoBlock('blue-white', 'white', onlyEps = true) }}
-                                    </div>
-                                </li>
-                            </ul>
-                        {% endif %}
-
-                        <h3 class="t3a m-t m-l--l">{{ copy.labels.bilingual | safe }}</h3>
-
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--turquoise accent-b-t-l bordered p">
+                                <div class="grid__item__inner accent--turquoise bordered p">
+                                    {{ logoBlock('blue', 'blue', 'en') }}
+                                </div>
+                            </li>
+                            <li class="grid__item">
+                                <div class="grid__item__inner accent--pink bordered p">
+                                    {{ logoBlock('pink', 'pink') }}
+                                </div>
+                            </li>
+                            <li class="grid__item">
+                                <div class="grid__item__inner bordered p bg-dark">
+                                    {{ logoBlock('pink-white', 'white', onlyEps = true) }}
+                                </div>
+                            </li>
+                            <li class="grid__item">
+                                <div class="grid__item__inner bordered p bg-dark">
+                                    {{ logoBlock('blue-white', 'white', onlyEps = true) }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {# how to #}
+                    <div class="js-pane tab-pane bordered p">
+                        <h3 class="t3a m-t-none tab-fallback-title">How to use our logo</h3>
+                        how to use stuff
+                    </div>
+                </div>
+
+            </div>
+
+            {# wales #}
+            <div class="js-pane tab-pane">
+
+                {# todo: make this a macro? #}
+                <ul class="js-tabs tabs unstyled" data-panes="js-logo-panes-cy">
+                    <li><a href="#logos">Logo downloads</a></li>
+                    <li><a href="#howto">How to use our logo</a></li>
+                </ul>
+
+                <div id="js-logo-panes-cy" class="m-t-none">
+                    {# logo pane #}
+                    <div class="js-pane tab-pane bordered p">
+                        <h3 class="t3a m-t-none tab-fallback-title">{{ copy.labels.bilingual | safe }}</h3>
+
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
+                            <li class="grid__item">
+                                <div class="grid__item__inner accent--turquoise bordered p">
                                     {{ logoBlock('blue', 'blue', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--pink accent-b-t-l bordered p">
+                                <div class="grid__item__inner accent--pink bordered p">
                                     {{ logoBlock('pink', 'pink', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
@@ -121,17 +150,12 @@
                     </div>
 
                     {# how to #}
-                    <div class="js-pane tab-pane bordered">
-                        <h3 class="t3a m-t tab-fallback-title">How to use our logo</h3>
-                        how to use stuff
+                    <div class="js-pane tab-pane bordered p">
+                        <h3 class="t3a m-t-none tab-fallback-title">How to use our logo</h3>
+                        how to use stuff (welsh)
                     </div>
                 </div>
 
-            </div>
-
-            {# wales #}
-            <div class="js-pane tab-pane">
-                wales
             </div>
 
         </div>

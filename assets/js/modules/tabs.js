@@ -1,8 +1,10 @@
 'use strict';
 /* global $ */
 let classTrigger = 'js-tabs';
+let classActivated = 'js-tabs--active';
 let paneClassTrigger = 'js-pane';
 let paneAttr = 'data-panes';
+let activateAttr = 'data-no-initial-selection';
 let activeTabClass = 'tab--active';
 let activePaneClass = 'tab-pane--active';
 
@@ -38,10 +40,12 @@ let init = () => {
         let paneHolder = document.getElementById(paneHolderId);
         if (paneHolder) {
             // mark tab module as active
-            $(this).addClass('js-tabs--active');
+            $(this).addClass(classActivated);
+
             // if no tab is active, mark one out
             let activeTab = $(this).find(`.${activeTabClass}`);
-            if (activeTab.length === 0) {
+            let neverAutoActivate = $(this).attr(activateAttr);
+            if (activeTab.length === 0 && !neverAutoActivate) {
                 $(this).find('li').first().addClass(activeTabClass);
                 $('.js-pane', paneHolder).first().addClass(activePaneClass);
             }
