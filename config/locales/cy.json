@@ -174,7 +174,14 @@
 			},
 			"logos": {
 				"title": "Sut i hysbysu pobl am eich grant Loteri Genedlaethol gan ddefnyddio ein logo",
-				"body": "<p>Mae'n <strong>bwysig iawn</strong> y gall pobl sy'n defnyddio neu’n galw heibio'ch mudiad ddeall yn gyflym ac yn hwylus eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech chi wneud hwn trwy roi ein logo ar wal, gwefan neu gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod y rhan fwyaf o bobl sy'n ymwneud â'ch prosiect yn deall ei fod yn cael ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3 class=\"t3a m-t\">Sut i gael y logo</h3><p>Rydym am i chi fod mor hyblyg a chreadigol â phosib wrth ddefnyddio'ch arian grant. Er hynny, mae'n rhaid i chi gyhoeddi eich dyfarniad grant yn gyhoeddus. Mae'r dudalen hon yn cynnwys logos y gallwch eu lawrlwytho i'w defnyddio. Rydym yn cynnig deunyddiau hefyd, fel placiau, balwnau a 'sieciau' mawr y byddwn yn eu hanfon atoch am ddim - gallwch <a href=\"/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials\">weld beth sydd ar gael ac archebu yma</a>.</p>",
+				"subtitle": "Dweud diolch wrth chwaraewyr y Loteri Genedlaethol",
+				"heroText": "Defnyddio ein logo",
+				"body": "Mae'n bwysig iawn bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan y Loteri Genedlaethol - mae rhoi ein logo mewn lle amlwg yn help mawr wrth wneud hyn. Gallwch roi'r logo ar wal, atodi fe i'ch gwefan neu ddarn o gyfarpar - unrhyw le y gall pobl ei weld. Gallwch lawrlwytho ein logos isod.",
+				"locationPrompt": "I sicrhau eich bod yn cael y logo cywir, dywedwch wrthym ble mae'ch prosiect wedi'i leoli:",
+				"locations": {
+					"monolingual": "Lloegr, Yr Alban neu Ogledd Iwerddon",
+					"bilingual": "Cymru"
+				},
 				"labels": {
 					"english": "Saesneg",
 					"bilingual": "Cymraeg/Saesneg dwyieithog"
@@ -191,6 +198,31 @@
 						"white": "gwyn"
 					},
 					"download": "Lawrlwytho'r"
+				},
+				"logoDownloads": {
+					"monolingual": "Logos uniaith Saesneg",
+					"bilingual": "Logos dwyieithog Cymraeg/Saesneg"
+				},
+				"howToUseLogo": {
+					"title": " Sut i ddefnyddio ein logo",
+					"sections": {
+						"freeKit": {
+							"title": "Offer wedi'i frandio am ddim",
+							"body": "Hefyd, gallwn anfon eitemau am ddim fel placiau, balwnau a sieciau mawr atoch - <a href=\"/funding/funding-guidance/managing-your-funding/ordering-free-materials\">gallwch weld yr amrediad llawn ac archebu yma</a>."
+						},
+						"brandGuidance": {
+							"title": "Arweiniad brand - gwneud y peth iawn",
+							"body": "<a href=\"#\">Lawrlwythwch ein Harweiniad Brand</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
+						},
+						"format": {
+							"title": "Dewis y fformat logo cywir i'w lawrlwytho",
+							"body": "<strong>Digidol</strong> &ndash; dyma'r un gorau ar gyfer gwefannau, dogfennau word, PowerPoint a chyfryngau cymdeithasol<br /><strong>Print</strong> &ndash; i'w ddefnyddio wrth argraffu posteri neu daflenni<br /><strong>Vector</strong> &ndash; i'w ddefnyddio wrth weithio gyda dylunydd proffesiynol<br />"
+						},
+						"options": {
+							"title": "Opsiynau logo",
+							"body": "Mae'r logo ar gael mewn dau liw: 100% magenta neu 100% gwyrddlas. Rydym yn lleoli'r logo yn y gornel dde ar frig ein holl ddogfennau fel mater o drefn. Defnyddiwch y logo a ddarperir trwy sianelau swyddogol a pheidiwch â'i addasu neu ei ail-greu."
+						}
+					}
 				}
 			},
 			"help-with-publicity": {

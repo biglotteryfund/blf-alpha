@@ -174,7 +174,14 @@
 			},
 			"logos": {
 				"title": "How to tell people about your National Lottery funding using our logo",
-				"body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3 class=\"t3a m-t\">How to get the logo</h3><p>We want you to be as flexible and creative as possible with using your grant money. However, you do need to publicly announce your funding award. This page contains logos that you can download to use. We also offer physical objects like plaques, balloons and large 'cheques' that we'll send you for free - you can <a href=\"/funding/funding-guidance/managing-your-funding/ordering-free-materials\">see the range and order here</a>.</p>",
+				"subtitle": "Thank the players of the National Lottery",
+				"heroText": "Using our logo",
+				"body": "It's really important that people involved with your project understand that it's been supported by players of the National Lottery – having our logo somewhere easily visible really helps to do this. You can put the logo on a wall, add it to your website or a piece of equipment – anywhere where people can see it. You can download our logos below.",
+				"locationPrompt": "To make sure you get the correct logo please tell us where your project is based:",
+				"locations": {
+					"monolingual": "England, Scotland or Northern Ireland",
+					"bilingual": "Wales"
+				},
 				"labels": {
 					"english": "English",
 					"bilingual": "Bilingual English/Welsh"
@@ -191,6 +198,31 @@
 						"white": "white"
 					},
 					"download": "Download"
+				},
+				"logoDownloads": {
+					"monolingual": "English logo downloads",
+					"bilingual": "Bilingual English/Welsh logo downloads"
+				},
+				"howToUseLogo": {
+					"title": " How to use our logo ",
+					"sections": {
+						"freeKit": {
+							"title": "Free branded kit",
+							"body": "We'll also send you free items such as plaques, balloons and large cheques &ndash; <a href=\"/funding/funding-guidance/managing-your-funding/ordering-free-materials\">see the full range and order here</a>."
+						},
+						"brandGuidance": {
+							"title": "Brand guidance &ndash; getting it right",
+							"body": "<a href=\"#\">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
+						},
+						"format": {
+							"title": "Choosing the right logo format to download",
+							"body": "<strong>Digital</strong> &ndash; best for websites, word documents, PowerPoint and social media<br /><strong>Print</strong> &ndash; best for use when printing posters or leaflets<br /><strong>Vector</strong> &ndash; best to use when working with a professional designer<br />"
+						},
+						"options": {
+							"title": "Logo options",
+							"body": "The logo is available in two colours: 100% magenta or 100% cyan. We position the logo in the top right corner of all our communications by default. Always use the logo supplied through official channels and never adapt or recreate it."
+						}
+					}
 				}
 			},
 			"help-with-publicity": {
