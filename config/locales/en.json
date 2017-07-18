@@ -162,7 +162,15 @@
 				},
 				"orderForm": "Order Form",
 				"yourDetails": "Your Details",
-				"submit": "Submit"
+				"submit": "Submit",
+				"locationPrompt": "To get your free branded materials start by telling us where your project is based:",
+				"locations": {
+					"monolingual": "England, Scotland or Northern Ireland",
+					"bilingual": "Wales"
+				},
+				"outOfStock": "Out of stock",
+				"enterDeliveryAddress": "Enter your delivery address",
+				"chooseItems": "Choose any of the following items"
 			},
 			"logos": {
 				"title": "How to tell people about your National Lottery funding using our logo",

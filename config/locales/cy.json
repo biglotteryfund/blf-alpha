@@ -162,7 +162,15 @@
 				},
 				"orderForm": "Ffurflen Archebu",
 				"yourDetails": "Eich Manylion",
-				"submit": "Cyflwyno"
+				"submit": "Cyflwyno",
+				"locationPrompt": "I dderbyn eich deunyddiau wedi'u brandio am ddim, dechreuwch drwy ddweud wrthym ble mae'ch prosiect wedi'i leoli:",
+				"locations": {
+					"monolingual": "Lloegr, Yr Alban neu Ogledd Iwerddon",
+					"bilingual": "Cymru"
+				},
+				"outOfStock": "Allan o stoc",
+				"enterDeliveryAddress": "Rhowch y cyfeiriad derbyn",
+				"chooseItems": "Dewiswch unrhyw un o'r eitemau a ganlyn"
 			},
 			"logos": {
 				"title": "Sut i hysbysu pobl am eich grant Loteri Genedlaethol gan ddefnyddio ein logo",
