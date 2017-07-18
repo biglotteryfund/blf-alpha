@@ -83,7 +83,7 @@
 				},
 				"complaints": {
 					"title": "How do I make a complaint?",
-					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Customer%20service%20documents/complaints_procedure.pdf\" class=\"link-pink\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span class=\"t7\">Phone</span>: 0191 376 1704<br /></p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span class=\"t7\">Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\" class=\"link-pink\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span class=\"t7\">Phone</span>: 0191 376 1704<br /></p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span class=\"t7\">Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
 				},
 				"fraud": {
 					"title": "How do I report fraud?",
@@ -138,7 +138,7 @@
 				},
 				"publicationScheme": {
 					"title": "The Publication Scheme",
-					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Publication%20Scheme/publication_scheme_2015%20V5.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
+					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
 				}
 			}
 		},
@@ -218,7 +218,7 @@
 						},
 						"brandGuidance": {
 							"title": "Brand guidance &ndash; getting it right",
-							"body": "<a href=\"#\">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
+							"body": "<a href=\"/assets/files/logo-guidance.pdf\">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
 						},
 						"format": {
 							"title": "Choosing the right logo format to download",

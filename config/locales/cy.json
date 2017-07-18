@@ -83,7 +83,7 @@
 				},
 				"complaints": {
 					"title": "Sut ydw i’n gwneud cwyn?",
-					"body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Customer%20service%20documents/complaints_procedure_w.pdf\" class=\"link-pink\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span class=\"t7\">Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span class=\"t7\">Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+					"body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"/assets/files/welsh/complaints-procedure.pdf\" class=\"link-pink\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span class=\"t7\">Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span class=\"t7\">Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
 				},
 				"fraud": {
 					"title": "Sut ydw i’n hysbysu chi am dwyll?",
@@ -138,7 +138,7 @@
 				},
 				"publicationScheme": {
 					"title": "Y Cynllun Cyhoeddiadau",
-					"body": "<p>\tMae'r Ddeddf yn mynnu ein bod yn cynhyrchu. Trwy 'cyhoeddiad', rydym yn golygu gwybodaeth sydd ar gael i'r cyhoedd mewn amrywiaeth o fformatau, er enghraifft adroddiadau ar bapur neu dudalennau gwe.  </p><p>\tMae'r cynllun cyhoeddiadau yn ddogfen sy'n disgrifio'r wybodaeth rydym yn ei chyhoeddi fel mater o drefn, ble y gallwch ddod o hyd iddi a p'un a ydym yn codi tâl amdani ai beidio. Nid yw'n rhestr o'n cyhoeddiadau: mae'n disgrifio'r mathau o wybodaeth a gyhoeddwn. Mae rhestr lawn o'n cyhoeddiadau ar gael yn adran cyhoeddiadau y wefan hon.  </p><p>\tMae ein cyhoeddiadau ar gael ar gais yn Braille, print bras, tâp sain, Cymraeg, Saesneg ac ieithoedd cymunedol. </p><p>\tMae ein cyhoeddiadau ar gael ar gais mewn Braille a phrint bras, ar dâp sain ac mewn ieithoedd cymunedol.</p>"
+					"body": "<p>\tMae'r Ddeddf yn mynnu ein bod yn cynhyrchu. Trwy 'cyhoeddiad', rydym yn golygu gwybodaeth sydd ar gael i'r cyhoedd mewn amrywiaeth o fformatau, er enghraifft adroddiadau ar bapur neu dudalennau gwe.  </p><p>\tMae'r <a href=\"/assets/files/foi-publication-scheme.doc\">cynllun cyhoeddiadau</a> yn ddogfen sy'n disgrifio'r wybodaeth rydym yn ei chyhoeddi fel mater o drefn, ble y gallwch ddod o hyd iddi a p'un a ydym yn codi tâl amdani ai beidio. Nid yw'n rhestr o'n cyhoeddiadau: mae'n disgrifio'r mathau o wybodaeth a gyhoeddwn. Mae rhestr lawn o'n cyhoeddiadau ar gael yn adran cyhoeddiadau y wefan hon.  </p><p>\tMae ein cyhoeddiadau ar gael ar gais yn Braille, print bras, tâp sain, Cymraeg, Saesneg ac ieithoedd cymunedol. </p><p>\tMae ein cyhoeddiadau <a href=\"/contact\">ar gael ar gais</a> mewn Braille a phrint bras, ar dâp sain ac mewn ieithoedd cymunedol.</p>"
 				}
 			}
 		},
@@ -218,7 +218,7 @@
 						},
 						"brandGuidance": {
 							"title": "Arweiniad brand - gwneud y peth iawn",
-							"body": "<a href=\"#\">Lawrlwythwch ein Harweiniad Brand</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
+							"body": "<a href=\"/assets/files/logo-guidance.pdf\">Lawrlwythwch ein Harweiniad Brand</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
 						},
 						"format": {
 							"title": "Dewis y fformat logo cywir i'w lawrlwytho",
