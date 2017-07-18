@@ -42,14 +42,17 @@ module.exports = (pages) => {
         // handle ajax/standard form updates
         res.format({
             html: function () {
-                // res.redirect(req.baseUrl + freeMaterials.path);
-                res.redirect(req.baseUrl + '/test');
+                req.session.save(function () {
+                    res.redirect(req.baseUrl + freeMaterials.path);
+                });
             },
             json: function () {
-                res.send({
-                    status: 'success',
-                    quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
-                    allOrders: req.session[freeMaterialsLogic.orderKey]
+                req.session.save(function () {
+                    res.send({
+                        status: 'success',
+                        quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
+                        allOrders: req.session[freeMaterialsLogic.orderKey]
+                    });
                 });
             }
         });
@@ -61,7 +64,7 @@ module.exports = (pages) => {
         res.redirect(req.baseUrl + freeMaterials.path);
     });
 
-    router.route([freeMaterials.path, '/test'])
+    router.route([freeMaterials.path])
         .get((req, res, next) => {
 
             // this page is dynamic so don't cache it
