@@ -85,6 +85,7 @@ router.get(fundingRegex, () => {
         el: '#js-vue',
         data: {
             orderData: allOrderData,
+            showMonolingual: null
         },
         methods: {
             getQuantity: function (code, valueAtPageload) {
@@ -100,25 +101,27 @@ router.get(fundingRegex, () => {
                     quantity += this.orderData[o].quantity;
                 }
                 return (quantity === 0);
+            },
+            changeQuantity: function (e) {
+                // this is a bit ugly: use jquery to make AJAX call
+                // @TODO refactor this and commit fully to vue!
+                let $elm = $(e.currentTarget);
+                const $form = $elm.parents('form');
+                const url = $form.attr('action');
+                let data = $form.serialize();
+                data += '&action=' + $elm.val();
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: data,
+                    dataType: 'json',
+                    success: (response) => {
+                        allOrderData = response.allOrders;
+                        this.orderData = Object.assign({}, this.orderData, response.allOrders);
+                    }
+                });
             }
         }
     });
 
-    $('.js-order-material-btn').on('click', function (e) {
-        e.preventDefault();
-        const $form = $(this).parents('form');
-        const url = $form.attr('action');
-        let data = $form.serialize();
-        data += '&action=' + $(this).val();
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: (response) => {
-                allOrderData = response.allOrders;
-                vueApp.orderData = Object.assign({}, vueApp.orderData, response.allOrders);
-            }
-        });
-    });
 });
