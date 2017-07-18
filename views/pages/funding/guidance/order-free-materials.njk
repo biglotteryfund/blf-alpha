@@ -94,18 +94,21 @@
     </ul>
 {% endmacro %}
 
+{% block overlay %}
+    {% if orderStatus == 'success' %}
+        <h2 class="t3 accent--pink">{{ copy.orderSubmitted.success.title }}</h2>
+        <h3 class="t3 accent--blue">{{ copy.orderSubmitted.success.subtitle }}</h3>
+    {% elseif orderStatus == 'fail' %}
+        <h2 class="t3 accent--pink">{{ copy.orderSubmitted.failure.title }}</h2>
+        <h3 class="t3 accent--pink">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 
     {% set heroContent %}
-        {% set heroTitle = title %}
-        {% if orderStatus == 'success' %}
-            {% set heroTitle = copy.orderSubmitted.success %}
-        {% elseif orderStatus == 'fail' %}
-            {% set heroTitle = copy.orderSubmitted.failure %}
-        {% endif %}
-        <div class="nudge-bottom{% if orderStatus %} is-on-top{% endif %}">
-            {{ headers.blockheader('h2', heroTitle, 30, 'hero__header') }}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
         </div>
     {% endset %}
 

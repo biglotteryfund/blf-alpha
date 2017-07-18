@@ -157,8 +157,14 @@
 					"bilingual": "yn Gymraeg a Saesneg"
 				},
 				"orderSubmitted": {
-					"success": "Diolch am eich archeb. Bydd eich nwyddau gyda chi cyn bo hir.",
-					"failure": "Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb. Rhowch gynnig arall arni yn nes ymlaen"
+					"success": {
+						"title": "Diolch am eich archeb.",
+						"subtitle": "Bydd eich nwyddau gyda chi cyn bo hir."
+					},
+					"failure": {
+						"title": "Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb.",
+						"subtitle": "Rhowch gynnig arall arni yn nes ymlaen."
+					}
 				},
 				"orderForm": "Ffurflen Archebu",
 				"yourDetails": "Eich Manylion",

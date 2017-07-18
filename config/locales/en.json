@@ -157,8 +157,14 @@
 					"bilingual": "in Welsh & English"
 				},
 				"orderSubmitted": {
-					"success": "Thank you for your order. Your delivery will be with you soon.",
-					"failure": "Sorry, we were unable to process your order. Please try again soon."
+					"success": {
+						"title": "Thank you for your order.",
+						"subtitle": "Your delivery will be with you soon."
+					},
+					"failure": {
+						"title": "Sorry, we were unable to process your order.",
+						"subtitle": "Please try again soon."
+					}
 				},
 				"orderForm": "Order Form",
 				"yourDetails": "Your Details",
