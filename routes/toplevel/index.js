@@ -115,10 +115,9 @@ let oldHomepage = (req, res, next) => {
         res.send(dom.serialize());
 
     }).catch(error => {
-        // we failed to fetch from the proxy
-        // @TODO is there a better fix for this? send them to the new page?
-        console.log(error);
-        res.send(JSON.stringify(error));
+        // we failed to fetch from the proxy, redirect to new
+        console.log('Error fetching legacy site', error);
+        res.redirect('/home');
     });
 };
 
