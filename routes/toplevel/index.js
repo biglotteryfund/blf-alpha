@@ -130,11 +130,11 @@ module.exports = (pages) => {
         if (pages[page].static) { routeStatic(pages[page], router); }
     }
 
-    // variant A: new homepage
-    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
-
-    // variant B: existing site (proxied)
+    // variant 0/A: existing site (proxied) -
     router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
+
+    // variant 1/B: new homepage
+    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);
