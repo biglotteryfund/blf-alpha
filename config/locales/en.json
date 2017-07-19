@@ -121,7 +121,30 @@
 			}
 		},
 		"under10k": {
-			"title": "About our grants under £10,000"
+			"title": "About our grants under £10,000",
+			"projects": [
+				{
+					"name": "Papyrus",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/papyrus.jpg",
+					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
+				},
+				{
+					"name": "Ragroof Players",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/ragroof.jpg",
+					"description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
+				},
+				{
+					"name": "Welsh Refugee Council",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/wrc.jpg",
+					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
+				}
+			]
 		},
 		"over10k": "over10k"
 	},
