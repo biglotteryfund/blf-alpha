@@ -242,7 +242,7 @@ blockquote {
 
 .pullquote {
     @include mq('tablet', 'max') {
-        margin: $spacingUnit $spacingUnit *3 $spacingUnit $spacingUnit;
+        margin: 0 $spacingUnit *2 $spacingUnit $spacingUnit * 2;
     }
     margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
     p {

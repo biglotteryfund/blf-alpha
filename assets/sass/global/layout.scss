@@ -130,20 +130,6 @@ main {
     }
 }
 
-.grid__item--image {
-    @include mq('tablet', 'max') {
-        $mobileWidth: 35%;
-        background-size: contain;
-        background-position: top left;
-        width: $mobileWidth !important;
-        flex-basis: $mobileWidth !important;
-        margin-left: 15px !important;
-    }
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-
 .grid__item__inner {
     position: relative;
     height: 100%;
@@ -273,5 +259,37 @@ main {
     }
     li {
         margin: 0;
+    }
+}
+
+.gutter-mob-only {
+    @include mq('tablet', 'max') {
+        margin-left: $spacingUnit;
+        margin-right: $spacingUnit;
+    }
+}
+
+.vox-pop {
+    align-items: stretch;
+    @include mq('tablet', 'max') {
+        flex-direction: column;
+    }
+
+    .vox-pop__image {
+        @include mq('tablet', 'max') {
+            flex-basis: 100%;
+        }
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+}
+
+.vox-pop__buttons {
+    @include mq('tablet', 'max') {
+        position: absolute;
+        width: 100%;
+        top: 100px;
     }
 }

@@ -9,6 +9,7 @@
     display: inline-block;
     padding: $spacingUnit / 4 $spacingUnit;
     text-align: center;
+    -webkit-appearance: none;
 
     @include mq('desktop') {
         padding: $spacingUnit / 4 $spacingUnit * 2;
@@ -149,6 +150,7 @@
         border-radius: 100%;
         height: 40px;
         width: 40px;
+        padding: 0;
 
         @include on-interact {
             background-color: darken(palette('pink'), 5%);
