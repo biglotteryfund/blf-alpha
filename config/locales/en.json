@@ -120,7 +120,9 @@
 				}
 			}
 		},
-		"under10k": "under10k",
+		"under10k": {
+			"title": "About our grants under £10,000"
+		},
 		"over10k": "over10k"
 	},
 	"about": {

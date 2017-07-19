@@ -10,6 +10,7 @@ $palette: (
     // @TODO get this from sass.json / _config.scss
     // (tried before but wouldn't allow using string in mixins)
     "pink": #ec008c,
+    "pink-alt": #e6007e,
     "pink-bg": #fef5f9,
     "pink-text": #ec008c,
     "pink-mid": #d84d7b,
@@ -45,9 +46,9 @@ $themes: (
         'foreground': palette('pink-mid'),
         'background': palette('pink-mid-bg')
     ),
-    // this is a mess, sorry
+    // this is a mess, sorry - very similar to pink
     'pink-home': (
-        'foreground': #e6007e,
+        'foreground': palette('pink-alt'),
         'background': palette('pink-mid-bg')
     ),
     'pink-dark': (

@@ -32,7 +32,7 @@
         <div class="inner--wide-only p-text accent--green accent-b-t bg-pale-green bordered">
             <h3 class="t6 m-t">{{ copy.sections.benefits.title }}</h3>
             {{ copy.sections.benefits.body | safe }}
-            <ul class="list-bullets">
+            <ul class="list-bullets m-l--s">
                 {% for benefit in copy.sections.benefits.list %}
                     <li class="t7">{{ benefit }}</li>
                 {% endfor %}

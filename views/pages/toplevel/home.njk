@@ -4,6 +4,8 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% block title %}{{ title }} | {% endblock %}
+
 {% macro caseStudy() %}
     <ul class="unstyled grid grid--2-up grid--equal m-t-none">
         <li class="grid__item grid__item--image" style="background-image: url({{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }});">

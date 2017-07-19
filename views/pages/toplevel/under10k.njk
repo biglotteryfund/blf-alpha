@@ -3,6 +3,8 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% block title %}{{ title }} | {% endblock %}
+
 {% macro projectBlock() %}
     <div class="grid__item__inner grid__item__inner--flex">
         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
@@ -33,7 +35,7 @@
         <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-grey bordered">
             <p>National Lottery Funding can help you to make a difference to your community. National Lottery Awards for All offers funding from £300 to £10,000 to support what matters to people and communities.  We will fund organisations with great projects or ideas that:</p>
 
-            <ul class="list-bullets">
+            <ul class="list-bullets m-l--s">
                 <li>Shape the places and spaces that matter to communities</li>
                 <li>Bring more people together and build strong relationships in and across communities</li>
                 <li>Enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
@@ -42,10 +44,10 @@
             <h3 class="t9 t9--a m-t">Want to know more? Start by telling us where your project is going to be</h3>
 
             <ul class="unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
-               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/england/awards-for-all-england" class="btn btn--pink-mid btn--cta btn--block">England</a></li>
-               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/scotland/awards-for-all-scotland" class="btn btn--pink-mid btn--cta btn--block">Scotland</a></li>
-               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/wales/awards-for-all-wales" class="btn btn--pink-mid btn--cta btn--block">Wales</a></li>
-               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/northern-ireland/awards-for-all-northern-ireland" class="btn btn--pink-mid btn--cta btn--block">Northern Ireland</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/england/awards-for-all-england" class="btn btn--pink-alt btn--cta btn--block">England</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/scotland/awards-for-all-scotland" class="btn btn--pink-alt btn--cta btn--block">Scotland</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/wales/awards-for-all-wales" class="btn btn--pink-alt btn--cta btn--block">Wales</a></li>
+               <li class="grid__item"><a href="https://www.biglotteryfund.org.uk/global-content/programmes/northern-ireland/awards-for-all-northern-ireland" class="btn btn--pink-alt btn--cta btn--block">Northern Ireland</a></li>
             </ul>
 
             <p>Occasionally the Fund makes grants of under £10,000 to projects that don't benefit people right across the UK. <a href="https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio">Find out more about our UK-wide funding</a>. If you would like information about grants over £10,000 <a href="{{ buildUrl('', 'over10k') }}">click here</a>.</p>
@@ -54,16 +56,16 @@
         <div class="inner">
             <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--pink-mid accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
+                <li class="grid__item accent--pink-home accent-b-t">{{ projectBlock() }}</li>
             </ul>
 
             <div class="central-gap m-b--l">
-                <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--outline accent--pink btn--block">Browse all funded projects</a>
+                <a href="#" class="btn btn--outline btn--outline--large accent--pink btn--block">Browse all funded projects</a>
             </div>
         </div>
 

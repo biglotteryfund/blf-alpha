@@ -76,6 +76,10 @@
         font-family: 'Poppins', arial, sans-serif;
         font-weight: 600;
         font-size: 14px;
+
+        &.btn--outline--large {
+            padding: 13px $spacingUnit;
+        }
     }
 
 
@@ -98,10 +102,10 @@
     }
 }
 
-.btn.btn--pink-mid {
-    background-color: palette('pink-mid') !important;
+.btn.btn--pink-alt {
+    background-color: palette('pink-alt') !important;
     @include on-interact {
-        background-color: darken(palette('pink-mid'), 10%) !important;
+        background-color: darken(palette('pink-alt'), 10%) !important;
     }
 }
 
