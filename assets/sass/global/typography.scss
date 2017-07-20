@@ -155,7 +155,7 @@ a {
 .t9--a {
     color: #333333;
     &:after {
-        border-bottom-color: palette('pink-mid')
+        border-bottom-color: palette('pink-alt')
     }
 }
 
@@ -190,7 +190,7 @@ a {
 
 .t12 {
     font-family: 'Roboto', arial, sans-serif;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 16px;
 }
 
@@ -242,7 +242,7 @@ blockquote {
 
 .pullquote {
     @include mq('tablet', 'max') {
-        margin: $spacingUnit $spacingUnit *3 $spacingUnit $spacingUnit;
+        margin: 0 $spacingUnit *2 $spacingUnit $spacingUnit * 2;
     }
     margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
     p {

@@ -115,10 +115,9 @@ let oldHomepage = (req, res, next) => {
         res.send(dom.serialize());
 
     }).catch(error => {
-        // we failed to fetch from the proxy
-        // @TODO is there a better fix for this? send them to the new page?
-        console.log(error);
-        res.send(JSON.stringify(error));
+        // we failed to fetch from the proxy, redirect to new
+        console.log('Error fetching legacy site', error);
+        res.redirect('/home');
     });
 };
 
@@ -131,11 +130,11 @@ module.exports = (pages) => {
         if (pages[page].static) { routeStatic(pages[page], router); }
     }
 
-    // variant A: new homepage
-    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
-
-    // variant B: existing site (proxied)
+    // variant 0/A: existing site (proxied) -
     router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
+
+    // variant 1/B: new homepage
+    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);

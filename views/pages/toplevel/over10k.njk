@@ -3,6 +3,8 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% block title %}{{ title }} | {% endblock %}
+
 {% macro projectBlock() %}
     <div class="grid__item__inner grid__item__inner--flex">
         <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
