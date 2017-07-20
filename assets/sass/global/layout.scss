@@ -181,6 +181,19 @@ main {
         display: block;
     }
 
+    .overlay__content {
+        background-color: #ffffff;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include mq('tablet', 'max') {
+            padding: $spacingUnit;
+            width: 80%;
+        }
+        padding: $spacingUnit * 2;
+    }
+
     .overlay__close {
         position: absolute;
         top: 20px;
@@ -192,9 +205,19 @@ main {
         border: 2px solid #ffffff;
         text-align: center;
 
+        .contrast--high & {
+            background-color: #ffffff;
+            @include on-interact {
+                background-color: #333333;
+                .icon--close {
+                    fill: #ffffff;
+                }
+            }
+        }
+
         @include on-interact {
             cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.5);
             .icon--close {
                 color: #ffffff;
             }
@@ -202,6 +225,9 @@ main {
 
         .icon--close {
             fill: palette('soft-grey');
+            .contrast--high & {
+                fill: #000000;
+            }
         }
     }
 
@@ -260,6 +286,10 @@ main {
     li {
         margin: 0;
     }
+}
+
+.width-natural {
+    max-width: auto;
 }
 
 .gutter-mob-only {

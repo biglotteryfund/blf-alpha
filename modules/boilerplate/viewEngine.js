@@ -31,6 +31,10 @@ templateEnv.addFilter('dateFormat', function (str, format) {
     return moment(str).format(format);
 });
 
+templateEnv.addFilter('mailto', function (str) {
+    return `<a href="mailto:${str}">${str}</a>`;
+});
+
 // via http://stackoverflow.com/a/25770787
 templateEnv.addFilter('splitByCharLength', function (str, length) {
     let rows = [];

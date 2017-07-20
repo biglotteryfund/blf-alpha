@@ -6,17 +6,109 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% macro itemOrderButtons(item, product) %}
+    {% set quantity = orders[product.code].quantity or 0 %}
+    {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
+    <form class="p p-b-none{% if quantity > 0 %} is-selected{% endif %}"
+          v-bind:class="{ 'is-selected': ((orderData['{{ product.code }}']) ? orderData['{{ product.code }}'].quantity > 0 : false) }"
+          method="post"
+          action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
+        <input type="hidden" name="code" value="{{ product.code }}">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <div class="material-item__controls">
+            <label class="m-t-none material-item__label">
+                <strong>{% if product.name[locale] %}{{ product.name[locale] }}{% else %}{{ item.name[locale] }}{% endif %}</strong>
+                {% if item.description %} <span class="smaller">({{ item.description[locale] or item.description }}){% endif %}</span>
+            </label>
+            {% if not item.outOfStock %}
+                <button type="submit"
+                        value="decrease"
+                        name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                        v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == 0"
+                        v-on:click.prevent="changeQuantity($event)"
+                        aria-label="Decrease quantity"
+                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease">
+                    -
+                </button>
+                <div aria-label="Quantity" class="material-item__quantity js-material-count">
+                    <span class="js-only">
+                        <% getQuantity('{{ product.code }}', {{ quantity }}) %>
+                    </span>
+                    <noscript>{{ quantity }}</noscript>
+                </div>
+                <button type="submit"
+                        value="increase"
+                        name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
+                        v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == {{ item.maximum }}"
+                        v-on:click.prevent="changeQuantity($event)"
+                        aria-label="Increase quantity"
+                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase">
+                    +
+                </button>
+            {% else %}
+                <p class="material-item__oos">{{ copy.outOfStock }}</p>
+            {% endif %}
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro itemOrderActions(item, languageToShow) %}
+    {% for language, items in item.products | groupby('language') %}
+        {% if language == languageToShow %}
+            {% for product in items %}
+                {{ itemOrderButtons(item, product) }}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro listProducts(languageToShow) %}
+    {% if languageToShow === 'monolingual' %}
+        {% set imageLocale = 'en' %}
+    {% else %}
+        {% set imageLocale = 'cy' %}
+    {% endif %}
+
+    <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
+        {% for item in materials %}
+            <li class="grid__item">
+                <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
+                    <div class="p p-b-none">
+                        <p class="m-t-none">
+                            <strong>{{ item.name[locale] }}</strong>
+                        </p>
+
+                        {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
+                        <div class="material-item__media m-b"
+                             style="background-image: url({{ imgPath | getCachebustedPath }}">
+                        </div>
+                    </div>
+
+                    <aside class="material-item__actions">
+                        {{ itemOrderActions(item, languageToShow) }}
+                    </aside>
+
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% block overlay %}
+    {% if orderStatus == 'success' %}
+        <h2 class="t3 accent--pink">{{ copy.orderSubmitted.success.title }}</h2>
+        <h3 class="t3 accent--blue">{{ copy.orderSubmitted.success.subtitle }}</h3>
+    {% elseif orderStatus == 'fail' %}
+        <h2 class="t3 accent--pink">{{ copy.orderSubmitted.failure.title }}</h2>
+        <h3 class="t3 accent--pink">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
     {% set heroContent %}
-        {% set heroTitle = title %}
-        {% if orderStatus == 'success' %}
-            {% set heroTitle = copy.orderSubmitted.success %}
-        {% elseif orderStatus == 'fail' %}
-            {% set heroTitle = copy.orderSubmitted.failure %}
-        {% endif %}
-        <div class="nudge-bottom{% if orderStatus %} is-on-top{% endif %}">
-            {{ headers.blockheader('h2', heroTitle, 30, 'hero__header') }}
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
         </div>
     {% endset %}
 
@@ -24,104 +116,70 @@
 
     <article role="main" class="nudge-up" id="js-vue">
 
-        <div class="inner--wide-only p-text accent--blue accent-b-t accent-bg bordered">
+        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
             {{ copy.body | safe }}
-        </div>
 
-        <div class="inner">
-
-            <h3 class="t3a m-t--l m-l--l">{{ copy.orderForm }}</h3>
-
-            <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
-                {% for item in materials %}
+            <p><strong>{{ copy.locationPrompt }}</strong></p>
+            <div class="m-l--l m-r--l">
+                <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
                     <li class="grid__item">
-                        <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
-                            <div class="p p-b-none">
-                                <p class="m-t-none">
-                                    <strong>{{ item.name[locale] }}</strong>
-                                    {% if item.description %} <span class="smaller">({{ item.description[locale] or item.description }}){% endif %}</span>
-                                </p>
-
-                                {% set imgPath = 'images/materials/' + locale + '/' + item.image %}
-                                <div class="material-item__media m-b"
-                                     style="background-image: url({{ imgPath | getCachebustedPath }}">
-                                </div>
-                            </div>
-
-                            <aside class="material-item__actions">
-                                {% for p in item.products %}
-                                    {% set quantity = orders[p.code].quantity or 0 %}
-                                    {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
-                                    <form class="p p-b-none{% if quantity > 0 %} is-selected{% endif %}"
-                                          v-bind:class="{ 'is-selected': ((orderData['{{ p.code }}']) ? orderData['{{ p.code }}'].quantity > 0 : false) }"
-                                          method="post"
-                                          action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
-                                        <input type="hidden" name="code" value="{{ p.code }}">
-                                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                                        <div class="material-item__controls">
-                                            <label class="m-t-none material-item__label">
-                                                <strong>{% if p.name[locale] %}{{ p.name[locale] }}{% else %}{{ item.name[locale] }}{% endif %}</strong>
-                                                {{ copy.languageOptions[p.language] }}
-                                            </label>
-                                            {% if not item.outOfStock %}
-                                                <button type="submit"
-                                                        value="decrease"
-                                                        name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-                                                        v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == 0"
-                                                        aria-label="Decrease quantity"
-                                                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease js-order-material-btn">
-                                                    -
-                                                </button>
-                                                <div aria-label="Quantity"
-                                                      class="material-item__quantity js-material-count">
-                                                    <span class="js-only">
-                                                        <% getQuantity('{{ p.code }}', {{ quantity }}) %>
-                                                    </span>
-                                                    <noscript>{{ quantity }}</noscript>
-                                                </div>
-                                                <button type="submit"
-                                                        value="increase"
-                                                        name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
-                                                        v-bind:disabled="getQuantity('{{ p.code }}', {{ quantity }}) == {{ item.maximum }}"
-                                                        aria-label="Increase quantity"
-                                                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase js-order-material-btn">
-                                                    +
-                                                </button>
-                                            {% else %}
-                                                <p class="material-item__oos">Out of stock</p>
-                                            {% endif %}
-                                        </div>
-                                    </form>
-                                {% endfor %}
-                            </aside>
-
-                        </div>
+                        <a href="#monolingual"
+                           class="btn btn--blue btn--cta btn--block"
+                           v-on:click.prevent="showMonolingual = true">
+                            {{ copy.locations.monolingual }}
+                        </a>
                     </li>
-                {% endfor %}
-            </ul>
-
+                    <li class="grid__item m-b-none">
+                        <a href="#bilingual"
+                           class="btn btn--blue btn--cta btn--block"
+                           v-on:click.prevent="showMonolingual = false">
+                            {{ copy.locations.bilingual }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="inner accent--blue accent-b-t p" id="your-details">
-            <div class="p">
-                <h3 class="t3a m-t-none">{{ copy.yourDetails }}</h3>
+        <div v-if="showMonolingual !== null">
 
-                <form class="inline-form order-form" method="post">
-                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                    <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
-                        {% for field in formFields %}
-                            <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
-                        {% endfor %}
-                        <li class="grid__item">
-                            <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                   v-bind:disabled="isEmpty()"
-                                   value="{{ copy.submit }}"
-                                   class="accent--turquoise btn btn--cta btn--cta--large order-form__btn"
-                                   id="js-submit-material-order">
-                        </li>
-                    </ul>
-                </form>
+            <div class="inner">
+
+                {# monolingual items #}
+                <div v-if="showMonolingual" id="monolingual">
+                    <h3 class="t3a m-t--l m-l--l">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
+                    {{ listProducts('monolingual') }}
+                </div>
+
+                {# bilingual items #}
+                <div v-if="!showMonolingual" id="bilingual">
+                    <h3 class="t3a m-t--l m-l--l">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
+                    {{ listProducts('bilingual') }}
+                </div>
+
             </div>
+
+            <div class="inner accent--blue accent-b-t p" id="your-details">
+                <div class="p">
+                    <h3 class="t3a m-t-none">{{ copy.enterDeliveryAddress }}</h3>
+
+                    <form class="inline-form order-form" method="post">
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
+                            {% for field in formFields %}
+                                <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
+                            {% endfor %}
+                            <li class="grid__item">
+                                <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                                       v-bind:disabled="isEmpty()"
+                                       value="{{ copy.submit }}"
+                                       class="accent--turquoise btn btn--cta btn--cta--large order-form__btn"
+                                       id="js-submit-material-order">
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
     </article>

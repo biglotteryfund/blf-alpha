@@ -214,7 +214,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('watch-test', function() {
-    gulp.watch(DIRS.in.test + '/**/*.js', ['phantomjs']);
+    gulp.watch([
+        DIRS.in.js + '/**/*.js',
+        DIRS.in.test + '/**/*.js'
+    ], ['phantomjs']);
 });
 
 gulp.task('watch-mocha', function() {

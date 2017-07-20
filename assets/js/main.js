@@ -3,7 +3,10 @@
 const carousel = require('./modules/carousel');
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
+
+// load modules
 require('./modules/data.map');
+require('./modules/tabs').init();
 
 const $thisScript = document.getElementById('js-script-main');
 
@@ -11,7 +14,7 @@ const $thisScript = document.getElementById('js-script-main');
 const Vue = require('./libs/vue');
 Vue.options.delimiters = ['<%', '%>'];
 
-$('html').removeClass('no-js');
+$('html').toggleClass('no-js js-on');
 
 // detect IE to fix broken images
 if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
@@ -82,6 +85,7 @@ router.get(fundingRegex, () => {
         el: '#js-vue',
         data: {
             orderData: allOrderData,
+            showMonolingual: null
         },
         methods: {
             getQuantity: function (code, valueAtPageload) {
@@ -97,25 +101,27 @@ router.get(fundingRegex, () => {
                     quantity += this.orderData[o].quantity;
                 }
                 return (quantity === 0);
+            },
+            changeQuantity: function (e) {
+                // this is a bit ugly: use jquery to make AJAX call
+                // @TODO refactor this and commit fully to vue!
+                let $elm = $(e.currentTarget);
+                const $form = $elm.parents('form');
+                const url = $form.attr('action');
+                let data = $form.serialize();
+                data += '&action=' + $elm.val();
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: data,
+                    dataType: 'json',
+                    success: (response) => {
+                        allOrderData = response.allOrders;
+                        this.orderData = Object.assign({}, this.orderData, response.allOrders);
+                    }
+                });
             }
         }
     });
 
-    $('.js-order-material-btn').on('click', function (e) {
-        e.preventDefault();
-        const $form = $(this).parents('form');
-        const url = $form.attr('action');
-        let data = $form.serialize();
-        data += '&action=' + $(this).val();
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: (response) => {
-                allOrderData = response.allOrders;
-                vueApp.orderData = Object.assign({}, vueApp.orderData, response.allOrders);
-            }
-        });
-    });
 });
