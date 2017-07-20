@@ -125,3 +125,23 @@ router.get(fundingRegex, () => {
     });
 
 });
+
+$('.js-logo-trigger').on('click', function () {
+    let logoId = $(this).data('logo-id');
+    let successBlock = $('#js-download-block--' + logoId);
+    let logoType = $(this).data('logo-type');
+    let successMessage = $('.js-success--' + logoType, successBlock);
+    if (successBlock.length && successMessage.length) {
+        successBlock.show(); // show parent block
+        successMessage.show(); // show message
+    }
+});
+
+$('.js-success--close').on('click', function () {
+    let logoId = $(this).data('logo-id');
+    let successBlock = $('#js-download-block--' + logoId);
+    if (successBlock.length) {
+        successBlock.find('.js-success').hide(); // hide old messages
+        successBlock.hide();
+    }
+});

@@ -135,6 +135,19 @@ main {
     height: 100%;
 }
 
+.grid__item__overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    padding: $spacingUnit * 2;
+}
+
 .grid__item__inner--flex {
     height: auto;
 }
@@ -193,45 +206,45 @@ main {
         }
         padding: $spacingUnit * 2;
     }
+}
 
-    .overlay__close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        border-radius: 100%;
-        width: 50px;
-        height: 50px;
-        display: block;
-        border: 2px solid #ffffff;
-        text-align: center;
+.overlay__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    display: block;
+    border: 2px solid #ffffff;
+    text-align: center;
 
-        .contrast--high & {
-            background-color: #ffffff;
-            @include on-interact {
-                background-color: #333333;
-                .icon--close {
-                    fill: #ffffff;
-                }
-            }
-        }
-
+    .contrast--high & {
+        background-color: #ffffff;
         @include on-interact {
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: #333333;
             .icon--close {
-                color: #ffffff;
-            }
-        }
-
-        .icon--close {
-            fill: palette('soft-grey');
-            .contrast--high & {
-                fill: #000000;
+                fill: #ffffff;
             }
         }
     }
 
+    @include on-interact {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.5);
+        .icon--close {
+            color: #ffffff;
+        }
+    }
+
+    .icon--close {
+        fill: palette('soft-grey');
+        .contrast--high & {
+            fill: #000000;
+        }
+    }
 }
+
 
 .is-on-top {
     z-index: 100;

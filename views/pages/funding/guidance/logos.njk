@@ -6,6 +6,11 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% set howToUseLogo %}
+    {% if locale == 'en' %}
+        {% set logoExamplePath = 'images/logos/examples.png' %}
+    {% else %}
+        {% set logoExamplePath = 'images/logos/examples-cy.png' %}
+    {% endif %}
     <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.howToUseLogo.title }}</h3>
     <h3 class="t3a">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
     <p class="m-t-none">{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
@@ -20,7 +25,7 @@
     <p class="m-t-none">{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
     <div class="central-gap">
-        <img src="{{ 'images/logos/examples.png' | getCachebustedPath }}"
+        <img src="{{ logoExamplePath | getCachebustedPath }}"
              alt="Examples of our logo"
              class="width-natural" />
     </div>
@@ -41,20 +46,42 @@
     <span class="lighter">({{ copy.downloads.sizes[logoSize] }})</span>
 {% endmacro %}
 
-{% macro logoBlock(logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
+{% macro successMessage(type) %}
+    {% if copy.successMessages[type] %}
+        <div class="hidden js-success js-success--{{ type }}">
+            <h3>{{ copy.successMessages.success }}</h3>
+            <h4 class="t3 m-t">{{ copy.successMessages[type].title }}</h4>
+            <h4 class="t3 m-t">{{ copy.successMessages[type].body }}</h4>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro downloadBlock(logoId) %}
+    <div class="grid__item__overlay" id="js-download-block--{{ logoId }}">
+        <div class="overlay__close js-success--close" data-logo-id="{{ logoId }}">
+            {% include "../../../includes/svg/close.svg" %}
+        </div>
+        {{ successMessage('digital') }}
+        {{ successMessage('print') }}
+        {{ successMessage('vector') }}
+    </div>
+{% endmacro %}
+
+{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
+    {{ downloadBlock(logoId) }}
     {% set logoPreview = 'images/logos/' + logoLocale + '/' + logoFilename + '.png' %}
-    {% if not onlyEps %}<a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg">{% endif %}
+    {% if not onlyEps %}<a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
         <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
     {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'small') }}
         </a>
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'large') }}
         </a>
     {% endif %}
-    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block btn--cta btn--cta--large m-t-flexible">
+    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
         {{ makeLogoTitle(logoName, 'eps') }}
     </a>
 {% endmacro %}
@@ -106,22 +133,22 @@
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered p">
-                                    {{ logoBlock('blue', 'blue', 'en') }}
+                                    {{ logoBlock(1, 'blue', 'blue', 'en') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--pink bordered p">
-                                    {{ logoBlock('pink', 'pink') }}
+                                    {{ logoBlock(2, 'pink', 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock('pink-white', 'white', onlyEps = true) }}
+                                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true) }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock('blue-white', 'white', onlyEps = true) }}
+                                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true) }}
                                 </div>
                             </li>
                         </ul>
@@ -148,22 +175,22 @@
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered p">
-                                    {{ logoBlock('blue', 'blue', logoLocale = 'bilingual') }}
+                                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--pink bordered p">
-                                    {{ logoBlock('pink', 'pink', logoLocale = 'bilingual') }}
+                                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock('pink-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock('blue-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
                                 </div>
                             </li>
                         </ul>

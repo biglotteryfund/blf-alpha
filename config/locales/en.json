@@ -219,9 +219,9 @@
 				},
 				"downloads": {
 					"sizes": {
-						"small": "small .jpg",
-						"large": "large .jpg",
-						"eps": ".eps in CMYK"
+						"small": "Digital",
+						"large": "Print",
+						"eps": "Vector"
 					},
 					"colours": {
 						"blue": "blue",
@@ -253,6 +253,21 @@
 							"title": "Logo options",
 							"body": "The logo is available in two colours: 100% magenta or 100% cyan. We position the logo in the top right corner of all our communications by default. Always use the logo supplied through official channels and never adapt or recreate it."
 						}
+					}
+				},
+				"successMessages": {
+					"success": "Success!",
+					"digital": {
+						"title": "The logo you downloaded is ideal for use on websites.",
+						"body": "If you need a bigger logo just close this box and select the Print or Vector versions."
+					},
+					"print": {
+						"title": "The logo you downloaded is ideal for print.",
+						"body": "If you need a smaller logo for use online just close this box and select the Digital version, or, if you need an even bigger logo to give to a professional designer, select the Vector version."
+					},
+					"vector": {
+						"title": "The logo you downloaded is ideal if you are working with a professional designer or working with large format print.",
+						"body": "If you need a smaller logo just close this box and select the Print or Digital versions."
 					}
 				}
 			},

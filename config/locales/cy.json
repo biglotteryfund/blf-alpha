@@ -194,9 +194,9 @@
 				},
 				"downloads": {
 					"sizes": {
-						"small": ".jpg bach",
-						"large": ".jpg mawr",
-						"eps": ".eps mewn CMYK"
+						"small": "Digidol",
+						"large": "Print",
+						"eps": "Vector"
 					},
 					"colours": {
 						"blue": "glas",
@@ -228,6 +228,21 @@
 							"title": "Opsiynau logo",
 							"body": "Mae'r logo ar gael mewn dau liw: 100% magenta neu 100% gwyrddlas. Rydym yn lleoli'r logo yn y gornel dde ar frig ein holl ddogfennau fel mater o drefn. Defnyddiwch y logo a ddarperir trwy sianelau swyddogol a pheidiwch â'i addasu neu ei ail-greu."
 						}
+					}
+				},
+				"successMessages": {
+					"success": "Llwyddiant!",
+					"digital": {
+						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol i’w ddefnyddio ar wefannau.",
+						"body": "Os oes angen logo mwy arnoch, caewch y blwch hwn a dewiswch y fersiynau Argraffu neu Vector."
+					},
+					"print": {
+						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol i’w argraffu.",
+						"body": "Os oes angen logo llai arnoch i’w ddefnyddio ar-lein, caewch y blwch hwn a dewiswch y fersiwn Digidol neu, os oes angen fersiwn hyd yn oed yn fwy arnoch i’w roi i ddylunydd proffesiynol, dewiswch y fersiwn Vector."
+					},
+					"vector": {
+						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol os ydych yn gweithio gyda dylunydd proffesiynol neu’n gweithio gyda phrint fformat mwy.",
+						"body": "Os oes angen logo llai arnoch, caewch y blwch hwn a dewiswch y fersiynau Argraffu neu Ddigidol."
 					}
 				}
 			},
