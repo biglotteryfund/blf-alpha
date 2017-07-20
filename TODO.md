@@ -5,6 +5,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 ## To fix
 - [ ] CSRF
 - [ ] google tag manager / experiment for homepage?
+- [ ] session caching issues on tools/login
 
 ## Tech debt
 - [ ] db pool size?

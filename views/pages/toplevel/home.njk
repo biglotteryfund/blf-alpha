@@ -86,14 +86,16 @@
 
             {# news posts #}
             {% if news.length %}
-                <ul class="accent--blue accent-b-t unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
-                    {% for n in news %}
-                        <li class="grid__item">
-                            <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
-                            <p class="m-t--s">{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="accent--blue accent-b-t">
+                    <ul class="m-t-none unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
+                        {% for n in news %}
+                            <li class="grid__item">
+                                <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
+                                <p class="m-t--s">{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
 
             {# funding finder #}
