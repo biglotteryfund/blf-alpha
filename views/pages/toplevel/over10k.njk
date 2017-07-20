@@ -1,5 +1,6 @@
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/headers.njk" as headers %}
+{% import "../../components/blocks.njk" as blocks %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -51,13 +52,10 @@
 
         <div class="inner">
             <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
-            <ul class="unstyled grid grid--2-up grid--padded--large grid--equal grid--wide-only">
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
-                <li class="grid__item accent--turquoise accent-b-t">{{ projectBlock() }}</li>
+            <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                {% for project in copy.projects %}
+                    <li class="grid__item accent--turquoise accent-b-t bg-pale-grey">{{ blocks.projectBlock(project, 'link-turquoise') }}</li>
+                {% endfor %}
             </ul>
 
             <div class="central-gap m-b--l">

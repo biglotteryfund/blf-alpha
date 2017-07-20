@@ -1,26 +1,11 @@
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/headers.njk" as headers %}
+{% import "../../components/blocks.njk" as blocks %}
 
 {% extends "../../layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
-
-{% macro projectBlock(project) %}
-    <div class="grid__item__inner grid__item__inner--flex">
-        <a href="{{ project.link }}">
-            <img src="{{ project.image | getCachebustedPath }}" class="grid__item__poster" alt="{{ project.description }}" />
-        </a>
-    </div>
-    <div class="p--s m-t-none">
-        <h4 class="t3">{{ project.name }}</h4>
-        {#<h6 class="m-t--s t12">Grant amount {{ project.amount }}</h6>#}
-        <p class="m-t--s t11">
-            {{ project.description }}
-            <br /><a href="{{ project.link }}" class="link-pink">Read more...</a>
-        </p>
-    </div>
-{% endmacro %}
 
 {% block content %}
 
@@ -58,7 +43,7 @@
             <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in copy.projects %}
-                    <li class="grid__item accent--pink-home accent-b-t bg-pale-grey">{{ projectBlock(project) }}</li>
+                    <li class="grid__item accent--pink-home accent-b-t bg-pale-grey">{{ blocks.projectBlock(project, 'link-pink') }}</li>
                 {% endfor %}
             </ul>
 
