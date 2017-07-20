@@ -203,6 +203,18 @@ const vanityRedirects = [
         aliasOnly: true
     },
     {
+        name: "Data Protection",
+        path: "/data-protection",
+        destination: routes.sections.about.path + routes.sections.about.pages.dataProtection.path,
+        aliasOnly: true
+    },
+    {
+        name: "FOI",
+        path: "/freedom-of-information",
+        destination: routes.sections.about.path + routes.sections.about.pages.freedomOfInformation.path,
+        aliasOnly: true
+    },
+    {
         name: "Contact press team",
         path: "/news-and-events/contact-press-team",
         destination: vanityDestinations.contact + '#' + anchors.contactPress
