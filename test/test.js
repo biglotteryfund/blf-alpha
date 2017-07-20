@@ -337,8 +337,8 @@ describe('Express application', function () {
                 .send(formData)
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.redirectTo('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
-                    res.should.have.status(302);
+                    res.body.should.have.property('yourEmail');
+                    res.body.yourEmail.should.equal('bobby@xkcd.com');
                     done();
                 });
         });

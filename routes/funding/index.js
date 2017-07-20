@@ -142,16 +142,20 @@ module.exports = (pages) => {
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-                    
-                    if (!req.body.skipEmail) { // allow tests to run without sending emeil
+
+                    // allow tests to run without sending email
+                    if (!req.body.skipEmail) {
                         email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+                        req.flash('materialFormSuccess', true);
+                        req.flash('showOverlay', true);
+                        req.session.save(function () {
+                            res.redirect(req.baseUrl + freeMaterials.path);
+                        });
+                    } else {
+                        // this is only used in tests, so we confirm the form data was correct
+                        res.send(req.body);
                     }
 
-                    req.flash('materialFormSuccess', true);
-                    req.flash('showOverlay', true);
-                    req.session.save(function () {
-                        res.redirect(req.baseUrl + freeMaterials.path);
-                    });
                 }
             });
         });
