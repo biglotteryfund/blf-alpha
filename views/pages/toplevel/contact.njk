@@ -56,6 +56,14 @@
                     <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address1 }}<br />
                     <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address2 }}<br />
                 </p>
+
+                <h3 class="t6 m-t">{{ copy.ukPortfolio.title }}</h3>
+                <p>
+                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
+                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0300 123 4567 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:{{ copy.ukPortfolio.email }}">{{ copy.ukPortfolio.email }}</a><br />
+                    <span class="t7">{{ copy.methods.address }}</span>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE<br />
+                </p>
             {% endset %}
 
             {% set grantQuery %}
