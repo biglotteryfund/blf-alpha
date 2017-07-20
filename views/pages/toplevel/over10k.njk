@@ -13,8 +13,8 @@
     </div>
     <div class="bg-pale-grey p--s m-t-none">
         <h4 class="t3">Title</h4>
-        <h6 class="m-t--s t12">Grant amount £7998</h6>
-        <p class="m-t-none t11">
+        {#<h6 class="m-t--s t12">Grant amount £7998</h6>#}
+        <p class="m-t--s t11">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             <br /><a href="#" class="link-turquoise">Read more...</a>
         </p>
@@ -29,7 +29,7 @@
         </div>
     {% endset %}
 
-    {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities, Grant: £1.2M', nudgeCaption = true) }}
+    {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities', nudgeCaption = true) }}
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-grey bordered">
