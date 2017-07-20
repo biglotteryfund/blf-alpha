@@ -39,9 +39,18 @@ for (let section in routes.sections) {
 
 // add vanity redirects
 routes.vanityRedirects.forEach(r => {
-    app.get(r.path, (req, res, next) => {
-        res.redirect(r.destination);
-    });
+    let servePath = (path, destination) => {
+        app.get(path, (req, res, next) => {
+            res.redirect(r.destination);
+        });
+    };
+    if (r.paths) {
+        r.paths.forEach((path) => {
+            servePath(path, r.destination);
+        });
+    } else {
+        servePath(r.path, r.destination);
+    }
 });
 
 const handle404s = () => {

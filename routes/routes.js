@@ -180,7 +180,8 @@ const anchors = config.get('anchors');
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
     contact: routes.sections.global.path + routes.sections.global.pages.contact.path,
-    managingFunding: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path
+    managingFunding: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
+    freeMaterials: routes.sections.funding.path + routes.sections.funding.pages.freeMaterials.path
 };
 
 const vanityRedirects = [
@@ -248,6 +249,26 @@ const vanityRedirects = [
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
+    },
+    {
+        name: "Free materials",
+        destination: vanityDestinations.freeMaterials,
+        paths: [
+            '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+        ]
+    },
+    {
+        name: "Free materials (Welsh)",
+        destination: '/welsh' + vanityDestinations.freeMaterials,
+        paths: [
+            '/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/welsh/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/welsh/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/welsh/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
+        ]
     }
 ];
 

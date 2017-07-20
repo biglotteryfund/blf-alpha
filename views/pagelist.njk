@@ -100,7 +100,13 @@
                 <article>
                     <h3>{{ r.name }}</h3>
                     <ul>
-                        <li><h4>URL: <a href="{{ r.path }}">{{ r.path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ r.path }}</span></h4></li>
+                        {% if r.paths %}
+                            {% for path in r.paths %}
+                                <li><h4>URL: <a href="{{ path }}">{{ path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ path }}</span></h4></li>
+                            {% endfor %}
+                        {% else %}
+                            <li><h4>URL: <a href="{{ r.path }}">{{ r.path }}</a> <span>eg. https://www.biglotteryfund.org.uk{{ r.path }}</span></h4></li>
+                        {% endif %}
                         <li><p><strong>Destination: </strong> <a href="{{ r.destination }}">{{ r.destination }}</a></p></li>
                     </ul>
                 </article>

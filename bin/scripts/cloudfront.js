@@ -220,7 +220,13 @@ for (let s in routes.sections) {
 
 // add vanity redirects too
 routes.vanityRedirects.forEach(redirect => {
-    URLs.newSite.push(makeUrlObject(redirect.path));
+    if (redirect.paths) {
+        redirect.paths.forEach((path) => {
+            URLs.newSite.push(makeUrlObject(path));
+        });
+    } else {
+        URLs.newSite.push(makeUrlObject(redirect.path));
+    }
 });
 
 // construct array of behaviours from our URL list
