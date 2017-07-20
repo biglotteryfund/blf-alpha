@@ -204,6 +204,12 @@ const vanityRedirects = [
         aliasOnly: true
     },
     {
+        name: "Logo page",
+        path: "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
+        destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
+        aliasOnly: true
+    },
+    {
         name: "Data Protection",
         path: "/data-protection",
         destination: routes.sections.about.path + routes.sections.about.pages.dataProtection.path,
