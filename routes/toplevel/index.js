@@ -151,7 +151,7 @@ module.exports = (pages) => {
 
             // sanitise input
             for (let key in req.body) {
-                req.body[key] = xss(key);
+                req.body[key] = xss(req.body[key]);
             }
 
             if (!result.isEmpty()) {
