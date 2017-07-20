@@ -150,7 +150,32 @@
 				}
 			]
 		},
-		"over10k": "over10k"
+		"over10k": {
+			"title": "About our grants over £10k",
+			"projects": [
+				{
+					"name": "Croxteth Gems",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/croxteth.jpg",
+					"description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
+				},
+				{
+					"name": "Dads in Mind",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/dads.jpg",
+					"description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
+				},
+				{
+					"name": "Cruse Bereavement Care",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/cruse.jpg",
+					"description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies"
+				}
+			]
+		}
 	},
 	"about": {
 		"foi": {
