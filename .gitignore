@@ -12,4 +12,4 @@ deploy.json
 assets/sass/_config.scss
 addSecrets.sh
 bin/cloudfront
-config/app/secrets.json
+config/app/parameters.json
