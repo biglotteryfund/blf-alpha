@@ -98,6 +98,7 @@
     {% if orderStatus == 'success' %}
         <h2 class="t3 accent--pink">{{ copy.orderSubmitted.success.title }}</h2>
         <h3 class="t3 accent--blue">{{ copy.orderSubmitted.success.subtitle }}</h3>
+        <p class="m-t--s smaller">{{ copy.orderSubmitted.success.body | safe }}</p>
     {% elseif orderStatus == 'fail' %}
         <h2 class="t3 accent--pink">{{ copy.orderSubmitted.failure.title }}</h2>
         <h3 class="t3 accent--pink">{{ copy.orderSubmitted.failure.subtitle }}</h3>

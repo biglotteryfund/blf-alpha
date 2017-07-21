@@ -213,7 +213,8 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Thank you for your order.",
-						"subtitle": "Your delivery will be with you soon."
+						"subtitle": "Your delivery will be with you soon.",
+						"body": "If you have any questions or queries about your order, please <a href=\"mailto:branding@biglotteryfund.org.uk\">get in touch with our branding team</a>."
 					},
 					"failure": {
 						"title": "Sorry, we were unable to process your order.",

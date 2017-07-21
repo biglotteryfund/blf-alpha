@@ -169,7 +169,7 @@
 @mixin greenLinks {
     color: palette('green');
     font-weight: bold;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 

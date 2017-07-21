@@ -163,7 +163,8 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Diolch am eich archeb.",
-						"subtitle": "Bydd eich nwyddau gyda chi cyn bo hir."
+						"subtitle": "Bydd eich nwyddau gyda chi cyn bo hir.",
+						"body": "<a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> os oes gennych unrhyw gwestiynau neu ymholiadau am eich archeb."
 					},
 					"failure": {
 						"title": "Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb.",
