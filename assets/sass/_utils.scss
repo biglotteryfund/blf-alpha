@@ -45,6 +45,7 @@
 .nudge-bottom {
     position: absolute;
     bottom: $spacingUnit;
+    @include responsiveGutter(true);
 
     @include mq('tablet') {
         @include nudged-down();
@@ -52,6 +53,7 @@
 }
 
 .nudge-bottom--always {
+    @include responsiveGutter(true);
     @include nudged-down();
 }
 

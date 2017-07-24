@@ -80,3 +80,36 @@
         background-color: grey !important;
     }
 }
+
+// layout helper: used within a containing element
+// to center it according to the grid
+
+@mixin responsiveGutter($skipMargins: false) {
+    $defaultGutter: map-get($gutters, "default");
+    @if not $skipMargins {
+        margin-left: $defaultGutter;
+        margin-right: $defaultGutter;
+    }
+    width: calc(100% - #{$defaultGutter * 2});
+
+    @each $device, $gutter in $gutters {
+        @if map-has-key($breakpoints, $device) {
+            @include mq($device) {
+                @if not $skipMargins {
+                    margin-left: $gutter;
+                    margin-right: $gutter;
+                }
+                width: calc(100% - #{$gutter * 2});
+            }
+        }
+    }
+
+    @media screen and (min-width: $widestScreen) {
+        width: $maxInnerWidth;
+        height: 100%;
+        @if not $skipMargins {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}

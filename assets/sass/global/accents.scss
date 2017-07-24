@@ -61,17 +61,8 @@
         // block-colour heading background
         &.t1,
         .t1 {
-            @include mq('tablet', 'max') {
-                background-color: $fg;
-                @include on-interact {
-                    background-color: darken($fg, 10%);
-                }
-            }
-
             span {
-                @include mq('tablet') {
-                    background-color: $fg;
-                }
+                background-color: $fg;
             }
         }
 
@@ -79,11 +70,10 @@
         &.t1,
         .t1 {
             a {
-                @include mq('tablet') {
-                    @include on-interact {
-                        span {
-                            background-color: darken($fg, 10%);
-                        }
+                @include on-interact {
+                    color: darken(#ffffff, 10%);
+                    span {
+                        background-color: darken($fg, 10%);
                     }
                 }
             }
@@ -93,27 +83,15 @@
         $opacityFactor: 0.8;
         &.t1--opaque,
         .t1--opaque {
-            @include mq('tablet', 'max') {
-                background-color: rgba($fg, $opacityFactor);
-            }
-
             span {
-                @include mq('tablet') {
-                    background-color: rgba($fg, $opacityFactor);
-                }
+                background-color: rgba($fg, $opacityFactor);
             }
         }
 
         .contrast--high & {
             .t1 {
-                @include mq('tablet', 'max') {
-                    background-color: palette('high-contrast-bg') !important;
-                }
-
                 span {
-                    @include mq('tablet') {
-                        background-color: palette('high-contrast-bg') !important;
-                    }
+                    background-color: palette('high-contrast-bg') !important;
                 }
             }
 

@@ -28,36 +28,30 @@ a {
 
 // blocked-out colourised background
 .t1 {
-    @include clearfix();
+    @include font-and-leading(20px, 30px);
     font-weight: 600;
-    @include font-and-leading(20px, 28px);
     margin-right: $spacingUnit;
-    padding: $spacingUnit / 2;
+    width: 250px;
+    max-width: 80%;
 
     @include mq('tablet') {
-        padding: 0;
+        @include font-and-leading(28px, 44px);
+        width: 60%;
         margin-right: 0;
-        @include font-and-leading(28px, 50px);
     }
 
     span {
-        color: #fff;
+        color: #ffffff;
         display: inline;
-        @include mq('tablet') {
-            background-color: #eeeeee;
-            padding: $spacingUnit / 2;
-            margin: 0;
-            line-height: 1;
-            float: left;
-            clear: left;
-        }
+        padding: 0 5px;
+        box-decoration-break: clone;
     }
 
     &.minor {
-        @include font-and-leading(18px, 33px);
+        @include font-and-leading(18px, 28px);
         @include mq('tablet') {
             span {
-                padding: $spacingUnit / 3;
+                padding: 0 $spacingUnit / 3;
             }
         }
     }
@@ -66,20 +60,30 @@ a {
         font-weight: 600;
 
         @include mq('tablet', 'max') {
-            @include font-and-leading(14px, 20px);
+            @include font-and-leading(14px, 23px);
         }
 
         @include mq('tablet') {
             @include font-and-leading(18px, 28px);
             span {
-                padding: $spacingUnit / 4;
+                padding: 0 $spacingUnit / 4;
             }
         }
     }
 
+    // some t1 blocks are *wholly* links
+    // so no underlines for them
     a {
         color: #ffffff;
         text-decoration: none;
+    }
+
+    // some t1 blocks *contain* links
+    // so demarcate them properly
+    &.t1--has-links {
+        a {
+            text-decoration: underline;
+        }
     }
 
     // icon font
