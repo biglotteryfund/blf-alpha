@@ -13,6 +13,7 @@ require('./modules/boilerplate/security');
 require('./modules/boilerplate/static');
 require('./modules/boilerplate/cache');
 require('./modules/boilerplate/middleware');
+require('./modules/boilerplate/getSurveys');
 
 // load tools endpoint (including status page for load balancer)
 app.use('/', require('./routes/toplevel/tools'));

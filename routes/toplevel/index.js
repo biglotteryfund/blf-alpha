@@ -256,6 +256,11 @@ module.exports = (pages) => {
         res.redirect(redirectUrl);
     });
 
+    // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
+    router.post('/survey/:id', (req, res, next) => {
+
+    });
+
     router.get('/robots.txt', (req, res, next) => {
         res.setHeader('Content-Type', 'text/plain');
         let text = 'User-agent: *\n';
