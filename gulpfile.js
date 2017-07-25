@@ -1,29 +1,30 @@
 /* jshint node: true */
 'use strict';
+const importLazy = require('import-lazy')(require);
 
-const browserify = require('browserify');
-const gulp = require('gulp');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const uglify = require('gulp-uglify');
-const sourcemaps = require('gulp-sourcemaps');
-const sass = require('gulp-sass');
-const del = require('del');
-const livereload = require('gulp-livereload');
-const rev = require('gulp-rev');
-const revcssurls = require('gulp-rev-css-url');
-const revdel = require('gulp-rev-delete-original');
-const autoprefixer = require('gulp-autoprefixer');
-const argv = require('yargs').argv;
-const gulpif = require('gulp-if');
-const eslint = require('gulp-eslint');
-const babel = require('gulp-babel');
-const babelify = require('babelify');
-const mocha = require('gulp-mocha');
-const rename = require("gulp-rename");
-const mochaPhantomJS = require('gulp-mocha-phantomjs');
-const jsonSass = require('rootbeer');
-const fs = require('fs');
+const browserify = importLazy('browserify');
+const gulp = importLazy('gulp');
+const source = importLazy('vinyl-source-stream');
+const buffer = importLazy('vinyl-buffer');
+const uglify = importLazy('gulp-uglify');
+const sourcemaps = importLazy('gulp-sourcemaps');
+const sass = importLazy('gulp-sass');
+const del = importLazy('del');
+const livereload = importLazy('gulp-livereload');
+const rev = importLazy('gulp-rev');
+const revcssurls = importLazy('gulp-rev-css-url');
+const revdel = importLazy('gulp-rev-delete-original');
+const autoprefixer = importLazy('gulp-autoprefixer');
+const argv = importLazy('yargs').argv;
+const gulpif = importLazy('gulp-if');
+const eslint = importLazy('gulp-eslint');
+const babel = importLazy('gulp-babel');
+const babelify = importLazy('babelify');
+const mocha = importLazy('gulp-mocha');
+const rename = importLazy("gulp-rename");
+const mochaPhantomJS = importLazy('gulp-mocha-phantomjs');
+const jsonSass = importLazy('rootbeer');
+const fs = importLazy('fs');
 
 
 // define main directories
@@ -164,11 +165,11 @@ gulp.task('rev', ['styles', 'scripts'], function() {
 
 // run mocha tests
 gulp.task('mocha', ['build'], function () {
-   return gulp.src(testBase + '/test.js', {
+   return gulp.src(testBase + '/features/**/*.js', {
        read: false
    }).pipe(mocha({
        reporter: 'spec',
-       timeOut: 10000,
+       timeout: 20000,
        bail: true
    }));
 });

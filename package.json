@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "test": "gulp test --timeout 10000",
+    "test": "gulp test",
     "test-deps": "snyk test",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
@@ -78,6 +78,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.5.0",
     "gulp-uglify": "^2.1.2",
+    "import-lazy": "^3.0.0",
     "node-sass": "^4.5.3",
     "prompt": "^1.0.0",
     "request": "^2.81.0",

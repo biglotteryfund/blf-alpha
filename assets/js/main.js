@@ -81,7 +81,7 @@ router.get(fundingRegex, () => {
 
     let allOrderData = {};
 
-    const vueApp = new Vue({
+    new Vue({
         el: '#js-vue',
         data: {
             orderData: allOrderData,
