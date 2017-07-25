@@ -3,7 +3,9 @@ set -e
 
 # get secrets from parameter store
 
-secrets=/var/www/biglotteryfund/config/app/parameters.json
+mkdir -p /etc/blf/;
+
+secrets=/etc/blf/parameters.json
 touch $secrets
 if [ -f "$secrets" ]
 then
