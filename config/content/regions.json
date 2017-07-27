@@ -1,8 +1,4 @@
-// configure grant data for map
-
-// the order of this array needs to match the countries in uk-svg.njk
-// so the "tab" aspect of it works properly
-const grantData = [
+[
     {
         "name": "East Midlands",
         "id": "east-midlands",
@@ -87,12 +83,4 @@ const grantData = [
         "totalAwarded": "£66.1m",
         "beneficiaries": 929239
     }
-];
-
-// look up a grant by region
-let getGrantDataById = (id) => grantData.find(g => g.id === id);
-
-module.exports = {
-    grantData: grantData,
-    getGrantDataById: getGrantDataById
-};
+]

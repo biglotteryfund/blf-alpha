@@ -13,7 +13,7 @@ const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
-const regions = require('../../assets/js/data/regions');
+const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
@@ -203,7 +203,7 @@ module.exports = (pages) => {
 
     // data page
     router.get('/data', (req, res, next) => {
-        let grants = _.sortBy(regions.grantData, 'name');
+        let grants = _.sortBy(regions, 'name');
 
         res.render('pages/toplevel/data', {
             grants: grants
