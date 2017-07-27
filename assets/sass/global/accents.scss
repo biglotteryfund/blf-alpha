@@ -42,9 +42,11 @@
             border-top: 6px solid $fg;
         }
 
-        // border on left
+        // border on left (wide only, for now?)
         &.accent-b-l {
-            border-left: 4px solid $fg;
+            @include mq('tablet') {
+                border-left: 4px solid $fg;
+            }
         }
 
         // border below elements *small* (eg. fixed width)

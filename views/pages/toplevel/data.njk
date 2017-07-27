@@ -10,7 +10,7 @@
 
 {% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, extraClass = false) %}
     <li class="grid__item stats__icon">
-        <div class="stats__icon__detail p{% if extraClass %} {{ extraClass }}{% endif %}">
+        <div class="stats__icon__detail {% if extraClass %} {{ extraClass }}{% endif %}">
             {% if numberPrefix %}<span class="caption">{{ numberPrefix }}</span>{% endif %}
             {% if numberFirst %}
                 {{ makeNumber(number, numberSuffix) }}

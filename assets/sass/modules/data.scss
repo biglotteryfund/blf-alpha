@@ -3,15 +3,24 @@
 }
 
 .stats__icon {
-    margin-top: 0;
-    min-height: 200px;
-    position: relative;
+    padding: $spacingUnit * 2;
+
+    @include mq('tablet') {
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        min-height: 200px;
+        position: relative;
+    }
 
     .stats__icon__detail {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        transform: translateY(-50%);
+        @include mq('tablet') {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: $spacingUnit;
+        }
     }
 }
 
@@ -45,10 +54,14 @@
         color: palette('pink');
         display: inline-block;
         font-family: 'Poppins', arial, sans-serif;
-        font-size: 40px;
         line-height: 1;
         font-weight: 600;
         margin: 5px 0;
+        font-size: 50px;
+
+        @include mq('tablet') {
+            font-size: 40px;
+        }
 
         &.number--suffix {
             font-size: 20px;
@@ -60,9 +73,13 @@
         display: block;
         color: palette('charcoal');
         font-family: 'Poppins', arial, sans-serif;
-        font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
+        font-size: 20px;
+
+        @include mq('tablet') {
+            font-size: 14px;
+        }
     }
 }
 
