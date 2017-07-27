@@ -103,8 +103,8 @@ main {
             &.grid--bordered {
                 @include mq('tablet') {
                     > .grid__item {
-                        border-top: 1px solid palette('grey');
-                        border-right: 1px solid palette('grey');
+                        border-top: 1px solid #acbade;
+                        border-right: 1px solid #acbade;
 
                         &:nth-child(-n+#{$i}) {
                             border-top: none;

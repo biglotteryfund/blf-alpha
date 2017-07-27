@@ -3,17 +3,23 @@
 
 {% extends "../../layouts/main.njk" %}
 
-{% macro statBlock(counter, number, caption, flip = false) %}
-    <li class="stats__icon stats__icon--{{ counter }}">
-        <dl>
-            {% if not flip %}
-                <dt>{{ number }}</dt>
-                <dd>{{ caption }}</dd>
+{% macro makeNumber(number, numberSuffix = false) %}
+    <span class="number">{{ number }}</span>
+    {% if numberSuffix %}<span class="number number--suffix">{{ numberSuffix }}</span>{% endif %}
+{% endmacro %}
+
+{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, extraClass = false) %}
+    <li class="grid__item stats__icon">
+        <div class="stats__icon__detail p{% if extraClass %} {{ extraClass }}{% endif %}">
+            {% if numberPrefix %}<span class="caption">{{ numberPrefix }}</span>{% endif %}
+            {% if numberFirst %}
+                {{ makeNumber(number, numberSuffix) }}
+                <span class="caption">{{ caption }}</span>
             {% else %}
-                <dd>{{ number }}</dd>
-                <dt>{{ caption }}</dt>
+                <span class="caption">{{ caption }}</span>
+                {{ makeNumber(number, numberSuffix) }}
             {% endif %}
-        </dl>
+        </div>
     </li>
 {% endmacro %}
 
@@ -21,37 +27,29 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom accent--green">
-            {{ headers.blockheader('h2', 'What did we fund near you?', 30, 'hero__header') }}
-            <form class="form-fund form-fund--inline m-l" action="/lookup">
-                <input type="text" aria-label="Enter a postcode" placeholder="eg. B14 7EW" name="postcode">
-                <input type="submit" class="btn btn--cta btn--pink btn--cta--large" value="Look up awards">
-            </form>
+        <div class="nudge-bottom">
+            {{ headers.blockheader('h2', 'Key data about the Big Lottery Fund: <br />financial year 2016/17', 30, 'minor hero__header') }}
         </div>
     {% endset %}
 
-    {{ hero.header('data', heroContent, 'pink') }}
+    {{ hero.header('data', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
         <div class="inner p-text accent--pink accent-b-t bg-plain stats-holder pos-rel">
-            <h3 class="t3 m-t">Our year in numbers</h3>
+            <h3 class="t9 t9--a m-t">Key statistics</h3>
 
-            <button class="btn--carousel btn--carousel--prev js-carousel-prev">
-                {% include "../../includes/svg/arrow-left.svg" %}
-                <span class="visually-hidden">Previous item</span>
-            </button>
-            <button class="btn--carousel btn--carousel--next js-carousel-next">
-                {% include "../../includes/svg/arrow-right.svg" %}
-                <span class="visually-hidden">Next item</span>
-            </button>
+            <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
+                {{ statBlock('£712.7m', 'Total value of funding awarded', extraClass = 'accent--blue accent-b-l') }}
+                {{ statBlock('13,824', 'Total number of grants awarded') }}
+                {{ statBlock('12,352', 'Number of grants under £10,000', numberSuffix = '(89.4%)') }}
 
-            <ul class="stats js-carousel unstyled">
-                {{ statBlock(1, '11,779', 'Awards made') }}
-                {{ statBlock(2, '91.3%', 'Percentage of awards to the voluntary & community sectors') }}
-                {{ statBlock(3, '89.1%', 'Percentage of awards for less than £10,000') }}
-                {{ statBlock(4, 'Total grantmaking', '£650 million', flip = true) }}
-                {{ statBlock(5, '6.6%', 'Total operating costs') }}
-                {{ statBlock(6, '£276', 'Smallest award made through the Communities £ Families Fund') }}
+                {{ statBlock('9,377,362', 'Total number of expected beneficiaries', extraClass = 'accent--pink accent-b-l') }}
+                {{ statBlock('£10,805,105', 'to award partners to distribute to local projects', numberPrefix = 'We gave', numberFirst = true) }}
+                {{ statBlock('10,657', 'Number of charities funded in the UK') }}
+
+                {{ statBlock('£164m', 'will support children and young people', numberPrefix = 'Over', numberFirst = true, extraClass = 'accent--blue accent-b-l') }}
+                {{ statBlock('£387m', 'will improve environments and facilities', numberPrefix = 'Over', numberFirst = true) }}
+                {{ statBlock('£551m', 'will support improved mental wellbeing', numberPrefix = 'Over', numberFirst = true) }}
             </ul>
         </div>
     </article>

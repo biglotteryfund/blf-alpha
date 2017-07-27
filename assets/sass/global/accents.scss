@@ -42,6 +42,11 @@
             border-top: 6px solid $fg;
         }
 
+        // border on left
+        &.accent-b-l {
+            border-left: 4px solid $fg;
+        }
+
         // border below elements *small* (eg. fixed width)
         &.accent-b-b-s:after {
             content: '';
