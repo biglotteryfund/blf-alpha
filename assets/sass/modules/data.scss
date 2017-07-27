@@ -80,12 +80,16 @@
 }
 
 .map-wrapper {
-    width: 50%;
     margin: auto;
+    width: 90%;
+
+    @include mq('tablet') {
+        width: 50%;
+    }
 
     svg {
         width: 100%;
-        path:hover {
+        path.active:hover {
             fill: palette('pink');
             cursor: pointer;
         }
