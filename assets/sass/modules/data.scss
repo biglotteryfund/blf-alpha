@@ -102,18 +102,25 @@
 
 .map-info {
 
-    @include mq('tablet') {
-        width: 160px;
-        position: absolute;
-        z-index: 10;
-        right: -$spacingUnit;
-        top: 20px;
+    .map-info__item {
+        margin-bottom: $spacingUnit;
     }
 
-    @include mq('desktop') {
-        width: 250px;
-        top: $spacingUnit * 4;
-        right: -$spacingUnit * 4;
+    .js-on & {
+
+        @include mq('tablet') {
+            width: 160px;
+            position: absolute;
+            z-index: 10;
+            right: -$spacingUnit;
+            top: 20px;
+        }
+
+        @include mq('desktop') {
+            width: 250px;
+            top: $spacingUnit * 4;
+            right: -$spacingUnit * 4;
+        }
     }
 
 }

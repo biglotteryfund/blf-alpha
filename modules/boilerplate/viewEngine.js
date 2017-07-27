@@ -35,6 +35,10 @@ templateEnv.addFilter('mailto', function (str) {
     return `<a href="mailto:${str}">${str}</a>`;
 });
 
+templateEnv.addFilter('numberWithCommas', function (str) {
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+});
+
 // via http://stackoverflow.com/a/25770787
 templateEnv.addFilter('splitByCharLength', function (str, length) {
     let rows = [];

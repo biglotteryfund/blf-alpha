@@ -7,11 +7,13 @@ const httpProxy = require('http-proxy');
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
+const _ = require('lodash');
 const { JSDOM } = jsdom;
 const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
+const regions = require('../../assets/js/data/regions');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
@@ -201,7 +203,11 @@ module.exports = (pages) => {
 
     // data page
     router.get('/data', (req, res, next) => {
-        res.render('pages/toplevel/data', {});
+        let grants = _.sortBy(regions.grantData, 'name');
+
+        res.render('pages/toplevel/data', {
+            grants: grants
+        });
     });
 
     // lookup for the data page
