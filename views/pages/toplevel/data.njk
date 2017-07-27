@@ -55,9 +55,9 @@
     </article>
 
 
-    <article role="main" class="accent--turquoise accent-b-t map-holder">
+    <article role="main" class="accent--blue accent-b-t map-holder">
         <div class="inner--wide-only p-text pos-rel">
-            <h3 class="t3 m-b--l m-t">Where we fund projects</h3>
+            <h3 class="t9 t9--d m-b--l m-t">Our Year in Numbers</h3>
 
             <div class="map-wrapper">
                 {% include "../../includes/uk-svg.njk" %}
@@ -65,17 +65,17 @@
 
             <div id="js-map-panes">
                 {% for region in grants %}
-                    <div class="js-pane tab-pane map-info accent--turquoise accent-b-t p bg-plain" id="region-{{ region.id }}">
-                        <h4 class="t3 m-b">{{ region.name }}</h4>
+                    <div class="js-pane tab-pane map-info accent--blue accent-b-t p bg-plain" id="region-{{ region.id }}">
+                        <h4 class="t9 t9--d m-b">{{ region.name }}</h4>
 
-                        <h5 class="t4 m-t accent-text">{{ region.population | numberWithCommas }}</h5>
+                        <h5 class="t4 m-t accent--blue accent-text">{{ region.population | numberWithCommas }}</h5>
                         <h6 class="t5">Population</h6>
 
-                        <h5 class="t4 m-t accent-text">{{ region.totalAwarded }}</h5>
-                        <h6 class="t5">Total Awarded</h6>
+                        <h5 class="t4 m-t accent--blue accent-text">{{ region.totalAwarded }}</h5>
+                        <h6 class="t5">Total awarded</h6>
 
-                        <h5 class="t4 m-t m-b-none accent-text">{{ region.beneficiaries | numberWithCommas }}</h5>
-                        <h6 class="t5">Total Beneficiaries</h6>
+                        <h5 class="t4 m-t m-b-none accent--blue accent-text">{{ region.beneficiaries | numberWithCommas }}</h5>
+                        <h6 class="t5">Total beneficiaries</h6>
                     </div>
                 {% endfor %}
             </div>

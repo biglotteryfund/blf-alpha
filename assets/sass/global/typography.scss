@@ -183,6 +183,14 @@ a {
     }
 }
 
+// @TODO this could/should be an accent
+.t9--d {
+    color: #333333;
+    &:after {
+        border-bottom-color: palette('blue')
+    }
+}
+
 .t10 {
     font-family: 'Roboto', arial, sans-serif;
     font-weight: 600;
