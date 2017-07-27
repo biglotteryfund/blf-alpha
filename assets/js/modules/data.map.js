@@ -12,8 +12,9 @@ if ($svg) {
             let data = regions.getGrantDataById(id);
             if (data) {
                 $mapInfo.querySelector('#js-region-name').textContent = data.name;
-                $mapInfo.querySelector('#js-num-grants').textContent = data.numGrants;
-                $mapInfo.querySelector('#js-num-awards').textContent = `£${utils.formatCurrency(data.totalAwarded)}`;
+                $mapInfo.querySelector('#js-population').textContent = utils.numberWithCommas(data.population);
+                $mapInfo.querySelector('#js-num-grants').textContent = utils.numberWithCommas(data.beneficiaries);
+                $mapInfo.querySelector('#js-num-awards').textContent = data.totalAwarded;
                 $mapInfo.classList.remove('hidden');
             }
         }

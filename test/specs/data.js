@@ -11,7 +11,7 @@ describe("Grant region data", () => {
     });
 
     it("should allow filtering by ID", () => {
-        expect(regions.getGrantDataById('wales').numGrants).to.equal(960);
+        expect(regions.getGrantDataById('wales').beneficiaries).to.equal(706774);
     });
 
 });
