@@ -201,7 +201,7 @@ module.exports = (pages) => {
 
     // data page
     router.get('/data', (req, res, next) => {
-        res.render('pages/index', {});
+        res.render('pages/toplevel/data', {});
     });
 
     // lookup for the data page
