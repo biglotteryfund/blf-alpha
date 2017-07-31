@@ -17,7 +17,7 @@
 
         {% include "../includes/metadata.njk" %}
     </head>
-    <body>
+    <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         <main>
             {% include "../includes/header.njk" %}
             <div id="content" class="m-t-none">

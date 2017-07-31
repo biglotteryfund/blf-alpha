@@ -57,9 +57,13 @@
         line-height: 1;
         font-weight: 600;
         margin: 5px 0;
-        font-size: 50px;
+        font-size: 40px;
 
         @include mq('tablet') {
+            font-size: 35px;
+        }
+
+        @include mq('desktop') {
             font-size: 40px;
         }
 
@@ -170,7 +174,7 @@ $mapRegions: (
             }
         }
 
-        // 
+        //
         .region--#{$region}.tab--active {
 
         }

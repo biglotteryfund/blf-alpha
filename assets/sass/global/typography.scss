@@ -34,6 +34,14 @@ a {
     width: 250px;
     max-width: 80%;
 
+    // forced linebreaks (eg. <br>)
+    // should only appear on tablet upwards
+    @include mq('tablet', 'max') {
+        br {
+            display: none;
+        }
+    }
+
     @include mq('tablet') {
         @include font-and-leading(28px, 44px);
         width: 60%;
