@@ -11,6 +11,7 @@ const argv = require('yargs')
 const prompt = require('prompt');
 const AWS = require('aws-sdk');
 const request = require('request');
+const rp = require('request-promise');
 
 let customBuildNumber = argv.build;
 
@@ -36,7 +37,9 @@ const codeDeployEnvs = {
 const CONF = {
     s3Bucket: 'blf-travis-test',
     filenamePattern: /build-(\d+).zip/,
-    codedeploy: (argv.l) ? codeDeployEnvs.live : codeDeployEnvs.test
+    codedeploy: (argv.l) ? codeDeployEnvs.live : codeDeployEnvs.test,
+    githubAccount: 'biglotteryfund',
+    githubRepo: 'blf-alpha'
 };
 
 // create AWS SDK instance
@@ -106,6 +109,60 @@ if (customBuildNumber) {
     });
 }
 
+function getEnvStatus (env) {
+    const URLs = {
+        test: process.env.ELB_TEST,
+        production: process.env.ELB_PROD
+    };
+
+    return rp({
+        url: URLs[env]
+    }).then((response) => {
+        return JSON.parse(response);
+    });
+}
+
+function getCommitsToBeDeployed () {
+    let lookups = [
+        getEnvStatus('test'),
+        getEnvStatus('production')
+    ];
+
+    // get server statuses
+    return Promise.all(lookups).then((responses) => {
+        let test = responses[0];
+        let prod = responses[1];
+
+        // get the commit IDs
+        let ids = {
+            test: test.COMMIT_ID,
+            prod: prod.COMMIT_ID || 'c54660f391ed5542308d0deb4b87f07ce54ec120' // last build before adding commit_id
+        };
+
+        // first commit this returns will be the one currently on TEST
+        // @TODO what if we're deploying an older build? no way to save its commit ID in AWS
+        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${ids.test}&per_page=100`;
+
+        // now get commits made before the one currently on TEST
+        return rp.get({
+            url: commitList,
+            headers: {
+                'User-Agent': 'BLF-Deploy-Tool'
+            }
+        }).then(response => {
+            let commits = JSON.parse(response);
+            let commitsToAdd = [];
+            // filter out commits made before the last PROD deploy
+            for (let i = 0; i < commits.length; i++) {
+                if (commits[i].sha === ids.prod) { break; }
+                commitsToAdd.push(commits[i]);
+            }
+            return commitsToAdd;
+        });
+
+    });
+}
+
 function postMessageToSlack (title, subtitle, color) {
     request({
         url: SLACK_URL,
@@ -155,10 +212,52 @@ function createDeploymentConf (id) {
     };
 }
 
-function deployRevision (id) {
-    let env = (argv.l) ? 'PRODUCTION' : 'TEST';
+function verifyCommitsToDeploy () {
+    return new Promise((resolve, reject) => {
+
+        return getCommitsToBeDeployed().then(commits => {
+
+            // list the commits
+            let commitStr = '';
+            console.log('This deployment will push the following commits live:');
+            commits.forEach((c) => {
+                let line = ` - ${c.commit.message} \n`;
+                commitStr += line;
+                console.log('\t' + line);
+            });
+
+            // make sure the user is happy to push these commits
+            let promptSchema = {
+                description: `Are you sure you want to push the above commits live?`,
+                name: 'yesno',
+                type: 'string',
+                pattern: /y[es]*|n[o]?/,
+                message: 'Please answer the question properly',
+                required: true
+            };
+
+            prompt.start();
+
+            prompt.get(promptSchema, (err, result) => {
+                if (['y', 'yes'].indexOf(result.yesno) !== -1) {
+                    resolve('\nThe following commits will be deployed: \n' + commitStr);
+                } else {
+                    reject("Bailing out!");
+                }
+            });
+
+        }).catch((err) => {
+            reject(err);
+        });
+
+    });
+}
+
+// trigger the deploy itself
+function pushOutDeploy (env, id, commitStr) {
     let text = `Attempting to deploy revision ${id} to environment ${env}, please wait...`;
-    postMessageToSlack('Attempting to deploy BLF Alpha:', `Build ${id} to environment ${env}`, 'warning');
+
+    postMessageToSlack(`Attempting to deploy build \`#${id}\` to BLF Alpha on the \`${env}\` environment:`, commitStr, 'warning');
     console.log(text);
     const deployParams = createDeploymentConf(id);
     let attemptDeploy = codedeploy.createDeployment(deployParams).promise();
@@ -185,6 +284,23 @@ function deployRevision (id) {
             error: err
         });
     });
+}
+
+// do a final check about commits
+function deployRevision (id) {
+    let env = (argv.l) ? 'PRODUCTION' : 'TEST';
+
+    // if we're deploying to PROD, look up the commits this will push live
+    if (env === 'PRODUCTION') {
+        verifyCommitsToDeploy().then(commitStr => {
+            pushOutDeploy(env, id, commitStr);
+        }).catch(err => {
+            console.log(err);
+            process.exit(1);
+        });
+    } else { // it's a non-prod deploy, no need to verify commits
+        pushOutDeploy(env, id);
+    }
 }
 
 // lookup a known revision on TEST
