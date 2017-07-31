@@ -171,17 +171,17 @@
 			},
 			"regions": {
 				"east-midlands": "Dwyrain Canolbarth Lloegr",
-				"east-england": "East of England",
-				"london": "London",
-				"north-east": "North East",
-				"north-west": "North West",
-				"northern-ireland": "Northern Ireland",
-				"scotland": "Scotland",
-				"south-east": "South East",
-				"south-west": "South West",
-				"wales": "Wales",
-				"west-midlands": "West Midlands",
-				"yorkshire": "Yorkshire and the Humber"
+				"east-england": "Dwyrain Lloegr",
+				"london": "Llundain",
+				"north-east": "Gogledd-ddwyrain Lloegr",
+				"north-west": "Gogledd-orllewin Lloegr",
+				"northern-ireland": "Gogledd Iwerddon",
+				"scotland": "Yr Alban",
+				"south-east": "De-ddwyrain Lloegr",
+				"south-west": "De-orllewin Lloegr",
+				"wales": "Cymru",
+				"west-midlands": "Gorllewin Canolbarth Lloegr",
+				"yorkshire": "Swydd Efrog a Hymbr"
 			}
 		},
 		"jobs": {
