@@ -104,10 +104,6 @@
 
     svg {
         width: 100%;
-        path.active:hover {
-            fill: palette('pink');
-            cursor: pointer;
-        }
     }
 }
 
@@ -138,4 +134,55 @@
         }
     }
 
+}
+
+// @TODO this is effectively mirroring the accents concept
+// is there a way to merge them?
+
+$mapRegions: (
+    "default": #E4E3E1,
+    "east-midlands": #86BD3F,
+    "east-england": #C84548,
+    "london": #6F9CCA,
+    "north-east": #FACA36,
+    "north-west": #518A34,
+    "northern-ireland": #80e1b0,
+    "scotland": #73579E,
+    "south-east": #DA559A,
+    "south-west": #3585B5,
+    "wales": #4EACE1,
+    "west-midlands": #F7B534,
+    "yorkshire": #EF7A70
+);
+
+.region {
+    fill: map-get($mapRegions, "default");
+}
+
+@each $region, $colour in $mapRegions {
+    @if ($region != 'default') {
+
+        .region--#{$region} {
+            fill: $colour;
+
+            @include on-interact {
+                fill: palette('pink');
+            }
+        }
+
+        // 
+        .region--#{$region}.tab--active {
+
+        }
+
+        .region--#{$region}--b-t {
+            border-top-color: $colour !important;
+        }
+
+        .region--#{$region}--b-b {
+            &:after {
+                border-bottom-color: $colour !important;
+            }
+        }
+    }
 }
