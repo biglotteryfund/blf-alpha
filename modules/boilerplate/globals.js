@@ -28,6 +28,7 @@ const appEnv = process.env.NODE_ENV || 'dev';
 setGlobal('appData', {
     deployId: (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV',
     buildNumber: (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV',
+    commitId: (deploymentData && deploymentData.commitId) ? deploymentData.commitId : 'DEV',
     IS_DEV: appEnv === 'dev',
     environment: appEnv,
     config: config
