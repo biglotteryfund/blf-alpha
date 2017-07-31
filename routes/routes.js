@@ -53,7 +53,7 @@ const routes = {
                     template: "pages/toplevel/data",
                     lang: "toplevel.data",
                     static: false,
-                    live: false
+                    live: true
                 },
                 jobs: {
                     name: "Jobs",
