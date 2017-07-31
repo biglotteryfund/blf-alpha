@@ -6,7 +6,7 @@ require('../../assets/js/utils'); // required because phantom doesn't support Ar
 describe("Grant region data", () => {
 
     it("has grant data for regions", () => {
-        let london = regions.filter(r => r.name === 'London');
+        let london = regions.filter(r => r.id === 'london');
         expect(london.length).to.equal(1);
     });
 

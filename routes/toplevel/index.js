@@ -202,11 +202,11 @@ module.exports = (pages) => {
     });
 
     // data page
-    router.get('/data', (req, res, next) => {
+    router.get(pages.data.path, (req, res, next) => {
         let grants = _.sortBy(regions, 'name');
-
         res.render('pages/toplevel/data', {
-            grants: grants
+            grants: grants,
+            copy: req.i18n.__(pages.data.lang)
         });
     });
 
