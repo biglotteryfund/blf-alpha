@@ -70,6 +70,8 @@
                 <li><strong>GRAND TOTAL</strong>: {{ totals.canonical.length * 2 + totals.aliases.length * 2 + totals.redirectedPages.length }} (Canonical + Aliases)</li>
             </ul>
 
+            <button id="js-open-links">Open all canonical English pages in tabs?</button>
+
             {% for sectionName, section in routes %}
                 <h2>Section: {{ section.name }}</h2>
                 {% for pageName, page in section.pages %}
@@ -78,7 +80,7 @@
                         <h4>Canonical URL <span>(eg. the definitive version of this page)</span></h4>
                         {% set link = buildUrl(sectionName, pageName) %}
                         <ul>
-                            <li><strong>EN:</strong> <a href="{{ link }}">{{ link }}</a></li>
+                            <li><strong>EN:</strong> <a class="js-link" href="{{ link }}">{{ link }}</a></li>
                             <li><strong>CY:</strong> <a href="/welsh{{ link }}">/welsh{{ link }}</a></li>
                         </ul>
                         {% if page.aliases %}
@@ -113,5 +115,20 @@
             {% endfor %}
 
         </main>
+
+        <script>
+            let $btn = document.getElementById('js-open-links');
+            let $links = document.querySelectorAll('.js-link');
+            let origin = window.location.origin;
+                $btn.addEventListener('click', (e) => {
+                    let proceed = confirm(`This will open ${$links.length} new tabs – are you sure? (You may need to disable pop-up blocking for this page, too)`);
+                    if (proceed) {
+                        [].forEach.call($links, ($link) => {
+                            let url = origin + $link.getAttribute('href');
+                            window.open(url, '_blank');
+                        });
+                    }
+                });
+        </script>
     </body>
 </html>
