@@ -18,6 +18,7 @@
         {% include "../includes/metadata.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+        {% include "../includes/accessibility.njk" %}
         <main>
             {% include "../includes/header.njk" %}
             <div id="content" class="m-t-none">
@@ -30,7 +31,6 @@
                 {{ navlinks('nav--offscreen__link') }}
             </ul>
         </nav>
-        {% include "../includes/accessibility.njk" %}
         <div class="overlay{% if showOverlay %} overlay--visible{% endif %}" id="js-overlay">
             <div class="overlay__content">{% block overlay %}{% endblock %}</div>
             <div class="overlay__close" id="js-close-overlay">

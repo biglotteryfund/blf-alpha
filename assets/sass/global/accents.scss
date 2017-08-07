@@ -171,6 +171,15 @@ a[href^="mailto"] {
 a.link-pink {
     color: palette('pink') !important
 }
+
 a.link-turquoise {
     color: palette('turquoise') !important
+}
+
+.contrast--high {
+    a.link-pink,
+    a.link-turquoise,
+    a.links-emphasised {
+        color: palette('blue') !important;
+    }
 }

@@ -73,7 +73,6 @@
         font-size: 18px;
     }
 
-
     .form-ebulletin--grid {
         @include mq('tablet', 'max') {
             display: flex;
@@ -89,7 +88,6 @@
             }
         }
     }
-
 
     .form-fund__item {
         display: block;
@@ -114,9 +112,12 @@
     label {
         display: block;
         line-height: 1;
-        color: palette('pink');
         font-weight: 400;
         font-size: 20px;
+        color: palette('pink');
+        .contrast--high & {
+            color: #000000;
+        }
     }
 
     label.form-fund__item {

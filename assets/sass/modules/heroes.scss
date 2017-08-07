@@ -215,6 +215,10 @@ $heroes: (
         height: auto;
         font-size: 15px;
 
+        .contrast--high & {
+            background-color: #000000;
+        }
+
         &.nudged {
             bottom: $nudgeAmount + $spaceBottom;
         }
