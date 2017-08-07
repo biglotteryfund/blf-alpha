@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    let SurveyResponse = sequelize.define('survey_response', {
+    return sequelize.define('survey_response', {
         message: {
             type: DataTypes.TEXT
         },
@@ -9,11 +9,4 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT
         }
     });
-
-    SurveyResponse.associate = (models) => {
-        SurveyResponse.hasMany(models.SurveyChoice, { as: 'responses' });
-    };
-
-    return SurveyResponse;
-
 };

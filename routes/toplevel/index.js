@@ -264,7 +264,48 @@ module.exports = (pages) => {
 
     // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
     router.post('/survey/:id', (req, res, next) => {
+        let surveyId = req.params.id;// @TODO do we need this?
+        req.checkBody('choice', 'Please supply a valid choice').notEmpty().isInt();
 
+        req.getValidationResult().then((result) => {
+
+            if (!result.isEmpty()) {
+                // failed validation
+                res.status(400);
+                res.send({
+                    status: 'error',
+                    err: 'Please supply all fields'
+                });
+            } else {
+                // sanitise input
+                for (let key in req.body) {
+                    req.body[key] = xss(req.body[key]);
+                }
+
+                let response = {
+                    surveyChoiceId: req.body['choice']
+                };
+
+                // add a message (if we got one)
+                if (req.body['message']) {
+                    response.message = req.body['message'];
+                }
+
+                // we could still fail at this point if the choice isn't valid for this ID
+                models.SurveyResponse.create(response).then((data) => {
+                    res.send({
+                        status: 'success',
+                        data: data
+                    });
+                }).catch((err) => {
+                    res.status(400);
+                    res.send({
+                        status: 'error',
+                        err: err
+                    });
+                });
+            }
+        });
     });
 
     router.get('/robots.txt', (req, res, next) => {

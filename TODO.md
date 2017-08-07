@@ -6,6 +6,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] google tag manager / experiment for homepage?
 - [ ] CSRF
 - [ ] session caching issues on tools/login
+- [ ] use a unique DB for tests (but needs a test user in table?)
 
 ## Tech debt
 - [ ] print stylesheet

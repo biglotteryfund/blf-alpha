@@ -16,7 +16,9 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     SurveyChoice.associate = (models) => {
-        SurveyChoice.hasMany(models.Survey, { as: 'choices' });
+        SurveyChoice.hasMany(models.SurveyResponse, {
+            as: 'responses'
+        });
     };
 
     return SurveyChoice;

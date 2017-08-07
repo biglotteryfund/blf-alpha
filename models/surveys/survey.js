@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    return sequelize.define('survey', {
+    let Survey = sequelize.define('survey', {
         name: {
             type: DataTypes.STRING
         },
@@ -20,5 +20,15 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: false
         }
     });
+
+    Survey.associate = (models) => {
+        Survey.hasMany(models.SurveyChoice, {
+            as: 'choices',
+            onDelete: 'cascade',
+            hooks: true
+        });
+    };
+
+    return Survey;
 
 };

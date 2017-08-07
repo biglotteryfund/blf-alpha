@@ -1,8 +1,5 @@
 'use strict';
 const _ = require('lodash');
-const config = require('config');
-
-const app = require('../../server');
 const models = require('../../models/index');
 
 const currentSurveys = {};
@@ -12,11 +9,8 @@ models.Survey.findAll({
     },
     include: [
         {
-            model: models.SurveyQuestion,
-            required: true
-        },
-        {
             model: models.SurveyChoice,
+            as: 'choices',
             required: true
         }
     ]
@@ -24,5 +18,10 @@ models.Survey.findAll({
     surveys.forEach(survey => {
         _.set(currentSurveys, survey.activePath, survey);
     });
-    console.log(currentSurveys);
 });
+
+module.exports = {
+    get: () => {
+        return currentSurveys;
+    }
+};
