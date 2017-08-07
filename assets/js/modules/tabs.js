@@ -1,6 +1,7 @@
 'use strict';
 /* global $ */
 let classTrigger = 'js-tabs';
+let classTriggerItem = 'js-tab-item';
 let classActivated = 'js-tabs--active';
 let paneClassTrigger = 'js-pane';
 let paneAttr = 'data-panes';
@@ -9,7 +10,7 @@ let activeTabClass = 'tab--active';
 let activePaneClass = 'tab-pane--active';
 
 let bindEvents = (tabElm, paneElm) => {
-    let tabs = $('li', tabElm);
+    let tabs = $(`.${classTriggerItem}`, tabElm);
     let panes = $(`> .${paneClassTrigger}`, paneElm);
 
     tabs.each(function (i) {

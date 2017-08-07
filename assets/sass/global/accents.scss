@@ -42,6 +42,13 @@
             border-top: 6px solid $fg;
         }
 
+        // border on left (wide only, for now?)
+        &.accent-b-l {
+            @include mq('tablet') {
+                border-left: 4px solid $fg;
+            }
+        }
+
         // border below elements *small* (eg. fixed width)
         &.accent-b-b-s:after {
             content: '';
@@ -164,6 +171,15 @@ a[href^="mailto"] {
 a.link-pink {
     color: palette('pink') !important
 }
+
 a.link-turquoise {
     color: palette('turquoise') !important
+}
+
+.contrast--high {
+    a.link-pink,
+    a.link-turquoise,
+    a.links-emphasised {
+        color: palette('blue') !important;
+    }
 }

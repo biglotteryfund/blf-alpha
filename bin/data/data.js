@@ -16,7 +16,7 @@ for (let region in grantsByRegion) {
     let total = _.sumBy(grantsByRegion[region], 'amountAwarded');
     results[region] = {
         totalAwarded: total,
-        numGrants: numGrants[region]
+        numGrants: beneficiaries[region]
     };
 }
 

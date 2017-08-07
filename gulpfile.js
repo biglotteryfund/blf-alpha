@@ -175,10 +175,15 @@ gulp.task('mocha', ['build'], function () {
 });
 
 // run phantomjs
+// @TODO if this task fails it doesn't stop the gulp task so the build passes!
 gulp.task('phantomjs', ['test-scripts'], function () {
     return gulp
         .src(testBase + '/runner.html')
-        .pipe(mochaPhantomJS());
+        .pipe(mochaPhantomJS({
+            mocha: {
+                bail: true
+            }
+        }));
 });
 
 // run eslint

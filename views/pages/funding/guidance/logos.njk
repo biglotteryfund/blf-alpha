@@ -33,8 +33,8 @@
 
 {% macro logoTabBar(paneId, logoTitle, localeId) %}
     <ul class="js-tabs tabs unstyled" data-panes="{{ paneId }}">
-        <li><a href="#logos-{{ localeId }}">{{ logoTitle }}</a></li>
-        <li><a href="#howto-{{ localeId }}">{{ copy.howToUseLogo.title }}</a></li>
+        <li class="js-tab-item"><a href="#logos-{{ localeId }}">{{ logoTitle }}</a></li>
+        <li class="js-tab-item"><a href="#howto-{{ localeId }}">{{ copy.howToUseLogo.title }}</a></li>
     </ul>
 {% endmacro %}
 
@@ -108,10 +108,10 @@
                 <ul class="js-tabs unstyled grid grid--padded grid--equal grid--2-up grid--wide-only"
                     data-panes="js-logo-panes"
                     data-no-initial-selection="true">
-                    <li class="grid__item m-b-none">
+                    <li class="js-tab-item grid__item m-b-none">
                         <a href="#js-logo-panes-en" class="btn btn--cta btn--block">{{ copy.locations.monolingual }}</a>
                     </li>
-                    <li class="grid__item m-b-none">
+                    <li class="js-tab-item grid__item m-b-none">
                         <a href="#js-logo-panes-cy" class="btn btn--cta btn--block">{{ copy.locations.bilingual }}</a>
                     </li>
                 </ul>

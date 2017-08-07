@@ -1,5 +1,12 @@
 {
     "materialSupplierEmail": "customerservices@williamslea.com,work@mattandrews.info",
     "googleAnalyticsCode": "UA-637620-2",
-    "database": "website"
+    "database": "website",
+    "abTests": {
+        "tests": {
+            "homepage": {
+                "id": "RRsh3yxQQHWnqpUyM9fdIQ"
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@
 {% macro caseStudy() %}
     <ul class="unstyled grid vox-pop m-t-none">
         <li class="grid__item vox-pop__image">
-            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" />
+            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" alt="A case study" />
         </li>
         <li class="grid__item vox-pop__blurb">
             <blockquote class="pullquote">
@@ -156,7 +156,8 @@
 
                             <p class="intro">Sign up for our latest news relating to your country:</p>
 
-                            <div class="form-ebulletin--grid">
+                            <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
+                                <span class="visually-hidden" id="aria-form-loc">Location</span>
                                 {{ forms.radios('location', [
                                     ['England', 'en', 'cd_ENGLAND_MAIL'],
                                     ['Wales', 'cy', 'cd_WALES_MAIL'],

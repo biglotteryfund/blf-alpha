@@ -3,11 +3,12 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
-- [ ] CSRF
 - [ ] google tag manager / experiment for homepage?
+- [ ] CSRF
 - [ ] session caching issues on tools/login
 
 ## Tech debt
+- [ ] print stylesheet
 - [ ] db pool size?
 - [ ] refactor main.js (CS)
 - [ ] Add a way to highlight current section in nav?

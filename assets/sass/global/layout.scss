@@ -76,7 +76,9 @@ main {
 
     // output grid cols for 2-up, 3-up etc
     @for $i from 2 through 4 {
-        $colWidth: 100% / $i;
+        // @TODO – does this need to be rounded for everything?
+        // or just to fix IE11? eg. data page
+        $colWidth: decimal-round(100% / $i, 0, floor);
 
         &.grid--#{$i}-up {
             flex-wrap: wrap;
@@ -99,6 +101,29 @@ main {
                     max-width: calc(#{$colWidth} - #{$paddedGridGutterLarge});
                 }
             }
+
+            &.grid--bordered {
+                @include mq('tablet', 'max') {
+                    > .grid__item {
+                        border-bottom: 1px solid #acbade;
+                    }
+                }
+                @include mq('tablet') {
+                    > .grid__item {
+                        border-top: 1px solid #acbade;
+                        border-right: 1px solid #acbade;
+
+                        &:nth-child(-n+#{$i}) {
+                            border-top: none;
+                        }
+
+                        &:nth-child(#{$i}n) {
+                            border-right: none;
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

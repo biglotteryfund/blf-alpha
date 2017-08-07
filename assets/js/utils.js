@@ -50,6 +50,11 @@ let formatCurrency = function (n) {
     });
 };
 
+let numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 module.exports = {
-    formatCurrency: formatCurrency
+    formatCurrency,
+    numberWithCommas
 };

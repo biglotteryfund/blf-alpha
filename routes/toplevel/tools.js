@@ -31,6 +31,7 @@ router.get('/status', (req, res, next) => {
     res.send({
         'APP_ENV': process.env.NODE_ENV,
         'DEPLOY_ID': appData.deployId,
+        'COMMIT_ID': appData.commitId,
         'BUILD_NUMBER': appData.buildNumber,
         'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
         'UPTIME': LAUNCH_DATE.toNow(true)

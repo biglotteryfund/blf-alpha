@@ -3,28 +3,24 @@
 }
 
 .stats__icon {
-    margin-top: 0;
-    min-height: 200px;
-    background-size: auto 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
+    padding: $spacingUnit * 2;
 
-    &.stats__icon--1 { background-image: url('../images/data/1.png');}
-    &.stats__icon--2 { background-image: url('../images/data/2.png');}
-    &.stats__icon--3 { background-image: url('../images/data/3.png');}
-    &.stats__icon--4 { background-image: url('../images/data/4.png');}
-    &.stats__icon--5 { background-image: url('../images/data/5.png');}
-    &.stats__icon--6 { background-image: url('../images/data/6.png');}
-    &.stats__icon--7 { background-image: url('../images/data/7.png');}
-    &.stats__icon--8 { background-image: url('../images/data/8.png');}
-    &.stats__icon--9 { background-image: url('../images/data/9.png');}
+    @include mq('tablet') {
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        min-height: 200px;
+        position: relative;
+    }
 
-    dl {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        transform: translateY(-50%);
+    .stats__icon__detail {
+        @include mq('tablet') {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: $spacingUnit;
+        }
     }
 }
 
@@ -41,7 +37,6 @@
 
     dl {
         margin-top: 0;
-        text-align: center;
     }
 
     dt, dd {
@@ -49,22 +44,46 @@
         margin: 0;
     }
 
-    dt {
-        color: palette('pink');
-        font-size: 42px;
-        line-height: 1;
-        font-weight: 600;
-        max-width: 150px;
-        margin: 10px auto;
+    li:nth-child(odd) {
+        .number {
+            color: palette('blue');
+        }
     }
 
-    dd {
+    .number {
+        color: palette('pink');
+        display: inline-block;
+        font-family: 'Poppins', arial, sans-serif;
+        line-height: 1;
+        font-weight: 600;
+        margin: 5px 0;
+        font-size: 40px;
+
+        @include mq('tablet') {
+            font-size: 35px;
+        }
+
+        @include mq('desktop') {
+            font-size: 40px;
+        }
+
+        &.number--suffix {
+            font-size: 20px;
+        }
+    }
+
+    .caption {
+        margin-top: 0;
+        display: block;
         color: palette('charcoal');
-        font-size: 14px;
+        font-family: 'Poppins', arial, sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        max-width: 150px;
-        margin: auto;
+        font-size: 20px;
+
+        @include mq('tablet') {
+            font-size: 14px;
+        }
     }
 }
 
@@ -80,15 +99,21 @@
 }
 
 .map-wrapper {
-    width: 50%;
     margin: auto;
+    width: 90%;
+    height: 100%;
+
+    .is-ie & {
+        height: 500px;
+    }
+
+    @include mq('tablet') {
+        width: 50%;
+    }
 
     svg {
         width: 100%;
-        path:hover {
-            fill: palette('pink');
-            cursor: pointer;
-        }
+        height: 100%;
     }
 }
 
@@ -98,18 +123,76 @@
 
 .map-info {
 
-    @include mq('tablet') {
-        width: 160px;
-        position: absolute;
-        z-index: 10;
-        right: -$spacingUnit;
-        top: 20px;
+    .map-info__item {
+        margin-bottom: $spacingUnit;
     }
 
-    @include mq('desktop') {
-        width: 250px;
-        top: $spacingUnit * 4;
-        right: -$spacingUnit * 4;
+    .js-on & {
+
+        @include mq('tablet') {
+            width: 160px;
+            position: absolute;
+            z-index: 10;
+            right: -$spacingUnit;
+            top: 20px;
+        }
+
+        @include mq('desktop') {
+            width: 250px;
+            top: $spacingUnit * 4;
+            right: -$spacingUnit * 4;
+        }
     }
 
+}
+
+// @TODO this is effectively mirroring the accents concept
+// is there a way to merge them?
+
+$mapRegions: (
+    "default": #E4E3E1,
+    "east-midlands": #86BD3F,
+    "east-england": #C84548,
+    "london": #6F9CCA,
+    "north-east": #FACA36,
+    "north-west": #518A34,
+    "northern-ireland": #80e1b0,
+    "scotland": #73579E,
+    "south-east": #DA559A,
+    "south-west": #3585B5,
+    "wales": #4EACE1,
+    "west-midlands": #F7B534,
+    "yorkshire": #EF7A70
+);
+
+.region {
+    fill: map-get($mapRegions, "default");
+}
+
+@each $region, $colour in $mapRegions {
+    @if ($region != 'default') {
+
+        .region--#{$region} {
+            fill: $colour;
+
+            @include on-interact {
+                fill: palette('pink');
+            }
+        }
+
+        //
+        .region--#{$region}.tab--active {
+
+        }
+
+        .region--#{$region}--b-t {
+            border-top-color: $colour !important;
+        }
+
+        .region--#{$region}--b-b {
+            &:after {
+                border-bottom-color: $colour !important;
+            }
+        }
+    }
 }

@@ -13,6 +13,12 @@
             text-decoration: underline;
         }
     }
+
+    margin-top: $spacingUnit;
+
+    .footer--no-margin & {
+        margin-top: 0;
+    }
 }
 
 .footer__inner {

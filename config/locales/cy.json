@@ -95,6 +95,95 @@
 				"email": "UKPortfolioTeam@biglotteryfund.org.uk"
 			}
 		},
+		"data": {
+			"title": "Data allweddol am y Gronfa Loteri Fawr: <br />blwyddyn ariannol 2016/17",
+			"keyStats": "Ystadegau allweddol",
+			"data": [
+				{
+					"number": {
+						"value": "£712.7m"
+					},
+					"caption": "Cyfanswm Gwerth Y Grantiau A Ddyfarnwyd"
+				},
+				{
+					"number": {
+						"value": "13,814"
+					},
+					"caption": "Cyfanswm Nifer Y Grantiau A Ddyfarnwyd"
+				},
+				{
+					"number": {
+						"value": "12,352",
+						"suffix": "(89.4%)"
+					},
+					"caption": "Nifer Y Grantiau O Dan £10,000"
+				},
+				{
+					"number": {
+						"value": "9,377,362"
+					},
+					"caption": "Cyfanswm Y Buddiolwyr Disgwyliedig"
+				},
+				{
+					"number": {
+						"value": "£10,805,105",
+						"prefix": "Dyfarnom",
+						"showFirst": true
+					},
+					"caption": "I Bartneriaid Dyfarnu I'w Ddosbarthu I Brosiectau Lleol"
+				},
+				{
+					"number": {
+						"value": "10,657"
+					},
+					"caption": "Nifer Yr Elusennau A Ariannwyd Yn Y Deyrnas Unedig"
+				},
+				{
+					"number": {
+						"value": "£164m",
+						"prefix": "Dros",
+						"showFirst": true
+					},
+					"caption": "I Gefnogi Plant A Phobl Ifainc"
+				},
+				{
+					"number": {
+						"value": "£387m",
+						"prefix": "Dros",
+						"showFirst": true
+					},
+					"caption": "I Wella Amgylcheddau A Chyfleusterau"
+				},
+				{
+					"number": {
+						"value": "£551m",
+						"prefix": "Dros",
+						"showFirst": true
+					},
+					"caption": "I Gefnogi Lles Meddyliol Gwell"
+				}
+			],
+			"map": {
+				"title": "Ein blwyddyn mewn Rhifau",
+				"population": "Poblogaeth",
+				"totalAwarded": "Cyfanswm a ddyfarnwyd",
+				"totalBeneficiaries": "Cyfanswm buddiolwyr"
+			},
+			"regions": {
+				"east-midlands": "Dwyrain Canolbarth Lloegr",
+				"east-england": "Dwyrain Lloegr",
+				"london": "Llundain",
+				"north-east": "Gogledd-ddwyrain Lloegr",
+				"north-west": "Gogledd-orllewin Lloegr",
+				"northern-ireland": "Gogledd Iwerddon",
+				"scotland": "Yr Alban",
+				"south-east": "De-ddwyrain Lloegr",
+				"south-west": "De-orllewin Lloegr",
+				"wales": "Cymru",
+				"west-midlands": "Gorllewin Canolbarth Lloegr",
+				"yorkshire": "Swydd Efrog a Hymbr"
+			}
+		},
 		"jobs": {
 			"title": "Swyddi yn y Gronfa Loteri Fawr",
 			"call-to-action": "Gweld pa swyddi sydd ar gael",

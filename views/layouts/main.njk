@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="{{ locale }}" class="no-js locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
     <head>
-        <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
+        <title>{% block title  %}{% endblock %}{{ __("global.brand.title") }}</title>
         <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 
         <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
@@ -17,7 +17,8 @@
 
         {% include "../includes/metadata.njk" %}
     </head>
-    <body>
+    <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+        {% include "../includes/accessibility.njk" %}
         <main>
             {% include "../includes/header.njk" %}
             <div id="content" class="m-t-none">
@@ -30,7 +31,6 @@
                 {{ navlinks('nav--offscreen__link') }}
             </ul>
         </nav>
-        {% include "../includes/accessibility.njk" %}
         <div class="overlay{% if showOverlay %} overlay--visible{% endif %}" id="js-overlay">
             <div class="overlay__content">{% block overlay %}{% endblock %}</div>
             <div class="overlay__close" id="js-close-overlay">
