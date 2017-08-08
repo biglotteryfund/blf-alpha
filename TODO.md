@@ -2,6 +2,13 @@
 
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
+## Surveys (this branch)
+- [ ] cookie users to avoid repeat surveying
+- [ ] style up form
+- [ ] use Vue to handle state/responses?
+- [ ] grab metadata (google analytics ID?)
+- [ ] simple admin tool to show responses
+
 ## To fix
 - [ ] google tag manager / experiment for homepage?
 - [ ] CSRF
