@@ -1,5 +1,5 @@
-'use strict';
 /* global $ */
+'use strict';
 let classTrigger = 'js-tabs';
 let classTriggerItem = 'js-tab-item';
 let classActivated = 'js-tabs--active';
