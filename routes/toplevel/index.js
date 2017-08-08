@@ -160,6 +160,7 @@ module.exports = (pages) => {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
                 req.session.save(function () {
+                    // @TODO should this go to /home (eg. if they're in an A/B test for the old homepage)
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
@@ -285,11 +286,11 @@ module.exports = (pages) => {
                     },
                     // AJAX form - return a JSON error
                     json: () => {
-                res.status(400);
-                res.send({
-                    status: 'error',
-                    err: 'Please supply all fields'
-                });
+                        res.status(400);
+                        res.send({
+                            status: 'error',
+                            err: 'Please supply all fields'
+                        });
                     }
                 });
 
@@ -323,10 +324,10 @@ module.exports = (pages) => {
                         },
                         // AJAX form - return a JSON success message
                         json: () => {
-                    res.send({
-                        status: 'success',
-                        data: data
-                    });
+                            res.send({
+                                status: 'success',
+                                data: data
+                            });
                         }
                     });
 
@@ -342,11 +343,11 @@ module.exports = (pages) => {
                         },
                         // AJAX form - return a JSON error message
                         json: () => {
-                    res.status(400);
-                    res.send({
-                        status: 'error',
-                        err: err
-                    });
+                            res.status(400);
+                            res.send({
+                                status: 'error',
+                                err: err
+                            });
                         }
                     });
 
