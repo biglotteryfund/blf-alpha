@@ -1,3 +1,4 @@
+'use strict';
 const Siema = require('../libs/siema.min');
 const appConfig = require('../../../config/content/sass.json');
 
@@ -5,11 +6,12 @@ const defaultPerPage = 3;
 
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
+
 // configure carousel - screen width: num items
 let carouselBreakpointConfig = { 1: 1 };
 carouselBreakpointConfig[tabletBreakpoint] = defaultPerPage;
 
-const init = function (settings) {
+const Carousel = function (settings) {
 
     let carouselElm = document.querySelector(settings.selector);
 
@@ -38,6 +40,14 @@ const init = function (settings) {
 
         return carousel;
     }
+};
+
+const init = () => {
+    return new Carousel({
+        selector: '.js-carousel',
+        nextSelector: '.js-carousel-next',
+        prevSelector: '.js-carousel-prev',
+    });
 };
 
 module.exports = {

@@ -1,45 +1,46 @@
-'use strict';
 /* global $, ga, cxApi */
-const carousel = require('./modules/carousel');
+'use strict';
+
+// initialise router (eg. run conditional code for certain URLs)
 const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
-
-// load modules
-require('./modules/tabs').init();
-
-const $thisScript = document.getElementById('js-script-main');
 
 // initialise Vue
 const Vue = require('./libs/vue');
 Vue.options.delimiters = ['<%', '%>'];
 
-$('html').toggleClass('no-js js-on');
+// load internal modules
+require('./modules/carousel').init();
+require('./modules/tabs').init();
 
-// detect IE to fix broken images
+// enable JS-only features
+const $html = $('html');
+$html.toggleClass('no-js js-on');
+
+// grab main script element (for querying data attributes)
+const $thisScript = $('#js-script-main');
+
+// detect IE to fix broken images (IE resizes our logo badly)
 if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-    $('html').addClass('is-ie');
+    $html.addClass('is-ie');
 }
 
-carousel.init({
-    selector: '.js-carousel',
-    nextSelector: '.js-carousel-next',
-    prevSelector: '.js-carousel-prev',
-});
-
-const $mobileNavToggle = document.getElementById('js-mobile-nav-toggle');
-$mobileNavToggle.addEventListener('click', (e) => {
+// bind mobile nav show/hidew button
+$('#js-mobile-nav-toggle').on('click', function (e) {
     e.preventDefault();
-    document.documentElement.classList.toggle('show-off-canvas');
+    $html.toggleClass('show-off-canvas');
 });
 
-const getCookieValue = function (a) {
+// look up a cookie's value
+const getCookieValue = (a) => {
     let b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
 };
 
+// toggle contrast mode (we do this in JS to avoid breaking caching)
 const isHighContrast = getCookieValue('contrastMode'); // @TODO get from config
 if (isHighContrast === 'high') {
-    $('html').addClass('contrast--high');
+    $html.addClass('contrast--high');
     $('#js-contrast-standard').show();
     $('#js-contrast-high').hide();
 } else {
@@ -47,12 +48,13 @@ if (isHighContrast === 'high') {
     $('#js-contrast-high').show();
 }
 
+// show/hide overlay pane
 $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
 // setup google analytics
-const uaCode = $thisScript.getAttribute('data-ga-code');
+const uaCode = $thisScript.data('ga-code');
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
@@ -61,13 +63,13 @@ ga('create', uaCode, {
     'cookieDomain': 'none'
 });
 
+// initialise A/B tests
 let ab = {
-    id: $thisScript.getAttribute('data-ab-id'),
-    variant: $thisScript.getAttribute('data-ab-variant')
+    id: $thisScript.data('ab-id'),
+    variant: $thisScript.data('ab-variant')
 };
 
 if (ab.id && ab.variant) {
-    console.log('tracking test', ab);
     ga('set', 'expId', ab.id);
     ga('set', 'expVar', ab.variant);
     cxApi.setChosenVariation(ab.variant, ab.id);
@@ -75,8 +77,10 @@ if (ab.id && ab.variant) {
 
 ga('send', 'pageview');
 
-let fundingRegex = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials|\/funding\/test/;
-router.get(fundingRegex, () => {
+// create Vue element for order form
+// we use a regex for this URL to allow welsh URLs to match too
+let fundingPagePath = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials/;
+router.get(fundingPagePath, () => {
 
     let allOrderData = {};
 
@@ -125,22 +129,28 @@ router.get(fundingRegex, () => {
 
 });
 
-$('.js-logo-trigger').on('click', function () {
-    let logoId = $(this).data('logo-id');
-    let successBlock = $('#js-download-block--' + logoId);
-    let logoType = $(this).data('logo-type');
-    let successMessage = $('.js-success--' + logoType, successBlock);
-    if (successBlock.length && successMessage.length) {
-        successBlock.show(); // show parent block
-        successMessage.show(); // show message
-    }
-});
+// on the logo page we need to show a download message when the user clicks a logo
+let logoPagePath = /\/funding\/funding-guidance\/managing-your-funding\/grant-acknowledgement-and-logos\/logodownloads/;
+router.get(logoPagePath, () => {
 
-$('.js-success--close').on('click', function () {
-    let logoId = $(this).data('logo-id');
-    let successBlock = $('#js-download-block--' + logoId);
-    if (successBlock.length) {
-        successBlock.find('.js-success').hide(); // hide old messages
-        successBlock.hide();
-    }
+    $('.js-logo-trigger').on('click', function () {
+        let logoId = $(this).data('logo-id');
+        let successBlock = $('#js-download-block--' + logoId);
+        let logoType = $(this).data('logo-type');
+        let successMessage = $('.js-success--' + logoType, successBlock);
+        if (successBlock.length && successMessage.length) {
+            successBlock.show(); // show parent block
+            successMessage.show(); // show message
+        }
+    });
+
+    $('.js-success--close').on('click', function () {
+        let logoId = $(this).data('logo-id');
+        let successBlock = $('#js-download-block--' + logoId);
+        if (successBlock.length) {
+            successBlock.find('.js-success').hide(); // hide old messages
+            successBlock.hide();
+        }
+    });
+
 });
