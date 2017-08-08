@@ -2,6 +2,7 @@
 const _ = require('lodash');
 const models = require('../../models/index');
 
+// @TODO fetching new surveys requires an app restart... do we care?
 const currentSurveys = {};
 models.Survey.findAll({
     where: {

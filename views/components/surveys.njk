@@ -4,16 +4,17 @@
     {% if pageSurvey %}
         {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
         {% if surveySubmittedStatus == 'success' %}
-            SUCCESS!
+            Success!
         {% elseif surveySubmittedStatus == 'error' %}
-            ERROR!
+            Error!
         {% else %}
+
             <form class="survey" method="post" action="/survey/{{ pageSurvey.id }}">
-                {{ pageSurvey['question' | localeify(locale)] }}<br />
+                <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
                 {% for choice in pageSurvey.choices %}
                     {% set choiceLabel = choice['title' | localeify(locale)] %}
                     {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
-                    {% if choice.allow_message %}
+                    {% if choice.allow_message == 1 %}
                         {{ forms.input('message', 'Message', 'textarea', required = false) }}
                     {% endif %}
                 {% endfor %}

@@ -1,0 +1,14 @@
+.survey {
+    background-color: #eef2d7;
+    padding: 7px;
+    margin-top: 0;
+    font-size: 12px;
+
+    .survey__header {
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        margin-top: 0;
+    }
+}
