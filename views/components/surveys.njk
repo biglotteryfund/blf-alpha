@@ -1,0 +1,24 @@
+{% import "./forms.njk" as forms %}
+
+{% macro showSurvey() %}
+    {% if pageSurvey %}
+        {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
+        {% if surveySubmittedStatus == 'success' %}
+            SUCCESS!
+        {% elseif surveySubmittedStatus == 'error' %}
+            ERROR!
+        {% else %}
+            <form class="survey" method="post" action="/survey/{{ pageSurvey.id }}">
+                {{ pageSurvey['question' | localeify(locale)] }}<br />
+                {% for choice in pageSurvey.choices %}
+                    {% set choiceLabel = choice['title' | localeify(locale)] %}
+                    {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
+                    {% if choice.allow_message %}
+                        {{ forms.input('message', 'Message', 'textarea', required = false) }}
+                    {% endif %}
+                {% endfor %}
+                <input type="submit" value="Submit" />
+            </form>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
