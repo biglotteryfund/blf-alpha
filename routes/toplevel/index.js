@@ -264,45 +264,92 @@ module.exports = (pages) => {
 
     // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
     router.post('/survey/:id', (req, res, next) => {
+        // @TODO cookie the user for this survey
         let surveyId = req.params.id;// @TODO do we need this?
+        let referrer = req.get('Referrer');
         req.checkBody('choice', 'Please supply a valid choice').notEmpty().isInt();
 
         req.getValidationResult().then((result) => {
 
+            // if we failed validation
             if (!result.isEmpty()) {
-                // failed validation
+
+                res.format({
+                    // non-AJAX - send them back where they came from
+                    html: () => {
+                        req.flash('formErrors', result.array());
+                        req.flash('formValues', req.body);
+                        req.session.save(function () {
+                            res.redirect(referrer || '/');
+                        });
+                    },
+                    // AJAX form - return a JSON error
+                    json: () => {
                 res.status(400);
                 res.send({
                     status: 'error',
                     err: 'Please supply all fields'
                 });
-            } else {
+                    }
+                });
+
+            } else { // form was okay, let's store their submission
+
                 // sanitise input
                 for (let key in req.body) {
                     req.body[key] = xss(req.body[key]);
                 }
 
-                let response = {
+                let responseData = {
                     surveyChoiceId: req.body['choice']
                 };
 
                 // add a message (if we got one)
                 if (req.body['message']) {
-                    response.message = req.body['message'];
+                    responseData.message = req.body['message'];
                 }
 
                 // we could still fail at this point if the choice isn't valid for this ID
-                models.SurveyResponse.create(response).then((data) => {
+                // (SQL constraint error)
+                models.SurveyResponse.create(responseData).then((data) => {
+
+                    res.format({
+                        // non-AJAX - send them back where they came from
+                        html: () => {
+                            req.flash('surveySubmittedStatus', 'success');
+                            req.session.save(function () {
+                                res.redirect(referrer || '/');
+                            });
+                        },
+                        // AJAX form - return a JSON success message
+                        json: () => {
                     res.send({
                         status: 'success',
                         data: data
                     });
-                }).catch((err) => {
+                        }
+                    });
+
+                }).catch((err) => { // SQL error with data
+
+                    res.format({
+                        // non-AJAX - send them back where they came from
+                        html: () => {
+                            req.flash('surveySubmittedStatus', 'error');
+                            req.session.save(function () {
+                                res.redirect(referrer || '/');
+                            });
+                        },
+                        // AJAX form - return a JSON error message
+                        json: () => {
                     res.status(400);
                     res.send({
                         status: 'error',
                         err: err
                     });
+                        }
+                    });
+
                 });
             }
         });
