@@ -36,19 +36,27 @@
 
 {% endmacro %}
 
+{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false) %}
+    {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
+    {% if not suppressErrors and error %}
+        <p class="error">{{ error.msg }}</p>
+    {% endif %}
+    <label class="label--radio{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+           for="ff-radio-{{ value }}">
+        {{ label }}
+        <input type="radio"
+               id="ff-radio-{{ value }}"
+               name="{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
+               value="{{ value }}" />
+    </label>
+{% endmacro %}
+
 {% macro radios(fieldName, options) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
 
-    {% for o in options %}
-        <label class="label--radio{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-               for="ff-radio-{{ o[2] }}-{{ o[1] }}">
-            {{ o[0] }}
-            <input type="radio"
-                   id="ff-radio-{{ o[2] }}-{{ o[1] }}"
-                   name="{{ fieldName }}"
-                   value="{{ o[2] }}" />
-        </label>
+    {% for opt in options %}
+        {{ radioButton(fieldName, opt[0], opt[1], false, true) }}
     {% endfor %}
 
 {% endmacro %}
