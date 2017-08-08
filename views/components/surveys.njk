@@ -2,24 +2,25 @@
 
 {% macro showSurvey() %}
     {% if pageSurvey %}
-        {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
-        {% if surveySubmittedStatus == 'success' %}
-            Success!
-        {% elseif surveySubmittedStatus == 'error' %}
-            Error!
-        {% else %}
-
-            <form class="survey" method="post" action="/survey/{{ pageSurvey.id }}">
-                <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
-                {% for choice in pageSurvey.choices %}
-                    {% set choiceLabel = choice['title' | localeify(locale)] %}
-                    {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
-                    {% if choice.allow_message == 1 %}
-                        {{ forms.input('message', 'Message', 'textarea', required = false) }}
-                    {% endif %}
-                {% endfor %}
-                <input type="submit" value="Submit" />
-            </form>
-        {% endif %}
+        <div class="survey">
+            {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
+            {% if surveySubmittedStatus == 'success' %}
+                Success!
+            {% elseif surveySubmittedStatus == 'error' %}
+                Error!
+            {% else %}
+                <form class="js-survey" method="post" action="/survey/{{ pageSurvey.id }}">
+                    <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
+                    {% for choice in pageSurvey.choices %}
+                        {% set choiceLabel = choice['title' | localeify(locale)] %}
+                        {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
+                        {% if choice.allow_message == 1 %}
+                            {{ forms.input('message', 'Message', 'textarea', required = false) }}
+                        {% endif %}
+                    {% endfor %}
+                    <input type="submit" value="Submit" />
+                </form>
+            {% endif %}
+        </div>
     {% endif %}
 {% endmacro %}

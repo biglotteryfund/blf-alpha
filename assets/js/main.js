@@ -154,3 +154,25 @@ router.get(logoPagePath, () => {
     });
 
 });
+
+// AJAX-ify survey submissions
+$('.js-survey').on('submit', function (e) {
+    e.preventDefault();
+    const url = $(this).attr('action');
+    let data = $(this).serialize();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'json',
+        success: (response) => {
+            console.log(response);
+            alert('Success!');
+        },
+        error: (err) => {
+            console.error(err.responseJSON);
+            alert('Error!');
+        }
+    });
+
+});
