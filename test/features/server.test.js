@@ -1,6 +1,7 @@
 'use strict';
 /* global describe, it, beforeEach, afterEach */
 const chai = require('chai');
+const config = require('config');
 chai.use(require('chai-http'));
 const should = chai.should();
 
@@ -86,6 +87,32 @@ describe('Express application', function () {
                 done();
             });
     }).timeout(3000);
+
+    it('serves Welsh content', (done) => {
+        chai.request(server)
+            .get('/welsh/contact')
+            .end((err, res) => {
+                res.should.have.header('Content-Language', 'cy');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('can set contrast preferences', (done) => {
+        let redirectUrl = 'http://www.google.com';
+        chai.request(server)
+            .get('/contrast/high')
+            .query({
+                url: redirectUrl
+            })
+            .redirects(0)
+            .end((err, res) => {
+                res.should.have.cookie(config.get('cookies.contrast'));
+                res.should.redirectTo(redirectUrl);
+                res.should.have.status(302);
+                done();
+            });
+    });
 
     it('404s everything else', (done) => {
         chai.request(server)
