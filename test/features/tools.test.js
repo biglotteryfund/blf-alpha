@@ -92,10 +92,6 @@ describe("news editor tool", () => {
 
     let agent, server;
 
-    // bit hacky - allows us to delete all test data
-    // while preserving "real" test news (eg. by users on CMS)
-    let testPostTitle = '$$$$TEST$$$$';
-
     beforeEach((done) => {
         server = helper.before();
 
@@ -114,9 +110,7 @@ describe("news editor tool", () => {
     after((done) => {
         console.log('Deleting test news data');
         models.News.destroy({
-            where: {
-                title_en: testPostTitle
-            },
+            where: {},
         });
         done();
     });
@@ -163,7 +157,7 @@ describe("news editor tool", () => {
                 res.should.redirectTo('/tools/edit-news/');
                 return agent.post('/tools/edit-news/')
                     .send({
-                        title_en: testPostTitle,
+                        title_en: 'Test title (english)',
                         title_cy: 'Test title (welsh)',
                         text_en: 'Test text (english)',
                         text_cy: 'Test text (welsh)',
