@@ -1,0 +1,124 @@
+// the list of hero images
+@import '../heroes';
+
+// @TODO define
+$nudgeAmount: 25px;
+
+@mixin makeHeroImage($img) {
+    @include responsive-ratio(map-get($img, 'width'), map-get($img, 'height'));
+    background-image: url(map-get($img, 'filename'));
+}
+
+.hero {
+    margin-top: 0;
+    position: relative;
+    height: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .hero__inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    // loop through each hero image set
+    @each $hero, $imageset in $heroes {
+        // output a default (mobile) image and aspect ratio
+        &.hero--#{$hero} {
+            $defaultImage: map-get($imageset, 'default');
+            @include makeHeroImage($defaultImage);
+
+            // for each of the non-default (eg. breakpoint-matching) sets
+            // output a media query with a new image and aspect ratio
+            @each $imageBreakpointName, $imageBreakpoint in $imageset {
+                @if map-has-key($breakpoints, $imageBreakpointName) {
+                    @include mq($imageBreakpointName) {
+                        @include makeHeroImage($imageBreakpoint);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.hero__caption {
+    $spaceBottom: 20px;
+    position: relative;
+    height: 100%;
+
+    span {
+        position: absolute;
+        bottom: $spaceBottom;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 4px;
+        color: #ffffff;
+        width: auto;
+        height: auto;
+        font-size: 15px;
+
+        .contrast--high & {
+            background-color: #000000;
+        }
+
+        &.nudged {
+            bottom: $nudgeAmount + $spaceBottom;
+        }
+    }
+}
+
+.hero__header {
+    @include mq('tablet') {
+        margin-left: $spacingUnit;
+    }
+
+    @include mq('tablet', 'max') {
+        &.minor {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    }
+}
+
+
+
+@mixin nudged-up {
+    margin-top: -$nudgeAmount;
+    position: relative;
+    z-index: 10;
+}
+
+@mixin nudged-down {
+    position: absolute;
+    bottom: $nudgeAmount + 30px;
+}
+
+.nudge-up {
+    margin-top: 0;
+    @include mq('tablet') {
+        @include nudged-up();
+    }
+}
+
+.nudge-up--always {
+    @include nudged-up();
+}
+
+.nudge-bottom {
+    position: absolute;
+    bottom: $spacingUnit;
+    @include responsiveGutter(true);
+
+    @include mq('tablet') {
+        @include nudged-down();
+    }
+}
+
+.nudge-bottom--always {
+    @include responsiveGutter(true);
+    @include nudged-down();
+}
