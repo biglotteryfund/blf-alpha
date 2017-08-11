@@ -1,9 +1,6 @@
 // the list of hero images
 @import '../heroes.config';
 
-// @TODO define
-$nudgeAmount: 25px;
-
 // how much the hero text should appear from the bottom
 $heroSpaceFromBottom: 55px;
 $heroSpaceFromLeft: 20px;
@@ -71,9 +68,6 @@ $heroSpaceFromLeft: 20px;
             background-color: #000000;
         }
 
-        //&.nudged {
-        //    bottom: $nudgeAmount + $spaceBottom;
-        //}
     }
 }
 
@@ -98,41 +92,3 @@ $heroSpaceFromLeft: 20px;
         margin-left: $heroSpaceFromLeft;
     }
 }
-
-
-//@mixin nudged-up {
-//    margin-top: -$nudgeAmount;
-//    position: relative;
-//    z-index: 10;
-//}
-//
-//@mixin nudged-down {
-//    position: absolute;
-//    bottom: $nudgeAmount + 30px;
-//}
-//
-//.nudge-up {
-//    margin-top: 0;
-//    @include mq('tablet') {
-//        @include nudged-up();
-//    }
-//}
-//
-//.nudge-up--always {
-//    @include nudged-up();
-//}
-//
-//.nudge-bottom {
-//    position: absolute;
-//    bottom: $spacingUnit;
-//    @include responsiveGutter(true);
-//
-//    @include mq('tablet') {
-//        @include nudged-down();
-//    }
-//}
-//
-//.nudge-bottom--always {
-//    @include responsiveGutter(true);
-//    @include nudged-down();
-//}
