@@ -125,27 +125,27 @@
 
                 <div id="js-logo-panes-en" class="m-t-none">
                     {# logo pane #}
-                    <div class="js-pane tab-pane bordered p" id="logos-en">
+                    <div class="js-pane tab-pane bordered padded" id="logos-en">
                         <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.monolingual }}</h3>
 
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--turquoise bordered p">
+                                <div class="grid__item__inner accent--turquoise bordered padded">
                                     {{ logoBlock(1, 'blue', 'blue', 'en') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--pink bordered p">
+                                <div class="grid__item__inner accent--pink bordered padded">
                                     {{ logoBlock(2, 'pink', 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
+                                <div class="grid__item__inner bordered padded bg--dark">
                                     {{ logoBlock(3, 'pink-white', 'white', onlyEps = true) }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
+                                <div class="grid__item__inner bordered padded bg--dark">
                                     {{ logoBlock(4, 'blue-white', 'white', onlyEps = true) }}
                                 </div>
                             </li>
@@ -153,7 +153,7 @@
                     </div>
 
                     {# how to #}
-                    <div class="js-pane tab-pane bordered p" id="howto-en">
+                    <div class="js-pane tab-pane bordered padded" id="howto-en">
                         {{ howToUseLogo | safe }}
                     </div>
                 </div>
@@ -167,27 +167,27 @@
 
                 <div id="js-logo-panes-cy" class="m-t-none">
                     {# logo pane #}
-                    <div class="js-pane tab-pane bordered p" id="logos-cy">
+                    <div class="js-pane tab-pane bordered padded" id="logos-cy">
                         <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.bilingual }}</h3>
 
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--turquoise bordered p">
+                                <div class="grid__item__inner accent--turquoise bordered padded">
                                     {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--pink bordered p">
+                                <div class="grid__item__inner accent--pink bordered padded">
                                     {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
+                                <div class="grid__item__inner bordered padded bg--dark">
                                     {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
+                                <div class="grid__item__inner bordered padded bg--dark">
                                     {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
                                 </div>
                             </li>
@@ -195,7 +195,7 @@
                     </div>
 
                     {# how to #}
-                    <div class="js-pane tab-pane bordered p" id="howto-cy">
+                    <div class="js-pane tab-pane bordered padded" id="howto-cy">
                         {{ howToUseLogo | safe }}
                     </div>
                 </div>

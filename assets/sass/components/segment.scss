@@ -1,10 +1,9 @@
 .segment {
-
     $segmentBg: #f5fafb;
+    margin-bottom: 40px;
 
     @include mq('tablet') {
         display: flex;
-        margin-bottom: $spacingUnit * 2;
     }
 
     .segment__media {
@@ -33,6 +32,7 @@
     }
 
     .segment__aside {
+        padding: 20px;
         background-color: $segmentBg;
         flex-grow: 1;
 

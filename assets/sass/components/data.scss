@@ -40,7 +40,6 @@
     }
 
     dt, dd {
-        @include font-body();
         margin: 0;
     }
 
@@ -118,6 +117,7 @@
 }
 
 .map-holder {
+    position: relative;
     background-color: #f0f4ff;
 }
 

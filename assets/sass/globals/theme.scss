@@ -39,3 +39,15 @@ a.link-turquoise {
         fill: #ffffff;
     }
 }
+
+@mixin bordered() {
+    border: 1px solid rgba(202, 202, 202, 0.5);
+}
+
+.bordered {
+    @include bordered();
+}
+
+.bg--dark {
+    background-color: palette('charcoal');
+}

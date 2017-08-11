@@ -79,7 +79,7 @@
 
 .order-form:invalid {
     .order-form__btn {
-        @include disabledBtn();
+        //@include disabledBtn();
     }
 }
 .material-item__oos {

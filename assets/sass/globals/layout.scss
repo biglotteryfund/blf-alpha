@@ -81,3 +81,7 @@ main {
     @include responsiveGutter(true);
     @include nudged-down();
 }
+
+.padded {
+    padding: 20px;
+}

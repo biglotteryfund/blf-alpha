@@ -36,9 +36,9 @@
 @import 'components/hero';
 @import 'components/overlay-text';
 
+@import 'components/data'; // is this is a "component"?
+@import 'components/materials';
+@import 'components/segment';
+@import 'components/tabs';
+
 //@import 'modules/btn';
-//@import 'modules/data';
-//@import 'modules/materials';
-//@import 'modules/segment';
-//@import 'modules/tweet';
-//@import 'modules/tabs';

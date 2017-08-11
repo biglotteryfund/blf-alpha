@@ -7,9 +7,9 @@
                 </div>
             {% endif %}
             <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
-                <div class="nudge-bottom hero__header">
+                <div class="hero__header">
                     {{ content | safe }}
-                </div>
+                </div>s
             </div>
         </section>
     </div>
@@ -22,7 +22,7 @@
             <img src="{{ imagePath | getCachebustedPath }}" class="grid__item__poster" alt="{{ imageCaption }}" />
             {% if link %}</a>{% endif %}
             <div class="hero--miniature__content">
-                <div class="nudge-bottom hero__header">
+                <div class="hero__header">
                     {{ content | safe }}
                 </div>
             </div>

@@ -1,5 +1,5 @@
 .content-box {
-    border: 1px solid rgba(202, 202, 202, 0.5);
+    @include bordered();
     background-color: palette('pale');
     padding: 40px 20px;
     margin-bottom: 20px;

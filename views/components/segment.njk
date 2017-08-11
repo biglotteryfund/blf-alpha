@@ -5,9 +5,9 @@
         <div class="grid__item__inner segment__media">
             <img src="{{ imagePath | getCachebustedPath }}" alt="" />
             {{ headers.overlayText(
-                'h4',
-                title,
-                'minor segment__title grid__item__title grid__item__title--top',
+                tag = 'h4',
+                text = title,
+                additionalClasses = 'segment__title grid__item__title grid__item__title--top',
                 id = id
             )}}
         </div>
