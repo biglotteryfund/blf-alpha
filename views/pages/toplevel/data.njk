@@ -30,7 +30,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.blockheader('h2', copy.title, 'minor') }}
+        {{ headers.overlayText('h2', copy.title, 'minor') }}
     {% endset %}
 
     {{ hero.header('data', heroContent, 'blue') }}

@@ -9,7 +9,7 @@
 
     {% set heroContent %}
         {% set title = 'Funding near ' + postcode %}
-        {{ headers.blockheader('h2', title) }}
+        {{ headers.overlayText('h2', title) }}
     {% endset %}
 
     {{ hero.header('reading', heroContent, 'pink') }}

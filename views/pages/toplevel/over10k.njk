@@ -25,7 +25,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.blockheader('h2', "The Big Lottery Fund makes grants of more than £10,000, offering flexible funding and support for longer term projects", 't2') }}
+        {{ headers.overlayText('h2', "The Big Lottery Fund makes grants of more than £10,000, offering flexible funding and support for longer term projects", 't2') }}
     {% endset %}
 
     {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities', nudgeCaption = true) }}

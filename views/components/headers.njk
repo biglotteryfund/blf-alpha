@@ -1,5 +1,5 @@
 {# @TODO rename to overlay-text #}
-{% macro blockheader(tag, text, additionalClasses, link, showArrow = false, id = false) %}
+{% macro overlayText(tag, text, additionalClasses, link, showArrow = false, id = false) %}
     {% if text %}
         <{{ tag }} class="overlay-text{% if additionalClasses %} {{ additionalClasses }}{% endif %}"{% if id %} id="{{ id }}"{% endif %}>{% if link %}<a href="{{ link }}">{% endif %}<span>{{ text | safe}}{% if showArrow %}{% include "../includes/svg/arrow-right.svg" %}{% endif %}</span>{% if link %}</a>{% endif %}</{{ tag }}>
     {% endif %}

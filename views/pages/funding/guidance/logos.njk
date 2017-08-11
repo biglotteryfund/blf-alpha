@@ -89,7 +89,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.blockheader('h2', copy.heroText, 't1') }}
+        {{ headers.overlayText('h2', copy.heroText, 't1') }}
     {% endset %}
 
     {{ hero.header('logo', heroContent, 'blue') }}
