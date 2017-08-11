@@ -25,9 +25,7 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', "The Big Lottery Fund makes grants of more than £10,000, offering flexible funding and support for longer term projects", 55, 'minor hero__header') }}
-        </div>
+        {{ headers.blockheader('h2', "The Big Lottery Fund makes grants of more than £10,000, offering flexible funding and support for longer term projects", 'minor') }}
     {% endset %}
 
     {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities', nudgeCaption = true) }}

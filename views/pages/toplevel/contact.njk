@@ -9,9 +9,8 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom--always">
-            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
-        </div>
+        {# @TODO this had nudge-bottom--always - why?#}
+        {{ headers.blockheader('h2', title) }}
     {% endset %}
 
     {{ hero.header('contact', heroContent, 'turquoise') }}

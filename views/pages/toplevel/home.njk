@@ -25,9 +25,7 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <a href=\"https://www.national-lottery.co.uk\">National Lottery</a>", 55, 't1--has-links minor hero__header') }}
-        </div>
+        {{ headers.blockheader('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <a href=\"https://www.national-lottery.co.uk\">National Lottery</a>", 'overlay-text--has-links minor') }}
     {% endset %}
 
     {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps') }}
@@ -48,7 +46,6 @@
                         {{ headers.blockheader(
                             'h4',
                             'Every year thousands of people apply to National Lottery Awards for All for grants between £500 and £10,000',
-                            38,
                             't1--opaque minor minor--smallest grid__item__title',
                             buildUrl('', 'under10k'),
                             false
@@ -70,7 +67,6 @@
                         {{ headers.blockheader(
                             'h4',
                             'Many people apply for larger sums of money (over £10,000) over longer periods of time',
-                            38,
                             't1--opaque minor minor--smallest grid__item__title',
                         buildUrl('', 'over10k'),
                             false

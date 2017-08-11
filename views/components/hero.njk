@@ -7,7 +7,9 @@
                 </div>
             {% endif %}
             <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
-                {{ content | safe }}
+                <div class="nudge-bottom hero__header">
+                    {{ content | safe }}
+                </div>
             </div>
         </section>
     </div>

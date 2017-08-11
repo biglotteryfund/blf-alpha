@@ -108,9 +108,7 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
-        </div>
+        {{ headers.blockheader('h2', title) }}
     {% endset %}
 
     {{ hero.header('logo', heroContent, 'blue') }}

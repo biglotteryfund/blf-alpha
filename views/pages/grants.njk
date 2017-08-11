@@ -8,10 +8,8 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {% set title = 'Funding near ' + postcode %}
-            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
-        </div>
+        {% set title = 'Funding near ' + postcode %}
+        {{ headers.blockheader('h2', title) }}
     {% endset %}
 
     {{ hero.header('reading', heroContent, 'pink') }}
