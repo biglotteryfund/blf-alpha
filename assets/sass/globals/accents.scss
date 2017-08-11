@@ -92,6 +92,13 @@
             //}
         }
 
+        &.t3--a,
+        .t3--a {
+            &:after {
+                border-bottom-color: $colour;
+            }
+        }
+
 
         //
         //&.t3 {

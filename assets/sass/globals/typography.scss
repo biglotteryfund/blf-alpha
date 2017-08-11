@@ -1,6 +1,15 @@
+// standard body text
+@mixin t5() {
+    @include roboto();
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+    color: palette('charcoal');
+    // @TODO add a max-length here
+}
+
 // base font settings
 body, p, input, textarea, button, blockquote {
-    font-family: 'Roboto', arial, sans-serif;
+    @include t5();
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -10,8 +19,6 @@ h1, h2, h3, h4, h5, h6 {
 
 p,
 article li {
-    @include font-and-leading(20px, 27px);
-    color: palette('charcoal');
     margin-bottom: 20px;
 }
 
@@ -110,133 +117,86 @@ blockquote {
     }
 }
 
+// type styles
 
+// very important headings, short word length.
+// often paired with overlay-text
+h1,
+.t1 {
+    @include poppins();
+    @include font-and-leading(28px, 44px);
+    font-weight: 600;
+}
 
+// smaller variant of the above, for longer sentences
+// often paired with overlay-text
+h2,
+.t2 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(14px, 22px);
+    @include mq('tablet') {
+        @include font-and-leading(18px, 28px);
+    }
+}
 
+// mid-page heading
+h3,
+.t3 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(16px, 22px);
+    @include mq('tablet') {
+        @include font-and-leading(20px, 28px);
+    }
 
+    // modifier which adds a (contextual) colour
+    // underline below the text
+    &.t3--a {
+        &:after {
+            padding-top: 10px;
+            border-bottom-width: 3px;
+            border-bottom-style: solid;
+            display: block;
+            content: '';
+            width: 80px;
+        }
+    }
 
+    // @TODO should this be a general type modifier for all classes?
+    &.t3--b {
+        letter-spacing: 2px;
+    }
+}
 
+// minor headings
+h4,
+.t4 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(16px, 22px);
+}
 
+// standard body text
+.t5 {
+    @include t5();
+}
 
-//
-//// all-caps
-//.t2 {
-//    font-weight: 600;
-//    font-size: 16px;
-//    text-transform: uppercase;
-//}
-//
-//// t3 takes on theme colour
-//.t3, .t3a {
-//    font-size: 18px;
-//    line-height: 1.4;
-//    font-weight: 600;
-//}
-//
-//.t3b {
-//    font-size: 16px;
-//    line-height: 1.4;
-//    font-weight: 600;
-//}
-//
-//.t4 {
-//    font-size: 22px;
-//    line-height: 1.4;
-//    font-weight: 600;
-//}
-//
-//.t5 {
-//    font-size: 12px;
-//    line-height: 1.4;
-//    font-weight: 900;
-//}
-//
-//.t6 {
-//    font-weight: 900;
-//    font-size: 20px;
-//    color: #333333;
-//}
-//
-//.t7 {
-//    font-family: 'Poppins', arial, sans-serif;
-//    font-weight: 600;
-//    font-size: 20px;
-//    color: palette('blue')
-//}
-//
-//.t8 {
-//    font-family: 'Poppins', arial, sans-serif;
-//    font-weight: 400;
-//    font-size: 22px;
-//}
-//
-//.t9 {
-//    font-family: 'Poppins', arial, sans-serif;
-//    font-weight: 600;
-//    @include mq('tablet', 'max') {
-//        font-size: 16px;
-//    }
-//    font-size: 20px;
-//    color: palette('pink');
-//    margin-bottom: $spacingUnit / 2;
-//    &:after {
-//        padding-top: $spacingUnit / 2;
-//        border-bottom: 3px solid palette('pink');
-//        display: block;
-//        content: '';
-//        width: 80px;
-//    }
-//}
-//
-//.t9--a {
-//    color: #333333;
-//    &:after {
-//        border-bottom-color: palette('pink-alt')
-//    }
-//}
-//
-//.t9--b {
-//    color: #333333;
-//    &:after {
-//        display: none;
-//    }
-//}
-//
-//.t9--c {
-//    color: #333333;
-//    &:after {
-//        border-bottom-color: palette('turquoise')
-//    }
-//}
-//
-//// @TODO this could/should be an accent
-//.t9--d {
-//    color: #333333;
-//    &:after {
-//        border-bottom-color: palette('blue')
-//    }
-//}
-//
-//.t10 {
-//    font-family: 'Roboto', arial, sans-serif;
-//    font-weight: 600;
-//    font-size: 14px;
-//    color: palette('pink');
-//    line-height: 1.6;
-//}
-//
-//.t11 {
-//    font-family: 'Roboto', arial, sans-serif;
-//    font-weight: 400;
-//    font-size: 14px;
-//    line-height: 1.8;
-//}
-//
-//.t12 {
-//    font-family: 'Roboto', arial, sans-serif;
-//    font-weight: 700;
-//    font-size: 16px;
-//}
+// yep, the numerical discrepancy is deliberate here
+h5,
+.t6 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(13px, 20px);
+}
+
+h6,
+.t7 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(14px, 24px);
+}
+
 
 
 // @TODO replace these

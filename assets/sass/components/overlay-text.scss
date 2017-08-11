@@ -1,7 +1,11 @@
 // blocked-out colourised background
 .overlay-text {
-    width: 250px;
-    max-width: 80%;
+    width: 60%;
+    line-height: 1.6;
+
+    &.overlay-text--wide {
+        width: 80%;
+    }
 
     // forced linebreaks (eg. <br>)
     // should only appear on tablet upwards
@@ -11,15 +15,11 @@
         }
     }
 
-    @include mq('tablet') {
-        width: 60%;
-        margin-right: 0;
-    }
-
     span {
         color: #ffffff;
         display: inline;
         padding: 0 5px;
+        // allows multi-line wrapped text to work
         box-decoration-break: clone;
     }
 
