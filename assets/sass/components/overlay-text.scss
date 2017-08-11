@@ -23,30 +23,6 @@
         box-decoration-break: clone;
     }
 
-    //&.minor {
-    //    @include font-and-leading(18px, 28px);
-    //    @include mq('tablet') {
-    //        span {
-    //            padding: 0 $spacingUnit / 3;
-    //        }
-    //    }
-    //}
-    //
-    //&.minor--smallest {
-    //    font-weight: 600;
-    //
-    //    @include mq('tablet', 'max') {
-    //        @include font-and-leading(14px, 23px);
-    //    }
-    //
-    //    @include mq('tablet') {
-    //        @include font-and-leading(18px, 28px);
-    //        span {
-    //            padding: 0 $spacingUnit / 4;
-    //        }
-    //    }
-    //}
-
     // some t1 blocks are *wholly* links
     // so no underlines for them
     a {
