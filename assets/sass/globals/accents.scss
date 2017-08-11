@@ -45,51 +45,54 @@
         //    margin-bottom: $spacingUnit * 2;
         //}
         //
-        //// block-colour heading background
-        //&.t1,
-        //.t1 {
-        //    span {
-        //        background-color: $colour;
-        //    }
-        //}
-        //
-        //// hover state for above
-        //&.t1,
-        //.t1 {
-        //    a {
-        //        @include on-interact {
-        //            color: darken(#ffffff, 10%);
-        //            span {
-        //                background-color: darken($colour, 10%);
-        //            }
-        //        }
-        //    }
-        //}
-        //
-        //// semi-opaque version for some pages
-        //$opacityFactor: 0.8;
-        //&.t1--opaque,
-        //.t1--opaque {
-        //    span {
-        //        background-color: rgba($colour, $opacityFactor);
-        //    }
-        //}
-        //
-        //.contrast--high & {
-        //    .t1 {
-        //        span {
-        //            background-color: palette('high-contrast-bg') !important;
-        //        }
-        //    }
-        //
-        //    &.btn--cta,
-        //    .btn--cta {
-        //        background-color: palette('high-contrast-bg') !important;
-        //        @include on-interact {
-        //            background-color: darken(palette('high-contrast-bg'), 10%) !important;
-        //        }
-        //    }
-        //}
+
+        // block-colour heading background
+        &.overlay-text,
+        .overlay-text {
+            span {
+                background-color: $colour;
+            }
+        }
+
+        // hover state for above
+        &.overlay-text,
+        .overlay-text {
+            a {
+                @include on-interact {
+                    color: darken(#ffffff, 10%);
+                    span {
+                        background-color: darken($colour, 10%);
+                    }
+                }
+            }
+        }
+
+        // semi-opaque version for some pages
+        $opacityFactor: 0.8;
+        &.t1--opaque,
+        .t1--opaque {
+            span {
+                background-color: rgba($colour, $opacityFactor);
+            }
+        }
+
+        .contrast--high & {
+            .overlay-text {
+                span {
+                    background-color: palette('high-contrast-bg') !important;
+                }
+            }
+
+            //&.btn--cta,
+            //.btn--cta {
+            //    background-color: palette('high-contrast-bg') !important;
+            //    @include on-interact {
+            //        background-color: darken(palette('high-contrast-bg'), 10%) !important;
+            //    }
+            //}
+        }
+
+
         //
         //&.t3 {
         //    $customFg: map-get($data, 'foreground');
