@@ -1,0 +1,52 @@
+$palette: (
+    "high-contrast-bg": #1a44a1,
+    "blue": #1a44a1,
+    "blue-bg": #e5f3fe,
+    "blue-text": #365cc9,
+    "blue-nav": #3c65dd,
+
+    "turquoise": #00adef,
+
+    // @TODO get this from sass.json / _config.scss
+    // (tried before but wouldn't allow using string in mixins)
+    "pink": #ec008c,
+    "pink-alt": #e6007e,
+    "pink-bg": #fef5f9,
+    "pink-text": #ec008c,
+    "pink-mid": #d84d7b,
+    "pink-mid-bg": #f6d2e2,
+    "pink-dark": #a84d97,
+
+    "green": #00bd71,
+    "green-bg": #ddf0e2,
+
+    "orange": #ff9315,
+    "orange-bg": #fdebd7,
+
+    "cyan": #009098,
+    "green-dark": #356231,
+    "brown": #8a7967,
+
+    "soft-grey": #cacaca,
+    "charcoal": #333333,
+    "off-white": #e9e9e9,
+    "pale": #fdfefe,
+    "pale-green": #f5fafb,
+    "pale-grey": #f5f6fa,
+    "pale-pink": #feebf3
+);
+
+// which of the above colours should have accents generated?
+$themes: (
+    'pink',
+    'pink-mid',
+    'pink-home',
+    'pink-dark',
+    'blue',
+    'turquoise',
+    'green',
+    'orange',
+    'cyan',
+    'green-dark',
+    'brown'
+);

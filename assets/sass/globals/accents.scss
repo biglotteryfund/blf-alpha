@@ -1,0 +1,125 @@
+// classes which will be accented:
+.a-text {  }
+.a-border-top {  }
+.a-border-top--large {  }
+.a-border-left{  }
+
+
+// each theme listed in palette.scss will generate classes for use below
+// eg <div class="accent--pink a-border-top"> will give a pink border
+@each $name in $themes {
+    $colour: palette($name);
+
+    .accent--#{$name} {
+
+        //// text color
+        //&.accent-text {
+        //    color: $colour;
+        //}
+        //
+        //// border on top of elements
+        //&.accent-b-t {
+        //    border-top: 4px solid $colour;
+        //}
+        //
+        //// thicker border
+        //&.accent-b-t-l {
+        //    border-top: 6px solid $colour;
+        //}
+        //
+        //// border on left (wide only, for now?)
+        //&.accent-b-l {
+        //    @include mq('tablet') {
+        //        border-left: 4px solid $colour;
+        //    }
+        //}
+        //
+        //// border below elements *small* (eg. fixed width)
+        //&.accent-b-b-s:after {
+        //    content: '';
+        //    width: 100px;
+        //    height: 5px;
+        //    background-color: $colour;
+        //    display: block;
+        //    margin-top: $spacingUnit / 2;
+        //    margin-bottom: $spacingUnit * 2;
+        //}
+        //
+        //// block-colour heading background
+        //&.t1,
+        //.t1 {
+        //    span {
+        //        background-color: $colour;
+        //    }
+        //}
+        //
+        //// hover state for above
+        //&.t1,
+        //.t1 {
+        //    a {
+        //        @include on-interact {
+        //            color: darken(#ffffff, 10%);
+        //            span {
+        //                background-color: darken($colour, 10%);
+        //            }
+        //        }
+        //    }
+        //}
+        //
+        //// semi-opaque version for some pages
+        //$opacityFactor: 0.8;
+        //&.t1--opaque,
+        //.t1--opaque {
+        //    span {
+        //        background-color: rgba($colour, $opacityFactor);
+        //    }
+        //}
+        //
+        //.contrast--high & {
+        //    .t1 {
+        //        span {
+        //            background-color: palette('high-contrast-bg') !important;
+        //        }
+        //    }
+        //
+        //    &.btn--cta,
+        //    .btn--cta {
+        //        background-color: palette('high-contrast-bg') !important;
+        //        @include on-interact {
+        //            background-color: darken(palette('high-contrast-bg'), 10%) !important;
+        //        }
+        //    }
+        //}
+        //
+        //&.t3 {
+        //    $customFg: map-get($data, 'foreground');
+        //    color: $customFg;
+        //}
+        //
+        //&.btn--cta,
+        //.btn--cta {
+        //    color: #ffffff !important;
+        //    background-color: $colour !important;
+        //    @include on-interact {
+        //        background-color: darken($colour, 10%) !important;
+        //    }
+        //}
+        //
+        //// duplicates above
+        //.tab--active  {
+        //    .btn--cta {
+        //        background-color: darken($colour, 10%) !important;
+        //    }
+        //}
+        //
+        //&.btn--outline,
+        //.btn--outline {
+        //    border-color: $colour !important;
+        //    color: $colour !important;
+        //
+        //    .btn__icon {
+        //        fill: $colour !important;
+        //    }
+        //}
+    }
+}

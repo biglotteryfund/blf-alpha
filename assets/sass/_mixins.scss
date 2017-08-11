@@ -46,44 +46,13 @@
     background: linear-gradient($direction, $color-stops);
 }
 
-@mixin clearfix() {
-    &:before,
-    &:after {
-        content: "";
-        display: table;
-    }
-    &:after {
-        clear: both;
-    }
-}
-
-@mixin font($font: Poppins) {
-    font-family: "#{$font}", arial, sans-serif;
-}
-
-@mixin font-body() {
-    @include font();
-}
-
 @mixin font-and-leading($fontSize, $leading) {
     font-size: $fontSize;
     line-height: relative-line-height($fontSize, $leading);
 }
 
-@mixin bordered {
-    border: 1px solid rgba(palette('soft-grey'), 0.5);
-}
-
-@mixin disabledBtn {
-    background-color: grey !important;
-    @include on-interact {
-        background-color: grey !important;
-    }
-}
-
 // layout helper: used within a containing element
 // to center it according to the grid
-
 @mixin responsiveGutter($skipMargins: false) {
     $defaultGutter: map-get($gutters, "default");
     @if not $skipMargins {
@@ -112,4 +81,12 @@
             margin-right: auto;
         }
     }
+}
+
+@mixin poppins() {
+    font-family: "Poppins", arial, sans-serif;
+}
+
+@mixin roboto() {
+    font-family: 'Roboto', arial, sans-serif;
 }

@@ -1,0 +1,326 @@
+// base font settings
+body, p, input, textarea, button, blockquote {
+    font-family: 'Roboto', arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', arial, sans-serif;
+    margin: 0;
+}
+
+p,
+article li {
+    @include font-and-leading(20px, 27px);
+    color: palette('charcoal');
+    margin-bottom: 20px;
+}
+
+a {
+    color: palette('blue-text');
+    transition: color 0.1s ease-in-out;
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue-text'), 20%);
+    }
+}
+
+blockquote {
+    @include font-and-leading(20px, 27px);
+    margin: 0 0 $spacingUnit 0;
+    font-style: italic;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    footer {
+        display: inline-block;
+    }
+
+    cite {
+        font-style: normal;
+        &:before {
+            content: ' - ';
+        }
+    }
+}
+
+@mixin quoteSymbol($type) {
+    $symbol: '\201C';
+    $align: bottom;
+    @if $type == 'close' {
+        $symbol: '\201D';
+        $align: top;
+    }
+    content: $symbol;
+    color: palette('pink');
+    font-size: 45px;
+    line-height: 1;
+    vertical-align: $align;
+}
+
+.pullquote {
+    @include mq('tablet', 'max') {
+        margin: 0 $spacingUnit *2 $spacingUnit $spacingUnit * 2;
+    }
+    margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
+    p {
+        font-style: italic;
+        color: palette('blue');
+
+        @include mq('tablet', 'max') {
+            @include font-and-leading(16px, 22px);
+        }
+
+        @include font-and-leading(24px, 30px);
+
+        &:first-of-type {
+            &:before {
+                @include quoteSymbol('open');
+            }
+        }
+
+        &:last-of-type {
+            &:after {
+                @include quoteSymbol('close');
+            }
+        }
+    }
+
+    cite {
+        font-family: 'Poppins', arial, sans-serif;
+        font-weight: 600;
+        letter-spacing: 2px;
+        @include mq('tablet', 'max') {
+            @include font-and-leading(14px, 18px);
+        }
+        @include font-and-leading(16px, 20px);
+
+        &:before {
+            content: '';
+        }
+    }
+
+    aside {
+        font-size: 13px;
+        font-weight: normal;
+        margin: $spacingUnit / 4 0 $spacingUnit 0;
+        font-style: normal;
+    }
+}
+
+//// heading styles
+//
+//// blocked-out colourised background
+//.t1 {
+//    @include font-and-leading(20px, 30px);
+//    font-weight: 600;
+//    margin-right: $spacingUnit;
+//    width: 250px;
+//    max-width: 80%;
+//
+//    // forced linebreaks (eg. <br>)
+//    // should only appear on tablet upwards
+//    @include mq('tablet', 'max') {
+//        br {
+//            display: none;
+//        }
+//    }
+//
+//    @include mq('tablet') {
+//        @include font-and-leading(28px, 44px);
+//        width: 60%;
+//        margin-right: 0;
+//    }
+//
+//    span {
+//        color: #ffffff;
+//        display: inline;
+//        padding: 0 5px;
+//        box-decoration-break: clone;
+//    }
+//
+//    &.minor {
+//        @include font-and-leading(18px, 28px);
+//        @include mq('tablet') {
+//            span {
+//                padding: 0 $spacingUnit / 3;
+//            }
+//        }
+//    }
+//
+//    &.minor--smallest {
+//        font-weight: 600;
+//
+//        @include mq('tablet', 'max') {
+//            @include font-and-leading(14px, 23px);
+//        }
+//
+//        @include mq('tablet') {
+//            @include font-and-leading(18px, 28px);
+//            span {
+//                padding: 0 $spacingUnit / 4;
+//            }
+//        }
+//    }
+//
+//    // some t1 blocks are *wholly* links
+//    // so no underlines for them
+//    a {
+//        color: #ffffff;
+//        text-decoration: none;
+//    }
+//
+//    // some t1 blocks *contain* links
+//    // so demarcate them properly
+//    &.t1--has-links {
+//        a {
+//            text-decoration: underline;
+//        }
+//    }
+//
+//    // icon font
+//    i {
+//        margin-left: 3px;
+//        vertical-align: text-top;
+//    }
+//}
+//
+//// all-caps
+//.t2 {
+//    font-weight: 600;
+//    font-size: 16px;
+//    text-transform: uppercase;
+//}
+//
+//// t3 takes on theme colour
+//.t3, .t3a {
+//    font-size: 18px;
+//    line-height: 1.4;
+//    font-weight: 600;
+//}
+//
+//.t3b {
+//    font-size: 16px;
+//    line-height: 1.4;
+//    font-weight: 600;
+//}
+//
+//.t4 {
+//    font-size: 22px;
+//    line-height: 1.4;
+//    font-weight: 600;
+//}
+//
+//.t5 {
+//    font-size: 12px;
+//    line-height: 1.4;
+//    font-weight: 900;
+//}
+//
+//.t6 {
+//    font-weight: 900;
+//    font-size: 20px;
+//    color: #333333;
+//}
+//
+//.t7 {
+//    font-family: 'Poppins', arial, sans-serif;
+//    font-weight: 600;
+//    font-size: 20px;
+//    color: palette('blue')
+//}
+//
+//.t8 {
+//    font-family: 'Poppins', arial, sans-serif;
+//    font-weight: 400;
+//    font-size: 22px;
+//}
+//
+//.t9 {
+//    font-family: 'Poppins', arial, sans-serif;
+//    font-weight: 600;
+//    @include mq('tablet', 'max') {
+//        font-size: 16px;
+//    }
+//    font-size: 20px;
+//    color: palette('pink');
+//    margin-bottom: $spacingUnit / 2;
+//    &:after {
+//        padding-top: $spacingUnit / 2;
+//        border-bottom: 3px solid palette('pink');
+//        display: block;
+//        content: '';
+//        width: 80px;
+//    }
+//}
+//
+//.t9--a {
+//    color: #333333;
+//    &:after {
+//        border-bottom-color: palette('pink-alt')
+//    }
+//}
+//
+//.t9--b {
+//    color: #333333;
+//    &:after {
+//        display: none;
+//    }
+//}
+//
+//.t9--c {
+//    color: #333333;
+//    &:after {
+//        border-bottom-color: palette('turquoise')
+//    }
+//}
+//
+//// @TODO this could/should be an accent
+//.t9--d {
+//    color: #333333;
+//    &:after {
+//        border-bottom-color: palette('blue')
+//    }
+//}
+//
+//.t10 {
+//    font-family: 'Roboto', arial, sans-serif;
+//    font-weight: 600;
+//    font-size: 14px;
+//    color: palette('pink');
+//    line-height: 1.6;
+//}
+//
+//.t11 {
+//    font-family: 'Roboto', arial, sans-serif;
+//    font-weight: 400;
+//    font-size: 14px;
+//    line-height: 1.8;
+//}
+//
+//.t12 {
+//    font-family: 'Roboto', arial, sans-serif;
+//    font-weight: 700;
+//    font-size: 16px;
+//}
+
+
+// @TODO replace these
+//.info-msg {
+//    font-family: 'Roboto', arial, sans-serif;
+//    font-weight: 400;
+//    font-size: 14px;
+//    line-height: 1.6;
+//}
+//
+//.smaller {
+//    font-size: 16px;
+//}
+//.light {
+//    font-weight: 100;
+//}
+
+
+

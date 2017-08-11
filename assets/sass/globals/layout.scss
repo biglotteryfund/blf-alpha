@@ -1,0 +1,44 @@
+.inner {
+    @include responsiveGutter();
+}
+
+.inner--wide-only {
+    @include mq('tablet') {
+        @include responsiveGutter();
+    }
+}
+
+.is-on-top {
+    z-index: 100;
+}
+
+// @TODO better name
+.central-gap {
+    $gap: 20%;
+    @include mq('tablet', 'max') {
+        margin-left: $gap / 2;
+        margin-right: $gap / 2;
+    }
+    margin-left: $gap;
+    margin-right: $gap;
+}
+
+.width-natural {
+    max-width: auto;
+}
+
+.gutter-mob-only {
+    @include mq('tablet', 'max') {
+        margin-left: $spacingUnit;
+        margin-right: $spacingUnit;
+    }
+}
+
+.align--center {
+    text-align: center;
+}
+
+// @TODO put this somewhere better
+main {
+    transition: all 0.3s ease-in-out;
+}

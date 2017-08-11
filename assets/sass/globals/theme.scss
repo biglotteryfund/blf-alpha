@@ -1,0 +1,36 @@
+.error {
+    color: red;
+}
+
+@mixin greenLinks {
+    color: palette('green');
+    font-weight: bold;
+    word-break: break-word;
+}
+
+
+a[href^="mailto"] {
+    @include greenLinks;
+}
+
+.links-emphasised {
+    a {
+        @include greenLinks;
+    }
+}
+
+a.link-pink {
+    color: palette('pink') !important
+}
+
+a.link-turquoise {
+    color: palette('turquoise') !important
+}
+
+.contrast--high {
+    a.link-pink,
+    a.link-turquoise,
+    a.links-emphasised {
+        color: palette('blue') !important;
+    }
+}

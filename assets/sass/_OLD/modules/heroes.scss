@@ -224,3 +224,56 @@ $heroes: (
         }
     }
 }
+
+.hero__header {
+    @include mq('tablet') {
+        margin-left: $spacingUnit;
+    }
+
+    @include mq('tablet', 'max') {
+        &.minor {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    }
+}
+
+
+// @TODO define
+$nudgeAmount: 40px;
+@mixin nudged-up {
+    margin-top: -$nudgeAmount;
+    position: relative;
+    z-index: 10;
+}
+
+@mixin nudged-down {
+    position: absolute;
+    bottom: $nudgeAmount + 30px;
+}
+
+.nudge-up {
+    margin-top: 0;
+    @include mq('tablet') {
+        @include nudged-up();
+    }
+}
+
+.nudge-up--always {
+    @include nudged-up();
+}
+
+.nudge-bottom {
+    position: absolute;
+    bottom: $spacingUnit;
+    @include responsiveGutter(true);
+
+    @include mq('tablet') {
+        @include nudged-down();
+    }
+}
+
+.nudge-bottom--always {
+    @include responsiveGutter(true);
+    @include nudged-down();
+}
