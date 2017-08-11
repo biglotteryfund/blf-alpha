@@ -124,8 +124,11 @@ blockquote {
 h1,
 .t1 {
     @include poppins();
-    @include font-and-leading(28px, 44px);
     font-weight: 600;
+    @include font-and-leading(20px, 30px);
+    @include mq('tablet') {
+        @include font-and-leading(28px, 44px);
+    }
 }
 
 // smaller variant of the above, for longer sentences
