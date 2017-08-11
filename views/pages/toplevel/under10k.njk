@@ -16,7 +16,7 @@
     {{ hero.header('under10k', heroContent, 'blue', 'Somewhere To') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-grey bordered">
+        <div class="inner--wide-only accent--blue a--border-top content-box">
             <p>National Lottery Funding can help you to make a difference to your community. National Lottery Awards for All offers funding from £300 to £10,000 to support what matters to people and communities.  We will fund organisations with great projects or ideas that:</p>
 
             <ul class="list-bullets m-l--s">
@@ -41,7 +41,7 @@
             <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in copy.projects %}
-                    <li class="grid__item accent--pink-home accent-b-t bg-pale-grey">{{ blocks.projectBlock(project, 'link-pink') }}</li>
+                    <li class="grid__item accent--pink a--border-top bg-pale-grey">{{ blocks.projectBlock(project, 'link-pink') }}</li>
                 {% endfor %}
             </ul>
 

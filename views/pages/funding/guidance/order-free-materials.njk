@@ -72,7 +72,7 @@
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
         {% for item in materials %}
             <li class="grid__item">
-                <div class="grid__item__inner accent--blue accent-b-t-l bordered material-item">
+                <div class="grid__item__inner accent--blue a--border-top-l bordered material-item">
                     <div class="p p-b-none">
                         <p class="m-t-none">
                             <strong>{{ item.name[locale] }}</strong>
@@ -115,7 +115,7 @@
 
     <article role="main" class="nudge-up" id="js-vue">
 
-        <div class="inner--wide-only p accent--blue accent-b-t accent-bg bordered">
+        <div class="inner--wide-only accent--blue a--border-top content-box">
             {{ copy.body | safe }}
 
             <p><strong>{{ copy.locationPrompt }}</strong></p>
@@ -157,7 +157,7 @@
 
             </div>
 
-            <div class="inner accent--blue accent-b-t p" id="your-details">
+            <div class="inner accent--blue a--border-top p" id="your-details">
                 <div class="p">
                     <h3 class="t3a m-t-none">{{ copy.enterDeliveryAddress }}</h3>
 

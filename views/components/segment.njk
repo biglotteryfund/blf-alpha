@@ -1,7 +1,7 @@
 {% import "./headers.njk" as headers %}
 
 {% macro segment(title, text, color, imagePath, characterWrap = 20, id) %}
-    <div class="segment accent--{{ color }} accent-b-t">
+    <div class="segment accent--{{ color }} a--border-top">
         <div class="grid__item__inner segment__media">
             <img src="{{ imagePath | getCachebustedPath }}" alt="" />
             {{ headers.overlayText(
@@ -11,6 +11,6 @@
                 id = id
             )}}
         </div>
-        <div class="segment__aside p-text">{{ text | safe }}</div>
+        <div class="segment__aside">{{ text | safe }}</div>
     </div>
 {% endmacro %}

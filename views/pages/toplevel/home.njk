@@ -57,7 +57,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
-                        <a class="accent--pink-home btn btn--cta btn--block btn--mid" href="{{ buildUrl('', 'under10k') }}">
+                        <a class="accent--pink btn btn--cta btn--block btn--mid" href="{{ buildUrl('', 'under10k') }}">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
                     </div>
@@ -92,7 +92,7 @@
 
             {# news posts #}
             {% if news.length %}
-                <div class="accent--blue accent-b-t">
+                <div class="accent--blue a--border-top">
                     <ul class="m-t-none unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
                         {% for n in news %}
                             <li class="grid__item">
@@ -113,7 +113,7 @@
         <div class="inner--wide-only">
 
             {# case studies #}
-            <div class="accent--blue accent-b-t bg-pale-grey pos-rel case-studies">
+            <div class="accent--blue a--border-top bg-pale-grey case-studies">
 
                 <div class="vox-pop__buttons">
                     <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
@@ -139,10 +139,10 @@
 
             {# tweets #}
             <ul class="unstyled grid grid--wide-only grid--equal m-t--l">
-                <li class="grid__item grid__item--large accent--blue accent-b-t m-t-none p">
+                <li class="grid__item grid__item--large accent--blue a--border-top m-t-none p">
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
-                <li class="grid__item accent--pink accent-b-t m-t-none">
+                <li class="grid__item accent--pink a--border-top m-t-none">
                     <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t9">e-bulletin sign up</h3>
 

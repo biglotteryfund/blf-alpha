@@ -31,7 +31,7 @@
     {{ hero.header('over10k', heroContent, 'blue', 'Annexe Communities') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-grey bordered">
+        <div class="inner--wide-only accent--blue a--border-top content-box">
             <p>Larger grants are made through a variety of programmes in all nations within the United Kingdom. Our funding will enable you to use your local knowledge, strengths and resources to make positive changes in your community, either through your own organisation, or in partnership with others</p>
 
             <h3 class="t9 t9--c m-t">Want to know more? Start by telling us where your project is going to be</h3>
@@ -52,7 +52,7 @@
             <h3 class="t9 t9--b">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in copy.projects %}
-                    <li class="grid__item accent--turquoise accent-b-t bg-pale-grey">{{ blocks.projectBlock(project, 'link-turquoise') }}</li>
+                    <li class="grid__item accent--turquoise a--border-top bg-pale-grey">{{ blocks.projectBlock(project, 'link-turquoise') }}</li>
                 {% endfor %}
             </ul>
 
