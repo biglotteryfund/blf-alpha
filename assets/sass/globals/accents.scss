@@ -1,7 +1,15 @@
 // classes which will be accented:
-.a-text {  }
-.a-border-top {  }
-.a-border-top--large {  }
+
+.a-border-top {
+    border-top-width: 4px;
+    border-top-style: solid
+}
+
+.a-border-top--large {
+    border-top-width: 6px;
+    border-top-style: solid
+}
+
 .a-border-left{  }
 
 
@@ -12,21 +20,18 @@
 
     .accent--#{$name} {
 
-        //// text color
-        //&.accent-text {
-        //    color: $colour;
-        //}
-        //
-        //// border on top of elements
-        //&.accent-b-t {
-        //    border-top: 4px solid $colour;
-        //}
-        //
-        //// thicker border
-        //&.accent-b-t-l {
-        //    border-top: 6px solid $colour;
-        //}
-        //
+        // text color
+        &.a--text {
+            color: $colour;
+        }
+
+        // border on top of elements
+        &.a-border-top,
+        &.a-border-top--large {
+            border-top-color: $colour;
+        }
+
+
         //// border on left (wide only, for now?)
         //&.accent-b-l {
         //    @include mq('tablet') {

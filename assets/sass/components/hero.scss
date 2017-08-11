@@ -6,6 +6,7 @@ $nudgeAmount: 25px;
 
 // how much the hero text should appear from the bottom
 $heroSpaceFromBottom: 55px;
+$heroSpaceFromLeft: 20px;
 
 @mixin makeHeroImage($img) {
     @include responsive-ratio(map-get($img, 'width'), map-get($img, 'height'));
@@ -13,19 +14,21 @@ $heroSpaceFromBottom: 55px;
 }
 
 .hero {
-    margin-top: 0;
-    position: relative;
-    height: 0;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    position: relative;
 
-    .hero__inner {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+    &.hero--major {
+        height: 0;
+
+        .hero__inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     // loop through each hero image set
@@ -75,15 +78,26 @@ $heroSpaceFromBottom: 55px;
 }
 
 .hero__header {
-    @include responsiveGutter(true);
+
+    .hero--major & {
+        @include responsiveGutter(true);
+    }
+
     position: absolute;
     bottom: $heroSpaceFromBottom;
 
     @include mq('tablet') {
-        padding-left: 20px; // using left here shifts the whole box
+        padding-left: $heroSpaceFromLeft; // using left here shifts the whole box
     }
 }
 
+.hero--miniature__content {
+    position: relative;
+
+    .hero__header {
+        margin-left: $heroSpaceFromLeft;
+    }
+}
 
 
 //@mixin nudged-up {

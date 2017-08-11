@@ -81,13 +81,13 @@
                     <div class="js-pane tab-pane map-info accent--blue accent-b-t p bg-plain region--{{ region.id }}--b-t" id="region-{{ region.id }}">
                         <h4 class="t9 t9--d region--{{ region.id }}--b-b m-b">{{ copy.regions[region.id] }}</h4>
 
-                        <h5 class="t4 m-t accent--blue accent-text">{{ region.population | numberWithCommas }}</h5>
+                        <h5 class="t4 m-t accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
                         <h6 class="t5">{{ copy.map.population }}</h6>
 
-                        <h5 class="t4 m-t accent--blue accent-text">{{ region.totalAwarded }}</h5>
+                        <h5 class="t4 m-t accent--blue a--text">{{ region.totalAwarded }}</h5>
                         <h6 class="t5">{{ copy.map.totalAwarded }}</h6>
 
-                        <h5 class="t4 m-t m-b-none accent--blue accent-text">{{ region.beneficiaries | numberWithCommas }}</h5>
+                        <h5 class="t4 m-t m-b-none accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
                         <h6 class="t5">{{ copy.map.totalBeneficiaries }}</h6>
                     </div>
                 {% endfor %}

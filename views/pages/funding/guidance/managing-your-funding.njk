@@ -24,64 +24,85 @@
             <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
 
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--pink-mid accent-b-t-l">
-                        <a href="{{ buildUrl('funding', 'helpWithPublicity') }}">
-                            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Three people working together on laptops" />
-                        </a>
-                        {{ headers.blockheader(
-                            'h4',
-                            copy.body.actions.social,
-                            'minor grid__item__title grid__item__title--arrow',
-                            buildUrl('funding', 'helpWithPublicity'),
-                            true
+                    <div class="accent--pink-mid a-border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = copy.body.actions.social,
+                                additionalClasses = 't2 svgs-white',
+                                link = buildUrl('funding', 'helpWithPublicity'),
+                                showArrow = true
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/funding/tell-the-world.jpg',
+                            imageCaption = 'Three people working together on laptops',
+                            link = buildUrl('funding', 'helpWithPublicity'),
+                            content = miniHeroContent
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--blue accent-b-t-l">
-                        <a href="{{ buildUrl('funding', 'pressCoverage') }}">
-                            <img src="{{ 'images/funding/local-press.jpg' | getCachebustedPath }}" alt="Two cooks in chefs' clothing with another man smiling" />
-                        </a>
-                        {{ headers.blockheader(
-                            'h4',
-                            copy.body.actions.press,
-                            'minor grid__item__title grid__item__title--arrow',
-                            buildUrl('funding', 'pressCoverage'),
-                            true
+                    <div class="accent--blue a-border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = copy.body.actions.press,
+                                additionalClasses = 't2 svgs-white',
+                                link = buildUrl('funding', 'pressCoverage'),
+                                showArrow = true
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/funding/local-press.jpg',
+                            imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
+                            link = buildUrl('funding', 'pressCoverage'),
+                            content = miniHeroContent
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--turquoise accent-b-t-l">
-                        <a href="{{ buildUrl('funding', 'logos') }}">
-                            <img src="{{ 'images/funding/display-the-logo.jpg' | getCachebustedPath }}" alt="A man smiling outside the entrance to a bike shop" />
-                        </a>
-                        {{ headers.blockheader(
-                            'h4',
-                            copy.body.actions.logo,
-                            'minor grid__item__title grid__item__title--arrow',
-                            buildUrl('funding', 'logos'),
-                            true
+                    <div class="accent--turquoise a-border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = copy.body.actions.logo,
+                                additionalClasses = 't2 svgs-white',
+                                link = buildUrl('funding', 'logos'),
+                                showArrow = true
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/funding/display-the-logo.jpg',
+                            imageCaption = 'A man smiling outside the entrance to a bike shop',
+                            link = buildUrl('funding', 'logos'),
+                            content = miniHeroContent
                         )}}
                     </div>
                 </li>
 
                 <li class="grid__item">
-                    <div class="grid__item__inner accent--orange accent-b-t-l">
-                        <a href="{{ buildUrl('funding', 'freeMaterials') }}">
-                            <img src="{{ 'images/funding/free-branded-materials.jpg' | getCachebustedPath }}" alt="Two people crouching down outdoors in an allotment surrounded by plants" />
-                        </a>
-                        {{ headers.blockheader(
-                            'h4',
-                            copy.body.actions.freeMaterial,
-                            'minor grid__item__title grid__item__title--arrow',
-                            buildUrl('funding', 'freeMaterials'),
-                            true
+                    <div class="accent--orange a-border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = copy.body.actions.freeMaterial,
+                                additionalClasses = 't2 svgs-white',
+                                link = buildUrl('funding', 'freeMaterials'),
+                                showArrow = true
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/funding/free-branded-materials.jpg',
+                            imageCaption = 'Two people crouching down outdoors in an allotment surrounded by plants',
+                            link = buildUrl('funding', 'freeMaterials'),
+                            content = miniHeroContent
                         )}}
                     </div>
                 </li>
+
             </ul>
         </div>
 
