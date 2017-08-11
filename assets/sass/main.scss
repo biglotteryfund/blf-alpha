@@ -23,12 +23,12 @@
  * 3. layout scaffolding
  */
 @import 'scaffolding/grid.scss';
+@import 'scaffolding/header';
+@import 'scaffolding/footer';
 
 /*
  * 4. individual components
  */
-@import 'components/header';
-//@import 'components/footer';
 @import 'components/accessibility';
 @import 'components/overlay';
 @import 'components/vox-pop';
