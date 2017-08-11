@@ -1,20 +1,20 @@
 // classes which will be accented:
 
-.a-border-top {
+.a--border-top {
     border-top-width: 4px;
     border-top-style: solid
 }
 
-.a-border-top--large {
+.a--border-top--large {
     border-top-width: 6px;
     border-top-style: solid
 }
 
-.a-border-left{  }
+.a--border-left{  }
 
 
 // each theme listed in palette.scss will generate classes for use below
-// eg <div class="accent--pink a-border-top"> will give a pink border
+// eg <div class="accent--pink a--border-top"> will give a pink border
 @each $name in $themes {
     $colour: palette($name);
 
@@ -26,8 +26,8 @@
         }
 
         // border on top of elements
-        &.a-border-top,
-        &.a-border-top--large {
+        &.a--border-top,
+        &.a--border-top--large {
             border-top-color: $colour;
         }
 

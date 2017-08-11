@@ -39,16 +39,21 @@
 
                 {# under 10k #}
                 <li class="grid__item">
-                    <div class="grid__item__inner grid__item__inner--flex accent--pink-home accent-b-t-l">
-                        <a href="{{ buildUrl('', 'under10k') }}">
-                            <img src="{{ 'images/home/under10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Children gardening together" />
-                        </a>
-                        {{ headers.overlayText(
-                            'h4',
-                            'Every year thousands of people apply to National Lottery Awards for All for grants between £500 and £10,000',
-                            't1--opaque minor minor--smallest grid__item__title',
-                            buildUrl('', 'under10k'),
-                            false
+                    <div class="grid__item__inner--flex accent--pink a--border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = "Every year thousands of people apply to National Lottery Awards for All for grants between £500 and £10,000",
+                                additionalClasses = 't1--opaque',
+                                link = buildUrl('funding', 'under10k'),
+                                showArrow = false
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/home/under10k.jpg',
+                            imageCaption = 'Children gardening together',
+                            link = buildUrl('', 'under10k'),
+                            content = miniHeroContent
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
@@ -60,16 +65,21 @@
 
                 {# over 10k #}
                 <li class="grid__item">
-                    <div class="grid__item__inner grid__item__inner--flex accent--turquoise accent-b-t-l">
-                        <a href="{{ buildUrl('', 'over10k') }}">
-                            <img src="{{ 'images/home/over10k.jpg' | getCachebustedPath }}" class="grid__item__poster" alt="Two women laughing while sharing a coffee" />
-                        </a>
-                        {{ headers.overlayText(
-                            'h4',
-                            'Many people apply for larger sums of money (over £10,000) over longer periods of time',
-                            't1--opaque minor minor--smallest grid__item__title',
-                        buildUrl('', 'over10k'),
-                            false
+                    <div class="grid__item__inner--flex accent--turquoise a--border-top--large">
+                        {% set miniHeroContent %}
+                            {{ headers.overlayText(
+                                tag = 'h4',
+                                text = "Many people apply for larger sums of money (over £10,000) over longer periods of time",
+                                additionalClasses = 't1--opaque',
+                                link = buildUrl('funding', 'over10k'),
+                                showArrow = false
+                            )}}
+                        {% endset %}
+                        {{ hero.miniature(
+                            imagePath = 'images/home/over10k.jpg',
+                            imageCaption = 'Two women laughing while sharing a coffee',
+                            link = buildUrl('', 'over10k'),
+                            content = miniHeroContent
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
