@@ -142,3 +142,12 @@
 
     }
 }
+
+// @TODO find a better way to do this
+
+.btn.accent--white {
+    color: #000000;
+    @include on-interact {
+        color: #000000;
+    }
+}

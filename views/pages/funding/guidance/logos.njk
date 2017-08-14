@@ -50,8 +50,8 @@
     {% if copy.successMessages[type] %}
         <div class="hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t3">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t3">{{ copy.successMessages[type].body }}</h4>
+            <h4 class="t4">{{ copy.successMessages[type].title }}</h4>
+            <h4 class="t6">{{ copy.successMessages[type].body }}</h4>
         </div>
     {% endif %}
 {% endmacro %}
@@ -67,21 +67,26 @@
     </div>
 {% endmacro %}
 
-{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
+{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
     {{ downloadBlock(logoId) }}
     {% set logoPreview = 'images/logos/' + logoLocale + '/' + logoFilename + '.png' %}
+    {% set accentClass = '' %}
+    {% if accent %}
+        {% set accentClass = ' accent--' + accent + ' a--btn ' %}
+    {% endif %}
+
     {% if not onlyEps %}<a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
         <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
     {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'small') }}
         </a>
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'large') }}
         </a>
     {% endif %}
-    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
         {{ makeLogoTitle(logoName, 'eps') }}
     </a>
 {% endmacro %}
@@ -131,22 +136,22 @@
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered padded">
-                                    {{ logoBlock(1, 'blue', 'blue', 'en') }}
+                                    {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--pink bordered padded">
-                                    {{ logoBlock(2, 'pink', 'pink') }}
+                                    {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered padded bg--dark">
-                                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true) }}
+                                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered padded bg--dark">
-                                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true) }}
+                                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                         </ul>
@@ -173,22 +178,22 @@
                         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered padded">
-                                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}
+                                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--pink bordered padded">
-                                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
+                                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered padded bg--dark">
-                                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                             <li class="grid__item">
                                 <div class="grid__item__inner bordered padded bg--dark">
-                                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                         </ul>

@@ -40,3 +40,7 @@
 .spaced {
     margin-bottom: $spacingUnit;
 }
+
+.spaced--s {
+    margin-bottom: $spacingUnit / 2;
+}
