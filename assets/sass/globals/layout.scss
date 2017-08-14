@@ -85,3 +85,16 @@ main {
 .padded {
     padding: 20px;
 }
+
+// @TODO better names
+.expanded {
+    padding-top: $spacingUnit;
+}
+
+.spaced {
+    margin-bottom: $spacingUnit;
+}
+
+.spaced--s {
+    margin-bottom: $spacingUnit / 2;
+}

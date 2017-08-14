@@ -15,8 +15,8 @@
             <blockquote class="pullquote">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam finibus urna laoreet condimentum pharetra. Orci varius natoque penatibus.</p>
                 <p>Let magnis dis parturient montes, nascetur ridiculus</p>
-                <cite>Jane Bloggs</cite>
-                <aside>Project name</aside>
+                <cite class="t3 t3--b">Jane Bloggs</cite>
+                <aside class="t6">Project name</aside>
             </blockquote>
         </li>
     </ul>
@@ -28,7 +28,7 @@
         {{ headers.overlayText('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <a href=\"https://www.national-lottery.co.uk\">National Lottery</a>", 'overlay-text--has-links t2') }}
     {% endset %}
 
-    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps') }}
+    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps', extraClasses = 'spaced') }}
 
     <article role="main">
         <div class="inner">
@@ -57,7 +57,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey padded bordered">
-                        <a class="btn accent--pink a--btn btn--block" href="{{ buildUrl('', 'under10k') }}">
+                        <a class="btn accent--pink a--btn btn--block btn--small" href="{{ buildUrl('', 'under10k') }}">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
                     </div>
@@ -83,7 +83,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey padded bordered">
-                        <a class="btn accent--turquoise a--btn btn--block" href="{{ buildUrl('', 'over10k') }}">
+                        <a class="btn accent--turquoise a--btn btn--block btn--small" href="{{ buildUrl('', 'over10k') }}">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
                     </div>
@@ -93,7 +93,7 @@
             {# news posts #}
             {% if news.length %}
                 <div class="accent--blue a--border-top">
-                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only padded">
+                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only expanded">
                         {% for n in news %}
                             <li class="grid__item">
                                 <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
@@ -106,7 +106,7 @@
 
             {# funding finder #}
             <div class="central-gap">
-                <a href="#" class="btn btn--block accent--blue a--btn">Find out what we funded</a>
+                <a href="#" class="btn btn--block accent--blue a--btn spaced">Find out what we funded</a>
             </div>
         </div>
 
@@ -144,7 +144,7 @@
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     <form class="form-ebulletin padded" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-                        <h3 class="t9">e-bulletin sign up</h3>
+                        <h3 class="t3 t3--a accent--pink a--text">e-bulletin sign up</h3>
 
                         {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}

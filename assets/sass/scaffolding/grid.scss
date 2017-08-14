@@ -98,12 +98,31 @@
                         border-top: 1px solid #acbade;
                         border-right: 1px solid #acbade;
 
+                        // some magic to alternate border colours
+                        &:nth-child(odd) { &:after { border-left-color: palette('blue'); } }
+                        &:nth-child(even) { &:after { border-left-color: palette('pink'); } }
+
                         &:nth-child(-n+#{$i}) {
                             border-top: none;
                         }
 
                         &:nth-child(#{$i}n) {
                             border-right: none;
+                        }
+
+                        // internal border
+                        &:nth-child(#{$i}n+1) {
+                            $desiredHeight: 50%;
+                            &:after {
+                                position: relative;
+                                display: block;
+                                content: '';
+                                left: 0;
+                                height: $desiredHeight;
+                                top: #{ (100% - $desiredHeight) / 2};
+                                border-left-style: solid;
+                                border-left-width: 4px;
+                            }
                         }
                     }
                 }

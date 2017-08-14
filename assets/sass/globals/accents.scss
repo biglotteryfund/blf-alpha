@@ -62,8 +62,7 @@
         }
 
         // border-bottom below some type styles
-        &.t3--a,
-        .t3--a {
+        &.t3--a {
             &:after {
                 border-bottom-color: $colour;
             }
@@ -111,40 +110,18 @@
             }
         }
 
+        // duplicates .btn CSS
+        .tab--active  {
+            .btn {
+                background-color: darken($colour, 15%) !important;
+            }
+        }
 
-        //// border on left (wide only, for now?)
-        //&.accent-b-l {
-        //    @include mq('tablet') {
-        //        border-left: 4px solid $colour;
-        //    }
-        //}
-        //
-        //// border below elements *small* (eg. fixed width)
-        //&.accent-b-b-s:after {
-        //    content: '';
-        //    width: 100px;
-        //    height: 5px;
-        //    background-color: $colour;
-        //    display: block;
-        //    margin-top: $spacingUnit / 2;
-        //    margin-bottom: $spacingUnit * 2;
-        //}
-        //
-
-        //
-        //// duplicates above
-        //.tab--active  {
-        //    .a--btn {
-        //        background-color: darken($colour, 10%) !important;
-        //    }
-        //}
-        //
 
     }
 }
 
 // @TODO find a better way to do this
-
 .btn.accent--white {
     color: #000000;
     @include on-interact {

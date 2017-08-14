@@ -37,30 +37,16 @@
 
     <article role="main" class="nudge-up">
         <div class="inner accent--pink a--border-top stats-holder content-box">
-            <h3 class="t9 t9--a">{{ copy.keyStats }}</h3>
+            <h3 class="t3 t3--a accent--pink">{{ copy.keyStats }}</h3>
 
             <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
-
-                {#  this is a bit hacky - cycle through these classes
-                    to add left rules every 3rd item (with alternating colours)
-                    @TODO this could be done in CSS alone as a pattern
-                 #}
-                {% set cls = cycler(
-                    "accent--blue accent-b-l",
-                    "",
-                    "",
-                    "accent--pink accent-b-l",
-                    "",
-                    ""
-                ) %}
                 {% for stats in copy.data %}
                     {{ statBlock(
                         number = stats.number.value,
                         caption = stats.caption,
                         numberPrefix = stats.number.prefix,
                         numberSuffix = stats.number.suffix,
-                        numberFirst = stats.number.showFirst,
-                        extraClass = cls.next()
+                        numberFirst = stats.number.showFirst
                     ) }}
                 {% endfor %}
             </ul>
@@ -69,8 +55,8 @@
 
 
     <article role="main" class="accent--blue a--border-top map-holder">
-        <div class="inner--wide-only">
-            <h3 class="t9 t9--d">{{ copy.map.title }}</h3>
+        <div class="inner--wide-only expanded map-holder__inner">
+            <h3 class="t3 t3--a accent--blue">{{ copy.map.title }}</h3>
 
             <div class="map-wrapper">
                 {% include "../../includes/uk-svg.njk" %}
@@ -78,17 +64,17 @@
 
             <div id="js-map-panes">
                 {% for region in grants %}
-                    <div class="js-pane tab-pane map-info accent--blue a--border-top p bg-plain region--{{ region.id }}--b-t" id="region-{{ region.id }}">
-                        <h4 class="t9 t9--d region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
+                    <div class="js-pane tab-pane map-info accent--blue a--border-top padded bg-plain region--{{ region.id }}--b-t" id="region-{{ region.id }}">
+                        <h4 class="t3 t3--a region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
 
-                        <h5 class="t4 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
-                        <h6 class="t5">{{ copy.map.population }}</h6>
+                        <h5 class="map-info__stat t3 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
+                        <h6 class="t6"><strong>{{ copy.map.population }}</strong></h6>
 
-                        <h5 class="t4 accent--blue a--text">{{ region.totalAwarded }}</h5>
-                        <h6 class="t5">{{ copy.map.totalAwarded }}</h6>
+                        <h5 class="map-info__stat t3 accent--blue a--text">{{ region.totalAwarded }}</h5>
+                        <h6 class="t6"><strong>{{ copy.map.totalAwarded }}</strong></h6>
 
-                        <h5 class="t4 accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
-                        <h6 class="t5">{{ copy.map.totalBeneficiaries }}</h6>
+                        <h5 class="map-info__stat t3 accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
+                        <h6 class="t6"><strong>{{ copy.map.totalBeneficiaries }}</strong></h6>
                     </div>
                 {% endfor %}
             </div>
