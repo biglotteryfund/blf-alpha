@@ -1,3 +1,7 @@
+.vox-pop-container {
+    position: relative;
+}
+
 .vox-pop {
     align-items: stretch;
     @include mq('tablet', 'max') {
