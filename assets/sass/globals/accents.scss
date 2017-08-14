@@ -51,11 +51,10 @@
             }
         }
 
-        // semi-opaque version for some pages
-        // @TODO rename this
+        // semi-opaque text used for some pages
         $opacityFactor: 0.8;
-        &.t1--opaque,
-        .t1--opaque {
+        &.is-opaque,
+        .is-opaque {
             span {
                 background-color: rgba($colour, $opacityFactor);
             }

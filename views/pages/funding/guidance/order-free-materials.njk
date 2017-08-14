@@ -74,7 +74,7 @@
             <li class="grid__item">
                 <div class="grid__item__inner accent--blue a--border-top-l bordered material-item">
                     <div class="padded">
-                        <p class="t4"><strong>{{ item.name[locale] }}</strong></p>
+                        <p class="t4">{{ item.name[locale] }}</p>
                         {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
                         <div class="material-item__media"
                              style="background-image: url({{ imgPath | getCachebustedPath }}">
