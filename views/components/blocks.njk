@@ -1,12 +1,14 @@
 {% macro projectBlock(project, linkClass) %}
-    <div class="grid__item__inner grid__item__inner--flex">
-        <a href="{{ project.link }}">
-            <img src="{{ project.image | getCachebustedPath }}" class="grid__item__poster" alt="{{ project.description }}" />
-        </a>
-    </div>
-    <div class="">
-        <h4 class="t4">{{ project.name }}</h4>
-        {#<h6 class="t6">Grant amount {{ project.amount }}</h6>#}
-        <p class="t7">{{ project.description }} <a href="{{ project.link }}" class="{{ linkClass }}">Read more...</a></p>
+    <div class="card">
+        <div class="card__media">
+            <a href="{{ project.link }}">
+                <img src="{{ project.image | getCachebustedPath }}" class="grid__item__poster" alt="{{ project.description }}" />
+            </a>
+        </div>
+        <div class="card__body">
+            <h4 class="t4">{{ project.name }}</h4>
+            {#<h6 class="t6">Grant amount {{ project.amount }}</h6>#}
+            <p class="t7">{{ project.description }} <a href="{{ project.link }}" class="{{ linkClass }}">Read more...</a></p>
+        </div>
     </div>
 {% endmacro %}

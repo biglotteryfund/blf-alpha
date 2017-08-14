@@ -2,7 +2,7 @@
  * 1. setup / functions etc
  */
 @import 'config';     // dynamically generated from JSON via gulp
-@import 'vars';       // SCSS-wide variables (mostly layout-related)
+@import '_vars';      // SCSS-wide variables (mostly layout-related)
 @import '_functions'; // low-level functions (gradients etc)
 @import '_mixins';    // useful for responsive
 @import '_utils';     // show/hide classes for mobile/desktop/js-off etc
@@ -22,22 +22,23 @@
 /*
  * 3. layout scaffolding
  */
+@import 'scaffolding/content';
+@import 'scaffolding/footer';
 @import 'scaffolding/grid.scss';
 @import 'scaffolding/header';
-@import 'scaffolding/footer';
-@import 'scaffolding/content';
 
 /*
  * 4. individual components
  */
 @import 'components/accessibility';
-@import 'components/overlay';
-@import 'components/vox-pop';
-@import 'components/hero';
-@import 'components/overlay-text';
+@import 'components/btn';
+@import 'components/card';
 @import 'components/data'; // is this is a "component"?
+@import 'components/hero';
 @import 'components/materials';
+@import 'components/overlay';
+@import 'components/overlay-text';
 @import 'components/segment';
 @import 'components/tabs';
-@import 'components/btn';
+@import 'components/vox-pop';
 

@@ -9,7 +9,7 @@
 {% macro itemOrderButtons(item, product) %}
     {% set quantity = orders[product.code].quantity or 0 %}
     {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
-    <form class="padded{% if quantity > 0 %} is-selected{% endif %}"
+    <form class="{% if quantity > 0 %}is-selected{% endif %}"
           v-bind:class="{ 'is-selected': ((orderData['{{ product.code }}']) ? orderData['{{ product.code }}'].quantity > 0 : false) }"
           method="post"
           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
@@ -72,16 +72,18 @@
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
         {% for item in materials %}
             <li class="grid__item">
-                <div class="grid__item__inner accent--blue a--border-top-l bordered material-item">
-                    <div class="padded">
-                        <p class="t4">{{ item.name[locale] }}</p>
+                <div class="grid__item__inner accent--blue a--border-top-l bordered material-item card card--padded card--title">
+
+                    <h6 class="t4 card__title">{{ item.name[locale] }}</h6>
+
+                    <div class="card__media">
                         {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
                         <div class="material-item__media"
                              style="background-image: url({{ imgPath | getCachebustedPath }}">
                         </div>
                     </div>
 
-                    <aside class="material-item__actions">
+                    <aside class="material-item__actions card__body">
                         {{ itemOrderActions(item, languageToShow) }}
                     </aside>
 
