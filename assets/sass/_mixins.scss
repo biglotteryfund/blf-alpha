@@ -74,7 +74,8 @@
     }
 
     @media screen and (min-width: $widestScreen) {
-        width: $maxInnerWidth;
+        // eg. 80% of the max
+        width: #{$widestScreen / 100 * 80};
         @if not $skipMargins {
             height: 100%;
             margin-left: auto;

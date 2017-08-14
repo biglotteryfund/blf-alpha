@@ -1,17 +1,17 @@
+// fetch these from /config/content/sass.json
+// (eg. so they're accessible in JavaScript too)
 $breakpoints: map-get($appConfig, 'breakpoints');
 
+// the main content area will have these width gutters
+// at the specified breakpoints
 $gutters: (
     "default": 20px,
     "tablet": 10%,
     "desktop": 20%,
 );
 
+// at this resolution, the content area will be limited in width
 $widestScreen: 1200px;
-$maxInnerWidth: 950px;
 
-// @TODO move somewhere
-$offscreenNavWidth: 65%;
-$baseFormElementFontSize: 16px;
-
-// @TODO remove this
+// this is used as a utility measure around the site
 $spacingUnit: 20px;

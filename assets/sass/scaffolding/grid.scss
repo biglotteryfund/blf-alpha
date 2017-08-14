@@ -154,7 +154,7 @@
     height: auto;
 }
 
-// @TODO kill these classes
+// @TODO kill/rename these classes
 
 .grid__item__poster {
     display: block;
@@ -169,15 +169,5 @@
         top: $spacingUnit;
         left: $spacingUnit;
         bottom: auto;
-    }
-
-    // cribbed from ionicons
-    &.grid__item__title--arrow {
-        svg {
-            width: 18px;
-            height: 18px;
-            vertical-align: middle;
-            fill: #ffffff;
-        }
     }
 }

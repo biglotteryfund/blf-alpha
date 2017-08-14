@@ -1,3 +1,5 @@
+$offscreenNavWidth: 65%;
+
 @mixin nav-link-style($color: palette('blue-text')) {
     @include poppins();
     font-weight: 600;
