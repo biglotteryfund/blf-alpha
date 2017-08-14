@@ -74,14 +74,14 @@
         <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
     {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'small') }}
         </a>
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'large') }}
         </a>
     {% endif %}
-    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
         {{ makeLogoTitle(logoName, 'eps') }}
     </a>
 {% endmacro %}
@@ -107,10 +107,10 @@
                     data-panes="js-logo-panes"
                     data-no-initial-selection="true">
                     <li class="js-tab-item grid__item m-b-none">
-                        <a href="#js-logo-panes-en" class="btn btn--cta btn--block">{{ copy.locations.monolingual }}</a>
+                        <a href="#js-logo-panes-en" class="btn btn--block">{{ copy.locations.monolingual }}</a>
                     </li>
                     <li class="js-tab-item grid__item m-b-none">
-                        <a href="#js-logo-panes-cy" class="btn btn--cta btn--block">{{ copy.locations.bilingual }}</a>
+                        <a href="#js-logo-panes-cy" class="btn btn--block">{{ copy.locations.bilingual }}</a>
                     </li>
                 </ul>
             </div>

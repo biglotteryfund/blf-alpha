@@ -10,8 +10,7 @@
     border-top-style: solid;
 }
 
-.a--border-left{  }
-
+.a--border-left {  }
 
 // each theme listed in palette.scss will generate classes for use below
 // eg <div class="accent--pink a--border-top"> will give a pink border
@@ -29,6 +28,87 @@
         &.a--border-top,
         &.a--border-top--large {
             border-top-color: $colour;
+        }
+
+        // block-colour heading background
+        &.overlay-text,
+        .overlay-text {
+            span {
+                background-color: $colour;
+            }
+        }
+
+        // hover state for overlay text
+        &.overlay-text,
+        .overlay-text {
+            a {
+                @include on-interact {
+                    color: darken(#ffffff, 10%);
+                    span {
+                        background-color: darken($colour, 10%);
+                    }
+                }
+            }
+        }
+
+        // semi-opaque version for some pages
+        // @TODO rename this
+        $opacityFactor: 0.8;
+        &.t1--opaque,
+        .t1--opaque {
+            span {
+                background-color: rgba($colour, $opacityFactor);
+            }
+        }
+
+        // border-bottom below some type styles
+        &.t3--a,
+        .t3--a {
+            &:after {
+                border-bottom-color: $colour;
+            }
+        }
+
+        // call-to-action buttons
+        &.a--btn {
+            color: #ffffff;
+            background-color: $colour;
+            @include on-interact {
+                background-color: darken($colour, 15%);
+            }
+        }
+
+        &.btn--outline {
+            border-color: $colour;
+            color: $colour !important;
+
+            @include on-interact {
+                border-color: darken($colour, 20%) !important;
+                color: darken($colour, 20%) !important;
+            }
+
+            .btn__icon {
+                fill: $colour !important;
+            }
+        }
+
+        // high contrast mode styles
+        .contrast--high & {
+
+            // overlay (block) text
+            .overlay-text {
+                span {
+                    background-color: palette('high-contrast-bg') !important;
+                }
+            }
+
+            // call-to-action buttons
+            &.a--btn {
+                background-color: palette('high-contrast-bg') !important;
+                @include on-interact {
+                    background-color: darken(palette('high-contrast-bg'), 10%) !important;
+                }
+            }
         }
 
 
@@ -51,90 +131,14 @@
         //}
         //
 
-        // block-colour heading background
-        &.overlay-text,
-        .overlay-text {
-            span {
-                background-color: $colour;
-            }
-        }
-
-        // hover state for above
-        &.overlay-text,
-        .overlay-text {
-            a {
-                @include on-interact {
-                    color: darken(#ffffff, 10%);
-                    span {
-                        background-color: darken($colour, 10%);
-                    }
-                }
-            }
-        }
-
-        // semi-opaque version for some pages
-        $opacityFactor: 0.8;
-        &.t1--opaque,
-        .t1--opaque {
-            span {
-                background-color: rgba($colour, $opacityFactor);
-            }
-        }
-
-        .contrast--high & {
-            .overlay-text {
-                span {
-                    background-color: palette('high-contrast-bg') !important;
-                }
-            }
-
-            //&.btn--cta,
-            //.btn--cta {
-            //    background-color: palette('high-contrast-bg') !important;
-            //    @include on-interact {
-            //        background-color: darken(palette('high-contrast-bg'), 10%) !important;
-            //    }
-            //}
-        }
-
-        &.t3--a,
-        .t3--a {
-            &:after {
-                border-bottom-color: $colour;
-            }
-        }
-
-
-        //
-        //&.t3 {
-        //    $customFg: map-get($data, 'foreground');
-        //    color: $customFg;
-        //}
-        //
-        //&.btn--cta,
-        //.btn--cta {
-        //    color: #ffffff !important;
-        //    background-color: $colour !important;
-        //    @include on-interact {
-        //        background-color: darken($colour, 10%) !important;
-        //    }
-        //}
         //
         //// duplicates above
         //.tab--active  {
-        //    .btn--cta {
+        //    .a--btn {
         //        background-color: darken($colour, 10%) !important;
         //    }
         //}
         //
-        //&.btn--outline,
-        //.btn--outline {
-        //    border-color: $colour !important;
-        //    color: $colour !important;
-        //
-        //    .btn__icon {
-        //        fill: $colour !important;
-        //    }
-        //}
+
     }
 }

@@ -27,7 +27,7 @@
                         v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == 0"
                         v-on:click.prevent="changeQuantity($event)"
                         aria-label="Decrease quantity"
-                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--decrease">
+                        class="btn accent--turquoise a--btn material-item__btn material-item__btn--decrease">
                     -
                 </button>
                 <div aria-label="Quantity" class="material-item__quantity js-material-count">
@@ -42,7 +42,7 @@
                         v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == {{ item.maximum }}"
                         v-on:click.prevent="changeQuantity($event)"
                         aria-label="Increase quantity"
-                        class="btn btn--cta accent--turquoise m-t-none material-item__btn material-item__btn--increase">
+                        class="btn accent--turquoise a--btn material-item__btn material-item__btn--increase">
                     +
                 </button>
             {% else %}
@@ -123,14 +123,14 @@
                 <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
                     <li class="grid__item">
                         <a href="#monolingual"
-                           class="btn btn--blue btn--cta btn--block"
+                           class="btn btn--block"
                            v-on:click.prevent="showMonolingual = true">
                             {{ copy.locations.monolingual }}
                         </a>
                     </li>
                     <li class="grid__item m-b-none">
                         <a href="#bilingual"
-                           class="btn btn--blue btn--cta btn--block"
+                           class="btn btn--block"
                            v-on:click.prevent="showMonolingual = false">
                             {{ copy.locations.bilingual }}
                         </a>
@@ -171,7 +171,7 @@
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
                                        v-bind:disabled="isEmpty()"
                                        value="{{ copy.submit }}"
-                                       class="accent--turquoise btn btn--cta btn--cta--large order-form__btn"
+                                       class="btn accent--turquoise a--btn order-form__btn"
                                        id="js-submit-material-order">
                             </li>
                         </ul>

@@ -57,7 +57,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
-                        <a class="accent--pink btn btn--cta btn--block btn--mid" href="{{ buildUrl('', 'under10k') }}">
+                        <a class="btn accent--pink a--btn btn--block" href="{{ buildUrl('', 'under10k') }}">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
                     </div>
@@ -83,7 +83,7 @@
                         )}}
                     </div>
                     <div class="bg-pale-grey p-cta m-t-none bordered">
-                        <a class="accent--turquoise btn btn--cta btn--block btn--mid" href="{{ buildUrl('', 'over10k') }}">
+                        <a class="btn accent--turquoise a--btn btn--block" href="{{ buildUrl('', 'over10k') }}">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
                     </div>
@@ -106,14 +106,14 @@
 
             {# funding finder #}
             <div class="central-gap m-t--s m-b--s">
-                <a href="#" class="btn btn--cta btn--cta--large btn--block accent--blue btn--massive">Find out what we funded</a>
+                <a href="#" class="btn btn--block accent--blue a--btn">Find out what we funded</a>
             </div>
         </div>
 
         <div class="inner--wide-only">
 
             {# case studies #}
-            <div class="accent--blue a--border-top bg-pale-grey case-studies">
+            <div class="accent--blue a--border-top bg-pale-grey vox-pop-container">
 
                 <div class="vox-pop__buttons">
                     <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
@@ -143,7 +143,7 @@
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink a--border-top m-t-none">
-                    <form class="form-ebulletin p" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
+                    <form class="form-ebulletin padded" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t9">e-bulletin sign up</h3>
 
                         {% if request.flash and request.flash('ebulletinStatus') %}
@@ -172,26 +172,25 @@
                                 ]) }}
                             </div>
 
-                            <div class="grid grid--padded">
+                            <div class="grid grid--padded clear-both">
                                 {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
                                 {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
                             </div>
-                            {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false) }}
+                            {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
                             {{ forms.input('Email', 'Email', 'email', required = true) }}
 
-                            <input type="submit" value="Subscribe" class="btn btn--cta btn--pink form-ebulletin__btn" />
+                            <input type="submit" value="Subscribe" class="btn btn--pink a--btn form-ebulletin__btn" />
                         {% endif %}
                     </form>
 
                     {# social buttons #}
-                    <div class="gutter-mob-only">
-                        <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--outline accent--blue btn--block">
-                            <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
-                        </a>
-                        <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--outline accent--blue btn--block">
-                            <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
-                        </a>
-                    </div>
+                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
+                    </a>
+                    <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--small btn--outline accent--blue btn--block">
+                        <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
+                    </a>
+
                 </li>
             </ul>
 
