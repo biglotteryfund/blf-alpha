@@ -1,12 +1,4 @@
-.vert-cent {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.pos-rel {
-    position: relative;
-}
+// classes to show/hide elements on desktop/mobile
 
 @include mq('tablet', 'max') {
     .desktop-only { display: none !important; }
@@ -18,114 +10,6 @@
 
 .hidden {
     display: none;
-}
-
-@mixin nudged-up {
-    margin-top: -$nudgeAmount;
-    position: relative;
-    z-index: 10;
-}
-
-@mixin nudged-down {
-    position: absolute;
-    bottom: $nudgeAmount + 30px;
-}
-
-.nudge-up {
-    margin-top: 0;
-    @include mq('tablet') {
-        @include nudged-up();
-    }
-}
-
-.nudge-up--always {
-    @include nudged-up();
-}
-
-.nudge-bottom {
-    position: absolute;
-    bottom: $spacingUnit;
-    @include responsiveGutter(true);
-
-    @include mq('tablet') {
-        @include nudged-down();
-    }
-}
-
-.nudge-bottom--always {
-    @include responsiveGutter(true);
-    @include nudged-down();
-}
-
-// the infamous lobotomised owl: https://css-tricks.com/lobotomized-owls/
-* + * {
-    margin-top: $spacingUnit;
-}
-
-/* ### global ### */
-/* margin */
-@each $name, $data in $marginSizes {
-    .m#{map-get($data, 'suffix')} {
-        margin: $spacingUnit * map-get($data, 'factor');
-    }
-}
-
-/* padding */
-@each $name, $data in $marginSizes {
-    .p#{map-get($data, 'suffix')} {
-        padding: $spacingUnit * map-get($data, 'factor');
-    }
-}
-
-.p-text {
-    padding: 10px $spacingUnit $spacingUnit*2 $spacingUnit;
-}
-
-// create margin util classes
-@each $dir, $dirData in $directions {
-
-    /* ### #{$dir} ### */
-
-    /* margin */
-
-    @each $name, $data in $marginSizes {
-
-        .m-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
-            margin-#{$dir}: $spacingUnit * map-get($data, 'factor');
-        }
-
-    }
-
-    .m-#{map-get($dirData, 'suffix')}-none {
-        margin-#{$dir}: 0 !important;;
-    }
-
-    /* padding */
-    @each $name, $data in $marginSizes {
-        .p-#{map-get($dirData, 'suffix')}#{map-get($data, 'suffix')} {
-            padding-#{$dir}: $spacingUnit * map-get($data, 'factor');
-        }
-    }
-
-    .p-#{map-get($dirData, 'suffix')}-none {
-        padding-#{$dir}: 0;
-    }
-
-}
-
-.clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-}
-
-.m-t-flexible {
-    margin-top: 40px;
-    @include mq('tablet') {
-        margin-top: 10px;
-    }
 }
 
 // via http://simplyaccessible.com/article/three-pitfalls-text-alternatives/
@@ -142,12 +26,13 @@
     position: absolute;
 }
 
+// hide JS things for users without JS
 .no-js {
     .js-only {
         display: none !important;
     }
 }
 
-.align--center {
-    text-align: center;
+.clear-both {
+    clear: both;
 }

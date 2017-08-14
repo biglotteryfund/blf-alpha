@@ -71,7 +71,7 @@
 }
 
 // via http://stackoverflow.com/a/34982673
-@function decimal-round ($number, $digits: 0, $mode: round) {
+@function decimal-round($number, $digits: 0, $mode: round) {
     $n: 1;
     // $number must be a number
     @if type-of($number) != number {
@@ -101,4 +101,17 @@
         @warn '#{ $mode } is undefined keyword.';
         @return $number;
     }
+}
+
+/// Map deep get
+/// @author Hugo Giraudel
+/// @access public
+/// @param {Map} $map - Map
+/// @param {Arglist} $keys - Key chain
+/// @return {*} - Desired value
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
 }

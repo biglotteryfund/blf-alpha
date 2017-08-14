@@ -1,0 +1,32 @@
+.vox-pop-container {
+    position: relative;
+}
+
+.vox-pop {
+    align-items: stretch;
+    @include mq('tablet', 'max') {
+        flex-direction: column;
+    }
+
+    .vox-pop__image {
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        @include mq('tablet', 'max') {
+            flex-basis: 100%;
+        }
+        @include mq('tablet') {
+            width: 45%;
+        }
+    }
+
+}
+
+.vox-pop__buttons {
+    @include mq('tablet', 'max') {
+        position: absolute;
+        width: 100%;
+        top: 100px;
+    }
+}

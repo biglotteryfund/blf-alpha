@@ -1,5 +1,7 @@
+$offscreenNavWidth: 65%;
+
 @mixin nav-link-style($color: palette('blue-text')) {
-    @include font-body();
+    @include poppins();
     font-weight: 600;
     font-size: 16px;
     color: $color;
@@ -13,25 +15,25 @@
     }
 }
 
-// @TODO this is quite complex for something that should be relatively simple
 .logo {
     display: inline-block;
-    // actual dimensions
-    $logoWidth: map-get($logo, 'width');
-    $logoHeight: map-get($logo, 'height');
-
-    // calculate mobile width based off desired height
-    $mobileHeight: map-get($logo, 'mobileHeight');
-    $mobileWidth: ($logoWidth / $logoHeight) * $mobileHeight;
-
-    // calculate desktop width based off desired height
-    $desktopHeight: map-get($logo, 'desktopHeight');
-    $desktopWidth: ($logoWidth / $logoHeight) * $desktopHeight;
-
     background-repeat: no-repeat;
     background-position: left center;
     background-image: url(../images/logo-new.png);
+    margin-bottom: 0;
 
+    // mobile dimensions
+    height: 80px;
+    width: 100px;
+    background-size: auto 100%;
+
+    @include mq('tablet') {
+        height: 105px;
+        width: 130px;
+        margin-left: -20px;
+    }
+
+    // use welsh logo (and scale it a bit as it's smaller)
     .locale--cy & {
         transform: scale(1.2);
         background-image: url(../images/logo-new--welsh.png);
@@ -46,40 +48,22 @@
         background-image: url(../images/logo-small--welsh.png);
     }
 
-    // mobile dimensions
-    height: $mobileHeight;
-    width: $mobileWidth;
-    background-size: auto $mobileHeight;
-
-    @include mq('tablet') {
-        // desktop dimensions
-        height: $desktopHeight;
-        width: $desktopWidth;
-        background-size: auto $desktopHeight;
-        // nudge outside margins by a relative measure of the crop point
-        margin-left: -($desktopWidth / $logoWidth) * map-get($logo, 'cropPoint');
-    }
 }
 
 // container element
 nav {
-    margin-top: $spacingUnit !important;
+    margin-top: $spacingUnit;
     @include mq('tablet') {
-        margin-top: 40px !important; // align with logo
+        margin-top: 40px; // align with logo
+    }
+
+    &.mobile-only {
+        margin-top: 0;
     }
 }
 
+// mobile off-screen nav
 .nav--offscreen {
-
-    .no-js & {
-        bottom: 0;
-        left: 0;
-        right: auto;
-        width: 100%;
-        top: auto;
-        position: relative;
-    }
-
     background-color: palette('blue-nav');
     display: block;
     position: fixed;
@@ -90,6 +74,18 @@ nav {
     height: 100%;
     margin-top: 0;
     width: $offscreenNavWidth;
+    box-shadow: -3px 0px 10px -2px #173077;
+
+    // stick the nav at the bottom of the page without JS
+    .no-js & {
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        top: auto;
+        position: relative;
+        box-shadow: none;
+    }
 
     li {
         margin-top: 0;
@@ -102,7 +98,7 @@ nav {
 
         a,
         &.nav__search {
-            padding: $spacingUnit;
+            padding: $spacingUnit $spacingUnit * 1.5;
         }
 
         &.nav__search {
@@ -186,7 +182,7 @@ nav {
             &:after {
                 content: '';
                 border-right: 2px solid palette('soft-grey');
-                border-radius: $borderRadius;
+                border-radius: 30px;
                 margin-left: $spacingUnit * 1.25;
                 margin-right: $spacingUnit * 1.25;
                 vertical-align: middle;
@@ -206,7 +202,7 @@ nav {
     @include mq('tablet') {
         position: absolute;
         top: $spacingUnit * 2;
-        right: -$spacingUnit * 2;
+        right: 0;
         a {
             color: palette('pink') !important;
             text-decoration: none;
@@ -221,16 +217,17 @@ nav {
 .nav__search {
     margin-left: auto; // move to right
 
-    @include mq('tablet') {
-        margin-right: -80px; // completely arbitrary
-    }
-
     input {
         @include nav-link-style(#000000);
         margin-top: 0;
-        width: 100px;
         border: 0;
         padding: $spacingUnit / 4;
+        width: 100px;
+
+        @include mq('tablet') {
+            text-align: right;
+            width: 80px;
+        }
 
         @include input-placeholder {
             @include nav-link-style();
@@ -247,6 +244,8 @@ nav {
 
 .form-search__icon {
 
+    vertical-align: middle;
+
     .icon--search {
         width: 21px;
         height: 21px;
@@ -259,29 +258,18 @@ nav {
     }
 }
 
-.hero__header {
-    @include mq('tablet') {
-        margin-left: $spacingUnit;
-    }
-
-    @include mq('tablet', 'max') {
-        &.minor {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-    }
-}
-
 .header__hamburger {
     position: absolute;
     right: 0;
     margin-top: 0 !important;
-    color: palette('blue');
     cursor: pointer;
     top: $spacingUnit * 2;
     width: 31px;
 
     a {
+        svg, path {
+            fill: palette('blue-text');
+        }
         @include on-interact() {
             svg, path {
                 fill: darken(palette('blue-text'), 10%);
@@ -293,7 +281,4 @@ nav {
         position: absolute;
     }
 
-    svg, path {
-        fill: palette('blue-text');
-    }
 }

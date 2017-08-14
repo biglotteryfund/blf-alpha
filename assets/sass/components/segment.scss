@@ -1,16 +1,17 @@
 .segment {
+    margin-bottom: 40px;
 
-    $segmentBg: #f5fafb;
+    @include mq('tablet', 'max') {
+        background-color: palette('pale');
+    }
 
     @include mq('tablet') {
         display: flex;
-        margin-bottom: $spacingUnit * 2;
     }
 
     .segment__media {
 
         @include mq('tablet', 'max') {
-            background-color: $segmentBg;
             padding: $spacingUnit $spacingUnit 0 $spacingUnit;
 
             img {
@@ -22,19 +23,20 @@
                 top: auto;
                 left: auto;
                 margin: 0;
+                width: 100%;
             }
         }
 
         @include mq('tablet') {
             width: 300px;
-            margin-right: $spacingUnit / 2;
+            margin-right: 12px;
             flex-shrink: 0;
         }
     }
 
     .segment__aside {
-        background-color: $segmentBg;
         flex-grow: 1;
+        padding: 17px 20px 40px 20px;
 
         @include mq('tablet', 'max') {
             margin-top: 0;
@@ -42,6 +44,8 @@
 
         @include mq('tablet') {
             @include bordered();
+            background-color: palette('pale');
+            padding: 40px 20px;
             margin-top: 0;
         }
     }

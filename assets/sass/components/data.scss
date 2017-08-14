@@ -40,7 +40,6 @@
     }
 
     dt, dd {
-        @include font-body();
         margin: 0;
     }
 
@@ -118,10 +117,13 @@
 }
 
 .map-holder {
+    position: relative;
     background-color: #f0f4ff;
 }
 
 .map-info {
+
+    background-color: #ffffff;
 
     .map-info__item {
         margin-bottom: $spacingUnit;
@@ -144,6 +146,14 @@
         }
     }
 
+    .map-info__stat {
+        margin-bottom: 0;
+    }
+
+}
+
+.map-holder__inner {
+    position: relative;
 }
 
 // @TODO this is effectively mirroring the accents concept

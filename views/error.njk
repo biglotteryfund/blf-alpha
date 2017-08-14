@@ -8,20 +8,18 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', errorTitle, 30, 'hero__header') }}
-        </div>
+        {{ headers.overlayText('h2', errorTitle) }}
     {% endset %}
 
     {{ hero.header('reading', heroContent, 'pink') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only p-text accent--pink accent-b-t bg-plain bordered">
+        <div class="inner--wide-only accent--pink a--border-top content-box">
             <h3 class="t3">Error {{ status }} &ndash; {{ message }}</h3>
             <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
             <p>If you keep encountering problems accessing our pages, please <a href="mailto:webmaster@biglotteryfund.org.uk">let us know</a>.</p>
 
-            <h3 class="t3 m-t">Gwall {{ status }} &ndash; {{ message }}</h3>
+            <h3 class="t3">Gwall {{ status }} &ndash; {{ message }}</h3>
             <p>Yn anffodus ni allwn ddangos y dudalen hon ar hyn o bryd. Gallwch ddychwelyd i’r hafan neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>. Os byddwch yn profi anhawster o hyd wrth gyrchu ein tudalennau, <a href="mailto:webmaster@biglotteryfund.org.uk">rhowch wybod i ni</a>.</p>
 
 

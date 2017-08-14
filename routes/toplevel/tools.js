@@ -61,7 +61,7 @@ router.get('/status/pages', (req, res, next) => {
         }
     }
 
-    res.render('pagelist', {
+    res.render('pages/tools/pagelist', {
         routes: routes.sections,
         vanityRedirects: routes.vanityRedirects,
         totals: totals

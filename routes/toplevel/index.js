@@ -191,6 +191,7 @@ module.exports = (pages) => {
                             return res.redirect('/#' + config.get('anchors.ebulletin'));
                         });
                     } else {
+                        console.log('Got an error with redirect', response.statusCode);
                         return handleSignupError();
                     }
                 }).catch(error => { // signup failed

@@ -1,0 +1,176 @@
+.grid {
+    display: flex;
+    align-items: center;
+
+    > .grid__item {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0;
+        //margin: 0; // @TODO is this safe to remove?
+    }
+
+    > .grid__item--large {
+        flex-grow: 2;
+    }
+
+    &.grid--equal {
+        align-items: stretch;
+    }
+
+    &.grid--top {
+        align-items: flex-start;
+    }
+
+    &.grid--wide-only {
+        @include mq('tablet', 'max') {
+            display: block;
+            margin-left: 0 !important;
+
+            > .grid__item {
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                overflow: hidden;
+                width: auto !important;
+            }
+        }
+    }
+
+    // arbitrary
+    $paddedGridGutter: 10px;
+    $paddedGridGutterLarge: 30px;
+
+    // @TODO generate these classes from a mixin
+
+    &.grid--padded {
+        margin-left: -$paddedGridGutter;
+
+        > .grid__item {
+            margin-left: $paddedGridGutter;
+            margin-bottom: $spacingUnit;
+        }
+    }
+
+    &.grid--padded--large {
+        margin-left: -$paddedGridGutterLarge;
+
+        > .grid__item {
+            margin-left: $paddedGridGutterLarge;
+            margin-bottom: $paddedGridGutterLarge;
+        }
+    }
+
+    // output grid cols for 2-up, 3-up etc
+    @for $i from 2 through 4 {
+        // @TODO – does this need to be rounded for everything?
+        // or just to fix IE11? eg. data page
+        $colWidth: decimal-round(100% / $i, 0, floor);
+
+        &.grid--#{$i}-up {
+            flex-wrap: wrap;
+
+            > .grid__item {
+                flex-basis: $colWidth;
+                width: $colWidth;
+            }
+
+            &.grid--padded {
+                > .grid__item {
+                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutter});
+                    max-width: calc(#{$colWidth} - #{$paddedGridGutter});
+                }
+            }
+
+            &.grid--padded--large {
+                > .grid__item {
+                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutterLarge});
+                    max-width: calc(#{$colWidth} - #{$paddedGridGutterLarge});
+                }
+            }
+
+            &.grid--bordered {
+
+                $borderColour: #94aee5;
+
+                @include mq('tablet', 'max') {
+                    > .grid__item {
+                        border-bottom: 4px solid $borderColour;
+                    }
+                }
+                @include mq('tablet') {
+                    > .grid__item {
+                        border-top: 1px solid $borderColour;
+                        border-right: 1px solid $borderColour;
+
+                        // some magic to alternate border colours
+                        &:nth-child(odd) { &:after { border-left-color: palette('blue'); } }
+                        &:nth-child(even) { &:after { border-left-color: palette('pink'); } }
+
+                        &:nth-child(-n+#{$i}) {
+                            border-top: none;
+                        }
+
+                        &:nth-child(#{$i}n) {
+                            border-right: none;
+                        }
+
+                        // internal border
+                        &:nth-child(#{$i}n+1) {
+                            $desiredHeight: 50%;
+                            &:after {
+                                position: relative;
+                                display: block;
+                                content: '';
+                                left: 0;
+                                height: $desiredHeight;
+                                top: #{ (100% - $desiredHeight) / 2};
+                                border-left-style: solid;
+                                border-left-width: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+.grid__item__inner {
+    position: relative;
+    height: 100%;
+}
+
+.grid__item__overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    padding: $spacingUnit * 2;
+}
+
+.grid__item__inner--flex {
+    height: auto;
+}
+
+// @TODO kill/rename these classes
+
+.grid__item__poster {
+    display: block;
+}
+
+.grid__item__title {
+    position: absolute;
+    left: $spacingUnit * 1.5;
+    bottom: $spacingUnit * 1.5;
+
+    &.grid__item__title--top {
+        top: $spacingUnit;
+        left: $spacingUnit;
+        bottom: auto;
+    }
+}

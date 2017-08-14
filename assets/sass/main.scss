@@ -1,27 +1,44 @@
-// setup / functions etc
-@import '_config'; // dynamically generated from JSON via gulp
-@import '_vars';
-@import '_functions';
-@import '_mixins';
-@import '_utils';
+/*
+ * 1. setup / functions etc
+ */
+@import 'config';     // dynamically generated from JSON via gulp
+@import '_vars';      // SCSS-wide variables (mostly layout-related)
+@import '_functions'; // low-level functions (gradients etc)
+@import '_mixins';    // useful for responsive
+@import '_utils';     // show/hide classes for mobile/desktop/js-off etc
 
-// global styles
-@import 'global/palette';
-@import 'global/reset';
-@import 'global/layout';
-@import 'global/forms';
-@import 'global/typography';
-@import 'global/lists';
-@import 'global/accents';
+/*
+ * 2. global/sitewide styles/defaults
+ */
+@import 'globals/reset';      // standardised browser defaults
+@import 'globals/palette';    // colour list
+@import 'globals/accents';    // accented colours
+@import 'globals/theme';      // general themes
+@import 'globals/layout';     // main scaffolding
+@import 'globals/typography'; // sitewide font settings
+@import 'globals/lists';      // custom list styles
+@import 'globals/forms';      // site-wide form styles
 
-// modules
-@import 'modules/header';
-@import 'modules/footer';
-@import 'modules/heroes';
-@import 'modules/btn';
-@import 'modules/data';
-@import 'modules/accessibility';
-@import 'modules/materials';
-@import 'modules/segment';
-@import 'modules/tweet';
-@import 'modules/tabs';
+/*
+ * 3. layout scaffolding
+ */
+@import 'scaffolding/content';
+@import 'scaffolding/footer';
+@import 'scaffolding/grid.scss';
+@import 'scaffolding/header';
+
+/*
+ * 4. individual components
+ */
+@import 'components/accessibility';
+@import 'components/btn';
+@import 'components/card';
+@import 'components/data'; // is this is a "component"?
+@import 'components/hero';
+@import 'components/materials';
+@import 'components/overlay';
+@import 'components/overlay-text';
+@import 'components/segment';
+@import 'components/tabs';
+@import 'components/vox-pop';
+

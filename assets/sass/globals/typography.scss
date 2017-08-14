@@ -1,0 +1,196 @@
+// standard body text
+@mixin t5() {
+    @include roboto();
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+    color: palette('charcoal');
+    // @TODO add a max-length here
+}
+
+// base font settings
+body, p, input, textarea, button, blockquote {
+    @include t5();
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', arial, sans-serif;
+    margin: 0 0 20px 0;
+}
+
+p {
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+a {
+    color: palette('blue-text');
+    transition: color 0.1s ease-in-out;
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue-text'), 20%);
+    }
+}
+
+blockquote {
+    @include font-and-leading(20px, 27px);
+    margin: 0 0 $spacingUnit 0;
+    font-style: italic;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    footer {
+        display: inline-block;
+    }
+
+    cite {
+        font-style: normal;
+        &:before {
+            content: ' - ';
+        }
+    }
+}
+
+@mixin quoteSymbol($type) {
+    $symbol: '\201C';
+    $align: bottom;
+    @if $type == 'close' {
+        $symbol: '\201D';
+        $align: top;
+    }
+    content: $symbol;
+    color: palette('pink');
+    font-size: 45px;
+    line-height: 1;
+    vertical-align: $align;
+}
+
+.pullquote {
+    @include mq('tablet', 'max') {
+        margin: 0 $spacingUnit *2 $spacingUnit $spacingUnit * 2;
+    }
+    margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
+    p {
+        font-style: italic;
+        color: palette('blue');
+
+        @include mq('tablet', 'max') {
+            @include font-and-leading(16px, 22px);
+        }
+
+        @include font-and-leading(24px, 30px);
+
+        &:first-of-type {
+            &:before {
+                @include quoteSymbol('open');
+            }
+        }
+
+        &:last-of-type {
+            &:after {
+                @include quoteSymbol('close');
+            }
+        }
+    }
+
+    aside {
+        margin: $spacingUnit / 4 0 $spacingUnit 0;
+        font-style: normal;
+    }
+}
+
+// type styles
+
+// very important headings, short word length.
+// often paired with overlay-text
+h1,
+.t1 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(20px, 30px);
+    @include mq('tablet') {
+        @include font-and-leading(28px, 44px);
+    }
+}
+
+// smaller variant of the above, for longer sentences
+// often paired with overlay-text
+h2,
+.t2 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(14px, 22px);
+    @include mq('tablet') {
+        @include font-and-leading(18px, 28px);
+    }
+}
+
+// mid-page heading
+h3,
+.t3 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(16px, 22px);
+    @include mq('tablet') {
+        @include font-and-leading(20px, 28px);
+    }
+
+    // modifier which adds a (contextual) colour
+    // underline below the text
+    &.t3--a {
+        &:after {
+            padding-top: 10px;
+            border-bottom-width: 3px;
+            border-bottom-style: solid;
+            display: block;
+            content: '';
+            width: 80px;
+        }
+    }
+
+    // @TODO should this be a general type modifier for all classes?
+    &.t3--b {
+        letter-spacing: 2px;
+    }
+}
+
+// minor headings
+h4,
+.t4 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(16px, 22px);
+}
+
+// standard body text
+.t5 {
+    @include t5();
+}
+
+// yep, the numerical discrepancy is deliberate here
+h5,
+.t6 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(13px, 20px);
+}
+
+h6,
+.t7 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(14px, 24px);
+}
+
+.cap-up {
+    text-transform: uppercase;
+}
+
+.lighter {
+    font-weight: 100;
+}

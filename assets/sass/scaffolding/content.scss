@@ -1,0 +1,21 @@
+.content-box {
+    @include bordered();
+    background-color: palette('pale');
+    padding: 40px 20px;
+    margin-bottom: 20px;
+
+    &.content-box--narrow {
+        padding: 10px;
+    }
+
+    &.content-box--borderless {
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
+    }
+
+    &.content-box--frameless {
+        border: none;
+        background-color: transparent;
+    }
+}

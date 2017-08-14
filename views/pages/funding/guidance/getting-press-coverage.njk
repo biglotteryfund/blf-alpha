@@ -9,16 +9,14 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', title, 23, 'hero__header') }}
-        </div>
+        {{ headers.overlayText('h2', title, 't1') }}
     {% endset %}
 
     {{ hero.header('press', heroContent, 'turquoise') }}
 
     <article role="main" class="nudge-up">
 
-        <div class="inner--wide-only p-text accent--turquoise accent-b-t accent-bg bordered">
+        <div class="inner--wide-only accent--turquoise a--border-top content-box">
             {{ copy.body | safe }}
         </div>
 

@@ -1,55 +1,17 @@
+// fetch these from /config/content/sass.json
+// (eg. so they're accessible in JavaScript too)
 $breakpoints: map-get($appConfig, 'breakpoints');
 
+// the main content area will have these width gutters
+// at the specified breakpoints
 $gutters: (
     "default": 20px,
     "tablet": 10%,
     "desktop": 20%,
 );
 
+// at this resolution, the content area will be limited in width
 $widestScreen: 1200px;
 
-$maxInnerWidth: 950px;
-
-// logo
-$logo: (
-    // actual dimensions
-    "width": 735px,
-    "height": 591px,
-    "cropPoint": 103px, // where the split starts
-    // desired dimensions
-    "mobileHeight": 80px,
-    "desktopHeight": 105px,
-);
-
-// globals
+// this is used as a utility measure around the site
 $spacingUnit: 20px;
-$borderRadius: 30px;
-$nudgeAmount: $spacingUnit * 1.25;
-$offscreenNavWidth: 65%;
-
-// forms
-$baseFormElementFontSize: 16px;
-
-// surgical utility classes
-$directions: (
-    'top': ('suffix': 't'),
-    'right': ('suffix': 'r'),
-    'bottom': ('suffix': 'b'),
-    'left': ('suffix': 'l')
-);
-
-// margin sizes
-$marginSizes: (
-    'default': (
-        'suffix': '',
-        'factor': 1
-    ),
-    'large': (
-        'suffix': '--l',
-        'factor': 2
-    ),
-    'small': (
-        'suffix': '--s',
-        'factor': 0.5
-    )
-);

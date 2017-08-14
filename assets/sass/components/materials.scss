@@ -35,8 +35,7 @@
         $btnHeight: 26px;
 
         .material-item__btn {
-            padding-left: 10px;
-            padding-right: 10px;
+            padding: 0 10px;
             width: 30px;
             height: $btnHeight;
             border-radius: 15px;
@@ -88,4 +87,10 @@
     font-size: 14px;
     color: #999999;
     text-align: right;
+}
+
+.material-item__actions {
+    form:last-child {
+        padding-top: 0;
+    }
 }

@@ -1,0 +1,109 @@
+$nudgeAmount: 25px;
+
+.inner {
+    @include responsiveGutter();
+}
+
+.inner--wide-only {
+    @include mq('tablet') {
+        @include responsiveGutter();
+    }
+}
+
+.is-on-top {
+    z-index: 100;
+}
+
+// @TODO better name
+.central-gap {
+    $gap: 20%;
+    @include mq('tablet', 'max') {
+        margin-left: $gap / 2;
+        margin-right: $gap / 2;
+    }
+    margin-left: $gap;
+    margin-right: $gap;
+}
+
+.width-natural {
+    max-width: auto;
+}
+
+.gutter-mob-only {
+    @include mq('tablet', 'max') {
+        margin-left: $spacingUnit;
+        margin-right: $spacingUnit;
+    }
+}
+
+.align--center {
+    text-align: center;
+}
+
+// @TODO put this somewhere better
+main {
+    transition: all 0.3s ease-in-out;
+}
+
+@mixin nudged-up {
+    margin-top: -$nudgeAmount;
+    position: relative;
+    z-index: 10;
+}
+
+@mixin nudged-down {
+    position: absolute;
+    bottom: $nudgeAmount + 30px;
+}
+
+.nudge-up {
+    margin-top: 0;
+    @include mq('tablet') {
+        @include nudged-up();
+    }
+}
+
+.nudge-up--always {
+    @include nudged-up();
+}
+
+.nudge-bottom {
+    position: absolute;
+    bottom: $spacingUnit;
+    @include responsiveGutter(true);
+
+    @include mq('tablet') {
+        @include nudged-down();
+    }
+}
+
+.nudge-bottom--always {
+    @include responsiveGutter(true);
+    @include nudged-down();
+}
+
+.padded {
+    padding: 20px;
+}
+
+// @TODO better names
+.expanded {
+    padding-top: $spacingUnit;
+}
+
+.spaced {
+    margin-bottom: $spacingUnit;
+}
+
+.spaced--s {
+    margin-bottom: $spacingUnit / 2;
+}
+
+.spaced--l {
+    margin-bottom: $spacingUnit * 2;
+}
+
+.gutter-mob-only {
+    margin-left: 20px;
+    margin-right: 20px;
+}

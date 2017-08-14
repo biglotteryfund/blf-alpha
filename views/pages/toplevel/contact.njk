@@ -9,9 +9,8 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom--always">
-            {{ headers.blockheader('h2', title, 30, 'hero__header') }}
-        </div>
+        {# @TODO this had nudge-bottom--always - why?#}
+        {{ headers.overlayText('h2', title, 't1') }}
     {% endset %}
 
     {{ hero.header('contact', heroContent, 'turquoise') }}
@@ -21,48 +20,48 @@
         <div class="inner links-emphasised">
 
             {% set applicationQuery %}
-                <h3 class="t6 m-t">{{ copy.offices.england }}</h3>
+                <h3 class="t3">{{ copy.offices.england }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0345 4 10 20 30 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a><br />
-                    <span class="t7">{{ copy.methods.address }}</span>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0345 4 10 20 30 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <strong class="highlight">{{ copy.methods.email }}</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a><br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.ni }}</h3>
+                <h3 class="t3">{{ copy.offices.ni }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '028 9055 1455' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 028 9055 1431 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.fax }}</span>: 028 9055 1445<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a><br />
-                    <span class="t7">{{ copy.methods.address }}</span>: 1 Cromac Quay, Belfast, BT7 2JD
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '028 9055 1455' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 028 9055 1431 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <strong class="highlight">{{ copy.methods.fax }}</strong>: 028 9055 1445<br />
+                    <strong class="highlight">{{ copy.methods.email }}</strong>: <a href="mailto:enquiries.ni@biglotteryfund.org.uk">enquiries.ni@biglotteryfund.org.uk</a><br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: 1 Cromac Quay, Belfast, BT7 2JD
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.scotland }}</h3>
+                <h3 class="t3">{{ copy.offices.scotland }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0300 123 7110' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 0300 123 7110 ({{ copy['hearing-speech-impairment']}})<br />
-                    <span class="t7">{{ copy.methods.bsl }}</span>: {{ copy['bsl-scotland'] }}<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a><br />
-                    <span class="t7">{{ copy.methods.switchboard }}</span>: {{ '0141 2421400' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods.address }}</span>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0300 123 7110' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 0300 123 7110 ({{ copy['hearing-speech-impairment']}})<br />
+                    <strong class="highlight">{{ copy.methods.bsl }}</strong>: {{ copy['bsl-scotland'] }}<br />
+                    <strong class="highlight">{{ copy.methods.email }}</strong>: <a href="mailto:advicescotland@biglotteryfund.org.uk">advicescotland@biglotteryfund.org.uk</a><br />
+                    <strong class="highlight">{{ copy.methods.switchboard }}</strong>: {{ '0141 2421400' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.wales }}</h3>
+                <h3 class="t3">{{ copy.offices.wales }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0300 123 0735' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0300 123 0735 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:{{ copy.wales.email }}">{{ copy.wales.email }}</a><br />
-                    <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address1 }}<br />
-                    <span class="t7">{{ copy.methods.address }}</span>: {{ copy.wales.address2 }}<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0300 123 0735' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0300 123 0735 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <strong class="highlight">{{ copy.methods.email }}</strong>: <a href="mailto:{{ copy.wales.email }}">{{ copy.wales.email }}</a><br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: {{ copy.wales.address1 }}<br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: {{ copy.wales.address2 }}<br />
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.ukPortfolio.title }}</h3>
+                <h3 class="t3">{{ copy.ukPortfolio.title }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 0300 123 4567 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.email }}</span>: <a href="mailto:{{ copy.ukPortfolio.email }}">{{ copy.ukPortfolio.email }}</a><br />
-                    <span class="t7">{{ copy.methods.address }}</span>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0300 123 4567 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <strong class="highlight">{{ copy.methods.email }}</strong>: <a href="mailto:{{ copy.ukPortfolio.email }}">{{ copy.ukPortfolio.email }}</a><br />
+                    <strong class="highlight">{{ copy.methods.address }}</strong>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE<br />
                 </p>
             {% endset %}
 
@@ -75,7 +74,7 @@
             {% endset %}
 
             {% set other %}
-                <h3 class="t6 m-t">{{ copy.offices.corporate }}</h3>
+                <h3 class="t3">{{ copy.offices.corporate }}</h3>
 
                 <p>
                     1 Plough Place<br />
@@ -84,35 +83,35 @@
                 </p>
 
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '020 7211 1800' | makePhoneLink | safe }} {{ copy.or }} {{ '0300 500 5050' | makePhoneLink | safe }}<br />
-                    <span class="t7">{{ copy.methods['text-relay'] }}</span>: 18001 {{ copy.plus }} 020 7211 1800 {{ copy.or }} 0300 500 5050 ({{ copy['hearing-speech-impairment'] }})<br />
-                    <span class="t7">{{ copy.methods.fax }}</span>: 020 7211 1750
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '020 7211 1800' | makePhoneLink | safe }} {{ copy.or }} {{ '0300 500 5050' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 020 7211 1800 {{ copy.or }} 0300 500 5050 ({{ copy['hearing-speech-impairment'] }})<br />
+                    <strong class="highlight">{{ copy.methods.fax }}</strong>: 020 7211 1750
                 </p>
             {% endset %}
 
             {% set pressQuery %}
-                <h3 class="t6 m-t">{{ copy.offices.england }}/{{ copy.offices.uk }}</h3>
+                <h3 class="t3">{{ copy.offices.england }}/{{ copy.offices.uk }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '020 7211 1888' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '020 7211 1888' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: 07867 500572)<br />
-                    <span class="t7">Email:</span> <a href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a>
+                    <strong class="highlight">Email:</strong> <a href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a>
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.ni }}</h3>
+                <h3 class="t3">{{ copy.offices.ni }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '02890 551 432' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '02890 551 432' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07580 811 135' | makePhoneLink | safe }})
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.scotland }}</h3>
+                <h3 class="t3">{{ copy.offices.scotland }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '0141 242 1451' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0141 242 1451' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07880 737 157' | makePhoneLink | safe }})
                 </p>
 
-                <h3 class="t6 m-t">{{ copy.offices.wales }}</h3>
+                <h3 class="t3">{{ copy.offices.wales }}</h3>
                 <p>
-                    <span class="t7">{{ copy.methods.phone }}</span>: {{ '029 2067 8236' | makePhoneLink | safe }}<br />
+                    <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '029 2067 8236' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07870 566 867' | makePhoneLink | safe }})
                 </p>
             {% endset %}
