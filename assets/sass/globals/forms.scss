@@ -16,7 +16,7 @@
         background-color: #ffffff;
         color: #000000;
         border: 1px solid palette('soft-grey');
-        border-radius: $borderRadius;
+        border-radius: 20px;
         font-size: $baseFormElementFontSize;
         margin-right: $spacingUnit;
         padding: $spacingUnit / 4 $spacingUnit / 2;
@@ -110,6 +110,7 @@
     }
 
     label {
+        margin-top: 20px;
         display: block;
         line-height: 1;
         font-weight: 400;
@@ -147,6 +148,11 @@
             margin-left: auto;
             margin-right: auto
         }
+    }
+
+    // bit of a hack to work around doubled margins
+    .no-gap {
+        margin-top: 0 !important;
     }
 
 }
