@@ -7,4 +7,15 @@
     &.content-box--narrow {
         padding: 10px;
     }
+
+    &.content-box--borderless {
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
+    }
+
+    &.content-box--frameless {
+        border: none;
+        background-color: transparent;
+    }
 }

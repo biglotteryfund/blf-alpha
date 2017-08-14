@@ -19,7 +19,7 @@
         <div class="inner--wide-only accent--blue a--border-top content-box">
 
             <div class="align--center">
-                <a class="btn accent--pink a--btn central-gap spaced" href="https://atsv7.wcn.co.uk/search_engine/jobs.cgi?owner=5031783&ownertype=fair&submitSearchForm=1&submitSearchForm=Search&vac_xtra5031783.30_5031783=&posting_code=53">{{ copy['call-to-action'] }}</a>
+                <a class="btn accent--pink a--btn central-gap spaced--l" href="https://atsv7.wcn.co.uk/search_engine/jobs.cgi?owner=5031783&ownertype=fair&submitSearchForm=1&submitSearchForm=Search&vac_xtra5031783.30_5031783=&posting_code=53">{{ copy['call-to-action'] }}</a>
             </div>
 
             <h3 class="t3">{{ copy.sections.whyWork.title }}</h3>
@@ -30,7 +30,7 @@
         <div class="inner--wide-only accent--green a--border-top content-box">
             <h3 class="t3">{{ copy.sections.benefits.title }}</h3>
             {{ copy.sections.benefits.body | safe }}
-            <ul class="list-bullets">
+            <ul class="list-bullets highlight">
                 {% for benefit in copy.sections.benefits.list %}
                     <li><strong>{{ benefit }}</strong></li>
                 {% endfor %}

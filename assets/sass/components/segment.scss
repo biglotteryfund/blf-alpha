@@ -1,6 +1,10 @@
 .segment {
     margin-bottom: 40px;
 
+    @include mq('tablet', 'max') {
+        background-color: palette('pale');
+    }
+
     @include mq('tablet') {
         display: flex;
     }
@@ -8,7 +12,6 @@
     .segment__media {
 
         @include mq('tablet', 'max') {
-            background-color: palette('pale');
             padding: $spacingUnit $spacingUnit 0 $spacingUnit;
 
             img {
@@ -32,7 +35,6 @@
     }
 
     .segment__aside {
-        background-color: palette('pale');
         flex-grow: 1;
         padding: 17px 20px 40px 20px;
 
@@ -42,6 +44,7 @@
 
         @include mq('tablet') {
             @include bordered();
+            background-color: palette('pale');
             padding: 40px 20px;
             margin-top: 0;
         }

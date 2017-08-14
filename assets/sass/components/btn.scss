@@ -69,8 +69,8 @@ $btnConf: (
 
 // small variant (also a different colour)
 .btn--small {
-    font-size: map-deep-get($btnConf, 'small', 'fontSize');
     @include getBtnVertPadding(map-get($btnConf, 'small'));
+    font-size: map-deep-get($btnConf, 'small', 'fontSize');
     background-color: palette('pink');
 
     @include on-interact {
@@ -89,6 +89,11 @@ $btnConf: (
     background-color: #ffffff !important;
     color: palette('blue') !important;
     border: 3px solid palette('blue');
+
+    &.btn--small {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
     @include on-interact {
         background-color: #ffffff;

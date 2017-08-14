@@ -56,6 +56,10 @@ nav {
     @include mq('tablet') {
         margin-top: 40px; // align with logo
     }
+
+    &.mobile-only {
+        margin-top: 0;
+    }
 }
 
 // mobile off-screen nav

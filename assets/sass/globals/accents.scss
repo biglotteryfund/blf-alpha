@@ -85,17 +85,23 @@
         }
 
         &.btn--outline {
+            $activeState: darken($colour, 20%);
             border-color: $colour;
             color: $colour !important;
-
-            @include on-interact {
-                border-color: darken($colour, 20%) !important;
-                color: darken($colour, 20%) !important;
-            }
 
             .btn__icon {
                 fill: $colour !important;
             }
+
+            @include on-interact {
+                border-color: $activeState !important;
+                color: $activeState !important;
+                .btn__icon {
+                    fill: $activeState !important;
+                }
+            }
+
+
         }
 
         // high contrast mode styles

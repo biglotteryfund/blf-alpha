@@ -184,12 +184,14 @@
                     </form>
 
                     {# social buttons #}
-                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
-                        <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
-                    </a>
-                    <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--small btn--outline accent--blue btn--block">
-                        <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
-                    </a>
+                    <div class="gutter-mob-only">
+                        <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
+                            <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
+                        </a>
+                        <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--small btn--outline accent--blue btn--block">
+                            <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
+                        </a>
+                    </div>
 
                 </li>
             </ul>

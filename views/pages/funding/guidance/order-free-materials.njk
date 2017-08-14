@@ -72,7 +72,7 @@
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
         {% for item in materials %}
             <li class="grid__item">
-                <div class="grid__item__inner accent--blue a--border-top-l bordered material-item card card--padded card--title">
+                <div class="grid__item__inner accent--blue a--border-top--large bordered material-item card card--padded card--title">
 
                     <h6 class="t4 card__title">{{ item.name[locale] }}</h6>
 
@@ -144,13 +144,13 @@
 
                 {# monolingual items #}
                 <div v-if="showMonolingual" id="monolingual">
-                    <h3 class="t3a">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
+                    <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
                     {{ listProducts('monolingual') }}
                 </div>
 
                 {# bilingual items #}
                 <div v-if="!showMonolingual" id="bilingual">
-                    <h3 class="t3a">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
+                    <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
                     {{ listProducts('bilingual') }}
                 </div>
 
@@ -158,7 +158,7 @@
 
             <div class="inner accent--blue a--border-top p" id="your-details">
                 <div class="padded">
-                    <h3 class="t3a">{{ copy.enterDeliveryAddress }}</h3>
+                    <h3 class="t3">{{ copy.enterDeliveryAddress }}</h3>
 
                     <form class="inline-form order-form" method="post">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
