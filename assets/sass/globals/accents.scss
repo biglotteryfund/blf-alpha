@@ -22,6 +22,14 @@
         // text color
         &.a--text {
             color: $colour;
+
+            // sass magic: get a.accent--$foo.a--text
+            @at-root a#{&} {
+                color: $colour;
+                @include on-interact {
+                    color: darken($colour, 10%);
+                }
+            }
         }
 
         // border on top of elements

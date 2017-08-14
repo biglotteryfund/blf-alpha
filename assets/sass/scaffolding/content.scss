@@ -3,4 +3,8 @@
     background-color: palette('pale');
     padding: 40px 20px;
     margin-bottom: 20px;
+
+    &.content-box--narrow {
+        padding: 10px;
+    }
 }

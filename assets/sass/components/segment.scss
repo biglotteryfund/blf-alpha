@@ -1,5 +1,4 @@
 .segment {
-    $segmentBg: #f5fafb;
     margin-bottom: 40px;
 
     @include mq('tablet') {
@@ -9,7 +8,7 @@
     .segment__media {
 
         @include mq('tablet', 'max') {
-            background-color: $segmentBg;
+            background-color: palette('pale');
             padding: $spacingUnit $spacingUnit 0 $spacingUnit;
 
             img {
@@ -21,20 +20,21 @@
                 top: auto;
                 left: auto;
                 margin: 0;
+                width: 100%;
             }
         }
 
         @include mq('tablet') {
             width: 300px;
-            margin-right: $spacingUnit / 2;
+            margin-right: 12px;
             flex-shrink: 0;
         }
     }
 
     .segment__aside {
-        padding: 20px;
-        background-color: $segmentBg;
+        background-color: palette('pale');
         flex-grow: 1;
+        padding: 17px 20px 40px 20px;
 
         @include mq('tablet', 'max') {
             margin-top: 0;
@@ -42,6 +42,7 @@
 
         @include mq('tablet') {
             @include bordered();
+            padding: 40px 20px;
             margin-top: 0;
         }
     }

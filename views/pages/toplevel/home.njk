@@ -97,7 +97,7 @@
                         {% for n in news %}
                             <li class="grid__item">
                                 <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
-                                <p>{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
+                                <p>{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="accent--pink a--text">Read more...</a></p>
                             </li>
                         {% endfor %}
                     </ul>

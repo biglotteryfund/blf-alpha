@@ -88,15 +88,18 @@
             }
 
             &.grid--bordered {
+
+                $borderColour: #94aee5;
+
                 @include mq('tablet', 'max') {
                     > .grid__item {
-                        border-bottom: 1px solid #acbade;
+                        border-bottom: 4px solid $borderColour;
                     }
                 }
                 @include mq('tablet') {
                     > .grid__item {
-                        border-top: 1px solid #acbade;
-                        border-right: 1px solid #acbade;
+                        border-top: 1px solid $borderColour;
+                        border-right: 1px solid $borderColour;
 
                         // some magic to alternate border colours
                         &:nth-child(odd) { &:after { border-left-color: palette('blue'); } }
