@@ -143,16 +143,16 @@
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink a--border-top">
-                    <form class="form-ebulletin padded" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
+                    <form class="form-ebulletin padded spaced" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t3 t3--a accent--pink a--text">e-bulletin sign up</h3>
 
                         {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}
-                                <h5 class="t10">Thank you for subscribing to receive updates and news from the Big Lottery Fund</h5>
-                                <p class="info-msg">Your personal data is important to us and we will not share it with third parties. We are sure you will enjoy hearing from us, but you can <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe at any time</a> if you wish.</p>
+                                <h5 class="t4">Thank you for subscribing to receive updates and news from the Big Lottery Fund</h5>
+                                <p class="t6">Your personal data is important to us and we will not share it with third parties. We are sure you will enjoy hearing from us, but you can <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe at any time</a> if you wish.</p>
                             {% else %}
-                                <h5 class="t10">There was an error signing you up to the e-bulletin</h5>
-                                <p class="info-msg">It looks like we're experiencing an error with our e-bulletin tool. Please try again later.</p>
+                                <h5 class="t4">There was an error signing you up to the e-bulletin.</h5>
+                                <p class="t6">It looks like we're experiencing an error with our e-bulletin tool. Please try again later.</p>
                             {% endif %}
                         {% else %}
                             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -179,12 +179,12 @@
                             {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
                             {{ forms.input('Email', 'Email', 'email', required = true) }}
 
-                            <input type="submit" value="Subscribe" class="btn accent--pink a--btn form-ebulletin__btn" />
+                            <input type="submit" value="Subscribe" class="btn btn--small accent--pink a--btn form-ebulletin__btn" />
                         {% endif %}
                     </form>
 
                     {# social buttons #}
-                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block">
+                    <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
                         <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
                     </a>
                     <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--small btn--outline accent--blue btn--block">
