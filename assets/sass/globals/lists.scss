@@ -12,8 +12,10 @@
     }
 }
 
-//article ul, // @TODO add a class to UGC for lists
+.has-body-copy ul,
 .list-bullets {
+    margin-bottom: 20px;
+
     li {
         list-style-type: disc;
         margin-left: $spacingUnit;

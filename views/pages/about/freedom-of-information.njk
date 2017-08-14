@@ -14,7 +14,7 @@
 
     {{ hero.header('foi', heroContent, 'turquoise') }}
 
-    <article role="main" class="nudge-up">
+    <article role="main" class="nudge-up has-body-copy">
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
             {{ copy.sections.intro | safe }}
@@ -22,21 +22,21 @@
 
         {% if copy.sections.howToRequest.body %}
             <div class="inner--wide-only accent--pink a--border-top content-box">
-                <h3 class="t6 m-t">{{ copy.sections.howToRequest.title }}</h3>
+                <h3 class="t3">{{ copy.sections.howToRequest.title }}</h3>
                 {{ copy.sections.howToRequest.body | safe }}
             </div>
         {% endif %}
 
         {% if copy.sections.forCustomers.body %}
             <div class="inner--wide-only accent--blue a--border-top content-box">
-                <h3 class="t6 m-t">{{ copy.sections.forCustomers.title }}</h3>
+                <h3 class="t3">{{ copy.sections.forCustomers.title }}</h3>
                 {{ copy.sections.forCustomers.body | safe }}
             </div>
         {% endif %}
 
         {% if copy.sections.publicationScheme.body %}
             <div class="inner--wide-only accent--orange a--border-top content-box">
-                <h3 class="t6 m-t">{{ copy.sections.publicationScheme.title }}</h3>
+                <h3 class="t3">{{ copy.sections.publicationScheme.title }}</h3>
                 {{ copy.sections.publicationScheme.body | safe }}
             </div>
         {% endif %}

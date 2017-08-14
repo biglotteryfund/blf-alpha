@@ -93,7 +93,7 @@
             {# news posts #}
             {% if news.length %}
                 <div class="accent--blue a--border-top">
-                    <ul class="m-t-none unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only p-t">
+                    <ul class="m-t-none unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only padded">
                         {% for n in news %}
                             <li class="grid__item">
                                 <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
