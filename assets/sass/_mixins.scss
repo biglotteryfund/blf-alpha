@@ -90,3 +90,10 @@
 @mixin roboto() {
     font-family: 'Roboto', arial, sans-serif;
 }
+
+@mixin disabledBtn() {
+    background-color: grey !important;
+    @include on-interact {
+        background-color: grey !important;
+    }
+}

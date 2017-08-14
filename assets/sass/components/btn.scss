@@ -61,67 +61,49 @@ $btnConf: (
         text-decoration: none;
         transition: none;
     }
+
+    &[disabled='disabled'] {
+        @include disabledBtn();
+    }
 }
 
-    // small variant (also a different colour)
-    .btn--small {
-        font-size: map-deep-get($btnConf, 'small', 'fontSize');
-        @include getBtnVertPadding(map-get($btnConf, 'small'));
-        background-color: palette('pink');
+// small variant (also a different colour)
+.btn--small {
+    font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    @include getBtnVertPadding(map-get($btnConf, 'small'));
+    background-color: palette('pink');
 
-        @include on-interact {
-            background-color: darken(palette('pink'), 15%);
-            outline: none;
-        }
+    @include on-interact {
+        background-color: darken(palette('pink'), 15%);
+        outline: none;
     }
+}
 
-    // forces full-width
-    .btn--block {
-        display: block;
+// forces full-width
+.btn--block {
+    display: block;
+}
+
+// outlined mode
+.btn--outline {
+    background-color: #ffffff !important;
+    color: palette('blue') !important;
+    border: 3px solid palette('blue');
+
+    @include on-interact {
+        background-color: #ffffff;
+        border-color: darken(palette('blue'), 20%);
+        color: darken(palette('blue'), 20%) !important;
     }
+}
 
-    // outlined mode
-    .btn--outline {
-        background-color: #ffffff !important;
-        color: palette('blue') !important;
-        border: 3px solid palette('blue');
-
-        @include on-interact {
-            background-color: #ffffff;
-            border-color: darken(palette('blue'), 20%);
-            color: darken(palette('blue'), 20%) !important;
-        }
-    }
-
-    // icon inside the button
-    .btn__icon {
-        vertical-align: middle;
-        display: inline-block;
-        line-height: 1;
-        margin-right: 5px;
-    }
-
-
-//    &[disabled='disabled'] {
-//        @include disabledBtn();
-//    }
-//}
-//
-
-//.btn.btn--pink {
-//    background-color: palette('pink') !important;
-//    @include on-interact {
-//        background-color: darken(palette('pink'), 10%) !important;
-//    }
-//}
-//
-//.btn.btn--pink-alt {
-//    background-color: palette('pink-alt') !important;
-//    @include on-interact {
-//        background-color: darken(palette('pink-alt'), 10%) !important;
-//    }
-//}
-//
+// icon inside the button
+.btn__icon {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+    margin-right: 5px;
+}
 
 .btn--carousel {
     position: absolute;
