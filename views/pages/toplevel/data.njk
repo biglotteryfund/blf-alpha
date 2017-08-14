@@ -37,7 +37,7 @@
 
     <article role="main" class="nudge-up">
         <div class="inner accent--pink a--border-top stats-holder content-box">
-            <h3 class="t9 t9--a m-t">{{ copy.keyStats }}</h3>
+            <h3 class="t9 t9--a">{{ copy.keyStats }}</h3>
 
             <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
 
@@ -70,7 +70,7 @@
 
     <article role="main" class="accent--blue a--border-top map-holder">
         <div class="inner--wide-only">
-            <h3 class="t9 t9--d m-b--l m-t">{{ copy.map.title }}</h3>
+            <h3 class="t9 t9--d">{{ copy.map.title }}</h3>
 
             <div class="map-wrapper">
                 {% include "../../includes/uk-svg.njk" %}
@@ -79,15 +79,15 @@
             <div id="js-map-panes">
                 {% for region in grants %}
                     <div class="js-pane tab-pane map-info accent--blue a--border-top p bg-plain region--{{ region.id }}--b-t" id="region-{{ region.id }}">
-                        <h4 class="t9 t9--d region--{{ region.id }}--b-b m-b">{{ copy.regions[region.id] }}</h4>
+                        <h4 class="t9 t9--d region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
 
-                        <h5 class="t4 m-t accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
+                        <h5 class="t4 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
                         <h6 class="t5">{{ copy.map.population }}</h6>
 
-                        <h5 class="t4 m-t accent--blue a--text">{{ region.totalAwarded }}</h5>
+                        <h5 class="t4 accent--blue a--text">{{ region.totalAwarded }}</h5>
                         <h6 class="t5">{{ copy.map.totalAwarded }}</h6>
 
-                        <h5 class="t4 m-t m-b-none accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
+                        <h5 class="t4 accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
                         <h6 class="t5">{{ copy.map.totalBeneficiaries }}</h6>
                     </div>
                 {% endfor %}

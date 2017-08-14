@@ -23,14 +23,14 @@
         {# main content area #}
         <main>
             {% include "../includes/header.njk" %}
-            <div id="content" class="m-t-none">
+            <div id="content">
                 {% block content %}{% endblock %}
             </div>
             {% include "../includes/footer.njk" %}
         </main>
 
         {# mobile nav (duplicated in header above) #}
-        <nav class="mobile-only m-t-none">
+        <nav class="mobile-only">
             <ul class="nav--offscreen" id="nav">
                 {{ navlinks('nav--offscreen__link') }}
             </ul>

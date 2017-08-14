@@ -11,18 +11,18 @@
     {% else %}
         {% set logoExamplePath = 'images/logos/examples-cy.png' %}
     {% endif %}
-    <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.howToUseLogo.title }}</h3>
+    <h3 class="t3a tab-fallback-title">{{ copy.howToUseLogo.title }}</h3>
     <h3 class="t3a">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
+    <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
+    <h3 class="t3a">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.format.body | safe }}</p>
+    <h3 class="t3a">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.options.body | safe }}</p>
+    <h3 class="t3a">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
     <div class="central-gap">
         <img src="{{ logoExamplePath | getCachebustedPath }}"
@@ -50,8 +50,8 @@
     {% if copy.successMessages[type] %}
         <div class="hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t3 m-t">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t3 m-t">{{ copy.successMessages[type].body }}</h4>
+            <h4 class="t3">{{ copy.successMessages[type].title }}</h4>
+            <h4 class="t3">{{ copy.successMessages[type].body }}</h4>
         </div>
     {% endif %}
 {% endmacro %}
@@ -98,18 +98,18 @@
 
         <div class="inner--wide-only accent--blue a--border-top content-box">
 
-            <h3 class="t3a m-t">{{ copy.subtitle }}</h3>
-            <p class="m-t-none">{{ copy.body | safe }}</p>
+            <h3 class="t3a">{{ copy.subtitle }}</h3>
+            <p>{{ copy.body | safe }}</p>
             <p><strong>{{ copy.locationPrompt }}</strong></p>
 
-            <div class="m-l--l m-r--l">
+            <div>
                 <ul class="js-tabs unstyled grid grid--padded grid--equal grid--2-up grid--wide-only"
                     data-panes="js-logo-panes"
                     data-no-initial-selection="true">
-                    <li class="js-tab-item grid__item m-b-none">
+                    <li class="js-tab-item grid__item">
                         <a href="#js-logo-panes-en" class="btn btn--block">{{ copy.locations.monolingual }}</a>
                     </li>
-                    <li class="js-tab-item grid__item m-b-none">
+                    <li class="js-tab-item grid__item">
                         <a href="#js-logo-panes-cy" class="btn btn--block">{{ copy.locations.bilingual }}</a>
                     </li>
                 </ul>
@@ -123,12 +123,12 @@
 
                 {{ logoTabBar('js-logo-panes-en', copy.logoDownloads.monolingual, 'en') }}
 
-                <div id="js-logo-panes-en" class="m-t-none">
+                <div id="js-logo-panes-en">
                     {# logo pane #}
                     <div class="js-pane tab-pane bordered padded" id="logos-en">
-                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.monolingual }}</h3>
+                        <h3 class="t3a tab-fallback-title">{{ copy.logoDownloads.monolingual }}</h3>
 
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered padded">
                                     {{ logoBlock(1, 'blue', 'blue', 'en') }}
@@ -165,12 +165,12 @@
 
                 {{ logoTabBar('js-logo-panes-cy', copy.logoDownloads.bilingual, 'cy') }}
 
-                <div id="js-logo-panes-cy" class="m-t-none">
+                <div id="js-logo-panes-cy">
                     {# logo pane #}
                     <div class="js-pane tab-pane bordered padded" id="logos-cy">
-                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.bilingual }}</h3>
+                        <h3 class="t3a tab-fallback-title">{{ copy.logoDownloads.bilingual }}</h3>
 
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
                                 <div class="grid__item__inner accent--turquoise bordered padded">
                                     {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}

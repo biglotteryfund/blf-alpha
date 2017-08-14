@@ -7,7 +7,7 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% macro caseStudy() %}
-    <ul class="unstyled grid vox-pop m-t-none">
+    <ul class="unstyled grid vox-pop">
         <li class="grid__item vox-pop__image">
             <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" alt="A case study" />
         </li>
@@ -30,12 +30,12 @@
 
     {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps') }}
 
-    <article role="main" class="m-t-none">
+    <article role="main">
         <div class="inner">
             <h3 class="t8 align--center intro-header">Here's how you can make a difference in your community...</h3>
 
             {# funding apply links #}
-            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only m-t-none">
+            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
 
                 {# under 10k #}
                 <li class="grid__item">
@@ -56,7 +56,7 @@
                             content = miniHeroContent
                         )}}
                     </div>
-                    <div class="bg-pale-grey p-cta m-t-none bordered">
+                    <div class="bg-pale-grey padded bordered">
                         <a class="btn accent--pink a--btn btn--block" href="{{ buildUrl('', 'under10k') }}">
                             <span class="light">Apply for funding</span> <strong>under £10k</strong>
                         </a>
@@ -82,7 +82,7 @@
                             content = miniHeroContent
                         )}}
                     </div>
-                    <div class="bg-pale-grey p-cta m-t-none bordered">
+                    <div class="bg-pale-grey padded bordered">
                         <a class="btn accent--turquoise a--btn btn--block" href="{{ buildUrl('', 'over10k') }}">
                             <span class="light">Apply for funding</span> <strong>over £10k</strong>
                         </a>
@@ -93,11 +93,11 @@
             {# news posts #}
             {% if news.length %}
                 <div class="accent--blue a--border-top">
-                    <ul class="m-t-none unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only padded">
+                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only padded">
                         {% for n in news %}
                             <li class="grid__item">
                                 <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
-                                <p class="m-t--s">{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
+                                <p>{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="link-pink">Read more...</a></p>
                             </li>
                         {% endfor %}
                     </ul>
@@ -105,7 +105,7 @@
             {% endif %}
 
             {# funding finder #}
-            <div class="central-gap m-t--s m-b--s">
+            <div class="central-gap">
                 <a href="#" class="btn btn--block accent--blue a--btn">Find out what we funded</a>
             </div>
         </div>
@@ -127,7 +127,7 @@
                     </button>
                 </div>
 
-                <ul class="js-carousel unstyled m-t-none" data-per-page="1">
+                <ul class="js-carousel unstyled" data-per-page="1">
                     <li>{{ caseStudy() }}</li>
                     <li>{{ caseStudy() }}</li>
                     <li>{{ caseStudy() }}</li>
@@ -138,11 +138,11 @@
             </div>
 
             {# tweets #}
-            <ul class="unstyled grid grid--wide-only grid--equal m-t--l">
-                <li class="grid__item grid__item--large accent--blue a--border-top m-t-none p">
+            <ul class="unstyled grid grid--wide-only grid--equal">
+                <li class="grid__item grid__item--large accent--blue a--border-top padded">
                     <a class="twitter-timeline" href="https://twitter.com/BigLotteryFund" data-tweet-limit="3" data-chrome="noheader">Tweets by BigLotteryFund</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
-                <li class="grid__item accent--pink a--border-top m-t-none">
+                <li class="grid__item accent--pink a--border-top">
                     <form class="form-ebulletin padded" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t9">e-bulletin sign up</h3>
 
@@ -173,8 +173,8 @@
                             </div>
 
                             <div class="grid grid--padded clear-both">
-                                {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
-                                {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item m-b-none') }}
+                                {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item') }}
                             </div>
                             {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
                             {{ forms.input('Email', 'Email', 'email', required = true) }}
