@@ -41,7 +41,7 @@
             <h3 class="t3">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in copy.projects %}
-                    <li class="grid__item accent--pink a--border-top bg-pale-grey">{{ blocks.projectBlock(project, 'accent--pink a--text') }}</li>
+                    <li class="grid__item">{{ blocks.projectBlock(project, 'accent--pink') }}</li>
                 {% endfor %}
             </ul>
 

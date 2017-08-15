@@ -64,7 +64,7 @@
 
             <div id="js-map-panes">
                 {% for region in grants %}
-                    <div class="js-pane tab-pane map-info accent--blue a--border-top padded bg-plain region--{{ region.id }}--b-t" id="region-{{ region.id }}">
+                    <div class="js-pane tab-pane map-info accent--blue a--border-top padded region--{{ region.id }}--b-t" id="region-{{ region.id }}">
                         <h4 class="t3 t3--a region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
 
                         <h5 class="map-info__stat t3 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>

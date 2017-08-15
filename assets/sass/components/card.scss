@@ -1,4 +1,5 @@
 .card {
+    @include bordered();
     height: 100%;
     background-color: palette('pale');
 
