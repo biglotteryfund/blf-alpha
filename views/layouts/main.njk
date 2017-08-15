@@ -6,10 +6,8 @@
         <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 
         <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
-        {% if not disableExternal %}
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-        {% endif %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
@@ -44,9 +42,7 @@
             </div>
         </div>
 
-    {% if not disableExternal %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    {% endif %}
         <script src="//www.google-analytics.com/cx/api.js"></script>
         <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
                 id="js-script-main"

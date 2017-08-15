@@ -41,9 +41,6 @@ setGlobal('metadata', {
     themeColour: sassConfig.themeColour
 });
 
-// add a toggle for offline dev to skip loading external assets
-setGlobal('disableExternal', config.get('disableExternal'));
-
 // make anchors available everywhere (useful for routing and templates)
 setGlobal('anchors', config.get('anchors'));
 
