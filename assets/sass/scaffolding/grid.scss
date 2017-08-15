@@ -126,6 +126,14 @@
                                 border-left-style: solid;
                                 border-left-width: 4px;
                             }
+
+                            // when used inside a content box,
+                            // the border should be 15px outside
+                            .content-box & {
+                                &:after {
+                                    left: -#{ $contentBoxHorizontalPadding + 15px};
+                                }
+                            }
                         }
                     }
                 }

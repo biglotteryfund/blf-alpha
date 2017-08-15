@@ -8,6 +8,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] session caching issues on tools/login
 - [ ] make commit hooks only run if JS code changes
 - [ ] failing tests don't stop commits/builds?!
+- [ ] pre-commit hook shouldn't break the dev server
 
 ## Tech debt
 - [ ] print stylesheet
