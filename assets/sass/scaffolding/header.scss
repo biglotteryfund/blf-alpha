@@ -130,7 +130,7 @@ nav {
 
 }
 
-// @TODO put this somewhere better
+// handle animation of offscreen nav for mobile
 @include mq('tablet', 'max') {
     .show-off-canvas {
         overflow: hidden;

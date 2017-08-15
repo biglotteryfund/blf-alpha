@@ -9,7 +9,6 @@ $btnConf: (
     )
 );
 
-// @TODO this could use line-height as well
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
     $fontSize: map-get($conf, 'fontSize');

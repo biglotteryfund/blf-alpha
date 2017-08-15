@@ -60,6 +60,8 @@ let newHomepage = (req, res, next) => {
     }
 };
 
+// @TODO cache this page as it's very slow to return
+// (or will cloudfront cover us?)
 let oldHomepage = (req, res, next) => {
     return rp({
         url: legacyUrl,

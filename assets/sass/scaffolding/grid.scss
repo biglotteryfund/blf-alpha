@@ -6,7 +6,6 @@
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
-        //margin: 0; // @TODO is this safe to remove?
     }
 
     > .grid__item--large {
@@ -35,11 +34,8 @@
         }
     }
 
-    // arbitrary
     $paddedGridGutter: 10px;
     $paddedGridGutterLarge: 30px;
-
-    // @TODO generate these classes from a mixin
 
     &.grid--padded {
         margin-left: -$paddedGridGutter;
@@ -61,8 +57,7 @@
 
     // output grid cols for 2-up, 3-up etc
     @for $i from 2 through 4 {
-        // @TODO – does this need to be rounded for everything?
-        // or just to fix IE11? eg. data page
+        // we round this number down to fix IE11 bugs in the grid
         $colWidth: decimal-round(100% / $i, 0, floor);
 
         &.grid--#{$i}-up {

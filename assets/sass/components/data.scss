@@ -156,9 +156,8 @@
     position: relative;
 }
 
-// @TODO this is effectively mirroring the accents concept
-// is there a way to merge them?
-
+// this mirrors the accents concept, but we keep it separate
+// as adding it there would produce a bunch of superfluous classes
 $mapRegions: (
     "default": #E4E3E1,
     "east-midlands": #86BD3F,
@@ -188,11 +187,6 @@ $mapRegions: (
             @include on-interact {
                 fill: palette('pink');
             }
-        }
-
-        //
-        .region--#{$region}.tab--active {
-
         }
 
         .region--#{$region}--b-t {

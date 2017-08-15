@@ -4,7 +4,6 @@
     @include font-and-leading(20px, 27px);
     font-weight: 400;
     color: palette('charcoal');
-    // @TODO add a max-length here
 }
 
 // base font settings
@@ -153,7 +152,7 @@ h3,
         }
     }
 
-    // @TODO should this be a general type modifier for all classes?
+    // should this be a general type modifier for all classes?
     &.t3--b {
         letter-spacing: 2px;
     }
