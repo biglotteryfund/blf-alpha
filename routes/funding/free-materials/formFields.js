@@ -11,7 +11,7 @@ module.exports = [
     },
     {
         name: 'yourEmail',
-        type: 'text',
+        type: 'email',
         required: true,
         label: {
             'en': 'Email address',
