@@ -79,17 +79,17 @@ router.get(loginPath, (req, res, next) => {
     });
 });
 
-router.post(loginPath, function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+router.post(loginPath, (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
         if (err) {
             return next(err);
         } else {
-            req.logIn(user, function (err) {
+            req.logIn(user, (err) => {
                 if (err) { // user not valid, send them to login again
                     req.flash('error', info.message);
                     // save the session to avoid race condition
                     // see https://github.com/mweibel/connect-session-sequelize/issues/20
-                    req.session.save(function () {
+                    req.session.save(() => {
                         return res.redirect(loginPath);
                     });
                 } else { // user is valid, send them on
@@ -101,7 +101,7 @@ router.post(loginPath, function(req, res, next) {
                         redirectUrl = req.session.redirectUrl;
                         delete req.session.redirectUrl;
                     }
-                    req.session.save(function () {
+                    req.session.save(() => {
                         res.redirect(redirectUrl);
                     });
                 }
@@ -111,7 +111,7 @@ router.post(loginPath, function(req, res, next) {
 });
 
 // logout path
-router.get('/tools/logout', function(req, res){
+router.get('/tools/logout', (req, res)  => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
     req.logout();
@@ -223,7 +223,7 @@ router.route(editNewsPath + '/:id?')
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                req.session.save(function () {
+                req.session.save(() => {
                     res.redirect(redirectBase + '?error');
                 });
             } else {
@@ -251,7 +251,7 @@ router.route(editNewsPath + '/:id?')
                     models.News.upsert(rowData);
                 }
                 req.flash('newsStatus', 'success');
-                req.session.save(function () {
+                req.session.save(() => {
                     res.redirect(redirectBase + '?success');
                 });
             }

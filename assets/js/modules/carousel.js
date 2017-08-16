@@ -11,7 +11,7 @@ const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', '')
 let carouselBreakpointConfig = { 1: 1 };
 carouselBreakpointConfig[tabletBreakpoint] = defaultPerPage;
 
-const Carousel = function (settings) {
+const Carousel = (settings) => {
 
     let carouselElm = document.querySelector(settings.selector);
 

@@ -14,33 +14,33 @@ const templateEnv = nunjucks.configure('views', {
 });
 
 // register template filters first
-templateEnv.addFilter('getCachebustedPath', function (str) {
+templateEnv.addFilter('getCachebustedPath', (str) => {
     return assets.getCachebustedPath(str);
 });
 
-templateEnv.addFilter('localeify', function (field, locale) {
+templateEnv.addFilter('localeify', (field, locale) => {
     return field + '_' + locale;
 });
 
-templateEnv.addFilter('makePhoneLink', function (str) {
+templateEnv.addFilter('makePhoneLink', (str) => {
     let callable = str.replace(/ /g, '');
     return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
 });
 
-templateEnv.addFilter('dateFormat', function (str, format) {
+templateEnv.addFilter('dateFormat', (str, format) => {
     return moment(str).format(format);
 });
 
-templateEnv.addFilter('mailto', function (str) {
+templateEnv.addFilter('mailto', (str) => {
     return `<a href="mailto:${str}">${str}</a>`;
 });
 
-templateEnv.addFilter('numberWithCommas', function (str) {
+templateEnv.addFilter('numberWithCommas', (str) => {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
 
 // via http://stackoverflow.com/a/25770787
-templateEnv.addFilter('splitByCharLength', function (str, length) {
+templateEnv.addFilter('splitByCharLength', (str, length) => {
     let rows = [];
     let maxlen = length || 50;
     let arr = str.split(" ");
@@ -61,7 +61,7 @@ templateEnv.addFilter('splitByCharLength', function (str, length) {
     return rows;
 });
 
-templateEnv.addFilter('lowercaseFirst', function (str) {
+templateEnv.addFilter('lowercaseFirst', (str) => {
     return str[0].toLowerCase() + str.substring(1);
 });
 

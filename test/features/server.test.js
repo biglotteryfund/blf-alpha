@@ -7,7 +7,7 @@ const should = chai.should();
 
 const helper = require('../helper');
 
-describe('Express application', function () {
+describe('Express application', () => {
 
     let server;
     beforeEach(() => {

@@ -18,7 +18,7 @@ require('./modules/boilerplate/middleware');
 app.use('/', require('./routes/toplevel/tools'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
-const cymreigio = function (mountPath) {
+const cymreigio = (mountPath) => {
     let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
     return [mountPath, welshPath];
 };

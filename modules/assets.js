@@ -11,7 +11,7 @@ try {
 }
 
 // function for templates
-const getCachebustedPath = function (path) {
+const getCachebustedPath = (path) => {
     const isCachebusted = assets[path];
     const p = (isCachebusted) ? isCachebusted : path;
     return '/' + assetVirtualDir + '/' + p;

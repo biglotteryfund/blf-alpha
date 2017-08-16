@@ -41,13 +41,13 @@ module.exports = (pages) => {
 
         // handle ajax/standard form updates
         res.format({
-            html: function () {
-                req.session.save(function () {
+            html: () => {
+                req.session.save(() => {
                     res.redirect(req.baseUrl + freeMaterials.path);
                 });
             },
-            json: function () {
-                req.session.save(function () {
+            json: () => {
+                req.session.save(() => {
                     res.send({
                         status: 'success',
                         quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
@@ -136,7 +136,7 @@ module.exports = (pages) => {
                 if (!result.isEmpty()) {
                     req.flash('formErrors', result.array());
                     req.flash('formValues', req.body);
-                    req.session.save(function () {
+                    req.session.save(() => {
                         res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
                     });
                 } else {
@@ -148,7 +148,7 @@ module.exports = (pages) => {
                         email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
                         req.flash('materialFormSuccess', true);
                         req.flash('showOverlay', true);
-                        req.session.save(function () {
+                        req.session.save(() => {
                             res.redirect(req.baseUrl + freeMaterials.path);
                         });
                     } else {

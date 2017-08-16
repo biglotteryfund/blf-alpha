@@ -161,7 +161,7 @@ module.exports = (pages) => {
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                req.session.save(function () {
+                req.session.save(() => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
@@ -173,7 +173,7 @@ module.exports = (pages) => {
                 // redirect errors back to the homepage
                 let handleSignupError = () => {
                     req.flash('ebulletinStatus', 'error');
-                    req.session.save(function () {
+                    req.session.save(() => {
                         return res.redirect('/#' + config.get('anchors.ebulletin'));
                     });
                 };
@@ -189,7 +189,7 @@ module.exports = (pages) => {
                 }).then(response => { // signup succeeded
                     if (response.statusCode === 302 || response.statusCode === 200) {
                         req.flash('ebulletinStatus', 'success');
-                        req.session.save(function () {
+                        req.session.save(() => {
                             return res.redirect('/#' + config.get('anchors.ebulletin'));
                         });
                     } else {
