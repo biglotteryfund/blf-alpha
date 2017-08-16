@@ -71,6 +71,8 @@ router.get('/status/pages', (req, res, next) => {
 // login auth
 const loginPath = '/tools/login';
 router.get(loginPath, (req, res, next) => {
+    // don't cache this page!
+    res.cacheControl = { maxAge: 0 };
     res.render('pages/tools/login', {
         error: req.flash('error'),
         user: req.user
@@ -110,6 +112,8 @@ router.post(loginPath, function(req, res, next) {
 
 // logout path
 router.get('/tools/logout', function(req, res){
+    // don't cache this page!
+    res.cacheControl = { maxAge: 0 };
     req.logout();
     res.redirect('/');
 });
@@ -117,6 +121,8 @@ router.get('/tools/logout', function(req, res){
 // language file editor tool
 router.route('/tools/locales/')
     .get(isAuthenticated, (req, res, next) => {
+        // don't cache this page!
+        res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
@@ -175,6 +181,8 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
 const editNewsPath = '/tools/edit-news';
 router.route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
+        // don't cache this page!
+        res.cacheControl = { maxAge: 0 };
 
         let queries = [];
         queries.push(models.News.findAll({
