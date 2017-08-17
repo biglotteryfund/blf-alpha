@@ -154,3 +154,5 @@ router.get(logoPagePath, () => {
     });
 
 });
+
+console.log('Hello, world!');
