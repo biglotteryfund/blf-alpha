@@ -7,7 +7,7 @@
 # FUTURE DEPLOYS MAY FAIL IF YOU FORGET THIS! #
 ###############################################
 
-#install codedeploy agent
+# install codedeploy agent
 apt-get update
 apt-get install python-pip -y
 apt-get install ruby -y
@@ -41,4 +41,4 @@ apt-get install -y nodejs
 # install aws cli (to fetch secrets from parameterstore)
 curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
 unzip awscli-bundle.zip
-sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
