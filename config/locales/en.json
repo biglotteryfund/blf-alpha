@@ -220,7 +220,7 @@
 						"Paid volunteering leave",
 						"Season ticket loan"
 					],
-					"postscript": "<p>And many more...</p>"
+					"postscript": "See all benefits"
 				},
 				"offices": {
 					"title": "Opportunities across the UK"
@@ -230,6 +230,100 @@
 					"body": "<p>\tThe Big Lottery Fund is committed to advancing equalities, not only as a funder but also as an employer. This means we think about the needs and experiences of people from different backgrounds (for example, by gender, race, disability, religious belief and sexual orientation) and we work to ensure that there is equality of opportunity for all. It’s important to us that our staff reflect the diversity of the communities we serve.</p><p>\tThe Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy. We will make reasonable adjustments for disabled applicants at all stages of the selection process. To assist us, applicants should declare if they have a disability on the application form, and let us know of any requirements. </p><p>\tIf you have a disability that prevents you from completing an online form, please contact the HR Helpdesk, on 0121 345 8884 or email <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, who will be happy to help. </p><p>\tThe Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice. </p><p>\tThe Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work. </p><p></p>"
 				}
 			}
+		},
+		"benefits": {
+			"title": "Benefits",
+			"call-to-action": "View our current vacancies",
+			"benefits": [
+				{
+					"title": "Health and wellbeing",
+					"text": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and make the Big Lottery Fund a better place to work.</p>"
+				},
+				{
+					"title": "Cycle2Work",
+					"text": "<p>To promote healthier journeys to work and support our social and environmental aspirations, we offer the chance to participate in the Government initiated cycle to work scheme. Bicycles are bought by us and loaned to you for a 12-month period, during which time you repay the amount via salary sacrifice, reducing your tax and National Insurance contributions.</p>"
+				},
+				{
+					"title": "Employee Assistance Programme",
+					"text": "<p>All our employees have access to a confidential employee assistance programme provided by Care First, who provide information and advice on a wide range of topics affecting your work or personal life.</p>"
+				},
+				{
+					"title": "Eye tests and glasses",
+					"text": "<p>All VDU users are eligible to a free eye test on appointment and at regular intervals thereafter. If as a result of the eye test you are prescribed special equipment or glasses for VDU use, we will pay the cost of basic lenses and frames within certain maximum limits.</p>"
+				},
+				{
+					"title": "Financial",
+					"text": "<p>Salary progression is split into two forms of progression, a proportion of which is automatic and a proportion which is performance related. The percentage increase available is allocated by HM Treasury on an annual basis. In addition to your salary, we offer several financial benefits.</p>"
+				},
+				{
+					"title": "Pension scheme",
+					"text": "<p>We offer access to join a generous Civil Service pension scheme. Alternatively if you would prefer to join a stakeholder pension, we will make a contribution of up to 12.5 per cent of salary, depending on your age, as well as an additional matching contribution of up to another 3 per cent.</p>"
+				},
+				{
+					"title": "Childcare vouchers",
+					"text": "<p>We offer a salary sacrifice scheme for childcare vouchers so that you can benefit from the generous tax advantages of covering childcare costs in this way.</p>"
+				},
+				{
+					"title": "Employee Discount Scheme",
+					"text": "<p>We provide a discount benefits scheme that offers a wide range of discounts helping you save money off shopping, excursions, holidays and much more.</p>"
+				},
+				{
+					"title": "Give As You Earn",
+					"text": "<p>You can support your favourite charity or charities via the Give As You Earn Direct Donation Scheme, which is deducted straight from your pay. Giving direct from your pay is tax-free and the causes you care about benefit from your regular support.</p>"
+				},
+				{
+					"title": "Season Ticket and Cycle2Work Loan",
+					"text": "<p>Once you have worked with us for a month you are eligible to apply for an interest free season ticket loan of up to £5,000, or a bicycle purchase loan of up to £1,000 to travel to work.</p>"
+				},
+				{
+					"title": "Time off",
+					"text": "<p>The standard working week for full time staff is 37 hours, with a minimum 30 minute unpaid lunch break each day. We have a range of formal and informal flexible working options, and offer generous paid leave.</p>"
+				},
+				{
+					"title": "Flexible working",
+					"text": "<p>Flexible working enables teams and individuals to manage work-life balance, while ensuring the organisation is able to work effectively. Options include:</p><ul><li>part-time hours</li><li>compacted hours</li><li>non-standard working hours</li><li>ad hoc working from home</li><li>job sharing</li><li>flexible working hours</li><li>Generous annual leave</li></ul><p>Annual leave is 25 days per year on joining the Big Lottery Fund plus bank holidays, rising by one day every year of employment up to a total of 30 days, An additional three days of leave is given every year – normally at Christmas. Your entitlement will vary according to your date of appointment, and is pro-rata for part-time employees.</p>"
+				},
+				{
+					"title": "Paid maternity/adoption leave",
+					"text": "<p>Staff who are eligible for statutory maternity pay will receive full pay for the first 22 weeks of their maternity leave.</p>"
+				},
+				{
+					"title": "Paid paternity leave",
+					"text": "<p>Staff who are eligible for statutory paternity pay will receive 10 days full pay.</p>"
+				},
+				{
+					"title": "Paid parental leave",
+					"text": "<p>Staff who have worked with us for one year are entitled to one week’s parental leave on full pay per year if they have one or more child under the age of eight. This is in addition to their annual leave entitlement.</p>"
+				},
+				{
+					"title": "Paid volunteering leave",
+					"text": "<p>Employees can request up to two days paid leave per year for volunteering.</p>"
+				},
+				{
+					"title": "Paid public duty leave",
+					"text": "<p>Staff may take up to 18 days paid leave per year to undertake public duties.</p>"
+				},
+				{
+					"title": "Unpaid career break",
+					"text": "<p>Staff with two years service can request an unpaid career break of up to 50 weeks every five years to undertake study leave, a sabbatical, volunteering, travel or to spend an extended period with their children beyond their parental leave entitlement.</p>"
+				},
+				{
+					"title": "Development",
+					"text": "<p>The Talent and Organisational Development team at BIG play a critical role in developing our people to keep you engaged, equipped and empowered to reach your potential.</p>"
+				},
+				{
+					"title": "Professional subscriptions",
+					"text": "<p>If you are in a post where membership to a professional association or organisation is directly related to your job function, you can claim for reimbursement of the subscription fees, to the maximum of one subscription per annum.</p>"
+				},
+				{
+					"title": "Corporate sponsorship",
+					"text": "<p>We are able to financially support a small number of staff to obtain qualifications from external course providers which provide invaluable job skills and knowledge.</p>"
+				},
+				{
+					"title": "Coaching and mentoring",
+					"text": "<p>We are working to establish a coaching culture at the Big Lottery Fund through workshops, advice and guides, 1:1 sessions and our own coaching network.</p>"
+				}
+			]
 		},
 		"under10k": {
 			"title": "About our grants under £10,000",

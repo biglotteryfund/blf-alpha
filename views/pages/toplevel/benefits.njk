@@ -1,0 +1,38 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        {{ headers.overlayText('h2', title, 't1') }}
+    {% endset %}
+
+    {{ hero.header('jobs', heroContent, 'blue') }}
+
+    <article role="main" class="nudge-up">
+
+        <div class="inner--wide-only accent--blue a--border-top content-box has-body-copy">
+
+            <div class="align--center">
+                <a class="btn accent--pink a--btn central-gap spaced--l" href="{{ buildUrl('global', 'jobs') }}">{{ copy['call-to-action'] }}</a>
+            </div>
+
+            {% for benefit in copy.benefits %}
+                <h3 class="t3">{{ benefit.title }}</h3>
+                {{ benefit.text | safe }}
+            {% endfor %}
+
+        </div>
+
+        <div class="inner">
+            <img src="{{ 'images/equality-sponsors.png' | getCachebustedPath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In Peopke, Business Disability Forum and Living Wage Employer" />
+        </div>
+
+    </article>
+
+{% endblock %}

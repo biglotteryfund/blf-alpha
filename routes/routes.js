@@ -65,9 +65,19 @@ const routes = {
                     live: true,
                     aliases: [
                         '/about-big/jobs',
-                        '/about-big/jobs/benefits',
                         '/about-big/jobs/how-to-apply',
                         '/about-big/jobs/current-vacancies'
+                    ]
+                },
+                benefits: {
+                    name: "Benefits",
+                    path: "/jobs/benefits",
+                    template: "pages/toplevel/benefits",
+                    lang: "toplevel.benefits",
+                    static: true,
+                    live: false,
+                    aliases: [
+                        '/about-big/jobs/benefits',
                     ]
                 },
                 under10k: {
