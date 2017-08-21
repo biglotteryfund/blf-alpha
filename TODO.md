@@ -3,17 +3,15 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
-- [ ] google tag manager / experiment for homepage?
 - [ ] CSRF
-- [ ] session caching issues on tools/login
-- [ ] make commit hooks only run if JS code changes
+- [ ] google tag manager / experiment for homepage?
 - [ ] failing tests don't stop commits/builds?!
-- [ ] pre-commit hook shouldn't break the dev server
 - [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
-- [ ] form errors on order form return users to unselected tab
+- [ ] tabs should be selectable from links too
 
 ## Tech debt
 - [ ] print stylesheet
+- [ ] form errors on order form return users to unselected tab
 - [ ] specify a db pool size
 - [ ] add a way to highlight current section in nav
 - [ ] use production version of vue in non-dev envs
@@ -21,8 +19,12 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] remove vary header
 - [ ] and add ARIA roles to SVGs and mobile nav
 - [ ] resize carousel height on item change
+- [ ] make commit hooks only run if JS code changes
+- [ ] pre-commit hook shouldn't break the dev server
 
 ## Tests to write
  - [ ] news UD works (CR done)
  - [ ] GA is loaded
  - [ ] are form fields working as expected?
+ 
+ 

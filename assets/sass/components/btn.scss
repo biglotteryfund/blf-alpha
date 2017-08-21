@@ -57,6 +57,7 @@ $btnConf: (
     // sass magic: becomes `a.btn`
     // (to override other link CSS)
     @at-root a#{&} {
+        color: #ffffff;
         text-decoration: none;
         transition: none;
     }
