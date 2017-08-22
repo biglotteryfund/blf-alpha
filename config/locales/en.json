@@ -30,6 +30,9 @@
 				"high": "Enable high contrast mode",
 				"standard": "Enable standard contrast mode"
 			}
+		},
+		"forms": {
+			"missingFieldError": "Please provide the '%s' field"
 		}
 	},
 	"toplevel": {

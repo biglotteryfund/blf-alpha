@@ -30,6 +30,9 @@
 				"high": "Galluogi'r modd cyferbynnedd uchel",
 				"standard": "Galluogi'r modd cyferbynnedd safonol"
 			}
+		},
+		"forms": {
+			"missingFieldError": "Darparwch y maes '%s'"
 		}
 	},
 	"toplevel": {

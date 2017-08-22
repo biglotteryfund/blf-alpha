@@ -97,12 +97,16 @@ module.exports = (pages) => {
         })
         .post((req, res, next) => {
 
+            // turn 'Your name' into 'your name' (for error messages)
             const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
+            let locale = req.i18n.getLocale();
 
             freeMaterialsLogic.formFields.forEach(field => {
                 if (field.required) {
-                    // @TODO i18n
-                    req.checkBody(field.name, 'Please provide ' + lcfirst(field.label['en'])).notEmpty();
+                    // get a translated error message
+                    let fieldName = lcfirst(field.label[locale]);
+                    let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
+                    req.checkBody(field.name, errorMessage).notEmpty();
                 }
             });
 
