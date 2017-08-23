@@ -4,7 +4,7 @@ const app = module.exports = express();
 const config = require('config');
 
 // load app routing list
-const routes = require('./routes/routes');
+const routes = require('./controllers/routes');
 
 // configure boilerplate
 require('./modules/boilerplate/viewEngine');
@@ -15,7 +15,7 @@ require('./modules/boilerplate/cache');
 require('./modules/boilerplate/middleware');
 
 // load tools endpoint (including status page for load balancer)
-app.use('/', require('./routes/toplevel/tools'));
+app.use('/', require('./controllers/toplevel/tools'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = (mountPath) => {

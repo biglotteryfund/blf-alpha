@@ -21,19 +21,21 @@ module.exports = (pages) => {
      * 1. Populate static pages
      */
     for (let page in pages) {
-        if (pages[page].static) { routeStatic(pages[page], router); }
+        if (pages[page].static) {
+            routeStatic(pages[page], router);
+        }
     }
 
     /**
      * 2. Manually specify any non-static pages
      */
 
-    // PAGE: free materials update endpoint
+        // PAGE: free materials update endpoint
     const freeMaterials = pages.freeMaterials;
     // handle adding/removing items
     router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
         // this page is dynamic so don't cache it
-        res.cacheControl = { maxAge: 0 };
+        res.cacheControl = {maxAge: 0};
 
         // update the session with ordered items
         const code = req.sanitize('code').escape();
@@ -68,7 +70,7 @@ module.exports = (pages) => {
         .get((req, res, next) => {
 
             // this page is dynamic so don't cache it
-            res.cacheControl = { maxAge: 0 };
+            res.cacheControl = {maxAge: 0};
 
             let orderStatus;
             // clear order details if it succeeded
@@ -81,7 +83,9 @@ module.exports = (pages) => {
             let orders = req.session[freeMaterialsLogic.orderKey];
             let numOrders = 0;
             if (orders) {
-                for (let o in orders) { numOrders += orders[o].quantity; }
+                for (let o in orders) {
+                    numOrders += orders[o].quantity;
+                }
             }
             res.render(freeMaterials.template, {
                 title: lang.title,
@@ -146,6 +150,7 @@ module.exports = (pages) => {
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+
 
                     // allow tests to run without sending email
                     if (!req.body.skipEmail) {

@@ -7,7 +7,7 @@ const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 
 const helper = require('../helper');
-const routes = require('../../routes/routes');
+const routes = require('../../controllers/routes');
 
 // test the order form specifically
 describe("Material order form", () => {

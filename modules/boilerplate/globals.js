@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const sassConfig = require('../../config/content/sass.json');
-const routes = require('../../routes/routes');
+const routes = require('../../controllers/routes');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
