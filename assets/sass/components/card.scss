@@ -23,20 +23,20 @@
     }
 
     &.card--title {
-        padding: 30px;
+
+        padding: 0;
 
         .card__title {
-            margin-bottom: 40px;
+            padding: 30px 30px 0 30px;
+            margin-bottom: 0;
         }
 
         .card__media {
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-bottom: 40px;
+            margin: 40px;
         }
 
         .card__body {
-            padding: 0;
+            padding: 0 30px 30px 30px;
         }
     }
 }

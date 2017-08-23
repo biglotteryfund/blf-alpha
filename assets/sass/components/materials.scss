@@ -27,6 +27,18 @@
         padding-bottom: $spacingUnit;
         border-bottom: 1px solid #999999;
 
+        // swap the layout briefly for mid-size screens
+        @include mq('tablet') {
+            .material-item__label {
+                margin-bottom: $spacingUnit;
+            }
+            flex-direction: column;
+        }
+
+        @include mq('desktop') {
+            flex-direction: row;
+        }
+
         .material-item__label {
             margin-right: auto;
             hyphens: auto;
@@ -74,6 +86,11 @@
         background-position: center;
     }
 
+}
+
+.material-item__buttons {
+    display: flex;
+    margin-left: auto;
 }
 
 .order-form:invalid {

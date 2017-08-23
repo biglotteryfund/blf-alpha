@@ -9,7 +9,7 @@
 {% macro itemOrderButtons(item, product) %}
     {% set quantity = orders[product.code].quantity or 0 %}
     {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
-    <form class="{% if quantity > 0 %}is-selected{% endif %}"
+    <form class="card__body {% if quantity > 0 %}is-selected{% endif %}"
           v-bind:class="{ 'is-selected': ((orderData['{{ product.code }}']) ? orderData['{{ product.code }}'].quantity > 0 : false) }"
           method="post"
           action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ item.id }}">
@@ -20,34 +20,36 @@
                 <strong class="t4">{% if product.name[locale] %}{{ product.name[locale] }}{% else %}{{ item.name[locale] }}{% endif %}</strong>
                 {% if item.description %} <span class="t6">({{ item.description[locale] or item.description }}){% endif %}</span>
             </label>
-            {% if not item.outOfStock %}
-                <button type="submit"
-                        value="decrease"
-                        name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-                        v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == 0"
-                        v-on:click.prevent="changeQuantity($event)"
-                        aria-label="Decrease quantity"
-                        class="btn accent--turquoise a--btn material-item__btn material-item__btn--decrease">
-                    -
-                </button>
-                <div aria-label="Quantity" class="material-item__quantity js-material-count">
-                    <span class="js-only">
-                        <% getQuantity('{{ product.code }}', {{ quantity }}) %>
-                    </span>
-                    <noscript>{{ quantity }}</noscript>
-                </div>
-                <button type="submit"
-                        value="increase"
-                        name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
-                        v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == {{ item.maximum }}"
-                        v-on:click.prevent="changeQuantity($event)"
-                        aria-label="Increase quantity"
-                        class="btn accent--turquoise a--btn material-item__btn material-item__btn--increase">
-                    +
-                </button>
-            {% else %}
-                <p class="material-item__oos">{{ copy.outOfStock }}</p>
-            {% endif %}
+            <div class="material-item__buttons">
+                {% if not item.outOfStock %}
+                    <button type="submit"
+                            value="decrease"
+                            name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                            v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == 0"
+                            v-on:click.prevent="changeQuantity($event)"
+                            aria-label="Decrease quantity"
+                            class="btn accent--turquoise a--btn material-item__btn material-item__btn--decrease">
+                        -
+                    </button>
+                    <div aria-label="Quantity" class="material-item__quantity js-material-count">
+                        <span class="js-only">
+                            <% getQuantity('{{ product.code }}', {{ quantity }}) %>
+                        </span>
+                        <noscript>{{ quantity }}</noscript>
+                    </div>
+                    <button type="submit"
+                            value="increase"
+                            name="action"{% if item.maximum == quantity %} disabled="disabled"{% endif %}
+                            v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == {{ item.maximum }}"
+                            v-on:click.prevent="changeQuantity($event)"
+                            aria-label="Increase quantity"
+                            class="btn accent--turquoise a--btn material-item__btn material-item__btn--increase">
+                        +
+                    </button>
+                {% else %}
+                    <p class="material-item__oos">{{ copy.outOfStock }}</p>
+                {% endif %}
+            </div>
         </div>
     </form>
 {% endmacro %}
@@ -83,7 +85,7 @@
                         </div>
                     </div>
 
-                    <aside class="material-item__actions card__body">
+                    <aside class="material-item__actions">
                         {{ itemOrderActions(item, languageToShow) }}
                     </aside>
 

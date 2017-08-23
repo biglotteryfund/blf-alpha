@@ -21,6 +21,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] resize carousel height on item change
 - [ ] make commit hooks only run if JS code changes
 - [ ] pre-commit hook shouldn't break the dev server
+- [ ] log material orders
 
 ## Tests to write
  - [ ] news UD works (CR done)
