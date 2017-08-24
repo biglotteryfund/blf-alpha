@@ -10,6 +10,7 @@ const jsdom = require('jsdom');
 const _ = require('lodash');
 const { JSDOM } = jsdom;
 const xss = require('xss');
+const moment = require('moment');
 
 const routeStatic = require('../utils/routeStatic');
 const grants = require('../../bin/data/grantnav.json');
@@ -252,8 +253,9 @@ module.exports = (pages) => {
     // handle contrast shifter
     router.get('/contrast/:mode', (req, res, next) => {
         res.cacheControl = { maxAge: 1 };
-        let duration = 6 * 30 * 24 * 60 * 60; // 6 months
+
         let cookieName = config.get('cookies.contrast');
+        let duration = moment.duration(6, 'months').asMilliseconds();
         let redirectUrl = req.query.url || '/';
         if (req.params.mode === 'high') {
             res.cookie(cookieName, req.params.mode, {
