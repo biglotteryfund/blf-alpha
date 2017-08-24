@@ -12,10 +12,12 @@ Vue.options.delimiters = ['<%', '%>'];
 // load internal modules
 require('./modules/carousel').init();
 require('./modules/tabs').init();
+require('./modules/surveys').init();
 
 // enable JS-only features
 const $html = $('html');
 $html.toggleClass('no-js js-on');
+$('.js-hidden').hide();
 
 // grab main script element (for querying data attributes)
 const $thisScript = $('#js-script-main');
@@ -150,28 +152,6 @@ router.get(logoPagePath, () => {
         if (successBlock.length) {
             successBlock.find('.js-success').hide(); // hide old messages
             successBlock.hide();
-        }
-    });
-
-});
-
-// AJAX-ify survey submissions
-$('.js-survey').on('submit', function (e) {
-    e.preventDefault();
-    const url = $(this).attr('action');
-    let data = $(this).serialize();
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: data,
-        dataType: 'json',
-        success: (response) => {
-            console.log(response);
-            alert('Success!');
-        },
-        error: (err) => {
-            console.error(err.responseJSON);
-            alert('Error!');
         }
     });
 

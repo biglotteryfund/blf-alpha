@@ -268,8 +268,7 @@ module.exports = (pages) => {
 
     // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
     router.post('/survey/:id', (req, res, next) => {
-        // @TODO cookie the user for this survey
-        let surveyId = req.params.id;// @TODO do we need this?
+        let surveyId = req.params.id;
         let referrer = req.get('Referrer');
         req.checkBody('choice', 'Please supply a valid choice').notEmpty().isInt();
 
@@ -329,6 +328,7 @@ module.exports = (pages) => {
                         json: () => {
                             res.send({
                                 status: 'success',
+                                surveyId: surveyId,
                                 data: data
                             });
                         }

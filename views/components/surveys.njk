@@ -2,25 +2,28 @@
 
 {% macro showSurvey() %}
     {% if pageSurvey %}
-        <div class="survey">
-            {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
-            {% if surveySubmittedStatus == 'success' %}
-                Success!
-            {% elseif surveySubmittedStatus == 'error' %}
-                Error!
-            {% else %}
-                <form class="js-survey" method="post" action="/survey/{{ pageSurvey.id }}">
-                    <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
-                    {% for choice in pageSurvey.choices %}
-                        {% set choiceLabel = choice['title' | localeify(locale)] %}
-                        {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
-                        {% if choice.allow_message == 1 %}
-                            {{ forms.input('message', 'Message', 'textarea', required = false) }}
-                        {% endif %}
-                    {% endfor %}
-                    <input type="submit" value="Submit" />
-                </form>
-            {% endif %}
-        </div>
+        {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
+        {# @TODO - these are only seen by non-JS users currently #}
+        {% if surveySubmittedStatus == 'success' %}
+            Success!
+        {% elseif surveySubmittedStatus == 'error' %}
+            Error!
+        {% else %}
+            {# surveys are shown only to JavaScript users so we can detect when they've already been seen #}
+            <form class="js-survey js-hidden survey"
+                  method="post"
+                  action="/survey/{{ pageSurvey.id }}"
+                  data-survey="{{ pageSurvey.id }}">
+                <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
+                {% for choice in pageSurvey.choices %}
+                    {% set choiceLabel = choice['title' | localeify(locale)] %}
+                    {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
+                    {% if choice.allow_message == 1 %}
+                        {{ forms.input('message', 'Message', 'textarea', required = false) }}
+                    {% endif %}
+                {% endfor %}
+                <input type="submit" value="Submit" />
+            </form>
+        {% endif %}
     {% endif %}
 {% endmacro %}
