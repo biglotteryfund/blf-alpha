@@ -21,6 +21,8 @@ const surveys = require('./getSurveys');
 // load auth strategy
 require('../../modules/boilerplate/auth');
 
+let sessionSecret = secrets['session.secret'] || process.env.sessionSecret;
+
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
 app.use(morgan(logFormat, {
@@ -31,11 +33,11 @@ app.use(morgan(logFormat, {
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
 
 // add session
 const sessionConfig = {
-    secret: secrets['session.secret'] || process.env.sessionSecret,
+    secret: sessionSecret,
     name: config.get('cookies.session'),
     resave: false,
     saveUninitialized: false,
