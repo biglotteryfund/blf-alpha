@@ -11,18 +11,18 @@
     {% else %}
         {% set logoExamplePath = 'images/logos/examples-cy.png' %}
     {% endif %}
-    <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.howToUseLogo.title }}</h3>
-    <h3 class="t3a">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
+    <h3 class="t3 tab-fallback-title">{{ copy.howToUseLogo.title }}</h3>
+    <h3 class="t4">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
+    <h3 class="t4">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.format.body | safe }}</p>
+    <h3 class="t4">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
 
-    <h3 class="t3a m-t">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
-    <p class="m-t-none">{{ copy.howToUseLogo.sections.options.body | safe }}</p>
+    <h3 class="t4">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+    <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
     <div class="central-gap">
         <img src="{{ logoExamplePath | getCachebustedPath }}"
@@ -50,8 +50,8 @@
     {% if copy.successMessages[type] %}
         <div class="hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t3 m-t">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t3 m-t">{{ copy.successMessages[type].body }}</h4>
+            <h4 class="t4">{{ copy.successMessages[type].title }}</h4>
+            <h4 class="t6">{{ copy.successMessages[type].body }}</h4>
         </div>
     {% endif %}
 {% endmacro %}
@@ -67,21 +67,26 @@
     </div>
 {% endmacro %}
 
-{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false) %}
+{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
     {{ downloadBlock(logoId) }}
     {% set logoPreview = 'images/logos/' + logoLocale + '/' + logoFilename + '.png' %}
+    {% set accentClass = '' %}
+    {% if accent %}
+        {% set accentClass = ' accent--' + accent + ' a--btn ' %}
+    {% endif %}
+
     {% if not onlyEps %}<a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
         <img src="{{ logoPreview | getCachebustedPath }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
     {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-small.jpg" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'small') }}
         </a>
-        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+        <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}-large.jpg" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'large') }}
         </a>
     {% endif %}
-    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="btn btn--block btn--cta btn--cta--large m-t-flexible js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+    <a href="/assets/logos/{{ logoLocale }}/{{ logoFilename }}.eps" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
         {{ makeLogoTitle(logoName, 'eps') }}
     </a>
 {% endmacro %}
@@ -89,30 +94,28 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', copy.heroText, 30, 'hero__header') }}
-        </div>
+        {{ headers.overlayText('h2', copy.heroText, 't1') }}
     {% endset %}
 
     {{ hero.header('logo', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
 
-        <div class="inner--wide-only p-text accent--blue accent-b-t accent-bg bordered">
+        <div class="inner--wide-only accent--blue a--border-top content-box">
 
-            <h3 class="t3a m-t">{{ copy.subtitle }}</h3>
-            <p class="m-t-none">{{ copy.body | safe }}</p>
+            <h3 class="t3">{{ copy.subtitle }}</h3>
+            <p>{{ copy.body | safe }}</p>
             <p><strong>{{ copy.locationPrompt }}</strong></p>
 
-            <div class="m-l--l m-r--l">
+            <div>
                 <ul class="js-tabs unstyled grid grid--padded grid--equal grid--2-up grid--wide-only"
                     data-panes="js-logo-panes"
                     data-no-initial-selection="true">
-                    <li class="js-tab-item grid__item m-b-none">
-                        <a href="#js-logo-panes-en" class="btn btn--cta btn--block">{{ copy.locations.monolingual }}</a>
+                    <li class="js-tab-item grid__item">
+                        <a href="#js-logo-panes-en" class="btn btn--block btn--small accent--blue a--btn">{{ copy.locations.monolingual }}</a>
                     </li>
-                    <li class="js-tab-item grid__item m-b-none">
-                        <a href="#js-logo-panes-cy" class="btn btn--cta btn--block">{{ copy.locations.bilingual }}</a>
+                    <li class="js-tab-item grid__item">
+                        <a href="#js-logo-panes-cy" class="btn btn--block btn--small accent--blue a--btn">{{ copy.locations.bilingual }}</a>
                     </li>
                 </ul>
             </div>
@@ -125,37 +128,37 @@
 
                 {{ logoTabBar('js-logo-panes-en', copy.logoDownloads.monolingual, 'en') }}
 
-                <div id="js-logo-panes-en" class="m-t-none">
+                <div id="js-logo-panes-en">
                     {# logo pane #}
-                    <div class="js-pane tab-pane bordered p" id="logos-en">
-                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.monolingual }}</h3>
+                    <div class="js-pane tab-pane bordered padded" id="logos-en">
+                        <h3 class="t3 tab-fallback-title">{{ copy.logoDownloads.monolingual }}</h3>
 
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--turquoise bordered p">
-                                    {{ logoBlock(1, 'blue', 'blue', 'en') }}
+                                <div class="grid__item__inner accent--turquoise bordered padded">
+                                    {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--pink bordered p">
-                                    {{ logoBlock(2, 'pink', 'pink') }}
+                                <div class="grid__item__inner accent--pink bordered padded">
+                                    {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true) }}
+                                <div class="grid__item__inner bordered padded bg--dark">
+                                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true) }}
+                                <div class="grid__item__inner bordered padded bg--dark">
+                                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                         </ul>
                     </div>
 
                     {# how to #}
-                    <div class="js-pane tab-pane bordered p" id="howto-en">
+                    <div class="js-pane tab-pane bordered padded" id="howto-en">
                         {{ howToUseLogo | safe }}
                     </div>
                 </div>
@@ -167,37 +170,37 @@
 
                 {{ logoTabBar('js-logo-panes-cy', copy.logoDownloads.bilingual, 'cy') }}
 
-                <div id="js-logo-panes-cy" class="m-t-none">
+                <div id="js-logo-panes-cy">
                     {# logo pane #}
-                    <div class="js-pane tab-pane bordered p" id="logos-cy">
-                        <h3 class="t3a m-t-none tab-fallback-title m-b">{{ copy.logoDownloads.bilingual }}</h3>
+                    <div class="js-pane tab-pane bordered padded" id="logos-cy">
+                        <h3 class="t3 tab-fallback-title">{{ copy.logoDownloads.bilingual }}</h3>
 
-                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded m-t-none">
+                        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--turquoise bordered p">
-                                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}
+                                <div class="grid__item__inner accent--turquoise bordered padded">
+                                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner accent--pink bordered p">
-                                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
+                                <div class="grid__item__inner accent--pink bordered padded">
+                                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                <div class="grid__item__inner bordered padded bg--dark">
+                                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                             <li class="grid__item">
-                                <div class="grid__item__inner bordered p bg-dark">
-                                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true) }}
+                                <div class="grid__item__inner bordered padded bg--dark">
+                                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
                                 </div>
                             </li>
                         </ul>
                     </div>
 
                     {# how to #}
-                    <div class="js-pane tab-pane bordered p" id="howto-cy">
+                    <div class="js-pane tab-pane bordered padded" id="howto-cy">
                         {{ howToUseLogo | safe }}
                     </div>
                 </div>

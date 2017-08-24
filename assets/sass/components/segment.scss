@@ -1,0 +1,52 @@
+.segment {
+    margin-bottom: 40px;
+
+    @include mq('tablet', 'max') {
+        background-color: palette('pale');
+    }
+
+    @include mq('tablet') {
+        display: flex;
+    }
+
+    .segment__media {
+
+        @include mq('tablet', 'max') {
+            padding: $spacingUnit $spacingUnit 0 $spacingUnit;
+
+            img {
+                display: none;
+            }
+
+            .segment__title {
+                position: static;
+                top: auto;
+                left: auto;
+                margin: 0;
+                width: 100%;
+            }
+        }
+
+        @include mq('tablet') {
+            width: 300px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    }
+
+    .segment__aside {
+        flex-grow: 1;
+        padding: 17px 20px 40px 20px;
+
+        @include mq('tablet', 'max') {
+            margin-top: 0;
+        }
+
+        @include mq('tablet') {
+            @include bordered();
+            background-color: palette('pale');
+            padding: 40px 20px;
+            margin-top: 0;
+        }
+    }
+}

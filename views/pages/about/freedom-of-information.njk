@@ -9,36 +9,34 @@
 {% block content %}
 
     {% set heroContent %}
-        <div class="nudge-bottom">
-            {{ headers.blockheader('h2', title, 15, 'hero__header') }}
-        </div>
+        {{ headers.overlayText('h2', title, 't1') }}
     {% endset %}
 
     {{ hero.header('foi', heroContent, 'turquoise') }}
 
-    <article role="main" class="nudge-up">
+    <article role="main" class="nudge-up has-body-copy">
 
-        <div class="inner--wide-only p-text accent--turquoise accent-b-t bg-pale-green bordered">
+        <div class="inner--wide-only accent--turquoise a--border-top content-box">
             {{ copy.sections.intro | safe }}
         </div>
 
         {% if copy.sections.howToRequest.body %}
-            <div class="inner--wide-only p-text accent--pink accent-b-t bg-pale-green bordered">
-                <h3 class="t6 m-t">{{ copy.sections.howToRequest.title }}</h3>
+            <div class="inner--wide-only accent--pink a--border-top content-box">
+                <h3 class="t3">{{ copy.sections.howToRequest.title }}</h3>
                 {{ copy.sections.howToRequest.body | safe }}
             </div>
         {% endif %}
 
         {% if copy.sections.forCustomers.body %}
-            <div class="inner--wide-only p-text accent--blue accent-b-t bg-pale-green bordered">
-                <h3 class="t6 m-t">{{ copy.sections.forCustomers.title }}</h3>
+            <div class="inner--wide-only accent--blue a--border-top content-box">
+                <h3 class="t3">{{ copy.sections.forCustomers.title }}</h3>
                 {{ copy.sections.forCustomers.body | safe }}
             </div>
         {% endif %}
 
         {% if copy.sections.publicationScheme.body %}
-            <div class="inner--wide-only p-text accent--orange accent-b-t bg-pale-green bordered">
-                <h3 class="t6 m-t">{{ copy.sections.publicationScheme.title }}</h3>
+            <div class="inner--wide-only accent--orange a--border-top content-box">
+                <h3 class="t3">{{ copy.sections.publicationScheme.title }}</h3>
                 {{ copy.sections.publicationScheme.body | safe }}
             </div>
         {% endif %}

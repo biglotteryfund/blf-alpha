@@ -1,0 +1,113 @@
+.material-item {
+    display: flex;
+    flex-direction: column;
+
+    form {
+        margin-top: 0;
+        transition: all 0.3s ease-in-out;
+
+        &:last-child {
+            .material-item__controls {
+                border-bottom: none;
+            }
+        }
+
+        &.is-selected {
+            background-color: #0b438d;
+            color: #ffffff;
+        }
+    }
+
+
+    .material-item__controls {
+        display: flex;
+        margin-top: 0;
+        justify-content: flex-end;
+        align-items: center;
+        padding-bottom: $spacingUnit;
+        border-bottom: 1px solid #999999;
+
+        // swap the layout briefly for mid-size screens
+        @include mq('tablet') {
+            .material-item__label {
+                margin-bottom: $spacingUnit;
+            }
+            flex-direction: column;
+        }
+
+        @include mq('desktop') {
+            flex-direction: row;
+        }
+
+        .material-item__label {
+            margin-right: auto;
+            hyphens: auto;
+        }
+
+        $btnHeight: 26px;
+
+        .material-item__btn {
+            padding: 0 10px;
+            width: 30px;
+            height: $btnHeight;
+            border-radius: 15px;
+            line-height: 1;
+        }
+
+        .material-item__btn--decrease {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-left: 10px;
+        }
+
+        .material-item__btn--increase {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .material-item__quantity {
+            width: 30px;
+            height: $btnHeight;
+            line-height: $btnHeight;
+            margin-top: 0;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            background-color: #ffffff;
+            color: #666666;
+        }
+    }
+
+    .material-item__media {
+        height: 150px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+}
+
+.material-item__buttons {
+    display: flex;
+    margin-left: auto;
+}
+
+.order-form:invalid {
+    .order-form__btn {
+        @include disabledBtn();
+    }
+}
+.material-item__oos {
+    margin-top: 0;
+    margin-left: 5px;
+    font-size: 14px;
+    color: #999999;
+    text-align: right;
+}
+
+.material-item__actions {
+    form:last-child {
+        padding-top: 0;
+    }
+}

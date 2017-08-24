@@ -8,7 +8,7 @@ const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 
 const helper = require('../helper');
-const routes = require('../../routes/routes');
+const routes = require('../../controllers/routes');
 const models = require('../../models/index');
 
 describe("Survey tool", () => {

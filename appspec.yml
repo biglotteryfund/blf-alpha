@@ -9,6 +9,9 @@ hooks:
       timeout: 300
       runas: root
   AfterInstall:
+    - location: bin/scripts/provision.sh
+      timeout: 600
+      runas: root
     - location: bin/scripts/bootstrap.sh
       timeout: 300
       runas: root

@@ -30,6 +30,9 @@
 				"high": "Galluogi'r modd cyferbynnedd uchel",
 				"standard": "Galluogi'r modd cyferbynnedd safonol"
 			}
+		},
+		"forms": {
+			"missingFieldError": "Darparwch y maes '%s'"
 		}
 	},
 	"toplevel": {
@@ -83,11 +86,11 @@
 				},
 				"complaints": {
 					"title": "Sut ydw i’n gwneud cwyn?",
-					"body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"/assets/files/welsh/complaints-procedure.pdf\" class=\"link-pink\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span class=\"t7\">Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span class=\"t7\">Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span class=\"t7\">Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+					"body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"/assets/files/welsh/complaints-procedure.pdf\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span>Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span>Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span>Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
 				},
 				"fraud": {
 					"title": "Sut ydw i’n hysbysu chi am dwyll?",
-					"body": "<p>\tMae'r Gronfa Loteri Fawr yn ymroddedig i atal a chanfod twyll.  </p><p>\tOs ydych yn amau bod rhywun yn dwyn gan neu'n twyllo'r Gronfa Loteri Fawr , helpwch ni i wneud rhywbeth amdano trwy gysylltu â ni. </p><p>\t<span class=\"t7\">Ffôn</span>: 0800 496 9991<br /> </p><p>\t<span class=\"t7\">Cyfeiriad</span>:<br />Pennaeth Archwilio Mewnol<br />Cronfa Loteri Fawr<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
+					"body": "<p>\tMae'r Gronfa Loteri Fawr yn ymroddedig i atal a chanfod twyll.  </p><p>\tOs ydych yn amau bod rhywun yn dwyn gan neu'n twyllo'r Gronfa Loteri Fawr , helpwch ni i wneud rhywbeth amdano trwy gysylltu â ni. </p><p>\t<span>Ffôn</span>: 0800 496 9991<br /> </p><p>\t<span>Cyfeiriad</span>:<br />Pennaeth Archwilio Mewnol<br />Cronfa Loteri Fawr<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
 				}
 			},
 			"ukPortfolio": {
@@ -101,32 +104,44 @@
 			"data": [
 				{
 					"number": {
-						"value": "£712.7m"
+						"value": "£712.7m",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
 					},
 					"caption": "Cyfanswm Gwerth Y Grantiau A Ddyfarnwyd"
 				},
 				{
 					"number": {
-						"value": "13,814"
+						"value": "13,814",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
 					},
 					"caption": "Cyfanswm Nifer Y Grantiau A Ddyfarnwyd"
 				},
 				{
 					"number": {
 						"value": "12,352",
-						"suffix": "(89.4%)"
+						"suffix": "(89.4%)",
+						"prefix": "",
+						"showFirst": false
 					},
 					"caption": "Nifer Y Grantiau O Dan £10,000"
 				},
 				{
 					"number": {
-						"value": "9,377,362"
+						"value": "9,377,362",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
 					},
 					"caption": "Cyfanswm Y Buddiolwyr Disgwyliedig"
 				},
 				{
 					"number": {
 						"value": "£10,805,105",
+						"suffix": "",
 						"prefix": "Dyfarnom",
 						"showFirst": true
 					},
@@ -134,13 +149,17 @@
 				},
 				{
 					"number": {
-						"value": "10,657"
+						"value": "10,657",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
 					},
 					"caption": "Nifer Yr Elusennau A Ariannwyd Yn Y Deyrnas Unedig"
 				},
 				{
 					"number": {
 						"value": "£164m",
+						"suffix": "",
 						"prefix": "Dros",
 						"showFirst": true
 					},
@@ -149,6 +168,7 @@
 				{
 					"number": {
 						"value": "£387m",
+						"suffix": "",
 						"prefix": "Dros",
 						"showFirst": true
 					},
@@ -157,6 +177,7 @@
 				{
 					"number": {
 						"value": "£551m",
+						"suffix": "",
 						"prefix": "Dros",
 						"showFirst": true
 					},
@@ -202,7 +223,7 @@
 						"Absenoldeb gwirfoddoli â thâl",
 						"Benthyciad tocyn tymor"
 					],
-					"postscript": "<p>\tA llawer mwy...</p>"
+					"postscript": "Gweld yr holl fuddion"
 				},
 				"offices": {
 					"title": "Cyfleoedd ar draws y Deyrnas Unedig"
@@ -212,6 +233,104 @@
 					"body": "<p>\tMae'r Gronfa Loteri Fawr  yn ymroddedig i hyrwyddo cydraddoldeb, nid yn unig fel ariannwr ond fel cyflogwr hefyd. Mae hyn yn golygu ein bod yn ystyried anghenion a phrofiadau pobl o gefndiroedd gwahanol (er enghraifft, fesul rhyw, hil, anabledd, cred grefyddol a thueddfryd rhywiol) ac rydym yn gweithio i sicrhau ein bod yn cynnig cyfle cyfartal i bawb. Mae'n bwysig i ni bod ein staff yn adlewyrchu amrywiaeth y cymunedau rydym yn eu gwasanaethu.  </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn ddefnyddio symbol y 'tic dwbl' ac yn ymrwymedig i gyfweld ag ymgeiswyr sydd ag anableddau os ydynt yn bodloni'r isafswm meini prawf ar gyfer swydd wag. Byddwn yn gwneud unrhyw addasiadau rhesymol ar gyfer ymgeiswyr anabl ym mhob cam o'r broses ddethol. I'n cynorthwyo ni, dylai ymgeiswyr ddatgan bod ganddynt anabledd ar y ffurflen gais, a'n hysbysu am unrhyw ofynion. </p><p>\tOs oes gennych anabledd sy'n eich atal rhag cwblhau ffurflen ar-lein, ffoniwch y ddesg gymorth AD ar 0121 345 8884 neu anfonwch e-bost i <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, byddwn yn falch o helpu. </p><p>\tMae gan y Gronfa Loteri Fawr fforwm anableddau sy'n agored i staff anabl a staff sydd â diddordeb mewn materion gysylltiedig ag anableddau at ddiben cefnogi, rhannu gwybodaeth a rhoi cyngor. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn Hyrwyddwr Cydraddoldeb Stonewall, gan gefnogi ein hymrwymiad i fod yn lle gwych i weithio ar gyfer staff lesbiaidd, hoyw, deurywiol a thrawsryw (LHDT). Yn cydweithio'n agos â Stonewall, rydym wedi sefydlu rhwydwaith staff LHDT fel fforwm ar gyfer hyrwyddo cefnogaeth, rhannu gwybodaeth, dylanwadu ar bolisïau ac arferion y cwmni, ac ymdrin â materion LHDT yn y gwaith.</p>"
 				}
 			}
+		},
+		"benefits": {
+			"title": "Buddion",
+			"call-to-action": "Gweld pa swyddi sydd ar gael",
+			"benefits": [
+				{
+					"title": "Iechyd a lles",
+					"text": "<p>Cydnabyddwn fod cadw ein pobl yn hapus ac yn iach yn ein galluogi i fod yn fudiad mwy effeithiol ac yn gwneud y Gronfa Loteri Fawr yn lle gwell i weithio.</p>"
+				},
+				{
+					"title": "Cycle2Work",
+					"text": "<p>I hyrwyddo teithiau mwy iach i'r gwaith ac i gefnogi ein dyheadau cymdeithasol ac amgylcheddol, mae'r Gronfa Loteri Fawr yn cynnig cyfle i gymryd rhan yn y cynllun beicio i'r gwaith, sy'n fenter gan y Llywodraeth. Mae beiciau'n cael eu prynu gan y Gronfa Loteri Fawr a'u rhoi benthyg i chi am gyfnod o 12 mis, yn ystod y cyfnod hwnnw rydych yn ad-dalu'r swm trwy aberthu cyflog, gan leihau eich cyfraniadau treth ac Yswiriant Gwladol.</p>"
+				},
+				{
+					"title": "Rhaglen Cynorthwyo Cyflogeion",
+					"text": "<p>Mae gan holl gyflogeion y Gronfa Loteri Fawr fynediad i raglen cynorthwyo cyflogeion gyfrinachol a ddarperir gan Care First, sy'n darparu gwybodaeth a chyngor ar ystod helaeth o bynciau sy'n effeithio ar eich bywyd gwaith neu bersonol.</p>"
+				},
+				{
+					"title": "Profion llygaid a sbectol",
+					"text": "<p>Mae pob person sy'n defnyddio monitro cyfrifiadur yn gymwys i gael prawf llygaid am ddim wrth gael eu penodi ac ar adegau rheolaidd wedi hynny. Os rhoddir presgripsiwn offer arbennig neu sbectol i chi ar gyfer defnyddio monitro cyfrifiadur yn sgil y prawf llygaid, bydd y Gronfa Loteri Fawr yn talu am gost lensys a ffrâm sbectol sylfaenol o fewn uchafswm terfynau penodol.</p>"
+				},
+				{
+					"title": "Cynllun gofal iechyd",
+					"text": "<p>Mae'r cynllun gofal iechyd hwn, sy'n cael ei gynnig am gost isel, yn cynnig ystod eang o fuddion gofal iechyd cadarnhaol ar eich cyfer chi a'ch teulu, ac mae'n eich galluogi i hawlio arian yn ôl ar dreuliau gofal iechyd penodol, gan gynnwys therapïau optegol, deintyddol ac amgen.</p>"
+				},
+				{
+					"title": "Ariannol",
+					"text": "<p>Mae cynnydd o ran cyflog yn cael ei rannu i ddwy ffurf, un yn awtomatig ac un yn seiliedig ar berfformiad. Mae'r cynnydd canrannol sydd ar gael wedi'i bennu gan Drysorlys EM bob blwyddyn. Yn ogystal â'ch cyflog mae'r Gronfa Loteri Fawr yn cynnig nifer o fuddion ariannol.</p>"
+				},
+				{
+					"title": "Cynllun pensiwn",
+					"text": "<p>Mae'r Gronfa Loteri Fawr yn cynnig cyfle i ymuno â chynllun pensiwn hael y Gwasanaeth Sifil. Fel arall, os yw'n well gennych ymuno â phensiwn cyfranddalwyr, byddwn yn gwneud cyfraniad o hyd at 12.5 y cant o'r cyflog gan ddibynnu ar eich oedran, ynghyd â chyfraniad cyfatebol pellach o hyd at 3 y cant.</p>"
+				},
+				{
+					"title": "Talebau gofal plant",
+					"text": "<p>Cynigiwn gynllun aberthu cyflog ar gyfer talebau gofal plant er mwyn i chi elwa o'r manteision treth hael sy'n deillio o ddefnyddio'r cyfryw ddull o dalu am gostau gofal plant.</p>"
+				},
+				{
+					"title": "Cynllun Disgownt Cyflogeion",
+					"text": "<p>Mae'r Gronfa Loteri Fawr yn darparu cynllun buddion disgownt sy'n cynnig ystod helaeth o ddisgowntiau i'ch helpu i arbed arian oddi ar siopa, teithio, gwyliau a llawer mwy.</p>"
+				},
+				{
+					"title": "Rhoi Wrth Ennill",
+					"text": "<p>Gallwch gefnogi eich hoff elusen neu elusennau trwy'r Cynllun Rhodd Uniongyrchol Rhoi Wrth Ennill, sy'n cael ei ddidynnu'n syth o'ch tâl. Mae rhoi'n uniongyrchol o'ch tâl yn ddi-dreth a bydd yr achosion rydych yn frwd o'u pleidiau nhw yn elwa o'ch cefnogaeth reolaidd.</p>"
+				},
+				{
+					"title": "Tocyn Tymor a Benthyciad Cycle2Work",
+					"text": "<p>Ar ôl i chi weithio gyda ni am fis rydych yn gymwys i ymgeisio am fenthyciad tocyn tymor di-log o hyd at £5,000, neu fenthyciad prynu beic o hyd at £1,000 i deithio i'r gwaith.</p>"
+				},
+				{
+					"title": "Amser i ffwrdd",
+					"text": "<p>Mae'r wythnos waith safonol i staff amser llawn yn 37 awr, gydag o leiaf 30 munud o egwyl ginio di-dâl bob dydd. Rydym yn cynnig ystod o opsiynau gweithio hyblyg ffurfiol ac anffurfiol ynghyd ag absenoldeb hael â thâl.</p>"
+				},
+				{
+					"title": "Gweithio hyblyg",
+					"text": "<p>Mae gweithio hyblyg yn galluogi timau ac unigolion i reoli'r cydbwysedd bywyd-gwaith, ac yn sicrhau ar yr un pryd bod y mudiad yn gallu gweithredu'n effeithiol. Ymysg yr opsiynau mae:<ul><li>oriau rhan-amser</li><li>oriau cywasgedig</li><li>oriau gwaith ansafonol</li><li>gweithio oddi cartref ad hoc</li><li>rhannu swydd</li><li>oriau gwaith hyblyg</li><li>Gwyliau blynyddol hael</li></ul><p>Yn ogystal â gwyliau banc cynigir 25 niwrnod o wyliau blynyddol y flwyddyn wrth ymuno â'r Gronfa Loteri Fawr, gan godi un diwrnod ar gyfer bob blwyddyn o gyflogaeth hyd at gyfanswm o 30 niwrnod. Rhoddir tri diwrnod ychwanegol o wyliau bob blwyddyn - ar adeg y Nadolig fel arfer. Bydd eich hawl yn amrywio yn unol â'ch dyddiad penodi, ac mae'n pro rata ar gyfer cyflogeion rhan-amser.</p>"
+				},
+				{
+					"title": "Absenoldeb mamolaeth/mabwysiadu â thâl",
+					"text": "<p>Bydd staff sy'n gymwys i dderbyn tâl mamolaeth statudol yn derbyn eu tâl llawn yn ystod 22 wythnos gyntaf eu habsenoldeb mamolaeth.</p>"
+				},
+				{
+					"title": "Absenoldeb tadolaeth â thâl",
+					"text": "<p>Bydd staff sy'n gymwys i dderbyn tâl tadolaeth statudol yn derbyn 10 niwrnod o dâl llawn.</p>"
+				},
+				{
+					"title": "Absenoldeb rhiant â thâl",
+					"text": "<p>Mae gan staff sydd wedi gweithio gyda ni am flwyddyn hawl i wythnos o absenoldeb rhiant ar dâl llawn bob blwyddyn os oes ganddynt un plentyn neu fwy o dan wyth mlwydd oed. Mae hyn yn ychwanegol at eu hawl i wyliau blynyddol.</p>"
+				},
+				{
+					"title": "Absenoldeb gwirfoddoli â thâl",
+					"text": "<p>Gall cyflogeion ofyn am hyd at ddau ddiwrnod o absenoldeb â thâl bob blwyddyn ar gyfer gwirfoddoli.</p>"
+				},
+				{
+					"title": "Absenoldeb dyletswydd gyhoeddus â thâl",
+					"text": "<p>Gall staff gymryd hyd at 18 niwrnod y flwyddyn i gyflawni dyletswyddau cyhoeddus.</p>"
+				},
+				{
+					"title": "Egwyl gyrfa ddi-dâl",
+					"text": "<p>Gall staff gyda dwy flynedd o wasanaeth ofyn am egwyl gyrfa ddi-dâl o hyd at 50 wythnos bob pum mlynedd fel absenoldeb astudio, cyfnod sabothol neu deithio, neu i dreulio cyfnod estynedig gyda'u plant y tu hwnt i'w hawl i absenoldeb rhiant.</p>"
+				},
+				{
+					"title": "Datblygu",
+					"text": "<p>Mae'r Tîm Datblygu Dawn a Threfniadaethol yn y Gronfa Loteri Fawr yn chwarae rôl hollbwysig wrth ddatblygu pobl er mwyn cynnal eich cymhelliant, a chynyddu eich sgiliau a'r galluoedd i gyrraedd eich potensial.</p>"
+				},
+				{
+					"title": "Tanysgrifiadau Proffesiynol",
+					"text": "<p>Os ydych mewn swydd lle mae aelodaeth o gymdeithas neu fudiad proffesiynol yn gysylltiedig yn uniongyrchol â swyddogaeth eich rôl, gallwch gyflwyno hawl i'r ffioedd tanysgrifio gael eu had-dalu, hyd at uchafswm o un tanysgrifiad y flwyddyn.</p>"
+				},
+				{
+					"title": "Nawdd corfforaethol",
+					"text": "<p>Gall y Gronfa Loteri Fawr roi cefnogaeth ariannol i nifer bach o staff i ennill cymwysterau gan ddarparwyr cyrsiau allanol sy'n darparu sgiliau a gwybodaeth hynod werthfawr ar gyfer y swydd.</p>"
+				},
+				{
+					"title": "Hyfforddiant a mentora",
+					"text": "<p>Rydym yn gweithio i sefydlu diwylliant o hyfforddiant yn y Gronfa Loteri Fawr trwy weithdai, cyngor a chanllawiau, sesiynau 1:1 a'n rhwydwaith hyfforddiant ein hunain.</p>"
+				}
+			]
 		},
 		"under10k": "under10k",
 		"over10k": "over10k"
@@ -237,14 +356,14 @@
 		},
 		"dataProtection": {
 			"title": "Diogelu Data",
-			"body": "<p>\tOs byddwch yn ymgeisio am grant gennym ni, byddwn yn dweud wrthych fel rhan o'r broses ymgeisio sut y byddwn yn defnyddio eich gwybodaeth, ond gallwch weld ein polisi Diogelu Data isod.  </p><p>\tByddwn yn defnyddio'r wybodaeth a roddwch i ni yn ystod ein hasesiad ac am gyfnod llawn unrhyw grant (os caiff ei ddyfarnu) i weinyddu a dadansoddi grantiau ac ar gyfer ein hymchwil ein hunain. Mae’n bosib y byddwn yn rhoi copïau o ran neu’r cyfan o’r wybodaeth hon i unigolion a mudiadau rydym yn ymgynghori â nhw wrth asesu ceisiadau, gweinyddu'r rhaglen, monitro grantiau a gwerthuso prosesau ac effeithiau ariannu. Gall y mudiadau hyn gnnwys cyfrifwyr, gwerthuswyr allanol a mudiadau neu grwpiau eraill sy’n ymwneud â chyflwyno’r rhaglen.  </p><p>\tMae'n bosib y byddwn yn rhannu gwybodaeth gyda mudiadau ac unigolion sydd â diddordeb dilys mewn ceisiadau a grantiau'r Loteri neu raglenni ariannu penodol. Mae'n ddyletswydd arnom i ddiogelu arian cyhoeddus a chan hynny, mae'n bosib y byddwn hefyd yn rhannu gwybodaeth gyda dosbarthwyr eraill y Loteri, mudiadau sy'n darparu arian cyfatebol neu at ddibenion atal a chanfod trosedd.  </p><p>\tMae'n bosib y bydd eich gwybodaeth yn cael ei throsglwyddo i ddarparwr gwasanaethau TG a leolir y tu allan i Ardal Economaidd Ewrop (AEE). Os caiff eich gwybodaeth ei throsglwyddo y tu allan i AEE, byddwn yn sicrhau ei bod yn cael ei diogelu'n briodol.  </p><p>\tMae’n bosib y byddwn yn defnyddio gwybodaeth bersonol a ddarperir gennych er mwyn cyflawni gwiriadau adnabyddiaeth priodol. Gall gwybodaeth bersonol rydych yn ei darparu gael ei datgelu i asiantaeth cyfeirnod credyd neu atal twyll a fydd, o bosib, yn cadw cofnod o’r wybodaeth honno.  </p><p>\tOs byddwch yn darparu gwybodaeth ffug neu anghywir yn eich cais neu unrhyw bryd yn ystod cyfnod unrhyw ariannu a ddyfarnwn i chi ac mae twyll yn cael ei ddatgelu, byddwn yn darparu manylion i asiantaethau atal twyll, er mwyn atal twyll a gwyngalchu arian. Os ydych yn gwmni bydd hyn yn cynnwys enwau Cyfarwyddwyr y Cwmni ar adeg y twyll. Mae'n rhaid i chi ymrwymo i hysbysu'r holl Gyfarwyddwyr, Ymddiriedolwyr ac aelodau Pwyllgor am y rhybudd hwn.  </p><p>\tGallwch gael manylion pellach yn esbonio sut y gellir defnyddio'r wybodaeth a ddelir gan asiantaethau atal twyll gan ein hadran Gwasanaethau i Gwsmeriaid trwy anfon e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, ffonio ein llinell gymorth ar 0300 123 0735, neu ysgrifennu at: <br /><br />Gwasanaeth Cwsmeriaid <br />Cronfa Loteri Fawr <br />10fed Llawr <br />Tŷ Helmont <br />Ffordd Churchill <br />Caerdydd <br />CF10 2DY  </p><p>\tMae’n bosib y byddwn yn defnyddio’r data rydych yn ei ddarparu at ddibenion ymchwil. Cydnabyddwn yr angen am gynnal cyfrinachedd grwpiau bregus ac ni chaiff eu manylion eu cyhoeddi mewn unrhyw ffordd oni bai bod y gyfraith yn mynnu bod hyn yn cael ei wneud.  </p><p>\tYmdrinnir â cheisiadau am ddata personol o dan Ddeddf Diogelu Data 1998. Os ydych am wybod p'un a ydym yn cadw unrhyw wybodaeth bersonol amdanoch ai beidio, dylech ysgrifennu at <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a> </p><p>\tCyfeiriwch at y Ddeddf Diogelu Data yn eich cais. Mae'n ofynnol i chi ddarparu prawf adnabod: </p><ul>\t<li>\t\tllungopi o dudalennau adnabod eich pasbort cyfredol \t</li>\t<li>\t\ttrwydded yrru â llun gyfredol \t</li>\t<li>\t\tbil cyfleustodau gwreiddiol a chyfredol (er enghraifft, trydan), cyfriflen cerdyn credyd neu fanc sy'n cynnwys eich enw a'ch cyfeiriad \t</li></ul><p>\tOs oes angen y dogfennau hyn yn ôl arnoch, byddwn yn eu dychwelyd atoch. Byddai'n ddefnyddiol petaech yn gallu adnabod pa ran o'r Gronfa Loteri Fawr (pa adran, cyfarwyddiaeth neu swyddfa) y credwch sy'n cadw eich data er mwyn hwyluso'r chwilio. <br /><br />Gallwn atal mynediad i'ch gwybodaeth pan fo gennym yr hawl i wneud hynny o dan <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Ddeddf Diogelu Data 1998</a>.</p>"
+			"body": "<p>\tOs byddwch yn ymgeisio am grant gennym ni, byddwn yn dweud wrthych fel rhan o'r broses ymgeisio sut y byddwn yn defnyddio eich gwybodaeth, ond gallwch weld ein polisi Diogelu Data isod.  </p><p>\tByddwn yn defnyddio'r wybodaeth a roddwch i ni yn ystod ein hasesiad ac am gyfnod llawn unrhyw grant (os caiff ei ddyfarnu) i weinyddu a dadansoddi grantiau ac ar gyfer ein hymchwil ein hunain. Mae’n bosib y byddwn yn rhoi copïau o ran neu’r cyfan o’r wybodaeth hon i unigolion a mudiadau rydym yn ymgynghori â nhw wrth asesu ceisiadau, gweinyddu'r rhaglen, monitro grantiau a gwerthuso prosesau ac effeithiau ariannu. Gall y mudiadau hyn gnnwys cyfrifwyr, gwerthuswyr allanol a mudiadau neu grwpiau eraill sy’n ymwneud â chyflwyno’r rhaglen.  </p><p>\tMae'n bosib y byddwn yn rhannu gwybodaeth gyda mudiadau ac unigolion sydd â diddordeb dilys mewn ceisiadau a grantiau'r Loteri neu raglenni ariannu penodol. Mae'n ddyletswydd arnom i ddiogelu arian cyhoeddus a chan hynny, mae'n bosib y byddwn hefyd yn rhannu gwybodaeth gyda dosbarthwyr eraill y Loteri, mudiadau sy'n darparu arian cyfatebol neu at ddibenion atal a chanfod trosedd.  </p><p>\tMae'n bosib y bydd eich gwybodaeth yn cael ei throsglwyddo i ddarparwr gwasanaethau TG a leolir y tu allan i Ardal Economaidd Ewrop (AEE). Os caiff eich gwybodaeth ei throsglwyddo y tu allan i AEE, byddwn yn sicrhau ei bod yn cael ei diogelu'n briodol.  </p><p>\tMae’n bosib y byddwn yn defnyddio gwybodaeth bersonol a ddarperir gennych er mwyn cyflawni gwiriadau adnabyddiaeth priodol. Gall gwybodaeth bersonol rydych yn ei darparu gael ei datgelu i asiantaeth cyfeirnod credyd neu atal twyll a fydd, o bosib, yn cadw cofnod o’r wybodaeth honno.  </p><p>\tOs byddwch yn darparu gwybodaeth ffug neu anghywir yn eich cais neu unrhyw bryd yn ystod cyfnod unrhyw ariannu a ddyfarnwn i chi ac mae twyll yn cael ei ddatgelu, byddwn yn darparu manylion i asiantaethau atal twyll, er mwyn atal twyll a gwyngalchu arian. Os ydych yn gwmni bydd hyn yn cynnwys enwau Cyfarwyddwyr y Cwmni ar adeg y twyll. Mae'n rhaid i chi ymrwymo i hysbysu'r holl Gyfarwyddwyr, Ymddiriedolwyr ac aelodau Pwyllgor am y rhybudd hwn.  </p><p>\tGallwch gael manylion pellach yn esbonio sut y gellir defnyddio'r wybodaeth a ddelir gan asiantaethau atal twyll gan ein hadran Gwasanaethau i Gwsmeriaid trwy anfon e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, ffonio ein llinell gymorth ar 0300 123 0735, neu ysgrifennu at: <br /><br />Gwasanaeth Cwsmeriaid <br />Cronfa Loteri Fawr <br />10fed Llawr <br />Tŷ Helmont <br />Ffordd Churchill <br />Caerdydd <br />CF10 2DY  </p><p>\tMae’n bosib y byddwn yn defnyddio’r data rydych yn ei ddarparu at ddibenion ymchwil. Cydnabyddwn yr angen am gynnal cyfrinachedd grwpiau bregus ac ni chaiff eu manylion eu cyhoeddi mewn unrhyw ffordd oni bai bod y gyfraith yn mynnu bod hyn yn cael ei wneud.  </p><p>\tYmdrinnir â cheisiadau am ddata personol o dan Ddeddf Diogelu Data 1998. Os ydych am wybod p'un a ydym yn cadw unrhyw wybodaeth bersonol amdanoch ai beidio, dylech ysgrifennu at <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a> </p><p>\tCyfeiriwch at y Ddeddf Diogelu Data yn eich cais. Mae'n ofynnol i chi ddarparu prawf adnabod: </p><ul>\t<li><strong>llungopi o dudalennau adnabod eich pasbort cyfredol</strong></li><li><strong>trwydded yrru â llun gyfredol </strong></li><li><strong>bil cyfleustodau gwreiddiol a chyfredol (er enghraifft, trydan), cyfriflen cerdyn credyd neu fanc sy'n cynnwys eich enw a'ch cyfeiriad</strong></li></ul><p>\tOs oes angen y dogfennau hyn yn ôl arnoch, byddwn yn eu dychwelyd atoch. Byddai'n ddefnyddiol petaech yn gallu adnabod pa ran o'r Gronfa Loteri Fawr (pa adran, cyfarwyddiaeth neu swyddfa) y credwch sy'n cadw eich data er mwyn hwyluso'r chwilio. <br /><br />Gallwn atal mynediad i'ch gwybodaeth pan fo gennym yr hawl i wneud hynny o dan <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Ddeddf Diogelu Data 1998</a>.</p>"
 		}
 	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
 				"title": "Sut i gael deunyddiau â'n brand arnynt am ddim",
-				"body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3 class=\"t3a m-t\">Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p><h3 class=\"t3a m-t\">Ydych chi'n cynnal digwyddiad mawr?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> a all helpu gyda cheisiadau am unrhyw ddeunyddiau arbennig, byddent hefyd yn awyddus i siarad â chi am y posibilrwydd o dynnu lluniau o'ch digwyddiad.</p>",
+				"body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3>Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p><h3>Ydych chi'n cynnal digwyddiad mawr?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> a all helpu gyda cheisiadau am unrhyw ddeunyddiau arbennig, byddent hefyd yn awyddus i siarad â chi am y posibilrwydd o dynnu lluniau o'ch digwyddiad.</p>",
 				"languageOptions": {
 					"monolingual": "yn Saesneg",
 					"bilingual": "yn Gymraeg a Saesneg"

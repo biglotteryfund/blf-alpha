@@ -10,7 +10,7 @@ const argv = require('yargs')
     .alias('h', 'help')
     .argv;
 const prompt = require('prompt');
-const routes = require('../../routes/routes');
+const routes = require('../../controllers/routes');
 const _ = require('lodash');
 const path = require('path');
 const AWS = require('aws-sdk');

@@ -1,7 +1,7 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
     let User = sequelize.define('user', {
         username: {
             type: DataTypes.STRING
@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    User.prototype.isValidPassword = function (storedHash, typedPass) {
+    User.prototype.isValidPassword = (storedHash, typedPass) => {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(typedPass, salt);
         return bcrypt.compareSync(typedPass, storedHash);

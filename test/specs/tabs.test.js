@@ -11,7 +11,7 @@ let getClassesFromElm = (elm) => {
     return classes;
 };
 
-describe("Tab module", function () {
+describe("Tab module", () => {
     // get first tab module
     let tabModule = document.getElementById('js-tab-test');
     let paneId = tabModule.getAttribute('data-panes');

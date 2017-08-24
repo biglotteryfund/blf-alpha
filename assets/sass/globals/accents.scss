@@ -1,0 +1,143 @@
+// classes which will be accented:
+
+.a--border-top {
+    border-top-width: 4px !important;
+    border-top-style: solid;
+}
+
+.a--border-top--large {
+    border-top-width: 6px !important;
+    border-top-style: solid;
+}
+
+.a--border-left {  }
+
+// each theme listed in palette.scss will generate classes for use below
+// eg <div class="accent--pink a--border-top"> will give a pink border
+@each $name in $themes {
+    $colour: palette($name);
+
+    .accent--#{$name} {
+
+        // text color
+        &.a--text {
+            color: $colour;
+
+            // sass magic: get a.accent--$foo.a--text
+            @at-root a#{&} {
+                color: $colour;
+                @include on-interact {
+                    color: darken($colour, 10%);
+                }
+            }
+        }
+
+        // border on top of elements
+        &.a--border-top,
+        &.a--border-top--large {
+            border-top-color: $colour;
+        }
+
+        // block-colour heading background
+        &.overlay-text,
+        .overlay-text {
+            span {
+                background-color: $colour;
+            }
+        }
+
+        // hover state for overlay text
+        &.overlay-text,
+        .overlay-text {
+            a {
+                @include on-interact {
+                    color: darken(#ffffff, 10%);
+                    span {
+                        background-color: darken($colour, 10%);
+                    }
+                }
+            }
+        }
+
+        // semi-opaque text used for some pages
+        $opacityFactor: 0.8;
+        &.is-opaque,
+        .is-opaque {
+            span {
+                background-color: rgba($colour, $opacityFactor);
+            }
+        }
+
+        // border-bottom below some type styles
+        &.t3--a {
+            &:after {
+                border-bottom-color: $colour;
+            }
+        }
+
+        // call-to-action buttons
+        &.a--btn {
+            color: #ffffff;
+            background-color: $colour;
+            @include on-interact {
+                background-color: darken($colour, 15%);
+            }
+        }
+
+        &.btn--outline {
+            $activeState: darken($colour, 20%);
+            border-color: $colour;
+            color: $colour !important;
+
+            .btn__icon {
+                fill: $colour !important;
+            }
+
+            @include on-interact {
+                border-color: $activeState !important;
+                color: $activeState !important;
+                .btn__icon {
+                    fill: $activeState !important;
+                }
+            }
+
+
+        }
+
+        // high contrast mode styles
+        .contrast--high & {
+
+            // overlay (block) text
+            .overlay-text {
+                span {
+                    background-color: palette('high-contrast-bg') !important;
+                }
+            }
+
+            // call-to-action buttons
+            &.a--btn {
+                background-color: palette('high-contrast-bg') !important;
+                @include on-interact {
+                    background-color: darken(palette('high-contrast-bg'), 10%) !important;
+                }
+            }
+        }
+
+        // duplicates .btn CSS
+        .tab--active  {
+            .btn {
+                background-color: darken($colour, 15%) !important;
+            }
+        }
+
+
+    }
+}
+
+// @TODO find a better way to do this
+.btn.accent--white {
+    color: #000000;
+    @include on-interact {
+        color: #000000;
+    }
+}

@@ -1,0 +1,174 @@
+$btnConf: (
+    'default': (
+        'fontSize': 18px,
+        'desiredHeight': 59px
+    ),
+    'small': (
+        'fontSize': 16px,
+        'desiredHeight': 36px
+    )
+);
+
+@mixin getBtnVertPadding($conf) {
+    $height: map-get($conf, 'desiredHeight');
+    $fontSize: map-get($conf, 'fontSize');
+    $paddingVertical: ($height - $fontSize) / 2;
+    padding-top: $paddingVertical;
+    padding-bottom: $paddingVertical;
+}
+
+// default button style
+.btn {
+    @include poppins();
+    line-height: 1; // so we can calculate padding for the height
+    font-weight: 500;
+    background-color: palette('blue');
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    vertical-align: top;
+    display: inline-block;
+    -webkit-appearance: none;
+    font-size: map-deep-get($btnConf, 'default', 'fontSize');
+    @include getBtnVertPadding(map-get($btnConf, 'default'));
+    padding-left: $spacingUnit;
+    padding-right: $spacingUnit;
+
+    @include mq('desktop') {
+        padding-right: $spacingUnit * 1.5;
+        padding-left: $spacingUnit * 1.5;
+    }
+
+    @include on-interact {
+        background-color: darken(palette('blue'), 15%);
+        outline: none;
+        color: #ffffff;
+    }
+
+    // add back the outline to high-contrast mode
+    .contrast--high & {
+        @include on-interact {
+            outline: 3px solid palette('pink');
+        }
+    }
+
+    // sass magic: becomes `a.btn`
+    // (to override other link CSS)
+    @at-root a#{&} {
+        color: #ffffff;
+        text-decoration: none;
+        transition: none;
+    }
+
+    &[disabled='disabled'] {
+        @include disabledBtn();
+    }
+}
+
+// small variant (also a different colour)
+.btn--small {
+    @include getBtnVertPadding(map-get($btnConf, 'small'));
+    font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    background-color: palette('pink');
+
+    @include on-interact {
+        background-color: darken(palette('pink'), 15%);
+        outline: none;
+    }
+}
+
+// forces full-width
+.btn--block {
+    display: block;
+}
+
+// outlined mode
+.btn--outline {
+    background-color: #ffffff !important;
+    color: palette('blue') !important;
+    border: 3px solid palette('blue');
+
+    &.btn--small {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    @include on-interact {
+        background-color: #ffffff;
+        border-color: darken(palette('blue'), 20%);
+        color: darken(palette('blue'), 20%) !important;
+    }
+}
+
+// icon inside the button
+.btn__icon {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+    margin-right: 5px;
+}
+
+.btn--carousel {
+    position: absolute;
+    top: 50%;
+    color: palette('blue');
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    left: 0;
+    z-index: 100;
+    margin-top: 0;
+
+    @include mq('tablet') {
+        left: -$spacingUnit*3;
+    }
+
+    @include on-interact {
+        color: lighten(palette('blue'), 20%);
+    }
+
+    &.btn--carousel--next {
+        left: auto;
+        right: 0;
+        @include mq('tablet') {
+            right: -$spacingUnit*3;
+        }
+    }
+
+    .icon--arrow-left,
+    .icon--arrow-right {
+        width: 24px;
+        height: 40px;
+        fill: #1a44a1;
+    }
+
+    &.btn--carousel--round {
+        background-color: palette('pink');
+        border-radius: 100%;
+        height: 40px;
+        width: 40px;
+        padding: 0;
+
+        @include on-interact {
+            background-color: darken(palette('pink'), 5%);
+        }
+
+        &.btn--carousel--next {
+            right: $spacingUnit;
+        }
+
+        &.btn--carousel--prev {
+            left: $spacingUnit;
+        }
+
+        .icon--arrow-left,
+        .icon--arrow-right {
+            fill: #ffffff;
+            text-align: center;
+            height: 36px;
+        }
+    }
+}

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const sassConfig = require('../../config/content/sass.json');
-const routes = require('../../routes/routes');
+const routes = require('../../controllers/routes');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
@@ -40,9 +40,6 @@ setGlobal('metadata', {
     description: config.get('meta.description'),
     themeColour: sassConfig.themeColour
 });
-
-// add a toggle for offline dev to skip loading external assets
-setGlobal('disableExternal', config.get('disableExternal'));
 
 // make anchors available everywhere (useful for routing and templates)
 setGlobal('anchors', config.get('anchors'));

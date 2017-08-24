@@ -21,7 +21,8 @@ const defaultSecurityDomains = [
     'platform.twitter.com',
     'syndication.twitter.com',
     'cdn.syndication.twimg.com',
-    '*.twimg.com'
+    '*.twimg.com',
+    'cdn.jsdelivr.net'
 ];
 
 const helmetSettings = helmet({

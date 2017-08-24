@@ -1,0 +1,37 @@
+.accessibility__nav {
+    position: absolute;
+    top: $spacingUnit;
+    left: $spacingUnit;
+    margin-top: 0 !important;
+    z-index: 100;
+
+    ul {
+        margin-top: 0;
+    }
+
+    li {
+        margin: 0;
+
+        a {
+            padding: 20px 30px;
+            display: block;
+            background-color: palette('blue');
+            color: #ffffff;
+            text-decoration: none;
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+
+            @include on-interact {
+                position: static;
+                width: auto;
+                height: auto;
+                background-color: #999999;
+            }
+        }
+    }
+}
+

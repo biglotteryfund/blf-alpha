@@ -1,0 +1,284 @@
+$offscreenNavWidth: 65%;
+
+@mixin nav-link-style($color: palette('blue-text')) {
+    @include poppins();
+    font-weight: 600;
+    font-size: 16px;
+    color: $color;
+}
+
+.header__inner {
+    position: relative;
+    padding: 15px 0 15px 0;
+    @include mq('tablet') {
+        padding: 20px 0 20px 0;
+    }
+}
+
+.logo {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../images/logo-new.png);
+    margin-bottom: 0;
+
+    // mobile dimensions
+    height: 80px;
+    width: 100px;
+    background-size: auto 100%;
+
+    @include mq('tablet') {
+        height: 105px;
+        width: 130px;
+        margin-left: -20px;
+    }
+
+    // use welsh logo (and scale it a bit as it's smaller)
+    .locale--cy & {
+        transform: scale(1.2);
+        background-image: url(../images/logo-new--welsh.png);
+    }
+
+     // handle broken IE which pixellates our logo
+    .is-ie & {
+        background-image: url(../images/logo-small.png);
+    }
+
+    .is-ie.locale--cy & {
+        background-image: url(../images/logo-small--welsh.png);
+    }
+
+}
+
+// container element
+nav {
+    margin-top: $spacingUnit;
+    @include mq('tablet') {
+        margin-top: 40px; // align with logo
+    }
+
+    &.mobile-only {
+        margin-top: 0;
+    }
+}
+
+// mobile off-screen nav
+.nav--offscreen {
+    background-color: palette('blue-nav');
+    display: block;
+    position: fixed;
+    z-index: 100;
+    right: -100%;
+    transition: all 0.3s ease-in-out;
+    top: 0;
+    height: 100%;
+    margin-top: 0;
+    width: $offscreenNavWidth;
+    box-shadow: -3px 0px 10px -2px #173077;
+
+    // stick the nav at the bottom of the page without JS
+    .no-js & {
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        top: auto;
+        position: relative;
+        box-shadow: none;
+    }
+
+    li {
+        margin-top: 0;
+        border-bottom: 2px solid rgba(46, 78, 170, 0.4);
+        font-size: 17px;
+
+        &:hover {
+            background-color: palette('blue-text');
+        }
+
+        a,
+        &.nav__search {
+            padding: $spacingUnit $spacingUnit * 1.5;
+        }
+
+        &.nav__search {
+            input {
+                font-weight: 300;
+                background-color: transparent;
+                color: #ffffff;
+                padding: 0;
+
+                @include input-placeholder {
+                    color: #ffffff;
+                    font-weight: 300;
+                }
+            }
+        }
+
+        .form-search__icon {
+            .icon--search {
+                fill: #ffffff;
+            }
+        }
+
+        a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+        }
+    }
+
+}
+
+// handle animation of offscreen nav for mobile
+@include mq('tablet', 'max') {
+    .show-off-canvas {
+        overflow: hidden;
+
+        .nav--offscreen {
+            right: 0;
+        }
+
+        main {
+            transform: translateX(-$offscreenNavWidth);
+        }
+    }
+}
+
+// links themselves
+.nav {
+    margin-top: 0;
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        align-items: center;
+        margin-left: $spacingUnit * 2.5;
+        margin-bottom: 0;
+    }
+
+    li {
+        @include nav-link-style();
+        margin-top: 0;
+
+        &.nav__link {
+
+            &.selected,
+            &.selected a {
+                color: palette('pink-text');
+            }
+
+            &, a {
+                color: palette('blue-text');
+            }
+
+            a {
+                text-decoration: none;
+                @include on-interact {
+                    color: palette('pink-text');
+                    text-decoration: underline;
+                }
+            }
+
+            &:after {
+                content: '';
+                border-right: 2px solid palette('soft-grey');
+                border-radius: 30px;
+                margin-left: $spacingUnit * 1.25;
+                margin-right: $spacingUnit * 1.25;
+                vertical-align: middle;
+                height: 15px;
+                display: inline-block;
+            }
+
+            &.nav__link--last:after {
+                display: none;
+            }
+        }
+
+    }
+}
+
+.nav__lang {
+    @include mq('tablet') {
+        position: absolute;
+        top: $spacingUnit * 2;
+        right: 0;
+        a {
+            color: palette('pink') !important;
+            text-decoration: none;
+
+            .contrast--high & {
+                color: palette('high-contrast-bg') !important;
+            }
+        }
+    }
+}
+
+.nav__search {
+    margin-left: auto; // move to right
+
+    input {
+        @include nav-link-style(#000000);
+        margin-top: 0;
+        border: 0;
+        padding: $spacingUnit / 4;
+        width: 100px;
+
+        @include mq('tablet') {
+            text-align: right;
+            width: 80px;
+        }
+
+        @include input-placeholder {
+            @include nav-link-style();
+        }
+    }
+}
+
+.form-search__input {
+    @include mq('tablet') {
+        float: right;
+        margin-left: $spacingUnit / 3;
+    }
+}
+
+.form-search__icon {
+
+    vertical-align: middle;
+
+    .icon--search {
+        width: 21px;
+        height: 21px;
+        fill: palette('soft-grey');
+    }
+
+    @include mq('tablet') {
+        position: relative;
+        top: 5px; // to line up with the search input
+    }
+}
+
+.header__hamburger {
+    position: absolute;
+    right: 0;
+    margin-top: 0 !important;
+    cursor: pointer;
+    top: $spacingUnit * 2;
+    width: 31px;
+
+    a {
+        svg, path {
+            fill: palette('blue-text');
+        }
+        @include on-interact() {
+            svg, path {
+                fill: darken(palette('blue-text'), 10%);
+            }
+        }
+    }
+
+    svg {
+        position: absolute;
+    }
+
+}

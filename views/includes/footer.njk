@@ -1,18 +1,18 @@
 <footer role="contentinfo" class="footer">
 
-    <div class="inner footer__inner m-t-none">
-        <ul class="grid grid--top grid--wide-only m-t-none">
+    <div class="inner footer__inner">
+        <ul class="grid grid--top grid--wide-only">
             <li class="grid__item desktop-only">
-                <ul class="list-spaced m-t-none">
-                    <li class="m-t-none"><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
+                <ul class="list-spaced">
+                    <li><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
                     <li><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></li>
                     <li>{{ __("global.contact.phone") | safe }}</li>
                 </ul>
             </li>
 
             <li class="grid__item">
-                <h4 class="footer__header t2 desktop-only">{{ __("global.footerLinks.title") | safe }}</h4>
-                <div class="grid grid--wide-only grid--top list-spaced m-t-none">
+                <h4 class="footer__header t2 desktop-only cap-up">{{ __("global.footerLinks.title") | safe }}</h4>
+                <div class="grid grid--wide-only grid--top list-spaced">
                     <ul class="grid__item">
                         <li><a href="{{ buildUrl('about-big/customer-service/freedom-of-information') }}">{{ __("global.footerLinks.foi") | safe }}</a></li>
                         <li><a href="{{ buildUrl('about-big/customer-service/privacy-policy') }}">{{ __("global.footerLinks.privacy-policy") | safe }}</a></li>
