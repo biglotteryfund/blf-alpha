@@ -75,7 +75,7 @@ const routes = {
                     template: "pages/toplevel/benefits",
                     lang: "toplevel.benefits",
                     static: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         '/about-big/jobs/benefits',
                     ]
