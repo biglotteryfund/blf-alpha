@@ -69,7 +69,7 @@ let takeSurvey = (elm, event) => {
         data: data,
         dataType: 'json',
         success: (response) => {
-            let surveys = logSurveyTaken(response.surveyId);
+            logSurveyTaken(response.surveyId);
             console.log(response);
             alert('Success!');
         },
@@ -89,7 +89,7 @@ module.exports = {
             // enable this survey (if applicable)
             let surveyId = parseInt($(this).data('survey'));
             if (surveyId && !hasTakenSurvey(surveyId)) {
-                $(this).removeClass('hidden');
+                $(this).show();
             }
 
             // AJAX-ify survey submissions
