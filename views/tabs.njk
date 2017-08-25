@@ -1,0 +1,70 @@
+{% import "./components/hero.njk" as hero %}
+{% import "./components/headers.njk" as headers %}
+
+{% extends "./layouts/main.njk" %}
+
+{% block title %}Tabs | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        {{ headers.overlayText('h2', 'Tab test') }}
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only accent--pink a--border-top content-box">
+
+            <ul class="js-tabs tabs tabs--carousel unstyled" data-no-initial-selection="true">
+                <li><a class="js-tab-item" href="#pane--foo">Foo</a></li>
+                <li><a class="js-tab-item" href="#pane--bar">Bar</a></li>
+            </ul>
+
+            <aside id="js-panes" class="js-pane-holder">
+                <section class="js-pane tab-pane tab-pane--carousel bordered padded" id="pane--foo">
+                    <header class="t3 tab-fallback-title">
+                        <a class="js-tab-item" href="#pane--foo">Foo</a>
+                    </header>
+                    <article>
+                        <p>This is some foo text</p>
+
+                        {#<ul class="js-tabs tabs unstyled" data-panes="js-lol">#}
+                            {#<li><a class="js-tab-item" href="#pane--lol1">This is a nested tab</a></li>#}
+                            {#<li><a class="js-tab-item" href="#pane--lol2">Don't you just love recursion?</a></li>#}
+                        {#</ul>#}
+
+                        {#<aside id="js-lol" class="js-pane-holder">#}
+                            {#<section class="js-pane tab-pane bordered padded" id="pane--lol1">#}
+                                {#<header class="t3 tab-fallback-title">#}
+                                    {#<a class="js-tab-item" href="#pane--lol1">This is a nested tab</a>#}
+                                {#</header>#}
+                                {#<article>The content of the first nested pane</article>#}
+                            {#</section>#}
+                            {#<section class="js-pane tab-pane bordered padded" id="pane--lol2">#}
+                                {#<header class="t3 tab-fallback-title">#}
+                                    {#<a class="js-tab-item" href="#pane--lol2">Don't you just love recursion?</a>#}
+                                {#</header>#}
+                                {#<article>Alright I'm bored of recursion now</article>#}
+                            {#</section>#}
+                        {#</aside>#}
+
+                    </article>
+                </section>
+
+                <section class="js-pane tab-pane tab-pane--carousel bordered padded" id="pane--bar">
+                    <header class="t3 tab-fallback-title">
+                        <a class="js-tab-item" href="#pane--bar">Bar</a>
+                    </header>
+                    <article>
+                        <p>I'm only happy when it rains</p>
+                        <p>This is <a class="js-tab-item" href="#pane--foo">a link</a> to another tab</p>
+                    </article>
+                </section>
+            </aside>
+
+
+        </div>
+    </article>
+
+{% endblock %}

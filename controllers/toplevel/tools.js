@@ -258,4 +258,8 @@ router.route(editNewsPath + '/:id?')
         });
     });
 
+router.get('/tabs', (req, res, next) => {
+    res.render('tabs');
+});
+
 module.exports = router;
