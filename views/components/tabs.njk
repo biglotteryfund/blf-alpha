@@ -1,0 +1,48 @@
+{% macro getTabsetId(id) %}js-tabs-{{ id }}{% endmacro %}
+
+{% macro tab(title, paneId, tabSetId = false) %}
+    <a class="js-tab" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>
+{% endmacro %}
+
+{% macro tabSet(tabSetId, paneSetId, tabs) %}
+    <ul class="js-tabset tabs__tabset" data-paneset="{{ paneSetId }}" id="{{ tabSetId }}">
+        {% for t in tabs %}
+            <li>{{ t }}</li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro pane(paneId, title, content) %}
+    <section id="{{ paneId }}" class="tab__pane">
+        <header><a href="#{{ paneId }}" class="js-tab">{{ title }}</a></header>
+        <article>{{ content }}</article>
+    </section>
+{% endmacro %}
+
+{% macro paneSet(paneSetId, panes) %}
+    <div id="{{ paneSetId }}" class="js-paneset">
+        {% for p in panes %}
+            {{ p }}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro tabs(id, content) %}
+
+    {% set tabSetId = getTabsetId(id) %}
+    {% set paneSetId = 'js-panes-' + id %}
+    {% set tabItems = [] %}
+    {% set paneItems = [] %}
+
+    {% for c in content %}
+        {% set paneId = id + loop.index %}
+        {% set newTab = tab(title = c.title, paneId = paneId) %}
+        {% set tabItems = (tabItems.push(newTab), tabItems) %}
+        {% set newPane = pane(paneId = paneId, title = c.title, content = c.content) %}
+        {% set paneItems = (paneItems.push(newPane), paneItems) %}
+    {% endfor %}
+
+    {{ tabSet(tabSetId, paneSetId, tabItems) }}
+    {{ paneSet(paneSetId, paneItems) }}
+
+{% endmacro %}

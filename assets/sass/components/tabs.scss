@@ -1,9 +1,5 @@
-.tabs {
-    display: none;
-
-    .js-on & {
-        display: block;
-    }
+// the tabs themselves (eq. square, blocky elements)
+.tabs__tabset {
 
     li {
         font-family: 'Poppins', arial, sans-serif;
@@ -22,15 +18,30 @@
     .tab--active {
         font-weight: 600;
         border-bottom: 4px solid palette('pink');
+        color: palette('pink');
         a {
             color: palette('pink');
         }
     }
+
+    // hide main tabset for non-JS users
+    // (they get the accordion)
+    .no-js & {
+        display: none;
+    }
+
+    // also hide tabset on mobile
+    @include mq('tablet', 'max') {
+        display: none;
+    }
+
 }
 
-.tab-pane--carousel {
+// the tab panes (eg. the content boxes displayed when tabs are clicked)
+.tab__pane {
 
-    .tab-fallback-title {
+    // accordion headers (also shown for non-JS users)
+    header {
         a {
             display: block;
             background-color: palette('blue');
@@ -39,61 +50,48 @@
             text-decoration: none;
         }
     }
-}
 
-// mobile: carousel
-@include mq('tablet', 'max') {
+    .js-on & {
 
-    .js-on {
-        .tabs--carousel {
-            &.tabs {
+        header a {
+            position: relative;
+
+            &:after {
+                content: '';
+                display: block;
+                height: 100%;
+                width: 50px;
+                position: absolute;
+                top: 0;
+                right: 10px;
+                background-image: url(../images/icons/arrow-down.svg);
+                background-size: auto 100%;
+                background-repeat: no-repeat;
+                background-position: center right;
+                transition: transform 0.3s ease-in-out;
+                transition-delay: 0.5s;
+            }
+        }
+
+        @include mq('tablet') {
+            header {
                 display: none;
             }
         }
-        .tab-pane--carousel {
-            &.tab-pane > article {
-                display: none;
-            }
-            &.tab-pane--active > article {
-                display: block;
-            }
-        }
 
-        .tab-pane > article {
+        article {
             display: none;
         }
-        .tab-pane--active > article {
-            display: block;
-        }
-    }
 
-}
-
-// desktop: tab panes
-@include mq('tablet') {
-
-    .no-js {
-        .tab-fallback-title {
-            display: block;
-        }
-    }
-
-    .tab-fallback-title {
-        display: none;
-    }
-
-    .js-on {
-
-        // show/hide tab panes
-        .tab-pane {
-            display: none;
-            margin-top: 0;
-
-            &.tab-pane--active {
+        &.pane--active {
+            article {
                 display: block;
             }
-        }
 
+            header a:after {
+                transform: rotate(180deg);
+                transition-delay: 0s;
+            }
+        }
     }
 }
-

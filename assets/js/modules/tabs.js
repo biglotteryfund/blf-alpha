@@ -1,119 +1,68 @@
 /* global $ */
 'use strict';
-let classTrigger = 'js-tabs';
-let classTriggerItem = 'js-tab-item';
-let classActivated = 'js-tabs--active';
-let paneClassTrigger = 'js-pane';
-let paneClassTriggerContainer = 'js-pane-holder';
-let paneAttr = 'data-panes';
-let activateAttr = 'data-no-initial-selection';
-let activeTabClass = 'tab--active';
-let activePaneClass = 'tab-pane--active';
 
-// let bindEvents = (tabElm, paneElm) => {
-//     let tabs = $(`.${classTriggerItem}`, tabElm);
-//     let panes = $(`> .${paneClassTrigger}`, paneElm);
-//
-//     tabs.each(function (i) {
-//         $(this).on('click', (event) => {
-//             let pane = panes.eq(i); // find corresponding pane
-//             if (pane) {
-//                 // toggle tab classes
-//                 let oldActiveTab = $(`> .${activeTabClass}`, tabElm);
-//                 oldActiveTab.removeClass(activeTabClass);
-//                 $(this).addClass(activeTabClass);
-//
-//                 // toggle pane classes
-//                 let oldActivePane = $(`> .${activePaneClass}`, paneElm);
-//                 oldActivePane.removeClass(activePaneClass);
-//                 pane.addClass(activePaneClass);
-//             }
-//
-//             // prevent anchor scroll
-//             event.preventDefault();
-//         });
-//     });
-// };
-
-// let initOld = () => {
-//     let tabElms = $(`.${classTrigger}`);
-//     tabElms.each(function () {
-//         let paneHolderId = $(this).attr(paneAttr);
-//         let paneHolder = document.getElementById(paneHolderId);
-//         if (paneHolder) {
-//             // mark tab module as active
-//             $(this).addClass(classActivated);
-//
-//             // if no tab is active, mark one out
-//             let activeTab = $(this).find(`.${activeTabClass}`);
-//             let neverAutoActivate = $(this).attr(activateAttr);
-//             if (activeTab.length === 0 && !neverAutoActivate) {
-//                 $(this).find('li').first().addClass(activeTabClass);
-//                 $('.js-pane', paneHolder).first().addClass(activePaneClass);
-//             }
-//
-//             // bind click handlers
-//             bindEvents($(this), paneHolder);
-//         }
-//     });
-// };
+let activeClasses = {
+    tab: 'tab--active',
+    pane: 'pane--active'
+};
 
 let init = () => {
 
-    // listen for clicks on individual tabs
-    $(`.${classTriggerItem}`).each(function () {
+    // bind clicks on tabs
+    $('.js-tab').on('click', function (e) {
 
-        let $tab = $(this);
+        let $tabset;
+        let $tabClicked = $(this);
 
-        // get the tab's parent tabset (so we can deactivate previously-selected tabs)
-        // this is optional: some "tabs" are just links on the page with no tabset
-        let $tabset = $tab.parents(`.${classTrigger}`).first();
+        // get the matching pane element
+        let paneId = $tabClicked.attr('href');
+        let $paneToShow = $(paneId);
 
-        // get the pane it's linked to (so we can show it)
-        let $linkedPane = $($tab.attr('href'));
+        // is this "tab" just a link to a panel (eg. not in a tabset)?
+        let hasManualTabset = $(this).data('tabset');
 
-        // get the pane's parent paneset (so we can deactivate previously-selected panes)
-        let $paneset = $linkedPane.parents(`.${paneClassTriggerContainer}`).first(); // for nested
+        // find the "tabset" - the containing list of tabs
+        if (hasManualTabset) {
+            // for these links we have to manually match it to a tabset elsewhere on the page
+            // eg. so we can toggle the selected tab there
+            $tabset = $($(`#${hasManualTabset}`));
+            // we also need to find the equivalent tab in that tabset to make it active
+            $tabClicked = $tabset.find(`a[href="${paneId}"]`);
+        } else {
+            // find the tabset of the clicked tab
+            $tabset = $tabClicked.parents('.js-tabset').first();
+        }
 
+        // if we have a pane, let's show it
+        if ($paneToShow.length > 0) {
+            // we need the "paneset" - the container of available panes
+            // (this allows multiple sets of tabs/panes)
+            let $paneSet = $paneToShow.parents('.js-paneset').first();
 
-        // if there's a matching set of panes, activate this tabset
-        if ($paneset.length > 0) {
+            if ($paneSet.length > 0) {
+                // toggle the active pane in this set
+                let $oldActivePane = $paneSet.find(`.${activeClasses.pane}`);
+                $oldActivePane.removeClass(activeClasses.pane);
+                $paneToShow.addClass(activeClasses.pane);
 
-            // mark it as active
-            $tabset.addClass(classActivated);  // only used for tests...
+                // toggle the active tab in this set
+                let $oldActiveTab = $tabset.find(`.${activeClasses.tab}`);
+                $oldActiveTab.removeClass(activeClasses.tab);
+                $tabClicked.addClass(activeClasses.tab);
 
-            $tab.on('click', function (e) {
-                console.log($tabset, $linkedPane, $paneset);
-                // toggle tab classes
-                if ($tabset.length > 0) {
-                    let oldActiveTab = $(`> .${activeTabClass}`, $tabset);
-                    oldActiveTab.removeClass(activeTabClass);
-                    $(this).parents('li').first().addClass(activeTabClass);
-                }
-
-                // toggle pane classes
-                let oldActivePane = $(`> .${activePaneClass}`, $paneset);
-                oldActivePane.removeClass(activePaneClass);
-                $linkedPane.addClass(activePaneClass);
+                // stop browser scroll
                 e.preventDefault();
-            });
-
-            // if no tab is pre-set as active, mark one out
-            let activeTab = $tabset.find(`.${activeTabClass}`);
-
-            // sometimes, though, we want to leave them uninitialised
-            let neverAutoActivate = $tabset.attr(activateAttr);
-
-            // show the first tab (and its corresponding pane)
-            if (activeTab.length === 0 && !neverAutoActivate && $tabset.length > 0) {
-                let $firstTab = $tabset.find(`.${classTriggerItem}`).first();
-                $firstTab.click();
             }
-
         }
 
     });
 
+    // mark the first tab in a tabset active on init (unless explicitly prevented)
+    $('.js-tabset').each(function () {
+        if (!$(this).data('tabs-do-not-init')) {
+            $(this).find('.js-tab').first().click();
+        }
+    });
 
 };
 
