@@ -13,7 +13,7 @@
 {% endmacro %}
 
 {% macro pane(paneId, title, content) %}
-    <section id="{{ paneId }}" class="tab__pane">
+    <section id="{{ paneId }}" class="tab__pane tab__pane--accordion">
         <header><a href="#{{ paneId }}" class="js-tab">{{ title }}</a></header>
         <article>{{ content }}</article>
     </section>

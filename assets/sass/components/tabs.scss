@@ -37,8 +37,7 @@
 
 }
 
-// the tab panes (eg. the content boxes displayed when tabs are clicked)
-.tab__pane {
+.tab__pane--accordion {
 
     // accordion headers (also shown for non-JS users)
     header {
@@ -52,7 +51,6 @@
     }
 
     .js-on & {
-
         header a {
             position: relative;
 
@@ -73,6 +71,21 @@
             }
         }
 
+        &.pane--active {
+            header a:after {
+                transform: rotate(180deg);
+                transition: transform 0.5s ease-in-out;
+            }
+        }
+    }
+
+}
+
+// the tab panes (eg. the content boxes displayed when tabs are clicked)
+.tab__pane {
+
+    .js-on & {
+
         @include mq('tablet') {
             header {
                 display: none;
@@ -86,11 +99,6 @@
         &.pane--active {
             article {
                 display: block;
-            }
-
-            header a:after {
-                transform: rotate(180deg);
-                transition: transform 0.5s ease-in-out;
             }
         }
     }
