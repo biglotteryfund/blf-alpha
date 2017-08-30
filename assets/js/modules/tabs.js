@@ -50,9 +50,16 @@ let init = () => {
                 $oldActiveTab.removeClass(activeClasses.tab);
                 $tabClicked.addClass(activeClasses.tab);
 
-                // stop browser scroll
+                // stop browser scroll by default
                 e.preventDefault();
-                $tabClicked[0].scrollIntoView();
+
+                // if we're on mobile (eg. accordion)
+                // we should scroll the pane into view
+                let tabSetIsVisible = $tabset.is(":visible");
+                if (!tabSetIsVisible) {
+                    $paneToShow[0].scrollIntoView();
+
+                }
             }
         }
 
