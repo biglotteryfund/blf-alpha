@@ -42,45 +42,57 @@
     <div class="content-box content-box--borderless">
         <p>There are seven stages to the process of being awarded a grant under Empowering Young People:</p>
 
+        {% set beforeApplyContents = [
+            {
+                id: 'check',
+                title: 'Check if you\'re eligible',
+                content: "<p>Find out if you're eligible " + tabs.tab(title = 'here', paneId = 'menu3', tabSetId = 'menu') + ".</p>"
+            },
+            {
+                id: 'develop',
+                title: 'Develop your application',
+                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'menu1', tabSetId = 'menu') + " you'll find guidance on planning your project.</p>"
+            },
+            {
+                id: 'apply',
+                title: 'Apply for funding',
+                content: "<p>Find out how to apply " + tabs.tab(title = 'here', paneId = 'menu4', tabSetId = 'menu') + ".</p>"
+            },
+            {
+                id: 'assess',
+                title: 'Get an initial assessment',
+                content: "<p>We may contact you if we need more information about your project.</p>"
+            },
+            {
+                id: 'feedback',
+                title: 'Get initial feedback',
+                content: "<p>A member of our team will call you to let you know the outcome of initial assessment. If we decide not to proceed with your application we'll provide feedback at this stage.</p><p>If we decide to proceed with your application, we'll work with you to arrange a visit to your organisation.</p>"
+            },
+            {
+                id: 'visit',
+                title: 'Visiting your organisation',
+                content: "<p>We love to see the great work of our applicants, and to meet them in person! We'll let you know how to prepare for our visit, and we may contact you afterwards to get more details, too.</p>"
+            },
+            {
+                id: 'decision',
+                title: 'Get a decision',
+                content: "<p>The ultimate decision about the success of your application will be made by either staff within the Big Lottery Fund (if your application is under £200,000) or a committee of independent experts and young people (if your application is over £200,000).</p><p><strong>We will let you know the decision within four months of receiving your application</strong>.</p><p><strong>If your application is successful</strong> we'll send you an offer letter and get in touch to discuss next steps.</p><p><strong>If your application is unsuccessful</strong> we'll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>"
+            }
+        ] %}
+
         <ol class="list-bullets list--indented heavier">
-            <li><a href="#before-check">Check if you're eligible</a></li>
-            <li><a href="#before-develop">Develop your application</a></li>
-            <li><a href="#before-apply">Apply for funding</a></li>
-            <li><a href="#before-assess">Get an initial assessment</a></li>
-            <li><a href="#before-feedback">Get initial feedback</a></li>
-            <li><a href="#before-visit">Visiting your organisation</a></li>
-            <li><a href="#before-decision">Get a decision</a></li>
+            {% for item in beforeApplyContents %}
+                <li><a href="#before-{{ item.id }}">{{ item.title }}</a></li>
+            {% endfor %}
         </ol>
 
         <p class="links-emphasised">People call us every day to discuss their ideas, their communities, and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9am to 5pm (not including public holidays).</p>
 
-        <h3 id="before-check" class="t3 t3--a accent--pink a--text">1. Check if you're eligible</h3>
-        <p>Find out if you're eligible {{ tabs.tab(title = 'here', paneId = 'menu3', tabSetId = 'menu') }}.</p>
+        {% for item in beforeApplyContents %}
+            <h3 id="before-{{ item.id }}" class="t3 t3--a accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
+            {{ item.content | safe }}
+        {% endfor %}
 
-        <h3 id="before-develop" class="t3 t3--a accent--pink a--text">2. Develop your application</h3>
-        <p>In {{ tabs.tab(title = 'How to succeed', paneId = 'menu1', tabSetId = 'menu') }} you'll find guidance on planning your project.</p>
-
-        <h3 id="before-apply" class="t3 t3--a accent--pink a--text">3. Apply for funding</h3>
-        <p>Find out how to apply {{ tabs.tab(title = 'here', paneId = 'menu4', tabSetId = 'menu') }}.</p>
-
-        <h3 id="before-assess" class="t3 t3--a accent--pink a--text">4. Get an initial assessment</h3>
-        <p>We may contact you if we need more information about your project.</p>
-
-        <h3 id="before-feedback" class="t3 t3--a accent--pink a--text">5. Get initial feedback</h3>
-        <p>A member of our team will call you to let you know the outcome of initial assessment. If we decide not to proceed with your application we'll provide feedback at this stage.</p>
-        <p>If we decide to proceed with your application, we'll work with you to arrange a visit to your organisation.</p>
-
-        <h3 id="before-visit" class="t3 t3--a accent--pink a--text">6. Visiting your organisation</h3>
-        <p>We love to see the great work of our applicants, and to meet them in person! We'll let you know how to prepare for our visit, and we may contact you afterwards to get more details, too.</p>
-
-        <h3 id="before-decision" class="t3 t3--a accent--pink a--text">7. Get a decision</h3>
-        <p>The ultimate decision about the success of your application will be made by either staff within the Big Lottery Fund (if your application is under £200,000) or a committee of independent experts and young people (if your application is over £200,000).</p>
-
-        <p><strong>We will let you know the decision within four months of receiving your application</strong>.</p>
-
-        <p><strong>If your application is successful</strong> we'll send you an offer letter and get in touch to discuss next steps.</p>
-
-        <p><strong>If your application is unsuccessful</strong> we'll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>
     </div>
 
 {% endset %}
