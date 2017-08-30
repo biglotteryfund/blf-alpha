@@ -95,6 +95,10 @@ main {
     margin-bottom: $spacingUnit;
 }
 
+.no-space {
+    margin-bottom: 0 !important;
+}
+
 .spaced--s {
     margin-bottom: $spacingUnit / 2;
 }

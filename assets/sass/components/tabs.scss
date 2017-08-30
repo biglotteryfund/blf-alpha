@@ -48,9 +48,15 @@
         a {
             display: block;
             background-color: palette('blue');
-            padding: 10px 20px;
+            padding: 20px 40px;
             color: #ffffff;
             text-decoration: none;
+            margin-bottom: 2px;
+            font-size: 20px;
+            font-weight: 500;
+            @include on-interact() {
+                background-color: darken(palette('blue'), 10%);
+            }
         }
     }
 
@@ -62,10 +68,10 @@
                 content: '';
                 display: block;
                 height: 100%;
-                width: 50px;
+                width: 60px;
                 position: absolute;
                 top: 0;
-                right: 10px;
+                right: 20px;
                 background-image: url(../images/icons/arrow-down.svg);
                 background-size: auto 100%;
                 background-repeat: no-repeat;
