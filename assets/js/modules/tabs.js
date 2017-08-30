@@ -58,7 +58,8 @@ let init = () => {
                 let tabSetIsVisible = $tabset.is(":visible");
                 if (!tabSetIsVisible) {
                     $paneToShow[0].scrollIntoView();
-
+                } else {
+                    $tabClicked[0].scrollIntoView();
                 }
             }
         }
