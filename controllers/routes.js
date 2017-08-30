@@ -99,7 +99,16 @@ const routes = {
                     static: true,
                     live: false,
                     aliases: []
-                }
+                },
+                eyp: {
+                    name: "Empowering Young People",
+                    path: "/empowering-young-people",
+                    template: "pages/toplevel/eyp",
+                    lang: "toplevel.eyp",
+                    code: 0,
+                    static: true,
+                    live: false
+                },
             }
         },
         about: {

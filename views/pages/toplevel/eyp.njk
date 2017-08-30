@@ -1,0 +1,226 @@
+{% import "../../components/hero.njk" as hero %}
+{% import "../../components/headers.njk" as headers %}
+{% import "../../components/blocks.njk" as blocks %}
+{% import "../../components/tabs.njk" as tabs %}
+
+{% extends "../../layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+
+{% set howToSucceed %}
+    <div class="content-box content-box--borderless">
+        <p>We are looking to fund projects that meet one or more of the objectives below:</p>
+
+        <ul class="list-bullets list--indented accent--pink a--text heavier">
+            <li>More young people have the skills they need for the future</li>
+            <li>Young people have better relationships with their support networks and communities</li>
+            <li>Young people have improved health and wellbeing</li>
+        </ul>
+
+        <p>We fund projects which can show us that young people are fully involved in the development, design, running and evaluation of the project.<p>
+
+        <p><strong>Talk to us! We're really interested in your ideas.</strong> And we're here to support you to make the best application possible.</p>
+
+        <p><strong>How have you involved young people and the community in designing your project?</strong> Show us that you've really listened to what they said.</p>
+
+        <p><strong>Don't just listen to young people</strong>. Listen to their support networks and communities too, and show us how their aspirations are reflected in your plans.</p>
+
+        <p><strong>It can be good to involve parents and guardians at an early stage</strong>. If they understand how you can help, they're more likely to encourage young people to get involved.</p>
+
+        <p><strong>It's important that young people are involved in running your project</strong>. Tell us how you'll make sure their voices will be heard and their advice acted on.</p>
+
+        <p><strong>We want to back projects that suit all kinds of young people</strong>. Include a range of interests and experience, as well as different levels of confidence and ability.</p>
+
+        <p><strong>Show us how your project is different from others that are already out there</strong>. Or how you plan to collaborate with others who are similar.</p>
+
+        <p class="links-emphasised"><strong>Most important &ndash; Give us a call</strong>. We're available on {{ '02890 551455' | makePhoneLink | safe }} if you have any questions or want to talk about your project idea.</p>
+    </div>
+{% endset %}
+
+{% set beforeYouApply %}
+    <div class="content-box content-box--borderless">
+        <p>There are seven stages to the process of being awarded a grant under Empowering Young People:</p>
+
+        <ol class="list-bullets list--indented heavier">
+            <li><a href="#before-check">Check if you're eligible</a></li>
+            <li><a href="#before-develop">Develop your application</a></li>
+            <li><a href="#before-apply">Apply for funding</a></li>
+            <li><a href="#before-assess">Get an initial assessment</a></li>
+            <li><a href="#before-feedback">Get initial feedback</a></li>
+            <li><a href="#before-visit">Visiting your organisation</a></li>
+            <li><a href="#before-decision">Get a decision</a></li>
+        </ol>
+
+        <p class="links-emphasised">People call us every day to discuss their ideas, their communities, and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9am to 5pm (not including public holidays).</p>
+
+        <h3 id="before-check" class="t3 t3--a accent--pink a--text">1. Check if you're eligible</h3>
+        <p>Find out if you're eligible {{ tabs.tab(title = 'here', paneId = 'menu3', tabSetId = 'menu') }}.</p>
+
+        <h3 id="before-develop" class="t3 t3--a accent--pink a--text">2. Develop your application</h3>
+        <p>In {{ tabs.tab(title = 'How to succeed', paneId = 'menu1', tabSetId = 'menu') }} you'll find guidance on planning your project.</p>
+
+        <h3 id="before-apply" class="t3 t3--a accent--pink a--text">3. Apply for funding</h3>
+        <p>Find out how to apply {{ tabs.tab(title = 'here', paneId = 'menu4', tabSetId = 'menu') }}.</p>
+
+        <h3 id="before-assess" class="t3 t3--a accent--pink a--text">4. Get an initial assessment</h3>
+        <p>We may contact you if we need more information about your project.</p>
+
+        <h3 id="before-feedback" class="t3 t3--a accent--pink a--text">5. Get initial feedback</h3>
+        <p>A member of our team will call you to let you know the outcome of initial assessment. If we decide not to proceed with your application we'll provide feedback at this stage.</p>
+        <p>If we decide to proceed with your application, we'll work with you to arrange a visit to your organisation.</p>
+
+        <h3 id="before-visit" class="t3 t3--a accent--pink a--text">6. Visiting your organisation</h3>
+        <p>We love to see the great work of our applicants, and to meet them in person! We'll let you know how to prepare for our visit, and we may contact you afterwards to get more details, too.</p>
+
+        <h3 id="before-decision" class="t3 t3--a accent--pink a--text">7. Get a decision</h3>
+        <p>The ultimate decision about the success of your application will be made by either staff within the Big Lottery Fund (if your application is under £200,000) or a committee of independent experts and young people (if your application is over £200,000).</p>
+
+        <p><strong>We will let you know the decision within four months of receiving your application</strong>.</p>
+
+        <p><strong>If your application is successful</strong> we'll send you an offer letter and get in touch to discuss next steps.</p>
+
+        <p><strong>If your application is unsuccessful</strong> we'll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>
+    </div>
+
+{% endset %}
+
+{% set checkYouAreEligible %}
+    <div class="content-box content-box--borderless">
+        <p>You can apply if you're a voluntary or community group, such as a:</p>
+
+        <ul class="list-bullets list--indented heavier">
+            <li>Charity</li>
+            <li>Co-operative</li>
+            <li>Social enterprise</li>
+            <li>Community interest company</li>
+            <li>Partnership led by a voluntary, community or social enterprise organisation</li>
+        </ul>
+
+        <p>Independent branches of larger organisations must have their own governing document and be allowed to manage funds and staff without referring to another body.</p>
+
+        <p class="links-emphasised">If you're a dependent branch of a larger organisation, you could still be eligible to apply. To find out, call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9am to 5pm (not including public holidays).</p>
+
+        <p><strong class="accent--pink a--text">We can fund</strong> some or all of your project costs, including:</p>
+
+        <ul class="list-bullets list--indented heavier">
+            <li>Staff salaries</li>
+            <li>Training</li>
+            <li>Volunteer expenses</li>
+            <li>Equipment</li>
+            <li>Premises costs</li>
+            <li>Evaluation</li>
+            <li>Overheads (which are <a href="#">no more than 10% of the total grant</a>.)</li>
+        </ul>
+
+        <p><strong class="accent--pink a--text">We can't fund:</strong></p>
+
+        <ul class="list-bullets list--indented heavier">
+            <li>Costs for items or activities you have already incurred before you get a decision</li>
+            <li>Fundraising activities</li>
+            <li>Activities that are statutory obligations or will replace statutory funding, including activities on the school curriculum</li>
+            <li>Second hand vehicles</li>
+            <li>Activities outside the UK</li>
+            <li>Projects that lack safeguarding policies, such as: staff checks, staff training, appropriate staffing ratios, and risk assessments. For advice on how to obtain these, see <a href="https://www.nspcc.org.uk/">nspcc.org.uk</a></li>
+            <li>Projects that would break <a href="#">EU rules about State Aid</a></li>
+            <li>Projects that lack appropriate insurance</li>
+            <li>Projects that don't promote equal opportunities and challenge discrimination</li>
+            <li>Organisations that lack relevant policies and procedures for employment, recruitment and selection procedures</li>
+            <li>Organisations that lack financial records, including personnel and payroll records for staff, for seven years after the grant has ended</li>
+        </ul>
+
+        <p>As an organisation that gives out public funds, <a href="#">we'll check the information you provide us.</a></p>
+    </div>
+{% endset %}
+
+{% set applyForFunding %}
+    <div class="content-box content-box--borderless">
+        <p><strong>Before you apply, you'll need to:</strong></p>
+
+        <ul class="list-bullets list--indented heavier">
+            <li>{{ tabs.tab(title = 'Check if you\'re eligible', paneId = 'menu3', tabSetId = 'menu') }}</li>
+            <li>Read guidance on {{ tabs.tab(title = 'how to succeed', paneId = 'menu1', tabSetId = 'menu') }}</li>
+        </ul>
+
+        <p><a href="#" class="btn accent--pink a--btn btn--small">Download the application form</a></p>
+
+        <p>If you have any questions or need the form in a different format (such as large print), contact {{ 'enquiries.ni@biglotteryfund.org.uk' | mailto | safe }} or call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9am to 5pm (not including public holidays).</p>
+    </div>
+{% endset %}
+
+{% set exampleProjects = [
+    {
+        name: 'Voice of Young People in Care',
+        description: 'Builds young people\'s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.',
+        image: 'images/eyp/vypc.jpg',
+        amount: '£590,000',
+        link: '#'
+    },
+    {
+        name: 'Bytes',
+        description: 'Supports young people aged 16 to 25 who are facing employment barriers, helping them connect with their community and improve self-esteem.',
+        image: 'images/eyp/bytes.jpg',
+        amount: '£464,827',
+        link: '#'
+    },
+    {
+        name: 'Foyle Down Syndrome Trust',
+        description: 'Helps children and young people with Down Syndrome, offering activities such as gardening, health workshops and a mentoring support programme.',
+        image: 'images/eyp/fdst.jpg',
+        amount: '£599,032',
+        link: '#'
+    }
+] %}
+
+{% block content %}
+
+    {% set heroContent %}
+        {{ headers.overlayText('h2', "Empowering Young People", 't2') }}
+    {% endset %}
+
+    {{ hero.header('eyp', heroContent, 'pink', "L'Arche Belfast, Grant: £573,164") }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner--wide-only accent--pink a--border-top content-box content-box--pink">
+            <p>Empowering Young People is a grants programme designed to support projects that give young people aged 8 to 25 the ability to overcome the challenges they face.</p>
+
+            <p><strong>Grants size</strong>: £30,000 to £500,000<br />
+                <strong>Grant duration</strong>: 2-5 Years</p>
+
+        </div>
+
+        <div class="inner spaced">
+
+            {{ tabs.tabs(id = 'menu', content = [
+                {
+                    title: 'How to succeed',
+                    content: howToSucceed
+                },
+                {
+                    title: 'Before you apply',
+                    content: beforeYouApply
+                },
+                {
+                    title: 'Check you\'re eligible',
+                    content: checkYouAreEligible
+                },
+                {
+                    title: 'Apply for funding',
+                    content: applyForFunding
+                }
+            ]) }}
+        </div>
+
+        <div class="inner">
+            <h3 class="t3">Examples of projects that have been funded</h3>
+            <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                {% for project in exampleProjects %}
+                    <li class="grid__item">{{ blocks.projectBlock(project, 'accent--pink') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </article>
+
+
+{% endblock %}
