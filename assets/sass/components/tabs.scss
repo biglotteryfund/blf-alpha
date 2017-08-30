@@ -68,8 +68,8 @@
                 background-size: auto 100%;
                 background-repeat: no-repeat;
                 background-position: center right;
-                transition: transform 0.3s ease-in-out;
                 transition-delay: 0.5s;
+                transition: none;
             }
         }
 
@@ -90,7 +90,7 @@
 
             header a:after {
                 transform: rotate(180deg);
-                transition-delay: 0s;
+                transition: transform 0.5s ease-in-out;
             }
         }
     }
