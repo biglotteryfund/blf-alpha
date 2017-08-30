@@ -1,21 +1,23 @@
 {% macro getTabsetId(id) %}js-tabs-{{ id }}{% endmacro %}
 
-{% macro tab(title, paneId, tabSetId = false) %}
-    <a class="js-tab" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>
+{% macro tab(title, paneId, tabSetId = false, tabClasses) %}
+    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>
 {% endmacro %}
 
-{% macro tabSet(tabSetId, paneSetId, tabs) %}
-    <ul class="js-tabset tabs__tabset" data-paneset="{{ paneSetId }}" id="{{ tabSetId }}">
+{% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses, doNotInit) %}
+    <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
+        data-paneset="{{ paneSetId }}"
+        id="{{ tabSetId }}"{% if doNotInit %} data-tabs-do-not-init="true"{% endif %}>
         {% for t in tabs %}
-            <li>{{ t }}</li>
+            <li{% if tabClasses %} class="{{ tabClasses }}"{% endif %}>{{ t }}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
 
-{% macro pane(paneId, title, content) %}
-    <section id="{{ paneId }}" class="tab__pane tab__pane--accordion">
+{% macro pane(paneId, title, content, accordion) %}
+    <section id="{{ paneId }}" class="tab__pane{% if accordion %} tab__pane--accordion{% endif %}">
         <header><a href="#{{ paneId }}" class="js-tab">{{ title }}</a></header>
-        <article>{{ content }}</article>
+        <article>{{ content | safe }}</article>
     </section>
 {% endmacro %}
 
@@ -27,7 +29,7 @@
     </div>
 {% endmacro %}
 
-{% macro tabs(id, content) %}
+{% macro tabs(id, content, tabSetClasses = false, tabItemClasses = false, tabClasses = false, doNotInit = false, accordion = true) %}
 
     {% set tabSetId = getTabsetId(id) %}
     {% set paneSetId = 'js-panes-' + id %}
@@ -36,13 +38,13 @@
 
     {% for c in content %}
         {% set paneId = id + loop.index %}
-        {% set newTab = tab(title = c.title, paneId = paneId) %}
+        {% set newTab = tab(title = c.title, paneId = paneId, tabClasses = tabClasses) %}
         {% set tabItems = (tabItems.push(newTab), tabItems) %}
-        {% set newPane = pane(paneId = paneId, title = c.title, content = c.content) %}
+        {% set newPane = pane(paneId = paneId, title = c.title, content = c.content, accordion = accordion) %}
         {% set paneItems = (paneItems.push(newPane), paneItems) %}
     {% endfor %}
 
-    {{ tabSet(tabSetId, paneSetId, tabItems) }}
+    {{ tabSet(tabSetId, paneSetId, tabItems, tabSetClasses, tabItemClasses, doNotInit) }}
     {{ paneSet(paneSetId, paneItems) }}
 
 {% endmacro %}

@@ -41,7 +41,7 @@ let init = () => {
 
             if ($paneSet.length > 0) {
                 // toggle the active pane in this set
-                let $oldActivePane = $paneSet.find(`.${activeClasses.pane}`);
+                let $oldActivePane = $paneSet.find(`> .${activeClasses.pane}`);
                 $oldActivePane.removeClass(activeClasses.pane);
                 $paneToShow.addClass(activeClasses.pane);
 
