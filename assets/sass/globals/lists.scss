@@ -24,8 +24,18 @@
     }
 }
 
+ol.list-bullets li {
+    list-style-type: decimal;
+}
+
 .list-tweets {
     li {
         margin-left: 0;
+    }
+}
+
+.list--indented {
+    li {
+        margin-left: $spacingUnit * 4;
     }
 }
