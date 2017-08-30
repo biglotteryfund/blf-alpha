@@ -52,6 +52,7 @@ let init = () => {
 
                 // stop browser scroll
                 e.preventDefault();
+                $tabClicked[0].scrollIntoView();
             }
         }
 

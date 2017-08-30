@@ -1,8 +1,7 @@
 {% macro getTabsetId(id) %}js-tabs-{{ id }}{% endmacro %}
 
 {% macro tab(title, paneId, tabSetId = false, tabClasses) %}
-    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>
-{% endmacro %}
+    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>{% endmacro %}
 
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses, doNotInit) %}
     <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
