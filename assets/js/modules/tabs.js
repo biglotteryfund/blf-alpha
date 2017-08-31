@@ -55,12 +55,14 @@ let init = () => {
 
                 // if we're on mobile (eg. accordion)
                 // we should scroll the pane into view
-                let tabSetIsVisible = $tabset.is(":visible");
-                if (!tabSetIsVisible) {
-                    $paneToShow[0].scrollIntoView();
-                } else {
-                    $tabClicked[0].scrollIntoView();
-                }
+                window.setTimeout(() => {
+                    let tabSetIsVisible = $tabset.is(":visible");
+                    if (!tabSetIsVisible) {
+                        $paneToShow[0].scrollIntoView();
+                    } else {
+                        $tabClicked[0].scrollIntoView();
+                    }
+                }, 300);
 
                 // update the URL fragment
                 if (paneId && paneId[0] === '#') {
@@ -74,20 +76,11 @@ let init = () => {
 
     });
 
-    // mark the first tab in a tabset active on init (unless explicitly prevented)
-    $('.js-tabset').each(function () {
-        if (!$(this).data('tabs-do-not-init')) {
-            $(this).find('.js-tab').first().click();
-        }
-    });
-
     // restore previously-selected hash
     let hash = window.location.hash;
     let firstLink = $(`a[href="${hash}"]`).first();
     if (firstLink.length > 0) {
-        // @TODO make this work with the race condition above
-        // eg. is problematic on logos page with nested tabsets
-        // firstLink.click();
+        firstLink.click();
     }
 
 };

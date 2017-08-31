@@ -42,21 +42,22 @@
     <div class="content-box content-box--borderless">
         <p>There are seven stages to the process of being awarded a grant under Empowering Young People:</p>
 
+        {# @TODO the paneIds / tabSetIds below are manually linked to the tabs below #}
         {% set beforeApplyContents = [
             {
                 id: 'check',
                 title: 'Check if you\'re eligible',
-                content: "<p>Find out if you're eligible " + tabs.tab(title = 'here', paneId = 'menu3', tabSetId = 'menu') + ".</p>"
+                content: "<p>Find out if you're eligible " + tabs.tab(title = 'here', paneId = 'checkYouAreEligible', tabSetId = 'tab') + ".</p>"
             },
             {
                 id: 'develop',
                 title: 'Develop your application',
-                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'menu1', tabSetId = 'menu') + " you'll find guidance on planning your project.</p>"
+                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'howToSucceed', tabSetId = 'tab') + " you'll find guidance on planning your project.</p>"
             },
             {
                 id: 'apply',
                 title: 'Apply for funding',
-                content: "<p>Find out how to apply " + tabs.tab(title = 'here', paneId = 'menu4', tabSetId = 'menu') + ".</p>"
+                content: "<p>Find out how to apply " + tabs.tab(title = 'here', paneId = 'applyForFunding', tabSetId = 'tab') + ".</p>"
             },
             {
                 id: 'assess',
@@ -150,8 +151,9 @@
         <p><strong>Before you apply, you'll need to:</strong></p>
 
         <ul class="list-bullets list-bullets--mob-friendly list--indented heavier">
-            <li>{{ tabs.tab(title = 'Check if you\'re eligible', paneId = 'menu3', tabSetId = 'menu') }}</li>
-            <li>Read guidance on {{ tabs.tab(title = 'how to succeed', paneId = 'menu1', tabSetId = 'menu') }}</li>
+            {# @TODO the paneId / tabSetId are manually linked to the tabs below #}
+            <li>{{ tabs.tab(title = 'Check if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'tab') }}</li>
+            <li>Read guidance on {{ tabs.tab(title = 'how to succeed', paneId = 'howToSucceed', tabSetId = 'tab') }}</li>
         </ul>
 
         <p><a href="#" class="btn accent--pink a--btn btn--small">Download the application form</a></p>
@@ -193,7 +195,7 @@
     {{ hero.header('eyp', heroContent, 'pink', "L'Arche Belfast, Grant: £573,164") }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--pink a--border-top content-box content-box--pink no-space">
+        <div class="inner--wide-only accent--pink a--border-top content-box content-box--pink mob--no-space">
             <p>Empowering Young People is a grants programme designed to support projects that give young people aged 8 to 25 the ability to overcome the challenges they face.</p>
 
             <p><strong>Grants size</strong>: £30,000 to £500,000<br />
@@ -203,22 +205,27 @@
 
         <div class="inner--wide-only spaced">
 
-            {{ tabs.tabs(id = 'menu', content = [
+            {{ tabs.tabs(id = 'tab', content = [
                 {
                     title: 'How to succeed',
-                    content: howToSucceed
+                    content: howToSucceed,
+                    active: true,
+                    id: 'howToSucceed'
                 },
                 {
                     title: 'Before you apply',
-                    content: beforeYouApply
+                    content: beforeYouApply,
+                    id: 'beforeYouApply'
                 },
                 {
                     title: 'Check you\'re eligible',
-                    content: checkYouAreEligible
+                    content: checkYouAreEligible,
+                    id: 'checkYouAreEligible'
                 },
                 {
                     title: 'Apply for funding',
-                    content: applyForFunding
+                    content: applyForFunding,
+                    id: 'applyForFunding'
                 }
             ]) }}
         </div>
