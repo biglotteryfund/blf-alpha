@@ -1,6 +1,5 @@
 // the tabs themselves (eq. square, blocky elements)
 .tabs__tabset {
-
     background-color: #ffffff;
 
     li {
@@ -39,6 +38,11 @@
         display: none !important;
     }
 
+    // hide tabsets on print
+    @media print {
+        display: none;
+    }
+
 }
 
 .tab__pane--accordion {
@@ -56,6 +60,12 @@
             margin-bottom: 2px;
             font-size: 20px;
             font-weight: bold;
+
+            @media print {
+                background-color: #eeeeee;
+                color: #333333;
+            }
+
             @include on-interact() {
                 background-color: darken(palette('blue'), 10%);
             }
@@ -115,6 +125,12 @@
             > article {
                 display: block;
             }
+        }
+    }
+
+    @media print {
+        article {
+            display: block !important;
         }
     }
 }

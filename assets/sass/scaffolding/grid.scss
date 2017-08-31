@@ -167,13 +167,15 @@
 }
 
 .grid__item__title {
-    position: absolute;
-    left: $spacingUnit * 1.5;
-    bottom: $spacingUnit * 1.5;
+    @media screen {
+        position: absolute;
+        left: $spacingUnit * 1.5;
+        bottom: $spacingUnit * 1.5;
 
-    &.grid__item__title--top {
-        top: $spacingUnit;
-        left: $spacingUnit;
-        bottom: auto;
+        &.grid__item__title--top {
+            top: $spacingUnit;
+            left: $spacingUnit;
+            bottom: auto;
+        }
     }
 }

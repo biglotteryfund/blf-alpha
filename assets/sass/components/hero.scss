@@ -19,6 +19,10 @@ $heroSpaceFromLeft: 20px;
     &.hero--major {
         height: 0;
 
+        @media print {
+            display: none;
+        }
+
         .hero__inner {
             position: absolute;
             top: 0;
