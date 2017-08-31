@@ -43,17 +43,19 @@
 
 .tab__pane--accordion {
 
+    $headerHorizontalSpace: 40px;
+
     // accordion headers (also shown for non-JS users)
     header {
         a {
             display: block;
             background-color: palette('blue');
-            padding: 20px 40px;
+            padding: 20px $headerHorizontalSpace;
             color: #ffffff;
             text-decoration: none;
             margin-bottom: 2px;
             font-size: 20px;
-            font-weight: 500;
+            font-weight: bold;
             @include on-interact() {
                 background-color: darken(palette('blue'), 10%);
             }
@@ -61,30 +63,30 @@
     }
 
     .js-on & {
-        header a {
+        header {
             position: relative;
 
-            &:after {
-                content: '';
-                display: block;
-                height: 100%;
-                width: 60px;
+            .tab__arrow {
                 position: absolute;
                 top: 0;
-                right: 20px;
-                background-image: url(../images/icons/arrow-down.svg);
-                background-size: auto 70%;
-                background-repeat: no-repeat;
-                background-position: center right;
-                transition-delay: 0.5s;
-                transition: none;
+                right: $headerHorizontalSpace;
+                height: 100%;
+                width: 45px;
+                pointer-events: none;
+
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
             }
         }
 
         &.pane--active {
-            > header a {
-                background-color: #9e9e9e;
-                &:after {
+            > header {
+                a {
+                    background-color: #9e9e9e;
+                }
+                .tab__arrow {
                     transform: rotate(180deg);
                     //transition: transform 0.5s ease-in-out;
                 }

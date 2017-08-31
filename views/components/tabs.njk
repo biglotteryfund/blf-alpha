@@ -15,7 +15,10 @@
 
 {% macro pane(paneId, title, content, accordion) %}
     <section id="{{ paneId }}" class="tab__pane{% if accordion %} tab__pane--accordion{% endif %}">
-        <header><a href="#{{ paneId }}" class="js-tab">{{ title }}</a></header>
+        <header>
+            <a href="#{{ paneId }}" class="js-tab">{{ title }}</a>
+            <span class="tab__arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
+        </header>
         <article>{{ content | safe }}</article>
     </section>
 {% endmacro %}
