@@ -39,17 +39,17 @@
             {
                 id: 'check',
                 title: 'Check if you\'re eligible',
-                content: "<p>" + tabs.tab(title = 'Find out if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'tab') + ".</p>"
+                content: "<p>" + tabs.tab(title = 'Find out if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'eyp') + ".</p>"
             },
             {
                 id: 'develop',
                 title: 'Develop your application',
-                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'howToSucceed', tabSetId = 'tab') + " you'll find guidance on planning your project.</p>"
+                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') + " you'll find guidance on planning your project.</p>"
             },
             {
                 id: 'apply',
                 title: 'Apply for funding',
-                content: "<p>" + tabs.tab(title = 'Find out how to apply', paneId = 'applyForFunding', tabSetId = 'tab') + ".</p>"
+                content: "<p>" + tabs.tab(title = 'Find out how to apply', paneId = 'applyForFunding', tabSetId = 'eyp') + ".</p>"
             },
             {
                 id: 'assess',
@@ -153,8 +153,8 @@
 
         <ul class="list-bullets list-bullets--mob-friendly list--indented heavier">
             {# @TODO the paneId / tabSetId are manually linked to the tabs below #}
-            <li>{{ tabs.tab(title = 'check if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'tab') }}</li>
-            <li>{{ tabs.tab(title = 'read guidance on how to succeed', paneId = 'howToSucceed', tabSetId = 'tab') }}</li>
+            <li>{{ tabs.tab(title = 'check if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'eyp') }}</li>
+            <li>{{ tabs.tab(title = 'read guidance on how to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') }}</li>
         </ul>
 
         <p><a href="#" class="btn accent--pink a--btn btn--small">Download an application form</a></p>
@@ -206,7 +206,7 @@
 
         <div class="inner--wide-only spaced">
 
-            {{ tabs.tabs(id = 'tab', content = [
+            {{ tabs.tabs(id = 'eyp', content = [
                 {
                     title: 'How to succeed',
                     content: howToSucceed,

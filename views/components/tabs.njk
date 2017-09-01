@@ -6,17 +6,17 @@
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses) %}
     <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
         data-paneset="{{ paneSetId }}"
-        id="{{ tabSetId }}">
+        id="{{ getTabsetId(tabSetId) }}">
         {% for t in tabs %}
             <li{% if tabClasses %} class="{{ tabClasses }}"{% endif %}>{{ t }}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
 
-{% macro pane(paneId, title, content, accordion = false, setActive = false) %}
+{% macro pane(paneId, title, content, accordion = false, setActive = false, tabSetId = false, tabId = false) %}
     <section id="{{ paneId }}" class="tab__pane{% if accordion %} tab__pane--accordion{% endif %}{% if setActive %} pane--active{% endif %}">
         <header>
-            <a href="#{{ paneId }}" class="js-tab">{{ title }}</a>
+            {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = tabId) }}
             <span class="tab__arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
         </header>
         <article>{{ content | safe }}</article>
@@ -33,7 +33,7 @@
 
 {% macro tabs(id, content, classes = false, accordion = true) %}
 
-    {% set tabSetId = getTabsetId(id) %}
+    {% set tabSetId = id %}
     {% set paneSetId = 'js-panes-' + id %}
     {% set tabItems = [] %}
     {% set paneItems = [] %}
@@ -44,9 +44,9 @@
         {% if c.id %}
             {% set paneId = c.id %}
         {% endif %}
-        {% set newTab = tab(title = c.title, paneId = paneId, tabClasses = classes.tabs, setActive = c.active, id = tabId) %}
+        {% set newTab = tab(title = c.title, paneId = paneId, tabSetId = tabSetId, tabClasses = classes.tabs, setActive = c.active, id = tabId) %}
         {% set tabItems = (tabItems.push(newTab), tabItems) %}
-        {% set newPane = pane(paneId = paneId, title = c.title, content = c.content, accordion = accordion, setActive = c.active) %}
+        {% set newPane = pane(paneId = paneId, title = c.title, content = c.content, accordion = accordion, setActive = c.active, tabSetId = tabSetId, tabId = tabId) %}
         {% set paneItems = (paneItems.push(newPane), paneItems) %}
     {% endfor %}
 
