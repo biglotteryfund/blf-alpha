@@ -6,9 +6,8 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] CSRF
 - [ ] google tag manager / experiment for homepage?
 - [ ] data/app violating CSP (google cx api)
-- [ ] failing tests don't stop commits/builds?!
 - [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
-- [ ] tabs should be selectable from links too
+- [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
 
 ## Tech debt
 - [ ] print stylesheet
