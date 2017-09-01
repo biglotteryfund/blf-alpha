@@ -1,7 +1,7 @@
 {% macro getTabsetId(id) %}js-tabs-{{ id }}{% endmacro %}
 
-{% macro tab(title, paneId, tabSetId = false, tabClasses = false, setActive = false) %}
-    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} tab--active{% endif %}" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}>{{ title }}</a>{% endmacro %}
+{% macro tab(title, paneId, tabSetId = false, tabClasses = false, setActive = false, id = false) %}
+    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} tab--active{% endif %}" href="#{{ paneId }}"{% if tabSetId %} data-tabset="{{ getTabsetId(tabSetId) }}"{% endif %}{% if id %} id="{{ id }}"{% endif %}>{{ title }}</a>{% endmacro %}
 
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses) %}
     <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
@@ -40,10 +40,11 @@
 
     {% for c in content %}
         {% set paneId = id + loop.index %}
+        {% set tabId = id + '-' + loop.index %}
         {% if c.id %}
             {% set paneId = c.id %}
         {% endif %}
-        {% set newTab = tab(title = c.title, paneId = paneId, tabClasses = classes.tabs, setActive = c.active) %}
+        {% set newTab = tab(title = c.title, paneId = paneId, tabClasses = classes.tabs, setActive = c.active, id = tabId) %}
         {% set tabItems = (tabItems.push(newTab), tabItems) %}
         {% set newPane = pane(paneId = paneId, title = c.title, content = c.content, accordion = accordion, setActive = c.active) %}
         {% set paneItems = (paneItems.push(newPane), paneItems) %}

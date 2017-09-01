@@ -42,20 +42,21 @@ let showNewTabPane = ($tabClicked) => {
         if ($paneSet.length > 0) {
             // toggle the active pane in this set
             let $oldActivePane = $paneSet.find(`> .${activeClasses.pane}`);
-            $oldActivePane.removeClass(activeClasses.pane);
-            $paneToShow.addClass(activeClasses.pane);
+            $oldActivePane.removeClass(activeClasses.pane).attr('aria-hidden', 'true');
+            $paneToShow.addClass(activeClasses.pane).attr('aria-hidden', 'false');
 
             // toggle the active tab in this set
             let $oldActiveTab = $tabset.find(`.${activeClasses.tab}`);
-            $oldActiveTab.removeClass(activeClasses.tab);
-            $tabClicked.addClass(activeClasses.tab);
+            $oldActiveTab.removeClass(activeClasses.tab).attr('aria-selected', 'false');
+            $tabClicked.addClass(activeClasses.tab).attr('aria-selected', 'true');
 
             // pass this data back to the click handler
             tabData = {
                 tabset: $tabset,
                 paneToShow: $paneToShow,
                 tabClicked: $tabClicked,
-                paneId: paneId
+                paneId: paneId,
+                paneSet: $paneSet
             };
         }
     }
@@ -66,8 +67,10 @@ let showNewTabPane = ($tabClicked) => {
 
 let init = () => {
 
+    let $tabs = $('.js-tab');
+
     // bind clicks on tabs
-    $('.js-tab').on('click', function (e) {
+    $tabs.on('click', function (e) {
 
         // show the tab pane and get the associated elements
         let tabData = showNewTabPane($(this));
@@ -119,6 +122,20 @@ let init = () => {
             window.scrollTo(0, 0);
         }, 1);
     }
+
+    // add ARIA tags to JS-enhanced tabs
+    $('.tab__pane').not(`.${activeClasses.pane}`).attr('aria-hidden', 'true');
+    $tabs.not(`.${activeClasses.tab}`).attr('aria-selected', 'false');
+    $tabs.parents('li').attr('role', 'presentation');
+
+    // match the panes with the tabs for ARIA labels
+    $tabs.each(function () {
+        let $pane = $($(this).attr('href'));
+        let id = $(this).attr('id');
+        if ($pane.length > 0 && id) {
+            $pane.attr('aria-labelledby', $(this).attr('id'));
+        }
+    });
 
 };
 
