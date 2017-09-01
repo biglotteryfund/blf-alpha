@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, ga */
 'use strict';
 
 let activeClasses = {
@@ -7,6 +7,29 @@ let activeClasses = {
 };
 
 let pageHasLoaded = false;
+
+let trackTabClick = (label, trackTabClicksAsPageviews) => {
+    if (window.ga && label) {
+
+        // track the click on the tab UI element
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'Tab',
+            eventAction: 'Click',
+            eventLabel: label
+        });
+
+        // optionally set a new URL and pageview
+        // this enables us to treat each tab as a unique page
+        // so we can measure bounce rate, time on page etc on a per-tab basis
+        // calling `set` first means all subsequent events will be marked against this "page"
+        // also, isn't it really satisfying how each new line in this block is longer than the one before?
+        if (trackTabClicksAsPageviews) {
+            ga('set', 'page', location.pathname + location.hash);
+            ga('send', 'pageview');
+        }
+    }
+};
 
 // toggle panes/tabs (if valid)
 let showNewTabPane = ($tabClicked) => {
@@ -40,6 +63,7 @@ let showNewTabPane = ($tabClicked) => {
         let $paneSet = $paneToShow.parents('.js-paneset').first();
 
         if ($paneSet.length > 0) {
+
             // toggle the active pane in this set
             let $oldActivePane = $paneSet.find(`> .${activeClasses.pane}`);
             $oldActivePane.removeClass(activeClasses.pane).attr('aria-hidden', 'true');
@@ -81,6 +105,10 @@ let init = () => {
             // stop browser scroll by default
             e.preventDefault();
 
+            // track this click
+            let trackTabClicksAsPageviews = !tabData.tabset.data('do-not-track-pageviews');
+            trackTabClick(tabData.paneId, trackTabClicksAsPageviews);
+
             // if we're on mobile (eg. accordion) we should scroll the pane into view
             // we delay this because the visibility check returns false as the page loads
             // and the tabs are made visible by JavaScript
@@ -103,6 +131,7 @@ let init = () => {
             // update the URL fragment
             if (tabData.paneId && tabData.paneId[0] === '#') {
                 if (history.pushState) {
+                    // @TODO make this react to back/fwd changes
                     history.pushState(null, null, tabData.paneId);
                 }
             }

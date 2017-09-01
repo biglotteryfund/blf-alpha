@@ -8,6 +8,8 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] data/app violating CSP (google cx api)
 - [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
 - [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
+- [ ] live app sends tracking data to google on AWS URL
+- [ ] tab clicks add to history
 
 ## Tech debt
 - [ ] print stylesheet
