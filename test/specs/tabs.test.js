@@ -56,7 +56,6 @@ describe("Tab module", () => {
         let link = tabs[1].querySelector('a');
         link.click();
         let pane = document.querySelector(link.getAttribute('href'));
-        console.log(link.getAttribute('href'));
         expect(getClassesFromElm(pane)).to.contain('pane--active');
     });
 
@@ -68,8 +67,6 @@ describe("Tab module", () => {
         t2.click(); // next click tab 2
         let activePane = document.querySelector(t2.getAttribute('href'));
         let inactivePane = document.querySelector(t1.getAttribute('href'));
-        console.log(activePane);
-        console.log(inactivePane);
         expect(getClassesFromElm(activePane)).to.contain('pane--active');
         expect(getClassesFromElm(inactivePane)).not.to.contain('pane--active');
     });
