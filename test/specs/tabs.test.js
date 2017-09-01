@@ -19,7 +19,7 @@ describe("Tab module", () => {
 
     // look up a second module to ensure no conflicts exist
     let tabModule2 = document.getElementById('js-tab-test-2');
-    let paneId2 = tabModule2.getAttribute('data-panes');
+    let paneId2 = tabModule2.getAttribute('data-paneset');
     let paneHolder2 = document.getElementById(paneId2);
 
     // find a wrongly-configured tab module
@@ -28,53 +28,47 @@ describe("Tab module", () => {
     tabs.init();
 
     it("registers new tab modules", () => {
-        expect(getClassesFromElm(tabModule)).to.contain('js-tabs--active');
+        expect(tabModule.querySelectorAll('.tab--active').length).to.equal(1);
     });
 
     it("does not modify incorrectly configured tab modules", () => {
-        expect(getClassesFromElm(tabModuleBroken)).not.to.contain('js-tabs--active');
+        expect(tabModuleBroken.querySelectorAll('.tab--active').length).to.equal(0);
     });
 
     it("adds a class to a tab when clicked", () => {
-        let tabLink = tabModule.querySelector('li');
-        tabLink.querySelector('a').click();
+        let tabLink = tabModule.querySelector('a');
+        tabLink.click();
         expect(getClassesFromElm(tabLink)).to.contain('tab--active');
     });
 
     it("removes a class from other tabs when one is clicked", () => {
         let tabs = tabModule.querySelectorAll('li');
-        tabs[1].querySelector('a').click(); // first click tab 2
-        tabs[0].querySelector('a').click(); // now click tab 1
-        expect(getClassesFromElm(tabs[0])).to.contain('tab--active');
-        expect(getClassesFromElm(tabs[1])).not.to.contain('tab--active');
+        let t1 = tabs[1].querySelector('a');
+        let t2 = tabs[0].querySelector('a');
+        t1.click(); // first click tab 2
+        t2.click(); // now click tab 1
+        expect(getClassesFromElm(t2)).to.contain('tab--active');
+        expect(getClassesFromElm(t1)).not.to.contain('tab--active');
     });
 
     it("adds a class to the correct pane when a tab is clicked", () => {
-        let tabIndex = 1;
         let tabs = tabModule.querySelectorAll('li');
-        let panes = paneHolder.querySelectorAll('.js-pane');
-        let activePane = panes[tabIndex];
-        tabs[tabIndex].querySelector('a').click();
-        expect(getClassesFromElm(activePane)).to.contain('tab-pane--active');
+        let link = tabs[1].querySelector('a');
+        link.click();
+        let pane = document.querySelector(link.getAttribute('href'));
+        expect(getClassesFromElm(pane)).to.contain('pane--active');
     });
 
     it("removes a class from other panes when a tab is clicked", () => {
         let tabs = tabModule.querySelectorAll('li');
-        let panes = paneHolder.querySelectorAll('.js-pane');
-        tabs[0].querySelector('a').click(); // first click tab 1
-        tabs[1].querySelector('a').click(); // next click tab 2
-        let activePane = panes[1];
-        let inactivePane = panes[0];
-        expect(getClassesFromElm(activePane)).to.contain('tab-pane--active');
-        expect(getClassesFromElm(inactivePane)).not.to.contain('tab-pane--active');
-    });
-
-    it("allows multiple tab modules to act independently", () => {
-        let activePane1 = paneHolder.querySelector('.tab-pane--active');
-        tabModule2.querySelector('a').click(); // click first tab in module 2
-        let activePane2 = paneHolder2.querySelector('.js-pane'); // get first pane in module 2
-        expect(getClassesFromElm(activePane1)).to.contain('tab-pane--active');
-        expect(getClassesFromElm(activePane2)).to.contain('tab-pane--active');
+        let t1 = tabs[1].querySelector('a');
+        let t2 = tabs[0].querySelector('a');
+        t1.click(); // first click tab 1
+        t2.click(); // next click tab 2
+        let activePane = document.querySelector(t2.getAttribute('href'));
+        let inactivePane = document.querySelector(t1.getAttribute('href'));
+        expect(getClassesFromElm(activePane)).to.contain('pane--active');
+        expect(getClassesFromElm(inactivePane)).not.to.contain('pane--active');
     });
 
 });

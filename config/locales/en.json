@@ -1,571 +1,575 @@
 {
-    "global": {
-        "brand": {
-            "title": "Big Lottery Fund"
-        },
-        "nav": {
-            "home": "Home",
-            "funding": "Funding",
-            "about": "About",
-            "search": "Search"
-        },
-        "contact": {
-            "city": "London",
-            "phone": "0345 4 10 20 30",
-            "email": "general.enquiries@biglotteryfund.org.uk"
-        },
-        "footerLinks": {
-            "title": "Quick links",
-            "foi": "Freedom of Information",
-            "privacy-policy": "Privacy Policy",
-            "terms": "Terms",
-            "cookies": "Cookies",
-            "contact": "Contact",
-            "site-map": "Site map",
-            "accessibility": "Accessibility"
-        },
-        "accessibility": {
-            "skipToContent": "Skip to content",
-            "contrast": {
-                "high": "Enable high contrast mode",
-                "standard": "Enable standard contrast mode"
-            }
-        },
-        "forms": {
-            "missingFieldError": "Please provide the '%s' field"
-        }
-    },
-    "toplevel": {
-        "contact": {
-            "title": "Contact us",
-            "methods": {
-                "phone": "Phone",
-                "text-relay": "Text Relay",
-                "email": "Email",
-                "address": "Address",
-                "fax": "Fax",
-                "bsl": "British Sign Language",
-                "switchboard": "Switchboard"
-            },
-            "offices": {
-                "england": "England",
-                "ni": "Northern Ireland",
-                "scotland": "Scotland",
-                "wales": "Wales",
-                "uk": "UK",
-                "corporate": "Corporate office",
-                "london": "London"
-            },
-            "hearing-speech-impairment": "for those with a hearing or speech impairment",
-            "plus": "plus",
-            "or": "or",
-            "out-of-hours": "out of hours",
-            "bsl-scotland": "Use contactSCOTLAND-BSL",
-            "wales": {
-                "email": "enquiries.wales@biglotteryfund.org.uk",
-                "address1": "10th Floor, Helmont House, Churchill Way, Cardiff, CF10 2DY",
-                "address2": "2nd Floor, Ladywell House, Newtown, Powys, SY16 1JB"
-            },
-            "topics": {
-                "applicationQuery": {
-                    "title": "How do I get in contact if I have a query about applying for funding?"
-                },
-                "grantQuery": {
-                    "title": "How do I get in contact if I have a query about a grant I have been awarded?",
-                    "body": "<p>Please contact your funding officer for any queries about an existing grant. If you don't know who your funding officer is please get in touch with us using the details above.</p>"
-                },
-                "pressQuery": {
-                    "title": "How do I get in contact if I have a press query?"
-                },
-                "feedback": {
-                    "title": "How do I get in contact if I have feedback about your service?",
-                    "body": "<p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there's something important you think we should know, we'd love to hear it. Please email us at <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a></p><p>To give us feedback about our website email <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
-                },
-                "other": {
-                    "title": "How do I get in contact about anything else?"
-                },
-                "complaints": {
-                    "title": "How do I make a complaint?",
-                    "body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span>Phone</span>: 0191 376 1704<br /></p><p>\t<span>Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span>Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
-                },
-                "fraud": {
-                    "title": "How do I report fraud?",
-                    "body": "<p>\tThe Big Lottery Fund is committed to preventing and detecting fraud. </p><p>\tIf you suspect that someone is stealing from or defrauding the Big Lottery Fund help us do something about it by getting in touch with us. <br /> </p><p>\t<span>Phone</span>: 0800 496 9991<br /> </p><p>\t<span>Email</span>: <a href=\"mailto:fraud@biglotteryfund.org.uk\">fraud@biglotteryfund.org.uk</a><br /> </p><p>\t<span>Address</span>:<br />Head of Internal Audit <br />Big Lottery Fund<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
-                }
-            },
-            "ukPortfolio": {
-                "title": "Funding for UK-wide projects",
-                "email": "UKPortfolioTeam@biglotteryfund.org.uk"
-            }
-        },
-        "data": {
-            "title": "Key data about the Big Lottery Fund: <br />financial year 2016/17",
-            "keyStats": "Key statistics",
-            "data": [
-                {
-                    "number": {
-                        "value": "£712.7m",
-                        "suffix": "",
-                        "prefix": "",
-                        "showFirst": false
-                    },
-                    "caption": "Total value of funding awarded"
-                },
-                {
-                    "number": {
-                        "value": "13,814",
-                        "suffix": "",
-                        "prefix": "",
-                        "showFirst": false
-                    },
-                    "caption": "Total number of grants awarded"
-                },
-                {
-                    "number": {
-                        "value": "12,352",
-                        "suffix": "(89.4%)",
-                        "prefix": "",
-                        "showFirst": false
-                    },
-                    "caption": "Number of grants under £10,000"
-                },
-                {
-                    "number": {
-                        "value": "9,377,362",
-                        "suffix": "",
-                        "prefix": "",
-                        "showFirst": false
-                    },
-                    "caption": "Total number of expected beneficiaries"
-                },
-                {
-                    "number": {
-                        "value": "£10,805,105",
-                        "suffix": "",
-                        "prefix": "We gave",
-                        "showFirst": true
-                    },
-                    "caption": "to award partners to distribute to local projects"
-                },
-                {
-                    "number": {
-                        "value": "10,657",
-                        "suffix": "",
-                        "prefix": "",
-                        "showFirst": false
-                    },
-                    "caption": "Number of charities funded in the UK"
-                },
-                {
-                    "number": {
-                        "value": "£164m",
-                        "suffix": "",
-                        "prefix": "Over",
-                        "showFirst": true
-                    },
-                    "caption": "will support children and young people"
-                },
-                {
-                    "number": {
-                        "value": "£387m",
-                        "suffix": "",
-                        "prefix": "Over",
-                        "showFirst": true
-                    },
-                    "caption": "will improve environments and facilities"
-                },
-                {
-                    "number": {
-                        "value": "£551m",
-                        "suffix": "",
-                        "prefix": "Over",
-                        "showFirst": true
-                    },
-                    "caption": "will support improved mental wellbeing"
-                }
-            ],
-            "map": {
-                "title": "Our Year in Numbers",
-                "population": "Population",
-                "totalAwarded": "Total awarded",
-                "totalBeneficiaries": "Total beneficiaries"
-            },
-            "regions": {
-                "east-midlands": "East Midlands",
-                "east-england": "East of England",
-                "london": "London",
-                "north-east": "North East",
-                "north-west": "North West",
-                "northern-ireland": "Northern Ireland",
-                "scotland": "Scotland",
-                "south-east": "South East",
-                "south-west": "South West",
-                "wales": "Wales",
-                "west-midlands": "West Midlands",
-                "yorkshire": "Yorkshire and the Humber"
-            }
-        },
-        "jobs": {
-            "title": "Jobs at the Big Lottery Fund",
-            "call-to-action": "View our current vacancies",
-            "sections": {
-                "whyWork": {
-                    "title": "Why work for the Big Lottery Fund?",
-                    "body": "<blockquote>\"Working at the Big Lottery Fund enables me to play a small part in changing the lives of people in communities across the UK. It is hugely rewarding taking on the challenge of giving the right funds to the right people. I'm surrounded by talented, motivated and inspirational individuals here who are all working to the same goal.\" <footer><cite>Steve Keene, Product Manager, Digital Team</cite></footer></blockquote><blockquote>\"The best thing about working at the Fund is being a part of an organisation that is having such an impact on communities across the UK and seeing the difference the funding makes to these communities. The staff here are so invested in what they do and I love the fact that my work has meaning and provides me with a sense of satisfaction every day.\" <footer><cite>Kalema White, Executive Assistant</cite></footer></blockquote>"
-                },
-                "benefits": {
-                    "title": "What benefits are available?",
-                    "body": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and makes the Big Lottery Fund a better place to work. Benefits include:</p>",
-                    "list": [
-                        "Generous Civil Service Pension scheme",
-                        "Flexible working",
-                        "Enhanced paid maternity/paternity leave",
-                        "Paid volunteering leave",
-                        "Season ticket loan"
-                    ],
-                    "postscript": "See all benefits"
-                },
-                "offices": {
-                    "title": "Opportunities across the UK"
-                },
-                "equalities": {
-                    "title": "Equalities",
-                    "body": "<p>The Big Lottery Fund is committed to advancing equalities, not only as a funder but also as an employer. This means we think about the needs and experiences of people from different backgrounds (for example, by gender, race, disability, religious belief and sexual orientation) and we work to ensure that there is equality of opportunity for all. It’s important to us that our staff reflect the diversity of the communities we serve.</p><p>The Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy. We will make reasonable adjustments for disabled applicants at all stages of the selection process. To assist us, applicants should declare if they have a disability on the application form, and let us know of any requirements.</p><p>If you have a disability that prevents you from completing an online form, please contact the HR Helpdesk, on 0121 345 8884 or email <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, who will be happy to help. The Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice.</p><p>The Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work.</p><p>We know that our staff come from a diverse range of religious backgrounds and we are committed to supporting staff by working to accommodate an individual’s needs. This includes religious attire, the need for flexible working to accommodate worship, and time off to attend religious festivals.</p><p></p>"
-                }
-            }
-        },
-        "benefits": {
-            "title": "Benefits",
-            "call-to-action": "View our current vacancies",
-            "benefits": [
-                {
-                    "title": "Health and wellbeing",
-                    "text": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and make the Big Lottery Fund a better place to work.</p>"
-                },
-                {
-                    "title": "Cycle2Work",
-                    "text": "<p>To promote healthier journeys to work and support our social and environmental aspirations, we offer the chance to participate in the Government initiated cycle to work scheme. Bicycles are bought by us and loaned to you for a 12-month period, during which time you repay the amount via salary sacrifice, reducing your tax and National Insurance contributions.</p>"
-                },
-                {
-                    "title": "Employee Assistance Programme",
-                    "text": "<p>All our employees have access to a confidential employee assistance programme provided by Care First, who provide information and advice on a wide range of topics affecting your work or personal life.</p>"
-                },
-                {
-                    "title": "Eye tests and glasses",
-                    "text": "<p>All VDU users are eligible to a free eye test on appointment and at regular intervals thereafter. If as a result of the eye test you are prescribed special equipment or glasses for VDU use, we will pay the cost of basic lenses and frames within certain maximum limits.</p>"
-                },
-                {
-                    "title": "Financial",
-                    "text": "<p>Salary progression is split into two forms of progression, a proportion of which is automatic and a proportion which is performance related. The percentage increase available is allocated by HM Treasury on an annual basis. In addition to your salary, we offer several financial benefits.</p>"
-                },
-                {
-                    "title": "Pension scheme",
-                    "text": "<p>We offer access to join a generous Civil Service pension scheme. Alternatively if you would prefer to join a stakeholder pension, we will make a contribution of up to 12.5 per cent of salary, depending on your age, as well as an additional matching contribution of up to another 3 per cent.</p>"
-                },
-                {
-                    "title": "Childcare vouchers",
-                    "text": "<p>We offer a salary sacrifice scheme for childcare vouchers so that you can benefit from the generous tax advantages of covering childcare costs in this way.</p>"
-                },
-                {
-                    "title": "Employee Discount Scheme",
-                    "text": "<p>We provide a discount benefits scheme that offers a wide range of discounts helping you save money off shopping, excursions, holidays and much more.</p>"
-                },
-                {
-                    "title": "Give As You Earn",
-                    "text": "<p>You can support your favourite charity or charities via the Give As You Earn Direct Donation Scheme, which is deducted straight from your pay. Giving direct from your pay is tax-free and the causes you care about benefit from your regular support.</p>"
-                },
-                {
-                    "title": "Season Ticket and Cycle2Work Loan",
-                    "text": "<p>Once you have worked with us for a month you are eligible to apply for an interest free season ticket loan of up to £5,000, or a bicycle purchase loan of up to £1,000 to travel to work.</p>"
-                },
-                {
-                    "title": "Time off",
-                    "text": "<p>The standard working week for full time staff is 37 hours, with a minimum 30 minute unpaid lunch break each day. We have a range of formal and informal flexible working options, and offer generous paid leave.</p>"
-                },
-                {
-                    "title": "Flexible working",
-                    "text": "<p>Flexible working enables teams and individuals to manage work-life balance, while ensuring the organisation is able to work effectively. Options include:</p><ul><li>part-time hours</li><li>compacted hours</li><li>non-standard working hours</li><li>ad hoc working from home</li><li>job sharing</li><li>flexible working hours</li><li>Generous annual leave</li></ul><p>Annual leave is 25 days per year on joining the Big Lottery Fund plus bank holidays, rising by one day every year of employment up to a total of 30 days, An additional three days of leave is given every year – normally at Christmas. Your entitlement will vary according to your date of appointment, and is pro-rata for part-time employees.</p>"
-                },
-                {
-                    "title": "Paid maternity/adoption leave",
-                    "text": "<p>Staff who are eligible for statutory maternity pay will receive full pay for the first 22 weeks of their maternity leave.</p>"
-                },
-                {
-                    "title": "Paid paternity leave",
-                    "text": "<p>Staff who are eligible for statutory paternity pay will receive 10 days full pay.</p>"
-                },
-                {
-                    "title": "Paid parental leave",
-                    "text": "<p>Staff who have worked with us for one year are entitled to one week’s parental leave on full pay per year if they have one or more child under the age of eight. This is in addition to their annual leave entitlement.</p>"
-                },
-                {
-                    "title": "Paid volunteering leave",
-                    "text": "<p>Employees can request up to two days paid leave per year for volunteering.</p>"
-                },
-                {
-                    "title": "Paid public duty leave",
-                    "text": "<p>Staff may take up to 18 days paid leave per year to undertake public duties.</p>"
-                },
-                {
-                    "title": "Unpaid career break",
-                    "text": "<p>Staff with two years service can request an unpaid career break of up to 50 weeks every five years to undertake study leave, a sabbatical, volunteering, travel or to spend an extended period with their children beyond their parental leave entitlement.</p>"
-                },
-                {
-                    "title": "Development",
-                    "text": "<p>The Talent and Organisational Development team at BIG play a critical role in developing our people to keep you engaged, equipped and empowered to reach your potential.</p>"
-                },
-                {
-                    "title": "Professional subscriptions",
-                    "text": "<p>If you are in a post where membership to a professional association or organisation is directly related to your job function, you can claim for reimbursement of the subscription fees, to the maximum of one subscription per annum.</p>"
-                },
-                {
-                    "title": "Corporate sponsorship",
-                    "text": "<p>We are able to financially support a small number of staff to obtain qualifications from external course providers which provide invaluable job skills and knowledge.</p>"
-                },
-                {
-                    "title": "Coaching and mentoring",
-                    "text": "<p>We are working to establish a coaching culture at the Big Lottery Fund through workshops, advice and guides, 1:1 sessions and our own coaching network.</p>"
-                }
-            ]
-        },
-        "under10k": {
-            "title": "About our grants under £10,000",
-            "projects": [
-                {
-                    "name": "Papyrus",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/under10k/hbf.jpg",
-                    "description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
-                },
-                {
-                    "name": "Ragroof Players",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/under10k/ragroof.jpg",
-                    "description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
-                },
-                {
-                    "name": "Welsh Refugee Council",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/under10k/wrc.jpg",
-                    "description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
-                }
-            ]
-        },
-        "over10k": {
-            "title": "About our grants over £10k",
-            "projects": [
-                {
-                    "name": "Croxteth Gems",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/over10k/croxteth.jpg",
-                    "description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
-                },
-                {
-                    "name": "Dads in Mind",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/over10k/dads.jpg",
-                    "description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
-                },
-                {
-                    "name": "Cruse Bereavement Care",
-                    "amount": "",
-                    "link": "#",
-                    "image": "images/over10k/cruse.jpg",
-                    "description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies."
-                }
-            ]
-        }
-    },
-    "about": {
-        "foi": {
-            "title": "Freedom of Information",
-            "sections": {
-                "intro": "<p>\tThe <a href=\"http://www.legislation.gov.uk/ukpga/2000/36/contents\">Freedom of Information Act 2000</a> gives a member of the public the right of access to information held by public authorities. All information we hold is eligible for release although we will consider whether any exemptions apply.</p><p>\tFurther information about the Freedom of Information Act 2000, including who the Act applies to, what information you can ask for, how you can request it and how your requests will be dealt with, can be found on <a href=\"https://ico.org.uk/\">the Information Commissioner’s website</a>. </p><p>\tRequests for information relating to the state of the environment are handled under the Environmental Information Regulations 2004 (EIR). Any information that falls under EIR will be released unless an exception applies.</p><p>\tTo request information under these regulations you should follow the same process as for Freedom of Information requests. More information regarding the Environmental Information regulations can be found on the Information Commissioner’s website .</p>",
-                "howToRequest": {
-                    "title": "How to request information from us",
-                    "body": "<p>\t<span>Much of the information we hold is already available to you. Before you make an official request you should:</span></p><p>\t<ul>\t\t<li>\t\t\tsearch our website for the information<br />\t\t</li>\t\t<li>\t\t\tcheck the Big Lottery Fund’s publication scheme.<br />\t\t</li>\t</ul></p><p>\tIf you would like to request information about The Big Lottery Fund, please email <a href=\"mailto:freedomofinformation@biglotteryfund.org.uk\">freedomofinformation@biglotteryfund.org.uk</a>.</p><p>\tYour request must state your full name and it is helpful if you can give us as much detail as you can about the information that you are looking for. If you aren’t sure what information we hold on a particular topic then we will be happy to offer you further advice and assistance. We will acknowledge your request and must reply in full within 20 working days.</p><p>\tIf you have requested information that relates to a third party we may need to consult with such parties in order to reach a view on whether the information can be released. When consulting with third parties the identity of the requestor will remain confidential and will not be disclosed.</p>"
-                },
-                "forCustomers": {
-                    "title": "For customers who have applied or received funding from us",
-                    "body": "<p>\tThe Freedom of Information Act 2000 gives members of the public the right to request any information that we hold. This includes information received from third parties, such as, although not limited to grant applicants, grant holders and contractors.</p><p>\tIf you think that there is information in your application that may be exempt from release if requested, then you should let us know when you apply. We will not usually release information about your project whilst it is in the assessment process. Otherwise we will use our judgement as to whether any exemptions will apply to information that has been requested, which we may seek your opinion on. Personal information would be withheld subject to the requirements of the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p><p>\tAlthough you may be considered as a customer, you still have the same rights of access to information as a general member of the public.</p>"
-                },
-                "publicationScheme": {
-                    "title": "The Publication Scheme",
-                    "body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
-                }
-            }
-        },
-        "dataProtection": {
-            "title": "Data Protection",
-            "body": "<p>\tIf you apply for a grant from us we will use your information in line with the Data Protection policy below.</p><p>\tWe may use the information you give us during assessment and during the life of your grant (if awarded) to administer and analyse grants and for research purposes. We may share this information with individuals and organisations we work with when assessing applications, administering the programme, monitoring grants, evaluating funding processes and impact and carrying out research. These may include accountants, external evaluators and other organisations or groups involved in delivering the programme.</p><p>\tWe may also share information with other organisations and individuals with a legitimate interest in Lottery applications and grants or specific funding programmes and with your local Parliamentary representative. We have a duty to protect public funds and for that reason we may also share information with other Lottery distributors, government departments, organisations providing matched funding or for the prevention and detection of crime.</p><p>\tIf we transfer personal information to any country outside of the European Economic Area, we will ensure that the information is transferred in accordance with this policy and pursuant to the applicable data protection laws.</p><p>\tWe will use any personal information you provide to conduct appropriate identity checks. Personal information may be disclosed to credit reference or fraud prevention agencies which may:</p><ul><li><strong>cross reference personal information with other databases (public or otherwise)</strong></li><li><strong>retain a record of the search</strong></li><li><strong>use your details in the future to assist other companies with verification.</strong></li></ul><p>If you provide false or inaccurate information in your application or at any point in the life of any grant and fraud is identified, we will provide details to fraud prevention agencies to prevent fraud and money laundering. If you are a company this will include the names of the company directors at the time of the fraud. You must undertake to inform all directors, Trustees and Committee members of this notice.</p><p>You can obtain further details explaining how the information held by fraud prevention agencies may be used by emailing <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>, by telephoning our advice line on 0345 4 10 20 30, or by writing to:</p><p>Customer Services<br />Big Lottery Fund<br />2 St James’ Gate<br />Newcastle upon Tyne<br />NE1 4BE</p><p>Personal data requests are dealt with under the Data Protection Act 1998. If you want to know whether we hold personal information about you, you should email <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>.</p><p>We may withhold access to your information where we have the right to do so under the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p>"
-        }
-    },
-    "funding": {
-        "guidance": {
-            "order-free-materials": {
-                "title": "How to get free branded materials",
-                "body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3>How to get branded materials</h3><p>This page lists physical objects like, balloons, large \"cheques\" or plaques that we'll send you for free. <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">We also have logos that you can download for use online or on paper</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p><h3>Are you holding a big event?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Get in touch with our branding team</a> who can help with any bespoke merchandise requests, and would love to talk to you about the possibility of us photographing your event.</p>",
-                "languageOptions": {
-                    "monolingual": "in English",
-                    "bilingual": "in Welsh & English"
-                },
-                "orderSubmitted": {
-                    "success": {
-                        "title": "Thank you for your order.",
-                        "subtitle": "Your delivery will be with you soon.",
-                        "body": "If you have any questions or queries about your order, please <a href=\"mailto:branding@biglotteryfund.org.uk\">get in touch with our branding team</a>."
-                    },
-                    "failure": {
-                        "title": "Sorry, we were unable to process your order.",
-                        "subtitle": "Please try again soon."
-                    }
-                },
-                "orderForm": "Order Form",
-                "yourDetails": "Your Details",
-                "submit": "Submit",
-                "locationPrompt": "To get your free branded materials start by telling us where your project is based:",
-                "locations": {
-                    "monolingual": "England, Scotland or Northern Ireland",
-                    "bilingual": "Wales"
-                },
-                "outOfStock": "Out of stock",
-                "enterDeliveryAddress": "Enter your delivery address",
-                "chooseItems": "Choose any of the following items"
-            },
-            "logos": {
-                "title": "How to tell people about your National Lottery funding using our logo",
-                "subtitle": "Thank the players of the National Lottery",
-                "heroText": "Using our logo",
-                "body": "It's really important that people involved with your project understand that it's been supported by players of the National Lottery – having our logo somewhere easily visible really helps to do this. You can put the logo on a wall, add it to your website or a piece of equipment – anywhere where people can see it. You can download our logos below.",
-                "locationPrompt": "To make sure you get the correct logo please tell us where your project is based:",
-                "locations": {
-                    "monolingual": "England, Scotland or Northern Ireland",
-                    "bilingual": "Wales"
-                },
-                "labels": {
-                    "english": "English",
-                    "bilingual": "Bilingual English/Welsh"
-                },
-                "downloads": {
-                    "sizes": {
-                        "small": "Digital",
-                        "large": "Print",
-                        "eps": "Vector"
-                    },
-                    "colours": {
-                        "blue": "blue",
-                        "pink": "pink",
-                        "white": "white"
-                    },
-                    "download": "Download"
-                },
-                "logoDownloads": {
-                    "monolingual": "English logo downloads",
-                    "bilingual": "Bilingual English/Welsh logo downloads"
-                },
-                "howToUseLogo": {
-                    "title": " How to use our logo ",
-                    "sections": {
-                        "freeKit": {
-                            "title": "Free branded kit",
-                            "body": "We'll also send you free items such as plaques, balloons and large cheques &ndash; <a href=\"/funding/funding-guidance/managing-your-funding/ordering-free-materials\">see the full range and order here</a>."
-                        },
-                        "brandGuidance": {
-                            "title": "Brand guidance &ndash; getting it right",
-                            "body": "<a href=\"/assets/files/logo-guidance.pdf\">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
-                        },
-                        "format": {
-                            "title": "Choosing the right logo format to download",
-                            "body": "<strong>Digital</strong> &ndash; best for websites, word documents, PowerPoint and social media<br /><strong>Print</strong> &ndash; best for use when printing posters or leaflets<br /><strong>Vector</strong> &ndash; best to use when working with a professional designer<br />"
-                        },
-                        "options": {
-                            "title": "Logo options",
-                            "body": "The logo is available in two colours: 100% magenta or 100% cyan. We position the logo in the top right corner of all our communications by default. Always use the logo supplied through official channels and never adapt or recreate it."
-                        }
-                    }
-                },
-                "successMessages": {
-                    "success": "Success!",
-                    "digital": {
-                        "title": "The logo you downloaded is ideal for use on websites.",
-                        "body": "If you need a bigger logo just close this box and select the Print or Vector versions."
-                    },
-                    "print": {
-                        "title": "The logo you downloaded is ideal for print.",
-                        "body": "If you need a smaller logo for use online just close this box and select the Digital version, or, if you need an even bigger logo to give to a professional designer, select the Vector version."
-                    },
-                    "vector": {
-                        "title": "The logo you downloaded is ideal if you are working with a professional designer or working with large format print.",
-                        "body": "If you need a smaller logo just close this box and select the Print or Digital versions."
-                    }
-                }
-            },
-            "help-with-publicity": {
-                "title": "Tell the world about your grant via social media",
-                "body": {
-                    "part1": "<p>Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do.</p><p>It is very easy to set up accounts on these social media platforms. It is a good idea to designate someone to be in charge of your social media accounts so you can keep sharing information and respond to any comments.</p><p>We would like you to:</p>",
-                    "actions": {
-                        "1": "Share your grant news on social media, thanking National Lottery players",
-                        "2": "Follow the Big Lottery Fund on social media",
-                        "3": "Use social media to share news of your project throughout your grant"
-                    },
-                    "part2": "<p>We can then share your stories with the wider National Lottery community!</p><p>Please always acknowledge National Lottery players' support by using the #NationalLottery hashtag when posting content related to your grant.</p>"
-                }
-            },
-            "managing-your-funding": {
-                "title": "Congratulations on getting National Lottery funding!",
-                "body": {
-                    "header1": "You're now part of a family of fantastic organisations that are making communities across the UK better places to be.",
-                    "block1": "<p>We ask that you publicly announce your funding award. Whilst we would love you to use a range of ways to do this, here are some you should consider:</p>",
-                    "actions": {
-                        "social": "Tell the world about your grant via social media",
-                        "press": "Get in touch with your local press",
-                        "logo": "Download our logo to tell people about your National Lottery funding",
-                        "freeMaterial": "Order free plaques, stickers, balloons and more"
-                    },
-                    "header2": "Why are we asking you to do these things?",
-                    "block2": "<p>You are one of thousands of good causes all over the UK doing amazing things with money raised by National Lottery players. It is very important that you share the good news about your funding and let the public know how they are making life better across the UK by playing National Lottery games.</p><p>This will also encourage people in your local area to apply for lottery funding, increasing the amount of amazing work that takes place in your community.</p>"
-                }
-            },
-            "getting-press-coverage": {
-                "title": "How to get press coverage for your grant",
-                "body": "<p>Being awarded National Lottery funding is a huge achievement and great news for your local community. Local newspapers and radio stations will be interested to hear your news. They can help you tell your story and raise awareness in the community.</p><p>This is also an important opportunity to thank National Lottery players for making your work possible.</p>",
-                "sections": {
-                    "identify": {
-                        "title": "Identify which media to target",
-                        "text": "<p>Contact newspapers that are available to buy or are given out for free in the area your project is based. If you are unsure which area they cover you can always ring and ask. Think about contacting your local BBC radio station as well as any commercial stations in your area. See if there are any local websites or blogs who might be interested in your story.</p>"
-                    },
-                    "find": {
-                        "title": "Find the best contact",
-                        "text": "<p>It is worth calling the newsdesk of a newspaper or radio station to tell them your story and ask if there is anyone in particular you should send it through to.</p>"
-                    },
-                    "draft": {
-                        "title": "Draft a press release",
-                        "text": "<p>When writing this think about the importance and impact of your project. How will it make a difference to the people you work with? How will it improve their lives? How will it improve the whole community?</p>"
-                    },
-                    "send": {
-                        "title": "Sending a press release",
-                        "text": "<p>Ensure the subject matter of your email covers the story and the area, for example “Wolverhampton Community Centre Awarded National Lottery Funding”. Paste the press release into the body of the email rather than attaching it. And remember to always include your contact details!</p>"
-                    },
-                    "attach": {
-                        "title": "Attach an image",
-                        "text": "<p>Attaching a high quality image can really improve your chance of gaining publicity. Even photos taken on smartphones can work really well. Think about what you want the photo to say about your project - think about the setting and who to include in the photo. Make sure you provide the names of everyone in the photo and make clear who is who to help the newspaper caption the image properly.</p>"
-                    },
-                    "follow": {
-                        "title": "Follow up with a phone call",
-                        "text": "<p>Journalists receive a lot of press releases each day and it will help if you give them a quick call to highlight your news.</p>"
-                    },
-                    "tell": {
-                        "title": "Tell us about your success stories",
-                        "text": "<p>We would love to hear when you get media coverage in your local area. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Get in touch with us to tell us all about it</a>!</p>"
-                    }
-                }
-            }
-        }
-    }
+	"global": {
+		"brand": {
+			"title": "Big Lottery Fund"
+		},
+		"nav": {
+			"home": "Home",
+			"funding": "Funding",
+			"about": "About",
+			"search": "Search"
+		},
+		"contact": {
+			"city": "London",
+			"phone": "0345 4 10 20 30",
+			"email": "general.enquiries@biglotteryfund.org.uk"
+		},
+		"footerLinks": {
+			"title": "Quick links",
+			"foi": "Freedom of Information",
+			"privacy-policy": "Privacy Policy",
+			"terms": "Terms",
+			"cookies": "Cookies",
+			"contact": "Contact",
+			"site-map": "Site map",
+			"accessibility": "Accessibility"
+		},
+		"accessibility": {
+			"skipToContent": "Skip to content",
+			"contrast": {
+				"high": "Enable high contrast mode",
+				"standard": "Enable standard contrast mode"
+			}
+		},
+		"forms": {
+			"missingFieldError": "Please provide the '%s' field"
+		}
+	},
+	"toplevel": {
+		"contact": {
+			"title": "Contact us",
+			"methods": {
+				"phone": "Phone",
+				"text-relay": "Text Relay",
+				"email": "Email",
+				"address": "Address",
+				"fax": "Fax",
+				"bsl": "British Sign Language",
+				"switchboard": "Switchboard"
+			},
+			"offices": {
+				"england": "England",
+				"ni": "Northern Ireland",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"uk": "UK",
+				"corporate": "Corporate office",
+				"london": "London"
+			},
+			"hearing-speech-impairment": "for those with a hearing or speech impairment",
+			"plus": "plus",
+			"or": "or",
+			"out-of-hours": "out of hours",
+			"bsl-scotland": "Use contactSCOTLAND-BSL",
+			"wales": {
+				"email": "enquiries.wales@biglotteryfund.org.uk",
+				"address1": "10th Floor, Helmont House, Churchill Way, Cardiff, CF10 2DY",
+				"address2": "2nd Floor, Ladywell House, Newtown, Powys, SY16 1JB"
+			},
+			"topics": {
+				"applicationQuery": {
+					"title": "How do I get in contact if I have a query about applying for funding?"
+				},
+				"grantQuery": {
+					"title": "How do I get in contact if I have a query about a grant I have been awarded?",
+					"body": "<p>Please contact your funding officer for any queries about an existing grant. If you don't know who your funding officer is please get in touch with us using the details above.</p>"
+				},
+				"pressQuery": {
+					"title": "How do I get in contact if I have a press query?"
+				},
+				"feedback": {
+					"title": "How do I get in contact if I have feedback about your service?",
+					"body": "<p>We really value your feedback. If you have a comment or complaint about the services that we provide, or if there's something important you think we should know, we'd love to hear it. Please email us at <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a></p><p>To give us feedback about our website email <a href=\"mailto:webmaster@biglotteryfund.org.uk\">webmaster@biglotteryfund.org.uk</a></p>"
+				},
+				"other": {
+					"title": "How do I get in contact about anything else?"
+				},
+				"complaints": {
+					"title": "How do I make a complaint?",
+					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span>Phone</span>: 0191 376 1704<br /></p><p>\t<span>Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span>Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+				},
+				"fraud": {
+					"title": "How do I report fraud?",
+					"body": "<p>\tThe Big Lottery Fund is committed to preventing and detecting fraud. </p><p>\tIf you suspect that someone is stealing from or defrauding the Big Lottery Fund help us do something about it by getting in touch with us. <br /> </p><p>\t<span>Phone</span>: 0800 496 9991<br /> </p><p>\t<span>Email</span>: <a href=\"mailto:fraud@biglotteryfund.org.uk\">fraud@biglotteryfund.org.uk</a><br /> </p><p>\t<span>Address</span>:<br />Head of Internal Audit <br />Big Lottery Fund<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
+				}
+			},
+			"ukPortfolio": {
+				"title": "Funding for UK-wide projects",
+				"email": "UKPortfolioTeam@biglotteryfund.org.uk"
+			}
+		},
+		"data": {
+			"title": "Key data about the Big Lottery Fund: <br />financial year 2016/17",
+			"keyStats": "Key statistics",
+			"data": [
+				{
+					"number": {
+						"value": "£712.7m",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
+					},
+					"caption": "Total value of funding awarded"
+				},
+				{
+					"number": {
+						"value": "13,814",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
+					},
+					"caption": "Total number of grants awarded"
+				},
+				{
+					"number": {
+						"value": "12,352",
+						"suffix": "(89.4%)",
+						"prefix": "",
+						"showFirst": false
+					},
+					"caption": "Number of grants under £10,000"
+				},
+				{
+					"number": {
+						"value": "9,377,362",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
+					},
+					"caption": "Total number of expected beneficiaries"
+				},
+				{
+					"number": {
+						"value": "£10,805,105",
+						"suffix": "",
+						"prefix": "We gave",
+						"showFirst": true
+					},
+					"caption": "to award partners to distribute to local projects"
+				},
+				{
+					"number": {
+						"value": "10,657",
+						"suffix": "",
+						"prefix": "",
+						"showFirst": false
+					},
+					"caption": "Number of charities funded in the UK"
+				},
+				{
+					"number": {
+						"value": "£164m",
+						"suffix": "",
+						"prefix": "Over",
+						"showFirst": true
+					},
+					"caption": "will support children and young people"
+				},
+				{
+					"number": {
+						"value": "£387m",
+						"suffix": "",
+						"prefix": "Over",
+						"showFirst": true
+					},
+					"caption": "will improve environments and facilities"
+				},
+				{
+					"number": {
+						"value": "£551m",
+						"suffix": "",
+						"prefix": "Over",
+						"showFirst": true
+					},
+					"caption": "will support improved mental wellbeing"
+				}
+			],
+			"map": {
+				"title": "Our Year in Numbers",
+				"population": "Population",
+				"totalAwarded": "Total awarded",
+				"totalBeneficiaries": "Total beneficiaries"
+			},
+			"regions": {
+				"east-midlands": "East Midlands",
+				"east-england": "East of England",
+				"london": "London",
+				"north-east": "North East",
+				"north-west": "North West",
+				"northern-ireland": "Northern Ireland",
+				"scotland": "Scotland",
+				"south-east": "South East",
+				"south-west": "South West",
+				"wales": "Wales",
+				"west-midlands": "West Midlands",
+				"yorkshire": "Yorkshire and the Humber"
+			}
+		},
+		"jobs": {
+			"title": "Jobs at the Big Lottery Fund",
+			"call-to-action": "View our current vacancies",
+			"sections": {
+				"whyWork": {
+					"title": "Why work for the Big Lottery Fund?",
+					"body": "<blockquote>\"Working at the Big Lottery Fund enables me to play a small part in changing the lives of people in communities across the UK. It is hugely rewarding taking on the challenge of giving the right funds to the right people. I'm surrounded by talented, motivated and inspirational individuals here who are all working to the same goal.\" <footer><cite>Steve Keene, Product Manager, Digital Team</cite></footer></blockquote><blockquote>\"The best thing about working at the Fund is being a part of an organisation that is having such an impact on communities across the UK and seeing the difference the funding makes to these communities. The staff here are so invested in what they do and I love the fact that my work has meaning and provides me with a sense of satisfaction every day.\" <footer><cite>Kalema White, Executive Assistant</cite></footer></blockquote>"
+				},
+				"benefits": {
+					"title": "What benefits are available?",
+					"body": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and makes the Big Lottery Fund a better place to work. Benefits include:</p>",
+					"list": [
+						"Generous Civil Service Pension scheme",
+						"Flexible working",
+						"Enhanced paid maternity/paternity leave",
+						"Paid volunteering leave",
+						"Season ticket loan"
+					],
+					"postscript": "See all benefits"
+				},
+				"offices": {
+					"title": "Opportunities across the UK"
+				},
+				"equalities": {
+					"title": "Equalities",
+					"body": "<p>The Big Lottery Fund is committed to advancing equalities, not only as a funder but also as an employer. This means we think about the needs and experiences of people from different backgrounds (for example, by gender, race, disability, religious belief and sexual orientation) and we work to ensure that there is equality of opportunity for all. It’s important to us that our staff reflect the diversity of the communities we serve.</p><p>The Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy. We will make reasonable adjustments for disabled applicants at all stages of the selection process. To assist us, applicants should declare if they have a disability on the application form, and let us know of any requirements.</p><p>If you have a disability that prevents you from completing an online form, please contact the HR Helpdesk, on 0121 345 8884 or email <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, who will be happy to help. The Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice.</p><p>The Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work.</p><p>We know that our staff come from a diverse range of religious backgrounds and we are committed to supporting staff by working to accommodate an individual’s needs. This includes religious attire, the need for flexible working to accommodate worship, and time off to attend religious festivals.</p><p></p>"
+				}
+			}
+		},
+		"benefits": {
+			"title": "Benefits",
+			"call-to-action": "View our current vacancies",
+			"benefits": [
+				{
+					"title": "Health and wellbeing",
+					"text": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and make the Big Lottery Fund a better place to work.</p>"
+				},
+				{
+					"title": "Cycle2Work",
+					"text": "<p>To promote healthier journeys to work and support our social and environmental aspirations, we offer the chance to participate in the Government initiated cycle to work scheme. Bicycles are bought by us and loaned to you for a 12-month period, during which time you repay the amount via salary sacrifice, reducing your tax and National Insurance contributions.</p>"
+				},
+				{
+					"title": "Employee Assistance Programme",
+					"text": "<p>All our employees have access to a confidential employee assistance programme provided by Care First, who provide information and advice on a wide range of topics affecting your work or personal life.</p>"
+				},
+				{
+					"title": "Eye tests and glasses",
+					"text": "<p>All VDU users are eligible to a free eye test on appointment and at regular intervals thereafter. If as a result of the eye test you are prescribed special equipment or glasses for VDU use, we will pay the cost of basic lenses and frames within certain maximum limits.</p>"
+				},
+				{
+					"title": "Financial",
+					"text": "<p>Salary progression is split into two forms of progression, a proportion of which is automatic and a proportion which is performance related. The percentage increase available is allocated by HM Treasury on an annual basis. In addition to your salary, we offer several financial benefits.</p>"
+				},
+				{
+					"title": "Pension scheme",
+					"text": "<p>We offer access to join a generous Civil Service pension scheme. Alternatively if you would prefer to join a stakeholder pension, we will make a contribution of up to 12.5 per cent of salary, depending on your age, as well as an additional matching contribution of up to another 3 per cent.</p>"
+				},
+				{
+					"title": "Childcare vouchers",
+					"text": "<p>We offer a salary sacrifice scheme for childcare vouchers so that you can benefit from the generous tax advantages of covering childcare costs in this way.</p>"
+				},
+				{
+					"title": "Employee Discount Scheme",
+					"text": "<p>We provide a discount benefits scheme that offers a wide range of discounts helping you save money off shopping, excursions, holidays and much more.</p>"
+				},
+				{
+					"title": "Give As You Earn",
+					"text": "<p>You can support your favourite charity or charities via the Give As You Earn Direct Donation Scheme, which is deducted straight from your pay. Giving direct from your pay is tax-free and the causes you care about benefit from your regular support.</p>"
+				},
+				{
+					"title": "Season Ticket and Cycle2Work Loan",
+					"text": "<p>Once you have worked with us for a month you are eligible to apply for an interest free season ticket loan of up to £5,000, or a bicycle purchase loan of up to £1,000 to travel to work.</p>"
+				},
+				{
+					"title": "Time off",
+					"text": "<p>The standard working week for full time staff is 37 hours, with a minimum 30 minute unpaid lunch break each day. We have a range of formal and informal flexible working options, and offer generous paid leave.</p>"
+				},
+				{
+					"title": "Flexible working",
+					"text": "<p>Flexible working enables teams and individuals to manage work-life balance, while ensuring the organisation is able to work effectively. Options include:</p><ul><li>part-time hours</li><li>compacted hours</li><li>non-standard working hours</li><li>ad hoc working from home</li><li>job sharing</li><li>flexible working hours</li><li>Generous annual leave</li></ul><p>Annual leave is 25 days per year on joining the Big Lottery Fund plus bank holidays, rising by one day every year of employment up to a total of 30 days, An additional three days of leave is given every year – normally at Christmas. Your entitlement will vary according to your date of appointment, and is pro-rata for part-time employees.</p>"
+				},
+				{
+					"title": "Paid maternity/adoption leave",
+					"text": "<p>Staff who are eligible for statutory maternity pay will receive full pay for the first 22 weeks of their maternity leave.</p>"
+				},
+				{
+					"title": "Paid paternity leave",
+					"text": "<p>Staff who are eligible for statutory paternity pay will receive 10 days full pay.</p>"
+				},
+				{
+					"title": "Paid parental leave",
+					"text": "<p>Staff who have worked with us for one year are entitled to one week’s parental leave on full pay per year if they have one or more child under the age of eight. This is in addition to their annual leave entitlement.</p>"
+				},
+				{
+					"title": "Paid volunteering leave",
+					"text": "<p>Employees can request up to two days paid leave per year for volunteering.</p>"
+				},
+				{
+					"title": "Paid public duty leave",
+					"text": "<p>Staff may take up to 18 days paid leave per year to undertake public duties.</p>"
+				},
+				{
+					"title": "Unpaid career break",
+					"text": "<p>Staff with two years service can request an unpaid career break of up to 50 weeks every five years to undertake study leave, a sabbatical, volunteering, travel or to spend an extended period with their children beyond their parental leave entitlement.</p>"
+				},
+				{
+					"title": "Development",
+					"text": "<p>The Talent and Organisational Development team at BIG play a critical role in developing our people to keep you engaged, equipped and empowered to reach your potential.</p>"
+				},
+				{
+					"title": "Professional subscriptions",
+					"text": "<p>If you are in a post where membership to a professional association or organisation is directly related to your job function, you can claim for reimbursement of the subscription fees, to the maximum of one subscription per annum.</p>"
+				},
+				{
+					"title": "Corporate sponsorship",
+					"text": "<p>We are able to financially support a small number of staff to obtain qualifications from external course providers which provide invaluable job skills and knowledge.</p>"
+				},
+				{
+					"title": "Coaching and mentoring",
+					"text": "<p>We are working to establish a coaching culture at the Big Lottery Fund through workshops, advice and guides, 1:1 sessions and our own coaching network.</p>"
+				}
+			]
+		},
+		"under10k": {
+			"title": "About our grants under £10,000",
+			"projects": [
+				{
+					"name": "Papyrus",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/hbf.jpg",
+					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
+				},
+				{
+					"name": "Ragroof Players",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/ragroof.jpg",
+					"description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
+				},
+				{
+					"name": "Welsh Refugee Council",
+					"amount": "",
+					"link": "#",
+					"image": "images/under10k/wrc.jpg",
+					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
+				}
+			]
+		},
+		"over10k": {
+			"title": "About our grants over £10k",
+			"projects": [
+				{
+					"name": "Croxteth Gems",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/croxteth.jpg",
+					"description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
+				},
+				{
+					"name": "Dads in Mind",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/dads.jpg",
+					"description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
+				},
+				{
+					"name": "Cruse Bereavement Care",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/cruse.jpg",
+					"description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies."
+				}
+			]
+		},
+		"eyp": {
+			"title": "Empowering Young People",
+			"description": "Empowering Young People is a grants programme designed to support projects in Northern Ireland that give young people aged 8 to 25 the ability to overcome the challenges they face."
+		}
+	},
+	"about": {
+		"foi": {
+			"title": "Freedom of Information",
+			"sections": {
+				"intro": "<p>\tThe <a href=\"http://www.legislation.gov.uk/ukpga/2000/36/contents\">Freedom of Information Act 2000</a> gives a member of the public the right of access to information held by public authorities. All information we hold is eligible for release although we will consider whether any exemptions apply.</p><p>\tFurther information about the Freedom of Information Act 2000, including who the Act applies to, what information you can ask for, how you can request it and how your requests will be dealt with, can be found on <a href=\"https://ico.org.uk/\">the Information Commissioner’s website</a>. </p><p>\tRequests for information relating to the state of the environment are handled under the Environmental Information Regulations 2004 (EIR). Any information that falls under EIR will be released unless an exception applies.</p><p>\tTo request information under these regulations you should follow the same process as for Freedom of Information requests. More information regarding the Environmental Information regulations can be found on the Information Commissioner’s website .</p>",
+				"howToRequest": {
+					"title": "How to request information from us",
+					"body": "<p>\t<span>Much of the information we hold is already available to you. Before you make an official request you should:</span></p><p>\t<ul>\t\t<li>\t\t\tsearch our website for the information<br />\t\t</li>\t\t<li>\t\t\tcheck the Big Lottery Fund’s publication scheme.<br />\t\t</li>\t</ul></p><p>\tIf you would like to request information about The Big Lottery Fund, please email <a href=\"mailto:freedomofinformation@biglotteryfund.org.uk\">freedomofinformation@biglotteryfund.org.uk</a>.</p><p>\tYour request must state your full name and it is helpful if you can give us as much detail as you can about the information that you are looking for. If you aren’t sure what information we hold on a particular topic then we will be happy to offer you further advice and assistance. We will acknowledge your request and must reply in full within 20 working days.</p><p>\tIf you have requested information that relates to a third party we may need to consult with such parties in order to reach a view on whether the information can be released. When consulting with third parties the identity of the requestor will remain confidential and will not be disclosed.</p>"
+				},
+				"forCustomers": {
+					"title": "For customers who have applied or received funding from us",
+					"body": "<p>\tThe Freedom of Information Act 2000 gives members of the public the right to request any information that we hold. This includes information received from third parties, such as, although not limited to grant applicants, grant holders and contractors.</p><p>\tIf you think that there is information in your application that may be exempt from release if requested, then you should let us know when you apply. We will not usually release information about your project whilst it is in the assessment process. Otherwise we will use our judgement as to whether any exemptions will apply to information that has been requested, which we may seek your opinion on. Personal information would be withheld subject to the requirements of the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p><p>\tAlthough you may be considered as a customer, you still have the same rights of access to information as a general member of the public.</p>"
+				},
+				"publicationScheme": {
+					"title": "The Publication Scheme",
+					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
+				}
+			}
+		},
+		"dataProtection": {
+			"title": "Data Protection",
+			"body": "<p>\tIf you apply for a grant from us we will use your information in line with the Data Protection policy below.</p><p>\tWe may use the information you give us during assessment and during the life of your grant (if awarded) to administer and analyse grants and for research purposes. We may share this information with individuals and organisations we work with when assessing applications, administering the programme, monitoring grants, evaluating funding processes and impact and carrying out research. These may include accountants, external evaluators and other organisations or groups involved in delivering the programme.</p><p>\tWe may also share information with other organisations and individuals with a legitimate interest in Lottery applications and grants or specific funding programmes and with your local Parliamentary representative. We have a duty to protect public funds and for that reason we may also share information with other Lottery distributors, government departments, organisations providing matched funding or for the prevention and detection of crime.</p><p>\tIf we transfer personal information to any country outside of the European Economic Area, we will ensure that the information is transferred in accordance with this policy and pursuant to the applicable data protection laws.</p><p>\tWe will use any personal information you provide to conduct appropriate identity checks. Personal information may be disclosed to credit reference or fraud prevention agencies which may:</p><ul><li><strong>cross reference personal information with other databases (public or otherwise)</strong></li><li><strong>retain a record of the search</strong></li><li><strong>use your details in the future to assist other companies with verification.</strong></li></ul><p>If you provide false or inaccurate information in your application or at any point in the life of any grant and fraud is identified, we will provide details to fraud prevention agencies to prevent fraud and money laundering. If you are a company this will include the names of the company directors at the time of the fraud. You must undertake to inform all directors, Trustees and Committee members of this notice.</p><p>You can obtain further details explaining how the information held by fraud prevention agencies may be used by emailing <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>, by telephoning our advice line on 0345 4 10 20 30, or by writing to:</p><p>Customer Services<br />Big Lottery Fund<br />2 St James’ Gate<br />Newcastle upon Tyne<br />NE1 4BE</p><p>Personal data requests are dealt with under the Data Protection Act 1998. If you want to know whether we hold personal information about you, you should email <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>.</p><p>We may withhold access to your information where we have the right to do so under the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p>"
+		}
+	},
+	"funding": {
+		"guidance": {
+			"order-free-materials": {
+				"title": "How to get free branded materials",
+				"body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3>How to get branded materials</h3><p>This page lists physical objects like, balloons, large \"cheques\" or plaques that we'll send you for free. <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">We also have logos that you can download for use online or on paper</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p><h3>Are you holding a big event?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Get in touch with our branding team</a> who can help with any bespoke merchandise requests, and would love to talk to you about the possibility of us photographing your event.</p>",
+				"languageOptions": {
+					"monolingual": "in English",
+					"bilingual": "in Welsh & English"
+				},
+				"orderSubmitted": {
+					"success": {
+						"title": "Thank you for your order.",
+						"subtitle": "Your delivery will be with you soon.",
+						"body": "If you have any questions or queries about your order, please <a href=\"mailto:branding@biglotteryfund.org.uk\">get in touch with our branding team</a>."
+					},
+					"failure": {
+						"title": "Sorry, we were unable to process your order.",
+						"subtitle": "Please try again soon."
+					}
+				},
+				"orderForm": "Order Form",
+				"yourDetails": "Your Details",
+				"submit": "Submit",
+				"locationPrompt": "To get your free branded materials start by telling us where your project is based:",
+				"locations": {
+					"monolingual": "England, Scotland or Northern Ireland",
+					"bilingual": "Wales"
+				},
+				"outOfStock": "Out of stock",
+				"enterDeliveryAddress": "Enter your delivery address",
+				"chooseItems": "Choose any of the following items"
+			},
+			"logos": {
+				"title": "How to tell people about your National Lottery funding using our logo",
+				"subtitle": "Thank the players of the National Lottery",
+				"heroText": "Using our logo",
+				"body": "It's really important that people involved with your project understand that it's been supported by players of the National Lottery – having our logo somewhere easily visible really helps to do this. You can put the logo on a wall, add it to your website or a piece of equipment – anywhere where people can see it. You can download our logos below.",
+				"locationPrompt": "To make sure you get the correct logo please tell us where your project is based:",
+				"locations": {
+					"monolingual": "England, Scotland or Northern Ireland",
+					"bilingual": "Wales"
+				},
+				"labels": {
+					"english": "English",
+					"bilingual": "Bilingual English/Welsh"
+				},
+				"downloads": {
+					"sizes": {
+						"small": "Digital",
+						"large": "Print",
+						"eps": "Vector"
+					},
+					"colours": {
+						"blue": "blue",
+						"pink": "pink",
+						"white": "white"
+					},
+					"download": "Download"
+				},
+				"logoDownloads": {
+					"monolingual": "English logo downloads",
+					"bilingual": "Bilingual English/Welsh logo downloads"
+				},
+				"howToUseLogo": {
+					"title": " How to use our logo ",
+					"sections": {
+						"freeKit": {
+							"title": "Free branded kit",
+							"body": "We'll also send you free items such as plaques, balloons and large cheques &ndash; <a href=\"/funding/funding-guidance/managing-your-funding/ordering-free-materials\">see the full range and order here</a>."
+						},
+						"brandGuidance": {
+							"title": "Brand guidance &ndash; getting it right",
+							"body": "<a href=\"/assets/files/logo-guidance.pdf\">Download our Brand Guidance</a> for help with using our logo correctly. If you're still not sure, get in touch with the Branding Team at <a href=\"mailto:brand.guidance@biglotteryfund.org.uk\">brand.guidance@biglotteryfund.org.uk</a>"
+						},
+						"format": {
+							"title": "Choosing the right logo format to download",
+							"body": "<strong>Digital</strong> &ndash; best for websites, word documents, PowerPoint and social media<br /><strong>Print</strong> &ndash; best for use when printing posters or leaflets<br /><strong>Vector</strong> &ndash; best to use when working with a professional designer<br />"
+						},
+						"options": {
+							"title": "Logo options",
+							"body": "The logo is available in two colours: 100% magenta or 100% cyan. We position the logo in the top right corner of all our communications by default. Always use the logo supplied through official channels and never adapt or recreate it."
+						}
+					}
+				},
+				"successMessages": {
+					"success": "Success!",
+					"digital": {
+						"title": "The logo you downloaded is ideal for use on websites.",
+						"body": "If you need a bigger logo just close this box and select the Print or Vector versions."
+					},
+					"print": {
+						"title": "The logo you downloaded is ideal for print.",
+						"body": "If you need a smaller logo for use online just close this box and select the Digital version, or, if you need an even bigger logo to give to a professional designer, select the Vector version."
+					},
+					"vector": {
+						"title": "The logo you downloaded is ideal if you are working with a professional designer or working with large format print.",
+						"body": "If you need a smaller logo just close this box and select the Print or Digital versions."
+					}
+				}
+			},
+			"help-with-publicity": {
+				"title": "Tell the world about your grant via social media",
+				"body": {
+					"part1": "<p>Social media channels such as Facebook, Twitter and Instagram are great ways of publicising your grant and the work that you do.</p><p>It is very easy to set up accounts on these social media platforms. It is a good idea to designate someone to be in charge of your social media accounts so you can keep sharing information and respond to any comments.</p><p>We would like you to:</p>",
+					"actions": {
+						"1": "Share your grant news on social media, thanking National Lottery players",
+						"2": "Follow the Big Lottery Fund on social media",
+						"3": "Use social media to share news of your project throughout your grant"
+					},
+					"part2": "<p>We can then share your stories with the wider National Lottery community!</p><p>Please always acknowledge National Lottery players' support by using the #NationalLottery hashtag when posting content related to your grant.</p>"
+				}
+			},
+			"managing-your-funding": {
+				"title": "Congratulations on getting National Lottery funding!",
+				"body": {
+					"header1": "You're now part of a family of fantastic organisations that are making communities across the UK better places to be.",
+					"block1": "<p>We ask that you publicly announce your funding award. Whilst we would love you to use a range of ways to do this, here are some you should consider:</p>",
+					"actions": {
+						"social": "Tell the world about your grant via social media",
+						"press": "Get in touch with your local press",
+						"logo": "Download our logo to tell people about your National Lottery funding",
+						"freeMaterial": "Order free plaques, stickers, balloons and more"
+					},
+					"header2": "Why are we asking you to do these things?",
+					"block2": "<p>You are one of thousands of good causes all over the UK doing amazing things with money raised by National Lottery players. It is very important that you share the good news about your funding and let the public know how they are making life better across the UK by playing National Lottery games.</p><p>This will also encourage people in your local area to apply for lottery funding, increasing the amount of amazing work that takes place in your community.</p>"
+				}
+			},
+			"getting-press-coverage": {
+				"title": "How to get press coverage for your grant",
+				"body": "<p>Being awarded National Lottery funding is a huge achievement and great news for your local community. Local newspapers and radio stations will be interested to hear your news. They can help you tell your story and raise awareness in the community.</p><p>This is also an important opportunity to thank National Lottery players for making your work possible.</p>",
+				"sections": {
+					"identify": {
+						"title": "Identify which media to target",
+						"text": "<p>Contact newspapers that are available to buy or are given out for free in the area your project is based. If you are unsure which area they cover you can always ring and ask. Think about contacting your local BBC radio station as well as any commercial stations in your area. See if there are any local websites or blogs who might be interested in your story.</p>"
+					},
+					"find": {
+						"title": "Find the best contact",
+						"text": "<p>It is worth calling the newsdesk of a newspaper or radio station to tell them your story and ask if there is anyone in particular you should send it through to.</p>"
+					},
+					"draft": {
+						"title": "Draft a press release",
+						"text": "<p>When writing this think about the importance and impact of your project. How will it make a difference to the people you work with? How will it improve their lives? How will it improve the whole community?</p>"
+					},
+					"send": {
+						"title": "Sending a press release",
+						"text": "<p>Ensure the subject matter of your email covers the story and the area, for example “Wolverhampton Community Centre Awarded National Lottery Funding”. Paste the press release into the body of the email rather than attaching it. And remember to always include your contact details!</p>"
+					},
+					"attach": {
+						"title": "Attach an image",
+						"text": "<p>Attaching a high quality image can really improve your chance of gaining publicity. Even photos taken on smartphones can work really well. Think about what you want the photo to say about your project - think about the setting and who to include in the photo. Make sure you provide the names of everyone in the photo and make clear who is who to help the newspaper caption the image properly.</p>"
+					},
+					"follow": {
+						"title": "Follow up with a phone call",
+						"text": "<p>Journalists receive a lot of press releases each day and it will help if you give them a quick call to highlight your news.</p>"
+					},
+					"tell": {
+						"title": "Tell us about your success stories",
+						"text": "<p>We would love to hear when you get media coverage in your local area. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Get in touch with us to tell us all about it</a>!</p>"
+					}
+				}
+			}
+		}
+	}
 }

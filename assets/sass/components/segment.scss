@@ -11,6 +11,14 @@
 
     .segment__media {
 
+        @media print {
+            position: static;
+            height: auto;
+            img {
+                display: none;
+            }
+        }
+
         @include mq('tablet', 'max') {
             padding: $spacingUnit $spacingUnit 0 $spacingUnit;
 

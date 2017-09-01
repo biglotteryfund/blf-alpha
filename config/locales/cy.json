@@ -333,7 +333,10 @@
 			]
 		},
 		"under10k": "under10k",
-		"over10k": "over10k"
+		"over10k": "over10k",
+		"eyp": {
+			"title": "Empowering Young People"
+		}
 	},
 	"about": {
 		"foi": {

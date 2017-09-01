@@ -22,6 +22,12 @@ $offscreenNavWidth: 65%;
     background-image: url(../images/logo-new.png);
     margin-bottom: 0;
 
+    @media print {
+        width: 100%;
+        height: auto;
+        background: none;
+    }
+
     // mobile dimensions
     height: 80px;
     width: 100px;
@@ -53,6 +59,11 @@ $offscreenNavWidth: 65%;
 // container element
 nav {
     margin-top: $spacingUnit;
+
+    @media print {
+        display: none;
+    }
+
     @include mq('tablet') {
         margin-top: 40px; // align with logo
     }

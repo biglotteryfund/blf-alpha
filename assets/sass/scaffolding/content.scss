@@ -4,6 +4,13 @@
     padding: 20px $contentBoxHorizontalPadding 40px $contentBoxHorizontalPadding;
     margin-bottom: 20px;
 
+    &.content-box--pink {
+        background-color: palette('pale-pink');
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
+    }
+
     &.content-box--narrow {
         padding: 10px;
     }

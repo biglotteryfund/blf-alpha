@@ -14,6 +14,7 @@ module.exports = (page, router) => {
         let lang = req.i18n.__(page.lang);
         res.render(page.template, {
             title: lang.title,
+            description: lang.description || false,
             copy: lang
         });
     });
