@@ -1,4 +1,4 @@
-/* global $, ga, cxApi */
+/* global $, ga, cxApi, _BLF */
 'use strict';
 
 // initialise router (eg. run conditional code for certain URLs)
@@ -53,16 +53,28 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
-// setup google analytics
-const uaCode = $thisScript.data('ga-code');
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', uaCode, {
-    'cookieDomain': 'none'
-});
+// if the env is production
+// then only load analytics
+// if the domain name is live domain
 
+// setup google analytics
+if (!_BLF.blockAnalytics) { // set in main.njk
+    const uaCode = $thisScript.data('ga-code');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments);
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', uaCode, {
+        'cookieDomain': 'none'
+    });
+}
 // initialise A/B tests
 let ab = {
     id: $thisScript.data('ab-id'),
