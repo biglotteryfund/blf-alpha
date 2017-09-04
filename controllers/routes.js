@@ -107,7 +107,7 @@ const routes = {
                     lang: "toplevel.eyp",
                     code: 0,
                     static: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
