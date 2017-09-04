@@ -130,9 +130,8 @@ let init = () => {
 
             // update the URL fragment
             if (tabData.paneId && tabData.paneId[0] === '#') {
-                if (history.pushState) {
-                    // @TODO make this react to back/fwd changes
-                    history.pushState(null, null, tabData.paneId);
+                if (history.replaceState) {
+                    history.replaceState(null, null, tabData.paneId);
                 }
             }
         }
