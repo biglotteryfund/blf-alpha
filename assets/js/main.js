@@ -12,6 +12,7 @@ Vue.options.delimiters = ['<%', '%>'];
 // load internal modules
 require('./modules/carousel').init();
 require('./modules/tabs').init();
+const analytics = require('./modules/analytics');
 
 // enable JS-only features
 const $html = $('html');
@@ -76,6 +77,13 @@ if (ab.id && ab.variant) {
 }
 
 ga('send', 'pageview');
+
+$('.js-track-clicks').on('click', function () {
+    let category = $(this).data('category');
+    let action = $(this).data('action');
+    let label = $(this).data('label');
+    analytics.track(category, action, label);
+});
 
 // create Vue element for order form
 // we use a regex for this URL to allow welsh URLs to match too

@@ -157,7 +157,16 @@
             <li>{{ tabs.tab(title = 'read guidance on how to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') }}</li>
         </ul>
 
-        <p><a href="/assets/files/eyp-application.docx" class="btn accent--pink a--btn btn--small">Download an application form</a></p>
+        <p>
+            <a href="/assets/files/eyp-application.docx"
+               target="_blank"
+               class="btn accent--pink a--btn btn--small js-track-clicks"
+               data-category="Download file"
+               data-action="Click"
+               data-label="EYP application form">
+                Download an application form
+            </a>
+        </p>
 
         <p class="links-emphasised">Please email your application form to {{ 'applications.ni@biglotteryfund.org.uk' | mailto | safe }}.</p>
 

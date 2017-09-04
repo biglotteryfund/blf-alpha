@@ -1,5 +1,6 @@
-/* global $, ga */
+/* global $ */
 'use strict';
+const analytics = require('./analytics');
 
 let activeClasses = {
     tab: 'tab--active',
@@ -9,25 +10,16 @@ let activeClasses = {
 let pageHasLoaded = false;
 
 let trackTabClick = (label, trackTabClicksAsPageviews) => {
-    if (window.ga && label) {
 
-        // track the click on the tab UI element
-        ga('send', {
-            hitType: 'event',
-            eventCategory: 'Tab',
-            eventAction: 'Click',
-            eventLabel: label
-        });
+    analytics.track('Tab', 'click', label);
 
-        // optionally set a new URL and pageview
-        // this enables us to treat each tab as a unique page
-        // so we can measure bounce rate, time on page etc on a per-tab basis
-        // calling `set` first means all subsequent events will be marked against this "page"
-        // also, isn't it really satisfying how each new line in this block is longer than the one before?
-        if (trackTabClicksAsPageviews) {
-            ga('set', 'page', location.pathname + location.hash);
-            ga('send', 'pageview');
-        }
+    // optionally set a new URL and pageview
+    // this enables us to treat each tab as a unique page
+    // so we can measure bounce rate, time on page etc on a per-tab basis
+    // calling `set` first means all subsequent events will be marked against this "page"
+    // also, isn't it really satisfying how each new line in this block is longer than the one before?
+    if (trackTabClicksAsPageviews) {
+        analytics.setPageView(location.pathname + location.hash);
     }
 };
 
