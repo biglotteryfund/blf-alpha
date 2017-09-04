@@ -11,7 +11,7 @@ let pageHasLoaded = false;
 
 let trackTabClick = (label, trackTabClicksAsPageviews) => {
 
-    analytics.track('Tab', 'click', label);
+    analytics.track('Tab', 'Click', label);
 
     // optionally set a new URL and pageview
     // this enables us to treat each tab as a unique page
