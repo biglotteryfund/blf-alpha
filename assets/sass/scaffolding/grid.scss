@@ -179,3 +179,13 @@
         }
     }
 }
+
+// @TODO make into a pattern?
+// only used on about page
+@include mq('tablet') {
+    .column--second {
+        .column__item {
+            padding-left: 50px;
+        }
+    }
+}

@@ -86,13 +86,39 @@ main {
     padding: 20px;
 }
 
-// @TODO better names
+// @TODO come up with better names for these classes
 .expanded {
     padding-top: $spacingUnit;
 }
 
+@include mq('tablet') {
+    .d-expanded--l {
+        padding-top: $spacingUnit * 2;
+    }
+}
+
 .spaced {
     margin-bottom: $spacingUnit;
+}
+
+.spaced--s {
+    margin-bottom: $spacingUnit / 2;
+}
+
+.spaced--l {
+    margin-bottom: $spacingUnit * 2;
+}
+
+.spaced--x-l {
+    margin-bottom: $spacingUnit * 3;
+}
+
+.spaced--t {
+    margin-top: $spacingUnit;
+}
+
+.spaced--t--l {
+    margin-top: $spacingUnit * 2;
 }
 
 .no-space {
@@ -103,14 +129,6 @@ main {
     @include mq('tablet', 'max') {
         margin-bottom: 0 !important;
     }
-}
-
-.spaced--s {
-    margin-bottom: $spacingUnit / 2;
-}
-
-.spaced--l {
-    margin-bottom: $spacingUnit * 2;
 }
 
 .gutter-mob-only {

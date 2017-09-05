@@ -89,10 +89,25 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
+.hero--miniature {
+    // hacky-ish way to switch images out for miniature hero on breakpoints
+    @include mq('tablet', 'max') {
+        .hero-image--desktop { display: none; }
+        .hero-image--mobile { display: block; }
+    }
+
+    @include mq('tablet') {
+        .hero-image--desktop { display: block; }
+        .hero-image--mobile { display: none; }
+    }
+}
+
 .hero--miniature__content {
     position: relative;
 
     .hero__header {
-        margin-left: $heroSpaceFromLeft;
+        @include mq('tablet', 'max') {
+            margin-left: $heroSpaceFromLeft;
+        }
     }
 }
