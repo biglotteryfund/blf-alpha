@@ -47,6 +47,18 @@ const routes = {
                         "/northernireland/about-big/contact-us"
                     ]
                 },
+                about: {
+                    name: "About",
+                    path: "/about",
+                    template: "pages/toplevel/about",
+                    lang: "toplevel.about",
+                    code: 0,
+                    static: true,
+                    live: false,
+                    aliases: [
+                        "/about-big",
+                    ]
+                },
                 data: {
                     name: "Data",
                     path: "/data",

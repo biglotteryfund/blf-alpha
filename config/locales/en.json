@@ -36,6 +36,9 @@
 		}
 	},
 	"toplevel": {
+		"about": {
+			"title": "About the Big Lottery Fund"
+		},
 		"contact": {
 			"title": "Contact us",
 			"methods": {

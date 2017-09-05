@@ -1,0 +1,109 @@
+{% import "components/hero.njk" as hero %}
+{% import "components/headers.njk" as headers %}
+{% import "components/segment.njk" as segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+
+    {% set heroContent %}
+        {{ headers.overlayText('h2', title, 't1') }}
+    {% endset %}
+
+    {{ hero.header('about', heroContent, 'blue', 'Castlehaven Community Centre, Grant: £14,000') }}
+
+    <article role="main">
+
+        <div class="inner">
+
+            <div class="grid grid--padded grid--2-up grid--wide-only grid--equal">
+
+                <div class="grid__item no-space">
+                    <div class="spaced--x-l">
+                        <p class="expanded d-expanded--l">We use money raised by <a href="https://www.national-lottery.co.uk">National Lottery</a> players to help communities achieve their ambitions. We do this by making grants - find out how to apply here.</p>
+
+                        <p>People use our funding to take the lead in improving their lives and communities. Every time you buy a National Lottery ticket you are helping to make this happen.</p>
+                    </div>
+
+                    <div class="spaced--x-l">
+                        <div class="accent--pink a--border-top--large">
+                            {% set miniHeroContent %}
+                                {{ headers.overlayText(
+                                tag = 'h3',
+                                text = 'Read our annual report 2016/17',
+                                additionalClasses = 't3 overlay-text--wide svgs-white is-opaque',
+                                link = '#',
+                                showArrow = true
+                                )}}
+                            {% endset %}
+                            {{ hero.miniature(
+                                imagePath = 'images/about/pennine-lancashire.jpg',
+                                imagePathMobile = 'images/about/pennine-lancashire--mobile.jpg',
+                                imageCaption = 'Three people working together on laptops',
+                                link = '#',
+                                content = miniHeroContent
+                            )}}
+                        </div>
+                    </div>
+
+                    <div class="spaced--x-l">
+                        <p>We are led by our <a href="#">Senior Management Team</a> and overseen by a <a href="#">Board of Directors</a>.</p>
+                        <p>To learn about our structure and how we are governed, see <a href="#">here</a>.</p>
+                    </div>
+
+                    <div class="spaced--x-l">
+                        <div class="accent--turquoise a--border-top--large">
+                            {% set miniHeroContent %}
+                                {{ headers.overlayText(
+                                tag = 'h3',
+                                text = '&ldquo;Putting people in the lead&rdquo;: Discover the strategic framework that guides our work',
+                                additionalClasses = 't3 overlay-text--wide svgs-white is-opaque',
+                                link = '#',
+                                showArrow = true
+                                )}}
+                            {% endset %}
+                            {{ hero.miniature(
+                            imagePath = 'images/about/dawn.jpg',
+                            imagePathMobile = 'images/about/dawn--mobile.jpg',
+                            imageCaption = 'Dawn Austwick, Chief Executive',
+                            link = '#',
+                            content = miniHeroContent
+                            )}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid__item column--second">
+                    <div class="spaced--x-l column__item">
+                        <aside class="accent--green d-expanded--l">
+                            {{ headers.overlayText('h4', 'In 2016/17 we awarded over £700 million, including 10,000 grants under £10,000', 't1 overlay-text--wide') }}
+                        </aside>
+                    </div>
+
+                    <div class="spaced--x-l column__item">
+                        <p>The National Lottery raises money for good causes, and makes a difference to people by transforming communities, protecting our heritage, enriching lives through arts, sports and culture.</p>
+                        <p>Communities come in all shapes and sizes and National Lottery funding is there for everyone.</p>
+                    </div>
+
+                    <div class="spaced--x-l column__item">
+                        <aside class="accent--green">
+                            {{ headers.overlayText('h4', 'We reached nearly 10 million people with our funding last year', 't1 overlay-text--wide') }}
+                        </aside>
+                    </div>
+
+                    <div class="spaced--x-l column__item">
+                        <p>We are the largest <a href="#">distributor</a> of National Lottery funding, established as a non- departmental public body by an <a href="#">Act of Parliament</a>.</p>
+
+                        <p>Our work is divided into five major portfolios covering funding across England, Northern Ireland, Wales, Scotland and the UK as a whole.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </article>
+
+{% endblock %}
