@@ -3,6 +3,7 @@
 
 // how much the hero text should appear from the bottom
 $heroSpaceFromBottom: 55px;
+$heroSpaceFromBottomMobile: 20px;
 $heroSpaceFromLeft: 20px;
 
 @mixin makeHeroImage($img) {
@@ -60,13 +61,16 @@ $heroSpaceFromLeft: 20px;
     span {
         position: absolute;
         height: $captionHeight;
-        bottom: $heroSpaceFromBottom - $captionHeight;
         right: 0;
         background-color: rgba(0, 0, 0, 0.4);
         padding: 4px;
         color: #ffffff;
         width: auto;
         font-size: 15px;
+        bottom: $heroSpaceFromBottomMobile - $captionHeight;
+        @include mq('tablet') {
+            bottom: $heroSpaceFromBottom - $captionHeight;
+        }
 
         .contrast--high & {
             background-color: #000000;
@@ -82,9 +86,10 @@ $heroSpaceFromLeft: 20px;
     }
 
     position: absolute;
-    bottom: $heroSpaceFromBottom;
+    bottom: $heroSpaceFromBottomMobile;
 
     @include mq('tablet') {
+        bottom: $heroSpaceFromBottom;
         padding-left: $heroSpaceFromLeft; // using left here shifts the whole box
     }
 }
