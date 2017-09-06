@@ -15,12 +15,12 @@ const freeMaterialsLogic = {
     orderKey: 'orderedMaterials'
 };
 
-module.exports = (pages, sectionId) => {
+module.exports = (pages, sectionPath, sectionId) => {
 
     /**
      * 1. Populate static pages
      */
-    routeStatic.initRouting(pages, router, sectionId);
+    routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     /**
      * 2. Manually specify any non-static pages
@@ -59,10 +59,6 @@ module.exports = (pages, sectionId) => {
     });
 
     // PAGE: free materials form
-    router.get(freeMaterials.aliases, (req, res, next) => {
-        res.redirect(req.baseUrl + freeMaterials.path);
-    });
-
     router.route([freeMaterials.path])
         .get((req, res, next) => {
 

@@ -2,9 +2,15 @@
 const config = require('config');
 
 const handlers = {
-    funding: (pages, sectionId) => require('./funding/index')(pages, sectionId),
-    toplevel: (pages, sectionId) => require('./toplevel/index')(pages, sectionId),
-    about: (pages, sectionId) => require('./about/index')(pages, sectionId)
+    funding: (pages, sectionPath, sectionId) => require('./funding/index')(pages, sectionPath, sectionId),
+    toplevel: (pages, sectionPath, sectionId) => require('./toplevel/index')(pages, sectionPath, sectionId),
+    about: (pages, sectionPath, sectionId) => require('./about/index')(pages, sectionPath, sectionId)
+};
+
+const sectionPaths = {
+    global: "",
+    funding: "/funding",
+    about: "/about"
 };
 
 // these top-level sections appear in the main site nav
@@ -14,7 +20,7 @@ const routes = {
         global: {
             name: "Global (top-level pages)",
             langTitlePath: "global.nav.home",
-            path: "",
+            path: sectionPaths.global,
             handler: handlers.toplevel,
             pages: {
                 home: {
@@ -42,12 +48,12 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        "/about-big/contact-us",
-                        "/help-and-support",
-                        "/england/about-big/contact-us",
-                        "/wales/about-big/contact-us",
-                        "/scotland/about-big/contact-us",
-                        "/northernireland/about-big/contact-us"
+                        sectionPaths.global + "/about-big/contact-us",
+                        sectionPaths.global + "/help-and-support",
+                        sectionPaths.global + "/england/about-big/contact-us",
+                        sectionPaths.global + "/wales/about-big/contact-us",
+                        sectionPaths.global + "/scotland/about-big/contact-us",
+                        sectionPaths.global + "/northernireland/about-big/contact-us"
                     ]
                 },
                 data: {
@@ -67,9 +73,9 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/about-big/jobs',
-                        '/about-big/jobs/how-to-apply',
-                        '/about-big/jobs/current-vacancies'
+                        sectionPaths.global + '/about-big/jobs',
+                        sectionPaths.global + '/about-big/jobs/how-to-apply',
+                        sectionPaths.global + '/about-big/jobs/current-vacancies'
                     ]
                 },
                 benefits: {
@@ -80,7 +86,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/about-big/jobs/benefits',
+                        sectionPaths.global + '/about-big/jobs/benefits',
                     ]
                 },
                 under10k: {
@@ -90,8 +96,7 @@ const routes = {
                     lang: "toplevel.under10k",
                     code: 29,
                     static: true,
-                    live: false,
-                    aliases: []
+                    live: false
                 },
                 over10k: {
                     name: "Over 10k",
@@ -100,8 +105,7 @@ const routes = {
                     lang: "toplevel.over10k",
                     code: 30,
                     static: true,
-                    live: false,
-                    aliases: []
+                    live: false
                 },
                 eyp: {
                     name: "Empowering Young People",
@@ -112,7 +116,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/global-content/programmes/northern-ireland/empowering-young-people'
+                        sectionPaths.global + '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
                 }
             }
@@ -120,7 +124,7 @@ const routes = {
         funding: {
             name: "Funding",
             langTitlePath: "global.nav.funding",
-            path: "/funding",
+            path: sectionPaths.funding,
             handler: handlers.funding,
             pages: {
                 logos: {
@@ -132,8 +136,8 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        "/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
-                        "/funding-guidance/managing-your-funding/logodownloads"
+                        sectionPaths.funding + "/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+                        sectionPaths.funding + "/funding-guidance/managing-your-funding/logodownloads"
                     ]
                 },
                 manageFunding: {
@@ -145,7 +149,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/funding-guidance/managing-your-funding/help-with-publicity'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity'
                     ]
                 },
                 freeMaterials: {
@@ -158,7 +162,7 @@ const routes = {
                     isPostable: true,
                     isWildcard: true,
                     aliases: [
-                        '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
                     ]
                 },
                 helpWithPublicity: {
@@ -184,7 +188,7 @@ const routes = {
         about: {
             name: "About",
             langTitlePath: "global.nav.about",
-            path: "/about",
+            path: sectionPaths.about,
             handler: handlers.about,
             pages: {
                 root: {

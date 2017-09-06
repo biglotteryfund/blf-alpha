@@ -125,12 +125,12 @@ let oldHomepage = (req, res, next) => {
     });
 };
 
-module.exports = (pages, sectionId) => {
+module.exports = (pages, sectionPath, sectionId) => {
 
     /**
      * 1. Populate static pages
      */
-    routeStatic.initRouting(pages, router, sectionId);
+    routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     // variant 0/A: existing site (proxied)
     router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
