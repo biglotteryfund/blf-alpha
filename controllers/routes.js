@@ -10,7 +10,8 @@ const handlers = {
 const sectionPaths = {
     global: "",
     funding: "/funding",
-    about: "/about"
+    about: "/about",
+    aboutLegacy: "/about-big" // used on the old site
 };
 
 // these top-level sections appear in the main site nav
@@ -198,7 +199,10 @@ const routes = {
                     lang: "toplevel.about",
                     code: 0,
                     static: true,
-                    live: false
+                    live: false,
+                    aliases: [
+                        sectionPaths.aboutLegacy
+                    ]
                 },
                 freedomOfInformation: {
                     name: "Freedom of Information",
@@ -207,7 +211,10 @@ const routes = {
                     lang: "about.foi",
                     code: 85,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        sectionPaths.aboutLegacy + "/customer-service/freedom-of-information"
+                    ]
                 },
                 dataProtection: {
                     name: "Data Protection",
@@ -216,7 +223,10 @@ const routes = {
                     lang: "about.dataProtection",
                     code: 84,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        sectionPaths.aboutLegacy + "/customer-service/data-protection"
+                    ]
                 }
             }
         }
