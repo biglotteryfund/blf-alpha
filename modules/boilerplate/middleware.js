@@ -14,8 +14,10 @@ const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 const models = require('../../models/index');
 const secrets = require('../../modules/secrets');
+const routes = require('../../controllers/routes');
 
 // load auth strategy
 require('../../modules/boilerplate/auth');
@@ -110,5 +112,11 @@ app.use((req, res, next) => {
         globals.set('highContrast', false);
     }
 
+    return next();
+});
+
+// get routes / current section
+app.use((req, res, next) => {
+    globals.set('routes', routes.sections);
     return next();
 });

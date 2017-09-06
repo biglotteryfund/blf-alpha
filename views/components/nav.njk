@@ -1,13 +1,13 @@
 {% macro navlinks(itemClass) %}
-    <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
-        <a href="{{ buildUrl('global', '/') }}">{{ __("global.nav.home") | safe }}</a>
-    </li>
-    <li{% if itemClass %} class="{{ itemClass }}"{% endif %}>
-        <a href="{{ buildUrl('funding') }}">{{ __("global.nav.funding") | safe }}</a>
-    </li>
-    <li{% if itemClass %} class="{{ itemClass }} {{ itemClass }}--last"{% endif %}>
-        <a href="{{ buildUrl('about-big') }}">{{ __("global.nav.about") | safe }}</a>
-    </li>
+    {% set isHomepage = false %}
+    {% if sectionId == 'global' and pageId == 'home' %}
+        {% set isHomepage = true %}
+    {% endif %}
+    {% for id, section in routes %}
+        <li class="{% if (isHomepage and id === 'global') or (not isHomepage and id === sectionId and id !== 'global') %}selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
+            <a href="{{ buildUrl(id) }}">{{ __(section.langTitlePath) }}</a>
+        </li>
+    {% endfor %}
     <li{% if itemClass %} class="nav__lang {{ itemClass }} {{ itemClass }}--last"{% endif %}>
         {% if locale == 'en' %}
             <a href="{{ getCurrentUrl('cy') }}">Cymraeg</a>

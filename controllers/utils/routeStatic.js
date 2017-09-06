@@ -1,7 +1,8 @@
 'use strict';
 
 // serve a static page (eg. no special dependencies)
-module.exports = (page, router) => {
+let servePage = (page, router) => {
+
     // redirect any aliases to the canonical path
     if (page.aliases && page.aliases.length > 0) {
         router.get(page.aliases, (req, res, next) => {
@@ -18,4 +19,43 @@ module.exports = (page, router) => {
             copy: lang
         });
     });
+
+};
+
+// set up path routing for a list of (static) pages
+let initRouting = (pages, router, sectionId) => {
+
+    // first inject the section middleware
+    injectSection(router, sectionId);
+
+    // then route pages
+    for (let pageId in pages) {
+        let page = pages[pageId];
+        injectPageId(router, page.path, pageId);
+        if (page.static) {
+            servePage(page, router);
+        }
+    }
+};
+
+// map this section ID (for all routes in this path)
+// middleware to add a section ID to requests with a known section
+// (eg. to mark a section as current in the nav)
+let injectSection = (router, sectionId) => {
+    router.use((req, res, next) => {
+        res.locals.sectionId = sectionId;
+        return next();
+    });
+};
+
+// map this page ID (only for this path)
+let injectPageId = (router, path, pageId) => {
+    router.use(path, (req, res, next) => {
+        res.locals.pageId = pageId;
+        return next();
+    });
+};
+
+module.exports = {
+    initRouting: initRouting
 };

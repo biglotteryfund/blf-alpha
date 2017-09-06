@@ -2,15 +2,18 @@
 const config = require('config');
 
 const handlers = {
-    funding: (c) => require('./funding/index')(c),
-    toplevel: (c) => require('./toplevel/index')(c),
-    about: (c) => require('./about/index')(c)
+    funding: (pages, sectionId) => require('./funding/index')(pages, sectionId),
+    toplevel: (pages, sectionId) => require('./toplevel/index')(pages, sectionId),
+    about: (pages, sectionId) => require('./about/index')(pages, sectionId)
 };
 
+// these top-level sections appear in the main site nav
+// (in the order presented here)
 const routes = {
     sections: {
         global: {
             name: "Global (top-level pages)",
+            langTitlePath: "global.nav.home",
             path: "",
             handler: handlers.toplevel,
             pages: {
@@ -123,36 +126,12 @@ const routes = {
                     aliases: [
                         '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
-                },
-            }
-        },
-        about: {
-            name: "About",
-            path: "/about-big",
-            handler: handlers.about,
-            pages: {
-                freedomOfInformation: {
-                    name: "Freedom of Information",
-                    path: "/customer-service/freedom-of-information",
-                    template: "pages/about/freedom-of-information",
-                    lang: "about.foi",
-                    code: 85,
-                    static: true,
-                    live: true
-                },
-                dataProtection: {
-                    name: "Data Protection",
-                    path: "/customer-service/data-protection",
-                    template: "pages/about/data-protection",
-                    lang: "about.dataProtection",
-                    code: 84,
-                    static: true,
-                    live: true
                 }
             }
         },
         funding: {
             name: "Funding",
+            langTitlePath: "global.nav.funding",
             path: "/funding",
             handler: handlers.funding,
             pages: {
@@ -213,7 +192,34 @@ const routes = {
                     live: true
                 }
             }
+        },
+        about: {
+            name: "About",
+            langTitlePath: "global.nav.about",
+            path: "/about-big",
+            handler: handlers.about,
+            pages: {
+                freedomOfInformation: {
+                    name: "Freedom of Information",
+                    path: "/customer-service/freedom-of-information",
+                    template: "pages/about/freedom-of-information",
+                    lang: "about.foi",
+                    code: 85,
+                    static: true,
+                    live: true
+                },
+                dataProtection: {
+                    name: "Data Protection",
+                    path: "/customer-service/data-protection",
+                    template: "pages/about/data-protection",
+                    lang: "about.dataProtection",
+                    code: 84,
+                    static: true,
+                    live: true
+                }
+            }
         }
+
     }
 };
 
