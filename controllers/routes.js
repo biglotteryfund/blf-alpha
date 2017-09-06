@@ -184,7 +184,7 @@ const routes = {
         about: {
             name: "About",
             langTitlePath: "global.nav.about",
-            path: "/about-big",
+            path: "/about",
             handler: handlers.about,
             pages: {
                 root: {
