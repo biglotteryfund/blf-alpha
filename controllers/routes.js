@@ -150,7 +150,9 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
+                        "/welcome",
+                        "/publicity"
                     ]
                 },
                 freeMaterials: {
@@ -163,7 +165,11 @@ const routes = {
                     isPostable: true,
                     isWildcard: true,
                     aliases: [
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
+                        '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
                     ]
                 },
                 helpWithPublicity: {
@@ -213,7 +219,8 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.aboutLegacy + "/customer-service/freedom-of-information"
+                        sectionPaths.aboutLegacy + "/customer-service/freedom-of-information",
+                        "/freedom-of-information"
                     ]
                 },
                 dataProtection: {
@@ -225,7 +232,8 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.aboutLegacy + "/customer-service/data-protection"
+                        sectionPaths.aboutLegacy + "/customer-service/data-protection",
+                        "/data-protection"
                     ]
                 }
             }
@@ -238,48 +246,29 @@ const anchors = config.get('anchors');
 
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.global.path + routes.sections.global.pages.contact.path,
-    managingFunding: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    freeMaterials: routes.sections.funding.path + routes.sections.funding.pages.freeMaterials.path
+    contact: routes.sections.global.path + routes.sections.global.pages.contact.path
 };
 
 const vanityRedirects = [
     {
-        name: "Publicity",
-        path: "/publicity",
-        destination: vanityDestinations.publicity,
-        aliasOnly: true
-    },
-    {
+        // this has to be here and not as an alias
+        // otherwise it won't be recognised as a welsh URL
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
         destination: '/welsh' + vanityDestinations.publicity,
         aliasOnly: true
     },
     {
-        name: "Managing Your Funding",
-        path: "/welcome",
-        destination: vanityDestinations.managingFunding,
-        aliasOnly: true
-    },
-    {
+        // this stays here (and not as an alias) as express doesn't care about URL case
+        // and this link is the same (besides case) as an existing alias
+        // (annoyingly, the Title Case version of this link persists on the web... for now.)
         name: "Logo page",
         path: "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
         destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
         aliasOnly: true
     },
-    {
-        name: "Data Protection",
-        path: "/data-protection",
-        destination: routes.sections.about.path + routes.sections.about.pages.dataProtection.path,
-        aliasOnly: true
-    },
-    {
-        name: "FOI",
-        path: "/freedom-of-information",
-        destination: routes.sections.about.path + routes.sections.about.pages.freedomOfInformation.path,
-        aliasOnly: true
-    },
+    // the following aliases use custom destinations (eg. with URL anchors)
+    // so can't live in the regular aliases section
     {
         name: "Contact press team",
         path: "/news-and-events/contact-press-team",
@@ -314,26 +303,6 @@ const vanityRedirects = [
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
-    },
-    {
-        name: "Free materials",
-        destination: vanityDestinations.freeMaterials,
-        paths: [
-            '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        ]
-    },
-    {
-        name: "Free materials (Welsh)",
-        destination: '/welsh' + vanityDestinations.freeMaterials,
-        paths: [
-            '/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
-        ]
     }
 ];
 
