@@ -185,7 +185,7 @@
 @include mq('tablet') {
     .column--second {
         .column__item {
-            padding-left: 50px;
+            padding-left: $spacingUnit * 2;
         }
     }
 }
