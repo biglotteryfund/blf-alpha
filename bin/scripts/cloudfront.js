@@ -93,7 +93,8 @@ let URLs = {
         makeUrlObject('/contrast/*', false, true),
         makeUrlObject('/error'),
         makeUrlObject('/tools/*', true, true),
-        makeUrlObject('/robots.txt')
+        makeUrlObject('/robots.txt'),
+        makeUrlObject('/ebulletin', true, false)
     ]
 };
 

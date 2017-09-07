@@ -42,13 +42,6 @@ const routes = {
                     static: false,
                     live: false
                 },
-                ebulletin: {
-                    name: "e-bulletin",
-                    path: "/ebulletin",
-                    static: false,
-                    live: false,
-                    isPostable: true
-                },
                 contact: {
                     name: "Contact",
                     path: "/contact",
