@@ -47,7 +47,7 @@
     "rootbeer": "^1.0.5",
     "sequelize": "^4.4.0",
     "serve-favicon": "^2.4.3",
-    "snyk": "^1.36.2",
+    "snyk": "^1.38.2",
     "twitter": "^1.7.1",
     "twitter-text": "^1.14.7",
     "vary": "^1.1.1",
