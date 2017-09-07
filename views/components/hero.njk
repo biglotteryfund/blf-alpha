@@ -19,7 +19,7 @@
     <div class="hero hero--miniature" role="complementary">
         <section class="hero__inner">
             {% if link %}<a href="{{ link }}">{% endif %}
-            <img src="{{ imagePath | getCachebustedPath }}" class="grid__item__poster hero-image--desktop" alt="{{ imageCaption }}" />
+            <img src="{{ imagePath | getCachebustedPath }}" class="grid__item__poster{% if imagePathMobile %} hero-image--desktop{% endif %}" alt="{{ imageCaption }}" />
             {% if imagePathMobile %}
                 <img src="{{ imagePathMobile | getCachebustedPath }}" class="grid__item__poster hero-image--mobile" alt="{{ imageCaption }}" />
             {% endif %}
