@@ -1,10 +1,10 @@
 {% macro navlinks(itemClass) %}
     {% set isHomepage = false %}
-    {% if sectionId == 'global' and pageId == 'home' %}
+    {% if sectionId == 'toplevel' and pageId == 'home' %}
         {% set isHomepage = true %}
     {% endif %}
     {% for id, section in routes %}
-        <li class="{% if (isHomepage and id === 'global') or (not isHomepage and id === sectionId and id !== 'global') %}selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
+        <li class="{% if (isHomepage and id === 'toplevel') or (not isHomepage and id === sectionId and id !== 'toplevel') %}selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
             <a href="{{ buildUrl(id) }}">{{ __(section.langTitlePath) }}</a>
         </li>
     {% endfor %}

@@ -74,11 +74,10 @@ setGlobal('buildUrl', (sectionName, pageName) => {
         return localePrefix + section.path + page.path;
     }
     catch (e) {
-        // pages from the "global" section have no prefix
+        // pages from the "toplevel" section have no prefix
         // and aliases don't drop into the above block
-        const IS_GLOBAL = (sectionName === 'global');
-        let url = IS_GLOBAL ? '' : '/' + sectionName;
-        // if (!IS_GLOBAL) { url += sectionName; }
+        const IS_TOP_LEVEL = (sectionName === 'toplevel');
+        let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
         if (pageName) { url += pageName; }
         url = localePrefix + url;
         // catch the edge case where we just want a link to the homepage in english

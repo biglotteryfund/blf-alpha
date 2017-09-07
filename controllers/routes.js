@@ -17,7 +17,7 @@ const controllers = {
 
 // configure base paths for site sections
 const sectionPaths = {
-    global: "",
+    toplevel: "",
     funding: "/funding",
     about: "/about",
     aboutLegacy: "/about-big" // used on the old site
@@ -27,10 +27,10 @@ const sectionPaths = {
 // (in the order presented here)
 const routes = {
     sections: {
-        global: {
-            name: "Global (top-level pages)",
+        toplevel: {
+            name: "Top-level pages",
             langTitlePath: "global.nav.home",
-            path: sectionPaths.global,
+            path: sectionPaths.toplevel,
             controller: controllers.toplevel,
             pages: {
                 home: {
@@ -51,12 +51,12 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.global + "/about-big/contact-us",
-                        sectionPaths.global + "/help-and-support",
-                        sectionPaths.global + "/england/about-big/contact-us",
-                        sectionPaths.global + "/wales/about-big/contact-us",
-                        sectionPaths.global + "/scotland/about-big/contact-us",
-                        sectionPaths.global + "/northernireland/about-big/contact-us"
+                        sectionPaths.toplevel + "/about-big/contact-us",
+                        sectionPaths.toplevel + "/help-and-support",
+                        sectionPaths.toplevel + "/england/about-big/contact-us",
+                        sectionPaths.toplevel + "/wales/about-big/contact-us",
+                        sectionPaths.toplevel + "/scotland/about-big/contact-us",
+                        sectionPaths.toplevel + "/northernireland/about-big/contact-us"
                     ]
                 },
                 data: {
@@ -76,9 +76,9 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.global + '/about-big/jobs',
-                        sectionPaths.global + '/about-big/jobs/how-to-apply',
-                        sectionPaths.global + '/about-big/jobs/current-vacancies'
+                        sectionPaths.toplevel + '/about-big/jobs',
+                        sectionPaths.toplevel + '/about-big/jobs/how-to-apply',
+                        sectionPaths.toplevel + '/about-big/jobs/current-vacancies'
                     ]
                 },
                 benefits: {
@@ -89,7 +89,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.global + '/about-big/jobs/benefits',
+                        sectionPaths.toplevel + '/about-big/jobs/benefits',
                     ]
                 },
                 under10k: {
@@ -119,7 +119,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.global + '/global-content/programmes/northern-ireland/empowering-young-people'
+                        sectionPaths.toplevel + '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
                 }
             }
@@ -247,7 +247,7 @@ const routes = {
 // for the sake of brevity, define some commonly-used paths rather than repeating them below
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.global.path + routes.sections.global.pages.contact.path
+    contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
 };
 
 // set up some URL redirects that can't be defined in the aliases on the routes above
