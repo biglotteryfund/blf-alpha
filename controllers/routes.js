@@ -1,12 +1,21 @@
 "use strict";
 const config = require('config');
+const anchors = config.get('anchors');
 
-const handlers = {
-    funding: (pages, sectionPath, sectionId) => require('./funding/index')(pages, sectionPath, sectionId),
-    toplevel: (pages, sectionPath, sectionId) => require('./toplevel/index')(pages, sectionPath, sectionId),
-    about: (pages, sectionPath, sectionId) => require('./about/index')(pages, sectionPath, sectionId)
+// pass some parameters onto each controller
+// so we can take route config and init all at once
+let loadController = (path) => {
+    return (pages, sectionPath, sectionId) => require(path)(pages, sectionPath, sectionId);
 };
 
+// define top-level controllers for the site
+const controllers = {
+    funding: loadController('./funding/index'),
+    toplevel: loadController('./toplevel/index'),
+    about: loadController('./about/index')
+};
+
+// configure base paths for site sections
 const sectionPaths = {
     global: "",
     funding: "/funding",
@@ -22,7 +31,7 @@ const routes = {
             name: "Global (top-level pages)",
             langTitlePath: "global.nav.home",
             path: sectionPaths.global,
-            handler: handlers.toplevel,
+            controller: controllers.toplevel,
             pages: {
                 home: {
                     name: "Home",
@@ -126,7 +135,7 @@ const routes = {
             name: "Funding",
             langTitlePath: "global.nav.funding",
             path: sectionPaths.funding,
-            handler: handlers.funding,
+            controller: controllers.funding,
             pages: {
                 logos: {
                     name: "Logos",
@@ -196,7 +205,7 @@ const routes = {
             name: "About",
             langTitlePath: "global.nav.about",
             path: sectionPaths.about,
-            handler: handlers.about,
+            controller: controllers.about,
             pages: {
                 root: {
                     name: "About",
@@ -242,13 +251,13 @@ const routes = {
     }
 };
 
-const anchors = config.get('anchors');
-
+// for the sake of brevity, define some commonly-used paths rather than repeating them below
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
     contact: routes.sections.global.path + routes.sections.global.pages.contact.path
 };
 
+// set up some URL redirects that can't be defined in the aliases on the routes above
 const vanityRedirects = [
     {
         // this has to be here and not as an alias
@@ -268,7 +277,7 @@ const vanityRedirects = [
         aliasOnly: true
     },
     // the following aliases use custom destinations (eg. with URL anchors)
-    // so can't live in the regular aliases section
+    // so can't live in the regular aliases section (as they all have the same destination)
     {
         name: "Contact press team",
         path: "/news-and-events/contact-press-team",
