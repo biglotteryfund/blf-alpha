@@ -9,3 +9,5 @@ patch:
   'npm:ms:20170412':
     - mocha > debug > ms:
         patched: '2017-07-19T09:16:50.362Z'
+    - phantomjs-prebuilt > extract-zip > debug > ms:
+        patched: '2017-08-16T09:11:45.508Z'

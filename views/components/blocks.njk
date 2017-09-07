@@ -7,7 +7,9 @@
         </div>
         <div class="card__body">
             <h4 class="t4">{{ project.name }}</h4>
-            {#<h6 class="t6">Grant amount {{ project.amount }}</h6>#}
+            {% if project.amount %}
+                <p class="card__subheader t7 accent--blue a--text">Grant amount {{ project.amount }}</p>
+            {% endif %}
             <p class="t7">{{ project.description }} <a href="{{ project.link }}" class="{{ accent }} a--text">Read more...</a></p>
         </div>
     </div>

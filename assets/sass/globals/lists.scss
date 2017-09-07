@@ -22,10 +22,28 @@
         margin-bottom: 10px;
         margin-top: 0;
     }
+
+    &.list-bullets--mob-friendly {
+        @include mq('tablet', 'max') {
+            li {
+                margin-bottom: $spacingUnit * 1.5;
+            }
+        }
+    }
+}
+
+ol.list-bullets li {
+    list-style-type: decimal;
 }
 
 .list-tweets {
     li {
         margin-left: 0;
+    }
+}
+
+.list--indented {
+    li {
+        margin-left: $spacingUnit * 3;
     }
 }

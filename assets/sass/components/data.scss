@@ -137,6 +137,11 @@
             z-index: 10;
             right: -$spacingUnit;
             top: 20px;
+            display: none;
+
+            &.pane--active {
+                display: block;
+            }
         }
 
         @include mq('desktop') {

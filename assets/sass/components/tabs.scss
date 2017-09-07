@@ -1,9 +1,6 @@
-.tabs {
-    display: none;
-
-    .js-on & {
-        display: block;
-    }
+// the tabs themselves (eq. square, blocky elements)
+.tabs__tabset {
+    background-color: #ffffff;
 
     li {
         font-family: 'Poppins', arial, sans-serif;
@@ -19,28 +16,121 @@
         text-decoration: none;
     }
 
-    .tab--active {
-        font-weight: 600;
-        border-bottom: 4px solid palette('pink');
-        a {
+    .tab {
+        &.tab--active {
+            font-weight: 600;
+            border-bottom: 4px solid palette('pink');
             color: palette('pink');
+            a {
+                color: palette('pink');
+            }
         }
     }
+
+    // hide main tabset for non-JS users
+    // (they get the accordion)
+    .no-js & {
+        display: none;
+    }
+
+    // also hide tabset on mobile
+    @include mq('tablet', 'max') {
+        display: none !important;
+    }
+
+    // hide tabsets on print
+    @media print {
+        display: none;
+    }
+
 }
-.js-on {
 
-    .tab-fallback-title {
-        display: none;
-    }
+.tab__pane--accordion {
 
-    // show/hide tab panes
-    .tab-pane {
-        display: none;
-        margin-top: 0;
+    $headerHorizontalSpace: 40px;
 
-        &.tab-pane--active {
+    // accordion headers (also shown for non-JS users)
+    header {
+        a {
             display: block;
+            background-color: palette('blue');
+            padding: 20px $headerHorizontalSpace;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 2px;
+            font-size: 20px;
+            font-weight: bold;
+
+            @media print {
+                background-color: #eeeeee;
+                color: #333333;
+            }
+
+            @include on-interact() {
+                background-color: darken(palette('blue'), 10%);
+            }
         }
     }
 
+    .js-on & {
+        header {
+            position: relative;
+
+            .tab__arrow {
+                position: absolute;
+                top: 0;
+                right: $headerHorizontalSpace;
+                height: 100%;
+                width: 45px;
+                pointer-events: none;
+
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+
+        &.pane--active {
+            > header {
+                a {
+                    background-color: #9e9e9e;
+                }
+                .tab__arrow {
+                    transform: rotate(180deg);
+                    //transition: transform 0.5s ease-in-out;
+                }
+            }
+        }
+    }
+
+}
+
+// the tab panes (eg. the content boxes displayed when tabs are clicked)
+.tab__pane {
+
+    .js-on & {
+
+        @include mq('tablet') {
+            header {
+                display: none;
+            }
+        }
+
+        article {
+            display: none;
+        }
+
+        &.pane--active {
+            > article {
+                display: block;
+            }
+        }
+    }
+
+    @media print {
+        article {
+            display: block !important;
+        }
+    }
 }

@@ -29,7 +29,7 @@
             },
             "description": "310mm x 260mm",
             "image": "plaque-perspex.jpg",
-            "outOfStock": true,
+            "outOfStock": false,
             "maximum": 1,
             "notAllowedWithItem": 3,
             "products": [
@@ -110,8 +110,8 @@
                 "cy": "Balwnau"
             },
             "description": {
-                "en": "pack of one",
-                "cy": "pecyn o ddeg"
+                "en": "individual",
+                "cy": "unigolyn"
             },
             "image": "balloons.jpg",
             "maximum": 10,
@@ -136,7 +136,7 @@
                 "en": "mixed sizes",
                 "cy": "meintiau cymysg"
             },
-            "image": "stickers.jpg",
+            "image": "sticker-sheet.jpg",
             "maximum": 10,
             "products": [
                 {
@@ -152,11 +152,11 @@
         {
             "id": 10,
             "name": {
-                "en": "Small sticker sheet",
-                "cy": "Taflen sticer bach"
+                "en": "Small sticker",
+                "cy": "Sticer bach"
             },
             "description": "75mm x 50mm",
-            "image": "stickers.jpg",
+            "image": "sticker-small.jpg",
             "maximum": 10,
             "products": [
                 {
@@ -172,11 +172,11 @@
         {
             "id": 11,
             "name": {
-                "en": "Medium sticker sheet",
-                "cy": "Taflen sticer canolig"
+                "en": "Medium sticker",
+                "cy": "Sticer canolig"
             },
             "description": "80mm x 70mm",
-            "image": "stickers.jpg",
+            "image": "sticker-medium.jpg",
             "maximum": 10,
             "products": [
                 {
@@ -192,11 +192,11 @@
         {
             "id": 11,
             "name": {
-                "en": "Large sticker sheet",
-                "cy": "Taflen sticer mawr"
+                "en": "Large sticker",
+                "cy": "Sticer mawr"
             },
             "description": "120mm x 100mm",
-            "image": "stickers.jpg",
+            "image": "sticker-large.jpg",
             "maximum": 10,
             "products": [
                 {

@@ -47,6 +47,18 @@ const routes = {
                         "/northernireland/about-big/contact-us"
                     ]
                 },
+                about: {
+                    name: "About",
+                    path: "/about",
+                    template: "pages/toplevel/about",
+                    lang: "toplevel.about",
+                    code: 0,
+                    static: true,
+                    live: false,
+                    aliases: [
+                        "/about-big",
+                    ]
+                },
                 data: {
                     name: "Data",
                     path: "/data",
@@ -99,7 +111,19 @@ const routes = {
                     static: true,
                     live: false,
                     aliases: []
-                }
+                },
+                eyp: {
+                    name: "Empowering Young People",
+                    path: "/empowering-young-people",
+                    template: "pages/toplevel/eyp",
+                    lang: "toplevel.eyp",
+                    code: 0,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        '/global-content/programmes/northern-ireland/empowering-young-people'
+                    ]
+                },
             }
         },
         about: {

@@ -1,8 +1,12 @@
 // blocked-out colourised background
 .overlay-text {
     width: 60%;
-    line-height: 1.6;
+    line-height: 1.4;
     margin: 0;
+
+    &.is-opaque {
+        line-height: 1.7;
+    }
 
     &.overlay-text--wide {
         width: 80%;
@@ -19,7 +23,7 @@
     span {
         color: #ffffff;
         display: inline;
-        padding: 0 5px;
+        padding: 2px 5px;
         // allows multi-line wrapped text to work
         box-decoration-break: clone;
     }

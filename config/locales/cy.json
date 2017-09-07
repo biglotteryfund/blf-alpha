@@ -230,7 +230,7 @@
 				},
 				"equalities": {
 					"title": "Cydraddoldeb",
-					"body": "<p>\tMae'r Gronfa Loteri Fawr  yn ymroddedig i hyrwyddo cydraddoldeb, nid yn unig fel ariannwr ond fel cyflogwr hefyd. Mae hyn yn golygu ein bod yn ystyried anghenion a phrofiadau pobl o gefndiroedd gwahanol (er enghraifft, fesul rhyw, hil, anabledd, cred grefyddol a thueddfryd rhywiol) ac rydym yn gweithio i sicrhau ein bod yn cynnig cyfle cyfartal i bawb. Mae'n bwysig i ni bod ein staff yn adlewyrchu amrywiaeth y cymunedau rydym yn eu gwasanaethu.  </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn ddefnyddio symbol y 'tic dwbl' ac yn ymrwymedig i gyfweld ag ymgeiswyr sydd ag anableddau os ydynt yn bodloni'r isafswm meini prawf ar gyfer swydd wag. Byddwn yn gwneud unrhyw addasiadau rhesymol ar gyfer ymgeiswyr anabl ym mhob cam o'r broses ddethol. I'n cynorthwyo ni, dylai ymgeiswyr ddatgan bod ganddynt anabledd ar y ffurflen gais, a'n hysbysu am unrhyw ofynion. </p><p>\tOs oes gennych anabledd sy'n eich atal rhag cwblhau ffurflen ar-lein, ffoniwch y ddesg gymorth AD ar 0121 345 8884 neu anfonwch e-bost i <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, byddwn yn falch o helpu. </p><p>\tMae gan y Gronfa Loteri Fawr fforwm anableddau sy'n agored i staff anabl a staff sydd â diddordeb mewn materion gysylltiedig ag anableddau at ddiben cefnogi, rhannu gwybodaeth a rhoi cyngor. </p><p>\tMae'r Gronfa Loteri Fawr yn falch o fod yn Hyrwyddwr Cydraddoldeb Stonewall, gan gefnogi ein hymrwymiad i fod yn lle gwych i weithio ar gyfer staff lesbiaidd, hoyw, deurywiol a thrawsryw (LHDT). Yn cydweithio'n agos â Stonewall, rydym wedi sefydlu rhwydwaith staff LHDT fel fforwm ar gyfer hyrwyddo cefnogaeth, rhannu gwybodaeth, dylanwadu ar bolisïau ac arferion y cwmni, ac ymdrin â materion LHDT yn y gwaith.</p>"
+					"body": "<p>Mae'r Gronfa Loteri Fawr yn ymroddedig i ddatblygu cydraddoldeb, nid yn unig fel ariannwr ond fel cyflogwr hefyd. Mae hyn yn golygu ein bod yn ystyried anghenion a phrofiadau pobl o gefndiroedd gwahanol (er enghraifft, fesul rhyw, hil, anabledd a thueddfryd rhywiol) ac rydym yn gweithio i sicrhau y cynigir cyfle cyfartal i bawb. Mae'n bwysig i ni  bod ein staff yn adlewyrchu amrywiaeth y cymunedau rydym yn eu gwasanaethu. </p><p>Mae'r Gronfa Loteri Fawr yn falch o fod yn ddefnyddio symbol y 'tic dwbl' ac yn ymrwymedig i gyfweld ag ymgeiswyr sydd ag anableddau os ydynt yn bodloni'r isafswm meini prawf ar gyfer swydd wag. Byddwn yn gwneud unrhyw addasiadau rhesymol ar gyfer ymgeiswyr anabl ym mhob cam o'r broses ddethol. I'n cynorthwyo ni, dylai ymgeiswyr ddatgan a oes ganddynt anabledd ar y ffurflen gais, a'n hysbysu am unrhyw ofynion. Os oes gennych anabledd sy'n eich atal rhag cwblhau ffurflen ar-lein, ffoniwch linell ymholiadau Cymru ar 0300 123 0735 neu anfonwch e-bost i <a href=\"mailto:cymru@cronfaloterifawr.org.uk\">cymru@cronfaloterifawr.org.uk</a> a byddwn yn falch o helpu. </p><p>Mae gan y Gronfa Loteri Fawr fforwm anableddau sy'n agored i staff anabl a staff sydd â diddordeb mewn materion gysylltiedig ag anableddau at ddiben cefnogaeth, rhannu gwybodaeth a rhoi cyngor.</p><p>Mae'r Gronfa Loteri Fawr yn falch o fod yn Hyrwyddwr Cydraddoldeb Stonewall, gan gefnogi ein hymrwymiad i fod yn lle gwych i weithio ar gyfer staff lesbiaidd, hoyw, deurywiol a thrawsryw (LHDT). Yn cydweithio'n agos â Stonewall, rydym wedi sefydlu rhwydwaith staff LGBT fel fforwm ar gyfer hyrwyddo cefnogaeth, rhannu gwybodaeth, dylanwadu ar bolisïau ac arferion y cwmni, ac ymdrin â materion LGBT yn y gwaith.</p><p>Rydym yn gwybod bod ein staff yn dod o amrywiaeth o gefndiroedd crefyddol ac rydym yn ymroddedig i gefnogi staff trwy weithio i gynnwys anghenion unigolion. Mae hyn yn cynnwys gwisg grefyddol, yr angen am weithio'n hyblyg er addoli ac amser i ffwrdd i fynd i wyliau crefyddol.</p>"
 				}
 			}
 		},
@@ -333,7 +333,10 @@
 			]
 		},
 		"under10k": "under10k",
-		"over10k": "over10k"
+		"over10k": "over10k",
+		"eyp": {
+			"title": "Empowering Young People"
+		}
 	},
 	"about": {
 		"foi": {
@@ -475,7 +478,7 @@
 				"title": "Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol!",
 				"body": {
 					"header1": "Rydych yn awr yn rhan o deulu o fudiadau anhygoel sy'n gwneud cymunedau ledled y Deyrnas Unedig yn lleoedd gwell i fyw.",
-					"block1": "<p>Rydym am i chi fod mor hyblyg a chreadigol â phosib wrth ddefnyddio'ch arian grant. Er hynny, mae'n rhaid i chi gyhoeddi eich dyfarniad grant yn gyhoeddus. Rydym am i chi wneud hyn mewn amrywiaeth o ffyrdd, ond dyma rai y dylech eu hystyried:</p>",
+					"block1": "<p>Gofynnwn i chi gydnabod eich dyfarniad ariannu’n gyhoeddus. Er yr hoffem eich gweld yn defnyddio amrywiaeth o ddulliau o wneud hyn, dyma rai y dylech eu hystyried:</p>",
 					"actions": {
 						"social": "Dywedwch wrth bawb am eich grant ar gyfryngau cymdeithasol",
 						"press": "Cysylltwch â'ch gwasg leol",

@@ -12,13 +12,12 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 ## To fix
 - [ ] CSRF
 - [ ] google tag manager / experiment for homepage?
-- [ ] data/app violating CSP (google cx api)
-- [ ] failing tests don't stop commits/builds?!
+- [ ] data/application base64 JS violating CSP (google cx api)
 - [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
-- [ ] tabs should be selectable from links too
+- [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
+- [ ] live app sends tracking data to google on AWS URL
 
 ## Tech debt
-- [ ] print stylesheet
 - [ ] form errors on order form return users to unselected tab
 - [ ] specify a db pool size
 - [ ] add a way to highlight current section in nav
