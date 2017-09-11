@@ -9,8 +9,6 @@ const router = new Grapnel({ pushState : true });
 const Vue = require('./libs/vue');
 Vue.options.delimiters = ['<%', '%>'];
 
-console.log('Hello Newcastle!');
-
 // load internal modules
 require('./modules/carousel').init();
 require('./modules/tabs').init();
