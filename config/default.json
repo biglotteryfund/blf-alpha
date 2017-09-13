@@ -1,6 +1,7 @@
 {
     "staticExpiration": 1,
     "viewCacheExpiration": 300,
+    "siteDomain": "www.biglotteryfund.org.uk",
     "meta": {
         "title": "The Big Lottery Fund",
         "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery."

@@ -42,6 +42,14 @@
             </div>
         </div>
 
+        {# global config items #}
+        <script>
+            {# allows us to disable google analytics on live env when loaded via EC2/ELB and not the real domain #}
+            {# eg to avoid polluting data with extra domains #}
+            window._BLF = {
+                blockAnalytics: ({{ appData.environment == 'production' }} && window.location.hostname !== "{{ appData.config.get('siteDomain') }}")
+            };
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="//www.google-analytics.com/cx/api.js"></script>
         <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
