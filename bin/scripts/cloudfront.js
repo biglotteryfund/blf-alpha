@@ -94,7 +94,7 @@ let URLs = {
         makeUrlObject('/error'),
         makeUrlObject('/tools/*', true, true),
         makeUrlObject('/robots.txt'),
-        makeUrlObject('/ebulletin', true, false)
+        // makeUrlObject('/ebulletin', true, false) @TODO add when launching homepage
     ]
 };
 
