@@ -24,16 +24,16 @@ const cymreigio = (mountPath) => {
 };
 
 // route binding
-for (let section in routes.sections) {
-    let s = routes.sections[section];
-    // turn /funding into /welsh/funding
-    let paths = cymreigio(s.path);
-    // create route handlers for each page path
-    let handler = s.handler(s.pages);
-    // map the top-level section paths (en/cy) to handlers
-    paths.forEach(path => {
+for (let sectionId in routes.sections) {
+    let s = routes.sections[sectionId];
+    // turn '/funding' into ['/funding', '/welsh/funding']
+    let sectionPaths = cymreigio(s.path);
+    // init route controller for each page path
+    let controller = s.controller(s.pages, s.path, sectionId);
+    // map the top-level section paths (en/cy) to controllers
+    sectionPaths.forEach(path => {
         // (adding these as an array fails for welsh paths)
-        app.use(path, handler);
+        app.use(path, controller);
     });
 }
 

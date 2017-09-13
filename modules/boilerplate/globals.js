@@ -65,6 +65,7 @@ setGlobal('getFlash', (req, key, innerKey) => {
 });
 
 // linkbuilder function for helping with routes
+// @TODO this is a bit brittle/messy, could do with a cleanup
 setGlobal('buildUrl', (sectionName, pageName) => {
     let localePrefix = getGlobal('localePrefix');
     let section = routes.sections[sectionName];
@@ -73,13 +74,15 @@ setGlobal('buildUrl', (sectionName, pageName) => {
         return localePrefix + section.path + page.path;
     }
     catch (e) {
-        // pages from the "global" section have no prefix
+        // pages from the "toplevel" section have no prefix
         // and aliases don't drop into the above block
-        const IS_GLOBAL = (sectionName === 'global');
-        let url = IS_GLOBAL ? '' : '/';
-        if (!IS_GLOBAL) { url += sectionName; }
+        const IS_TOP_LEVEL = (sectionName === 'toplevel');
+        let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
         if (pageName) { url += pageName; }
-        return localePrefix + url;
+        url = localePrefix + url;
+        // catch the edge case where we just want a link to the homepage in english
+        if (url === "") { url = '/'; }
+        return url;
     }
 });
 

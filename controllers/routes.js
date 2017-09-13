@@ -1,18 +1,37 @@
 "use strict";
 const config = require('config');
+const anchors = config.get('anchors');
 
-const handlers = {
-    funding: (c) => require('./funding/index')(c),
-    toplevel: (c) => require('./toplevel/index')(c),
-    about: (c) => require('./about/index')(c)
+// pass some parameters onto each controller
+// so we can take route config and init all at once
+let loadController = (path) => {
+    return (pages, sectionPath, sectionId) => require(path)(pages, sectionPath, sectionId);
 };
 
+// define top-level controllers for the site
+const controllers = {
+    funding: loadController('./funding/index'),
+    toplevel: loadController('./toplevel/index'),
+    about: loadController('./about/index')
+};
+
+// configure base paths for site sections
+const sectionPaths = {
+    toplevel: "",
+    funding: "/funding",
+    about: "/about",
+    aboutLegacy: "/about-big" // used on the old site
+};
+
+// these top-level sections appear in the main site nav
+// (in the order presented here)
 const routes = {
     sections: {
-        global: {
-            name: "Global (top-level pages)",
-            path: "",
-            handler: handlers.toplevel,
+        toplevel: {
+            name: "Top-level pages",
+            langTitlePath: "global.nav.home",
+            path: sectionPaths.toplevel,
+            controller: controllers.toplevel,
             pages: {
                 home: {
                     name: "Home",
@@ -23,13 +42,6 @@ const routes = {
                     static: false,
                     live: false
                 },
-                ebulletin: {
-                    name: "e-bulletin",
-                    path: "/ebulletin",
-                    static: false,
-                    live: false,
-                    isPostable: true
-                },
                 contact: {
                     name: "Contact",
                     path: "/contact",
@@ -39,24 +51,12 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        "/about-big/contact-us",
-                        "/help-and-support",
-                        "/england/about-big/contact-us",
-                        "/wales/about-big/contact-us",
-                        "/scotland/about-big/contact-us",
-                        "/northernireland/about-big/contact-us"
-                    ]
-                },
-                about: {
-                    name: "About",
-                    path: "/about",
-                    template: "pages/toplevel/about",
-                    lang: "toplevel.about",
-                    code: 0,
-                    static: true,
-                    live: false,
-                    aliases: [
-                        "/about-big",
+                        sectionPaths.toplevel + "/about-big/contact-us",
+                        sectionPaths.toplevel + "/help-and-support",
+                        sectionPaths.toplevel + "/england/about-big/contact-us",
+                        sectionPaths.toplevel + "/wales/about-big/contact-us",
+                        sectionPaths.toplevel + "/scotland/about-big/contact-us",
+                        sectionPaths.toplevel + "/northernireland/about-big/contact-us"
                     ]
                 },
                 data: {
@@ -76,9 +76,9 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/about-big/jobs',
-                        '/about-big/jobs/how-to-apply',
-                        '/about-big/jobs/current-vacancies'
+                        sectionPaths.toplevel + '/about-big/jobs',
+                        sectionPaths.toplevel + '/about-big/jobs/how-to-apply',
+                        sectionPaths.toplevel + '/about-big/jobs/current-vacancies'
                     ]
                 },
                 benefits: {
@@ -89,7 +89,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/about-big/jobs/benefits',
+                        sectionPaths.toplevel + '/about-big/jobs/benefits',
                     ]
                 },
                 under10k: {
@@ -99,8 +99,7 @@ const routes = {
                     lang: "toplevel.under10k",
                     code: 29,
                     static: true,
-                    live: false,
-                    aliases: []
+                    live: false
                 },
                 over10k: {
                     name: "Over 10k",
@@ -109,8 +108,7 @@ const routes = {
                     lang: "toplevel.over10k",
                     code: 30,
                     static: true,
-                    live: false,
-                    aliases: []
+                    live: false
                 },
                 eyp: {
                     name: "Empowering Young People",
@@ -121,40 +119,16 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/global-content/programmes/northern-ireland/empowering-young-people'
+                        sectionPaths.toplevel + '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
-                },
-            }
-        },
-        about: {
-            name: "About",
-            path: "/about-big",
-            handler: handlers.about,
-            pages: {
-                freedomOfInformation: {
-                    name: "Freedom of Information",
-                    path: "/customer-service/freedom-of-information",
-                    template: "pages/about/freedom-of-information",
-                    lang: "about.foi",
-                    code: 85,
-                    static: true,
-                    live: true
-                },
-                dataProtection: {
-                    name: "Data Protection",
-                    path: "/customer-service/data-protection",
-                    template: "pages/about/data-protection",
-                    lang: "about.dataProtection",
-                    code: 84,
-                    static: true,
-                    live: true
                 }
             }
         },
         funding: {
             name: "Funding",
-            path: "/funding",
-            handler: handlers.funding,
+            langTitlePath: "global.nav.funding",
+            path: sectionPaths.funding,
+            controller: controllers.funding,
             pages: {
                 logos: {
                     name: "Logos",
@@ -165,8 +139,8 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        "/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
-                        "/funding-guidance/managing-your-funding/logodownloads"
+                        sectionPaths.funding + "/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+                        sectionPaths.funding + "/funding-guidance/managing-your-funding/logodownloads"
                     ]
                 },
                 manageFunding: {
@@ -178,7 +152,9 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        '/funding-guidance/managing-your-funding/help-with-publicity'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
+                        "/welcome",
+                        "/publicity"
                     ]
                 },
                 freeMaterials: {
@@ -191,7 +167,11 @@ const routes = {
                     isPostable: true,
                     isWildcard: true,
                     aliases: [
-                        '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales'
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
+                        '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+                        '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
                     ]
                 },
                 helpWithPublicity: {
@@ -213,56 +193,84 @@ const routes = {
                     live: true
                 }
             }
+        },
+        about: {
+            name: "About",
+            langTitlePath: "global.nav.about",
+            path: sectionPaths.about,
+            controller: controllers.about,
+            pages: {
+                root: {
+                    name: "About",
+                    path: "/",
+                    template: "pages/toplevel/about",
+                    lang: "toplevel.about",
+                    code: 0,
+                    static: true,
+                    live: false,
+                    aliases: [
+                        sectionPaths.aboutLegacy
+                    ]
+                },
+                freedomOfInformation: {
+                    name: "Freedom of Information",
+                    path: "/customer-service/freedom-of-information",
+                    template: "pages/about/freedom-of-information",
+                    lang: "about.foi",
+                    code: 85,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        sectionPaths.aboutLegacy + "/customer-service/freedom-of-information",
+                        "/freedom-of-information"
+                    ]
+                },
+                dataProtection: {
+                    name: "Data Protection",
+                    path: "/customer-service/data-protection",
+                    template: "pages/about/data-protection",
+                    lang: "about.dataProtection",
+                    code: 84,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        sectionPaths.aboutLegacy + "/customer-service/data-protection",
+                        "/data-protection"
+                    ]
+                }
+            }
         }
+
     }
 };
 
-const anchors = config.get('anchors');
-
+// for the sake of brevity, define some commonly-used paths rather than repeating them below
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.global.path + routes.sections.global.pages.contact.path,
-    managingFunding: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    freeMaterials: routes.sections.funding.path + routes.sections.funding.pages.freeMaterials.path
+    contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
 };
 
+// set up some URL redirects that can't be defined in the aliases on the routes above
 const vanityRedirects = [
     {
-        name: "Publicity",
-        path: "/publicity",
-        destination: vanityDestinations.publicity,
-        aliasOnly: true
-    },
-    {
+        // this has to be here and not as an alias
+        // otherwise it won't be recognised as a welsh URL
         name: "Publicity (Welsh)",
         path: "/cyhoeddusrwydd",
         destination: '/welsh' + vanityDestinations.publicity,
         aliasOnly: true
     },
     {
-        name: "Managing Your Funding",
-        path: "/welcome",
-        destination: vanityDestinations.managingFunding,
-        aliasOnly: true
-    },
-    {
+        // this stays here (and not as an alias) as express doesn't care about URL case
+        // and this link is the same (besides case) as an existing alias
+        // (annoyingly, the Title Case version of this link persists on the web... for now.)
         name: "Logo page",
         path: "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
         destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
         aliasOnly: true
     },
-    {
-        name: "Data Protection",
-        path: "/data-protection",
-        destination: routes.sections.about.path + routes.sections.about.pages.dataProtection.path,
-        aliasOnly: true
-    },
-    {
-        name: "FOI",
-        path: "/freedom-of-information",
-        destination: routes.sections.about.path + routes.sections.about.pages.freedomOfInformation.path,
-        aliasOnly: true
-    },
+    // the following aliases use custom destinations (eg. with URL anchors)
+    // so can't live in the regular aliases section (as they all have the same destination)
     {
         name: "Contact press team",
         path: "/news-and-events/contact-press-team",
@@ -297,26 +305,6 @@ const vanityRedirects = [
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
-    },
-    {
-        name: "Free materials",
-        destination: vanityDestinations.freeMaterials,
-        paths: [
-            '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        ]
-    },
-    {
-        name: "Free materials (Welsh)",
-        destination: '/welsh' + vanityDestinations.freeMaterials,
-        paths: [
-            '/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/welsh/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
-        ]
     }
 ];
 

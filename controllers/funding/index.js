@@ -15,23 +15,20 @@ const freeMaterialsLogic = {
     orderKey: 'orderedMaterials'
 };
 
-module.exports = (pages) => {
+module.exports = (pages, sectionPath, sectionId) => {
 
     /**
      * 1. Populate static pages
      */
-    for (let page in pages) {
-        if (pages[page].static) {
-            routeStatic(pages[page], router);
-        }
-    }
+    routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     /**
      * 2. Manually specify any non-static pages
      */
 
-        // PAGE: free materials update endpoint
+    // PAGE: free materials update endpoint
     const freeMaterials = pages.freeMaterials;
+
     // handle adding/removing items
     router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
         // this page is dynamic so don't cache it
@@ -62,10 +59,6 @@ module.exports = (pages) => {
     });
 
     // PAGE: free materials form
-    router.get(freeMaterials.aliases, (req, res, next) => {
-        res.redirect(req.baseUrl + freeMaterials.path);
-    });
-
     router.route([freeMaterials.path])
         .get((req, res, next) => {
 

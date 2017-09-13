@@ -93,7 +93,8 @@ let URLs = {
         makeUrlObject('/contrast/*', false, true),
         makeUrlObject('/error'),
         makeUrlObject('/tools/*', true, true),
-        makeUrlObject('/robots.txt')
+        makeUrlObject('/robots.txt'),
+        makeUrlObject('/ebulletin', true, false)
     ]
 };
 
@@ -206,7 +207,7 @@ for (let s in routes.sections) {
             URLs.newSite.push(makeUrlObject(welshUrl, page.isPostable));
             if (page.aliases) {
                 page.aliases.forEach(alias => {
-                    let url = section.path + alias;
+                    let url = alias;
                     let welshUrl = '/welsh' + url;
                     URLs.newSite.push(makeUrlObject(url));
                     URLs.newSite.push(makeUrlObject(welshUrl));
