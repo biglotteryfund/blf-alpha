@@ -80,9 +80,12 @@
 
                     <div class="card__media">
                         {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
-                        <div class="material-item__media"
-                             style="background-image: url({{ imgPath | getCachebustedPath }}">
-                        </div>
+                        {% set imgPath = imgPath | getCachebustedPath %}
+                        <a class="material-item__media"
+                             style="background-image: url({{ imgPath }}"
+                             href="{{ imgPath }}"
+                             target="_blank">
+                        </a>
                     </div>
 
                     <aside class="material-item__actions">
