@@ -41,6 +41,8 @@ describe('Express application', () => {
             .get('/legacy')
             .end((err, res) => {
                 // verify the page is coming from a microsoft stack
+                // @TODO these headers may be removed from the legacy site
+                // so we might need a more reliable test here
                 res.should.have.header('X-Powered-By', /^ASP\.NET/);
                 res.should.have.header('X-AspNet-Version');
                 res.should.have.status(200);

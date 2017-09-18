@@ -11,7 +11,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 
 ## Tech debt
 - [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
-- [ ] advice legacy site on security headers (https://securityheaders.io/?q=https%3A%2F%2Fwww.biglotteryfund.org.uk&followRedirects=on)
 - [ ] form errors on order form return users to unselected tab
 - [ ] specify a db pool size
 - [ ] use production version of vue in non-dev envs (webpack branch fixes this)
