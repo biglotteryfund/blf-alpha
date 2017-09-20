@@ -19,7 +19,7 @@ const controllers = {
 const sectionPaths = {
     toplevel: "",
     funding: "/funding",
-    about: "/about",
+    about: "/about-big", // @TODO rename on launch
     aboutLegacy: "/about-big" // used on the old site
 };
 
@@ -194,7 +194,8 @@ const routes = {
                 }
             }
         },
-        about: {
+        // @TODO rename this to 'about' when ready to launch /about
+        "about-big": {
             name: "About",
             langTitlePath: "global.nav.about",
             path: sectionPaths.about,
@@ -209,7 +210,7 @@ const routes = {
                     static: true,
                     live: false,
                     aliases: [
-                        sectionPaths.aboutLegacy
+                        // sectionPaths.aboutLegacy
                     ]
                 },
                 freedomOfInformation: {
@@ -221,7 +222,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.aboutLegacy + "/customer-service/freedom-of-information",
+                        // sectionPaths.aboutLegacy + "/customer-service/freedom-of-information",
                         "/freedom-of-information"
                     ]
                 },
@@ -234,7 +235,7 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.aboutLegacy + "/customer-service/data-protection",
+                        // sectionPaths.aboutLegacy + "/customer-service/data-protection",
                         "/data-protection"
                     ]
                 }
@@ -305,11 +306,6 @@ const vanityRedirects = [
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
-    },
-    {
-        name: "About page (temp - delete when about page launches)",
-        path: '/about',
-        destination: '/about-big'
     }
 ];
 
