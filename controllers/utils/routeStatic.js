@@ -46,6 +46,16 @@ let injectPageId = (router, path, pageId) => {
     });
 };
 
+// add the request object as a local variable
+// for URL rewriting in templates
+// (eg. locale versions, high-contrast redirect etc)
+let injectUrlRequest = (router, path) => {
+    router.use(path, (req, res, next) => {
+        res.locals.request = req;
+        return next();
+    });
+};
+
 // set up path routing for a list of (static) pages
 let initRouting = (pages, router, sectionPath, sectionId) => {
 
@@ -58,6 +68,9 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
 
         // add the page ID to the request
         injectPageId(router, page.path, pageId);
+
+        // store the requested URL for templates to use
+        injectUrlRequest(router, page.path);
 
         // redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);

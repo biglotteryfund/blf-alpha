@@ -53,7 +53,7 @@ setGlobal('getFormErrorForField', (errorList, fieldName) => {
 
 // utility to get flash messages in templates (this can cause race conditions otherwise)
 setGlobal('getFlash', (req, key, innerKey) => {
-    if (req.flash) {
+    if (req && req.flash) {
         if (req.flash(key)) {
             if (!innerKey) {
                 return req.flash(key);
@@ -87,29 +87,30 @@ setGlobal('buildUrl', (sectionName, pageName) => {
 });
 
 // look up the current URL and rewrite to another locale
-let getCurrentUrl = (req, locale) => {
+let getCurrentUrl = function (req, locale) {
+    let currentPath = req.originalUrl;
+
     // is this an HTTPS request? make the URL protocol work
     let headerProtocol = req.get('X-Forwarded-Proto');
     let protocol = (headerProtocol) ? headerProtocol : req.protocol;
-    let currentUrl = protocol + "://" + req.get('host') + req.originalUrl;
+    let currentUrl = protocol + "://" + req.get('host') + currentPath;
+
     // is the current URL welsh or english?
     const CYMRU_URL = /\/welsh(\/|$)/;
     const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
     const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
+
     // rewrite URL to requested language
     if (locale === 'cy' && !IS_WELSH) { // make this URL welsh
-        currentUrl = protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + req.originalUrl;
+        currentUrl = protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
     } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
         currentUrl = currentUrl.replace(CYMRU_URL, '/');
     }
+
     return currentUrl;
 };
 
-// get URL middleware
-app.use((req, res, next) => {
-    setGlobal('getCurrentUrl', (locale) => getCurrentUrl(req, locale));
-    return next();
-});
+setGlobal('getCurrentUrl', getCurrentUrl);
 
 module.exports = {
     get: getGlobal,

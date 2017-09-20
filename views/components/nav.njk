@@ -10,9 +10,9 @@
     {% endfor %}
     <li{% if itemClass %} class="nav__lang {{ itemClass }} {{ itemClass }}--last"{% endif %}>
         {% if locale == 'en' %}
-            <a href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+            <a href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
         {% else %}
-            <a href="{{ getCurrentUrl('en') }}">English</a>
+            <a href="{{ getCurrentUrl(request, 'en') }}">English</a>
         {% endif %}
     </li>
     <li class="nav__search">

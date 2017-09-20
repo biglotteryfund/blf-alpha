@@ -5,7 +5,8 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="{% if title %}{{ title }} | {{ metadata.title }}{% else %}{{ metadata.title }}{% endif %}">
         <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
-        <meta property="og:url" content="{{ getCurrentUrl() }}">
+        <meta property="og:url" content="{{ getCurrentUrl(request) }}">
+
 
         {# tiles/themes #}
         <meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">
