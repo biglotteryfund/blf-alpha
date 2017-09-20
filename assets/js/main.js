@@ -72,23 +72,25 @@ if (!_BLF.blockAnalytics) { // set in main.njk
         a.src = g;
         m.parentNode.insertBefore(a, m);
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
     ga('create', uaCode, {
         'cookieDomain': 'none'
     });
-}
-// initialise A/B tests
-let ab = {
-    id: $thisScript.data('ab-id'),
-    variant: $thisScript.data('ab-variant')
-};
 
-if (ab.id && ab.variant) {
-    ga('set', 'expId', ab.id);
-    ga('set', 'expVar', ab.variant);
-    cxApi.setChosenVariation(ab.variant, ab.id);
-}
+    // initialise A/B tests
+    let ab = {
+        id: $thisScript.data('ab-id'),
+        variant: $thisScript.data('ab-variant')
+    };
 
-ga('send', 'pageview');
+    if (ab.id && ab.variant) {
+        ga('set', 'expId', ab.id);
+        ga('set', 'expVar', ab.variant);
+        cxApi.setChosenVariation(ab.variant, ab.id);
+    }
+
+    ga('send', 'pageview');
+}
 
 $('.js-track-clicks').on('click', function () {
     let category = $(this).data('category');
