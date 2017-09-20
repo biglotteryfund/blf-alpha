@@ -305,6 +305,11 @@ const vanityRedirects = [
         name: "Fraud page (Welsh)",
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
+    },
+    {
+        name: "About page (temp - delete when about page launches)",
+        path: '/about',
+        destination: '/about-big'
     }
 ];
 
