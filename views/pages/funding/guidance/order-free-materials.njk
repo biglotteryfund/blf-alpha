@@ -1,6 +1,6 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
-{% import "components/forms.njk" as forms %}
+{% from "components/forms.njk" import input with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -169,7 +169,7 @@
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
                             {% for field in formFields %}
-                                <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
+                                <li class="grid__item">{{ input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
                             {% endfor %}
                             <li class="grid__item">
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}

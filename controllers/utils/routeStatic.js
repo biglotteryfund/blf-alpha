@@ -83,5 +83,6 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
 };
 
 module.exports = {
-    initRouting: initRouting
+    initRouting: initRouting,
+    injectUrlRequest: injectUrlRequest
 };

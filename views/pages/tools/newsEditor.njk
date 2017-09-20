@@ -1,7 +1,7 @@
-{% import "../../components/forms.njk" as forms %}
 {% extends "../../layouts/tools.njk" %}
+{% from "../../components/forms.njk" import input with context %}
 
-{% block title %}News editor | {% if locale == 'en' %}English{% else %}Welsh{% endif %}{% endblock %}
+{% block title %}News editor{% endblock %}
 
 {% block headerAction %}
     <form class="navbar-form navbar-right">
@@ -29,25 +29,25 @@
             <div class="col-sm-6">
                 <h3>English</h3>
                 <div class="form-group">
-                    {{ forms.input('title_en', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
+                    {{ input('title_en', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. National Lottery funding boost for Ardrossan', charLimit = 70) }}
                 </div>
                 <div class="form-group">
-                    {{ forms.input('text_en', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
+                    {{ input('text_en', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
                 </div>
                 <div class="form-group">
-                    {{ forms.input('link_en', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                    {{ input('link_en', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
                 </div>
             </div>
             <div class="col-sm-6">
                 <h3>Welsh</h3>
                 <div class="form-group">
-                    {{ forms.input('title_cy', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. Rhowch amser i roi diolch i’ch gwirfoddolwyr', charLimit = 70) }}
+                    {{ input('title_cy', 'Title', 'text', required = true, extraClasses = 'form-control', helpText = 'eg. Rhowch amser i roi diolch i’ch gwirfoddolwyr', charLimit = 70) }}
                 </div>
                 <div class="form-group">
-                    {{ forms.input('text_cy', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
+                    {{ input('text_cy', 'Summary', 'textarea', required = true, extraClasses = 'form-control', helpText = 'A few lines of summary text about this story', charLimit = 140) }}
                 </div>
                 <div class="form-group">
-                    {{ forms.input('link_cy', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
+                    {{ input('link_cy', 'Link', 'text', required = true, extraClasses = 'form-control', helpText = 'A link to read the full article') }}
                 </div>
             </div>
 

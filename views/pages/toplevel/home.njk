@@ -1,6 +1,6 @@
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/headers.njk" as headers %}
-{% import "../../components/forms.njk" as forms %}
+{% from "../../components/forms.njk" import input, radios with context %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -164,7 +164,7 @@
 
                             <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
                                 <span class="visually-hidden" id="aria-form-loc">Location</span>
-                                {{ forms.radios('location', [
+                                {{ radios('location', [
                                     ['England', 'en', 'cd_ENGLAND_MAIL'],
                                     ['Wales', 'cy', 'cd_WALES_MAIL'],
                                     ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
@@ -173,11 +173,11 @@
                             </div>
 
                             <div class="grid grid--padded clear-both">
-                                {{ forms.input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item') }}
-                                {{ forms.input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item') }}
                             </div>
-                            {{ forms.input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
-                            {{ forms.input('Email', 'Email', 'email', required = true) }}
+                            {{ input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
+                            {{ input('Email', 'Email', 'email', required = true) }}
 
                             <input type="submit" value="Subscribe" class="btn btn--small accent--pink a--btn form-ebulletin__btn" />
                         {% endif %}

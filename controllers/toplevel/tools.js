@@ -10,6 +10,7 @@ const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
+const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
 const isAuthenticated = require('../../modules/authed');
 
@@ -70,6 +71,7 @@ router.get('/status/pages', (req, res, next) => {
 
 // login auth
 const loginPath = '/tools/login';
+routeStatic.injectUrlRequest(router, loginPath);
 router.get(loginPath, (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
@@ -119,7 +121,9 @@ router.get('/tools/logout', (req, res)  => {
 });
 
 // language file editor tool
-router.route('/tools/locales/')
+let localeEditorPath = '/tools/locales/';
+routeStatic.injectUrlRequest(router, localeEditorPath);
+router.route(localeEditorPath)
     .get(isAuthenticated, (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
@@ -179,6 +183,7 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
 
 // edit news articles
 const editNewsPath = '/tools/edit-news';
+routeStatic.injectUrlRequest(router, editNewsPath);
 router.route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
         // don't cache this page!
