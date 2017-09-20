@@ -5,8 +5,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 ## To fix
 - [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] homepage: data/application base64 JS is violating CSP (google cx api)
-- [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
-- [ ] race condition means language switcher can point to wrong URL if multiple pages requested at once
 - [ ] CSRF: how to approach when pages are cached?
 
 ## Tech debt
