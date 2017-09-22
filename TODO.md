@@ -1,5 +1,4 @@
 # App todo
-
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## To fix
@@ -8,15 +7,15 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] CSRF: how to approach when pages are cached?
 
 ## Tech debt
-- [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
-- [ ] form errors on order form return users to unselected tab
-- [ ] specify a db pool size
-- [ ] use production version of vue in non-dev envs (webpack branch fixes this)
-- [ ] find solution to hardcoded links in locale/lang files (is this a CMS job?)
-- [ ] remove vary header
-- [ ] and add ARIA roles to SVGs and mobile nav
 - [ ] resize carousel height on item change
+- [ ] remove vary header
+- [ ] form errors on order form return users to unselected tab
+- [ ] use production version of vue in non-dev envs (webpack branch fixes this)
+
+## To think about
+- [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
 - [ ] log material orders (need legal signoff)
+- [ ] find solution to hardcoded links in locale/lang files (is this a CMS job?)
 
 ## Tests to write
  - [ ] news UD works (CR done)
