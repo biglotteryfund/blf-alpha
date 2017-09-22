@@ -3,7 +3,7 @@ const express = require('express');
 const app = module.exports = express();
 const config = require('config');
 
-// load app routing list
+// load the app routing list
 const routes = require('./controllers/routes');
 
 // configure boilerplate
