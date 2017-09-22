@@ -9,7 +9,7 @@ PATH=$PATH:/usr/local/bin:/usr/local/sbin
 JS_SRC_PATTERN="\.js$"
 git diff --cached --name-only | if grep "$JS_SRC_PATTERN"
 then
-    npm test
+    npm run test-precommit
 fi
 
 # store the last exit code in a variable

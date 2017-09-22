@@ -16,8 +16,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] remove vary header
 - [ ] and add ARIA roles to SVGs and mobile nav
 - [ ] resize carousel height on item change
-- [ ] make commit hooks only run if JS code changes
-- [ ] pre-commit hook shouldn't break the dev server
 - [ ] log material orders (need legal signoff)
 
 ## Tests to write
