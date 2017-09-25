@@ -6,7 +6,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] log material orders (need legal signoff)
 - [ ] form errors on order form return users to unselected tab
-- [ ] use production version of vue in non-dev envs (webpack branch fixes this)
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?

@@ -3,6 +3,7 @@
 const importLazy = require('import-lazy')(require);
 
 const browserify = importLazy('browserify');
+const envify = require('envify/custom');
 const gulp = importLazy('gulp');
 const source = importLazy('vinyl-source-stream');
 const buffer = importLazy('vinyl-buffer');
@@ -84,7 +85,16 @@ gulp.task('copy:img', ['clean:img'], function() {
 
 // compile JS
 gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
+    const nodeEnv = (argv.production) ? 'production' : 'development';
     return browserify({ debug: true })
+        .transform(
+            envify({
+                NODE_ENV: nodeEnv
+            }),
+            {
+                global: true,
+                _: 'purge'
+            })
         .transform(babelify)
         .require(DIRS.in.js + '/' + FILES.in.js, { entry: true })
         .bundle()

@@ -6,7 +6,7 @@ const Grapnel = require('./libs/grapnel');
 const router = new Grapnel({ pushState : true });
 
 // initialise Vue
-const Vue = require('./libs/vue');
+const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
 
 // load internal modules
