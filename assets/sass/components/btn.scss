@@ -121,6 +121,7 @@ $btnConf: (
     left: 0;
     z-index: 100;
     margin-top: 0;
+    overflow: hidden;
 
     @include mq('tablet') {
         left: -$spacingUnit*3;
