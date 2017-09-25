@@ -7,7 +7,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] CSRF: how to approach when pages are cached?
 
 ## Tech debt
-- [ ] resize carousel height on item change
 - [ ] remove vary header
 - [ ] form errors on order form return users to unselected tab
 - [ ] use production version of vue in non-dev envs (webpack branch fixes this)
