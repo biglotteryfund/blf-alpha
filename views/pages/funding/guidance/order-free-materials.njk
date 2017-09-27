@@ -128,14 +128,14 @@
                     <li class="grid__item">
                         <a href="#monolingual"
                            class="btn btn--block btn--small accent--blue a--btn"
-                           v-on:click.prevent="showMonolingual = true">
+                           v-on:click.prevent="toggleItemLanguage('monolingual')">
                             {{ copy.locations.monolingual }}
                         </a>
                     </li>
                     <li class="grid__item">
                         <a href="#bilingual"
                            class="btn btn--block btn--small accent--blue a--btn"
-                           v-on:click.prevent="showMonolingual = false">
+                           v-on:click.prevent="toggleItemLanguage('bilingual')">
                             {{ copy.locations.bilingual }}
                         </a>
                     </li>
@@ -143,18 +143,18 @@
             </div>
         </div>
 
-        <div v-if="showMonolingual !== null">
+        <div v-if="itemLanguage !== null">
 
             <div class="inner">
 
                 {# monolingual items #}
-                <div v-if="showMonolingual" id="monolingual">
+                <div v-if="itemLanguage === 'monolingual'" id="monolingual">
                     <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
                     {{ listProducts('monolingual') }}
                 </div>
 
                 {# bilingual items #}
-                <div v-if="!showMonolingual" id="bilingual">
+                <div v-if="itemLanguage === 'bilingual'" id="bilingual">
                     <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
                     {{ listProducts('bilingual') }}
                 </div>

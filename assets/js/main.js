@@ -13,6 +13,7 @@ Vue.options.delimiters = ['<%', '%>'];
 require('./modules/carousel').init();
 require('./modules/tabs').init();
 const analytics = require('./modules/analytics');
+const utils = require('./utils');
 
 // enable JS-only features
 const $html = $('html');
@@ -128,14 +129,30 @@ let fundingPagePath = /\/funding\/funding-guidance\/managing-your-funding\/order
 router.get(fundingPagePath, () => {
 
     let allOrderData = {};
+    let langParam = 'lang';
+    let isValidLangParam = (param) => ['monolingual', 'bilingual'].indexOf(param) !== -1;
 
     new Vue({
         el: '#js-vue',
         data: {
             orderData: allOrderData,
-            showMonolingual: null
+            itemLanguage: null
+        },
+        created: function () {
+            let params = utils.parseQueryString();
+            if (params[langParam] && isValidLangParam(params[langParam])) {
+                this.itemLanguage = params[langParam];
+            }
         },
         methods: {
+            toggleItemLanguage: function (newState) {
+                if (isValidLangParam(newState)) {
+                    this.itemLanguage = newState;
+                    if (history.replaceState) {
+                        history.replaceState(null, null, `?${langParam}=${newState}`);
+                    }
+                }
+            },
             getQuantity: function (code, valueAtPageload) {
                 if (this.orderData[code]) {
                     return this.orderData[code].quantity;
