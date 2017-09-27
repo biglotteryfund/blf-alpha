@@ -141,7 +141,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                         // get the referring URL so we can capture the language selected
                         // (eg. mono/bilingual) and show the user the page with this
                         // already selected and the form onscreen
-                        let referrer = req.get('Referrer');
+                        let referrer = req.get('Referrer') || req.baseUrl + freeMaterials.path;
                         let formAnchor = '#your-details';
                         let redirectUrl = referrer;
                         if (referrer.indexOf(formAnchor) === -1) {
