@@ -4,6 +4,8 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% set bodyClass = "has-overlay" %}
+
 {% block title %}{{ title }} | {% endblock %}
 
 {% macro caseStudy() %}
@@ -24,11 +26,39 @@
 
 {% block content %}
 
-    {% set heroContent %}
+    {# {% set heroContent %}
         {{ headers.overlayText('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <a href=\"https://www.national-lottery.co.uk\">National Lottery</a>", 'overlay-text--has-links t2') }}
+    {% endset %} #}
+    {% set heroContent %}
+        <h2 class="o-hero-text">
+            The Big Lottery Fund distributes <a href="#">over £600m</a> a year to communities
+            across the UK, raised by players of the <a href="https://www.national-lottery.co.uk/">National Lottery</a>.
+        </h2>
+
+        <div class="padded">
+            <a class="btn btn--small [ accent--white a--btn ]"
+                href="{{ buildUrl('toplevel', 'under10k') }}">
+                <span class="accent--pink a--text">
+                    Learn how to apply for funding under £10,000
+                </span>
+            </a>
+
+            <a class="btn btn--small [ accent--white a--btn ]"
+                href="{{ buildUrl('toplevel', 'over10k') }}">
+                <span class="accent--blue a--text">
+                    Learn how to apply for funding over £10,000
+                </span>
+            </a>
+        </div>
     {% endset %}
 
-    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps', extraClasses = 'spaced') }}
+    {{
+        hero.superHero(
+            name = 'home-super',
+            content = heroContent,
+            caption = 'Cloughmills Community Action, Grant £4,975*'
+        )
+    }}
 
     <article role="main">
         <div class="inner">

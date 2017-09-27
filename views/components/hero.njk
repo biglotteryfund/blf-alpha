@@ -1,9 +1,26 @@
+{% macro superHero(name, content, caption = false, extraClasses = false) %}
+    <div class="hero hero--major hero--super {% if name %}hero--{{ name }}{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}" role="complementary">
+        <section class="hero__inner">
+            {% if caption %}
+                <div class="inner hero__caption desktop-only">
+                    <span class="hero__caption-text">{{ caption }}</span>
+                </div>
+            {% endif %}
+            <div class="inner">
+                <div class="hero__header" id="content">
+                    {{ content | safe }}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endmacro %}
+
 {% macro header(name, content, accent, caption = false, extraClasses = false) %}
     <div class="hero hero--major {% if name %}hero--{{ name }}{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}" role="complementary">
         <section class="hero__inner">
             {% if caption %}
                 <div class="inner hero__caption desktop-only">
-                    <span>{{ caption }}</span>
+                    <span class="hero__caption-text">{{ caption }}</span>
                 </div>
             {% endif %}
             <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
