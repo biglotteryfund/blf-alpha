@@ -54,13 +54,15 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
-// if the env is production
-// then only load analytics
-// if the domain name is live domain
+// if the env is PRODUCTION then we only load analytics
+// if the page's domain name matches our live domain
 
 // setup google analytics
 if (!_BLF.blockAnalytics) { // set in main.njk
+
+    // get per-environment GA code
     const uaCode = $thisScript.data('ga-code');
+
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
@@ -73,6 +75,7 @@ if (!_BLF.blockAnalytics) { // set in main.njk
         m.parentNode.insertBefore(a, m);
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
+    // init GA
     ga('create', uaCode, {
         'cookieDomain': 'none'
     });
@@ -83,21 +86,41 @@ if (!_BLF.blockAnalytics) { // set in main.njk
         variant: $thisScript.data('ab-variant')
     };
 
+    // if we're in a test variant, record it
     if (ab.id && ab.variant) {
         ga('set', 'expId', ab.id);
         ga('set', 'expVar', ab.variant);
         cxApi.setChosenVariation(ab.variant, ab.id);
     }
 
+    // track this pageview
     ga('send', 'pageview');
-}
 
-$('.js-track-clicks').on('click', function () {
-    let category = $(this).data('category');
-    let action = $(this).data('action');
-    let label = $(this).data('label');
-    analytics.track(category, action, label);
-});
+    // track interactions with in-page elements
+    $('.js-track-clicks').on('click', function (e) {
+
+        // get metadata
+        let category = $(this).data('category');
+        let action = $(this).data('action');
+        let label = $(this).data('label');
+
+        let track = () => analytics.track(category, action, label);
+
+        // is this a link?
+        if ($(this).attr('href')) {
+            // delay following it (so GA can track)
+            e.preventDefault();
+            track();
+            window.setTimeout(() => {
+                // now follow the link
+                document.location = $(this).attr('href');
+            }, 350);
+        } else { // not a link, just track it
+            track();
+        }
+    });
+
+}
 
 // create Vue element for order form
 // we use a regex for this URL to allow welsh URLs to match too
