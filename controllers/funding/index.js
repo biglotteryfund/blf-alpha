@@ -138,7 +138,16 @@ module.exports = (pages, sectionPath, sectionId) => {
                     req.flash('formErrors', result.array());
                     req.flash('formValues', req.body);
                     req.session.save(() => {
-                        res.redirect(req.baseUrl + freeMaterials.path + '#your-details');
+                        // get the referring URL so we can capture the language selected
+                        // (eg. mono/bilingual) and show the user the page with this
+                        // already selected and the form onscreen
+                        let referrer = req.get('Referrer');
+                        let formAnchor = '#your-details';
+                        let redirectUrl = referrer;
+                        if (referrer.indexOf(formAnchor) === -1) {
+                            redirectUrl += formAnchor;
+                        }
+                        res.redirect(redirectUrl);
                     });
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
