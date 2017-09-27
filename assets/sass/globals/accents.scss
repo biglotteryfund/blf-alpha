@@ -10,8 +10,6 @@
     border-top-style: solid;
 }
 
-.a--border-left {  }
-
 // each theme listed in palette.scss will generate classes for use below
 // eg <div class="accent--pink a--border-top"> will give a pink border
 @each $name in $themes {
