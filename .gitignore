@@ -1,7 +1,8 @@
-node_modules
+.DS_Store
 .idea
 .map
 .css.map
+node_modules
 always_restart.txt
 public/images
 public/javascripts
