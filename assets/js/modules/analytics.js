@@ -1,5 +1,7 @@
 /* global ga */
 
+// @TODO explore using autotrack here (needs webpack)
+// https://github.com/googleanalytics/autotrack/#usage
 let track = (category, action, label) => {
     if (window.ga && category && action && label) {
         ga('send', {
