@@ -39,7 +39,8 @@
     },
     "social": {
         "facebook": "http://www.facebook.com/BigLotteryFund",
-        "instagram": "https://www.instagram.com/big_lottery_fund"
+        "instagram": "https://www.instagram.com/big_lottery_fund",
+        "twitter": "https://twitter.com/BigLotteryFund"
     },
     "database": "website-dev",
     "database-test": "website-test"
