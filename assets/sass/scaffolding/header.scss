@@ -370,6 +370,7 @@ html:not(.contrast--high) .has-full-bleed-header .header {
     .nav li a {
         color: white;
     }
+
     // TODO: Can we reduce this specificity?
     .nav li.nav__link:not(.nav__lang) {
         a {
@@ -420,6 +421,11 @@ html:not(.contrast--high) .has-full-bleed-header .header {
     .form-search__icon {
         .icon--search {
             fill: currentColor;
+        }
+    }
+    .form-search__input {
+        &:focus {
+            border-bottom: 2px solid white;
         }
     }
 }
