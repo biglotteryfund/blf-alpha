@@ -5,7 +5,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] homepage: data/application base64 JS is violating CSP (google cx api)
 - [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] log material orders (need legal signoff)
-- [ ] form errors on order form return users to unselected tab
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?

@@ -138,21 +138,30 @@ module.exports = (pages, sectionPath, sectionId) => {
                     req.flash('formErrors', result.array());
                     req.flash('formValues', req.body);
                     req.session.save(() => {
-                        // get the referring URL so we can capture the language selected
-                        // (eg. mono/bilingual) and show the user the page with this
-                        // already selected and the form onscreen
-                        let referrer = req.get('Referrer') || req.baseUrl + freeMaterials.path;
+                        // build a redirect URL based on the route, the language of items,
+                        // and the form anchor, so the user sees the form again via JS
+                        let returnUrl = req.baseUrl + freeMaterials.path;
                         let formAnchor = '#your-details';
-                        let redirectUrl = referrer;
-                        if (referrer.indexOf(formAnchor) === -1) {
+                        let langParam = '?lang=';
+                        let redirectUrl = returnUrl;
+
+                        // add their langage choice (if valid)
+                        let langChoice = req.body['languageChoice'];
+                        if (langChoice && redirectUrl.indexOf(langParam) === -1 &&
+                            ['monolingual', 'bilingual'].indexOf(langChoice) !== -1) {
+                            redirectUrl += langParam + langChoice;
+                        }
+
+                        // add the form anchor (if not present)
+                        if (redirectUrl.indexOf(formAnchor) === -1) {
                             redirectUrl += formAnchor;
                         }
+
                         res.redirect(redirectUrl);
                     });
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
                     let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-
 
                     // allow tests to run without sending email
                     if (!req.body.skipEmail) {
