@@ -54,7 +54,19 @@ let numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+let parseQueryString = () => {
+    let qstr = window.location.search;
+    let query = {};
+    let items = (qstr[0] === '?' ? qstr.substr(1) : qstr).split('&');
+    items.forEach(item => {
+        let b = item.split('=');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+    });
+    return query;
+};
+
 module.exports = {
     formatCurrency,
-    numberWithCommas
+    numberWithCommas,
+    parseQueryString
 };
