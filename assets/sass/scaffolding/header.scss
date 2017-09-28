@@ -356,10 +356,6 @@ html:not(.contrast--high) .has-full-bleed-header .header {
         margin-top: ($spacingUnit / 2);
     }
 
-    .locale--cy & .logo {
-        margin-top: $spacingUnit;
-    }
-
     .nav {
         @include mq('tablet') {
             align-items: initial;
@@ -427,5 +423,10 @@ html:not(.contrast--high) .has-full-bleed-header .header {
         &:focus {
             border-bottom: 2px solid white;
         }
+    }
+}
+html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
+    .logo {
+        margin-top: $spacingUnit;
     }
 }
