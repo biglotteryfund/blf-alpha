@@ -45,7 +45,7 @@ $offscreenNavWidth: 65%;
         margin-top: 40px; // align with logo
     }
 
-    &.mobile-only {
+    &.u-mobile-only {
         margin-top: 0;
     }
 }
@@ -343,7 +343,7 @@ html:not(.contrast--high) .has-full-bleed-header .header {
             margin-top: 0;
         }
 
-        &.mobile-only {
+        &.u-mobile-only {
             margin-top: 0;
         }
     }

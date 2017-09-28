@@ -22,8 +22,7 @@
 }
 
 @include mq('tablet') {
-    .u-mobile-only,
-    .mobile-only {
+    .u-mobile-only {
         display: none !important;
     }
 }
