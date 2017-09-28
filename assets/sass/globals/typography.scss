@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
 // standard body text
 @mixin t5() {
     @include roboto();
@@ -49,9 +53,6 @@ blockquote {
 
     cite {
         font-style: normal;
-        &:before {
-            content: ' - ';
-        }
     }
 }
 
@@ -103,7 +104,9 @@ blockquote {
     }
 }
 
-// type styles
+/* ==========================================================================
+   Typographic Scale
+   ========================================================================== */
 
 // very important headings, short word length.
 // often paired with overlay-text
@@ -186,16 +189,24 @@ h6,
     @include font-and-leading(14px, 24px);
 }
 
-.cap-up {
-    text-transform: uppercase;
+/* ==========================================================================
+   Typographic Utilities
+   ========================================================================== */
+
+.u-uppercase {
+    text-transform: uppercase !important;
 }
 
-.lighter {
-    font-weight: 100;
+.u-weight-light {
+    font-weight: 100 !important;
 }
 
-.heavier {
-    font-weight: bold;
+.u-weight-normal {
+    font-weight: 400 !important;
+}
+
+.u-weight-heavy {
+    font-weight: bold !important;
 }
 
 .u-unstyled-link {
