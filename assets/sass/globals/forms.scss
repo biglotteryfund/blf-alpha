@@ -61,7 +61,7 @@
     }
 
     label {
-        @extend .visually-hidden;
+        @extend .u-visually-hidden;
     }
 
 }
@@ -122,7 +122,7 @@
     }
 
     label.form-fund__item {
-        @extend .visually-hidden;
+        @extend .u-visually-hidden;
     }
 
     input[type='radio'] {

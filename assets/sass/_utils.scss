@@ -32,8 +32,7 @@
 }
 
 // via http://simplyaccessible.com/article/three-pitfalls-text-alternatives/
-.u-visually-hidden,
-.visually-hidden {
+.u-visually-hidden {
     @media screen {
         color: #000000;
         background-color: #ffffff;
