@@ -16,8 +16,7 @@
 }
 
 @include mq('tablet', 'max') {
-    .u-desktop-only,
-    .desktop-only {
+    .u-desktop-only {
         display: none !important;
     }
 }
