@@ -1,3 +1,7 @@
+/* =========================================================================
+   Button
+   ========================================================================= */
+
 $btnConf: (
     'default': (
         'fontSize': 18px,
@@ -172,4 +176,26 @@ $btnConf: (
             height: 36px;
         }
     }
+}
+
+/* =========================================================================
+   Button Group
+   ========================================================================= */
+/* Group together a set of buttons with consistent spacing */
+
+.o-button-group {
+    .btn {
+        margin-bottom: $spacingUnit / 2;
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        @include mq('desktop') {
+            margin-right: ($spacingUnit / 2);
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    }
+
 }
