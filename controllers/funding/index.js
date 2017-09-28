@@ -146,7 +146,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                         let redirectUrl = returnUrl;
 
                         // add their langage choice (if valid)
-                        let langChoice = req.body['languageChoice'];
+                        let langChoice = req.body.languageChoice;
                         if (langChoice && redirectUrl.indexOf(langParam) === -1 &&
                             ['monolingual', 'bilingual'].indexOf(langChoice) !== -1) {
                             redirectUrl += langParam + langChoice;
