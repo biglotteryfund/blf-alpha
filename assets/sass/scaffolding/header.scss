@@ -318,10 +318,10 @@ $offscreenNavWidth: 65%;
 }
 
 /* =========================================================================
-   Modifiers: Overlay Header
+   Modifiers: Full-Bleed Header
    ========================================================================= */
 
-.has-overlay .header {
+html:not(.contrast--high) .has-full-bleed-header .header {
     position: absolute;
     z-index: 1;
     width: 100%;
@@ -347,9 +347,17 @@ $offscreenNavWidth: 65%;
             margin-top: 0;
         }
     }
+    .header__hamburger a svg,
+    .header__hamburger a path {
+        fill: white;
+    }
 
     .logo {
-        margin-top: ($spacingUnit / 2)
+        margin-top: ($spacingUnit / 2);
+    }
+
+    .locale--cy & .logo {
+        margin-top: $spacingUnit;
     }
 
     .nav {

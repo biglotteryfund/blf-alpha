@@ -115,9 +115,19 @@
             // call-to-action buttons
             &.a--btn {
                 background-color: palette('high-contrast-bg') !important;
+
+                .a--text {
+                    color: white !important;
+                }
+
                 @include on-interact {
                     background-color: darken(palette('high-contrast-bg'), 10%) !important;
+
+                    .a--text {
+                        color: white !important;
+                    }
                 }
+
             }
         }
 
