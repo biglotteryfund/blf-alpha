@@ -92,16 +92,29 @@
 
             {# news posts #}
             {% if news.length %}
-                <div class="accent--blue a--border-top">
-                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only expanded">
+            <div class="accent--blue a--border-top">
+                <div class="padded">
+                    <h3 class="t3 t3--a">
+                        Latest News
+                    </h3>
+                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                         {% for n in news %}
-                            <li class="grid__item">
-                                <h4 class="t3">{{ n['title' | localeify(locale)] | safe}}</h4>
-                                <p>{{ n['text' | localeify(locale)] | safe }} <a href="{{ n['link' | localeify(locale)] }}" class="accent--pink a--text">Read more...</a></p>
-                            </li>
+                        <li class="grid__item">
+                            <h4 class="t3">
+                                <a class="u-unstyled-link" href="{{ n['link' | localeify(locale)] }}">
+                                    {{ n['title' | localeify(locale)] | safe}}
+                                </a>
+                            </h4>
+                            <p>
+                                {{ n['text' | localeify(locale)] | safe }}
+                                <a href="{{ n['link' | localeify(locale)] }}"
+                                    class="accent--pink a--text heavier">Read more&hellip;</a>
+                            </p>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
+            </div>
             {% endif %}
 
             {# funding finder #}
