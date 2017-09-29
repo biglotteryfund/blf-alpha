@@ -1,24 +1,37 @@
+{% import "./headers.njk" as headers %}
+
 {% macro superHero(name, titleDefault = false, titleShort = false, content, caption = false) %}
     <div class="hero hero--major hero--super {% if name %}hero--{{ name }}{% endif %}">
         <section class="hero__inner">
             <div class="hero__content inner">
                 <div class="hero__header" id="content">
-                    {% if titleDefault %}
-                        <h1 class="hero__title">
-                            <span class="u-wide-only">
-                                {{ titleDefault | safe }}
-                            </span>
-                            {% if titleShort %}
-                                <span class="u-not-wide">
-                                    {{ titleShort | safe }}
-                                </span>
-                            {% endif %}
-                        </h1>
-                    {% endif %}
+                    <h1 class="hero__title">
+                        <span class="u-wide-only">
+                            {{ titleDefault | safe }}
+                        </span>
+                        <span class="u-not-wide">
+                            {{ titleShort | safe }}
+                        </span>
+                    </h1>
                     {{ content | safe }}
                 </div>
                 {% if caption %}
-                    <span class="hero__caption u-desktop-only">{{ caption }}</span>
+                    <span class="hero__caption u-caption u-desktop-only">{{ caption }}</span>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endmacro %}
+
+{% macro sectionHero(name, titleText, caption = false) %}
+    <div class="hero hero--major hero--section {% if name %}hero--{{ name }}{% endif %}">
+        <section class="hero__inner">
+            <div class="hero__content inner">
+                <div class="hero__header" id="content">
+                    {{ headers.overlayText('h1', titleText, 'hero__title t1 accent--turquoise') }}
+                </div>
+                {% if caption %}
+                    <span class="hero__caption u-caption u-desktop-only">{{ caption }}</span>
                 {% endif %}
             </div>
         </section>
