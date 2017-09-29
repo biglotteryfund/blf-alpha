@@ -120,6 +120,44 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
+
+
+/* =========================================================================
+   Section Hero
+   ========================================================================= */
+/* New full-bleed section hero (see: Over10k and Under10k) */
+
+.hero--section {
+    color: white;
+
+    .hero__title {
+        width: 100%;
+
+        @include mq('tablet') {
+            max-width: 18em;
+        }
+    }
+
+    .hero__header,
+    .hero__caption {
+        bottom: $spacingUnit;
+
+        @include mq('tablet') {
+            bottom: $spacingUnit * 2.5;
+        }
+    }
+
+    .hero__caption {
+        position: absolute;
+        height: auto;
+        right: $spacingUnit / 2;
+
+        @include mq('desktop') {
+            right: $spacingUnit;
+        }
+    }
+}
+
 /* =========================================================================
    Super Hero
    ========================================================================= */
@@ -170,8 +208,6 @@ $heroSpaceFromLeft: 20px;
     }
 
     .hero__caption {
-        font-size: 14px;
-        opacity: 0.75;
         position: absolute;
         height: auto;
         right: $spacingUnit / 2;
@@ -183,4 +219,3 @@ $heroSpaceFromLeft: 20px;
         }
     }
 }
-

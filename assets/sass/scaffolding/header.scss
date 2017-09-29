@@ -159,11 +159,14 @@ $offscreenNavWidth: 65%;
                 content: '';
                 border-right: 2px solid palette('soft-grey');
                 border-radius: 30px;
-                margin-left: $spacingUnit * 1.25;
-                margin-right: $spacingUnit * 1.25;
                 vertical-align: middle;
                 height: 15px;
                 display: inline-block;
+                margin: 0;
+
+                @include mq('desktop') {
+                    margin: 0 $spacingUnit * 1.25;
+                }
             }
 
             &.nav__link--last:after {
@@ -388,7 +391,6 @@ html:not(.contrast--high) .has-full-bleed-header .header {
         }
 
         &:after {
-            margin: 0 15px;
             border-color: white;
         }
     }
