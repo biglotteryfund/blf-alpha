@@ -114,8 +114,6 @@ let oldHomepage = (req, res, next) => {
                 gtm.innerHTML = '';
             }
         }
-        // pass the headers
-        res.set(response.headers);
         res.send(dom.serialize());
 
     }).catch(error => {
