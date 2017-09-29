@@ -113,6 +113,7 @@ let oldHomepage = (req, res, next) => {
                 gtm.innerHTML = '';
             }
         }
+        res.set('X-BLF-Legacy', true);
         res.send(dom.serialize());
 
     }).catch(error => {
