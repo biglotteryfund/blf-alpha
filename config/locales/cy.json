@@ -37,6 +37,65 @@
 		}
 	},
 	"toplevel": {
+		"home": {
+			"intro": {
+				"long": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig",
+				"short": ""
+			},
+			"callsToAction": {
+				"under10k": {
+					"short": "",
+					"long": "Cael gwybod sut i ymgeisio am grant o dan £10,000"
+				},
+				"over10k": {
+					"short": "",
+					"long": "Cael gwybod sut i ymgeisio am grant dros £10,000"
+				}
+			},
+			"caseStudies": [
+				{
+					"projectName": "Lleisiau Pobl Ifainc mewn Gofal",
+					"quoteName": "Andrea Glenn",
+					"quoteText": "Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau sy'n bwysig iddynt yn yr un modd yn union â phawb arall.",
+					"imagePath": "images/home/case-study-1.jpg",
+					"imageSmallPath": "images/home/case-study-1--small.jpg"
+				},
+				{
+					"projectName": "Y Sefydliad Iechyd Meddwl",
+					"quoteName": "Candy Worf",
+					"quoteText": "Rydym yn cwrdd â phobl pan fyddant mewn sefyllfa wael ac unig, ac yn ceisio dod â nhw ynghyd.",
+					"imagePath": "images/home/case-study-2.jpg",
+					"imageSmallPath": "images/home/case-study-2--small.jpg"
+				}
+			],
+			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd",
+			"latestNews": "Newyddion diweddaraf",
+			"readMore": "Darllen mwy",
+			"ebulletin": {
+				"title": "e-bulletin sign up",
+				"intro": "Cofrestrwch am y newyddion diweddaraf yn eich gwlad",
+				"location": "Lleoliad",
+				"locations": {
+					"england": "Lloegr",
+					"wales": "Cymru",
+					"scotland": "Yr Alban",
+					"northernIreland": "Gogledd Iwerddon"
+				},
+				"fields": {
+					"firstName": "Enw cyntaf",
+					"lastName": "Cyfenw",
+					"organisation": "Mudiad",
+					"emailAddress": "Cyfeiriad e-bost"
+				},
+				"callToAction": "Tanysgrifio"
+			},
+			"social": {
+				"followUsOn": "Dilynwch ni ar",
+				"instagram": "Instagram",
+				"facebook": "Facebook",
+				"twitter": "Twitter"
+			}
+		},
 		"contact": {
 			"title": "Cysylltu â ni",
 			"methods": {

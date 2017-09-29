@@ -42,9 +42,12 @@ let testHomepage = ab.test('blf-homepage-2017', {
 
 let newHomepage = (req, res, next) => {
     let serveHomepage = (news) => {
+        let lang = req.i18n.__("toplevel.home");
         res.render('pages/toplevel/home', {
-            title: "Homepage",
-            news: news || []
+            title: lang.title,
+            description: lang.description || false,
+            copy: lang,
+            news: news || [],
         });
     };
 

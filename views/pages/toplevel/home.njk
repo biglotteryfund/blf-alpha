@@ -5,7 +5,7 @@
 {% extends "../../layouts/main.njk" %}
 
 {% set bodyClass = "has-full-bleed-header" %}
-{% set globalFootnote = "*The grant amount shown was awarded within the last 12 months" %}
+{% set globalFootnote = "* The grant amount shown was awarded within the last 12 months" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
@@ -38,8 +38,8 @@
                       accent--white a--btn"
                 href="{{ buildUrl('toplevel', 'under10k') }}">
                 <span class="accent--pink a--text">
-                    <span class="u-wide-only">Learn how to apply for funding under £10,000</span>
-                    <span class="u-not-wide">Apply for funding under £10,000</span>
+                    <span class="u-wide-only">{{ copy.callsToAction.under10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.callsToAction.under10k.short }}</span>
                 </span>
             </a>
 
@@ -47,8 +47,8 @@
                       accent--white a--btn"
                 href="{{ buildUrl('toplevel', 'over10k') }}">
                 <span class="accent--blue a--text">
-                    <span class="u-wide-only">Learn how to apply for funding over £10,000</span>
-                    <span class="u-not-wide">Apply for funding over £10,000</span>
+                    <span class="u-wide-only">{{ copy.callsToAction.over10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.callsToAction.over10k.short }}</span>
                 </span>
             </a>
         </div>
@@ -57,10 +57,8 @@
     {{
         hero.superHero(
             name = 'home-super',
-            titleDefault = 'The Big Lottery Fund distributes <a href="#">over £600m</a> a year to communities
-                across the UK, raised by players of the <a href="https://www.national-lottery.co.uk/">National Lottery</a>.',
-            titleShort = 'The Big Lottery Fund distributes money raised by players of the
-                <a href="https://www.national-lottery.co.uk/">National Lottery</a> to communities across the UK.',
+            titleDefault = copy.intro.long,
+            titleShort = copy.intro.short,
             content = heroContent,
             caption = 'Cycling for All in Bolsover, Grant £9,358 *'
         )
@@ -83,64 +81,52 @@
                 </div>
 
                 <ul class="swiper-wrapper unstyled">
-                    <li class="swiper-slide">
-                        {{
-                            caseStudy(
-                                projectName = 'Voice of Young People in Care',
-                                quoteName = 'Andrea Glenn',
-                                quoteText = 'I want young people in care to know that they are
-                                    just as capable of reaching their goals as everyone else.',
-                                imageUrl = 'images/home/case-study-1.jpg',
-                                imageSmallUrl = 'images/home/case-study-1--small.jpg'
-                            )
-                        }}
-                    </li>
-                    <li class="swiper-slide">
-                        {{
-                            caseStudy(
-                                projectName = 'Mental Health Foundation',
-                                quoteName = 'Candy Worf',
-                                quoteText = 'We meet people when they’re in a really poor,
-                                    isolated predicament and we bring them together.',
-                                imageUrl = 'images/home/case-study-2.jpg',
-                                imageSmallUrl = 'images/home/case-study-2--small.jpg'
-                            )
-                        }}
-                    </li>
+                    {% for c in copy.caseStudies %}
+                        <li class="swiper-slide">
+                            {{
+                                caseStudy(
+                                    projectName = c.projectName,
+                                    quoteName = c.quoteName,
+                                    quoteText = c.quoteText,
+                                    imageUrl = c.imagePath,
+                                    imageSmallUrl = c.imageSmallPath
+                                )
+                            }}
+                        </li>
+                    {% endfor %}
                 </ul>
 
             </div>
 
             {# funding finder #}
             <div class="central-gap">
-                <a href="https://www.biglotteryfund.org.uk/funding/search-past-grants" class="btn btn--block accent--blue a--btn spaced">Browse all funded projects</a>
+                <a href="https://www.biglotteryfund.org.uk/funding/search-past-grants"
+                   class="btn btn--block accent--blue a--btn spaced">{{ copy.browseFundedProjects }}</a>
             </div>
 
             {# News Posts #}
             {% if news.length %}
-            <div class="accent--blue a--border-top">
-                <div class="padded padded--wide-only">
-                    <h3 class="t3 t3--a">
-                        Latest News
-                    </h3>
-                    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                        {% for n in news %}
-                        <li class="grid__item">
-                            <h4 class="t3">
-                                <a class="u-unstyled-link" href="{{ n['link' | localeify(locale)] }}">
-                                    {{ n['title' | localeify(locale)] | safe}}
-                                </a>
-                            </h4>
-                            <p>
-                                {{ n['text' | localeify(locale)] | safe }}
-                                <a href="{{ n['link' | localeify(locale)] }}"
-                                    class="accent--pink a--text u-weight-heavy">Read more&hellip;</a>
-                            </p>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                <div class="accent--blue a--border-top">
+                    <div class="padded padded--wide-only">
+                        <h3 class="t3 t3--a">{{ copy.latestNews }}</h3>
+                        <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                            {% for n in news %}
+                                <li class="grid__item">
+                                    <h4 class="t3">
+                                        <a class="u-unstyled-link" href="{{ n['link' | localeify(locale)] }}">
+                                            {{ n['title' | localeify(locale)] | safe}}
+                                        </a>
+                                    </h4>
+                                    <p>
+                                        {{ n['text' | localeify(locale)] | safe }}
+                                        <a href="{{ n['link' | localeify(locale)] }}"
+                                            class="accent--pink a--text u-weight-heavy">{{ copy.readMore }}&hellip;</a>
+                                    </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
             {% endif %}
 
         </div>
@@ -153,7 +139,7 @@
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     <form class="form-ebulletin padded spaced" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-                        <h3 class="t3 t3--a accent--pink a--text">e-bulletin sign up</h3>
+                        <h3 class="t3 t3--a accent--pink a--text">{{ copy.ebulletin.title }}</h3>
 
                         {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}
@@ -169,39 +155,42 @@
                             <input type="hidden" name="userid" value="180445">
                             <input type="hidden" name="ReturnURL" value="{{ appData.config.get('ebulletinDestination') }}">
 
-                            <p class="intro">Sign up for our latest news relating to your country:</p>
+                            <p class="intro">{{ copy.ebulletin.intro}}</p>
 
                             <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
-                                <span class="u-visually-hidden" id="aria-form-loc">Location</span>
+                                <span class="u-visually-hidden" id="aria-form-loc">{{ copy.ebulletin.location }}</span>
                                 {{ radios('location', [
-                                    ['England', 'en', 'cd_ENGLAND_MAIL'],
-                                    ['Wales', 'cy', 'cd_WALES_MAIL'],
-                                    ['Scotland', 'sc', 'cd_SCOTLAND_MAIL'],
-                                    ['Northern Ireland', 'ni', 'cd_NI_MAIL']
+                                    [copy.ebulletin.locations.england, 'en', 'cd_ENGLAND_MAIL'],
+                                    [copy.ebulletin.locations.wales, 'cy', 'cd_WALES_MAIL'],
+                                    [copy.ebulletin.locations.scotland, 'sc', 'cd_SCOTLAND_MAIL'],
+                                    [copy.ebulletin.locations.northernIreland, 'ni', 'cd_NI_MAIL']
                                 ]) }}
                             </div>
 
                             <div class="grid grid--padded clear-both">
-                                {{ input('cd_FIRSTNAME', 'First name', 'text', required = true, extraClasses = 'grid__item') }}
-                                {{ input('cd_LASTNAME', 'Last name', 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ input('cd_FIRSTNAME', copy.ebulletin.fields.firstName, 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ input('cd_LASTNAME', copy.ebulletin.fields.lastName, 'text', required = true, extraClasses = 'grid__item') }}
                             </div>
-                            {{ input('cd_ORGANISATION', 'Organisation', 'text', required = false, extraClasses = 'no-gap') }}
-                            {{ input('Email', 'Email', 'email', required = true) }}
+                            {{ input('cd_ORGANISATION', copy.ebulletin.fields.organisation, 'text', required = false, extraClasses = 'no-gap') }}
+                            {{ input('Email', copy.ebulletin.fields.emailAddress, 'email', required = true) }}
 
-                            <input type="submit" value="Subscribe" class="btn btn--small accent--pink a--btn form-ebulletin__btn" />
+                            <input type="submit" value="{{ copy.ebulletin.callToAction }}" class="btn btn--small accent--pink a--btn form-ebulletin__btn" />
                         {% endif %}
                     </form>
 
                     {# social buttons #}
                     <div class="gutter-mob-only">
                         <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
-                            <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>Follow us on Instagram
+                            <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.instagram }}
                         </a>
                         <a href="{{ appData.config.get('social.facebook') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
-                            <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>Follow us on Facebook
+                            <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.facebook }}
                         </a>
                         <a href="{{ appData.config.get('social.twitter') }}" class="btn btn--small btn--outline accent--blue btn--block">
-                            <span class="btn__icon">{% include "../../includes/svg/twitter.svg" %}</span>Follow us on Twitter
+                            <span class="btn__icon">{% include "../../includes/svg/twitter.svg" %}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.twitter }}
                         </a>
                     </div>
 
