@@ -84,21 +84,20 @@ let oldHomepage = (req, res, next) => {
         if (res.locals.ab) {
             // create GA snippet for tracking experiment
             const gaCode = `
-                    <script src="//www.google-analytics.com/cx/api.js"></script>
-                    <script>
-                        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                                (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-                        ga('create', '${config.get('googleAnalyticsCode')}', {
-                            'cookieDomain': 'none'
-                        });
-                        // console.log('tracking test', ${JSON.stringify(res.locals.ab)});
-                        ga('set', 'expId', '${res.locals.ab.id}');
-                        ga('set', 'expVar', ${res.locals.ab.variantId});
-                        cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
-                        ga('send', 'pageview');
-                    </script>`;
+                <script src="//www.google-analytics.com/cx/api.js"></script>
+                <script>
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+                    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                    ga('create', '${config.get('googleAnalyticsCode')}', {
+                        'cookieDomain': 'none'
+                    });
+                    ga('set', 'expId', '${res.locals.ab.id}');
+                    ga('set', 'expVar', ${res.locals.ab.variantId});
+                    cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
+                    ga('send', 'pageview');
+                </script>`;
 
             // insert GA experiment code into the page
             const script = dom.window.document.createElement("div");
