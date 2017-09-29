@@ -1,9 +1,9 @@
 {% macro projectBlock(project, accent) %}
     <div class="card{% if accent %} {{ accent }} a--border-top{% endif %}">
         <div class="card__media">
-            <a href="{{ project.link }}">
+            {% if project.link %}<a href="{{ project.link }}">{% endif %}
                 <img src="{{ project.image | getCachebustedPath }}" class="grid__item__poster" alt="{{ project.description }}" />
-            </a>
+            {% if project.link %}</a>{% endif %}
         </div>
         <div class="card__body">
             <h4 class="t4">{{ project.name }}</h4>
@@ -12,7 +12,9 @@
             {% endif %}
             <p class="t7">
                 {{ project.description }}
-                <a href="{{ project.link }}" class="{{ accent }} a--text">{{ __('global.misc.readMore') }}&hellip;</a>
+                {% if project.link %}
+                    <a href="{{ project.link }}" class="{{ accent }} a--text">{{ __('global.misc.readMore') }}&hellip;</a>
+                {% endif %}
             </p>
         </div>
     </div>
