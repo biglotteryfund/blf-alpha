@@ -120,7 +120,7 @@
                                     <p>
                                         {{ n['text' | localeify(locale)] | safe }}
                                         <a href="{{ n['link' | localeify(locale)] }}"
-                                            class="accent--pink a--text u-weight-heavy">{{ copy.readMore }}&hellip;</a>
+                                            class="accent--pink a--text u-weight-heavy">{{ __('global.misc.readMore') }}&hellip;</a>
                                     </p>
                                 </li>
                             {% endfor %}

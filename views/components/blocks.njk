@@ -10,7 +10,10 @@
             {% if project.amount %}
                 <p class="card__subheader t7 accent--blue a--text">Grant amount {{ project.amount }}</p>
             {% endif %}
-            <p class="t7">{{ project.description }} <a href="{{ project.link }}" class="{{ accent }} a--text">Read more...</a></p>
+            <p class="t7">
+                {{ project.description }}
+                <a href="{{ project.link }}" class="{{ accent }} a--text">{{ __('global.misc.readMore') }}&hellip;</a>
+            </p>
         </div>
     </div>
 {% endmacro %}

@@ -34,6 +34,9 @@
         },
         "forms": {
             "missingFieldError": "Please provide the '%s' field"
+		},
+		"misc": {
+			"readMore": "Read more"
         }
     },
     "toplevel": {
@@ -73,7 +76,6 @@
             ],
             "browseFundedProjects": "Search for all funded projects",
             "latestNews": "Latest news",
-            "readMore": "Read more",
             "ebulletin": {
                 "title": "e-bulletin sign up",
                 "intro": "Sign up for our latest news relating to your country",

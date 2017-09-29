@@ -34,6 +34,9 @@
 		},
 		"forms": {
 			"missingFieldError": "Darparwch y maes '%s'"
+		},
+		"misc": {
+			"readMore": "Darllen mwy"
 		}
 	},
 	"toplevel": {
@@ -73,7 +76,6 @@
 			],
 			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd",
 			"latestNews": "Newyddion diweddaraf",
-			"readMore": "Darllen mwy",
 			"ebulletin": {
 				"title": "e-bulletin sign up",
 				"intro": "Cofrestrwch am y newyddion diweddaraf yn eich gwlad",
