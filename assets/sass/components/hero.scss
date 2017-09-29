@@ -139,11 +139,7 @@ $heroSpaceFromLeft: 20px;
         }
 
         @include mq('tablet') {
-            bottom: $spacingUnit * 1.5;
-        }
-
-        @include mq('desktop') {
-            bottom: $spacingUnit * 3;
+            bottom: $spacingUnit * 2;
         }
     }
 
@@ -151,7 +147,7 @@ $heroSpaceFromLeft: 20px;
         font-size: 14px;
         line-height: 1.3;
         font-weight: normal;
-        margin: 0 0 ($spacingUnit / 2) 0;
+        margin: 0 0 ($spacingUnit / 3) 0;
 
         @media only screen and (min-width: 360px) {
             font-size: 18px;
