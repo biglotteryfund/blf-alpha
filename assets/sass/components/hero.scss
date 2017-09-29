@@ -140,7 +140,11 @@ $heroSpaceFromLeft: 20px;
 
     .hero__header,
     .hero__caption {
-        bottom: $spacingUnit;
+        bottom: $spacingUnit / 2;
+
+        @media screen and (min-width: 380px) {
+            bottom: $spacingUnit;
+        }
 
         @include mq('tablet') {
             bottom: $spacingUnit * 2.5;

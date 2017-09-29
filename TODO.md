@@ -6,6 +6,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] log material orders (need legal signoff)
 - [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
+- [ ] Add more granular named breakpoints
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?
