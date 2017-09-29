@@ -42,7 +42,7 @@
 			"description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
 			"home": "Home",
 			"intro": {
-				"long": "The Big Lottery Fund distributes over £600m a year to communities across the UK, raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a>",
+				"long": "The Big Lottery Fund distributes <a href=\"/data\">over £600m</a> a year to communities across the UK, raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a>",
 				"short": "The Big Lottery Fund distributes money raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a> to communities across the UK."
 			},
 			"callsToAction": {
