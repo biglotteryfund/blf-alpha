@@ -25,23 +25,22 @@ const localeFiles = {
 router.get('/status', (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
     const appData = globals.get('appData');
     res.send({
-        'APP_ENV': process.env.NODE_ENV,
-        'DEPLOY_ID': appData.deployId,
-        'COMMIT_ID': appData.commitId,
-        'BUILD_NUMBER': appData.buildNumber,
-        'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
-        'UPTIME': LAUNCH_DATE.toNow(true)
+        APP_ENV: process.env.NODE_ENV,
+        DEPLOY_ID: appData.deployId,
+        COMMIT_ID: appData.commitId,
+        BUILD_NUMBER: appData.buildNumber,
+        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
+        UPTIME: LAUNCH_DATE.toNow(true)
     });
 });
 
 // pagelist
 router.get('/status/pages', (req, res, next) => {
-
     const totals = {
         canonical: [],
         aliases: [],
@@ -86,15 +85,17 @@ router.post(loginPath, (req, res, next) => {
         if (err) {
             return next(err);
         } else {
-            req.logIn(user, (err) => {
-                if (err) { // user not valid, send them to login again
+            req.logIn(user, err => {
+                if (err) {
+                    // user not valid, send them to login again
                     req.flash('error', info.message);
                     // save the session to avoid race condition
                     // see https://github.com/mweibel/connect-session-sequelize/issues/20
                     req.session.save(() => {
                         return res.redirect(loginPath);
                     });
-                } else { // user is valid, send them on
+                } else {
+                    // user is valid, send them on
                     // we don't use flash here because it gets unset in the GET route above
                     let redirectUrl = loginPath;
                     if (req.body.redirectUrl) {
@@ -113,7 +114,7 @@ router.post(loginPath, (req, res, next) => {
 });
 
 // logout path
-router.get('/tools/logout', (req, res)  => {
+router.get('/tools/logout', (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
     req.logout();
@@ -123,14 +124,16 @@ router.get('/tools/logout', (req, res)  => {
 // language file editor tool
 let localeEditorPath = '/tools/locales/';
 routeStatic.injectUrlRequest(router, localeEditorPath);
-router.route(localeEditorPath)
+router
+    .route(localeEditorPath)
     .get(isAuthenticated, (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
-    }).post(isAuthenticated, (req, res, next) => {
+    })
+    .post(isAuthenticated, (req, res, next) => {
         // fetch these each time
         const locales = {
             en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
@@ -139,24 +142,23 @@ router.route(localeEditorPath)
         res.send({
             editors: [
                 {
-                    name: "English",
+                    name: 'English',
                     code: 'en',
                     json: locales.en,
                     schema: generateSchema.json(locales.en)
                 },
                 {
-                    name: "Welsh",
+                    name: 'Welsh',
                     code: 'cy',
                     json: locales.cy,
                     schema: generateSchema.json(locales.cy)
                 }
             ]
         });
-});
+    });
 
 // update a language file
 router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
-
     const json = req.body;
     let validKeys = ['en', 'cy'];
     let failedUpdates = [];
@@ -175,30 +177,31 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
     });
 
     res.send({
-        error: (failedUpdates.length > 0) ? failedUpdates : false
+        error: failedUpdates.length > 0 ? failedUpdates : false
     });
-
 });
-
 
 // edit news articles
 const editNewsPath = '/tools/edit-news';
 routeStatic.injectUrlRequest(router, editNewsPath);
-router.route(editNewsPath + '/:id?')
+router
+    .route(editNewsPath + '/:id?')
     .get(isAuthenticated, (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
 
         let queries = [];
-        queries.push(models.News.findAll({
-            order: [['updatedAt', 'DESC']]
-        }));
+        queries.push(
+            models.News.findAll({
+                order: [['updatedAt', 'DESC']]
+            })
+        );
 
         if (req.params.id) {
             queries.push(models.News.findById(req.params.id));
         }
 
-        Promise.all(queries).then((responses) => {
+        Promise.all(queries).then(responses => {
             if (req.params.id) {
                 if (!responses[1]) {
                     return next();
@@ -212,8 +215,8 @@ router.route(editNewsPath + '/:id?')
                 user: req.user
             });
         });
-    }).post(isAuthenticated, (req, res, next) => {
-
+    })
+    .post(isAuthenticated, (req, res, next) => {
         let redirectBase = req.baseUrl + editNewsPath + '/';
 
         // validate form
@@ -224,7 +227,7 @@ router.route(editNewsPath + '/:id?')
         req.checkBody('link_en', 'Please provide an English article link').notEmpty();
         req.checkBody('link_cy', 'Please provide a Welsh article link').notEmpty();
 
-        req.getValidationResult().then((result) => {
+        req.getValidationResult().then(result => {
             if (!result.isEmpty()) {
                 req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
