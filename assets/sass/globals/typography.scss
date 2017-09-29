@@ -71,19 +71,18 @@ blockquote {
 }
 
 .pullquote {
-    @include mq('tablet', 'max') {
-        margin: 0 $spacingUnit *2 $spacingUnit $spacingUnit * 2;
-    }
-    margin: $spacingUnit $spacingUnit * 4 $spacingUnit $spacingUnit * 2;
     p {
         font-style: italic;
         color: palette('blue');
+        @include font-and-leading(16px, 22px);
 
-        @include mq('tablet', 'max') {
-            @include font-and-leading(16px, 22px);
+        @include mq('tablet') {
+            @include font-and-leading(20px, 27px);
         }
 
-        @include font-and-leading(24px, 30px);
+        @include mq('desktop') {
+            @include font-and-leading(24px, 30px);
+        }
 
         &:first-of-type {
             &:before {
@@ -92,16 +91,27 @@ blockquote {
         }
 
         &:last-of-type {
+            margin-bottom: 0;
+
             &:after {
                 @include quoteSymbol('close');
             }
         }
     }
-
-    aside {
-        margin: $spacingUnit / 4 0 $spacingUnit 0;
-        font-style: normal;
+}
+.pullquote__text {
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit / 2;
     }
+}
+.pullquote__meta {
+    @include mq('tablet', 'max') {
+        margin-bottom: $spacingUnit / 2;
+        margin-top: -15px;
+    }
+}
+.pullquote__aside {
+    font-style: normal;
 }
 
 /* ==========================================================================
