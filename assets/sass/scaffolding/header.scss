@@ -430,3 +430,9 @@ html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
         margin-top: $spacingUnit;
     }
 }
+html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
+    background-image: url(../images/logo-new.png);
+}
+html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo {
+    background-image: url(../images/logo-new--welsh.png);
+}
