@@ -23,12 +23,16 @@
     </div>
 {% endmacro %}
 
-{% macro sectionHero(name, titleText, caption = false) %}
+{% macro sectionHero(name, titleText, caption = false, accent = false) %}
+    {% set accentClass = '' %}
+    {% if accent %}
+        {% set accentClass = 'accent--' + accent %}
+    {% endif %}
     <div class="hero hero--major hero--section {% if name %}hero--{{ name }}{% endif %}">
         <section class="hero__inner">
             <div class="hero__content inner">
                 <div class="hero__header" id="content">
-                    {{ headers.overlayText('h1', titleText, 'hero__title t1 accent--turquoise') }}
+                    {{ headers.overlayText('h1', titleText, 'hero__title t1 ' + accentClass) }}
                 </div>
                 {% if caption %}
                     <span class="hero__caption u-caption u-desktop-only">{{ caption }}</span>
