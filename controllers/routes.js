@@ -20,7 +20,8 @@ const sectionPaths = {
     toplevel: "",
     funding: "/funding",
     about: "/about-big", // @TODO rename on launch
-    aboutLegacy: "/about-big" // used on the old site
+    aboutLegacy: "/about-big", // used on the old site
+    research: "/research"
 };
 
 // these top-level sections appear in the main site nav
@@ -194,6 +195,11 @@ const routes = {
                 }
             }
         },
+        research: {
+            name: "Research",
+            langTitlePath: "global.nav.research",
+            path: sectionPaths.research
+        },
         // @TODO rename this to 'about' when ready to launch /about
         "about-big": {
             name: "About",
@@ -241,7 +247,6 @@ const routes = {
                 }
             }
         }
-
     }
 };
 

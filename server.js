@@ -29,12 +29,14 @@ for (let sectionId in routes.sections) {
     // turn '/funding' into ['/funding', '/welsh/funding']
     let sectionPaths = cymreigio(s.path);
     // init route controller for each page path
-    let controller = s.controller(s.pages, s.path, sectionId);
-    // map the top-level section paths (en/cy) to controllers
-    sectionPaths.forEach(path => {
-        // (adding these as an array fails for welsh paths)
-        app.use(path, controller);
-    });
+    if (s.controller) {
+        let controller = s.controller(s.pages, s.path, sectionId);
+        // map the top-level section paths (en/cy) to controllers
+        sectionPaths.forEach(path => {
+            // (adding these as an array fails for welsh paths)
+            app.use(path, controller);
+        });
+    }
 }
 
 // add vanity redirects
