@@ -19,9 +19,11 @@
             {% endif %}
             <p class="project-card__description t7">
                 {{ project.description }}
+                {% if project.link %}
                 <a href="{{ project.link }}" class="{% if accent %}{{ accent }} a--text {% endif %}u-weight-heavy">
                     {{ __('global.misc.readMore') }}&hellip;
                 </a>
+                {% endif %}
             </p>
         </div>
     </div>
