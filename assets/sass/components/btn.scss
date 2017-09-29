@@ -1,3 +1,7 @@
+/* =========================================================================
+   Button
+   ========================================================================= */
+
 $btnConf: (
     'default': (
         'fontSize': 18px,
@@ -6,6 +10,10 @@ $btnConf: (
     'small': (
         'fontSize': 16px,
         'desiredHeight': 36px
+    ),
+    'mini': (
+        'fontSize': 13px,
+        'desiredHeight': 30px
     )
 );
 
@@ -69,9 +77,14 @@ $btnConf: (
 
 // small variant (also a different colour)
 .btn--small {
-    @include getBtnVertPadding(map-get($btnConf, 'small'));
-    font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    @include getBtnVertPadding(map-get($btnConf, 'mini'));
+    font-size: map-deep-get($btnConf, 'mini', 'fontSize');
     background-color: palette('pink');
+
+    @media only screen and (min-width: 360px) {
+        @include getBtnVertPadding(map-get($btnConf, 'small'));
+        font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    }
 
     @include on-interact {
         background-color: darken(palette('pink'), 15%);
@@ -172,4 +185,26 @@ $btnConf: (
             height: 36px;
         }
     }
+}
+
+/* =========================================================================
+   Button Group
+   ========================================================================= */
+/* Group together a set of buttons with consistent spacing */
+
+.o-button-group {
+    .btn {
+        margin-bottom: $spacingUnit / 2;
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        @include mq('desktop') {
+            margin-right: ($spacingUnit / 2);
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    }
+
 }

@@ -20,12 +20,17 @@
             <input type="hidden" name="lang" value="en-GB">
             <input type="hidden" name="type" value="All">
             <input type="hidden" name="order" value="r">
-            <input class="form-search__input" aria-label="{{ __("global.nav.search") }}" type="text" placeholder="{{ __("global.nav.search") }}" name="q">
-            <i class="form-search__icon">
+            <label for="form-search-input" class="form-search__icon">
                 {% include "../includes/svg/search.svg" %}
-                <span class="visually-hidden form-search__a11y">{{ __("global.nav.search") }}</span>
-            </i>
-            <input class="visually-hidden" type="submit" value="Search" />
+                <span class="u-visually-hidden form-search__a11y">{{ __("global.nav.search") }}</span>
+            </label>
+            <input class="form-search__input"
+                type="text"
+                id="form-search-input" name="q"
+                aria-label="{{ __("global.nav.search") }}"
+                placeholder="{{ __("global.nav.search") }}"
+            >
+            <input class="u-visually-hidden" type="submit" value="Search" />
         </form>
     </li>
 {% endmacro %}

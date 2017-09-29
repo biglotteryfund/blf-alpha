@@ -1,19 +1,38 @@
-// classes to show/hide elements on desktop/mobile
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+/* Low level utility classes and display helpers */
+
+@include mq('desktop', 'max') {
+    .u-wide-only {
+        display: none !important;
+    }
+}
+
+@include mq('desktop') {
+    .u-not-wide {
+        display: none !important;
+    }
+}
 
 @include mq('tablet', 'max') {
-    .desktop-only { display: none !important; }
+    .u-desktop-only {
+        display: none !important;
+    }
 }
 
 @include mq('tablet') {
-    .mobile-only { display: none !important; }
+    .u-mobile-only {
+        display: none !important;
+    }
 }
 
-.hidden {
+.u-hidden {
     display: none;
 }
 
 // via http://simplyaccessible.com/article/three-pitfalls-text-alternatives/
-.visually-hidden {
+.u-visually-hidden {
     @media screen {
         color: #000000;
         background-color: #ffffff;

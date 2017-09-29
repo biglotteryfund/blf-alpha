@@ -5,6 +5,7 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] homepage: data/application base64 JS is violating CSP (google cx api)
 - [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] log material orders (need legal signoff)
+- [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?
@@ -16,4 +17,3 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
  - [ ] news UD works (CR done)
  - [ ] GA is loaded
  - [ ] are form fields working as expected?
- 

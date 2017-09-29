@@ -1,9 +1,9 @@
 @function palette($color) {
     @if map-has-key($palette, $color) {
         @return map-get($palette, $color)
+    } @else {
+        @error "palette requires a color";
     }
-    // default colour
-    @return #cccccc;
 }
 
 @function relative-line-height($fontSize, $leading) {

@@ -1,15 +1,19 @@
 {% from "../components/nav.njk" import navlinks with context %}
 
-<header role="banner">
-    <div class="inner header__inner">
-        <div class="grid grid--wide-only">
-            <a href="{{ buildUrl('toplevel', '/') }}"><h1 class="logo"><span class="visually-hidden">{{ __("global.brand.title") }}</span></h1></a>
-            <nav class="mobile-only header__hamburger" id="js-mobile-nav-toggle">
+<header class="header" role="banner">
+    <div class="header__inner inner">
+        <div class="header__content">
+            <a class="header__logo" href="{{ buildUrl('toplevel', '/') }}">
+                <h1 class="logo">
+                    <span class="u-visually-hidden">{{ __("global.brand.title") }}</span>
+                </h1>
+            </a>
+            <nav class="header__hamburger u-mobile-only" id="js-mobile-nav-toggle">
                 <a href="#nav">
                     {% include "../includes/svg/hamburger.svg" %}
                 </a>
             </nav>
-            <nav role="navigation" class="desktop-only grid__item">
+            <nav role="navigation" class="header__nav header__content-item u-desktop-only">
                 <ul class="nav grid">
                     {{ navlinks('nav__link') }}
                 </ul>

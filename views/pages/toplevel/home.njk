@@ -4,6 +4,9 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+{% set globalFootnote = "*The grant amount shown was awarded within the last 12 months" %}
+
 {% block title %}{{ title }} | {% endblock %}
 
 {% macro caseStudy() %}
@@ -25,75 +28,75 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', "The Big Lottery Fund is the largest funder of community activities in the UK. We distribute money raised by players of the <a href=\"https://www.national-lottery.co.uk\">National Lottery</a>", 'overlay-text--has-links t2') }}
+        <div class="o-button-group">
+            <a class="btn btn--small
+                      accent--white a--btn"
+                href="{{ buildUrl('toplevel', 'under10k') }}">
+                <span class="accent--pink a--text">
+                    <span class="u-wide-only">Learn how to apply for funding under £10,000</span>
+                    <span class="u-not-wide">Apply for funding under £10,000</span>
+                </span>
+            </a>
+
+            <a class="btn btn--small
+                      accent--white a--btn"
+                href="{{ buildUrl('toplevel', 'over10k') }}">
+                <span class="accent--blue a--text">
+                    <span class="u-wide-only">Learn how to apply for funding over £10,000</span>
+                    <span class="u-not-wide">Apply for funding over £10,000</span>
+                </span>
+            </a>
+        </div>
     {% endset %}
 
-    {{ hero.header('home', heroContent, 'blue', 'The Sea Cadet Corps', extraClasses = 'spaced') }}
+    {{
+        hero.superHero(
+            name = 'home-super',
+            titleDefault = 'The Big Lottery Fund distributes <a href="#">over £600m</a> a year to communities
+                across the UK, raised by players of the <a href="https://www.national-lottery.co.uk/">National Lottery</a>.',
+            titleShort = 'The Big Lottery Fund distributes money raised by players of the
+                <a href="https://www.national-lottery.co.uk/">National Lottery</a> to communites across the UK.',
+            content = heroContent,
+            caption = 'Cycling for All in Bolsover, Grant £9,358 *'
+        )
+    }}
 
     <article role="main">
+        <div class="inner--wide-only">
+            {# case studies #}
+            <div class="accent--blue a--border-top vox-pop-container swiper-container" data-per-page="1">
+                <div class="vox-pop__buttons">
+                    <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
+                        {% include "../../includes/svg/arrow-left.svg" %}
+                        <span class="u-visually-hidden">Previous item</span>
+                    </button>
+
+                    <button class="btn--carousel btn--carousel--round btn--carousel--next js-carousel-next">
+                        {% include "../../includes/svg/arrow-right.svg" %}
+                        <span class="u-visually-hidden">Next item</span>
+                    </button>
+                </div>
+
+                <ul class="swiper-wrapper unstyled">
+                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                </ul>
+            </div>
+
+            {# funding finder #}
+            <div class="central-gap">
+                <a href="#" class="btn btn--block accent--blue a--btn spaced">Search all funded projects</a>
+            </div>
+        </div>
+
+        {# News Posts #}
+        {% if news.length %}
         <div class="inner">
-            <h3 class="align--center">Here's how you can make a difference in your community...</h3>
-
-            {# funding apply links #}
-            <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
-
-                {# under 10k #}
-                <li class="grid__item">
-                    <div class="grid__item__inner--flex accent--pink a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = "Every year thousands of people apply to National Lottery Awards for All for grants between £500 and £10,000",
-                                additionalClasses = 'is-opaque',
-                                link = buildUrl('toplevel', 'under10k'),
-                                showArrow = false
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/home/under10k.jpg',
-                            imageCaption = 'Children gardening together',
-                            link = buildUrl('toplevel', 'under10k'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
-                    <div class="padded bordered">
-                        <a class="btn accent--pink a--btn btn--block btn--small" href="{{ buildUrl('toplevel', 'under10k') }}">
-                            <span class="light">Apply for funding</span> <strong>under £10k</strong>
-                        </a>
-                    </div>
-                </li>
-
-                {# over 10k #}
-                <li class="grid__item">
-                    <div class="grid__item__inner--flex accent--turquoise a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = "Many people apply for larger sums of money (over £10,000) over longer periods of time",
-                                additionalClasses = 'is-opaque',
-                                link = buildUrl('toplevel', 'over10k'),
-                                showArrow = false
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/home/over10k.jpg',
-                            imageCaption = 'Two women laughing while sharing a coffee',
-                            link = buildUrl('toplevel', 'over10k'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
-                    <div class="padded bordered">
-                        <a class="btn accent--turquoise a--btn btn--block btn--small" href="{{ buildUrl('toplevel', 'over10k') }}">
-                            <span class="light">Apply for funding</span> <strong>over £10k</strong>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-
-            {# news posts #}
-            {% if news.length %}
             <div class="accent--blue a--border-top">
-                <div class="padded">
+                <div class="padded padded--wide-only">
                     <h3 class="t3 t3--a">
                         Latest News
                     </h3>
@@ -115,41 +118,10 @@
                     </ul>
                 </div>
             </div>
-            {% endif %}
-
-            {# funding finder #}
-            <div class="central-gap">
-                <a href="#" class="btn btn--block accent--blue a--btn spaced">Find out what we funded</a>
-            </div>
         </div>
+        {% endif %}
 
         <div class="inner--wide-only">
-
-            {# case studies #}
-            <div class="accent--blue a--border-top vox-pop-container swiper-container" data-per-page="1">
-
-                <div class="vox-pop__buttons">
-                    <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
-                        {% include "../../includes/svg/arrow-left.svg" %}
-                        <span class="visually-hidden">Previous item</span>
-                    </button>
-
-                    <button class="btn--carousel btn--carousel--round btn--carousel--next js-carousel-next">
-                        {% include "../../includes/svg/arrow-right.svg" %}
-                        <span class="visually-hidden">Next item</span>
-                    </button>
-                </div>
-
-                <ul class="swiper-wrapper unstyled">
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                </ul>
-
-            </div>
-
             {# tweets #}
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--blue a--border-top padded">
@@ -176,7 +148,7 @@
                             <p class="intro">Sign up for our latest news relating to your country:</p>
 
                             <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
-                                <span class="visually-hidden" id="aria-form-loc">Location</span>
+                                <span class="u-visually-hidden" id="aria-form-loc">Location</span>
                                 {{ radios('location', [
                                     ['England', 'en', 'cd_ENGLAND_MAIL'],
                                     ['Wales', 'cy', 'cd_WALES_MAIL'],

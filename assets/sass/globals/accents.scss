@@ -10,8 +10,6 @@
     border-top-style: solid;
 }
 
-.a--border-left {  }
-
 // each theme listed in palette.scss will generate classes for use below
 // eg <div class="accent--pink a--border-top"> will give a pink border
 @each $name in $themes {
@@ -117,9 +115,19 @@
             // call-to-action buttons
             &.a--btn {
                 background-color: palette('high-contrast-bg') !important;
+
+                .a--text {
+                    color: white !important;
+                }
+
                 @include on-interact {
                     background-color: darken(palette('high-contrast-bg'), 10%) !important;
+
+                    .a--text {
+                        color: white !important;
+                    }
                 }
+
             }
         }
 

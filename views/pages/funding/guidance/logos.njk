@@ -49,7 +49,7 @@
 
 {% macro successMessage(type) %}
     {% if copy.successMessages[type] %}
-        <div class="hidden js-success js-success--{{ type }}">
+        <div class="u-hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
             <h4 class="t4">{{ copy.successMessages[type].title }}</h4>
             <h4 class="t6">{{ copy.successMessages[type].body }}</h4>
