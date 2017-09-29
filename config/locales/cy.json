@@ -38,8 +38,11 @@
 	},
 	"toplevel": {
 		"home": {
+			"title": "Cronfa Loteri Fawr",
+			"description": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig",
+			"home": "Hafan",
 			"intro": {
-				"long": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig",
+				"long": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig",
 				"short": ""
 			},
 			"callsToAction": {

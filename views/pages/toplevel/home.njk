@@ -7,7 +7,7 @@
 {% set bodyClass = "has-full-bleed-header" %}
 {% set globalFootnote = "* The grant amount shown was awarded within the last 12 months" %}
 
-{% block title %}{{ title }} | {% endblock %}
+{% block title %}{{ title }} | {{ copy.home }} | {% endblock %}
 
 {% macro caseStudy(projectName, quoteName, quoteText, imageUrl, imageSmallUrl) %}
     <div class="case-study">
