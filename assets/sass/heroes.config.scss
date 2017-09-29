@@ -145,25 +145,25 @@ $heroes: (
     ),
     'under10k': (
         'default': (
-            'width': 640,
-            'height': 424,
+            'width': 644,
+            'height': 425,
             'filename': '../images/hero/under10k--mobile.jpg'
         ),
-        'tablet': (
-            'width': 1366,
-            'height': 468,
+        'desktop': (
+            'width': 1373,
+            'height': 405,
             'filename': '../images/hero/under10k--desktop.jpg'
         )
     ),
     'over10k': (
         'default': (
-            'width': 640,
+            'width': 644,
             'height': 425,
             'filename': '../images/hero/over10k--mobile.jpg'
         ),
-        'tablet': (
-            'width': 1366,
-            'height': 446,
+        'desktop': (
+            'width': 1373,
+            'height': 405,
             'filename': '../images/hero/over10k--desktop.jpg'
         )
     ),

@@ -11,6 +11,10 @@
         border-left: none;
     }
 
+    &.content-box--tint {
+        background-color: palette('pale-grey');
+    }
+
     &.content-box--narrow {
         padding: 10px;
     }

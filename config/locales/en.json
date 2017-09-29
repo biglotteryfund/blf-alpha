@@ -34,9 +34,73 @@
 		},
 		"forms": {
 			"missingFieldError": "Please provide the '%s' field"
+		},
+		"misc": {
+			"readMore": "Read more"
 		}
 	},
 	"toplevel": {
+		"home": {
+			"title": "The Big Lottery Fund",
+			"description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
+			"home": "Home",
+			"intro": {
+				"long": "The Big Lottery Fund distributes <a href=\"/data\">over £600m</a> a year to communities across the UK, raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a>",
+				"short": "The Big Lottery Fund distributes money raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a> to communities across the UK."
+			},
+			"callsToAction": {
+				"under10k": {
+					"short": "Apply for funding under £10,000",
+					"long": "Learn how to apply for funding under £10,000"
+				},
+				"over10k": {
+					"short": "Apply for funding over £10,000",
+					"long": "Learn how to apply for funding over £10,000"
+				}
+			},
+			"caseStudies": [
+				{
+					"projectName": "Voice of Young People in Care",
+					"quoteName": "Andrea Glenn",
+					"quoteText": "I want young people in care to know that they are just as capable of reaching their goals as everyone else.",
+					"imagePath": "images/home/case-study-1.jpg",
+					"imageSmallPath": "images/home/case-study-1--small.jpg"
+				},
+				{
+					"projectName": "\u0003Mental Health Foundation",
+					"quoteName": "Candy Worf",
+					"quoteText": "We meet people when they’re in a really poor, isolated predicament and we bring them together.",
+					"imagePath": "images/home/case-study-2.jpg",
+					"imageSmallPath": "images/home/case-study-2--small.jpg"
+				}
+			],
+			"browseFundedProjects": "Search for all funded projects",
+			"latestNews": "Latest news",
+			"ebulletin": {
+				"title": "e-bulletin sign up",
+				"intro": "Sign up for our latest news relating to your country",
+				"location": "Location",
+				"locations": {
+					"england": "England",
+					"wales": "Wales",
+					"scotland": "Scotland",
+					"northernIreland": "Northern Ireland"
+				},
+				"fields": {
+					"firstName": "First name",
+					"lastName": "Surname",
+					"organisation": "Organisation",
+					"emailAddress": "Email Address"
+				},
+				"callToAction": "Subscribe"
+			},
+			"social": {
+				"followUsOn": "Follow us on",
+				"instagram": "Instagram",
+				"facebook": "Facebook",
+				"twitter": "Twitter"
+			}
+		},
 		"about": {
 			"title": "About the Big Lottery Fund"
 		},
@@ -333,56 +397,83 @@
 			]
 		},
 		"under10k": {
-			"title": "About our grants under £10,000",
+			"title": "National Lottery Awards for All - how to get a grant for up to £10,000",
+			"intro": "National Lottery Funding can help you to make a difference in your community. National Lottery Awards for All offers funding from £300 to £10,000 to support what matters to people and communities. We will fund organisations with great project ideas that:",
+			"ideas": [
+				"Shape the places and spaces that matter to communities",
+				"Bring more people together and build strong relationships in and across communities",
+				"Enable more people to fulfil their potential by working to address issues at the earliest possible stage"
+			],
+			"callToAction": "Want to know more? Start by telling us where your project is going to be",
+			"locations": {
+				"england": "England",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"northernIreland": "Northern Ireland"
+			},
+			"ukWideInfo": "Occasionally the Fund makes grants of under £10,000 to projects that benefit people right across the UK. <a href=\"https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio\">Find out more about our UK-wide funding</a>. We also make grants of <a href=\"/over10k\">more than £10,000</a> for longer term projects.",
+			"projectExamples": "Examples of projects that have been funded",
 			"projects": [
 				{
 					"name": "Papyrus",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/hbf.jpg",
 					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
 				},
 				{
 					"name": "Ragroof Players",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/ragroof.jpg",
 					"description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
 				},
 				{
 					"name": "Welsh Refugee Council",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/wrc.jpg",
 					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
 				}
-			]
+			],
+			"browseFundedProjects": "Browse all funded projects"
 		},
 		"over10k": {
-			"title": "About our grants over £10k",
+			"title": "Discover our funding programmes for amounts above £10,000",
+			"intro": "Larger grants are made through a variety of programmes that cover every nation within the United Kingdom. This kind of flexible, longer-term funding is aimed at organisations whose ambitions are shaped by the people they serve.",
+			"callToAction": "Want to know more? Start by telling us where your project is going to be",
+			"locations": {
+				"england": "England",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"northernIreland": "Northern Ireland",
+				"ukWide": "My project will help people right across the UK"
+			},
+			"projectExamples": "Examples of projects that have been funded",
 			"projects": [
 				{
 					"name": "Croxteth Gems",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/croxteth.jpg",
 					"description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
 				},
 				{
 					"name": "Dads in Mind",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/dads.jpg",
 					"description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
 				},
 				{
 					"name": "Cruse Bereavement Care",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/cruse.jpg",
 					"description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies."
 				}
-			]
+			],
+			"browseAll": "Browse all funded projects"
 		},
 		"eyp": {
 			"title": "Empowering Young People",

@@ -6,7 +6,8 @@ $breakpoints: map-get($appConfig, 'breakpoints');
 // at the specified breakpoints
 $gutters: (
     "default": 20px,
-    "tablet": 10%
+    "tablet": 5%,
+    "desktop": 10%
 );
 
 // at this resolution, the content area will be limited in width

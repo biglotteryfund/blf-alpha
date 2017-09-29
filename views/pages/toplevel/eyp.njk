@@ -1,6 +1,7 @@
 {% import "../../components/hero.njk" as hero %}
 {% import "../../components/headers.njk" as headers %}
-{% import "../../components/blocks.njk" as blocks %}
+{% from "../../components/blocks.njk" import projectBlock with context %}
+
 {% import "../../components/tabs.njk" as tabs %}
 
 {% extends "../../layouts/main.njk" %}
@@ -246,7 +247,7 @@
             <h3 class="t3">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in exampleProjects %}
-                    <li class="grid__item">{{ blocks.projectBlock(project, 'accent--pink') }}</li>
+                    <li class="grid__item">{{ projectBlock(project, 'accent--pink') }}</li>
                 {% endfor %}
             </ul>
         </div>
