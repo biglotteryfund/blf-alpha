@@ -5,15 +5,20 @@
 
 {% extends "../../layouts/main.njk" %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+
 {% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', "National Lottery Awards for All &ndash; How to get a grant for up to £10,000", 't2') }}
-    {% endset %}
-
-    {{ hero.header('under10k', heroContent, 'blue', 'Somewhere To') }}
+    {{
+        hero.sectionHero(
+            name = 'under10k',
+            titleText = 'National Lottery Awards for All &ndash; How to get a grant for up to £10,000',
+            caption = 'Somewhere To',
+            accent = 'pink'
+        )
+    }}
 
     <article role="main" class="nudge-up">
         <div class="inner--wide-only accent--blue a--border-top content-box">
