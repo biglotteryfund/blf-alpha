@@ -334,7 +334,7 @@ html:not(.contrast--high) .has-full-bleed-header .header {
 
     .header__content {
         @include mq('tablet') {
-            align-items: initial;
+            align-items: flex-start;
         }
     }
 
