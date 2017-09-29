@@ -396,7 +396,43 @@
 			]
 		},
 		"under10k": "under10k",
-		"over10k": "over10k",
+		"over10k": {
+			"title": "Darganfod ein rhaglenni grant am symiau dros £10,000",
+			"intro": "Mae grantiau mawr yn cael eu gwneud trwy amrywiaeth o raglenni sy'n cynnwys pob cenedl yn y Deyrnas Unedig. Mae'r math hwn o grant hyblyg a thymor hirach wedi'i anelu at fudiadau y mae eu huchelgeisiau'n cael eu siapio gan y bobl y maent yn eu gwasanaethu. ",
+			"callToAction": "Eisiau gwybod mwy? Dechreuwch drwy ddweud wrthym ble fydd eich prosiect wedi'i leoli",
+			"locations": {
+				"england": "Lloegr",
+				"scotland": "Yr Alban",
+				"wales": "Cymru",
+				"northernIreland": "Gogledd Iwerddon",
+				"ukWide": "Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig"
+			},
+			"projectExamples": "Enghreifftiau o brosiectau sydd wedi eu hariannu",
+			"projects": [
+				{
+					"name": "Croxteth Gems",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/croxteth.jpg",
+					"description": "Fel grŵp wrth wraidd ei gymuned, mae Cymdeithas Gymunedol Croxteth Gems wedi cefnogi pobl ifainc a theuluoedd ers bron 50 mlynedd. "
+				},
+				{
+					"name": "Dads in Mind",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/dads.jpg",
+					"description": "Mae Dads in Mind yn cefnogi tadau sy'n profi problemau iechyd meddwl gysylltiedig yn uniongyrchol â beichiogrwydd a bod yn dad ac yn cynnig cefnogaeth i'r rhai y mae eu partneriaid wedi'u heffeithio hefyd. "
+				},
+				{
+					"name": "Cruse Bereavement Care",
+					"amount": "",
+					"link": "#",
+					"image": "images/over10k/cruse.jpg",
+					"description": "Mae Gofal mewn Galar Cruse yn cynnig cefnogaeth, cyngor a gwybodaeth i blant, pobl ifainc ac oedolion pan fydd rhywun yn marw. "
+				}
+			],
+			"browseAll": "Pori'r holl brosiectau a ariannwyd"
+		},
 		"eyp": {
 			"title": "Empowering Young People"
 		},
