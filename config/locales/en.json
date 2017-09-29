@@ -397,30 +397,46 @@
             ]
         },
         "under10k": {
-            "title": "About our grants under £10,000",
+			"title": "National Lottery Awards for All - how to get a grant for up to £10,000",
+			"intro": "National Lottery Funding can help you to make a difference in your community. National Lottery Awards for All offers funding from £300 to £10,000 to support what matters to people and communities. We will fund organisations with great project ideas that:",
+			"ideas": [
+				"Shape the places and spaces that matter to communities",
+				"Bring more people together and build strong relationships in and across communities",
+				"Enable more people to fulfil their potential by working to address issues at the earliest possible stage"
+			],
+			"callToAction": "Want to know more? Start by telling us where your project is going to be",
+			"locations": {
+				"england": "England",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"northernIreland": "Northern Ireland"
+			},
+			"ukWideInfo": "Occasionally the Fund makes grants of under £10,000 to projects that benefit people right across the UK. <a href=\"https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio\">Find out more about our UK-wide funding</a>. We also make grants of <a href=\"/over10k\">more than £10,000</a> for longer term projects.",
+			"projectExamples": "Examples of projects that have been funded",
             "projects": [
                 {
                     "name": "Papyrus",
                     "amount": "",
-                    "link": "#",
+					"link": "",
                     "image": "images/under10k/hbf.jpg",
                     "description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
                 },
                 {
                     "name": "Ragroof Players",
                     "amount": "",
-                    "link": "#",
+					"link": "",
                     "image": "images/under10k/ragroof.jpg",
                     "description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
                 },
                 {
                     "name": "Welsh Refugee Council",
                     "amount": "",
-                    "link": "#",
+					"link": "",
                     "image": "images/under10k/wrc.jpg",
                     "description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
                 }
-            ]
+			],
+			"browseFundedProjects": "Browse all funded projects"
         },
         "over10k": {
             "title": "Discover our funding programmes for amounts above £10,000",
