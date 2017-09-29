@@ -9,20 +9,25 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% macro caseStudy() %}
-    <ul class="unstyled grid vox-pop">
-        <li class="grid__item vox-pop__image">
-            <img src="{{ 'images/funding/tell-the-world.jpg' | getCachebustedPath }}" alt="A case study" />
-        </li>
-        <li class="grid__item vox-pop__blurb">
+{% macro caseStudy(projectName, quoteName, quoteText, imageUrl, imageSmallUrl) %}
+    <div class="case-study">
+        <picture class="case-study__image">
+            <source srcset="{{ imageUrl | getCachebustedPath }}" media="(min-width: 600px)">
+            <source srcset="{{ imageSmallUrl | getCachebustedPath }}">
+            <img src="{{ imageSmallUrl | getCachebustedPath }}" alt="{{ quoteName }} {{ projectName }}" />
+        </picture>
+        <div class="case-study__content">
             <blockquote class="pullquote">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam finibus urna laoreet condimentum pharetra. Orci varius natoque penatibus.</p>
-                <p>Let magnis dis parturient montes, nascetur ridiculus</p>
-                <cite class="t3 t3--b">Jane Bloggs</cite>
-                <aside class="t6">Project name</aside>
+                <div class="pullquote__text">
+                    <p>{{ quoteText }}</p>
+                </div>
+                <div class="pullquote__meta">
+                    <cite class="t3 t3--b">{{ quoteName }}</cite>
+                    <aside class="pullquote__aside t6 u-weight-normal">{{ projectName }}</aside>
+                </div>
             </blockquote>
-        </li>
-    </ul>
+        </div>
+    </div>
 {% endmacro %}
 
 {% block content %}
@@ -62,15 +67,15 @@
     }}
 
     <article role="main">
-        <div class="inner--wide-only">
+        <div class="inner">
             {# case studies #}
-            <div class="accent--blue a--border-top vox-pop-container swiper-container" data-per-page="1">
-                <div class="vox-pop__buttons">
+            <div class="accent--blue a--border-top carousel swiper-container"
+                data-per-page="1">
+                <div class="carousel__controls">
                     <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
                         {% include "../../includes/svg/arrow-left.svg" %}
                         <span class="u-visually-hidden">Previous item</span>
                     </button>
-
                     <button class="btn--carousel btn--carousel--round btn--carousel--next js-carousel-next">
                         {% include "../../includes/svg/arrow-right.svg" %}
                         <span class="u-visually-hidden">Next item</span>
@@ -78,23 +83,41 @@
                 </div>
 
                 <ul class="swiper-wrapper unstyled">
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
-                    <li class="swiper-slide">{{ caseStudy() }}</li>
+                    <li class="swiper-slide">
+                        {{
+                            caseStudy(
+                                projectName = 'Voice of Young People in Care',
+                                quoteName = 'Andrea Glenn',
+                                quoteText = 'I want young people in care to know that they are
+                                    just as capable of reaching their goals as everyone else.',
+                                imageUrl = 'images/home/case-study-1.jpg',
+                                imageSmallUrl = 'images/home/case-study-1--small.jpg'
+                            )
+                        }}
+                    </li>
+                    <li class="swiper-slide">
+                        {{
+                            caseStudy(
+                                projectName = 'Mental Health Foundation',
+                                quoteName = 'Candy Worf',
+                                quoteText = 'We meet people when they’re in a really poor,
+                                    isolated predicament and we bring them together.',
+                                imageUrl = 'images/home/case-study-2.jpg',
+                                imageSmallUrl = 'images/home/case-study-2--small.jpg'
+                            )
+                        }}
+                    </li>
                 </ul>
+
             </div>
 
             {# funding finder #}
             <div class="central-gap">
                 <a href="https://www.biglotteryfund.org.uk/funding/search-past-grants" class="btn btn--block accent--blue a--btn spaced">Browse all funded projects</a>
             </div>
-        </div>
 
-        {# News Posts #}
-        {% if news.length %}
-        <div class="inner">
+            {# News Posts #}
+            {% if news.length %}
             <div class="accent--blue a--border-top">
                 <div class="padded padded--wide-only">
                     <h3 class="t3 t3--a">
@@ -111,15 +134,16 @@
                             <p>
                                 {{ n['text' | localeify(locale)] | safe }}
                                 <a href="{{ n['link' | localeify(locale)] }}"
-                                    class="accent--pink a--text heavier">Read more&hellip;</a>
+                                    class="accent--pink a--text u-weight-heavy">Read more&hellip;</a>
                             </p>
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
+            {% endif %}
+
         </div>
-        {% endif %}
 
         <div class="inner--wide-only">
             {# tweets #}

@@ -12,7 +12,7 @@
         <p><strong>Talk to us &ndash; we're really interested in your ideas</strong>. And we're here to support you to make the best application possible.</p>
         <p>We're looking to fund projects that meet one or more of the objectives below:</p>
 
-        <ul class="list-bullets list--indented accent--pink a--text heavier">
+        <ul class="list-bullets list--indented accent--pink a--text u-weight-heavy">
             <li>More young people have the skills they need for the future</li>
             <li>Young people have better relationships with their support networks and communities</li>
             <li>Young people have improved health and wellbeing</li>
@@ -88,7 +88,7 @@
             }
         ] %}
 
-        <ol class="list-bullets list--indented heavier">
+        <ol class="list-bullets list--indented u-weight-heavy">
             {% for item in beforeApplyContents %}
                 <li><a href="#before-{{ item.id }}">{{ item.title }}</a></li>
             {% endfor %}
@@ -108,7 +108,7 @@
 {% set checkYouAreEligible %}
     <div class="content-box content-box--borderless">
         <p>You can apply if you're a voluntary or community group, such as a:</p>
-        <ul class="list-bullets list--indented heavier">
+        <ul class="list-bullets list--indented u-weight-heavy">
             <li>charity</li>
             <li>co-operative</li>
             <li>social enterprise</li>
@@ -118,7 +118,7 @@
         <p>Independent branches of larger organisations must have their own governing document and be allowed to manage funds and staff without referring to another body.</p>
         <p class="links-emphasised">If you're a dependent branch of a larger organisation you could still be eligible to apply. To find out call on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday 9am to 5pm (not including public holidays).</p>
         <p><strong class="accent--pink a--text">We can fund some or all of your project costs</strong>, including:</p>
-        <ul class="list-bullets list--indented heavier">
+        <ul class="list-bullets list--indented u-weight-heavy">
             <li>staff salaries</li>
             <li>training</li>
             <li>volunteer expenses</li>
@@ -129,7 +129,7 @@
         </ul>
         <p>You can apply for both revenue costs and capital costs, but capital should be no more than 10% of the total grant that you're applying for.<p>
         <p><strong class="accent--pink a--text">We can't fund:</strong></p>
-        <ul class="list-bullets list--indented heavier">
+        <ul class="list-bullets list--indented u-weight-heavy">
             <li>costs for items or activities you have already incurred before you get a decision</li>
             <li>fundraising activities</li>
             <li>activities that are statutory obligations or will replace statutory funding, including activities on the school curriculum</li>
@@ -151,7 +151,7 @@
 
         <p><strong>Before you apply, you'll need to:</strong></p>
 
-        <ul class="list-bullets list-bullets--mob-friendly list--indented heavier">
+        <ul class="list-bullets list-bullets--mob-friendly list--indented u-weight-heavy">
             {# @TODO the paneId / tabSetId are manually linked to the tabs below #}
             <li>{{ tabs.tab(title = 'check if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'eyp') }}</li>
             <li>{{ tabs.tab(title = 'read guidance on how to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') }}</li>
