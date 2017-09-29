@@ -16,4 +16,3 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
  - [ ] news UD works (CR done)
  - [ ] GA is loaded
  - [ ] are form fields working as expected?
- 
