@@ -169,11 +169,23 @@ module.exports = (pages, sectionPath, sectionId) => {
                 req.body[location] = 'yes';
                 delete req.body['location'];
 
+                let locale = req.body.locale;
+                let localePrefix = (locale === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
+
                 // redirect errors back to the homepage
                 let handleSignupError = () => {
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(() => {
-                        return res.redirect('/#' + config.get('anchors.ebulletin'));
+                        // @TODO build this URL more intelligently
+                        return res.redirect(localePrefix + '/#' + config.get('anchors.ebulletin'));
+                    });
+                };
+
+                let handleSignupSuccess = () => {
+                    req.flash('ebulletinStatus', 'success');
+                    req.session.save(() => {
+                        // @TODO build this URL more intelligently
+                        return res.redirect(localePrefix + '/#' + config.get('anchors.ebulletin'));
                     });
                 };
 
@@ -187,10 +199,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                     followAllRedirects: true
                 }).then(response => { // signup succeeded
                     if (response.statusCode === 302 || response.statusCode === 200) {
-                        req.flash('ebulletinStatus', 'success');
-                        req.session.save(() => {
-                            return res.redirect('/#' + config.get('anchors.ebulletin'));
-                        });
+                        return handleSignupSuccess();
                     } else {
                         console.log('Got an error with redirect', response.statusCode);
                         return handleSignupError();
