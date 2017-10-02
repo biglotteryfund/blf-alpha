@@ -1,4 +1,8 @@
+/* =========================================================================
+   Overlay Text
+   ========================================================================= */
 // blocked-out colourised background
+
 .overlay-text {
     width: 60%;
     line-height: 1.4;
@@ -48,6 +52,12 @@
         height: 18px;
         vertical-align: middle;
     }
+}
 
+.overlay-text--deep {
+    line-height: 1.7;
 
+    > span {
+        padding: 5px;
+    }
 }
