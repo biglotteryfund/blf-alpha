@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .case-study {
-    background-color: palette('blue-bg');
+    background-color: palette('pale-grey');
 
     @media screen and (min-width: 640px) {
         display: flex;
@@ -29,7 +29,7 @@
 }
 .case-study__content {
     padding: ($spacingUnit / 2) $spacingUnit;
-    border: 1px solid darken(palette('blue-bg'), 10%);
+    border: 1px solid darken(palette('pale-grey'), 10%);
 
     @media screen and (min-width: 640px) {
         border: none;

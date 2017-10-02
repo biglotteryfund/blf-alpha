@@ -7,6 +7,10 @@ $btnConf: (
         'fontSize': 18px,
         'desiredHeight': 59px
     ),
+    'medium': (
+        'fontSize': 16px,
+        'desiredHeight': 42px
+    ),
     'small': (
         'fontSize': 16px,
         'desiredHeight': 36px
@@ -92,6 +96,27 @@ $btnConf: (
     }
 }
 
+.btn--medium {
+    @include getBtnVertPadding(map-get($btnConf, 'mini'));
+    font-size: map-deep-get($btnConf, 'mini', 'fontSize');
+    background-color: palette('pink');
+
+    @media only screen and (min-width: 360px) {
+        @include getBtnVertPadding(map-get($btnConf, 'small'));
+        font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    }
+
+    @include mq('tablet') {
+        @include getBtnVertPadding(map-get($btnConf, 'medium'));
+        font-size: map-deep-get($btnConf, 'medium', 'fontSize');
+    }
+
+    @include on-interact {
+        background-color: darken(palette('pink'), 15%);
+        outline: none;
+    }
+}
+
 // forces full-width
 .btn--block {
     display: block;
@@ -154,8 +179,8 @@ $btnConf: (
 
     .icon--arrow-left,
     .icon--arrow-right {
-        width: 24px;
-        height: 40px;
+        width: 22px;
+        height: 22px;
         fill: #1a44a1;
     }
 
@@ -182,7 +207,19 @@ $btnConf: (
         .icon--arrow-right {
             fill: #ffffff;
             text-align: center;
-            height: 36px;
+        }
+
+        /**
+         * Optically align icons
+         */
+        .icon--arrow-left {
+            position: relative;
+            right: 1px;
+        }
+
+        .icon--arrow-right {
+            position: relative;
+            left: 1px;
         }
     }
 }
@@ -195,8 +232,14 @@ $btnConf: (
 .o-button-group {
     .btn {
         margin-bottom: $spacingUnit / 2;
+
         &:last-of-type {
             margin-bottom: 0;
+        }
+
+        @include mq('tablet', 'max') {
+            width: 100%;
+            max-width: 300px;
         }
 
         @include mq('desktop') {

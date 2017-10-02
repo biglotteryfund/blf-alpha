@@ -34,7 +34,7 @@
 
     {% set heroContent %}
         <div class="o-button-group">
-            <a class="btn btn--small
+            <a class="btn btn--medium
                       accent--white a--btn"
                 href="{{ buildUrl('toplevel', 'under10k') }}">
                 <span class="accent--pink a--text">
@@ -43,7 +43,7 @@
                 </span>
             </a>
 
-            <a class="btn btn--small
+            <a class="btn btn--medium
                       accent--white a--btn"
                 href="{{ buildUrl('toplevel', 'over10k') }}">
                 <span class="accent--blue a--text">
@@ -59,7 +59,7 @@
             name = 'home-super',
             title = copy.intro.long,
             content = heroContent,
-            caption = 'Cycling for All in Bolsover, Grant £9,358 *'
+            caption = 'Cloughmills Community Action, Grant £4,975*'
         )
     }}
 
@@ -107,7 +107,7 @@
             {% if news.length %}
                 <div class="accent--blue a--border-top">
                     <div class="padded padded--wide-only">
-                        <h3 class="t3 t3--a">{{ copy.latestNews }}</h3>
+                        <h3 class="t8 t3--a accent--blue">{{ copy.latestNews }}</h3>
                         <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                             {% for n in news %}
                                 <li class="grid__item">
@@ -139,7 +139,7 @@
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     <form class="form-ebulletin padded spaced" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-                        <h3 class="t3 t3--a accent--pink a--text">{{ copy.ebulletin.title }}</h3>
+                        <h3 class="t8 t3--a accent--pink a--text">{{ copy.ebulletin.title }}</h3>
 
                         {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}

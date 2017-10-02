@@ -16,13 +16,10 @@ $nudgeAmount: 25px;
 
 // @TODO better name
 .central-gap {
-    $gap: 20%;
-    @include mq('tablet', 'max') {
-        margin-left: $gap / 2;
-        margin-right: $gap / 2;
+    @include mq('tablet') {
+        margin-left: 20%;
+        margin-right: 20%;
     }
-    margin-left: $gap;
-    margin-right: $gap;
 }
 
 .width-natural {

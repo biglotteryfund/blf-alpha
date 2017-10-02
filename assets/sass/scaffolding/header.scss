@@ -330,6 +330,12 @@ html:not(.contrast--high) .has-full-bleed-header .header {
     width: 100%;
 
     .header__inner {
+        padding: 10px 0;
+
+        @media only screen and (min-width: 420px) {
+            padding: 15px 0;
+        }
+
         @include mq('tablet') {
             padding: 0;
         }
@@ -350,13 +356,24 @@ html:not(.contrast--high) .has-full-bleed-header .header {
             margin-top: 0;
         }
     }
+    .header__hamburger {
+        top: 25px;
+
+        @media only screen and (min-width: 420px) {
+            top: 40px;
+        }
+    }
     .header__hamburger a svg,
     .header__hamburger a path {
         fill: white;
     }
 
     .logo {
-        margin-top: ($spacingUnit / 2);
+        margin-top: 0;
+
+        @media only screen and (min-width: 420px) {
+            margin-top: 10px;
+        }
     }
 
     .nav {
