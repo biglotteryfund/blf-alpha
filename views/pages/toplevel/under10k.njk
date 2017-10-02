@@ -33,25 +33,25 @@
 
             <ul class="unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
                <li class="grid__item">
-                   <a href="https://www.biglotteryfund.org.uk/global-content/programmes/england/awards-for-all-england"
+                   <a href="{{ buildUrl('global-content/programmes/england/awards-for-all-england') }}"
                       class="btn accent--pink a--btn btn--block btn--small">
                        {{ copy.locations.england }}
                    </a>
                </li>
                <li class="grid__item">
-                   <a href="https://www.biglotteryfund.org.uk/global-content/programmes/scotland/awards-for-all-scotland"
+                   <a href="{{ buildUrl('global-content/programmes/scotland/awards-for-all-scotland') }}"
                       class="btn accent--pink a--btn btn--block btn--small">
                        {{ copy.locations.scotland }}
                    </a>
                </li>
                <li class="grid__item">
-                   <a href="https://www.biglotteryfund.org.uk/global-content/programmes/wales/awards-for-all-wales"
+                   <a href="{{ buildUrl('global-content/programmes/wales/awards-for-all-wales') }}"
                       class="btn accent--pink a--btn btn--block btn--small">
                        {{ copy.locations.wales }}
                    </a>
                </li>
                <li class="grid__item">
-                   <a href="https://www.biglotteryfund.org.uk/global-content/programmes/northern-ireland/awards-for-all-northern-ireland"
+                   <a href="{{ buildUrl('global-content/programmes/northern-ireland/awards-for-all-northern-ireland') }}"
                       class="btn accent--pink a--btn btn--block btn--small">
                        {{ copy.locations.northernIreland }}
                    </a>
@@ -70,7 +70,7 @@
             </ul>
 
             <div class="central-gap">
-                <a href="https://www.biglotteryfund.org.uk/funding/search-past-grants" class="btn btn--outline accent--pink btn--block btn--small">{{ copy.browseFundedProjects }}</a>
+                <a href="{{ buildUrl('funding/search-past-grants') }}" class="btn btn--outline accent--pink btn--block btn--small">{{ copy.browseFundedProjects }}</a>
             </div>
         </div>
 
