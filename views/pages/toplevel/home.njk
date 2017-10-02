@@ -5,7 +5,7 @@
 {% extends "../../layouts/main.njk" %}
 
 {% set bodyClass = "has-full-bleed-header" %}
-{% set globalFootnote = "* The grant amount shown was awarded within the last 12 months" %}
+{% set globalFootnote = "* " + __('global.footerLinks.grantFootnote') %}
 
 {% block title %}{{ title }} | {{ copy.home }} | {% endblock %}
 

@@ -23,7 +23,8 @@
 			"cookies": "Cookies",
 			"contact": "Contact",
 			"site-map": "Site map",
-			"accessibility": "Accessibility"
+			"accessibility": "Accessibility",
+			"grantFootnote": "The grant amount shown was awarded within the last 12 months"
 		},
 		"accessibility": {
 			"skipToContent": "Skip to content",
