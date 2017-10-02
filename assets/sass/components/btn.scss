@@ -7,6 +7,10 @@ $btnConf: (
         'fontSize': 18px,
         'desiredHeight': 59px
     ),
+    'medium': (
+        'fontSize': 16px,
+        'desiredHeight': 42px
+    ),
     'small': (
         'fontSize': 16px,
         'desiredHeight': 36px
@@ -84,6 +88,27 @@ $btnConf: (
     @media only screen and (min-width: 360px) {
         @include getBtnVertPadding(map-get($btnConf, 'small'));
         font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    }
+
+    @include on-interact {
+        background-color: darken(palette('pink'), 15%);
+        outline: none;
+    }
+}
+
+.btn--medium {
+    @include getBtnVertPadding(map-get($btnConf, 'mini'));
+    font-size: map-deep-get($btnConf, 'mini', 'fontSize');
+    background-color: palette('pink');
+
+    @media only screen and (min-width: 360px) {
+        @include getBtnVertPadding(map-get($btnConf, 'small'));
+        font-size: map-deep-get($btnConf, 'small', 'fontSize');
+    }
+
+    @include mq('tablet') {
+        @include getBtnVertPadding(map-get($btnConf, 'medium'));
+        font-size: map-deep-get($btnConf, 'medium', 'fontSize');
     }
 
     @include on-interact {
