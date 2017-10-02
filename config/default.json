@@ -38,9 +38,15 @@
         }
     },
     "social": {
-        "facebook": "http://www.facebook.com/BigLotteryFund",
         "instagram": "https://www.instagram.com/big_lottery_fund",
-        "twitter": "https://twitter.com/BigLotteryFund"
+        "twitterAccounts": {
+            "en": "BigLotteryFund",
+            "cy": "LoteriFawrCymru"
+        },
+        "facebookAccounts": {
+           "en": "http://www.facebook.com/BigLotteryFund",
+           "cy": "https://www.facebook.com/biglotteryfundwales"
+        }
     },
     "database": "website-dev",
     "database-test": "website-test"
