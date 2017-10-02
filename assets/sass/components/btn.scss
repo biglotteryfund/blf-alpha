@@ -232,8 +232,14 @@ $btnConf: (
 .o-button-group {
     .btn {
         margin-bottom: $spacingUnit / 2;
+
         &:last-of-type {
             margin-bottom: 0;
+        }
+
+        @include mq('tablet', 'max') {
+            width: 100%;
+            max-width: 300px;
         }
 
         @include mq('desktop') {
