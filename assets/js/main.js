@@ -74,7 +74,7 @@ if (!_BLF.blockAnalytics) { // set in main.njk
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m);
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
     // init GA
     ga('create', uaCode, {
