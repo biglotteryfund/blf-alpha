@@ -66,14 +66,16 @@
 					"quoteName": "Andrea Glenn",
 					"quoteText": "I want young people in care to know that they are just as capable of reaching their goals as everyone else.",
 					"imagePath": "images/home/case-study-1.jpg",
-					"imageSmallPath": "images/home/case-study-1--small.jpg"
+					"imageSmallPath": "images/home/case-study-1--small.jpg",
+					"link": "funding/big-stories/voice-of-young-people-in-care"
 				},
 				{
 					"projectName": "Mental Health Foundation",
 					"quoteName": "Candy Worf",
 					"quoteText": "We meet people when they're in a really poor, isolated predicament and we bring them together.",
 					"imagePath": "images/home/case-study-2.jpg",
-					"imageSmallPath": "images/home/case-study-2--small.jpg"
+					"imageSmallPath": "images/home/case-study-2--small.jpg",
+					"link": "funding/big-stories/mental-health-foundation"
 				}
 			],
 			"browseFundedProjects": "Search for all funded projects",

@@ -66,14 +66,16 @@
 					"quoteName": "Andrea Glenn",
 					"quoteText": "Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau sy'n bwysig iddynt yn yr un modd yn union â phawb arall.",
 					"imagePath": "images/home/case-study-1.jpg",
-					"imageSmallPath": "images/home/case-study-1--small.jpg"
+					"imageSmallPath": "images/home/case-study-1--small.jpg",
+					"link": "funding/big-stories/voice-of-young-people-in-care"
 				},
 				{
 					"projectName": "Y Sefydliad Iechyd Meddwl",
 					"quoteName": "Candy Worf",
 					"quoteText": "Rydym yn cwrdd â phobl pan fyddant mewn sefyllfa wael ac unig, ac yn ceisio dod â nhw ynghyd.",
 					"imagePath": "images/home/case-study-2.jpg",
-					"imageSmallPath": "images/home/case-study-2--small.jpg"
+					"imageSmallPath": "images/home/case-study-2--small.jpg",
+					"link": "funding/big-stories/mental-health-foundation"
 				}
 			],
 			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd",
