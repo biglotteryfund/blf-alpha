@@ -155,11 +155,11 @@
 
                     {# social buttons #}
                     <div class="gutter-mob-only">
-                        <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
+                        <a href="{{ appData.config.get('social.instagram') }}" class="btn btn--small btn--outline accent--blue btn--block spaced">
                             <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>
                             {{ copy.social.followUsOn }} {{ copy.social.instagram }}
                         </a>
-                        <a href="{{ appData.config.get('social.facebookAccounts.' + locale) }}" class="btn btn--small btn--outline accent--blue btn--block spaced--s">
+                        <a href="{{ appData.config.get('social.facebookAccounts.' + locale) }}" class="btn btn--small btn--outline accent--blue btn--block spaced">
                             <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>
                             {{ copy.social.followUsOn }} {{ copy.social.facebook }}
                         </a>
