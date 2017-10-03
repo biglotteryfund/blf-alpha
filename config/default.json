@@ -15,7 +15,7 @@
         "contrast": "contrastMode",
         "session": "blf-alpha-session",
         "csrf": "_csrf",
-        "abTest": "blf-ab"
+        "abTest": "blf-ab-1"
     },
     "anchors": {
         "contactPress": "press",
@@ -32,7 +32,7 @@
         "tests": {
             "homepage": {
                 "id": "pR1e00a0Q42tSZuvQdaqpA",
-                "percentage": 100
+                "percentage": 10
             }
         }
     },
