@@ -41,7 +41,7 @@ const routes = {
                     lang: "toplevel.home",
                     code: 0,
                     static: false,
-                    live: false
+                    live: true
                 },
                 contact: {
                     name: "Contact",
@@ -100,7 +100,7 @@ const routes = {
                     lang: "toplevel.under10k",
                     code: 29,
                     static: true,
-                    live: false
+                    live: true
                 },
                 over10k: {
                     name: "Over 10k",
@@ -109,7 +109,7 @@ const routes = {
                     lang: "toplevel.over10k",
                     code: 30,
                     static: true,
-                    live: false
+                    live: true
                 },
                 eyp: {
                     name: "Empowering Young People",
