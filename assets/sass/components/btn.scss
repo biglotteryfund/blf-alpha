@@ -122,6 +122,11 @@ $btnConf: (
     display: block;
 }
 
+.btn--block-full {
+    display: block;
+    width: 100%;
+}
+
 // outlined mode
 .btn--outline {
     background-color: #ffffff !important;
