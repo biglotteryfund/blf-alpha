@@ -41,6 +41,9 @@ let testHomepage = ab.test('blf-homepage-2017', {
 });
 
 let newHomepage = (req, res, next) => {
+    // don't cache this page!
+    res.cacheControl = { maxAge: 0 };
+
     let serveHomepage = (news) => {
         let lang = req.i18n.__("toplevel.home");
         res.render('pages/toplevel/home', {
@@ -66,6 +69,9 @@ let newHomepage = (req, res, next) => {
 // @TODO cache this page as it's very slow to return
 // main issue is the static assets (which cloudfront doesn't cache)
 let oldHomepage = (req, res, next) => {
+    // don't cache this page!
+    res.cacheControl = { maxAge: 0 };
+
     return rp({
         url: legacyUrl,
         strictSSL: false,
