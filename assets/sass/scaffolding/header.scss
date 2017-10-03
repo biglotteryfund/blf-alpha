@@ -162,7 +162,7 @@ $offscreenNavWidth: 65%;
                 vertical-align: middle;
                 height: 15px;
                 display: inline-block;
-                margin: 0;
+                margin: 0 $spacingUnit;
 
                 @include mq('desktop') {
                     margin: 0 $spacingUnit * 1.25;
@@ -409,6 +409,11 @@ html:not(.contrast--high) .has-full-bleed-header .header {
 
         &:after {
             border-color: white;
+            margin: 0;
+
+            @include mq('desktop') {
+                margin: 0 $spacingUnit * 1.25;
+            }
         }
     }
     .nav__search {
