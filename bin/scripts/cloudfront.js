@@ -83,10 +83,10 @@ if(!SGO_HASH || !SGO_HASH_TEST) {
 let URLs = {
     legacy: [],
     smallGrants: [
-        makeUrlObject('/apply-' + SGO_HASH + '/*')
+        // makeUrlObject('/apply-' + SGO_HASH + '/*')
     ],
     smallGrantsTest: [
-        makeUrlObject('/testapply-' + SGO_HASH_TEST + '/*')
+        // makeUrlObject('/testapply-' + SGO_HASH_TEST + '/*')
     ],
     newSite: [
         makeUrlObject('/assets/*'),
@@ -94,7 +94,8 @@ let URLs = {
         makeUrlObject('/error'),
         makeUrlObject('/tools/*', true, true),
         makeUrlObject('/robots.txt'),
-        // makeUrlObject('/ebulletin', true, false) @TODO add when launching homepage
+        makeUrlObject('/ebulletin', true, false),
+        makeUrlObject('/home')
     ]
 };
 

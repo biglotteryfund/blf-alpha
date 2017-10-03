@@ -34,8 +34,8 @@ proxy.on('error', (e) => {
 // create an A/B test
 let testHomepage = ab.test('blf-homepage-2017', {
     cookie: {
-        name: config.get('abTests.cookieName'),
-        maxAge: 60 * 60 * 24 * 30 // 30 days
+        name: config.get('cookies.abTest'),
+        maxAge: 60 * 60 * 24 * 7 * 1000 // one week
     },
     id: config.get('abTests.tests.homepage.id') // google experiment ID
 });
