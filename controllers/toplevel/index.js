@@ -17,9 +17,10 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
-// configure proxy server for A/B testing old site
+/**
+ * Configure proxy server for A/B testing old site
+ */
 const legacyUrl = config.get('legacyDomain');
-const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
 const proxy = httpProxy.createProxyServer({
     target: legacyUrl,
     changeOrigin: true,
@@ -31,16 +32,7 @@ proxy.on('error', (e) => {
     console.log('Proxy error', e);
 });
 
-// create an A/B test
-let testHomepage = ab.test('blf-homepage-2017', {
-    cookie: {
-        name: config.get('cookies.abTest'),
-        maxAge: 60 * 60 * 24 * 7 * 1000 // one week
-    },
-    id: config.get('abTests.tests.homepage.id') // google experiment ID
-});
-
-let newHomepage = (req, res, next) => {
+const newHomepage = (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
@@ -68,7 +60,7 @@ let newHomepage = (req, res, next) => {
 
 // @TODO cache this page as it's very slow to return
 // main issue is the static assets (which cloudfront doesn't cache)
-let oldHomepage = (req, res, next) => {
+const oldHomepage = (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
@@ -139,11 +131,25 @@ module.exports = (pages, sectionPath, sectionId) => {
      */
     routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
-    // variant 0/A: existing site (proxied)
-    router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
+    if (config.get('abTests.enabled')) {
+        const testHomepage = ab.test('blf-homepage-2017', {
+            cookie: {
+                name: config.get('cookies.abTest'),
+                maxAge: 60 * 60 * 24 * 7 * 1000 // one week
+            },
+            id: config.get('abTests.tests.homepage.id') // google experiment ID
+        });
 
-    // variant 1/B: new homepage
-    router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
+        const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
+
+        // variant 0/A: existing site (proxied)
+        router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
+
+        // variant 1/B: new homepage
+        router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
+    } else {
+        router.get('/', newHomepage);
+    }
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);
