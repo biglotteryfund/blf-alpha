@@ -2,7 +2,6 @@
 /* global describe, it, beforeEach, afterEach */
 const chai = require('chai');
 chai.use(require('chai-http'));
-const should = chai.should();
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 

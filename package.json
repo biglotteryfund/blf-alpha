@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "test": "gulp test",
+    "lint": "eslint .",
     "test-precommit": "gulp test; gulp build-dev",
     "test-deps": "snyk test",
     "snyk-protect": "snyk protect",

@@ -1,17 +1,16 @@
 module.exports = {
-    "rules": {
-        "semi": [
-            2,
-            "always"
-        ],
-        "no-console": 0,
-        "eqeqeq": 2,
-        "no-unused-vars": 1
+    root: true,
+    extends: 'eslint:recommended',
+    env: {
+        es6: true,
+        node: true,
+        browser: true
     },
-    "env": {
-        "es6": true,
-        "node": true,
-        "browser": true
-    },
-    "extends": "eslint:recommended"
+    rules: {
+        eqeqeq: 2,
+        semi: [2, 'always'],
+
+        'no-console': 0,
+        'no-unused-vars': 1
+    }
 };
