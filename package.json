@@ -7,11 +7,11 @@
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "test": "gulp test",
     "lint": "eslint .",
-    "test-precommit": "gulp test; gulp build-dev",
     "test-deps": "snyk test",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": "gulp test; gulp build-dev"
   },
   "lint-staged": {
     "{gulpfile.js,server.js,controllers/**/*.js,models/**/*.js,modules/**/*.js,test/**/*.js}": [
