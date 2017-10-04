@@ -180,7 +180,8 @@ gulp.task('mocha', ['build'], function () {
    }).pipe(mocha({
        reporter: 'spec',
        timeout: 20000,
-       bail: true
+       bail: true,
+       exit: true
    }));
 });
 
