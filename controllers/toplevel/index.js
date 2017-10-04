@@ -3,7 +3,6 @@ const express = require('express');
 const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
-const httpProxy = require('http-proxy');
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
@@ -20,16 +19,6 @@ const robots = require('../../config/app/robots.json');
 // configure proxy server for A/B testing old site
 const legacyUrl = config.get('legacyDomain');
 const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
-const proxy = httpProxy.createProxyServer({
-    target: legacyUrl,
-    changeOrigin: true,
-    secure: false
-});
-
-// log errors fetching proxy
-proxy.on('error', (e) => {
-    console.log('Proxy error', e);
-});
 
 // create an A/B test
 let testHomepage = ab.test('blf-homepage-2017', {
