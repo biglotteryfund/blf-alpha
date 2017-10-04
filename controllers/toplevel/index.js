@@ -16,8 +16,6 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
-const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
-
 const newHomepage = (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };

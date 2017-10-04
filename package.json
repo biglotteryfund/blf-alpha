@@ -31,7 +31,6 @@
     "express-validator": "^3.2.1",
     "generate-schema": "^2.5.1",
     "helmet": "^3.8.1",
-    "http-proxy": "^1.16.2",
     "i18n-2": "^0.6.3",
     "jsdom": "^10.1.0",
     "lodash": "^4.17.4",
