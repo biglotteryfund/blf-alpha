@@ -1,7 +1,8 @@
 'use strict';
-/* global describe, it, beforeEach, afterEach */
 const chai = require('chai');
 chai.use(require('chai-http'));
+chai.should();
+
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 
