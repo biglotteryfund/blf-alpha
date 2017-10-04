@@ -5,6 +5,7 @@ const path = require('path');
 const config = require('config');
 const sassConfig = require('../../config/content/sass.json');
 const routes = require('../../controllers/routes');
+const utilities = require('../../modules/utilities');
 
 const getGlobal = (name) => {
     return app.get('engineEnv').getGlobal(name);
@@ -106,6 +107,9 @@ let getCurrentUrl = function (req, locale) {
     } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
         currentUrl = currentUrl.replace(CYMRU_URL, '/');
     }
+
+    // remove any trailing slashes (eg. /welsh/ => /welsh)
+    currentUrl = utilities.stripTrailingSlashes(currentUrl);
 
     return currentUrl;
 };

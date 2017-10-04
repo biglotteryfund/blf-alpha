@@ -41,7 +41,8 @@ const routes = {
                     lang: "toplevel.home",
                     code: 0,
                     static: false,
-                    live: true
+                    live: true,
+                    isPostable: true
                 },
                 contact: {
                     name: "Contact",
