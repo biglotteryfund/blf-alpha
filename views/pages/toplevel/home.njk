@@ -12,13 +12,15 @@
 {% macro caseStudy(projectName, quoteName, quoteText, imageUrl, imageSmallUrl, link = false) %}
 
     <div class="case-study">
-        {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
-            <picture class="case-study__image">
-                <source srcset="{{ imageUrl | getCachebustedPath }}" media="(min-width: 600px)">
-                <source srcset="{{ imageSmallUrl | getCachebustedPath }}">
-                <img src="{{ imageSmallUrl | getCachebustedPath }}" alt="{{ quoteName }} {{ projectName }}" />
-            </picture>
-        {% if link %}</a>{% endif %}
+        <div class="case-study__image">
+            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
+                <picture>
+                    <source srcset="{{ imageUrl | getCachebustedPath }}" media="(min-width: 600px)">
+                    <source srcset="{{ imageSmallUrl | getCachebustedPath }}">
+                    <img src="{{ imageSmallUrl | getCachebustedPath }}" alt="{{ quoteName }} {{ projectName }}" />
+                </picture>
+            {% if link %}</a>{% endif %}
+        </div>
         <div class="case-study__content">
                 <blockquote class="pullquote">
                     <div class="pullquote__text">
