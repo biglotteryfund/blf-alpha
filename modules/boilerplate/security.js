@@ -8,6 +8,7 @@ const csrfProtection = csrf({ cookie: true });
 // @TODO this should only affect the legacy homepage
 const pathsExemptFromHelmet = [
     '/',
+    '/welsh',
     '/legacy',
 ];
 
