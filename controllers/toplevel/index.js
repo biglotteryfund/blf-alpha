@@ -12,7 +12,6 @@ const { JSDOM } = jsdom;
 const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
-const grants = require('../../bin/data/grantnav.json');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
@@ -231,41 +230,6 @@ module.exports = (pages, sectionPath, sectionId) => {
             grants: grants,
             copy: req.i18n.__(pages.data.lang)
         });
-    });
-
-    // lookup for the data page
-    router.get('/lookup', (req, res, next) => {
-
-        let postcode = req.query.postcode;
-        rp('http://api.postcodes.io/postcodes/' + encodeURIComponent(postcode)).then((data) => {
-            let json = JSON.parse(data);
-            let yourDistrict = json.result.admin_district;
-            let matches = grants.grants.filter(d => {
-                if (typeof d.recipientDistrictName !== 'undefined') {
-                    return d.recipientDistrictName.indexOf(yourDistrict) !== -1;
-                } else {
-                    return false;
-                }
-            });
-            if (matches.length > 0) {
-                res.render('pages/grants', {
-                    grants: matches,
-                    postcode: postcode
-                });
-            } else {
-                console.log('GET /lookup found a valid postcode but no matching grants', {
-                    postcode: postcode,
-                    district: yourDistrict
-                });
-                res.status(302).redirect('/');
-            }
-        }).catch(() => {
-            console.log('GET /lookup received an invalid postcode', {
-                postcode: postcode
-            });
-            res.status(302).redirect('/');
-        });
-
     });
 
     // handle contrast shifter
