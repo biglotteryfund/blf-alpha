@@ -1,18 +1,25 @@
 {% import "./headers.njk" as headers %}
 
 {% macro superHero(name, title, content, caption = false) %}
-    <div class="hero hero--major hero--super {% if name %}hero--{{ name }}{% endif %}">
-        <section class="hero__inner">
-            <div class="hero__content inner">
-                <div class="hero__header" id="content">
-                    <h1 class="hero__title">{{ title | safe }}</h1>
-                    {{ content | safe }}
-                </div>
-                {% if caption %}
-                    <span class="hero__caption u-caption u-desktop-only">{{ caption }}</span>
-                {% endif %}
+    <div class="super-hero">
+        <div class="super-hero__image">
+            <picture>
+                <source srcset="{{ "images/hero/home-hero-3--large.jpg" | getCachebustedPath }}" media="(min-width: 960px)">
+                <source srcset="{{ "images/hero/home-hero-3--medium.jpg" | getCachebustedPath }}" media="(min-width: 600px)">
+                <source srcset="{{ "images/hero/home-hero-3--small.jpg" | getCachebustedPath }}">
+                <img src="{{ "images/hero/home-hero-3--small.jpg" | getCachebustedPath }}" alt="{{ caption }}" />
+            </picture>
+        </div>
+
+        <div class="super-hero__content">
+            <div class="super-hero__header inner" id="content">
+                <h1 class="super-hero__title">{{ title | safe }}</h1>
+                {{ content | safe }}
             </div>
-        </section>
+            {% if caption %}
+                <span class="super-hero__caption u-caption u-desktop-only">{{ caption }}</span>
+            {% endif %}
+        </div>
     </div>
 {% endmacro %}
 

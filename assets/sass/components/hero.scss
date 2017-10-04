@@ -167,25 +167,12 @@ $heroSpaceFromLeft: 20px;
    ========================================================================= */
 /* New full-bleed hero template (see: Homepage) */
 
-.hero--super {
+.super-hero {
     color: white;
     margin-bottom: $spacingUnit;
+    position: relative;
 
-    .hero__header {
-        text-align: center;
-        bottom: $spacingUnit / 2;
-
-        // @TODO: Introduce more granular breakpoints
-        @media only screen and (min-width: 360px) {
-            bottom: $spacingUnit;
-        }
-
-        @include mq('tablet') {
-            bottom: $spacingUnit * 2;
-        }
-    }
-
-    .hero__title {
+    .super-hero__title {
         font-size: 14px;
         line-height: 1.3;
         font-weight: normal;
@@ -210,16 +197,34 @@ $heroSpaceFromLeft: 20px;
             text-decoration: underline;
         }
     }
+}
+.super-hero__content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.super-hero__header {
+    text-align: center;
 
-    .hero__caption {
-        position: absolute;
-        height: auto;
-        right: $spacingUnit / 2;
-        bottom: $spacingUnit / 2;
+    margin-bottom: $spacingUnit / 2;
 
-        @include mq('desktop') {
-            right: $spacingUnit;
-            bottom: $spacingUnit;
-        }
+    // @TODO: Introduce more granular breakpoints
+    @media only screen and (min-width: 360px) {
+        margin-bottom: $spacingUnit;
+    }
+
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit * 2;
+    }
+}
+.super-hero__caption {
+    position: absolute;
+    height: auto;
+    right: $spacingUnit / 2;
+    bottom: $spacingUnit / 2;
+
+    @include mq('desktop') {
+        right: $spacingUnit;
+        bottom: $spacingUnit;
     }
 }
