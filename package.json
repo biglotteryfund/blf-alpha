@@ -11,7 +11,7 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "precommit": "lint-staged",
-    "prepush": "gulp test; gulp build-dev"
+    "prepush": "npm test"
   },
   "lint-staged": {
     "{gulpfile.js,server.js,controllers/**/*.js,models/**/*.js,modules/**/*.js,test/**/*.js}": [
