@@ -38,8 +38,7 @@ const CF_CONFIGS = {
     test: {
         distributionId: 'E3D5QJTWAG3GDP',
         origins: {
-            legacy: 'ELB-TEST',
-            newSite: 'ELB-LIVE'
+            newSite: 'ELB-TEST'
         }
     },
     live: {
@@ -68,6 +67,8 @@ const makeUrlObject = (url, isPostable, allowQueryStrings) => {
 // or are manual legacy links
 // keys here are mapped to origin servers in config above
 let URLs = {
+    // if anything is added here, the TEST Cloudfront distribution will fail
+    // as it doesn't have a legacy origin.
     legacy: [],
     newSite: [
         makeUrlObject('/assets/*'),
