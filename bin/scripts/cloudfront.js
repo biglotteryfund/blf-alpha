@@ -11,6 +11,7 @@ const argv = require('yargs')
     .argv;
 const prompt = require('prompt');
 const routes = require('../../controllers/routes');
+const utilities = require('../../modules/utilities');
 const _ = require('lodash');
 const path = require('path');
 const AWS = require('aws-sdk');
@@ -146,11 +147,7 @@ const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originSe
     // strip trailing slashes
     // fixes /welsh => /welsh/ homepage confusion
     // but doesn't break root/homepage '/' path
-    let hasTrailingSlash = (str) => str[str.length - 1] === '/' && str.length > 1;
-    if (hasTrailingSlash(path)) {
-        // trim final character
-        path = path.substring(0, path.length - 1);
-    }
+    path = utilities.stripTrailingSlashes(path);
 
     // use all HTTP methods for legacy
     const allowedHttpMethods = (isLegacy || isPostable) ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
