@@ -15,6 +15,8 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
+const legacyUrl = config.get('legacyDomain');
+
 const newHomepage = (req, res, next) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
@@ -46,9 +48,6 @@ const newHomepage = (req, res, next) => {
 const oldHomepage = (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
-
-    // configure proxy server for A/B testing old site
-    const legacyUrl = config.get('legacyDomain');
 
     // work out if we need to serve english/welsh page
     let localePath = (req.i18n.getLocale() === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
