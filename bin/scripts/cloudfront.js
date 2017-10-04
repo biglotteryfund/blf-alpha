@@ -143,6 +143,15 @@ const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originSe
     const isLegacy = origin !== 'newSite';
     const cacheConfig = (isLegacy) ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
 
+    // strip trailing slashes
+    // fixes /welsh => /welsh/ homepage confusion
+    // but doesn't break root/homepage '/' path
+    let hasTrailingSlash = (str) => str[str.length - 1] === '/' && str.length > 1;
+    if (hasTrailingSlash(path)) {
+        // trim final character
+        path = path.substring(0, path.length - 1);
+    }
+
     // use all HTTP methods for legacy
     const allowedHttpMethods = (isLegacy || isPostable) ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
     // allow any protocol for legacy, redirect to HTTPS for new
