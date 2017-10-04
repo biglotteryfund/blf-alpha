@@ -14,7 +14,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "controllers/**/*.js": [
+    "{gulpfile.js,server.js,controllers/**/*.js,models/**/*.js,modules/**/*.js,test/**/*.js}": [
       "prettier --write",
       "eslint",
       "git add"
