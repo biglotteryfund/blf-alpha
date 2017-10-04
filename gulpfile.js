@@ -24,6 +24,7 @@ const rename = importLazy('gulp-rename');
 const mochaPhantomJS = importLazy('gulp-mocha-phantomjs');
 const jsonSass = importLazy('rootbeer');
 const fs = importLazy('fs');
+const runSequence = importLazy('run-sequence');
 
 // define main directories
 const inputBase = './assets/';
@@ -241,7 +242,9 @@ gulp.task('build', ['styles', 'scripts', 'rev']);
 gulp.task('build-dev', ['styles', 'scripts']);
 
 // used on commit
-gulp.task('test', ['lint', 'mocha', 'phantomjs']);
+gulp.task('test', function(done) {
+    runSequence('lint', 'mocha', 'phantomjs', done);
+});
 
 // watch static files for changes and recompile
 gulp.task('watch', function() {
