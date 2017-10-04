@@ -61,7 +61,7 @@ const oldHomepage = (req, res) => {
         resolveWithFullResponse: true
     }).then((response) => {
         let body = response.body;
-        // convert all links in the document to be root-relative
+        // convert all links in the document to be absolute
         // (only really useful on non-prod envs)
         body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
@@ -70,6 +70,13 @@ const oldHomepage = (req, res) => {
 
         // parse the DOM
         const dom = new JSDOM(body);
+
+        const form = dom.window.document.getElementById('form1');
+        if (form) {
+            const newAction = form.getAttribute('action')
+                .replace('https://www.biglotteryfund.org.uk/', '/');
+            form.setAttribute('action', newAction);
+        }
 
         // are we in an A/B test?
         if (res.locals.ab) {
@@ -114,6 +121,27 @@ const oldHomepage = (req, res) => {
     });
 };
 
+const oldHomepagePost = ((req, res) => {
+    res.cacheControl = { maxAge: 0 };
+    rp.post({
+        uri: legacyUrl,
+        form: req.body,
+        strictSSL: false,
+        jar: true,
+        simple: true,
+        followRedirect: false,
+        resolveWithFullResponse: true,
+        followOriginalHttpMethod: true
+    }).catch((err) => {
+        const proxyResponse = err.response;
+        if (proxyResponse.statusCode === 302) {
+            res.redirect(302, proxyResponse.headers.location);
+        } else {
+            res.redirect('/');
+        }
+    });
+});
+
 module.exports = (pages, sectionPath, sectionId) => {
 
     /**
@@ -140,6 +168,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     } else {
         router.get('/', newHomepage);
     }
+
+    router.post('/', oldHomepagePost);
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);

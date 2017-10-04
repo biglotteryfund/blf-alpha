@@ -44,6 +44,7 @@
     "passport-local": "^1.0.0",
     "phantomjs-prebuilt": "^2.1.15",
     "req-flash": "0.0.3",
+    "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "rootbeer": "^1.0.5",
     "sequelize": "^4.8.0",
@@ -82,7 +83,6 @@
     "import-lazy": "^3.0.0",
     "node-sass": "^4.5.3",
     "prompt": "^1.0.0",
-    "request": "^2.81.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^7.1.0"
