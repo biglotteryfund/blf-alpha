@@ -59,34 +59,6 @@ describe('Express application', () => {
             });
     });
 
-    it('returns grant data for postcodes', (done) => {
-        let validPostcode = 'B14 7EW';
-        chai.request(server)
-            .get('/lookup')
-            .query({
-                postcode: validPostcode
-            })
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    }).timeout(3000);
-
-    it('redirects to homepage for invalid postcodes', (done) => {
-        let invalidPostcode = 'ABC 123';
-        chai.request(server)
-            .get('/lookup')
-            .query({
-                postcode: invalidPostcode
-            })
-            .redirects(0)
-            .end((err, res) => {
-                res.should.redirectTo('/');
-                res.should.have.status(302);
-                done();
-            });
-    }).timeout(3000);
-
     it('serves Welsh content', (done) => {
         chai.request(server)
             .get('/welsh/contact')
