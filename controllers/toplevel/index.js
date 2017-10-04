@@ -3,7 +3,6 @@ const express = require('express');
 const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
-const httpProxy = require('http-proxy');
 const absolution = require('absolution');
 const ab = require('express-ab');
 const jsdom = require('jsdom');
@@ -15,21 +14,6 @@ const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
-
-/**
- * Configure proxy server for A/B testing old site
- */
-const legacyUrl = config.get('legacyDomain');
-const proxy = httpProxy.createProxyServer({
-    target: legacyUrl,
-    changeOrigin: true,
-    secure: false
-});
-
-// log errors fetching proxy
-proxy.on('error', (e) => {
-    console.log('Proxy error', e);
-});
 
 const newHomepage = (req, res, next) => {
     // don't cache this page!
@@ -63,8 +47,14 @@ const oldHomepage = (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
+    // configure proxy server for A/B testing old site
+    const legacyUrl = config.get('legacyDomain');
+
+    // work out if we need to serve english/welsh page
+    let localePath = (req.i18n.getLocale() === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
+
     return rp({
-        url: legacyUrl,
+        url: legacyUrl + localePath,
         strictSSL: false,
         jar: true,
         resolveWithFullResponse: true
