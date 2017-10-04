@@ -16,8 +16,6 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const robots = require('../../config/app/robots.json');
 
-// configure proxy server for A/B testing old site
-const legacyUrl = config.get('legacyDomain');
 const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
 
 // create an A/B test
@@ -58,11 +56,17 @@ let newHomepage = (req, res, next) => {
 // @TODO cache this page as it's very slow to return
 // main issue is the static assets (which cloudfront doesn't cache)
 let oldHomepage = (req, res, next) => {
+    // configure proxy server for A/B testing old site
+    const legacyUrl = config.get('legacyDomain');
+
+    // work out if we need to serve english/welsh page
+    let localePath = (req.i18n.getLocale() === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
+
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
     return rp({
-        url: legacyUrl,
+        url: legacyUrl + localePath,
         strictSSL: false,
         jar: true,
         resolveWithFullResponse: true
