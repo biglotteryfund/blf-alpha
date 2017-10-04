@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "dev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "test": "gulp test",
+    "lint": "eslint .",
     "test-precommit": "gulp test; gulp build-dev",
     "test-deps": "snyk test",
     "snyk-protect": "snyk protect",
@@ -83,6 +84,7 @@
     "node-sass": "^4.5.3",
     "phantomjs-prebuilt": "^2.1.15",
     "prompt": "^1.0.0",
+    "run-sequence": "^2.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^7.1.0"

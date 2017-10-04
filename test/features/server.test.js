@@ -1,9 +1,8 @@
 'use strict';
-/* global describe, it, beforeEach, afterEach */
+
 const chai = require('chai');
 const config = require('config');
 chai.use(require('chai-http'));
-const should = chai.should();
 
 const helper = require('../helper');
 

@@ -1,7 +1,6 @@
-/* jshint node: true */
 'use strict';
-const importLazy = require('import-lazy')(require);
 
+const importLazy = require('import-lazy')(require);
 const browserify = importLazy('browserify');
 const envify = require('envify/custom');
 const gulp = importLazy('gulp');
@@ -19,17 +18,16 @@ const autoprefixer = importLazy('gulp-autoprefixer');
 const argv = importLazy('yargs').argv;
 const gulpif = importLazy('gulp-if');
 const eslint = importLazy('gulp-eslint');
-const babel = importLazy('gulp-babel');
 const babelify = importLazy('babelify');
 const mocha = importLazy('gulp-mocha');
-const rename = importLazy("gulp-rename");
+const rename = importLazy('gulp-rename');
 const mochaPhantomJS = importLazy('gulp-mocha-phantomjs');
 const jsonSass = importLazy('rootbeer');
 const fs = importLazy('fs');
-
+const runSequence = importLazy('run-sequence');
 
 // define main directories
-const inputBase  = './assets/';
+const inputBase = './assets/';
 const outputBase = './public/';
 const testBase = './test/';
 const binBase = './bin/';
@@ -38,17 +36,17 @@ const binBase = './bin/';
 const DIRS = {
     in: {
         root: inputBase,
-        css:  inputBase + 'sass',
-        js:   inputBase + 'js',
-        img:  inputBase + 'images',
+        css: inputBase + 'sass',
+        js: inputBase + 'js',
+        img: inputBase + 'images',
         test: testBase,
         sassConfig: './config/content'
     },
     out: {
         root: outputBase,
-        css:  outputBase + 'stylesheets',
-        js:   outputBase + 'javascripts',
-        img:  outputBase + 'images',
+        css: outputBase + 'stylesheets',
+        js: outputBase + 'javascripts',
+        img: outputBase + 'images',
         test: outputBase + 'tests',
         manifest: binBase
     }
@@ -72,11 +70,21 @@ const FILES = {
 };
 
 // clean out folders of generated assets
-gulp.task('clean:css', function() { return del([DIRS.out.css + '/**/*']); });
-gulp.task('clean:js', function()  { return del([DIRS.out.js + '/**/*']); });
-gulp.task('clean:img', function() { return del([DIRS.out.img + '/**/*']); });
-gulp.task('clean:assets', function() { return del([DIRS.out.manifest + '/' + FILES.assets]); });
-gulp.task('clean:test', function() { return del([DIRS.out.test + '/**/*']); });
+gulp.task('clean:css', function() {
+    return del([DIRS.out.css + '/**/*']);
+});
+gulp.task('clean:js', function() {
+    return del([DIRS.out.js + '/**/*']);
+});
+gulp.task('clean:img', function() {
+    return del([DIRS.out.img + '/**/*']);
+});
+gulp.task('clean:assets', function() {
+    return del([DIRS.out.manifest + '/' + FILES.assets]);
+});
+gulp.task('clean:test', function() {
+    return del([DIRS.out.test + '/**/*']);
+});
 
 // copy images to public dir
 gulp.task('copy:img', ['clean:img'], function() {
@@ -85,7 +93,7 @@ gulp.task('copy:img', ['clean:img'], function() {
 
 // compile JS
 gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
-    const nodeEnv = (argv.production) ? 'production' : 'development';
+    const nodeEnv = argv.production ? 'production' : 'development';
     return browserify({ debug: true })
         .transform(
             envify({
@@ -94,7 +102,8 @@ gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
             {
                 global: true,
                 _: 'purge'
-            })
+            }
+        )
         .transform(babelify)
         .require(DIRS.in.js + '/' + FILES.in.js, { entry: true })
         .bundle()
@@ -130,9 +139,10 @@ const sassTaskDeps = sassTaskBaseDeps.concat([jsonToSassTask]);
 
 // we share sass task deps here
 // otherwise race conditions mean some images aren't copied etc
-gulp.task(jsonToSassTask, sassTaskBaseDeps, function () {
+gulp.task(jsonToSassTask, sassTaskBaseDeps, function() {
     const jsonPath = DIRS.in.sassConfig + '/' + FILES.in.sassConfig;
-    return fs.createReadStream(jsonPath)
+    return fs
+        .createReadStream(jsonPath)
         .pipe(jsonSass({ prefix: '$appConfig: ' }))
         .pipe(source(jsonPath))
         .pipe(rename(FILES.out.sassConfig))
@@ -143,15 +153,20 @@ gulp.task(jsonToSassTask, sassTaskBaseDeps, function () {
 // references to images will be replaced (on --production/LIVE)
 // with cachebusted versions
 gulp.task('styles', sassTaskDeps, function() {
-    return gulp.src(DIRS.in.css + '/' + FILES.in.css)
+    return gulp
+        .src(DIRS.in.css + '/' + FILES.in.css)
         .pipe(gulpif(!argv.production, sourcemaps.init()))
-        .pipe(sass({
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
+        .pipe(
+            sass({
+                outputStyle: 'compressed'
+            }).on('error', sass.logError)
+        )
+        .pipe(
+            autoprefixer({
+                browsers: ['last 2 versions'],
+                cascade: false
+            })
+        )
         .pipe(sourcemaps.write())
         .pipe(rename(FILES.out.css))
         .pipe(gulp.dest(DIRS.out.css))
@@ -161,11 +176,16 @@ gulp.task('styles', sassTaskDeps, function() {
 // hash/version static files and replace image paths in CSS
 // then write an output file (only on LIVE)
 gulp.task('rev', ['styles', 'scripts'], function() {
-    return gulp.src([
-            DIRS.out.css + '/**/*',
-            DIRS.out.js + '/**/*',
-            DIRS.out.img + '/**/*'
-        ], { base: DIRS.out.root }).pipe(rev())
+    return gulp
+        .src(
+            [
+                DIRS.out.css + '/**/*',
+                DIRS.out.js + '/**/*',
+                DIRS.out.img + '/**/*'
+            ],
+            { base: DIRS.out.root }
+        )
+        .pipe(rev())
         .pipe(revcssurls())
         .pipe(revdel())
         .pipe(gulp.dest(DIRS.out.root))
@@ -174,39 +194,40 @@ gulp.task('rev', ['styles', 'scripts'], function() {
 });
 
 // run mocha tests
-gulp.task('mocha', ['build'], function () {
-   return gulp.src(testBase + '/features/**/*.js', {
-       read: false
-   }).pipe(mocha({
-       reporter: 'spec',
-       timeout: 20000,
-       bail: true,
-       exit: true
-   }));
+gulp.task('mocha', ['build'], function() {
+    return gulp
+        .src(testBase + '/features/**/*.js', {
+            read: false
+        })
+        .pipe(
+            mocha({
+                reporter: 'spec',
+                timeout: 20000,
+                bail: true,
+                exit: true
+            })
+        );
 });
 
 // run phantomjs
 // @TODO if this task fails it doesn't stop the gulp task so the build passes!
-gulp.task('phantomjs', ['test-scripts'], function () {
-    return gulp
-        .src(testBase + '/runner.html')
-        .pipe(mochaPhantomJS({
+gulp.task('phantomjs', ['test-scripts'], function() {
+    return gulp.src(testBase + '/runner.html').pipe(
+        mochaPhantomJS({
             mocha: {
                 bail: true
             }
-        }));
+        })
+    );
 });
 
 // run eslint
 gulp.task('lint', function() {
-    return gulp.src([
-        DIRS.in.js + '/**/*.js',
-        '!' + DIRS.in.js + '/libs/',
-        '!' + DIRS.in.js + '/libs/**'
-    ])
-    .pipe(eslint({}))
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+    return gulp
+        .src('**/*.js')
+        .pipe(eslint({}))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 // dev task: start the server and watch for changes
@@ -221,7 +242,9 @@ gulp.task('build', ['styles', 'scripts', 'rev']);
 gulp.task('build-dev', ['styles', 'scripts']);
 
 // used on commit
-gulp.task('test', ['lint', 'mocha', 'phantomjs']);
+gulp.task('test', function(done) {
+    runSequence('lint', 'mocha', 'phantomjs', done);
+});
 
 // watch static files for changes and recompile
 gulp.task('watch', function() {
@@ -231,10 +254,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('watch-test', function() {
-    gulp.watch([
-        DIRS.in.js + '/**/*.js',
-        DIRS.in.test + '/**/*.js'
-    ], ['phantomjs']);
+    gulp.watch(
+        [DIRS.in.js + '/**/*.js', DIRS.in.test + '/**/*.js'],
+        ['phantomjs']
+    );
 });
 
 gulp.task('watch-mocha', function() {
