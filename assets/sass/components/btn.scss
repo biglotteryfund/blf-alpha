@@ -3,22 +3,10 @@
    ========================================================================= */
 
 $btnConf: (
-    'default': (
-        'fontSize': 18px,
-        'desiredHeight': 59px
-    ),
-    'medium': (
-        'fontSize': 16px,
-        'desiredHeight': 42px
-    ),
-    'small': (
-        'fontSize': 16px,
-        'desiredHeight': 36px
-    ),
-    'mini': (
-        'fontSize': 13px,
-        'desiredHeight': 30px
-    )
+    'default': ('fontSize': 18px, 'desiredHeight': 59px),
+    'medium': ('fontSize': 16px, 'desiredHeight': 42px),
+    'small': ('fontSize': 16px, 'desiredHeight': 36px),
+    'mini': ('fontSize': 13px, 'desiredHeight': 30px)
 );
 
 @mixin getBtnVertPadding($conf) {
@@ -236,23 +224,24 @@ $btnConf: (
 
 .o-button-group {
     .btn {
-        margin-bottom: $spacingUnit / 2;
+        display: inline-block;
+        margin-bottom: ($spacingUnit / 2);
 
         &:last-of-type {
             margin-bottom: 0;
         }
 
-        @include mq('tablet', 'max') {
-            width: 100%;
+        @media only screen and (max-width: 680px) {
             max-width: 300px;
+            width: 100%;
         }
 
-        @include mq('desktop') {
-            margin-right: ($spacingUnit / 2);
+        @media only screen and (min-width: 680px) {
+            margin-right: ($spacingUnit / 4);
+
             &:last-of-type {
                 margin-right: 0;
             }
         }
     }
-
 }
