@@ -243,7 +243,7 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
-.js-on .super-hero {
+.js-on.is-repeat-visitor .super-hero {
     background-color: palette('charcoal');
 
     .super-hero__image,
