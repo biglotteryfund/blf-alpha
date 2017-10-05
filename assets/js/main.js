@@ -10,8 +10,10 @@ const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
 
 // load internal modules
-require('./modules/carousel').init();
 require('./modules/tabs').init();
+require('./modules/carousel').init();
+require('./modules/heroImages').init();
+
 const analytics = require('./modules/analytics');
 const utils = require('./utils');
 

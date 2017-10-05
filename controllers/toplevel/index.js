@@ -20,6 +20,7 @@ const robots = require('../../config/app/robots.json');
 if (app.get('env') !== 'production') {
     robots.push('/');
 }
+const assets = require('../../modules/assets');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -27,13 +28,39 @@ const newHomepage = (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
-    let serveHomepage = news => {
-        let lang = req.i18n.__('toplevel.home');
+    const serveHomepage = news => {
+        const lang = req.i18n.__('toplevel.home');
+
+        const heroImageDefault = {
+            small: assets.getCachebustedPath('images/hero/home-hero-1--small.jpg'),
+            large: assets.getCachebustedPath('images/hero/home-hero-1--large.jpg'),
+            default: assets.getCachebustedPath('images/hero/home-hero-1--small.jpg'),
+            caption: 'Cloughmills Community Action, Grant £4,975*'
+        };
+
+        const heroImageCandidates = [
+            heroImageDefault,
+            {
+                small: assets.getCachebustedPath('images/hero/home-hero-2--small.jpg'),
+                large: assets.getCachebustedPath('images/hero/home-hero-2--large.jpg'),
+                default: assets.getCachebustedPath('images/hero/home-hero-2--small.jpg'),
+                caption: 'Stepping Stones Programme, Grant £405,270'
+            },
+            {
+                small: assets.getCachebustedPath('images/hero/home-hero-3--small.jpg'),
+                large: assets.getCachebustedPath('images/hero/home-hero-3--large.jpg'),
+                default: assets.getCachebustedPath('images/hero/home-hero-3--small.jpg'),
+                caption: 'Cycling for All in Bolsover, Grant £9,358 *'
+            }
+        ];
+
         res.render('pages/toplevel/home', {
             title: lang.title,
             description: lang.description || false,
             copy: lang,
-            news: news || []
+            news: news || [],
+            heroImageDefault: heroImageDefault,
+            heroImageCandidates: heroImageCandidates
         });
     };
 

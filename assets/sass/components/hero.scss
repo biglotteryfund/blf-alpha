@@ -170,38 +170,23 @@ $heroSpaceFromLeft: 20px;
 .super-hero {
     color: white;
     margin-bottom: $spacingUnit;
+
+    height: 0;
     position: relative;
 
-    .super-hero__title {
-        font-size: 14px;
-        line-height: 1.3;
-        font-weight: normal;
-        margin: 0 0 ($spacingUnit / 3) 0;
-
-        @media only screen and (min-width: 360px) {
-            font-size: 18px;
-        }
-
-        @media only screen and (min-width: 480px) {
-            font-size: 21px;
-        }
-
-        @include mq('desktop') {
-            font-size: 24px;
-            margin-bottom: $spacingUnit;
-        }
-
-
-        a, a:link {
-            color: inherit;
-            text-decoration: underline;
-        }
+    // @TODO: Reference using aspect ratios rather than fixed pixels?
+    @include responsive-ratio(644, 573);
+    @media only screen and (min-width: 600px) {
+        @include responsive-ratio(1373, 505);
     }
 }
 .super-hero__content {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+.super-hero__image img {
+    display: block;
 }
 .super-hero__header {
     text-align: center;
@@ -217,6 +202,30 @@ $heroSpaceFromLeft: 20px;
         margin-bottom: $spacingUnit * 2;
     }
 }
+.super-hero__title {
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: normal;
+    margin: 0 0 ($spacingUnit / 3) 0;
+
+    @media only screen and (min-width: 360px) {
+        font-size: 18px;
+    }
+
+    @media only screen and (min-width: 480px) {
+        font-size: 21px;
+    }
+
+    @include mq('desktop') {
+        font-size: 24px;
+        margin-bottom: $spacingUnit;
+    }
+
+    a, a:link {
+        color: inherit;
+        text-decoration: underline;
+    }
+}
 .super-hero__caption {
     position: absolute;
     height: auto;
@@ -226,5 +235,21 @@ $heroSpaceFromLeft: 20px;
     @include mq('desktop') {
         right: $spacingUnit;
         bottom: $spacingUnit;
+    }
+}
+
+.js-on .super-hero {
+    background-color: palette('charcoal');
+
+    .super-hero__image,
+    .super-hero__caption {
+        transition: opacity 600ms ease-in;
+        transition-delay: 150ms;
+        opacity: 0;
+    }
+
+    &.has-image .super-hero__image,
+    &.has-image .super-hero__caption {
+        opacity: 1;
     }
 }
