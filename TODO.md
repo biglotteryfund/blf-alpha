@@ -2,8 +2,6 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Todo / tech debt
-- [ ] homepage: data/application base64 JS is violating CSP (google cx api)
-- [ ] homepage: google tag manager / experiment for homepage – verify working
 - [ ] log material orders (need legal signoff)
 - [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
 - [ ] Add more granular named breakpoints
