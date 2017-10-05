@@ -17,7 +17,6 @@ const revdel = importLazy('gulp-rev-delete-original');
 const autoprefixer = importLazy('gulp-autoprefixer');
 const argv = importLazy('yargs').argv;
 const gulpif = importLazy('gulp-if');
-const eslint = importLazy('gulp-eslint');
 const babelify = importLazy('babelify');
 const mocha = importLazy('gulp-mocha');
 const rename = importLazy('gulp-rename');
@@ -177,14 +176,7 @@ gulp.task('styles', sassTaskDeps, function() {
 // then write an output file (only on LIVE)
 gulp.task('rev', ['styles', 'scripts'], function() {
     return gulp
-        .src(
-            [
-                DIRS.out.css + '/**/*',
-                DIRS.out.js + '/**/*',
-                DIRS.out.img + '/**/*'
-            ],
-            { base: DIRS.out.root }
-        )
+        .src([DIRS.out.css + '/**/*', DIRS.out.js + '/**/*', DIRS.out.img + '/**/*'], { base: DIRS.out.root })
         .pipe(rev())
         .pipe(revcssurls())
         .pipe(revdel())
@@ -221,15 +213,6 @@ gulp.task('phantomjs', ['test-scripts'], function() {
     );
 });
 
-// run eslint
-gulp.task('lint', function() {
-    return gulp
-        .src('**/*.js')
-        .pipe(eslint({}))
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
-
 // dev task: start the server and watch for changes
 gulp.task('default', ['clean:assets', 'dev']);
 
@@ -243,7 +226,7 @@ gulp.task('build-dev', ['styles', 'scripts']);
 
 // used on commit
 gulp.task('test', function(done) {
-    runSequence('lint', 'mocha', 'phantomjs', done);
+    runSequence('mocha', 'phantomjs', done);
 });
 
 // watch static files for changes and recompile
@@ -254,10 +237,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('watch-test', function() {
-    gulp.watch(
-        [DIRS.in.js + '/**/*.js', DIRS.in.test + '/**/*.js'],
-        ['phantomjs']
-    );
+    gulp.watch([DIRS.in.js + '/**/*.js', DIRS.in.test + '/**/*.js'], ['phantomjs']);
 });
 
 gulp.task('watch-mocha', function() {
