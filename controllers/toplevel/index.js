@@ -100,7 +100,27 @@ const oldHomepage = (req, res) => {
 };
 
 // funding finder test
-router.get('/funding/funding-finder', proxyLegacy.proxyLegacyPage);
+router.get('/funding/funding-finder', (req, res) => {
+    return proxyLegacy.proxyLegacyPage(req, res, dom => {
+        if (req.query.over && req.query.over === '10k') {
+            let programs = dom.window.document.querySelectorAll('article.programmeList');
+            if (programs.length > 0) {
+                [].forEach.call(programs, p => {
+                    let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
+                    if (keyFacts.length > 0) {
+                        [].forEach.call(keyFacts, k => {
+                            if (k.textContent.toLowerCase() === 'funding size:') {
+                                console.log(k.nextSibling, k.nextSibling.textContent);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        return dom;
+    });
+});
+
 router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
 
 module.exports = (pages, sectionPath, sectionId) => {
