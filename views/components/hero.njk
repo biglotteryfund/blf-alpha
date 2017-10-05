@@ -1,18 +1,29 @@
 {% import "./headers.njk" as headers %}
 
-{% macro superHero(name, title, content, caption = false) %}
-    <div class="hero hero--major hero--super {% if name %}hero--{{ name }}{% endif %}">
-        <section class="hero__inner">
-            <div class="hero__content inner">
-                <div class="hero__header" id="content">
-                    <h1 class="hero__title">{{ title | safe }}</h1>
-                    {{ content | safe }}
-                </div>
-                {% if caption %}
-                    <span class="hero__caption u-caption u-desktop-only">{{ caption }}</span>
-                {% endif %}
+{% macro superHero(title, content, imageDefault, imageCandidates) %}
+    <div class="super-hero js-random-hero" data-image-candidates='{{ imageCandidates | jsonStringify | safe }}'>
+        <div class="super-hero__image js-random-hero__image">
+            <picture>
+                <source srcset="{{ imageDefault.large }}" media="(min-width: 980px)">
+                <source srcset="{{ imageDefault.medium }}" media="(min-width: 600px)">
+                <source srcset="{{ imageDefault.small }}">
+                <img src="{{ imageDefault.default }}" alt="{{ caption }}" />
+            </picture>
+        </div>
+
+        <div class="super-hero__content">
+            <div class="super-hero__header inner" id="content">
+                <h1 class="super-hero__title">{{ title | safe }}</h1>
+                {{ content | safe }}
             </div>
-        </section>
+            {% if imageDefault.caption %}
+                <div class="super-hero__caption u-desktop-only">
+                    <span class="u-caption js-random-hero__caption">
+                        {{ imageDefault.caption }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endmacro %}
 

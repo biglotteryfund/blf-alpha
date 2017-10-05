@@ -10,22 +10,15 @@ const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
 
 // load internal modules
-require('./modules/carousel').init();
 require('./modules/tabs').init();
+require('./modules/carousel').init();
+require('./modules/heroImages').init();
+
 const analytics = require('./modules/analytics');
 const utils = require('./utils');
 
-// enable JS-only features
-const $html = $('html');
-$html.toggleClass('no-js js-on');
-
 // grab main script element (for querying data attributes)
 const $thisScript = $('#js-script-main');
-
-// detect IE to fix broken images (IE resizes our logo badly)
-if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-    $html.addClass('is-ie');
-}
 
 // bind mobile nav show/hidew button
 $('#js-mobile-nav-toggle').on('click', function (e) {
@@ -40,6 +33,7 @@ const getCookieValue = (a) => {
 };
 
 // toggle contrast mode (we do this in JS to avoid breaking caching)
+const $html = $('html');
 const isHighContrast = getCookieValue('contrastMode'); // @TODO get from config
 if (isHighContrast === 'high') {
     $html.addClass('contrast--high');

@@ -14,7 +14,7 @@ const templateEnv = nunjucks.configure('views', {
 });
 
 // register template filters first
-templateEnv.addFilter('getCachebustedPath', (str) => {
+templateEnv.addFilter('getCachebustedPath', str => {
     return assets.getCachebustedPath(str);
 });
 
@@ -22,7 +22,7 @@ templateEnv.addFilter('localeify', (field, locale) => {
     return field + '_' + locale;
 });
 
-templateEnv.addFilter('makePhoneLink', (str) => {
+templateEnv.addFilter('makePhoneLink', str => {
     let callable = str.replace(/ /g, '');
     return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
 });
@@ -31,26 +31,26 @@ templateEnv.addFilter('dateFormat', (str, format) => {
     return moment(str).format(format);
 });
 
-templateEnv.addFilter('mailto', (str) => {
+templateEnv.addFilter('mailto', str => {
     return `<a href="mailto:${str}">${str}</a>`;
 });
 
-templateEnv.addFilter('numberWithCommas', (str) => {
-    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+templateEnv.addFilter('numberWithCommas', str => {
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 });
 
 // via http://stackoverflow.com/a/25770787
 templateEnv.addFilter('splitByCharLength', (str, length) => {
     let rows = [];
     let maxlen = length || 50;
-    let arr = str.split(" ");
+    let arr = str.split(' ');
     let currow = arr[0];
     let rowlen = currow.length;
     for (let i = 1; i < arr.length; i++) {
         let word = arr[i];
         rowlen += word.length + 1;
         if (rowlen <= maxlen) {
-            currow += " " + word;
+            currow += ' ' + word;
         } else {
             rows.push(currow);
             currow = word;
@@ -61,8 +61,16 @@ templateEnv.addFilter('splitByCharLength', (str, length) => {
     return rows;
 });
 
-templateEnv.addFilter('lowercaseFirst', (str) => {
+templateEnv.addFilter('lowercaseFirst', str => {
     return str[0].toLowerCase() + str.substring(1);
+});
+
+templateEnv.addFilter('jsonStringify', val => {
+    let ret;
+    try {
+        ret = JSON.stringify(val);
+    } catch (e) {} // eslint-disable-line no-empty
+    return ret || val;
 });
 
 app.set('view engine', 'njk');
