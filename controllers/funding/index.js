@@ -16,7 +16,6 @@ const freeMaterialsLogic = {
 };
 
 module.exports = (pages, sectionPath, sectionId) => {
-
     /**
      * 1. Populate static pages
      */
@@ -30,9 +29,9 @@ module.exports = (pages, sectionPath, sectionId) => {
     const freeMaterials = pages.freeMaterials;
 
     // handle adding/removing items
-    router.route(freeMaterials.path + '/item/:id').post((req, res, next) => {
+    router.route(freeMaterials.path + '/item/:id').post((req, res) => {
         // this page is dynamic so don't cache it
-        res.cacheControl = {maxAge: 0};
+        res.cacheControl = { maxAge: 0 };
 
         // update the session with ordered items
         const code = req.sanitize('code').escape();
@@ -55,15 +54,14 @@ module.exports = (pages, sectionPath, sectionId) => {
                 });
             }
         });
-
     });
 
     // PAGE: free materials form
-    router.route([freeMaterials.path])
-        .get((req, res, next) => {
-
+    router
+        .route([freeMaterials.path])
+        .get((req, res) => {
             // this page is dynamic so don't cache it
-            res.cacheControl = {maxAge: 0};
+            res.cacheControl = { maxAge: 0 };
 
             let orderStatus;
             // clear order details if it succeeded
@@ -83,7 +81,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             res.render(freeMaterials.template, {
                 title: lang.title,
                 copy: lang,
-                description: "Order items free of charge to acknowledge your grant",
+                description: 'Order items free of charge to acknowledge your grant',
                 materials: freeMaterialsLogic.materials.items,
                 formFields: freeMaterialsLogic.formFields,
                 orders: orders,
@@ -92,10 +90,9 @@ module.exports = (pages, sectionPath, sectionId) => {
                 csrfToken: ''
             });
         })
-        .post((req, res, next) => {
-
+        .post((req, res) => {
             // turn 'Your name' into 'your name' (for error messages)
-            const lcfirst = (str) => str[0].toLowerCase() + str.substring(1);
+            const lcfirst = str => str[0].toLowerCase() + str.substring(1);
             let locale = req.i18n.getLocale();
 
             freeMaterialsLogic.formFields.forEach(field => {
@@ -108,7 +105,8 @@ module.exports = (pages, sectionPath, sectionId) => {
             });
 
             const makeOrderText = (items, details) => {
-                let text = "A new order has been received from the Big Lottery Fund website. The order details are below:\n\n";
+                let text =
+                    'A new order has been received from the Big Lottery Fund website. The order details are below:\n\n';
                 for (let code in items) {
                     if (items[code].quantity > 0) {
                         text += `\t- x${items[code].quantity} ${code}\t (item: ${items[code].name})\n`;
@@ -123,12 +121,12 @@ module.exports = (pages, sectionPath, sectionId) => {
                     }
                 });
 
-                text += "\nThis email has been automatically generated from the Big Lottery Fund Website.";
-                text += "\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.";
+                text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
+                text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
                 return text;
             };
 
-            req.getValidationResult().then((result) => {
+            req.getValidationResult().then(result => {
                 // sanitise input
                 for (let key in req.body) {
                     req.body[key] = xss(req.body[key]);
@@ -147,8 +145,11 @@ module.exports = (pages, sectionPath, sectionId) => {
 
                         // add their langage choice (if valid)
                         let langChoice = req.body.languageChoice;
-                        if (langChoice && redirectUrl.indexOf(langParam) === -1 &&
-                            ['monolingual', 'bilingual'].indexOf(langChoice) !== -1) {
+                        if (
+                            langChoice &&
+                            redirectUrl.indexOf(langParam) === -1 &&
+                            ['monolingual', 'bilingual'].indexOf(langChoice) !== -1
+                        ) {
                             redirectUrl += langParam + langChoice;
                         }
 
@@ -161,7 +162,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                     });
                 } else {
                     let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
-                    let dateNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+                    let dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
 
                     // allow tests to run without sending email
                     if (!req.body.skipEmail) {
@@ -175,7 +176,6 @@ module.exports = (pages, sectionPath, sectionId) => {
                         // this is only used in tests, so we confirm the form data was correct
                         res.send(req.body);
                     }
-
                 }
             });
         });

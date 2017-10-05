@@ -1,17 +1,16 @@
 'use strict';
 
 // use the test database
-const config = require("config");
+const config = require('config');
 process.env.CUSTOM_DB = config.get('database-test');
 process.env.PORT = 8090;
 
-
 let server, hook;
 
-let captureStream = (stream) => {
+let captureStream = stream => {
     let oldWrite = stream.write;
     let buf = '';
-    stream.write = function(chunk, encoding, callback) {
+    stream.write = function(chunk) {
         buf += chunk.toString(); // chunk is a String or Buffer
         oldWrite.apply(stream, arguments);
     };

@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const app = module.exports = express();
+const app = (module.exports = express());
 const config = require('config');
 
 // load the app routing list
@@ -18,7 +18,7 @@ require('./modules/boilerplate/middleware');
 app.use('/', require('./controllers/toplevel/tools'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
-const cymreigio = (mountPath) => {
+const cymreigio = mountPath => {
     let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
     return [mountPath, welshPath];
 };
@@ -41,13 +41,13 @@ for (let sectionId in routes.sections) {
 
 // add vanity redirects
 routes.vanityRedirects.forEach(r => {
-    let servePath = (path, destination) => {
-        app.get(path, (req, res, next) => {
+    let servePath = path => {
+        app.get(path, (req, res) => {
             res.redirect(r.destination);
         });
     };
     if (r.paths) {
-        r.paths.forEach((path) => {
+        r.paths.forEach(path => {
             servePath(path, r.destination);
         });
     } else {
@@ -73,12 +73,12 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.locals.status = err.status || 500;
-    res.locals.errorTitle = (err.friendlyText) ? err.friendlyText : 'Error: ' + err.message;
+    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
 
     // render the error page
     res.status(res.locals.status);

@@ -15,11 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.prototype.isValidPassword = (storedHash, typedPass) => {
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(typedPass, salt);
+        // const salt = bcrypt.genSaltSync(10);
+        // const hash = bcrypt.hashSync(typedPass, salt);
         return bcrypt.compareSync(typedPass, storedHash);
     };
 
     return User;
-
 };

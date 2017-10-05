@@ -24,14 +24,16 @@ require('../../modules/boilerplate/auth');
 
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
-app.use(morgan(logFormat, {
-    skip: (req, res) => {
-        // don't log status messages
-        return (req.originalUrl === '/status');
-    }
-}));
+app.use(
+    morgan(logFormat, {
+        skip: req => {
+            // don't log status messages
+            return req.originalUrl === '/status';
+        }
+    })
+);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // add session
@@ -91,7 +93,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     const WELSH_LOCALE = 'cy';
     const CYMRU_URL = /^\/welsh(\/|$)/;
-    const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
+    const IS_WELSH = req.url.match(CYMRU_URL) !== null;
     let localePrefix = '';
 
     if (IS_WELSH) {
