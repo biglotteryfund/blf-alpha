@@ -1,0 +1,28 @@
+<script id="script-head">
+(function() {
+    var docEl = document.documentElement;
+    var docClass = docEl.className;
+    var classes = ['js-on'];
+
+    var AppConfig = {
+        isModernBrowser:
+            'querySelector' in document &&
+            'addEventListener' in window &&
+            'localStorage' in window &&
+            'bind' in Function,
+        isOldIE:
+            navigator.userAgent.indexOf('MSIE') !== -1 ||
+            navigator.appVersion.indexOf('Trident/') > 0
+    };
+
+    if (AppConfig.isModernBrowser) {
+        classes.push('is-modern');
+    }
+
+    if (AppConfig.isOldIE) {
+        classes.push('is-ie');
+    }
+
+    docEl.className = docClass.replace('no-js', '') + ' ' + classes.join(' ');
+})();
+</script>
