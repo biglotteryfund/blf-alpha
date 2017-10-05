@@ -27,23 +27,25 @@ function replaceCaption($captionEl, caption) {
 }
 
 function init() {
-    $(SELECTORS.parent).each(function() {
-        const $heroEl = $(this);
-        const imageCandidates = $heroEl.data('imageCandidates');
-        const $imageEl = $heroEl.find(SELECTORS.image);
-        const $captionEl = $heroEl.find(SELECTORS.caption);
+    if ($('html').hasClass('is-repeat-visitor')) {
+        $(SELECTORS.parent).each(function() {
+            const $heroEl = $(this);
+            const imageCandidates = $heroEl.data('imageCandidates');
+            const $imageEl = $heroEl.find(SELECTORS.image);
+            const $captionEl = $heroEl.find(SELECTORS.caption);
 
-        if (imageCandidates.length > 1 && $imageEl.length > 0) {
-            const randomImage = rand(imageCandidates);
+            if (imageCandidates.length > 1 && $imageEl.length > 0) {
+                const randomImage = rand(imageCandidates);
 
-            if (randomImage) {
-                replaceImage($imageEl, randomImage);
-                replaceCaption($captionEl, randomImage.caption);
+                if (randomImage) {
+                    replaceImage($imageEl, randomImage);
+                    replaceCaption($captionEl, randomImage.caption);
 
-                $heroEl.addClass('has-image');
+                    $heroEl.addClass('has-image');
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 module.exports = {
