@@ -240,7 +240,6 @@ $heroSpaceFromLeft: 20px;
 
     @include mq('desktop') {
         right: $spacingUnit;
-        bottom: $spacingUnit;
     }
 }
 
