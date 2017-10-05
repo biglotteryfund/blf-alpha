@@ -11,7 +11,7 @@
 }
 
 // base font settings
-body, p, input, textarea, button, blockquote {
+body, input, textarea, button, blockquote {
     @include t5();
 }
 
