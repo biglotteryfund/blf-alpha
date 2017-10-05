@@ -12,7 +12,8 @@ const rand = xs => xs[Math.floor(Math.random() * xs.length)];
 function replaceImage($imageEl, randomImage) {
     $imageEl.html(`
         <picture>
-            <source srcset="${randomImage.large}" media="(min-width: 760px)">
+            <source srcset="${randomImage.large}" media="(min-width: 980px)">
+            <source srcset="${randomImage.medium}" media="(min-width: 600px)">
             <source srcset="${randomImage.small}">
             <img src="${randomImage.default}" alt="${randomImage.caption || ''}">
         </picture>

@@ -32,26 +32,29 @@ const newHomepage = (req, res) => {
         const lang = req.i18n.__('toplevel.home');
 
         const heroImageDefault = {
-            small: assets.getCachebustedPath('images/hero/home-hero-1--small.jpg'),
-            large: assets.getCachebustedPath('images/hero/home-hero-1--large.jpg'),
-            default: assets.getCachebustedPath('images/hero/home-hero-1--small.jpg'),
+            small: assets.getCachebustedPath('images/home/home-hero-3-small.jpg'),
+            medium: assets.getCachebustedPath('images/home/home-hero-3-medium.jpg'),
+            large: assets.getCachebustedPath('images/home/home-hero-3-large.jpg'),
+            default: assets.getCachebustedPath('images/home/home-hero-3-medium.jpg'),
             caption: 'Cloughmills Community Action, Grant £4,975*'
         };
 
         const heroImageCandidates = [
-            heroImageDefault,
             {
-                small: assets.getCachebustedPath('images/hero/home-hero-2--small.jpg'),
-                large: assets.getCachebustedPath('images/hero/home-hero-2--large.jpg'),
-                default: assets.getCachebustedPath('images/hero/home-hero-2--small.jpg'),
-                caption: 'Stepping Stones Programme, Grant £405,270'
+                small: assets.getCachebustedPath('images/home/home-hero-1-small.jpg'),
+                medium: assets.getCachebustedPath('images/home/home-hero-1-medium.jpg'),
+                large: assets.getCachebustedPath('images/home/home-hero-1-large.jpg'),
+                default: assets.getCachebustedPath('images/home/home-hero-1-medium.jpg'),
+                caption: 'Cycling for All in Bolsover, Grant £9,358 *'
             },
             {
-                small: assets.getCachebustedPath('images/hero/home-hero-3--small.jpg'),
-                large: assets.getCachebustedPath('images/hero/home-hero-3--large.jpg'),
-                default: assets.getCachebustedPath('images/hero/home-hero-3--small.jpg'),
-                caption: 'Cycling for All in Bolsover, Grant £9,358 *'
-            }
+                small: assets.getCachebustedPath('images/home/home-hero-2-small.jpg'),
+                medium: assets.getCachebustedPath('images/home/home-hero-2-medium.jpg'),
+                large: assets.getCachebustedPath('images/home/home-hero-2-large.jpg'),
+                default: assets.getCachebustedPath('images/home/home-hero-2-medium.jpg'),
+                caption: 'Stepping Stones Programme, Grant £405,270'
+            },
+            heroImageDefault
         ];
 
         res.render('pages/toplevel/home', {
