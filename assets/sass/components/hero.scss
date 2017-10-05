@@ -176,7 +176,7 @@ $heroSpaceFromLeft: 20px;
 
     // @TODO: Reference using aspect ratios rather than fixed pixels?
     @include responsive-ratio(644, 573);
-    @media only screen and (min-width: 600px) {
+    @include mq('tablet') {
         @include responsive-ratio(1373, 505);
     }
 }

@@ -16,11 +16,11 @@
                 {{ content | safe }}
             </div>
             {% if imageDefault.caption %}
-                <span class="super-hero__caption
-                    u-caption u-desktop-only
-                    js-random-hero__caption">
-                    {{ imageDefault.caption }}
-                </span>
+                <div class="super-hero__caption u-desktop-only">
+                    <span class="u-caption js-random-hero__caption">
+                        {{ imageDefault.caption }}
+                    </span>
+                </div>
             {% endif %}
         </div>
     </div>
