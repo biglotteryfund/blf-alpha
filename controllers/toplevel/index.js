@@ -101,7 +101,7 @@ const oldHomepage = (req, res) => {
 
 // funding finder test
 router.get('/funding/funding-finder', (req, res) => {
-    return proxyLegacy.proxyLegacyPage(req, res, dom => {
+    return proxyLegacy.proxyLegacyPage(req, res, (dom) => {
         if (req.query.over && req.query.over === '10k') {
             let programs = dom.window.document.querySelectorAll('article.programmeList');
             if (programs.length > 0) {
@@ -109,8 +109,11 @@ router.get('/funding/funding-finder', (req, res) => {
                     let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
                     if (keyFacts.length > 0) {
                         [].forEach.call(keyFacts, k => {
+                            // Maint yr ariannu:
                             if (k.textContent.toLowerCase() === 'funding size:') {
                                 console.log(k.nextSibling, k.nextSibling.textContent);
+                                let fundSize = k.nextSibling.textContent;
+                                // @TODO parse the range and remove elements with an upper limit of 10k
                             }
                         });
                     }
