@@ -36,7 +36,7 @@ const postToLegacyForm = (req, res) => {
         });
 };
 
-const proxyLegacyPage = (req, res) => {
+const proxyLegacyPage = (req, res, domModifications) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
@@ -60,7 +60,7 @@ const proxyLegacyPage = (req, res) => {
             body = body.replace(/wwwlegacy/g, 'www');
 
             // parse the DOM
-            const dom = new JSDOM(body);
+            let dom = new JSDOM(body);
 
             if (req.app.get('env') === 'development') {
                 let titleText = dom.window.document.title;
@@ -106,6 +106,10 @@ const proxyLegacyPage = (req, res) => {
                 if (gtm) {
                     gtm.innerHTML = '';
                 }
+            }
+
+            if (domModifications) {
+                dom = domModifications(dom);
             }
 
             res.set('X-BLF-Legacy', true);
