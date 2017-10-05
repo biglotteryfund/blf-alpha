@@ -7,14 +7,44 @@ const config = require('config');
 
 const legacyUrl = config.get('legacyDomain');
 
-const proxyLegacyPage = (req, res) => {
+const postToLegacyForm = (req, res) => {
+    res.cacheControl = { maxAge: 0 };
+
     // work out if we need to serve english/welsh page
     let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
+    let pagePath = localePath + req.path;
 
-    console.log('proxying ' + legacyUrl + localePath + req.path);
+    rp
+        .post({
+            uri: legacyUrl + pagePath,
+            form: req.body,
+            strictSSL: false,
+            jar: true,
+            simple: true,
+            followRedirect: false,
+            resolveWithFullResponse: true,
+            followOriginalHttpMethod: true
+        })
+        .catch(err => {
+            const proxyResponse = err.response;
+            if (proxyResponse.statusCode === 302) {
+                res.redirect(302, proxyResponse.headers.location);
+            } else {
+                // @TODO can we send them somewhere better?
+                res.redirect('/home');
+            }
+        });
+};
+
+const proxyLegacyPage = (req, res) => {
+    res.cacheControl = { maxAge: 0 };
+
+    // work out if we need to serve english/welsh page
+    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
+    let pagePath = localePath + req.path;
 
     return rp({
-        url: legacyUrl + localePath + req.path,
+        url: legacyUrl + pagePath,
         qs: req.query,
         strictSSL: false,
         jar: true,
@@ -35,8 +65,8 @@ const proxyLegacyPage = (req, res) => {
             // @TODO homepage only
             const form = dom.window.document.getElementById('form1');
             if (form) {
-                const newAction = form.getAttribute('action').replace('https://www.biglotteryfund.org.uk/', '/');
-                form.setAttribute('action', newAction);
+                // const newAction = form.getAttribute('action').replace('https://www.biglotteryfund.org.uk/', pagePath);
+                form.setAttribute('action', pagePath);
             }
 
             // are we in an A/B test?
@@ -85,5 +115,6 @@ const proxyLegacyPage = (req, res) => {
 };
 
 module.exports = {
-    proxyLegacyPage
+    proxyLegacyPage,
+    postToLegacyForm
 };

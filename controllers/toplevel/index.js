@@ -3,11 +3,8 @@ const express = require('express');
 const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
-const absolution = require('absolution');
 const ab = require('express-ab');
-const jsdom = require('jsdom');
 const { has, sortBy } = require('lodash');
-const { JSDOM } = jsdom;
 const xss = require('xss');
 
 const app = require('../../server');
@@ -15,15 +12,13 @@ const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
+const assets = require('../../modules/assets');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
 if (app.get('env') !== 'production') {
     robots.push('/');
 }
-const assets = require('../../modules/assets');
-
-const legacyUrl = config.get('legacyDomain');
 
 function createHeroImage(opts) {
     if (!['small', 'medium', 'large'].every(x => has(opts, x))) {
@@ -104,30 +99,13 @@ const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-router.get('/funding/funding-finder', proxyLegacy.proxyLegacyPage);
-
 const oldHomepagePost = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
-    rp
-        .post({
-            uri: legacyUrl,
-            form: req.body,
-            strictSSL: false,
-            jar: true,
-            simple: true,
-            followRedirect: false,
-            resolveWithFullResponse: true,
-            followOriginalHttpMethod: true
-        })
-        .catch(err => {
-            const proxyResponse = err.response;
-            if (proxyResponse.statusCode === 302) {
-                res.redirect(302, proxyResponse.headers.location);
-            } else {
-                res.redirect('/');
-            }
-        });
+    return proxyLegacy.postToLegacyForm(req, res);
 };
+
+// funding finder test
+router.get('/funding/funding-finder', proxyLegacy.proxyLegacyPage);
+router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
