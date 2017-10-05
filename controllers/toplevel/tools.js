@@ -22,7 +22,7 @@ const localeFiles = {
 };
 
 // status page used by load balancer
-router.get('/status', (req, res, next) => {
+router.get('/status', (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -40,7 +40,7 @@ router.get('/status', (req, res, next) => {
 });
 
 // pagelist
-router.get('/status/pages', (req, res, next) => {
+router.get('/status/pages', (req, res) => {
     const totals = {
         canonical: [],
         aliases: [],
@@ -71,7 +71,7 @@ router.get('/status/pages', (req, res, next) => {
 // login auth
 const loginPath = '/tools/login';
 routeStatic.injectUrlRequest(router, loginPath);
-router.get(loginPath, (req, res, next) => {
+router.get(loginPath, (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
     res.render('pages/tools/login', {
@@ -126,14 +126,14 @@ let localeEditorPath = '/tools/locales/';
 routeStatic.injectUrlRequest(router, localeEditorPath);
 router
     .route(localeEditorPath)
-    .get(isAuthenticated, (req, res, next) => {
+    .get(isAuthenticated, (req, res) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
     })
-    .post(isAuthenticated, (req, res, next) => {
+    .post(isAuthenticated, (req, res) => {
         // fetch these each time
         const locales = {
             en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
@@ -158,7 +158,7 @@ router
     });
 
 // update a language file
-router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
+router.post('/tools/locales/update/', isAuthenticated, (req, res) => {
     const json = req.body;
     let validKeys = ['en', 'cy'];
     let failedUpdates = [];
@@ -216,7 +216,7 @@ router
             });
         });
     })
-    .post(isAuthenticated, (req, res, next) => {
+    .post(isAuthenticated, (req, res) => {
         let redirectBase = req.baseUrl + editNewsPath + '/';
 
         // validate form

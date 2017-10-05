@@ -17,26 +17,28 @@ const robots = require('../../config/app/robots.json');
 
 const legacyUrl = config.get('legacyDomain');
 
-const newHomepage = (req, res, next) => {
+const newHomepage = (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
 
-    let serveHomepage = (news) => {
-        let lang = req.i18n.__("toplevel.home");
+    let serveHomepage = news => {
+        let lang = req.i18n.__('toplevel.home');
         res.render('pages/toplevel/home', {
             title: lang.title,
             description: lang.description || false,
             copy: lang,
-            news: news || [],
+            news: news || []
         });
     };
 
     // get news articles
     try {
-        models.News.findAll({
-            limit: 3,
-            order: [['updatedAt', 'DESC']]
-        }).then(serveHomepage);
+        models.News
+            .findAll({
+                limit: 3,
+                order: [['updatedAt', 'DESC']]
+            })
+            .then(serveHomepage);
     } catch (e) {
         console.log('Could not find news posts');
         serveHomepage();
@@ -50,36 +52,36 @@ const oldHomepage = (req, res) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
-    let localePath = (req.i18n.getLocale() === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
+    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
     return rp({
         url: legacyUrl + localePath,
         strictSSL: false,
         jar: true,
         resolveWithFullResponse: true
-    }).then((response) => {
-        let body = response.body;
-        // convert all links in the document to be absolute
-        // (only really useful on non-prod envs)
-        body = absolution(body, 'https://www.biglotteryfund.org.uk');
+    })
+        .then(response => {
+            let body = response.body;
+            // convert all links in the document to be absolute
+            // (only really useful on non-prod envs)
+            body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
-        // fix meta tags in HTML which use the wrong CNAME
-        body = body.replace(/wwwlegacy/g, 'www');
+            // fix meta tags in HTML which use the wrong CNAME
+            body = body.replace(/wwwlegacy/g, 'www');
 
-        // parse the DOM
-        const dom = new JSDOM(body);
+            // parse the DOM
+            const dom = new JSDOM(body);
 
-        const form = dom.window.document.getElementById('form1');
-        if (form) {
-            const newAction = form.getAttribute('action')
-                .replace('https://www.biglotteryfund.org.uk/', '/');
-            form.setAttribute('action', newAction);
-        }
+            const form = dom.window.document.getElementById('form1');
+            if (form) {
+                const newAction = form.getAttribute('action').replace('https://www.biglotteryfund.org.uk/', '/');
+                form.setAttribute('action', newAction);
+            }
 
-        // are we in an A/B test?
-        if (res.locals.ab) {
-            // create GA snippet for tracking experiment
-            const gaCode = `
+            // are we in an A/B test?
+            if (res.locals.ab) {
+                // create GA snippet for tracking experiment
+                const gaCode = `
                 <script src="//www.google-analytics.com/cx/api.js"></script>
                 <script>
                     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -95,53 +97,54 @@ const oldHomepage = (req, res) => {
                     ga('send', 'pageview');
                 </script>`;
 
-            // insert GA experiment code into the page
-            const script = dom.window.document.createElement("div");
-            script.innerHTML = gaCode;
-            dom.window.document.body.appendChild(script);
+                // insert GA experiment code into the page
+                const script = dom.window.document.createElement('div');
+                script.innerHTML = gaCode;
+                dom.window.document.body.appendChild(script);
 
-            // try to kill the google tag manager (useful for non-prod envs)
-            // @TODO kill the noscript too?
-            // @TODO don't do this on prod?
-            const scripts = dom.window.document.scripts;
-            let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
-            if (gtm) {
-                gtm.innerHTML = '';
+                // try to kill the google tag manager (useful for non-prod envs)
+                // @TODO kill the noscript too?
+                // @TODO don't do this on prod?
+                const scripts = dom.window.document.scripts;
+                let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
+                if (gtm) {
+                    gtm.innerHTML = '';
+                }
             }
-        }
-        res.set('X-BLF-Legacy', true);
-        res.send(dom.serialize());
-
-    }).catch(error => {
-        // we failed to fetch from the proxy, redirect to new
-        console.log('Error fetching legacy site', error);
-        res.redirect('/home');
-    });
+            res.set('X-BLF-Legacy', true);
+            res.send(dom.serialize());
+        })
+        .catch(error => {
+            // we failed to fetch from the proxy, redirect to new
+            console.log('Error fetching legacy site', error);
+            res.redirect('/home');
+        });
 };
 
-const oldHomepagePost = ((req, res) => {
+const oldHomepagePost = (req, res) => {
     res.cacheControl = { maxAge: 0 };
-    rp.post({
-        uri: legacyUrl,
-        form: req.body,
-        strictSSL: false,
-        jar: true,
-        simple: true,
-        followRedirect: false,
-        resolveWithFullResponse: true,
-        followOriginalHttpMethod: true
-    }).catch((err) => {
-        const proxyResponse = err.response;
-        if (proxyResponse.statusCode === 302) {
-            res.redirect(302, proxyResponse.headers.location);
-        } else {
-            res.redirect('/');
-        }
-    });
-});
+    rp
+        .post({
+            uri: legacyUrl,
+            form: req.body,
+            strictSSL: false,
+            jar: true,
+            simple: true,
+            followRedirect: false,
+            resolveWithFullResponse: true,
+            followOriginalHttpMethod: true
+        })
+        .catch(err => {
+            const proxyResponse = err.response;
+            if (proxyResponse.statusCode === 302) {
+                res.redirect(302, proxyResponse.headers.location);
+            } else {
+                res.redirect('/');
+            }
+        });
+};
 
 module.exports = (pages, sectionPath, sectionId) => {
-
     /**
      * 1. Populate static pages
      */
@@ -174,14 +177,13 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/legacy', oldHomepage);
 
     // send form data to the (third party) email newsletter provider
-    router.post('/ebulletin', (req, res, next) => {
+    router.post('/ebulletin', (req, res) => {
         req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
         req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
         req.checkBody('Email', 'Please provide your email address').notEmpty();
         req.checkBody('location', 'Please choose a country newsletter').notEmpty();
 
-        req.getValidationResult().then((result) => {
-
+        req.getValidationResult().then(result => {
             // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);
@@ -200,7 +202,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 delete req.body['location'];
 
                 let locale = req.body.locale;
-                let localePrefix = (locale === 'cy') ? config.get('i18n.urlPrefix.cy') : '';
+                let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
                 // redirect errors back to the homepage
                 let handleSignupError = () => {
@@ -227,23 +229,27 @@ module.exports = (pages, sectionPath, sectionId) => {
                     resolveWithFullResponse: true,
                     simple: false, // don't let 302s fail
                     followAllRedirects: true
-                }).then(response => { // signup succeeded
-                    if (response.statusCode === 302 || response.statusCode === 200) {
-                        return handleSignupSuccess();
-                    } else {
-                        console.log('Got an error with redirect', response.statusCode);
+                })
+                    .then(response => {
+                        // signup succeeded
+                        if (response.statusCode === 302 || response.statusCode === 200) {
+                            return handleSignupSuccess();
+                        } else {
+                            console.log('Got an error with redirect', response.statusCode);
+                            return handleSignupError();
+                        }
+                    })
+                    .catch(error => {
+                        // signup failed
+                        console.log('Error signing up to ebulletin', error);
                         return handleSignupError();
-                    }
-                }).catch(error => { // signup failed
-                    console.log('Error signing up to ebulletin', error);
-                    return handleSignupError();
-                });
+                    });
             }
         });
     });
 
     // data page
-    router.get(pages.data.path, (req, res, next) => {
+    router.get(pages.data.path, (req, res) => {
         let grants = _.sortBy(regions, 'name');
         res.render('pages/toplevel/data', {
             grants: grants,
@@ -252,7 +258,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     });
 
     // handle contrast shifter
-    router.get('/contrast/:mode', (req, res, next) => {
+    router.get('/contrast/:mode', (req, res) => {
         res.cacheControl = { maxAge: 1 };
         let duration = 6 * 30 * 24 * 60 * 60; // 6 months
         let cookieName = config.get('cookies.contrast');
@@ -268,7 +274,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.redirect(redirectUrl);
     });
 
-    router.get('/robots.txt', (req, res, next) => {
+    router.get('/robots.txt', (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         let text = 'User-agent: *\n';
         robots.forEach(r => {

@@ -7,7 +7,7 @@ let setupRedirects = (sectionPath, page) => {
     if (page.aliases && page.aliases.length > 0) {
         localePaths.forEach(localePath => {
             page.aliases.forEach(pagePath => {
-                app.get(localePath + pagePath, (req, res, next) => {
+                app.get(localePath + pagePath, (req, res) => {
                     res.redirect(localePath + sectionPath + page.path);
                 });
             });
@@ -18,7 +18,7 @@ let setupRedirects = (sectionPath, page) => {
 // serve a static page (eg. no special dependencies)
 let servePage = (page, router) => {
     // serve the canonical path with the supplied template
-    router.get(page.path, (req, res, next) => {
+    router.get(page.path, (req, res) => {
         let lang = req.i18n.__(page.lang);
         res.render(page.template, {
             title: lang.title,
@@ -58,7 +58,6 @@ let injectUrlRequest = (router, path) => {
 
 // set up path routing for a list of (static) pages
 let initRouting = (pages, router, sectionPath, sectionId) => {
-
     // first inject the section middleware
     injectSection(router, sectionId);
 

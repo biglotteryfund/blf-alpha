@@ -3,41 +3,40 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
 const helper = require('../helper');
 const routes = require('../../controllers/routes');
 
 // test the order form specifically
-describe("Material order form", () => {
-
+describe('Material order form', () => {
     let agent, csrfToken, server;
 
-    beforeEach((done) => {
+    beforeEach(done => {
         server = helper.before();
 
         // grab a valid CSRF token
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
         agent = chai.request.agent(server);
-        agent.get(path)
-            .end((err, res) => {
-                // res.should.have.cookie('_csrf');
-                const dom = new JSDOM(res.text);
-                csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
-                done();
-            });
+        agent.get(path).end((err, res) => {
+            // res.should.have.cookie('_csrf');
+            const dom = new JSDOM(res.text);
+            csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
+            done();
+        });
     });
 
     afterEach(() => {
         helper.after();
     });
 
-    it('should serve materials to order', (done) => {
+    it('should serve materials to order', done => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
-        chai.request(server)
+        chai
+            .request(server)
             .get(path)
             .end((err, res) => {
                 res.should.have.status(200);
@@ -45,18 +44,19 @@ describe("Material order form", () => {
             });
     });
 
-    it('should allow adding a product to an order via AJAX', (done) => {
+    it('should allow adding a product to an order via AJAX', done => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
-        agent.post(path + '/item/' + itemId)
+        agent
+            .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send({
-                '_csrf': csrfToken,
-                'code': itemCode,
-                'action': 'increase'
+                _csrf: csrfToken,
+                code: itemCode,
+                action: 'increase'
             })
             .end((err, res) => {
                 res.should.have.status(200);
@@ -69,25 +69,27 @@ describe("Material order form", () => {
             });
     });
 
-    it('should allow incrementing a product in an order via AJAX', (done) => {
+    it('should allow incrementing a product in an order via AJAX', done => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
         const formData = {
-            '_csrf': csrfToken,
-            'code': itemCode,
-            'action': 'increase'
+            _csrf: csrfToken,
+            code: itemCode,
+            action: 'increase'
         };
 
         // add the first item
-        agent.post(path + '/item/' + itemId)
+        agent
+            .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send(formData)
-            .end((err, res) => {
+            .end(() => {
                 // add the second item
-                agent.post(path + '/item/' + itemId)
+                agent
+                    .post(path + '/item/' + itemId)
                     .set('Accept', 'application/json')
                     .send(formData)
                     .end((err, res) => {
@@ -100,27 +102,26 @@ describe("Material order form", () => {
                         done();
                     });
             });
-
     });
 
-    it('should allow decrementing a product in an order via AJAX', (done) => {
+    it('should allow decrementing a product in an order via AJAX', done => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
         const formData = {
-            '_csrf': csrfToken,
-            'code': itemCode,
-            'action': 'increase'
+            _csrf: csrfToken,
+            code: itemCode,
+            action: 'increase'
         };
 
         // add the first item
-        agent.post(path + '/item/' + itemId)
+        agent
+            .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send(formData)
             .end((err, res) => {
-
                 // check it was added
                 res.should.have.status(200);
                 res.should.have.header('content-type', /^application\/json/);
@@ -131,7 +132,8 @@ describe("Material order form", () => {
 
                 // now remove the first item
                 formData.action = 'decrease';
-                agent.post(path + '/item/' + itemId)
+                agent
+                    .post(path + '/item/' + itemId)
                     .set('Accept', 'application/json')
                     .send(formData)
                     .end((err, res) => {
@@ -146,27 +148,28 @@ describe("Material order form", () => {
             });
     });
 
-    it('should allow ordering with personal details', (done) => {
+    it('should allow ordering with personal details', done => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
         const formData = {
-            '_csrf': csrfToken,
-            'skipEmail': true,
-            'yourName': 'Little Bobby Tables',
-            'yourEmail': 'bobby@xkcd.com',
-            'yourNumber': '123456789',
-            'yourAddress1': '123 Fake Street',
-            'yourAddress2': 'Notrealsville',
-            'yourTown': 'Madeuptown',
-            'yourCounty': 'Nonexistentland',
-            'yourPostcode': 'NW1 6XE',
-            'yourProjectName': 'White Hat Testing',
-            'yourProjectID': '666',
-            'yourGrantAmount': '£2038'
+            _csrf: csrfToken,
+            skipEmail: true,
+            yourName: 'Little Bobby Tables',
+            yourEmail: 'bobby@xkcd.com',
+            yourNumber: '123456789',
+            yourAddress1: '123 Fake Street',
+            yourAddress2: 'Notrealsville',
+            yourTown: 'Madeuptown',
+            yourCounty: 'Nonexistentland',
+            yourPostcode: 'NW1 6XE',
+            yourProjectName: 'White Hat Testing',
+            yourProjectID: '666',
+            yourGrantAmount: '£2038'
         };
 
-        agent.post(path)
+        agent
+            .post(path)
             .send(formData)
             .redirects(0)
             .end((err, res) => {
@@ -176,21 +179,24 @@ describe("Material order form", () => {
             });
     });
 
-    it('should block ordering with missing personal details', (done) => {
+    it('should block ordering with missing personal details', done => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
         const formData = {
-            '_csrf': csrfToken,
-            'skipEmail': true,
-            'yourName': 'Little Bobby Tables'
+            _csrf: csrfToken,
+            skipEmail: true,
+            yourName: 'Little Bobby Tables'
         };
 
-        agent.post(path)
+        agent
+            .post(path)
             .send(formData)
             .redirects(0)
             .end((err, res) => {
-                res.should.redirectTo('/funding/funding-guidance/managing-your-funding/ordering-free-materials#your-details');
+                res.should.redirectTo(
+                    '/funding/funding-guidance/managing-your-funding/ordering-free-materials#your-details'
+                );
                 res.should.have.status(302);
                 done();
             });
