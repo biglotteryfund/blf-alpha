@@ -73,10 +73,10 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
-    if (res.headersSent) {
-        return next(err);
-    }
+app.use((err, req, res) => {
+    // if (res.headersSent) {
+    //     return next(err);
+    // }
 
     // set locals, only providing error in development
     res.locals.message = err.message;
