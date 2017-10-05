@@ -10,10 +10,16 @@ const _ = require('lodash');
 const { JSDOM } = jsdom;
 const xss = require('xss');
 
+const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
+
 const robots = require('../../config/app/robots.json');
+// block everything on non-prod envs
+if (app.get('env') !== 'production') {
+    robots.push('/');
+}
 
 const legacyUrl = config.get('legacyDomain');
 
