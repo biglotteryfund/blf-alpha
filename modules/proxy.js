@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const rp = require('request-promise');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
@@ -14,7 +14,7 @@ const postToLegacyForm = (req, res) => {
     let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
     let pagePath = localePath + req.path;
 
-    rp
+    return rp
         .post({
             uri: legacyUrl + pagePath,
             form: req.body,
@@ -62,10 +62,15 @@ const proxyLegacyPage = (req, res) => {
             // parse the DOM
             const dom = new JSDOM(body);
 
-            // @TODO homepage only
+            if (req.app.get('env') === 'development') {
+                let titleText = dom.window.document.title;
+                dom.window.document.title = '[PROXIED] ' + titleText;
+            }
+
+            // rewrite main ASP.net form to point to this page
+            // (currently it's rewritten above to the external one)
             const form = dom.window.document.getElementById('form1');
             if (form) {
-                // const newAction = form.getAttribute('action').replace('https://www.biglotteryfund.org.uk/', pagePath);
                 form.setAttribute('action', pagePath);
             }
 

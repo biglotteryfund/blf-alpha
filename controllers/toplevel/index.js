@@ -99,10 +99,6 @@ const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-const oldHomepagePost = (req, res) => {
-    return proxyLegacy.postToLegacyForm(req, res);
-};
-
 // funding finder test
 router.get('/funding/funding-finder', proxyLegacy.proxyLegacyPage);
 router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
@@ -133,10 +129,11 @@ module.exports = (pages, sectionPath, sectionId) => {
         router.get('/', newHomepage);
     }
 
-    router.post('/', oldHomepagePost);
+    router.post('/', proxyLegacy.postToLegacyForm);
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);
+    // @TODO this fails as the path doesn't exist on legacy site
     router.get('/legacy', oldHomepage);
 
     // send form data to the (third party) email newsletter provider
