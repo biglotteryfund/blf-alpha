@@ -1,3 +1,7 @@
+/* =========================================================================
+   Layout Helpers
+   ========================================================================= */
+
 $nudgeAmount: 25px;
 
 .inner {
@@ -37,11 +41,6 @@ $nudgeAmount: 25px;
 
 .align--center {
     text-align: center;
-}
-
-// @TODO put this somewhere better
-main {
-    transition: all 0.3s ease-in-out;
 }
 
 @mixin nudged-up {
