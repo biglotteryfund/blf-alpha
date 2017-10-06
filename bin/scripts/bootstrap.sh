@@ -16,7 +16,7 @@ source /var/www/biglotteryfund/bin/scripts/get_secrets.sh
 # specify NODE_ENV based on deploy group ID
 nginx_config=/var/www/biglotteryfund/config/app/server.conf
 APP_ENV_PLACEHOLDER="APP_ENV"
-APP_ENV="dev"
+APP_ENV="development"
 
 if [ "$APPLICATION_NAME" == "BLF_Test" ]
 then
