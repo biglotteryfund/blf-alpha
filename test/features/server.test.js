@@ -48,6 +48,32 @@ describe('Express application', () => {
             });
     });
 
+    it('proxies the legacy funding finder', done => {
+        chai
+            .request(server)
+            .get('/funding/funding-finder?area=Wales')
+            .end((err, res) => {
+                // verify that our proxied page has been correct modified
+                res.should.have.header('X-BLF-Legacy', 'true');
+                res.text.should.include('National Lottery Awards for All Wales');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('modifies the proxied legacy funding finder for over 10k', done => {
+        chai
+            .request(server)
+            .get('/funding/funding-finder?area=Scotland&over=10k')
+            .end((err, res) => {
+                // verify that our proxied page has been correct modified
+                res.should.have.header('X-BLF-Legacy', 'true');
+                res.text.should.not.include('National Lottery Awards for All Scotland');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
     it('serves static files', done => {
         const assets = require('../../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
