@@ -5,9 +5,9 @@ $breakpoints: map-get($appConfig, 'breakpoints');
 // the main content area will have these width gutters
 // at the specified breakpoints
 $gutters: (
-    "default": 20px,
-    "tablet": 5%,
-    "desktop": 10%
+    "default": 10px,
+    "tablet": 20px,
+    "desktop": 40px
 );
 
 // at this resolution, the content area will be limited in width

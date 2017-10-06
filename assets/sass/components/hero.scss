@@ -199,20 +199,15 @@ $heroSpaceFromLeft: 20px;
 
     margin-bottom: $spacingUnit / 2;
 
-    // @TODO: Introduce more granular breakpoints
-    @media only screen and (min-width: 360px) {
-        margin-bottom: $spacingUnit;
-    }
-
     @include mq('tablet') {
         margin-bottom: $spacingUnit * 2;
     }
 }
 .super-hero__title {
     font-size: 14px;
-    line-height: 1.3;
+    line-height: 1.2;
     font-weight: normal;
-    margin: 0 0 ($spacingUnit / 3) 0;
+    margin: 0 0 ($spacingUnit / 2) 0;
 
     @media only screen and (min-width: 360px) {
         font-size: 18px;
@@ -224,7 +219,7 @@ $heroSpaceFromLeft: 20px;
 
     @include mq('desktop') {
         font-size: 24px;
-        margin-bottom: $spacingUnit;
+        line-height: 1.3;
     }
 
     a, a:link {

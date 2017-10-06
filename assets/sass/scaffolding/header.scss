@@ -98,6 +98,9 @@ $offscreenNavWidth: 65%;
     @include mq('tablet') {
         height: 105px;
         width: 130px;
+    }
+
+    @media only screen and (min-width: $widestScreen) {
         margin-left: -20px;
     }
 
@@ -377,6 +380,8 @@ html:not(.contrast--high) .has-full-bleed-header .header {
     }
 
     .nav {
+        margin-left: $spacingUnit;
+
         @include mq('tablet') {
             align-items: initial;
         }
@@ -409,7 +414,7 @@ html:not(.contrast--high) .has-full-bleed-header .header {
 
         &:after {
             border-color: white;
-            margin: 0;
+            margin: 0 ($spacingUnit / 3);
 
             @include mq('desktop') {
                 margin: 0 $spacingUnit * 1.25;
@@ -422,6 +427,9 @@ html:not(.contrast--high) .has-full-bleed-header .header {
     .nav__search input {
         @include nav-link-style(white);
         background-color: transparent;
+        margin: 0;
+        padding: 5px 0;
+        width: 70px;
 
         @include input-placeholder {
             @include nav-link-style(white);
