@@ -224,7 +224,6 @@ $btnConf: (
 
 .o-button-group {
     .btn {
-        display: inline-block;
         margin-bottom: ($spacingUnit / 2);
 
         &:last-of-type {
@@ -242,6 +241,18 @@ $btnConf: (
             &:last-of-type {
                 margin-right: 0;
             }
+        }
+    }
+}
+
+.o-button-group-block {
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: $spacingUnit;
+
+        &:last-of-type {
+            margin-bottom: 0;
         }
     }
 }
