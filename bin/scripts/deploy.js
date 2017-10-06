@@ -112,12 +112,12 @@ if (customBuildNumber) {
 
 function getEnvStatus(env) {
     const URLs = {
-        test: process.env.ELB_TEST,
-        production: process.env.ELB_PROD
+        test: process.env.TEST_URL,
+        production: process.env.PROD_URL
     };
 
     return rp({
-        url: URLs[env]
+        url: URLs[env] + '/status'
     }).then(response => {
         return JSON.parse(response);
     });
