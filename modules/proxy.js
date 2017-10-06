@@ -36,12 +36,15 @@ const postToLegacyForm = (req, res) => {
         });
 };
 
-const proxyLegacyPage = (req, res, domModifications) => {
+const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
     let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-    let pagePath = localePath + req.path;
+
+    // allow a custom path (eg. to serve / over /legacy)
+    // which would otherwise fail
+    let pagePath = pathOverride ? pathOverride : localePath + req.path;
 
     return rp({
         url: legacyUrl + pagePath,

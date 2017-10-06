@@ -177,8 +177,10 @@ module.exports = (pages, sectionPath, sectionId) => {
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);
-    // @TODO this fails as the path doesn't exist on legacy site
-    router.get('/legacy', oldHomepage);
+
+    router.get('/legacy', (req, res) => {
+        return proxyLegacy.proxyLegacyPage(req, res, null, '/');
+    });
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res) => {
