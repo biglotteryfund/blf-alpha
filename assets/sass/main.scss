@@ -1,11 +1,14 @@
-/*
- * 1. setup / functions etc
+// =========================================================================
+// Big Lottery Fund
+// ========================================================================= //
+
+/**
+ * 1. Setup and SCSS tools
  */
-@import 'config';     // dynamically generated from JSON via gulp
-@import '_vars';      // SCSS-wide variables (mostly layout-related)
-@import '_functions'; // low-level functions (gradients etc)
-@import '_mixins';    // useful for responsive
-@import '_utils';     // show/hide classes for mobile/desktop/js-off etc
+@import 'config';     // Shared config (Dynamically generated from `sass.json`)
+@import '_vars';      // Common variables
+@import '_functions'; // Low-level utility function
+@import '_mixins';    // Common mixins and helpers
 
 /*
  * 2. global/sitewide styles/defaults
@@ -46,3 +49,8 @@
  * 5. third-party libraries/components
  */
 @import 'lib/swiper';
+
+/**
+ * 6. Overrides / Utilities
+ */
+@import 'utilities/utilities';
