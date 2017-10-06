@@ -23,10 +23,6 @@ $nudgeAmount: 25px;
     margin-right: $spacingUnit / 2;
 }
 
-.is-on-top {
-    z-index: 100;
-}
-
 // @TODO better name
 .central-gap {
     @include mq('tablet') {
@@ -59,25 +55,6 @@ $nudgeAmount: 25px;
     @include mq('tablet') {
         @include nudged-up();
     }
-}
-
-.nudge-up--always {
-    @include nudged-up();
-}
-
-.nudge-bottom {
-    position: absolute;
-    bottom: $spacingUnit;
-    @include responsiveGutter(true);
-
-    @include mq('tablet') {
-        @include nudged-down();
-    }
-}
-
-.nudge-bottom--always {
-    @include responsiveGutter(true);
-    @include nudged-down();
 }
 
 .padded {
