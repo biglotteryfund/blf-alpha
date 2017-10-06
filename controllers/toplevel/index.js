@@ -101,19 +101,40 @@ const oldHomepage = (req, res) => {
 
 // funding finder test
 router.get('/funding/funding-finder', (req, res) => {
-    return proxyLegacy.proxyLegacyPage(req, res, (dom) => {
+    let parseValueFromString = str => {
+        const replacements = [['million', '000000'], [/,/g, ''], [/£/g, ''], [/ /g, '']];
+
+        let upper = str.split(' - ')[1];
+        if (upper) {
+            replacements.forEach(r => {
+                upper = upper.replace(r[0], r[1]);
+            });
+            upper = parseInt(upper);
+        }
+        return upper;
+    };
+
+    return proxyLegacy.proxyLegacyPage(req, res, dom => {
+        // should we filter out programs under 10k?
         if (req.query.over && req.query.over === '10k') {
+            // get the list of program elements
             let programs = dom.window.document.querySelectorAll('article.programmeList');
             if (programs.length > 0) {
                 [].forEach.call(programs, p => {
+                    // find the key facts block (which contains the funding size)
                     let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
                     if (keyFacts.length > 0) {
                         [].forEach.call(keyFacts, k => {
-                            // Maint yr ariannu:
-                            if (k.textContent.toLowerCase() === 'funding size:') {
-                                console.log(k.nextSibling, k.nextSibling.textContent);
-                                let fundSize = k.nextSibling.textContent;
-                                // @TODO parse the range and remove elements with an upper limit of 10k
+                            // find the node with the funding size info (if it exists)
+                            let textValue = k.textContent.toLowerCase();
+                            // english/welsh version
+                            if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
+                                // parse the string (eg. "£10,000" => 10000, "£1 million" => 1000000 etc)
+                                let programUpperLimit = parseValueFromString(k.nextSibling.textContent);
+                                // remove the element if it's below our threshold
+                                if (programUpperLimit <= 10000) {
+                                    p.parentNode.removeChild(p);
+                                }
                             }
                         });
                     }
