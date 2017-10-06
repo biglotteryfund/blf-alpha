@@ -18,6 +18,10 @@
       "prettier --write",
       "eslint",
       "git add"
+    ],
+    "assets/**/*.scss": [
+      "prettier --write",
+      "git add"
     ]
   },
   "prettier": {
