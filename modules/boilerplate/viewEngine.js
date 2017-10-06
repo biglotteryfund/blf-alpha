@@ -4,7 +4,7 @@ const nunjucks = require('nunjucks');
 const moment = require('moment');
 const assets = require('../assets');
 
-const IS_DEV = (process.env.NODE_ENV || 'dev') === 'dev';
+const IS_DEV = (process.env.NODE_ENV || 'development') === 'development';
 
 const templateEnv = nunjucks.configure('views', {
     autoescape: true,

@@ -7,7 +7,7 @@ const sassConfig = require('../../config/content/sass.json');
 const routes = require('../../controllers/routes');
 const utilities = require('../../modules/utilities');
 
-const getGlobal = (name) => {
+const getGlobal = name => {
     return app.get('engineEnv').getGlobal(name);
 };
 
@@ -23,13 +23,13 @@ try {
     // console.info('deploy.json not found -- are you in DEV mode?');
 }
 
-const appEnv = process.env.NODE_ENV || 'dev';
+const appEnv = process.env.NODE_ENV || 'development';
 
 // store some app-wide config data
 setGlobal('appData', {
-    deployId: (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV',
-    buildNumber: (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV',
-    commitId: (deploymentData && deploymentData.commitId) ? deploymentData.commitId : 'DEV',
+    deployId: deploymentData && deploymentData.deployId ? deploymentData.deployId : 'DEV',
+    buildNumber: deploymentData && deploymentData.buildNumber ? deploymentData.buildNumber : 'DEV',
+    commitId: deploymentData && deploymentData.commitId ? deploymentData.commitId : 'DEV',
     IS_DEV: appEnv === 'dev',
     environment: appEnv,
     config: config
@@ -73,38 +73,43 @@ setGlobal('buildUrl', (sectionName, pageName) => {
     try {
         let page = section.pages[pageName];
         return localePrefix + section.path + page.path;
-    }
-    catch (e) {
+    } catch (e) {
         // pages from the "toplevel" section have no prefix
         // and aliases don't drop into the above block
-        const IS_TOP_LEVEL = (sectionName === 'toplevel');
+        const IS_TOP_LEVEL = sectionName === 'toplevel';
         let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
-        if (pageName) { url += pageName; }
+        if (pageName) {
+            url += pageName;
+        }
         url = localePrefix + url;
         // catch the edge case where we just want a link to the homepage in english
-        if (url === "") { url = '/'; }
+        if (url === '') {
+            url = '/';
+        }
         return url;
     }
 });
 
 // look up the current URL and rewrite to another locale
-let getCurrentUrl = function (req, locale) {
+let getCurrentUrl = function(req, locale) {
     let currentPath = req.originalUrl;
 
     // is this an HTTPS request? make the URL protocol work
     let headerProtocol = req.get('X-Forwarded-Proto');
-    let protocol = (headerProtocol) ? headerProtocol : req.protocol;
-    let currentUrl = protocol + "://" + req.get('host') + currentPath;
+    let protocol = headerProtocol ? headerProtocol : req.protocol;
+    let currentUrl = protocol + '://' + req.get('host') + currentPath;
 
     // is the current URL welsh or english?
     const CYMRU_URL = /\/welsh(\/|$)/;
-    const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
-    const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
+    const IS_WELSH = currentUrl.match(CYMRU_URL) !== null;
+    const IS_ENGLISH = currentUrl.match(CYMRU_URL) === null;
 
     // rewrite URL to requested language
-    if (locale === 'cy' && !IS_WELSH) { // make this URL welsh
-        currentUrl = protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
-    } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
+    if (locale === 'cy' && !IS_WELSH) {
+        // make this URL welsh
+        currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
+    } else if (locale === 'en' && !IS_ENGLISH) {
+        // un-welshify this URL
         currentUrl = currentUrl.replace(CYMRU_URL, '/');
     }
 
