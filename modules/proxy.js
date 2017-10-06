@@ -102,8 +102,6 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
                 dom.window.document.body.appendChild(script);
 
                 // try to kill the google tag manager (useful for non-prod envs)
-                // @TODO kill the noscript too?
-                // @TODO don't do this on prod?
                 const scripts = dom.window.document.scripts;
                 let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
                 if (gtm) {
@@ -111,6 +109,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
                 }
             }
 
+            // allow custom overrides on a per-page basis
             if (domModifications) {
                 dom = domModifications(dom);
             }

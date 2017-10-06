@@ -99,8 +99,9 @@ const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-// funding finder test
+// serve the legacy site funding finder (via proxy)
 router.get('/funding/funding-finder', (req, res) => {
+    // parse the string (eg. "£10,000" => 10000, "£1 million" => 1000000 etc)
     let parseValueFromString = str => {
         const replacements = [['million', '000000'], [/,/g, ''], [/£/g, ''], [/ /g, '']];
 
@@ -114,6 +115,7 @@ router.get('/funding/funding-finder', (req, res) => {
         return upper;
     };
 
+    // rewrite HTML to remove invalid funding programs
     return proxyLegacy.proxyLegacyPage(req, res, dom => {
         // should we filter out programs under 10k?
         if (req.query.over && req.query.over === '10k') {
@@ -129,7 +131,7 @@ router.get('/funding/funding-finder', (req, res) => {
                             let textValue = k.textContent.toLowerCase();
                             // english/welsh version
                             if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
-                                // parse the string (eg. "£10,000" => 10000, "£1 million" => 1000000 etc)
+                                // convert string into number
                                 let programUpperLimit = parseValueFromString(k.nextSibling.textContent);
                                 // remove the element if it's below our threshold
                                 if (programUpperLimit <= 10000) {
@@ -145,6 +147,7 @@ router.get('/funding/funding-finder', (req, res) => {
     });
 });
 
+// allow form submissions on funding finder to pass through to proxy
 router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
 
 module.exports = (pages, sectionPath, sectionId) => {
