@@ -13,6 +13,7 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const assets = require('../../modules/assets');
+const utilities = require('../../modules/utilities');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -101,20 +102,6 @@ const oldHomepage = (req, res) => {
 
 // serve the legacy site funding finder (via proxy)
 router.get('/funding/funding-finder', (req, res) => {
-    // parse the string (eg. "£10,000" => 10000, "£1 million" => 1000000 etc)
-    let parseValueFromString = str => {
-        const replacements = [['million', '000000'], [/,/g, ''], [/£/g, ''], [/ /g, '']];
-
-        let upper = str.split(' - ')[1];
-        if (upper) {
-            replacements.forEach(r => {
-                upper = upper.replace(r[0], r[1]);
-            });
-            upper = parseInt(upper);
-        }
-        return upper;
-    };
-
     // rewrite HTML to remove invalid funding programs
     return proxyLegacy.proxyLegacyPage(req, res, dom => {
         // should we filter out programs under 10k?
@@ -132,7 +119,7 @@ router.get('/funding/funding-finder', (req, res) => {
                             // english/welsh version
                             if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
                                 // convert string into number
-                                let programUpperLimit = parseValueFromString(k.nextSibling.textContent);
+                                let programUpperLimit = utilities.parseValueFromString(k.nextSibling.textContent);
                                 // remove the element if it's below our threshold
                                 if (programUpperLimit <= 10000) {
                                     p.parentNode.removeChild(p);
