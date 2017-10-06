@@ -3,26 +3,23 @@ const express = require('express');
 const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
-const absolution = require('absolution');
 const ab = require('express-ab');
-const jsdom = require('jsdom');
 const { has, sortBy } = require('lodash');
-const { JSDOM } = jsdom;
 const xss = require('xss');
 
 const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
+const proxyLegacy = require('../../modules/proxy');
+const assets = require('../../modules/assets');
+const utilities = require('../../modules/utilities');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
 if (app.get('env') !== 'production') {
     robots.push('/');
 }
-const assets = require('../../modules/assets');
-
-const legacyUrl = config.get('legacyDomain');
 
 function createHeroImage(opts) {
     if (!['small', 'medium', 'large'].every(x => has(opts, x))) {
@@ -99,104 +96,46 @@ const newHomepage = (req, res) => {
     }
 };
 
-// @TODO cache this page as it's very slow to return
-// main issue is the static assets (which cloudfront doesn't cache)
 const oldHomepage = (req, res) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-
-    // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-
-    return rp({
-        url: legacyUrl + localePath,
-        strictSSL: false,
-        jar: true,
-        resolveWithFullResponse: true
-    })
-        .then(response => {
-            let body = response.body;
-            // convert all links in the document to be absolute
-            // (only really useful on non-prod envs)
-            body = absolution(body, 'https://www.biglotteryfund.org.uk');
-
-            // fix meta tags in HTML which use the wrong CNAME
-            body = body.replace(/wwwlegacy/g, 'www');
-
-            // parse the DOM
-            const dom = new JSDOM(body);
-
-            const form = dom.window.document.getElementById('form1');
-            if (form) {
-                const newAction = form.getAttribute('action').replace('https://www.biglotteryfund.org.uk/', '/');
-                form.setAttribute('action', newAction);
-            }
-
-            // are we in an A/B test?
-            if (res.locals.ab) {
-                // create GA snippet for tracking experiment
-                const gaCode = `
-                <script src="//www.google-analytics.com/cx/api.js"></script>
-                <script>
-                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-                    ga('create', '${config.get('googleAnalyticsCode')}', {
-                        'cookieDomain': 'none'
-                    });
-                    ga('set', 'expId', '${res.locals.ab.id}');
-                    ga('set', 'expVar', ${res.locals.ab.variantId});
-                    cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
-                    ga('send', 'pageview');
-                </script>`;
-
-                // insert GA experiment code into the page
-                const script = dom.window.document.createElement('div');
-                script.innerHTML = gaCode;
-                dom.window.document.body.appendChild(script);
-
-                // try to kill the google tag manager (useful for non-prod envs)
-                // @TODO kill the noscript too?
-                // @TODO don't do this on prod?
-                const scripts = dom.window.document.scripts;
-                let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
-                if (gtm) {
-                    gtm.innerHTML = '';
-                }
-            }
-            res.set('X-BLF-Legacy', true);
-            res.send(dom.serialize());
-        })
-        .catch(error => {
-            // we failed to fetch from the proxy, redirect to new
-            console.log('Error fetching legacy site', error);
-            res.redirect('/home');
-        });
+    return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-const oldHomepagePost = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
-    rp
-        .post({
-            uri: legacyUrl,
-            form: req.body,
-            strictSSL: false,
-            jar: true,
-            simple: true,
-            followRedirect: false,
-            resolveWithFullResponse: true,
-            followOriginalHttpMethod: true
-        })
-        .catch(err => {
-            const proxyResponse = err.response;
-            if (proxyResponse.statusCode === 302) {
-                res.redirect(302, proxyResponse.headers.location);
-            } else {
-                res.redirect('/');
+// serve the legacy site funding finder (via proxy)
+router.get('/funding/funding-finder', (req, res) => {
+    // rewrite HTML to remove invalid funding programs
+    return proxyLegacy.proxyLegacyPage(req, res, dom => {
+        // should we filter out programs under 10k?
+        if (req.query.over && req.query.over === '10k') {
+            // get the list of program elements
+            let programs = dom.window.document.querySelectorAll('article.programmeList');
+            if (programs.length > 0) {
+                [].forEach.call(programs, p => {
+                    // find the key facts block (which contains the funding size)
+                    let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
+                    if (keyFacts.length > 0) {
+                        [].forEach.call(keyFacts, k => {
+                            // find the node with the funding size info (if it exists)
+                            let textValue = k.textContent.toLowerCase();
+                            // english/welsh version
+                            if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
+                                // convert string into number
+                                let programUpperLimit = utilities.parseValueFromString(k.nextSibling.textContent);
+                                // remove the element if it's below our threshold
+                                if (programUpperLimit <= 10000) {
+                                    p.parentNode.removeChild(p);
+                                }
+                            }
+                        });
+                    }
+                });
             }
-        });
-};
+        }
+        return dom;
+    });
+});
+
+// allow form submissions on funding finder to pass through to proxy
+router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
@@ -224,11 +163,14 @@ module.exports = (pages, sectionPath, sectionId) => {
         router.get('/', newHomepage);
     }
 
-    router.post('/', oldHomepagePost);
+    router.post('/', proxyLegacy.postToLegacyForm);
 
     // used for tests: override A/B cohorts
     router.get('/home', newHomepage);
-    router.get('/legacy', oldHomepage);
+
+    router.get('/legacy', (req, res) => {
+        return proxyLegacy.proxyLegacyPage(req, res, null, '/');
+    });
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res) => {

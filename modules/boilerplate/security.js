@@ -10,6 +10,8 @@ const pathsExemptFromHelmet = [
     '/',
     '/welsh',
     '/legacy',
+    '/funding/funding-finder',
+    '/welsh/funding/funding-finder'
 ];
 
 const defaultSecurityDomains = [
