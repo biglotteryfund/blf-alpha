@@ -1,16 +1,17 @@
 'use strict';
 const Swiper = require('../libs/swiper.jquery.min');
 const appConfig = require('../../../config/content/sass.json');
+const analytics = require('./analytics');
 
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
 const defaultPerPage = 3;
 
-const Carousel = (settings) => {
-
-    let carouselElm = document.querySelector(settings.selector);
+const Carousel = settings => {
+    const carouselElm = document.querySelector(settings.selector);
 
     if (carouselElm) {
+        const dataName = carouselElm.getAttribute('data-name');
 
         let slidesToShow = defaultPerPage;
         if (carouselElm && carouselElm.getAttribute('data-per-page')) {
@@ -23,7 +24,7 @@ const Carousel = (settings) => {
             slidesPerView: 1
         };
 
-        return new Swiper(settings.selector, {
+        const carouselSwiper = new Swiper(settings.selector, {
             nextButton: settings.nextSelector,
             prevButton: settings.prevSelector,
             speed: 400,
@@ -33,14 +34,21 @@ const Carousel = (settings) => {
             slidesPerView: slidesToShow,
             breakpoints: breakpoints
         });
+
+        carouselSwiper.on('slideChangeEnd', function(swiperInstance) {
+            const idx = swiperInstance.realIndex + 1;
+            if (dataName) {
+                analytics.track(dataName, 'Changed slide', 'Changed to item ' + idx);
+            }
+        });
     }
 };
 
 const init = () => {
     return new Carousel({
-        selector: '.swiper-container',
+        selector: '.js-carousel',
         nextSelector: '.js-carousel-next',
-        prevSelector: '.js-carousel-prev',
+        prevSelector: '.js-carousel-prev'
     });
 };
 
