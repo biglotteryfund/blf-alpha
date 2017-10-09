@@ -14,7 +14,12 @@
     "prepush": "npm test"
   },
   "lint-staged": {
-    "{gulpfile.js,server.js,controllers/**/*.js,models/**/*.js,modules/**/*.js,test/**/*.js,bin/scripts/**/*.js}": [
+    "{assets,bin,controllers,models,modules,test}/**/*.js": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ],
+    "{gulpfile.js,server.js}": [
       "prettier --write",
       "eslint",
       "git add"
