@@ -83,7 +83,8 @@
 					"quoteName": "Anthony Turkington",
 					"quoteText": "My motivation in wanting to do youth work comes from knowing the impact that Bytes had and continues to have on me.",
 					"imagePath": "images/home/case-study-3-medium.jpg",
-					"imageSmallPath": "images/home/case-study-3-small.jpg"
+					"imageSmallPath": "images/home/case-study-3-small.jpg",
+					"link": "funding/big-stories/bytes"
 				}
 			],
 			"browseFundedProjects": "Search for all funded projects",
