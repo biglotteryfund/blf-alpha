@@ -1,3 +1,7 @@
+/* =========================================================================
+   Layout Helpers
+   ========================================================================= */
+
 $nudgeAmount: 25px;
 
 .inner {
@@ -19,10 +23,6 @@ $nudgeAmount: 25px;
     margin-right: $spacingUnit / 2;
 }
 
-.is-on-top {
-    z-index: 100;
-}
-
 // @TODO better name
 .central-gap {
     @include mq('tablet') {
@@ -37,11 +37,6 @@ $nudgeAmount: 25px;
 
 .align--center {
     text-align: center;
-}
-
-// @TODO put this somewhere better
-main {
-    transition: all 0.3s ease-in-out;
 }
 
 @mixin nudged-up {
@@ -60,25 +55,6 @@ main {
     @include mq('tablet') {
         @include nudged-up();
     }
-}
-
-.nudge-up--always {
-    @include nudged-up();
-}
-
-.nudge-bottom {
-    position: absolute;
-    bottom: $spacingUnit;
-    @include responsiveGutter(true);
-
-    @include mq('tablet') {
-        @include nudged-down();
-    }
-}
-
-.nudge-bottom--always {
-    @include responsiveGutter(true);
-    @include nudged-down();
 }
 
 .padded {

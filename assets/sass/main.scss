@@ -1,37 +1,40 @@
-/*
- * 1. setup / functions etc
- */
-@import 'config';     // dynamically generated from JSON via gulp
-@import '_vars';      // SCSS-wide variables (mostly layout-related)
-@import '_functions'; // low-level functions (gradients etc)
-@import '_mixins';    // useful for responsive
-@import '_utils';     // show/hide classes for mobile/desktop/js-off etc
+// =========================================================================
+// Big Lottery Fund
+// ========================================================================= //
 
-/*
- * 2. global/sitewide styles/defaults
+/**
+ * 1. Setup and SCSS tools
  */
-@import 'globals/reset';      // standardised browser defaults
-@import 'globals/palette';    // colour list
-@import 'globals/accents';    // accented colours
-@import 'globals/theme';      // general themes
-@import 'globals/layout';     // main scaffolding
-@import 'globals/typography'; // sitewide font settings
-@import 'globals/lists';      // custom list styles
-@import 'globals/forms';      // site-wide form styles
+@import 'config';     // Shared config (Dynamically generated from `sass.json`)
+@import '_vars';      // Common variables
+@import '_functions'; // Low-level utility function
+@import '_mixins';    // Common mixins and helpers
 
-/*
- * 3. layout scaffolding
+/**
+ * 2. Global styles
  */
-@import 'scaffolding/content';
-@import 'scaffolding/footer';
-@import 'scaffolding/grid';
-@import 'scaffolding/header';
+@import 'globals/base';       // Global / element-level styles
+@import 'globals/accents';    // Accented colour helpers
+@import 'globals/theme';      // Theming helpers
+@import 'globals/layout';     // Layout helpers
+@import 'globals/typography'; // Typographic scale
+@import 'globals/lists';      // Custom list styles
+@import 'globals/forms';      // Site-wide form styles
 
-/*
- * 4. individual components
+/**
+ * 3. Layout Scaffolding
+ */
+ @import 'scaffolding/header';
+ @import 'scaffolding/footer';
+ @import 'scaffolding/content';
+ @import 'scaffolding/grid';
+
+/**
+ * 4. Components
  */
 @import 'components/accessibility';
 @import 'components/btn';
+@import 'components/quotes';
 @import 'components/card';
 @import 'components/data'; // is this is a "component"?
 @import 'components/hero';
@@ -42,7 +45,12 @@
 @import 'components/tabs';
 @import 'components/case-studies';
 
-/*
- * 5. third-party libraries/components
+/**
+ * 5. Third-party vendor styles
  */
 @import 'lib/swiper';
+
+/**
+ * 6. Overrides / Utilities
+ */
+@import 'utilities/utilities';

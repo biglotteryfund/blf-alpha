@@ -1,0 +1,114 @@
+/* =========================================================================
+   Base: Global element level styles
+   ========================================================================= */
+
+html {
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+dl,
+dt,
+dd,
+p {
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    transition: all 0.3s ease-in-out;
+}
+
+body,
+input,
+textarea,
+button,
+blockquote {
+    @include t5();
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @include poppins();
+    margin: 0 0 20px 0;
+}
+
+ol,
+ul,
+li,
+.unstyled,
+.unstyled li {
+    list-style-type: none;
+}
+
+address {
+    font-style: normal;
+}
+
+img {
+    width: 100%;
+}
+
+a img {
+    border: none;
+}
+
+p {
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+a {
+    color: palette('blue-text');
+    transition: color 0.1s ease-in-out;
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue-text'), 20%);
+    }
+}
+
+blockquote {
+    @include font-and-leading(20px, 27px);
+    margin: 0 0 $spacingUnit 0;
+    font-style: italic;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    footer {
+        display: inline-block;
+    }
+
+    cite {
+        font-style: normal;
+    }
+}
