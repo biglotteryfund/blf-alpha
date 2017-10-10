@@ -16,7 +16,6 @@
     $colour: palette($name);
 
     .accent--#{$name} {
-
         // text color
         &.a--text {
             color: $colour;
@@ -66,11 +65,12 @@
             }
         }
 
-        // border-bottom below some type styles
-        &.t3--a {
-            &:after {
-                border-bottom-color: $colour;
-            }
+        /**
+         * Modifier class which adds a border below the text
+         * (see typography.scss)
+         */
+        &.t--underline:after {
+            border-bottom-color: $colour;
         }
 
         // call-to-action buttons
@@ -98,13 +98,10 @@
                     fill: $activeState !important;
                 }
             }
-
-
         }
 
         // high contrast mode styles
         .contrast--high & {
-
             // overlay (block) text
             .overlay-text {
                 span {
@@ -127,7 +124,6 @@
                         color: white !important;
                     }
                 }
-
             }
         }
 
@@ -135,8 +131,6 @@
         &.tab--active.btn {
             background-color: darken($colour, 15%) !important;
         }
-
-
     }
 }
 
