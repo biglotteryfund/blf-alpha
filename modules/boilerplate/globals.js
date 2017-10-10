@@ -90,6 +90,16 @@ setGlobal('buildUrl', (sectionName, pageName) => {
     }
 });
 
+setGlobal('createHeroImage', function(opts) {
+    return utilities.createHeroImage({
+        small: opts.small,
+        medium: opts.medium,
+        large: opts.large,
+        default: opts.default,
+        caption: opts.caption
+    });
+});
+
 // look up the current URL and rewrite to another locale
 let getCurrentUrl = function(req, locale) {
     let currentPath = req.originalUrl;

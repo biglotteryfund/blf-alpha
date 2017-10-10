@@ -1,6 +1,4 @@
-{% import "../../components/hero.njk" as hero %}
-{% import "../../components/hero.njk" as hero %}
-{% import "../../components/headers.njk" as headers %}
+{% from "../../components/hero.njk" import sectionHero %}
 {% from "../../components/blocks.njk" import projectBlock with context %}
 
 {% extends "../../layouts/main.njk" %}
@@ -11,10 +9,17 @@
 
 {% block content %}
 
+    {% set heroImage = createHeroImage({
+        small: 'images/hero/under-10k-small.jpg',
+        medium: 'images/hero/under-10k-medium.jpg',
+        large: 'images/hero/under-10k-large.jpg',
+        default: 'images/hero/under-10k-medium.jpg'
+    }) %}
+
     {{
-        hero.sectionHero(
-            name = 'under10k',
+        sectionHero(
             titleText = copy.title,
+            image = heroImage,
             accent = 'pink'
         )
     }}
