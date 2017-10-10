@@ -3,6 +3,14 @@
 {% from "../../components/hero.njk" import sectionHero %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
 
+{% macro styleguideSectionHeader(title) %}
+    <div class="sg-section-header">
+        <div class="sg-section-header__inner inner">
+            <h2 class="sg-section-header__title t1">{{ title }}</h2>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro styleguideBlock(title, content) %}
     <div class="sg-block">
         <div class="sg-block-content__inner inner">
@@ -16,6 +24,7 @@
 
 {% block content %}
 
+{{ styleguideSectionHeader('Typography') }}
 {% set styleguideContent %}
     <h2 class="t1">T1 Typographic Style</h2>
     <h2 class="t2">T2 Typographic Style</h2>
@@ -41,7 +50,7 @@
 {% endset %}
 {{ styleguideBlock('Overlay text', styleguideContent) }}
 
-
+{{ styleguideSectionHeader('Global') }}
 {% set styleguideContent %}
     <p><button class="btn" type="button">Default Button</button></p>
     <p><button class="btn btn--outline" type="button">Outline Button</button></p>
@@ -58,7 +67,7 @@
 {% endset %}
 {{ styleguideBlock('Button Groups', styleguideContent) }}
 
-
+{{ styleguideSectionHeader('Components') }}
 {% set styleguideContent %}
     {{
         caseStudy(
