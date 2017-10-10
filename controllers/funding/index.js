@@ -189,10 +189,23 @@ module.exports = (pages, sectionPath, sectionId) => {
         contentApi
             .getFundingProgrammes(req.i18n.getLocale())
             .then(response => {
+                let programmeList = response.data;
+
+                if (req.query.location) {
+                    programmeList = programmeList.filter(p => {
+                        let data = p.content;
+                        return (
+                            !data.area ||
+                            (data.area && data.area.value === 'ukWide') ||
+                            (data.area && data.area.value === req.query.location)
+                        );
+                    });
+                }
+
                 res.render(programmes.template, {
                     title: lang.title,
                     copy: lang,
-                    programmes: response.data
+                    programmes: programmeList
                 });
             })
             .catch(err => {
