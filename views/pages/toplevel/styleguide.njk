@@ -11,13 +11,23 @@
     </div>
 {% endmacro %}
 
-{% macro styleguideBlock(title, content) %}
+{% macro styleguideBlock(title, content, notes) %}
     <div class="sg-block">
         <div class="sg-block-content__inner inner">
             <h3 class="sg-block__title accent--soft-grey t2 t--underline">{{ title }}</h3>
             <div class="sg-block__content">
                 {{ content | safe }}
             </div>
+            {% if notes %}
+                <div class="sg-block__notes">
+                    <div class="sg-usage-notes">
+                        <h4 class="sg-usage-notes__title">Usage Notes</h4>
+                        <div class="sg-usage-notes__content">
+                            {{ notes | safe }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endmacro %}
@@ -25,7 +35,7 @@
 {% block content %}
 
 {{ styleguideSectionHeader('Typography') }}
-{% set styleguideContent %}
+{% set sgContent %}
     <h2 class="t1">T1 Typographic Style</h2>
     <h2 class="t2">T2 Typographic Style</h2>
     <h2 class="t2 t--underline accent--pink a--text">T2 Typographic Style (with underline)</h2>
@@ -37,9 +47,9 @@
     <h2 class="t7">T7 Typographic Style</h2>
     <h2 class="t8">T8 Typographic Style</h2>
 {% endset %}
-{{ styleguideBlock('Titles', styleguideContent) }}
+{{ styleguideBlock('Titles', sgContent) }}
 
-{% set styleguideContent %}
+{% set sgContent %}
     <h2 class="t1 accent--cyan overlay-text">
         <span>T1 typographic style with overlay text</span>
     </h2>
@@ -48,27 +58,64 @@
         <span>T2 typographic style with overlay text</span>
     </h2>
 {% endset %}
-{{ styleguideBlock('Overlay text', styleguideContent) }}
+{{ styleguideBlock('Overlay text', sgContent) }}
 
-{{ styleguideSectionHeader('Global') }}
-{% set styleguideContent %}
+{{ styleguideSectionHeader('Buttons') }}
+
+{% set sgContent %}
     <p><button class="btn" type="button">Default Button</button></p>
+    <p><button class="btn accent--pink a--btn" type="button">Default Button</button></p>
+    <p><button class="btn accent--cyan a--btn" type="button">Default Button</button></p>
+{% endset %}
+{% set sgNotes %}
+    <p>
+        Default buttons.
+        Buttons can be themed by adding an accent class to the button, e.g. <code>accent--pink a--btn</code>.
+    </p>
+{% endset %}
+{{ styleguideBlock('Default Button', sgContent, sgNotes) }}
+
+{% set sgContent %}
     <p><button class="btn btn--outline" type="button">Outline Button</button></p>
+    <p><button class="btn btn--outline accent--pink a--btn" type="button">Default Button</button></p>
+    <p><button class="btn btn--outline accent--cyan a--btn" type="button">Default Button</button></p>
+{% endset %}
+{% set sgNotes %}
+    <p>
+        Outline buttons.
+        Like default buttons, outline buttons can be themed by adding an accent class to the button.
+    </p>
+{% endset %}
+{{ styleguideBlock('Outline Buttons', sgContent, sgNotes) }}
+
+{% set sgContent %}
     <p><button class="btn btn--medium" type="button">Medium Button</button></p>
+{% endset %}
+{{ styleguideBlock('Medium Buttons', sgContent) }}
+
+{% set sgContent %}
     <p><button class="btn btn--small" type="button">Small Button</button></p>
 {% endset %}
-{{ styleguideBlock('Buttons', styleguideContent) }}
+{{ styleguideBlock('Small Buttons', sgContent) }}
 
-{% set styleguideContent %}
+
+{% set sgContent %}
     <div class="o-button-group">
         <button class="btn btn--medium" type="button">Button One</button>
         <button class="btn btn--medium" type="button">Button Two</button>
     </div>
 {% endset %}
-{{ styleguideBlock('Button Groups', styleguideContent) }}
+{% set sgNotes %}
+    <p>
+        Group a set of buttons together.
+        On small screens buttons within a group will be displayed stacked and full-width.
+        On wider screens buttons are evenly horizontally spaced.
+    </p>
+{% endset %}
+{{ styleguideBlock('Button Groups', sgContent, sgNotes) }}
 
 {{ styleguideSectionHeader('Components') }}
-{% set styleguideContent %}
+{% set sgContent %}
     {{
         caseStudy(
             projectName = 'Voice of Young People in Care',
@@ -80,6 +127,6 @@
         )
     }}
 {% endset %}
-{{ styleguideBlock('Case Studies', styleguideContent) }}
+{{ styleguideBlock('Case Studies', sgContent) }}
 
 {% endblock %}
