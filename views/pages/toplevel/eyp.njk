@@ -98,7 +98,7 @@
         <p class="links-emphasised">People get in touch with us every day to discuss their ideas, their communities and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
 
         {% for item in beforeApplyContents %}
-            <h3 id="before-{{ item.id }}" class="t3 t3--a accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
+            <h3 id="before-{{ item.id }}" class="t3 t--underline accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
             {{ item.content | safe }}
         {% endfor %}
 

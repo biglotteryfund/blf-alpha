@@ -75,6 +75,7 @@ let URLs = {
         makeUrlObject('/contrast/*', false, true),
         makeUrlObject('/error'),
         makeUrlObject('/tools/*', true, true),
+        makeUrlObject('/styleguide'),
         makeUrlObject('/robots.txt'),
         makeUrlObject('/ebulletin', true, false),
         makeUrlObject('/home')

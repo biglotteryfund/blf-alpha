@@ -251,6 +251,13 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.redirect(redirectUrl);
     });
 
+    router.get('/styleguide', (req, res) => {
+        res.render('pages/toplevel/styleguide', {
+            title: 'Styleguide',
+            description: 'Styleguide'
+        });
+    });
+
     router.get('/robots.txt', (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         let text = 'User-agent: *\n';

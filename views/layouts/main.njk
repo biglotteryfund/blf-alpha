@@ -1,20 +1,12 @@
 {% from "../components/nav.njk" import navlinks with context %}
 <!doctype html>
-<html lang="{{ locale }}" class="no-js locale--{{ locale }}{% if highContrast %} contrast--high{% endif %}">
+<html lang="{{ locale }}" class="{{ getHtmlClasses() }}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
-        <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
-
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 
         {% include "../includes/metadata.njk" %}
-
         {% include "../includes/metaHeadJS.njk" %}
-
-        <link href="//fonts.googleapis.com/css?family=Poppins:300,500,600|Roboto:400,700" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
+        {% include "../includes/metaHeadCSS.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {% include "../includes/accessibility.njk" %}
@@ -41,21 +33,6 @@
             </div>
         </div>
 
-        {# global config items #}
-        <script>
-            {# allows us to disable google analytics on live env when loaded via EC2/ELB and not the real domain #}
-            {# eg to avoid polluting data with extra domains #}
-            window._BLF = {
-                blockAnalytics: ({{ appData.environment == 'production' }} && window.location.hostname !== "{{ appData.config.get('siteDomain') }}")
-            };
-        </script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="//www.google-analytics.com/cx/api.js"></script>
-        <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
-                id="js-script-main"
-                data-ga-code="{{ appData.config.get('googleAnalyticsCode') }}"{% if ab %}
-                data-ab-id="{{ ab.id }}"
-                data-ab-variant="{{ ab.variantId }}"{% endif %}></script>
-
+        {% include "../includes/metaFooterJS.njk" %}
     </body>
 </html>

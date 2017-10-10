@@ -41,24 +41,6 @@ h3,
     @include mq('tablet') {
         @include font-and-leading(20px, 28px);
     }
-
-    // modifier which adds a (contextual) colour
-    // underline below the text
-    &.t3--a {
-        &:after {
-            padding-top: 10px;
-            border-bottom-width: 3px;
-            border-bottom-style: solid;
-            display: block;
-            content: '';
-            width: 80px;
-        }
-    }
-
-    // should this be a general type modifier for all classes?
-    &.t3--b {
-        letter-spacing: 2px;
-    }
 }
 
 // minor headings
@@ -91,6 +73,24 @@ h6,
 
 .t8 {
     font-size: 22px;
+}
+
+/**
+ * Modifier class which adds a border below the text
+ */
+.t--underline:after {
+    content: '';
+    display: block;
+    width: 80px;
+    padding-top: 10px;
+    border-bottom: 3px solid;
+}
+
+/**
+ * Modifier to add extra tracking to .t headings
+ */
+.t--tracking {
+    letter-spacing: 2px;
 }
 
 /* ==========================================================================
