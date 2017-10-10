@@ -1,0 +1,93 @@
+{% extends "../../layouts/main.njk" %}
+
+{% from "../../components/hero.njk" import sectionHero %}
+{% from "../../components/caseStudy.njk" import caseStudy %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block meta_extra %}
+    <style>
+        .sg-block {
+            padding-bottom: 20px;
+        }
+        .sg-block__title {
+            font-size: 18px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+{% endblock %}
+
+{% macro styleguideBlock(title, content) %}
+    <div class="sg-block">
+        <h3 class="sg-block__title">{{ title }}</h3>
+        <div class="sg-block__content">
+            {{ content | safe }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block content %}
+<article role="main">
+    <div class="inner links-emphasised">
+        <h1>Big Lottery Fund Alpha Styleguide</h1>
+
+        {% set styleguideContent %}
+            <h2 class="t1">T1 Typographic Style</h2>
+            <h2 class="t2">T2 Typographic Style</h2>
+            <h2 class="t2 t--underline accent--pink a--text">T2 Typographic Style (with underline)</h2>
+            <h2 class="t3">T3 Typographic Style</h2>
+            <h2 class="t3 t--tracking">T3b Typographic Style</h2>
+            <h2 class="t4">T4 Typographic Style</h2>
+            <h2 class="t5">T5 Typographic Style</h2>
+            <h2 class="t6">T6 Typographic Style</h2>
+            <h2 class="t7">T7 Typographic Style</h2>
+            <h2 class="t8">T8 Typographic Style</h2>
+        {% endset %}
+        {{ styleguideBlock('Titles', styleguideContent) }}
+
+        {% set styleguideContent %}
+            <p><button class="btn" type="button">Default Button</button></p>
+            <p><button class="btn btn--outline" type="button">Outline Button</button></p>
+            <p><button class="btn btn--medium" type="button">Medium Button</button></p>
+            <p><button class="btn btn--small" type="button">Small Button</button></p>
+        {% endset %}
+        {{ styleguideBlock('Button', styleguideContent) }}
+
+        {% set styleguideContent %}
+            <div class="o-button-group">
+                <button class="btn btn--medium" type="button">Button One</button>
+                <button class="btn btn--medium" type="button">Button Two</button>
+            </div>
+        {% endset %}
+        {{ styleguideBlock('Button Groups', styleguideContent) }}
+
+        {% set styleguideContent %}
+            <h2 class="t1 accent--cyan overlay-text">
+                <span>T1 typographic style with overlay text</span>
+            </h2>
+            <br />{# TODO: Should overlay-text have some default margin? #}
+            <h2 class="t2 accent--cyan overlay-text">
+                <span>T2 typographic style with overlay text</span>
+            </h2>
+        {% endset %}
+        {{ styleguideBlock('Overlay text', styleguideContent) }}
+
+        {% set styleguideContent %}
+            {{
+                caseStudy(
+					projectName = 'Voice of Young People in Care',
+					quoteName = 'Andrea Glenn',
+					quoteText = 'I want young people in care to know that they are just as capable of reaching their goals as everyone else.',
+					imageUrl = 'images/home/case-study-1-medium.jpg',
+					imageSmallUrl = 'images/home/case-study-1-small.jpg',
+					link = 'funding/big-stories/voice-of-young-people-in-care'
+                )
+            }}
+        {% endset %}
+        {{ styleguideBlock('Case Studies', styleguideContent) }}
+
+
+
+    </div>
+</article>
+{% endblock %}

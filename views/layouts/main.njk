@@ -15,6 +15,7 @@
 
         <link href="//fonts.googleapis.com/css?family=Poppins:300,500,600|Roboto:400,700" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
+        {% block meta_extra %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {% include "../includes/accessibility.njk" %}
