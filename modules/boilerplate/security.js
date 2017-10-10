@@ -6,13 +6,7 @@ const csrfProtection = csrf({ cookie: true });
 
 // these URLs won't get the helmet header protection
 // @TODO this should only affect the legacy homepage
-const pathsExemptFromHelmet = [
-    '/',
-    '/welsh',
-    '/legacy',
-    '/funding/funding-finder',
-    '/welsh/funding/funding-finder'
-];
+const pathsExemptFromHelmet = ['/', '/welsh', '/legacy', '/funding/funding-finder', '/welsh/funding/funding-finder'];
 
 const defaultSecurityDomains = [
     "'self'",
@@ -35,7 +29,7 @@ const helmetSettings = helmet({
             frameSrc: defaultSecurityDomains.concat(['www.google.com']),
             styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
             connectSrc: defaultSecurityDomains.concat(['ws://127.0.0.1:35729/livereload']), // make dev-only?,
-            imgSrc: defaultSecurityDomains.concat(['data:']),
+            imgSrc: defaultSecurityDomains.concat(['data:', 'localhost']),
             scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"])
         }
     },
@@ -44,7 +38,7 @@ const helmetSettings = helmet({
     },
     frameguard: {
         action: 'sameorigin'
-    },
+    }
 });
 
 app.use((req, res, next) => {
