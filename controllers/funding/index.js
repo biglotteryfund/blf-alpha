@@ -7,6 +7,7 @@ const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
 const email = require('../../modules/mail');
+const contentApi = require('../../modules/content');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -179,6 +180,26 @@ module.exports = (pages, sectionPath, sectionId) => {
                 }
             });
         });
+
+    // funding programme list
+    let programmes = pages.programmes;
+    router.get(programmes.path, (req, res) => {
+        let lang = req.i18n.__(programmes.lang);
+
+        contentApi
+            .getFundingProgrammes(req.i18n.getLocale())
+            .then(response => {
+                res.render(programmes.template, {
+                    title: lang.title,
+                    copy: lang,
+                    programmes: response.data
+                });
+            })
+            .catch(err => {
+                console.log('error', err);
+                res.send(err);
+            });
+    });
 
     return router;
 };
