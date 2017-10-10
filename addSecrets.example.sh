@@ -12,4 +12,4 @@ export TEST_URL=
 export PROD_URL=
 
 # fetch latest params from EC2 parameter store
-bin/scripts/get_secrets.sh
+bin/scripts/get-secrets
