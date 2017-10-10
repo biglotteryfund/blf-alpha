@@ -688,6 +688,9 @@
 					}
 				}
 			}
+		},
+		"programmes": {
+			"title": "Funding Programmes"
 		}
 	}
 }
