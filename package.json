@@ -73,8 +73,6 @@
     "sequelize": "^4.8.0",
     "serve-favicon": "^2.4.3",
     "snyk": "^1.41.1",
-    "twitter": "^1.7.1",
-    "twitter-text": "^1.14.7",
     "vary": "^1.1.1",
     "vue": "^2.4.4",
     "winston": "^2.3.1",
