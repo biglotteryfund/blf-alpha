@@ -31,22 +31,6 @@
 {{ styleguideBlock('Titles', styleguideContent) }}
 
 {% set styleguideContent %}
-    <p><button class="btn" type="button">Default Button</button></p>
-    <p><button class="btn btn--outline" type="button">Outline Button</button></p>
-    <p><button class="btn btn--medium" type="button">Medium Button</button></p>
-    <p><button class="btn btn--small" type="button">Small Button</button></p>
-{% endset %}
-{{ styleguideBlock('Button', styleguideContent) }}
-
-{% set styleguideContent %}
-    <div class="o-button-group">
-        <button class="btn btn--medium" type="button">Button One</button>
-        <button class="btn btn--medium" type="button">Button Two</button>
-    </div>
-{% endset %}
-{{ styleguideBlock('Button Groups', styleguideContent) }}
-
-{% set styleguideContent %}
     <h2 class="t1 accent--cyan overlay-text">
         <span>T1 typographic style with overlay text</span>
     </h2>
@@ -56,6 +40,24 @@
     </h2>
 {% endset %}
 {{ styleguideBlock('Overlay text', styleguideContent) }}
+
+
+{% set styleguideContent %}
+    <p><button class="btn" type="button">Default Button</button></p>
+    <p><button class="btn btn--outline" type="button">Outline Button</button></p>
+    <p><button class="btn btn--medium" type="button">Medium Button</button></p>
+    <p><button class="btn btn--small" type="button">Small Button</button></p>
+{% endset %}
+{{ styleguideBlock('Buttons', styleguideContent) }}
+
+{% set styleguideContent %}
+    <div class="o-button-group">
+        <button class="btn btn--medium" type="button">Button One</button>
+        <button class="btn btn--medium" type="button">Button Two</button>
+    </div>
+{% endset %}
+{{ styleguideBlock('Button Groups', styleguideContent) }}
+
 
 {% set styleguideContent %}
     {{
