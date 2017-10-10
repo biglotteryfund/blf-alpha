@@ -191,14 +191,35 @@ module.exports = (pages, sectionPath, sectionId) => {
             .then(response => {
                 let programmeList = response.data;
 
+                // filter by location
                 if (req.query.location) {
+                    // check this is a valid parameter
+                    let validLocations = _.uniq(
+                        programmeList
+                            .map(p => {
+                                return p.content.area ? p.content.area.value : false;
+                            })
+                            .filter(location => location !== false)
+                    );
+
+                    if (validLocations.indexOf(req.query.location) !== -1) {
+                        programmeList = programmeList.filter(p => {
+                            let data = p.content;
+                            return (
+                                !data.area ||
+                                (data.area && data.area.value === 'ukWide') ||
+                                (data.area && data.area.value === req.query.location)
+                            );
+                        });
+                    }
+                }
+
+                // filter by funding available
+                if (req.query.min) {
                     programmeList = programmeList.filter(p => {
                         let data = p.content;
-                        return (
-                            !data.area ||
-                            (data.area && data.area.value === 'ukWide') ||
-                            (data.area && data.area.value === req.query.location)
-                        );
+                        let min = parseInt(req.query.min);
+                        return !data.fundingSize || !min || data.fundingSize.minimum >= min;
                     });
                 }
 
