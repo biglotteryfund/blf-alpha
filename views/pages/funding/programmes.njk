@@ -12,27 +12,27 @@
         <p>{{ data.description }}</p>
     {% endif %}
     <dl class="funding-programme">
-        {% if data.applicationDeadline %}
-            <dt>Application deadline:</dt>
-            <dd>{{ data.applicationDeadline }}</dd>
-        {% endif %}
         {% if data.area %}
-            <dt>Area:</dt>
+            <dt>Area</dt>
             <dd>{{ data.area.label }}</dd>
         {% endif %}
         {% if data.organisationTypes %}
-            <dt>Organisation types:</dt>
+            <dt>Organisation types</dt>
             {% for orgType in data.organisationTypes %}
                 <dd>{{ orgType }}</dd>
             {% endfor %}
         {% endif %}
         {% if data.fundingSize %}
-            <dt>Funding size:</dt>
+            <dt>Funding size</dt>
             <dd>£{{ data.fundingSize.minimum | numberWithCommas}}{% if data.fundingSize.maximum %} - £{{ data.fundingSize.maximum | numberWithCommas }}{% endif %}</dd>
         {% endif %}
         {% if data.totalAvailable %}
-            <dt>Total available:</dt>
+            <dt>Total available</dt>
             <dd>{{ data.totalAvailable }}</dd>
+        {% endif %}
+        {% if data.applicationDeadline %}
+            <dt>Application deadline</dt>
+            <dd>{{ data.applicationDeadline }}</dd>
         {% endif %}
     </dl>
 {% endmacro %}
