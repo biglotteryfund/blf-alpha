@@ -1,4 +1,6 @@
 'use strict';
+const { has } = require('lodash');
+const assets = require('./assets');
 
 // rewrite text like '/welsh/' => '/welsh'
 const stripTrailingSlashes = str => {
@@ -26,7 +28,26 @@ const parseValueFromString = str => {
     return upper || str;
 };
 
+const createHeroImage = opts => {
+    if (!['small', 'medium', 'large'].every(x => has(opts, x))) {
+        throw new Error('Must pass a small, medium, and large image');
+    }
+
+    if (!has(opts, 'default')) {
+        throw new Error('Must define a default image with opts.default');
+    }
+
+    return {
+        small: assets.getCachebustedPath(opts.small),
+        medium: assets.getCachebustedPath(opts.medium),
+        large: assets.getCachebustedPath(opts.large),
+        default: assets.getCachebustedPath(opts.default),
+        caption: opts.caption || ''
+    };
+};
+
 module.exports = {
     stripTrailingSlashes,
-    parseValueFromString
+    parseValueFromString,
+    createHeroImage
 };
