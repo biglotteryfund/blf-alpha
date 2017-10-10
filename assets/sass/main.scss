@@ -5,29 +5,29 @@
 /**
  * 1. Setup and SCSS tools
  */
-@import 'config';     // Shared config (Dynamically generated from `sass.json`)
-@import '_vars';      // Common variables
+@import 'config'; // Shared config (Dynamically generated from `sass.json`)
+@import '_vars'; // Common variables
 @import '_functions'; // Low-level utility function
-@import '_mixins';    // Common mixins and helpers
+@import '_mixins'; // Common mixins and helpers
 
 /**
  * 2. Global styles
  */
-@import 'globals/base';       // Global / element-level styles
-@import 'globals/accents';    // Accented colour helpers
-@import 'globals/theme';      // Theming helpers
-@import 'globals/layout';     // Layout helpers
+@import 'globals/base'; // Global / element-level styles
+@import 'globals/accents'; // Accented colour helpers
+@import 'globals/theme'; // Theming helpers
+@import 'globals/layout'; // Layout helpers
 @import 'globals/typography'; // Typographic scale
-@import 'globals/lists';      // Custom list styles
-@import 'globals/forms';      // Site-wide form styles
+@import 'globals/lists'; // Custom list styles
+@import 'globals/forms'; // Site-wide form styles
 
 /**
  * 3. Layout Scaffolding
  */
- @import 'scaffolding/header';
- @import 'scaffolding/footer';
- @import 'scaffolding/content';
- @import 'scaffolding/grid';
+@import 'scaffolding/header';
+@import 'scaffolding/footer';
+@import 'scaffolding/content';
+@import 'scaffolding/grid';
 
 /**
  * 4. Components
@@ -35,15 +35,15 @@
 @import 'components/accessibility';
 @import 'components/btn';
 @import 'components/quotes';
+@import 'components/tabs';
 @import 'components/card';
 @import 'components/data'; // is this is a "component"?
-@import 'components/hero';
 @import 'components/materials';
 @import 'components/overlay';
 @import 'components/overlay-text';
 @import 'components/segment';
-@import 'components/tabs';
 @import 'components/case-studies';
+@import 'components/heroes';
 
 /**
  * 5. Third-party vendor styles

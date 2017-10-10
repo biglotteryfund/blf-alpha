@@ -79,11 +79,9 @@ $heroSpaceFromLeft: 20px;
     .contrast--high & {
         background-color: #000000;
     }
-
 }
 
 .hero__header {
-
     .hero--major & {
         @include responsiveGutter(true);
     }
@@ -100,13 +98,21 @@ $heroSpaceFromLeft: 20px;
 .hero--miniature {
     // hacky-ish way to switch images out for miniature hero on breakpoints
     @include mq('tablet', 'max') {
-        .hero-image--desktop { display: none; }
-        .hero-image--mobile { display: block; }
+        .hero-image--desktop {
+            display: none;
+        }
+        .hero-image--mobile {
+            display: block;
+        }
     }
 
     @include mq('tablet') {
-        .hero-image--desktop { display: block; }
-        .hero-image--mobile { display: none; }
+        .hero-image--desktop {
+            display: block;
+        }
+        .hero-image--mobile {
+            display: none;
+        }
     }
 }
 
@@ -120,45 +126,78 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
-
-
 /* =========================================================================
    Section Hero
    ========================================================================= */
 /* New full-bleed section hero (see: Over10k and Under10k) */
 
-.hero--section {
+.section-hero {
     color: white;
+    position: relative;
+}
+.section-hero__content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.section-hero__image {
+    height: 0;
+    position: relative;
 
-    .hero__title {
-        width: 100%;
+    @include responsive-ratio(644, 425);
 
-        @include mq('tablet') {
-            max-width: 20em;
-        }
+    @media only screen and (min-width: 600px) {
+        @include responsive-ratio(1280, 720);
     }
 
-    .hero__header,
-    .hero__caption {
-        bottom: $spacingUnit / 2;
-
-        @media screen and (min-width: 380px) {
-            bottom: $spacingUnit;
-        }
-
-        @include mq('tablet') {
-            bottom: $spacingUnit * 2.5;
-        }
+    @include mq('desktop') {
+        @include responsive-ratio(1362, 403);
     }
 
-    .hero__caption {
-        position: absolute;
-        height: auto;
-        right: $spacingUnit / 2;
+    img {
+        display: block;
+    }
+}
+.section-hero__header {
+    margin-bottom: $spacingUnit / 2;
 
-        @include mq('desktop') {
-            right: $spacingUnit;
-        }
+    @media screen and (min-width: 380px) {
+        margin-bottom: $spacingUnit;
+    }
+
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit * 2.5;
+    }
+}
+.section-hero__header__inner {
+    @include mq('tablet') {
+        padding-left: $spacingUnit;
+        padding-right: $spacingUnit;
+    }
+}
+.section-hero__title {
+    width: 100%;
+
+    @include mq('tablet') {
+        max-width: 20em;
+    }
+}
+.section-hero__caption {
+    position: absolute;
+    height: auto;
+    right: $spacingUnit / 2;
+    bottom: $spacingUnit / 2;
+
+    @media screen and (min-width: 380px) {
+        bottom: $spacingUnit;
+    }
+
+    @include mq('tablet') {
+        bottom: $spacingUnit * 2;
+    }
+
+    @include mq('desktop') {
+        right: $spacingUnit;
     }
 }
 
@@ -174,16 +213,14 @@ $heroSpaceFromLeft: 20px;
     height: 0;
     position: relative;
 
-    // @TODO: Reference using aspect ratios rather than fixed pixels?
     @include responsive-ratio(644, 573);
 
     @media only screen and (min-width: 600px) {
-        @include responsive-ratio(16, 9);
+        @include responsive-ratio(1280, 720);
     }
 
     @include mq('desktop') {
         @include responsive-ratio(1373, 505);
-
     }
 }
 .super-hero__content {
@@ -222,7 +259,8 @@ $heroSpaceFromLeft: 20px;
         line-height: 1.3;
     }
 
-    a, a:link {
+    a,
+    a:link {
         color: inherit;
         text-decoration: underline;
     }
