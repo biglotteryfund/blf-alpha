@@ -16,7 +16,12 @@
     vertical-align: $align;
 }
 
-.pullquote {
+// .pullquote { }
+.pullquote__text {
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit / 2;
+    }
+
     p {
         font-style: italic;
         color: palette('blue');
@@ -45,11 +50,6 @@
         }
     }
 }
-.pullquote__text {
-    @include mq('tablet') {
-        margin-bottom: $spacingUnit / 2;
-    }
-}
 .pullquote__meta {
     @include mq('tablet', 'max') {
         margin-bottom: $spacingUnit / 2;
@@ -58,4 +58,8 @@
 }
 .pullquote__aside {
     font-style: normal;
+
+    p {
+        margin: 0;
+    }
 }
