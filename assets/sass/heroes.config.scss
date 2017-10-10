@@ -1,170 +1,62 @@
 $heroes: (
-    'reading': (
-        'default': (
-            'width': 640,
-            'height': 365,
-            'filename': '../images/hero/reading--mobile.jpg'
+    'reading':
+        (
+            'default': ('width': 640, 'height': 365, 'filename': '../images/hero/reading--mobile.jpg'),
+            'tablet': ('width': 1200, 'height': 386, 'filename': '../images/hero/reading--desktop.jpg')
         ),
-        'tablet': (
-            'width': 1200,
-            'height': 386,
-            'filename': '../images/hero/reading--desktop.jpg'
+    'managing-grants':
+        (
+            'default': ('width': 644, 'height': 460, 'filename': '../images/hero/managing-funding--mobile.jpg'),
+            'tablet': ('width': 1367, 'height': 500, 'filename': '../images/hero/managing-funding--desktop.jpg')
         ),
-    ),
-    'managing-grants': (
-        'default': (
-            'width': 644,
-            'height': 460,
-            'filename': '../images/hero/managing-funding--mobile.jpg'
+    'data':
+        (
+            'default': ('width': 640, 'height': 460, 'filename': '../images/hero/data--mobile.jpg'),
+            'tablet': ('width': 1359, 'height': 410, 'filename': '../images/hero/data--desktop.jpg')
         ),
-        'tablet': (
-            'width': 1367,
-            'height': 500,
-            'filename': '../images/hero/managing-funding--desktop.jpg'
+    'logo':
+        (
+            'default': ('width': 640, 'height': 425, 'filename': '../images/hero/logo--mobile.jpg'),
+            'tablet': ('width': 1361, 'height': 500, 'filename': '../images/hero/logo--desktop.jpg')
         ),
-    ),
-    'data': (
-        'default': (
-            'width': 640,
-            'height': 460,
-            'filename': '../images/hero/data--mobile.jpg'
+    'social':
+        (
+            'default': ('width': 644, 'height': 460, 'filename': '../images/hero/social--mobile.jpg'),
+            'tablet': ('width': 1364, 'height': 500, 'filename': '../images/hero/social--desktop.jpg')
         ),
-        'tablet': (
-            'width': 1359,
-            'height': 410,
-            'filename': '../images/hero/data--desktop.jpg'
+    'press':
+        (
+            'default': ('width': 644, 'height': 460, 'filename': '../images/hero/press--mobile.jpg'),
+            'tablet': ('width': 1364, 'height': 500, 'filename': '../images/hero/press--desktop.jpg')
         ),
-    ),
-    'logo': (
-        'default': (
-            'width': 640,
-            'height': 425,
-            'filename': '../images/hero/logo--mobile.jpg'
+    'contact':
+        (
+            'default': ('width': 644, 'height': 460, 'filename': '../images/hero/contact--mobile.jpg'),
+            'tablet': ('width': 1364, 'height': 500, 'filename': '../images/hero/contact--desktop.jpg')
         ),
-        'tablet': (
-            'width': 1361,
-            'height': 500,
-            'filename': '../images/hero/logo--desktop.jpg'
+    'jobs':
+        (
+            'default': ('width': 639, 'height': 460, 'filename': '../images/hero/jobs--mobile.jpg'),
+            'tablet': ('width': 1363, 'height': 499, 'filename': '../images/hero/jobs--desktop.jpg')
+        ),
+    'foi':
+        (
+            'default': ('width': 644, 'height': 425, 'filename': '../images/hero/foi--mobile.jpg'),
+            'tablet': ('width': 1369, 'height': 500, 'filename': '../images/hero/foi--desktop.jpg')
+        ),
+    'dataProtection':
+        (
+            'default': ('width': 644, 'height': 425, 'filename': '../images/hero/data-protection--mobile.jpg'),
+            'tablet': ('width': 1366, 'height': 500, 'filename': '../images/hero/data-protection--desktop.jpg')
+        ),
+    'eyp':
+        (
+            'default': ('width': 640, 'height': 460, 'filename': '../images/hero/eyp--mobile.jpg'),
+            'tablet': ('width': 1366, 'height': 470, 'filename': '../images/hero/eyp--desktop.jpg')
+        ),
+    'about':
+        (
+            'default': ('width': 320, 'height': 200, 'filename': '../images/hero/about--mobile.jpg'),
+            'tablet': ('width': 1366, 'height': 400, 'filename': '../images/hero/about--desktop.jpg')
         )
-    ),
-    'social': (
-        'default': (
-            'width': 644,
-            'height': 460,
-            'filename': '../images/hero/social--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1364,
-            'height': 500,
-            'filename': '../images/hero/social--desktop.jpg'
-        )
-    ),
-    'press': (
-        'default': (
-            'width': 644,
-            'height': 460,
-            'filename': '../images/hero/press--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1364,
-            'height': 500,
-            'filename': '../images/hero/press--desktop.jpg'
-        )
-    ),
-    'contact': (
-        'default': (
-            'width': 644,
-            'height': 460,
-            'filename': '../images/hero/contact--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1364,
-            'height': 500,
-            'filename': '../images/hero/contact--desktop.jpg'
-        )
-    ),
-    'jobs': (
-        'default': (
-            'width': 639,
-            'height': 460,
-            'filename': '../images/hero/jobs--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1363,
-            'height': 499,
-            'filename': '../images/hero/jobs--desktop.jpg'
-        )
-    ),
-    'foi': (
-        'default': (
-            'width': 644,
-            'height': 425,
-            'filename': '../images/hero/foi--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1369,
-            'height': 500,
-            'filename': '../images/hero/foi--desktop.jpg'
-        )
-    ),
-    'dataProtection': (
-        'default': (
-            'width': 644,
-            'height': 425,
-            'filename': '../images/hero/data-protection--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1366,
-            'height': 500,
-            'filename': '../images/hero/data-protection--desktop.jpg'
-        )
-    ),
-    'under10k': (
-        'default': (
-            'width': 644,
-            'height': 425,
-            'filename': '../images/hero/under10k--mobile.jpg'
-        ),
-        'desktop': (
-            'width': 1373,
-            'height': 405,
-            'filename': '../images/hero/under10k--desktop.jpg'
-        )
-    ),
-    'over10k': (
-        'default': (
-            'width': 644,
-            'height': 425,
-            'filename': '../images/hero/over10k--mobile.jpg'
-        ),
-        'desktop': (
-            'width': 1373,
-            'height': 405,
-            'filename': '../images/hero/over10k--desktop.jpg'
-        )
-    ),
-    'eyp': (
-        'default': (
-            'width': 640,
-            'height': 460,
-            'filename': '../images/hero/eyp--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1366,
-            'height': 470,
-            'filename': '../images/hero/eyp--desktop.jpg'
-        )
-    ),
-    'about': (
-        'default': (
-            'width': 320,
-            'height': 200,
-            'filename': '../images/hero/about--mobile.jpg'
-        ),
-        'tablet': (
-            'width': 1366,
-            'height': 400,
-            'filename': '../images/hero/about--desktop.jpg'
-        )
-    )
 );
