@@ -3,11 +3,17 @@
 
 // initialise router (eg. run conditional code for certain URLs)
 const Grapnel = require('./libs/grapnel');
-const router = new Grapnel({ pushState : true });
+const router = new Grapnel({ pushState: true });
 
 // initialise Vue
 const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
+
+/**
+ * Bootstraps
+ */
+const raven = require('./bootstraps/raven');
+raven.init(Vue);
 
 // load internal modules
 require('./modules/tabs').init();
@@ -21,13 +27,13 @@ const utils = require('./utils');
 const $thisScript = $('#js-script-main');
 
 // bind mobile nav show/hidew button
-$('#js-mobile-nav-toggle').on('click', function (e) {
+$('#js-mobile-nav-toggle').on('click', function(e) {
     e.preventDefault();
     $html.toggleClass('show-off-canvas');
 });
 
 // look up a cookie's value
-const getCookieValue = (a) => {
+const getCookieValue = a => {
     let b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
 };
@@ -53,18 +59,21 @@ $('#js-close-overlay').on('click', () => {
 // if the page's domain name matches our live domain
 
 // setup google analytics
-if (!_BLF.blockAnalytics) { // set in main.njk
+if (!_BLF.blockAnalytics) {
+    // set in main.njk
 
     // get per-environment GA code
     const uaCode = $thisScript.data('ga-code');
 
-    (function (i, s, o, g, r, a, m) {
+    (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments);
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
+        (i[r] =
+            i[r] ||
+            function() {
+                (i[r].q = i[r].q || []).push(arguments);
+            }),
+            (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m);
@@ -72,7 +81,7 @@ if (!_BLF.blockAnalytics) { // set in main.njk
 
     // init GA
     ga('create', uaCode, {
-        'cookieDomain': 'none'
+        cookieDomain: 'none'
     });
 
     // initialise A/B tests
@@ -92,8 +101,7 @@ if (!_BLF.blockAnalytics) { // set in main.njk
     ga('send', 'pageview');
 
     // track interactions with in-page elements
-    $('.js-track-clicks').on('click', function (e) {
-
+    $('.js-track-clicks').on('click', function(e) {
         // get metadata
         let category = $(this).data('category');
         let action = $(this).data('action');
@@ -110,25 +118,24 @@ if (!_BLF.blockAnalytics) { // set in main.njk
                 // now follow the link
                 document.location = $(this).attr('href');
             }, 350);
-        } else { // not a link, just track it
+        } else {
+            // not a link, just track it
             track();
         }
     });
-
 }
 
 // create Vue element for order form
 // we use a regex for this URL to allow welsh URLs to match too
 let fundingPagePath = /\/funding\/funding-guidance\/managing-your-funding\/ordering-free-materials/;
 router.get(fundingPagePath, () => {
-
     let allOrderData = {};
     let langParam = 'lang';
     // make sure we only allow valid language options
-    let isValidLangParam = (param) => ['monolingual', 'bilingual'].indexOf(param) !== -1;
+    let isValidLangParam = param => ['monolingual', 'bilingual'].indexOf(param) !== -1;
 
     // save the language preference in the form so we can redirect to it
-    let storeLangPrefInForm = (newState) => $('#js-language-choice').val(newState);
+    let storeLangPrefInForm = newState => $('#js-language-choice').val(newState);
 
     new Vue({
         el: '#js-vue',
@@ -136,7 +143,7 @@ router.get(fundingPagePath, () => {
             orderData: allOrderData,
             itemLanguage: null
         },
-        created: function () {
+        created: function() {
             // check for a ?lang param and show the relevant products (if valid)
             let params = utils.parseQueryString();
             if (params[langParam] && isValidLangParam(params[langParam])) {
@@ -146,7 +153,7 @@ router.get(fundingPagePath, () => {
         },
         methods: {
             // swap between languages for product list
-            toggleItemLanguage: function (newState) {
+            toggleItemLanguage: function(newState) {
                 if (isValidLangParam(newState)) {
                     this.itemLanguage = newState;
                     storeLangPrefInForm(newState);
@@ -158,7 +165,7 @@ router.get(fundingPagePath, () => {
             },
             // look up the quantity of a given item, defaulting to its
             // value when the page was loaded (eg. from session cookie)
-            getQuantity: function (code, valueAtPageload) {
+            getQuantity: function(code, valueAtPageload) {
                 if (this.orderData[code]) {
                     return this.orderData[code].quantity;
                 } else {
@@ -167,15 +174,15 @@ router.get(fundingPagePath, () => {
             },
             // work out if the user has anything in their "basket"
             // eg. should the data form be disabled or not
-            isEmpty: function () {
+            isEmpty: function() {
                 let quantity = 0;
                 for (let o in this.orderData) {
                     quantity += this.orderData[o].quantity;
                 }
-                return (quantity === 0);
+                return quantity === 0;
             },
             // increment/decrement a product in the user's basket via AJAX
-            changeQuantity: function (e) {
+            changeQuantity: function(e) {
                 let $elm = $(e.currentTarget);
                 const $form = $elm.parents('form');
                 const url = $form.attr('action');
@@ -184,10 +191,10 @@ router.get(fundingPagePath, () => {
                 data += '&action=' + $elm.val();
                 $.ajax({
                     url: url,
-                    type: "POST",
+                    type: 'POST',
                     data: data,
                     dataType: 'json',
-                    success: (response) => {
+                    success: response => {
                         // update the basket data from the session
                         allOrderData = response.allOrders;
                         // this triggers a Vue update (and needs a babel plugin to work in IE)
@@ -197,14 +204,12 @@ router.get(fundingPagePath, () => {
             }
         }
     });
-
 });
 
 // on the logo page we need to show a download message when the user clicks a logo
 let logoPagePath = /\/funding\/funding-guidance\/managing-your-funding\/grant-acknowledgement-and-logos\/logodownloads/;
 router.get(logoPagePath, () => {
-
-    $('.js-logo-trigger').on('click', function () {
+    $('.js-logo-trigger').on('click', function() {
         let logoId = $(this).data('logo-id');
         let successBlock = $('#js-download-block--' + logoId);
         let logoType = $(this).data('logo-type');
@@ -215,7 +220,7 @@ router.get(logoPagePath, () => {
         }
     });
 
-    $('.js-success--close').on('click', function () {
+    $('.js-success--close').on('click', function() {
         let logoId = $(this).data('logo-id');
         let successBlock = $('#js-download-block--' + logoId);
         if (successBlock.length) {
@@ -223,5 +228,4 @@ router.get(logoPagePath, () => {
             successBlock.hide();
         }
     });
-
 });
