@@ -1,4 +1,4 @@
-{% macro caseStudy(projectName, quoteName, quoteText, imageUrl, imageSmallUrl, link = false) %}
+{% macro caseStudy(quoteText, quoteName, quoteNameCaption, projectName, imageUrl, imageSmallUrl, link = false) %}
     <div class="case-study">
         <div class="case-study__image">
             {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
@@ -15,10 +15,15 @@
                         <p>{{ quoteText }}</p>
                     </div>
                     <div class="pullquote__meta">
-                        <cite class="t3 t3--b">{{ quoteName }}</cite>
-                        {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
-                            <aside class="pullquote__aside t6 u-weight-normal">{{ projectName | safe }}</aside>
-                        {% if link %}</a>{% endif %}
+                        <cite class="pullquote__citation t3 t--tracking">{{ quoteName }}</cite>
+                        <div class="pullquote__aside">
+                            {% if quoteNameCaption %}
+                                <p class="t6 u-weight-normal">{{ quoteNameCaption }}</p>
+                            {% endif %}
+                            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
+                                <p class="t6 u-weight-normal">{{ projectName | safe }}</p>
+                            {% if link %}</a>{% endif %}
+                        </div>
                     </div>
                 </blockquote>
         </div>

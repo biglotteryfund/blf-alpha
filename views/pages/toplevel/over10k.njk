@@ -1,4 +1,4 @@
-{% import "../../components/hero.njk" as hero %}
+{% from "../../components/hero.njk" import sectionHero %}
 {% from "../../components/blocks.njk" import projectBlock with context %}
 
 {% extends "../../layouts/main.njk" %}
@@ -9,10 +9,19 @@
 
 {% block content %}
 
+
+    {% set heroImage = createHeroImage({
+        small: 'images/hero/over-10k-small.jpg',
+        medium: 'images/hero/over-10k-medium.jpg',
+        large: 'images/hero/over-10k-large.jpg',
+        default: 'images/hero/over-10k-medium.jpg',
+        caption: 'Passion4Fusion, Grant £36,700'
+    }) %}
+
     {{
-        hero.sectionHero(
-            name = 'over10k',
+        sectionHero(
             titleText = copy.title,
+            image = heroImage,
             accent = 'turquoise'
         )
     }}

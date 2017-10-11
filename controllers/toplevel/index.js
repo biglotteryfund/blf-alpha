@@ -4,7 +4,7 @@ const config = require('config');
 const router = express.Router();
 const rp = require('request-promise');
 const ab = require('express-ab');
-const { has, sortBy } = require('lodash');
+const { sortBy } = require('lodash');
 const xss = require('xss');
 
 const app = require('../../server');
@@ -12,31 +12,12 @@ const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
-const assets = require('../../modules/assets');
 const utilities = require('../../modules/utilities');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
 if (app.get('env') !== 'production') {
     robots.push('/');
-}
-
-function createHeroImage(opts) {
-    if (!['small', 'medium', 'large'].every(x => has(opts, x))) {
-        throw new Error('Must pass a small, medium, and large image');
-    }
-
-    if (!has(opts, 'default')) {
-        throw new Error('Must define a default image with opts.default');
-    }
-
-    return {
-        small: assets.getCachebustedPath(opts.small),
-        medium: assets.getCachebustedPath(opts.medium),
-        large: assets.getCachebustedPath(opts.large),
-        default: assets.getCachebustedPath(opts.default),
-        caption: opts.caption || ''
-    };
 }
 
 const newHomepage = (req, res) => {
@@ -46,7 +27,7 @@ const newHomepage = (req, res) => {
     const serveHomepage = news => {
         const lang = req.i18n.__('toplevel.home');
 
-        const heroImageDefault = createHeroImage({
+        const heroImageDefault = utilities.createHeroImage({
             small: 'images/home/home-hero-3-small.jpg',
             medium: 'images/home/home-hero-3-medium.jpg',
             large: 'images/home/home-hero-3-large.jpg',
@@ -55,14 +36,14 @@ const newHomepage = (req, res) => {
         });
 
         const heroImageCandidates = [
-            createHeroImage({
+            utilities.createHeroImage({
                 small: 'images/home/home-hero-1-small.jpg',
                 medium: 'images/home/home-hero-1-medium.jpg',
                 large: 'images/home/home-hero-1-large.jpg',
                 default: 'images/home/home-hero-1-medium.jpg',
                 caption: 'Cycling for All in Bolsover, Grant £9,358 *'
             }),
-            createHeroImage({
+            utilities.createHeroImage({
                 small: 'images/home/home-hero-2-small.jpg',
                 medium: 'images/home/home-hero-2-medium.jpg',
                 large: 'images/home/home-hero-2-large.jpg',
@@ -268,6 +249,13 @@ module.exports = (pages, sectionPath, sectionId) => {
             res.clearCookie(cookieName);
         }
         res.redirect(redirectUrl);
+    });
+
+    router.get('/styleguide', (req, res) => {
+        res.render('pages/toplevel/styleguide', {
+            title: 'Styleguide',
+            description: 'Styleguide'
+        });
     });
 
     router.get('/robots.txt', (req, res) => {

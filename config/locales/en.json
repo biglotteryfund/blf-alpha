@@ -63,27 +63,30 @@
 			},
 			"caseStudies": [
 				{
-					"projectName": "Voice of Young People in Care",
-					"quoteName": "Andrea Glenn",
 					"quoteText": "I want young people in care to know that they are just as capable of reaching their goals as everyone else.",
-					"imagePath": "images/home/case-study-1-medium.jpg",
-					"imageSmallPath": "images/home/case-study-1-small.jpg",
+					"quoteName": "Andrea Glenn",
+					"quoteNameCaption": null,
+					"projectName": "Voice of Young People in Care",
+					"imageUrl": "images/home/case-study-1-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-1-small.jpg",
 					"link": "funding/big-stories/voice-of-young-people-in-care"
 				},
 				{
-					"projectName": "Mental Health Foundation",
-					"quoteName": "Candy Worf",
 					"quoteText": "We meet people when they're in a really poor, isolated predicament and we bring them together.",
-					"imagePath": "images/home/case-study-2-medium.jpg",
-					"imageSmallPath": "images/home/case-study-2-small.jpg",
+					"quoteName": "Candy Worf",
+					"quoteNameCaption": null,
+					"projectName": "Mental Health Foundation",
+					"imageUrl": "images/home/case-study-2-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-2-small.jpg",
 					"link": "funding/big-stories/mental-health-foundation"
 				},
 				{
-					"projectName": "Beneficiary<br/>Bytes",
-					"quoteName": "Anthony Turkington",
 					"quoteText": "My motivation in wanting to do youth work comes from knowing the impact that Bytes had and continues to have on me.",
-					"imagePath": "images/home/case-study-3-medium.jpg",
-					"imageSmallPath": "images/home/case-study-3-small.jpg",
+					"quoteName": "Anthony Turkington",
+					"quoteNameCaption": "Beneficiary",
+					"projectName": "Bytes",
+					"imageUrl": "images/home/case-study-3-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-3-small.jpg",
 					"link": "funding/big-stories/bytes"
 				}
 			],

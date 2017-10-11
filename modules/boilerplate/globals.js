@@ -42,6 +42,19 @@ setGlobal('metadata', {
     themeColour: sassConfig.themeColour
 });
 
+setGlobal('getHtmlClasses', function() {
+    const locale = getGlobal('locale');
+    const highContrast = getGlobal('highContrast');
+
+    let parts = ['no-js', 'locale--' + locale];
+
+    if (highContrast) {
+        parts.push('contrast--hight');
+    }
+
+    return parts.join(' ');
+});
+
 // make anchors available everywhere (useful for routing and templates)
 setGlobal('anchors', config.get('anchors'));
 
@@ -88,6 +101,16 @@ setGlobal('buildUrl', (sectionName, pageName) => {
         }
         return url;
     }
+});
+
+setGlobal('createHeroImage', function(opts) {
+    return utilities.createHeroImage({
+        small: opts.small,
+        medium: opts.medium,
+        large: opts.large,
+        default: opts.default,
+        caption: opts.caption
+    });
 });
 
 // look up the current URL and rewrite to another locale

@@ -5,7 +5,6 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] log material orders (need legal signoff)
 - [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
 - [ ] Add more granular named breakpoints
-- [ ] Make .t3--a class a general modifier rather than specific to .t3
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?
