@@ -6,13 +6,7 @@ const csrfProtection = csrf({ cookie: true });
 
 // these URLs won't get the helmet header protection
 // @TODO this should only affect the legacy homepage
-const pathsExemptFromHelmet = [
-    '/',
-    '/welsh',
-    '/legacy',
-    '/funding/funding-finder',
-    '/welsh/funding/funding-finder'
-];
+const pathsExemptFromHelmet = ['/', '/welsh', '/legacy', '/funding/funding-finder', '/welsh/funding/funding-finder'];
 
 const defaultSecurityDomains = [
     "'self'",
@@ -28,23 +22,28 @@ const defaultSecurityDomains = [
     'cdn.jsdelivr.net'
 ];
 
+const childSrc = defaultSecurityDomains.concat(['www.google.com']);
+
 const helmetSettings = helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: defaultSecurityDomains,
-            frameSrc: defaultSecurityDomains.concat(['www.google.com']),
+            childSrc: childSrc,
+            frameSrc: childSrc,
             styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
             connectSrc: defaultSecurityDomains.concat(['ws://127.0.0.1:35729/livereload']), // make dev-only?,
             imgSrc: defaultSecurityDomains.concat(['data:']),
-            scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"])
-        }
+            scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"]),
+            reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
+        },
+        browserSniff: false
     },
     dnsPrefetchControl: {
         allow: true
     },
     frameguard: {
         action: 'sameorigin'
-    },
+    }
 });
 
 app.use((req, res, next) => {
