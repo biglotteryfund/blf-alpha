@@ -107,7 +107,7 @@ Deploys to `PRODUCTION` are manual (for now). Once a deploy has been sanity chec
 
 `./bin/scripts/deploy.js --live`
 
-The above command will begin a deployment by listing the previous 10 releases deployed to `TEST` and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. It will also post progress updates to Slack as the deployment proceeds.
+The above command will begin a deployment by listing the previous 10 releases deployed to `TEST` and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. CodeDeploy will also post progress updates to Slack as the deployment proceeds.
 
 Run it without the `-l` / `--live` flag to deploy to `TEST` intead.
 
