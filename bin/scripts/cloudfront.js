@@ -78,7 +78,8 @@ let URLs = {
         makeUrlObject('/styleguide'),
         makeUrlObject('/robots.txt'),
         makeUrlObject('/ebulletin', true, false),
-        makeUrlObject('/home')
+        makeUrlObject('/home'),
+        makeUrlObject('/funding/funding-finder', true, true)
     ]
 };
 
