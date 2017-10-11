@@ -4,6 +4,7 @@
 {% extends "../../layouts/main.njk" %}
 
 {% set bodyClass = "has-full-bleed-header" %}
+{% set globalFootnote = "* " + __('global.footerLinks.grantFootnote') %}
 
 {% block title %}{{ title }} | {% endblock %}
 
@@ -13,7 +14,8 @@
         small: 'images/hero/under-10k-small.jpg',
         medium: 'images/hero/under-10k-medium.jpg',
         large: 'images/hero/under-10k-large.jpg',
-        default: 'images/hero/under-10k-medium.jpg'
+        default: 'images/hero/under-10k-medium.jpg',
+        caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350*'
     }) %}
 
     {{
