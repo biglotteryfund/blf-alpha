@@ -2,6 +2,15 @@
 const express = require('express');
 const app = (module.exports = express());
 const config = require('config');
+const Raven = require('raven');
+const secrets = require('./modules/secrets');
+
+const SENTRY_DSN = secrets['sentry.dsn'];
+
+if (SENTRY_DSN) {
+    Raven.config(SENTRY_DSN).install();
+    app.use(Raven.requestHandler());
+}
 
 // load the app routing list
 const routes = require('./controllers/routes');
@@ -72,6 +81,10 @@ app.use((req, res, next) => {
     next(handle404s());
 });
 
+if (SENTRY_DSN) {
+    app.use(Raven.errorHandler());
+}
+
 // error handler
 app.use((err, req, res, next) => {
     if (res.headersSent) {
@@ -83,6 +96,7 @@ app.use((err, req, res, next) => {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.locals.status = err.status || 500;
     res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
+    res.locals.sentry = res.sentry;
 
     // render the error page
     res.status(res.locals.status);
