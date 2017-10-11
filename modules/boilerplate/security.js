@@ -19,7 +19,8 @@ const defaultSecurityDomains = [
     'syndication.twitter.com',
     'cdn.syndication.twimg.com',
     '*.twimg.com',
-    'cdn.jsdelivr.net'
+    'cdn.jsdelivr.net',
+    'sentry.io'
 ];
 
 const childSrc = defaultSecurityDomains.concat(['www.google.com']);
