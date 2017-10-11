@@ -9,7 +9,7 @@ const SENTRY_DSN = secrets['sentry.dsn'];
 
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
-        environment: process.env.NODE_ENVIRONMENT || 'development',
+        environment: process.env.NODE_ENV || 'development',
         dataCallback(data) {
             delete data.modules;
             return data;
