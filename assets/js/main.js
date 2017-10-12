@@ -11,19 +11,14 @@ const router = new Grapnel({ pushState: true });
 const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
 
+const analytics = require('./modules/analytics');
+const utils = require('./modules/utils');
+
 /**
  * Bootstraps
  */
 const raven = require('./bootstraps/raven');
 raven.init(Vue);
-
-// load internal modules
-require('./modules/tabs').init();
-require('./modules/carousel').init();
-require('./modules/heroImages').init();
-
-const analytics = require('./modules/analytics');
-const utils = require('./modules/utils');
 
 // grab main script element (for querying data attributes)
 const $thisScript = $('#js-script-main');
@@ -57,9 +52,16 @@ $('#js-close-overlay').on('click', () => {
     $('#js-overlay').hide();
 });
 
+/**
+ * Load modules
+ */
+require('./modules/tabs').init();
+require('./modules/carousel').init();
+require('./modules/heroImages').init();
+require('./modules/logos').init();
+
 // if the env is PRODUCTION then we only load analytics
 // if the page's domain name matches our live domain
-
 // setup google analytics
 if (!_BLF.blockAnalytics) {
     // set in main.njk
@@ -204,30 +206,6 @@ router.get(fundingPagePath, () => {
                     }
                 });
             }
-        }
-    });
-});
-
-// on the logo page we need to show a download message when the user clicks a logo
-let logoPagePath = /\/funding\/funding-guidance\/managing-your-funding\/grant-acknowledgement-and-logos\/logodownloads/;
-router.get(logoPagePath, () => {
-    $('.js-logo-trigger').on('click', function() {
-        let logoId = $(this).data('logo-id');
-        let successBlock = $('#js-download-block--' + logoId);
-        let logoType = $(this).data('logo-type');
-        let successMessage = $('.js-success--' + logoType, successBlock);
-        if (successBlock.length && successMessage.length) {
-            successBlock.show(); // show parent block
-            successMessage.show(); // show message
-        }
-    });
-
-    $('.js-success--close').on('click', function() {
-        let logoId = $(this).data('logo-id');
-        let successBlock = $('#js-download-block--' + logoId);
-        if (successBlock.length) {
-            successBlock.find('.js-success').hide(); // hide old messages
-            successBlock.hide();
         }
     });
 });
