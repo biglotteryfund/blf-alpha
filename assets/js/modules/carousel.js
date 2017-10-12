@@ -1,5 +1,5 @@
 'use strict';
-const Swiper = require('../libs/swiper.jquery.min');
+const Swiper = require('swiper');
 const appConfig = require('../../../config/content/sass.json');
 const analytics = require('./analytics');
 
