@@ -12,6 +12,7 @@ const defaultSecurityDomains = [
     "'self'",
     'fonts.gstatic.com',
     'ajax.googleapis.com',
+    'cdnjs.cloudflare.com',
     'www.google-analytics.com',
     'www.google.com',
     'maxcdn.bootstrapcdn.com',
