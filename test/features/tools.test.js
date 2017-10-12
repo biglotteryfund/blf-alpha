@@ -2,16 +2,15 @@
 /* global describe, it, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
-const config = require("config");
+const config = require('config');
 
-const helper = require('../helper');
+const helper = require('./helper');
 const models = require('../../models/index');
 
-describe("authorisation for tools", () => {
-
+describe('authorisation for tools', () => {
     let agent, server;
 
-    beforeEach((done) => {
+    beforeEach(done => {
         server = helper.before();
 
         // grab a valid CSRF token
@@ -29,8 +28,9 @@ describe("authorisation for tools", () => {
         helper.after();
     });
 
-    it('should block access to staff-only tools', (done) => {
-        agent.get('/tools/edit-news')
+    it('should block access to staff-only tools', done => {
+        agent
+            .get('/tools/edit-news')
             .redirects(0)
             .end((err, res) => {
                 res.should.redirectTo('/tools/login');
@@ -39,59 +39,56 @@ describe("authorisation for tools", () => {
             });
     });
 
-    it('should not allow unauthorised access to staff-only tools', (done) => {
-
+    it('should not allow unauthorised access to staff-only tools', done => {
         const formData = {
             username: 'test',
             password: 'wrong'
         };
 
-        agent.post('/tools/login')
+        agent
+            .post('/tools/login')
             .send(formData)
             .redirects(0)
             .end((err, res) => {
                 res.should.have.cookie(config.get('cookies.session'));
                 res.should.redirectTo('/tools/login');
-                return agent.get('/tools/edit-news/')
+                return agent
+                    .get('/tools/edit-news/')
                     .redirects(0)
                     .end((err, res) => {
                         res.should.have.status(302);
                         done();
                     });
             });
-
     });
 
-    it('should allow authorised access to staff-only tools', (done) => {
-
+    it('should allow authorised access to staff-only tools', done => {
         const formData = {
             username: 'test',
             password: 'test',
             redirectUrl: '/tools/edit-news/'
         };
 
-        agent.post('/tools/login')
+        agent
+            .post('/tools/login')
             .send(formData)
             .redirects(0)
             .end((err, res) => {
                 res.should.have.cookie(config.get('cookies.session'));
                 res.should.have.status(302);
                 res.should.redirectTo('/tools/edit-news/');
-                return agent.get('/tools/edit-news/')
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        done();
-                    });
+                return agent.get('/tools/edit-news/').end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
             });
     });
-
 });
 
-describe("news editor tool", () => {
-
+describe('news editor tool', () => {
     let agent, server;
 
-    beforeEach((done) => {
+    beforeEach(done => {
         server = helper.before();
 
         // grab a valid CSRF token
@@ -106,10 +103,10 @@ describe("news editor tool", () => {
     });
 
     // delete test data afterwards
-    after((done) => {
+    after(done => {
         console.log('Deleting test news data');
         models.News.destroy({
-            where: {},
+            where: {}
         });
         done();
     });
@@ -118,8 +115,7 @@ describe("news editor tool", () => {
         helper.after();
     });
 
-    it('should allow authorised staff to post valid news', (done) => {
-
+    it('should allow authorised staff to post valid news', done => {
         const loginData = {
             username: 'test',
             password: 'test',
@@ -127,14 +123,16 @@ describe("news editor tool", () => {
         };
 
         // invalid news
-        agent.post('/tools/login')
+        agent
+            .post('/tools/login')
             .send(loginData)
             .redirects(0)
             .end((err, res) => {
                 res.should.have.cookie(config.get('cookies.session'));
                 res.should.have.status(302);
                 res.should.redirectTo('/tools/edit-news/');
-                return agent.post('/tools/edit-news/')
+                return agent
+                    .post('/tools/edit-news/')
                     .send({
                         title: 'Broken title',
                         text: 'Broken text'
@@ -147,21 +145,23 @@ describe("news editor tool", () => {
             });
 
         // valid news
-        agent.post('/tools/login')
+        agent
+            .post('/tools/login')
             .send(loginData)
             .redirects(0)
             .end((err, res) => {
                 res.should.have.cookie(config.get('cookies.session'));
                 res.should.have.status(302);
                 res.should.redirectTo('/tools/edit-news/');
-                return agent.post('/tools/edit-news/')
+                return agent
+                    .post('/tools/edit-news/')
                     .send({
                         title_en: 'Test title (english)',
                         title_cy: 'Test title (welsh)',
                         text_en: 'Test text (english)',
                         text_cy: 'Test text (welsh)',
                         link_en: 'Test link (english)',
-                        link_cy: 'Test link (welsh)',
+                        link_cy: 'Test link (welsh)'
                     })
                     .redirects(0)
                     .end((err, res) => {
@@ -171,5 +171,4 @@ describe("news editor tool", () => {
                     });
             });
     });
-
 });

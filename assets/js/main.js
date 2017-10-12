@@ -1,5 +1,7 @@
-/* global $, ga, cxApi, _BLF */
+/* global ga, cxApi, _BLF */
 'use strict';
+
+const $ = require('jquery');
 
 // initialise router (eg. run conditional code for certain URLs)
 const Grapnel = require('./libs/grapnel');
@@ -21,7 +23,7 @@ require('./modules/carousel').init();
 require('./modules/heroImages').init();
 
 const analytics = require('./modules/analytics');
-const utils = require('./utils');
+const utils = require('./modules/utils');
 
 // grab main script element (for querying data attributes)
 const $thisScript = $('#js-script-main');

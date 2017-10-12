@@ -6,7 +6,7 @@ chai.should();
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const helper = require('../helper');
+const helper = require('./helper');
 const routes = require('../../controllers/routes');
 
 // test the order form specifically

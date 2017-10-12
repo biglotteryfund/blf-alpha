@@ -27,7 +27,7 @@ let captureStream = stream => {
 
 module.exports = {
     before: () => {
-        server = require('../bin/www');
+        server = require('../../bin/www');
         hook = captureStream(process.stdout);
         return server;
     },

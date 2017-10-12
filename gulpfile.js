@@ -18,17 +18,13 @@ const autoprefixer = importLazy('gulp-autoprefixer');
 const argv = importLazy('yargs').argv;
 const gulpif = importLazy('gulp-if');
 const babelify = importLazy('babelify');
-const mocha = importLazy('gulp-mocha');
 const rename = importLazy('gulp-rename');
-const mochaPhantomJS = importLazy('gulp-mocha-phantomjs');
 const jsonSass = importLazy('rootbeer');
 const fs = importLazy('fs');
-const runSequence = importLazy('run-sequence');
 
 // define main directories
 const inputBase = './assets/';
 const outputBase = './public/';
-const testBase = './test/';
 const binBase = './bin/';
 
 // outline where static files live (or end up)
@@ -38,7 +34,6 @@ const DIRS = {
         css: inputBase + 'sass',
         js: inputBase + 'js',
         img: inputBase + 'images',
-        test: testBase,
         sassConfig: './config/content'
     },
     out: {
@@ -46,7 +41,6 @@ const DIRS = {
         css: outputBase + 'stylesheets',
         js: outputBase + 'javascripts',
         img: outputBase + 'images',
-        test: outputBase + 'tests',
         manifest: binBase
     }
 };
@@ -56,13 +50,11 @@ const FILES = {
     in: {
         js: 'main.js',
         css: 'main.scss',
-        test: 'test-main.js',
         sassConfig: 'sass.json'
     },
     out: {
         js: 'app.js',
         css: 'style.css',
-        test: 'specs.js',
         sassConfig: '_config.scss'
     },
     assets: 'assets.json'
@@ -80,9 +72,6 @@ gulp.task('clean:img', function() {
 });
 gulp.task('clean:assets', function() {
     return del([DIRS.out.manifest + '/' + FILES.assets]);
-});
-gulp.task('clean:test', function() {
-    return del([DIRS.out.test + '/**/*']);
 });
 
 // copy images to public dir
@@ -115,21 +104,6 @@ gulp.task('scripts', ['clean:assets', 'clean:js'], function() {
         .pipe(gulpif(argv.production, uglify()))
         .pipe(gulp.dest(DIRS.out.js))
         .pipe(livereload());
-});
-
-// compile JavaScript module tests for phantomjs below
-gulp.task('test-scripts', ['clean:test'], function() {
-    return browserify({ debug: true })
-        .transform(babelify)
-        .require(DIRS.in.test + '/specs/' + FILES.in.test, { entry: true })
-        .bundle()
-        .on('error', function handleError(err) {
-            console.error(err.toString());
-            this.emit('end');
-        })
-        .pipe(source(FILES.out.test))
-        .pipe(buffer())
-        .pipe(gulp.dest(DIRS.out.test));
 });
 
 const jsonToSassTask = 'jsonToSass';
@@ -185,34 +159,6 @@ gulp.task('rev', ['styles', 'scripts'], function() {
         .pipe(gulp.dest(DIRS.out.manifest));
 });
 
-// run mocha tests
-gulp.task('mocha', ['build'], function() {
-    return gulp
-        .src(testBase + '/features/**/*.js', {
-            read: false
-        })
-        .pipe(
-            mocha({
-                reporter: 'spec',
-                timeout: 20000,
-                bail: true,
-                exit: true
-            })
-        );
-});
-
-// run phantomjs
-// @TODO if this task fails it doesn't stop the gulp task so the build passes!
-gulp.task('phantomjs', ['test-scripts'], function() {
-    return gulp.src(testBase + '/runner.html').pipe(
-        mochaPhantomJS({
-            mocha: {
-                bail: true
-            }
-        })
-    );
-});
-
 // dev task: start the server and watch for changes
 gulp.task('default', ['clean:assets', 'dev']);
 
@@ -224,22 +170,9 @@ gulp.task('build', ['styles', 'scripts', 'rev']);
 
 gulp.task('build-dev', ['styles', 'scripts']);
 
-// used on commit
-gulp.task('test', function(done) {
-    runSequence('mocha', 'phantomjs', done);
-});
-
 // watch static files for changes and recompile
 gulp.task('watch', function() {
     livereload.listen();
     gulp.watch(DIRS.in.css + '/**/*.scss', ['styles']);
     gulp.watch(DIRS.in.js + '/**/*.js', ['scripts']);
-});
-
-gulp.task('watch-test', function() {
-    gulp.watch([DIRS.in.js + '/**/*.js', DIRS.in.test + '/**/*.js'], ['phantomjs']);
-});
-
-gulp.task('watch-mocha', function() {
-    gulp.watch(DIRS.in.test + '/**/*.js', ['mocha']);
 });

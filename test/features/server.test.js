@@ -4,7 +4,7 @@ const chai = require('chai');
 const config = require('config');
 chai.use(require('chai-http'));
 
-const helper = require('../helper');
+const helper = require('./helper');
 
 describe('Express application', () => {
     let server;
