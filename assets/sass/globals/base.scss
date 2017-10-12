@@ -2,6 +2,10 @@
    Base: Global element level styles
    ========================================================================= */
 
+.js-on [v-cloak] {
+    display: none;
+}
+
 html {
     box-sizing: border-box;
 }
