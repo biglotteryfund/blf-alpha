@@ -1,4 +1,14 @@
 #!/usr/bin/env node
+
+require('dotenv').config();
+
+const has = require('lodash/has');
+
+if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
+    console.log('Error: TEST_URL and PROD_URL environment variables must be defined');
+    process.exit(1);
+}
+
 const argv = require('yargs')
     .boolean('l')
     .alias('l', 'live')
@@ -7,9 +17,9 @@ const argv = require('yargs')
     .describe('b', 'Pass a custom build number to deploy')
     .help('h')
     .alias('h', 'help').argv;
+
 const prompt = require('prompt');
 const AWS = require('aws-sdk');
-const request = require('request');
 const rp = require('request-promise');
 
 let customBuildNumber = argv.build;
@@ -221,7 +231,7 @@ function verifyCommitsToDeploy() {
 }
 
 // trigger the deploy itself
-function pushOutDeploy(env, id, commitStr) {
+function pushOutDeploy(env, id) {
     let text = `Attempting to deploy revision ${id} to environment ${env}, please wait...`;
     console.log(text);
 
