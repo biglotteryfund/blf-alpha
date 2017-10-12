@@ -2,13 +2,11 @@
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Todo / tech debt
-- [ ] log material orders (need legal signoff)
 - [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
 - [ ] Add more granular named breakpoints
 
 ## To think about
 - [ ] CSRF: how to approach when pages are cached?
-- [ ] should we change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)?
 - [ ] find solution to hardcoded links in locale/lang files - or is this a CMS job?
 - [ ] should we remove vary:cookie header? will this break sessions?
 

@@ -12,6 +12,7 @@ const defaultSecurityDomains = [
     "'self'",
     'fonts.gstatic.com',
     'ajax.googleapis.com',
+    'cdnjs.cloudflare.com',
     'www.google-analytics.com',
     'www.google.com',
     'maxcdn.bootstrapcdn.com',
@@ -33,7 +34,7 @@ const helmetSettings = helmet({
             frameSrc: childSrc,
             styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
             connectSrc: defaultSecurityDomains.concat(['ws://127.0.0.1:35729/livereload']), // make dev-only?,
-            imgSrc: defaultSecurityDomains.concat(['data:', 'localhost']),
+            imgSrc: defaultSecurityDomains.concat(['data:', 'localhost', 'stats.g.doubleclick.net']),
             scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"]),
             reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
         },
