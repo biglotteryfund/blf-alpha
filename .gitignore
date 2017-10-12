@@ -1,8 +1,8 @@
 .css.map
 .DS_Store
+.env
 .idea
 .map
-addSecrets.sh
 always_restart.txt
 assets.json
 assets/sass/_config.scss
