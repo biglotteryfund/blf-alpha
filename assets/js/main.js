@@ -8,6 +8,7 @@ const $ = require('jquery');
  */
 const Vue = require('../../node_modules/vue/dist/vue.common');
 Vue.options.delimiters = ['<%', '%>'];
+window.Vue = Vue;
 
 /**
  * Bootstraps
