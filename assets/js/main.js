@@ -1,12 +1,9 @@
-/* global ga, cxApi, _BLF */
 'use strict';
-
-const $ = require('jquery');
 
 /**
  * Initialise Vue
  */
-const Vue = require('../../node_modules/vue/dist/vue.common');
+const Vue = require('vue');
 Vue.options.delimiters = ['<%', '%>'];
 window.Vue = Vue;
 
@@ -31,6 +28,8 @@ require('./modules/materials').init();
  * If the we are in the live environment then load analytics
  * @see main.njk for where _BLF.blockAnalytics is set
  */
+/* global ga, cxApi, _BLF */
+const $ = require('jquery');
 const analytics = require('./modules/analytics');
 if (!_BLF.blockAnalytics) {
     // grab main script element (for querying data attributes)
