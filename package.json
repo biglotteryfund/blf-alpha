@@ -140,6 +140,7 @@
     "puppeteer": "^0.11.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
+    "webpack": "^3.7.1",
     "yargs": "^7.1.0"
   },
   "snyk": true
