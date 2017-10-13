@@ -6,7 +6,6 @@ const autoprefixer = importLazy('gulp-autoprefixer');
 const del = importLazy('del');
 const fs = importLazy('fs');
 const jsonSass = importLazy('rootbeer');
-const livereload = importLazy('gulp-livereload');
 const rename = importLazy('gulp-rename');
 const runSequence = importLazy('run-sequence');
 const sass = importLazy('gulp-sass');
@@ -75,8 +74,7 @@ gulp.task('styles', ['images', 'jsonToSass'], function() {
             })
         )
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(buildSummary.buildDir + '/stylesheets'))
-        .pipe(livereload());
+        .pipe(gulp.dest(buildSummary.buildDir + '/stylesheets'));
 });
 
 gulp.task('manifest', function(done) {
@@ -91,7 +89,9 @@ gulp.task('manifest', function(done) {
  * Watchers
  */
 gulp.task('watch', ['build'], function() {
-    livereload.listen();
+    const livereload = require('livereload');
+    const server = livereload.createServer();
+    server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
 
     gulp.watch(DIRS.in.css + '/**/*.scss', ['styles']);
 });
