@@ -9,7 +9,5 @@ assets/sass/_config.scss
 bin/cloudfront
 deploy.json
 node_modules
-public/images
-public/javascripts
-public/stylesheets
+public/build
 screenshots
