@@ -1,14 +1,14 @@
 'use strict';
 const rp = require('request-promise');
-const has = require('lodash/has');
-require('dotenv').config();
+const secrets = require('./secrets');
 
-if (!has(process.env, 'CMS_URL')) {
-    console.log('Error: CMS_URL environment variable must be defined');
+let CMS_URL = secrets['cms.url'] || process.env.cmsUrl;
+if (!CMS_URL) {
+    console.log('Error: CMS_URL endpoint must be defined');
     process.exit(1);
 }
 
-const API_URL = process.env.CMS_URL + '/content/';
+const API_URL = CMS_URL + '/content/';
 
 const getFundingProgrammes = locale => {
     return rp({
