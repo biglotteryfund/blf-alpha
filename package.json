@@ -1,5 +1,6 @@
 {
   "name": "blf-alpha",
+  "description": "Big Lottery Fund Alpha",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -34,6 +35,26 @@
     "printWidth": 120,
     "tabWidth": 4,
     "singleQuote": true
+  },
+  "babel": {
+    "plugins": [
+      "lodash",
+      "transform-object-assign"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "ie >= 10"
+            ]
+          }
+        }
+      ]
+    ]
   },
   "dependencies": {
     "absoluteify": "^1.0.3",
@@ -85,6 +106,9 @@
     "xss": "^0.3.4"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "babelify": "^7.3.0",
