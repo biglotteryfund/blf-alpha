@@ -6,16 +6,12 @@ const assetVirtualDir = 'assets';
 let assets = {};
 try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../bin/assets.json'), 'utf8'));
-} catch (e) {
-    // console.info('assets.json not found -- are you in DEV mode?');
-}
+} catch (e) {} // eslint-disable-line no-empty
 
-// function for templates
-const getCachebustedPath = (path) => {
-    const isCachebusted = assets[path];
-    const p = (isCachebusted) ? isCachebusted : path;
-    return '/' + assetVirtualDir + '/' + p;
-};
+function getCachebustedPath(path) {
+    const version = assets.version || 'latest';
+    return '/' + [assetVirtualDir, 'build', version, path].join('/');
+}
 
 module.exports = {
     assetList: assets,

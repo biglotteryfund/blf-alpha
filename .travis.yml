@@ -8,7 +8,7 @@ before_script:
 - npm install
 script:
 - npm run lint
-- npm run build
+- npm run build-production
 - npm test
 - npm prune --production > /dev/null 2>&1
 before_deploy:
