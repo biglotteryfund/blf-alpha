@@ -5,7 +5,6 @@
         blockAnalytics: ({{ appData.environment == 'production' }} && window.location.hostname !== "{{ appData.config.get('siteDomain') }}")
     };
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//www.google-analytics.com/cx/api.js"></script>
 <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
         id="js-script-main"

@@ -1,5 +1,43 @@
-/* global describe, it, expect */
 'use strict';
+const chai = require('chai');
+const expect = chai.expect;
+
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+
+const dom = new JSDOM(
+    `
+    <ul class="js-tabset" id="js-tab-test-broken"></ul>
+
+    <ul class="js-tabset" data-paneset="js-tab-test-panes" id="js-tab-test">
+        <li><a class="js-tab" href="#js-tab-pane-foo">Item one</a></li>
+        <li><a class="js-tab tab--active" href="#js-tab-pane-bar">Item two</a></li>
+    </ul>
+    <div class="js-paneset" id="js-tab-test-panes">
+        <section id="js-tab-pane-foo">Foo content</section>
+        <section id="js-tab-pane-bar">Bar content</section>
+    </div>
+
+    <ul class="js-tabset" data-paneset="js-tab-test-panes-2" id="js-tab-test-2">
+        <li><a class="js-tab" href="#js-tab-pane-foo-2">Item one</a></li>
+        <li><a class="js-tab tab--active" href="#js-tab-pane-bar-2">Item two</a></li>
+    </ul>
+
+    <div class="js-paneset" id="js-tab-test-panes-2">
+        <section id="js-tab-pane-foo-2">Foo content</section>
+        <section id="js-tab-pane-bar-2">Bar content</section>
+    </div>
+`,
+    {
+        url: 'https://example.org/'
+    }
+);
+
+global.window = dom.window;
+global.document = dom.window.document;
+
+// JSDOM doesn't have an implementation for this so stub it.
+window.HTMLElement.prototype.scrollIntoView = function() {};
 
 let tabs = require('../../assets/js/modules/tabs');
 

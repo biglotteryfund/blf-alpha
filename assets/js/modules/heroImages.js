@@ -1,5 +1,5 @@
-/* global $ */
 'use strict';
+const $ = require('jquery');
 
 const SELECTORS = {
     parent: '.js-random-hero',

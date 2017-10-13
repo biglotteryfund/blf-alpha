@@ -44,14 +44,14 @@ if (!Array.prototype.find) {
 }
 
 // turn 32424.23123 => 32,424.23
-let formatCurrency = (n) => {
+let formatCurrency = n => {
     return n.toFixed(2).replace(/./g, (c, i, a) => {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        return i && c !== '.' && (a.length - i) % 3 === 0 ? ',' + c : c;
     });
 };
 
-let numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+let numberWithCommas = x => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 let parseQueryString = () => {
