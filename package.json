@@ -10,7 +10,7 @@
     "test": "mocha test/**/*.test.js --exit --timeout 20s",
     "test-deps": "snyk test",
     "build": "gulp build",
-    "build-production": "export NODE_ENV=production; gulp build:production",
+    "build-production": "export NODE_ENV=production && gulp build:production",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",
