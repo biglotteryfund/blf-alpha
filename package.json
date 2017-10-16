@@ -11,6 +11,7 @@
     "test-deps": "snyk test",
     "build": "gulp build",
     "build-production": "export NODE_ENV=production && gulp build:production",
+    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",
@@ -110,6 +111,7 @@
     "xss": "^0.3.4"
   },
   "devDependencies": {
+    "autotrack": "^2.4.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
