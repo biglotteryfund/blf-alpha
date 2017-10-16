@@ -6,6 +6,11 @@ module.exports = {
         node: true,
         browser: true
     },
+    parser: 'babel-eslint',
+    parserOptions: {
+        sourceType: 'module',
+        allowImportExportEverywhere: true
+    },
     rules: {
         eqeqeq: 2,
         semi: [2, 'always'],

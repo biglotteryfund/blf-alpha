@@ -44,7 +44,8 @@
   "babel": {
     "plugins": [
       "lodash",
-      "transform-object-assign"
+      "transform-object-assign",
+      "syntax-dynamic-import"
     ],
     "presets": [
       [
@@ -63,6 +64,7 @@
   },
   "dependencies": {
     "absolution": "^1.0.0",
+    "autotrack": "^2.4.1",
     "aws-sdk": "^2.110.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
@@ -110,8 +112,10 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "concurrently": "^3.5.0",
