@@ -63,6 +63,15 @@
 			},
 			"caseStudies": [
 				{
+					"quoteText": "Rwy’n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu heisiau o ran addysg.",
+					"quoteName": "Jonathan Ssentamu",
+					"quoteNameCaption": "Gweithiwr Datblygu Pobl Ifainc",
+					"projectName": "Passion4Fusion",
+					"imageUrl": "images/home/case-study-4-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"link": "funding/big-stories/passion4fusion"
+				},
+				{
 					"quoteText": "Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau sy'n bwysig iddynt yn yr un modd yn union â phawb arall.",
 					"quoteName": "Andrea Glenn",
 					"quoteNameCaption": null,
@@ -79,6 +88,15 @@
 					"imageUrl": "images/home/case-study-2-medium.jpg",
 					"imageSmallUrl": "images/home/case-study-2-small.jpg",
 					"link": "funding/big-stories/mental-health-foundation"
+				},
+				{
+					"quoteText": "Mae fy nghymhelliad i wneud gwaith gyda phobl ifainc yn dod o wybod yr effaith y mae Bytes wedi’i chael ac yn parhau i gael arnaf.",
+					"quoteName": "Anthony Turkington",
+					"quoteNameCaption": "Buddiolwr",
+					"projectName": "Bytes",
+					"imageUrl": "images/home/case-study-3-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-3-small.jpg",
+					"link": "funding/big-stories/bytes"
 				}
 			],
 			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd",
