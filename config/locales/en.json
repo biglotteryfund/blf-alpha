@@ -63,6 +63,15 @@
 			},
 			"caseStudies": [
 				{
+					"quoteText": "I am helping make sure that young people get the opportunities they want in terms of education.",
+					"quoteName": "Jonathan Ssentamu",
+					"quoteNameCaption": "Youth Development Worker",
+					"projectName": "Passion4Fusion",
+					"imageUrl": "images/home/case-study-4-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"link": "funding/big-stories/passion4fusion"
+				},
+				{
 					"quoteText": "I want young people in care to know that they are just as capable of reaching their goals as everyone else.",
 					"quoteName": "Andrea Glenn",
 					"quoteNameCaption": null,
