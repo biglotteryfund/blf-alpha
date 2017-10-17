@@ -137,11 +137,12 @@ function beginUpdate(cacheBehaviors) {
         .then(existingConfig => {
             // fetching the config worked
 
-            // store the existing config locally, just in case...
+            // store the existing behaviour config locally, just in case...
             try {
                 const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
                 const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
-                fs.writeFileSync(confPath, JSON.stringify(existingConfig, null, 4));
+                let existingBehaviours = existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items;
+                fs.writeFileSync(confPath, JSON.stringify(existingBehaviours, null, 4));
                 console.log('A copy of the existing config was saved in ' + confPath);
             } catch (err) {
                 return console.error('Error saving old config', err);
