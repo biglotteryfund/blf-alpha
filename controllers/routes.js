@@ -1,4 +1,3 @@
-/* NOTE: if you move this file, change its path in cloudfront.js to match */
 'use strict';
 const config = require('config');
 const anchors = config.get('anchors');
