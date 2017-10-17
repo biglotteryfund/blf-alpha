@@ -11,6 +11,8 @@ const rp = require('request-promise');
 const has = require('lodash/has');
 require('dotenv').config();
 
+const CF_CONFIGS = require('../../config/app/distributions');
+
 const argv = require('yargs')
     .boolean('l')
     .alias('l', 'live')
@@ -58,90 +60,67 @@ const configFilename = IS_LIVE ? 'live' : 'test';
 const configPath = `bin/cloudfront/${configFilename}.js`;
 const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
 
-// get the current commit IDs
-getEnvStatus(IS_LIVE ? 'production' : 'test')
-    .then(status => {
-        // look up the file at the chosen environment's current commit
-        let routesParams = {
-            ref: status.COMMIT_ID
-        };
+// are we using a custom config (eg. a backup file)?
+if (customConfig) {
+    beginUpdate(customConfig);
+} else {
+    // get the current commit IDs
+    getEnvStatus(IS_LIVE ? 'production' : 'test')
+        .then(status => {
+            // look up the file at the chosen environment's current commit
+            let routesParams = {
+                ref: status.COMMIT_ID
+            };
 
-        // use a custom commit, if supplied
-        if (argv.c) {
-            routesParams.ref = argv.c;
-        }
-
-        console.log(`Fetching "${configFilename}" config file for commit ${routesParams.ref}`);
-
-        // fetch the routes file details
-        rp({
-            url: CONFIG_URL,
-            qs: routesParams,
-            headers: {
-                'User-Agent': 'BLF-Cloudfront-Tool'
+            // use a custom commit, if supplied
+            if (argv.c) {
+                routesParams.ref = argv.c;
             }
-        })
-            .then(response => {
-                let json = JSON.parse(response);
-                let filePath = json.download_url;
-                console.log(`Got the file data, downloading content from ${filePath}...`);
 
-                // now fetch the file content itself
-                rp({
-                    url: filePath
-                })
-                    .then(fileContent => {
-                        console.log(`Fetched file content, parsing...`);
-                        beginUpdate(fileContent);
-                    })
-                    .catch(err => {
-                        console.log(`Error getting "${configFilename}" config file content`, {
-                            error: err
-                        });
-                    });
+            console.log(`Fetching "${configFilename}" config file for commit ${routesParams.ref}`);
+
+            // fetch the routes file details
+            rp({
+                url: CONFIG_URL,
+                qs: routesParams,
+                headers: {
+                    'User-Agent': 'BLF-Cloudfront-Tool'
+                }
             })
-            .catch(err => {
-                console.log(`Error getting "${configFilename}" config file data`, {
-                    error: err
+                .then(response => {
+                    let json = JSON.parse(response);
+                    let filePath = json.download_url;
+                    console.log(`Got the file data, downloading content from ${filePath}...`);
+
+                    // now fetch the file content itself
+                    rp({
+                        url: filePath
+                    })
+                        .then(fileContent => {
+                            console.log(`Fetched file content, parsing...`);
+                            beginUpdate(JSON.parse(fileContent));
+                        })
+                        .catch(err => {
+                            console.log(`Error getting "${configFilename}" config file content`, {
+                                error: err
+                            });
+                        });
+                })
+                .catch(err => {
+                    console.log(`Error getting "${configFilename}" config file data`, {
+                        error: err
+                    });
                 });
-            });
-    })
-    .catch(err => {
-        console.log('Failed to fetch server status');
-    });
+        })
+        .catch(err => {
+            console.log('Failed to fetch server status');
+        });
+}
 
-const beginUpdate = routesFileContent => {
-    let configData;
-
-    try {
-        configData = eval(routesFileContent);
-        console.log(`Succeeded in parsing "${configFilename}" config file content, continuing...`);
-    } catch (err) {
-        console.error('Could not read downloaded routes file');
-        process.exit(1);
-    }
-
+function beginUpdate(cacheBehaviors) {
     // create AWS SDK instance
     AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
     const cloudfront = new AWS.CloudFront();
-
-    // configure cloudfront-specific items here
-    // @TODO share this with other script
-    const CF_CONFIGS = {
-        test: {
-            distributionId: 'E3D5QJTWAG3GDP',
-            origins: {
-                newSite: 'ELB-TEST'
-            }
-        },
-        live: {
-            distributionId: 'E2WYWBLMWIN5U1',
-            origins: {
-                legacy: 'Custom-www.biglotteryfund.org.uk',
-                newSite: 'ELB_LIVE'
-            }
-        }
-    };
 
     // decide which config to use (pass --live to this script to use live)
     const cloudfrontDistribution = IS_LIVE ? CF_CONFIGS.live : CF_CONFIGS.test;
@@ -155,31 +134,26 @@ const beginUpdate = routesFileContent => {
 
     // handle response from fetching config
     getDistributionConfig
-        .then(data => {
+        .then(existingConfig => {
             // fetching the config worked
 
-            let newConfigToWrite = configData;
-
             // store the existing config locally, just in case...
-            const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-            const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
-            const confData = JSON.stringify(data, null, 4);
-
-            // write existing config to file for backup
             try {
-                fs.writeFileSync(confPath, confData);
+                const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
+                const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
+                fs.writeFileSync(confPath, JSON.stringify(existingConfig, null, 4));
                 console.log('A copy of the existing config was saved in ' + confPath);
             } catch (err) {
                 return console.error('Error saving old config', err);
             }
 
             // store etag for later update
-            const etag = data.ETag;
+            const etag = existingConfig.ETag;
 
-            // are we using a custom config (eg. a backup file)?
-            if (customConfig) {
-                newConfigToWrite = customConfig;
-            }
+            // clone the existing config and update the behaviours
+            let newConfigToWrite = _.cloneDeep(existingConfig);
+            newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items = cacheBehaviors;
+            newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity = cacheBehaviors.length;
 
             // allow for diff/comparison before deploy
             const getUrls = item => {
@@ -196,7 +170,7 @@ const beginUpdate = routesFileContent => {
 
             // verify what's being changed
             const paths = {
-                before: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
+                before: existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
                 after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
             };
             const pathsAdded = _.filter(paths.after, obj => !_.find(paths.before, obj));
@@ -205,7 +179,7 @@ const beginUpdate = routesFileContent => {
             // warn users about changes
             console.log(
                 'There are currently ' +
-                    data.Distribution.DistributionConfig.CacheBehaviors.Quantity +
+                    existingConfig.Distribution.DistributionConfig.CacheBehaviors.Quantity +
                     ' items in the existing behaviours, and ' +
                     newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity +
                     ' in this one.'
@@ -277,4 +251,4 @@ const beginUpdate = routesFileContent => {
                 error: err
             });
         });
-};
+}

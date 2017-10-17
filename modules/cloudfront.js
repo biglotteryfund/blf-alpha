@@ -1,35 +1,12 @@
 #!/usr/bin/env node
-
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 const config = require('config');
-const AWS = require('aws-sdk');
 
 const routes = require('../controllers/routes');
 const utilities = require('./utilities');
-
-// create AWS SDK instance
-const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
-AWS.config.credentials = credentials;
-const cloudfront = new AWS.CloudFront();
-
-// configure cloudfront-specific items here
-const CF_CONFIGS = {
-    test: {
-        distributionId: 'E3D5QJTWAG3GDP',
-        origins: {
-            newSite: 'ELB-TEST'
-        }
-    },
-    live: {
-        distributionId: 'E2WYWBLMWIN5U1',
-        origins: {
-            legacy: 'Custom-www.biglotteryfund.org.uk',
-            newSite: 'ELB_LIVE'
-        }
-    }
-};
+const CF_CONFIGS = require('../config/app/distributions');
 
 // create a URL object to mark whether a URL is POST-able or not
 const makeUrlObject = (url, isPostable, allowQueryStrings) => {
@@ -229,37 +206,16 @@ const generateBehaviours = (distribution, environment) => {
 
 // for each cloudfront distribution, generate a config and store it
 for (let environment in CF_CONFIGS) {
-    console.log(`Fetching existing Cloudfront configuration for the "${environment}" distribution.`);
+    console.log(`Creating Cloudfront configuration for the "${environment}" distribution.`);
     const distribution = CF_CONFIGS[environment];
+    const behaviours = generateBehaviours(distribution, environment);
 
-    // get existing cloudfront config
-    cloudfront
-        .getDistribution({
-            Id: distribution.distributionId
-        })
-        .promise()
-        .then(data => {
-            // create the new behaviour config for this distribution
-            let behaviours = generateBehaviours(distribution, environment);
-
-            // assign the new behaviours to the existing config
-            data.Distribution.DistributionConfig.CacheBehaviors.Items = behaviours;
-            data.Distribution.DistributionConfig.CacheBehaviors.Quantity = behaviours.length;
-
-            // write config to file for future deployment updates
-            try {
-                const confPath = path.join(__dirname, `../bin/cloudfront/${environment}.json`);
-                const confData = JSON.stringify(data, null, 4);
-                fs.writeFileSync(confPath, confData);
-                console.log(`An updated config for the "${environment}" distribution was saved in ${confPath}`);
-            } catch (err) {
-                return console.error('Error saving config', err);
-            }
-        })
-        .catch(err => {
-            // failed to get config
-            console.error('There was an error fetching the config', {
-                error: err
-            });
-        });
+    try {
+        const confPath = path.join(__dirname, `../bin/cloudfront/${environment}.json`);
+        const confData = JSON.stringify(behaviours, null, 4);
+        fs.writeFileSync(confPath, confData);
+        console.log(`An updated config for the "${environment}" distribution was saved in ${confPath}`);
+    } catch (err) {
+        return console.error('Error saving config', err);
+    }
 }
