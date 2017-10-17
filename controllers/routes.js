@@ -313,11 +313,6 @@ const vanityRedirects = [
         name: 'Fraud page (Welsh)',
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
-    },
-    {
-        name: 'Fraud page (Welsh) - Test',
-        path: '/welsh/fraud',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
     }
 ];
 
