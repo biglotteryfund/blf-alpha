@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
-require('dotenv').config();
-
+const prompt = require('prompt');
+const _ = require('lodash');
+const path = require('path');
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const moment = require('moment');
+const rp = require('request-promise');
 const has = require('lodash/has');
-
-if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
-    console.log('Error: TEST_URL and PROD_URL environment variables must be defined');
-    process.exit(1);
-}
+require('dotenv').config();
 
 const argv = require('yargs')
     .boolean('l')
@@ -17,21 +18,16 @@ const argv = require('yargs')
     .alias('f', 'file')
     .describe('f', 'Pass an existing config to apply (eg. restore a backup)')
     .alias('c', 'commit')
-    .describe('c', 'A commit hash to use as a reference for the routes.js file')
+    .describe('c', 'A commit hash to use as a reference for the config file')
     .help('h')
     .alias('h', 'help').argv;
-const prompt = require('prompt');
-// const routes = require('../../controllers/routes');
-const utilities = require('../../modules/utilities');
-const _ = require('lodash');
-const path = require('path');
-const AWS = require('aws-sdk');
-const fs = require('fs');
-const moment = require('moment');
-const config = require('config');
-const rp = require('request-promise');
 
 const IS_LIVE = argv.l;
+
+if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
+    console.log('Error: TEST_URL and PROD_URL environment variables must be defined');
+    process.exit(1);
+}
 
 // are we restoring an old config?
 let customConfig;
@@ -58,7 +54,9 @@ function getEnvStatus(env) {
     });
 }
 
-const ROUTES_URL = 'https://api.github.com/repos/biglotteryfund/blf-alpha/contents/controllers/routes.js';
+const configFilename = IS_LIVE ? 'live' : 'test';
+const configPath = `bin/cloudfront/${configFilename}.js`;
+const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
 
 // get the current commit IDs
 getEnvStatus(IS_LIVE ? 'production' : 'test')
@@ -73,11 +71,11 @@ getEnvStatus(IS_LIVE ? 'production' : 'test')
             routesParams.ref = argv.c;
         }
 
-        console.log(`Fetching routes.js file for commit ${routesParams.ref}`);
+        console.log(`Fetching "${configFilename}" config file for commit ${routesParams.ref}`);
 
         // fetch the routes file details
         rp({
-            url: ROUTES_URL,
+            url: CONFIG_URL,
             qs: routesParams,
             headers: {
                 'User-Agent': 'BLF-Cloudfront-Tool'
@@ -87,6 +85,7 @@ getEnvStatus(IS_LIVE ? 'production' : 'test')
                 let json = JSON.parse(response);
                 let filePath = json.download_url;
                 console.log(`Got the file data, downloading content from ${filePath}...`);
+
                 // now fetch the file content itself
                 rp({
                     url: filePath
@@ -96,13 +95,13 @@ getEnvStatus(IS_LIVE ? 'production' : 'test')
                         beginUpdate(fileContent);
                     })
                     .catch(err => {
-                        console.log('Error getting routes.js content', {
+                        console.log(`Error getting "${configFilename}" config file content`, {
                             error: err
                         });
                     });
             })
             .catch(err => {
-                console.log('Error getting routes.js data', {
+                console.log(`Error getting "${configFilename}" config file data`, {
                     error: err
                 });
             });
@@ -112,11 +111,11 @@ getEnvStatus(IS_LIVE ? 'production' : 'test')
     });
 
 const beginUpdate = routesFileContent => {
-    let routes;
+    let configData;
 
     try {
-        routes = eval(routesFileContent);
-        console.log(`Succeeded in parsing routes.js content, continuing...`);
+        configData = eval(routesFileContent);
+        console.log(`Succeeded in parsing "${configFilename}" config file content, continuing...`);
     } catch (err) {
         console.error('Could not read downloaded routes file');
         process.exit(1);
@@ -127,6 +126,7 @@ const beginUpdate = routesFileContent => {
     const cloudfront = new AWS.CloudFront();
 
     // configure cloudfront-specific items here
+    // @TODO share this with other script
     const CF_CONFIGS = {
         test: {
             distributionId: 'E3D5QJTWAG3GDP',
@@ -144,188 +144,12 @@ const beginUpdate = routesFileContent => {
     };
 
     // decide which config to use (pass --live to this script to use live)
-    const CF = IS_LIVE ? CF_CONFIGS.live : CF_CONFIGS.test;
-
-    // create a URL object to mark whether a URL is POST-able or not
-    const makeUrlObject = (url, isPostable, allowQueryStrings) => {
-        return {
-            isPostable: isPostable || false,
-            allowQueryStrings: allowQueryStrings || false,
-            path: url
-        };
-    };
-
-    // populate other app URLs that aren't in the router
-    // or are manual legacy links
-    // keys here are mapped to origin servers in config above
-    let URLs = {
-        // if anything is added here, the TEST Cloudfront distribution will fail
-        // as it doesn't have a legacy origin.
-        legacy: [],
-        newSite: [
-            makeUrlObject('/assets/*'),
-            makeUrlObject('/contrast/*', false, true),
-            makeUrlObject('/error'),
-            makeUrlObject('/tools/*', true, true),
-            makeUrlObject('/styleguide'),
-            makeUrlObject('/robots.txt'),
-            makeUrlObject('/ebulletin', true, false),
-            makeUrlObject('/home'),
-            makeUrlObject('/funding/funding-finder', true, true)
-        ]
-    };
-
-    // lookup cookies from app config
-    const cookies = config.get('cookies');
-    const cookiesInUse = Object.keys(cookies).map(k => cookies[k]);
-
-    // configure headers, cookies and origin servers for paths
-    const BehaviourConfig = {
-        protocols: {
-            redirectToHttps: 'redirect-to-https',
-            allowAll: 'allow-all'
-        },
-        httpMethods: {
-            getOnly: ['HEAD', 'GET'],
-            getAndPost: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
-        },
-        TTLs: {
-            min: 0,
-            max: 31536000,
-            default: 86400
-        },
-        newSite: {
-            headersToKeep: ['Accept', 'Host'],
-            cookies: {
-                Forward: 'whitelist',
-                WhitelistedNames: {
-                    Items: cookiesInUse,
-                    Quantity: cookiesInUse.length
-                }
-            }
-        },
-        legacy: {
-            headersToKeep: ['*'],
-            cookies: {
-                Forward: 'all'
-            }
-        }
-    };
-
-    // create a JSON object configured for the legacy/new paths
-    const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originServer) => {
-        // the new site is properly cached, the legacy is not
-        // so anything legacy should not cache cookies, headers, etc
-        const isLegacy = origin !== 'newSite';
-        const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
-
-        // strip trailing slashes
-        // fixes /welsh => /welsh/ homepage confusion
-        // but doesn't break root/homepage '/' path
-        path = utilities.stripTrailingSlashes(path);
-
-        // use all HTTP methods for legacy
-        const allowedHttpMethods =
-            isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
-        // allow any protocol for legacy, redirect to HTTPS for new
-        const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
-
-        return {
-            TrustedSigners: {
-                Enabled: false,
-                Items: [],
-                Quantity: 0
-            },
-            LambdaFunctionAssociations: {
-                Items: [],
-                Quantity: 0
-            },
-            TargetOriginId: originServer,
-            ViewerProtocolPolicy: protocol,
-            ForwardedValues: {
-                Headers: {
-                    Items: cacheConfig.headersToKeep,
-                    Quantity: cacheConfig.headersToKeep.length
-                },
-                Cookies: cacheConfig.cookies,
-                QueryStringCacheKeys: {
-                    Items: [],
-                    Quantity: 0
-                },
-                QueryString: isLegacy || allowQueryStrings
-            },
-            MaxTTL: BehaviourConfig.TTLs.max,
-            PathPattern: path,
-            SmoothStreaming: false,
-            DefaultTTL: BehaviourConfig.TTLs.default,
-            AllowedMethods: {
-                Items: allowedHttpMethods,
-                CachedMethods: {
-                    Items: ['HEAD', 'GET'],
-                    Quantity: 2
-                },
-                Quantity: allowedHttpMethods.length
-            },
-            MinTTL: BehaviourConfig.TTLs.min,
-            Compress: false
-        };
-    };
-
-    // add auto URLs from route config
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        let pages = section.pages;
-        for (let p in pages) {
-            let page = pages[p];
-            let url = section.path + page.path;
-            if (page.live) {
-                if (page.isWildcard) {
-                    url += '*';
-                }
-                let welshUrl = '/welsh' + url;
-                URLs.newSite.push(makeUrlObject(url, page.isPostable));
-                URLs.newSite.push(makeUrlObject(welshUrl, page.isPostable));
-                if (page.aliases) {
-                    page.aliases.forEach(alias => {
-                        let url = alias;
-                        let welshUrl = '/welsh' + url;
-                        URLs.newSite.push(makeUrlObject(url));
-                        URLs.newSite.push(makeUrlObject(welshUrl));
-                    });
-                }
-            } else {
-                console.log('Skipping url for draft status: ' + url);
-            }
-        }
-    }
-
-    // add vanity redirects too
-    routes.vanityRedirects.forEach(redirect => {
-        if (redirect.paths) {
-            redirect.paths.forEach(path => {
-                URLs.newSite.push(makeUrlObject(path));
-            });
-        } else {
-            URLs.newSite.push(makeUrlObject(redirect.path));
-        }
-    });
-
-    // construct array of behaviours from our URL list
-    let behaviours = [];
-    for (let origin in URLs) {
-        let links = URLs[origin];
-        // get name of origin server (for live/test)
-        let originServer = CF.origins[origin];
-        links.forEach(url => {
-            let item = makeBehaviourItem(origin, url.path, url.isPostable, url.allowQueryStrings, originServer);
-            behaviours.push(item);
-        });
-    }
+    const cloudfrontDistribution = IS_LIVE ? CF_CONFIGS.live : CF_CONFIGS.test;
 
     // get existing cloudfront config
     const getDistributionConfig = cloudfront
         .getDistribution({
-            Id: CF.distributionId
+            Id: cloudfrontDistribution.distributionId
         })
         .promise();
 
@@ -334,13 +158,14 @@ const beginUpdate = routesFileContent => {
         .then(data => {
             // fetching the config worked
 
-            // store the old config before changing it, just in case...
-            const clone = _.cloneDeep(data);
-            const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-            const confPath = path.join(__dirname, `../cloudfront/${timestamp}.json`);
-            const confData = JSON.stringify(clone, null, 4);
+            let newConfigToWrite = configData;
 
-            // write config to file for backup
+            // store the existing config locally, just in case...
+            const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
+            const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
+            const confData = JSON.stringify(data, null, 4);
+
+            // write existing config to file for backup
             try {
                 fs.writeFileSync(confPath, confData);
                 console.log('A copy of the existing config was saved in ' + confPath);
@@ -353,16 +178,10 @@ const beginUpdate = routesFileContent => {
 
             // are we using a custom config (eg. a backup file)?
             if (customConfig) {
-                data = customConfig;
-            } else {
-                // assign new behaviours from config here instead
-                data.Distribution.DistributionConfig.CacheBehaviors.Items = behaviours;
-                data.Distribution.DistributionConfig.CacheBehaviors.Quantity = behaviours.length;
+                newConfigToWrite = customConfig;
             }
 
-            // store just the distro config for update
-            const conf = data.Distribution.DistributionConfig;
-
+            // allow for diff/comparison before deploy
             const getUrls = item => {
                 // add a leading slash for comparison's sake
                 let path = item.PathPattern;
@@ -377,8 +196,8 @@ const beginUpdate = routesFileContent => {
 
             // verify what's being changed
             const paths = {
-                before: clone.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
-                after: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
+                before: data.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
+                after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
             };
             const pathsAdded = _.filter(paths.after, obj => !_.find(paths.before, obj));
             const pathsRemoved = _.filter(paths.before, obj => !_.find(paths.after, obj));
@@ -386,9 +205,9 @@ const beginUpdate = routesFileContent => {
             // warn users about changes
             console.log(
                 'There are currently ' +
-                    clone.Distribution.DistributionConfig.CacheBehaviors.Quantity +
-                    ' items in the existing behaviours, and ' +
                     data.Distribution.DistributionConfig.CacheBehaviors.Quantity +
+                    ' items in the existing behaviours, and ' +
+                    newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity +
                     ' in this one.'
             );
 
@@ -406,7 +225,7 @@ const beginUpdate = routesFileContent => {
 
             // prompt to confirm change
             let promptSchema = {
-                description: `Are you sure you want to make this change to ${CF.distributionId}?`,
+                description: `Are you sure you want to make this change to ${cloudfrontDistribution.distributionId}?`,
                 name: 'yesno',
                 type: 'string',
                 pattern: /y[es]*|n[o]?/,
@@ -426,8 +245,8 @@ const beginUpdate = routesFileContent => {
                     // try to update the distribution
                     let updateDistributionConfig = cloudfront
                         .updateDistribution({
-                            DistributionConfig: conf,
-                            Id: CF.distributionId,
+                            DistributionConfig: newConfigToWrite,
+                            Id: cloudfrontDistribution.distributionId,
                             IfMatch: etag
                         })
                         .promise();
@@ -441,7 +260,7 @@ const beginUpdate = routesFileContent => {
                         })
                         .catch(err => {
                             // failed to update config
-                            console.log(JSON.stringify(conf));
+                            console.log(JSON.stringify(newConfigToWrite));
                             console.error('There was an error uploading this config', {
                                 error: err
                             });
