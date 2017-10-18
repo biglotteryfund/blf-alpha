@@ -14,7 +14,9 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts')
+        chunkFilename: '[name].bundle.js',
+        path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts'),
+        publicPath: `${buildSummary.publicDir}/javascripts/`
     },
     module: {
         rules: [

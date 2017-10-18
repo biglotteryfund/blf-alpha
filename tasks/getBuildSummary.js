@@ -8,8 +8,12 @@ const commitHash = require('child_process')
     .trim();
 
 const buildVersion = isProduction ? commitHash : 'latest';
+
 const buildDirBase = './public/build';
-const buildDir = buildDirBase + '/' + buildVersion;
+const buildDir = `${buildDirBase}/${buildVersion}`;
+
+const publicDirBase = '/assets/build';
+const publicDir = `${publicDirBase}/${buildVersion}`;
 
 module.exports = function() {
     return {
@@ -17,6 +21,8 @@ module.exports = function() {
         commitHash,
         buildVersion,
         buildDirBase,
-        buildDir
+        buildDir,
+        publicDirBase,
+        publicDir
     };
 };
