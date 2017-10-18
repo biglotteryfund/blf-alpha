@@ -1,6 +1,6 @@
 {% extends "../../layouts/styleguide.njk" %}
 
-{% from "../../components/hero.njk" import sectionHero %}
+{% import "../../components/hero.njk" as hero %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
 
 {% macro styleguideSectionHeader(title) %}
@@ -128,5 +128,28 @@
     }}
 {% endset %}
 {{ styleguideBlock('Case Studies', sgContent) }}
+{% set sgContent %}
+    <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
+        <li class="grid__item">
+            {{ hero.miniatureHero(
+                titleText = 'Example Miniature Hero',
+                imagePath = 'images/funding/tell-the-world.jpg',
+                imageCaption = 'Three people working together on laptops',
+                linkUrl = '#',
+                accent = 'pink-mid'
+            )}}
+        </li>
+        <li class="grid__item">
+            {{ hero.miniatureHero(
+                titleText = 'Example Miniature Hero',
+                imagePath = 'images/funding/local-press.jpg',
+                imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
+                linkUrl = '#',
+                accent = 'blue'
+            )}}
+        </li>
+    </ul>
+{% endset %}
+{{ styleguideBlock('Miniature Heroes', sgContent) }}
 
 {% endblock %}
