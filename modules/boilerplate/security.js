@@ -10,9 +10,9 @@ const pathsExemptFromHelmet = ['/', '/welsh', '/legacy', '/funding/funding-finde
 
 const defaultSecurityDomains = [
     "'self'",
+    'cdn.polyfill.io',
     'fonts.gstatic.com',
     'ajax.googleapis.com',
-    'cdnjs.cloudflare.com',
     'www.google-analytics.com',
     'www.google.com',
     'maxcdn.bootstrapcdn.com',

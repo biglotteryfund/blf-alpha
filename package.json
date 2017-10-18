@@ -11,6 +11,7 @@
     "test-deps": "snyk test",
     "build": "gulp build",
     "build-production": "export NODE_ENV=production && gulp build:production",
+    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",
@@ -44,7 +45,8 @@
   "babel": {
     "plugins": [
       "lodash",
-      "transform-object-assign"
+      "transform-object-assign",
+      "syntax-dynamic-import"
     ],
     "presets": [
       [
@@ -109,9 +111,12 @@
     "xss": "^0.3.4"
   },
   "devDependencies": {
+    "autotrack": "^2.4.1",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "concurrently": "^3.5.0",
