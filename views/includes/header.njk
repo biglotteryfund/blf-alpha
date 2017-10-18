@@ -8,12 +8,12 @@
                     <span class="u-visually-hidden">{{ __("global.brand.title") }}</span>
                 </h1>
             </a>
-            <nav class="header__hamburger u-mobile-only" id="js-mobile-nav-toggle">
+            <nav class="header__hamburger u-mobile-only u-dont-print" id="js-mobile-nav-toggle">
                 <a href="#nav">
                     {% include "../includes/svg/hamburger.svg" %}
                 </a>
             </nav>
-            <nav role="navigation" class="header__nav header__content-item u-desktop-only">
+            <nav role="navigation" class="header__nav header__content-item u-desktop-only u-dont-print">
                 <ul class="nav grid">
                     {{ navlinks('nav__link') }}
                 </ul>

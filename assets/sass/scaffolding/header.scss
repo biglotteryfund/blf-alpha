@@ -72,7 +72,6 @@ $offscreenNavWidth: 65%;
     }
 }
 
-
 /* =========================================================================
    Global Header: Logo
    ========================================================================= */
@@ -467,4 +466,10 @@ html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
 }
 html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo {
     background-image: url(../images/logo-new--welsh.png);
+}
+
+@media print {
+    .header {
+        position: static !important;
+    }
 }
