@@ -1,0 +1,65 @@
+{% import "../../components/hero.njk" as hero %}
+{% import "../../components/headers.njk" as headers %}
+{% import "../../components/segment.njk" as segment %}
+
+{% extends "../../layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% macro makeFundingContent(data) %}
+    <h3>{{ data.title }}</h3>
+    {% if data.description %}
+        <p>{{ data.description }}</p>
+    {% endif %}
+    <dl class="funding-programme">
+        {% if data.area %}
+            <dt>Area</dt>
+            <dd>{{ data.area.label }}</dd>
+        {% endif %}
+        {% if data.organisationTypes %}
+            <dt>Organisation types</dt>
+            {% for orgType in data.organisationTypes %}
+                <dd>{{ orgType }}</dd>
+            {% endfor %}
+        {% endif %}
+        {% if data.fundingSize %}
+            <dt>Funding size</dt>
+            <dd>£{{ data.fundingSize.minimum | numberWithCommas}}{% if data.fundingSize.maximum %} - £{{ data.fundingSize.maximum | numberWithCommas }}{% endif %}</dd>
+        {% endif %}
+        {% if data.totalAvailable %}
+            <dt>Total available</dt>
+            <dd>{{ data.totalAvailable }}</dd>
+        {% endif %}
+        {% if data.applicationDeadline %}
+            <dt>Application deadline</dt>
+            <dd>{{ data.applicationDeadline }}</dd>
+        {% endif %}
+    </dl>
+{% endmacro %}
+
+{% block content %}
+
+    {% set heroContent %}
+        {{ headers.overlayText('h2', title + ' (' + programmes.length + ' programmes)') }}
+    {% endset %}
+
+    {{ hero.header('reading', heroContent, 'pink') }}
+
+    <article role="main" class="nudge-up">
+        <div class="inner">
+
+            {% for p in programmes %}
+                {% set data = p.content %}
+                {{ segment.segment(
+                    title = data.title,
+                    text = makeFundingContent(data),
+                    color = 'pink',
+                    imagePath = 'http:' + data.photo,
+                    imageIsAbsolute = true
+                )}}
+            {% endfor %}
+
+        </div>
+    </article>
+
+{% endblock %}

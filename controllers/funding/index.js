@@ -7,6 +7,7 @@ const xss = require('xss');
 
 const routeStatic = require('../utils/routeStatic');
 const email = require('../../modules/mail');
+const contentApi = require('../../modules/content');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -179,6 +180,60 @@ module.exports = (pages, sectionPath, sectionId) => {
                 }
             });
         });
+
+    // funding programme list
+    let programmes = pages.programmes;
+    router.get(programmes.path, (req, res) => {
+        let lang = req.i18n.__(programmes.lang);
+
+        contentApi
+            .getFundingProgrammes(req.i18n.getLocale())
+            .then(response => {
+                let programmeList = response.data;
+
+                // filter by location
+                if (req.query.location) {
+                    // check this is a valid parameter
+                    let validLocations = _.uniq(
+                        programmeList
+                            .map(p => {
+                                return p.content.area ? p.content.area.value : false;
+                            })
+                            .filter(location => location !== false)
+                    );
+
+                    if (validLocations.indexOf(req.query.location) !== -1) {
+                        programmeList = programmeList.filter(p => {
+                            let data = p.content;
+                            return (
+                                !data.area ||
+                                (data.area && data.area.value === 'ukWide') ||
+                                (data.area && data.area.value === req.query.location)
+                            );
+                        });
+                    }
+                }
+
+                // filter by funding available
+                if (req.query.min) {
+                    programmeList = programmeList.filter(p => {
+                        let data = p.content;
+                        let min = parseInt(req.query.min);
+                        return !data.fundingSize || !min || data.fundingSize.minimum >= min;
+                    });
+                }
+
+                res.render(programmes.template, {
+                    title: lang.title,
+                    copy: lang,
+                    programmes: programmeList
+                });
+            })
+            .catch(err => {
+                console.log('error', err);
+                res.send(err);
+            });
+    });
 
     return router;
 };

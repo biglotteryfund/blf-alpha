@@ -700,6 +700,9 @@
 					}
 				}
 			}
+		},
+		"programmes": {
+			"title": "Funding Programmes"
 		}
 	}
 }
