@@ -36,7 +36,7 @@
       "git add"
     ],
     "controllers/routes.js": [
-      "./modules/cloudfront.js"
+      "./bin/scripts/generate-cloudfront-config.js"
     ]
   },
   "prettier": {
