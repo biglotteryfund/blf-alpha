@@ -1,5 +1,5 @@
 'use strict';
-const { has, cloneDeep } = require('lodash');
+const { has } = require('lodash');
 const assets = require('./assets');
 
 // rewrite text like '/welsh/' => '/welsh'
