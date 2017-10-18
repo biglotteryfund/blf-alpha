@@ -23,7 +23,6 @@
         }
     }
 
-
     .footer--no-margin & {
         margin-top: 0;
     }
@@ -37,4 +36,10 @@
 }
 .footer__header {
     margin-bottom: $spacingUnit;
+}
+
+@media print {
+    .footer {
+        display: none;
+    }
 }

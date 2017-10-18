@@ -83,7 +83,6 @@
             }
 
             &.grid--bordered {
-
                 $borderColour: #94aee5;
 
                 @include mq('tablet', 'max') {
@@ -97,10 +96,18 @@
                         border-right: 1px solid $borderColour;
 
                         // some magic to alternate border colours
-                        &:nth-child(odd) { &:after { border-left-color: palette('blue'); } }
-                        &:nth-child(even) { &:after { border-left-color: palette('pink'); } }
+                        &:nth-child(odd) {
+                            &:after {
+                                border-left-color: palette('blue');
+                            }
+                        }
+                        &:nth-child(even) {
+                            &:after {
+                                border-left-color: palette('pink');
+                            }
+                        }
 
-                        &:nth-child(-n+#{$i}) {
+                        &:nth-child(-n + #{$i}) {
                             border-top: none;
                         }
 
@@ -109,7 +116,7 @@
                         }
 
                         // internal border
-                        &:nth-child(#{$i}n+1) {
+                        &:nth-child(#{$i}n + 1) {
                             $desiredHeight: 50%;
                             &:after {
                                 position: relative;
@@ -133,7 +140,6 @@
                     }
                 }
             }
-
         }
     }
 }
@@ -187,5 +193,18 @@
         .column__item {
             padding-left: $spacingUnit * 2;
         }
+    }
+}
+
+@media print {
+    .grid {
+        display: block !important;
+        margin: 0 !important;
+    }
+    .grid__item {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
     }
 }
