@@ -21,7 +21,8 @@ const defaultSecurityDomains = [
     'cdn.syndication.twimg.com',
     '*.twimg.com',
     'cdn.jsdelivr.net',
-    'sentry.io'
+    'sentry.io',
+    'd3asauyzvifbd4.cloudfront.net'
 ];
 
 const childSrc = defaultSecurityDomains.concat(['www.google.com']);
