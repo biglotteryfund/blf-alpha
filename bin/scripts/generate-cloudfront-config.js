@@ -4,38 +4,9 @@ const fs = require('fs');
 const _ = require('lodash');
 const config = require('config');
 
-const routes = require('../controllers/routes');
-const utilities = require('./utilities');
-const CF_CONFIGS = require('../config/app/distributions');
-
-// create a URL object to mark whether a URL is POST-able or not
-const makeUrlObject = (url, isPostable, allowQueryStrings) => {
-    return {
-        isPostable: isPostable || false,
-        allowQueryStrings: allowQueryStrings || false,
-        path: url
-    };
-};
-
-// populate other app URLs that aren't in the router
-// or are manual legacy links
-// keys here are mapped to origin servers in config above
-let URLs = {
-    // if anything is added here, the TEST Cloudfront distribution will fail
-    // as it doesn't have a legacy origin.
-    legacy: [],
-    newSite: [
-        makeUrlObject('/assets/*'),
-        makeUrlObject('/contrast/*', false, true),
-        makeUrlObject('/error'),
-        makeUrlObject('/tools/*', true, true),
-        makeUrlObject('/styleguide'),
-        makeUrlObject('/robots.txt'),
-        makeUrlObject('/ebulletin', true, false),
-        makeUrlObject('/home'),
-        makeUrlObject('/funding/funding-finder', true, true)
-    ]
-};
+const routes = require('../../controllers/routes');
+const utilities = require('../../modules/utilities');
+const CF_CONFIGS = require('../../config/app/distributions');
 
 // lookup cookies from app config
 const cookies = config.get('cookies');
@@ -133,58 +104,13 @@ const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originSe
     };
 };
 
-const generateUrlList = () => {
-    let urlList = _.cloneDeep(URLs);
-
-    // add auto URLs from route config
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        let pages = section.pages;
-        for (let p in pages) {
-            let page = pages[p];
-            let url = section.path + page.path;
-            if (page.live) {
-                if (page.isWildcard) {
-                    url += '*';
-                }
-                let welshUrl = '/welsh' + url;
-                urlList.newSite.push(makeUrlObject(url, page.isPostable));
-                urlList.newSite.push(makeUrlObject(welshUrl, page.isPostable));
-                if (page.aliases) {
-                    page.aliases.forEach(alias => {
-                        let url = alias;
-                        let welshUrl = '/welsh' + url;
-                        urlList.newSite.push(makeUrlObject(url));
-                        urlList.newSite.push(makeUrlObject(welshUrl));
-                    });
-                }
-            } else {
-                console.log(`Skipping URL because it's marked as draft: ${url}`);
-            }
-        }
-    }
-
-    // add vanity redirects too
-    routes.vanityRedirects.forEach(redirect => {
-        if (redirect.paths) {
-            redirect.paths.forEach(path => {
-                urlList.newSite.push(makeUrlObject(path));
-            });
-        } else {
-            urlList.newSite.push(makeUrlObject(redirect.path));
-        }
-    });
-
-    return urlList;
-};
-
 // make a list of every URL we need to serve
 // across all origins
-const urlsToSupport = generateUrlList();
+const urlsToSupport = utilities.generateUrlList(routes);
 
 // construct array of behaviours from a URL list
 // eg. route them to the relevant origins
-// based on the disribution (test/live)
+// based on the distribution (test/live)
 const generateBehaviours = (distribution, environment) => {
     let behaviours = [];
     for (let origin in urlsToSupport) {
@@ -211,7 +137,7 @@ for (let environment in CF_CONFIGS) {
     const behaviours = generateBehaviours(distribution, environment);
 
     try {
-        const confPath = path.join(__dirname, `../bin/cloudfront/${environment}.json`);
+        const confPath = path.join(__dirname, `../cloudfront/${environment}.json`);
         const confData = JSON.stringify(behaviours, null, 4);
         fs.writeFileSync(confPath, confData);
         console.log(`An updated config for the "${environment}" distribution was saved in ${confPath}`);
