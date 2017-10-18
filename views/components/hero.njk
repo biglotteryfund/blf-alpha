@@ -74,20 +74,33 @@
     </div>
 {% endmacro %}
 
-{% macro miniature(imagePath, imagePathMobile = false, imageCaption = false, link = false, content) %}
-    <div class="hero hero--miniature" role="complementary">
-        <section class="hero__inner">
-            {% if link %}<a href="{{ link }}">{% endif %}
-            <img src="{{ imagePath | getCachebustedPath }}" class="grid__item__poster{% if imagePathMobile %} hero-image--desktop{% endif %}" alt="{{ imageCaption }}" />
-            {% if imagePathMobile %}
-                <img src="{{ imagePathMobile | getCachebustedPath }}" class="grid__item__poster hero-image--mobile" alt="{{ imageCaption }}" />
-            {% endif %}
-            {% if link %}</a>{% endif %}
-            <div class="hero--miniature__content">
-                <div class="hero__header">
-                    {{ content | safe }}
-                </div>
+{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent) %}
+    <div class="miniature-hero accent--{{ accent }} a--border-top--large">
+        <div class="miniature-hero__inner">
+            {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
+
+            <div class="minature-hero__image">
+                {% if imagePathMobile %}
+                    <picture>
+                        <source srcset="{{ imagePath | getCachebustedPath }}" media="(min-width: 760px)">
+                        <img src="{{ imagePathMobile | getCachebustedPath }}" alt="{{ imageCaption }}" />
+                    </picture>
+                {% else %}
+                    <img src="{{ imagePath | getCachebustedPath }}" alt="{{ imageCaption }}" />
+                {% endif %}
             </div>
-        </section>
+
+            {% if linkUrl %}</a>{% endif %}
+
+            <div class="minature-hero__content">
+                {{ headers.overlayText(
+                    tag = 'h3',
+                    text = titleText,
+                    additionalClasses = 't2 svgs-white overlay-text--wide is-opaque',
+                    link = linkUrl,
+                    showArrow = true
+                )}}
+            </div>
+        </div>
     </div>
 {% endmacro %}

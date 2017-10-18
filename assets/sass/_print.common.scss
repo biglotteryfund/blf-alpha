@@ -22,7 +22,7 @@
         text-decoration: underline;
     }
 
-    a[href]:after {
+    a:not(.u-dont-print-link)[href]:after {
         content: ' (' attr(href) ')';
     }
 
