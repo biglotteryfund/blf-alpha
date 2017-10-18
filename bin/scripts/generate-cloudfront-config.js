@@ -6,6 +6,7 @@ const config = require('config');
 
 const routes = require('../../controllers/routes');
 const utilities = require('../../modules/utilities');
+const urlTools = require('../../modules/urls');
 const CF_CONFIGS = require('../../config/app/distributions');
 
 // lookup cookies from app config
@@ -106,7 +107,7 @@ const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originSe
 
 // make a list of every URL we need to serve
 // across all origins
-const urlsToSupport = utilities.generateUrlList(routes);
+const urlsToSupport = urlTools.generateUrlList(routes);
 
 // construct array of behaviours from a URL list
 // eg. route them to the relevant origins
