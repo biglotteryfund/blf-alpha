@@ -127,6 +127,9 @@ const generateBehaviours = (distribution, environment) => {
             });
         }
     }
+
+    // sort by path (to make diffing easier)
+    behaviours = _.sortBy(behaviours, 'PathPattern');
     return behaviours;
 };
 
