@@ -163,9 +163,9 @@ module.exports = (pages, sectionPath, sectionId) => {
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res) => {
-        req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
-        req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
-        req.checkBody('Email', 'Please provide your email address').notEmpty();
+        req.checkBody('firstName', 'Please provide your first name').notEmpty();
+        req.checkBody('lastName', 'Please provide your last name').notEmpty();
+        req.checkBody('email', 'Please provide your email address').notEmpty();
         req.checkBody('location', 'Please choose a country newsletter').notEmpty();
 
         req.getValidationResult().then(result => {
@@ -203,14 +203,15 @@ module.exports = (pages, sectionPath, sectionId) => {
 
                 let dataToSend = {
                     email: req.body.email,
+                    emailType: 'Html',
                     dataFields: [
                         {
                             key: 'FIRSTNAME',
-                            value: req.body['FIRSTNAME']
+                            value: req.body['firstName']
                         },
                         {
                             key: 'LASTNAME',
-                            value: req.body['LASTNAME']
+                            value: req.body['lastName']
                         },
                         {
                             key: req.body['location'],
@@ -218,6 +219,14 @@ module.exports = (pages, sectionPath, sectionId) => {
                         }
                     ]
                 };
+
+                // optional fields
+                if (req.body['organisation']) {
+                    dataToSend.dataFields.push({
+                        key: 'ORGANISATION',
+                        value: req.body['organisation']
+                    });
+                }
 
                 let addressBookId = 589755;
                 let apiAddContactPath = `/address-books/${addressBookId}/contacts`;
@@ -236,18 +245,17 @@ module.exports = (pages, sectionPath, sectionId) => {
                     resolveWithFullResponse: true
                 })
                     .then(response => {
-                        console.log(response);
                         // signup succeeded
-                        if (response.statusCode === 302 || response.statusCode === 200) {
+                        if (response.statusCode === 200) {
                             return handleSignupSuccess();
                         } else {
-                            console.log('Got an error with redirect', response.statusCode);
+                            console.log('Got an error with ebulletin', response.message);
                             return handleSignupError();
                         }
                     })
                     .catch(error => {
                         // signup failed
-                        console.log('Error signing up to ebulletin', error);
+                        console.log('Error signing up to ebulletin', error.message || error);
                         return handleSignupError();
                     });
             }
