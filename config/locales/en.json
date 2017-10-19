@@ -316,6 +316,251 @@
 					"title": "Why work for the Big Lottery Fund?",
 					"body": "<blockquote>\"Working at the Big Lottery Fund enables me to play a small part in changing the lives of people in communities across the UK. It is hugely rewarding taking on the challenge of giving the right funds to the right people. I'm surrounded by talented, motivated and inspirational individuals here who are all working to the same goal.\" <footer><cite>Steve Keene, Product Manager, Digital Team</cite></footer></blockquote><blockquote>\"The best thing about working at the Fund is being a part of an organisation that is having such an impact on communities across the UK and seeing the difference the funding makes to these communities. The staff here are so invested in what they do and I love the fact that my work has meaning and provides me with a sense of satisfaction every day.\" <footer><cite>Kalema White, Executive Assistant</cite></footer></blockquote>"
 				},
+				"currentVacancies": {
+					"title": "Current Vacancies",
+					"regions": [
+						{
+							"name": "London",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Funding Assistant",
+									"url": "#",
+									"subRegion": "n/a"
+								}
+							]
+						},
+						{
+							"name": "South East",
+							"vacancies": [
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Norfolk / Suffolk"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Essex"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Kent, West and East Sussex"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Solent, Hampshire, Isle of Wight and Surrey"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Solent, Hampshire, Isle of Wight and Surrey"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Bedfordshire, Cambridgeshire and Hertfordshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Berkshire, Buckinghamshire and Oxfordshire"
+								}
+							]
+						},
+						{
+							"name": "South West",
+							"vacancies": [
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Devon and Dorset"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Cornwall"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Cornwall"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Bristol, Gloucester, Wiltshire and Somerset"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Bristol, Gloucester, Wiltshire and Somerset"
+								}
+							]
+						},
+						{
+							"name": "North West",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Funding Assistant",
+									"url": "#",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Merseyside and Cheshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Merseyside and Cheshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Lancashire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Lancashire"
+								}
+							]
+						},
+						{
+							"name": "North East",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Cumbria"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Cumbria"
+								}
+							]
+						},
+						{
+							"name": "Yorkshire and Humber",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Leeds"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Leeds"
+								},
+								{
+									"label": "Funding Assistant",
+									"url": "#",
+									"subRegion": "Leeds"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "South Yorkshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "South Yorkshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Humber"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Humber"
+								}
+							]
+						},
+						{
+							"name": "Midlands",
+							"vacancies": [
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
+								},
+								{
+									"label": "Funding Assistant",
+									"url": "#",
+									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Telford, Shropshire, Worcestershire and Herefordshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Stoke and Staffordshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Stoke and Staffordshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Nottinghamshire and Derbyshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Nottinghamshire and Derbyshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Leicestershire and Northamptonshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "#",
+									"subRegion": "Lincolnshire and Peterborough"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Lincolnshire and Peterborough"
+								}
+							]
+						}
+					]
+				},
 				"benefits": {
 					"title": "What benefits are available?",
 					"body": "<p>We recognise that keeping our people happy and healthy enables us to be a more effective organisation and makes the Big Lottery Fund a better place to work. Benefits include:</p>",
