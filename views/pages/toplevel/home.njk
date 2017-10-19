@@ -96,7 +96,7 @@
                             {% for n in news %}
                                 <li class="grid__item">
                                     <h4 class="t3">
-                                        <a class="u-unstyled-link" href="{{ n['link' | localeify(locale)] }}">
+                                        <a class="u-link-minimal" href="{{ n['link' | localeify(locale)] }}">
                                             {{ n['title' | localeify(locale)] | safe}}
                                         </a>
                                     </h4>
