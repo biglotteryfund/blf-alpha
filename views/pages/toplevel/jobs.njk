@@ -50,8 +50,9 @@
             <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
         </div>
 
-
-        <div class="inner--wide-only accent--blue a--border-top stats-holder content-box content-box--borderless" id="current-vacancies">
+        {# Current Vacancies #}
+        {% if copy.sections.currentVacancies %}
+        <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top" id="current-vacancies">
             <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
             {% for region in copy.sections.currentVacancies.regions %}
                 <section id="region-{{ region.name | slugify }}">
@@ -79,6 +80,7 @@
                 </section>
             {% endfor %}
         </div>
+        {% endif %}
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
             <h3 class="t3">{{ copy.sections.offices.title }}</h3>
