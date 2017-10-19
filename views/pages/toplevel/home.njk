@@ -122,14 +122,39 @@
                     <a class="twitter-timeline" href="https://twitter.com/{{ twitterAccount }}" data-tweet-limit="3" data-chrome="noheader">Tweets by {{ twitterAccount }}</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink a--border-top">
-                    <div class="form-ebulletin padded spaced">
+                    <form class="form-ebulletin padded spaced" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
                         <h3 class="t8 t--underline accent--pink a--text">{{ copy.ebulletin.title }}</h3>
-                        <p class="intro">{{ copy.ebulletin.intro}}</p>
-                        <a class="btn btn--small btn--block-full accent--pink a--btn"
-                            href="https://www.biglotteryfund.org.uk/~/link.aspx?_id=0AEDBA52131B49BA82813576658AF148&_z=z">
-                            {{ copy.ebulletin.callToAction }}
-                        </a>
-                    </div>
+                        {% if request.flash and request.flash('ebulletinStatus') %}
+                            {% if request.flash('ebulletinStatus') === 'success' %}
+                                <h5 class="t4">{{ copy.ebulletin.responses.success.title }}</h5>
+                                <p class="t6">{{ copy.ebulletin.responses.success.body | safe }}</p>
+                            {% else %}
+                                <h5 class="t4">{{ copy.ebulletin.responses.error.title }}</h5>
+                                <p class="t6">{{ copy.ebulletin.responses.error.body }}</p>
+                            {% endif %}
+                        {% else %}
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                            <input type="hidden" name="locale" value="{{ locale }}">
+                            <p class="intro">{{ copy.ebulletin.intro}}</p>
+                            <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
+                                <span class="u-visually-hidden" id="aria-form-loc">{{ copy.ebulletin.location }}</span>
+                                {{ radios('location', [
+                                    [copy.ebulletin.locations.england, 'en', 'ENGLAND_MAIL'],
+                                    [copy.ebulletin.locations.wales, 'cy', 'WALES_MAIL'],
+                                    [copy.ebulletin.locations.scotland, 'sc', 'SCOTLAND_MAIL'],
+                                    [copy.ebulletin.locations.northernIreland, 'ni', 'NI_MAIL']
+                                ]) }}
+                            </div>
+                            <div class="grid grid--padded clear-both">
+                                {{ input('firstName', copy.ebulletin.fields.firstName, 'text', required = true, extraClasses = 'grid__item') }}
+                                {{ input('lastName', copy.ebulletin.fields.lastName, 'text', required = true, extraClasses = 'grid__item') }}
+                            </div>
+                            {{ input('organisation', copy.ebulletin.fields.organisation, 'text', required = false, extraClasses = 'no-gap') }}
+                            {{ input('email', copy.ebulletin.fields.emailAddress, 'email', required = true) }}
+                            <input type="submit" value="{{ copy.ebulletin.callToAction }}"
+                                   class="btn btn--small btn--block-full accent--pink a--btn form-ebulletin__btn"/>
+                        {% endif %}
+                    </form>
 
                     {# social buttons #}
                     <div class="o-button-group-block u-gutter-half">
