@@ -35,6 +35,9 @@
     "assets/**/*.scss": [
       "prettier --write",
       "git add"
+    ],
+    "controllers/routes.js": [
+      "./bin/scripts/generate-cloudfront-config.js"
     ]
   },
   "prettier": {

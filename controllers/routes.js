@@ -323,7 +323,67 @@ const vanityRedirects = [
     }
 ];
 
+// these are other paths that should be routed to this app
+// via Cloudfront but aren't explicit page routes (eg. static files, custom pages etc)
+const otherUrls = [
+    {
+        path: '/assets/*',
+        isPostable: false,
+        allowQueryStrings: false,
+        live: true
+    },
+    {
+        path: '/contrast/*',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: true
+    },
+    {
+        path: '/error',
+        isPostable: false,
+        allowQueryStrings: false,
+        live: true
+    },
+    {
+        path: '/tools/*',
+        isPostable: true,
+        allowQueryStrings: true,
+        live: true
+    },
+    {
+        path: '/styleguide',
+        isPostable: false,
+        allowQueryStrings: false,
+        live: true
+    },
+    {
+        path: '/robots.txt',
+        isPostable: false,
+        allowQueryStrings: false,
+        live: true
+    },
+    {
+        path: '/ebulletin',
+        isPostable: true,
+        allowQueryStrings: false,
+        live: false // @TODO make live when form is POSTable again
+    },
+    {
+        path: '/home',
+        isPostable: false,
+        allowQueryStrings: false,
+        live: true
+    },
+    {
+        path: '/funding/funding-finder',
+        isPostable: true,
+        allowQueryStrings: true,
+        live: true
+    }
+];
+
 module.exports = {
     sections: routes.sections,
-    vanityRedirects: vanityRedirects
+    vanityRedirects: vanityRedirects,
+    otherUrls: otherUrls
 };
