@@ -7,15 +7,21 @@
    ========================================================================= */
 
 .link-grid {
-    margin-bottom: $spacingUnit / 2;
+    clear: both;
+    margin-bottom: $spacingUnit;
 
     @include mq('tablet') {
-        clear: both;
-        margin-bottom: $spacingUnit;
-        padding-left: ($spacingUnit * 2);
-        margin-left: -($spacingUnit * 2);
-        margin-bottom: $spacingUnit;
-        border-left: 4px solid;
+        $offset: $spacingUnit * 1.5;
+        margin: $spacingUnit 0;
+        margin-left: -$offset;
+        padding-left: $offset;
+        border-left: 4px solid palette('blue');
+    }
+
+    @include mq('desktop') {
+        $offset: $spacingUnit * 2;
+        margin-left: -$offset;
+        padding-left: $offset;
     }
 
     .link-grid__list {
@@ -31,7 +37,7 @@
         @include mq('tablet') {
             width: 33.333%;
             float: left;
-            border: solid #c8d1e8;
+            border: solid palette('soft-grey');
             border-width: 0 1px 1px 0;
             padding: $spacingUnit 3% ($spacingUnit * 2);
 

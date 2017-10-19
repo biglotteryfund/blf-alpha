@@ -51,7 +51,7 @@
         </div>
 
 
-        <div class="inner--wide-only accent--blue a--border-top stats-holder content-box content-box--borderless">
+        <div class="inner--wide-only accent--blue a--border-top stats-holder content-box content-box--borderless" id="current-vacancies">
             <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
             {% for region in copy.sections.currentVacancies.regions %}
                 <section id="region-{{ region.name | slugify }}">
@@ -61,7 +61,7 @@
 
                     {% for subRegion, vacancies in region.vacancies | groupby('subRegion') %}
                         {% if (region.vacancies | groupby('subRegion') | length) > 1 %}
-                            <h5 class="t3">{{ subRegion }}</h5>
+                            <h5 class="t3 no-space">{{ subRegion }}</h5>
                         {% endif %}
 
                         <div class="link-grid">
