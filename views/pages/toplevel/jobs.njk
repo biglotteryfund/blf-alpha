@@ -52,34 +52,34 @@
 
         {# Current Vacancies #}
         {% if copy.sections.currentVacancies %}
-        <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top" id="current-vacancies">
-            <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
-            {% for group in copy.sections.currentVacancies.groups %}
-                <section id="vacancies-{{ group.name | slugify }}">
-                    <h4 class="t1 t--underline accent--pink">
-                        {{ group.name }}
-                    </h4>
+            <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top" id="current-vacancies">
+                <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
+                {% for group in copy.sections.currentVacancies.groups %}
+                    <section id="vacancies-{{ group.name | slugify }}">
+                        <h4 class="t1 t--underline accent--pink">
+                            {{ group.name }}
+                        </h4>
 
-                    {% for subRegion, vacancies in group.vacancies | groupby('subRegion') %}
-                        {% if (group.vacancies | groupby('subRegion') | length) > 1 %}
-                            <h5 class="t3 no-space">{{ subRegion }}</h5>
-                        {% endif %}
+                        {% for subRegion, vacancies in group.vacancies | groupby('subRegion') %}
+                            {% if (group.vacancies | groupby('subRegion') | length) > 1 %}
+                                <h5 class="t3 no-space">{{ subRegion }}</h5>
+                            {% endif %}
 
-                        <div class="link-grid">
-                            <ul class="link-grid__list unstyled">
-                                {% for item in vacancies %}
-                                <li class="link-grid__item">
-                                    <a href="{{ item.url }}" class="t2 u-link-minimal">
-                                        {{ item.label }}
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endfor %}
-                </section>
-            {% endfor %}
-        </div>
+                            <div class="link-grid">
+                                <ul class="link-grid__list unstyled">
+                                    {% for item in vacancies %}
+                                    <li class="link-grid__item">
+                                        <a href="{{ item.url }}" class="t2 u-link-minimal">
+                                            {{ item.label }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </section>
+                {% endfor %}
+            </div>
         {% endif %}
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
