@@ -13,6 +13,7 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
+const secrets = require('../../modules/secrets');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -180,11 +181,6 @@ module.exports = (pages, sectionPath, sectionId) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
-                // convert location into proper field value
-                let location = xss(req.body['location']);
-                req.body[location] = 'yes';
-                delete req.body['location'];
-
                 let locale = req.body.locale;
                 let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
@@ -205,16 +201,42 @@ module.exports = (pages, sectionPath, sectionId) => {
                     });
                 };
 
+                let dataToSend = {
+                    email: req.body.email,
+                    dataFields: [
+                        {
+                            key: 'FIRSTNAME',
+                            value: req.body['FIRSTNAME']
+                        },
+                        {
+                            key: 'LASTNAME',
+                            value: req.body['LASTNAME']
+                        },
+                        {
+                            key: req.body['location'],
+                            value: 'yes'
+                        }
+                    ]
+                };
+
+                let addressBookId = 589755;
+                let apiAddContactPath = `/address-books/${addressBookId}/contacts`;
+
                 // send the valid form to the signup endpoint (external)
                 rp({
+                    uri: config.get('ebulletinApiEndpoint') + apiAddContactPath,
                     method: 'POST',
-                    uri: config.get('ebulletinSignup'),
-                    form: req.body,
-                    resolveWithFullResponse: true,
-                    simple: false, // don't let 302s fail
-                    followAllRedirects: true
+                    auth: {
+                        user: secrets['dotmailer.api.user'],
+                        pass: secrets['dotmailer.api.password'],
+                        sendImmediately: true
+                    },
+                    json: true,
+                    body: dataToSend,
+                    resolveWithFullResponse: true
                 })
                     .then(response => {
+                        console.log(response);
                         // signup succeeded
                         if (response.statusCode === 302 || response.statusCode === 200) {
                             return handleSignupSuccess();
