@@ -95,70 +95,6 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
-@media print {
-    .hero.hero--major {
-        color: black !important;
-        background: none !important;
-        position: static;
-        padding-bottom: 0;
-        height: auto;
-
-        .hero__header,
-        .hero__inner {
-            position: static;
-        }
-    }
-}
-
-/* =========================================================================
-   Minature Heroes
-   ========================================================================= */
-.hero--miniature {
-    // hacky-ish way to switch images out for miniature hero on breakpoints
-    @include mq('tablet', 'max') {
-        .hero-image--desktop {
-            display: none;
-        }
-        .hero-image--mobile {
-            display: block;
-        }
-    }
-
-    @include mq('tablet') {
-        .hero-image--desktop {
-            display: block;
-        }
-        .hero-image--mobile {
-            display: none;
-        }
-    }
-}
-
-.hero--miniature__content {
-    position: relative;
-
-    .hero__header {
-        @include mq('tablet', 'max') {
-            margin-left: $heroSpaceFromLeft;
-        }
-    }
-}
-
-@media print {
-    .hero--miniature {
-        .hero-image--mobile {
-            display: none !important;
-        }
-        .hero-image--desktop {
-            display: block !important;
-            margin-bottom: 0.5em;
-        }
-        .hero__header {
-            position: static;
-        }
-    }
-}
-
 /* =========================================================================
    Section Hero
    ========================================================================= */
@@ -342,5 +278,30 @@ $heroSpaceFromLeft: 20px;
     .super-hero__content,
     .super-hero__caption {
         position: static;
+    }
+}
+
+/* =========================================================================
+   Minature Heroes
+   ========================================================================= */
+/* Small feature panels (see /funding/funding-guidance/managing-your-funding or /about-big) */
+
+.miniature-hero {
+    position: relative;
+
+    .minature-hero__content {
+        position: absolute;
+        bottom: $heroSpaceFromBottomMobile;
+        padding-left: $heroSpaceFromLeft;
+
+        @include mq('tablet') {
+            bottom: $heroSpaceFromBottom;
+        }
+
+        @media print {
+            position: static;
+            padding: 0;
+            margin-bottom: 10px;
+        }
     }
 }

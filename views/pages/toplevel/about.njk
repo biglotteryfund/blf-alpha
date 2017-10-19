@@ -28,24 +28,14 @@
                     </div>
 
                     <div class="spaced--x-l">
-                        <div class="accent--pink a--border-top--large">
-                            {% set miniHeroContent %}
-                                {{ headers.overlayText(
-                                tag = 'h3',
-                                text = 'Read our annual report 2016/17',
-                                additionalClasses = 't3 overlay-text--wide svgs-white is-opaque',
-                                link = '#',
-                                showArrow = true
-                                )}}
-                            {% endset %}
-                            {{ hero.miniature(
-                                imagePath = 'images/about/pennine-lancashire.jpg',
-                                imagePathMobile = 'images/about/pennine-lancashire--mobile.jpg',
-                                imageCaption = 'Three people working together on laptops',
-                                link = '#',
-                                content = miniHeroContent
-                            )}}
-                        </div>
+                        {{ hero.miniatureHero(
+                            titleText = 'Read our annual report 2016/17',
+                            imagePath = 'images/about/pennine-lancashire.jpg',
+                            imagePathMobile = 'images/about/pennine-lancashire--mobile.jpg',
+                            imageCaption = 'Three people working together on laptops',
+                            linkUrl = '#',
+                            accent = 'pink'
+                        )}}
                     </div>
 
                     <div class="spaced--x-l">
@@ -54,24 +44,14 @@
                     </div>
 
                     <div class="spaced--x-l">
-                        <div class="accent--turquoise a--border-top--large">
-                            {% set miniHeroContent %}
-                                {{ headers.overlayText(
-                                tag = 'h3',
-                                text = '&ldquo;Putting people in the lead&rdquo;: Discover the strategic framework that guides our work',
-                                additionalClasses = 't3 overlay-text--wide svgs-white is-opaque',
-                                link = '#',
-                                showArrow = true
-                                )}}
-                            {% endset %}
-                            {{ hero.miniature(
+                        {{ hero.miniatureHero(
+                            titleText = '&ldquo;Putting people in the lead&rdquo;: Discover the strategic framework that guides our work',
                             imagePath = 'images/about/dawn.jpg',
                             imagePathMobile = 'images/about/dawn--mobile.jpg',
                             imageCaption = 'Dawn Austwick, Chief Executive',
-                            link = '#',
-                            content = miniHeroContent
-                            )}}
-                        </div>
+                            linkUrl = '#',
+                            accent = 'turquoise'
+                        )}}
                     </div>
                 </div>
 

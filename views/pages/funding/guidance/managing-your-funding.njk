@@ -20,89 +20,43 @@
         </div>
 
         <div class="inner">
-
             <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
-
                 <li class="grid__item">
-                    <div class="accent--pink-mid a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = copy.body.actions.social,
-                                additionalClasses = 't2 svgs-white',
-                                link = buildUrl('funding', 'helpWithPublicity'),
-                                showArrow = true
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/funding/tell-the-world.jpg',
-                            imageCaption = 'Three people working together on laptops',
-                            link = buildUrl('funding', 'helpWithPublicity'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
+                    {{ hero.miniatureHero(
+                        titleText = copy.body.actions.social,
+                        imagePath = 'images/funding/tell-the-world.jpg',
+                        imageCaption = 'Three people working together on laptops',
+                        linkUrl = buildUrl('funding', 'helpWithPublicity'),
+                        accent = 'pink-mid'
+                    )}}
                 </li>
-
                 <li class="grid__item">
-                    <div class="accent--blue a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = copy.body.actions.press,
-                                additionalClasses = 't2 svgs-white',
-                                link = buildUrl('funding', 'pressCoverage'),
-                                showArrow = true
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/funding/local-press.jpg',
-                            imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
-                            link = buildUrl('funding', 'pressCoverage'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
+                    {{ hero.miniatureHero(
+                        titleText = copy.body.actions.press,
+                        imagePath = 'images/funding/local-press.jpg',
+                        imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
+                        linkUrl = buildUrl('funding', 'pressCoverage'),
+                        accent = 'blue'
+                    )}}
                 </li>
-
                 <li class="grid__item">
-                    <div class="accent--turquoise a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = copy.body.actions.logo,
-                                additionalClasses = 't2 svgs-white',
-                                link = buildUrl('funding', 'logos'),
-                                showArrow = true
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/funding/display-the-logo.jpg',
-                            imageCaption = 'A man smiling outside the entrance to a bike shop',
-                            link = buildUrl('funding', 'logos'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
+                    {{ hero.miniatureHero(
+                        titleText = copy.body.actions.logo,
+                        imagePath = 'images/funding/display-the-logo.jpg',
+                        imageCaption = 'A man smiling outside the entrance to a bike shop',
+                        linkUrl = buildUrl('funding', 'logos'),
+                        accent = 'turquoise'
+                    )}}
                 </li>
-
                 <li class="grid__item">
-                    <div class="accent--orange a--border-top--large">
-                        {% set miniHeroContent %}
-                            {{ headers.overlayText(
-                                tag = 'h4',
-                                text = copy.body.actions.freeMaterial,
-                                additionalClasses = 't2 svgs-white',
-                                link = buildUrl('funding', 'freeMaterials'),
-                                showArrow = true
-                            )}}
-                        {% endset %}
-                        {{ hero.miniature(
-                            imagePath = 'images/funding/free-branded-materials.jpg',
-                            imageCaption = 'Two people crouching down outdoors in an allotment surrounded by plants',
-                            link = buildUrl('funding', 'freeMaterials'),
-                            content = miniHeroContent
-                        )}}
-                    </div>
+                    {{ hero.miniatureHero(
+                        titleText = copy.body.actions.freeMaterial,
+                        imagePath = 'images/funding/free-branded-materials.jpg',
+                        imageCaption = 'Two people crouching down outdoors in an allotment surrounded by plants',
+                        linkUrl = buildUrl('funding', 'freeMaterials'),
+                        accent = 'orange'
+                    )}}
                 </li>
-
             </ul>
         </div>
 
