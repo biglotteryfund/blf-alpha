@@ -14,6 +14,7 @@ const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
 const secrets = require('../../modules/secrets');
+const analytics = require('../../modules/analytics');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -181,6 +182,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
+                let newsletterLocation = req.body['location'];
                 let locale = req.body.locale;
                 let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
@@ -194,6 +196,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 };
 
                 let handleSignupSuccess = () => {
+                    analytics.track('emailNewsletter', 'signup', newsletterLocation);
                     req.flash('ebulletinStatus', 'success');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
@@ -214,7 +217,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                             value: req.body['lastName']
                         },
                         {
-                            key: req.body['location'],
+                            key: newsletterLocation,
                             value: 'yes'
                         }
                     ]
