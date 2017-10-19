@@ -6,6 +6,8 @@ const rp = require('request-promise');
 const ab = require('express-ab');
 const { sortBy } = require('lodash');
 const xss = require('xss');
+const Raven = require('raven');
+const _ = require('lodash');
 
 const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
@@ -187,7 +189,9 @@ module.exports = (pages, sectionPath, sectionId) => {
                 let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
                 // redirect errors back to the homepage
-                let handleSignupError = () => {
+                let handleSignupError = errMsg => {
+                    // pass error to Sentry
+                    Raven.captureMessage(errMsg || 'Error with ebulletin');
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
@@ -252,14 +256,11 @@ module.exports = (pages, sectionPath, sectionId) => {
                         if (response.statusCode === 200) {
                             return handleSignupSuccess();
                         } else {
-                            console.log('Got an error with ebulletin', response.message);
-                            return handleSignupError();
+                            return handleSignupError(response.message);
                         }
                     })
                     .catch(error => {
-                        // signup failed
-                        console.log('Error signing up to ebulletin', error.message || error);
-                        return handleSignupError();
+                        return handleSignupError(error.message || error);
                     });
             }
         });

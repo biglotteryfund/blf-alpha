@@ -12,6 +12,8 @@ if (SENTRY_DSN) {
         environment: process.env.NODE_ENV || 'development',
         dataCallback(data) {
             delete data.modules;
+            // clear out POST data
+            delete data.request.data;
             return data;
         }
     }).install();
