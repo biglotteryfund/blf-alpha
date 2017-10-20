@@ -13,9 +13,9 @@
         <ul class="link-grid__list unstyled">
             {% for item in items %}
             <li class="link-grid__item">
-                <a href="{{ item.url }}" class="t2 u-link-minimal">
-                    {{ item.label }}
-                </a>
+                {% if item.url %}<a href="{{ item.url }}" class="u-link-minimal">{% endif %}
+                <span class="t2">{{ item.label }}</span>
+                {% if item.url %}</a>{% endif %}
             </li>
             {% endfor %}
         </ul>
