@@ -8,6 +8,21 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% macro linkGrid(items, accentColor) %}
+    <div class="link-grid accent--{{ accentColor }} a--border-color">
+        <ul class="link-grid__list unstyled">
+            {% for item in items %}
+            <li class="link-grid__item">
+                <a href="{{ item.url }}" class="t2 u-link-minimal">
+                    {{ item.label }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+
 {% block content %}
 
     {% set heroImage = createHeroImage({
@@ -52,7 +67,8 @@
 
         {# Current Vacancies #}
         {% if copy.sections.currentVacancies %}
-            <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top" id="current-vacancies">
+            <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top"
+                id="current-vacancies">
                 <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
                 {% for group in copy.sections.currentVacancies.groups %}
                     <section id="vacancies-{{ group.name | slugify }}">
@@ -65,17 +81,7 @@
                                 <h5 class="t3 no-space">{{ subRegion }}</h5>
                             {% endif %}
 
-                            <div class="link-grid">
-                                <ul class="link-grid__list unstyled">
-                                    {% for item in vacancies %}
-                                    <li class="link-grid__item">
-                                        <a href="{{ item.url }}" class="t2 u-link-minimal">
-                                            {{ item.label }}
-                                        </a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            {{ linkGrid(vacancies, 'blue') }}
                         {% endfor %}
                     </section>
                 {% endfor %}
