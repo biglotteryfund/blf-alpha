@@ -7,7 +7,6 @@ const ab = require('express-ab');
 const { sortBy } = require('lodash');
 const xss = require('xss');
 const Raven = require('raven');
-const _ = require('lodash');
 
 const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
@@ -184,13 +183,12 @@ module.exports = (pages, sectionPath, sectionId) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
-                let newsletterLocation = req.body['location'];
+                let newsletterLocation = req.body.location;
                 let locale = req.body.locale;
                 let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
                 // redirect errors back to the homepage
                 let handleSignupError = errMsg => {
-                    // pass error to Sentry
                     Raven.captureMessage(errMsg || 'Error with ebulletin');
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(() => {
@@ -214,11 +212,11 @@ module.exports = (pages, sectionPath, sectionId) => {
                     dataFields: [
                         {
                             key: 'FIRSTNAME',
-                            value: req.body['firstName']
+                            value: req.body.firstName
                         },
                         {
                             key: 'LASTNAME',
-                            value: req.body['lastName']
+                            value: req.body.lastName
                         },
                         {
                             key: newsletterLocation,
@@ -231,7 +229,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 if (req.body['organisation']) {
                     dataToSend.dataFields.push({
                         key: 'ORGANISATION',
-                        value: req.body['organisation']
+                        value: req.body.organisation
                     });
                 }
 
