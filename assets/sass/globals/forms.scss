@@ -1,5 +1,4 @@
 .form-fund {
-
     &.form-fund--inline {
         height: 40px;
 
@@ -22,7 +21,7 @@
         padding: $spacingUnit / 4 $spacingUnit / 2;
     }
 
-    input[type="submit"] {
+    input[type='submit'] {
         border: none;
     }
 
@@ -63,7 +62,6 @@
     label {
         @extend .u-visually-hidden;
     }
-
 }
 
 .form-ebulletin {
@@ -89,6 +87,10 @@
         }
     }
 
+    .form-ebulletin__fields {
+        clear: both;
+    }
+
     .form-fund__item {
         display: block;
         width: 100%;
@@ -100,12 +102,8 @@
         padding-bottom: 6px;
         margin: $spacingUnit 0;
 
-        &:first-child {
-            margin-top: 0;
-        }
-
         &:last-child {
-            margin-bottom: 0;
+            margin-left: $spacingUnit / 2;
         }
     }
 
@@ -146,7 +144,7 @@
             width: 80%;
             display: block;
             margin-left: auto;
-            margin-right: auto
+            margin-right: auto;
         }
     }
 
@@ -154,5 +152,4 @@
     .no-gap {
         margin-top: 0 !important;
     }
-
 }

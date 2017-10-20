@@ -6,6 +6,7 @@ const rp = require('request-promise');
 const ab = require('express-ab');
 const { sortBy } = require('lodash');
 const xss = require('xss');
+const Raven = require('raven');
 
 const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
@@ -13,6 +14,8 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
+const secrets = require('../../modules/secrets');
+const analytics = require('../../modules/analytics');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -162,9 +165,9 @@ module.exports = (pages, sectionPath, sectionId) => {
 
     // send form data to the (third party) email newsletter provider
     router.post('/ebulletin', (req, res) => {
-        req.checkBody('cd_FIRSTNAME', 'Please provide your first name').notEmpty();
-        req.checkBody('cd_LASTNAME', 'Please provide your last name').notEmpty();
-        req.checkBody('Email', 'Please provide your email address').notEmpty();
+        req.checkBody('firstName', 'Please provide your first name').notEmpty();
+        req.checkBody('lastName', 'Please provide your last name').notEmpty();
+        req.checkBody('email', 'Please provide your email address').notEmpty();
         req.checkBody('location', 'Please choose a country newsletter').notEmpty();
 
         req.getValidationResult().then(result => {
@@ -180,16 +183,13 @@ module.exports = (pages, sectionPath, sectionId) => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
             } else {
-                // convert location into proper field value
-                let location = xss(req.body['location']);
-                req.body[location] = 'yes';
-                delete req.body['location'];
-
+                let newsletterLocation = req.body.location;
                 let locale = req.body.locale;
                 let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
                 // redirect errors back to the homepage
-                let handleSignupError = () => {
+                let handleSignupError = errMsg => {
+                    Raven.captureMessage(errMsg || 'Error with ebulletin');
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
@@ -198,6 +198,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 };
 
                 let handleSignupSuccess = () => {
+                    analytics.track('emailNewsletter', 'signup', newsletterLocation);
                     req.flash('ebulletinStatus', 'success');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
@@ -205,28 +206,59 @@ module.exports = (pages, sectionPath, sectionId) => {
                     });
                 };
 
+                let dataToSend = {
+                    email: req.body.email,
+                    emailType: 'Html',
+                    dataFields: [
+                        {
+                            key: 'FIRSTNAME',
+                            value: req.body.firstName
+                        },
+                        {
+                            key: 'LASTNAME',
+                            value: req.body.lastName
+                        },
+                        {
+                            key: newsletterLocation,
+                            value: 'yes'
+                        }
+                    ]
+                };
+
+                // optional fields
+                if (req.body['organisation']) {
+                    dataToSend.dataFields.push({
+                        key: 'ORGANISATION',
+                        value: req.body.organisation
+                    });
+                }
+
+                let addressBookId = 589755;
+                let apiAddContactPath = `/address-books/${addressBookId}/contacts`;
+
                 // send the valid form to the signup endpoint (external)
                 rp({
+                    uri: config.get('ebulletinApiEndpoint') + apiAddContactPath,
                     method: 'POST',
-                    uri: config.get('ebulletinSignup'),
-                    form: req.body,
-                    resolveWithFullResponse: true,
-                    simple: false, // don't let 302s fail
-                    followAllRedirects: true
+                    auth: {
+                        user: secrets['dotmailer.api.user'],
+                        pass: secrets['dotmailer.api.password'],
+                        sendImmediately: true
+                    },
+                    json: true,
+                    body: dataToSend,
+                    resolveWithFullResponse: true
                 })
                     .then(response => {
                         // signup succeeded
-                        if (response.statusCode === 302 || response.statusCode === 200) {
+                        if (response.statusCode === 200) {
                             return handleSignupSuccess();
                         } else {
-                            console.log('Got an error with redirect', response.statusCode);
-                            return handleSignupError();
+                            return handleSignupError(response.message);
                         }
                     })
                     .catch(error => {
-                        // signup failed
-                        console.log('Error signing up to ebulletin', error);
-                        return handleSignupError();
+                        return handleSignupError(error.message || error);
                     });
             }
         });
