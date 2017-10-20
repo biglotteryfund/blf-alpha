@@ -333,7 +333,7 @@
 									"subRegion": "n/a"
 								},
 								{
-									"label": "Funding Assistant",
+									"label": "Executive Officer",
 									"url": "#",
 									"subRegion": "n/a"
 								}
@@ -388,6 +388,11 @@
 									"subRegion": "Devon and Dorset"
 								},
 								{
+									"label": "Funding Officer",
+									"url": "#",
+									"subRegion": "Executive Officer"
+								},
+								{
 									"label": "Funding Manager",
 									"url": "#",
 									"subRegion": "Cornwall"
@@ -400,12 +405,12 @@
 								{
 									"label": "Funding Manager",
 									"url": "#",
-									"subRegion": "Bristol, Gloucester, Wiltshire and Somerset"
+									"subRegion": "Wiltshire, West of England (including Bristol and Gloucestershire) and Somerset"
 								},
 								{
 									"label": "Funding Officer",
 									"url": "#",
-									"subRegion": "Bristol, Gloucester, Wiltshire and Somerset"
+									"subRegion": "Wiltshire, West of England (including Bristol and Gloucestershire) and Somerset"
 								}
 							]
 						},
@@ -423,7 +428,7 @@
 									"subRegion": "Greater Manchester"
 								},
 								{
-									"label": "Funding Assistant",
+									"label": "Executive Officer",
 									"url": "#",
 									"subRegion": "Greater Manchester"
 								},
@@ -478,7 +483,7 @@
 									"subRegion": "Leeds"
 								},
 								{
-									"label": "Funding Assistant",
+									"label": "Executive Officer",
 									"url": "#",
 									"subRegion": "Leeds"
 								},
@@ -513,7 +518,7 @@
 									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
 								},
 								{
-									"label": "Funding Assistant",
+									"label": "Executive Officer",
 									"url": "#",
 									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
 								},
