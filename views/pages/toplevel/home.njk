@@ -145,9 +145,9 @@
                                     [copy.ebulletin.locations.northernIreland, 'ni', 'NI_MAIL']
                                 ]) }}
                             </div>
-                            <div class="grid grid--padded clear-both">
-                                {{ input('firstName', copy.ebulletin.fields.firstName, 'text', required = true, extraClasses = 'grid__item') }}
-                                {{ input('lastName', copy.ebulletin.fields.lastName, 'text', required = true, extraClasses = 'grid__item') }}
+                            <div class="grid form-ebulletin__fields">
+                                {{ input('firstName', copy.ebulletin.fields.firstName, 'text', required = true, extraClasses = 'grid__item grid__item--half') }}
+                                {{ input('lastName', copy.ebulletin.fields.lastName, 'text', required = true, extraClasses = 'grid__item grid__item--half') }}
                             </div>
                             {{ input('organisation', copy.ebulletin.fields.organisation, 'text', required = false, extraClasses = 'no-gap') }}
                             {{ input('email', copy.ebulletin.fields.emailAddress, 'email', required = true) }}
