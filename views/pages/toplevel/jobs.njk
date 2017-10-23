@@ -76,7 +76,7 @@
                     </h4>
 
                     {% for subRegion, vacancies in group.vacancies | groupby('subRegion') %}
-                        {% if (group.vacancies | groupby('subRegion') | length) > 1 %}
+                        {% if (subRegion !== 'n/a') %}
                             <h5 class="t3 no-space">{{ subRegion }}</h5>
                         {% endif %}
 
