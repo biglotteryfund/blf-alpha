@@ -188,9 +188,8 @@ module.exports = (pages, sectionPath, sectionId) => {
 
         contentApi
             .getFundingProgrammes(req.i18n.getLocale())
-            .then(response => {
-                let programmeList = response.data;
-
+            .then(response => response.data.map(item => item.attributes))
+            .then(programmeList => {
                 // filter by location
                 if (req.query.location) {
                     // check this is a valid parameter

@@ -8,11 +8,9 @@ if (!CMS_URL) {
     process.exit(1);
 }
 
-const API_URL = CMS_URL + '/content/';
-
 const getFundingProgrammes = locale => {
     return rp({
-        url: API_URL + locale + '/programs.json',
+        url: `${CMS_URL}/api/v1/${locale}/funding-programmes`,
         json: true
     });
 };
