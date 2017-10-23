@@ -63,7 +63,7 @@
 			},
 			"caseStudies": [
 				{
-					"quoteText": "Rwy’n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu heisiau o ran addysg.",
+					"quoteText": "Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu heisiau o ran addysg.",
 					"quoteName": "Jonathan Ssentamu",
 					"quoteNameCaption": "Gweithiwr Datblygu Pobl Ifainc",
 					"projectName": "Passion4Fusion",
@@ -90,7 +90,7 @@
 					"link": "funding/big-stories/mental-health-foundation"
 				},
 				{
-					"quoteText": "Mae fy nghymhelliad i wneud gwaith gyda phobl ifainc yn dod o wybod yr effaith y mae Bytes wedi’i chael ac yn parhau i gael arnaf.",
+					"quoteText": "Mae fy nghymhelliad i wneud gwaith gyda phobl ifainc yn dod o wybod yr effaith y mae Bytes wedi'i chael ac yn parhau i gael arnaf.",
 					"quoteName": "Anthony Turkington",
 					"quoteNameCaption": "Buddiolwr",
 					"projectName": "Bytes",
@@ -124,8 +124,8 @@
 						"body": "Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym, <a href=\"http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx\">ond gallwch dad-danysgrifio unrhyw bryd os mynnwch</a>."
 					},
 					"error": {
-						"title": "Cafwyd gwall wrth gofrestru chi i’r e-fwletin.",
-						"body": "Mae’n edrych fel ein bod yn cael trafferth gyda’n teclyn e-fwletin. Rhowch gynnig arall arni’n nes ymlaen."
+						"title": "Cafwyd gwall wrth gofrestru chi i'r e-fwletin.",
+						"body": "Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin. Rhowch gynnig arall arni'n nes ymlaen."
 					}
 				}
 			},
@@ -311,7 +311,7 @@
 			"sections": {
 				"whyWork": {
 					"title": "Pam gweithio i'r Gronfa Loteri Fawr?",
-					"body": "<blockquote>\t&quot;Mae gweithio yn y Gronfa Loteri Fawr yn fy ngalluogi i chwarae rôl fach mewn newid bywydau pobl mewn cymunedau ar draws y Deyrnas Unedig. Mae'n hynod wobrwyol i ymgymryd â'r her i roi'r grantiau iawn i'r bobl iawn. Mae unigolion dawnus, uchel eu cymhelliad ac ysbrydoledig o'm cwmpas yma sydd i gyd yn gweithio tuag at yr un nod.&quot; <footer><cite>Steve Keene, Rheolwr Cynnyrch, Tîm Digidol</cite></footer> </blockquote><blockquote>\t&quot;Y peth gorau am weithio yn y Gronfa yw bod yn rhan o fudiad sy'n cael cymaint o effaith ar gymunedau ar draws y Deyrnas Unedig a gweld y gwahaniaeth y mae'r arian yn ei wneud i'r cymunedau hyn. Mae gan y staff yma gymaint o fuddsoddiad yn yr hyn y maent yn ei wneud ac rwy'n dwlu ar y ffaith bod gan fy waith ystyr a'i fod yn rhoi ymdeimlad o foddhad i mi bob dydd.&quot;<footer><cite>Kalema White, Cynorthwy-ydd Gweithredol</cite></footer></blockquote></p>"
+					"body": "<blockquote>\"Rydym yn gallu dweud nad ydym o fewn y Gronfa â diddordeb yn unig yn yr arian a roddwn i chi, mae gennym ni ddiddordeb ynddoch chi fel sefydliad a'r hyn yr ydych yn ei wneud, sut orau y gallwn eich cefnogi chi a'r buddiolwyr yr ydych yn ceisio gweithio gyda hwy mewn ffordd strategol ac effeithiol. Rwy'n meddwl mai dyna ran orau'r swydd, y gallu i gael y sgyrsiau hynny a meddwl y tu allan i'r bocs.\" <footer><cite>Lilian Nsemwa, Rheolwr Ariannu</cite></footer> </blockquote><blockquote>\"Mae'n lle gwych i weithio. Mae'n gyffrous. Mae yna awyrgylch ardderchog. Ond hefyd mae'r ffaith fod y gwaith yr ydych yn gallu ei wneud yn eich ardal eich hunan yn ysbrydoli ac mae'n gyfle i wneud gwahaniaeth.\" <footer><cite>David Jessup, Rheolwr Ariannu</cite></footer></blockquote></p>"
 				},
 				"currentVacancies": {
 					"title": "Swyddi gwag cyfredol",
