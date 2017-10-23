@@ -1,18 +1,45 @@
-{% import "components/hero.njk" as hero %}
+{% from "../../components/hero.njk" import sectionHero %}
 {% import "components/headers.njk" as headers %}
 {% import "components/segment.njk" as segment %}
 
 {% extends "layouts/main.njk" %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+
 {% block title %}{{ title }} | {% endblock %}
+
+{% macro linkGrid(items, accentColor) %}
+    <div class="link-grid accent--{{ accentColor }} a--border-color">
+        <ul class="link-grid__list unstyled">
+            {% for item in items %}
+            <li class="link-grid__item">
+                {% if item.url %}<a href="{{ item.url }}" class="u-link-minimal">{% endif %}
+                <span class="t2">{{ item.label }}</span>
+                {% if item.url %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
 
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', title, 't1') }}
-    {% endset %}
+    {% set heroImage = createHeroImage({
+        small: 'images/hero/jobs-small.jpg',
+        medium: 'images/hero/jobs-medium.jpg',
+        large: 'images/hero/jobs-large.jpg',
+        default: 'images/hero/jobs-medium.jpg',
+        caption: 'Street Dreams, Grant £9,000'
+    }) %}
 
-    {{ hero.header('jobs', heroContent, 'blue') }}
+    {{
+        sectionHero(
+            titleText = title,
+            image = heroImage,
+            accent = 'blue'
+        )
+    }}
 
     <article role="main" class="nudge-up">
 
@@ -36,6 +63,27 @@
                 {% endfor %}
             </ul>
             <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
+        </div>
+
+        {# Current Vacancies #}
+        <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top"
+            id="current-vacancies">
+            <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
+            {% for group in copy.sections.currentVacancies.groups %}
+                <section id="vacancies-{{ group.name | slugify }}">
+                    <h4 class="t1 t--underline accent--pink">
+                        {{ group.name }}
+                    </h4>
+
+                    {% for subRegion, vacancies in group.vacancies | groupby('subRegion') %}
+                        {% if (group.vacancies | groupby('subRegion') | length) > 1 %}
+                            <h5 class="t3 no-space">{{ subRegion }}</h5>
+                        {% endif %}
+
+                        {{ linkGrid(vacancies, 'blue') }}
+                    {% endfor %}
+                </section>
+            {% endfor %}
         </div>
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">

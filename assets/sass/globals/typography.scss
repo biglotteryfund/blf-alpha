@@ -113,7 +113,11 @@ h6,
     font-weight: bold !important;
 }
 
-.u-unstyled-link {
+.u-link-minimal {
+    text-decoration: none;
+}
+
+.u-link-unstyled {
     color: inherit;
     text-decoration: none;
 }

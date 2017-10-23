@@ -1,3 +1,61 @@
+/* =========================================================================
+   Data
+   ========================================================================= */
+
+/* =========================================================================
+   Link Grid (@see /jobs)
+   ========================================================================= */
+
+.link-grid {
+    clear: both;
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        $offset: $spacingUnit * 1.5;
+        margin: $spacingUnit 0;
+        margin-left: -$offset;
+        padding-left: $offset;
+        border-left: $accentBorderWidth solid;
+    }
+
+    @include mq('desktop') {
+        $offset: $spacingUnit * 2;
+        margin-left: -$offset;
+        padding-left: $offset;
+    }
+
+    .link-grid__list {
+        @include mq('tablet') {
+            position: relative;
+            overflow: auto;
+        }
+    }
+
+    .link-grid__list > .link-grid__item {
+        display: block;
+
+        @include mq('tablet') {
+            width: 33.333%;
+            float: left;
+            border: solid palette('soft-grey');
+            border-width: 0 1px 1px 0;
+            padding: $spacingUnit 3% ($spacingUnit * 2);
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Stats
+   ========================================================================= */
+
 .stats-holder {
     position: relative;
 }
@@ -24,9 +82,7 @@
     }
 }
 
-
 .stats {
-
     div {
         margin-top: 0;
     }
@@ -39,7 +95,8 @@
         margin-top: 0;
     }
 
-    dt, dd {
+    dt,
+    dd {
         margin: 0;
     }
 
@@ -86,6 +143,10 @@
     }
 }
 
+/* =========================================================================
+   Grant List
+   ========================================================================= */
+
 .grant-list {
     margin: $spacingUnit 0;
 
@@ -96,6 +157,10 @@
         padding-bottom: $spacingUnit;
     }
 }
+
+/* =========================================================================
+   Data Map
+   ========================================================================= */
 
 .map-wrapper {
     margin: auto;
@@ -122,7 +187,6 @@
 }
 
 .map-info {
-
     background-color: #ffffff;
 
     .map-info__item {
@@ -130,7 +194,6 @@
     }
 
     .js-on & {
-
         @include mq('tablet') {
             width: 160px;
             position: absolute;
@@ -154,7 +217,6 @@
     .map-info__stat {
         margin-bottom: 0;
     }
-
 }
 
 .map-holder__inner {
@@ -164,28 +226,27 @@
 // this mirrors the accents concept, but we keep it separate
 // as adding it there would produce a bunch of superfluous classes
 $mapRegions: (
-    "default": #E4E3E1,
-    "east-midlands": #86BD3F,
-    "east-england": #C84548,
-    "london": #6F9CCA,
-    "north-east": #FACA36,
-    "north-west": #518A34,
-    "northern-ireland": #80e1b0,
-    "scotland": #73579E,
-    "south-east": #DA559A,
-    "south-west": #3585B5,
-    "wales": #4EACE1,
-    "west-midlands": #F7B534,
-    "yorkshire": #EF7A70
+    'default': #e4e3e1,
+    'east-midlands': #86bd3f,
+    'east-england': #c84548,
+    'london': #6f9cca,
+    'north-east': #faca36,
+    'north-west': #518a34,
+    'northern-ireland': #80e1b0,
+    'scotland': #73579e,
+    'south-east': #da559a,
+    'south-west': #3585b5,
+    'wales': #4eace1,
+    'west-midlands': #f7b534,
+    'yorkshire': #ef7a70
 );
 
 .region {
-    fill: map-get($mapRegions, "default");
+    fill: map-get($mapRegions, 'default');
 }
 
 @each $region, $colour in $mapRegions {
     @if ($region != 'default') {
-
         .region--#{$region} {
             fill: $colour;
 

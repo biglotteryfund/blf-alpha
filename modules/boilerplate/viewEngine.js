@@ -1,7 +1,8 @@
 'use strict';
-const app = require('../../server');
 const nunjucks = require('nunjucks');
 const moment = require('moment');
+const slugify = require('slugify');
+const app = require('../../server');
 const assets = require('../assets');
 
 const IS_DEV = (process.env.NODE_ENV || 'development') === 'development';
@@ -20,6 +21,12 @@ templateEnv.addFilter('getCachebustedPath', str => {
 
 templateEnv.addFilter('localeify', (field, locale) => {
     return field + '_' + locale;
+});
+
+templateEnv.addFilter('slugify', str => {
+    return slugify(str, {
+        lower: true
+    });
 });
 
 templateEnv.addFilter('makePhoneLink', str => {
