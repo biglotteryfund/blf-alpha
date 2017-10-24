@@ -382,12 +382,12 @@
 								{
 									"label": "Swyddog Ariannu",
 									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU1OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
-									"subRegion": "Dyfnaint (gan gynnwys Plymouth a Torbay) a Dorset (gan gynnwys Bournemouth a Poole)"
+									"subRegion": "Dyfnaint, gan gynnwys Plymouth a Torbay, a Dorset, gan gynnwys Bournemouth a Poole"
 								},
 								{
 									"label": "Swyddog Gweithredol",
 									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY0MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
-									"subRegion": "Dyfnaint (gan gynnwys Plymouth a Torbay) a Dorset (gan gynnwys Bournemouth a Poole)"
+									"subRegion": "Dyfnaint, gan gynnwys Plymouth a Torbay, a Dorset, gan gynnwys Bournemouth a Poole"
 								},
 								{
 									"label": "Rheolwr Ariannu",
@@ -455,11 +455,6 @@
 							"name": "Gogledd-ddwyrain Lloegr",
 							"vacancies": [
 								{
-									"label": "Rheolwr Ariannu",
-									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
-									"subRegion": "Cumbria - Gwlad y Llynnoedd"
-								},
-								{
 									"label": "Swyddog Ariannu",
 									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU5MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
 									"subRegion": "Cumbria - Gwlad y Llynnoedd"
@@ -472,12 +467,12 @@
 								{
 									"label": "Swyddog Ariannu",
 									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY1MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
-									"subRegion": "Leeds"
+									"subRegion": "Gorllewin Swydd Efrog / Gogledd Swydd Efrog"
 								},
 								{
 									"label": "Swyddog Gweithredol",
 									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ3MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
-									"subRegion": "Leeds"
+									"subRegion": "Gorllewin Swydd Efrog / Gogledd Swydd Efrog"
 								},
 								{
 									"label": "Swyddog Ariannu",
