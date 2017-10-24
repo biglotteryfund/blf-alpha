@@ -15,6 +15,8 @@ const auth = require('../../modules/authed');
 
 const LAUNCH_DATE = moment();
 
+const USER_LEVEL_REQUIRED = 5;
+
 const localeFiles = {
     en: '../../config/locales/en.json',
     cy: '../../config/locales/cy.json'
@@ -72,14 +74,14 @@ let localeEditorPath = '/tools/locales/';
 routeStatic.injectUrlRequest(router, localeEditorPath);
 router
     .route(localeEditorPath)
-    .get(auth.requireAuthed, (req, res) => {
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
     })
-    .post(auth.requireAuthed, (req, res) => {
+    .post(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         // fetch these each time
         const locales = {
             en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
@@ -104,7 +106,7 @@ router
     });
 
 // update a language file
-router.post('/tools/locales/update/', auth.requireAuthed, (req, res) => {
+router.post('/tools/locales/update/', auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
     const json = req.body;
     let validKeys = ['en', 'cy'];
     let failedUpdates = [];
@@ -132,7 +134,7 @@ const editNewsPath = '/tools/edit-news';
 routeStatic.injectUrlRequest(router, editNewsPath);
 router
     .route(editNewsPath + '/:id?')
-    .get(auth.requireAuthed, (req, res, next) => {
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
 
@@ -162,7 +164,7 @@ router
             });
         });
     })
-    .post(auth.requireAuthed, (req, res) => {
+    .post(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         let redirectBase = req.baseUrl + editNewsPath + '/';
 
         // validate form

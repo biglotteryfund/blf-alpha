@@ -39,6 +39,7 @@ const attemptAuth = (req, res, next) =>
         }
     })(req, res, next);
 
+routeStatic.injectUrlRequest(router, '/dashboard');
 router.get('/dashboard', auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/dashboard', {
@@ -68,7 +69,8 @@ router
 
         let userData = {
             username: xss(req.body.username),
-            password: xss(req.body.password)
+            password: xss(req.body.password),
+            level: 0
         };
 
         // validate the form input
@@ -102,7 +104,7 @@ router
                             // no user found, so make a new one
                             models.Users
                                 .create(userData)
-                                .then(newUser => {
+                                .then(() => {
                                     // log them in
                                     attemptAuth(req, res, next);
                                 })
@@ -135,8 +137,7 @@ router
         res.cacheControl = { maxAge: 0 };
         res.render('user/login-or-register', {
             mode: 'login',
-            error: req.flash('error'),
-            user: req.user
+            error: req.flash('error')
         });
     })
     .post((req, res, next) => {
