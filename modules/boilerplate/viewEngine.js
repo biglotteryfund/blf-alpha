@@ -80,5 +80,13 @@ templateEnv.addFilter('jsonStringify', val => {
     return ret || val;
 });
 
+templateEnv.addFilter('pluralise', (number, singular, plural) => {
+    if (number === 1) {
+        return singular;
+    } else {
+        return plural;
+    }
+});
+
 app.set('view engine', 'njk');
 app.set('engineEnv', templateEnv);

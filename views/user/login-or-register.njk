@@ -8,6 +8,8 @@
 
     {% if formErrors %}
         <div class="alert alert-danger" role="alert">
+            {% set numErrs = formErrors.length %}
+            <p><strong>There w{{ numErrs | pluralise("as", "ere") }} {{ numErrs }} error{{ numErrs | pluralise("", "s") }}:</strong></p>
             <ul>
                 {% for error in formErrors %}
                     <li>{{ error.msg }}</li>
