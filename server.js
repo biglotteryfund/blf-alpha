@@ -34,6 +34,9 @@ require('./modules/boilerplate/middleware');
 // load tools endpoint (including status page for load balancer)
 app.use('/', require('./controllers/toplevel/tools'));
 
+// map user auth controller
+app.use('/user', require('./controllers/user'));
+
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = mountPath => {
     let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
