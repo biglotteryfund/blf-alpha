@@ -7,15 +7,15 @@ let db = {};
 
 // try getting credentials from env vars (eg. for travis)
 let dbCredentials = {
-    host: secrets['mysql.host'] || process.env.mysqlHost,
-    user: secrets['mysql.user'] || process.env.mysqlUser,
-    pass: secrets['mysql.password'] || process.env.mysqlPassword
+    host: process.env.mysqlHost || secrets['mysql.host'],
+    user: process.env.mysqlUser || secrets['mysql.user'],
+    pass: process.env.mysqlPassword || secrets['mysql.password']
 };
 
 let sequelize;
 
 if (dbCredentials.host) {
-    let databaseName = (process.env.CUSTOM_DB) ? process.env.CUSTOM_DB : config.get('database');
+    let databaseName = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
     sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, {
         host: dbCredentials.host,
         logging: false,
@@ -27,20 +27,23 @@ if (dbCredentials.host) {
         }
     });
 
-    sequelize.authenticate().then(() => {
-        console.log('Connection has been established successfully.');
-    }).catch(err => {
-        console.error('Unable to connect to the database:', err);
-        // process.exit(1);
-    });
+    sequelize
+        .authenticate()
+        .then(() => {
+            console.log('Connection has been established successfully.');
+        })
+        .catch(err => {
+            console.error('Unable to connect to the database:', err);
+            // process.exit(1);
+        });
 
     // add models
     db.News = sequelize.import('../models/news.js');
     db.Users = sequelize.import('../models/user.js');
 
     // add model associations (eg. for joins etc)
-    Object.keys(db).forEach((modelName) => {
-        if ("associate" in db[modelName]) {
+    Object.keys(db).forEach(modelName => {
+        if ('associate' in db[modelName]) {
             db[modelName].associate(db);
         }
     });
