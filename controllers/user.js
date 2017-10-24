@@ -8,6 +8,37 @@ const models = require('../models/index');
 const routeStatic = require('./utils/routeStatic');
 const auth = require('../modules/authed');
 
+const attemptAuth = (req, res, next) =>
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        } else {
+            req.logIn(user, err => {
+                if (err) {
+                    // user not valid, send them to login again
+                    req.flash('formErrors', [{ msg: info.message }]);
+                    req.flash('formValues', req.body);
+                    req.session.save(() => {
+                        return res.redirect('/user/login');
+                    });
+                } else {
+                    // user is valid, send them on
+                    // we don't use flash here because it gets unset in the GET route above
+                    let redirectUrl = '/user/dashboard';
+                    if (req.body.redirectUrl) {
+                        redirectUrl = req.body.redirectUrl;
+                    } else if (req.session.redirectUrl) {
+                        redirectUrl = req.session.redirectUrl;
+                        delete req.session.redirectUrl;
+                    }
+                    req.session.save(() => {
+                        res.redirect(redirectUrl);
+                    });
+                }
+            });
+        }
+    })(req, res, next);
+
 router.get('/dashboard', auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/dashboard', {
@@ -24,7 +55,7 @@ router
             mode: 'register'
         });
     })
-    .post((req, res) => {
+    .post((req, res, next) => {
         const handleSignupError = msg => {
             if (!msg) {
                 msg = 'Error registering your details - please try again';
@@ -72,8 +103,8 @@ router
                             models.Users
                                 .create(userData)
                                 .then(newUser => {
-                                    // @TODO log them in
-                                    res.send(newUser);
+                                    // log them in
+                                    attemptAuth(req, res, next);
                                 })
                                 .catch(err => {
                                     // error on user insert
@@ -109,36 +140,7 @@ router
         });
     })
     .post((req, res, next) => {
-        passport.authenticate('local', (err, user, info) => {
-            if (err) {
-                return next(err);
-            } else {
-                req.logIn(user, err => {
-                    if (err) {
-                        // user not valid, send them to login again
-                        req.flash('error', info.message);
-                        // save the session to avoid race condition
-                        // see https://github.com/mweibel/connect-session-sequelize/issues/20
-                        req.session.save(() => {
-                            return res.redirect('/user/login');
-                        });
-                    } else {
-                        // user is valid, send them on
-                        // we don't use flash here because it gets unset in the GET route above
-                        let redirectUrl = '/user/dashboard';
-                        if (req.body.redirectUrl) {
-                            redirectUrl = req.body.redirectUrl;
-                        } else if (req.session.redirectUrl) {
-                            redirectUrl = req.session.redirectUrl;
-                            delete req.session.redirectUrl;
-                        }
-                        req.session.save(() => {
-                            res.redirect(redirectUrl);
-                        });
-                    }
-                });
-            }
-        })(req, res, next);
+        attemptAuth(req, res, next);
     });
 
 // logout path
