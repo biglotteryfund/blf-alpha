@@ -1,0 +1,9 @@
+{% extends "../layouts/tools.njk" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    {% if user %}
+        <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
+    {% endif %}
+{% endblock %}

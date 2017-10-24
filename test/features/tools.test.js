@@ -33,7 +33,7 @@ describe('authorisation for tools', () => {
             .get('/tools/edit-news')
             .redirects(0)
             .end((err, res) => {
-                res.should.redirectTo('/tools/login');
+                res.should.redirectTo('/user/login');
                 res.should.have.status(302);
                 done();
             });
@@ -46,12 +46,12 @@ describe('authorisation for tools', () => {
         };
 
         agent
-            .post('/tools/login')
+            .post('/user/login')
             .send(formData)
             .redirects(0)
             .end((err, res) => {
                 res.should.have.cookie(config.get('cookies.session'));
-                res.should.redirectTo('/tools/login');
+                res.should.redirectTo('/user/login');
                 return agent
                     .get('/tools/edit-news/')
                     .redirects(0)
@@ -70,7 +70,7 @@ describe('authorisation for tools', () => {
         };
 
         agent
-            .post('/tools/login')
+            .post('/user/login')
             .send(formData)
             .redirects(0)
             .end((err, res) => {
@@ -124,7 +124,7 @@ describe('news editor tool', () => {
 
         // invalid news
         agent
-            .post('/tools/login')
+            .post('/user/login')
             .send(loginData)
             .redirects(0)
             .end((err, res) => {
@@ -146,7 +146,7 @@ describe('news editor tool', () => {
 
         // valid news
         agent
-            .post('/tools/login')
+            .post('/user/login')
             .send(loginData)
             .redirects(0)
             .end((err, res) => {

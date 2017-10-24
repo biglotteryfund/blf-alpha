@@ -5,14 +5,13 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
-const passport = require('passport');
 const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
-const isAuthenticated = require('../../modules/authed');
+const auth = require('../../modules/authed');
 
 const LAUNCH_DATE = moment();
 
@@ -68,72 +67,19 @@ router.get('/status/pages', (req, res) => {
     });
 });
 
-// login auth
-const loginPath = '/tools/login';
-routeStatic.injectUrlRequest(router, loginPath);
-router.get(loginPath, (req, res) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-    res.render('pages/tools/login', {
-        error: req.flash('error'),
-        user: req.user
-    });
-});
-
-router.post(loginPath, (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            return next(err);
-        } else {
-            req.logIn(user, err => {
-                if (err) {
-                    // user not valid, send them to login again
-                    req.flash('error', info.message);
-                    // save the session to avoid race condition
-                    // see https://github.com/mweibel/connect-session-sequelize/issues/20
-                    req.session.save(() => {
-                        return res.redirect(loginPath);
-                    });
-                } else {
-                    // user is valid, send them on
-                    // we don't use flash here because it gets unset in the GET route above
-                    let redirectUrl = loginPath;
-                    if (req.body.redirectUrl) {
-                        redirectUrl = req.body.redirectUrl;
-                    } else if (req.session.redirectUrl) {
-                        redirectUrl = req.session.redirectUrl;
-                        delete req.session.redirectUrl;
-                    }
-                    req.session.save(() => {
-                        res.redirect(redirectUrl);
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-});
-
-// logout path
-router.get('/tools/logout', (req, res) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-    req.logout();
-    res.redirect('/');
-});
-
 // language file editor tool
 let localeEditorPath = '/tools/locales/';
 routeStatic.injectUrlRequest(router, localeEditorPath);
 router
     .route(localeEditorPath)
-    .get(isAuthenticated, (req, res) => {
+    .get(auth.requireAuthed, (req, res) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
     })
-    .post(isAuthenticated, (req, res) => {
+    .post(auth.requireAuthed, (req, res) => {
         // fetch these each time
         const locales = {
             en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
@@ -158,7 +104,7 @@ router
     });
 
 // update a language file
-router.post('/tools/locales/update/', isAuthenticated, (req, res) => {
+router.post('/tools/locales/update/', auth.requireAuthed, (req, res) => {
     const json = req.body;
     let validKeys = ['en', 'cy'];
     let failedUpdates = [];
@@ -186,7 +132,7 @@ const editNewsPath = '/tools/edit-news';
 routeStatic.injectUrlRequest(router, editNewsPath);
 router
     .route(editNewsPath + '/:id?')
-    .get(isAuthenticated, (req, res, next) => {
+    .get(auth.requireAuthed, (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
 
@@ -216,7 +162,7 @@ router
             });
         });
     })
-    .post(isAuthenticated, (req, res) => {
+    .post(auth.requireAuthed, (req, res) => {
         let redirectBase = req.baseUrl + editNewsPath + '/';
 
         // validate form

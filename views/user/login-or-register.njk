@@ -1,0 +1,56 @@
+{% extends "../layouts/tools.njk" %}
+
+{% block title %}{% if mode === 'login' %}Login {% else %}Register{% endif %}{% endblock %}
+
+{% block content %}
+
+    {% set formErrors = getFlash(request, 'formErrors') %}
+
+    {% if formErrors %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for error in formErrors %}
+                    <li>{{ error.msg }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if user %}
+        <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
+    {% else %}
+        {% if mode === 'login' %}
+            <h1>Log in</h1>
+        {% else %}
+            <h1>Register</h1>
+        {% endif %}
+        <form action="{% if mode === 'login' %}/user/login{% else %}/user/register{% endif %}" method="post">
+            <div class="form-group">
+                <label for="username">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="username"
+                       placeholder="Your email address"
+                       name="username"
+                       required
+                       aria-required="true"
+                       value="{{ getFlash(request, 'formValues', 'username') }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Your password"
+                       name="password"
+                       required
+                       aria-required="true">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="{% if mode === 'login' %}Log in{% else %}Register{% endif %}" />
+                {% if mode === 'login' %} or <a href="/user/register">register</a> {% endif %}
+                {% if mode === 'register' %} or <a href="/user/login">log in</a> {% endif %}
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
