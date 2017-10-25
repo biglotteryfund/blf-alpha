@@ -8,31 +8,25 @@ let mailConfig = {
     password: secrets['ses.auth.password']
 };
 
-let transporter = false;
+// create reusable transporter object using the default SMTP transport
+const transport = nodemailer.createTransport({
+    service: 'SES-EU-WEST-1',
+    auth: {
+        user: mailConfig.user,
+        pass: mailConfig.password
+    }
+});
 
 const send = (text, subject) => {
-
-    // only initialise this when we need it
-    if (!transporter) {
-        // create reusable transporter object using the default SMTP transport
-        transporter = nodemailer.createTransport({
-            service: "SES-EU-WEST-1",
-            auth: {
-                user: mailConfig.user,
-                pass: mailConfig.password
-            }
-        });
-    }
-
     let mailOptions = {
-        from: 'noreply@biglotteryfund.org.uk',
+        from: config.get('emailSender'),
         bcc: config.get('materialSupplierEmail'),
         subject: subject,
         text: text
     };
 
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
+    transport.sendMail(mailOptions, (error, info) => {
         if (error) {
             // @TODO handle this better – re-send it?
             return console.error('Error sending email via SES', error);
@@ -42,5 +36,6 @@ const send = (text, subject) => {
 };
 
 module.exports = {
-    send: send
+    send: send,
+    transport: transport
 };
