@@ -32,7 +32,7 @@ formModel.registerStep({
                     name: 'last-name',
                     label: 'Last Name',
                     isRequired: true,
-                    validator: function(field /*, reqBody */) {
+                    validator: function(field) {
                         return check(field.name)
                             .escape()
                             .trim()
@@ -46,7 +46,7 @@ formModel.registerStep({
                     name: 'organisation',
                     label: 'Organisation',
                     isRequired: true,
-                    validator: function(field /*, reqBody */) {
+                    validator: function(field) {
                         return check(field.name)
                             .trim()
                             .not()
@@ -100,7 +100,7 @@ formModel.registerStep({
                     conditionalOn: {
                         name: 'colour',
                         value: 'other',
-                        fallbackText: 'Only fill this in if you have selected ’other‘ for colour'
+                        fallbackText: 'Only fill this in if you have selected ‘other’ for colour'
                     },
                     validator: function(field) {
                         return check(field.name).custom((val, { req }) => {

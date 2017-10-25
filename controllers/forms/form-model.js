@@ -1,5 +1,11 @@
 const { find, flatMap, has, get } = require('lodash');
 
+/**
+ * For a given field attach some additional computed properties
+ * - isConditionalOr flags if this field is a conditional field, i.e. has a dependency on another field (child field).
+ * - isConditionalFor flags if a field could trigger any conditional fields (parent field).
+ * - conditionalFor attaches information about any conditional fields associated with a parent field (names of the conditional fields and the value to check for)
+ */
 function enhanceField(field, associatedConditionalFields) {
     const conditionalFor = associatedConditionalFields.map(_ => {
         return {
@@ -33,6 +39,13 @@ function getFieldsForFieldsets(fieldsets) {
     };
 }
 
+/**
+ * Create a step based on a schema.
+ * Allows us to pass a relatively consise schema for the step,
+ * this funciton then adds some additional computed methods on top.
+ * - withValues allows the current form data for a step to be passed in and the values attached to each field
+ * - getValidators collects all validators associated with each field for express-valdiator
+ */
 function createStep(step) {
     const getFields = getFieldsForFieldsets(step.fieldsets);
     return Object.assign(step, {
@@ -55,6 +68,12 @@ function createStep(step) {
     });
 }
 
+/**
+ * This function allows us to model a form using a schema.
+ * Main API is to register "steps":
+ * - formModel({ id: 'example', title: 'Example' }).registerStep({});
+ * Each step equates to a single page in a multi-page form.
+ */
 function createFormModel({ id, title }) {
     let steps = [];
     let successStep;

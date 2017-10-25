@@ -9,11 +9,9 @@ function conditionalRadios($el) {
         const selectedValue = $(this).val();
         conditionalFields.forEach(field => {
             const $triggerField = $(`[data-conditional-field="${field.triggerField}"]`);
-            if (selectedValue === field.triggerOnValue) {
-                $triggerField.attr('hidden', false);
-            } else {
-                $triggerField.attr('hidden', true);
-            }
+            $triggerField.attr('hidden', function() {
+                return selectedValue === field.triggerOnValue;
+            });
         });
     });
 }
