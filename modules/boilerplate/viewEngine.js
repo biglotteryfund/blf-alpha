@@ -72,13 +72,5 @@ templateEnv.addFilter('lowercaseFirst', str => {
     return str[0].toLowerCase() + str.substring(1);
 });
 
-templateEnv.addFilter('jsonStringify', val => {
-    let ret;
-    try {
-        ret = JSON.stringify(val);
-    } catch (e) {} // eslint-disable-line no-empty
-    return ret || val;
-});
-
 app.set('view engine', 'njk');
 app.set('engineEnv', templateEnv);
