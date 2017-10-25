@@ -1,12 +1,14 @@
 'use strict';
+const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const router = express.Router();
+const { sortBy } = require('lodash');
 const rp = require('request-promise');
 const ab = require('express-ab');
-const { sortBy } = require('lodash');
+const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
-const Raven = require('raven');
+
+const router = express.Router();
 
 const app = require('../../server');
 const routeStatic = require('../utils/routeStatic');
@@ -164,20 +166,35 @@ module.exports = (pages, sectionPath, sectionId) => {
     });
 
     // send form data to the (third party) email newsletter provider
-    router.post('/ebulletin', (req, res) => {
-        req.checkBody('firstName', 'Please provide your first name').notEmpty();
-        req.checkBody('lastName', 'Please provide your last name').notEmpty();
-        req.checkBody('email', 'Please provide your email address').notEmpty();
-        req.checkBody('location', 'Please choose a country newsletter').notEmpty();
-
-        req.getValidationResult().then(result => {
+    router.post(
+        '/ebulletin',
+        [
+            body('firstName', 'Please provide your first name')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('lastName', 'Please provide your last name')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('email', 'Please provide your email address')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('location', 'Please choose a country newsletter')
+                .exists()
+                .not()
+                .isEmpty()
+        ],
+        (req, res) => {
+            const errors = validationResult(req);
             // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);
             }
 
-            if (!result.isEmpty()) {
-                req.flash('formErrors', result.array());
+            if (!errors.isEmpty()) {
+                req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
                 req.session.save(() => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
@@ -261,8 +278,8 @@ module.exports = (pages, sectionPath, sectionId) => {
                         return handleSignupError(error.message || error);
                     });
             }
-        });
-    });
+        }
+    );
 
     // data page
     router.get(pages.data.path, (req, res) => {
