@@ -1,3 +1,115 @@
+/* =========================================================================
+   Forms
+   ========================================================================= */
+
+legend {
+    padding: 0;
+    display: table;
+}
+fieldset {
+    border: 0;
+    padding: 0.01em 0 0 0;
+    margin: 0;
+    min-width: 0;
+}
+body:not(:-moz-handler-blocked) fieldset {
+    display: table-cell;
+}
+
+.form-header {
+    margin-bottom: $spacingUnit;
+
+    .form-header__title {
+        margin-bottom: 3px;
+    }
+    .form-header__subtitle {
+        margin: 0;
+        font-weight: 14px;
+        color: palette('soft-grey');
+    }
+}
+
+.form-fieldset {
+    margin-bottom: $spacingUnit;
+}
+.form-fieldset__legend {
+    font-weight: bold;
+    margin-bottom: $spacingUnit;
+}
+.form-fieldset__fields {
+    margin: 0;
+}
+
+$errorColor: #b00;
+.form-errors {
+    border: 3px solid $errorColor;
+    margin-bottom: $spacingUnit;
+}
+.form-errors__title {
+    color: white;
+    background-color: $errorColor;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: $spacingUnit / 2;
+    padding: $spacingUnit / 3;
+}
+.form-errors__body {
+    padding: $spacingUnit / 2;
+}
+
+.error-list {
+    &,
+    a {
+        color: $errorColor;
+        font-weight: bold;
+    }
+}
+
+.form-field {
+    margin-bottom: $spacingUnit;
+
+    &.has-errors {
+        border-left: 3px solid $errorColor;
+        padding-left: $spacingUnit / 2;
+    }
+
+    &:target {
+        background-color: rgba(255, 255, 0, 0.5);
+    }
+
+    .form-field__errors {
+        margin-top: $spacingUnit / 3;
+    }
+}
+
+.no-js .form-field[hidden] {
+    display: block;
+}
+
+.ff-text {
+    > label,
+    > input[type='text'] {
+        display: block;
+    }
+
+    > label {
+        margin-bottom: 3px;
+    }
+
+    > input[type='text'] {
+        border: 2px solid palette('charcoal');
+
+        &:focus {
+            outline: 3px solid lighten(palette('turquoise'), 25%);
+            outline-offset: 0;
+        }
+    }
+}
+
+/* =========================================================================
+   Forms: Specific Form Customisations
+   ========================================================================= */
+
 .form-fund {
     &.form-fund--inline {
         height: 40px;

@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
-const expressValidator = require('express-validator');
 const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
@@ -62,9 +61,6 @@ app.use(flash());
 // add passport auth
 app.use(passport.initialize());
 app.use(passport.session());
-
-// add form validator
-app.use(expressValidator({}));
 
 // setup internationalisation
 i18n.expressBind(app, {

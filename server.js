@@ -56,6 +56,8 @@ for (let sectionId in routes.sections) {
     }
 }
 
+app.use('/example-form', require('./controllers/forms'));
+
 // add vanity redirects
 routes.vanityRedirects.forEach(r => {
     let servePath = path => {
