@@ -4,7 +4,6 @@ const router = express.Router();
 const xss = require('xss');
 const passport = require('passport');
 const config = require('config');
-const activator = require('activator');
 const path = require('path');
 
 const models = require('../models/index');
@@ -13,7 +12,7 @@ const auth = require('../modules/authed');
 const secrets = require('../modules/secrets');
 const mail = require('../modules/mail');
 
-activator.init({
+const activator = {
     user: {
         find: (id, callback) => {
             models.Users
@@ -68,12 +67,8 @@ activator.init({
                 });
         }
     },
-    emailProperty: 'username',
-    transport: mail.transport,
-    templates: activator.templates.file(path.join(__dirname, '../views/emails')),
-    from: config.get('emailSender'),
     signkey: secrets['user.jwt.secret']
-});
+};
 
 const attemptAuth = (req, res, next) =>
     passport.authenticate('local', (err, user, info) => {
@@ -175,13 +170,8 @@ router
                                 .create(userData)
                                 .then(newUser => {
                                     // success! now send them an activation email
-                                    req.activator = {
-                                        id: newUser.id
-                                    };
                                     // redirect them to login after email
-                                    activator.createActivateNext(req, res, () => {
-                                        attemptAuth(req, res, next);
-                                    });
+                                    attemptAuth(req, res, next);
                                 })
                                 .catch(err => {
                                     // error on user insert
@@ -203,10 +193,10 @@ router
         });
     });
 
-// activate an account
-router.get('/activate/:user', activator.completeActivateNext, (req, res) => {
-    res.redirect('/user/dashboard');
-});
+// // activate an account
+// router.get('/activate/:user', activator.completeActivateNext, (req, res) => {
+//     res.redirect('/user/dashboard');
+// });
 
 // login users
 routeStatic.injectUrlRequest(router, '/login');
