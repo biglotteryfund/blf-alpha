@@ -48,5 +48,6 @@
         }
     },
     "database": "website-dev",
-    "database-test": "website-test"
+    "database-test": "website-test",
+    "emailSender": "noreply@biglotteryfund.org.uk"
 }

@@ -3,10 +3,77 @@ const express = require('express');
 const router = express.Router();
 const xss = require('xss');
 const passport = require('passport');
+const config = require('config');
+const activator = require('activator');
+const path = require('path');
 
 const models = require('../models/index');
 const routeStatic = require('./utils/routeStatic');
 const auth = require('../modules/authed');
+const secrets = require('../modules/secrets');
+const mail = require('../modules/mail');
+
+activator.init({
+    user: {
+        find: (id, callback) => {
+            models.Users
+                .findOne({ where: { id: id } })
+                .then(user => {
+                    if (user) {
+                        callback(null, user);
+                    } else {
+                        callback(null, null);
+                    }
+                })
+                .catch(err => {
+                    callback(err, null);
+                });
+        },
+        activate: (id, callback) => {
+            models.Users
+                .update(
+                    {
+                        is_active: true
+                    },
+                    {
+                        where: {
+                            id: id
+                        }
+                    }
+                )
+                .then(() => {
+                    callback(null);
+                })
+                .catch(err => {
+                    callback(err);
+                });
+        },
+        setPassword: (id, newPassword, callback) => {
+            models.Users
+                .update(
+                    {
+                        password: newPassword
+                    },
+                    {
+                        where: {
+                            id: id
+                        }
+                    }
+                )
+                .then(() => {
+                    callback(null);
+                })
+                .catch(err => {
+                    callback(err);
+                });
+        }
+    },
+    emailProperty: 'username',
+    transport: mail.transport,
+    templates: activator.templates.file(path.join(__dirname, '../views/emails')),
+    from: config.get('emailSender'),
+    signkey: secrets['user.jwt.secret']
+});
 
 const attemptAuth = (req, res, next) =>
     passport.authenticate('local', (err, user, info) => {
