@@ -106,6 +106,7 @@ const attemptAuth = (req, res, next) =>
         }
     })(req, res, next);
 
+// serve a logged-in user's dashboard
 routeStatic.injectUrlRequest(router, '/dashboard');
 router.get('/dashboard', auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
@@ -114,6 +115,7 @@ router.get('/dashboard', auth.requireAuthed, (req, res) => {
     });
 });
 
+// register users
 routeStatic.injectUrlRequest(router, '/register');
 router
     .route('/register')
@@ -171,9 +173,15 @@ router
                             // no user found, so make a new one
                             models.Users
                                 .create(userData)
-                                .then(() => {
-                                    // log them in
-                                    attemptAuth(req, res, next);
+                                .then(newUser => {
+                                    // success! now send them an activation email
+                                    req.activator = {
+                                        id: newUser.id
+                                    };
+                                    // redirect them to login after email
+                                    activator.createActivateNext(req, res, () => {
+                                        attemptAuth(req, res, next);
+                                    });
                                 })
                                 .catch(err => {
                                     // error on user insert
@@ -195,9 +203,13 @@ router
         });
     });
 
-// login auth
-routeStatic.injectUrlRequest(router, '/login');
+// activate an account
+router.get('/activate/:user', activator.completeActivateNext, (req, res) => {
+    res.redirect('/user/dashboard');
+});
 
+// login users
+routeStatic.injectUrlRequest(router, '/login');
 router
     .route('/login')
     .get(auth.requireUnauthed, (req, res) => {
@@ -211,7 +223,7 @@ router
         attemptAuth(req, res, next);
     });
 
-// logout path
+// logout users
 router.get('/logout', (req, res) => {
     res.cacheControl = { maxAge: 0 };
     req.logout();

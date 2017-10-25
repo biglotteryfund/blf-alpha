@@ -5,5 +5,6 @@
 {% block content %}
     {% if user %}
         <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
+        {% if user.is_active %}ACTIVE{% else %} NOT ACTIVE{% endif %}
     {% endif %}
 {% endblock %}
