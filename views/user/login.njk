@@ -1,0 +1,53 @@
+{% extends "../layouts/tools.njk" %}
+{% from "./user-helpers.njk" import listFormErrors, listGenericErrors with context %}
+
+{% block title %}Your account{% endblock %}
+
+{% block content %}
+
+    {{ listGenericErrors() }}
+    {{ listFormErrors() }}
+
+    {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
+    {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
+
+    {% if passwordUpdated or passwordRequestSent %}
+        <div class="alert alert-warning" role="alert">
+            {% if passwordUpdated %}
+                <p>Your password was successfully updated! Please log in below.</p>
+            {% endif %}
+            {% if passwordRequestSent %}
+                <p>Your password reset request was sent to your registered email address.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <form action="/user/login" method="post">
+        <div class="form-group">
+            <label for="username">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   id="username"
+                   placeholder="Your email address"
+                   name="username"
+                   required
+                   aria-required="true"
+                   value="{{ getFlash(request, 'formValues', 'username') }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="Your password"
+                   name="password"
+                   required
+                   aria-required="true">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Log in" />
+            or <a href="/user/register">register</a>
+        </div>
+        <small><a href="/user/resetpassword">Forgotten your password?</a></small>
+    </form>
+{% endblock %}

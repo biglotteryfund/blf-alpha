@@ -1,180 +1,32 @@
 {% extends "../layouts/tools.njk" %}
+{% from "./user-helpers.njk" import listFormErrors, listGenericErrors with context %}
 
-{% macro getPageTitle(mode) %}
-    {% if mode === 'dashboard' %}
-        Dashboard
-    {% elseif mode === 'register' %}
-        Register
-    {% elseif mode === 'login' %}
-        Log in
-    {% elseif mode === 'resetpassword' %}
-        Reset your password
-    {% elseif mode === 'resetpasswordconfirmed' %}
-        Enter a new password
-    {% elseif mode === 'activatetokenexpired' %}
-        Error activating account
-    {% elseif mode === 'resettokenexpired' %}
-        Error resetting password
-    {% else %}
-        Your dashboard
-    {% endif %}
-{% endmacro %}
-
-{% block title %}{{ getPageTitle(mode) }}{% endblock %}
+{% block title %}Your account{% endblock %}
 
 {% block content %}
 
-    {% set formErrors = getFlash(request, 'formErrors') %}
-    {% if formErrors %}
+    {{ listGenericErrors() }}
+    {{ listFormErrors() }}
+
+    {% set activationInvalid = getFlash(request, 'activationInvalid') %}
+    {% if activationInvalid %}
         <div class="alert alert-danger" role="alert">
-            {% set numErrs = formErrors.length %}
-            <p><strong>There w{{ numErrs | pluralise("as", "ere") }} {{ numErrs }} error{{ numErrs | pluralise("", "s") }}:</strong></p>
-            <ul>
-                {% for error in formErrors %}
-                    <li>{{ error.msg }}</li>
-                {% endfor %}
-            </ul>
+            <p><strong>Error:</strong> That activation link is no longer valid &ndash; would you like to <a href="/user/activate">re-send your activation link</a>?</p>
         </div>
     {% endif %}
 
-    <h1>{{ getPageTitle(mode) }}</h1>
-
-    {% if mode === 'dashboard' %}
-        {% if user %}
-            {% set activationSent = getFlash(request, 'activationSent') %}
-            {% if not user.is_active %}
-                <div class="alert alert-warning" role="alert">
-                    <p><strong>Account not active</strong> &ndash; you haven't activated your account yet!</p>
-                    {% if activationSent %}
-                        <p>We just sent an email to {{ user.username }} with a link to activate your account.</p>
-                    {% endif %}
-                    <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
-                </div>
+    {% if not user.is_active %}
+        {% set activationSent = getFlash(request, 'activationSent') %}
+        <div class="alert alert-warning" role="alert">
+            <p><strong>Warning:</strong> You haven't activated your account yet!</p>
+            {% if activationSent %}
+                <p>We just sent an email to {{ user.username }} with a link to activate your account.</p>
             {% endif %}
-
-            <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
-        {% endif %}
+            <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
+        </div>
     {% endif %}
 
-    {% if mode === 'register' %}
-        <form action="/user/register" method="post">
-            <div class="form-group">
-                <label for="username">Email address</label>
-                <input type="email"
-                       class="form-control"
-                       id="username"
-                       placeholder="Your email address"
-                       name="username"
-                       required
-                       aria-required="true"
-                       value="{{ getFlash(request, 'formValues', 'username') }}">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       placeholder="Your password"
-                       name="password"
-                       required
-                       aria-required="true">
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-default" value="Register" />
-                or <a href="/user/login">log in</a>
-            </div>
-        </form>
-    {% endif %}
-
-    {% if mode === 'login' %}
-        {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
-        {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
-
-        {% if passwordUpdated or passwordRequestSent %}
-            <div class="alert alert-warning" role="alert">
-                {% if passwordUpdated %}
-                    <p>Your password was successfully updated! Please log in below.</p>
-                {% endif %}
-                {% if passwordRequestSent %}
-                    <p>Your password reset request was sent to your registered email address.</p>
-                {% endif %}
-            </div>
-        {% endif %}
-
-        <form action="/user/login" method="post">
-            <div class="form-group">
-                <label for="username">Email address</label>
-                <input type="email"
-                       class="form-control"
-                       id="username"
-                       placeholder="Your email address"
-                       name="username"
-                       required
-                       aria-required="true"
-                       value="{{ getFlash(request, 'formValues', 'username') }}">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       placeholder="Your password"
-                       name="password"
-                       required
-                       aria-required="true">
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-default" value="Log in" />
-                or <a href="/user/register">register</a>
-            </div>
-            <small><a href="/user/resetpassword">Forgotten your password?</a></small>
-        </form>
-    {% endif %}
-
-    {% if mode === 'resetpassword' %}
-        <form action="/user/resetpassword" method="post">
-            <div class="form-group">
-                <label for="username">Email address</label>
-                <input type="email"
-                       class="form-control"
-                       id="username"
-                       placeholder="Your email address"
-                       name="username"
-                       required
-                       aria-required="true"
-                       value="{{ getFlash(request, 'formValues', 'username') }}">
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-default" value="Request password reset" />
-            </div>
-        </form>
-    {% endif %}
-
-    {% if mode === 'resetpasswordconfirmed' %}
-        <form action="/user/resetpassword" method="post">
-            <input type="hidden" name="token" value="{{ token }}">
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       placeholder="Your new password"
-                       name="password"
-                       required
-                       aria-required="true">
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-default" value="Reset password" />
-            </div>
-        </form>
-    {% endif %}
-
-    {% if mode === 'activatetokenexpired' %}
-        <p>That activation link is no longer valid &ndash; would you like to <a href="/user/activate">re-send your activation link</a>?</p>
-    {% endif %}
-
-    {% if mode === 'resettokenexpired' %}
-        <p>That password reset link is no longer valid &ndash; would you like to try to <a href="/user/resetpassword">reset your password</a> again?</p>
-    {% endif %}
+    <h1>Dashboard</h1>
+    <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
 
 {% endblock %}
