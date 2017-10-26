@@ -1,6 +1,5 @@
 const createFormModel = require('./form-model');
 const { check } = require('express-validator/check');
-const validator = require('validator');
 
 const formModel = createFormModel({
     id: 'example-form',
@@ -105,7 +104,7 @@ formModel.registerStep({
                     validator: function(field) {
                         return check(field.name).custom((val, { req }) => {
                             const conditionalField = req.body[field.conditionalOn.name];
-                            if (conditionalField === field.conditionalOn.value && validator.isEmpty(val)) {
+                            if (conditionalField === field.conditionalOn.value && val.length > 0) {
                                 throw new Error('Must give us the name of a colour');
                             }
 
