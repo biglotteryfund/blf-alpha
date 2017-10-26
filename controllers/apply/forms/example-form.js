@@ -130,6 +130,9 @@ formModel.registerStep({
                             const conditionalField = req.body[field.conditionalOn.name];
                             if (conditionalField === field.conditionalOn.value && val.length < 1) {
                                 throw new Error('Must give us the name of a colour');
+                            } else if (conditionalField !== field.conditionalOn.value) {
+                                // Clear conditional field
+                                delete req.body[field.name];
                             }
 
                             return true;
