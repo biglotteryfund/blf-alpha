@@ -209,7 +209,9 @@ router
 router.get('/logout', (req, res) => {
     res.cacheControl = { maxAge: 0 };
     req.logout();
-    res.redirect('/user/login');
+    req.session.save(() => {
+        res.redirect('/user/login');
+    });
 });
 
 // activate an account
@@ -276,7 +278,7 @@ router.get('/activate', auth.requireAuthed, (req, res) => {
 routeStatic.injectUrlRequest(router, '/resetpassword');
 router
     .route('/resetpassword')
-    .get((req, res) => {
+    .get(auth.requireUnauthed, (req, res) => {
         res.cacheControl = { maxAge: 0 };
 
         let token = req.query.token;
@@ -298,7 +300,6 @@ router
                     );
                 } else {
                     if (decoded.data.reason === 'resetpassword') {
-                        // @TODO check user is in reset state
                         // we can now show the reset password form
                         res.render('user/dashboard', {
                             mode: 'resetpasswordconfirmed',
@@ -318,7 +319,7 @@ router
             });
         }
     })
-    .post((req, res) => {
+    .post(auth.requireUnauthed, (req, res) => {
         let hasToken = req.body.token;
 
         if (!hasToken) {
@@ -328,10 +329,14 @@ router
                 showUserError(req, res, 'Please provide a valid email address', 'resetpassword');
             } else {
                 models.Users
-                    .findOne({ where: { username: email } })
+                    .findOne({
+                        where: {
+                            username: email
+                        }
+                    })
                     .then(user => {
                         if (!user) {
-                            // no user found
+                            // no user found / user not in password reset mode
                             showUserError(req, res, 'Please provide a valid email address', 'resetpassword');
                         } else {
                             // this user exists, send email
@@ -348,14 +353,40 @@ router
                                 }
                             );
                             let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
+
                             mail.send(
                                 'Reset the password for your Big Lottery Fund website account',
                                 `Please click the following link to reset your password: ${resetUrl}`,
                                 email
                             );
-                            // @TODO mark user as in reset mode
-                            // @TODO view update
-                            res.send('email sent');
+
+                            // mark this user as in password reset mode
+                            models.Users
+                                .update(
+                                    {
+                                        is_password_reset: true
+                                    },
+                                    {
+                                        where: {
+                                            id: user.id
+                                        }
+                                    }
+                                )
+                                .then(() => {
+                                    req.flash('passwordRequestSent', true);
+                                    req.session.save(() => {
+                                        res.redirect('/user/login');
+                                    });
+                                })
+                                .catch(err => {
+                                    console.error('Error marking user as in password reset mode', err);
+                                    showUserError(
+                                        req,
+                                        res,
+                                        'There was an error requesting your password reset',
+                                        'resetpassword'
+                                    );
+                                });
                         }
                     })
                     .catch(err => {
@@ -381,23 +412,64 @@ router
                         );
                     } else {
                         if (decoded.data.reason === 'resetpassword') {
-                            let newPassword = req.body.password;
+                            // is this user in password update mode?
                             models.Users
-                                .update(
-                                    {
-                                        password: newPassword
-                                    },
-                                    {
-                                        where: {
-                                            id: decoded.data.userId
-                                        }
+                                .findOne({
+                                    where: {
+                                        id: decoded.data.userId,
+                                        is_password_reset: true
                                     }
-                                )
-                                .then(() => {
-                                    res.send('pw updated!');
+                                })
+                                .then(user => {
+                                    if (!user) {
+                                        // no user for this ID, or they already did this reset
+                                        console.error('A user tried to reset a password using a pre-used token');
+                                        showUserError(
+                                            req,
+                                            res,
+                                            'There was an error updating your password - please try again',
+                                            'resettokenexpired'
+                                        );
+                                    } else {
+                                        // this user exists and requested this change
+                                        let newPassword = req.body.password;
+                                        models.Users
+                                            .update(
+                                                {
+                                                    password: newPassword,
+                                                    is_password_reset: false
+                                                },
+                                                {
+                                                    where: {
+                                                        id: decoded.data.userId
+                                                    }
+                                                }
+                                            )
+                                            .then(() => {
+                                                req.flash('passwordUpdated', true);
+                                                req.session.save(() => {
+                                                    res.redirect('/user/login');
+                                                });
+                                            })
+                                            .catch(err => {
+                                                console.error('Error updating a user password');
+                                                showUserError(
+                                                    req,
+                                                    res,
+                                                    'There was an error updating your password - please try again',
+                                                    'resettokenexpired'
+                                                );
+                                            });
+                                    }
                                 })
                                 .catch(err => {
-                                    res.send(err);
+                                    console.error('Error fetching a user password change status');
+                                    showUserError(
+                                        req,
+                                        res,
+                                        'There was an error updating your password - please try again',
+                                        'resettokenexpired'
+                                    );
                                 });
                         } else {
                             console.error('A user tried to reset a password with an invalid token');

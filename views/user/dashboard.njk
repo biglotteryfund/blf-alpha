@@ -5,7 +5,6 @@
 {% block content %}
 
     {% set formErrors = getFlash(request, 'formErrors') %}
-
     {% if formErrors %}
         <div class="alert alert-danger" role="alert">
             {% set numErrs = formErrors.length %}
@@ -68,6 +67,21 @@
 
     {% if mode === 'login' %}
         <h1>Log in</h1>
+
+        {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
+        {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
+
+        {% if passwordUpdated or passwordRequestSent %}
+            <div class="alert alert-warning" role="alert">
+                {% if passwordUpdated %}
+                    <p>Your password was successfully updated! Please log in below.</p>
+                {% endif %}
+                {% if passwordRequestSent %}
+                    <p>Your password reset request was sent to your registered email address.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
         <form action="/user/login" method="post">
             <div class="form-group">
                 <label for="username">Email address</label>
