@@ -8,11 +8,13 @@ passport.use(
         models.Users
             .findOne({ where: { username: username } })
             .then(user => {
+                // use generic error messages here to avoid exposing existing accounts
+                let genericError = 'Your username and password combination is invalid';
                 if (!user) {
-                    return done(null, false, { message: 'User not found.' });
+                    return done(null, false, { message: genericError });
                 }
                 if (!user.isValidPassword(user.password, password)) {
-                    return done(null, false, { message: 'Incorrect password.' });
+                    return done(null, false, { message: genericError });
                 }
                 return done(null, user);
             })

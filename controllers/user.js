@@ -38,7 +38,6 @@ const showUserError = (req, res, error, mode) => {
 };
 
 // try to validate a user's login request
-// @TODO don't reveal what was wrong
 // @TODO consider rate limiting?
 const attemptAuth = (req, res, next) =>
     passport.authenticate('local', (err, user, info) => {
@@ -73,16 +72,19 @@ const attemptAuth = (req, res, next) =>
 routeStatic.injectUrlRequest(router, '/dashboard');
 router.get('/dashboard', (req, res) => {
     res.cacheControl = { maxAge: 0 };
-    res.render('user/dashboard', {
-        user: req.user,
-        errors: req.flash('formErrors'),
-        mode: req.flash('userMode') || 'dashboard'
-    });
+    let mode = req.flash('userMode') || 'dashboard';
+    if (mode === 'dashboard' && !req.user) {
+        res.redirect('/user/login');
+    } else {
+        res.render('user/dashboard', {
+            user: req.user,
+            errors: req.flash('formErrors'),
+            mode: mode
+        });
+    }
 });
 
 // register users
-// @TODO don't expose whether an account already exists or not
-// eg. "Your username and password combination is invalid"
 routeStatic.injectUrlRequest(router, '/register');
 router
     .route('/register')
@@ -158,7 +160,7 @@ router
                                         `Please click the following link to activate your account: ${activateUrl}`,
                                         email
                                     );
-                                    // @TODO tell user the email was sent
+                                    req.flash('activationSent', true);
                                     attemptAuth(req, res, next);
                                 })
                                 .catch(err => {
