@@ -39,10 +39,13 @@ module.exports = function(router, formModel) {
         router
             .route(`/${currentStepNumber}`)
             .get(function(req, res) {
-                const previousStepData =
-                    currentStepNumber > 1 && get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
-                if (!previousStepData || isEmpty(previousStepData)) {
-                    res.redirect(req.baseUrl);
+                if (currentStepNumber > 1) {
+                    const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
+                    if (isEmpty(previousStepData)) {
+                        res.redirect(req.baseUrl);
+                    } else {
+                        renderStep(req, res);
+                    }
                 } else {
                     renderStep(req, res);
                 }

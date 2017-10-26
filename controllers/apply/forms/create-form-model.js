@@ -92,7 +92,6 @@ function createFormModel({ id, title }) {
             return steps;
         },
         getStepsWithValues: function(data) {
-            console.log('steps', steps);
             return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
         },
         getSuccessStep: function() {
