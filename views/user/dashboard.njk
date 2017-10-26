@@ -1,6 +1,26 @@
 {% extends "../layouts/tools.njk" %}
 
-{% block title %}{{ mode }}{% endblock %}
+{% macro getPageTitle(mode) %}
+    {% if mode === 'dashboard' %}
+        Dashboard
+    {% elseif mode === 'register' %}
+        Register
+    {% elseif mode === 'login' %}
+        Log in
+    {% elseif mode === 'resetpassword' %}
+        Reset your password
+    {% elseif mode === 'resetpasswordconfirmed' %}
+        Enter a new password
+    {% elseif mode === 'activatetokenexpired' %}
+        Error activating account
+    {% elseif mode === 'resettokenexpired' %}
+        Error resetting password
+    {% else %}
+        Your dashboard
+    {% endif %}
+{% endmacro %}
+
+{% block title %}{{ getPageTitle(mode) }}{% endblock %}
 
 {% block content %}
 
@@ -16,6 +36,8 @@
             </ul>
         </div>
     {% endif %}
+
+    <h1>{{ getPageTitle(mode) }}</h1>
 
     {% if mode === 'dashboard' %}
         {% if user %}
@@ -35,7 +57,6 @@
     {% endif %}
 
     {% if mode === 'register' %}
-        <h1>Register</h1>
         <form action="/user/register" method="post">
             <div class="form-group">
                 <label for="username">Email address</label>
@@ -66,8 +87,6 @@
     {% endif %}
 
     {% if mode === 'login' %}
-        <h1>Log in</h1>
-
         {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
         {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
 
