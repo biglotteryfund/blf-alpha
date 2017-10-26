@@ -4,6 +4,7 @@ const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
 const xss = require('xss');
+const config = require('config');
 
 const routeStatic = require('../utils/routeStatic');
 const email = require('../../modules/mail');
@@ -167,7 +168,12 @@ module.exports = (pages, sectionPath, sectionId) => {
 
                     // allow tests to run without sending email
                     if (!req.body.skipEmail) {
-                        email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+                        email.send(
+                            `Order from Big Lottery Fund website - ${dateNow}`,
+                            text,
+                            config.get('materialSupplierEmail'),
+                            'bcc'
+                        );
                         req.flash('materialFormSuccess', true);
                         req.flash('showOverlay', true);
                         req.session.save(() => {

@@ -17,13 +17,24 @@ const transport = nodemailer.createTransport({
     }
 });
 
-const send = (text, subject) => {
+const send = (subject, text, sendTo, sendMode) => {
+    // default sending is `to` (as opposed to `bcc` etc)
+    if (!sendMode) {
+        sendMode = 'to';
+    }
+
+    if (!subject && !text && !sendTo) {
+        throw new Error('Must pass a subject, text content and send to address');
+    }
+
+    // @TODO allow HTML emails
     let mailOptions = {
-        from: config.get('emailSender'),
-        bcc: config.get('materialSupplierEmail'),
+        from: `Big Lottery Fund <${config.get('emailSender')}>`,
         subject: subject,
         text: text
     };
+
+    mailOptions[sendMode] = sendTo;
 
     // send mail with defined transport object
     transport.sendMail(mailOptions, (error, info) => {
