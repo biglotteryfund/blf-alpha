@@ -16,9 +16,11 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">BLF Tools</a>
+                    <a class="navbar-brand" href="#">Big Lottery Fund user account</a>
                     {% if user %}
                         <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong> [<a href="/user/logout">Log out?</a>]</p>
+                    {% else %}
+                        <p class="navbar-text"><a href="/user/login">Log in</a></p>
                     {% endif %}
                 </div>
                 {% block headerAction %}{% endblock %}

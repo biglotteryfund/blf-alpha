@@ -93,7 +93,7 @@ router.get('/dashboard', (req, res) => {
 const sendActivationEmail = (user, req, isBrandNewUser) => {
     // only the current user can do this
     // (or if it's a brand new, not-logged-in-yet user)
-    if (isBrandNewUser || req.user.id === user.id) {
+    if (isBrandNewUser || (req.user.id === user.id && !req.user.is_active)) {
         // redirect them to login after email
         let token = jwt.sign(
             {
@@ -118,6 +118,24 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
 };
 
 const PASSWORD_MIN_LENGTH = 8;
+const emailPasswordValidations = [
+    body('username')
+        .exists()
+        .not()
+        .isEmpty()
+        .withMessage('Please provide your email address')
+        .isEmail()
+        .withMessage('Please provide a valid email address'),
+    body('password')
+        .exists()
+        .not()
+        .isEmpty()
+        .withMessage('Please provide a password')
+        .isLength({ min: PASSWORD_MIN_LENGTH })
+        .withMessage(`Please provide a password that is longer than ${PASSWORD_MIN_LENGTH} characters`)
+        .matches(/\d/)
+        .withMessage('Please provide a password that contains at least one number')
+];
 
 // register users
 routeStatic.injectUrlRequest(router, '/register');
@@ -129,85 +147,65 @@ router
             mode: 'register'
         });
     })
-    .post(
-        [
-            body('username')
-                .exists()
-                .not()
-                .isEmpty()
-                .withMessage('Please provide your email address')
-                .isEmail()
-                .withMessage('Please provide a valid email address'),
-            body('password')
-                .exists()
-                .not()
-                .isEmpty()
-                .withMessage('Please provide a password')
-                .isLength({ min: PASSWORD_MIN_LENGTH })
-                .withMessage(`Please provide a password that is longer than ${PASSWORD_MIN_LENGTH} characters`)
-                .matches(/\d/)
-                .withMessage('Please provide a password that contains at least one number')
-        ],
-        (req, res, next) => {
-            // generic message handler for registration fails
-            const handleSignupError = msg => {
-                if (!msg) {
-                    msg = 'Error registering your details - please try again';
-                }
-                showUserError(req, res, msg, 'register');
+    .post(emailPasswordValidations, (req, res, next) => {
+        // generic message handler for registration fails
+        const handleSignupError = msg => {
+            if (!msg) {
+                msg = 'Error registering your details - please try again';
+            }
+            showUserError(req, res, msg, 'register');
+        };
+
+        const errors = validationResult(req);
+        const data = matchedData(req, { locations: ['body'] });
+
+        if (!errors.isEmpty()) {
+            // failed validation
+            // return the user to the form to correct errors
+            req.flash('formValues', data);
+            showUserError(req, res, errors.array(), 'register');
+        } else {
+            let userData = {
+                username: xss(req.body.username),
+                password: xss(req.body.password),
+                level: 0
             };
 
-            const errors = validationResult(req);
-            const data = matchedData(req, { locations: ['body'] });
-
-            if (!errors.isEmpty()) {
-                // failed validation
-                // return the user to the form to correct errors
-                req.flash('formValues', data);
-                showUserError(req, res, errors.array(), 'register');
-            } else {
-                let userData = {
-                    username: xss(req.body.username),
-                    password: xss(req.body.password),
-                    level: 0
-                };
-
-                // check if this email address already exists
-                // we can't use findOrCreate here because the password changes
-                // each time we hash it, which sequelize sees as a new user :(
-                models.Users
-                    .findOne({ where: { username: userData.username } })
-                    .then(user => {
-                        if (!user) {
-                            // no user found, so make a new one
-                            models.Users
-                                .create(userData)
-                                .then(newUser => {
-                                    // success! now send them an activation email
-                                    sendActivationEmail(newUser, req, true);
-                                    req.flash('activationSent', true);
-                                    attemptAuth(req, res, next);
-                                })
-                                .catch(err => {
-                                    // error on user insert
-                                    console.error('Error creating a new user', err);
-                                    handleSignupError();
-                                });
-                        } else {
-                            // this user already exists
-                            console.error('A user tried to register with an existing email address');
-                            // send a generic message - don't expose existing accounts
-                            handleSignupError();
-                        }
-                    })
-                    .catch(err => {
-                        // error on user lookup
-                        console.error('Error looking up user', err);
+            // check if this email address already exists
+            // we can't use findOrCreate here because the password changes
+            // each time we hash it, which sequelize sees as a new user :(
+            models.Users
+                .findOne({ where: { username: userData.username } })
+                .then(user => {
+                    if (!user) {
+                        // no user found, so make a new one
+                        models.Users
+                            .create(userData)
+                            .then(newUser => {
+                                // success! now send them an activation email
+                                sendActivationEmail(newUser, req, true);
+                                req.flash('activationSent', true);
+                                attemptAuth(req, res, next);
+                            })
+                            .catch(err => {
+                                // error on user insert
+                                console.error('Error creating a new user', err);
+                                handleSignupError();
+                            });
+                    } else {
+                        // this user already exists
+                        console.error('A user tried to register with an existing email address');
+                        // send a generic message - don't expose existing accounts
                         handleSignupError();
-                    });
-            }
+                    }
+                })
+                .catch(err => {
+                    // error on user lookup
+                    console.error('Error looking up user', err);
+                    handleSignupError();
+                });
         }
-    );
+    });
 
 // login users
 routeStatic.injectUrlRequest(router, '/login');
