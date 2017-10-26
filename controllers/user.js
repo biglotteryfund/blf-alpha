@@ -4,6 +4,7 @@ const router = express.Router();
 const xss = require('xss');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
 const models = require('../models/index');
 const routeStatic = require('./utils/routeStatic');
@@ -11,6 +12,34 @@ const auth = require('../modules/authed');
 const secrets = require('../modules/secrets');
 const mail = require('../modules/mail');
 
+// convert a single error string into a list
+// or return an express-validator pre-formatted list
+const makeErrorList = error => {
+    if (_.isArray(error)) {
+        return error;
+    } else {
+        return [
+            {
+                msg: error
+            }
+        ];
+    }
+};
+
+// send the user back to the dashboard with the relevant error
+const showUserError = (req, res, error, mode) => {
+    if (error) {
+        req.flash('formErrors', makeErrorList(error));
+    }
+    req.flash('userMode', mode);
+    req.session.save(() => {
+        return res.redirect('/user/dashboard');
+    });
+};
+
+// try to validate a user's login request
+// @TODO don't reveal what was wrong
+// @TODO consider rate limiting?
 const attemptAuth = (req, res, next) =>
     passport.authenticate('local', (err, user, info) => {
         if (err) {
@@ -19,14 +48,12 @@ const attemptAuth = (req, res, next) =>
             req.logIn(user, err => {
                 if (err) {
                     // user not valid, send them to login again
-                    req.flash('formErrors', [{ msg: info.message }]);
                     req.flash('formValues', req.body);
-                    req.session.save(() => {
-                        return res.redirect('/user/login');
-                    });
+                    showUserError(req, res, info.message, 'login');
                 } else {
                     // user is valid, send them on
                     // we don't use flash here because it gets unset in the GET route above
+                    // @TODO is this still true?
                     let redirectUrl = '/user/dashboard';
                     if (req.body.redirectUrl) {
                         redirectUrl = req.body.redirectUrl;
@@ -44,15 +71,16 @@ const attemptAuth = (req, res, next) =>
 
 // serve a logged-in user's dashboard
 routeStatic.injectUrlRequest(router, '/dashboard');
-router.get('/dashboard', auth.requireAuthed, (req, res) => {
+router.get('/dashboard', (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/dashboard', {
-        user: req.user
+        user: req.user,
+        errors: req.flash('formErrors'),
+        mode: req.flash('userMode') || 'dashboard'
     });
 });
 
 // register users
-// @TODO add password verification field
 // @TODO don't expose whether an account already exists or not
 // eg. "Your username and password combination is invalid"
 routeStatic.injectUrlRequest(router, '/register');
@@ -60,7 +88,7 @@ router
     .route('/register')
     .get(auth.requireUnauthed, (req, res) => {
         res.cacheControl = { maxAge: 0 };
-        res.render('user/login-or-register', {
+        res.render('user/dashboard', {
             mode: 'register'
         });
     })
@@ -69,10 +97,7 @@ router
             if (!msg) {
                 msg = 'Error registering your details - please try again';
             }
-            req.flash('formErrors', [{ msg: msg }]);
-            req.session.save(() => {
-                res.redirect('/user/register');
-            });
+            showUserError(req, res, msg, 'register');
         };
 
         let userData = {
@@ -95,12 +120,10 @@ router
 
         req.getValidationResult().then(result => {
             if (!result.isEmpty()) {
+                // failed validation
                 // return the user to the form to correct errors
-                req.flash('formErrors', result.array());
                 req.flash('formValues', req.body);
-                req.session.save(() => {
-                    res.redirect('/user/register');
-                });
+                showUserError(req, res, result.array(), 'register');
             } else {
                 // check if this email address already exists
                 // we can't use findOrCreate here because the password changes
@@ -128,12 +151,14 @@ router
                                         }
                                     );
                                     let email = newUser.username;
-                                    let activateUrl = `${req.protocol}://${req.headers.host}/user/activate/${token}`;
+                                    let activateUrl = `${req.protocol}://${req.headers
+                                        .host}/user/activate?token=${token}`;
                                     mail.send(
                                         'Activate your Big Lottery Fund website account',
                                         `Please click the following link to activate your account: ${activateUrl}`,
                                         email
                                     );
+                                    // @TODO tell user the email was sent
                                     attemptAuth(req, res, next);
                                 })
                                 .catch(err => {
@@ -143,7 +168,9 @@ router
                                 });
                         } else {
                             // this user already exists
-                            handleSignupError('That username is already taken');
+                            console.error('A user tried to register with an existing email address');
+                            // send a generic message - don't expose existing accounts
+                            handleSignupError();
                         }
                     })
                     .catch(err => {
@@ -155,172 +182,14 @@ router
         });
     });
 
-// activate an account
-router.get('/activate/:token', (req, res) => {
-    res.cacheControl = { maxAge: 0 };
-
-    // @TODO should we check if they're already active here?
-    // or should they already be logged in, and we can check the JWT user ID matches theirs?
-    jwt.verify(req.params.token, secrets['user.jwt.secret'], (err, decoded) => {
-        if (err) {
-            // @TODO handle this - should allow them to re-send
-            res.send(err);
-        } else {
-            if (decoded.data.reason === 'activate') {
-                models.Users
-                    .update(
-                        {
-                            is_active: true
-                        },
-                        {
-                            where: {
-                                id: decoded.data.userId
-                            }
-                        }
-                    )
-                    .then(() => {
-                        res.redirect('/user/dashboard');
-                    })
-                    .catch(err => {
-                        // @TODO handle this
-                        res.send(err);
-                    });
-            } else {
-                // @TODO handle this
-                res.send('error');
-            }
-        }
-    });
-});
-
-/* password reset
- *
- * user enters email address
- * verify account exists
- * email them a token to allow them to reset a password (short expiry)
- * should token contain the account or should that only be in the email?
- * tell them they were emailed a link
- * link verifies token and allows password reset
- * email them to confirm it worked
- * handle timeouts
- */
-
-const passwordResetError = (req, res, errMsg) => {
-    req.flash('formErrors', [{ msg: errMsg }]);
-    req.session.save(() => {
-        return res.redirect('/user/resetpassword');
-    });
-};
-
-routeStatic.injectUrlRequest(router, '/resetpassword');
-router
-    .route('/resetpassword')
-    .get((req, res) => {
-        res.cacheControl = { maxAge: 0 };
-
-        let token = req.query.token;
-
-        // is this a password reset link?
-        if (token) {
-            jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
-                if (err) {
-                    // @TODO handle this - should allow them to re-send
-                    res.send(err);
-                } else {
-                    if (decoded.data.reason === 'resetpassword') {
-                        // we can now reset password
-
-                        // @TODO check user is in reset state
-
-                        res.render('user/login-or-register', {
-                            mode: 'resetpasswordconfirmed',
-                            error: req.flash('error')
-                        });
-
-                        // models.Users
-                        //     .update(
-                        //         {
-                        //             password: newPassword
-                        //         },
-                        //         {
-                        //             where: {
-                        //                 id: id
-                        //             }
-                        //         }
-                        //     )
-                        //     .then(() => {
-                        //         callback(null);
-                        //     })
-                        //     .catch(err => {
-                        //         callback(err);
-                        //     });
-                    } else {
-                        // @TODO handle this
-                        res.send('error');
-                    }
-                }
-            });
-        } else {
-            res.render('user/login-or-register', {
-                mode: 'resetpassword',
-                error: req.flash('error')
-            });
-        }
-    })
-    .post((req, res) => {
-        const email = xss(req.body.username);
-        if (!email) {
-            return passwordResetError(req, res, 'Please provide your email address');
-        } else {
-            // @TODO we use this a lot, make it a function
-            models.Users
-                .findOne({ where: { username: email } })
-                .then(user => {
-                    if (!user) {
-                        // no user found
-                        return passwordResetError(req, res, 'Your email address is not valid');
-                    } else {
-                        // this user exists, send email
-                        let token = jwt.sign(
-                            {
-                                data: {
-                                    userId: user.id,
-                                    reason: 'resetpassword'
-                                }
-                            },
-                            secrets['user.jwt.secret'],
-                            {
-                                expiresIn: '1h' // short-lived token
-                            }
-                        );
-                        let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
-                        mail.send(
-                            'Reset the password for your Big Lottery Fund website account',
-                            `Please click the following link to reset your password: ${resetUrl}`,
-                            email
-                        );
-                        // @TODO mark user as in reset mode
-                        // @TODO view update
-                        res.send('email sent');
-                    }
-                })
-                .catch(err => {
-                    // error on user lookup
-                    console.error('Error looking up user', err);
-                    return passwordResetError(req, res, 'There was an error fetching your details');
-                });
-        }
-    });
-
 // login users
 routeStatic.injectUrlRequest(router, '/login');
 router
     .route('/login')
     .get(auth.requireUnauthed, (req, res) => {
         res.cacheControl = { maxAge: 0 };
-        res.render('user/login-or-register', {
-            mode: 'login',
-            error: req.flash('error')
+        res.render('user/dashboard', {
+            mode: 'login'
         });
     })
     .post((req, res, next) => {
@@ -333,5 +202,200 @@ router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/user/login');
 });
+
+// activate an account
+router.get('/activate', (req, res) => {
+    res.cacheControl = { maxAge: 0 };
+
+    let token = req.query.token;
+
+    if (!token) {
+        res.redirect('/user/dashboard');
+    } else {
+        // @TODO should we check if they're already active here?
+        // or should they already be logged in, and we can check the JWT user ID matches theirs?
+        jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
+            if (err) {
+                console.error('A user tried to use an expired activation token', err);
+                showUserError(req, res, false, 'activatetokenexpired');
+            } else {
+                if (decoded.data.reason === 'activate') {
+                    models.Users
+                        .update(
+                            {
+                                is_active: true
+                            },
+                            {
+                                where: {
+                                    id: decoded.data.userId
+                                }
+                            }
+                        )
+                        .then(() => {
+                            res.redirect('/user/dashboard');
+                        })
+                        .catch(err => {
+                            console.error("Failed to update a user's activation status", err);
+                            showUserError(
+                                req,
+                                res,
+                                'There was an error activating your account - please try again',
+                                'activatetokenexpired'
+                            );
+                        });
+                } else {
+                    console.error('A user tried to activate an account with an invalid token');
+                    showUserError(
+                        req,
+                        res,
+                        'There was an error activating your account - please try again',
+                        'activatetokenexpired'
+                    );
+                }
+            }
+        });
+    }
+});
+
+routeStatic.injectUrlRequest(router, '/resetpassword');
+router
+    .route('/resetpassword')
+    .get((req, res) => {
+        res.cacheControl = { maxAge: 0 };
+
+        let token = req.query.token;
+
+        // is this a password reset link?
+        if (!token) {
+            res.render('user/dashboard', {
+                mode: 'resetpassword'
+            });
+        } else {
+            jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
+                if (err) {
+                    console.error('Password reset token expired', err);
+                    showUserError(
+                        req,
+                        res,
+                        'Your password reset period has expired - please try again',
+                        'resettokenexpired'
+                    );
+                } else {
+                    if (decoded.data.reason === 'resetpassword') {
+                        // @TODO check user is in reset state
+                        // we can now show the reset password form
+                        res.render('user/dashboard', {
+                            mode: 'resetpasswordconfirmed',
+                            error: req.flash('error'),
+                            token: token
+                        });
+                    } else {
+                        console.error('Password reset token invalid', err);
+                        showUserError(
+                            req,
+                            res,
+                            'Your password reset link was invalid - please try again',
+                            'resettokenexpired'
+                        );
+                    }
+                }
+            });
+        }
+    })
+    .post((req, res) => {
+        let hasToken = req.body.token;
+
+        if (!hasToken) {
+            // the user wants to trigger a reset email
+            const email = xss(req.body.username);
+            if (!email) {
+                showUserError(req, res, 'Please provide a valid email address', 'resetpassword');
+            } else {
+                models.Users
+                    .findOne({ where: { username: email } })
+                    .then(user => {
+                        if (!user) {
+                            // no user found
+                            showUserError(req, res, 'Please provide a valid email address', 'resetpassword');
+                        } else {
+                            // this user exists, send email
+                            let token = jwt.sign(
+                                {
+                                    data: {
+                                        userId: user.id,
+                                        reason: 'resetpassword'
+                                    }
+                                },
+                                secrets['user.jwt.secret'],
+                                {
+                                    expiresIn: '1h' // short-lived token
+                                }
+                            );
+                            let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
+                            mail.send(
+                                'Reset the password for your Big Lottery Fund website account',
+                                `Please click the following link to reset your password: ${resetUrl}`,
+                                email
+                            );
+                            // @TODO mark user as in reset mode
+                            // @TODO view update
+                            res.send('email sent');
+                        }
+                    })
+                    .catch(err => {
+                        // error on user lookup
+                        console.error('Error looking up user', err);
+                        showUserError(req, res, 'There was an error fetching your details', 'resetpassword');
+                    });
+            }
+        } else {
+            // @TODO enforce password constraints
+            if (!req.body.password) {
+                showUserError(req, res, 'Please choose a valid password', 'resetpassword');
+            } else {
+                // check the token again
+                jwt.verify(req.body.token, secrets['user.jwt.secret'], (err, decoded) => {
+                    if (err) {
+                        console.error('Password reset token expired', err);
+                        showUserError(
+                            req,
+                            res,
+                            'Your password reset period has expired - please try again',
+                            'resettokenexpired'
+                        );
+                    } else {
+                        if (decoded.data.reason === 'resetpassword') {
+                            let newPassword = req.body.password;
+                            models.Users
+                                .update(
+                                    {
+                                        password: newPassword
+                                    },
+                                    {
+                                        where: {
+                                            id: decoded.data.userId
+                                        }
+                                    }
+                                )
+                                .then(() => {
+                                    res.send('pw updated!');
+                                })
+                                .catch(err => {
+                                    res.send(err);
+                                });
+                        } else {
+                            console.error('A user tried to reset a password with an invalid token');
+                            showUserError(
+                                req,
+                                res,
+                                'There was an error updating your password - please try again',
+                                'resettokenexpired'
+                            );
+                        }
+                    }
+                });
+            }
+        }
+    });
 
 module.exports = router;

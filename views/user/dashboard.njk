@@ -1,10 +1,135 @@
 {% extends "../layouts/tools.njk" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ mode }}{% endblock %}
 
 {% block content %}
-    {% if user %}
+
+    {% set formErrors = getFlash(request, 'formErrors') %}
+
+    {% if formErrors %}
+        <div class="alert alert-danger" role="alert">
+            {% set numErrs = formErrors.length %}
+            <p><strong>There w{{ numErrs | pluralise("as", "ere") }} {{ numErrs }} error{{ numErrs | pluralise("", "s") }}:</strong></p>
+            <ul>
+                {% for error in formErrors %}
+                    <li>{{ error.msg }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if mode === 'dashboard' %}
         <h3>Logged in as <strong>{{ user.username }}</strong>.</h3>
         {% if user.is_active %}ACTIVE{% else %} NOT ACTIVE{% endif %}
     {% endif %}
+
+    {% if mode === 'register' %}
+        <h1>Register</h1>
+        <form action="/user/register" method="post">
+            <div class="form-group">
+                <label for="username">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="username"
+                       placeholder="Your email address"
+                       name="username"
+                       required
+                       aria-required="true"
+                       value="{{ getFlash(request, 'formValues', 'username') }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Your password"
+                       name="password"
+                       required
+                       aria-required="true">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Register" />
+                or <a href="/user/login">log in</a>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if mode === 'login' %}
+        <h1>Log in</h1>
+        <form action="/user/login" method="post">
+            <div class="form-group">
+                <label for="username">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="username"
+                       placeholder="Your email address"
+                       name="username"
+                       required
+                       aria-required="true"
+                       value="{{ getFlash(request, 'formValues', 'username') }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Your password"
+                       name="password"
+                       required
+                       aria-required="true">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Log in" />
+                or <a href="/user/register">register</a>
+            </div>
+            <small><a href="/user/resetpassword">Forgotten your password?</a></small>
+        </form>
+    {% endif %}
+
+    {% if mode === 'resetpassword' %}
+        <form action="/user/resetpassword" method="post">
+            <div class="form-group">
+                <label for="username">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="username"
+                       placeholder="Your email address"
+                       name="username"
+                       required
+                       aria-required="true"
+                       value="{{ getFlash(request, 'formValues', 'username') }}">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Request password reset" />
+            </div>
+        </form>
+    {% endif %}
+
+    {% if mode === 'resetpasswordconfirmed' %}
+        <form action="/user/resetpassword" method="post">
+            <input type="hidden" name="token" value="{{ token }}">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Your new password"
+                       name="password"
+                       required
+                       aria-required="true">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Reset password" />
+            </div>
+        </form>
+    {% endif %}
+
+    {% if mode === 'activatetokenexpired' %}
+        <p>That activation link was not valid</p>
+    {% endif %}
+
+    {% if mode === 'resettokenexpired' %}
+        <p>That password reset link was not valid</p>
+    {% endif %}
+
 {% endblock %}
