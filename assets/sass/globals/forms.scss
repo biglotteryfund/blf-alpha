@@ -86,22 +86,54 @@ $errorColor: #b00;
     display: block;
 }
 
-.ff-text {
-    > label,
-    > input[type='text'] {
-        display: block;
+.ff-label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.ff-text,
+.ff-textarea {
+    display: block;
+    border: 2px solid palette('charcoal');
+
+    &:focus {
+        outline: 3px solid lighten(palette('turquoise'), 25%);
+        outline-offset: 0;
+    }
+}
+
+.ff-textarea {
+    width: 100%;
+}
+
+.review-list {
+    overflow: auto;
+    margin-bottom: $spacingUnit * 2;
+
+    > dd,
+    > dt {
+        padding: 5px 0;
     }
 
-    > label {
-        margin-bottom: 3px;
+    > dt {
+        font-weight: bold;
+        border-top: 1px solid palette('soft-grey');
     }
 
-    > input[type='text'] {
-        border: 2px solid palette('charcoal');
+    @media screen and (min-width: 480px) {
+        > dd,
+        > dt {
+            float: left;
+        }
 
-        &:focus {
-            outline: 3px solid lighten(palette('turquoise'), 25%);
-            outline-offset: 0;
+        > dt {
+            width: 40%;
+            clear: left;
+        }
+
+        > dd {
+            width: 60%;
+            border-top: 1px solid palette('soft-grey');
         }
     }
 }

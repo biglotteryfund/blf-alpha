@@ -1,4 +1,4 @@
-const createFormModel = require('./form-model');
+const createFormModel = require('./create-form-model');
 const { check } = require('express-validator/check');
 
 const formModel = createFormModel({
@@ -59,6 +59,30 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
+    name: 'Your Project',
+    fieldsets: [
+        {
+            legend: 'Tell us a bit about your project',
+            fields: [
+                {
+                    type: 'textarea',
+                    rows: 10,
+                    name: 'project-summary',
+                    label: 'Project Summary',
+                    validator: function(field) {
+                        return check(field.name)
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('Project summary can’t be empty');
+                    }
+                }
+            ]
+        }
+    ]
+});
+
+formModel.registerStep({
     name: 'Pick a colour any colour',
     fieldsets: [
         {
@@ -104,7 +128,7 @@ formModel.registerStep({
                     validator: function(field) {
                         return check(field.name).custom((val, { req }) => {
                             const conditionalField = req.body[field.conditionalOn.name];
-                            if (conditionalField === field.conditionalOn.value && val.length > 0) {
+                            if (conditionalField === field.conditionalOn.value && val.length < 1) {
                                 throw new Error('Must give us the name of a colour');
                             }
 

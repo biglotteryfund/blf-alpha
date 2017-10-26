@@ -80,8 +80,20 @@ function createFormModel({ id, title }) {
     return {
         id: id,
         title: title,
+        getSessionProp: function(stepNo) {
+            const baseProp = `form.${id}`;
+            if (stepNo) {
+                return `${baseProp}.step-${stepNo}`;
+            }
+
+            return baseProp;
+        },
         getSteps: function() {
             return steps;
+        },
+        getStepsWithValues: function(data) {
+            console.log('steps', steps);
+            return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
         },
         getSuccessStep: function() {
             if (!successStep) {
