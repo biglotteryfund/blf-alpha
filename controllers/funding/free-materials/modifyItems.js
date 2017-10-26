@@ -3,19 +3,16 @@ const _ = require('lodash');
 const materials = require('../../../config/content/materials.json');
 
 module.exports = (req, orderKey, code) => {
-
     const validActions = ['increase', 'decrease', 'remove'];
 
-    // get form parameters
     const id = parseInt(req.params.id);
-    const action = req.sanitize('action').escape();
+    const action = req.body.action;
 
     // look up the item they're adding
     const item = materials.items.find(i => i.id === id);
 
     // is this a valid item/action?
     if (item && validActions.indexOf(action) !== -1) {
-
         let maxQuantity = item.maximum;
         let notAllowedWithItemId = item.notAllowedWithItem;
 
@@ -41,7 +38,7 @@ module.exports = (req, orderKey, code) => {
         _.set(req.session, [orderKey, code, 'name'], item.name.en);
 
         // can they add more of this item?
-        const noSpaceLeft = (currentItemQuantity === maxQuantity);
+        const noSpaceLeft = currentItemQuantity === maxQuantity;
 
         if (action === 'increase') {
             if (!noSpaceLeft && !hasBlockerItem) {

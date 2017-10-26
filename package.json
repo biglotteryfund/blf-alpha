@@ -83,7 +83,7 @@
     "express-ab": "^0.7.1",
     "express-cache-controller": "^1.0.1",
     "express-session": "^1.15.5",
-    "express-validator": "^3.2.1",
+    "express-validator": "^4.2.1",
     "generate-schema": "^2.5.1",
     "helmet": "^3.8.1",
     "i18n-2": "^0.6.3",
