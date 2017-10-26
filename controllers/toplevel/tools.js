@@ -5,6 +5,8 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
+const { body, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
@@ -164,33 +166,54 @@ router
             });
         });
     })
-    .post(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
-        let redirectBase = req.baseUrl + editNewsPath + '/';
+    .post(
+        auth.requireAuthedLevel(USER_LEVEL_REQUIRED),
+        [
+            body('title_en', 'Please provide an English title')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('title_cy', 'Please provide a Welsh title')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('text_en', 'Please provide an English summary')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('text_cy', 'Please provide a Welsh summary')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('link_en', 'Please provide an English article link')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('link_cy', 'Please provide a Welsh article link')
+                .exists()
+                .not()
+                .isEmpty()
+        ],
+        (req, res) => {
+            let redirectBase = req.baseUrl + editNewsPath + '/';
+            const errors = validationResult(req);
+            const data = matchedData(req, { locations: ['body'] });
 
-        // validate form
-        req.checkBody('title_en', 'Please provide an English title').notEmpty();
-        req.checkBody('title_cy', 'Please provide a Welsh title').notEmpty();
-        req.checkBody('text_en', 'Please provide an English summary').notEmpty();
-        req.checkBody('text_cy', 'Please provide a Welsh summary').notEmpty();
-        req.checkBody('link_en', 'Please provide an English article link').notEmpty();
-        req.checkBody('link_cy', 'Please provide a Welsh article link').notEmpty();
-
-        req.getValidationResult().then(result => {
-            if (!result.isEmpty()) {
-                req.flash('formErrors', result.array());
-                req.flash('formValues', req.body);
+            if (!errors.isEmpty()) {
+                req.flash('formErrors', errors.array());
+                req.flash('formValues', data);
                 req.session.save(() => {
                     res.redirect(redirectBase + '?error');
                 });
             } else {
                 // sanitise input
                 let rowData = {
-                    title_en: xss(req.body['title_en']),
-                    title_cy: xss(req.body['title_cy']),
-                    text_en: xss(req.body['text_en']),
-                    text_cy: xss(req.body['text_cy']),
-                    link_en: xss(req.body['link_en']),
-                    link_cy: xss(req.body['link_cy'])
+                    title_en: xss(data['title_en']),
+                    title_cy: xss(data['title_cy']),
+                    text_en: xss(data['text_en']),
+                    text_cy: xss(data['text_cy']),
+                    link_en: xss(data['link_en']),
+                    link_cy: xss(data['link_cy'])
                 };
 
                 if (req.params.id) {
@@ -211,7 +234,7 @@ router
                     res.redirect(redirectBase + '?success');
                 });
             }
-        });
-    });
+        }
+    );
 
 module.exports = router;

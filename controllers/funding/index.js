@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
+const { body, validationResult } = require('express-validator/check');
+const { matchedData, sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
 const config = require('config');
 
@@ -31,32 +33,83 @@ module.exports = (pages, sectionPath, sectionId) => {
     const freeMaterials = pages.freeMaterials;
 
     // handle adding/removing items
-    router.route(freeMaterials.path + '/item/:id').post((req, res) => {
-        // this page is dynamic so don't cache it
-        res.cacheControl = { maxAge: 0 };
+    router
+        .route(freeMaterials.path + '/item/:id')
+        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], (req, res) => {
+            // this page is dynamic so don't cache it
+            res.cacheControl = { maxAge: 0 };
 
-        // update the session with ordered items
-        const code = req.sanitize('code').escape();
-        freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
+            // update the session with ordered items
+            const code = req.body.code;
 
-        // handle ajax/standard form updates
-        res.format({
-            html: () => {
-                req.session.save(() => {
-                    res.redirect(req.baseUrl + freeMaterials.path);
-                });
-            },
-            json: () => {
-                req.session.save(() => {
-                    res.send({
-                        status: 'success',
-                        quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
-                        allOrders: req.session[freeMaterialsLogic.orderKey]
+            freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
+
+            // handle ajax/standard form updates
+            res.format({
+                html: () => {
+                    req.session.save(() => {
+                        res.redirect(req.baseUrl + freeMaterials.path);
                     });
-                });
+                },
+                json: () => {
+                    req.session.save(() => {
+                        res.send({
+                            status: 'success',
+                            quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
+                            allOrders: req.session[freeMaterialsLogic.orderKey]
+                        });
+                    });
+                }
+            });
+        });
+
+    /**
+     * Validate fields using custom validator
+     * https://github.com/ctavan/express-validator#customvalidator
+     * @TODO: There should definitely be a better way to model error translations
+     */
+    const validators = freeMaterialsLogic.formFields.filter(field => field.required).map(field => {
+        return body(field.name)
+            .exists()
+            .custom((value, { req }) => {
+                const locale = req.i18n.getLocale();
+                // Turn 'Your name' into 'your name' (for error messages)
+                const lcfirst = str => str[0].toLowerCase() + str.substring(1);
+                // Get a translated error message
+                let fieldName = lcfirst(field.label[locale]);
+                let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
+                // Validate field
+                if (!value || value.length < 1) {
+                    throw new Error(errorMessage);
+                }
+
+                return true;
+            });
+    });
+
+    /**
+     * Create text for order email
+     */
+    const makeOrderText = (items, details) => {
+        let text = 'A new order has been received from the Big Lottery Fund website. The order details are below:\n\n';
+        for (let code in items) {
+            if (items[code].quantity > 0) {
+                text += `\t- x${items[code].quantity} ${code}\t (item: ${items[code].name})\n`;
+            }
+        }
+        text += "\nThe customer's personal details are below:\n\n";
+
+        freeMaterialsLogic.formFields.forEach(field => {
+            const fieldDetail = details[field.name];
+            if (fieldDetail) {
+                text += `\t${field.label['en']}: ${fieldDetail}\n\n`;
             }
         });
-    });
+
+        text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
+        text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
+        return text;
+    };
 
     // PAGE: free materials form
     router
@@ -92,99 +145,69 @@ module.exports = (pages, sectionPath, sectionId) => {
                 csrfToken: ''
             });
         })
-        .post((req, res) => {
-            // turn 'Your name' into 'your name' (for error messages)
-            const lcfirst = str => str[0].toLowerCase() + str.substring(1);
-            let locale = req.i18n.getLocale();
+        .post(validators, (req, res) => {
+            // sanitise input
+            for (let key in req.body) {
+                req.body[key] = xss(req.body[key]);
+            }
 
-            freeMaterialsLogic.formFields.forEach(field => {
-                if (field.required) {
-                    // get a translated error message
-                    let fieldName = lcfirst(field.label[locale]);
-                    let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
-                    req.checkBody(field.name, errorMessage).notEmpty();
-                }
-            });
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                req.flash('formErrors', errors.array());
+                req.flash('formValues', req.body);
 
-            const makeOrderText = (items, details) => {
-                let text =
-                    'A new order has been received from the Big Lottery Fund website. The order details are below:\n\n';
-                for (let code in items) {
-                    if (items[code].quantity > 0) {
-                        text += `\t- x${items[code].quantity} ${code}\t (item: ${items[code].name})\n`;
+                req.session.save(() => {
+                    // build a redirect URL based on the route, the language of items,
+                    // and the form anchor, so the user sees the form again via JS
+                    let returnUrl = req.baseUrl + freeMaterials.path;
+                    let formAnchor = '#your-details';
+                    let langParam = '?lang=';
+                    let redirectUrl = returnUrl;
+
+                    // add their langage choice (if valid)
+                    let langChoice = req.body.languageChoice;
+                    if (
+                        langChoice &&
+                        redirectUrl.indexOf(langParam) === -1 &&
+                        ['monolingual', 'bilingual'].indexOf(langChoice) !== -1
+                    ) {
+                        redirectUrl += langParam + langChoice;
                     }
-                }
-                text += "\nThe customer's personal details are below:\n\n";
 
-                freeMaterialsLogic.formFields.forEach(field => {
-                    if (details[field.name]) {
-                        let safeField = req.sanitize(field.name).unescape();
-                        text += `\t${field.label['en']}: ${safeField}\n\n`;
+                    // add the form anchor (if not present)
+                    if (redirectUrl.indexOf(formAnchor) === -1) {
+                        redirectUrl += formAnchor;
                     }
+
+                    res.redirect(redirectUrl);
                 });
-
-                text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
-                text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
-                return text;
-            };
-
-            req.getValidationResult().then(result => {
-                // sanitise input
-                for (let key in req.body) {
-                    req.body[key] = xss(req.body[key]);
-                }
-
-                if (!result.isEmpty()) {
-                    req.flash('formErrors', result.array());
-                    req.flash('formValues', req.body);
-                    req.session.save(() => {
-                        // build a redirect URL based on the route, the language of items,
-                        // and the form anchor, so the user sees the form again via JS
-                        let returnUrl = req.baseUrl + freeMaterials.path;
-                        let formAnchor = '#your-details';
-                        let langParam = '?lang=';
-                        let redirectUrl = returnUrl;
-
-                        // add their langage choice (if valid)
-                        let langChoice = req.body.languageChoice;
-                        if (
-                            langChoice &&
-                            redirectUrl.indexOf(langParam) === -1 &&
-                            ['monolingual', 'bilingual'].indexOf(langChoice) !== -1
-                        ) {
-                            redirectUrl += langParam + langChoice;
-                        }
-
-                        // add the form anchor (if not present)
-                        if (redirectUrl.indexOf(formAnchor) === -1) {
-                            redirectUrl += formAnchor;
-                        }
-
-                        res.redirect(redirectUrl);
-                    });
+            } else {
+                /**
+                 * Allow tests to run without sending email
+                 * this is only used in tests, so we confirm the form data was correct
+                 */
+                if (req.body.skipEmail) {
+                    res.send(req.body);
                 } else {
-                    let text = makeOrderText(req.session[freeMaterialsLogic.orderKey], req.body);
-                    let dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+                    const details = matchedData(req, { locations: ['body'] });
+                    const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+                    const text = makeOrderText(req.session[freeMaterialsLogic.orderKey], details);
 
-                    // allow tests to run without sending email
-                    if (!req.body.skipEmail) {
-                        email.send(
-                            `Order from Big Lottery Fund website - ${dateNow}`,
-                            text,
-                            config.get('materialSupplierEmail'),
-                            'bcc'
-                        );
-                        req.flash('materialFormSuccess', true);
-                        req.flash('showOverlay', true);
-                        req.session.save(() => {
-                            res.redirect(req.baseUrl + freeMaterials.path);
-                        });
-                    } else {
-                        // this is only used in tests, so we confirm the form data was correct
-                        res.send(req.body);
-                    }
+                    email.send(
+                        `Order from Big Lottery Fund website - ${dateNow}`,
+                        text,
+                        config.get('materialSupplierEmail'),
+                        'bcc'
+                    );
+
+                    req.flash('materialFormSuccess', true);
+                    req.flash('showOverlay', true);
+
+                    req.session.save(() => {
+                        res.redirect(req.baseUrl + freeMaterials.path);
+                    });
                 }
-            });
+            }
         });
 
     // funding programme list

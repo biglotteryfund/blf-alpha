@@ -72,14 +72,6 @@ templateEnv.addFilter('lowercaseFirst', str => {
     return str[0].toLowerCase() + str.substring(1);
 });
 
-templateEnv.addFilter('jsonStringify', val => {
-    let ret;
-    try {
-        ret = JSON.stringify(val);
-    } catch (e) {} // eslint-disable-line no-empty
-    return ret || val;
-});
-
 templateEnv.addFilter('pluralise', (number, singular, plural) => {
     if (number === 1) {
         return singular;
