@@ -84,6 +84,33 @@ router.get('/dashboard', (req, res) => {
     }
 });
 
+const sendActivationEmail = (user, req, isBrandNewUser) => {
+    // only the current user can do this
+    // (or if it's a brand new, not-logged-in-yet user)
+    if (isBrandNewUser || req.user.id === user.id) {
+        // redirect them to login after email
+        let token = jwt.sign(
+            {
+                data: {
+                    userId: user.id,
+                    reason: 'activate'
+                }
+            },
+            secrets['user.jwt.secret'],
+            {
+                expiresIn: '7d' // allow a week to activate
+            }
+        );
+        let email = user.username;
+        let activateUrl = `${req.protocol}://${req.headers.host}/user/activate?token=${token}`;
+        mail.send(
+            'Activate your Big Lottery Fund website account',
+            `Please click the following link to activate your account: ${activateUrl}`,
+            email
+        );
+    }
+};
+
 // register users
 routeStatic.injectUrlRequest(router, '/register');
 router
@@ -139,27 +166,7 @@ router
                                 .create(userData)
                                 .then(newUser => {
                                     // success! now send them an activation email
-                                    // redirect them to login after email
-                                    let token = jwt.sign(
-                                        {
-                                            data: {
-                                                userId: newUser.id,
-                                                reason: 'activate'
-                                            }
-                                        },
-                                        secrets['user.jwt.secret'],
-                                        {
-                                            expiresIn: '7d' // allow a week to activate
-                                        }
-                                    );
-                                    let email = newUser.username;
-                                    let activateUrl = `${req.protocol}://${req.headers
-                                        .host}/user/activate?token=${token}`;
-                                    mail.send(
-                                        'Activate your Big Lottery Fund website account',
-                                        `Please click the following link to activate your account: ${activateUrl}`,
-                                        email
-                                    );
+                                    sendActivationEmail(newUser, req, true);
                                     req.flash('activationSent', true);
                                     attemptAuth(req, res, next);
                                 })
@@ -206,22 +213,28 @@ router.get('/logout', (req, res) => {
 });
 
 // activate an account
-router.get('/activate', (req, res) => {
+router.get('/activate', auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
 
     let token = req.query.token;
 
     if (!token) {
-        res.redirect('/user/dashboard');
+        // no token, so send them an activation email
+        req.flash('activationSent', true);
+        sendActivationEmail(req.user, req);
+        req.session.save(() => {
+            res.redirect('/user/dashboard');
+        });
     } else {
-        // @TODO should we check if they're already active here?
-        // or should they already be logged in, and we can check the JWT user ID matches theirs?
+        // validate the token
         jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
             if (err) {
                 console.error('A user tried to use an expired activation token', err);
                 showUserError(req, res, false, 'activatetokenexpired');
             } else {
-                if (decoded.data.reason === 'activate') {
+                // was the token valid for this user
+                if (decoded.data.reason === 'activate' && decoded.data.userId === req.user.id) {
+                    // valid token, activate the user
                     models.Users
                         .update(
                             {
@@ -246,6 +259,7 @@ router.get('/activate', (req, res) => {
                             );
                         });
                 } else {
+                    // token was tampered with
                     console.error('A user tried to activate an account with an invalid token');
                     showUserError(
                         req,
