@@ -177,10 +177,13 @@ module.exports = (pages, sectionPath, sectionId) => {
                 .exists()
                 .not()
                 .isEmpty(),
-            body('email', 'Please provide your email address')
+            body('email')
                 .exists()
                 .not()
-                .isEmpty(),
+                .isEmpty()
+                .withMessage('Please provide your email address')
+                .isEmail()
+                .withMessage('Please provide a valid email address'),
             body('location', 'Please choose a country newsletter')
                 .exists()
                 .not()
