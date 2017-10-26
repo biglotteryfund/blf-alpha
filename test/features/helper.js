@@ -1,16 +1,14 @@
 'use strict';
+const config = require('config');
 
 // use the test database
-const config = require('config');
-const models = require('../../models/index');
-
 process.env.CUSTOM_DB = config.get('database-test');
-
 // run on another port from the default dev one
 process.env.PORT = 8090;
-
 // configure Sequelize to use a local, temporary sqlite db for testing
 process.env.USE_LOCAL_DATABASE = true;
+
+const models = require('../../models/index');
 
 let server, hook;
 
