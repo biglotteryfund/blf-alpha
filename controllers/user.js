@@ -5,6 +5,8 @@ const xss = require('xss');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const { body, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 const models = require('../models/index');
 const routeStatic = require('./utils/routeStatic');
@@ -87,6 +89,7 @@ router.get('/dashboard', (req, res) => {
     }
 });
 
+// email users with an activation code
 const sendActivationEmail = (user, req, isBrandNewUser) => {
     // only the current user can do this
     // (or if it's a brand new, not-logged-in-yet user)
@@ -114,6 +117,8 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
     }
 };
 
+const PASSWORD_MIN_LENGTH = 8;
+
 // register users
 routeStatic.injectUrlRequest(router, '/register');
 router
@@ -124,39 +129,49 @@ router
             mode: 'register'
         });
     })
-    .post((req, res, next) => {
-        const handleSignupError = msg => {
-            if (!msg) {
-                msg = 'Error registering your details - please try again';
-            }
-            showUserError(req, res, msg, 'register');
-        };
+    .post(
+        [
+            body('username')
+                .exists()
+                .not()
+                .isEmpty()
+                .withMessage('Please provide your email address')
+                .isEmail()
+                .withMessage('Please provide a valid email address'),
+            body('password')
+                .exists()
+                .not()
+                .isEmpty()
+                .withMessage('Please provide a password')
+                .isLength({ min: PASSWORD_MIN_LENGTH })
+                .withMessage(`Please provide a password that is longer than ${PASSWORD_MIN_LENGTH} characters`)
+                .matches(/\d/)
+                .withMessage('Please provide a password that contains at least one number')
+        ],
+        (req, res, next) => {
+            // generic message handler for registration fails
+            const handleSignupError = msg => {
+                if (!msg) {
+                    msg = 'Error registering your details - please try again';
+                }
+                showUserError(req, res, msg, 'register');
+            };
 
-        let userData = {
-            username: xss(req.body.username),
-            password: xss(req.body.password),
-            level: 0
-        };
+            const errors = validationResult(req);
+            const data = matchedData(req, { locations: ['body'] });
 
-        // validate the form input
-        // @TODO add some password requirements here
-        const minChars = 8;
-        req
-            .checkBody('username', 'Please provide a valid email address')
-            .notEmpty()
-            .isEmail();
-        req
-            .checkBody('password', `Please provide a valid password (minimum ${minChars} characters long)`)
-            .notEmpty()
-            .isLength({ min: minChars });
-
-        req.getValidationResult().then(result => {
-            if (!result.isEmpty()) {
+            if (!errors.isEmpty()) {
                 // failed validation
                 // return the user to the form to correct errors
-                req.flash('formValues', req.body);
-                showUserError(req, res, result.array(), 'register');
+                req.flash('formValues', data);
+                showUserError(req, res, errors.array(), 'register');
             } else {
+                let userData = {
+                    username: xss(req.body.username),
+                    password: xss(req.body.password),
+                    level: 0
+                };
+
                 // check if this email address already exists
                 // we can't use findOrCreate here because the password changes
                 // each time we hash it, which sequelize sees as a new user :(
@@ -191,8 +206,8 @@ router
                         handleSignupError();
                     });
             }
-        });
-    });
+        }
+    );
 
 // login users
 routeStatic.injectUrlRequest(router, '/login');
@@ -278,6 +293,8 @@ router.get('/activate', auth.requireAuthed, (req, res) => {
     }
 });
 
+// route to allow resetting password
+// (either sending reset emails, or updating database)
 routeStatic.injectUrlRequest(router, '/resetpassword');
 router
     .route('/resetpassword')
