@@ -2,7 +2,7 @@
 'use strict';
 
 const $ = require('jquery');
-const utils = require('./utils');
+const queryString = require('query-string');
 
 function init() {
     const mountEl = document.getElementById('js-vue');
@@ -26,7 +26,7 @@ function init() {
         },
         created: function() {
             // check for a ?lang param and show the relevant products (if valid)
-            let params = utils.parseQueryString();
+            let params = queryString.parse(location.search);
             if (params[langParam] && isValidLangParam(params[langParam])) {
                 storeLangPrefInForm(params[langParam]);
                 this.itemLanguage = params[langParam];
