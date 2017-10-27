@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 
-const routeStatic = require('../utils/routeStatic');
 const auth = require('../../modules/authed');
 const register = require('./register');
 const login = require('./login');
