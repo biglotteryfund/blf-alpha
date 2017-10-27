@@ -6,116 +6,121 @@ const mail = require('../../modules/mail');
 const secrets = require('../../modules/secrets');
 const { userBasePath, userEndpoints, renderUserError } = require('./utils');
 
-const resetForm = (req, res) => {
+const requestResetForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
+    res.render('user/resetpassword', {
+        mode: 'enterEmail'
+    });
+};
 
+const changePasswordForm = (req, res) => {
+    res.cacheControl = { maxAge: 0 };
     let token = req.query.token;
-
-    // is this a password reset link?
     if (!token) {
-        res.render('user/resetpassword', {
-            mode: 'enterEmail'
-        });
-    } else {
-        // a user has followed a reset link
-        console.log('got a toke');
-        jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
-            if (err) {
-                console.error('Password reset token expired', err);
-                req.flash('genericError', 'Your password reset period has expired - please try again');
-                return renderUserError(null, req, res, userEndpoints.resetpassword);
+        return res.redirect(userBasePath + userEndpoints.login);
+    }
+
+    // a user has followed a reset link
+    jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
+        if (err) {
+            console.error('Password reset token expired', err);
+            req.flash('genericError', 'Your password reset period has expired - please try again');
+            return renderUserError(null, req, res, userEndpoints.resetpassword);
+        } else {
+            if (decoded.data.reason === 'resetpassword') {
+                // we can now show the reset password form
+                res.render('user/resetpassword', {
+                    mode: 'pickNewPassword',
+                    token: token
+                });
             } else {
-                if (decoded.data.reason === 'resetpassword') {
-                    // we can now show the reset password form
-                    res.render('user/resetpassword', {
-                        mode: 'pickNewPassword',
-                        token: token
-                    });
-                } else {
-                    console.error('Password reset token invalid', err);
-                    req.flash('genericError', 'Your password reset link was invalid - please try again');
-                    return renderUserError(null, req, res, userEndpoints.resetpassword);
-                }
+                console.error('Password reset token invalid', err);
+                req.flash('genericError', 'Your password reset link was invalid - please try again');
+                return renderUserError(null, req, res, userEndpoints.resetpassword);
             }
-        });
+        }
+    });
+};
+
+const sendResetEmail = (req, res) => {
+    // the user wants to trigger a reset email
+    const email = xss(req.body.username);
+    if (!email) {
+        req.flash('genericError', 'Please provide a valid email address');
+        return renderUserError(null, req, res, userEndpoints.resetpassword);
+    } else {
+        models.Users
+            .findOne({
+                where: {
+                    username: email
+                }
+            })
+            .then(user => {
+                if (!user) {
+                    // no user found / user not in password reset mode
+                    req.flash('genericError', 'Please provide a valid email address');
+                    return renderUserError(null, req, res, userEndpoints.resetpassword);
+                } else {
+                    // this user exists, send email
+                    let token = jwt.sign(
+                        {
+                            data: {
+                                userId: user.id,
+                                reason: 'resetpassword'
+                            }
+                        },
+                        secrets['user.jwt.secret'],
+                        {
+                            expiresIn: '1h' // short-lived token
+                        }
+                    );
+                    let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
+
+                    mail.send(
+                        'Reset the password for your Big Lottery Fund website account',
+                        `Please click the following link to reset your password: ${resetUrl}`,
+                        email
+                    );
+
+                    // mark this user as in password reset mode
+                    models.Users
+                        .update(
+                            {
+                                is_password_reset: true
+                            },
+                            {
+                                where: {
+                                    id: user.id
+                                }
+                            }
+                        )
+                        .then(() => {
+                            req.flash('passwordRequestSent', true);
+                            req.session.save(() => {
+                                res.redirect(userBasePath + userEndpoints.login);
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Error marking user as in password reset mode', err);
+                            req.flash('genericError', 'There was an error requesting your password reset');
+                            return renderUserError(null, req, res, userEndpoints.resetpassword);
+                        });
+                }
+            })
+            .catch(err => {
+                // error on user lookup
+                console.error('Error looking up user', err);
+                req.flash('genericError', 'There was an error fetching your details');
+                return renderUserError(null, req, res, userEndpoints.resetpassword);
+            });
     }
 };
 
 const updatePassword = (req, res) => {
-    let hasPickedNewPassword = req.body.token;
+    let changePasswordToken = req.body.token;
 
-    if (!hasPickedNewPassword) {
-        // the user wants to trigger a reset email
-        const email = xss(req.body.username);
-        if (!email) {
-            req.flash('genericError', 'Please provide a valid email address');
-            return renderUserError(null, req, res, userEndpoints.resetpassword);
-        } else {
-            models.Users
-                .findOne({
-                    where: {
-                        username: email
-                    }
-                })
-                .then(user => {
-                    if (!user) {
-                        // no user found / user not in password reset mode
-                        req.flash('genericError', 'Please provide a valid email address');
-                        return renderUserError(null, req, res, userEndpoints.resetpassword);
-                    } else {
-                        // this user exists, send email
-                        let token = jwt.sign(
-                            {
-                                data: {
-                                    userId: user.id,
-                                    reason: 'resetpassword'
-                                }
-                            },
-                            secrets['user.jwt.secret'],
-                            {
-                                expiresIn: '1h' // short-lived token
-                            }
-                        );
-                        let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
-
-                        mail.send(
-                            'Reset the password for your Big Lottery Fund website account',
-                            `Please click the following link to reset your password: ${resetUrl}`,
-                            email
-                        );
-
-                        // mark this user as in password reset mode
-                        models.Users
-                            .update(
-                                {
-                                    is_password_reset: true
-                                },
-                                {
-                                    where: {
-                                        id: user.id
-                                    }
-                                }
-                            )
-                            .then(() => {
-                                req.flash('passwordRequestSent', true);
-                                req.session.save(() => {
-                                    res.redirect(userBasePath + userEndpoints.login);
-                                });
-                            })
-                            .catch(err => {
-                                console.error('Error marking user as in password reset mode', err);
-                                req.flash('genericError', 'There was an error requesting your password reset');
-                                return renderUserError(null, req, res, userEndpoints.resetpassword);
-                            });
-                    }
-                })
-                .catch(err => {
-                    // error on user lookup
-                    console.error('Error looking up user', err);
-                    req.flash('genericError', 'There was an error fetching your details');
-                    return renderUserError(null, req, res, userEndpoints.resetpassword);
-                });
-        }
+    if (!changePasswordToken) {
+        res.redirect(userBasePath + userEndpoints.login);
     } else {
         // @TODO enforce password constraints
         if (!req.body.password) {
@@ -124,7 +129,7 @@ const updatePassword = (req, res) => {
             return renderUserError(null, req, res, userEndpoints.resetpassword);
         } else {
             // check the token again
-            jwt.verify(req.body.token, secrets['user.jwt.secret'], (err, decoded) => {
+            jwt.verify(changePasswordToken, secrets['user.jwt.secret'], (err, decoded) => {
                 if (err) {
                     console.error('Password reset token expired', err);
                     req.flash('genericError', 'Your password reset period has expired - please try again');
@@ -204,6 +209,8 @@ const updatePassword = (req, res) => {
 };
 
 module.exports = {
-    resetForm,
+    requestResetForm,
+    sendResetEmail,
+    changePasswordForm,
     updatePassword
 };

@@ -3,12 +3,14 @@ const { body } = require('express-validator/check');
 
 const userBasePath = '/user';
 
+// @TODO pass these through to templates
 const userEndpoints = {
     dashboard: '/dashboard',
     register: '/register',
     login: '/login',
     logout: '/logout',
     activate: '/activate',
+    requestpasswordreset: '/requestpasswordreset',
     resetpassword: '/resetpassword'
 };
 
