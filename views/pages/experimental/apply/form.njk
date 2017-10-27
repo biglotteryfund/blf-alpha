@@ -1,0 +1,122 @@
+{% extends "../../../layouts/main.njk" %}
+
+{% macro errorList(errors, shouldBeLinked)  %}
+    {% if errors | length > 0 %}
+        <ol class="error-list">
+            {% for error in errors %}
+            <li>
+                {% if shouldBeLinked %}<a href="#form-field-{{ error.param }}">{% endif %}
+                {{ error.msg }}
+                {% if shouldBeLinked %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endmacro %}
+
+{% macro inputText(field) %}
+    <label class="ff-label" for="field-{{ field.name }}">{{ field.label }}</label>
+    <input
+        class="ff-text"
+        type="text"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        value="{% if field.value %}{{ field.value }}{% endif %}"
+        {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
+    />
+{% endmacro %}
+
+{% macro inputTextarea(field) %}
+    <label class="ff-label" for="field-{{ field.name }}">{{ field.label }}</label>
+    <textarea
+        class="ff-textarea"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
+        rows="{{ field.rows }}"
+    >{{ field.value }}</textarea>
+{% endmacro %}
+
+{% macro inputRadio(field) %}
+    <div class="ff-radio">
+        <ul class="ff-radio__list">
+            {% for option in field.options %}
+                <li class="ff-radio__option">
+                    <input
+                        type="radio"
+                        id="field-{{ field.name }}-{{ loop.index }}"
+                        name="{{ field.name }}"
+                        value="{{ option.value }}"
+                        {% if field.value === option.value %}checked{% endif %}
+                    />
+                    <label for="field-{{ field.name }}-{{ loop.index }}">{{ option.label }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <form action="" method="POST"
+        class="js-application-form content-box inner inner--wide-only accent--pink a--border-top">
+        <div class="form-header">
+            {% if prevStepUrl %}
+                <a href="{{ prevStepUrl }}">← Back</a>
+            {% endif %}
+            <h1 class="form-header__title t1">{{ form.title }}</h1>
+            <h2 class="form-header__subtitle">
+                Step {{ currentStepNumber }} of {{ totalSteps }}: {{ step.name }}
+            </h2>
+        </div>
+
+        {% if errors | length > 0 %}
+            <div class="form-errors">
+                <h3 class="form-errors__title">There was a problem with your submission</h3>
+                <div class="form-errors__body">
+                    {{ errorList(errors, shouldBeLinked = true) }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% for fieldset in step.fieldsets %}
+            <fieldset class="form-fieldset u-constrained-content">
+                <legend class="form-fieldset__legend t2 t--underline accent--pink">{{ fieldset.legend }}</legend>
+                <div class="form-fieldset__fields">
+                    {% for field in fieldset.fields %}
+                        {% set fieldErrors = errorsForField(field) %}
+                        <div
+                            id="form-field-{{ field.name }}"
+                            class="form-field
+                            {% if fieldErrors | length > 0 %}has-errors{% endif %}
+                            {% if field.isConditionalOn %}is-conditional{% endif %}
+                            {% if field.isConditionalFor %}js-conditional-for{% endif %}"
+                            {% if field.isConditionalFor %}
+                                data-conditional-type="{{ field.type }}"
+                                data-conditional-fields='{{ field.conditionalFor | dump | safe }}'
+                            {% endif %}
+                            {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
+                            <div class="form-field__body">
+                                {% if field.type === 'text' %}
+                                    {{ inputText(field) }}
+                                {% endif %}
+                                {% if field.type === 'textarea' %}
+                                    {{ inputTextarea(field) }}
+                                {% endif %}
+                                {% if field.type === 'radio' %}
+                                    {{ inputRadio(field) }}
+                                {% endif %}
+                            </div>
+                            {% if fieldErrors | length > 0 %}
+                                <div class="form-field__errors">
+                                    {{ errorList(errorsForField(field)) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        {% endfor %}
+
+        <input class="btn" type="submit" value="Proceed to next step" />
+    </form>
+{% endblock %}

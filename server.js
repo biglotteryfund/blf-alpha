@@ -56,6 +56,12 @@ for (let sectionId in routes.sections) {
     }
 }
 
+if (process.env.NODE_ENV !== 'production') {
+    const applyPath = '/experimental/apply';
+    app.use(applyPath, require('./controllers/apply'));
+    app.use(cymreigio(applyPath), require('./controllers/apply'));
+}
+
 // add vanity redirects
 routes.vanityRedirects.forEach(r => {
     let servePath = path => {
