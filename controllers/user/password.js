@@ -80,11 +80,17 @@ const changePasswordForm = (req, res) => {
 
 const sendResetEmail = (req, res) => {
     // the user wants to trigger a reset email
-    const email = xss(req.body.username);
-    if (!email) {
-        req.flash('genericError', 'Please provide a valid email address');
-        return renderUserError(null, req, res, makeUserLink('resetpassword'));
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // failed validation
+        req.flash('formErrors', errors.array());
+        req.flash('formValues', req.body);
+        req.session.save(() => {
+            res.redirect(makeUserLink('requestpasswordreset'));
+        });
     } else {
+        const email = xss(req.body.username);
         models.Users
             .findOne({
                 where: {
@@ -95,7 +101,7 @@ const sendResetEmail = (req, res) => {
                 if (!user) {
                     // no user found / user not in password reset mode
                     req.flash('genericError', 'Please provide a valid email address');
-                    return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                    return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
                 } else {
                     // this user exists, send email
                     let token = jwt.sign(
@@ -141,7 +147,7 @@ const sendResetEmail = (req, res) => {
                         .catch(err => {
                             console.error('Error marking user as in password reset mode', err);
                             req.flash('genericError', 'There was an error requesting your password reset');
-                            return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                            return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
                         });
                 }
             })
@@ -149,7 +155,7 @@ const sendResetEmail = (req, res) => {
                 // error on user lookup
                 console.error('Error looking up user', err);
                 req.flash('genericError', 'There was an error fetching your details');
-                return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
             });
     }
 };

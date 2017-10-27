@@ -51,7 +51,7 @@ routeStatic.injectUrlRequest(router, userEndpoints.requestpasswordreset);
 router
     .route(userEndpoints.requestpasswordreset)
     .get(auth.requireUnauthed, password.requestResetForm)
-    .post(auth.requireUnauthed, password.sendResetEmail);
+    .post(auth.requireUnauthed, formValidations.emailAddress, password.sendResetEmail);
 
 // change a password (with a token)
 routeStatic.injectUrlRequest(router, userEndpoints.resetpassword);
