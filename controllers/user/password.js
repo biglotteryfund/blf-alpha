@@ -1,7 +1,6 @@
 const xss = require('xss');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
-const { matchedData } = require('express-validator/filter');
 
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
@@ -131,12 +130,10 @@ const updatePassword = (req, res) => {
         // @TODO is there a better way to preserve this token between page changes?
         const currentUrl = makeUserLink('resetpassword') + '?token=' + req.body.token;
         const errors = validationResult(req);
-        // const data = matchedData(req, { locations: ['body'] });
 
         if (!errors.isEmpty()) {
             // failed validation
             // return the user to the form to correct errors
-            // @TODO could use renderUserError as we don't need to keep form values here
             req.flash('formErrors', errors.array());
             req.session.save(() => {
                 res.redirect(currentUrl);
