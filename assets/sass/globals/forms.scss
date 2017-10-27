@@ -1,3 +1,144 @@
+/* =========================================================================
+   Forms
+   ========================================================================= */
+
+legend {
+    padding: 0;
+    display: table;
+}
+fieldset {
+    border: 0;
+    padding: 0.01em 0 0 0;
+    margin: 0;
+    min-width: 0;
+}
+
+.form-header {
+    margin-bottom: $spacingUnit;
+
+    .form-header__title {
+        margin-bottom: 3px;
+    }
+    .form-header__subtitle {
+        margin: 0;
+        font-weight: 14px;
+        color: palette('soft-grey');
+    }
+}
+
+.form-fieldset {
+    margin-bottom: $spacingUnit;
+}
+.form-fieldset__legend {
+    font-weight: bold;
+    margin-bottom: $spacingUnit;
+}
+.form-fieldset__fields {
+    margin: 0;
+}
+
+$errorColor: #b00;
+.form-errors {
+    border: 3px solid $errorColor;
+    margin-bottom: $spacingUnit;
+}
+.form-errors__title {
+    color: white;
+    background-color: $errorColor;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: $spacingUnit / 2;
+    padding: $spacingUnit / 3;
+}
+.form-errors__body {
+    padding: $spacingUnit / 2;
+}
+
+.error-list {
+    &,
+    a {
+        color: $errorColor;
+        font-weight: bold;
+    }
+}
+
+.form-field {
+    margin-bottom: $spacingUnit;
+
+    &.has-errors {
+        border-left: 3px solid $errorColor;
+        padding-left: $spacingUnit / 2;
+    }
+
+    &:target {
+        background-color: rgba(255, 255, 0, 0.5);
+    }
+
+    .form-field__errors {
+        margin-top: $spacingUnit / 3;
+    }
+}
+
+.no-js .form-field[hidden] {
+    display: block;
+}
+
+.ff-label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.ff-text,
+.ff-textarea {
+    display: block;
+    border: 2px solid palette('charcoal');
+
+    &:focus {
+        outline: 3px solid lighten(palette('turquoise'), 25%);
+        outline-offset: 0;
+    }
+}
+
+.ff-textarea {
+    width: 100%;
+}
+
+.review-list {
+    overflow: auto;
+    margin-bottom: $spacingUnit * 2;
+
+    > dd,
+    > dt {
+        padding: 5px 0;
+    }
+
+    > dt {
+        font-weight: bold;
+        border-top: 1px solid palette('soft-grey');
+    }
+
+    @media screen and (min-width: 480px) {
+        > dd,
+        > dt {
+            float: left;
+        }
+
+        > dt {
+            width: 40%;
+            clear: left;
+        }
+
+        > dd {
+            width: 60%;
+            border-top: 1px solid palette('soft-grey');
+        }
+    }
+}
+
+/* =========================================================================
+   Forms: Specific Form Customisations
+   ========================================================================= */
+
 .form-fund {
     &.form-fund--inline {
         height: 40px;

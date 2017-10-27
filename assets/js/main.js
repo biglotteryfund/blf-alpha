@@ -22,6 +22,7 @@ require('./modules/carousel').init();
 require('./modules/heroImages').init();
 require('./modules/logos').init();
 require('./modules/materials').init();
+require('./modules/forms').init();
 
 /**
  * Analytics

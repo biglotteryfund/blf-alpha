@@ -2,5 +2,6 @@
     "/sitecore/",
     "/internalcontent/",
     "/tools/",
-    "/styleguide"
+    "/styleguide",
+    "/experimental/"
 ]
