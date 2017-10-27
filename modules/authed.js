@@ -7,7 +7,8 @@ const checkAuthStatus = (req, res, next, minimumLevel) => {
     if (req.user && req.user.level >= minimumLevel) {
         return next();
     } else {
-        req.session.redirectUrl = req.baseUrl + req.path;
+        // we use req.originalUrl not req.path to preserve querystring
+        req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
             res.redirect(makeUserLink('login'));
         });
