@@ -36,7 +36,7 @@ router
 router.get(userEndpoints.logout, (req, res) => {
     res.cacheControl = { maxAge: 0 };
     req.logout();
-    // @TODO maybe add a flash token to inform they were logged out?
+    req.flash('justLoggedOut', true);
     req.session.save(() => {
         res.redirect(userBasePath + userEndpoints.login);
     });
@@ -45,12 +45,18 @@ router.get(userEndpoints.logout, (req, res) => {
 // activate an account
 router.get(userEndpoints.activate, auth.requireAuthed, register.activateUser);
 
-// route to allow resetting password
-// (either sending reset emails, or updating database)
+// request a password reset email
+routeStatic.injectUrlRequest(router, userEndpoints.requestpasswordreset);
+router
+    .route(userEndpoints.requestpasswordreset)
+    .get(auth.requireUnauthed, password.requestResetForm)
+    .post(auth.requireUnauthed, password.sendResetEmail);
+
+// change a password (with a token)
 routeStatic.injectUrlRequest(router, userEndpoints.resetpassword);
 router
     .route(userEndpoints.resetpassword)
-    .get(auth.requireUnauthed, password.resetForm)
+    .get(auth.requireUnauthed, password.changePasswordForm)
     .post(auth.requireUnauthed, password.updatePassword);
 
 module.exports = router;

@@ -8,6 +8,14 @@
     {{ listGenericErrors() }}
     {{ listFormErrors() }}
 
+    {% set justLoggedOut = getFlash(request, 'justLoggedOut') %}
+    {% if justLoggedOut %}
+        <div class="alert alert-success" role="alert">
+            <p>You were successfully logged out.</p>
+        </div>
+    {% endif %}
+
+
     {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
     {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
 
