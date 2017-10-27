@@ -35,21 +35,21 @@ const renderUserError = (msg, req, res, path) => {
         req.flash('formErrors', makeErrorList(msg));
     }
     req.session.save(() => {
-        return res.redirect(userBasePath + path);
+        return res.redirect(path);
     });
 };
 
 // configure form validation
 const PASSWORD_MIN_LENGTH = 8;
-const emailPasswordValidations = [
-    body('username')
+const formValidations = {
+    emailAddress: body('username')
         .exists()
         .not()
         .isEmpty()
         .withMessage('Please provide your email address')
         .isEmail()
         .withMessage('Please provide a valid email address'),
-    body('password')
+    password: body('password')
         .exists()
         .not()
         .isEmpty()
@@ -58,7 +58,9 @@ const emailPasswordValidations = [
         .withMessage(`Please provide a password that is longer than ${PASSWORD_MIN_LENGTH} characters`)
         .matches(/\d/)
         .withMessage('Please provide a password that contains at least one number')
-];
+};
+
+const emailPasswordValidations = [formValidations.emailAddress, formValidations.password];
 
 module.exports = {
     userBasePath,
@@ -66,5 +68,6 @@ module.exports = {
     makeUserLink,
     makeErrorList,
     renderUserError,
-    emailPasswordValidations
+    emailPasswordValidations,
+    formValidations
 };

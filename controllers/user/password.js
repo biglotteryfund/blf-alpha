@@ -1,5 +1,7 @@
 const xss = require('xss');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
@@ -26,7 +28,7 @@ const changePasswordForm = (req, res) => {
         if (err) {
             console.error('Password reset token expired', err);
             req.flash('genericError', 'Your password reset period has expired - please try again');
-            return renderUserError(null, req, res, userEndpoints.resetpassword);
+            return renderUserError(null, req, res, makeUserLink('resetpassword'));
         } else {
             if (decoded.data.reason === 'resetpassword') {
                 // we can now show the reset password form
@@ -38,7 +40,7 @@ const changePasswordForm = (req, res) => {
             } else {
                 console.error('Password reset token invalid', err);
                 req.flash('genericError', 'Your password reset link was invalid - please try again');
-                return renderUserError(null, req, res, userEndpoints.resetpassword);
+                return renderUserError(null, req, res, makeUserLink('resetpassword'));
             }
         }
     });
@@ -49,7 +51,7 @@ const sendResetEmail = (req, res) => {
     const email = xss(req.body.username);
     if (!email) {
         req.flash('genericError', 'Please provide a valid email address');
-        return renderUserError(null, req, res, userEndpoints.resetpassword);
+        return renderUserError(null, req, res, makeUserLink('resetpassword'));
     } else {
         models.Users
             .findOne({
@@ -61,7 +63,7 @@ const sendResetEmail = (req, res) => {
                 if (!user) {
                     // no user found / user not in password reset mode
                     req.flash('genericError', 'Please provide a valid email address');
-                    return renderUserError(null, req, res, userEndpoints.resetpassword);
+                    return renderUserError(null, req, res, makeUserLink('resetpassword'));
                 } else {
                     // this user exists, send email
                     let token = jwt.sign(
@@ -107,7 +109,7 @@ const sendResetEmail = (req, res) => {
                         .catch(err => {
                             console.error('Error marking user as in password reset mode', err);
                             req.flash('genericError', 'There was an error requesting your password reset');
-                            return renderUserError(null, req, res, userEndpoints.resetpassword);
+                            return renderUserError(null, req, res, makeUserLink('resetpassword'));
                         });
                 }
             })
@@ -115,7 +117,7 @@ const sendResetEmail = (req, res) => {
                 // error on user lookup
                 console.error('Error looking up user', err);
                 req.flash('genericError', 'There was an error fetching your details');
-                return renderUserError(null, req, res, userEndpoints.resetpassword);
+                return renderUserError(null, req, res, makeUserLink('resetpassword'));
             });
     }
 };
@@ -126,19 +128,26 @@ const updatePassword = (req, res) => {
     if (!changePasswordToken) {
         res.redirect(userBasePath + userEndpoints.login);
     } else {
-        // @TODO enforce password constraints
-        if (!req.body.password) {
-            // @TODO include the token here
-            req.flash('genericError', 'Please choose a valid password');
-            return renderUserError(null, req, res, userEndpoints.resetpassword);
+        // @TODO is there a better way to preserve this token between page changes?
+        const currentUrl = makeUserLink('resetpassword') + '?token=' + req.body.token;
+        const errors = validationResult(req);
+        // const data = matchedData(req, { locations: ['body'] });
+
+        if (!errors.isEmpty()) {
+            // failed validation
+            // return the user to the form to correct errors
+            // @TODO could use renderUserError as we don't need to keep form values here
+            req.flash('formErrors', errors.array());
+            req.session.save(() => {
+                res.redirect(currentUrl);
+            });
         } else {
             // check the token again
             jwt.verify(changePasswordToken, secrets['user.jwt.secret'], (err, decoded) => {
                 if (err) {
                     console.error('Password reset token expired', err);
                     req.flash('genericError', 'Your password reset period has expired - please try again');
-                    // @TODO include the token here
-                    return renderUserError(null, req, res, userEndpoints.resetpassword);
+                    return renderUserError(null, req, res, currentUrl);
                 } else {
                     if (decoded.data.reason === 'resetpassword') {
                         // is this user in password update mode?
@@ -157,8 +166,7 @@ const updatePassword = (req, res) => {
                                         'genericError',
                                         'There was an error updating your password - please try again'
                                     );
-                                    // @TODO include the token here
-                                    return renderUserError(null, req, res, userEndpoints.resetpassword);
+                                    return renderUserError(null, req, res, currentUrl);
                                 } else {
                                     // this user exists and requested this change
                                     let newPassword = req.body.password;
@@ -186,8 +194,7 @@ const updatePassword = (req, res) => {
                                                 'genericError',
                                                 'There was an error updating your password - please try again'
                                             );
-                                            // @TODO include the token here
-                                            return renderUserError(null, req, res, userEndpoints.resetpassword);
+                                            return renderUserError(null, req, res, currentUrl);
                                         });
                                 }
                             })
@@ -197,14 +204,12 @@ const updatePassword = (req, res) => {
                                     'genericError',
                                     'There was an error updating your password - please try again'
                                 );
-                                // @TODO include the token here
-                                return renderUserError(null, req, res, userEndpoints.resetpassword);
+                                return renderUserError(null, req, res, currentUrl);
                             });
                     } else {
                         console.error('A user tried to reset a password with an invalid token');
                         req.flash('genericError', 'There was an error updating your password - please try again');
-                        // @TODO include the token here
-                        return renderUserError(null, req, res, userEndpoints.resetpassword);
+                        return renderUserError(null, req, res, currentUrl);
                     }
                 }
             });

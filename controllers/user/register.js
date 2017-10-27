@@ -1,6 +1,6 @@
 const xss = require('xss');
 const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
 const models = require('../../models/index');
@@ -85,19 +85,19 @@ const createUser = (req, res, next) => {
                         .catch(err => {
                             // error on user insert
                             console.error('Error creating a new user', err);
-                            renderUserError(genericRegistrationFailMsg, req, res, userEndpoints.register);
+                            renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
                         });
                 } else {
                     // this user already exists
                     console.error('A user tried to register with an existing email address');
                     // send a generic message - don't expose existing accounts
-                    renderUserError(genericRegistrationFailMsg, req, res, userEndpoints.register);
+                    renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
                 }
             })
             .catch(err => {
                 // error on user lookup
                 console.error('Error looking up user', err);
-                renderUserError(genericRegistrationFailMsg, req, res, userEndpoints.register);
+                renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
             });
     }
 };
@@ -120,12 +120,12 @@ const activateUser = (req, res) => {
             if (err) {
                 console.error('A user tried to use an expired activation token', err);
                 req.flash('activationInvalid', true);
-                renderUserError(null, req, res, userEndpoints.dashboard);
+                renderUserError(null, req, res, makeUserLink('dashboard'));
             } else {
                 // is this user already active?
                 if (req.user.is_active) {
                     req.flash('genericError', 'Your account is already active!');
-                    return renderUserError(null, req, res, userEndpoints.dashboard);
+                    return renderUserError(null, req, res, makeUserLink('dashboard'));
                 }
 
                 // was the token valid for this user?
@@ -148,13 +148,13 @@ const activateUser = (req, res) => {
                         .catch(err => {
                             console.error("Failed to update a user's activation status", err);
                             req.flash('genericError', 'There was an error activating your account - please try again');
-                            renderUserError(null, req, res, userEndpoints.dashboard);
+                            renderUserError(null, req, res, makeUserLink('dashboard'));
                         });
                 } else {
                     // token was tampered with
                     console.error('A user tried to activate an account with an invalid token');
                     req.flash('genericError', 'There was an error activating your account - please try again');
-                    renderUserError(null, req, res, userEndpoints.dashboard);
+                    renderUserError(null, req, res, makeUserLink('dashboard'));
                 }
             }
         });
