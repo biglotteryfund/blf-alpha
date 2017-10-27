@@ -12,9 +12,6 @@ fieldset {
     margin: 0;
     min-width: 0;
 }
-body:not(:-moz-handler-blocked) fieldset {
-    display: table-cell;
-}
 
 .form-header {
     margin-bottom: $spacingUnit;
