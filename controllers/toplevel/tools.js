@@ -72,10 +72,8 @@ router.get('/status/pages', (req, res) => {
 });
 
 // language file editor tool
-let localeEditorPath = '/tools/locales/';
-routeStatic.injectUrlRequest(router, localeEditorPath);
 router
-    .route(localeEditorPath)
+    .route('/tools/locales/')
     .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
@@ -133,7 +131,6 @@ router.post('/tools/locales/update/', auth.requireAuthedLevel(USER_LEVEL_REQUIRE
 
 // edit news articles
 const editNewsPath = '/tools/edit-news';
-routeStatic.injectUrlRequest(router, editNewsPath);
 router
     .route(editNewsPath + '/:id?')
     .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res, next) => {

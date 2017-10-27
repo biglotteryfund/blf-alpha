@@ -10,7 +10,6 @@ const password = require('./password');
 const { userBasePath, userEndpoints, makeUserLink, emailPasswordValidations, formValidations } = require('./utils');
 
 // serve a logged-in user's dashboard
-routeStatic.injectUrlRequest(router, userEndpoints.dashboard);
 router.get(userEndpoints.dashboard, auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/dashboard', {
@@ -20,14 +19,12 @@ router.get(userEndpoints.dashboard, auth.requireAuthed, (req, res) => {
 });
 
 // register users
-routeStatic.injectUrlRequest(router, userEndpoints.register);
 router
     .route(userEndpoints.register)
     .get(auth.requireUnauthed, register.registrationForm)
     .post(emailPasswordValidations, register.createUser);
 
 // login users
-routeStatic.injectUrlRequest(router, userEndpoints.login);
 router
     .route(userEndpoints.login)
     .get(auth.requireUnauthed, login.loginForm)
@@ -47,14 +44,12 @@ router.get(userEndpoints.logout, (req, res) => {
 router.get(userEndpoints.activate, auth.requireAuthed, register.activateUser);
 
 // request a password reset email
-routeStatic.injectUrlRequest(router, userEndpoints.requestpasswordreset);
 router
     .route(userEndpoints.requestpasswordreset)
     .get(auth.requireUnauthed, password.requestResetForm)
     .post(auth.requireUnauthed, formValidations.emailAddress, password.sendResetEmail);
 
 // change a password (with a token)
-routeStatic.injectUrlRequest(router, userEndpoints.resetpassword);
 router
     .route(userEndpoints.resetpassword)
     .get(auth.requireUnauthed, password.changePasswordForm)
