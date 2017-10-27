@@ -6,7 +6,7 @@ const { matchedData } = require('express-validator/filter');
 const models = require('../../models/index');
 const secrets = require('../../modules/secrets');
 const mail = require('../../modules/mail');
-const { userBasePath, userEndpoints, renderUserError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, renderUserError } = require('./utils');
 const login = require('./login');
 
 // email users with an activation code
@@ -28,7 +28,8 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
             }
         );
         let email = user.username;
-        let activateUrl = `${req.protocol}://${req.headers.host}/user/activate?token=${token}`;
+        let activatePath = makeUserLink('activate');
+        let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
         mail.send(
             'Activate your Big Lottery Fund website account',
             `Please click the following link to activate your account: ${activateUrl}`,
@@ -39,7 +40,9 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
 
 const registrationForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
-    res.render('user/register');
+    res.render('user/register', {
+        makeUserLink: makeUserLink
+    });
 };
 
 const createUser = (req, res, next) => {
@@ -140,7 +143,7 @@ const activateUser = (req, res) => {
                             }
                         )
                         .then(() => {
-                            res.redirect('/user/dashboard');
+                            res.redirect(makeUserLink('dashboard'));
                         })
                         .catch(err => {
                             console.error("Failed to update a user's activation status", err);

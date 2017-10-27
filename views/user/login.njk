@@ -30,7 +30,7 @@
         </div>
     {% endif %}
 
-    <form action="/user/login" method="post">
+    <form action="{{ makeUserLink('login') }}" method="post">
         <div class="form-group">
             <label for="username">Email address</label>
             <input type="email"
@@ -54,8 +54,8 @@
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-default" value="Log in" />
-            or <a href="/user/register">register</a>
+            or <a href="{{ makeUserLink('register') }}">register</a>
         </div>
-        <small><a href="/user/requestpasswordreset">Forgotten your password?</a></small>
+        <small><a href="{{ makeUserLink('requestpasswordreset') }}">Forgotten your password?</a></small>
     </form>
 {% endblock %}

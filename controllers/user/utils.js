@@ -3,16 +3,17 @@ const { body } = require('express-validator/check');
 
 const userBasePath = '/user';
 
-// @TODO pass these through to templates
 const userEndpoints = {
     dashboard: '/dashboard',
     register: '/register',
     login: '/login',
     logout: '/logout',
     activate: '/activate',
-    requestpasswordreset: '/requestpasswordreset',
-    resetpassword: '/resetpassword'
+    requestpasswordreset: '/request-password-reset',
+    resetpassword: '/reset-password'
 };
+
+const makeUserLink = page => userBasePath + userEndpoints[page];
 
 // convert a single error string into a list
 // or return an express-validator pre-formatted list
@@ -62,6 +63,7 @@ const emailPasswordValidations = [
 module.exports = {
     userBasePath,
     userEndpoints,
+    makeUserLink,
     makeErrorList,
     renderUserError,
     emailPasswordValidations

@@ -1,3 +1,5 @@
+const { makeUserLink } = require('../controllers/user/utils');
+
 const checkAuthStatus = (req, res, next, minimumLevel) => {
     if (!minimumLevel) {
         minimumLevel = 0;
@@ -7,7 +9,7 @@ const checkAuthStatus = (req, res, next, minimumLevel) => {
     } else {
         req.session.redirectUrl = req.baseUrl + req.path;
         req.session.save(() => {
-            res.redirect('/user/login');
+            res.redirect(makeUserLink('login'));
         });
     }
 };
@@ -26,8 +28,7 @@ const requireUnauthed = (req, res, next) => {
     if (!req.user) {
         return next();
     } else {
-        console.log('got invalid user');
-        res.redirect('/user/dashboard');
+        res.redirect(makeUserLink('dashboard'));
     }
 };
 

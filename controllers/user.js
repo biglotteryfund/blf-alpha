@@ -7,14 +7,15 @@ const auth = require('../modules/authed');
 const register = require('./user/register');
 const login = require('./user/login');
 const password = require('./user/password');
-const { userBasePath, userEndpoints, emailPasswordValidations } = require('./user/utils');
+const { userBasePath, userEndpoints, makeUserLink, emailPasswordValidations } = require('./user/utils');
 
 // serve a logged-in user's dashboard
 routeStatic.injectUrlRequest(router, userEndpoints.dashboard);
 router.get(userEndpoints.dashboard, auth.requireAuthed, (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/dashboard', {
-        user: req.user
+        user: req.user,
+        makeUserLink: makeUserLink
     });
 });
 

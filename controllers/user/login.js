@@ -1,5 +1,5 @@
 const passport = require('passport');
-const { makeErrorList } = require('./utils');
+const { makeErrorList, makeUserLink } = require('./utils');
 
 // try to validate a user's login request
 // @TODO consider rate limiting?
@@ -14,13 +14,13 @@ const attemptAuth = (req, res, next) =>
                     req.flash('formValues', req.body);
                     req.flash('formErrors', makeErrorList(info.message));
                     req.session.save(() => {
-                        return res.redirect('/user/login');
+                        return res.redirect(makeUserLink('login'));
                     });
                 } else {
                     // user is valid, send them on
                     // we don't use flash here because it gets unset in the GET route above
                     // @TODO is this still true?
-                    let redirectUrl = '/user/dashboard';
+                    let redirectUrl = makeUserLink('dashboard');
                     if (req.body.redirectUrl) {
                         redirectUrl = req.body.redirectUrl;
                     } else if (req.session.redirectUrl) {
@@ -37,7 +37,9 @@ const attemptAuth = (req, res, next) =>
 
 const loginForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
-    res.render('user/login');
+    res.render('user/login', {
+        makeUserLink: makeUserLink
+    });
 };
 
 module.exports = {

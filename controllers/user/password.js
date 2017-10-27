@@ -4,12 +4,13 @@ const jwt = require('jsonwebtoken');
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
 const secrets = require('../../modules/secrets');
-const { userBasePath, userEndpoints, renderUserError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, renderUserError } = require('./utils');
 
 const requestResetForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/resetpassword', {
-        mode: 'enterEmail'
+        mode: 'enterEmail',
+        makeUserLink: makeUserLink
     });
 };
 
@@ -31,7 +32,8 @@ const changePasswordForm = (req, res) => {
                 // we can now show the reset password form
                 res.render('user/resetpassword', {
                     mode: 'pickNewPassword',
-                    token: token
+                    token: token,
+                    makeUserLink: makeUserLink
                 });
             } else {
                 console.error('Password reset token invalid', err);
@@ -74,7 +76,9 @@ const sendResetEmail = (req, res) => {
                             expiresIn: '1h' // short-lived token
                         }
                     );
-                    let resetUrl = `${req.protocol}://${req.headers.host}/user/resetpassword?token=${token}`;
+
+                    let resetPath = makeUserLink('resetpassword');
+                    let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
                     mail.send(
                         'Reset the password for your Big Lottery Fund website account',
