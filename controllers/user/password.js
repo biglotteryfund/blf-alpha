@@ -15,6 +15,28 @@ const requestResetForm = (req, res) => {
     });
 };
 
+// is this user in password update mode?
+const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError) => {
+    models.Users
+        .findOne({
+            where: {
+                id: userId,
+                is_password_reset: true
+            }
+        })
+        .then(user => {
+            if (!user) {
+                // no user for this ID, or they already did this reset
+                return callbackError();
+            } else {
+                return callbackSuccess(user);
+            }
+        })
+        .catch(err => {
+            callbackError(err);
+        });
+};
+
 const changePasswordForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
     let token = req.query.token;
@@ -30,12 +52,23 @@ const changePasswordForm = (req, res) => {
             return renderUserError(null, req, res, makeUserLink('resetpassword'));
         } else {
             if (decoded.data.reason === 'resetpassword') {
-                // we can now show the reset password form
-                res.render('user/resetpassword', {
-                    mode: 'pickNewPassword',
-                    token: token,
-                    makeUserLink: makeUserLink
-                });
+                // now check if this user actually requested this
+                checkUserRequestedPasswordReset(
+                    decoded.data.userId,
+                    user => {
+                        // we can now show the reset password form
+                        return res.render('user/resetpassword', {
+                            mode: 'pickNewPassword',
+                            token: token,
+                            makeUserLink: makeUserLink
+                        });
+                    },
+                    error => {
+                        console.error('User attempted to reset a password for an non-resettable user', error || {});
+                        req.flash('genericError', 'Your password reset link was invalid - please try again');
+                        return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                    }
+                );
             } else {
                 console.error('Password reset token invalid', err);
                 req.flash('genericError', 'Your password reset link was invalid - please try again');
@@ -147,62 +180,47 @@ const updatePassword = (req, res) => {
                     return renderUserError(null, req, res, currentUrl);
                 } else {
                     if (decoded.data.reason === 'resetpassword') {
-                        // is this user in password update mode?
-                        models.Users
-                            .findOne({
-                                where: {
-                                    id: decoded.data.userId,
-                                    is_password_reset: true
-                                }
-                            })
-                            .then(user => {
-                                if (!user) {
-                                    // no user for this ID, or they already did this reset
-                                    console.error('A user tried to reset a password using a pre-used token');
-                                    req.flash(
-                                        'genericError',
-                                        'There was an error updating your password - please try again'
-                                    );
-                                    return renderUserError(null, req, res, currentUrl);
-                                } else {
-                                    // this user exists and requested this change
-                                    let newPassword = req.body.password;
-                                    models.Users
-                                        .update(
-                                            {
-                                                password: newPassword,
-                                                is_password_reset: false
-                                            },
-                                            {
-                                                where: {
-                                                    id: decoded.data.userId
-                                                }
+                        checkUserRequestedPasswordReset(
+                            decoded.data.userId,
+                            user => {
+                                // this user exists and requested this change
+                                let newPassword = req.body.password;
+                                models.Users
+                                    .update(
+                                        {
+                                            password: newPassword,
+                                            is_password_reset: false
+                                        },
+                                        {
+                                            where: {
+                                                id: user.id
                                             }
-                                        )
-                                        .then(() => {
-                                            req.flash('passwordUpdated', true);
-                                            req.session.save(() => {
-                                                res.redirect(userBasePath + userEndpoints.login);
-                                            });
-                                        })
-                                        .catch(err => {
-                                            console.error('Error updating a user password', err);
-                                            req.flash(
-                                                'genericError',
-                                                'There was an error updating your password - please try again'
-                                            );
-                                            return renderUserError(null, req, res, currentUrl);
+                                        }
+                                    )
+                                    .then(() => {
+                                        req.flash('passwordUpdated', true);
+                                        req.session.save(() => {
+                                            res.redirect(userBasePath + userEndpoints.login);
                                         });
-                                }
-                            })
-                            .catch(err => {
-                                console.error('Error fetching a user password change status', err);
+                                    })
+                                    .catch(err => {
+                                        console.error('Error updating a user password', err);
+                                        req.flash(
+                                            'genericError',
+                                            'There was an error updating your password - please try again'
+                                        );
+                                        return renderUserError(null, req, res, currentUrl);
+                                    });
+                            },
+                            error => {
+                                console.error('Error processing a user password change status', error || {});
                                 req.flash(
                                     'genericError',
                                     'There was an error updating your password - please try again'
                                 );
                                 return renderUserError(null, req, res, currentUrl);
-                            });
+                            }
+                        );
                     } else {
                         console.error('A user tried to reset a password with an invalid token');
                         req.flash('genericError', 'There was an error updating your password - please try again');
