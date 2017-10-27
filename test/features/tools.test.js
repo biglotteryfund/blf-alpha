@@ -2,6 +2,7 @@
 /* global describe, it, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
+chai.should();
 const config = require('config');
 
 const helper = require('./helper');

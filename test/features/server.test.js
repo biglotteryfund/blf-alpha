@@ -3,6 +3,7 @@
 const chai = require('chai');
 const config = require('config');
 chai.use(require('chai-http'));
+chai.should();
 
 const helper = require('./helper');
 
