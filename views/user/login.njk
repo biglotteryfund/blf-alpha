@@ -15,7 +15,6 @@
         </div>
     {% endif %}
 
-
     {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
     {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
 
@@ -30,6 +29,7 @@
         </div>
     {% endif %}
 
+    <h1>Log in</h1>
     <form action="{{ makeUserLink('login') }}" method="post">
         <div class="form-group">
             <label for="username">Email address</label>
