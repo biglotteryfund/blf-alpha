@@ -41,7 +41,7 @@ describe('authorisation for tools', () => {
 
     it('should not allow unauthorised access to staff-only tools', done => {
         const formData = {
-            username: 'test',
+            username: 'test@test.com',
             password: 'wrong'
         };
 
@@ -64,7 +64,7 @@ describe('authorisation for tools', () => {
 
     it('should allow authorised access to staff-only tools', done => {
         const formData = {
-            username: 'test',
+            username: 'test@test.com',
             password: 'test',
             redirectUrl: '/tools/edit-news/'
         };
@@ -117,7 +117,7 @@ describe('news editor tool', () => {
 
     it('should allow authorised staff to post valid news', done => {
         const loginData = {
-            username: 'test',
+            username: 'test@test.com',
             password: 'test',
             redirectUrl: '/tools/edit-news/'
         };
