@@ -17,7 +17,7 @@ const transport = nodemailer.createTransport({
     }
 });
 
-const send = (subject, text, sendTo, sendMode) => {
+const send = ({ subject, text, sendTo, sendMode }) => {
     // default sending is `to` (as opposed to `bcc` etc)
     if (!sendMode) {
         sendMode = 'to';

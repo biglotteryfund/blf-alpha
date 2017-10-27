@@ -30,11 +30,11 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-        mail.send(
-            'Activate your Big Lottery Fund website account',
-            `Please click the following link to activate your account: ${activateUrl}`,
-            email
-        );
+        mail.send({
+            subject: 'Activate your Big Lottery Fund website account',
+            text: `Please click the following link to activate your account: ${activateUrl}`,
+            sendTo: email
+        });
     }
 };
 
