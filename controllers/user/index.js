@@ -2,12 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
-const routeStatic = require('./utils/routeStatic');
-const auth = require('../modules/authed');
-const register = require('./user/register');
-const login = require('./user/login');
-const password = require('./user/password');
-const { userBasePath, userEndpoints, makeUserLink, emailPasswordValidations } = require('./user/utils');
+const routeStatic = require('../utils/routeStatic');
+const auth = require('../../modules/authed');
+const register = require('./register');
+const login = require('./login');
+const password = require('./password');
+const { userBasePath, userEndpoints, makeUserLink, emailPasswordValidations, formValidations } = require('./utils');
 
 // serve a logged-in user's dashboard
 routeStatic.injectUrlRequest(router, userEndpoints.dashboard);
@@ -58,6 +58,6 @@ routeStatic.injectUrlRequest(router, userEndpoints.resetpassword);
 router
     .route(userEndpoints.resetpassword)
     .get(auth.requireUnauthed, password.changePasswordForm)
-    .post(auth.requireUnauthed, password.updatePassword);
+    .post(auth.requireUnauthed, formValidations.password, password.updatePassword);
 
 module.exports = router;

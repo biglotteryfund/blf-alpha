@@ -35,7 +35,7 @@ require('./modules/boilerplate/middleware');
 app.use('/', require('./controllers/toplevel/tools'));
 
 // map user auth controller
-app.use('/user', require('./controllers/user'));
+app.use('/user', require('./controllers/user/index'));
 
 // aka welshify - create an array of paths: default (english) and welsh variant
 const cymreigio = mountPath => {
