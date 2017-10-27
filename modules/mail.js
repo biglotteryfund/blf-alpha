@@ -1,22 +1,21 @@
 'use strict';
 const nodemailer = require('nodemailer');
 const config = require('config');
-const secrets = require('../modules/secrets');
+const { getSecret } = require('../modules/secrets');
 
 let mailConfig = {
-    user: secrets['ses.auth.user'],
-    password: secrets['ses.auth.password']
+    user: getSecret('ses.auth.user'),
+    password: getSecret('ses.auth.password')
 };
 
 let transporter = false;
 
 const send = (text, subject) => {
-
     // only initialise this when we need it
     if (!transporter) {
         // create reusable transporter object using the default SMTP transport
         transporter = nodemailer.createTransport({
-            service: "SES-EU-WEST-1",
+            service: 'SES-EU-WEST-1',
             auth: {
                 user: mailConfig.user,
                 pass: mailConfig.password
