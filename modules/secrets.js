@@ -1,13 +1,23 @@
 'use strict';
-const _ = require('lodash');
+const { flow, keyBy, mapValues } = require('lodash/fp');
 const fs = require('fs');
 
-let secrets = {};
-
+let rawParameters;
 try {
-    secrets = JSON.parse(fs.readFileSync('/etc/blf/parameters.json'), 'utf8');
+    rawParameters = JSON.parse(fs.readFileSync('/etc/blf/parameters.json'), 'utf8');
 } catch (e) {
     console.info('parameters.json not found -- are you in DEV mode?');
 }
+const secrets = flow(keyBy('Name'), mapValues('Value'))(rawParameters);
 
-module.exports = _.chain(secrets).keyBy('Name').mapValues('Value').value();
+function getSecret(name) {
+    if (secrets[name]) {
+        return secrets[name];
+    } else {
+        throw new Error(`Could not find property ${name} in secrets`);
+    }
+}
+
+module.exports = {
+    getSecret
+};
