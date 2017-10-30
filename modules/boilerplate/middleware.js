@@ -47,7 +47,7 @@ const sessionConfig = {
     })
 };
 
-if (app.get('env') === 'production') {
+if (app.get('env') !== 'development') {
     app.set('trust proxy', 1); // trust first proxy
     sessionConfig.cookie.secure = true; // serve secure cookies
 }
