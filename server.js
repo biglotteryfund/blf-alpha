@@ -3,7 +3,7 @@ const express = require('express');
 const app = (module.exports = express());
 const config = require('config');
 const Raven = require('raven');
-const { getSecret } = require('./modules/secrets');
+const getSecret = require('./modules/get-secret');
 
 const SENTRY_DSN = getSecret('sentry.dsn');
 

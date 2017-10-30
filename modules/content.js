@@ -1,6 +1,6 @@
 'use strict';
 const rp = require('request-promise');
-const { getSecret } = require('./secrets');
+const getSecret = require('./get-secret');
 
 let CMS_URL = getSecret('cms.url') || process.env.cmsUrl;
 if (!CMS_URL) {

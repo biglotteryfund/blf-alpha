@@ -15,7 +15,7 @@ const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const models = require('../../models/index');
-const { getSecret } = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
 // load auth strategy

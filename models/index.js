@@ -1,7 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
 const config = require('config');
-const { getSecret } = require('../modules/secrets');
+const getSecret = require('../modules/get-secret');
 
 let db = {};
 

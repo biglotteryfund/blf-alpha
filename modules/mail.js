@@ -1,7 +1,7 @@
 'use strict';
 const nodemailer = require('nodemailer');
 const config = require('config');
-const { getSecret } = require('../modules/secrets');
+const getSecret = require('../modules/get-secret');
 
 let mailConfig = {
     user: getSecret('ses.auth.user'),

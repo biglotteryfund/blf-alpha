@@ -13,7 +13,7 @@ function getRawParameters() {
 const mapKeyedValues = flow(keyBy('Name'), mapValues('Value'));
 const secrets = mapKeyedValues(getRawParameters());
 
-function getSecret(name) {
+module.exports = function getSecret(name) {
     if (process.env.CI === true || isEmpty(secrets)) {
         console.warn(`Secret "${name}" not found: are you in CI or DEVELOPMENT mode?`);
     } else if (name in secrets) {
@@ -21,8 +21,4 @@ function getSecret(name) {
     } else {
         throw new Error(`Could not find property ${name} in secrets`);
     }
-}
-
-module.exports = {
-    getSecret
 };

@@ -16,7 +16,7 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
-const { getSecret } = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 
 const robots = require('../../config/app/robots.json');
