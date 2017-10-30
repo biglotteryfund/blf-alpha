@@ -25,6 +25,14 @@ let captureStream = stream => {
     };
 };
 
+const createTestUser = (userData) => {
+    return models.Users.create(userData);
+};
+
+const truncateUsers = () => {
+    return models.Users.destroy({ where: {} });
+};
+
 module.exports = {
     before: () => {
         server = require('../../bin/www');
@@ -34,5 +42,7 @@ module.exports = {
     after: () => {
         server.close();
         hook.unhook();
-    }
+    },
+    createTestUser: createTestUser,
+    truncateUsers: truncateUsers
 };
