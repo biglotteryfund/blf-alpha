@@ -1,21 +1,52 @@
 'use strict';
-/* global describe, it, beforeEach, afterEach, after */
+/* global describe, it, before, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
 const config = require('config');
 
 const helper = require('./helper');
-const models = require('../../models/index');
+
+const validUser = {
+    username: 'test@fakewebsite.com',
+    password: 'hunter2',
+    level: 10
+};
+
+// create a valid test user
+before(done => {
+    helper
+        .createTestUser(validUser)
+        .then(() => {
+            console.log('Created a user');
+            done();
+        })
+        .catch(() => {
+            done(new Error('Error creating user'));
+        });
+});
+
+// delete test users afterward
+after(done => {
+    helper
+        .truncateUsers()
+        .then(() => {
+            console.log('Deleted test users');
+            done();
+        })
+        .catch(() => {
+            done(new Error('Error deleting users'));
+        });
+});
 
 describe('authorisation for tools', () => {
     let agent, server;
 
     beforeEach(done => {
         server = helper.before();
-
         // grab a valid CSRF token
         agent = chai.request.agent(server);
         done();
+
         // agent.get('/home')
         //     .end((err, res) => {
         //         const dom = new JSDOM(res.text);
@@ -64,8 +95,8 @@ describe('authorisation for tools', () => {
 
     it('should allow authorised access to staff-only tools', done => {
         const formData = {
-            username: 'test@test.com',
-            password: 'test',
+            username: validUser.username,
+            password: validUser.password,
             redirectUrl: '/tools/edit-news/'
         };
 
@@ -102,23 +133,14 @@ describe('news editor tool', () => {
         //     });
     });
 
-    // delete test data afterwards
-    after(done => {
-        console.log('Deleting test news data');
-        models.News.destroy({
-            where: {}
-        });
-        done();
-    });
-
     afterEach(() => {
         helper.after();
     });
 
     it('should allow authorised staff to post valid news', done => {
         const loginData = {
-            username: 'test@test.com',
-            password: 'test',
+            username: validUser.username,
+            password: validUser.password,
             redirectUrl: '/tools/edit-news/'
         };
 

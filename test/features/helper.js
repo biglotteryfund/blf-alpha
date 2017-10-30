@@ -2,6 +2,8 @@
 
 // use the test database
 const config = require('config');
+const models = require('../../models/index');
+
 process.env.CUSTOM_DB = config.get('database-test');
 
 // run on another port from the default dev one
@@ -30,6 +32,14 @@ let captureStream = stream => {
     };
 };
 
+const createTestUser = userData => {
+    return models.Users.create(userData);
+};
+
+const truncateUsers = () => {
+    return models.Users.destroy({ where: {} });
+};
+
 module.exports = {
     before: () => {
         server = require('../../bin/www');
@@ -39,5 +49,7 @@ module.exports = {
     after: () => {
         server.close();
         hook.unhook();
-    }
+    },
+    createTestUser: createTestUser,
+    truncateUsers: truncateUsers
 };
