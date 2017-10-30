@@ -37,15 +37,20 @@ app.use(cookieParser());
 
 // add session
 const sessionConfig = {
-    secret: secrets['session.secret'] || process.env.sessionSecret,
     name: config.get('cookies.session'),
+    secret: process.env.sessionSecret || secrets['session.secret'],
+    cookie: { sameSite: true },
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false },
     store: new SequelizeStore({
         db: models.sequelize
     })
 };
+
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sessionConfig.cookie.secure = true; // serve secure cookies
+}
 
 // create sessions table
 sessionConfig.store.sync();
