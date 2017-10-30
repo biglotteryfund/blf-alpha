@@ -220,7 +220,7 @@ function beginUpdate(cacheBehaviors) {
                     // try to update the distribution
                     let updateDistributionConfig = cloudfront
                         .updateDistribution({
-                            DistributionConfig: newConfigToWrite,
+                            DistributionConfig: newConfigToWrite.Distribution.DistributionConfig,
                             Id: cloudfrontDistribution.distributionId,
                             IfMatch: etag
                         })
