@@ -11,25 +11,35 @@ const routes = require('../../controllers/routes');
 
 // test the order form specifically
 describe('Material order form', () => {
-    let agent, csrfToken, server;
+    let server, agent;
+
+    before(done => {
+        helper.before(serverInstance => {
+            server = serverInstance;
+            done();
+        });
+    });
+
+    after(() => {
+        helper.after(server);
+    });
+
+    beforeEach(() => {
+        agent = chai.request.agent(server);
+    });
+
+    let csrfToken;
 
     beforeEach(done => {
-        server = helper.before();
-
         // grab a valid CSRF token
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
-        agent = chai.request.agent(server);
         agent.get(path).end((err, res) => {
             // res.should.have.cookie('_csrf');
             const dom = new JSDOM(res.text);
             csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
             done();
         });
-    });
-
-    afterEach(() => {
-        helper.after();
     });
 
     it('should serve materials to order', done => {

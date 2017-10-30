@@ -11,3 +11,4 @@ deploy.json
 node_modules
 public/build
 screenshots
+tmp/*.db
