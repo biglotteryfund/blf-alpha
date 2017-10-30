@@ -1,5 +1,6 @@
 'use strict';
 const config = require('config');
+const importFresh = require('import-fresh');
 
 // use the test database
 process.env.CUSTOM_DB = config.get('database-test');
@@ -10,8 +11,7 @@ process.env.USE_LOCAL_DATABASE = true;
 
 const models = require('../../models/index');
 
-let server, hook;
-
+let hook;
 let captureStream = stream => {
     let oldWrite = stream.write;
     let buf = '';
@@ -39,12 +39,14 @@ const truncateUsers = () => {
 };
 
 module.exports = {
-    before: () => {
-        server = require('../../bin/www');
+    before: callback => {
         hook = captureStream(process.stdout);
-        return server;
+        const server = importFresh('../../bin/www');
+        server.on('listening', () => {
+            callback(server);
+        });
     },
-    after: () => {
+    after: server => {
         server.close();
         hook.unhook();
     },
