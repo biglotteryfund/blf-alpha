@@ -3,6 +3,7 @@
 // use the test database
 const config = require('config');
 process.env.CUSTOM_DB = config.get('database-test');
+const models = require('../../models/index');
 process.env.PORT = 8090;
 
 let server, hook;
