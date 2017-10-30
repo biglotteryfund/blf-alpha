@@ -1,6 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
 const config = require('config');
+const path = require('path');
 const secrets = require('../modules/secrets');
 
 let db = {};
@@ -16,7 +17,8 @@ let sequelize;
 
 if (dbCredentials.host) {
     let databaseName = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
-    sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, {
+
+    let sequelizeConfig = {
         host: dbCredentials.host,
         logging: false,
         dialect: 'mysql',
@@ -25,7 +27,15 @@ if (dbCredentials.host) {
             min: 1,
             idle: 10000
         }
-    });
+    };
+
+    // allow using a local sqlite db for testing
+    if (process.env.USE_LOCAL_DATABASE) {
+        sequelizeConfig.dialect = 'sqlite';
+        sequelizeConfig.storage = path.join(__dirname, `../tmp/test.db`);
+    }
+
+    sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, sequelizeConfig);
 
     sequelize
         .authenticate()

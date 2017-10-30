@@ -366,7 +366,7 @@ const otherUrls = [
         path: '/ebulletin',
         isPostable: true,
         allowQueryStrings: false,
-        live: false // @TODO make live when form is POSTable again
+        live: true
     },
     {
         path: '/home',

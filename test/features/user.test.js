@@ -12,45 +12,43 @@ const validUser = {
     level: 10
 };
 
-// create a valid test user
-before(done => {
-    helper.createTestUser(validUser).then(() => {
-        console.log('Created a user');
-        done();
-    }).catch(err => {
-        done(new Error('Error creating user'));
-    });
-});
-
-// delete test users afterward
-after(done =>  {
-    helper.truncateUsers().then(() => {
-        console.log('Deleted test users');
-        done();
-    }).catch(err => {
-        done(new Error('Error deleting users'));
-    });
-});
-
 describe('User authentication', () => {
-    let agent, server;
+    let server, agent;
 
-    beforeEach(done => {
-        server = helper.before();
+    // set up pre-test dependencies
+    before(done => {
+        helper.before(serverInstance => {
+            server = serverInstance;
 
-        // grab a valid CSRF token
-        agent = chai.request.agent(server);
-        done();
-        // agent.get('/home')
-        //     .end((err, res) => {
-        //         const dom = new JSDOM(res.text);
-        //         csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
-        //         done();
-        //     });
+            // make a test user
+            helper
+                .createTestUser(validUser)
+                .then(() => {
+                    console.log('Created a user');
+                    done();
+                })
+                .catch(err => {
+                    done(new Error(err));
+                });
+        });
     });
 
-    afterEach(() => {
-        return helper.after();
+    // delete test users afterward
+    after(done => {
+        helper
+            .truncateUsers()
+            .then(() => {
+                helper.after(server);
+                done();
+            })
+            .catch(() => {
+                helper.after(server);
+                done(new Error('Error deleting users'));
+            });
+    });
+
+    beforeEach(() => {
+        agent = chai.request.agent(server);
     });
 
     /* tests to write
@@ -113,5 +111,4 @@ describe('User authentication', () => {
                 done();
             });
     });
-
 });

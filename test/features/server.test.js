@@ -8,13 +8,21 @@ chai.should();
 const helper = require('./helper');
 
 describe('Express application', () => {
-    let server;
-    beforeEach(() => {
-        server = helper.before();
+    let server, agent;
+
+    before(done => {
+        helper.before(serverInstance => {
+            server = serverInstance;
+            done();
+        });
     });
 
-    afterEach(() => {
-        helper.after();
+    after(() => {
+        helper.after(server);
+    });
+
+    beforeEach(() => {
+        agent = chai.request.agent(server);
     });
 
     it('responds to /', done => {

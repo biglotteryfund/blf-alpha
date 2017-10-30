@@ -57,7 +57,7 @@ function getEnvStatus(env) {
 }
 
 const configFilename = IS_LIVE ? 'live' : 'test';
-const configPath = `bin/cloudfront/${configFilename}.js`;
+const configPath = `bin/cloudfront/${configFilename}.json`;
 const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
 
 // are we using a custom config (eg. a backup file)?
@@ -220,7 +220,7 @@ function beginUpdate(cacheBehaviors) {
                     // try to update the distribution
                     let updateDistributionConfig = cloudfront
                         .updateDistribution({
-                            DistributionConfig: newConfigToWrite,
+                            DistributionConfig: newConfigToWrite.Distribution.DistributionConfig,
                             Id: cloudfrontDistribution.distributionId,
                             IfMatch: etag
                         })

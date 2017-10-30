@@ -1,13 +1,17 @@
 'use strict';
+const config = require('config');
+const importFresh = require('import-fresh');
 
 // use the test database
-const config = require('config');
 process.env.CUSTOM_DB = config.get('database-test');
-const models = require('../../models/index');
+// run on another port from the default dev one
 process.env.PORT = 8090;
+// configure Sequelize to use a local, temporary sqlite db for testing
+process.env.USE_LOCAL_DATABASE = true;
 
-let server, hook;
+const models = require('../../models/index');
 
+let hook;
 let captureStream = stream => {
     let oldWrite = stream.write;
     let buf = '';
@@ -26,7 +30,7 @@ let captureStream = stream => {
     };
 };
 
-const createTestUser = (userData) => {
+const createTestUser = userData => {
     return models.Users.create(userData);
 };
 
@@ -35,12 +39,14 @@ const truncateUsers = () => {
 };
 
 module.exports = {
-    before: () => {
-        server = require('../../bin/www');
+    before: callback => {
         hook = captureStream(process.stdout);
-        return server;
+        const server = importFresh('../../bin/www');
+        server.on('listening', () => {
+            callback(server);
+        });
     },
-    after: () => {
+    after: server => {
         server.close();
         hook.unhook();
     },
