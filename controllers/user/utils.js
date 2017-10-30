@@ -29,16 +29,6 @@ const makeErrorList = error => {
     }
 };
 
-// generic function to return the user to the form with an error
-const renderUserError = (msg, req, res, path) => {
-    if (msg) {
-        req.flash('formErrors', makeErrorList(msg));
-    }
-    req.session.save(() => {
-        return res.redirect(path);
-    });
-};
-
 // configure form validation
 const PASSWORD_MIN_LENGTH = 8;
 const formValidations = {
@@ -67,7 +57,6 @@ module.exports = {
     userEndpoints,
     makeUserLink,
     makeErrorList,
-    renderUserError,
     emailPasswordValidations,
     formValidations
 };

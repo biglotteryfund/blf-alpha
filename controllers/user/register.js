@@ -6,8 +6,9 @@ const { matchedData } = require('express-validator/filter');
 const models = require('../../models/index');
 const secrets = require('../../modules/secrets');
 const mail = require('../../modules/mail');
-const { userBasePath, userEndpoints, makeUserLink, renderUserError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList } = require('./utils');
 const login = require('./login');
+const dashboard = require('./dashboard');
 
 // email users with an activation code
 const sendActivationEmail = (user, req, isBrandNewUser) => {
@@ -41,7 +42,8 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
 const registrationForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/register', {
-        makeUserLink: makeUserLink
+        makeUserLink: makeUserLink,
+        errors: res.locals.errors || []
     });
 };
 
@@ -52,10 +54,10 @@ const createUser = (req, res, next) => {
     if (!errors.isEmpty()) {
         // failed validation
         // return the user to the form to correct errors
-        req.flash('formErrors', errors.array());
         req.flash('formValues', data);
+        res.locals.errors = errors.array();
         req.session.save(() => {
-            res.redirect(userBasePath + userEndpoints.register);
+            return registrationForm(req, res);
         });
     } else {
         let userData = {
@@ -63,8 +65,6 @@ const createUser = (req, res, next) => {
             password: xss(req.body.password),
             level: 0
         };
-
-        let genericRegistrationFailMsg = 'Your registration request could not be completed - please try again.';
 
         // check if this email address already exists
         // we can't use findOrCreate here because the password changes
@@ -85,19 +85,24 @@ const createUser = (req, res, next) => {
                         .catch(err => {
                             // error on user insert
                             console.error('Error creating a new user', err);
-                            renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
+                            res.locals.errors = makeErrorList(
+                                'There was an error creating your account - please try again'
+                            );
+                            return registrationForm(req, res);
                         });
                 } else {
                     // this user already exists
                     console.error('A user tried to register with an existing email address');
                     // send a generic message - don't expose existing accounts
-                    renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
+                    res.locals.errors = makeErrorList('There was an error creating your account - please try again');
+                    return registrationForm(req, res);
                 }
             })
             .catch(err => {
                 // error on user lookup
                 console.error('Error looking up user', err);
-                renderUserError(genericRegistrationFailMsg, req, res, makeUserLink('register'));
+                res.locals.errors = makeErrorList('There was an error creating your account - please try again');
+                return registrationForm(req, res);
             });
     }
 };
@@ -120,12 +125,13 @@ const activateUser = (req, res) => {
             if (err) {
                 console.error('A user tried to use an expired activation token', err);
                 req.flash('activationInvalid', true);
-                renderUserError(null, req, res, makeUserLink('dashboard'));
+                res.locals.errors = makeErrorList('There was an error with this activation link - please try again');
+                return dashboard.dashboard(req, res);
             } else {
                 // is this user already active?
                 if (req.user.is_active) {
-                    req.flash('genericError', 'Your account is already active!');
-                    return renderUserError(null, req, res, makeUserLink('dashboard'));
+                    res.locals.errors = makeErrorList('Your account is already active!');
+                    return dashboard.dashboard(req, res);
                 }
 
                 // was the token valid for this user?
@@ -147,14 +153,18 @@ const activateUser = (req, res) => {
                         })
                         .catch(err => {
                             console.error("Failed to update a user's activation status", err);
-                            req.flash('genericError', 'There was an error activating your account - please try again');
-                            renderUserError(null, req, res, makeUserLink('dashboard'));
+                            res.locals.errors = makeErrorList(
+                                'There was an error with this activation link - please try again'
+                            );
+                            return dashboard.dashboard(req, res);
                         });
                 } else {
                     // token was tampered with
                     console.error('A user tried to activate an account with an invalid token');
-                    req.flash('genericError', 'There was an error activating your account - please try again');
-                    renderUserError(null, req, res, makeUserLink('dashboard'));
+                    res.locals.errors = makeErrorList(
+                        'There was an error with this activation link - please try again'
+                    );
+                    return dashboard.dashboard(req, res);
                 }
             }
         });

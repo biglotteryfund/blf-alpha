@@ -12,10 +12,8 @@ const attemptAuth = (req, res, next) =>
                 if (err) {
                     // user not valid, send them to login again
                     req.flash('formValues', req.body);
-                    req.flash('formErrors', makeErrorList(info.message));
-                    req.session.save(() => {
-                        return res.redirect(makeUserLink('login'));
-                    });
+                    res.locals.errors = makeErrorList(info.message);
+                    return loginForm(req, res);
                 } else {
                     // user is valid, send them on
                     // we don't use flash here because it gets unset in the GET route above

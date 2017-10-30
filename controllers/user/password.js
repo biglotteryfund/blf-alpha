@@ -5,13 +5,14 @@ const { validationResult } = require('express-validator/check');
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
 const secrets = require('../../modules/secrets');
-const { userBasePath, userEndpoints, makeUserLink, renderUserError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList } = require('./utils');
 
 const requestResetForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
     res.render('user/resetpassword', {
         mode: 'enterEmail',
-        makeUserLink: makeUserLink
+        makeUserLink: makeUserLink,
+        errors: res.locals.errors || []
     });
 };
 
@@ -39,7 +40,7 @@ const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError)
 
 const changePasswordForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
-    let token = req.query.token;
+    let token = req.query.token ? req.query.token : res.locals.token;
     if (!token) {
         return res.redirect(userBasePath + userEndpoints.login);
     }
@@ -47,9 +48,10 @@ const changePasswordForm = (req, res) => {
     // a user has followed a reset link
     jwt.verify(token, secrets['user.jwt.secret'], (err, decoded) => {
         if (err) {
-            console.error('Password reset token expired', err);
-            req.flash('genericError', 'Your password reset period has expired - please try again');
-            return renderUserError(null, req, res, makeUserLink('resetpassword'));
+            console.error('Password reset token expired or invalid signature', err);
+            // send them to start of the reset process (otherwise this is an endless loop)
+            res.locals.errors = makeErrorList('Your password reset period has expired - please try again');
+            return requestResetForm(req, res);
         } else {
             if (decoded.data.reason === 'resetpassword') {
                 // now check if this user actually requested this
@@ -60,19 +62,20 @@ const changePasswordForm = (req, res) => {
                         return res.render('user/resetpassword', {
                             mode: 'pickNewPassword',
                             token: token,
-                            makeUserLink: makeUserLink
+                            makeUserLink: makeUserLink,
+                            errors: res.locals.errors || []
                         });
                     },
                     error => {
                         console.error('User attempted to reset a password for an non-resettable user', error || {});
-                        req.flash('genericError', 'Your password reset link was invalid - please try again');
-                        return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                        res.locals.errors = makeErrorList('Your password reset link was invalid - please try again');
+                        return requestResetForm(req, res);
                     }
                 );
             } else {
-                console.error('Password reset token invalid', err);
-                req.flash('genericError', 'Your password reset link was invalid - please try again');
-                return renderUserError(null, req, res, makeUserLink('resetpassword'));
+                console.error('Password reset token was for another reason', err);
+                res.locals.errors = makeErrorList('Your password reset link was invalid - please try again');
+                return requestResetForm(req, res);
             }
         }
     });
@@ -84,10 +87,10 @@ const sendResetEmail = (req, res) => {
 
     if (!errors.isEmpty()) {
         // failed validation
-        req.flash('formErrors', errors.array());
         req.flash('formValues', req.body);
+        res.locals.errors = errors.array();
         req.session.save(() => {
-            res.redirect(makeUserLink('requestpasswordreset'));
+            return requestResetForm(req, res);
         });
     } else {
         const email = xss(req.body.username);
@@ -100,8 +103,8 @@ const sendResetEmail = (req, res) => {
             .then(user => {
                 if (!user) {
                     // no user found / user not in password reset mode
-                    req.flash('genericError', 'Please provide a valid email address');
-                    return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
+                    res.locals.errors = makeErrorList('Please provide a valid email address');
+                    return requestResetForm(req, res);
                 } else {
                     // this user exists, send email
                     let token = jwt.sign(
@@ -146,16 +149,16 @@ const sendResetEmail = (req, res) => {
                         })
                         .catch(err => {
                             console.error('Error marking user as in password reset mode', err);
-                            req.flash('genericError', 'There was an error requesting your password reset');
-                            return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
+                            res.locals.errors = makeErrorList('There was an error requesting your password reset');
+                            return requestResetForm(req, res);
                         });
                 }
             })
             .catch(err => {
                 // error on user lookup
                 console.error('Error looking up user', err);
-                req.flash('genericError', 'There was an error fetching your details');
-                return renderUserError(null, req, res, makeUserLink('requestpasswordreset'));
+                res.locals.errors = makeErrorList('There was an error fetching your details');
+                return requestResetForm(req, res);
             });
     }
 };
@@ -166,24 +169,22 @@ const updatePassword = (req, res) => {
     if (!changePasswordToken) {
         res.redirect(userBasePath + userEndpoints.login);
     } else {
-        // @TODO is there a better way to preserve this token between page changes?
-        const currentUrl = makeUserLink('resetpassword') + '?token=' + req.body.token;
+        // store the token to pass on to other requests (eg. outside the URL)
+        res.locals.token = changePasswordToken;
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             // failed validation
-            // return the user to the form to correct errors
-            req.flash('formErrors', errors.array());
-            req.session.save(() => {
-                res.redirect(currentUrl);
-            });
+            req.flash('formValues', req.body);
+            res.locals.errors = errors.array();
+            return changePasswordForm(req, res);
         } else {
             // check the token again
             jwt.verify(changePasswordToken, secrets['user.jwt.secret'], (err, decoded) => {
                 if (err) {
                     console.error('Password reset token expired', err);
-                    req.flash('genericError', 'Your password reset period has expired - please try again');
-                    return renderUserError(null, req, res, currentUrl);
+                    res.locals.errors = makeErrorList('Your password reset period has expired - please try again');
+                    return requestResetForm(req, res);
                 } else {
                     if (decoded.data.reason === 'resetpassword') {
                         checkUserRequestedPasswordReset(
@@ -211,26 +212,26 @@ const updatePassword = (req, res) => {
                                     })
                                     .catch(err => {
                                         console.error('Error updating a user password', err);
-                                        req.flash(
-                                            'genericError',
+                                        res.locals.errors = makeErrorList(
                                             'There was an error updating your password - please try again'
                                         );
-                                        return renderUserError(null, req, res, currentUrl);
+                                        return requestResetForm(req, res);
                                     });
                             },
                             error => {
                                 console.error('Error processing a user password change status', error || {});
-                                req.flash(
-                                    'genericError',
+                                res.locals.errors = makeErrorList(
                                     'There was an error updating your password - please try again'
                                 );
-                                return renderUserError(null, req, res, currentUrl);
+                                return requestResetForm(req, res);
                             }
                         );
                     } else {
                         console.error('A user tried to reset a password with an invalid token');
-                        req.flash('genericError', 'There was an error updating your password - please try again');
-                        return renderUserError(null, req, res, currentUrl);
+                        res.locals.errors = makeErrorList(
+                            'There was an error updating your password - please try again'
+                        );
+                        return requestResetForm(req, res);
                     }
                 }
             });

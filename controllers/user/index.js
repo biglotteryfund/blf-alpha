@@ -6,16 +6,11 @@ const auth = require('../../modules/authed');
 const register = require('./register');
 const login = require('./login');
 const password = require('./password');
-const { userBasePath, userEndpoints, makeUserLink, emailPasswordValidations, formValidations } = require('./utils');
+const dashboard = require('./dashboard');
+const { userBasePath, userEndpoints, emailPasswordValidations, formValidations } = require('./utils');
 
 // serve a logged-in user's dashboard
-router.get(userEndpoints.dashboard, auth.requireAuthed, (req, res) => {
-    res.cacheControl = { maxAge: 0 };
-    res.render('user/dashboard', {
-        user: req.user,
-        makeUserLink: makeUserLink
-    });
-});
+router.get(userEndpoints.dashboard, auth.requireAuthed, dashboard.dashboard);
 
 // register users
 router

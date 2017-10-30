@@ -1,12 +1,11 @@
 {% extends "../layouts/tools.njk" %}
-{% from "./user-helpers.njk" import listFormErrors, listGenericErrors with context %}
+{% from "./user-helpers.njk" import listErrors with context %}
 
 {% block title %}Register{% endblock %}
 
 {% block content %}
 
-    {{ listGenericErrors() }}
-    {{ listFormErrors() }}
+    {{ listErrors() }}
 
     <h1>Register</h1>
 
