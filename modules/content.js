@@ -1,8 +1,8 @@
 'use strict';
 const rp = require('request-promise');
-const secrets = require('./secrets');
+const getSecret = require('./get-secret');
 
-let CMS_URL = secrets['cms.url'] || process.env.cmsUrl;
+let CMS_URL = getSecret('cms.url') || process.env.cmsUrl;
 if (!CMS_URL) {
     console.log('Error: CMS_URL endpoint must be defined');
     process.exit(1);
