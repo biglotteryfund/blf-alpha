@@ -24,7 +24,6 @@ describe('User authentication', () => {
             helper
                 .createTestUser(validUser)
                 .then(() => {
-                    console.log('Created a user');
                     done();
                 })
                 .catch(err => {
