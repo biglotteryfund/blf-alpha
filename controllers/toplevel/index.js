@@ -16,7 +16,7 @@ const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
-const secrets = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 
 const robots = require('../../config/app/robots.json');
@@ -261,8 +261,8 @@ module.exports = (pages, sectionPath, sectionId) => {
                     uri: config.get('ebulletinApiEndpoint') + apiAddContactPath,
                     method: 'POST',
                     auth: {
-                        user: secrets['dotmailer.api.user'],
-                        pass: secrets['dotmailer.api.password'],
+                        user: getSecret('dotmailer.api.user'),
+                        pass: getSecret('dotmailer.api.password'),
                         sendImmediately: true
                     },
                     json: true,
