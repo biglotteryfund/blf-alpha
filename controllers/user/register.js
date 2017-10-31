@@ -8,10 +8,10 @@ const mail = require('../../modules/mail');
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList } = require('./utils');
 const login = require('./login');
 const dashboard = require('./dashboard');
-const secrets = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 
 // fetch token from CI store or application secrets
-const jwtSigningToken = process.env.jwtSigningToken || secrets['user.jwt.secret'];
+const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 // email users with an activation code
 const sendActivationEmail = (user, req, isBrandNewUser) => {

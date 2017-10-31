@@ -3,9 +3,9 @@ const express = require('express');
 const app = (module.exports = express());
 const config = require('config');
 const Raven = require('raven');
-const secrets = require('./modules/secrets');
+const getSecret = require('./modules/get-secret');
 
-const SENTRY_DSN = secrets['sentry.dsn'];
+const SENTRY_DSN = getSecret('sentry.dsn');
 
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {

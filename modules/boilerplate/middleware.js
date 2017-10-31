@@ -15,7 +15,7 @@ const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const models = require('../../models/index');
-const secrets = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
 // load auth strategy
@@ -38,7 +38,7 @@ app.use(cookieParser());
 // add session
 const sessionConfig = {
     name: config.get('cookies.session'),
-    secret: secrets['session.secret'] || process.env.sessionSecret,
+    secret: getSecret('session.secret') || process.env.sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: { sameSite: true },
