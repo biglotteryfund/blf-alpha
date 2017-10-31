@@ -55,20 +55,7 @@ describe('User authentication', () => {
         agent = chai.request.agent(server);
     });
 
-    /* tests to write
-    *
-    *   login:
-    *     invalid account blocked
-    *     valid accounts allowed in
-    *
-    *   password reset:
-    *     valid account sends email (JSON?)
-    *     invalid tokens rejected
-    *     valid tokens accepted
-    *     tokens expire (how to test?)
-    *     tokens can't be re-used
-    *
-    * */
+    // REGISTRATION
 
     it('should prevent registrations from invalid email address', done => {
         const formData = {
@@ -134,6 +121,8 @@ describe('User authentication', () => {
             });
     });
 
+    // ACTIVATION
+
     /*
     *  activate:
     *    already-active users won't be re-sent emails
@@ -142,4 +131,85 @@ describe('User authentication', () => {
     *    tokens expire (how to test?)
     *    tokens can't be re-used
      */
+
+    it('should allow valid user activation', done => {
+        const formData = {
+            username: 'email@website.com',
+            password: 'password1'
+        };
+        agent
+            .post('/user/register')
+            .send(formData)
+            .end((err, res) => {
+                let token = res.body.token;
+                // now activate the user
+                console.log(res.text);
+                done();
+                // agent.get(`/user/activate?token=${token}`)
+                //     .end((err, res) => {
+                //         // @TODO this redirects them login as we don't enforce that
+                //         res.text.should.match(/(.*)Please provide a password that contains at least one number(.*)/);
+                //         done();
+                //     });
+            });
+    });
+
+    // LOGIN
+
+    it('should allow users to login', done => {
+        const formData = {
+            username: 'someone@somewhere.com',
+            password: 'dfs32d3fddf!!!'
+        };
+        agent
+            .post('/user/register')
+            .send(formData)
+            .redirects(0)
+            .end((err, res) => {
+                res.should.have.status(302);
+
+                // now log them in
+                let loginFormData = formData;
+                loginFormData.redirectUrl = '/secret-stuff';
+                agent
+                    .post('/user/login')
+                    .send(loginFormData)
+                    .redirects(0)
+                    .end((err, res) => {
+                        res.should.have.status(302);
+                        res.should.redirectTo(loginFormData.redirectUrl);
+
+                        // now try to access something private
+                        agent.get('/user/dashboard').end((err, res) => {
+                            res.text.should.match(/(.*)Logged in as(.*)/);
+                            done();
+                        });
+                    });
+            });
+    });
+
+    it('should not allow unknown users to login', done => {
+        const formData = {
+            username: 'fake@site.com',
+            password: 'myp455w0rd'
+        };
+        agent
+            .post('/user/login')
+            .send(formData)
+            .end((err, res) => {
+                res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
+                done();
+            });
+    });
+
+    // PASSWORD RESET
+
+    /* password reset
+    *     valid account sends email (JSON?)
+    *     invalid tokens rejected
+    *     valid tokens accepted
+    *     tokens expire (how to test?)
+    *     tokens can't be re-used
+    *
+    * */
 });
