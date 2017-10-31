@@ -50,7 +50,7 @@ const sessionConfig = {
 // create sessions table
 sessionConfig.store.sync();
 
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'development') {
     app.set('trust proxy', 4);
     sessionConfig.cookie.secure = true;
 }
