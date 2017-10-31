@@ -34,12 +34,12 @@ const send = ({ subject, text, sendTo, sendMode }) => {
         text: text
     };
 
+    mailOptions[sendMode] = sendTo;
+
     // don't trigger an email if we're testing something
     if (process.env.DONT_SEND_EMAIL) {
         return mailOptions;
     }
-
-    mailOptions[sendMode] = sendTo;
 
     // send mail with defined transport object
     transport.sendMail(mailOptions, (error, info) => {

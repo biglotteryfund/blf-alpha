@@ -34,11 +34,15 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-        mail.send({
+        const emailData = mail.send({
             subject: 'Activate your Big Lottery Fund website account',
             text: `Please click the following link to activate your account: ${activateUrl}`,
             sendTo: email
         });
+        return {
+            email: emailData,
+            token: token
+        };
     }
 };
 
@@ -81,9 +85,14 @@ const createUser = (req, res, next) => {
                         .create(userData)
                         .then(newUser => {
                             // success! now send them an activation email
-                            sendActivationEmail(newUser, req, true);
-                            req.flash('activationSent', true);
-                            login.attemptAuth(req, res, next);
+                            let activationData = sendActivationEmail(newUser, req, true);
+                            if (req.body.returnToken) {
+                                // used for tests to verify activation works
+                                res.send(activationData);
+                            } else {
+                                req.flash('activationSent', true);
+                                login.attemptAuth(req, res, next);
+                            }
                         })
                         .catch(err => {
                             // error on user insert

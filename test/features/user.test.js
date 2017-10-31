@@ -35,14 +35,18 @@ describe('User authentication', () => {
 
     // delete test users afterward
     after(done => {
+        helper.after(server);
+        done();
+    });
+
+    // delete test users afterward
+    afterEach(done => {
         helper
             .truncateUsers()
             .then(() => {
-                helper.after(server);
                 done();
             })
             .catch(() => {
-                helper.after(server);
                 done(new Error('Error deleting users'));
             });
     });
@@ -52,14 +56,6 @@ describe('User authentication', () => {
     });
 
     /* tests to write
-    *
-    *
-    *  activate:
-    *    already-active users won't be re-sent emails
-    *    invalid tokens rejected
-    *    valid tokens accepted
-    *    tokens expire (how to test?)
-    *    tokens can't be re-used
     *
     *   login:
     *     invalid account blocked
@@ -74,17 +70,24 @@ describe('User authentication', () => {
     *
     * */
 
-    /*
-    * register:
-    *   invalid details
-    *   valid details
-    *   email is sent (JSON return token?)
-    *   */
-
-    it('should prevent invalid registrations', done => {
+    it('should prevent registrations from invalid email address', done => {
         const formData = {
             username: 'not_an_email_address',
             password: 'wrong'
+        };
+        agent
+            .post('/user/register')
+            .send(formData)
+            .end((err, res) => {
+                res.text.should.match(/(.*)Please provide a valid email address(.*)/);
+                done();
+            });
+    });
+
+    it('should prevent registrations with invalid passwords', done => {
+        const formData = {
+            username: 'bill@microsoft.com',
+            password: 'clippy'
         };
         agent
             .post('/user/register')
@@ -106,9 +109,37 @@ describe('User authentication', () => {
             .send(formData)
             .redirects(0)
             .end((err, res) => {
-                res.should.redirectTo('/some-magic-endpoint');
                 res.should.have.status(302);
+                res.should.redirectTo(formData.redirectUrl);
                 done();
             });
     });
+
+    it('should email valid users with a token', done => {
+        const formData = {
+            username: 'email@website.com',
+            password: 'password1',
+            redirectUrl: '/some-magic-endpoint',
+            returnToken: true
+        };
+        agent
+            .post('/user/register')
+            .send(formData)
+            .end((err, res) => {
+                // @TODO make this regex match
+                res.body.token.should.match(/(\w*)\.(\w*)\.(\w*)/);
+                res.body.email.to.should.equal(formData.username);
+                res.body.email.subject.should.equal('Activate your Big Lottery Fund website account');
+                done();
+            });
+    });
+
+    /*
+    *  activate:
+    *    already-active users won't be re-sent emails
+    *    invalid tokens rejected
+    *    valid tokens accepted
+    *    tokens expire (how to test?)
+    *    tokens can't be re-used
+     */
 });
