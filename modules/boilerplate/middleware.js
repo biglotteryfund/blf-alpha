@@ -118,3 +118,11 @@ app.use((req, res, next) => {
     globals.set('routes', routes.sections);
     return next();
 });
+
+// add the request object as a local variable
+// for URL rewriting in templates
+// (eg. locale versions, high-contrast redirect etc)
+app.use((req, res, next) => {
+    res.locals.request = req;
+    return next();
+});

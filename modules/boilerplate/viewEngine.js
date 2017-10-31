@@ -72,5 +72,13 @@ templateEnv.addFilter('lowercaseFirst', str => {
     return str[0].toLowerCase() + str.substring(1);
 });
 
+templateEnv.addFilter('pluralise', (number, singular, plural) => {
+    if (number === 1) {
+        return singular;
+    } else {
+        return plural;
+    }
+});
+
 app.set('view engine', 'njk');
 app.set('engineEnv', templateEnv);

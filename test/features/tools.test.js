@@ -2,6 +2,7 @@
 /* global describe, it, before, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
+chai.should();
 const config = require('config');
 chai.should();
 
@@ -13,7 +14,7 @@ const validUser = {
     level: 10
 };
 
-describe('tools', function() {
+describe('CMS Tools', function() {
     let server, agent;
 
     // set up pre-test dependencies
@@ -58,7 +59,7 @@ describe('tools', function() {
                 .get('/tools/edit-news')
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.redirectTo('/tools/login');
+                    res.should.redirectTo('/user/login');
                     res.should.have.status(302);
                     done();
                 });
@@ -66,17 +67,16 @@ describe('tools', function() {
 
         it('should not allow unauthorised access to staff-only tools', done => {
             const formData = {
-                username: 'test',
+                username: 'test@test.com',
                 password: 'wrong'
             };
 
             agent
-                .post('/tools/login')
+                .post('/user/login')
                 .send(formData)
-                .redirects(0)
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
-                    res.should.redirectTo('/tools/login');
+                    res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
                     return agent
                         .get('/tools/edit-news/')
                         .redirects(0)
@@ -95,7 +95,7 @@ describe('tools', function() {
             };
 
             agent
-                .post('/tools/login')
+                .post('/user/login')
                 .send(formData)
                 .redirects(0)
                 .end((err, res) => {
@@ -110,7 +110,7 @@ describe('tools', function() {
         });
     });
 
-    describe('news editor tool', () => {
+    describe('News editor tool', () => {
         it('should allow authorised staff to post valid news', done => {
             const loginData = {
                 username: validUser.username,
@@ -120,7 +120,7 @@ describe('tools', function() {
 
             // invalid news
             agent
-                .post('/tools/login')
+                .post('/user/login')
                 .send(loginData)
                 .redirects(0)
                 .end((err, res) => {
@@ -142,7 +142,7 @@ describe('tools', function() {
 
             // valid news
             agent
-                .post('/tools/login')
+                .post('/user/login')
                 .send(loginData)
                 .redirects(0)
                 .end((err, res) => {

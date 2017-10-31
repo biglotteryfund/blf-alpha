@@ -6,9 +6,10 @@ const _ = require('lodash');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
+const config = require('config');
 
 const routeStatic = require('../utils/routeStatic');
-const email = require('../../modules/mail');
+const mail = require('../../modules/mail');
 const contentApi = require('../../modules/content');
 
 const freeMaterialsLogic = {
@@ -192,7 +193,12 @@ module.exports = (pages, sectionPath, sectionId) => {
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(req.session[freeMaterialsLogic.orderKey], details);
 
-                    email.send(text, `Order from Big Lottery Fund website - ${dateNow}`);
+                    mail.send({
+                        subject: `Order from Big Lottery Fund website - ${dateNow}`,
+                        text: text,
+                        sendTo: config.get('materialSupplierEmail'),
+                        sendMode: 'bcc'
+                    });
 
                     req.flash('materialFormSuccess', true);
                     req.flash('showOverlay', true);
