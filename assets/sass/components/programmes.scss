@@ -1,0 +1,70 @@
+/* =========================================================================
+   Programmes
+   ========================================================================= */
+
+.programmes-list {
+    @include mq(small) {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 (-($spacingUnit / 2));
+    }
+}
+.programmes-list__item {
+    padding-bottom: $spacingUnit;
+
+    @include mq(small) {
+        flex: 1;
+        min-width: 50%;
+        padding-left: $spacingUnit / 2;
+        padding-right: $spacingUnit / 2;
+    }
+}
+
+.programme-card {
+    background-color: palette('pale-grey');
+    padding: $spacingUnit / 2;
+
+    @include mq(small) {
+        padding: $spacingUnit;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        height: 100%;
+    }
+}
+.programme-card__header {
+    .programme-card__title {
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    @include mq(small) {
+        display: flex;
+        min-height: 75px;
+        margin-bottom: $spacingUnit / 2;
+
+        .programme-card__media {
+            order: 1;
+            flex: 0 0 100px;
+            margin-right: $spacingUnit;
+        }
+
+        .programme-card__title {
+            order: 2;
+            flex: 1 1 auto;
+            margin-top: 2px;
+        }
+    }
+}
+.programme-card__description {
+    margin-bottom: $spacingUnit / 2;
+}
+.programme-card__details {
+    dt {
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    dd {
+        margin-bottom: 10px;
+    }
+}
