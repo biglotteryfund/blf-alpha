@@ -31,6 +31,13 @@
     display: none;
 }
 
+// hide elements for users with JS
+.js-on {
+    .u-hidden-for-js {
+        display: none;
+    }
+}
+
 // via http://simplyaccessible.com/article/three-pitfalls-text-alternatives/
 .u-visually-hidden {
     @media screen {

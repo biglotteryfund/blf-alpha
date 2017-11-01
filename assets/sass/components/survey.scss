@@ -1,14 +1,85 @@
 .survey {
-    background-color: #eef2d7;
-    padding: 7px;
-    margin-top: 0;
-    font-size: 12px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #4a4a4a;
+    color: #ffffff;
+    padding: $spacingUnit / 2 $spacingUnit;
+    width: 100%;
 
-    .survey__header {
-        margin-bottom: 10px;
+    @include mq('tablet') {
+        width: 60%;
     }
 
-    input[type="submit"] {
-        margin-top: 0;
+    .survey__header {
+        margin-bottom: 0;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    &.is-active {
+        .survey__arrow svg {
+            transform: rotate(0deg);
+        }
+    }
+
+    .survey__arrow {
+        width: 25px;
+        display: inline-block;
+        line-height: 0;
+        vertical-align: middle;
+
+        svg {
+            transition: all 0.3s ease-in-out;
+            transform: rotate(180deg);
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .survey__btn {
+        $bg: #747474;
+        background-color: $bg;
+        @include on-interact() {
+            background-color: darken($bg, 5%);
+        }
+    }
+
+    fieldset {
+        margin-top: 10px;
+        .js-on & {
+            display: none;
+        }
+    }
+
+    .survey__extra {
+        align-items: flex-end;
+        .grid__item {
+            margin-bottom: 0;
+        }
+
+        .survey__submit {
+            flex-grow: 0;
+            margin-bottom: 10px; // fixes weird alignment issue
+        }
+    }
+
+    label {
+        @include poppins();
+        font-size: 15px;
+        display: block;
+        margin: $spacingUnit / 2 0;
+    }
+
+    textarea {
+        width: 100%;
+        font-size: 15px;
+        padding: 5px;
+    }
+
+    .survey__response p {
+        font-size: 14px;
+        margin-bottom: 0;
     }
 }
