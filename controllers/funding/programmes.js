@@ -1,6 +1,5 @@
 'use strict';
-const queryString = require('query-string');
-const { find, get, pickBy, uniq } = require('lodash');
+const { find, get, uniq } = require('lodash');
 const contentApi = require('../../modules/content');
 
 function getValidLocation(programmes, requestedLocation) {
@@ -40,15 +39,24 @@ function filterByMinAmount(minAmount) {
 
 module.exports = function(config) {
     return function(req, res) {
-        let lang = req.i18n.__(config.lang);
+        const lang = req.i18n.__(config.lang);
+
+        const locationParamToTranslation = key => {
+            const regions = {
+                england: req.i18n.__('global.regions.england'),
+                wales: req.i18n.__('global.regions.wales'),
+                scotland: req.i18n.__('global.regions.scotland'),
+                northernIreland: req.i18n.__('global.regions.northernIreland')
+            };
+            return regions[key];
+        };
 
         const templateData = {
             copy: lang,
             title: lang.title,
             programmes: [],
             activeFacets: [],
-            activeBreadcrumbs: [],
-            useFacets: false
+            activeBreadcrumbs: []
         };
 
         contentApi
@@ -62,57 +70,20 @@ module.exports = function(config) {
                     .filter(filterByLocation(locationParam))
                     .filter(filterByMinAmount(minAmountParam));
 
-                const locationParamToTranslation = key => {
-                    const regions = {
-                        england: 'England',
-                        wales: 'Wales',
-                        scotland: 'Scotland',
-                        northernIreland: 'Northern Ireland'
-                    };
-                    return regions[key];
-                };
-
-                function removeFacetUrl(req, name) {
-                    const queryWithoutCurrentFacet = pickBy(req.query, (val, key) => key !== name);
-                    const urlWithoutQuery = req.originalUrl.split('?').shift();
-                    const newQueryString = queryString.stringify(queryWithoutCurrentFacet);
-                    return newQueryString.length > 0 ? `${urlWithoutQuery}?${newQueryString}` : urlWithoutQuery;
-                }
-
-                templateData.useFacets = !!req.query.useFacets === true;
-
-                if (templateData.useFacets) {
-                    if (minAmountParam) {
-                        const translationKey = minAmountParam > 1000 ? 'over10k' : 'under10k';
-                        templateData.activeFacets.push({
-                            label: req.i18n.__(config.lang + `.${translationKey}`),
-                            url: removeFacetUrl(req, 'min')
-                        });
-                    }
-
-                    if (locationParam) {
-                        templateData.activeFacets.push({
-                            label: req.i18n.__(
-                                'funding.programmes.breadcrumbLocation',
-                                locationParamToTranslation(locationParam)
-                            ),
-                            url: removeFacetUrl(req, 'location')
-                        });
-                    }
-                } else {
+                if (minAmountParam) {
                     templateData.activeBreadcrumbs.push({
                         label: req.i18n.__(config.lang + '.over10k'),
                         url: '/over10k'
                     });
+                }
 
-                    if (locationParam) {
-                        templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(
-                                'funding.programmes.breadcrumbLocation',
-                                locationParamToTranslation(locationParam)
-                            )
-                        });
-                    }
+                if (locationParam) {
+                    templateData.activeBreadcrumbs.push({
+                        label: req.i18n.__(
+                            'funding.programmes.breadcrumbLocation',
+                            locationParamToTranslation(locationParam)
+                        )
+                    });
                 }
 
                 res.render(config.template, templateData);

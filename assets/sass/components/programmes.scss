@@ -39,7 +39,6 @@
 
     @include mq(small) {
         display: flex;
-        min-height: 75px;
         margin-bottom: $spacingUnit / 2;
 
         .programme-card__media {

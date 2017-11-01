@@ -1,65 +1,61 @@
-{% import "../../components/hero.njk" as hero %}
-{% import "../../components/headers.njk" as headers %}
-{% import "../../components/segment.njk" as segment %}
+{% from "../../components/hero.njk" import sectionHero %}
+{% from "../../components/programmes.njk" import programmeCard %}
 
 {% extends "../../layouts/main.njk" %}
+{% set bodyClass = "has-full-bleed-header" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% macro makeFundingContent(data) %}
-    <h3>{{ data.title }}</h3>
-    {% if data.description %}
-        <p>{{ data.description }}</p>
+{% macro breadcrumbTrail(items, trail) %}
+    {% if trail | length > 0 %}
+    <ol class="breadcrumb-trail">
+        {% for crumb in trail %}
+        <li class="breadcrumb-trail__item">
+            {% set showUrl = crumb.url  %}
+            {% if showUrl %}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{% endif %}
+            {{ crumb.label }}
+            {% if loop.last %}({{ (items | length) }}){% endif %}
+            {% if showUrl %}</a>{% endif %}
+        </li>
+        {% endfor %}
+    </ol>
     {% endif %}
-    <dl class="funding-programme">
-        {% if data.area %}
-            <dt>Area</dt>
-            <dd>{{ data.area.label }}</dd>
-        {% endif %}
-        {% if data.organisationTypes %}
-            <dt>Organisation types</dt>
-            {% for orgType in data.organisationTypes %}
-                <dd>{{ orgType }}</dd>
-            {% endfor %}
-        {% endif %}
-        {% if data.fundingSize %}
-            <dt>Funding size</dt>
-            <dd>£{{ data.fundingSize.minimum | numberWithCommas}}{% if data.fundingSize.maximum %} - £{{ data.fundingSize.maximum | numberWithCommas }}{% endif %}</dd>
-        {% endif %}
-        {% if data.totalAvailable %}
-            <dt>Total available</dt>
-            <dd>{{ data.totalAvailable }}</dd>
-        {% endif %}
-        {% if data.applicationDeadline %}
-            <dt>Application deadline</dt>
-            <dd>{{ data.applicationDeadline }}</dd>
-        {% endif %}
-    </dl>
 {% endmacro %}
 
 {% block content %}
+    {{
+        sectionHero(
+            titleText = title,
+            image = createHeroImage({
+                small: 'images/hero/young-foundation-small.jpg',
+                medium: 'images/hero/young-foundation-medium.jpg',
+                large: 'images/hero/young-foundation-large.jpg',
+                default: 'images/hero/young-foundation-medium.jpg',
+                caption: 'The Young Foundation - Amplify, Grant £1.06M'
+            }),
+            accent = 'green'
+        )
+    }}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', title + ' (' + programmes.length + ' programmes)') }}
-    {% endset %}
+    <main role="main" class="nudge-up">
+        <div class="content-box inner--wide-only accent--green a--border-top">
+            {{ breadcrumbTrail(programmes, activeBreadcrumbs) }}
 
-    {{ hero.header('reading', heroContent, 'pink') }}
-
-    <article role="main" class="nudge-up">
-        <div class="inner">
-
-            {% for p in programmes %}
-                {% set data = p.content %}
-                {{ segment.segment(
-                    title = data.title,
-                    text = makeFundingContent(data),
-                    color = 'pink',
-                    imagePath = data.photo,
-                    imageIsAbsolute = true
-                )}}
-            {% endfor %}
-
+            {% if programmes | length > 0 %}
+                <section class="programmes-list">
+                    {% for programme in programmes %}
+                        <div class="programmes-list__item">
+                            {{ programmeCard(
+                                programme = programme,
+                                accent = 'pink'
+                            ) }}
+                        </div>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <p>No results</p>
+            {% endif %}
         </div>
-    </article>
+    </main>
 
 {% endblock %}

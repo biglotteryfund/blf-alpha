@@ -1,0 +1,29 @@
+/* =========================================================================
+   Breadcrumbs
+   ========================================================================= */
+
+.breadcrumb-trail {
+    margin-bottom: $spacingUnit;
+}
+.breadcrumb-trail__item {
+    display: inline-block;
+
+    &::after {
+        content: '›';
+        font-weight: normal;
+        color: #444;
+        margin: 0 4px;
+    }
+
+    &:last-child::after {
+        content: '';
+        display: none;
+    }
+}
+.breadcrumb-trail__item,
+.breadcrumb-trail__link {
+    color: palette('green');
+}
+.breadcrumb-trail__link {
+    font-weight: bold;
+}

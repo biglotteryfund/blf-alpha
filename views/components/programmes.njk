@@ -6,9 +6,9 @@
     {% set content = programme.content %}
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
-            <h3 class="programme-card__title t3
+            <h3 class="programme-card__title t8
                 accent--{{ accent }} a--text">
-                {{ programme.title }}
+                <a class="u-link-inherit" href="{{ programme.url }}">{{ programme.title }}</a>
             </h3>
             {% if content.photo %}
                 <div class="programme-card__media">
