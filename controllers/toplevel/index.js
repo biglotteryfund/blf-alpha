@@ -314,98 +314,101 @@ module.exports = (pages, sectionPath, sectionId) => {
     });
 
     // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
-    router.post('/survey/:id', (req, res) => {
+    const surveyValidations = [
+        body('choice')
+            .exists()
+            .not()
+            .isEmpty()
+            .isInt()
+            .withMessage('Please supply a valid choice')
+    ];
+    router.post('/survey/:id', surveyValidations, (req, res) => {
         let surveyId = req.params.id;
         let referrer = req.get('Referrer');
-        req
-            .checkBody('choice', 'Please supply a valid choice')
-            .notEmpty()
-            .isInt();
+        const errors = validationResult(req);
 
-        req.getValidationResult().then(result => {
+        if (!errors.isEmpty()) {
             // if we failed validation
-            if (!result.isEmpty()) {
-                res.format({
-                    // non-AJAX - send them back where they came from
-                    html: () => {
-                        req.flash('formErrors', result.array());
-                        req.flash('formValues', req.body);
-                        req.session.save(function() {
-                            res.redirect(referrer || '/');
-                        });
-                    },
-                    // AJAX form - return a JSON error
-                    json: () => {
-                        res.status(400);
-                        res.send({
-                            status: 'error',
-                            err: 'Please supply all fields'
-                        });
-                    }
-                });
-            } else {
-                // form was okay, let's store their submission
-
-                // sanitise input
-                for (let key in req.body) {
-                    req.body[key] = xss(req.body[key]);
-                }
-
-                let responseData = {
-                    surveyChoiceId: req.body['choice']
-                };
-
-                // add a message (if we got one)
-                if (req.body['message']) {
-                    responseData.message = req.body['message'];
-                }
-
-                // we could still fail at this point if the choice isn't valid for this ID
-                // (SQL constraint error)
-                models.SurveyResponse
-                    .create(responseData)
-                    .then(data => {
-                        res.format({
-                            // non-AJAX - send them back where they came from
-                            html: () => {
-                                req.flash('surveySubmittedStatus', 'success');
-                                req.session.save(function() {
-                                    res.redirect(referrer || '/');
-                                });
-                            },
-                            // AJAX form - return a JSON success message
-                            json: () => {
-                                res.send({
-                                    status: 'success',
-                                    surveyId: surveyId,
-                                    data: data
-                                });
-                            }
-                        });
-                    })
-                    .catch(err => {
-                        // SQL error with data
-
-                        res.format({
-                            // non-AJAX - send them back where they came from
-                            html: () => {
-                                req.flash('surveySubmittedStatus', 'error');
-                                req.session.save(function() {
-                                    res.redirect(referrer || '/');
-                                });
-                            },
-                            // AJAX form - return a JSON error message
-                            json: () => {
-                                res.status(400);
-                                res.send({
-                                    status: 'error',
-                                    err: err
-                                });
-                            }
-                        });
+            res.format({
+                // non-AJAX - send them back where they came from
+                html: () => {
+                    req.flash('formErrors', errors.array());
+                    req.flash('formValues', req.body);
+                    req.session.save(function() {
+                        res.redirect(referrer || '/');
                     });
+                },
+                // AJAX form - return a JSON error
+                json: () => {
+                    res.status(400);
+                    res.send({
+                        status: 'error',
+                        err: 'Please supply all fields'
+                    });
+                }
+            });
+        } else {
+            // form was okay, let's store their submission
+
+            // sanitise input
+            for (let key in req.body) {
+                req.body[key] = xss(req.body[key]);
             }
-        });
+
+            let responseData = {
+                surveyChoiceId: req.body['choice']
+            };
+
+            // add a message (if we got one)
+            if (req.body['message']) {
+                responseData.message = req.body['message'];
+            }
+
+            // we could still fail at this point if the choice isn't valid for this ID
+            // (SQL constraint error)
+            models.SurveyResponse
+                .create(responseData)
+                .then(data => {
+                    res.format({
+                        // non-AJAX - send them back where they came from
+                        html: () => {
+                            req.flash('surveySubmittedStatus', 'success');
+                            req.session.save(function() {
+                                res.redirect(referrer || '/');
+                            });
+                        },
+                        // AJAX form - return a JSON success message
+                        json: () => {
+                            res.send({
+                                status: 'success',
+                                surveyId: surveyId,
+                                data: data
+                            });
+                        }
+                    });
+                })
+                .catch(err => {
+                    // SQL error with data
+
+                    res.format({
+                        // non-AJAX - send them back where they came from
+                        html: () => {
+                            req.flash('surveySubmittedStatus', 'error');
+                            req.session.save(function() {
+                                res.redirect(referrer || '/');
+                            });
+                        },
+                        // AJAX form - return a JSON error message
+                        json: () => {
+                            res.status(400);
+                            res.send({
+                                status: 'error',
+                                err: err
+                            });
+                        }
+                    });
+                });
+        }
     });
 
     router.get('/styleguide', (req, res) => {

@@ -1,108 +1,73 @@
 'use strict';
-/* global describe, it, before, beforeEach, after, afterEach, should */
+/* global describe, it, before, beforeEach, after, afterEach */
 const chai = require('chai');
 const _ = require('lodash');
 chai.use(require('chai-http'));
-const should = chai.should();
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+chai.should();
 
 const helper = require('./helper');
-const routes = require('../../controllers/routes');
 const models = require('../../models/index');
 
+let testSurveyData = {
+    name: 'Test Survey',
+    question_en: 'What is the meaning of life?',
+    question_cy: 'Beth yw ystyr bywyd?',
+    activePath: '/foo',
+    active: 1,
+    choices: [
+        {
+            title_en: '42',
+            title_cy: '42',
+            allow_message: false
+        },
+        {
+            title_en: 'Nothing',
+            title_cy: 'Dim byd',
+            allow_message: true
+        }
+    ]
+};
+
 describe('Survey tool', () => {
-    let agent, csrfToken, server, storedSurveyData;
+    let agent, server, storedSurveyData;
 
-    let testSurveyData = {
-        name: 'Test Survey',
-        question_en: 'What is the meaning of life?',
-        question_cy: 'Beth yw ystyr bywyd?',
-        activePath: '/foo',
-        active: 1,
-        choices: [
-            {
-                title_en: '42',
-                title_cy: '42',
-                allow_message: false
-            },
-            {
-                title_en: 'Nothing',
-                title_cy: 'Dim byd',
-                allow_message: true
-            }
-        ]
-    };
-
-    // create initial survey for testing
     before(done => {
-        models.Survey
-            .create(testSurveyData, {
-                include: [
-                    {
-                        model: models.SurveyChoice,
-                        as: 'choices'
-                    }
-                ]
-            })
-            .then(data => {
-                // store our survey data to test against
-                storedSurveyData = data;
-                done();
-            });
-    });
+        helper.before(serverInstance => {
+            server = serverInstance;
 
-    beforeEach(done => {
-        server = helper.before();
-
-        // grab a valid CSRF token
-        const funding = routes.sections.funding;
-        const path = funding.path + funding.pages.freeMaterials.path;
-        agent = chai.request.agent(server);
-        agent.get(path).end((err, res) => {
-            // res.should.have.cookie('_csrf');
-            const dom = new JSDOM(res.text);
-            csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
-            done();
+            // create initial survey for testing
+            models.Survey
+                .create(testSurveyData, {
+                    include: [
+                        {
+                            model: models.SurveyChoice,
+                            as: 'choices'
+                        }
+                    ]
+                })
+                .then(data => {
+                    // store our survey data to test against
+                    storedSurveyData = data;
+                    done();
+                })
+                .catch(() => {
+                    helper.after(server);
+                    done(new Error('Error deleting users'));
+                });
         });
     });
 
-    afterEach(done => {
-        helper.after();
-        done();
+    after(() => {
+        helper.after(server);
     });
 
-    // @TODO clean up this tidying code
-    // this is pretty awful: hard-coded table names, disabling foreign key checks...
-    // initially tried sequelize's truncate({cascade: true}) method but got FK errors
-    // it might be down to how these three tables are cross-referenced?
-    after(done => {
-        models.sequelize
-            .transaction(t => {
-                let options = { raw: true, transaction: t };
-
-                return models.sequelize
-                    .query('SET FOREIGN_KEY_CHECKS = 0', options)
-                    .then(() => {
-                        return [
-                            models.sequelize.query('truncate table surveys', options),
-                            models.sequelize.query('truncate table survey_choices', options),
-                            models.sequelize.query('truncate table survey_responses', options)
-                        ];
-                    })
-                    .then(() => {
-                        return models.sequelize.query('SET FOREIGN_KEY_CHECKS = 1', options);
-                    });
-            })
-            .then(() => {
-                done();
-            });
+    beforeEach(() => {
+        agent = chai.request.agent(server);
     });
 
     it('should accept valid survey responses', done => {
         // grab a random choice from the database
         let surveyData = {
-            _csrf: csrfToken,
             choice: _.shuffle(storedSurveyData.choices)[0].id,
             message: 'Hello from the other side'
         };
@@ -113,6 +78,7 @@ describe('Survey tool', () => {
             .set('Accept', 'application/json')
             .send(surveyData)
             .end((err, res) => {
+                console.log(err);
                 res.should.have.status(200);
                 res.should.have.header('content-type', /^application\/json/);
                 res.body.should.have.property('status');
@@ -122,9 +88,7 @@ describe('Survey tool', () => {
     });
 
     it('should ignore invalid survey responses', done => {
-        // grab a random choice from the database
         let surveyData = {
-            _csrf: csrfToken,
             choice: 111111
         };
 
@@ -142,15 +106,9 @@ describe('Survey tool', () => {
     });
 
     it('should ignore missing survey responses', done => {
-        // grab a random choice from the database
-        let surveyData = {
-            _csrf: csrfToken
-        };
-
         agent
             .post(`/survey/333333`)
             .set('Accept', 'application/json')
-            .send(surveyData)
             .end((err, res) => {
                 res.should.have.status(400);
                 res.should.have.header('content-type', /^application\/json/);
