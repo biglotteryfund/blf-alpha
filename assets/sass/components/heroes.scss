@@ -1,0 +1,307 @@
+/* =========================================================================
+   Heroes
+   ========================================================================= */
+
+// the list of hero images
+@import '../_heroes.config';
+
+// how much the hero text should appear from the bottom
+$heroSpaceFromBottom: 55px;
+$heroSpaceFromBottomMobile: 20px;
+$heroSpaceFromLeft: 20px;
+
+@mixin makeHeroImage($img) {
+    @include responsive-ratio(map-get($img, 'width'), map-get($img, 'height'));
+    background-image: url(map-get($img, 'filename'));
+}
+
+.hero {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+
+    // loop through each hero image set
+    @each $hero, $imageset in $heroes {
+        // output a default (mobile) image and aspect ratio
+        &.hero--#{$hero} {
+            $defaultImage: map-get($imageset, 'default');
+            @include makeHeroImage($defaultImage);
+
+            // for each of the non-default (eg. breakpoint-matching) sets
+            // output a media query with a new image and aspect ratio
+            @each $imageBreakpointName, $imageBreakpoint in $imageset {
+                @if map-has-key($breakpoints, $imageBreakpointName) {
+                    @include mq($imageBreakpointName) {
+                        @include makeHeroImage($imageBreakpoint);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.hero__caption {
+    position: relative;
+    height: 100%;
+}
+.hero__caption-text {
+    $captionHeight: 26px;
+    position: absolute;
+    height: $captionHeight;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    color: #ffffff;
+    width: auto;
+    font-size: 15px;
+    bottom: $heroSpaceFromBottomMobile - $captionHeight;
+    @include mq('tablet') {
+        bottom: $heroSpaceFromBottom - $captionHeight;
+    }
+
+    .contrast--high & {
+        background-color: #000000;
+    }
+}
+
+.hero__header {
+    .hero--major & {
+        @include responsiveGutter(true);
+    }
+
+    position: absolute;
+    bottom: $heroSpaceFromBottomMobile;
+
+    @include mq('tablet') {
+        bottom: $heroSpaceFromBottom;
+        padding-left: $heroSpaceFromLeft; // using left here shifts the whole box
+    }
+}
+
+/* =========================================================================
+   Major Heroes [DEPRECATED: To be replaced by super-hero accross site]
+   ========================================================================= */
+
+.hero.hero--major {
+    height: 0;
+
+    .hero__inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* =========================================================================
+   Section Hero
+   ========================================================================= */
+/* New full-bleed section hero (see: Over10k and Under10k) */
+
+.section-hero {
+    color: white;
+    position: relative;
+}
+.section-hero__content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.section-hero__image {
+    height: 0;
+    position: relative;
+
+    @include responsive-ratio(644, 425);
+
+    @media only screen and (min-width: 600px) {
+        @include responsive-ratio(1280, 720);
+    }
+
+    @include mq('desktop') {
+        @include responsive-ratio(1362, 403);
+    }
+
+    img {
+        display: block;
+    }
+}
+.section-hero__header {
+    margin-bottom: $spacingUnit / 2;
+
+    @media screen and (min-width: 380px) {
+        margin-bottom: $spacingUnit;
+    }
+
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit * 2.5;
+    }
+}
+.section-hero__header__inner {
+    @include mq('tablet') {
+        padding-left: $spacingUnit;
+        padding-right: $spacingUnit;
+    }
+}
+.section-hero__title {
+    width: 100%;
+
+    @include mq('tablet') {
+        max-width: 20em;
+    }
+}
+.section-hero__caption {
+    position: absolute;
+    height: auto;
+    right: $spacingUnit / 2;
+    bottom: $spacingUnit / 2;
+
+    @media screen and (min-width: 380px) {
+        bottom: $spacingUnit;
+    }
+
+    @include mq('tablet') {
+        bottom: $spacingUnit * 2;
+    }
+
+    @include mq('desktop') {
+        right: $spacingUnit;
+    }
+}
+
+/* =========================================================================
+   Super Hero
+   ========================================================================= */
+/* New full-bleed hero template (see: Homepage) */
+
+.super-hero {
+    color: white;
+    margin-bottom: $spacingUnit;
+
+    height: 0;
+    position: relative;
+
+    @include responsive-ratio(644, 573);
+
+    @media only screen and (min-width: 600px) {
+        @include responsive-ratio(1280, 720);
+    }
+
+    @include mq('desktop') {
+        @include responsive-ratio(1373, 505);
+    }
+}
+.super-hero__content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.super-hero__image img {
+    display: block;
+}
+.super-hero__header {
+    text-align: center;
+
+    margin-bottom: $spacingUnit / 2;
+
+    @include mq('tablet') {
+        margin-bottom: $spacingUnit * 2;
+    }
+}
+.super-hero__title {
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0 0 ($spacingUnit / 2) 0;
+
+    @media only screen and (min-width: 360px) {
+        font-size: 18px;
+    }
+
+    @media only screen and (min-width: 480px) {
+        font-size: 21px;
+    }
+
+    @include mq('desktop') {
+        font-size: 24px;
+        line-height: 1.3;
+    }
+
+    a,
+    a:link {
+        color: inherit;
+        text-decoration: underline;
+    }
+}
+.super-hero__caption {
+    position: absolute;
+    height: auto;
+    right: $spacingUnit / 2;
+    bottom: $spacingUnit / 2;
+
+    @include mq('desktop') {
+        right: $spacingUnit;
+    }
+}
+
+.js-on.is-repeat-visitor .super-hero {
+    background-color: palette('charcoal');
+
+    .super-hero__image,
+    .super-hero__caption {
+        transition: opacity 600ms ease-in;
+        transition-delay: 150ms;
+        opacity: 0;
+    }
+
+    &.has-image .super-hero__image,
+    &.has-image .super-hero__caption {
+        opacity: 1;
+    }
+}
+
+@media print {
+    .super-hero {
+        color: black !important;
+        background: none !important;
+        position: static;
+        padding-bottom: 0;
+        height: auto;
+    }
+    .super-hero__image {
+        display: none;
+    }
+    .super-hero__header {
+        text-align: left;
+    }
+    .super-hero__content,
+    .super-hero__caption {
+        position: static;
+    }
+}
+
+/* =========================================================================
+   Minature Heroes
+   ========================================================================= */
+/* Small feature panels (see /funding/funding-guidance/managing-your-funding or /about-big) */
+
+.miniature-hero {
+    position: relative;
+
+    .minature-hero__content {
+        position: absolute;
+        bottom: $heroSpaceFromBottomMobile;
+        padding-left: $heroSpaceFromLeft;
+
+        @include mq('tablet') {
+            bottom: $heroSpaceFromBottom;
+        }
+
+        @media print {
+            position: static;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+    }
+}

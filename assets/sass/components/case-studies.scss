@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Case studies
+   ========================================================================== */
+
+.case-study {
+    background-color: palette('pale-grey');
+
+    @media screen and (min-width: 640px) {
+        display: flex;
+        align-items: center;
+        align-items: stretch;
+    }
+}
+.case-study__image,
+.case-study__content {
+    @media screen and (min-width: 640px) {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0;
+    }
+}
+.case-study__image {
+    @media screen and (min-width: 640px) {
+        flex: 0 0 50%;
+    }
+}
+.case-study__image img {
+    display: block;
+}
+.case-study__content {
+    padding: ($spacingUnit / 2) $spacingUnit;
+    border: 1px solid darken(palette('pale-grey'), 10%);
+
+    @media screen and (min-width: 640px) {
+        border: none;
+        padding: ($spacingUnit / 2);
+        padding-left: ($spacingUnit * 2);
+        padding-right: ($spacingUnit * 4);
+        align-self: center;
+    }
+}
+
+// @TODO: Move this to its own file?
+.carousel {
+    position: relative;
+    margin-bottom: $spacingUnit;
+}
+.carousel__controls {
+    @include mq('tablet', 'max') {
+        position: absolute;
+        width: 100%;
+        top: 100px;
+    }
+}

@@ -18,7 +18,6 @@
         }
     }
 
-
     .material-item__controls {
         display: flex;
         margin-top: 0;
@@ -80,12 +79,12 @@
     }
 
     .material-item__media {
+        display: block;
         height: 150px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
     }
-
 }
 
 .material-item__buttons {

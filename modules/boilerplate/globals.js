@@ -5,8 +5,9 @@ const path = require('path');
 const config = require('config');
 const sassConfig = require('../../config/content/sass.json');
 const routes = require('../../controllers/routes');
+const utilities = require('../../modules/utilities');
 
-const getGlobal = (name) => {
+const getGlobal = name => {
     return app.get('engineEnv').getGlobal(name);
 };
 
@@ -22,14 +23,15 @@ try {
     // console.info('deploy.json not found -- are you in DEV mode?');
 }
 
-const appEnv = process.env.NODE_ENV || 'dev';
+const appEnv = process.env.NODE_ENV || 'development';
 
 // store some app-wide config data
 setGlobal('appData', {
-    deployId: (deploymentData && deploymentData.deployId) ? deploymentData.deployId : 'DEV',
-    buildNumber: (deploymentData && deploymentData.buildNumber) ? deploymentData.buildNumber : 'DEV',
-    commitId: (deploymentData && deploymentData.commitId) ? deploymentData.commitId : 'DEV',
-    IS_DEV: appEnv === 'dev',
+    nodeVersion: process.version,
+    deployId: deploymentData && deploymentData.deployId ? deploymentData.deployId : 'DEV',
+    buildNumber: deploymentData && deploymentData.buildNumber ? deploymentData.buildNumber : 'DEV',
+    commitId: deploymentData && deploymentData.commitId ? deploymentData.commitId : 'DEV',
+    IS_DEV: appEnv === 'development',
     environment: appEnv,
     config: config
 });
@@ -39,6 +41,19 @@ setGlobal('metadata', {
     title: config.get('meta.title'),
     description: config.get('meta.description'),
     themeColour: sassConfig.themeColour
+});
+
+setGlobal('getHtmlClasses', function() {
+    const locale = getGlobal('locale');
+    const highContrast = getGlobal('highContrast');
+
+    let parts = ['no-js', 'locale--' + locale];
+
+    if (highContrast) {
+        parts.push('contrast--hight');
+    }
+
+    return parts.join(' ');
 });
 
 // make anchors available everywhere (useful for routing and templates)
@@ -53,7 +68,7 @@ setGlobal('getFormErrorForField', (errorList, fieldName) => {
 
 // utility to get flash messages in templates (this can cause race conditions otherwise)
 setGlobal('getFlash', (req, key, innerKey) => {
-    if (req.flash) {
+    if (req && req.flash) {
         if (req.flash(key)) {
             if (!innerKey) {
                 return req.flash(key);
@@ -65,48 +80,70 @@ setGlobal('getFlash', (req, key, innerKey) => {
 });
 
 // linkbuilder function for helping with routes
+// @TODO this is a bit brittle/messy, could do with a cleanup
 setGlobal('buildUrl', (sectionName, pageName) => {
     let localePrefix = getGlobal('localePrefix');
     let section = routes.sections[sectionName];
     try {
         let page = section.pages[pageName];
         return localePrefix + section.path + page.path;
-    }
-    catch (e) {
-        // pages from the "global" section have no prefix
+    } catch (e) {
+        // pages from the "toplevel" section have no prefix
         // and aliases don't drop into the above block
-        const IS_GLOBAL = (sectionName === 'global');
-        let url = IS_GLOBAL ? '' : '/';
-        if (!IS_GLOBAL) { url += sectionName; }
-        if (pageName) { url += pageName; }
-        return localePrefix + url;
+        const IS_TOP_LEVEL = sectionName === 'toplevel';
+        let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
+        if (pageName) {
+            url += pageName;
+        }
+        url = localePrefix + url;
+        // catch the edge case where we just want a link to the homepage in english
+        if (url === '') {
+            url = '/';
+        }
+        return url;
     }
+});
+
+setGlobal('createHeroImage', function(opts) {
+    return utilities.createHeroImage({
+        small: opts.small,
+        medium: opts.medium,
+        large: opts.large,
+        default: opts.default,
+        caption: opts.caption
+    });
 });
 
 // look up the current URL and rewrite to another locale
-let getCurrentUrl = (req, locale) => {
+let getCurrentUrl = function(req, locale) {
+    let currentPath = req.originalUrl;
+
     // is this an HTTPS request? make the URL protocol work
     let headerProtocol = req.get('X-Forwarded-Proto');
-    let protocol = (headerProtocol) ? headerProtocol : req.protocol;
-    let currentUrl = protocol + "://" + req.get('host') + req.originalUrl;
+    let protocol = headerProtocol ? headerProtocol : req.protocol;
+    let currentUrl = protocol + '://' + req.get('host') + currentPath;
+
     // is the current URL welsh or english?
     const CYMRU_URL = /\/welsh(\/|$)/;
-    const IS_WELSH = (currentUrl.match(CYMRU_URL) !== null);
-    const IS_ENGLISH = (currentUrl.match(CYMRU_URL) === null);
+    const IS_WELSH = currentUrl.match(CYMRU_URL) !== null;
+    const IS_ENGLISH = currentUrl.match(CYMRU_URL) === null;
+
     // rewrite URL to requested language
-    if (locale === 'cy' && !IS_WELSH) { // make this URL welsh
-        currentUrl = protocol + "://" + req.get('host') + config.get('i18n.urlPrefix.cy') + req.originalUrl;
-    } else if (locale === 'en' && !IS_ENGLISH) { // un-welshify this URL
+    if (locale === 'cy' && !IS_WELSH) {
+        // make this URL welsh
+        currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
+    } else if (locale === 'en' && !IS_ENGLISH) {
+        // un-welshify this URL
         currentUrl = currentUrl.replace(CYMRU_URL, '/');
     }
+
+    // remove any trailing slashes (eg. /welsh/ => /welsh)
+    currentUrl = utilities.stripTrailingSlashes(currentUrl);
+
     return currentUrl;
 };
 
-// get URL middleware
-app.use((req, res, next) => {
-    setGlobal('getCurrentUrl', (locale) => getCurrentUrl(req, locale));
-    return next();
-});
+setGlobal('getCurrentUrl', getCurrentUrl);
 
 module.exports = {
     get: getGlobal,

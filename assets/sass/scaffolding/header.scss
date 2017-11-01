@@ -1,3 +1,7 @@
+/* =========================================================================
+   Global Header
+   ========================================================================= */
+
 $offscreenNavWidth: 65%;
 
 @mixin nav-link-style($color: palette('blue-text')) {
@@ -7,13 +11,70 @@ $offscreenNavWidth: 65%;
     color: $color;
 }
 
+// .header {}
 .header__inner {
     position: relative;
     padding: 15px 0 15px 0;
+
     @include mq('tablet') {
         padding: 20px 0 20px 0;
     }
 }
+.header__content {
+    @include mq('tablet') {
+        display: flex;
+        align-items: center;
+    }
+
+    @include mq('tablet') {
+        > .header__content-item {
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 0;
+        }
+    }
+}
+.header__nav {
+    margin-top: $spacingUnit;
+
+    @media print {
+        display: none;
+    }
+
+    @include mq('tablet') {
+        margin-top: 40px; // align with logo
+    }
+
+    &.u-mobile-only {
+        margin-top: 0;
+    }
+}
+.header__hamburger {
+    position: absolute;
+    right: 0;
+    margin-top: 0 !important;
+    cursor: pointer;
+    top: $spacingUnit * 2;
+    width: 31px;
+
+    a {
+        svg,
+        path {
+            fill: palette('blue-text');
+            @include on-interact() {
+                fill: darken(palette('blue-text'), 10%);
+            }
+        }
+    }
+
+    svg {
+        position: absolute;
+    }
+}
+
+/* =========================================================================
+   Global Header: Logo
+   ========================================================================= */
 
 .logo {
     display: inline-block;
@@ -36,6 +97,9 @@ $offscreenNavWidth: 65%;
     @include mq('tablet') {
         height: 105px;
         width: 130px;
+    }
+
+    @media only screen and (min-width: $widestScreen) {
         margin-left: -20px;
     }
 
@@ -45,7 +109,7 @@ $offscreenNavWidth: 65%;
         background-image: url(../images/logo-new--welsh.png);
     }
 
-     // handle broken IE which pixellates our logo
+    // handle broken IE which pixellates our logo
     .is-ie & {
         background-image: url(../images/logo-small.png);
     }
@@ -53,27 +117,131 @@ $offscreenNavWidth: 65%;
     .is-ie.locale--cy & {
         background-image: url(../images/logo-small--welsh.png);
     }
-
 }
 
-// container element
-nav {
-    margin-top: $spacingUnit;
+/* =========================================================================
+   Global Navigation
+   ========================================================================= */
 
-    @media print {
-        display: none;
+// links themselves
+.nav {
+    margin-top: 0;
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        align-items: center;
+        margin-left: $spacingUnit * 2.5;
+        margin-bottom: 0;
+    }
+
+    li {
+        @include nav-link-style();
+        margin-top: 0;
+
+        &.nav__link {
+            &.selected,
+            &.selected a {
+                color: palette('pink-text');
+            }
+
+            &,
+            a {
+                color: palette('blue-text');
+            }
+
+            a {
+                text-decoration: none;
+                @include on-interact {
+                    color: palette('pink-text');
+                    text-decoration: underline;
+                }
+            }
+
+            &:after {
+                content: '';
+                border-right: 2px solid palette('soft-grey');
+                border-radius: 30px;
+                vertical-align: middle;
+                height: 15px;
+                display: inline-block;
+                margin: 0 $spacingUnit;
+
+                @include mq('desktop') {
+                    margin: 0 $spacingUnit * 1.25;
+                }
+            }
+
+            &.nav__link--last:after {
+                display: none;
+            }
+        }
+    }
+}
+.nav__lang {
+    @include mq('tablet') {
+        position: absolute;
+        top: $spacingUnit * 2;
+        right: 0;
+        a {
+            color: palette('pink') !important;
+            text-decoration: none;
+
+            .contrast--high & {
+                color: palette('high-contrast-bg') !important;
+            }
+        }
+    }
+}
+.nav__search {
+    margin-left: auto; // move to right
+
+    input {
+        @include nav-link-style(#000000);
+        margin-top: 0;
+        border: 0;
+        padding: $spacingUnit / 4;
+        width: 100px;
+
+        @include mq('tablet') {
+            text-align: right;
+            width: 80px;
+        }
+
+        @include input-placeholder {
+            @include nav-link-style();
+        }
+    }
+}
+
+/* =========================================================================
+   Global Search Form
+   ========================================================================= */
+
+// .form-search { }
+.form-search__input {
+    @include mq('tablet') {
+        float: right;
+        margin-left: $spacingUnit / 3;
+    }
+}
+.form-search__icon {
+    vertical-align: middle;
+
+    .icon--search {
+        width: 21px;
+        height: 21px;
+        fill: palette('soft-grey');
     }
 
     @include mq('tablet') {
-        margin-top: 40px; // align with logo
-    }
-
-    &.mobile-only {
-        margin-top: 0;
+        position: relative;
+        top: 5px; // to line up with the search input
     }
 }
 
-// mobile off-screen nav
+/**
+ * Mobile off-screen navigation
+ */
 .nav--offscreen {
     background-color: palette('blue-nav');
     display: block;
@@ -138,9 +306,7 @@ nav {
             text-decoration: none;
         }
     }
-
 }
-
 // handle animation of offscreen nav for mobile
 @include mq('tablet', 'max') {
     .show-off-canvas {
@@ -156,140 +322,154 @@ nav {
     }
 }
 
-// links themselves
-.nav {
-    margin-top: 0;
-    margin-bottom: $spacingUnit;
+/* =========================================================================
+   Modifiers: Full-Bleed Header
+   ========================================================================= */
 
-    @include mq('tablet') {
-        align-items: center;
-        margin-left: $spacingUnit * 2.5;
-        margin-bottom: 0;
-    }
+html:not(.contrast--high) .has-full-bleed-header .header {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
 
-    li {
-        @include nav-link-style();
-        margin-top: 0;
+    .header__inner {
+        padding: 10px 0;
 
-        &.nav__link {
-
-            &.selected,
-            &.selected a {
-                color: palette('pink-text');
-            }
-
-            &, a {
-                color: palette('blue-text');
-            }
-
-            a {
-                text-decoration: none;
-                @include on-interact {
-                    color: palette('pink-text');
-                    text-decoration: underline;
-                }
-            }
-
-            &:after {
-                content: '';
-                border-right: 2px solid palette('soft-grey');
-                border-radius: 30px;
-                margin-left: $spacingUnit * 1.25;
-                margin-right: $spacingUnit * 1.25;
-                vertical-align: middle;
-                height: 15px;
-                display: inline-block;
-            }
-
-            &.nav__link--last:after {
-                display: none;
-            }
+        @media only screen and (min-width: 420px) {
+            padding: 15px 0;
         }
-
-    }
-}
-
-.nav__lang {
-    @include mq('tablet') {
-        position: absolute;
-        top: $spacingUnit * 2;
-        right: 0;
-        a {
-            color: palette('pink') !important;
-            text-decoration: none;
-
-            .contrast--high & {
-                color: palette('high-contrast-bg') !important;
-            }
-        }
-    }
-}
-
-.nav__search {
-    margin-left: auto; // move to right
-
-    input {
-        @include nav-link-style(#000000);
-        margin-top: 0;
-        border: 0;
-        padding: $spacingUnit / 4;
-        width: 100px;
 
         @include mq('tablet') {
-            text-align: right;
-            width: 80px;
+            padding: 0;
         }
+    }
+
+    .header__content {
+        @include mq('tablet') {
+            align-items: flex-start;
+        }
+    }
+
+    .header__nav {
+        @include mq('tablet') {
+            margin-top: 0;
+        }
+
+        &.u-mobile-only {
+            margin-top: 0;
+        }
+    }
+    .header__hamburger {
+        top: 25px;
+
+        @media only screen and (min-width: 420px) {
+            top: 40px;
+        }
+    }
+    .header__hamburger a svg,
+    .header__hamburger a path {
+        fill: white;
+    }
+
+    .logo {
+        margin-top: 0;
+
+        @media only screen and (min-width: 420px) {
+            margin-top: 10px;
+        }
+    }
+
+    .nav {
+        margin-left: $spacingUnit;
+
+        @include mq('tablet') {
+            align-items: initial;
+        }
+    }
+
+    .nav li,
+    .nav li a {
+        color: white;
+    }
+
+    // TODO: Can we reduce this specificity?
+    .nav li.nav__link:not(.nav__lang) {
+        a {
+            display: inline-block;
+            text-decoration: none;
+            padding: $spacingUnit ($spacingUnit / 2) 0;
+            border-top: 4px solid transparent;
+
+            @include on-interact {
+                color: white;
+                text-decoration: none;
+                border-color: white;
+            }
+        }
+
+        &.selected a {
+            color: white;
+            border-color: white;
+        }
+
+        &:after {
+            border-color: white;
+            margin: 0 ($spacingUnit / 3);
+
+            @include mq('desktop') {
+                margin: 0 $spacingUnit * 1.25;
+            }
+        }
+    }
+    .nav__search {
+        margin-top: $spacingUnit;
+    }
+    .nav__search input {
+        @include nav-link-style(white);
+        background-color: transparent;
+        margin: 0;
+        padding: 5px 0;
+        width: 70px;
 
         @include input-placeholder {
-            @include nav-link-style();
+            @include nav-link-style(white);
         }
     }
-}
+    .nav__lang {
+        @include mq('tablet') {
+            top: 70px; // @TODO: This spacing is a bit of a magic number
 
-.form-search__input {
-    @include mq('tablet') {
-        float: right;
-        margin-left: $spacingUnit / 3;
-    }
-}
-
-.form-search__icon {
-
-    vertical-align: middle;
-
-    .icon--search {
-        width: 21px;
-        height: 21px;
-        fill: palette('soft-grey');
-    }
-
-    @include mq('tablet') {
-        position: relative;
-        top: 5px; // to line up with the search input
-    }
-}
-
-.header__hamburger {
-    position: absolute;
-    right: 0;
-    margin-top: 0 !important;
-    cursor: pointer;
-    top: $spacingUnit * 2;
-    width: 31px;
-
-    a {
-        svg, path {
-            fill: palette('blue-text');
-        }
-        @include on-interact() {
-            svg, path {
-                fill: darken(palette('blue-text'), 10%);
+            a {
+                // Common styles are !important, we should be able to avoid this?
+                color: white !important;
             }
         }
     }
 
-    svg {
-        position: absolute;
+    .form-search__icon {
+        .icon--search {
+            fill: currentColor;
+        }
     }
+    .form-search__input {
+        &:focus {
+            border-bottom: 2px solid white;
+        }
+    }
+}
+html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
+    .logo {
+        margin-top: $spacingUnit;
+    }
+}
+html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
+    background-image: url(../images/logo-new.png);
+}
+html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo {
+    background-image: url(../images/logo-new--welsh.png);
+}
 
+@media print {
+    .header {
+        position: static !important;
+    }
 }

@@ -15,7 +15,6 @@
         a {
             padding: 20px 30px;
             display: block;
-            background-color: palette('blue');
             color: #ffffff;
             text-decoration: none;
             position: absolute;
@@ -29,9 +28,8 @@
                 position: static;
                 width: auto;
                 height: auto;
-                background-color: #999999;
+                background-color: palette('charcoal');
             }
         }
     }
 }
-

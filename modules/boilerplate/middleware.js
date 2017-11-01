@@ -7,41 +7,44 @@ const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
-const expressValidator = require('express-validator');
 const favicon = require('serve-favicon');
 const path = require('path');
 const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 const models = require('../../models/index');
-const secrets = require('../../modules/secrets');
 const surveys = require('./getSurveys');
+const getSecret = require('../../modules/get-secret');
+const routes = require('../../controllers/routes');
 
 // load auth strategy
 require('../../modules/boilerplate/auth');
 
-let sessionSecret = secrets['session.secret'] || process.env.sessionSecret;
+let sessionSecret = getSecret('session.secret') || process.env.sessionSecret;
 
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
-app.use(morgan(logFormat, {
-    skip: (req, res) => {
-        // don't log status messages
-        return (req.originalUrl === '/status');
-    }
-}));
+app.use(
+    morgan(logFormat, {
+        skip: req => {
+            // don't log status messages
+            return req.originalUrl === '/status';
+        }
+    })
+);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(sessionSecret));
 
 // add session
 const sessionConfig = {
-    secret: sessionSecret,
     name: config.get('cookies.session'),
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false },
+    cookie: { sameSite: true },
     store: new SequelizeStore({
         db: models.sequelize
     })
@@ -50,9 +53,9 @@ const sessionConfig = {
 // create sessions table
 sessionConfig.store.sync();
 
-if (app.get('env') === 'production') {
+if (app.get('env') !== 'development') {
     app.set('trust proxy', 4);
-    // sessionConfig.cookie.secure = true;
+    sessionConfig.cookie.secure = true;
 }
 
 app.use(session(sessionConfig));
@@ -62,15 +65,13 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// add form validator
-app.use(expressValidator({}));
-
 // setup internationalisation
 i18n.expressBind(app, {
     locales: ['en', 'cy'],
     cookieName: 'locale',
     extension: '.json',
-    directory: './config/locales'
+    directory: './config/locales',
+    devMode: app.get('env') === 'development'
 });
 
 // handle overlays
@@ -92,7 +93,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     const WELSH_LOCALE = 'cy';
     const CYMRU_URL = /^\/welsh(\/|$)/;
-    const IS_WELSH = (req.url.match(CYMRU_URL) !== null);
+    const IS_WELSH = req.url.match(CYMRU_URL) !== null;
     let localePrefix = '';
 
     if (IS_WELSH) {
@@ -122,7 +123,6 @@ app.use((req, res, next) => {
     let currentUrlPath = req.path;
 
     // normalise URLs (eg. treat a Welsh URL the same as default)
-    // @TODO this regex is copied from global.js – refactor!
     const CYMRU_URL = /\/welsh(\/|$)/;
     currentUrlPath = currentUrlPath.replace(CYMRU_URL, '/');
 
@@ -133,5 +133,19 @@ app.use((req, res, next) => {
         globals.set('pageSurvey', false);
     }
 
+    return next();
+});
+
+// get routes / current section
+app.use((req, res, next) => {
+    globals.set('routes', routes.sections);
+    return next();
+});
+
+// add the request object as a local variable
+// for URL rewriting in templates
+// (eg. locale versions, high-contrast redirect etc)
+app.use((req, res, next) => {
+    res.locals.request = req;
     return next();
 });

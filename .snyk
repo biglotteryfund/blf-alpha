@@ -11,3 +11,12 @@ patch:
         patched: '2017-07-19T09:16:50.362Z'
     - phantomjs-prebuilt > extract-zip > debug > ms:
         patched: '2017-08-16T09:11:45.508Z'
+  'npm:debug:20170905':
+    - mocha > debug:
+        patched: '2017-09-27T03:46:09.042Z'
+    - helmet > connect > debug:
+        patched: '2017-09-27T03:46:09.042Z'
+    - helmet > connect > finalhandler > debug:
+        patched: '2017-09-27T03:46:09.042Z'
+    - phantomjs-prebuilt > extract-zip > debug:
+        patched: '2017-09-27T03:46:09.042Z'

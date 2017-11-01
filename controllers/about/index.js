@@ -3,14 +3,11 @@ const express = require('express');
 const router = express.Router();
 const routeStatic = require('../utils/routeStatic');
 
-module.exports = (pages) => {
-
+module.exports = (pages, sectionPath, sectionId) => {
     /**
      * 1. Populate static pages
      */
-    for (let page in pages) {
-        if (pages[page].static) { routeStatic(pages[page], router); }
-    }
+    routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     return router;
 };

@@ -1,16 +1,30 @@
 {% macro projectBlock(project, accent) %}
-    <div class="card{% if accent %} {{ accent }} a--border-top{% endif %}">
-        <div class="card__media">
-            <a href="{{ project.link }}">
-                <img src="{{ project.image | getCachebustedPath }}" class="grid__item__poster" alt="{{ project.description }}" />
-            </a>
+    <div class="project-card {% if accent %} {{ accent }} a--border-top{% endif %}">
+        <div class="project-card__media">
+            {% if project.link %}<a href="{{ project.link }}">{% endif %}
+                <img
+                    class="project-card__image"
+                    src="{{ project.image | getCachebustedPath }}"
+                    alt="{{ project.description }}"
+                />
+            {% if project.link %}</a>{% endif %}
         </div>
-        <div class="card__body">
-            <h4 class="t4">{{ project.name }}</h4>
+        <div class="project-card__body">
+            <h4 class="project-card__header t4">{{ project.name }}</h4>
+
             {% if project.amount %}
-                <p class="card__subheader t7 accent--blue a--text">Grant amount {{ project.amount }}</p>
+            <p class="project-card__subheader t7 accent--blue a--text">
+                Grant: {{ project.amount }}
+            </p>
             {% endif %}
-            <p class="t7">{{ project.description }} <a href="{{ project.link }}" class="{{ accent }} a--text">Read more...</a></p>
+            <p class="project-card__description t7">
+                {{ project.description }}
+                {% if project.link %}
+                <a href="{{ project.link }}" class="{% if accent %}{{ accent }} a--text {% endif %}u-weight-heavy">
+                    {{ __('global.misc.readMore') }}&hellip;
+                </a>
+                {% endif %}
+            </p>
         </div>
     </div>
 {% endmacro %}

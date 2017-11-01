@@ -1,0 +1,66 @@
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=HTMLPictureElement,Promise"></script>
+<script id="script-head">
+(function() {
+    var AppConfig = {
+        isModernBrowser:
+            'querySelector' in document &&
+            'addEventListener' in window &&
+            'localStorage' in window &&
+            'bind' in Function,
+        isOldIE:
+            navigator.userAgent.indexOf('MSIE') !== -1 ||
+            navigator.appVersion.indexOf('Trident/') > 0,
+        hasSeenPageBefore: (function() {
+            var hasSeenPageBefore = false;
+            try {
+                hasSeenPageBefore = !!window.sessionStorage.getItem(
+                    'app.hasSeenPageBefore'
+                );
+            } catch (e) {} // eslint-disable-line no-empty
+
+            if (!hasSeenPageBefore) {
+                try {
+                    window.sessionStorage.setItem(
+                        'app.hasSeenPageBefore',
+                        true
+                    );
+                } catch (e) {} // eslint-disable-line no-empty
+            }
+
+            return hasSeenPageBefore;
+        })(),
+        /**
+         * Allows us to disable google analytics on live env when loaded via EC2/ELB
+         * and not the real domain e.g. to avoid polluting data with extra domains
+         */
+        blockAnalytics:
+            {{ appData.environment == 'production' }} &&
+            window.location.hostname !==
+                "{{ appData.config.get('siteDomain') }}"
+    };
+
+    window.AppConfig = AppConfig;
+
+    /**
+     * Add state classes to document
+     */
+    var docEl = document.documentElement;
+    var docClass = docEl.className;
+    var classes = ['js-on'];
+
+    if (AppConfig.isModernBrowser) {
+        classes.push('is-modern');
+    }
+
+    if (AppConfig.isOldIE) {
+        classes.push('is-ie');
+    }
+
+    if (AppConfig.hasSeenPageBefore) {
+        classes.push('is-repeat-visitor');
+    }
+
+    docEl.className = docClass.replace('no-js', '') + ' ' + classes.join(' ');
+})();
+
+</script>

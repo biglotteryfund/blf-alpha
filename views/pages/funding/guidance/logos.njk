@@ -44,12 +44,12 @@
     {% if locale == 'cy' %}logo{% endif %}
     {{ copy.downloads.colours[logoName] }}
     {% if locale == 'en' %}logo{% endif %}
-    <span class="lighter">({{ copy.downloads.sizes[logoSize] }})</span>
+    <span class="u-weight-light">({{ copy.downloads.sizes[logoSize] }})</span>
 {% endmacro %}
 
 {% macro successMessage(type) %}
     {% if copy.successMessages[type] %}
-        <div class="hidden js-success js-success--{{ type }}">
+        <div class="u-hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
             <h4 class="t4">{{ copy.successMessages[type].title }}</h4>
             <h4 class="t6">{{ copy.successMessages[type].body }}</h4>

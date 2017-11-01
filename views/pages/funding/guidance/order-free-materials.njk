@@ -1,6 +1,6 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
-{% import "components/forms.njk" as forms %}
+{% from "components/forms.njk" import input with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -80,9 +80,12 @@
 
                     <div class="card__media">
                         {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
-                        <div class="material-item__media"
-                             style="background-image: url({{ imgPath | getCachebustedPath }}">
-                        </div>
+                        {% set imgPath = imgPath | getCachebustedPath %}
+                        <a class="material-item__media"
+                             style="background-image: url({{ imgPath }}"
+                             href="{{ imgPath }}"
+                             target="_blank">
+                        </a>
                     </div>
 
                     <aside class="material-item__actions">
@@ -114,7 +117,7 @@
 
     {{ hero.header('logo', heroContent, 'blue') }}
 
-    <article role="main" class="nudge-up" id="js-vue">
+    <article role="main" class="nudge-up" id="js-vue" v-cloak>
 
         <div class="inner--wide-only accent--blue a--border-top content-box">
             {{ copy.body | safe }}
@@ -125,14 +128,14 @@
                     <li class="grid__item">
                         <a href="#monolingual"
                            class="btn btn--block btn--small accent--blue a--btn"
-                           v-on:click.prevent="showMonolingual = true">
+                           v-on:click.prevent="toggleItemLanguage('monolingual')">
                             {{ copy.locations.monolingual }}
                         </a>
                     </li>
                     <li class="grid__item">
                         <a href="#bilingual"
                            class="btn btn--block btn--small accent--blue a--btn"
-                           v-on:click.prevent="showMonolingual = false">
+                           v-on:click.prevent="toggleItemLanguage('bilingual')">
                             {{ copy.locations.bilingual }}
                         </a>
                     </li>
@@ -140,18 +143,18 @@
             </div>
         </div>
 
-        <div v-if="showMonolingual !== null">
+        <div v-if="itemLanguage !== null">
 
             <div class="inner">
 
                 {# monolingual items #}
-                <div v-if="showMonolingual" id="monolingual">
+                <div v-if="itemLanguage === 'monolingual'" id="monolingual">
                     <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
                     {{ listProducts('monolingual') }}
                 </div>
 
                 {# bilingual items #}
-                <div v-if="!showMonolingual" id="bilingual">
+                <div v-if="itemLanguage === 'bilingual'" id="bilingual">
                     <h3 class="t3">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
                     {{ listProducts('bilingual') }}
                 </div>
@@ -164,9 +167,10 @@
 
                     <form class="inline-form order-form" method="post">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <input type="hidden" name="languageChoice" value="" id="js-language-choice">
                         <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
                             {% for field in formFields %}
-                                <li class="grid__item">{{ forms.input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
+                                <li class="grid__item">{{ input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
                             {% endfor %}
                             <li class="grid__item">
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}

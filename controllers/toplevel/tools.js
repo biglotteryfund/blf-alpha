@@ -5,15 +5,19 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
-const passport = require('passport');
+const { body, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
+const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
-const isAuthenticated = require('../../modules/authed');
+const auth = require('../../modules/authed');
 
 const LAUNCH_DATE = moment();
+
+const USER_LEVEL_REQUIRED = 5;
 
 const localeFiles = {
     en: '../../config/locales/en.json',
@@ -21,26 +25,25 @@ const localeFiles = {
 };
 
 // status page used by load balancer
-router.get('/status', (req, res, next) => {
+router.get('/status', (req, res) => {
     // don't cache this page!
     res.cacheControl = { maxAge: 0 };
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
     const appData = globals.get('appData');
     res.send({
-        'APP_ENV': process.env.NODE_ENV,
-        'DEPLOY_ID': appData.deployId,
-        'COMMIT_ID': appData.commitId,
-        'BUILD_NUMBER': appData.buildNumber,
-        'START_DATE': LAUNCH_DATE.format("dddd, MMMM Do YYYY, h:mm:ss a"),
-        'UPTIME': LAUNCH_DATE.toNow(true)
+        APP_ENV: process.env.NODE_ENV,
+        DEPLOY_ID: appData.deployId,
+        COMMIT_ID: appData.commitId,
+        BUILD_NUMBER: appData.buildNumber,
+        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
+        UPTIME: LAUNCH_DATE.toNow(true)
     });
 });
 
 // pagelist
-router.get('/status/pages', (req, res, next) => {
-
+router.get('/status/pages', (req, res) => {
     const totals = {
         canonical: [],
         aliases: [],
@@ -68,65 +71,17 @@ router.get('/status/pages', (req, res, next) => {
     });
 });
 
-// login auth
-const loginPath = '/tools/login';
-router.get(loginPath, (req, res, next) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-    res.render('pages/tools/login', {
-        error: req.flash('error'),
-        user: req.user
-    });
-});
-
-router.post(loginPath, (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            return next(err);
-        } else {
-            req.logIn(user, (err) => {
-                if (err) { // user not valid, send them to login again
-                    req.flash('error', info.message);
-                    // save the session to avoid race condition
-                    // see https://github.com/mweibel/connect-session-sequelize/issues/20
-                    req.session.save(() => {
-                        return res.redirect(loginPath);
-                    });
-                } else { // user is valid, send them on
-                    // we don't use flash here because it gets unset in the GET route above
-                    let redirectUrl = loginPath;
-                    if (req.body.redirectUrl) {
-                        redirectUrl = req.body.redirectUrl;
-                    } else if (req.session.redirectUrl) {
-                        redirectUrl = req.session.redirectUrl;
-                        delete req.session.redirectUrl;
-                    }
-                    req.session.save(() => {
-                        res.redirect(redirectUrl);
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-});
-
-// logout path
-router.get('/tools/logout', (req, res)  => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
-    req.logout();
-    res.redirect('/');
-});
-
 // language file editor tool
-router.route('/tools/locales/')
-    .get(isAuthenticated, (req, res, next) => {
+router
+    .route('/tools/locales/')
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
         res.render('pages/tools/langEditor', {
             user: req.user
         });
-    }).post(isAuthenticated, (req, res, next) => {
+    })
+    .post(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
         // fetch these each time
         const locales = {
             en: JSON.parse(fs.readFileSync(path.join(__dirname, localeFiles.en), 'utf8')),
@@ -135,24 +90,23 @@ router.route('/tools/locales/')
         res.send({
             editors: [
                 {
-                    name: "English",
+                    name: 'English',
                     code: 'en',
                     json: locales.en,
                     schema: generateSchema.json(locales.en)
                 },
                 {
-                    name: "Welsh",
+                    name: 'Welsh',
                     code: 'cy',
                     json: locales.cy,
                     schema: generateSchema.json(locales.cy)
                 }
             ]
         });
-});
+    });
 
 // update a language file
-router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
-
+router.post('/tools/locales/update/', auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
     const json = req.body;
     let validKeys = ['en', 'cy'];
     let failedUpdates = [];
@@ -171,29 +125,30 @@ router.post('/tools/locales/update/', isAuthenticated, (req, res, next) => {
     });
 
     res.send({
-        error: (failedUpdates.length > 0) ? failedUpdates : false
+        error: failedUpdates.length > 0 ? failedUpdates : false
     });
-
 });
-
 
 // edit news articles
 const editNewsPath = '/tools/edit-news';
-router.route(editNewsPath + '/:id?')
-    .get(isAuthenticated, (req, res, next) => {
+router
+    .route(editNewsPath + '/:id?')
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res, next) => {
         // don't cache this page!
         res.cacheControl = { maxAge: 0 };
 
         let queries = [];
-        queries.push(models.News.findAll({
-            order: [['updatedAt', 'DESC']]
-        }));
+        queries.push(
+            models.News.findAll({
+                order: [['updatedAt', 'DESC']]
+            })
+        );
 
         if (req.params.id) {
             queries.push(models.News.findById(req.params.id));
         }
 
-        Promise.all(queries).then((responses) => {
+        Promise.all(queries).then(responses => {
             if (req.params.id) {
                 if (!responses[1]) {
                     return next();
@@ -207,34 +162,55 @@ router.route(editNewsPath + '/:id?')
                 user: req.user
             });
         });
-    }).post(isAuthenticated, (req, res, next) => {
+    })
+    .post(
+        auth.requireAuthedLevel(USER_LEVEL_REQUIRED),
+        [
+            body('title_en', 'Please provide an English title')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('title_cy', 'Please provide a Welsh title')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('text_en', 'Please provide an English summary')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('text_cy', 'Please provide a Welsh summary')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('link_en', 'Please provide an English article link')
+                .exists()
+                .not()
+                .isEmpty(),
+            body('link_cy', 'Please provide a Welsh article link')
+                .exists()
+                .not()
+                .isEmpty()
+        ],
+        (req, res) => {
+            let redirectBase = req.baseUrl + editNewsPath + '/';
+            const errors = validationResult(req);
+            const data = matchedData(req, { locations: ['body'] });
 
-        let redirectBase = req.baseUrl + editNewsPath + '/';
-
-        // validate form
-        req.checkBody('title_en', 'Please provide an English title').notEmpty();
-        req.checkBody('title_cy', 'Please provide a Welsh title').notEmpty();
-        req.checkBody('text_en', 'Please provide an English summary').notEmpty();
-        req.checkBody('text_cy', 'Please provide a Welsh summary').notEmpty();
-        req.checkBody('link_en', 'Please provide an English article link').notEmpty();
-        req.checkBody('link_cy', 'Please provide a Welsh article link').notEmpty();
-
-        req.getValidationResult().then((result) => {
-            if (!result.isEmpty()) {
-                req.flash('formErrors', result.array());
-                req.flash('formValues', req.body);
+            if (!errors.isEmpty()) {
+                req.flash('formErrors', errors.array());
+                req.flash('formValues', data);
                 req.session.save(() => {
                     res.redirect(redirectBase + '?error');
                 });
             } else {
                 // sanitise input
                 let rowData = {
-                    title_en: xss(req.body['title_en']),
-                    title_cy: xss(req.body['title_cy']),
-                    text_en: xss(req.body['text_en']),
-                    text_cy: xss(req.body['text_cy']),
-                    link_en: xss(req.body['link_en']),
-                    link_cy: xss(req.body['link_cy'])
+                    title_en: xss(data['title_en']),
+                    title_cy: xss(data['title_cy']),
+                    text_en: xss(data['text_en']),
+                    text_cy: xss(data['text_cy']),
+                    link_en: xss(data['link_en']),
+                    link_cy: xss(data['link_cy'])
                 };
 
                 if (req.params.id) {
@@ -255,7 +231,7 @@ router.route(editNewsPath + '/:id?')
                     res.redirect(redirectBase + '?success');
                 });
             }
-        });
-    });
+        }
+    );
 
 module.exports = router;

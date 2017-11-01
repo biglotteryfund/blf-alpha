@@ -2,17 +2,18 @@
 
 [![Build Status](https://travis-ci.org/biglotteryfund/blf-alpha.svg?branch=master)](https://travis-ci.org/biglotteryfund/blf-alpha)
 
-This is the initial work on a redesigned website for the Big Lottery Fund.
+## Overview
 
-It's a NodeJS app using Express as a web framework. It uses Gulp to build Sass, JavaScript (via Browserify) and versioning static assets.
+This projects contains initial work on a redesigned website for the Big Lottery Fund.
 
-There's a single MySQL instance (currently running on AWS RDS) which has multiple databases used for the app: `website-dev` (for development and also the `TEST` environment), `website-test` (for the automated tests, eg. so they can simulate news posting etc) and `website` (for `PRODUCTION`).
+**Technologies used:**
 
-There is a very rudimentary CMS for posting/updating news articles to the homepage.
+- [Express](https://expressjs.com/) running on [Node.js](https://nodejs.org/en/)
+- Build tooling via [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/) and [Gulp](https://gulpjs.com/) for bundling and versioning static assets
+- A MySQL instance running on AWS RDS used to power a rudimentary CMS for posting/updating news articles to the homepage
+- The app itself runs via [Phusion Passenger](https://www.phusionpassenger.com/) which is integrated into [NGINX](https://www.nginx.com/resources/wiki/) for node process management.
 
-Builds are done by [Travis](https://travis-ci.org/biglotteryfund/blf-alpha) and commits on `master` are automatically pushed to the `TEST` environment via AWS CodeDeploy. These deploys are done in-place, but we can also deploy in "blue/green" style (eg. replacing servers altogether).
-
-## Running the app
+## Getting Started
 
 To get up and running with the app, here's what you need to do:
 
@@ -20,55 +21,72 @@ To get up and running with the app, here's what you need to do:
 
 You'll need the following tools installed:
 
-- NodeJS (https://nodejs.org/en/download/)
-- Gulp (`npm install --global gulp-cli`)
+- Node.js (https://nodejs.org/en/download/)
 - Git (https://help.github.com/articles/set-up-git/)
 - Some sort of terminal app (OS X comes with one)
 
-
-#### Secret configuration
-You'll also need the app secrets – config items that allow it to connect to the database (used for content), send emails (when customers order free items), etc. 
-
-In order to do this, you'll need to do the following: 
-
- - obtain AWS credentials for the team's account ()with permission to access EC2 Parameter Store)
-  
- - [Configure the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) on your machine
- 
- - Rename `addSecrets.example.sh` to `addSecrets.sh` and populate it with the missing values (ask another member of the team for these). These missing values are used for deployments.
- 
- - Make sure the directory `/etc/blf/` exists and is writeable (this is where application secrets will be downloaded to).
- 
- You should now be able to proceed to the startup instructions below.
-
-### Startup instructions
+### Setup Instructions
 
 Run these commands in your terminal of choice:
 
-1. Clone this repository:
+#### 1. Clone This Repository
 
-        git clone git@github.com:biglotteryfund/blf-alpha.git
-    
-2. Install its dependencies:
+```
+git clone git@github.com:biglotteryfund/blf-alpha.git
+```
 
-        cd blf-alpha
-        npm install
-        
-3. Check the install worked – try to use `gulp` to build the frontend assets:
-        
-        gulp build --production
-        
-5. Run `source ./addSecrets.sh` – this will download the application secrets to `/etc/blf/parameters.json`.
-        
-6. Start the app server:
+#### 2. Configure Secrets
 
-        node bin/www
-        
-7. Visit [http://localhost:3000](http://localhost:3000) in your browser and confirm it's working. Press `Ctrl+C` to stop the server.
+You'll also need the app secrets – config items that allow it to connect to the database (used for content), send emails (when customers order free items), etc.
+
+In order to do this, you'll need to do the following:
+
+- Obtain AWS credentials for the team's account (with permission to access EC2 Parameter Store)
+- [Configure the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) on your machine
+- Make sure the directory `/etc/blf/` exists and is writeable (this is where application secrets will be downloaded to).
+- Copy `.env.example` to `.env` and populate it with the missing values (ask another member of the team for these). These missing values are used for deployments.
+- Run `./bin/scripts/get-secrets` – this will download the application secrets to `/etc/blf/parameters.json`.
+
+#### 3. Install Dependencies:
+
+```
+cd blf-alpha
+npm install
+```
+
+#### 4. Run A Build
+
+Check the install worked by running a build.
+
+```
+npm run build
+```
+
+#### 5. Start The App Server:
+
+```
+npm run startDev
+```
+
+#### 6. Access The Application
+
+The app should now be running. Visit the app in your browser and confirm it's running.
+
+```
+http://localhost:3000
+```
+
+#### 7. Watch For Changes
+
+Watch static assets and run an incremental build when files change.
+
+```
+npm run watch
+```
 
 ## Testing
 
-The app comes with several layers of tests to ensure everything works as expected. Tests are still in-development as the app increases in size/scope, but the framework is in place for them. 
+The app comes with several layers of tests to ensure everything works as expected. Tests are still in-development as the app increases in size/scope, but the framework is in place for them.
 
 You can run them all with `gulp test` (or `npm test`) but here are the individual suites:
 
@@ -89,20 +107,37 @@ We have ESLint to check syntax errors. Run `gulp lint` to verify there's no miss
 
 ## Deployment
 
-Once a change is merged to `master`, Travis will build and deploy it (branches are also built, but not deployed). A revision will be uploaded to an S3 bucket, then deployed to AWS via CodeDeploy.
+### Environments
 
-Deployments are configured for Travis in `.travis.yml`. Amazon CodeDeploy settings are in `appspec.yml`.
+There are three main environments:
+
+- Test - Deployed to automatically each time `master` builds
+- Production - Deployed to manually by triggering a release
+
+All three environments run on AWS behind CloudFront to ensure parity between environments.
+
+Environments share a MySQL instance runing on an RDS which has multiple databases used for the app: `website-dev` (for development and also the `TEST` environment), `website-test` (for the automated tests, eg. so they can simulate news posting etc) and `website` (for `PRODUCTION`).
+
+### Deployment Process
+
+#### Travis Builds
+
+Builds are handled by [Travis](https://travis-ci.org/biglotteryfund/blf-alpha). Commits on `master` are automatically pushed to the `TEST` environment via AWS CodeDeploy. These deploys happen in-place by defauly with the option of deploying in "blue/green" style and replacing servers altogether.
+
+#### Automatic Deployment To Test
+
+Once a change is merged to `master`, Travis will build and deploy it (branches are also built, but not deployed). A revision will be uploaded to an S3 bucket, then deployed to AWS via CodeDeploy. Deployments are configured for Travis in `.travis.yml`. Amazon CodeDeploy settings are in `appspec.yml`.
 
 The build script generates a zip file of non-dev npm modules and minified static assets. This is stored permanently for future deployments where required.
 
+#### Deployment to production
+
 Deploys to `PRODUCTION` are manual (for now). Once a deploy has been sanity checked on `TEST`, it can be advanced to `PRODUCTION` via AWS CodeDeploy, either by using the web console, or the bundled deploy script within the app:
 
-`./bin/scripts/deploy.js --live`
+```
+./bin/scripts/deploy.js --live
+```
 
-The above command will begin a deployment by listing the previous 10 releases deployed to `TEST` and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. It will also post progress updates to Slack as the deployment proceeds.   
+This command will begin a deployment by listing the previous 10 releases deployed to `TEST` and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. Progress updates will be posted to Slack as the deployment proceeds.
 
-Run it without the `-l` / `--live` flag to deploy to `TEST` intead.
-
-Please speak to @mattandrews to obtain access to AWS/Jenkins to manage deployment.
-
-The app itself runs via [Phusion Passenger](https://www.phusionpassenger.com/) which is integrated into nginx web server. This is effectively a reverse proxy which adds security and manages node processes. It also allows for static assets to be served directly via nginx, bypassing node for quicker responses. On live instances, this can be monitored by running `sudo passenger-status` (`sudo` because CodeDeploy runs as root). 
+Please speak to [@mattandrews](https://github.com/mattandrews) or [@davidrapson](https://github.com/davidrapson) to obtain credentials to deploy.

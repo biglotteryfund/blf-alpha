@@ -1,0 +1,151 @@
+#!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+const _ = require('lodash');
+const config = require('config');
+
+const routes = require('../../controllers/routes');
+const utilities = require('../../modules/utilities');
+const urlTools = require('../../modules/urls');
+const CF_CONFIGS = require('../../config/app/distributions');
+
+// lookup cookies from app config
+const cookies = config.get('cookies');
+const cookiesInUse = Object.keys(cookies).map(k => cookies[k]);
+
+// configure headers, cookies and origin servers for paths
+const BehaviourConfig = {
+    protocols: {
+        redirectToHttps: 'redirect-to-https',
+        allowAll: 'allow-all'
+    },
+    httpMethods: {
+        getOnly: ['HEAD', 'GET'],
+        getAndPost: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
+    },
+    TTLs: {
+        min: 0,
+        max: 31536000,
+        default: 86400
+    },
+    newSite: {
+        headersToKeep: ['Accept', 'Host'],
+        cookies: {
+            Forward: 'whitelist',
+            WhitelistedNames: {
+                Items: cookiesInUse,
+                Quantity: cookiesInUse.length
+            }
+        }
+    },
+    legacy: {
+        headersToKeep: ['*'],
+        cookies: {
+            Forward: 'all'
+        }
+    }
+};
+
+// create a JSON object configured for the legacy/new paths
+const makeBehaviourItem = (origin, path, isPostable, allowQueryStrings, originServer) => {
+    // the new site is properly cached, the legacy is not
+    // so anything legacy should not cache cookies, headers, etc
+    const isLegacy = origin !== 'newSite';
+    const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
+
+    // strip trailing slashes
+    // fixes /welsh => /welsh/ homepage confusion
+    // but doesn't break root/homepage '/' path
+    path = utilities.stripTrailingSlashes(path);
+
+    // use all HTTP methods for legacy
+    const allowedHttpMethods =
+        isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
+    // allow any protocol for legacy, redirect to HTTPS for new
+    const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
+
+    return {
+        TrustedSigners: {
+            Enabled: false,
+            Items: [],
+            Quantity: 0
+        },
+        LambdaFunctionAssociations: {
+            Items: [],
+            Quantity: 0
+        },
+        TargetOriginId: originServer,
+        ViewerProtocolPolicy: protocol,
+        ForwardedValues: {
+            Headers: {
+                Items: cacheConfig.headersToKeep,
+                Quantity: cacheConfig.headersToKeep.length
+            },
+            Cookies: cacheConfig.cookies,
+            QueryStringCacheKeys: {
+                Items: [],
+                Quantity: 0
+            },
+            QueryString: isLegacy || allowQueryStrings
+        },
+        MaxTTL: BehaviourConfig.TTLs.max,
+        PathPattern: path,
+        SmoothStreaming: false,
+        DefaultTTL: BehaviourConfig.TTLs.default,
+        AllowedMethods: {
+            Items: allowedHttpMethods,
+            CachedMethods: {
+                Items: ['HEAD', 'GET'],
+                Quantity: 2
+            },
+            Quantity: allowedHttpMethods.length
+        },
+        MinTTL: BehaviourConfig.TTLs.min,
+        Compress: false
+    };
+};
+
+// make a list of every URL we need to serve
+// across all origins
+const urlsToSupport = urlTools.generateUrlList(routes);
+
+// construct array of behaviours from a URL list
+// eg. route them to the relevant origins
+// based on the distribution (test/live)
+const generateBehaviours = (distribution, environment) => {
+    let behaviours = [];
+    for (let origin in urlsToSupport) {
+        let links = urlsToSupport[origin];
+        if (links.length > 0) {
+            console.log(
+                `Adding ${links.length} URLs routing to "${origin}" to config for "${environment}" distribution`
+            );
+            // get name of origin server (for live/test)
+            let originServer = distribution.origins[origin];
+            links.forEach(url => {
+                let item = makeBehaviourItem(origin, url.path, url.isPostable, url.allowQueryStrings, originServer);
+                behaviours.push(item);
+            });
+        }
+    }
+
+    // sort by path (to make diffing easier)
+    behaviours = _.sortBy(behaviours, 'PathPattern');
+    return behaviours;
+};
+
+// for each cloudfront distribution, generate a config and store it
+for (let environment in CF_CONFIGS) {
+    console.log(`Creating Cloudfront configuration for the "${environment}" distribution.`);
+    const distribution = CF_CONFIGS[environment];
+    const behaviours = generateBehaviours(distribution, environment);
+
+    try {
+        const confPath = path.join(__dirname, `../cloudfront/${environment}.json`);
+        const confData = JSON.stringify(behaviours, null, 4);
+        fs.writeFileSync(confPath, confData);
+        console.log(`An updated config for the "${environment}" distribution was saved in ${confPath}`);
+    } catch (err) {
+        return console.error('Error saving config', err);
+    }
+}

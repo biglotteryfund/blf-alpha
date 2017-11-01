@@ -22,6 +22,9 @@
             <h3 class="t3">Gwall {{ status }} &ndash; {{ message }}</h3>
             <p>Yn anffodus ni allwn ddangos y dudalen hon ar hyn o bryd. Gallwch ddychwelyd i’r hafan neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>. Os byddwch yn profi anhawster o hyd wrth gyrchu ein tudalennau, <a href="mailto:webmaster@biglotteryfund.org.uk">rhowch wybod i ni</a>.</p>
 
+            {% if sentry %}
+                <small><strong>Error ID:</strong> <code>{{ sentry }}</code></small>
+            {% endif %}
 
             {% if appData.IS_DEV and error.stack %}
                 <h4>Stack trace:</h4>

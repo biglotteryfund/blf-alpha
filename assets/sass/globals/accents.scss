@@ -1,24 +1,27 @@
-// classes which will be accented:
+/* =========================================================================
+   Accents
+   ========================================================================= */
+// Utility classes to help with colour accent theming
 
 .a--border-top {
-    border-top-width: 4px !important;
+    border-top-width: $accentBorderWidth !important;
     border-top-style: solid;
 }
 
 .a--border-top--large {
-    border-top-width: 6px !important;
+    border-top-width: ($accentBorderWidth * 1.5) !important;
     border-top-style: solid;
 }
 
-.a--border-left {  }
-
-// each theme listed in palette.scss will generate classes for use below
-// eg <div class="accent--pink a--border-top"> will give a pink border
+/**
+ * Generate theme classes
+ * Each theme listed in palette.scss will generate classes for use below
+ * e.g <div class="accent--pink a--border-top"> will give a pink border
+ */
 @each $name in $themes {
     $colour: palette($name);
 
     .accent--#{$name} {
-
         // text color
         &.a--text {
             color: $colour;
@@ -30,6 +33,10 @@
                     color: darken($colour, 10%);
                 }
             }
+        }
+
+        &.a--border-color {
+            border-color: $colour;
         }
 
         // border on top of elements
@@ -68,11 +75,12 @@
             }
         }
 
-        // border-bottom below some type styles
-        &.t3--a {
-            &:after {
-                border-bottom-color: $colour;
-            }
+        /**
+         * Modifier class which adds a border below the text
+         * (see typography.scss)
+         */
+        &.t--underline:after {
+            border-bottom-color: $colour;
         }
 
         // call-to-action buttons
@@ -100,13 +108,10 @@
                     fill: $activeState !important;
                 }
             }
-
-
         }
 
         // high contrast mode styles
         .contrast--high & {
-
             // overlay (block) text
             .overlay-text {
                 span {
@@ -117,8 +122,17 @@
             // call-to-action buttons
             &.a--btn {
                 background-color: palette('high-contrast-bg') !important;
+
+                .a--text {
+                    color: white !important;
+                }
+
                 @include on-interact {
                     background-color: darken(palette('high-contrast-bg'), 10%) !important;
+
+                    .a--text {
+                        color: white !important;
+                    }
                 }
             }
         }
@@ -127,8 +141,6 @@
         &.tab--active.btn {
             background-color: darken($colour, 15%) !important;
         }
-
-
     }
 }
 

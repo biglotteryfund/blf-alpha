@@ -1,5 +1,6 @@
-/* global $ */
 'use strict';
+
+const $ = require('jquery');
 const analytics = require('./analytics');
 
 let activeClasses = {
@@ -10,7 +11,6 @@ let activeClasses = {
 let pageHasLoaded = false;
 
 let trackTabClick = (label, trackTabClicksAsPageviews) => {
-
     analytics.track('Tab', 'Click', label);
 
     // optionally set a new URL and pageview
@@ -19,13 +19,12 @@ let trackTabClick = (label, trackTabClicksAsPageviews) => {
     // calling `set` first means all subsequent events will be marked against this "page"
     // also, isn't it really satisfying how each new line in this block is longer than the one before?
     if (trackTabClicksAsPageviews) {
-        analytics.setPageView(location.pathname + location.hash);
+        analytics.setPageView(window.location.pathname + window.location.hash);
     }
 };
 
 // toggle panes/tabs (if valid)
-let showNewTabPane = ($tabClicked) => {
-
+let showNewTabPane = $tabClicked => {
     let tabData;
     let $tabset;
 
@@ -55,7 +54,6 @@ let showNewTabPane = ($tabClicked) => {
         let $paneSet = $paneToShow.parents('.js-paneset').first();
 
         if ($paneSet.length > 0) {
-
             // toggle the active pane in this set
             let $oldActivePane = $paneSet.find(`> .${activeClasses.pane}`);
             $oldActivePane.removeClass(activeClasses.pane).attr('aria-hidden', 'true');
@@ -82,18 +80,15 @@ let showNewTabPane = ($tabClicked) => {
 };
 
 let init = () => {
-
     let $tabs = $('.js-tab');
 
     // bind clicks on tabs
-    $tabs.on('click', function (e) {
-
+    $tabs.on('click', function(e) {
         // show the tab pane and get the associated elements
         let tabData = showNewTabPane($(this));
 
         // if this was a valid tab
         if (tabData) {
-
             // stop browser scroll by default
             e.preventDefault();
 
@@ -104,9 +99,9 @@ let init = () => {
             // if we're on mobile (eg. accordion) we should scroll the pane into view
             // we delay this because the visibility check returns false as the page loads
             // and the tabs are made visible by JavaScript
-            let scrollTimeout = (pageHasLoaded) ? 0 : 300;
+            let scrollTimeout = pageHasLoaded ? 0 : 300;
             window.setTimeout(() => {
-                let tabSetIsVisible = tabData.tabset.is(":visible");
+                let tabSetIsVisible = tabData.tabset.is(':visible');
                 if (!tabSetIsVisible) {
                     tabData.paneToShow[0].scrollIntoView();
                 } else {
@@ -122,12 +117,11 @@ let init = () => {
 
             // update the URL fragment
             if (tabData.paneId && tabData.paneId[0] === '#') {
-                if (history.replaceState) {
-                    history.replaceState(null, null, tabData.paneId);
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, tabData.paneId);
                 }
             }
         }
-
     });
 
     // restore previously-selected hash on pageload
@@ -144,19 +138,21 @@ let init = () => {
     }
 
     // add ARIA tags to JS-enhanced tabs
-    $('.tab__pane').not(`.${activeClasses.pane}`).attr('aria-hidden', 'true');
+    $('.tab__pane')
+        .not(`.${activeClasses.pane}`)
+        .attr('aria-hidden', 'true');
+
     $tabs.not(`.${activeClasses.tab}`).attr('aria-selected', 'false');
     $tabs.parents('li').attr('role', 'presentation');
 
     // match the panes with the tabs for ARIA labels
-    $tabs.each(function () {
+    $tabs.each(function() {
         let $pane = $($(this).attr('href'));
         let id = $(this).attr('id');
         if ($pane.length > 0 && id) {
             $pane.attr('aria-labelledby', $(this).attr('id'));
         }
     });
-
 };
 
 module.exports = {

@@ -1,0 +1,31 @@
+{% macro caseStudy(quoteText, quoteName, quoteNameCaption, projectName, imageUrl, imageSmallUrl, link = false) %}
+    <div class="case-study">
+        <div class="case-study__image">
+            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
+                <picture>
+                    <source srcset="{{ imageUrl | getCachebustedPath }}" media="(min-width: 600px)">
+                    <source srcset="{{ imageSmallUrl | getCachebustedPath }}">
+                    <img src="{{ imageSmallUrl | getCachebustedPath }}" alt="{{ quoteName }} {{ projectName }}" />
+                </picture>
+            {% if link %}</a>{% endif %}
+        </div>
+        <div class="case-study__content">
+                <blockquote class="pullquote">
+                    <div class="pullquote__text">
+                        <p>{{ quoteText }}</p>
+                    </div>
+                    <div class="pullquote__meta">
+                        <cite class="pullquote__citation t3 t--tracking">{{ quoteName }}</cite>
+                        <div class="pullquote__aside">
+                            {% if quoteNameCaption %}
+                                <p class="t6 u-weight-normal">{{ quoteNameCaption }}</p>
+                            {% endif %}
+                            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
+                                <p class="t6 u-weight-normal">{{ projectName | safe }}</p>
+                            {% if link %}</a>{% endif %}
+                        </div>
+                    </div>
+                </blockquote>
+        </div>
+    </div>
+{% endmacro %}

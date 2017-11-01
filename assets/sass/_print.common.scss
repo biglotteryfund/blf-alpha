@@ -1,0 +1,56 @@
+/* =========================================================================
+   Common Print Styles
+   - Component specific print styles inlined in component files
+   ========================================================================= */
+
+@page {
+    margin: 0.5in;
+}
+
+@media print {
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a:not(.u-dont-print-link)[href]:after {
+        content: ' (' attr(href) ')';
+    }
+
+    abbr[title]:after {
+        content: ' (' attr(title) ')';
+    }
+
+    thead {
+        display: table-header-group;
+    }
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+
+    .u-dont-print {
+        display: none !important;
+    }
+}

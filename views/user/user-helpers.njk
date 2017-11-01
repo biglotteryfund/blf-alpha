@@ -1,0 +1,13 @@
+{% macro listErrors() %}
+    {% if errors and errors.length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            {% set numErrs = errors.length %}
+            <p><strong>There w{{ numErrs | pluralise("as", "ere") }} {{ numErrs }} error{{ numErrs | pluralise("", "s") }}:</strong></p>
+            <ul>
+                {% for e in errors %}
+                    <li>{{ e.msg | safe }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endmacro %}

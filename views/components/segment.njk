@@ -1,9 +1,9 @@
 {% import "./headers.njk" as headers %}
 
-{% macro segment(title, text, color, imagePath, characterWrap = 20, id) %}
+{% macro segment(title, text, color, imagePath, id, imageIsAbsolute = false) %}
     <div class="segment accent--{{ color }} a--border-top">
         <div class="grid__item__inner segment__media">
-            <img src="{{ imagePath | getCachebustedPath }}" alt="" />
+            <img src="{% if imageIsAbsolute %}{{ imagePath }}{% else %}{{ imagePath | getCachebustedPath }}{% endif %}" alt="" />
             {{ headers.overlayText(
                 tag = 'h4',
                 text = title,

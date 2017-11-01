@@ -7,7 +7,8 @@
 			"home": "Home",
 			"funding": "Funding",
 			"about": "About",
-			"search": "Search"
+			"search": "Search",
+			"research": "Research"
 		},
 		"contact": {
 			"city": "London",
@@ -22,20 +23,119 @@
 			"cookies": "Cookies",
 			"contact": "Contact",
 			"site-map": "Site map",
-			"accessibility": "Accessibility"
+			"accessibility": "Accessibility",
+			"grantFootnote": "The grant amount shown was awarded within the last 12 months"
 		},
 		"accessibility": {
 			"skipToContent": "Skip to content",
 			"contrast": {
 				"high": "Enable high contrast mode",
 				"standard": "Enable standard contrast mode"
-			}
+			},
+			"previousItem": "Previous item",
+			"nextItem": "Next item"
 		},
 		"forms": {
 			"missingFieldError": "Please provide the '%s' field"
+		},
+		"misc": {
+			"readMore": "Read more"
 		}
 	},
 	"toplevel": {
+		"home": {
+			"title": "Big Lottery Fund",
+			"description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
+			"home": "Home",
+			"intro": {
+				"long": "The Big Lottery Fund distributes <a href=\"/data\">over £600m</a> a year to communities across the UK, raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a>",
+				"short": "The Big Lottery Fund distributes money raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a> to communities across the UK."
+			},
+			"callsToAction": {
+				"under10k": {
+					"short": "Apply for funding under £10,000",
+					"long": "Learn how to apply for funding under £10,000"
+				},
+				"over10k": {
+					"short": "Apply for funding over £10,000",
+					"long": "Learn how to apply for funding over £10,000"
+				}
+			},
+			"caseStudies": [
+				{
+					"quoteText": "I am helping make sure that young people get the opportunities they want in terms of education.",
+					"quoteName": "Jonathan Ssentamu",
+					"quoteNameCaption": "Youth Development Worker",
+					"projectName": "Passion4Fusion",
+					"imageUrl": "images/home/case-study-4-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"link": "funding/big-stories/passion4fusion"
+				},
+				{
+					"quoteText": "I want young people in care to know that they are just as capable of reaching their goals as everyone else.",
+					"quoteName": "Andrea Glenn",
+					"quoteNameCaption": null,
+					"projectName": "Voice of Young People in Care",
+					"imageUrl": "images/home/case-study-1-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-1-small.jpg",
+					"link": "funding/big-stories/voice-of-young-people-in-care"
+				},
+				{
+					"quoteText": "We meet people when they're in a really poor, isolated predicament and we bring them together.",
+					"quoteName": "Candy Worf",
+					"quoteNameCaption": null,
+					"projectName": "Mental Health Foundation",
+					"imageUrl": "images/home/case-study-2-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-2-small.jpg",
+					"link": "funding/big-stories/mental-health-foundation"
+				},
+				{
+					"quoteText": "My motivation in wanting to do youth work comes from knowing the impact that Bytes had and continues to have on me.",
+					"quoteName": "Anthony Turkington",
+					"quoteNameCaption": "Beneficiary",
+					"projectName": "Bytes",
+					"imageUrl": "images/home/case-study-3-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-3-small.jpg",
+					"link": "funding/big-stories/bytes"
+				}
+			],
+			"browseFundedProjects": "Search for all funded projects",
+			"latestNews": "Latest news",
+			"ebulletin": {
+				"title": "Find out about our funding",
+				"intro": "Sign up for our latest news relating to your country",
+				"location": "Location",
+				"locations": {
+					"england": "England",
+					"wales": "Wales",
+					"scotland": "Scotland",
+					"northernIreland": "Northern Ireland"
+				},
+				"fields": {
+					"firstName": "First name",
+					"lastName": "Surname",
+					"organisation": "Organisation",
+					"emailAddress": "Email Address"
+				},
+				"callToAction": "Subscribe",
+				"responses": {
+					"success": {
+						"title": "Thank you for subscribing to receive updates and news from the Big Lottery Fund",
+						"body": "Your personal data is important to us and we will not share it with third parties. We are sure you will enjoy hearing from us, but you can <a href=\"http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx\">unsubscribe at any time</a> if you wish."
+					},
+					"error": {
+						"title": "There was an error signing you up to the e-bulletin.",
+						"body": "It looks like we're experiencing an error with our e-bulletin tool. Please try again later."
+					}
+				}
+			},
+			"social": {
+				"followUsOn": "Follow us on",
+				"instagram": "Instagram",
+				"facebook": "Facebook",
+				"twitter": "Twitter"
+			}
+		},
 		"about": {
 			"title": "About the Big Lottery Fund"
 		},
@@ -89,7 +189,7 @@
 				},
 				"complaints": {
 					"title": "How do I make a complaint?",
-					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don’t worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span>Phone</span>: 0191 376 1704<br /></p><p>\t<span>Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span>Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
+					"body": "<p>\tAt the Big Lottery Fund we try to give the best service possible. However we recognise that this does not always happen and you may wish to make a complaint.</p><p>\tMaking a complaint will not affect your chances of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\">View our complaints procedure here</a>.<br /></p><p>\tWe are interested in any comments that you may wish to make, so don't worry whether your concerns fit with the description of a complaint.</p><p>\tWe also welcome comments from members of the public who have concerns over an application that we have received or a project that we have funded.</p><p>\tYou can share your concerns or complaints with us verbally or in writing and our contact details are:</p><p>\t<span>Phone</span>: 0191 376 1704<br /></p><p>\t<span>Email</span>: <a href=\"mailto:customer.services@biglotteryfund.org.uk\">customer.services@biglotteryfund.org.uk</a>  </p><p>\t<span>Address</span>: <br />Customer Services <br />Big Lottery Fund <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
 				},
 				"fraud": {
 					"title": "How do I report fraud?",
@@ -214,7 +314,247 @@
 			"sections": {
 				"whyWork": {
 					"title": "Why work for the Big Lottery Fund?",
-					"body": "<blockquote>\"Working at the Big Lottery Fund enables me to play a small part in changing the lives of people in communities across the UK. It is hugely rewarding taking on the challenge of giving the right funds to the right people. I'm surrounded by talented, motivated and inspirational individuals here who are all working to the same goal.\" <footer><cite>Steve Keene, Product Manager, Digital Team</cite></footer></blockquote><blockquote>\"The best thing about working at the Fund is being a part of an organisation that is having such an impact on communities across the UK and seeing the difference the funding makes to these communities. The staff here are so invested in what they do and I love the fact that my work has meaning and provides me with a sense of satisfaction every day.\" <footer><cite>Kalema White, Executive Assistant</cite></footer></blockquote>"
+					"body": "<blockquote>\"We get to say that at the Fund that we're not just interested in the money that we give you, we're interested in you as an organisation and what you're doing, how we can best support you and the beneficiaries you're trying to work with in a strategic and impactful way. I think that's the best part of this job, to be able to have those chats and think outside the box.\" <footer><cite>Lilian Nsemwa, Funding Manager</cite></footer></blockquote><blockquote>\"It's a great place to work. It's exciting. There's a fantastic atmosphere. But it's also the fact that the work you're able to do out in your patch is inspiring and it's an opportunity to really make a difference.\" <footer><cite>David Jessup, Funding Manager</cite></footer></blockquote>"
+				},
+				"currentVacancies": {
+					"title": "Current Vacancies",
+					"groups": [
+						{
+							"name": "London",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMwMCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ4OCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Executive Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								}
+							]
+						},
+						{
+							"name": "South East",
+							"vacancies": [
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ5MiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Norfolk / Suffolk"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUxMiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Essex"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUyMiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Kent, West and East Sussex"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMxOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Solent, Hampshire, Isle of Wight and Surrey"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUzNCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Solent, Hampshire, Isle of Wight and Surrey"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU0NSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Bedfordshire, Cambridgeshire and Hertfordshire"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU1NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Berkshire, Buckinghamshire and Oxfordshire"
+								}
+							]
+						},
+						{
+							"name": "South West",
+							"vacancies": [
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU1OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Devon, including Plymouth and Torbay, and Dorset, including Bournemouth and Poole"
+								},
+								{
+									"label": "Executive Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY0MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Devon, including Plymouth and Torbay, and Dorset, including Bournemouth and Poole"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMyNiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cornwall"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU3MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cornwall"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMzMyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Wiltshire, West of England (including Bristol), Gloucestershire and Somerset"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU3NSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Wiltshire, West of England (including Bristol), Gloucestershire and Somerset"
+								}
+							]
+						},
+						{
+							"name": "North West",
+							"vacancies": [
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM0NCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU4MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Executive Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Greater Manchester"
+								},
+								{
+									"label": "Funding Managers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Merseyside and Cheshire"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU4MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Merseyside and Cheshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM1OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lancashire"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU5MiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lancashire"
+								}
+							]
+						},
+						{
+							"name": "North East",
+							"vacancies": [
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU5MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cumbria"
+								}
+							]
+						},
+						{
+							"name": "Yorkshire and Humber",
+							"vacancies": [
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY1MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "West Yorkshire / North Yorkshire"
+								},
+								{
+									"label": "Executive Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ3MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "West Yorkshire / North Yorkshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY3OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "South Yorkshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQyOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Humber"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY5MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Humber"
+								}
+							]
+						},
+						{
+							"name": "Midlands",
+							"vacancies": [
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTcxMSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
+								},
+								{
+									"label": "Executive Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ3NyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Birmingham, Coventry, Warwickshire, Solihull and the Black Country"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTcxOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Telford, Shropshire, Worcestershire and Herefordshire"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTczNSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Stoke and Staffordshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ0MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Nottinghamshire and Derbyshire"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTc0MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Nottinghamshire and Derbyshire"
+								},
+								{
+									"label": "Funding Officers",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTc4NyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Leicestershire and Northamptonshire"
+								},
+								{
+									"label": "Funding Manager",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ1MCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lincolnshire and Peterborough"
+								},
+								{
+									"label": "Funding Officer",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTgzOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lincolnshire and Peterborough"
+								}
+							]
+						},
+						{
+							"name": "Committee Members",
+							"vacancies": [
+								{
+									"label": "England Committee Members",
+									"url": "https://candidates.perrettlaver.com/vacancies/506/england_committee_members/",
+									"subRegion": "n/a"
+								}
+							]
+						}
+					]
 				},
 				"benefits": {
 					"title": "What benefits are available?",
@@ -233,7 +573,7 @@
 				},
 				"equalities": {
 					"title": "Equalities",
-					"body": "<p>The Big Lottery Fund is committed to advancing equalities, not only as a funder but also as an employer. This means we think about the needs and experiences of people from different backgrounds (for example, by gender, race, disability, religious belief and sexual orientation) and we work to ensure that there is equality of opportunity for all. It’s important to us that our staff reflect the diversity of the communities we serve.</p><p>The Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy. We will make reasonable adjustments for disabled applicants at all stages of the selection process. To assist us, applicants should declare if they have a disability on the application form, and let us know of any requirements.</p><p>If you have a disability that prevents you from completing an online form, please contact the HR Helpdesk, on 0121 345 8884 or email <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, who will be happy to help. The Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice.</p><p>The Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work.</p><p>We know that our staff come from a diverse range of religious backgrounds and we are committed to supporting staff by working to accommodate an individual’s needs. This includes religious attire, the need for flexible working to accommodate worship, and time off to attend religious festivals.</p><p></p>"
+					"body": "<p>The Big Lottery Fund is committed to advancing equalities, not only as a funder but also as an employer. This means we think about the needs and experiences of people from different backgrounds (for example, by gender, race, disability, religious belief and sexual orientation) and we work to ensure that there is equality of opportunity for all. It's important to us that our staff reflect the diversity of the communities we serve.</p><p>The Big Lottery Fund is proud to be a 'two tick' symbol user and is committed to interviewing applicants with a disability if they meet the minimum criteria for a job vacancy. We will make reasonable adjustments for disabled applicants at all stages of the selection process. To assist us, applicants should declare if they have a disability on the application form, and let us know of any requirements.</p><p>If you have a disability that prevents you from completing an online form, please contact the HR Helpdesk, on 0121 345 8884 or email <a href=\"mailto:HRhelpdesk@biglotteryfund.org.uk\">HRhelpdesk@biglotteryfund.org.uk</a>, who will be happy to help. The Big Lottery Fund has a disability forum open to disabled staff, and staff who have an interest in disability related issues for support, information sharing and advice.</p><p>The Big Lottery Fund is proud to be a Stonewall Equality Champion, supporting our commitment to being a great place to work for lesbian, gay, bisexual and transgender (LGBT) staff. Working closely with Stonewall, we have established an LGBT staff network as a forum for championing support, knowledge sharing, influencing company policy and practice, and addressing LGBT issues at work.</p><p>We know that our staff come from a diverse range of religious backgrounds and we are committed to supporting staff by working to accommodate an individual's needs. This includes religious attire, the need for flexible working to accommodate worship, and time off to attend religious festivals.</p><p></p>"
 				}
 			}
 		},
@@ -299,7 +639,7 @@
 				},
 				{
 					"title": "Paid parental leave",
-					"text": "<p>Staff who have worked with us for one year are entitled to one week’s parental leave on full pay per year if they have one or more child under the age of eight. This is in addition to their annual leave entitlement.</p>"
+					"text": "<p>Staff who have worked with us for one year are entitled to one week's parental leave on full pay per year if they have one or more child under the age of eight. This is in addition to their annual leave entitlement.</p>"
 				},
 				{
 					"title": "Paid volunteering leave",
@@ -332,56 +672,83 @@
 			]
 		},
 		"under10k": {
-			"title": "About our grants under £10,000",
+			"title": "National Lottery Awards for All - how to get a grant for up to £10,000",
+			"intro": "National Lottery Funding can help you to make a difference in your community. National Lottery Awards for All offers funding from £300 to £10,000 to support what matters to people and communities. We will fund organisations with great project ideas that:",
+			"ideas": [
+				"Shape the places and spaces that matter to communities",
+				"Bring more people together and build strong relationships in and across communities",
+				"Enable more people to fulfil their potential by working to address issues at the earliest possible stage"
+			],
+			"callToAction": "Want to know more? Start by telling us where your project is going to be",
+			"locations": {
+				"england": "England",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"northernIreland": "Northern Ireland"
+			},
+			"ukWideInfo": "Occasionally the Fund makes grants of under £10,000 to projects that benefit people right across the UK. <a href=\"https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio\">Find out more about our UK-wide funding</a>. We also make grants of <a href=\"/over10k\">more than £10,000</a> for longer term projects.",
+			"projectExamples": "Examples of projects that have been funded",
 			"projects": [
 				{
 					"name": "Papyrus",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/hbf.jpg",
-					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family"
+					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family."
 				},
 				{
 					"name": "Ragroof Players",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/ragroof.jpg",
 					"description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
 				},
 				{
 					"name": "Welsh Refugee Council",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/under10k/wrc.jpg",
-					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression"
+					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression."
 				}
-			]
+			],
+			"browseFundedProjects": "Browse all funded projects"
 		},
 		"over10k": {
-			"title": "About our grants over £10k",
+			"title": "Discover our funding programmes for amounts above £10,000",
+			"intro": "Larger grants are made through a variety of programmes that cover every nation within the United Kingdom. This kind of flexible, longer-term funding is aimed at organisations whose ambitions are shaped by the people they serve.",
+			"callToAction": "Want to know more? Start by telling us where your project is going to be",
+			"locations": {
+				"england": "England",
+				"scotland": "Scotland",
+				"wales": "Wales",
+				"northernIreland": "Northern Ireland",
+				"ukWide": "My project will help people right across the UK"
+			},
+			"projectExamples": "Examples of projects that have been funded",
 			"projects": [
 				{
 					"name": "Croxteth Gems",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/croxteth.jpg",
 					"description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
 				},
 				{
 					"name": "Dads in Mind",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/dads.jpg",
 					"description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
 				},
 				{
 					"name": "Cruse Bereavement Care",
 					"amount": "",
-					"link": "#",
+					"link": "",
 					"image": "images/over10k/cruse.jpg",
 					"description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies."
 				}
-			]
+			],
+			"browseAll": "Browse all funded projects"
 		},
 		"eyp": {
 			"title": "Empowering Young People",
@@ -392,10 +759,10 @@
 		"foi": {
 			"title": "Freedom of Information",
 			"sections": {
-				"intro": "<p>\tThe <a href=\"http://www.legislation.gov.uk/ukpga/2000/36/contents\">Freedom of Information Act 2000</a> gives a member of the public the right of access to information held by public authorities. All information we hold is eligible for release although we will consider whether any exemptions apply.</p><p>\tFurther information about the Freedom of Information Act 2000, including who the Act applies to, what information you can ask for, how you can request it and how your requests will be dealt with, can be found on <a href=\"https://ico.org.uk/\">the Information Commissioner’s website</a>. </p><p>\tRequests for information relating to the state of the environment are handled under the Environmental Information Regulations 2004 (EIR). Any information that falls under EIR will be released unless an exception applies.</p><p>\tTo request information under these regulations you should follow the same process as for Freedom of Information requests. More information regarding the Environmental Information regulations can be found on the Information Commissioner’s website .</p>",
+				"intro": "<p>\tThe <a href=\"http://www.legislation.gov.uk/ukpga/2000/36/contents\">Freedom of Information Act 2000</a> gives a member of the public the right of access to information held by public authorities. All information we hold is eligible for release although we will consider whether any exemptions apply.</p><p>\tFurther information about the Freedom of Information Act 2000, including who the Act applies to, what information you can ask for, how you can request it and how your requests will be dealt with, can be found on <a href=\"https://ico.org.uk/\">the Information Commissioner's website</a>. </p><p>\tRequests for information relating to the state of the environment are handled under the Environmental Information Regulations 2004 (EIR). Any information that falls under EIR will be released unless an exception applies.</p><p>\tTo request information under these regulations you should follow the same process as for Freedom of Information requests. More information regarding the Environmental Information regulations can be found on the Information Commissioner's website .</p>",
 				"howToRequest": {
 					"title": "How to request information from us",
-					"body": "<p>\t<span>Much of the information we hold is already available to you. Before you make an official request you should:</span></p><p>\t<ul>\t\t<li>\t\t\tsearch our website for the information<br />\t\t</li>\t\t<li>\t\t\tcheck the Big Lottery Fund’s publication scheme.<br />\t\t</li>\t</ul></p><p>\tIf you would like to request information about The Big Lottery Fund, please email <a href=\"mailto:freedomofinformation@biglotteryfund.org.uk\">freedomofinformation@biglotteryfund.org.uk</a>.</p><p>\tYour request must state your full name and it is helpful if you can give us as much detail as you can about the information that you are looking for. If you aren’t sure what information we hold on a particular topic then we will be happy to offer you further advice and assistance. We will acknowledge your request and must reply in full within 20 working days.</p><p>\tIf you have requested information that relates to a third party we may need to consult with such parties in order to reach a view on whether the information can be released. When consulting with third parties the identity of the requestor will remain confidential and will not be disclosed.</p>"
+					"body": "<p>\t<span>Much of the information we hold is already available to you. Before you make an official request you should:</span></p><p>\t<ul>\t\t<li>\t\t\tsearch our website for the information<br />\t\t</li>\t\t<li>\t\t\tcheck the Big Lottery Fund's publication scheme.<br />\t\t</li>\t</ul></p><p>\tIf you would like to request information about The Big Lottery Fund, please email <a href=\"mailto:freedomofinformation@biglotteryfund.org.uk\">freedomofinformation@biglotteryfund.org.uk</a>.</p><p>\tYour request must state your full name and it is helpful if you can give us as much detail as you can about the information that you are looking for. If you aren't sure what information we hold on a particular topic then we will be happy to offer you further advice and assistance. We will acknowledge your request and must reply in full within 20 working days.</p><p>\tIf you have requested information that relates to a third party we may need to consult with such parties in order to reach a view on whether the information can be released. When consulting with third parties the identity of the requestor will remain confidential and will not be disclosed.</p>"
 				},
 				"forCustomers": {
 					"title": "For customers who have applied or received funding from us",
@@ -403,20 +770,20 @@
 				},
 				"publicationScheme": {
 					"title": "The Publication Scheme",
-					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication Scheme</a>. By ‘publication’ we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
+					"body": "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication Scheme</a>. By ‘publication' we mean information that is available to the public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe publication scheme is a document that describes the information we routinely publish, where you can find it, and whether we charge for it. It is not a list of our publications: it describes the kinds of information we publish.</p><p>\tOur publications are available, <a href=\"/contact\">on request</a>, in Braille, large print, audio-tape and community languages.</p>"
 				}
 			}
 		},
 		"dataProtection": {
 			"title": "Data Protection",
-			"body": "<p>\tIf you apply for a grant from us we will use your information in line with the Data Protection policy below.</p><p>\tWe may use the information you give us during assessment and during the life of your grant (if awarded) to administer and analyse grants and for research purposes. We may share this information with individuals and organisations we work with when assessing applications, administering the programme, monitoring grants, evaluating funding processes and impact and carrying out research. These may include accountants, external evaluators and other organisations or groups involved in delivering the programme.</p><p>\tWe may also share information with other organisations and individuals with a legitimate interest in Lottery applications and grants or specific funding programmes and with your local Parliamentary representative. We have a duty to protect public funds and for that reason we may also share information with other Lottery distributors, government departments, organisations providing matched funding or for the prevention and detection of crime.</p><p>\tIf we transfer personal information to any country outside of the European Economic Area, we will ensure that the information is transferred in accordance with this policy and pursuant to the applicable data protection laws.</p><p>\tWe will use any personal information you provide to conduct appropriate identity checks. Personal information may be disclosed to credit reference or fraud prevention agencies which may:</p><ul><li><strong>cross reference personal information with other databases (public or otherwise)</strong></li><li><strong>retain a record of the search</strong></li><li><strong>use your details in the future to assist other companies with verification.</strong></li></ul><p>If you provide false or inaccurate information in your application or at any point in the life of any grant and fraud is identified, we will provide details to fraud prevention agencies to prevent fraud and money laundering. If you are a company this will include the names of the company directors at the time of the fraud. You must undertake to inform all directors, Trustees and Committee members of this notice.</p><p>You can obtain further details explaining how the information held by fraud prevention agencies may be used by emailing <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>, by telephoning our advice line on 0345 4 10 20 30, or by writing to:</p><p>Customer Services<br />Big Lottery Fund<br />2 St James’ Gate<br />Newcastle upon Tyne<br />NE1 4BE</p><p>Personal data requests are dealt with under the Data Protection Act 1998. If you want to know whether we hold personal information about you, you should email <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>.</p><p>We may withhold access to your information where we have the right to do so under the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p>"
+			"body": "<p>\tIf you apply for a grant from us we will use your information in line with the Data Protection policy below.</p><p>\tWe may use the information you give us during assessment and during the life of your grant (if awarded) to administer and analyse grants and for research purposes. We may share this information with individuals and organisations we work with when assessing applications, administering the programme, monitoring grants, evaluating funding processes and impact and carrying out research. These may include accountants, external evaluators and other organisations or groups involved in delivering the programme.</p><p>\tWe may also share information with other organisations and individuals with a legitimate interest in Lottery applications and grants or specific funding programmes and with your local Parliamentary representative. We have a duty to protect public funds and for that reason we may also share information with other Lottery distributors, government departments, organisations providing matched funding or for the prevention and detection of crime.</p><p>\tIf we transfer personal information to any country outside of the European Economic Area, we will ensure that the information is transferred in accordance with this policy and pursuant to the applicable data protection laws.</p><p>\tWe will use any personal information you provide to conduct appropriate identity checks. Personal information may be disclosed to credit reference or fraud prevention agencies which may:</p><ul><li><strong>cross reference personal information with other databases (public or otherwise)</strong></li><li><strong>retain a record of the search</strong></li><li><strong>use your details in the future to assist other companies with verification.</strong></li></ul><p>If you provide false or inaccurate information in your application or at any point in the life of any grant and fraud is identified, we will provide details to fraud prevention agencies to prevent fraud and money laundering. If you are a company this will include the names of the company directors at the time of the fraud. You must undertake to inform all directors, Trustees and Committee members of this notice.</p><p>You can obtain further details explaining how the information held by fraud prevention agencies may be used by emailing <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>, by telephoning our advice line on 0345 4 10 20 30, or by writing to:</p><p>Customer Services<br />Big Lottery Fund<br />2 St James' Gate<br />Newcastle upon Tyne<br />NE1 4BE</p><p>Personal data requests are dealt with under the Data Protection Act 1998. If you want to know whether we hold personal information about you, you should email <a href=\"mailto:dataprotection@biglotteryfund.org.uk\">dataprotection@biglotteryfund.org.uk</a>.</p><p>We may withhold access to your information where we have the right to do so under the <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Data Protection Act 1998</a>.</p>"
 		}
 	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
 				"title": "How to get free branded materials",
-				"body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3>How to get branded materials</h3><p>This page lists physical objects like, balloons, large \"cheques\" or plaques that we'll send you for free. <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">We also have logos that you can download for use online or on paper</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p><h3>Are you holding a big event?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Get in touch with our branding team</a> who can help with any bespoke merchandise requests, and would love to talk to you about the possibility of us photographing your event.</p>",
+				"body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3>How to get branded materials</h3><p>This page lists physical objects like, balloons, large \"cheques\" or plaques that we'll send you for free. <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">We also have logos that you can download for use online or on paper</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p>",
 				"languageOptions": {
 					"monolingual": "in English",
 					"bilingual": "in Welsh & English"
@@ -573,6 +940,9 @@
 					}
 				}
 			}
+		},
+		"programmes": {
+			"title": "Funding Programmes"
 		}
 	}
 }

@@ -1,0 +1,39 @@
+{% extends "../layouts/tools.njk" %}
+{% from "./user-helpers.njk" import listErrors with context %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+    {{ listErrors() }}
+
+    <h1>Register</h1>
+
+    <form action="{{ makeUserLink('register') }}" method="post">
+        <div class="form-group">
+            <label for="username">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   id="username"
+                   placeholder="Your email address"
+                   name="username"
+                   required
+                   aria-required="true"
+                   value="{{ getFlash(request, 'formValues', 'username') }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="Your password"
+                   name="password"
+                   required
+                   aria-required="true">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Register" />
+            or <a href="{{ makeUserLink('login') }}">log in</a>
+        </div>
+    </form>
+{% endblock %}

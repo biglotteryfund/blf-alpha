@@ -1,25 +1,33 @@
 'use strict';
-/* global describe, it, beforeEach, afterEach */
+
 const chai = require('chai');
 const config = require('config');
 chai.use(require('chai-http'));
-const should = chai.should();
+chai.should();
 
-const helper = require('../helper');
+const helper = require('./helper');
 
 describe('Express application', () => {
+    let server, agent;
 
-    let server;
+    before(done => {
+        helper.before(serverInstance => {
+            server = serverInstance;
+            done();
+        });
+    });
+
+    after(() => {
+        helper.after(server);
+    });
+
     beforeEach(() => {
-        server = helper.before();
+        agent = chai.request.agent(server);
     });
 
-    afterEach(() => {
-        helper.after();
-    });
-
-    it('responds to /', (done) => {
-        chai.request(server)
+    it('responds to /', done => {
+        chai
+            .request(server)
             .get('/')
             .end((err, res) => {
                 res.should.have.status(200);
@@ -27,8 +35,9 @@ describe('Express application', () => {
             });
     });
 
-    it('serves the new homepage', (done) => {
-        chai.request(server)
+    it('serves the new homepage', done => {
+        chai
+            .request(server)
             .get('/home')
             .end((err, res) => {
                 res.should.have.status(200);
@@ -36,22 +45,49 @@ describe('Express application', () => {
             });
     });
 
-    it('serves the legacy homepage', (done) => {
-        chai.request(server)
+    it('serves the legacy homepage', done => {
+        chai
+            .request(server)
             .get('/legacy')
             .end((err, res) => {
-                // verify the page is coming from a microsoft stack
-                res.should.have.header('X-Powered-By', /^ASP\.NET/);
-                res.should.have.header('X-AspNet-Version');
+                // verify that our proxied page has been correct modified
+                res.should.have.header('X-BLF-Legacy', 'true');
                 res.should.have.status(200);
                 done();
             });
     });
 
-    it('serves static files', (done) => {
+    it('proxies the legacy funding finder', done => {
+        chai
+            .request(server)
+            .get('/funding/funding-finder?area=Wales')
+            .end((err, res) => {
+                // verify that our proxied page has been correct modified
+                res.should.have.header('X-BLF-Legacy', 'true');
+                res.text.should.include('National Lottery Awards for All Wales');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('modifies the proxied legacy funding finder for over 10k', done => {
+        chai
+            .request(server)
+            .get('/funding/funding-finder?area=Scotland&over=10k')
+            .end((err, res) => {
+                // verify that our proxied page has been correct modified
+                res.should.have.header('X-BLF-Legacy', 'true');
+                res.text.should.not.include('National Lottery Awards for All Scotland');
+                res.should.have.status(200);
+                done();
+            });
+    });
+
+    it('serves static files', done => {
         const assets = require('../../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
-        chai.request(server)
+        chai
+            .request(server)
             .get(CSS_PATH)
             .end((err, res) => {
                 res.should.have.status(200);
@@ -60,36 +96,9 @@ describe('Express application', () => {
             });
     });
 
-    it('returns grant data for postcodes', (done) => {
-        let validPostcode = 'B14 7EW';
-        chai.request(server)
-            .get('/lookup')
-            .query({
-                postcode: validPostcode
-            })
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    }).timeout(3000);
-
-    it('redirects to homepage for invalid postcodes', (done) => {
-        let invalidPostcode = 'ABC 123';
-        chai.request(server)
-            .get('/lookup')
-            .query({
-                postcode: invalidPostcode
-            })
-            .redirects(0)
-            .end((err, res) => {
-                res.should.redirectTo('/');
-                res.should.have.status(302);
-                done();
-            });
-    }).timeout(3000);
-
-    it('serves Welsh content', (done) => {
-        chai.request(server)
+    it('serves Welsh content', done => {
+        chai
+            .request(server)
             .get('/welsh/contact')
             .end((err, res) => {
                 res.should.have.header('Content-Language', 'cy');
@@ -98,9 +107,10 @@ describe('Express application', () => {
             });
     });
 
-    it('can set contrast preferences', (done) => {
+    it('can set contrast preferences', done => {
         let redirectUrl = 'http://www.google.com';
-        chai.request(server)
+        chai
+            .request(server)
             .get('/contrast/high')
             .query({
                 url: redirectUrl
@@ -114,13 +124,14 @@ describe('Express application', () => {
             });
     });
 
-    it('404s everything else', (done) => {
-        chai.request(server)
+    it('404s everything else', done => {
+        chai
+            .request(server)
             .get('/foo/bar')
             .end((err, res) => {
+                res.text.should.include('Error 404 | Big Lottery Fund');
                 res.should.have.status(404);
                 done();
             });
     });
-
 });

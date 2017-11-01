@@ -7,7 +7,8 @@
 			"home": "Hafan",
 			"funding": "Ariannu",
 			"about": "Amdanom ni",
-			"search": "Chwilio"
+			"search": "Chwilio",
+			"research": "Ymchwil"
 		},
 		"contact": {
 			"city": "Llundain",
@@ -22,20 +23,119 @@
 			"cookies": "Cwcis",
 			"contact": "Cyswllt",
 			"site-map": "Map o'r wefan",
-			"accessibility": "Hygyrchedd"
+			"accessibility": "Hygyrchedd",
+			"grantFootnote": "Dyfarnwyd y grant a ddangosir o fewn y 12 mis diwethaf"
 		},
 		"accessibility": {
 			"skipToContent": "Ewch i'r cynnwys",
 			"contrast": {
 				"high": "Galluogi'r modd cyferbynnedd uchel",
 				"standard": "Galluogi'r modd cyferbynnedd safonol"
-			}
+			},
+			"previousItem": "Eitem flaenorol",
+			"nextItem": "Eitem nesaf"
 		},
 		"forms": {
 			"missingFieldError": "Darparwch y maes '%s'"
+		},
+		"misc": {
+			"readMore": "Darllen mwy"
 		}
 	},
 	"toplevel": {
+		"home": {
+			"title": "Cronfa Loteri Fawr",
+			"description": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig",
+			"home": "Hafan",
+			"intro": {
+				"long": "Mae'r Gronfa Loteri Fawr yn dosbarthu <a href=\"/welsh/data\">dros £600m</a> y flwyddyn, a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig",
+				"short": "Mae'r Gronfa Loteri Fawr yn dosbarthu arian a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>."
+			},
+			"callsToAction": {
+				"under10k": {
+					"short": "Cael gwybod sut i ymgeisio am grant o dan £10,000",
+					"long": "Cael gwybod sut i ymgeisio am grant o dan £10,000"
+				},
+				"over10k": {
+					"short": "Cael gwybod sut i ymgeisio am grant dros £10,000",
+					"long": "Cael gwybod sut i ymgeisio am grant dros £10,000"
+				}
+			},
+			"caseStudies": [
+				{
+					"quoteText": "Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu heisiau o ran addysg.",
+					"quoteName": "Jonathan Ssentamu",
+					"quoteNameCaption": "Gweithiwr Datblygu Pobl Ifainc",
+					"projectName": "Passion4Fusion",
+					"imageUrl": "images/home/case-study-4-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"link": "funding/big-stories/passion4fusion"
+				},
+				{
+					"quoteText": "Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau sy'n bwysig iddynt yn yr un modd yn union â phawb arall.",
+					"quoteName": "Andrea Glenn",
+					"quoteNameCaption": null,
+					"projectName": "Lleisiau Pobl Ifainc mewn Gofal",
+					"imageUrl": "images/home/case-study-1-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-1-small.jpg",
+					"link": "funding/big-stories/voice-of-young-people-in-care"
+				},
+				{
+					"quoteText": "Rydym yn cwrdd â phobl pan fyddant mewn sefyllfa wael ac unig, ac yn ceisio dod â nhw ynghyd.",
+					"quoteName": "Candy Worf",
+					"quoteNameCaption": null,
+					"projectName": "Y Sefydliad Iechyd Meddwl",
+					"imageUrl": "images/home/case-study-2-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-2-small.jpg",
+					"link": "funding/big-stories/mental-health-foundation"
+				},
+				{
+					"quoteText": "Mae fy nghymhelliad i wneud gwaith gyda phobl ifainc yn dod o wybod yr effaith y mae Bytes wedi'i chael ac yn parhau i gael arnaf.",
+					"quoteName": "Anthony Turkington",
+					"quoteNameCaption": "Buddiolwr",
+					"projectName": "Bytes",
+					"imageUrl": "images/home/case-study-3-medium.jpg",
+					"imageSmallUrl": "images/home/case-study-3-small.jpg",
+					"link": "funding/big-stories/bytes"
+				}
+			],
+			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd",
+			"latestNews": "Newyddion diweddaraf",
+			"ebulletin": {
+				"title": "Mwy o wybodaeth am ein grantiau",
+				"intro": "Cofrestrwch am y newyddion diweddaraf yn eich gwlad",
+				"location": "Lleoliad",
+				"locations": {
+					"england": "Lloegr",
+					"wales": "Cymru",
+					"scotland": "Yr Alban",
+					"northernIreland": "Gogledd Iwerddon"
+				},
+				"fields": {
+					"firstName": "Enw cyntaf",
+					"lastName": "Cyfenw",
+					"organisation": "Mudiad",
+					"emailAddress": "Cyfeiriad e-bost"
+				},
+				"callToAction": "Tanysgrifio",
+				"responses": {
+					"success": {
+						"title": "Diolch am danysgrifio i dderbyn diweddariadau a newyddion y Gronfa Loteri Fawr",
+						"body": "Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym, <a href=\"http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx\">ond gallwch dad-danysgrifio unrhyw bryd os mynnwch</a>."
+					},
+					"error": {
+						"title": "Cafwyd gwall wrth gofrestru chi i'r e-fwletin.",
+						"body": "Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin. Rhowch gynnig arall arni'n nes ymlaen."
+					}
+				}
+			},
+			"social": {
+				"followUsOn": "Dilynwch ni ar",
+				"instagram": "Instagram",
+				"facebook": "Facebook",
+				"twitter": "Twitter"
+			}
+		},
 		"contact": {
 			"title": "Cysylltu â ni",
 			"methods": {
@@ -85,11 +185,11 @@
 					"title": "Sut ydw i'n cysylltu â chi am unrhyw beth arall?"
 				},
 				"complaints": {
-					"title": "Sut ydw i’n gwneud cwyn?",
+					"title": "Sut ydw i'n gwneud cwyn?",
 					"body": "<p>\tYn y Gronfa Loteri Fawr rydym yn ceisio rhoi'r gwasanaeth gorau posib. Er hynny, cydnabyddwn nad yw hyn yn wir bob tro ac y byddwch efallai eisiau gwneud cwyn.  </p><p>\tNi fydd gwneud cwyn yn effeithio ar eich cyfle o dderbyn grant gennym ni yn y dyfodol.<br /> </p><p>\t<a href=\"/assets/files/welsh/complaints-procedure.pdf\">Gweld ein gweithdrefn gwynion yma</a>. </p><p>\tMae gennym ddiddordeb mewn unrhyw sylwadau y dymunwch eu gwneud, felly peidiwch â phoeni p'un a yw eich pryderon yn cyfateb i'r disgrifiad o gŵyn ai beidio.  </p><p>\tRydym yn croesawu ceisiadau hefyd gan aelodau'r cyhoedd sydd â phryderon am gais rydym wedi'i dderbyn neu brosiect rydym wedi'i ariannu.  </p><p>\tGallwch rannu eich pryderon neu gwynion gyda ni ar lafar neu'n ysgrifenedig, a dyma ein manylion cyswllt:<br /> </p><p>\t<span>Ffôn</span>: 0191 376 1704<br /> </p><p>\t<span>Email</span>: <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>   </p><p>\t<span>Cyfeiriad</span>: <br />Gwasanaeth Cwsmeriaid<br />Cronfa Loteri Fawr <br />2 St James' Gate <br />Newcastle <br />NE1 4BE</p>"
 				},
 				"fraud": {
-					"title": "Sut ydw i’n hysbysu chi am dwyll?",
+					"title": "Sut ydw i'n hysbysu chi am dwyll?",
 					"body": "<p>\tMae'r Gronfa Loteri Fawr yn ymroddedig i atal a chanfod twyll.  </p><p>\tOs ydych yn amau bod rhywun yn dwyn gan neu'n twyllo'r Gronfa Loteri Fawr , helpwch ni i wneud rhywbeth amdano trwy gysylltu â ni. </p><p>\t<span>Ffôn</span>: 0800 496 9991<br /> </p><p>\t<span>Cyfeiriad</span>:<br />Pennaeth Archwilio Mewnol<br />Cronfa Loteri Fawr<br />3 Embassy Drive <br />Edgbaston <br />Birmingham B15 1TR</p>"
 				}
 			},
@@ -211,11 +311,251 @@
 			"sections": {
 				"whyWork": {
 					"title": "Pam gweithio i'r Gronfa Loteri Fawr?",
-					"body": "<blockquote>\t&quot;Mae gweithio yn y Gronfa Loteri Fawr yn fy ngalluogi i chwarae rôl fach mewn newid bywydau pobl mewn cymunedau ar draws y Deyrnas Unedig. Mae'n hynod wobrwyol i ymgymryd â'r her i roi'r grantiau iawn i'r bobl iawn. Mae unigolion dawnus, uchel eu cymhelliad ac ysbrydoledig o'm cwmpas yma sydd i gyd yn gweithio tuag at yr un nod.&quot; <footer><cite>Steve Keene, Rheolwr Cynnyrch, Tîm Digidol</cite></footer> </blockquote><blockquote>\t&quot;Y peth gorau am weithio yn y Gronfa yw bod yn rhan o fudiad sy'n cael cymaint o effaith ar gymunedau ar draws y Deyrnas Unedig a gweld y gwahaniaeth y mae'r arian yn ei wneud i'r cymunedau hyn. Mae gan y staff yma gymaint o fuddsoddiad yn yr hyn y maent yn ei wneud ac rwy'n dwlu ar y ffaith bod gan fy waith ystyr a'i fod yn rhoi ymdeimlad o foddhad i mi bob dydd.&quot;<footer><cite>Kalema White, Cynorthwy-ydd Gweithredol</cite></footer></blockquote></p>"
+					"body": "<blockquote>\"Rydym yn gallu dweud nad ydym o fewn y Gronfa â diddordeb yn unig yn yr arian a roddwn i chi, mae gennym ni ddiddordeb ynddoch chi fel sefydliad a'r hyn yr ydych yn ei wneud, sut orau y gallwn eich cefnogi chi a'r buddiolwyr yr ydych yn ceisio gweithio gyda hwy mewn ffordd strategol ac effeithiol. Rwy'n meddwl mai dyna ran orau'r swydd, y gallu i gael y sgyrsiau hynny a meddwl y tu allan i'r bocs.\" <footer><cite>Lilian Nsemwa, Rheolwr Ariannu</cite></footer> </blockquote><blockquote>\"Mae'n lle gwych i weithio. Mae'n gyffrous. Mae yna awyrgylch ardderchog. Ond hefyd mae'r ffaith fod y gwaith yr ydych yn gallu ei wneud yn eich ardal eich hunan yn ysbrydoli ac mae'n gyfle i wneud gwahaniaeth.\" <footer><cite>David Jessup, Rheolwr Ariannu</cite></footer></blockquote></p>"
+				},
+				"currentVacancies": {
+					"title": "Swyddi gwag cyfredol",
+					"groups": [
+						{
+							"name": "Llundain",
+							"vacancies": [
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMwMCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ4OCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								},
+								{
+									"label": "Swyddog Gweithredol",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "n/a"
+								}
+							]
+						},
+						{
+							"name": "De-ddwyrain Lloegr",
+							"vacancies": [
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ5MiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Norfolk / Suffolk"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUxMiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Essex"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUyMiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Caint, Gorllewin a Dwyrain Sussex"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMxOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Solent, Hampshire, Ynys Wyth a Surrey"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTUzNCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Solent, Hampshire, Ynys Wyth a Surrey"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU0NSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Swydd Bedford, Swydd Gaergrawnt a Swydd Hertford"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU1NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Berkshire, Swydd Buckingham a Swydd Rhydychen"
+								}
+							]
+						},
+						{
+							"name": "De-orllewin Lloegr",
+							"vacancies": [
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU1OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Dyfnaint, gan gynnwys Plymouth a Torbay, a Dorset, gan gynnwys Bournemouth a Poole"
+								},
+								{
+									"label": "Swyddog Gweithredol",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY0MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Dyfnaint, gan gynnwys Plymouth a Torbay, a Dorset, gan gynnwys Bournemouth a Poole"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMyNiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cernyw"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU3MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cernyw"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTMzMyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Wiltshire, Gorllewin Lloegr (gan gynnwys Bryste), Swydd Gaerloyw a Gwlad yr Haf"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU3NSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Wiltshire, Gorllewin Lloegr (gan gynnwys Bryste), Swydd Gaerloyw a Gwlad yr Haf"
+								}
+							]
+						},
+						{
+							"name": "Gogledd-orllewin Lloegr",
+							"vacancies": [
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM0NCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Manceinion Fwyaf"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU4MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Manceinion Fwyaf"
+								},
+								{
+									"label": "Swyddog Gweithredol",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Manceinion Fwyaf"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Glannau Mersi a Swydd Gaer"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU4MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Glannau Mersi a Swydd Gaer"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM1OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Swydd Gaerhirfryn"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU5MiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Swydd Gaerhirfryn"
+								}
+							]
+						},
+						{
+							"name": "Gogledd-ddwyrain Lloegr",
+							"vacancies": [
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTU5MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Cumbria - Gwlad y Llynnoedd"
+								}
+							]
+						},
+						{
+							"name": "Swydd Efrog a Hymbr",
+							"vacancies": [
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY1MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Gorllewin Swydd Efrog / Gogledd Swydd Efrog"
+								},
+								{
+									"label": "Swyddog Gweithredol",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ3MyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Gorllewin Swydd Efrog / Gogledd Swydd Efrog"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY3OSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "De Swydd Efrog"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQyOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Humber"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTY5MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Humber"
+								}
+							]
+						},
+						{
+							"name": "Canolbarth Lloegr",
+							"vacancies": [
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTcxMSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Birmingham, Coventry, Swydd Warwick, Solihull a'r Ardal Ddu"
+								},
+								{
+									"label": "Swyddog Gweithredol",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ3NyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Birmingham, Coventry, Swydd Warwick, Solihull a'r Ardal Ddu"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTcxOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Telford, Swydd Amwythig. Swydd Gaerwrangon a Swydd Henffordd"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTczNSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Stoke a Swydd Stafford"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ0MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Nottinghamshire a Swydd Derby"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTc0MSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Nottinghamshire a Swydd Derby"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTc4NyZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Swydd Gaerlŷr a Swydd Northampton"
+								},
+								{
+									"label": "Rheolwr Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ1MCZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lincolnshire a Peterborough"
+								},
+								{
+									"label": "Swyddog Ariannu",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTgzOSZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MyZ2dF90ZW1wbGF0ZT0xNDA2",
+									"subRegion": "Lincolnshire a Peterborough"
+								}
+							]
+						},
+						{
+							"name": "Aelodau'r Pwyllgor",
+							"vacancies": [
+								{
+									"label": "Aelodau Pwyllgor Lloegr",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MDI1OSZ2dF90ZW1wbGF0ZT0xNDgxJm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA==",
+									"subRegion": "n/a"
+								}
+							]
+						}
+					]
 				},
 				"benefits": {
 					"title": "Pa fuddion sydd ar gael?",
-					"body": "<p>\tCydnabyddwn fod cadw ein pobl yn hapus ac yn iach yn ein galluogi i fod yn fudiad mwy effeithiol ac yn gwneud y Gronfa Loteri Fawr yn lle gwell i weithio. Mae’r buddion yn cynnwys:</p>",
+					"body": "<p>\tCydnabyddwn fod cadw ein pobl yn hapus ac yn iach yn ein galluogi i fod yn fudiad mwy effeithiol ac yn gwneud y Gronfa Loteri Fawr yn lle gwell i weithio. Mae'r buddion yn cynnwys:</p>",
 					"list": [
 						"Cynllun pensiwn Gwasanaeth Sifil hael",
 						"Gweithio hyblyg",
@@ -332,11 +672,89 @@
 				}
 			]
 		},
-		"under10k": "under10k",
-		"over10k": "over10k",
+		"under10k": {
+			"title": "Arian i Bawb y Loteri Genedlaethol - Sut i gael grant o hyd at £10,000",
+			"intro": "Gall grant gan y Loteri Genedlaethol helpu gwneud gwahaniaeth yn eich cymuned. Mae Arian i Bawb y Loteri Genedlaethol yn cynnig grantiau rhwng £300 a £10,000 i gefnogi'r hyn sy'n bwysig i bobl a chymunedau. Byddwn yn ariannu mudiadau gyda syniadau gwych am brosiect a fydd yn:",
+			"ideas": [
+				"Siapio'r lleoedd a lleoliadau sy'n bwysig i gymunedau",
+				"Dod â mwy o bobl ynghyd ac adeiladu cysylltiadau cryf o fewn ac ar draws cymunedau",
+				"Galluogi mwy o bobl i gyflawni eu potensial trwy weithio i ddelio â phroblemau yn y cam cynharaf posib."
+			],
+			"callToAction": "Eisiau gwybod mwy? Dechreuwch drwy ddweud wrthym ble fydd eich prosiect wedi'i leoli",
+			"locations": {
+				"england": "Lloegr",
+				"scotland": "Yr Alban",
+				"wales": "Cymru",
+				"northernIreland": "Gogledd Iwerddon"
+			},
+			"ukWideInfo": "O bryd i'w gilydd mae'r Gronfa'n gwneud grantiau o dan £10,000 i brosiectau sydd o fudd i bobl ym mhob cwr o'r Deyrnas Unedig. <a href=\"https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio\">Mwy o wybodaeth am ein grantiau Deyrnas Unedig gyfan</a>. Rydym yn gwneud grantiau <a href=\"/welsh/over10k\">dros £10,000</a> ar gyfer prosiectau tymor hirach hefyd. ",
+			"projectExamples": "Enghreifftiau o brosiectau sydd wedi eu hariannu",
+			"projects": [
+				{
+					"name": "Papyrus",
+					"amount": "",
+					"link": "",
+					"image": "images/under10k/hbf.jpg",
+					"description": "Yn atal hunanladdiad pobl ifainc ar draws y Deyrnas Unedig, mae Papyrus yn cynnig cymorth, cyngor a chefnogaeth i bobl ifainc sydd â meddyliau hunanddinistriol, eu cyfeillion a'u teuluoedd. "
+				},
+				{
+					"name": "Ragroof Players",
+					"amount": "",
+					"link": "",
+					"image": "images/under10k/ragroof.jpg",
+					"description": "Mae'r Ragroof Players yn creu sioeau theatr, prosiectau perfformiad, dawnsiau te a digwyddiadau wedi eu teilwra sy'n dathlu dawns gymdeithasol a theatr boblogaidd."
+				},
+				{
+					"name": "Cyngor Ffoaduriaid Cymru",
+					"amount": "",
+					"link": "",
+					"image": "images/under10k/wrc.jpg",
+					"description": "Mae Cyngor Ffoaduriaid Cymru'n cefnogi'r rhai sy'n ffoi rhag erledigaeth, gwrthdaro a gormes."
+				}
+			],
+			"browseFundedProjects": "Pori'r holl brosiectau a ariannwyd"
+		},
+		"over10k": {
+			"title": "Darganfod ein rhaglenni grant am symiau dros £10,000",
+			"intro": "Mae grantiau mawr yn cael eu gwneud trwy amrywiaeth o raglenni sy'n cynnwys pob cenedl yn y Deyrnas Unedig. Mae'r math hwn o grant hyblyg a thymor hirach wedi'i anelu at fudiadau y mae eu huchelgeisiau'n cael eu siapio gan y bobl y maent yn eu gwasanaethu. ",
+			"callToAction": "Eisiau gwybod mwy? Dechreuwch drwy ddweud wrthym ble fydd eich prosiect wedi'i leoli",
+			"locations": {
+				"england": "Lloegr",
+				"scotland": "Yr Alban",
+				"wales": "Cymru",
+				"northernIreland": "Gogledd Iwerddon",
+				"ukWide": "Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig"
+			},
+			"projectExamples": "Enghreifftiau o brosiectau sydd wedi eu hariannu",
+			"projects": [
+				{
+					"name": "Croxteth Gems",
+					"amount": "",
+					"link": "",
+					"image": "images/over10k/croxteth.jpg",
+					"description": "Fel grŵp wrth wraidd ei gymuned, mae Cymdeithas Gymunedol Croxteth Gems wedi cefnogi pobl ifainc a theuluoedd ers bron 50 mlynedd. "
+				},
+				{
+					"name": "Dads in Mind",
+					"amount": "",
+					"link": "",
+					"image": "images/over10k/dads.jpg",
+					"description": "Mae Dads in Mind yn cefnogi tadau sy'n profi problemau iechyd meddwl gysylltiedig yn uniongyrchol â beichiogrwydd a bod yn dad ac yn cynnig cefnogaeth i'r rhai y mae eu partneriaid wedi'u heffeithio hefyd. "
+				},
+				{
+					"name": "Cruse Bereavement Care",
+					"amount": "",
+					"link": "",
+					"image": "images/over10k/cruse.jpg",
+					"description": "Mae Gofal mewn Galar Cruse yn cynnig cefnogaeth, cyngor a gwybodaeth i blant, pobl ifainc ac oedolion pan fydd rhywun yn marw. "
+				}
+			],
+			"browseAll": "Pori'r holl brosiectau a ariannwyd"
+		},
 		"eyp": {
 			"title": "Empowering Young People"
-		}
+		},
+		"about": "about"
 	},
 	"about": {
 		"foi": {
@@ -359,14 +777,14 @@
 		},
 		"dataProtection": {
 			"title": "Diogelu Data",
-			"body": "<p>\tOs byddwch yn ymgeisio am grant gennym ni, byddwn yn dweud wrthych fel rhan o'r broses ymgeisio sut y byddwn yn defnyddio eich gwybodaeth, ond gallwch weld ein polisi Diogelu Data isod.  </p><p>\tByddwn yn defnyddio'r wybodaeth a roddwch i ni yn ystod ein hasesiad ac am gyfnod llawn unrhyw grant (os caiff ei ddyfarnu) i weinyddu a dadansoddi grantiau ac ar gyfer ein hymchwil ein hunain. Mae’n bosib y byddwn yn rhoi copïau o ran neu’r cyfan o’r wybodaeth hon i unigolion a mudiadau rydym yn ymgynghori â nhw wrth asesu ceisiadau, gweinyddu'r rhaglen, monitro grantiau a gwerthuso prosesau ac effeithiau ariannu. Gall y mudiadau hyn gnnwys cyfrifwyr, gwerthuswyr allanol a mudiadau neu grwpiau eraill sy’n ymwneud â chyflwyno’r rhaglen.  </p><p>\tMae'n bosib y byddwn yn rhannu gwybodaeth gyda mudiadau ac unigolion sydd â diddordeb dilys mewn ceisiadau a grantiau'r Loteri neu raglenni ariannu penodol. Mae'n ddyletswydd arnom i ddiogelu arian cyhoeddus a chan hynny, mae'n bosib y byddwn hefyd yn rhannu gwybodaeth gyda dosbarthwyr eraill y Loteri, mudiadau sy'n darparu arian cyfatebol neu at ddibenion atal a chanfod trosedd.  </p><p>\tMae'n bosib y bydd eich gwybodaeth yn cael ei throsglwyddo i ddarparwr gwasanaethau TG a leolir y tu allan i Ardal Economaidd Ewrop (AEE). Os caiff eich gwybodaeth ei throsglwyddo y tu allan i AEE, byddwn yn sicrhau ei bod yn cael ei diogelu'n briodol.  </p><p>\tMae’n bosib y byddwn yn defnyddio gwybodaeth bersonol a ddarperir gennych er mwyn cyflawni gwiriadau adnabyddiaeth priodol. Gall gwybodaeth bersonol rydych yn ei darparu gael ei datgelu i asiantaeth cyfeirnod credyd neu atal twyll a fydd, o bosib, yn cadw cofnod o’r wybodaeth honno.  </p><p>\tOs byddwch yn darparu gwybodaeth ffug neu anghywir yn eich cais neu unrhyw bryd yn ystod cyfnod unrhyw ariannu a ddyfarnwn i chi ac mae twyll yn cael ei ddatgelu, byddwn yn darparu manylion i asiantaethau atal twyll, er mwyn atal twyll a gwyngalchu arian. Os ydych yn gwmni bydd hyn yn cynnwys enwau Cyfarwyddwyr y Cwmni ar adeg y twyll. Mae'n rhaid i chi ymrwymo i hysbysu'r holl Gyfarwyddwyr, Ymddiriedolwyr ac aelodau Pwyllgor am y rhybudd hwn.  </p><p>\tGallwch gael manylion pellach yn esbonio sut y gellir defnyddio'r wybodaeth a ddelir gan asiantaethau atal twyll gan ein hadran Gwasanaethau i Gwsmeriaid trwy anfon e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, ffonio ein llinell gymorth ar 0300 123 0735, neu ysgrifennu at: <br /><br />Gwasanaeth Cwsmeriaid <br />Cronfa Loteri Fawr <br />10fed Llawr <br />Tŷ Helmont <br />Ffordd Churchill <br />Caerdydd <br />CF10 2DY  </p><p>\tMae’n bosib y byddwn yn defnyddio’r data rydych yn ei ddarparu at ddibenion ymchwil. Cydnabyddwn yr angen am gynnal cyfrinachedd grwpiau bregus ac ni chaiff eu manylion eu cyhoeddi mewn unrhyw ffordd oni bai bod y gyfraith yn mynnu bod hyn yn cael ei wneud.  </p><p>\tYmdrinnir â cheisiadau am ddata personol o dan Ddeddf Diogelu Data 1998. Os ydych am wybod p'un a ydym yn cadw unrhyw wybodaeth bersonol amdanoch ai beidio, dylech ysgrifennu at <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a> </p><p>\tCyfeiriwch at y Ddeddf Diogelu Data yn eich cais. Mae'n ofynnol i chi ddarparu prawf adnabod: </p><ul>\t<li><strong>llungopi o dudalennau adnabod eich pasbort cyfredol</strong></li><li><strong>trwydded yrru â llun gyfredol </strong></li><li><strong>bil cyfleustodau gwreiddiol a chyfredol (er enghraifft, trydan), cyfriflen cerdyn credyd neu fanc sy'n cynnwys eich enw a'ch cyfeiriad</strong></li></ul><p>\tOs oes angen y dogfennau hyn yn ôl arnoch, byddwn yn eu dychwelyd atoch. Byddai'n ddefnyddiol petaech yn gallu adnabod pa ran o'r Gronfa Loteri Fawr (pa adran, cyfarwyddiaeth neu swyddfa) y credwch sy'n cadw eich data er mwyn hwyluso'r chwilio. <br /><br />Gallwn atal mynediad i'ch gwybodaeth pan fo gennym yr hawl i wneud hynny o dan <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Ddeddf Diogelu Data 1998</a>.</p>"
+			"body": "<p>\tOs byddwch yn ymgeisio am grant gennym ni, byddwn yn dweud wrthych fel rhan o'r broses ymgeisio sut y byddwn yn defnyddio eich gwybodaeth, ond gallwch weld ein polisi Diogelu Data isod.  </p><p>\tByddwn yn defnyddio'r wybodaeth a roddwch i ni yn ystod ein hasesiad ac am gyfnod llawn unrhyw grant (os caiff ei ddyfarnu) i weinyddu a dadansoddi grantiau ac ar gyfer ein hymchwil ein hunain. Mae'n bosib y byddwn yn rhoi copïau o ran neu'r cyfan o'r wybodaeth hon i unigolion a mudiadau rydym yn ymgynghori â nhw wrth asesu ceisiadau, gweinyddu'r rhaglen, monitro grantiau a gwerthuso prosesau ac effeithiau ariannu. Gall y mudiadau hyn gnnwys cyfrifwyr, gwerthuswyr allanol a mudiadau neu grwpiau eraill sy'n ymwneud â chyflwyno'r rhaglen.  </p><p>\tMae'n bosib y byddwn yn rhannu gwybodaeth gyda mudiadau ac unigolion sydd â diddordeb dilys mewn ceisiadau a grantiau'r Loteri neu raglenni ariannu penodol. Mae'n ddyletswydd arnom i ddiogelu arian cyhoeddus a chan hynny, mae'n bosib y byddwn hefyd yn rhannu gwybodaeth gyda dosbarthwyr eraill y Loteri, mudiadau sy'n darparu arian cyfatebol neu at ddibenion atal a chanfod trosedd.  </p><p>\tMae'n bosib y bydd eich gwybodaeth yn cael ei throsglwyddo i ddarparwr gwasanaethau TG a leolir y tu allan i Ardal Economaidd Ewrop (AEE). Os caiff eich gwybodaeth ei throsglwyddo y tu allan i AEE, byddwn yn sicrhau ei bod yn cael ei diogelu'n briodol.  </p><p>\tMae'n bosib y byddwn yn defnyddio gwybodaeth bersonol a ddarperir gennych er mwyn cyflawni gwiriadau adnabyddiaeth priodol. Gall gwybodaeth bersonol rydych yn ei darparu gael ei datgelu i asiantaeth cyfeirnod credyd neu atal twyll a fydd, o bosib, yn cadw cofnod o'r wybodaeth honno.  </p><p>\tOs byddwch yn darparu gwybodaeth ffug neu anghywir yn eich cais neu unrhyw bryd yn ystod cyfnod unrhyw ariannu a ddyfarnwn i chi ac mae twyll yn cael ei ddatgelu, byddwn yn darparu manylion i asiantaethau atal twyll, er mwyn atal twyll a gwyngalchu arian. Os ydych yn gwmni bydd hyn yn cynnwys enwau Cyfarwyddwyr y Cwmni ar adeg y twyll. Mae'n rhaid i chi ymrwymo i hysbysu'r holl Gyfarwyddwyr, Ymddiriedolwyr ac aelodau Pwyllgor am y rhybudd hwn.  </p><p>\tGallwch gael manylion pellach yn esbonio sut y gellir defnyddio'r wybodaeth a ddelir gan asiantaethau atal twyll gan ein hadran Gwasanaethau i Gwsmeriaid trwy anfon e-bost i <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a>, ffonio ein llinell gymorth ar 0300 123 0735, neu ysgrifennu at: <br /><br />Gwasanaeth Cwsmeriaid <br />Cronfa Loteri Fawr <br />10fed Llawr <br />Tŷ Helmont <br />Ffordd Churchill <br />Caerdydd <br />CF10 2DY  </p><p>\tMae'n bosib y byddwn yn defnyddio'r data rydych yn ei ddarparu at ddibenion ymchwil. Cydnabyddwn yr angen am gynnal cyfrinachedd grwpiau bregus ac ni chaiff eu manylion eu cyhoeddi mewn unrhyw ffordd oni bai bod y gyfraith yn mynnu bod hyn yn cael ei wneud.  </p><p>\tYmdrinnir â cheisiadau am ddata personol o dan Ddeddf Diogelu Data 1998. Os ydych am wybod p'un a ydym yn cadw unrhyw wybodaeth bersonol amdanoch ai beidio, dylech ysgrifennu at <a href=\"mailto:ymholiadau.cymru@cronfaloterifawr.org.uk\">ymholiadau.cymru@cronfaloterifawr.org.uk</a> </p><p>\tCyfeiriwch at y Ddeddf Diogelu Data yn eich cais. Mae'n ofynnol i chi ddarparu prawf adnabod: </p><ul>\t<li><strong>llungopi o dudalennau adnabod eich pasbort cyfredol</strong></li><li><strong>trwydded yrru â llun gyfredol </strong></li><li><strong>bil cyfleustodau gwreiddiol a chyfredol (er enghraifft, trydan), cyfriflen cerdyn credyd neu fanc sy'n cynnwys eich enw a'ch cyfeiriad</strong></li></ul><p>\tOs oes angen y dogfennau hyn yn ôl arnoch, byddwn yn eu dychwelyd atoch. Byddai'n ddefnyddiol petaech yn gallu adnabod pa ran o'r Gronfa Loteri Fawr (pa adran, cyfarwyddiaeth neu swyddfa) y credwch sy'n cadw eich data er mwyn hwyluso'r chwilio. <br /><br />Gallwn atal mynediad i'ch gwybodaeth pan fo gennym yr hawl i wneud hynny o dan <a href=\"http://www.legislation.gov.uk/ukpga/1998/29/contents\">Ddeddf Diogelu Data 1998</a>.</p>"
 		}
 	},
 	"funding": {
 		"guidance": {
 			"order-free-materials": {
 				"title": "Sut i gael deunyddiau â'n brand arnynt am ddim",
-				"body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3>Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p><h3>Ydych chi'n cynnal digwyddiad mawr?</h3><p><a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> a all helpu gyda cheisiadau am unrhyw ddeunyddiau arbennig, byddent hefyd yn awyddus i siarad â chi am y posibilrwydd o dynnu lluniau o'ch digwyddiad.</p>",
+				"body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3>Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p>",
 				"languageOptions": {
 					"monolingual": "yn Saesneg",
 					"bilingual": "yn Gymraeg a Saesneg"
@@ -426,7 +844,7 @@
 					"bilingual": "Logos dwyieithog Cymraeg/Saesneg"
 				},
 				"howToUseLogo": {
-					"title": " Sut i ddefnyddio ein logo",
+					"title": "Sut i ddefnyddio ein logo",
 					"sections": {
 						"freeKit": {
 							"title": "Offer wedi'i frandio am ddim",
@@ -449,15 +867,15 @@
 				"successMessages": {
 					"success": "Llwyddiant!",
 					"digital": {
-						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol i’w ddefnyddio ar wefannau.",
+						"title": "Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol i'w ddefnyddio ar wefannau.",
 						"body": "Os oes angen logo mwy arnoch, caewch y blwch hwn a dewiswch y fersiynau Argraffu neu Vector."
 					},
 					"print": {
-						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol i’w argraffu.",
-						"body": "Os oes angen logo llai arnoch i’w ddefnyddio ar-lein, caewch y blwch hwn a dewiswch y fersiwn Digidol neu, os oes angen fersiwn hyd yn oed yn fwy arnoch i’w roi i ddylunydd proffesiynol, dewiswch y fersiwn Vector."
+						"title": "Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol i'w argraffu.",
+						"body": "Os oes angen logo llai arnoch i'w ddefnyddio ar-lein, caewch y blwch hwn a dewiswch y fersiwn Digidol neu, os oes angen fersiwn hyd yn oed yn fwy arnoch i'w roi i ddylunydd proffesiynol, dewiswch y fersiwn Vector."
 					},
 					"vector": {
-						"title": "Mae’r logo rydych wedi’i lawrlwytho’n ddelfrydol os ydych yn gweithio gyda dylunydd proffesiynol neu’n gweithio gyda phrint fformat mwy.",
+						"title": "Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol os ydych yn gweithio gyda dylunydd proffesiynol neu'n gweithio gyda phrint fformat mwy.",
 						"body": "Os oes angen logo llai arnoch, caewch y blwch hwn a dewiswch y fersiynau Argraffu neu Ddigidol."
 					}
 				}
@@ -478,7 +896,7 @@
 				"title": "Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol!",
 				"body": {
 					"header1": "Rydych yn awr yn rhan o deulu o fudiadau anhygoel sy'n gwneud cymunedau ledled y Deyrnas Unedig yn lleoedd gwell i fyw.",
-					"block1": "<p>Gofynnwn i chi gydnabod eich dyfarniad ariannu’n gyhoeddus. Er yr hoffem eich gweld yn defnyddio amrywiaeth o ddulliau o wneud hyn, dyma rai y dylech eu hystyried:</p>",
+					"block1": "<p>Gofynnwn i chi gydnabod eich dyfarniad ariannu'n gyhoeddus. Er yr hoffem eich gweld yn defnyddio amrywiaeth o ddulliau o wneud hyn, dyma rai y dylech eu hystyried:</p>",
 					"actions": {
 						"social": "Dywedwch wrth bawb am eich grant ar gyfryngau cymdeithasol",
 						"press": "Cysylltwch â'ch gwasg leol",

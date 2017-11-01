@@ -1,3 +1,7 @@
+/* =========================================================================
+   Layout Helpers
+   ========================================================================= */
+
 $nudgeAmount: 25px;
 
 .inner {
@@ -10,39 +14,29 @@ $nudgeAmount: 25px;
     }
 }
 
-.is-on-top {
-    z-index: 100;
+.u-gutter {
+    margin-left: $spacingUnit;
+    margin-right: $spacingUnit;
+}
+.u-gutter-half {
+    margin-left: $spacingUnit / 2;
+    margin-right: $spacingUnit / 2;
 }
 
 // @TODO better name
 .central-gap {
-    $gap: 20%;
-    @include mq('tablet', 'max') {
-        margin-left: $gap / 2;
-        margin-right: $gap / 2;
+    @include mq('tablet') {
+        margin-left: 20%;
+        margin-right: 20%;
     }
-    margin-left: $gap;
-    margin-right: $gap;
 }
 
 .width-natural {
     max-width: auto;
 }
 
-.gutter-mob-only {
-    @include mq('tablet', 'max') {
-        margin-left: $spacingUnit;
-        margin-right: $spacingUnit;
-    }
-}
-
 .align--center {
     text-align: center;
-}
-
-// @TODO put this somewhere better
-main {
-    transition: all 0.3s ease-in-out;
 }
 
 @mixin nudged-up {
@@ -63,27 +57,16 @@ main {
     }
 }
 
-.nudge-up--always {
-    @include nudged-up();
+.padded {
+    padding: $spacingUnit;
 }
 
-.nudge-bottom {
-    position: absolute;
-    bottom: $spacingUnit;
-    @include responsiveGutter(true);
+.padded--wide-only {
+    padding: ($spacingUnit / 2) 0;
 
     @include mq('tablet') {
-        @include nudged-down();
+        padding: $spacingUnit;
     }
-}
-
-.nudge-bottom--always {
-    @include responsiveGutter(true);
-    @include nudged-down();
-}
-
-.padded {
-    padding: 20px;
 }
 
 // @TODO come up with better names for these classes
@@ -123,15 +106,4 @@ main {
 
 .no-space {
     margin-bottom: 0 !important;
-}
-
-.mob--no-space {
-    @include mq('tablet', 'max') {
-        margin-bottom: 0 !important;
-    }
-}
-
-.gutter-mob-only {
-    margin-left: 20px;
-    margin-right: 20px;
 }

@@ -11,12 +11,12 @@ then
 fi
 
 # run environment var script to add them to the current shell
-source /var/www/biglotteryfund/bin/scripts/get_secrets.sh
+/var/www/biglotteryfund/bin/scripts/get-secrets
 
 # specify NODE_ENV based on deploy group ID
 nginx_config=/var/www/biglotteryfund/config/app/server.conf
 APP_ENV_PLACEHOLDER="APP_ENV"
-APP_ENV="dev"
+APP_ENV="development"
 
 if [ "$APPLICATION_NAME" == "BLF_Test" ]
 then

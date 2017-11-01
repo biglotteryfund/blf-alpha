@@ -1,5 +1,4 @@
 # App todo
-
 These are chores, refactoring tasks or simply reminders of code that needs to be written.
 
 ## Surveys (this branch)
@@ -9,30 +8,16 @@ These are chores, refactoring tasks or simply reminders of code that needs to be
 - [ ] grab metadata (google analytics ID?)
 - [ ] simple admin tool to show responses
 
-## To fix
-- [ ] CSRF
-- [ ] google tag manager / experiment for homepage?
-- [ ] data/application base64 JS violating CSP (google cx api)
-- [ ] og:url / getCurrentUrl() for contact page returning http://172.31.25.75/status on prod?
-- [ ] could change desktop breakpoint to be > 1024 for ipad landscape (20% margins too big)
-- [ ] live app sends tracking data to google on AWS URL
+## Todo / tech debt
+- [ ] Refactor header markup and styles once new full-bleed version is rolled out more widely.
+- [ ] Add more granular named breakpoints
+- [ ] Synchronise database as a more explicit step, refactor bin/www?
+- [ ] Update parameter store to use namespaces, fetch in CI?
 
-## Tech debt
-- [ ] form errors on order form return users to unselected tab
-- [ ] specify a db pool size
-- [ ] add a way to highlight current section in nav
-- [ ] use production version of vue in non-dev envs
-- [ ] find solution to hardcoded links in locale/lang files 
-- [ ] remove vary header
-- [ ] and add ARIA roles to SVGs and mobile nav
-- [ ] resize carousel height on item change
-- [ ] make commit hooks only run if JS code changes
-- [ ] pre-commit hook shouldn't break the dev server
-- [ ] log material orders
+## To think about
+- [ ] find solution to hardcoded links in locale/lang files - or is this a CMS job?
 
 ## Tests to write
  - [ ] news UD works (CR done)
  - [ ] GA is loaded
  - [ ] are form fields working as expected?
- 
- 

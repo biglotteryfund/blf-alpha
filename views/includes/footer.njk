@@ -1,17 +1,16 @@
 <footer role="contentinfo" class="footer">
-
-    <div class="inner footer__inner">
+    <div class="footer__inner inner">
         <ul class="grid grid--top grid--wide-only">
-            <li class="grid__item desktop-only">
+            <li class="grid__item u-desktop-only">
                 <ul class="list-spaced">
+                    <li><strong>{{ __("global.brand.title") | safe }}</strong></li>
                     <li><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
                     <li><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></li>
                     <li>{{ __("global.contact.phone") | safe }}</li>
                 </ul>
             </li>
-
             <li class="grid__item">
-                <h4 class="footer__header t2 desktop-only cap-up">{{ __("global.footerLinks.title") | safe }}</h4>
+                <h4 class="footer__header t2 u-desktop-only u-uppercase">{{ __("global.footerLinks.title") | safe }}</h4>
                 <div class="grid grid--wide-only grid--top list-spaced">
                     <ul class="grid__item">
                         <li><a href="{{ buildUrl('about-big/customer-service/freedom-of-information') }}">{{ __("global.footerLinks.foi") | safe }}</a></li>
@@ -26,7 +25,9 @@
                     </ul>
                 </div>
             </li>
-
         </ul>
+        {% if globalFootnote %}
+            <small class="footer__footnote u-desktop-only">{{ globalFootnote }}</small>
+        {% endif %}
     </div>
 </footer>
