@@ -10,8 +10,7 @@ h1,
     font-weight: 600;
     @include font-and-leading(18px, 26px);
 
-    // @TODO: Add more granular named breakpoints
-    @media screen and (min-width: 380px) {
+    @media screen and (min-width: xsmall) {
         @include font-and-leading(20px, 30px);
     }
 
