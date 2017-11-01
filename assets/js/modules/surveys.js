@@ -62,10 +62,17 @@ let hasTakenSurvey = surveyId => {
     }
 };
 
-let takeSurvey = (elm, event) => {
+let takeSurvey = (survey, choiceId, event) => {
     event.preventDefault();
-    const url = elm.attr('action');
-    let data = elm.serialize();
+    const url = survey.attr('action');
+    let data = survey.serialize() + '&choice=' + choiceId;
+
+    let completeUi = status => {
+        survey.find('.js-survey-responses').show();
+        survey.find(`.js-survey--${status}`).show();
+        survey.find('.js-survey-content').hide();
+    };
+
     $.ajax({
         url: url,
         type: 'POST',
@@ -73,12 +80,10 @@ let takeSurvey = (elm, event) => {
         dataType: 'json',
         success: response => {
             logSurveyTaken(response.surveyId);
-            console.log(response);
-            alert('Success!');
+            completeUi('success');
         },
-        error: err => {
-            console.error(err.responseJSON);
-            alert('Error!');
+        error: () => {
+            completeUi('error');
         }
     });
 };
@@ -87,15 +92,43 @@ module.exports = {
     init: () => {
         // show surveys to users who haven't taken them yet
         $('.js-survey').each(function() {
+            let $survey = $(this);
+
             // enable this survey (if applicable)
-            let surveyId = parseInt($(this).data('survey'));
+            let surveyId = parseInt($survey.data('survey'));
             if (surveyId && !hasTakenSurvey(surveyId)) {
-                $(this).show();
+                $survey.show();
             }
 
-            // AJAX-ify survey submissions
-            $(this).on('submit', function(e) {
-                return takeSurvey($(this), e);
+            let $toggleLink = $survey.find('.js-survey-toggle');
+            let $togglePane = $survey.find('.js-survey-content');
+            $toggleLink.on('click', function() {
+                $togglePane.toggle();
+                $survey.toggleClass('is-active');
+            });
+
+            let $optionButtons = $survey.find('.js-survey-btn');
+            let $moreInfoButton = $survey.find('.js-survey-btn--more-info');
+            let $moreInfoPane = $survey.find('.js-survey-extra');
+            $moreInfoButton.on('click', function() {
+                $optionButtons.hide();
+                $moreInfoPane.show();
+            });
+
+            $('input:submit').each(function() {
+                $(this).click(function() {
+                    var formData = $(this)
+                        .closest('form')
+                        .serializeArray();
+                    formData.push({ name: $(this).attr('name'), value: $(this).val() });
+                });
+            });
+
+            // // AJAX-ify survey submissions
+            $survey.find('[type="submit"]').on('click', function(e) {
+                // get value of submit buttons when clicked
+                let choiceId = $(this).val();
+                return takeSurvey($survey, choiceId, e);
             });
         });
     }

@@ -332,8 +332,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             res.format({
                 // non-AJAX - send them back where they came from
                 html: () => {
-                    req.flash('formErrors', errors.array());
-                    req.flash('formValues', req.body);
+                    req.flash('surveySubmittedStatus', 'error');
                     req.session.save(function() {
                         res.redirect(referrer || '/');
                     });

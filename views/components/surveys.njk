@@ -3,27 +3,69 @@
 {% macro showSurvey() %}
     {% if pageSurvey %}
         {% set surveySubmittedStatus = getFlash(request, 'surveySubmittedStatus') %}
-        {# @TODO - these are only seen by non-JS users currently #}
-        {% if surveySubmittedStatus == 'success' %}
-            Success!
-        {% elseif surveySubmittedStatus == 'error' %}
-            Error!
-        {% else %}
-            {# surveys are shown only to JavaScript users so we can detect when they've already been seen #}
-            <form class="js-survey u-hidden survey"
-                  method="post"
-                  action="/survey/{{ pageSurvey.id }}"
-                  data-survey="{{ pageSurvey.id }}">
-                <h6 class="survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
-                {% for choice in pageSurvey.choices %}
-                    {% set choiceLabel = choice['title' | localeify(locale)] %}
-                    {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}
-                    {% if choice.allow_message == 1 %}
-                        {{ forms.input('message', 'Message', 'textarea', required = false) }}
-                    {% endif %}
-                {% endfor %}
-                <input type="submit" value="Submit" />
-            </form>
-        {% endif %}
+
+        {# surveys are shown only to JavaScript users so we can detect when they've already been seen #}
+        <form class="js-survey u-hidden-for-js survey"
+              method="post"
+              action="/survey/{{ pageSurvey.id }}"
+              data-survey="{{ pageSurvey.id }}">
+            <h6 class="survey__header js-survey-toggle">
+                {{ pageSurvey['question' | localeify(locale)] }}<span class="survey__arrow js-survey-arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
+            </h6>
+            <aside class="survey__response js-survey-responses {% if not surveySubmittedStatus %} u-hidden{% endif %}">
+                <p class="js-survey--success u-hidden-for-js{% if surveySubmittedStatus == 'error' %} u-hidden{% endif %}">
+                    Thank you for sharing your feedback with us &ndash; we appreciate your time.
+                </p>
+                <p class="js-survey--error u-hidden-for-js{% if surveySubmittedStatus == 'success' %} u-hidden{% endif %}">
+                    We're sorry, there was an error recording your response. Please try again.
+                </p>
+            </aside>
+            {% if not surveySubmittedStatus or surveySubmittedStatus === 'error' %}
+                <fieldset class="js-survey-content">
+                    {% for choice in pageSurvey.choices %}
+                        {% set choiceLabel = choice['title' | localeify(locale)] %}
+                        {% if choice.allow_message == 1 %}
+                            {# typically the "no" button #}
+                            <button type="button"
+                                    class="btn btn--small survey__btn js-survey-btn js-survey-btn--more-info"
+                                    name="choice">
+                                {{ choiceLabel }}
+                            </button>
+                            {# prompt for more info #}
+                            <div class="js-survey-extra u-hidden-for-js">
+                                <div class="grid grid--padded survey__extra">
+                                    <div class="grid__item">
+                                        {{ forms.input(
+                                            fieldName = 'message',
+                                            fieldLabel = 'How could we have made this page better?',
+                                            inputType = 'textarea',
+                                            required = false,
+                                            customPlaceholder = 'Tell us how we could improve this page...'
+                                        ) }}
+                                    </div>
+                                    <div class="grid__item survey__submit">
+                                        {# submit the survey as a "no" #}
+                                        <button type="submit"
+                                                name="choice"
+                                                value="{{ choice.id }}"
+                                                class="btn btn--small survey__btn">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            {# submit the survey as a "yes" #}
+                            <button type="submit"
+                                    class="btn btn--small survey__btn js-survey-btn"
+                                    value="{{ choice.id }}"
+                                    name="choice">
+                                {{ choiceLabel }}
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </fieldset>
+            {% endif %}
+        </form>
     {% endif %}
 {% endmacro %}
