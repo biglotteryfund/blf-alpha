@@ -47,6 +47,6 @@ const promises = flatMap(pagesToTest, urlPath => {
     });
 });
 
-Promise.all(promises).then(result => {
-    console.log(result);
+Promise.all(promises).then(() => {
+    process.exit();
 });
