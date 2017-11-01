@@ -3,6 +3,12 @@
 		"brand": {
 			"title": "Cronfa Loteri Fawr"
 		},
+		"regions": {
+			"england": "Lloegr",
+			"wales": "Cymru",
+			"scotland": "Yr Alban",
+			"northernIreland": "Gogledd Iwerddon"
+		},
 		"nav": {
 			"home": "Hafan",
 			"funding": "Ariannu",
@@ -941,6 +947,13 @@
 					}
 				}
 			}
+		},
+		"programmes": {
+			"title": "Funding Programmes",
+			"under10k": "Funding programmes under 10k",
+			"over10k": "Funding programmes over 10k",
+			"breadcrumbAll": "All Programmes",
+			"breadcrumbLocation": "Funding programmes in %s"
 		}
 	}
 }
