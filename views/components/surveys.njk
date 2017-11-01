@@ -10,11 +10,11 @@
             Error!
         {% else %}
             {# surveys are shown only to JavaScript users so we can detect when they've already been seen #}
-            <form class="js-survey js-hidden survey"
+            <form class="js-survey u-hidden survey"
                   method="post"
                   action="/survey/{{ pageSurvey.id }}"
                   data-survey="{{ pageSurvey.id }}">
-                <h6 class="t12 survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
+                <h6 class="survey__header">{{ pageSurvey['question' | localeify(locale)] }}</h6>
                 {% for choice in pageSurvey.choices %}
                     {% set choiceLabel = choice['title' | localeify(locale)] %}
                     {{ forms.radioButton('choice', choiceLabel, choice.id, required = true) }}

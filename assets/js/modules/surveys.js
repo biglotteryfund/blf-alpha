@@ -1,8 +1,9 @@
-/* global $ */
 'use strict';
 
+const $ = require('jquery');
+
 // via https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-let storageAvailable = (type) => {
+let storageAvailable = type => {
     let storage;
     try {
         storage = window[type];
@@ -10,19 +11,21 @@ let storageAvailable = (type) => {
         storage.setItem(x, x);
         storage.removeItem(x);
         return true;
-    } catch(e) {
-        return e instanceof DOMException && (
-                // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
+    } catch (e) {
+        return (
+            e instanceof DOMException &&
             // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            (e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
             // acknowledge QuotaExceededError only if there's something already stored
-            storage.length !== 0;
+            storage.length !== 0
+        );
     }
 };
 
@@ -40,7 +43,7 @@ let getSurveysTaken = () => {
     }
 };
 
-let logSurveyTaken = (surveyId) => {
+let logSurveyTaken = surveyId => {
     if (CAN_STORE) {
         let surveysTaken = getSurveysTaken();
         // add this survey if not there
@@ -52,10 +55,10 @@ let logSurveyTaken = (surveyId) => {
     }
 };
 
-let hasTakenSurvey = (surveyId) => {
+let hasTakenSurvey = surveyId => {
     if (CAN_STORE) {
         let surveysTaken = getSurveysTaken();
-        return (surveysTaken.indexOf(surveyId) !== -1);
+        return surveysTaken.indexOf(surveyId) !== -1;
     }
 };
 
@@ -65,15 +68,15 @@ let takeSurvey = (elm, event) => {
     let data = elm.serialize();
     $.ajax({
         url: url,
-        type: "POST",
+        type: 'POST',
         data: data,
         dataType: 'json',
-        success: (response) => {
+        success: response => {
             logSurveyTaken(response.surveyId);
             console.log(response);
             alert('Success!');
         },
-        error: (err) => {
+        error: err => {
             console.error(err.responseJSON);
             alert('Error!');
         }
@@ -82,10 +85,8 @@ let takeSurvey = (elm, event) => {
 
 module.exports = {
     init: () => {
-
         // show surveys to users who haven't taken them yet
-        $('.js-survey').each(function () {
-
+        $('.js-survey').each(function() {
             // enable this survey (if applicable)
             let surveyId = parseInt($(this).data('survey'));
             if (surveyId && !hasTakenSurvey(surveyId)) {
@@ -93,10 +94,9 @@ module.exports = {
             }
 
             // AJAX-ify survey submissions
-            $(this).on('submit', function (e) {
+            $(this).on('submit', function(e) {
                 return takeSurvey($(this), e);
             });
         });
-
     }
 };
