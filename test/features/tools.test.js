@@ -26,7 +26,6 @@ describe('CMS Tools', function() {
             helper
                 .createTestUser(validUser)
                 .then(() => {
-                    console.log('Created a user');
                     done();
                 })
                 .catch(err => {

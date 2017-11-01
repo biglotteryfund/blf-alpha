@@ -5,10 +5,10 @@ const { validationResult } = require('express-validator/check');
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
-const secrets = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 
 // fetch token from CI store or application secrets
-const jwtSigningToken = process.env.jwtSigningToken || secrets['user.jwt.secret'];
+const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 const requestResetForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };

@@ -2,15 +2,14 @@
 const Sequelize = require('sequelize');
 const config = require('config');
 const path = require('path');
-const secrets = require('../modules/secrets');
+const getSecret = require('../modules/get-secret');
 
 let db = {};
 
-// try getting credentials from env vars (eg. for travis)
 let dbCredentials = {
-    host: process.env.mysqlHost || secrets['mysql.host'],
-    user: process.env.mysqlUser || secrets['mysql.user'],
-    pass: process.env.mysqlPassword || secrets['mysql.password']
+    host: process.env.mysqlHost || getSecret('mysql.host'),
+    user: process.env.mysqlUser || getSecret('mysql.user'),
+    pass: process.env.mysqlPassword || getSecret('mysql.password')
 };
 
 let sequelize;

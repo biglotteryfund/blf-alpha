@@ -15,7 +15,7 @@ const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const models = require('../../models/index');
-const secrets = require('../../modules/secrets');
+const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
 // load auth strategy
@@ -37,11 +37,11 @@ app.use(cookieParser());
 
 // add session
 const sessionConfig = {
-    secret: secrets['session.secret'] || process.env.sessionSecret,
     name: config.get('cookies.session'),
+    secret: getSecret('session.secret') || process.env.sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false },
+    cookie: { sameSite: true },
     store: new SequelizeStore({
         db: models.sequelize
     })
@@ -50,9 +50,9 @@ const sessionConfig = {
 // create sessions table
 sessionConfig.store.sync();
 
-if (app.get('env') === 'production') {
+if (app.get('env') !== 'development') {
     app.set('trust proxy', 4);
-    // sessionConfig.cookie.secure = true;
+    sessionConfig.cookie.secure = true;
 }
 
 app.use(session(sessionConfig));
@@ -67,7 +67,8 @@ i18n.expressBind(app, {
     locales: ['en', 'cy'],
     cookieName: 'locale',
     extension: '.json',
-    directory: './config/locales'
+    directory: './config/locales',
+    devMode: app.get('env') === 'development'
 });
 
 // handle overlays
