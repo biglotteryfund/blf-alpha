@@ -24,7 +24,8 @@ del.sync(`${screenshotsPath}/*`);
 pagesToTest.forEach(urlPath => {
     devicesToTest.forEach(deviceName => {
         puppeteer.launch({
-            dumpio: true
+            dumpio: true,
+            args: ['--no-sandbox']
         }).then(async browser => {
             const page = await browser.newPage();
             await page.emulate(devices[deviceName]);
