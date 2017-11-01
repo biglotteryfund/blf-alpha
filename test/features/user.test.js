@@ -6,12 +6,6 @@ chai.should();
 
 const helper = require('./helper');
 
-const validUser = {
-    username: 'test@fakewebsite.com',
-    password: 'hunter2',
-    level: 10
-};
-
 describe('User authentication', () => {
     let server, agent;
 
@@ -19,25 +13,24 @@ describe('User authentication', () => {
     before(done => {
         helper.before(serverInstance => {
             server = serverInstance;
-
-            // make a test user
-            helper
-                .createTestUser(validUser)
-                .then(() => {
-                    done();
-                })
-                .catch(err => {
-                    done(new Error(err));
-                });
+            done();
         });
     });
 
-    // delete test users afterward
     after(done => {
+        helper.after(server);
+        done();
+    });
+
+    beforeEach(() => {
+        agent = chai.request.agent(server);
+    });
+
+    // delete test users after each test
+    afterEach(done => {
         helper
             .truncateUsers()
             .then(() => {
-                helper.after(server);
                 done();
             })
             .catch(() => {
@@ -46,68 +39,117 @@ describe('User authentication', () => {
             });
     });
 
-    beforeEach(() => {
-        agent = chai.request.agent(server);
+    describe('User registration', () => {
+        it('should prevent registrations from invalid email address', done => {
+            const formData = {
+                username: 'not_an_email_address',
+                password: 'wrong'
+            };
+            agent
+                .post('/user/register')
+                .send(formData)
+                .end((err, res) => {
+                    res.text.should.match(/(.*)Please provide a valid email address(.*)/);
+                    done();
+                });
+        });
+
+        it('should prevent registrations with invalid passwords', done => {
+            const formData = {
+                username: 'bill@microsoft.com',
+                password: 'clippy'
+            };
+            agent
+                .post('/user/register')
+                .send(formData)
+                .end((err, res) => {
+                    res.text.should.match(/(.*)Please provide a password that contains at least one number(.*)/);
+                    done();
+                });
+        });
+
+        it('should allow valid registrations', done => {
+            const formData = {
+                username: 'email@website.com',
+                password: 'password1',
+                redirectUrl: '/some-magic-endpoint'
+            };
+            agent
+                .post('/user/register')
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.status(302);
+                    res.should.redirectTo(formData.redirectUrl);
+                    done();
+                });
+        });
+
+        it('should email valid users with a token', done => {
+            const formData = {
+                username: 'email@website.com',
+                password: 'password1',
+                redirectUrl: '/some-magic-endpoint',
+                returnToken: true
+            };
+            agent
+                .post('/user/register')
+                .send(formData)
+                .end((err, res) => {
+                    // via https://github.com/auth0/node-jsonwebtoken/issues/162
+                    res.body.token.should.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
+                    res.body.email.to.should.equal(formData.username);
+                    res.body.email.subject.should.equal('Activate your Big Lottery Fund website account');
+                    done();
+                });
+        });
     });
 
-    /* tests to write
-    *
-    *
-    *  activate:
-    *    already-active users won't be re-sent emails
-    *    invalid tokens rejected
-    *    valid tokens accepted
-    *    tokens expire (how to test?)
-    *    tokens can't be re-used
-    *
-    *   login:
-    *     invalid account blocked
-    *     valid accounts allowed in
-    *
-    *   password reset:
-    *     valid account sends email (JSON?)
-    *     invalid tokens rejected
-    *     valid tokens accepted
-    *     tokens expire (how to test?)
-    *     tokens can't be re-used
-    *
-    * */
+    describe('User login', () => {
+        it('should allow users to login', done => {
+            const formData = {
+                username: 'someone@somewhere.com',
+                password: 'dfs32d3fddf!!!'
+            };
+            agent
+                .post('/user/register')
+                .send(formData)
+                .redirects(0)
+                .end((err, res) => {
+                    res.should.have.status(302);
 
-    /*
-    * register:
-    *   invalid details
-    *   valid details
-    *   email is sent (JSON return token?)
-    *   */
+                    // now log them in
+                    let loginFormData = formData;
+                    loginFormData.redirectUrl = '/secret-stuff';
+                    agent
+                        .post('/user/login')
+                        .send(loginFormData)
+                        .redirects(0)
+                        .end((err, res) => {
+                            res.should.have.status(302);
+                            res.should.redirectTo(loginFormData.redirectUrl);
 
-    it('should prevent invalid registrations', done => {
-        const formData = {
-            username: 'not_an_email_address',
-            password: 'wrong'
-        };
-        agent
-            .post('/user/register')
-            .send(formData)
-            .end((err, res) => {
-                res.text.should.match(/(.*)Please provide a password that contains at least one number(.*)/);
-                done();
-            });
-    });
+                            // now try to access something private
+                            agent.get('/user/dashboard').end((err, res) => {
+                                res.text.should.match(/(.*)Logged in as(.*)/);
+                                done();
+                            });
+                        });
+                });
+        });
 
-    it('should allow valid registrations', done => {
-        const formData = {
-            username: 'email@website.com',
-            password: 'password1',
-            redirectUrl: '/some-magic-endpoint'
-        };
-        agent
-            .post('/user/register')
-            .send(formData)
-            .redirects(0)
-            .end((err, res) => {
-                res.should.redirectTo('/some-magic-endpoint');
-                res.should.have.status(302);
-                done();
-            });
+        it('should not allow unknown users to login', done => {
+            const formData = {
+                username: 'fake@site.com',
+                password: 'myp455w0rd'
+            };
+            agent
+                .post('/user/login')
+                .send(formData)
+                .end((err, res) => {
+                    res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
+                    done();
+                });
+        });
     });
 });

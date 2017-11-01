@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator/check');
 
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
-const { userBasePath, userEndpoints, makeUserLink, makeErrorList } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
 const getSecret = require('../../modules/get-secret');
 
 // fetch token from CI store or application secrets
@@ -51,7 +51,7 @@ const changePasswordForm = (req, res) => {
     // a user has followed a reset link
     jwt.verify(token, jwtSigningToken, (err, decoded) => {
         if (err) {
-            console.error('Password reset token expired or invalid signature', err);
+            trackError('Password reset token expired or invalid signature');
             // send them to start of the reset process (otherwise this is an endless loop)
             res.locals.errors = makeErrorList('Your password reset period has expired - please try again');
             return requestResetForm(req, res);
@@ -70,13 +70,13 @@ const changePasswordForm = (req, res) => {
                         });
                     },
                     error => {
-                        console.error('User attempted to reset a password for an non-resettable user', error || {});
+                        trackError('User attempted to reset a password for an non-resettable user');
                         res.locals.errors = makeErrorList('Your password reset link was invalid - please try again');
                         return requestResetForm(req, res);
                     }
                 );
             } else {
-                console.error('Password reset token was for another reason', err);
+                trackError('Password reset token was for another reason');
                 res.locals.errors = makeErrorList('Your password reset link was invalid - please try again');
                 return requestResetForm(req, res);
             }
@@ -150,8 +150,8 @@ const sendResetEmail = (req, res) => {
                                 res.redirect(userBasePath + userEndpoints.login);
                             });
                         })
-                        .catch(err => {
-                            console.error('Error marking user as in password reset mode', err);
+                        .catch(() => {
+                            trackError('Error marking user as in password reset mode');
                             res.locals.errors = makeErrorList('There was an error requesting your password reset');
                             return requestResetForm(req, res);
                         });
@@ -159,7 +159,7 @@ const sendResetEmail = (req, res) => {
             })
             .catch(err => {
                 // error on user lookup
-                console.error('Error looking up user', err);
+                trackError('Error looking up user to reset email');
                 res.locals.errors = makeErrorList('There was an error fetching your details');
                 return requestResetForm(req, res);
             });
@@ -185,7 +185,7 @@ const updatePassword = (req, res) => {
             // check the token again
             jwt.verify(changePasswordToken, jwtSigningToken, (err, decoded) => {
                 if (err) {
-                    console.error('Password reset token expired', err);
+                    trackError('Password reset token expired or invalid');
                     res.locals.errors = makeErrorList('Your password reset period has expired - please try again');
                     return requestResetForm(req, res);
                 } else {
@@ -214,7 +214,7 @@ const updatePassword = (req, res) => {
                                         });
                                     })
                                     .catch(err => {
-                                        console.error('Error updating a user password', err);
+                                        trackError('Error updating a user password');
                                         res.locals.errors = makeErrorList(
                                             'There was an error updating your password - please try again'
                                         );
@@ -222,7 +222,7 @@ const updatePassword = (req, res) => {
                                     });
                             },
                             error => {
-                                console.error('Error processing a user password change status', error || {});
+                                trackError('Error processing a user password change status');
                                 res.locals.errors = makeErrorList(
                                     'There was an error updating your password - please try again'
                                 );
@@ -230,7 +230,7 @@ const updatePassword = (req, res) => {
                             }
                         );
                     } else {
-                        console.error('A user tried to reset a password with an invalid token');
+                        trackError('A user tried to reset a password with an invalid token');
                         res.locals.errors = makeErrorList(
                             'There was an error updating your password - please try again'
                         );

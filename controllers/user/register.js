@@ -5,7 +5,7 @@ const { matchedData } = require('express-validator/filter');
 
 const models = require('../../models/index');
 const mail = require('../../modules/mail');
-const { userBasePath, userEndpoints, makeUserLink, makeErrorList } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
 const login = require('./login');
 const dashboard = require('./dashboard');
 const getSecret = require('../../modules/get-secret');
@@ -34,11 +34,15 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-        mail.send({
+        const emailData = mail.send({
             subject: 'Activate your Big Lottery Fund website account',
             text: `Please click the following link to activate your account: ${activateUrl}`,
             sendTo: email
         });
+        return {
+            email: emailData,
+            token: token
+        };
     }
 };
 
@@ -81,13 +85,18 @@ const createUser = (req, res, next) => {
                         .create(userData)
                         .then(newUser => {
                             // success! now send them an activation email
-                            sendActivationEmail(newUser, req, true);
-                            req.flash('activationSent', true);
-                            login.attemptAuth(req, res, next);
+                            let activationData = sendActivationEmail(newUser, req, true);
+                            if (req.body.returnToken) {
+                                // used for tests to verify activation works
+                                res.send(activationData);
+                            } else {
+                                req.flash('activationSent', true);
+                                login.attemptAuth(req, res, next);
+                            }
                         })
                         .catch(err => {
                             // error on user insert
-                            console.error('Error creating a new user', err);
+                            trackError('Error creating a new user');
                             res.locals.errors = makeErrorList(
                                 'There was an error creating your account - please try again'
                             );
@@ -95,7 +104,7 @@ const createUser = (req, res, next) => {
                         });
                 } else {
                     // this user already exists
-                    console.error('A user tried to register with an existing email address');
+                    trackError('A user tried to register with an existing email address');
                     // send a generic message - don't expose existing accounts
                     res.locals.errors = makeErrorList('There was an error creating your account - please try again');
                     return registrationForm(req, res);
@@ -103,7 +112,7 @@ const createUser = (req, res, next) => {
             })
             .catch(err => {
                 // error on user lookup
-                console.error('Error looking up user', err);
+                trackError('Error looking up user');
                 res.locals.errors = makeErrorList('There was an error creating your account - please try again');
                 return registrationForm(req, res);
             });
@@ -126,8 +135,7 @@ const activateUser = (req, res) => {
         // validate the token
         jwt.verify(token, jwtSigningToken, (err, decoded) => {
             if (err) {
-                console.error('A user tried to use an expired activation token', err);
-                req.flash('activationInvalid', true);
+                trackError('A user tried to use an expired activation token');
                 res.locals.errors = makeErrorList('There was an error with this activation link - please try again');
                 return dashboard.dashboard(req, res);
             } else {
@@ -154,8 +162,8 @@ const activateUser = (req, res) => {
                         .then(() => {
                             res.redirect(makeUserLink('dashboard'));
                         })
-                        .catch(err => {
-                            console.error("Failed to update a user's activation status", err);
+                        .catch(() => {
+                            trackError("Failed to update a user's activation status");
                             res.locals.errors = makeErrorList(
                                 'There was an error with this activation link - please try again'
                             );
@@ -163,7 +171,7 @@ const activateUser = (req, res) => {
                         });
                 } else {
                     // token was tampered with
-                    console.error('A user tried to activate an account with an invalid token');
+                    trackError('A user tried to activate an account with an invalid token');
                     res.locals.errors = makeErrorList(
                         'There was an error with this activation link - please try again'
                     );

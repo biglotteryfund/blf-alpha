@@ -7,13 +7,6 @@
 
     {{ listErrors() }}
 
-    {% set activationInvalid = getFlash(request, 'activationInvalid') %}
-    {% if activationInvalid %}
-        <div class="alert alert-danger" role="alert">
-            <p><strong>Error:</strong> That activation link is no longer valid &ndash; would you like to <a href="{{ makeUserLink('activate') }}">re-send your activation link</a>?</p>
-        </div>
-    {% endif %}
-
     {% if not user.is_active %}
         {% set activationSent = getFlash(request, 'activationSent') %}
         <div class="alert alert-warning" role="alert">

@@ -35,6 +35,11 @@ const send = ({ subject, text, sendTo, sendMode }) => {
 
     mailOptions[sendMode] = sendTo;
 
+    // don't trigger an email if we're testing something
+    if (process.env.DONT_SEND_EMAIL) {
+        return mailOptions;
+    }
+
     // send mail with defined transport object
     transport.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -46,6 +51,6 @@ const send = ({ subject, text, sendTo, sendMode }) => {
 };
 
 module.exports = {
-    send: send,
-    transport: transport
+    transport: transport,
+    send: send
 };

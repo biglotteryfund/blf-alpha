@@ -8,10 +8,13 @@ process.env.CUSTOM_DB = config.get('database-test');
 process.env.PORT = 8090;
 // configure Sequelize to use a local, temporary sqlite db for testing
 process.env.USE_LOCAL_DATABASE = true;
+// never send emails in test mode (instead capture their content)
+process.env.DONT_SEND_EMAIL = true;
 
 const models = require('../../models/index');
 
 let hook;
+
 let captureStream = stream => {
     let oldWrite = stream.write;
     let buf = '';
