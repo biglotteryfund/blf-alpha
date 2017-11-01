@@ -1,82 +1,44 @@
 #!/usr/bin/env node
 require('dotenv').config();
 
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
 const puppeteer = require('puppeteer');
+const devices = require('puppeteer/DeviceDescriptors');
+
 const del = require('del');
+const filenamify = require('filenamify');
+const makeDir = require('make-dir');
 
-const DEST_PATH = path.join(__dirname, '../../screenshots');
-
-const FILE_FORMAT = 'png';
-
-const SIZES_TO_CAPTURE = {
-    small: {
-        width: 414,
-        height: 736
-    },
-    medium: {
-        width: 768,
-        height: 1024
-    },
-    large: {
-        width: 1024,
-        height: 768
-    }
-};
-
-function urlPathToSlug(urlPath, size) {
-    const urlSlug = urlPath.substring(1).replace('/', '-');
-    const dateSlug = new Date().toISOString();
-    const sizeSlug = size ? `${size.width}x${size.height}` : '';
-    const parts = [urlSlug, sizeSlug, dateSlug].filter(_ => _).join('-');
-    return `${parts}.${FILE_FORMAT}`;
-}
-
-const TEST_URL = process.env.TEST_URL;
-if (!TEST_URL) {
+const BASE_URL = process.env.TEST_URL;
+if (!BASE_URL) {
     throw new Error('Must define TEST_URL environment variable');
 }
 
-del.sync([`${DEST_PATH}/*.${FILE_FORMAT}`]);
-puppeteer.launch({ dumpio: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }).then(browser => {
-    function capturePageSizes(urlPath, size) {
-        const url = `${TEST_URL}${urlPath}`;
-        return browser.newPage().then(page => {
-            return page.goto(url, { waitUntil: 'networkidle' }).then(() => {
-                const screenshotFilename = urlPathToSlug(urlPath, size);
-                const screenshotFullPath = `${DEST_PATH}/${screenshotFilename}`;
-                return page.setViewport(size).then(() => {
-                    return page.screenshot({ path: screenshotFullPath, fullPage: true }).then(() => {
-                        assert(fs.existsSync(screenshotFullPath));
-                        console.log(`${screenshotFullPath} saved 🎉 `);
-                        return page.close();
-                    });
-                });
+const pagesToTest = ['/home' /*, '/over10k', '/under10k'*/];
+const devicesToTest = ['iPad landscape', 'Nexus 6P', 'iPhone 5'];
+
+const screenshotsPath = './screenshots';
+
+makeDir.sync(screenshotsPath);
+del.sync(`${screenshotsPath}/*`);
+
+pagesToTest.forEach(urlPath => {
+    devicesToTest.forEach(deviceName => {
+        puppeteer.launch().then(async browser => {
+            const page = await browser.newPage();
+            await page.emulate(devices[deviceName]);
+            await page.goto(`${BASE_URL}${urlPath}`, {
+                waitUntil: ['networkidle0']
             });
+            const filename = filenamify(
+                `Page - ${urlPath} - ${deviceName} - ${(new Date().toISOString())}.jpg`
+            );
+            await page.screenshot({
+                fullPage: true,
+                type: 'jpeg',
+                quality: 80,
+                path: `${screenshotsPath}/${filename}`
+            });
+            await browser.close();
         });
-    }
-
-    const promises = [
-        // Homepage
-        capturePageSizes('/home', SIZES_TO_CAPTURE.small),
-        capturePageSizes('/home', SIZES_TO_CAPTURE.medium),
-        capturePageSizes('/home', SIZES_TO_CAPTURE.large),
-        // Under 10k
-        capturePageSizes('/under10k', SIZES_TO_CAPTURE.small),
-        capturePageSizes('/under10k', SIZES_TO_CAPTURE.medium),
-        capturePageSizes('/under10k', SIZES_TO_CAPTURE.large),
-        // Over10k
-        capturePageSizes('/over10k', SIZES_TO_CAPTURE.small),
-        capturePageSizes('/over10k', SIZES_TO_CAPTURE.medium),
-        capturePageSizes('/over10k', SIZES_TO_CAPTURE.large)
-    ];
-
-    console.log(promises);
-
-    Promise.all(promises).then(() => {
-        console.log('Complete 🎉 ');
-        browser.close();
     });
 });
