@@ -11,12 +11,11 @@
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {% include "../includes/accessibility.njk" %}
 
-        {# main content area #}
-        <main>
+        <div class="global-container">
             {% include "../includes/header.njk" %}
             {% block content %}{% endblock %}
             {% include "../includes/footer.njk" %}
-        </main>
+        </div>
 
         {# mobile nav (duplicated in header above) #}
         <nav class="u-mobile-only">
