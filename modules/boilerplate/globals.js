@@ -27,6 +27,7 @@ const appEnv = process.env.NODE_ENV || 'development';
 
 // store some app-wide config data
 setGlobal('appData', {
+    nodeVersion: process.version,
     deployId: deploymentData && deploymentData.deployId ? deploymentData.deployId : 'DEV',
     buildNumber: deploymentData && deploymentData.buildNumber ? deploymentData.buildNumber : 'DEV',
     commitId: deploymentData && deploymentData.commitId ? deploymentData.commitId : 'DEV',
