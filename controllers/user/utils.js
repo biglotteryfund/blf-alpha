@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { body } = require('express-validator/check');
+const Raven = require('raven');
 
 const userBasePath = '/user';
 
@@ -52,11 +53,22 @@ const formValidations = {
 
 const emailPasswordValidations = [formValidations.emailAddress, formValidations.password];
 
+const trackError = msg => {
+    if (msg) {
+        Raven.captureMessage(msg, {
+            tags: {
+                feature: 'user-auth'
+            }
+        });
+    }
+};
+
 module.exports = {
     userBasePath,
     userEndpoints,
     makeUserLink,
     makeErrorList,
     emailPasswordValidations,
-    formValidations
+    formValidations,
+    trackError: trackError
 };
