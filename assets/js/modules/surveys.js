@@ -1,3 +1,4 @@
+/* global Vue */
 'use strict';
 
 const $ = require('jquery');
@@ -88,52 +89,78 @@ let takeSurvey = (survey, choiceId, event) => {
     });
 };
 
+const showSurvey = survey => {
+    console.log('creating Vue instance', survey);
+    const mountEl = document.getElementById('js-survey-container');
+    if (!mountEl) {
+        return;
+    }
+    new Vue({
+        el: mountEl,
+        data: {
+            survey: survey
+        },
+        methods: {
+            // swap between languages for product list
+            toggleItemLanguage: function(newState) {
+                console.log(newState);
+            },
+            localeify: function(obj, field, locale) {
+                return obj[field + '_' + locale];
+            }
+        }
+    });
+};
+
 module.exports = {
     init: () => {
+        // does this page have any surveys?
         $.post('/get-survey', { path: window.location.pathname }).then(response => {
-            console.log(response);
-        });
-
-        // show surveys to users who haven't taken them yet
-        $('.js-survey').each(function() {
-            let $survey = $(this);
-
-            // enable this survey (if applicable)
-            let surveyId = parseInt($survey.data('survey'));
-            if (surveyId && !hasTakenSurvey(surveyId)) {
-                $survey.show();
+            if (response.status === 'success') {
+                showSurvey(response.survey);
             }
-
-            let $toggleLink = $survey.find('.js-survey-toggle');
-            let $togglePane = $survey.find('.js-survey-content');
-            $toggleLink.on('click', function() {
-                $togglePane.toggle();
-                $survey.toggleClass('is-active');
-            });
-
-            let $optionButtons = $survey.find('.js-survey-btn');
-            let $moreInfoButton = $survey.find('.js-survey-btn--more-info');
-            let $moreInfoPane = $survey.find('.js-survey-extra');
-            $moreInfoButton.on('click', function() {
-                $optionButtons.hide();
-                $moreInfoPane.show();
-            });
-
-            $('input:submit').each(function() {
-                $(this).click(function() {
-                    var formData = $(this)
-                        .closest('form')
-                        .serializeArray();
-                    formData.push({ name: $(this).attr('name'), value: $(this).val() });
-                });
-            });
-
-            // // AJAX-ify survey submissions
-            $survey.find('[type="submit"]').on('click', function(e) {
-                // get value of submit buttons when clicked
-                let choiceId = $(this).val();
-                return takeSurvey($survey, choiceId, e);
-            });
         });
+
+        //     // show surveys to users who haven't taken them yet
+        //     $('.js-survey').each(function() {
+        //         let $survey = $(this);
+        //
+        //         // enable this survey (if applicable)
+        //         let surveyId = parseInt($survey.data('survey'));
+        //         if (surveyId && !hasTakenSurvey(surveyId)) {
+        //             $survey.show();
+        //         }
+        //
+        //         let $toggleLink = $survey.find('.js-survey-toggle');
+        //         let $togglePane = $survey.find('.js-survey-content');
+        //         $toggleLink.on('click', function() {
+        //             $togglePane.toggle();
+        //             $survey.toggleClass('is-active');
+        //         });
+        //
+        //         let $optionButtons = $survey.find('.js-survey-btn');
+        //         let $moreInfoButton = $survey.find('.js-survey-btn--more-info');
+        //         let $moreInfoPane = $survey.find('.js-survey-extra');
+        //         $moreInfoButton.on('click', function() {
+        //             $optionButtons.hide();
+        //             $moreInfoPane.show();
+        //         });
+        //
+        //         $('input:submit').each(function() {
+        //             $(this).click(function() {
+        //                 var formData = $(this)
+        //                     .closest('form')
+        //                     .serializeArray();
+        //                 formData.push({ name: $(this).attr('name'), value: $(this).val() });
+        //             });
+        //         });
+        //
+        //         // // AJAX-ify survey submissions
+        //         $survey.find('[type="submit"]').on('click', function(e) {
+        //             // get value of submit buttons when clicked
+        //             let choiceId = $(this).val();
+        //             return takeSurvey($survey, choiceId, e);
+        //         });
+        //     });
     }
 };
