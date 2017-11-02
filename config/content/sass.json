@@ -1,5 +1,10 @@
 {
     "breakpoints": {
+        "xsmall": "360px",
+        "small": "480px",
+        "medium": "760px",
+        "large": "980px",
+        "xlarge": "1200px",
         "tablet": "760px",
         "desktop": "980px"
     },
