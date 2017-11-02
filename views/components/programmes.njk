@@ -2,7 +2,7 @@
     £{{ minimum | numberWithCommas}}{% if maximum %} - £{{ maximum | numberWithCommas }}{% endif %}
 {% endmacro %}
 
-{% macro programmeCard(programme, accent) %}
+{% macro programmeCard(programme, accent, copy) %}
     {% set content = programme.content %}
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
@@ -23,28 +23,28 @@
             {% endif %}
             <dl class="programme-card__details">
                 {% if content.area %}
-                    <dt>Area</dt>
+                    <dt>{{ copy.area }}</dt>
                     <dd>{{ content.area.label }}</dd>
                 {% endif %}
                 {% if content.organisationTypes %}
-                    <dt>Organisation types</dt>
+                    <dt>{{ copy.organisationTypes }}</dt>
                     {% for orgType in content.organisationTypes %}
                         <dd>{{ orgType }}</dd>
                     {% endfor %}
                 {% endif %}
                 {% if content.fundingSize %}
-                    <dt>Funding size</dt>
+                    <dt>{{ copy.fundingSize }}</dt>
                     <dd>{{ fundingRange(
                         minimum = content.fundingSize.minimum,
                         maximum = content.fundingSize.maximum
                     ) }}</dd>
                 {% endif %}
                 {% if content.totalAvailable %}
-                    <dt>Total available</dt>
+                    <dt>{{ copy.totalAvailable }}</dt>
                     <dd>{{ content.totalAvailable }}</dd>
                 {% endif %}
                 {% if content.applicationDeadline %}
-                    <dt>Application deadline</dt>
+                    <dt>{{ copy.applicationDeadline }}</dt>
                     <dd>{{ content.applicationDeadline }}</dd>
                 {% endif %}
             </dl>
@@ -52,13 +52,14 @@
     </article>
 {% endmacro %}
 
-{% macro programmeList(programmes, accent) %}
+{% macro programmeList(programmes, accent, copy) %}
     <div class="programmes-list">
         {% for programme in programmes %}
             <div class="programmes-list__item">
                 {{ programmeCard(
                     programme = programme,
-                    accent = accent
+                    accent = accent,
+                    copy = copy
                 ) }}
             </div>
         {% endfor %}
