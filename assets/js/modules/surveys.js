@@ -1,34 +1,8 @@
-/* global Vue */
+/* global Vue, ga */
 'use strict';
 
+const { storageAvailable } = require('./utility');
 const $ = require('jquery');
-
-// via https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-let storageAvailable = type => {
-    let storage;
-    try {
-        storage = window[type];
-        let x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    } catch (e) {
-        return (
-            e instanceof DOMException &&
-            // everything except Firefox
-            (e.code === 22 ||
-                // Firefox
-                e.code === 1014 ||
-                // test name field too, because code might not be present
-                // everything except Firefox
-                e.name === 'QuotaExceededError' ||
-                // Firefox
-                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            storage.length !== 0
-        );
-    }
-};
 
 const CAN_STORE = storageAvailable('localStorage');
 const KEY_NAME = 'blfSurveysTaken';
@@ -101,10 +75,19 @@ const showSurvey = survey => {
             },
             submitSurvey: function(e) {
                 let self = this;
+                let data = this.formData;
+
+                // try to record an anonymous GA clientId to aid in debugging reported issues
+                ga(tracker => {
+                    data.metadata = JSON.stringify({
+                        clientId: tracker.get('clientId')
+                    });
+                });
+
                 $.ajax({
                     url: e.target.action,
                     type: 'POST',
-                    data: this.formData,
+                    data: data,
                     dataType: 'json',
                     success: response => {
                         if (response.status === 'error') {
@@ -126,7 +109,7 @@ const showSurvey = survey => {
 module.exports = {
     init: () => {
         // does this page have any surveys?
-        $.post('/get-survey', { path: window.location.pathname }).then(response => {
+        $.get(`/surveys?path=${window.location.pathname}`).then(response => {
             if (response.status === 'success') {
                 showSurvey(response.survey);
             }

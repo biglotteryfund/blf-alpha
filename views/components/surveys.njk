@@ -19,9 +19,10 @@
             <p v-if="isComplete == 'error'">We're sorry, there was an error recording your response. Please try again.</p>
         </aside>
 
-        <fieldset v-if="isActivated && !isComplete">
+        <fieldset v-if="isActivated && !isComplete"
+                  class="survey__form-items">
             <button v-for="choice in survey.choices"
-                    class="btn btn--small survey__btn"
+                    class="btn btn--small survey__btn survey__btn--choice"
                     :type="(choice.allow_message) ? 'button' : 'submit'"
                     v-on:click="toggleMessage(choice)"
                     v-if="!showMessageBox">
@@ -33,8 +34,13 @@
                 <div class="grid grid--padded survey__extra">
                     {# prompt for more info #}
                     <div class="grid__item">
+                        <label for="survey-extra-msg"
+                               class="survey__label">
+                            How could we have made this page better?
+                        </label>
                         <textarea placeholder="Tell us how we could improve this page..."
-                                  class="form-fund__item"
+                                  class="survey__textbox"
+                                  id="survey-extra-msg"
                                   v-model="formData.message">
                         </textarea>
                     </div>
