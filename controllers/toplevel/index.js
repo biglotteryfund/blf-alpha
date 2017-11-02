@@ -313,33 +313,22 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.redirect(redirectUrl);
     });
 
-    // https://stackoverflow.com/questions/20053949/how-to-get-the-google-analytics-client-id
-    const surveyValidations = [
-        body('choice')
-            .exists()
-            .not()
-            .isEmpty()
-            .isInt()
-            .withMessage('Please supply a valid choice')
-    ];
+    // retrieve list of surveys
+    router.get('/surveys', (req, res) => {
+        res.cacheControl = { maxAge: 60 * 10 }; // 10 mins
+        let path = req.query.path;
 
-    // @TODO add this endpoint to cloudfront
-    router.post('/get-survey', (req, res) => {
-        let path = req.body.path;
-        if (!path) {
-            res.send({ error: true });
+        if (path) {
+            // normalise URLs (eg. treat a Welsh URL the same as default)
+            const CYMRU_URL = /\/welsh(\/|$)/;
+            path = path.replace(CYMRU_URL, '/');
         }
-
-        // normalise URLs (eg. treat a Welsh URL the same as default)
-        const CYMRU_URL = /\/welsh(\/|$)/;
-        path = path.replace(CYMRU_URL, '/');
 
         // get the survey from the database
         models.Survey
-            .findOne({
+            .findAll({
                 where: {
-                    active: true,
-                    activePath: path
+                    active: true
                 },
                 include: [
                     {
@@ -349,18 +338,19 @@ module.exports = (pages, sectionPath, sectionId) => {
                     }
                 ]
             })
-            .then(survey => {
-                if (survey) {
-                    return res.send({
-                        status: 'success',
-                        survey: survey
-                    });
+            .then(surveys => {
+                let returnData = {
+                    status: 'success'
+                };
+
+                // optionally filter surveys
+                if (path) {
+                    returnData.survey = surveys.find(s => s.activePath === path);
                 } else {
-                    res.send({
-                        status: 'error',
-                        message: 'No survey found'
-                    });
+                    returnData.surveys = surveys;
                 }
+
+                res.send(returnData);
             })
             .catch(() => {
                 res.send({
@@ -370,7 +360,16 @@ module.exports = (pages, sectionPath, sectionId) => {
             });
     });
 
-    // @TODO add this endpoint to cloudfront
+    const surveyValidations = [
+        body('choice')
+            .exists()
+            .not()
+            .isEmpty()
+            .isInt()
+            .withMessage('Please supply a valid choice')
+    ];
+
+    // store survey responses
     router.post('/survey/:id', surveyValidations, (req, res) => {
         let surveyId = req.params.id;
         const errors = validationResult(req);
@@ -396,6 +395,11 @@ module.exports = (pages, sectionPath, sectionId) => {
             // add a message (if we got one)
             if (req.body['message']) {
                 responseData.message = req.body['message'];
+            }
+
+            // include any additional survey data
+            if (req.body['metadata']) {
+                responseData.metadata = req.body['metadata'];
             }
 
             // we could still fail at this point if the choice isn't valid for this ID

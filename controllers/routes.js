@@ -379,6 +379,18 @@ const otherUrls = [
         isPostable: true,
         allowQueryStrings: true,
         live: true
+    },
+    {
+        path: '/surveys',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: true
+    },
+    {
+        path: '/survey',
+        isPostable: true,
+        allowQueryStrings: false,
+        live: true
     }
 ];
 
