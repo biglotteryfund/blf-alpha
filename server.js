@@ -5,6 +5,10 @@ const config = require('config');
 const Raven = require('raven');
 const getSecret = require('./modules/get-secret');
 
+if (app.get('env') === 'development') {
+    require('dotenv').config();
+}
+
 const SENTRY_DSN = getSecret('sentry.dsn');
 
 if (SENTRY_DSN) {
