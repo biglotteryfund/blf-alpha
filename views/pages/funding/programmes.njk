@@ -1,5 +1,5 @@
 {% from "../../components/hero.njk" import sectionHero %}
-{% from "../../components/programmes.njk" import programmeCard %}
+{% from "../../components/programmes.njk" import programmeList %}
 
 {% extends "../../layouts/main.njk" %}
 {% set bodyClass = "has-full-bleed-header" %}
@@ -23,8 +23,8 @@
 {% endmacro %}
 
 {% block content %}
-    {{
-        sectionHero(
+    <main role="main">
+        {{ sectionHero(
             titleText = title,
             image = createHeroImage({
                 small: 'images/hero/young-foundation-small.jpg',
@@ -34,28 +34,16 @@
                 caption: 'The Young Foundation - Amplify, Grant £1.06M'
             }),
             accent = 'green'
-        )
-    }}
+        ) }}
 
-    <main role="main" class="nudge-up">
-        <div class="content-box inner--wide-only accent--green a--border-top">
+        <section class="content-box inner--wide-only accent--green a--border-top nudge-up">
             {{ breadcrumbTrail(programmes, activeBreadcrumbs) }}
 
             {% if programmes | length > 0 %}
-                <section class="programmes-list">
-                    {% for programme in programmes %}
-                        <div class="programmes-list__item">
-                            {{ programmeCard(
-                                programme = programme,
-                                accent = 'pink'
-                            ) }}
-                        </div>
-                    {% endfor %}
-                </section>
+                {{ programmeList(programmes = programmes, accent = 'pink') }}
             {% else %}
                 <p>No results</p>
             {% endif %}
-        </div>
+        </section>
     </main>
-
 {% endblock %}

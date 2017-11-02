@@ -52,3 +52,16 @@
         </div>
     </article>
 {% endmacro %}
+
+{% macro programmeList(programmes, accent) %}
+    <div class="programmes-list">
+        {% for programme in programmes %}
+            <div class="programmes-list__item">
+                {{ programmeCard(
+                    programme = programme,
+                    accent = accent
+                ) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
