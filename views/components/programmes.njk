@@ -30,9 +30,7 @@
                 {% endif %}
                 {% if content.organisationTypes %}
                     <dt>{{ copy.organisationTypes }}</dt>
-                    {% for orgType in content.organisationTypes %}
-                        <dd>{{ orgType }}</dd>
-                    {% endfor %}
+                    <dd>{{ content.organisationTypes | join(', ') }}</dd>
                 {% endif %}
                 {% if content.fundingSize %}
                     <dt>{{ copy.fundingSize }}</dt>
