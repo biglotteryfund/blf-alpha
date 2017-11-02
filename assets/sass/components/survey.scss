@@ -41,6 +41,7 @@
     .survey__btn {
         $bg: #747474;
         background-color: $bg;
+        margin-right: $spacingUnit / 2;
         @include on-interact() {
             background-color: darken($bg, 5%);
         }
