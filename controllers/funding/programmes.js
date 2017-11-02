@@ -40,17 +40,6 @@ function filterByMinAmount(minAmount) {
 module.exports = function(config) {
     return function(req, res) {
         const lang = req.i18n.__(config.lang);
-
-        const locationParamToTranslation = key => {
-            const regions = {
-                england: req.i18n.__('global.regions.england'),
-                wales: req.i18n.__('global.regions.wales'),
-                scotland: req.i18n.__('global.regions.scotland'),
-                northernIreland: req.i18n.__('global.regions.northernIreland')
-            };
-            return regions[key];
-        };
-
         const templateData = {
             copy: lang,
             title: lang.title,
@@ -70,20 +59,38 @@ module.exports = function(config) {
                     .filter(filterByLocation(locationParam))
                     .filter(filterByMinAmount(minAmountParam));
 
-                if (minAmountParam) {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(config.lang + '.over10k'),
-                        url: '/over10k'
-                    });
-                }
+                if (!minAmountParam && !locationParam) {
+                    templateData.activeBreadcrumbs = [
+                        {
+                            label: req.i18n.__(config.lang + '.breadcrumbAll')
+                        }
+                    ];
+                } else {
+                    if (minAmountParam) {
+                        templateData.activeBreadcrumbs.push({
+                            label: req.i18n.__(config.lang + '.over10k'),
+                            url: '/over10k'
+                        });
+                    }
 
-                if (locationParam) {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(
-                            'funding.programmes.breadcrumbLocation',
-                            locationParamToTranslation(locationParam)
-                        )
-                    });
+                    if (locationParam) {
+                        const locationParamToTranslation = key => {
+                            const regions = {
+                                england: req.i18n.__('global.regions.england'),
+                                wales: req.i18n.__('global.regions.wales'),
+                                scotland: req.i18n.__('global.regions.scotland'),
+                                northernIreland: req.i18n.__('global.regions.northernIreland')
+                            };
+                            return regions[key];
+                        };
+
+                        templateData.activeBreadcrumbs.push({
+                            label: req.i18n.__(
+                                'funding.programmes.breadcrumbLocation',
+                                locationParamToTranslation(locationParam)
+                            )
+                        });
+                    }
                 }
 
                 res.render(config.template, templateData);
