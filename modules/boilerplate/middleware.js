@@ -15,7 +15,6 @@ const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const models = require('../../models/index');
-const surveys = require('./getSurveys');
 const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
@@ -112,25 +111,6 @@ app.use((req, res, next) => {
         globals.set('highContrast', true);
     } else {
         globals.set('highContrast', false);
-    }
-
-    return next();
-});
-
-// get any surveys for this page
-app.use((req, res, next) => {
-    let activeSurveys = surveys.get();
-    let currentUrlPath = req.path;
-
-    // normalise URLs (eg. treat a Welsh URL the same as default)
-    const CYMRU_URL = /\/welsh(\/|$)/;
-    currentUrlPath = currentUrlPath.replace(CYMRU_URL, '/');
-
-    if (activeSurveys[currentUrlPath]) {
-        globals.set('pageSurvey', activeSurveys[currentUrlPath]);
-    } else {
-        // "remove" the global (nunjucks has no delete method for these)
-        globals.set('pageSurvey', false);
     }
 
     return next();

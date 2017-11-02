@@ -322,29 +322,64 @@ module.exports = (pages, sectionPath, sectionId) => {
             .isInt()
             .withMessage('Please supply a valid choice')
     ];
+
+    // @TODO add this endpoint to cloudfront
+    router.post('/get-survey', (req, res) => {
+        let path = req.body.path;
+        if (!path) {
+            res.send({ error: true });
+        }
+
+        // normalise URLs (eg. treat a Welsh URL the same as default)
+        const CYMRU_URL = /\/welsh(\/|$)/;
+        path = path.replace(CYMRU_URL, '/');
+
+        // get the survey from the database
+        models.Survey
+            .findOne({
+                where: {
+                    active: true,
+                    activePath: path
+                },
+                include: [
+                    {
+                        model: models.SurveyChoice,
+                        as: 'choices',
+                        required: true
+                    }
+                ]
+            })
+            .then(survey => {
+                if (survey) {
+                    return res.send({
+                        status: 'success',
+                        survey: survey
+                    });
+                } else {
+                    res.send({
+                        status: 'error',
+                        message: 'No survey found'
+                    });
+                }
+            })
+            .catch(() => {
+                res.send({
+                    status: 'error',
+                    message: 'Error querying database'
+                });
+            });
+    });
+
+    // @TODO add this endpoint to cloudfront
     router.post('/survey/:id', surveyValidations, (req, res) => {
         let surveyId = req.params.id;
-        let referrer = req.get('Referrer');
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            // if we failed validation
-            res.format({
-                // non-AJAX - send them back where they came from
-                html: () => {
-                    req.flash('surveySubmittedStatus', 'error');
-                    req.session.save(function() {
-                        res.redirect(referrer || '/');
-                    });
-                },
-                // AJAX form - return a JSON error
-                json: () => {
-                    res.status(400);
-                    res.send({
-                        status: 'error',
-                        err: 'Please supply all fields'
-                    });
-                }
+            res.status(400);
+            res.send({
+                status: 'error',
+                err: 'Please supply all fields'
             });
         } else {
             // form was okay, let's store their submission
@@ -368,43 +403,18 @@ module.exports = (pages, sectionPath, sectionId) => {
             models.SurveyResponse
                 .create(responseData)
                 .then(data => {
-                    res.format({
-                        // non-AJAX - send them back where they came from
-                        html: () => {
-                            req.flash('surveySubmittedStatus', 'success');
-                            req.session.save(function() {
-                                res.redirect(referrer || '/');
-                            });
-                        },
-                        // AJAX form - return a JSON success message
-                        json: () => {
-                            res.send({
-                                status: 'success',
-                                surveyId: surveyId,
-                                data: data
-                            });
-                        }
+                    res.send({
+                        status: 'success',
+                        surveyId: surveyId,
+                        data: data
                     });
                 })
                 .catch(err => {
                     // SQL error with data
-
-                    res.format({
-                        // non-AJAX - send them back where they came from
-                        html: () => {
-                            req.flash('surveySubmittedStatus', 'error');
-                            req.session.save(function() {
-                                res.redirect(referrer || '/');
-                            });
-                        },
-                        // AJAX form - return a JSON error message
-                        json: () => {
-                            res.status(400);
-                            res.send({
-                                status: 'error',
-                                err: err
-                            });
-                        }
+                    res.status(400);
+                    res.send({
+                        status: 'error',
+                        err: err
                     });
                 });
         }

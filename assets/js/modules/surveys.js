@@ -90,6 +90,10 @@ let takeSurvey = (survey, choiceId, event) => {
 
 module.exports = {
     init: () => {
+        $.post('/get-survey', { path: window.location.pathname }).then(response => {
+            console.log(response);
+        });
+
         // show surveys to users who haven't taken them yet
         $('.js-survey').each(function() {
             let $survey = $(this);
