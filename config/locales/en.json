@@ -3,12 +3,19 @@
 		"brand": {
 			"title": "Big Lottery Fund"
 		},
+		"regions": {
+			"england": "England",
+			"wales": "Wales",
+			"scotland": "Scotland",
+			"northernIreland": "Northern Ireland"
+		},
 		"nav": {
 			"home": "Home",
 			"funding": "Funding",
 			"about": "About",
 			"search": "Search",
-			"research": "Research"
+			"research": "Research",
+			"jobs": "Jobs"
 		},
 		"contact": {
 			"city": "London",
@@ -942,7 +949,11 @@
 			}
 		},
 		"programmes": {
-			"title": "Funding Programmes"
+			"title": "Funding Programmes",
+			"under10k": "Funding programmes under 10k",
+			"over10k": "Funding programmes over 10k",
+			"breadcrumbAll": "All Programmes",
+			"breadcrumbLocation": "Funding programmes in %s"
 		}
 	}
 }

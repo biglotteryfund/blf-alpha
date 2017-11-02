@@ -47,20 +47,3 @@ ol.list-bullets li {
         margin-left: $spacingUnit * 3;
     }
 }
-
-.funding-programme {
-    dt {
-        float: left;
-        clear: left;
-        font-weight: bold;
-        margin-right: 5px;
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
-
-    dd {
-        display: block;
-        clear: left;
-        margin-bottom: 10px;
-    }
-}

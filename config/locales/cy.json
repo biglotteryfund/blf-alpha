@@ -3,12 +3,19 @@
 		"brand": {
 			"title": "Cronfa Loteri Fawr"
 		},
+		"regions": {
+			"england": "Lloegr",
+			"wales": "Cymru",
+			"scotland": "Yr Alban",
+			"northernIreland": "Gogledd Iwerddon"
+		},
 		"nav": {
 			"home": "Hafan",
 			"funding": "Ariannu",
 			"about": "Amdanom ni",
 			"search": "Chwilio",
-			"research": "Ymchwil"
+			"research": "Ymchwil",
+			"jobs": "Swyddi"
 		},
 		"contact": {
 			"city": "Llundain",
@@ -941,6 +948,13 @@
 					}
 				}
 			}
+		},
+		"programmes": {
+			"title": "Funding Programmes",
+			"under10k": "Funding programmes under 10k",
+			"over10k": "Funding programmes over 10k",
+			"breadcrumbAll": "All Programmes",
+			"breadcrumbLocation": "Funding programmes in %s"
 		}
 	}
 }

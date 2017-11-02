@@ -21,7 +21,8 @@ const sectionPaths = {
     funding: '/funding',
     about: '/about-big', // @TODO rename on launch
     aboutLegacy: '/about-big', // used on the old site
-    research: '/research'
+    research: '/research',
+    jobs: '/jobs' // temporary addition
 };
 
 // these top-level sections appear in the main site nav
@@ -208,6 +209,11 @@ const routes = {
             name: 'Research',
             langTitlePath: 'global.nav.research',
             path: sectionPaths.research
+        },
+        jobs: {
+            name: 'Jobs',
+            langTitlePath: 'global.nav.jobs',
+            path: sectionPaths.jobs
         },
         // @TODO rename this to 'about' when ready to launch /about
         'about-big': {
