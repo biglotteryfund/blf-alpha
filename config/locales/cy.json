@@ -950,11 +950,11 @@
 			}
 		},
 		"programmes": {
-			"title": "Funding Programmes",
-			"under10k": "Funding programmes under 10k",
-			"over10k": "Funding programmes over 10k",
-			"breadcrumbAll": "All Programmes",
-			"breadcrumbLocation": "Funding programmes in %s",
+			"title": "Rhaglenni Ariannu",
+			"under10k": "Rhaglenni ariannu o dan 10k",
+			"over10k": "Rhaglenni ariannu dros 10k",
+			"breadcrumbAll": "Pob Rhaglenni",
+			"breadcrumbLocation": "Rhaglenni ariannu yn %s",
 			"details": {
 				"area": "Ardal",
 				"organisationTypes": "Math o fudiad",
