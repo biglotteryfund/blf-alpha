@@ -953,7 +953,14 @@
 			"under10k": "Funding programmes under 10k",
 			"over10k": "Funding programmes over 10k",
 			"breadcrumbAll": "All Programmes",
-			"breadcrumbLocation": "Funding programmes in %s"
+			"breadcrumbLocation": "Funding programmes in %s",
+			"details": {
+				"area": "Area",
+				"organisationTypes": "Organisation types",
+				"fundingSize": "Funding Size",
+				"totalAvailable": "Total Available",
+				"applicationDeadline": "Application deadline"
+			}
 		}
 	}
 }

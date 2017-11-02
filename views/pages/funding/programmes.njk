@@ -40,7 +40,11 @@
             {{ breadcrumbTrail(programmes, activeBreadcrumbs) }}
 
             {% if programmes | length > 0 %}
-                {{ programmeList(programmes = programmes, accent = 'pink') }}
+                {{ programmeList(
+                    programmes = programmes,
+                    accent = 'pink',
+                    copy = copy.details
+                ) }}
             {% else %}
                 <p>No results</p>
             {% endif %}
