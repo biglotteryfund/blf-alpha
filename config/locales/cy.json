@@ -951,8 +951,8 @@
 		},
 		"programmes": {
 			"title": "Rhaglenni Ariannu",
-			"under10k": "Rhaglenni ariannu o dan 10k",
-			"over10k": "Rhaglenni ariannu dros 10k",
+			"under10k": "Rhaglenni ariannu o dan £10,000",
+			"over10k": "Rhaglenni ariannu dros £10,000",
 			"breadcrumbAll": "Pob Rhaglenni",
 			"breadcrumbLocation": "Rhaglenni ariannu yn %s",
 			"details": {
