@@ -36,11 +36,15 @@
             accent = 'green'
         ) }}
 
-        <section class="content-box inner--wide-only accent--green a--border-top nudge-up">
+        <section class="inner--wide-only content-box content-box--flush accent--green a--border-top nudge-up">
             {{ breadcrumbTrail(programmes, activeBreadcrumbs) }}
 
             {% if programmes | length > 0 %}
-                {{ programmeList(programmes = programmes, accent = 'pink') }}
+                {{ programmeList(
+                    programmes = programmes,
+                    accent = 'pink',
+                    copy = copy.details
+                ) }}
             {% else %}
                 <p>No results</p>
             {% endif %}

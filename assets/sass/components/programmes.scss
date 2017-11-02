@@ -13,8 +13,7 @@
     padding-bottom: $spacingUnit;
 
     @include mq(small) {
-        flex: 1;
-        min-width: 50%;
+        flex: 0 0 50%;
         padding-left: $spacingUnit / 2;
         padding-right: $spacingUnit / 2;
     }
