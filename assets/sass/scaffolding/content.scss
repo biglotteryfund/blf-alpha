@@ -1,8 +1,16 @@
+/* =========================================================================
+   Content
+   ========================================================================= */
+
 .content-box {
     @include bordered();
     background-color: palette('pale');
     padding: 20px $contentBoxHorizontalPadding 40px $contentBoxHorizontalPadding;
     margin-bottom: 20px;
+
+    &.content-box--flush {
+        padding: $spacingUnit;
+    }
 
     &.content-box--pink {
         background-color: palette('pale-pink');
