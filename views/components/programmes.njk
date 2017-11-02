@@ -7,7 +7,9 @@
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
             <h3 class="programme-card__title t8">
-                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ programme.url }}">{{ programme.title }}</a>
+                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ programme.url }}">
+                    {{ content.title }}
+                </a>
             </h3>
             {% if content.photo %}
                 <div class="programme-card__media">
