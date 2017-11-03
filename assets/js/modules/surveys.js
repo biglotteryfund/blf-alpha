@@ -57,8 +57,8 @@ const showSurvey = survey => {
             }
         },
         methods: {
-            activateSurvey: function() {
-                this.isActivated = true;
+            toggleSurvey: function() {
+                this.isActivated = !this.isActivated;
             },
             toggleMessage: function(choice) {
                 if (choice.allow_message) {
@@ -110,7 +110,7 @@ module.exports = {
     init: () => {
         // does this page have any surveys?
         $.get(`/surveys?path=${window.location.pathname}`).then(response => {
-            if (response.status === 'success') {
+            if (response.status === 'success' && response.survey) {
                 showSurvey(response.survey);
             }
         });

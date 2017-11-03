@@ -9,15 +9,15 @@
           v-on:submit.prevent="submitSurvey"
           v-cloak>
         <h6 class="survey__header"
-            v-on:click="activateSurvey()">
+            v-on:click="toggleSurvey()">
             <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
         </h6>
 
-        <aside class="survey__response"
+        <p class="survey__response"
                v-if="isComplete">
-            <p v-if="isComplete == 'success'">Thank you for sharing your feedback with us &ndash; we appreciate your time.</p>
-            <p v-if="isComplete == 'error'">We're sorry, there was an error recording your response. Please try again.</p>
-        </aside>
+            <span v-if="isComplete == 'success'">Thank you for sharing your feedback with us &ndash; we appreciate your time.</span>
+            <span v-if="isComplete == 'error'">We're sorry, there was an error recording your response. Please try again.</span>
+        </p>
 
         <fieldset v-if="isActivated && !isComplete"
                   class="survey__form-items">
