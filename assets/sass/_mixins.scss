@@ -23,16 +23,26 @@
 }
 
 @mixin responsive-ratio($x, $y) {
-    $padding: ( $y / $x ) * 100;
+    $padding: ($y / $x) * 100;
     padding-bottom: unquote(decimal-round($padding, 1, ceil) + '%');
 }
 
 @mixin input-placeholder {
-    &.placeholder { @content; }
-    &:-moz-placeholder { @content; }
-    &::-moz-placeholder { @content; }
-    &:-ms-input-placeholder { @content; }
-    &::-webkit-input-placeholder { @content; }
+    &.placeholder {
+        @content;
+    }
+    &:-moz-placeholder {
+        @content;
+    }
+    &::-moz-placeholder {
+        @content;
+    }
+    &:-ms-input-placeholder {
+        @content;
+    }
+    &::-webkit-input-placeholder {
+        @content;
+    }
 }
 
 @mixin on-interact {
@@ -66,7 +76,7 @@
 // layout helper: used within a containing element
 // to center it according to the grid
 @mixin responsiveGutter($skipMargins: false) {
-    $defaultGutter: map-get($gutters, "default");
+    $defaultGutter: map-get($gutters, 'default');
     @if not $skipMargins {
         margin-left: $defaultGutter;
         margin-right: $defaultGutter;
@@ -97,7 +107,7 @@
 }
 
 @mixin poppins() {
-    font-family: "Poppins", arial, sans-serif;
+    font-family: 'Poppins', arial, sans-serif;
 }
 
 @mixin roboto() {

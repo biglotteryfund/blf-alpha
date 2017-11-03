@@ -18,6 +18,7 @@ raven.init(Vue);
  */
 require('./modules/common').init();
 require('./modules/tabs').init();
+require('./modules/surveys').init();
 require('./modules/carousel').init();
 require('./modules/heroImages').init();
 require('./modules/logos').init();

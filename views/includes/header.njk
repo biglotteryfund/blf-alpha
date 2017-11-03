@@ -1,4 +1,8 @@
 {% from "../components/nav.njk" import navlinks with context %}
+{% from "../components/surveys.njk" import showSurvey with context %}
+
+{# show a microsurvey for this page (if set) #}
+{{ showSurvey() }}
 
 <header class="header" role="banner">
     <div class="header__inner inner">

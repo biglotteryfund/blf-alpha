@@ -1,0 +1,66 @@
+{% import "./forms.njk" as forms %}
+
+{% macro showSurvey() %}
+    <form id="js-survey-container"
+          class="survey"
+          v-bind:class="{ 'is-active': isActivated }"
+          method="post"
+          :action="'/survey/' + survey.id"
+          v-on:submit.prevent="submitSurvey"
+          v-if="!surveyBlocked"
+          v-cloak>
+        <h6 class="survey__header"
+            v-on:click="toggleSurvey()">
+            <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
+        </h6>
+
+        <span class="survey__close-icon"
+              v-on:click="blockSurvey()">
+            {% include "../includes/svg/close.svg" %}
+        </span>
+
+        <p class="survey__response"
+               v-if="isComplete">
+            <span v-if="isComplete == 'success'">{{ __('global.surveys.response.success') }}</span>
+            <span v-if="isComplete == 'error'">{{ __('global.surveys.response.error') }}</span>
+        </p>
+
+        <fieldset v-if="isActivated && !isComplete"
+                  class="survey__form-items">
+            <button v-for="choice in survey.choices"
+                    class="btn btn--small survey__btn survey__btn--choice"
+                    :type="(choice.allow_message) ? 'button' : 'submit'"
+                    v-on:click="toggleMessage(choice)"
+                    v-if="!showMessageBox">
+                <% localeify(choice, 'title', '{{ locale }}') %>
+            </button>
+
+            <div v-for="choice in survey.choices"
+                 v-if="choice.allow_message && showMessageBox">
+                <div class="grid grid--padded survey__extra">
+                    {# prompt for more info #}
+                    <div class="grid__item">
+                        <label for="survey-extra-msg"
+                               class="survey__label">
+                            {{ __('global.surveys.genericQuestion') }}
+                        </label>
+                        <textarea placeholder="{{ __('global.surveys.genericPrompt') }}"
+                                  class="survey__textbox"
+                                  id="survey-extra-msg"
+                                  v-model="formData.message">
+                        </textarea>
+                    </div>
+                    {# submit the survey as a "no" #}
+                    <div class="grid__item survey__submit">
+                        <button type="submit"
+                                class="btn btn--small survey__btn"
+                                v-on:click="updateChoice(choice)">
+                            {{ __('global.forms.submit') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+{% endmacro %}

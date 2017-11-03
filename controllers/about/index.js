@@ -4,7 +4,6 @@ const router = express.Router();
 const routeStatic = require('../utils/routeStatic');
 
 module.exports = (pages, sectionPath, sectionId) => {
-
     /**
      * 1. Populate static pages
      */

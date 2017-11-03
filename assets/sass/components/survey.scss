@@ -1,0 +1,118 @@
+.survey {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #4a4a4a;
+    color: #ffffff;
+    padding: $spacingUnit / 2 $spacingUnit;
+    width: 100%;
+
+    @include mq('tablet') {
+        width: 60%;
+    }
+
+    .survey__header {
+        margin-bottom: 0;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    &.is-active {
+        .survey__arrow svg {
+            transform: rotate(0deg);
+        }
+    }
+
+    .survey__arrow {
+        width: 25px;
+        display: inline-block;
+        line-height: 0;
+        vertical-align: middle;
+        margin-left: 7px;
+
+        svg {
+            transition: all 0.3s ease-in-out;
+            transform: rotate(180deg);
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .survey__close-icon {
+        $iconRadius: 25px;
+        $iconOffset: 7px;
+        position: absolute;
+        right: $iconOffset;
+        top: $iconOffset;
+        border-radius: 100%;
+        border: 1px solid white;
+        height: $iconRadius;
+        width: $iconRadius;
+        cursor: pointer;
+
+        @include on-interact() {
+            $highlight: palette('soft-grey');
+            border-color: $highlight;
+            svg {
+                fill: $highlight;
+            }
+        }
+
+        svg {
+            fill: white;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .survey__btn {
+        $bg: #747474;
+        background-color: $bg;
+        @include on-interact() {
+            background-color: lighten($bg, 5%);
+        }
+    }
+
+    .survey__btn--choice {
+        margin-right: $spacingUnit / 2;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .survey__form-items {
+        margin-top: 10px;
+    }
+
+    .survey__extra {
+        align-items: flex-end;
+        .grid__item {
+            margin-bottom: 0;
+        }
+
+        .survey__submit {
+            flex-grow: 0;
+            margin-bottom: 10px; // fixes weird alignment issue
+        }
+    }
+
+    .survey__label {
+        @include poppins();
+        font-size: 18px;
+        display: block;
+        margin: $spacingUnit / 2 0;
+    }
+
+    .survey__textbox {
+        width: 100%;
+        font-size: 15px;
+        padding: 5px;
+    }
+
+    .survey__response {
+        color: palette('soft-grey');
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+}

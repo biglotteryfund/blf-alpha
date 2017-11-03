@@ -21,6 +21,8 @@ const routes = require('../../controllers/routes');
 // load auth strategy
 require('../../modules/boilerplate/auth');
 
+let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
+
 app.use(favicon(path.join('public', '/favicon.ico')));
 let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
 app.use(
@@ -33,12 +35,12 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
 
 // add session
 const sessionConfig = {
     name: config.get('cookies.session'),
-    secret: getSecret('session.secret') || process.env.sessionSecret,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: { sameSite: true },

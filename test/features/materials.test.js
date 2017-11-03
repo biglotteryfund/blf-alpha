@@ -9,7 +9,6 @@ const { JSDOM } = jsdom;
 const helper = require('./helper');
 const routes = require('../../controllers/routes');
 
-// test the order form specifically
 describe('Material order form', () => {
     let server, agent;
 

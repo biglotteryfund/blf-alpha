@@ -49,6 +49,9 @@ if (dbCredentials.host) {
     // add models
     db.News = sequelize.import('../models/news.js');
     db.Users = sequelize.import('../models/user.js');
+    db.Survey = sequelize.import('../models/surveys/survey.js');
+    db.SurveyChoice = sequelize.import('../models/surveys/choice.js');
+    db.SurveyResponse = sequelize.import('../models/surveys/response.js');
 
     // add model associations (eg. for joins etc)
     Object.keys(db).forEach(modelName => {
