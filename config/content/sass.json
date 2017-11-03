@@ -1,5 +1,12 @@
 {
     "breakpoints": {
+        "xsmall": "360px",
+        "small": "480px",
+        "medium-minor": "620px",
+        "medium": "760px",
+        "medium-major": "840px",
+        "large": "980px",
+        "xlarge": "1200px",
         "tablet": "760px",
         "desktop": "980px"
     },

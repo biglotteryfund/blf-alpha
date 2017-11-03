@@ -10,8 +10,7 @@ h1,
     font-weight: 600;
     @include font-and-leading(18px, 26px);
 
-    // @TODO: Add more granular named breakpoints
-    @media screen and (min-width: 380px) {
+    @include mq('xsmall') {
         @include font-and-leading(20px, 30px);
     }
 
@@ -72,7 +71,15 @@ h6,
 }
 
 .t8 {
-    font-size: 22px;
+    @include font-and-leading(18px, 20px);
+
+    @include mq(small) {
+        @include font-and-leading(20px, 28px);
+    }
+
+    @include mq(large) {
+        @include font-and-leading(22px, 28px);
+    }
 }
 
 /**
@@ -119,7 +126,12 @@ h6,
 
 .u-link-unstyled {
     color: inherit;
-    text-decoration: none;
+
+    &,
+    &:hover,
+    &:active {
+        text-decoration: none;
+    }
 }
 
 .u-caption {

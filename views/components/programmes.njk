@@ -1,0 +1,67 @@
+{% macro fundingRange(minimum, maximum) %}
+    £{{ minimum | numberWithCommas}}{% if maximum %} - £{{ maximum | numberWithCommas }}{% endif %}
+{% endmacro %}
+
+{% macro programmeCard(programme, accent, copy) %}
+    {% set content = programme.content %}
+    <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
+        <header class="programme-card__header">
+            <h3 class="programme-card__title t8">
+                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ content.linkUrl }}">
+                    {{ content.title }}
+                </a>
+            </h3>
+            {% if content.photo %}
+                <div class="programme-card__media">
+                    <img src="{{ content.photo }}" alt=""/>
+                </div>
+            {% endif %}
+        </header>
+        <div class="programme-card__body">
+            {% if content.description %}
+                <div class="programme-card__description">
+                    <p>{{ content.description }}</p>
+                </div>
+            {% endif %}
+            <dl class="programme-card__details">
+                {% if content.area %}
+                    <dt>{{ copy.area }}</dt>
+                    <dd>{{ content.area.label }}</dd>
+                {% endif %}
+                {% if content.organisationTypes %}
+                    <dt>{{ copy.organisationTypes }}</dt>
+                    <dd>{{ content.organisationTypes | join(', ') }}</dd>
+                {% endif %}
+                {% if content.fundingSize %}
+                    <dt>{{ copy.fundingSize }}</dt>
+                    <dd>{{ fundingRange(
+                        minimum = content.fundingSize.minimum,
+                        maximum = content.fundingSize.maximum
+                    ) }}</dd>
+                {% endif %}
+                {% if content.totalAvailable %}
+                    <dt>{{ copy.totalAvailable }}</dt>
+                    <dd>{{ content.totalAvailable }}</dd>
+                {% endif %}
+                {% if content.applicationDeadline %}
+                    <dt>{{ copy.applicationDeadline }}</dt>
+                    <dd>{{ content.applicationDeadline }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </article>
+{% endmacro %}
+
+{% macro programmeList(programmes, accent, copy) %}
+    <div class="programmes-list">
+        {% for programme in programmes %}
+            <div class="programmes-list__item">
+                {{ programmeCard(
+                    programme = programme,
+                    accent = accent,
+                    copy = copy
+                ) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}

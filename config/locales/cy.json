@@ -3,12 +3,19 @@
 		"brand": {
 			"title": "Cronfa Loteri Fawr"
 		},
+		"regions": {
+			"england": "Lloegr",
+			"wales": "Cymru",
+			"scotland": "Yr Alban",
+			"northernIreland": "Gogledd Iwerddon"
+		},
 		"nav": {
 			"home": "Hafan",
 			"funding": "Ariannu",
 			"about": "Amdanom ni",
 			"search": "Chwilio",
-			"research": "Ymchwil"
+			"research": "Ymchwil",
+			"jobs": "Swyddi"
 		},
 		"contact": {
 			"city": "Llundain",
@@ -440,7 +447,7 @@
 								},
 								{
 									"label": "Rheolwr Ariannu",
-									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM1MyZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA",
 									"subRegion": "Glannau Mersi a Swydd Gaer"
 								},
 								{
@@ -948,6 +955,20 @@
 						"text": "<p>Mawr hoffem glywed amdano pan fyddwch yn denu sylw'r cyfryngau yn eich ardal leol. <a href=\"mailto:pressoffice@biglotteryfund.org.uk\">Cysylltwch â ni er mwyn i ni gael gwybod amdano</a>!</p>"
 					}
 				}
+			}
+		},
+		"programmes": {
+			"title": "Rhaglenni Ariannu",
+			"under10k": "Rhaglenni ariannu o dan £10,000",
+			"over10k": "Rhaglenni ariannu dros £10,000",
+			"breadcrumbAll": "Pob Rhaglenni",
+			"breadcrumbLocation": "Rhaglenni ariannu yn %s",
+			"details": {
+				"area": "Ardal",
+				"organisationTypes": "Math o fudiad",
+				"fundingSize": "Maint yr ariannu",
+				"totalAvailable": "Cyfanswm ar gael",
+				"applicationDeadline": "Terfyn amser ymgeisio"
 			}
 		}
 	}

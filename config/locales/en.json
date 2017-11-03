@@ -3,12 +3,19 @@
 		"brand": {
 			"title": "Big Lottery Fund"
 		},
+		"regions": {
+			"england": "England",
+			"wales": "Wales",
+			"scotland": "Scotland",
+			"northernIreland": "Northern Ireland"
+		},
 		"nav": {
 			"home": "Home",
 			"funding": "Funding",
 			"about": "About",
 			"search": "Search",
-			"research": "Research"
+			"research": "Research",
+			"jobs": "Jobs"
 		},
 		"contact": {
 			"city": "London",
@@ -443,7 +450,7 @@
 								},
 								{
 									"label": "Funding Managers",
-									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTQ2NiZvd25lcj01MDMxNzgzJm93bmVydHlwZT1mYWlyJnBvc3RpbmdfY29kZT01MiZ2dF90ZW1wbGF0ZT0xNDA2",
+									"url": "https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTY5MTM1MyZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA",
 									"subRegion": "Merseyside and Cheshire"
 								},
 								{
@@ -950,7 +957,18 @@
 			}
 		},
 		"programmes": {
-			"title": "Funding Programmes"
+			"title": "Funding Programmes",
+			"under10k": "Funding programmes under £10,000",
+			"over10k": "Funding programmes over £10,000",
+			"breadcrumbAll": "All Programmes",
+			"breadcrumbLocation": "Funding programmes in %s",
+			"details": {
+				"area": "Area",
+				"organisationTypes": "Organisation types",
+				"fundingSize": "Funding Size",
+				"totalAvailable": "Total Available",
+				"applicationDeadline": "Application deadline"
+			}
 		}
 	}
 }

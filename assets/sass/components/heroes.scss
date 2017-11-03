@@ -28,10 +28,15 @@ $heroSpaceFromLeft: 20px;
             $defaultImage: map-get($imageset, 'default');
             @include makeHeroImage($defaultImage);
 
+            // Theses are being explicitly named here to isolate this code from core breakpoints
+            // This code will be deleted once existing hero image have been migrated to the new
+            // section-hero style
+            $breakpointsToUse: (tablet: 760px, desktop: 980px);
+
             // for each of the non-default (eg. breakpoint-matching) sets
             // output a media query with a new image and aspect ratio
             @each $imageBreakpointName, $imageBreakpoint in $imageset {
-                @if map-has-key($breakpoints, $imageBreakpointName) {
+                @if map-has-key($breakpointsToUse, $imageBreakpointName) {
                     @include mq($imageBreakpointName) {
                         @include makeHeroImage($imageBreakpoint);
                     }
