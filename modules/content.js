@@ -9,13 +9,21 @@ if (!CMS_URL) {
     process.exit(1);
 }
 
-const getFundingProgrammes = locale => {
+function getPromotedNews(locale) {
+    return rp({
+        url: `${CMS_URL}/api/v1/${locale}/promoted-news`,
+        json: true
+    });
+}
+
+function getFundingProgrammes(locale) {
     return rp({
         url: `${CMS_URL}/api/v1/${locale}/funding-programmes`,
         json: true
     });
-};
+}
 
 module.exports = {
+    getPromotedNews,
     getFundingProgrammes
 };
