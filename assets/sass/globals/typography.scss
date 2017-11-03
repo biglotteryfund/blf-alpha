@@ -71,7 +71,15 @@ h6,
 }
 
 .t8 {
-    font-size: 22px;
+    @include font-and-leading(18px, 20px);
+
+    @include mq(small) {
+        @include font-and-leading(20px, 28px);
+    }
+
+    @include mq(large) {
+        @include font-and-leading(22px, 28px);
+    }
 }
 
 /**

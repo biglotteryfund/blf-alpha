@@ -3,7 +3,7 @@
    ========================================================================= */
 
 .programmes-list {
-    @include mq(small) {
+    @include mq(medium-minor) {
         display: flex;
         flex-wrap: wrap;
         margin: 0 (-($spacingUnit / 2));
@@ -12,7 +12,7 @@
 .programmes-list__item {
     padding-bottom: $spacingUnit;
 
-    @include mq(small) {
+    @include mq(medium-minor) {
         flex: 0 0 50%;
         padding-left: $spacingUnit / 2;
         padding-right: $spacingUnit / 2;
@@ -23,32 +23,38 @@
     background-color: palette('pale-grey');
     padding: $spacingUnit / 2;
 
-    @include mq(small) {
-        padding: $spacingUnit;
+    @include mq(medium-minor) {
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;
         height: 100%;
     }
+
+    @include mq(large) {
+        padding: $spacingUnit;
+    }
 }
 .programme-card__header {
-    .programme-card__title {
-        margin-bottom: $spacingUnit / 2;
-    }
+    display: flex;
+    margin-bottom: $spacingUnit / 2;
 
-    @include mq(small) {
-        display: flex;
-        margin-bottom: $spacingUnit / 2;
+    .programme-card__media {
+        order: 1;
+        flex: 0 0 50px;
+        margin-right: $spacingUnit / 2;
 
-        .programme-card__media {
-            order: 1;
+        @include mq(medium) {
             flex: 0 0 80px;
             margin-right: $spacingUnit;
         }
+    }
 
-        .programme-card__title {
-            order: 2;
-            flex: 1 1 auto;
+    .programme-card__title {
+        order: 2;
+        flex: 1 1 auto;
+        margin-bottom: $spacingUnit / 2;
+
+        @include mq(medium) {
             margin-top: 2px;
         }
     }
