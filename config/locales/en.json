@@ -36,10 +36,19 @@
 			"nextItem": "Next item"
 		},
 		"forms": {
-			"missingFieldError": "Please provide the '%s' field"
+			"missingFieldError": "Please provide the '%s' field",
+			"submit": "Submit"
 		},
 		"misc": {
 			"readMore": "Read more"
+		},
+		"surveys": {
+			"response": {
+				"success": "Thank you for sharing your feedback with us - we appreciate your time.",
+				"error": "We're sorry, there was an error recording your response. Please try again."
+			},
+			"genericQuestion": "How could we have made this page better?",
+			"genericPrompt": "Tell us how we could improve this page..."
 		}
 	},
 	"toplevel": {
@@ -801,7 +810,6 @@
 				},
 				"orderForm": "Order Form",
 				"yourDetails": "Your Details",
-				"submit": "Submit",
 				"locationPrompt": "To get your free branded materials start by telling us where your project is based:",
 				"locations": {
 					"monolingual": "England, Scotland or Northern Ireland",

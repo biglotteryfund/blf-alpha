@@ -21,8 +21,8 @@
 
         <p class="survey__response"
                v-if="isComplete">
-            <span v-if="isComplete == 'success'">Thank you for sharing your feedback with us &ndash; we appreciate your time.</span>
-            <span v-if="isComplete == 'error'">We're sorry, there was an error recording your response. Please try again.</span>
+            <span v-if="isComplete == 'success'">{{ __('global.surveys.response.success') }}</span>
+            <span v-if="isComplete == 'error'">{{ __('global.surveys.response.error') }}</span>
         </p>
 
         <fieldset v-if="isActivated && !isComplete"
@@ -42,9 +42,9 @@
                     <div class="grid__item">
                         <label for="survey-extra-msg"
                                class="survey__label">
-                            How could we have made this page better?
+                            {{ __('global.surveys.genericQuestion') }}
                         </label>
-                        <textarea placeholder="Tell us how we could improve this page..."
+                        <textarea placeholder="{{ __('global.surveys.genericPrompt') }}"
                                   class="survey__textbox"
                                   id="survey-extra-msg"
                                   v-model="formData.message">
@@ -55,7 +55,7 @@
                         <button type="submit"
                                 class="btn btn--small survey__btn"
                                 v-on:click="updateChoice(choice)">
-                            Submit
+                            {{ __('global.forms.submit') }}
                         </button>
                     </div>
                 </div>

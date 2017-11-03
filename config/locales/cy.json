@@ -36,10 +36,19 @@
 			"nextItem": "Eitem nesaf"
 		},
 		"forms": {
-			"missingFieldError": "Darparwch y maes '%s'"
+			"missingFieldError": "Darparwch y maes '%s'",
+			"submit": "Cyflwyno"
 		},
 		"misc": {
 			"readMore": "Darllen mwy"
+		},
+		"surveys": {
+			"response": {
+				"success": "Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.",
+				"error": "Mae'n flin gennym, cafwyd gwall wrth gofnodi'ch data. Rhowch gynnig arall arni."
+			},
+			"genericQuestion": "Sut gallem fod wedi gwneud y dudalen hon yn well?",
+			"genericPrompt": "Dywedwch wrthym sut y gallem wella'r dudalen hon..."
 		}
 	},
 	"toplevel": {
@@ -802,7 +811,6 @@
 				},
 				"orderForm": "Ffurflen Archebu",
 				"yourDetails": "Eich Manylion",
-				"submit": "Cyflwyno",
 				"locationPrompt": "I dderbyn eich deunyddiau wedi'u brandio am ddim, dechreuwch drwy ddweud wrthym ble mae'ch prosiect wedi'i leoli:",
 				"locations": {
 					"monolingual": "Lloegr, Yr Alban neu Ogledd Iwerddon",
