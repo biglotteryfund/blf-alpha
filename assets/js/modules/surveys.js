@@ -51,6 +51,7 @@ const showSurvey = survey => {
             isActivated: false,
             isComplete: undefined,
             showMessageBox: false,
+            surveyBlocked: false,
             formData: {
                 choice: undefined,
                 message: undefined
@@ -59,6 +60,10 @@ const showSurvey = survey => {
         methods: {
             toggleSurvey: function() {
                 this.isActivated = !this.isActivated;
+            },
+            blockSurvey: function() {
+                logSurveyTaken(this.survey.id);
+                this.surveyBlocked = true;
             },
             toggleMessage: function(choice) {
                 if (choice.allow_message) {

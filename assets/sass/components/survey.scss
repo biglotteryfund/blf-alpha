@@ -39,6 +39,33 @@
         }
     }
 
+    .survey__close-icon {
+        $iconRadius: 25px;
+        $iconOffset: 7px;
+        position: absolute;
+        right: $iconOffset;
+        top: $iconOffset;
+        border-radius: 100%;
+        border: 1px solid white;
+        height: $iconRadius;
+        width: $iconRadius;
+        cursor: pointer;
+
+        @include on-interact() {
+            $highlight: palette('soft-grey');
+            border-color: $highlight;
+            svg {
+                fill: $highlight;
+            }
+        }
+
+        svg {
+            fill: white;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
     .survey__btn {
         $bg: #747474;
         background-color: $bg;

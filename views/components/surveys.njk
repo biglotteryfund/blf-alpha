@@ -7,11 +7,17 @@
           method="post"
           :action="'/survey/' + survey.id"
           v-on:submit.prevent="submitSurvey"
+          v-if="!surveyBlocked"
           v-cloak>
         <h6 class="survey__header"
             v-on:click="toggleSurvey()">
             <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
         </h6>
+
+        <span class="survey__close-icon"
+              v-on:click="blockSurvey()">
+            {% include "../includes/svg/close.svg" %}
+        </span>
 
         <p class="survey__response"
                v-if="isComplete">
