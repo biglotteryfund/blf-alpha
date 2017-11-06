@@ -1,0 +1,31 @@
+{% extends "../../layouts/tools.njk" %}
+
+{% block title %}Survey results{% endblock %}
+
+{% block content %}
+
+    <h1>All surveys</h1>
+    {% for s in surveys %}
+        <h2>{{ s.name }}</h2>
+        <p><strong>Question</strong>: {{ s.question_en }}</p>
+        {% for choice in s.choices %}
+            <h3>{{ choice.title_en }}: {{ choice.responses.length }} votes</h3>
+            {% if choice.allow_message %}
+                <ul>
+                    {% for response in choice.responses %}
+                        {% if response.message %}
+                            <li>
+                                "{{ response.message }}" ({{ response.createdAt }})
+                                {% if response.metadata %}
+                                    <pre><code>{{ response.metadata }}</code></pre>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No additional messages.</p>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
