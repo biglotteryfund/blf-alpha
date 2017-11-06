@@ -10,22 +10,6 @@
 
 {% block title %}{{ title }} | {{ copy.home }} | {% endblock %}
 
-{% macro articleTeaser(article) %}
-    <article class="article-teaser">
-        <h4 class="article-teaser__title t3">
-            <a class="u-link-minimal" href="{{ article.link }}">
-                {{ article.title }}
-            </a>
-        </h4>
-        <p class="article-teaser__summary">
-            {{ article.summary }}
-            <a href="{{ article.link }}" class="accent--pink a--text u-weight-heavy">
-                {{ __('global.misc.readMore') }}&hellip;
-            </a>
-        </p>
-    </article>
-{% endmacro %}
-
 {% block content %}
 
     {% set heroContent %}
@@ -105,18 +89,27 @@
 
             {# News Posts #}
             {% if news.length %}
-                <section class="accent--blue a--border-top">
+                <div class="accent--blue a--border-top">
                     <div class="padded padded--wide-only">
                         <h3 class="t8 t--underline a--text accent--blue">{{ copy.latestNews }}</h3>
                         <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                            {% for article in news %}
+                            {% for n in news %}
                                 <li class="grid__item">
-                                    {{ articleTeaser(article) }}
+                                    <h4 class="t3">
+                                        <a class="u-link-minimal" href="{{ n['link' | localeify(locale)] }}">
+                                            {{ n['title' | localeify(locale)] | safe}}
+                                        </a>
+                                    </h4>
+                                    <p>
+                                        {{ n['text' | localeify(locale)] | safe }}
+                                        <a href="{{ n['link' | localeify(locale)] }}"
+                                            class="accent--pink a--text u-weight-heavy">{{ __('global.misc.readMore') }}&hellip;</a>
+                                    </p>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
-                </section>
+                </div>
             {% endif %}
 
         </div>
