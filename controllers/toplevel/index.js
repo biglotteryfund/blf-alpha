@@ -2,7 +2,7 @@
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const { sortBy } = require('lodash');
+const { get, sortBy } = require('lodash');
 const rp = require('request-promise');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
@@ -19,6 +19,7 @@ const proxyLegacy = require('../../modules/proxy');
 const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
+const contentApi = require('../../modules/content');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -77,17 +78,16 @@ const newHomepage = (req, res) => {
     };
 
     // get news articles
-    try {
-        models.News
-            .findAll({
-                limit: 3,
-                order: [['updatedAt', 'DESC']]
-            })
-            .then(serveHomepage);
-    } catch (e) {
-        console.log('Could not find news posts');
-        serveHomepage();
-    }
+    contentApi
+        .getPromotedNews(req.i18n.getLocale())
+        .then(response => get(response, 'data', []))
+        .then(data => data.map(item => item.attributes))
+        .then(news => {
+            serveHomepage(news);
+        })
+        .catch(() => {
+            serveHomepage();
+        });
 };
 
 const oldHomepage = (req, res) => {
