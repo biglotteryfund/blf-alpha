@@ -11,7 +11,6 @@ const xss = require('xss');
 
 const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
-const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
 const auth = require('../../modules/authed');
 
@@ -69,6 +68,34 @@ router.get('/status/pages', (req, res) => {
         vanityRedirects: routes.vanityRedirects,
         totals: totals
     });
+});
+
+router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
+    models.Survey
+        .findAll({
+            include: [
+                {
+                    model: models.SurveyChoice,
+                    as: 'choices',
+                    required: true,
+                    include: [
+                        {
+                            model: models.SurveyResponse,
+                            as: 'responses',
+                            required: true
+                        }
+                    ]
+                }
+            ]
+        })
+        .then(surveys => {
+            res.render('pages/tools/surveys', {
+                surveys: surveys
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
 });
 
 // language file editor tool
