@@ -11,7 +11,7 @@ if (!API_URL) {
 
 function getPromotedNews(locale) {
     return rp({
-        url: `${CMS_URL}/api/v1/${locale}/promoted-news`,
+        url: `${API_URL}/v1/${locale}/promoted-news`,
         json: true
     });
 }
