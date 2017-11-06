@@ -2,16 +2,16 @@
 const rp = require('request-promise');
 const getSecret = require('./get-secret');
 
-let CMS_URL = process.env.cmsUrl || getSecret('cms.url');
+let API_URL = process.env.cmsUrl || getSecret('content-api.url');
 
-if (!CMS_URL) {
+if (!API_URL) {
     console.log('Error: CMS_URL endpoint must be defined');
     process.exit(1);
 }
 
 const getFundingProgrammes = locale => {
     return rp({
-        url: `${CMS_URL}/api/v1/${locale}/funding-programmes`,
+        url: `${API_URL}/v1/${locale}/funding-programmes`,
         json: true
     });
 };
