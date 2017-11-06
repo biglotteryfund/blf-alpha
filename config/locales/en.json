@@ -958,10 +958,9 @@
 		},
 		"programmes": {
 			"title": "Funding Programmes",
-			"under10k": "Funding programmes under £10,000",
-			"over10k": "Funding programmes over £10,000",
+			"under10k": "Awards under £10,000",
+			"over10k": "Awards over £10,000",
 			"breadcrumbAll": "All Programmes",
-			"breadcrumbLocation": "Funding programmes in %s",
 			"details": {
 				"area": "Area",
 				"organisationTypes": "Organisation types",
