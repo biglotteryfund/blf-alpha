@@ -14,8 +14,11 @@
 
     @include mq(medium-minor) {
         flex: 0 0 50%;
-        padding-left: $spacingUnit / 2;
-        padding-right: $spacingUnit / 2;
+
+        > .programme-card {
+            margin-left: $spacingUnit / 2;
+            margin-right: $spacingUnit / 2;
+        }
     }
 }
 
