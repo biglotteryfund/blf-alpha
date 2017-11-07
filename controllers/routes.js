@@ -397,6 +397,12 @@ const otherUrls = [
         isPostable: true,
         allowQueryStrings: false,
         live: true
+    },
+    {
+        path: '/user/*',
+        isPostable: true,
+        allowQueryStrings: true,
+        live: true
     }
 ];
 
