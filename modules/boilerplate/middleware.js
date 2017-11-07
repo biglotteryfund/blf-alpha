@@ -24,7 +24,8 @@ require('../../modules/boilerplate/auth');
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
 
 app.use(favicon(path.join('public', '/favicon.ico')));
-let logFormat = '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms';
+let logFormat =
+    '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms ":referrer"';
 app.use(
     morgan(logFormat, {
         skip: req => {
