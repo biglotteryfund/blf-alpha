@@ -393,7 +393,7 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/survey',
+        path: '/survey/*',
         isPostable: true,
         allowQueryStrings: false,
         live: true
