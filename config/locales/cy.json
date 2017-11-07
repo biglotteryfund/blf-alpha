@@ -47,7 +47,8 @@
 			"submit": "Cyflwyno"
 		},
 		"misc": {
-			"readMore": "Darllen mwy"
+			"readMore": "Darllen mwy",
+			"or": "neu"
 		},
 		"surveys": {
 			"response": {
@@ -468,7 +469,7 @@
 							]
 						},
 						{
-							"name": "Gogledd-ddwyrain Lloegr",
+							"name": "Gogledd-orllewin Lloegr",
 							"vacancies": [
 								{
 									"label": "Swyddog Ariannu",
