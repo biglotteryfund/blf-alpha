@@ -2890,7 +2890,7 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/survey",
+        "PathPattern": "/survey/*",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
