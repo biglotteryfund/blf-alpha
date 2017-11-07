@@ -47,7 +47,8 @@
 			"submit": "Submit"
 		},
 		"misc": {
-			"readMore": "Read more"
+			"readMore": "Read more",
+			"or": "or"
 		},
 		"surveys": {
 			"response": {
