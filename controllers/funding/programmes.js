@@ -66,6 +66,10 @@ module.exports = function(config) {
                         }
                     ];
                 } else {
+                    templateData.activeBreadcrumbs.push({
+                        label: req.i18n.__(config.lang + '.title')
+                    });
+
                     if (minAmountParam) {
                         templateData.activeBreadcrumbs.push({
                             label: req.i18n.__(config.lang + '.over10k'),
@@ -85,10 +89,7 @@ module.exports = function(config) {
                         };
 
                         templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(
-                                'funding.programmes.breadcrumbLocation',
-                                locationParamToTranslation(locationParam)
-                            )
+                            label: locationParamToTranslation(locationParam)
                         });
                     }
                 }

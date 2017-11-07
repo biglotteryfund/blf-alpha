@@ -960,10 +960,9 @@
 		},
 		"programmes": {
 			"title": "Rhaglenni Ariannu",
-			"under10k": "Rhaglenni ariannu o dan £10,000",
-			"over10k": "Rhaglenni ariannu dros £10,000",
+			"under10k": "Grantiau dan £10,000",
+			"over10k": "Grantiau dros £10,000",
 			"breadcrumbAll": "Pob Rhaglenni",
-			"breadcrumbLocation": "Rhaglenni ariannu yn %s",
 			"details": {
 				"area": "Ardal",
 				"organisationTypes": "Math o fudiad",
