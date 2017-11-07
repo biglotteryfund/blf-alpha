@@ -13,10 +13,14 @@ const { userBasePath, userEndpoints, emailPasswordValidations, formValidations }
 router.get(userEndpoints.dashboard, auth.requireAuthed, dashboard.dashboard);
 
 // register users
-router
-    .route(userEndpoints.register)
-    .get(auth.requireUnauthed, register.registrationForm)
-    .post(emailPasswordValidations, register.createUser);
+// router
+//     .route(userEndpoints.register)
+//     .get(auth.requireUnauthed, register.registrationForm)
+//     .post(emailPasswordValidations, register.createUser);
+
+router.route(userEndpoints.register).get((req, res) => {
+    res.send('Temporarily removed.');
+});
 
 // login users
 router
