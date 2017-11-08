@@ -309,6 +309,10 @@ $offscreenNavWidth: 65%;
 }
 // handle animation of offscreen nav for mobile
 @include mq('tablet', 'max') {
+    .global-container {
+        transition: all 0.3s ease-in-out;
+    }
+
     .show-off-canvas {
         overflow: hidden;
 
@@ -316,7 +320,7 @@ $offscreenNavWidth: 65%;
             right: 0;
         }
 
-        main {
+        .global-container {
             transform: translateX(-$offscreenNavWidth);
         }
     }
