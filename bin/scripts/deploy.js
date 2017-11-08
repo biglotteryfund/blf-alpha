@@ -199,7 +199,14 @@ function verifyCommitsToDeploy() {
                 let commitStr = '';
                 console.log('This deployment will push the following commits live:');
                 commits.forEach(c => {
-                    let line = ` - ${c.commit.message} \n`;
+                    let msg = c.commit.message;
+                    // merge commits have newlines for descriptions so let's remove them
+                    let newLineSearch = '\n\n';
+                    if (msg.indexOf(newLineSearch) !== -1) {
+                        msg = msg.replace(newLineSearch, ' (');
+                        msg += ')';
+                    }
+                    let line = ` - ${msg} \n`;
                     commitStr += line;
                     console.log('\t' + line);
                 });
