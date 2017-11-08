@@ -8,36 +8,18 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% macro linkGrid(items, accentColor) %}
-    <div class="link-grid accent--{{ accentColor }} a--border-color">
-        <ul class="link-grid__list unstyled">
-            {% for item in items %}
-            <li class="link-grid__item">
-                {% if item.url %}<a href="{{ item.url }}" class="u-link-minimal">{% endif %}
-                <span class="t2">{{ item.label }}</span>
-                {% if item.url %}</a>{% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endmacro %}
-
-
 {% block content %}
-
-    {% set heroImage = createHeroImage({
-        small: 'hero/jobs-small.jpg',
-        medium: 'hero/jobs-medium.jpg',
-        large: 'hero/jobs-large.jpg',
-        default: 'hero/jobs-medium.jpg',
-        caption: 'Street Dreams, Grant £9,000'
-    }) %}
-
     {{
         sectionHero(
+            accent = 'blue',
             titleText = title,
-            image = heroImage,
-            accent = 'blue'
+            image = createHeroImage({
+                small: 'hero/jobs-small.jpg',
+                medium: 'hero/jobs-medium.jpg',
+                large: 'hero/jobs-large.jpg',
+                default: 'hero/jobs-medium.jpg',
+                caption: 'Street Dreams, Grant £9,000'
+            })
         )
     }}
 
@@ -63,27 +45,6 @@
                 {% endfor %}
             </ul>
             <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
-        </div>
-
-        {# Current Vacancies #}
-        <div class="content-box content-box--borderless inner--wide-only accent--blue a--border-top"
-            id="current-vacancies">
-            <h3 class="t3">{{ copy.sections.currentVacancies.title }}</h3>
-            {% for group in copy.sections.currentVacancies.groups %}
-                <section id="vacancies-{{ group.name | slugify }}">
-                    <h4 class="t1 t--underline accent--pink">
-                        {{ group.name }}
-                    </h4>
-
-                    {% for subRegion, vacancies in group.vacancies | groupby('subRegion') %}
-                        {% if (subRegion !== 'n/a') %}
-                            <h5 class="t3 no-space">{{ subRegion }}</h5>
-                        {% endif %}
-
-                        {{ linkGrid(vacancies, 'blue') }}
-                    {% endfor %}
-                </section>
-            {% endfor %}
         </div>
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
