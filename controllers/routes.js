@@ -200,8 +200,9 @@ const routes = {
                     path: '/programmes',
                     template: 'pages/funding/programmes',
                     lang: 'funding.programmes',
+                    allowQueryStrings: true,
                     static: false,
-                    live: false
+                    live: true
                 }
             }
         },
