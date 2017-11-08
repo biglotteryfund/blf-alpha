@@ -13,8 +13,13 @@ function getCachebustedPath(path) {
     return '/' + [assetVirtualDir, 'build', version, path].join('/');
 }
 
+function getImagePath(path) {
+    return '/' + [assetVirtualDir, 'images', path].join('/');
+}
+
 module.exports = {
     assetList: assets,
     assetVirtualDir: assetVirtualDir,
-    getCachebustedPath: getCachebustedPath
+    getCachebustedPath: getCachebustedPath,
+    getImagePath: getImagePath
 };

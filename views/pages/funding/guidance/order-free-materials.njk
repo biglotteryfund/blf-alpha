@@ -79,8 +79,8 @@
                     <h6 class="t4 card__title">{{ item.name[locale] }}</h6>
 
                     <div class="card__media">
-                        {% set imgPath = 'images/materials/' + imageLocale + '/' + item.image %}
-                        {% set imgPath = imgPath | getCachebustedPath %}
+                        {% set imgPath = 'materials/' + imageLocale + '/' + item.image %}
+                        {% set imgPath = imgPath | getImagePath %}
                         <a class="material-item__media"
                              style="background-image: url({{ imgPath }}"
                              href="{{ imgPath }}"

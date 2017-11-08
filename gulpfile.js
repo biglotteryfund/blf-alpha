@@ -17,7 +17,6 @@ const buildSummary = require('./tasks/getBuildSummary')();
 const DIRS = {
     in: {
         css: './assets/sass',
-        img: './assets/images',
         sassConfig: './config/content'
     }
 };
@@ -26,10 +25,6 @@ const MANIFEST_PATH = './bin/assets.json';
 
 gulp.task('clean', function() {
     return del([buildSummary.buildDirBase + '/**/*', MANIFEST_PATH]);
-});
-
-gulp.task('images', function() {
-    return gulp.src(DIRS.in.img + '/**/*').pipe(gulp.dest(buildSummary.buildDir + '/images'));
 });
 
 /**
@@ -54,11 +49,9 @@ gulp.task('jsonToSass', function() {
 });
 
 /**
- * Compile static assets.
- * References to images will be replaced
- * in production with cachebusted versions.
+ * Compile Sass
  */
-gulp.task('styles', ['images', 'jsonToSass'], function() {
+gulp.task('styles', ['jsonToSass'], function() {
     return gulp
         .src(DIRS.in.css + '/*.scss')
         .pipe(sourcemaps.init())
@@ -92,7 +85,6 @@ gulp.task('watch', ['build'], function() {
     const livereload = require('livereload');
     const server = livereload.createServer();
     server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
-
     gulp.watch(DIRS.in.css + '/**/*.scss', ['styles']);
 });
 

@@ -80,7 +80,7 @@ $offscreenNavWidth: 65%;
     display: inline-block;
     background-repeat: no-repeat;
     background-position: left center;
-    background-image: url(../images/logo-new.png);
+    background-image: url(../../../images/logos/logo-new.png);
     margin-bottom: 0;
 
     @media print {
@@ -106,16 +106,16 @@ $offscreenNavWidth: 65%;
     // use welsh logo (and scale it a bit as it's smaller)
     .locale--cy & {
         transform: scale(1.2);
-        background-image: url(../images/logo-new--welsh.png);
+        background-image: url(../../../images/logos/logo-new--welsh.png);
     }
 
     // handle broken IE which pixellates our logo
     .is-ie & {
-        background-image: url(../images/logo-small.png);
+        background-image: url(../../../images/logos/logo-small.png);
     }
 
     .is-ie.locale--cy & {
-        background-image: url(../images/logo-small--welsh.png);
+        background-image: url(../../../images/logos/logo-small--welsh.png);
     }
 }
 
@@ -466,10 +466,10 @@ html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
     }
 }
 html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
-    background-image: url(../images/logo-new.png);
+    background-image: url(../../../images/logos/logo-new.png);
 }
 html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo {
-    background-image: url(../images/logo-new--welsh.png);
+    background-image: url(../../../images/logos/logo-new--welsh.png);
 }
 
 @media print {

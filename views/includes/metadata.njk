@@ -1,3 +1,5 @@
+{% macro makeAbsoluteImage(path) %}{{ request.protocol }}://{{ request.headers.host }}{{ path | getImagePath }}{% endmacro %}
+
 <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) (Node version: {{ appData.nodeVersion }}) -->
 
 <meta charset="utf-8">
@@ -13,6 +15,10 @@
 <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
 <meta property="og:url" content="{{ getCurrentUrl(request) }}">
 
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
+<meta property="twitter:image" content="{{ makeAbsoluteImage("social/twitter.jpg") }}">
+<meta property="og:image" content="{{ makeAbsoluteImage("social/facebook.jpg") }}">
 
 {# tiles/themes #}
 <meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">
@@ -21,19 +27,19 @@
 <meta name="theme-color" content="{{ metadata.themeColour }}">
 
 {# favicons #}
-<link rel="apple-touch-icon" sizes="57x57" href="{{ 'images/favicon/apple-icon-57x57.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="60x60" href="{{ 'images/favicon/apple-icon-60x60.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="72x72" href="{{ 'images/favicon/apple-icon-72x72.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="76x76" href="{{ 'images/favicon/apple-icon-76x76.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="114x114" href="{{ 'images/favicon/apple-icon-114x114.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="120x120" href="{{ 'images/favicon/apple-icon-120x120.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="144x144" href="{{ 'images/favicon/apple-icon-144x144.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="152x152" href="{{ 'images/favicon/apple-icon-152x152.png' | getCachebustedPath }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ 'images/favicon/apple-icon-180x180.png' | getCachebustedPath }}">
-<link rel="icon" type="image/png" sizes="192x192"  href="{{ 'images/favicon/android-icon-192x192.png' | getCachebustedPath }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ 'images/favicon/favicon-32x32.png' | getCachebustedPath }}">
-<link rel="icon" type="image/png" sizes="96x96" href="{{ 'images/favicon/favicon-96x96.png' | getCachebustedPath }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ 'images/favicon/favicon-16x16.png' | getCachebustedPath }}">
-<meta name="msapplication-TileImage" content="{{ 'images/favicon/ms-icon-144x144.png' | getCachebustedPath }}">
+<link rel="apple-touch-icon" sizes="57x57" href="{{ 'favicon/apple-icon-57x57.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ 'favicon/apple-icon-60x60.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ 'favicon/apple-icon-72x72.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ 'favicon/apple-icon-76x76.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ 'favicon/apple-icon-114x114.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ 'favicon/apple-icon-120x120.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ 'favicon/apple-icon-144x144.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ 'favicon/apple-icon-152x152.png' | getImagePath }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ 'favicon/apple-icon-180x180.png' | getImagePath }}">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{ 'favicon/android-icon-192x192.png' | getImagePath }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon/favicon-32x32.png' | getImagePath }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ 'favicon/favicon-96x96.png' | getImagePath }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon/favicon-16x16.png' | getImagePath }}">
+<meta name="msapplication-TileImage" content="{{ 'favicon/ms-icon-144x144.png' | getImagePath }}">
 
 {# todo: <link rel="alternate" hreflang="cy" href="#" /> #}

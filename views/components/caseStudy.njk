@@ -3,9 +3,9 @@
         <div class="case-study__image">
             {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
                 <picture>
-                    <source srcset="{{ imageUrl | getCachebustedPath }}" media="(min-width: 600px)">
-                    <source srcset="{{ imageSmallUrl | getCachebustedPath }}">
-                    <img src="{{ imageSmallUrl | getCachebustedPath }}" alt="{{ quoteName }} {{ projectName }}" />
+                    <source srcset="{{ imageUrl | getImagePath }}" media="(min-width: 600px)">
+                    <source srcset="{{ imageSmallUrl | getImagePath }}">
+                    <img src="{{ imageSmallUrl | getImagePath }}" alt="{{ quoteName }} {{ projectName }}" />
                 </picture>
             {% if link %}</a>{% endif %}
         </div>

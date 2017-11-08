@@ -26,10 +26,10 @@
 {% block content %}
 
     {% set heroImage = createHeroImage({
-        small: 'images/hero/jobs-small.jpg',
-        medium: 'images/hero/jobs-medium.jpg',
-        large: 'images/hero/jobs-large.jpg',
-        default: 'images/hero/jobs-medium.jpg',
+        small: 'hero/jobs-small.jpg',
+        medium: 'hero/jobs-medium.jpg',
+        large: 'hero/jobs-large.jpg',
+        default: 'hero/jobs-medium.jpg',
         caption: 'Street Dreams, Grant £9,000'
     }) %}
 
@@ -99,7 +99,7 @@
         </div>
 
         <div class="inner">
-            <img src="{{ 'images/equality-sponsors.png' | getCachebustedPath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In Peopke, Business Disability Forum and Living Wage Employer" />
+            <img src="{{ 'jobs/equality-sponsors.png' | getImagePath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In People, Business Disability Forum and Living Wage Employer" />
         </div>
 
     </article>

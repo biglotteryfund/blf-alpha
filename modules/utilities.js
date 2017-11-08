@@ -38,10 +38,10 @@ const createHeroImage = opts => {
     }
 
     return {
-        small: assets.getCachebustedPath(opts.small),
-        medium: assets.getCachebustedPath(opts.medium),
-        large: assets.getCachebustedPath(opts.large),
-        default: assets.getCachebustedPath(opts.default),
+        small: assets.getImagePath(opts.small),
+        medium: assets.getImagePath(opts.medium),
+        large: assets.getImagePath(opts.large),
+        default: assets.getImagePath(opts.default),
         caption: opts.caption || ''
     };
 };

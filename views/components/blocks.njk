@@ -4,7 +4,7 @@
             {% if project.link %}<a href="{{ project.link }}">{% endif %}
                 <img
                     class="project-card__image"
-                    src="{{ project.image | getCachebustedPath }}"
+                    src="{{ project.image | getImagePath }}"
                     alt="{{ project.description }}"
                 />
             {% if project.link %}</a>{% endif %}
