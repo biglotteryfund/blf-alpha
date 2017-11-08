@@ -12,7 +12,11 @@
 <meta property="og:title" content="{% if title %}{{ title }} | {{ metadata.title }}{% else %}{{ metadata.title }}{% endif %}">
 <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
 <meta property="og:url" content="{{ getCurrentUrl(request) }}">
+<meta property="og:image" content="{{ "social/facebook.jpg" | getRemoteAsset }}">
 
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
+<meta property="twitter:image" content="{{ "social/twitter.jpg" | getRemoteAsset }}">
 
 {# tiles/themes #}
 <meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">
