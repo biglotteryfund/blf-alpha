@@ -19,6 +19,10 @@ templateEnv.addFilter('getCachebustedPath', str => {
     return assets.getCachebustedPath(str);
 });
 
+templateEnv.addFilter('getRemoteAsset', str => {
+    return assets.getRemoteAsset(str);
+});
+
 templateEnv.addFilter('localeify', (field, locale) => {
     return field + '_' + locale;
 });
