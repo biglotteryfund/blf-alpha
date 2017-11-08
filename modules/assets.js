@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('config');
 const assetVirtualDir = 'assets';
 
 // load cachebusted assets
@@ -14,18 +13,8 @@ function getCachebustedPath(path) {
     return '/' + [assetVirtualDir, 'build', version, path].join('/');
 }
 
-function getRemoteAsset(path) {
-    if (path) {
-        if (path[0] === '/') {
-            path = path.substr(1);
-        }
-        return `https://${config.get('cloudfrontAssets')}/assets/${path}`;
-    }
-}
-
 module.exports = {
     assetList: assets,
     assetVirtualDir: assetVirtualDir,
-    getCachebustedPath: getCachebustedPath,
-    getRemoteAsset: getRemoteAsset
+    getCachebustedPath: getCachebustedPath
 };
