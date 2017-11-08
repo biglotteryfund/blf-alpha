@@ -68,8 +68,14 @@
     </div>
 {% endmacro %}
 
-{# whitespace/linebreaks here render in the href attribute :( #}
-{% macro logoPath(locale, filename, extension, suffix = false) %}{% set l = 'logos/' + locale + '/' + filename %}{% if suffix %}{% set l = l + suffix %}{% endif %}{% set l = l + '.' + extension %}{{ l | getImagePath }}{% endmacro %}
+{% macro logoPath(locale, filename, extension, suffix = false) %}
+    {% set l = 'logos/' + locale + '/' + filename %}
+    {% if suffix %}
+        {% set l = l + suffix %}
+    {% endif %}
+    {% set l = l + '.' + extension %}
+    {{ l | getImagePath }}
+{% endmacro %}
 
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
     {{ downloadBlock(logoId) }}
@@ -78,18 +84,18 @@
         {% set accentClass = ' accent--' + accent + ' a--btn ' %}
     {% endif %}
 
-    {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') }}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
-        <img src="{{ logoPath(logoLocale, logoFilename, 'png') }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
+    {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim}}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
+        <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
     {% if not onlyEps %}</a>{% endif %}
     {% if not onlyEps %}
-        <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+        <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'small') }}
         </a>
-        <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+        <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
             {{ makeLogoTitle(logoName, 'large') }}
         </a>
     {% endif %}
-    <a href="{{ logoPath(logoLocale, logoFilename, 'eps') }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+    <a href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
         {{ makeLogoTitle(logoName, 'eps') }}
     </a>
 {% endmacro %}
