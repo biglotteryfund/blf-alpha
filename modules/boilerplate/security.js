@@ -22,7 +22,6 @@ const defaultSecurityDomains = [
     '*.twimg.com',
     'cdn.jsdelivr.net',
     'sentry.io',
-    'd3asauyzvifbd4.cloudfront.net',
     'dvmwjbtfsnnp0.cloudfront.net'
 ];
 
