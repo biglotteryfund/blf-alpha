@@ -84,8 +84,8 @@
 					"quoteName": "Jonathan Ssentamu",
 					"quoteNameCaption": "Gweithiwr Datblygu Pobl Ifainc",
 					"projectName": "Passion4Fusion",
-					"imageUrl": "images/home/case-study-4-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"imageUrl": "home/case-study-4-medium.jpg",
+					"imageSmallUrl": "home/case-study-4-small.jpg",
 					"link": "funding/big-stories/passion4fusion"
 				},
 				{
@@ -93,8 +93,8 @@
 					"quoteName": "Andrea Glenn",
 					"quoteNameCaption": null,
 					"projectName": "Lleisiau Pobl Ifainc mewn Gofal",
-					"imageUrl": "images/home/case-study-1-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-1-small.jpg",
+					"imageUrl": "home/case-study-1-medium.jpg",
+					"imageSmallUrl": "home/case-study-1-small.jpg",
 					"link": "funding/big-stories/voice-of-young-people-in-care"
 				},
 				{
@@ -102,8 +102,8 @@
 					"quoteName": "Candy Worf",
 					"quoteNameCaption": null,
 					"projectName": "Y Sefydliad Iechyd Meddwl",
-					"imageUrl": "images/home/case-study-2-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-2-small.jpg",
+					"imageUrl": "home/case-study-2-medium.jpg",
+					"imageSmallUrl": "home/case-study-2-small.jpg",
 					"link": "funding/big-stories/mental-health-foundation"
 				},
 				{
@@ -111,8 +111,8 @@
 					"quoteName": "Anthony Turkington",
 					"quoteNameCaption": "Buddiolwr",
 					"projectName": "Bytes",
-					"imageUrl": "images/home/case-study-3-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-3-small.jpg",
+					"imageUrl": "home/case-study-3-medium.jpg",
+					"imageSmallUrl": "home/case-study-3-small.jpg",
 					"link": "funding/big-stories/bytes"
 				}
 			],
@@ -711,21 +711,21 @@
 					"name": "Papyrus",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/hbf.jpg",
+					"image": "under10k/hbf.jpg",
 					"description": "Yn atal hunanladdiad pobl ifainc ar draws y Deyrnas Unedig, mae Papyrus yn cynnig cymorth, cyngor a chefnogaeth i bobl ifainc sydd â meddyliau hunanddinistriol, eu cyfeillion a'u teuluoedd. "
 				},
 				{
 					"name": "Ragroof Players",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/ragroof.jpg",
+					"image": "under10k/ragroof.jpg",
 					"description": "Mae'r Ragroof Players yn creu sioeau theatr, prosiectau perfformiad, dawnsiau te a digwyddiadau wedi eu teilwra sy'n dathlu dawns gymdeithasol a theatr boblogaidd."
 				},
 				{
 					"name": "Cyngor Ffoaduriaid Cymru",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/wrc.jpg",
+					"image": "under10k/wrc.jpg",
 					"description": "Mae Cyngor Ffoaduriaid Cymru'n cefnogi'r rhai sy'n ffoi rhag erledigaeth, gwrthdaro a gormes."
 				}
 			],
@@ -748,21 +748,21 @@
 					"name": "Croxteth Gems",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/croxteth.jpg",
+					"image": "over10k/croxteth.jpg",
 					"description": "Fel grŵp wrth wraidd ei gymuned, mae Cymdeithas Gymunedol Croxteth Gems wedi cefnogi pobl ifainc a theuluoedd ers bron 50 mlynedd. "
 				},
 				{
 					"name": "Dads in Mind",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/dads.jpg",
+					"image": "over10k/dads.jpg",
 					"description": "Mae Dads in Mind yn cefnogi tadau sy'n profi problemau iechyd meddwl gysylltiedig yn uniongyrchol â beichiogrwydd a bod yn dad ac yn cynnig cefnogaeth i'r rhai y mae eu partneriaid wedi'u heffeithio hefyd. "
 				},
 				{
 					"name": "Cruse Bereavement Care",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/cruse.jpg",
+					"image": "over10k/cruse.jpg",
 					"description": "Mae Gofal mewn Galar Cruse yn cynnig cefnogaeth, cyngor a gwybodaeth i blant, pobl ifainc ac oedolion pan fydd rhywun yn marw. "
 				}
 			],

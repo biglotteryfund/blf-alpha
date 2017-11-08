@@ -84,8 +84,8 @@
 					"quoteName": "Jonathan Ssentamu",
 					"quoteNameCaption": "Youth Development Worker",
 					"projectName": "Passion4Fusion",
-					"imageUrl": "images/home/case-study-4-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-4-small.jpg",
+					"imageUrl": "home/case-study-4-medium.jpg",
+					"imageSmallUrl": "home/case-study-4-small.jpg",
 					"link": "funding/big-stories/passion4fusion"
 				},
 				{
@@ -93,8 +93,8 @@
 					"quoteName": "Andrea Glenn",
 					"quoteNameCaption": null,
 					"projectName": "Voice of Young People in Care",
-					"imageUrl": "images/home/case-study-1-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-1-small.jpg",
+					"imageUrl": "home/case-study-1-medium.jpg",
+					"imageSmallUrl": "home/case-study-1-small.jpg",
 					"link": "funding/big-stories/voice-of-young-people-in-care"
 				},
 				{
@@ -102,8 +102,8 @@
 					"quoteName": "Candy Worf",
 					"quoteNameCaption": null,
 					"projectName": "Mental Health Foundation",
-					"imageUrl": "images/home/case-study-2-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-2-small.jpg",
+					"imageUrl": "home/case-study-2-medium.jpg",
+					"imageSmallUrl": "home/case-study-2-small.jpg",
 					"link": "funding/big-stories/mental-health-foundation"
 				},
 				{
@@ -111,8 +111,8 @@
 					"quoteName": "Anthony Turkington",
 					"quoteNameCaption": "Beneficiary",
 					"projectName": "Bytes",
-					"imageUrl": "images/home/case-study-3-medium.jpg",
-					"imageSmallUrl": "images/home/case-study-3-small.jpg",
+					"imageUrl": "home/case-study-3-medium.jpg",
+					"imageSmallUrl": "home/case-study-3-small.jpg",
 					"link": "funding/big-stories/bytes"
 				}
 			],
@@ -710,21 +710,21 @@
 					"name": "Papyrus",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/hbf.jpg",
+					"image": "under10k/hbf.jpg",
 					"description": "Preventing youth suicide across the UK, Papyrus offer help, advice and support to young people with suicidal thoughts and their friends and family."
 				},
 				{
 					"name": "Ragroof Players",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/ragroof.jpg",
+					"image": "under10k/ragroof.jpg",
 					"description": "The Ragroof Players create theatre shows, performance projects, tea dances, and bespoke events that celebrate social dance and popular theatre."
 				},
 				{
 					"name": "Welsh Refugee Council",
 					"amount": "",
 					"link": "",
-					"image": "images/under10k/wrc.jpg",
+					"image": "under10k/wrc.jpg",
 					"description": "The Welsh Refugee Council supports those fleeing persecution, conflict and oppression."
 				}
 			],
@@ -747,21 +747,21 @@
 					"name": "Croxteth Gems",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/croxteth.jpg",
+					"image": "over10k/croxteth.jpg",
 					"description": "A group at the very heart of its community, Croxteth Gems Community Association has been supporting young people and families for almost 50 years."
 				},
 				{
 					"name": "Dads in Mind",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/dads.jpg",
+					"image": "over10k/dads.jpg",
 					"description": "Dads in Mind supports dads directly experiencing mental health issues related to pregnancy and parenthood and also offers support to those whose partners are affected."
 				},
 				{
 					"name": "Cruse Bereavement Care",
 					"amount": "",
 					"link": "",
-					"image": "images/over10k/cruse.jpg",
+					"image": "over10k/cruse.jpg",
 					"description": "Cruse Bereavement Care offer support, advice and information to children, young people and adults when someone dies."
 				}
 			],
