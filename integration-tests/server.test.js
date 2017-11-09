@@ -8,7 +8,7 @@ chai.should();
 const helper = require('./helper');
 
 describe('Express application', () => {
-    let server, agent;
+    let server;
 
     before(done => {
         helper.before(serverInstance => {
@@ -19,10 +19,6 @@ describe('Express application', () => {
 
     after(() => {
         helper.after(server);
-    });
-
-    beforeEach(() => {
-        agent = chai.request.agent(server);
     });
 
     it('responds to /', done => {
@@ -84,7 +80,7 @@ describe('Express application', () => {
     });
 
     it('serves static files', done => {
-        const assets = require('../../modules/assets');
+        const assets = require('../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
         chai
             .request(server)

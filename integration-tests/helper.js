@@ -11,7 +11,7 @@ process.env.USE_LOCAL_DATABASE = true;
 // never send emails in test mode (instead capture their content)
 process.env.DONT_SEND_EMAIL = true;
 
-const models = require('../../models/index');
+const models = require('../models/index');
 
 let hook;
 
@@ -44,7 +44,7 @@ const truncateUsers = () => {
 module.exports = {
     before: callback => {
         hook = captureStream(process.stdout);
-        const server = importFresh('../../bin/www');
+        const server = importFresh('../bin/www');
         server.on('listening', () => {
             callback(server);
         });

@@ -3,7 +3,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const utilities = require('../../modules/utilities');
+const utilities = require('./utilities');
 
 describe('utility functions', () => {
     it('should strip trailing slashes correctly', done => {
