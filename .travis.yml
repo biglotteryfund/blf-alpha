@@ -35,7 +35,7 @@ deploy:
   key: build-$TRAVIS_BUILD_NUMBER.zip
   bundle_type: zip
   application: BLF_Test
-  deployment_group: BLF_Test_In_Place
+  deployment_group: BLF_Test_Fleet
   on:
     tags: false
 notifications:

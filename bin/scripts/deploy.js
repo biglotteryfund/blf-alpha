@@ -27,11 +27,11 @@ let customBuildNumber = argv.build;
 const codeDeployEnvs = {
     test: {
         applicationName: 'BLF_Test',
-        deploymentGroupName: 'BLF_Test_In_Place'
+        deploymentGroupName: 'BLF_Test_Fleet'
     },
     live: {
         applicationName: 'BLF_Live',
-        deploymentGroupName: 'BLF_Live_In_Place'
+        deploymentGroupName: 'BLF_Live_Fleet'
     }
 };
 
