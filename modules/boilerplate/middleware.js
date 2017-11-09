@@ -71,7 +71,7 @@ i18n.expressBind(app, {
     cookieName: 'locale',
     extension: '.json',
     directory: './config/locales',
-    devMode: app.get('env') === 'development'
+    devMode: false
 });
 
 // handle overlays
