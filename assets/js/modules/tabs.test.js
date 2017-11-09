@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 'use strict';
 const chai = require('chai');
 const expect = chai.expect;
@@ -39,7 +41,7 @@ global.document = dom.window.document;
 // JSDOM doesn't have an implementation for this so stub it.
 window.HTMLElement.prototype.scrollIntoView = function() {};
 
-let tabs = require('../../assets/js/modules/tabs');
+const tabs = require('./tabs');
 
 let getClassesFromElm = elm => {
     let classes = [];

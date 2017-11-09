@@ -1,41 +1,6 @@
 'use strict';
-const { find, get, uniq } = require('lodash');
 const contentApi = require('../../modules/content');
-
-function getValidLocation(programmes, requestedLocation) {
-    const validLocations = programmes
-        .map(programme => get(programme, 'content.area.value', false))
-        .filter(location => location !== false);
-
-    const uniqLocations = uniq(validLocations);
-    return find(uniqLocations, location => location === requestedLocation);
-}
-
-function filterByLocation(locationValue) {
-    return function(programme) {
-        if (!locationValue) {
-            return programme;
-        }
-
-        return (
-            !programme.content.area ||
-            get(programme.content, 'area.value') === 'ukWide' ||
-            get(programme.content, 'area.value') === locationValue
-        );
-    };
-}
-
-function filterByMinAmount(minAmount) {
-    return function(programme) {
-        if (!minAmount) {
-            return programme;
-        }
-
-        const data = programme.content;
-        const min = parseInt(minAmount, 10);
-        return !data.fundingSize || !min || data.fundingSize.minimum >= min;
-    };
-}
+const programmeFilters = require('../../modules/programmes');
 
 module.exports = function(config) {
     return function(req, res) {
@@ -52,12 +17,12 @@ module.exports = function(config) {
             .getFundingProgrammes(req.i18n.getLocale())
             .then(response => response.data.map(item => item.attributes))
             .then(programmes => {
-                const locationParam = getValidLocation(programmes, req.query.location);
+                const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
                 const minAmountParam = req.query.min;
 
                 templateData.programmes = programmes
-                    .filter(filterByLocation(locationParam))
-                    .filter(filterByMinAmount(minAmountParam));
+                    .filter(programmeFilters.filterByLocation(locationParam))
+                    .filter(programmeFilters.filterByMinAmount(minAmountParam));
 
                 if (!minAmountParam && !locationParam) {
                     templateData.activeBreadcrumbs = [

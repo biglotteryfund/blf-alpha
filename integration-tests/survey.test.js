@@ -6,7 +6,7 @@ chai.use(require('chai-http'));
 chai.should();
 
 const helper = require('./helper');
-const models = require('../../models/index');
+const models = require('../models/index');
 
 let testSurveyData = {
     name: 'Test Survey',
