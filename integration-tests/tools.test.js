@@ -55,7 +55,7 @@ describe('CMS Tools', function() {
     describe('authorisation for tools', () => {
         it('should block access to staff-only tools', done => {
             agent
-                .get('/tools/edit-news')
+                .get('/tools/locales/')
                 .redirects(0)
                 .end((err, res) => {
                     res.should.redirectTo('/user/login');
@@ -77,7 +77,7 @@ describe('CMS Tools', function() {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
                     return agent
-                        .get('/tools/edit-news/')
+                        .get('/tools/locales/')
                         .redirects(0)
                         .end((err, res) => {
                             res.should.have.status(302);
@@ -90,7 +90,7 @@ describe('CMS Tools', function() {
             const formData = {
                 username: validUser.username,
                 password: validUser.password,
-                redirectUrl: '/tools/edit-news/'
+                redirectUrl: '/tools/locales/'
             };
 
             agent
@@ -100,8 +100,8 @@ describe('CMS Tools', function() {
                 .end((err, res) => {
                     res.should.have.cookie(config.get('cookies.session'));
                     res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news/');
-                    return agent.get('/tools/edit-news/').end((err, res) => {
+                    res.should.redirectTo('/tools/locales/');
+                    return agent.get('/tools/locales/').end((err, res) => {
                         res.should.have.status(200);
                         done();
                     });
@@ -109,62 +109,4 @@ describe('CMS Tools', function() {
         });
     });
 
-    describe('News editor tool', () => {
-        it('should allow authorised staff to post valid news', done => {
-            const loginData = {
-                username: validUser.username,
-                password: validUser.password,
-                redirectUrl: '/tools/edit-news/'
-            };
-
-            // invalid news
-            agent
-                .post('/user/login')
-                .send(loginData)
-                .redirects(0)
-                .end((err, res) => {
-                    res.should.have.cookie(config.get('cookies.session'));
-                    res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news/');
-                    return agent
-                        .post('/tools/edit-news/')
-                        .send({
-                            title: 'Broken title',
-                            text: 'Broken text'
-                        })
-                        .redirects(0)
-                        .end((err, res) => {
-                            res.should.have.status(302);
-                            res.should.redirectTo('/tools/edit-news/?error');
-                        });
-                });
-
-            // valid news
-            agent
-                .post('/user/login')
-                .send(loginData)
-                .redirects(0)
-                .end((err, res) => {
-                    res.should.have.cookie(config.get('cookies.session'));
-                    res.should.have.status(302);
-                    res.should.redirectTo('/tools/edit-news/');
-                    return agent
-                        .post('/tools/edit-news/')
-                        .send({
-                            title_en: 'Test title (english)',
-                            title_cy: 'Test title (welsh)',
-                            text_en: 'Test text (english)',
-                            text_cy: 'Test text (welsh)',
-                            link_en: 'Test link (english)',
-                            link_cy: 'Test link (welsh)'
-                        })
-                        .redirects(0)
-                        .end((err, res) => {
-                            res.should.have.status(302);
-                            res.should.redirectTo('/tools/edit-news/?success');
-                            done();
-                        });
-                });
-        });
-    });
 });
