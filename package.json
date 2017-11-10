@@ -118,7 +118,8 @@
     "vary": "^1.1.1",
     "vue": "^2.4.4",
     "winston": "^2.3.1",
-    "xss": "^0.3.4"
+    "xss": "^0.3.4",
+    "yargs": "^7.1.0"
   },
   "devDependencies": {
     "autotrack": "^2.4.1",
@@ -145,13 +146,12 @@
     "livereload": "^0.6.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
-    "prettier": "^1.7.4",
+    "prettier": "^1.8.2",
     "prompt": "^1.0.0",
     "puppeteer": "^0.11.0",
     "run-sequence": "^2.2.0",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^3.7.1",
-    "yargs": "^7.1.0"
+    "webpack": "^3.7.1"
   },
   "snyk": true
 }
