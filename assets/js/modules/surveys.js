@@ -37,6 +37,19 @@ let hasTakenSurvey = surveyId => {
     }
 };
 
+/**
+ * iOS 11 has a bug where if an input is inside a position fixed element the
+ * cursor will disapear of the screen when entering text. Why???
+ * https://stackoverflow.com/questions/46339063/ios-11-safari-bootstrap-modal-text-area-outside-of-cursor/46954486#46954486
+ * https://bugs.webkit.org/show_bug.cgi?id=176896
+ */
+function hasiOSBug() {
+    return (
+        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        /OS 11_0_1|OS 11_0_2|OS 11_0_3|OS 11_1/.test(navigator.userAgent)
+    );
+}
+
 const showSurvey = survey => {
     const mountEl = document.getElementById('js-survey-container');
 
@@ -60,6 +73,10 @@ const showSurvey = survey => {
         methods: {
             toggleSurvey: function() {
                 this.isActivated = !this.isActivated;
+
+                if (hasiOSBug()) {
+                    $('body').toggleClass('is-ios-editing-survey');
+                }
             },
             blockSurvey: function() {
                 logSurveyTaken(this.survey.id);

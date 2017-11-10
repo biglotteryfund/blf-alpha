@@ -1,12 +1,33 @@
+// /* =========================================================================
+//    Micro-Surveys
+//    ========================================================================= */
+
+/**
+ * iOS 11 has a bug where if an input is inside a position fixed element the
+ * cursor will disapear of the screen when entering text. Why???
+ * https://stackoverflow.com/questions/46339063/ios-11-safari-bootstrap-modal-text-area-outside-of-cursor/46954486#46954486
+ * https://bugs.webkit.org/show_bug.cgi?id=176896
+ */
+body.is-ios-editing-survey {
+    position: fixed;
+    width: 100%;
+}
+
 .survey {
+    color: #ffffff;
+    background-color: #4a4a4a;
+
+    width: 100%;
     position: fixed;
     bottom: 0;
     right: 0;
     z-index: 100;
-    background-color: #4a4a4a;
-    color: #ffffff;
-    padding: $spacingUnit / 2 $spacingUnit;
-    width: 100%;
+    padding: $spacingUnit / 2;
+
+    @include mq(small) {
+        padding-left: $spacingUnit;
+        padding-right: $spacingUnit;
+    }
 
     @include mq('tablet') {
         width: 60%;
@@ -16,12 +37,6 @@
         margin-bottom: 0;
         text-decoration: underline;
         cursor: pointer;
-    }
-
-    &.is-active {
-        .survey__arrow svg {
-            transform: rotate(0deg);
-        }
     }
 
     .survey__arrow {
@@ -36,6 +51,11 @@
             transform: rotate(180deg);
             height: 100%;
             width: 100%;
+        }
+    }
+    &.is-active {
+        .survey__arrow svg {
+            transform: rotate(0deg);
         }
     }
 
@@ -82,19 +102,26 @@
     }
 
     .survey__form-items {
-        margin-top: 10px;
+        margin-top: $spacingUnit / 2;
     }
 
     .survey__extra {
+        display: flex;
         align-items: flex-end;
-        .grid__item {
-            margin-bottom: 0;
-        }
+    }
+    .survey__extra-message,
+    .survey__extra-submit {
+        flex: 1 1 auto;
+        margin-bottom: 0;
+    }
 
-        .survey__submit {
-            flex-grow: 0;
-            margin-bottom: 10px; // fixes weird alignment issue
-        }
+    .survey__extra-message {
+        padding-right: $spacingUnit / 2;
+    }
+
+    .survey__extra-submit {
+        flex-grow: 0;
+        margin-bottom: ($spacingUnit / 2); // fixes weird alignment issue
     }
 
     .survey__label {
@@ -105,9 +132,12 @@
     }
 
     .survey__textbox {
-        width: 100%;
-        font-size: 15px;
         padding: 5px;
+        width: 100%;
+        /* 16px minimum to avoid scaling on iOS */
+        font-size: 16px;
+        height: 100%;
+        border-radius: 0;
     }
 
     .survey__response {
