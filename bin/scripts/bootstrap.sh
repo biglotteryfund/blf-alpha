@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e
 
+APP_ENV_PLACEHOLDER="APP_ENV"
+APP_ENV="development"
+if [ "$APPLICATION_NAME" == "BLF_Test" ]
+then
+    APP_ENV="test"
+elif [ "$APPLICATION_NAME" == "BLF_Live" ]
+then
+    APP_ENV="production"
+fi
+
 # store deployment ID in a JSON file
 deploy_file=/var/www/biglotteryfund/config/deploy.json
 touch $deploy_file
@@ -11,21 +21,10 @@ then
 fi
 
 # run environment var script to add them to the current shell
-/var/www/biglotteryfund/bin/scripts/get-secrets
+/var/www/biglotteryfund/bin/scripts/get-secrets --environment=$APP_ENV
 
 # specify NODE_ENV based on deploy group ID
 nginx_config=/var/www/biglotteryfund/config/app/server.conf
-APP_ENV_PLACEHOLDER="APP_ENV"
-APP_ENV="development"
-
-if [ "$APPLICATION_NAME" == "BLF_Test" ]
-then
-    APP_ENV="test"
-elif [ "$APPLICATION_NAME" == "BLF_Live" ]
-then
-    APP_ENV="production"
-fi
-
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $nginx_config
 
 # configure nginx
