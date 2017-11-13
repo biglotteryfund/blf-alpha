@@ -71,12 +71,11 @@ const showSurvey = survey => {
             }
         },
         methods: {
+            localeify: function(obj, field, locale) {
+                return obj[field + '_' + locale];
+            },
             toggleSurvey: function() {
                 this.isActivated = !this.isActivated;
-
-                if (hasiOSBug()) {
-                    $('body').toggleClass('is-ios-editing-survey');
-                }
             },
             blockSurvey: function() {
                 logSurveyTaken(this.survey.id);
@@ -89,11 +88,18 @@ const showSurvey = survey => {
                     this.formData.choice = choice.id;
                 }
             },
+            messageOnFocus: function() {
+                if (hasiOSBug()) {
+                    $('body').addClass('is-ios-editing-survey');
+                }
+            },
+            messageOnBlur: function() {
+                if (hasiOSBug()) {
+                    $('body').removeClass('is-ios-editing-survey');
+                }
+            },
             updateChoice: function(choice) {
                 this.formData.choice = choice.id;
-            },
-            localeify: function(obj, field, locale) {
-                return obj[field + '_' + locale];
             },
             submitSurvey: function(e) {
                 let self = this;

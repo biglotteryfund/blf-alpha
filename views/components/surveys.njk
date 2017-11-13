@@ -52,7 +52,10 @@
                             class="survey__textbox"
                             id="survey-extra-msg"
                             placeholder="{{ __('global.surveys.genericPrompt') }}"
-                            v-model="formData.message">
+                            v-model="formData.message"
+                            v-on:focus="messageOnFocus"
+                            v-on:blur="messageOnBlur"
+                        >
                         </textarea>
                     </div>
                     {# submit the survey as a "no" #}
