@@ -2,14 +2,6 @@
    Mixins
    ========================================================================= */
 
-// Standard body text
-@mixin t5() {
-    @include roboto();
-    @include font-and-leading(20px, 27px);
-    font-weight: 400;
-    color: palette('charcoal');
-}
-
 @mixin mq($width, $type: min) {
     @if map_has_key($breakpoints, $width) {
         $width: unquote(map_get($breakpoints, $width));

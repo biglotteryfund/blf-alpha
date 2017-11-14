@@ -44,7 +44,10 @@ input,
 textarea,
 button,
 blockquote {
-    @include t5();
+    @include roboto();
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+    color: palette('charcoal');
 }
 
 h1,
