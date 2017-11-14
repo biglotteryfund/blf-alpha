@@ -12,7 +12,7 @@
 
 {% macro articleTeaser(article) %}
     <article class="article-teaser">
-        <h4 class="article-teaser__title t3">
+        <h4 class="article-teaser__title t2">
             <a class="u-link-minimal" href="{{ article.link }}">
                 {{ article.title }}
             </a>
@@ -107,7 +107,7 @@
             {% if news.length %}
                 <section class="accent--blue a--border-top">
                     <div class="padded padded--wide-only">
-                        <h3 class="t8 t--underline a--text accent--blue">{{ copy.latestNews }}</h3>
+                        <h3 class="t1 t--underline a--text accent--blue">{{ copy.latestNews }}</h3>
                         <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                             {% for article in news %}
                                 <li class="grid__item">
@@ -130,14 +130,14 @@
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     <form class="form-ebulletin padded spaced" id="{{ anchors.ebulletin }}" method="post" action="/ebulletin">
-                        <h3 class="t8 t--underline accent--pink a--text">{{ copy.ebulletin.title }}</h3>
+                        <h3 class="t1 t--underline accent--pink a--text">{{ copy.ebulletin.title }}</h3>
                         {% if request.flash and request.flash('ebulletinStatus') %}
                             {% if request.flash('ebulletinStatus') === 'success' %}
-                                <h5 class="t4">{{ copy.ebulletin.responses.success.title }}</h5>
-                                <p class="t6">{{ copy.ebulletin.responses.success.body | safe }}</p>
+                                <h5 class="t5">{{ copy.ebulletin.responses.success.title }}</h5>
+                                <p class="t8">{{ copy.ebulletin.responses.success.body | safe }}</p>
                             {% else %}
-                                <h5 class="t4">{{ copy.ebulletin.responses.error.title }}</h5>
-                                <p class="t6">{{ copy.ebulletin.responses.error.body }}</p>
+                                <h5 class="t5">{{ copy.ebulletin.responses.error.title }}</h5>
+                                <p class="t8">{{ copy.ebulletin.responses.error.body }}</p>
                             {% endif %}
                         {% else %}
                             <input type="hidden" name="_csrf" value="{{ csrfToken }}">

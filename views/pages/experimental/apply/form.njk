@@ -63,7 +63,7 @@
             {% if prevStepUrl %}
                 <a href="{{ prevStepUrl }}">← Back</a>
             {% endif %}
-            <h1 class="form-header__title t1">{{ form.title }}</h1>
+            <h1 class="form-header__title t2">{{ form.title }}</h1>
             <h2 class="form-header__subtitle">
                 Step {{ currentStepNumber }} of {{ totalSteps }}: {{ step.name }}
             </h2>
@@ -80,7 +80,7 @@
 
         {% for fieldset in step.fieldsets %}
             <fieldset class="form-fieldset u-constrained-content">
-                <legend class="form-fieldset__legend t2 t--underline accent--pink">{{ fieldset.legend }}</legend>
+                <legend class="form-fieldset__legend t6 t--underline accent--pink">{{ fieldset.legend }}</legend>
                 <div class="form-fieldset__fields">
                     {% for field in fieldset.fields %}
                         {% set fieldErrors = errorsForField(field) %}
