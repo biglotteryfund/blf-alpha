@@ -6,6 +6,7 @@ const config = require('config');
 const sassConfig = require('../../config/content/sass.json');
 const routes = require('../../controllers/routes');
 const utilities = require('../../modules/utilities');
+const { createHeroImage } = require('../../modules/images');
 
 const getGlobal = name => {
     return app.get('engineEnv').getGlobal(name);
@@ -105,7 +106,7 @@ setGlobal('buildUrl', (sectionName, pageName) => {
 });
 
 setGlobal('createHeroImage', function(opts) {
-    return utilities.createHeroImage({
+    return createHeroImage({
         small: opts.small,
         medium: opts.medium,
         large: opts.large,

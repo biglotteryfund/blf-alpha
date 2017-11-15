@@ -20,6 +20,7 @@ const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
+const { heroImages } = require('../../modules/images');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -34,46 +35,12 @@ const newHomepage = (req, res) => {
     const serveHomepage = news => {
         const lang = req.i18n.__('toplevel.home');
 
-        const heroImageDefault = utilities.createHeroImage({
-            small: 'home/home-hero-4-small.jpg',
-            medium: 'home/home-hero-4-medium.jpg',
-            large: 'home/home-hero-4-large.jpg',
-            default: 'home/home-hero-4-medium.jpg',
-            caption: 'Somewhereto, Grant £7m'
-        });
-
-        const heroImageCandidates = [
-            utilities.createHeroImage({
-                small: 'home/home-hero-1-small.jpg',
-                medium: 'home/home-hero-1-medium.jpg',
-                large: 'home/home-hero-1-large.jpg',
-                default: 'home/home-hero-1-medium.jpg',
-                caption: 'Cycling for All in Bolsover, Grant £9,358 *'
-            }),
-            utilities.createHeroImage({
-                small: 'home/home-hero-2-small.jpg',
-                medium: 'home/home-hero-2-medium.jpg',
-                large: 'home/home-hero-2-large.jpg',
-                default: 'home/home-hero-2-medium.jpg',
-                caption: 'Stepping Stones Programme, Grant £405,270'
-            }),
-            utilities.createHeroImage({
-                small: 'home/home-hero-3-small.jpg',
-                medium: 'home/home-hero-3-medium.jpg',
-                large: 'home/home-hero-3-large.jpg',
-                default: 'home/home-hero-3-medium.jpg',
-                caption: 'Cloughmills Community Action, Grant £4,975*'
-            }),
-            heroImageDefault
-        ];
-
         res.render('pages/toplevel/home', {
             title: lang.title,
             description: lang.description || false,
             copy: lang,
             news: news || [],
-            heroImageDefault: heroImageDefault,
-            heroImageCandidates: heroImageCandidates
+            heroImage: heroImages.homepageHero
         });
     };
 
@@ -325,19 +292,18 @@ module.exports = (pages, sectionPath, sectionId) => {
         }
 
         // get the survey from the database
-        models.Survey
-            .findAll({
-                where: {
-                    active: true
-                },
-                include: [
-                    {
-                        model: models.SurveyChoice,
-                        as: 'choices',
-                        required: true
-                    }
-                ]
-            })
+        models.Survey.findAll({
+            where: {
+                active: true
+            },
+            include: [
+                {
+                    model: models.SurveyChoice,
+                    as: 'choices',
+                    required: true
+                }
+            ]
+        })
             .then(surveys => {
                 let returnData = {
                     status: 'success'
@@ -404,8 +370,7 @@ module.exports = (pages, sectionPath, sectionId) => {
 
             // we could still fail at this point if the choice isn't valid for this ID
             // (SQL constraint error)
-            models.SurveyResponse
-                .create(responseData)
+            models.SurveyResponse.create(responseData)
                 .then(data => {
                     res.send({
                         status: 'success',
@@ -427,7 +392,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/styleguide', (req, res) => {
         res.render('pages/toplevel/styleguide', {
             title: 'Styleguide',
-            description: 'Styleguide'
+            description: 'Styleguide',
+            superHeroImages: heroImages.homepageHero
         });
     });
 

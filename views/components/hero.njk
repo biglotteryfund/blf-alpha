@@ -28,6 +28,39 @@
 {% endmacro %}
 
 
+{% macro homepageSuperHero(copy, imageDefault, imageCandidates) %}
+    {% set heroContent %}
+        <div class="o-button-group">
+            <a class="btn btn--medium
+                      accent--white a--btn"
+                href="{{ buildUrl('toplevel', 'under10k') }}">
+                <span class="accent--pink a--text">
+                    <span class="u-wide-only">{{ copy.under10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.under10k.short }}</span>
+                </span>
+            </a>
+            <a class="btn btn--medium
+                      accent--white a--btn"
+                href="{{ buildUrl('toplevel', 'over10k') }}">
+                <span class="accent--blue a--text">
+                    <span class="u-wide-only">{{ copy.over10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.over10k.short }}</span>
+                </span>
+            </a>
+        </div>
+    {% endset %}
+
+    {{
+        superHero(
+            title = copy.intro,
+            content = heroContent,
+            imageDefault = imageDefault,
+            imageCandidates = imageCandidates
+        )
+    }}
+{% endmacro %}
+
+
 {% macro sectionHero(titleText, image, accent = 'blue') %}
     <div class="section-hero">
         <div class="section-hero__image">

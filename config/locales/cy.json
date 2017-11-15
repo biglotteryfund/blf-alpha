@@ -64,20 +64,17 @@
 			"title": "Cronfa Loteri Fawr",
 			"description": "Mae'r Gronfa Loteri Fawr yn dosbarthu dros £600m y flwyddyn, a godir gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig",
 			"home": "Hafan",
-			"intro": {
-				"long": "Mae'r Gronfa Loteri Fawr yn dosbarthu <a href=\"/welsh/data\">dros £600m</a> y flwyddyn, a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig",
-				"short": "Mae'r Gronfa Loteri Fawr yn dosbarthu arian a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>."
-			},
-			"callsToAction": {
-				"under10k": {
-					"short": "Cael gwybod sut i ymgeisio am grant o dan £10,000",
-					"long": "Cael gwybod sut i ymgeisio am grant o dan £10,000"
-				},
-				"over10k": {
-					"short": "Cael gwybod sut i ymgeisio am grant dros £10,000",
-					"long": "Cael gwybod sut i ymgeisio am grant dros £10,000"
-				}
-			},
+			"hero": {
+                "intro": "Mae'r Gronfa Loteri Fawr yn dosbarthu <a href=\"/welsh/data\">dros £600m</a> y flwyddyn, a godir gan chwaraewyr y <a href=\"https://www.national-lottery.co.uk/\">Loteri Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig",
+                "under10k": {
+                    "short": "Cael gwybod sut i ymgeisio am grant o dan £10,000",
+                    "long": "Cael gwybod sut i ymgeisio am grant o dan £10,000"
+                },
+                "over10k": {
+                    "short": "Cael gwybod sut i ymgeisio am grant dros £10,000",
+                    "long": "Cael gwybod sut i ymgeisio am grant dros £10,000"
+                }
+            },
 			"caseStudies": [
 				{
 					"quoteText": "Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu heisiau o ran addysg.",
