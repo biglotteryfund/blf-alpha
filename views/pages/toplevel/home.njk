@@ -1,7 +1,8 @@
-{% import "../../components/hero.njk" as hero %}
-{% import "../../components/headers.njk" as headers %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
 {% from "../../components/forms.njk" import input, radios with context %}
+{% from "../../components/hero.njk" import homepageSuperHero %}
+{% from "../../components/news.njk" import articleTeaser with context %}
+{% import "../../components/headers.njk" as headers %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -10,51 +11,12 @@
 
 {% block title %}{{ title }} | {{ copy.home }} | {% endblock %}
 
-{% macro articleTeaser(article) %}
-    <article class="article-teaser">
-        <h4 class="article-teaser__title t2">
-            <a class="u-link-minimal" href="{{ article.link }}">
-                {{ article.title }}
-            </a>
-        </h4>
-        <p class="article-teaser__summary">
-            {{ article.summary }}
-            <a href="{{ article.link }}" class="accent--pink a--text u-weight-heavy">
-                {{ __('global.misc.readMore') }}&hellip;
-            </a>
-        </p>
-    </article>
-{% endmacro %}
-
 {% block content %}
-
-    {% set heroContent %}
-        <div class="o-button-group">
-            <a class="btn btn--medium
-                      accent--white a--btn"
-                href="{{ buildUrl('toplevel', 'under10k') }}">
-                <span class="accent--pink a--text">
-                    <span class="u-wide-only">{{ copy.callsToAction.under10k.long }}</span>
-                    <span class="u-not-wide">{{ copy.callsToAction.under10k.short }}</span>
-                </span>
-            </a>
-            <a class="btn btn--medium
-                      accent--white a--btn"
-                href="{{ buildUrl('toplevel', 'over10k') }}">
-                <span class="accent--blue a--text">
-                    <span class="u-wide-only">{{ copy.callsToAction.over10k.long }}</span>
-                    <span class="u-not-wide">{{ copy.callsToAction.over10k.short }}</span>
-                </span>
-            </a>
-        </div>
-    {% endset %}
-
     {{
-        hero.superHero(
-            title = copy.intro.long,
-            content = heroContent,
-            imageDefault = heroImageDefault,
-            imageCandidates = heroImageCandidates
+        homepageSuperHero(
+            copy = copy.hero,
+            imageDefault = heroImage.default,
+            imageCandidates = heroImage.candidates
         )
     }}
 
