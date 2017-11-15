@@ -231,7 +231,7 @@ $num_columns_mobile: 3;
     }
 }
 
-.row {
+.grid-row {
     flex-wrap: wrap;
 }
 
@@ -239,7 +239,7 @@ $num_columns_mobile: 3;
     @for $i from 1 through $num_columns_mobile {
         $width: $i / $num_columns_mobile * 100%;
         .grid__item {
-            @include generate-column('&.col-#{$i}--m', $width);
+            @include generate-column('&.grid-col-#{$i}--m', $width);
         }
     }
 }
@@ -248,7 +248,7 @@ $num_columns_mobile: 3;
     @for $i from 1 through $num_columns {
         $width: $i / $num_columns * 100%;
         .grid__item {
-            @include generate-column('&.col-#{$i}', $width);
+            @include generate-column('&.grid-col-#{$i}', $width);
         }
     }
 }
