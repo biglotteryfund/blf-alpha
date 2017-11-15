@@ -1,0 +1,15 @@
+{% macro articleTeaser(article) %}
+    <article class="article-teaser">
+        <h4 class="article-teaser__title t2">
+            <a class="u-link-minimal" href="{{ article.link }}">
+                {{ article.title }}
+            </a>
+        </h4>
+        <p class="article-teaser__summary">
+            {{ article.summary }}
+            <a href="{{ article.link }}" class="accent--pink a--text u-weight-heavy">
+                {{ __('global.misc.readMore') }}&hellip;
+            </a>
+        </p>
+    </article>
+{% endmacro %}

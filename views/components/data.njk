@@ -1,0 +1,33 @@
+{% macro makeNumber(number, numberSuffix = false) %}
+    <span class="number">{{ number }}</span>
+    {% if numberSuffix %}<span class="number number--suffix">{{ numberSuffix }}</span>{% endif %}
+{% endmacro %}
+
+{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, extraClass = false) %}
+    <li class="grid__item stats__icon">
+        <div class="stats__icon__detail {% if extraClass %} {{ extraClass }}{% endif %}">
+            {% if numberPrefix %}<span class="caption">{{ numberPrefix }}</span>{% endif %}
+            {% if numberFirst %}
+                {{ makeNumber(number, numberSuffix) }}
+                <span class="caption">{{ caption }}</span>
+            {% else %}
+                <span class="caption">{{ caption }}</span>
+                {{ makeNumber(number, numberSuffix) }}
+            {% endif %}
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro statsGrid(stats) %}
+    <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
+        {% for stat in stats %}
+            {{ statBlock(
+                number = stat.number.value,
+                caption = stat.caption,
+                numberPrefix = stat.number.prefix,
+                numberSuffix = stat.number.suffix,
+                numberFirst = stat.number.showFirst
+            ) }}
+        {% endfor %}
+    </ul>
+{% endmacro %}
