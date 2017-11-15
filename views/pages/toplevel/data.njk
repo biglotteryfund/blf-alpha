@@ -30,14 +30,14 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', copy.title, 't2') }}
+        {{ headers.overlayText('h2', copy.title) }}
     {% endset %}
 
     {{ hero.header('data', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
         <div class="inner accent--pink a--border-top stats-holder content-box content-box--borderless">
-            <h3 class="t3 t--underline accent--pink">{{ copy.keyStats }}</h3>
+            <h3 class="t2 t--underline accent--pink">{{ copy.keyStats }}</h3>
 
             <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
                 {% for stats in copy.data %}
@@ -56,7 +56,7 @@
 
     <aside class="accent--blue a--border-top map-holder">
         <div class="inner--wide-only expanded map-holder__inner content-box content-box--frameless no-space">
-            <h3 class="t3 t--underline accent--blue">{{ copy.map.title }}</h3>
+            <h3 class="t2 t--underline accent--blue">{{ copy.map.title }}</h3>
 
             <div class="map-wrapper">
                 {% include "../../includes/uk-svg.njk" %}
@@ -66,16 +66,16 @@
                 {% for region in grants %}
                     <section id="region-{{ region.id }}" class="tab__pane{% if loop.first %} pane--active{% endif %}">
                         <article class="map-info accent--blue a--border-top padded region--{{ region.id }}--b-t">
-                            <h4 class="t3 t--underline region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
+                            <h4 class="t2 t--underline region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
 
-                            <h5 class="map-info__stat t3 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
-                            <h6 class="t6"><strong>{{ copy.map.population }}</strong></h6>
+                            <h5 class="map-info__stat t2 accent--blue a--text">{{ region.population | numberWithCommas }}</h5>
+                            <h6 class="t8"><strong>{{ copy.map.population }}</strong></h6>
 
-                            <h5 class="map-info__stat t3 accent--blue a--text">{{ region.totalAwarded }}</h5>
-                            <h6 class="t6"><strong>{{ copy.map.totalAwarded }}</strong></h6>
+                            <h5 class="map-info__stat t2 accent--blue a--text">{{ region.totalAwarded }}</h5>
+                            <h6 class="t8"><strong>{{ copy.map.totalAwarded }}</strong></h6>
 
-                            <h5 class="map-info__stat t3 accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
-                            <h6 class="t6"><strong>{{ copy.map.totalBeneficiaries }}</strong></h6>
+                            <h5 class="map-info__stat t2 accent--blue a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
+                            <h6 class="t8"><strong>{{ copy.map.totalBeneficiaries }}</strong></h6>
                         </article>
                     </section>
                 {% endfor %}

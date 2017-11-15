@@ -13,16 +13,16 @@
         {% set logoExamplePath = 'logos/examples-cy.png' %}
     {% endif %}
 
-    <h3 class="t4">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+    <h3 class="t5">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
     <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-    <h3 class="t4">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+    <h3 class="t5">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
     <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-    <h3 class="t4">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+    <h3 class="t5">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
     <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
 
-    <h3 class="t4">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+    <h3 class="t5">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
     <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
     <div class="central-gap">
@@ -51,8 +51,8 @@
     {% if copy.successMessages[type] %}
         <div class="u-hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t4">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t6">{{ copy.successMessages[type].body }}</h4>
+            <h4 class="t5">{{ copy.successMessages[type].title }}</h4>
+            <h4 class="t8">{{ copy.successMessages[type].body }}</h4>
         </div>
     {% endif %}
 {% endmacro %}
@@ -213,7 +213,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', copy.heroText, 't1') }}
+        {{ headers.overlayText('h2', copy.heroText, 't2') }}
     {% endset %}
 
     {{ hero.header('logo', heroContent, 'blue') }}
@@ -222,7 +222,7 @@
 
         <div class="inner--wide-only accent--blue a--border-top content-box">
 
-            <h3 class="t3">{{ copy.subtitle }}</h3>
+            <h3 class="t2">{{ copy.subtitle }}</h3>
             <p>{{ copy.body | safe }}</p>
             <p><strong>{{ copy.locationPrompt }}</strong></p>
 

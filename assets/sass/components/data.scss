@@ -148,7 +148,7 @@
             width: 160px;
             position: absolute;
             z-index: 10;
-            right: -$spacingUnit;
+            right: 0;
             top: 20px;
             display: none;
 
@@ -160,6 +160,9 @@
         @include mq('desktop') {
             width: 250px;
             top: $spacingUnit * 4;
+        }
+
+        @media only screen and (min-width: $widestScreen) {
             right: -$spacingUnit * 4;
         }
     }

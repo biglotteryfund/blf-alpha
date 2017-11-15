@@ -2,65 +2,47 @@
    Typographic Scale
    ========================================================================== */
 
-// very important headings, short word length.
-// often paired with overlay-text
 h1,
 .t1 {
     @include poppins();
+    @include font-and-leading(22px, 28px);
     font-weight: 600;
-    @include font-and-leading(18px, 26px);
-
-    @include mq('xsmall') {
-        @include font-and-leading(20px, 30px);
-    }
-
-    @include mq('tablet') {
-        @include font-and-leading(28px, 44px);
-    }
 }
 
-// smaller variant of the above, for longer sentences
-// often paired with overlay-text
 h2,
 .t2 {
     @include poppins();
     font-weight: 600;
-    @include font-and-leading(18px, 28px);
+    font-size: 20px;
 }
 
-// mid-page heading
 h3,
 .t3 {
-    @include poppins();
-    font-weight: 600;
-    @include font-and-leading(16px, 22px);
-    @include mq('tablet') {
-        @include font-and-leading(20px, 28px);
-    }
+    @include roboto();
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
 }
-
-// minor headings
 h4,
 .t4 {
     @include poppins();
+    @include font-and-leading(18px, 27px);
+    font-weight: 600;
+}
+
+h5,
+.t5 {
+    @include poppins();
     font-weight: 600;
     @include font-and-leading(16px, 22px);
 }
 
-// standard body text
-.t5 {
-    @include t5();
-}
-
-// yep, the numerical discrepancy is deliberate here
-h5,
-.t6 {
-    @include roboto();
-    font-weight: 400;
-    @include font-and-leading(13px, 20px);
-}
-
 h6,
+.t6 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(14px, 22px);
+}
+
 .t7 {
     @include roboto();
     font-weight: 400;
@@ -68,15 +50,9 @@ h6,
 }
 
 .t8 {
-    @include font-and-leading(18px, 20px);
-
-    @include mq(small) {
-        @include font-and-leading(20px, 28px);
-    }
-
-    @include mq(large) {
-        @include font-and-leading(22px, 28px);
-    }
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(13px, 20px);
 }
 
 /**

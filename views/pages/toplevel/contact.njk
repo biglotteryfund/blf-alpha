@@ -9,7 +9,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', title, 't1') }}
+        {{ headers.overlayText('h2', title, 't2') }}
     {% endset %}
 
     {{ hero.header('contact', heroContent, 'turquoise') }}
@@ -19,7 +19,7 @@
         <div class="inner--wide-only links-emphasised">
 
             {% set applicationQuery %}
-                <h3 class="t3">{{ copy.offices.england }}</h3>
+                <h3 class="t2">{{ copy.offices.england }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
                     <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0345 4 10 20 30 ({{ copy['hearing-speech-impairment'] }})<br />
@@ -27,7 +27,7 @@
                     <strong class="highlight">{{ copy.methods.address }}</strong>: 1 Plough Place, {{ copy.offices.london }}, EC4A 1DE
                 </p>
 
-                <h3 class="t3">{{ copy.offices.ni }}</h3>
+                <h3 class="t2">{{ copy.offices.ni }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '028 9055 1455' | makePhoneLink | safe }}<br />
                     <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 028 9055 1431 ({{ copy['hearing-speech-impairment'] }})<br />
@@ -36,7 +36,7 @@
                     <strong class="highlight">{{ copy.methods.address }}</strong>: 1 Cromac Quay, Belfast, BT7 2JD
                 </p>
 
-                <h3 class="t3">{{ copy.offices.scotland }}</h3>
+                <h3 class="t2">{{ copy.offices.scotland }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0300 123 7110' | makePhoneLink | safe }}<br />
                     <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 0300 123 7110 ({{ copy['hearing-speech-impairment']}})<br />
@@ -46,7 +46,7 @@
                     <strong class="highlight">{{ copy.methods.address }}</strong>: Pacific House, 70 Wellington Street, Glasgow, G2 6UA
                 </p>
 
-                <h3 class="t3">{{ copy.offices.wales }}</h3>
+                <h3 class="t2">{{ copy.offices.wales }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0300 123 0735' | makePhoneLink | safe }}<br />
                     <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0300 123 0735 ({{ copy['hearing-speech-impairment'] }})<br />
@@ -55,7 +55,7 @@
                     <strong class="highlight">{{ copy.methods.address }}</strong>: {{ copy.wales.address2 }}<br />
                 </p>
 
-                <h3 class="t3">{{ copy.ukPortfolio.title }}</h3>
+                <h3 class="t2">{{ copy.ukPortfolio.title }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0345 4 10 20 30' | makePhoneLink | safe }}<br />
                     <strong class="highlight">{{ copy.methods['text-relay'] }}</strong>: 18001 {{ copy.plus }} 0300 123 4567 ({{ copy['hearing-speech-impairment'] }})<br />
@@ -73,7 +73,7 @@
             {% endset %}
 
             {% set other %}
-                <h3 class="t3">{{ copy.offices.corporate }}</h3>
+                <h3 class="t2">{{ copy.offices.corporate }}</h3>
 
                 <p>
                     1 Plough Place<br />
@@ -89,26 +89,26 @@
             {% endset %}
 
             {% set pressQuery %}
-                <h3 class="t3">{{ copy.offices.england }}/{{ copy.offices.uk }}</h3>
+                <h3 class="t2">{{ copy.offices.england }}/{{ copy.offices.uk }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '020 7211 1888' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: 07867 500572)<br />
                     <strong class="highlight">Email:</strong> <a href="mailto:pressoffice@biglotteryfund.org.uk">pressoffice@biglotteryfund.org.uk</a>
                 </p>
 
-                <h3 class="t3">{{ copy.offices.ni }}</h3>
+                <h3 class="t2">{{ copy.offices.ni }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '02890 551 432' | makePhoneLink | safe }} {{ __('global.misc.or') }} {{ '02890 551 450' | makePhoneLink | safe }} <br />
                     ({{ copy['out-of-hours'] }}: {{ '07580 811 135' | makePhoneLink | safe }})
                 </p>
 
-                <h3 class="t3">{{ copy.offices.scotland }}</h3>
+                <h3 class="t2">{{ copy.offices.scotland }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '0141 242 1458' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07880 737 157' | makePhoneLink | safe }})
                 </p>
 
-                <h3 class="t3">{{ copy.offices.wales }}</h3>
+                <h3 class="t2">{{ copy.offices.wales }}</h3>
                 <p>
                     <strong class="highlight">{{ copy.methods.phone }}</strong>: {{ '029 2067 8236' | makePhoneLink | safe }}<br />
                     ({{ copy['out-of-hours'] }}: {{ '07870 566 867' | makePhoneLink | safe }})

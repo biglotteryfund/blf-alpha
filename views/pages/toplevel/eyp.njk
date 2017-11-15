@@ -98,7 +98,7 @@
         <p class="links-emphasised">People get in touch with us every day to discuss their ideas, their communities and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
 
         {% for item in beforeApplyContents %}
-            <h3 id="before-{{ item.id }}" class="t3 t--underline accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
+            <h3 id="before-{{ item.id }}" class="t2 t--underline accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
             {{ item.content | safe }}
         {% endfor %}
 
@@ -202,7 +202,7 @@
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', "Empowering Young People", 't1') }}
+        {{ headers.overlayText('h2', "Empowering Young People", 't2') }}
     {% endset %}
 
     {{ hero.header('eyp', heroContent, 'pink', "L'Arche Belfast, Grant: £573,164") }}
@@ -244,7 +244,7 @@
         </div>
 
         <div class="inner">
-            <h3 class="t3">Examples of projects that have been funded</h3>
+            <h3 class="t2">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in exampleProjects %}
                     <li class="grid__item">{{ projectBlock(project, 'accent--pink') }}</li>

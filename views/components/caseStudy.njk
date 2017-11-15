@@ -15,13 +15,13 @@
                         <p>{{ quoteText }}</p>
                     </div>
                     <div class="pullquote__meta">
-                        <cite class="pullquote__citation t3 t--tracking">{{ quoteName }}</cite>
+                        <cite class="pullquote__citation t2 t--tracking">{{ quoteName }}</cite>
                         <div class="pullquote__aside">
                             {% if quoteNameCaption %}
-                                <p class="t6 u-weight-normal">{{ quoteNameCaption }}</p>
+                                <p class="t8 u-weight-normal">{{ quoteNameCaption }}</p>
                             {% endif %}
                             {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
-                                <p class="t6 u-weight-normal">{{ projectName | safe }}</p>
+                                <p class="t8 u-weight-normal">{{ projectName | safe }}</p>
                             {% if link %}</a>{% endif %}
                         </div>
                     </div>
