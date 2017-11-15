@@ -12,17 +12,6 @@
         padding: $spacingUnit;
     }
 
-    &.content-box--pink {
-        background-color: palette('pale-pink');
-        border-right: none;
-        border-bottom: none;
-        border-left: none;
-    }
-
-    &.content-box--tint {
-        background-color: palette('pale-grey');
-    }
-
     &.content-box--narrow {
         padding: 10px;
     }
@@ -36,5 +25,12 @@
     &.content-box--frameless {
         border: none;
         background-color: transparent;
+    }
+
+    &.content-box--tinted {
+        background-color: palette('pale-pink');
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
     }
 }
