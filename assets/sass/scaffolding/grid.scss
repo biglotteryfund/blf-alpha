@@ -1,3 +1,6 @@
+$paddedGridGutter: 10px;
+$paddedGridGutterLarge: 30px;
+
 .grid {
     display: flex;
     align-items: center;
@@ -6,6 +9,7 @@
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
+        background-color: #eeeeee;
 
         &.grid__item--half {
             max-width: 50%;
@@ -37,9 +41,6 @@
             }
         }
     }
-
-    $paddedGridGutter: 10px;
-    $paddedGridGutterLarge: 30px;
 
     &.grid--padded {
         margin-left: -$paddedGridGutter;
@@ -210,5 +211,45 @@
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
+    }
+}
+
+$num_columns: 12;
+$num_columns_mobile: 3;
+
+@mixin generate-column($className, $width) {
+    #{$className} {
+        flex-basis: $width;
+        flex-grow: 0;
+
+        .grid--padded & {
+            flex-basis: calc(#{$width} - #{$paddedGridGutter});
+        }
+
+        .grid--padded--large & {
+            flex-basis: calc(#{$width} - #{$paddedGridGutterLarge});
+        }
+    }
+}
+
+.row {
+    flex-wrap: wrap;
+}
+
+@include mq('tablet', 'max') {
+    @for $i from 1 through $num_columns_mobile {
+        $width: $i / $num_columns_mobile * 100%;
+        .grid__item {
+            @include generate-column('&.col-#{$i}--m', $width);
+        }
+    }
+}
+
+@include mq('tablet') {
+    @for $i from 1 through $num_columns {
+        $width: $i / $num_columns * 100%;
+        .grid__item {
+            @include generate-column('&.col-#{$i}', $width);
+        }
     }
 }
