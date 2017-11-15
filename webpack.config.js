@@ -10,7 +10,8 @@ const isProduction = buildSummary.isProduction;
 
 module.exports = {
     entry: {
-        app: `./assets/js/main.js`
+        app: `./assets/js/main.js`,
+        styleguide: './assets/js/styleguide.js'
     },
     output: {
         filename: '[name].js',
