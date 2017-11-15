@@ -9,6 +9,30 @@
 
     {% block styleguide_styles %}
         <style>
+            .sg-visuallyhidden {
+                border: 0 !important;
+                clip: rect(0 0 0 0) !important;
+                height: 1px !important;
+                margin: -1px !important;
+                overflow: hidden !important;
+                padding: 0 !important;
+                position: absolute !important;
+                width: 1px !important;
+            }
+            .sg-toolbar {
+                box-sizing: border-box;
+                background-color: rgba(255,255,255,.9);
+                box-shadow: 0 -2px 10px rgba(0,0,0,.1);
+                padding: 10px;
+                position: fixed;
+                z-index: 999;
+                bottom: 0;
+                right: 0;
+                text-align: right;
+            }
+            .sg-jump-nav select {
+                display: block;
+            }
             .sg-header {
                 padding: 10px 20px;
                 color: white;
@@ -34,7 +58,7 @@
                 margin: 0;
             }
             .sg-block {
-                padding-bottom: 20px;
+                padding-bottom: 60px;
             }
             .sg-block__notes {
                 margin-top: 20px;
@@ -69,5 +93,58 @@
     </main>
 
     {% include "../includes/metaFooterJS.njk" %}
+    <script>
+    (function() {
+        function renderSectionNavigation() {
+            var patternTitleEls = document.querySelectorAll('.js-sg-pattern-title');
+            var patternTitles = [].map.call(patternTitleEls, function(el) {
+                return {
+                    label: el.textContent,
+                    id: el.id
+                }
+            });
+
+            var markup = `
+                <form class="sg-jump-nav" action="" method="get">
+                    <label for="sg-section-switcher" class="sg-visuallyhidden">
+                        Jump to section:
+                    </label>
+                    <select id="sg-section-switcher" name="sg-section-switcher">
+                        <option value="" selected>Jump to&hellip;</option>
+                        <optgroup label="Sections">
+                            ${patternTitles.map(title => {
+                                return `<option value="#${title.id}">
+                                    ${title.label}
+                                </option>`
+                            }).join('\n')}
+                        </optgroup>
+                    </select>
+                    <button type="submit" class="sg-visuallyhidden">Go</button>
+                </form>`;
+
+            var div = document.createElement('div');
+            div.className = 'sg-toolbar';
+            div.innerHTML = markup;
+
+            var bodyEl = document.querySelector('body');
+            bodyEl.appendChild(div);
+        }
+
+        function initSectionNavigtion() {
+            var select = document.getElementById('sg-section-switcher');
+            if (select) {
+                select.addEventListener('change', function () {
+                    var val = this.value;
+                    if (val) {
+                        window.location = val;
+                    }
+                });
+            }
+        }
+
+        renderSectionNavigation();
+        initSectionNavigtion();
+    })();
+    </script>
 </body>
 </html>

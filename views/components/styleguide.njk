@@ -1,0 +1,34 @@
+{% macro sgSectionHeader(title) %}
+    <div class="sg-section-header">
+        <div class="sg-section-header__inner inner">
+            <h2 class="sg-section-header__title t1"
+                id="sg-section-{{ title | slugify }}">{{ title }}</h2>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro sgBlock(title, content, notes, fullWidth = false) %}
+    <section class="sg-block">
+        <header class="sg-block__header inner">
+            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                id="sg-pattern-{{ title | slugify }}">{{ title }}</h3>
+        </header>
+        <div class="sg-block__body{% if not fullWidth %} inner{% endif %}">
+            <div class="sg-block__content">
+                {{ content | safe }}
+            </div>
+        </div>
+        {% if notes %}
+        <div class="sg-block__extra inner">
+            <div class="sg-block__notes">
+                <div class="sg-usage-notes">
+                    <h4 class="sg-usage-notes__title">Usage Notes</h4>
+                    <div class="sg-usage-notes__content">
+                        {{ notes | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+{% endmacro %}

@@ -2,52 +2,33 @@
 
 {% import "../../components/hero.njk" as hero %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
-
-{% macro styleguideSectionHeader(title) %}
-    <div class="sg-section-header">
-        <div class="sg-section-header__inner inner">
-            <h2 class="sg-section-header__title t2">{{ title }}</h2>
-        </div>
-    </div>
-{% endmacro %}
-
-{% macro styleguideBlock(title, content, notes) %}
-    <div class="sg-block">
-        <div class="sg-block-content__inner inner">
-            <h3 class="sg-block__title accent--soft-grey t6 t--underline">{{ title }}</h3>
-            <div class="sg-block__content">
-                {{ content | safe }}
-            </div>
-            {% if notes %}
-                <div class="sg-block__notes">
-                    <div class="sg-usage-notes">
-                        <h4 class="sg-usage-notes__title">Usage Notes</h4>
-                        <div class="sg-usage-notes__content">
-                            {{ notes | safe }}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-{% endmacro %}
+{% from "../../components/data.njk" import statsGrid %}
+{% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
+{% from "../../components/news.njk" import articleTeaser with context %}
+{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
 {% block content %}
 
-{{ styleguideSectionHeader('Typography') }}
+{# ================================ #}
+{# Typography                       #}
+{# ================================ #}
+
+{{ sgSectionHeader('Typography') }}
+
 {% set sgContent %}
     {% for n in range(1, 9) %}
         <h2 class="t{{ n }}">T{{ n }} Typographic Style</h2>
     {% endfor %}
 {% endset %}
-{{ styleguideBlock('Titles', sgContent) }}
+{{ sgBlock('Typographic Scale', sgContent) }}
+
 
 {% set sgContent %}
     <h2 class="t2 t--underline accent--pink a--text">Title with underline</h2>
     <h2 class="t3 t--tracking">Title with tracking</h2>
 {% endset %}
+{{ sgBlock('Typography: Modifiers', sgContent) }}
 
-{{ styleguideBlock('Modifiers', sgContent) }}
 
 {% set sgContent %}
     <h2 class="t2 accent--cyan overlay-text">
@@ -58,9 +39,13 @@
         <span>T6 typographic style with overlay text</span>
     </h2>
 {% endset %}
-{{ styleguideBlock('Overlay text', sgContent) }}
+{{ sgBlock('Overlay text', sgContent) }}
 
-{{ styleguideSectionHeader('Buttons') }}
+{# ================================ #}
+{# Buttons                          #}
+{# ================================ #}
+
+{{ sgSectionHeader('Buttons') }}
 
 {% set sgContent %}
     <p><button class="btn" type="button">Default Button</button></p>
@@ -73,7 +58,7 @@
         Buttons can be themed by adding an accent class to the button, e.g. <code>accent--pink a--btn</code>.
     </p>
 {% endset %}
-{{ styleguideBlock('Default Button', sgContent, sgNotes) }}
+{{ sgBlock('Default Button', sgContent, sgNotes) }}
 
 {% set sgContent %}
     <p><button class="btn btn--outline" type="button">Outline Button</button></p>
@@ -86,17 +71,17 @@
         Like default buttons, outline buttons can be themed by adding an accent class to the button.
     </p>
 {% endset %}
-{{ styleguideBlock('Outline Buttons', sgContent, sgNotes) }}
+{{ sgBlock('Outline Buttons', sgContent, sgNotes) }}
 
 {% set sgContent %}
     <p><button class="btn btn--medium" type="button">Medium Button</button></p>
 {% endset %}
-{{ styleguideBlock('Medium Buttons', sgContent) }}
+{{ sgBlock('Medium Buttons', sgContent) }}
 
 {% set sgContent %}
     <p><button class="btn btn--small" type="button">Small Button</button></p>
 {% endset %}
-{{ styleguideBlock('Small Buttons', sgContent) }}
+{{ sgBlock('Small Buttons', sgContent) }}
 
 
 {% set sgContent %}
@@ -112,11 +97,59 @@
         On wider screens buttons are evenly horizontally spaced.
     </p>
 {% endset %}
-{{ styleguideBlock('Button Groups', sgContent, sgNotes) }}
+{{ sgBlock('Button Groups', sgContent, sgNotes) }}
 
-{{ styleguideSectionHeader('Components') }}
+{{ sgSectionHeader('Components') }}
+
+
+{% set sgContent %}
+    {{ homepageSuperHero(
+        copy = __('toplevel.home.hero'),
+        imageDefault = superHeroImages.default,
+        imageCandidates = superHeroImages.candidates
+    ) }}
+{% endset %}
+{{ sgBlock('Hero', sgContent, fullWidth=true) }}
+
+
+
+{% set sgContent %}
+    {{ sectionHero(
+        titleText = 'Funding Programmes',
+        image = createHeroImage({
+            small: 'hero/young-foundation-small.jpg',
+            medium: 'hero/young-foundation-medium.jpg',
+            large: 'hero/young-foundation-large.jpg',
+            default: 'hero/young-foundation-medium.jpg',
+            caption: 'The Young Foundation - Amplify, Grant £1.06M'
+        }),
+        accent = 'green'
+    ) }}
+{% endset %}
+{% set sgNotes %}
+    <p>
+        Hero feature used in the header of most pages.
+        Consists of an image, title, and caption.
+    </p>
+{% endset %}
+{{ sgBlock('Hero', sgContent, sgNotes, fullWidth=true) }}
+
+
 {% set sgContent %}
     {{
+        articleTeaser({
+            title: 'Young people big winners in latest round of National Lottery funding',
+            summary: 'A total of £40 million of funding goes to almost 1,400 local and grassroots projects across England, including many supporting young people.',
+            link: '#'
+        })
+    }}
+{% endset %}
+{{ sgBlock('Article Teaser', sgContent) }}
+
+
+{% set sgContent %}
+    {{
+
         caseStudy(
             projectName = 'Voice of Young People in Care',
             quoteName = 'Andrea Glenn',
@@ -127,11 +160,13 @@
         )
     }}
 {% endset %}
-{{ styleguideBlock('Case Studies', sgContent) }}
+{{ sgBlock('Case Studies', sgContent) }}
+
+
 {% set sgContent %}
     <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
         <li class="grid__item">
-            {{ hero.miniatureHero(
+            {{ miniatureHero(
                 titleText = 'Example Miniature Hero',
                 imagePath = 'funding/tell-the-world.jpg',
                 imageCaption = 'Three people working together on laptops',
@@ -140,7 +175,7 @@
             )}}
         </li>
         <li class="grid__item">
-            {{ hero.miniatureHero(
+            {{ miniatureHero(
                 titleText = 'Example Miniature Hero',
                 imagePath = 'funding/local-press.jpg',
                 imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
@@ -150,6 +185,21 @@
         </li>
     </ul>
 {% endset %}
-{{ styleguideBlock('Miniature Heroes', sgContent) }}
+{{ sgBlock('Miniature Heroes', sgContent) }}
+
+
+
+{% set sgContent %}
+    {{ statsGrid(__('toplevel.data.data')) }}
+{% endset %}
+{{ sgBlock('Stats Grid', sgContent) }}
+
+
+{% set sgContent %}
+    <div class="content-box inner--wide-only accent--turquoise a--border-top">
+        {{ __('funding.guidance.getting-press-coverage.body') | safe }}
+    </div>
+{% endset %}
+{{ sgBlock('Content Box', sgContent) }}
 
 {% endblock %}
