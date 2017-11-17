@@ -21,13 +21,12 @@ const requestResetForm = (req, res) => {
 
 // is this user in password update mode?
 const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError) => {
-    models.Users
-        .findOne({
-            where: {
-                id: userId,
-                is_password_reset: true
-            }
-        })
+    models.Users.findOne({
+        where: {
+            id: userId,
+            is_password_reset: true
+        }
+    })
         .then(user => {
             if (!user) {
                 // no user for this ID, or they already did this reset
@@ -60,7 +59,7 @@ const changePasswordForm = (req, res) => {
                 // now check if this user actually requested this
                 checkUserRequestedPasswordReset(
                     decoded.data.userId,
-                    user => {
+                    () => {
                         // we can now show the reset password form
                         return res.render('user/resetpassword', {
                             mode: 'pickNewPassword',
@@ -69,7 +68,7 @@ const changePasswordForm = (req, res) => {
                             errors: res.locals.errors || []
                         });
                     },
-                    error => {
+                    () => {
                         trackError('User attempted to reset a password for an non-resettable user');
                         res.locals.errors = makeErrorList('Your password reset link was invalid - please try again');
                         return requestResetForm(req, res);
@@ -97,12 +96,11 @@ const sendResetEmail = (req, res) => {
         });
     } else {
         const email = xss(req.body.username);
-        models.Users
-            .findOne({
-                where: {
-                    username: email
-                }
-            })
+        models.Users.findOne({
+            where: {
+                username: email
+            }
+        })
             .then(user => {
                 if (!user) {
                     // no user found / user not in password reset mode
@@ -133,17 +131,16 @@ const sendResetEmail = (req, res) => {
                     });
 
                     // mark this user as in password reset mode
-                    models.Users
-                        .update(
-                            {
-                                is_password_reset: true
-                            },
-                            {
-                                where: {
-                                    id: user.id
-                                }
+                    models.Users.update(
+                        {
+                            is_password_reset: true
+                        },
+                        {
+                            where: {
+                                id: user.id
                             }
-                        )
+                        }
+                    )
                         .then(() => {
                             req.flash('passwordRequestSent', true);
                             req.session.save(() => {
@@ -157,7 +154,7 @@ const sendResetEmail = (req, res) => {
                         });
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 // error on user lookup
                 trackError('Error looking up user to reset email');
                 res.locals.errors = makeErrorList('There was an error fetching your details');
@@ -195,25 +192,24 @@ const updatePassword = (req, res) => {
                             user => {
                                 // this user exists and requested this change
                                 let newPassword = req.body.password;
-                                models.Users
-                                    .update(
-                                        {
-                                            password: newPassword,
-                                            is_password_reset: false
-                                        },
-                                        {
-                                            where: {
-                                                id: user.id
-                                            }
+                                models.Users.update(
+                                    {
+                                        password: newPassword,
+                                        is_password_reset: false
+                                    },
+                                    {
+                                        where: {
+                                            id: user.id
                                         }
-                                    )
+                                    }
+                                )
                                     .then(() => {
                                         req.flash('passwordUpdated', true);
                                         req.session.save(() => {
                                             res.redirect(userBasePath + userEndpoints.login);
                                         });
                                     })
-                                    .catch(err => {
+                                    .catch(() => {
                                         trackError('Error updating a user password');
                                         res.locals.errors = makeErrorList(
                                             'There was an error updating your password - please try again'
@@ -221,7 +217,7 @@ const updatePassword = (req, res) => {
                                         return requestResetForm(req, res);
                                     });
                             },
-                            error => {
+                            () => {
                                 trackError('Error processing a user password change status');
                                 res.locals.errors = makeErrorList(
                                     'There was an error updating your password - please try again'

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-"use strict";
+'use strict';
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
@@ -40,7 +40,7 @@ function authorize(credentials, callback) {
     const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
     // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, function (err, token) {
+    fs.readFile(TOKEN_PATH, function(err, token) {
         if (err) {
             getNewToken(oauth2Client, callback);
         } else {
@@ -68,9 +68,9 @@ function getNewToken(oauth2Client, callback) {
         input: process.stdin,
         output: process.stdout
     });
-    rl.question('Enter the code from that page here: ', function (code) {
+    rl.question('Enter the code from that page here: ', function(code) {
         rl.close();
-        oauth2Client.getToken(code, function (err, token) {
+        oauth2Client.getToken(code, function(err, token) {
             if (err) {
                 console.log('Error while trying to retrieve access token', err);
                 return;
@@ -99,14 +99,16 @@ function storeToken(token) {
     console.log('Token stored to ' + TOKEN_PATH);
 }
 
-function base64toUTF8 (str) {
+function base64toUTF8(str) {
     return new Buffer(str, 'base64').toString('utf8');
 }
 
 function camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
-        return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
-    }).replace(/\s+/g, '');
+    return str
+        .replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+            return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
+        })
+        .replace(/\s+/g, '');
 }
 
 let allOrders = [];
@@ -115,33 +117,43 @@ let numMessagesToFetch = 1000;
 function getMail(auth) {
     const gmail = new Gmail(auth.credentials.access_token);
     const getMessages = gmail.messages('subject:Order from Big Lottery Fund website', { max: numMessagesToFetch });
-    getMessages.on('data', function (d) {
+    getMessages.on('data', function(d) {
         if (d.payload.body.data) {
-            let re = /The order details are below\:([\s\S]*)The customer's personal details are below\:([\s\S]*)This email has been automatically generated from the Big Lottery Fund Website/;
+            let re = /The order details are below:([\s\S]*)The customer's personal details are below:([\s\S]*)This email has been automatically generated from the Big Lottery Fund Website/;
             let body = base64toUTF8(d.payload.body.data);
             let subject = d.payload.headers.find(_ => _.name === 'Subject').value;
             let bits = body.match(re);
             let order = bits[1].trim();
             let address = bits[2].trim();
-            order = order.replace(/\t/g, '').replace(/- /g, '').replace(/\(.*\)/g, '').split('\n').map(_ => _.trim());
+            order = order
+                .replace(/\t/g, '')
+                .replace(/- /g, '')
+                .replace(/\(.*\)/g, '')
+                .split('\n')
+                .map(_ => _.trim());
 
-            let orders = order.map(o => {
-                let q = o.match(/x(\d+)/);
-                let i = o.match(/(\w+-\w+)/);
-                if (q && i) {
-                    return {
-                        quantity: q[1],
-                        item: i[1]
-                    };
-                } else {
-                    return {
-                        error: true
-                    };
-                }
-            }).filter(_ => !_.error);
+            let orders = order
+                .map(o => {
+                    let q = o.match(/x(\d+)/);
+                    let i = o.match(/(\w+-\w+)/);
+                    if (q && i) {
+                        return {
+                            quantity: q[1],
+                            item: i[1]
+                        };
+                    } else {
+                        return {
+                            error: true
+                        };
+                    }
+                })
+                .filter(_ => !_.error);
 
             let a = {};
-            address = address.replace(/\t/g, '').replace(/\r/g, '').split('\n');
+            address = address
+                .replace(/\t/g, '')
+                .replace(/\r/g, '')
+                .split('\n');
             address.forEach(line => {
                 let bits = line.split(':');
                 if (bits[1]) {
@@ -167,7 +179,6 @@ function getMail(auth) {
                 console.log(`** Empty order for ${a['name']} on ${timestamp[1]}`);
             }
             console.log('====');
-
         } else {
             console.log('Missing payload data');
         }
@@ -177,5 +188,4 @@ function getMail(auth) {
         let dataPath = path.join('./', 'messages.json');
         fs.writeFile(dataPath, JSON.stringify(allOrders, null, 4));
     });
-
 }

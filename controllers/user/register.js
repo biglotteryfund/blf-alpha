@@ -76,13 +76,11 @@ const createUser = (req, res, next) => {
         // check if this email address already exists
         // we can't use findOrCreate here because the password changes
         // each time we hash it, which sequelize sees as a new user :(
-        models.Users
-            .findOne({ where: { username: userData.username } })
+        models.Users.findOne({ where: { username: userData.username } })
             .then(user => {
                 if (!user) {
                     // no user found, so make a new one
-                    models.Users
-                        .create(userData)
+                    models.Users.create(userData)
                         .then(newUser => {
                             // success! now send them an activation email
                             let activationData = sendActivationEmail(newUser, req, true);
@@ -94,7 +92,7 @@ const createUser = (req, res, next) => {
                                 login.attemptAuth(req, res, next);
                             }
                         })
-                        .catch(err => {
+                        .catch(() => {
                             // error on user insert
                             trackError('Error creating a new user');
                             res.locals.errors = makeErrorList(
@@ -110,7 +108,7 @@ const createUser = (req, res, next) => {
                     return registrationForm(req, res);
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 // error on user lookup
                 trackError('Error looking up user');
                 res.locals.errors = makeErrorList('There was an error creating your account - please try again');
@@ -148,17 +146,16 @@ const activateUser = (req, res) => {
                 // was the token valid for this user?
                 if (decoded.data.reason === 'activate' && decoded.data.userId === req.user.id) {
                     // activate the user (their token is valid)
-                    models.Users
-                        .update(
-                            {
-                                is_active: true
-                            },
-                            {
-                                where: {
-                                    id: decoded.data.userId
-                                }
+                    models.Users.update(
+                        {
+                            is_active: true
+                        },
+                        {
+                            where: {
+                                id: decoded.data.userId
                             }
-                        )
+                        }
+                    )
                         .then(() => {
                             res.redirect(makeUserLink('dashboard'));
                         })
