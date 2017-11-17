@@ -204,4 +204,16 @@
 {% endset %}
 {{ sgBlock('Content Box', sgContent) }}
 
+{% set sgContent %}
+    <div class="content-box content-box--tinted inner--wide-only accent--pink a--border-top">
+        <p>Empowering Young People is a grants programme designed to support projects in Northern Ireland that give young people aged 8 to 25 the ability to overcome the challenges they face.</p>
+        <p><strong>Grant size</strong>: £30,000 to £500,000<br />
+        <strong>Grant duration</strong>: 2 to 5 Years</p>
+    </div>
+{% endset %}
+{% set sgNotes %}
+    <p>Tinted variant of a content box. Used to give focus to important blocks of copy on text heavy pages.</p>
+{% endset %}
+{{ sgBlock('Content Box: Tinted', sgContent, sgNotes) }}
+
 {% endblock %}
