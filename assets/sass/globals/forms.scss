@@ -143,6 +143,15 @@ $errorColor: #b00;
     }
 }
 
+.form-success-message {
+    background-color: palette('pale-pink');
+    margin-bottom: $spacingUnit;
+    padding: $spacingUnit / 2;
+}
+.form-success-message__title {
+    margin-bottom: 3px;
+}
+
 /* =========================================================================
    Forms: Specific Form Customisations
    ========================================================================= */

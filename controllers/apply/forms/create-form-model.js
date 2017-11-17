@@ -1,3 +1,4 @@
+const shortid = require('shortid');
 const { find, flatMap, has, get } = require('lodash');
 
 /**
@@ -81,6 +82,7 @@ function createFormModel({ id, title }) {
     return {
         id: id,
         title: title,
+        uuid: `RC-${shortid()}`,
         getSessionProp: function(stepNo) {
             const baseProp = `form.${id}`;
             if (stepNo) {

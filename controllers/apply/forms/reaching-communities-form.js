@@ -42,7 +42,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    title: 'Success',
+    title: 'We Have Received Your Idea',
     processor: function(data) {
         // Do something with the data
         console.log(data);
