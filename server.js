@@ -47,7 +47,15 @@ const cymreigio = mountPath => {
     return [mountPath, welshPath];
 };
 
+// @TODO: Investigate why this needs to come first to avoid rogue pageId being injected
+if (process.env.NODE_ENV !== 'production') {
+    const applyPath = '/experimental/apply';
+    app.use(applyPath, require('./controllers/apply'));
+    app.use(cymreigio(applyPath), require('./controllers/apply'));
+}
+
 // route binding
+// @TODO: This is statefully assigning pageId and sectionID, not scoped to router?
 for (let sectionId in routes.sections) {
     let s = routes.sections[sectionId];
     // turn '/funding' into ['/funding', '/welsh/funding']
@@ -61,12 +69,6 @@ for (let sectionId in routes.sections) {
             app.use(path, controller);
         });
     }
-}
-
-if (process.env.NODE_ENV !== 'production') {
-    const applyPath = '/experimental/apply';
-    app.use(applyPath, require('./controllers/apply'));
-    app.use(cymreigio(applyPath), require('./controllers/apply'));
 }
 
 // add vanity redirects
