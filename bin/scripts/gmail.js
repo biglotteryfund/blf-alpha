@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 "use strict";
 const fs = require('fs');
 const path = require('path');
@@ -101,9 +103,18 @@ function base64toUTF8 (str) {
     return new Buffer(str, 'base64').toString('utf8');
 }
 
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+        return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
+    }).replace(/\s+/g, '');
+}
+
+let allOrders = [];
+let numMessagesToFetch = 1000;
+
 function getMail(auth) {
     const gmail = new Gmail(auth.credentials.access_token);
-    const getMessages = gmail.messages('subject:Order from Big Lottery Fund website', { max: 10 });
+    const getMessages = gmail.messages('subject:Order from Big Lottery Fund website', { max: numMessagesToFetch });
     getMessages.on('data', function (d) {
         if (d.payload.body.data) {
             let re = /The order details are below\:([\s\S]*)The customer's personal details are below\:([\s\S]*)This email has been automatically generated from the Big Lottery Fund Website/;
@@ -115,18 +126,29 @@ function getMail(auth) {
             order = order.replace(/\t/g, '').replace(/- /g, '').replace(/\(.*\)/g, '').split('\n').map(_ => _.trim());
 
             let orders = order.map(o => {
-                return {
-                    quantity: o.match(/x(\d+)/)[1],
-                    item: o.match(/(\w+-\w+)/)[1]
-                };
-            });
+                let q = o.match(/x(\d+)/);
+                let i = o.match(/(\w+-\w+)/);
+                if (q && i) {
+                    return {
+                        quantity: q[1],
+                        item: i[1]
+                    };
+                } else {
+                    return {
+                        error: true
+                    };
+                }
+            }).filter(_ => !_.error);
 
             let a = {};
             address = address.replace(/\t/g, '').replace(/\r/g, '').split('\n');
             address.forEach(line => {
                 let bits = line.split(':');
                 if (bits[1]) {
-                    a[bits[0]] = bits[1].trim();
+                    let fieldName = bits[0];
+                    fieldName = fieldName.replace('Your ', '');
+                    fieldName = camelize(fieldName);
+                    a[fieldName] = bits[1].trim();
                 }
             });
 
@@ -138,10 +160,22 @@ function getMail(auth) {
                 time: timestamp[1]
             };
 
-            console.log(data);
+            if (orders.length > 0) {
+                allOrders.push(data);
+                console.log(`Added order for ${a['name']} on ${timestamp[1]}`);
+            } else {
+                console.log(`** Empty order for ${a['name']} on ${timestamp[1]}`);
+            }
             console.log('====');
+
         } else {
             console.log('Missing payload data');
         }
     });
+
+    getMessages.on('finish', () => {
+        let dataPath = path.join('./', 'messages.json');
+        fs.writeFile(dataPath, JSON.stringify(allOrders, null, 4));
+    });
+
 }
