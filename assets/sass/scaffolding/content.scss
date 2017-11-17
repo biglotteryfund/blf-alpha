@@ -34,3 +34,22 @@
         border-left: none;
     }
 }
+
+/* =========================================================================
+   Content: Prose Scope
+   ========================================================================= */
+/*
+    Opt-in typography:
+    http://anthonyshort.me/global-typographic-styles-suck
+    http://dbushell.com/2012/04/18/scoping-typography-css/
+    http://css-tricks.com/opt-in-typography/
+*/
+.s-prose {
+    ol {
+        margin-left: 1em;
+    }
+    ol,
+    ol li {
+        list-style-type: decimal;
+    }
+}

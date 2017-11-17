@@ -77,6 +77,10 @@ $errorColor: #b00;
     .form-field__errors {
         margin-top: $spacingUnit / 3;
     }
+
+    .form-field__help {
+        margin-top: $spacingUnit;
+    }
 }
 
 .no-js .form-field[hidden] {
@@ -85,7 +89,8 @@ $errorColor: #b00;
 
 .ff-label {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .ff-text,
