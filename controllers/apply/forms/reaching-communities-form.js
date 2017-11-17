@@ -119,6 +119,8 @@ formModel.registerStep({
                     isRequired: true,
                     canBeDuplicated: true,
                     duplicateLabel: 'Add another organisation',
+                    duplicateHelpText:
+                        'If you’re working with other organisations to deliver your idea please list them here.<br />If you don’t know this yet we can discuss this later on.',
                     validator: function(field) {
                         return check(field.name)
                             .escape()

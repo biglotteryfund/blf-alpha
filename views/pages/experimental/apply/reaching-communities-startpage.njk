@@ -6,7 +6,11 @@
 
         <div class="u-constrained-content s-prose spaced--l">
             <h2 class="t2 t--underline accent--pink">Tell Us Your Idea</h2>
-            <p>You can apply for over 10k to support communities to take action on the issues that matter to them. Once you submit your idea you will receive an email from a local funding officer within x days.</p>
+            <p>
+                You can apply for over £10,000 to support communities to take action
+                on the issues that matter to them. Once you submit your idea you will
+                receive an email from a local funding officer within 28 days.
+            </p>
             <a class="btn btn--start" href="{{ startUrl }}">
                 Start now
                 <span class="btn__icon">{% include "../../../includes/svg/arrow-right.svg" %}</span>
@@ -15,9 +19,7 @@
 
         <div class="u-constrained-content s-prose spaced--l">
             <h2 class="t2 t--underline accent--pink">Before You Start</h2>
-            <h3 class="t4">
-                We can fund
-            </h3>
+            <h3 class="t4">We can fund</h3>
             <ul>
                 <li>Ideas taking place in England</li>
                 <li>Voluntary and community sector orgs and social enterprises</li>
@@ -26,24 +28,25 @@
                 <li>Community interest companies so long as profits are reinvested into the org to create more impact</li>
             </ul>
 
-            <h3 class="t4">
-                We can’t fund
-            </h3>
+            <h3 class="t4">We can’t fund</h3>
             <ul>
                 <li>Ideas taking place outside of England</li>
                 <li>We’re unable to fund individuals for profit-making organisations</li>
+            </ul>
+
+            <p><a href="{{ buildUrl('funding', 'programmes') }}">Browse all of our funding programmes</a></p>
+
+            <h3 class="t4">You'll Need</h3>
+            <ul>
+                <li>We’ll ask you about what you want to do and why it’ll make a difference</li>
+                <li>The legal name of your og and others you’ll be working with</li>
+                <li>Your contact details</li>
             </ul>
         </div>
 
         <div class="u-constrained-content s-prose">
             <h2 class="t2 t--underline accent--pink">Other Ways To Apply</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Beatae pariatur explicabo architecto numquam non quis!
-                Veniam id autem sit est illo deleniti corporis,
-                expedita officiis explicabo temporibus, suscipit, quidem eaque!
-                <a href="https://example.com/">External link</a>
-            </p>
+            <p>Big Advice (+ text relay)</p>
         </div>
     </div>
 {% endblock %}
