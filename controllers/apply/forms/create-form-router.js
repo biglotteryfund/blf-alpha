@@ -74,6 +74,8 @@ module.exports = function(router, formModel) {
             res.redirect(req.baseUrl);
         } else {
             res.render('pages/experimental/apply/review', {
+                form: formModel,
+                review: formModel.getReviewStep(),
                 summary: formModel.getStepsWithValues(formData),
                 baseUrl: req.baseUrl,
                 procceedUrl: `${req.baseUrl}/success`
@@ -86,7 +88,10 @@ module.exports = function(router, formModel) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.render('pages/experimental/apply/success');
+            res.render('pages/experimental/apply/success', {
+                form: formModel,
+                success: formModel.getSuccessStep()
+            });
         }
     });
 

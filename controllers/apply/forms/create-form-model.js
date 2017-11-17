@@ -76,6 +76,7 @@ function createStep(step) {
  */
 function createFormModel({ id, title }) {
     let steps = [];
+    let reviewStep;
     let successStep;
     return {
         id: id,
@@ -88,11 +89,27 @@ function createFormModel({ id, title }) {
 
             return baseProp;
         },
+        registerStep: function(step) {
+            steps.push(createStep(step));
+        },
         getSteps: function() {
             return steps;
         },
         getStepsWithValues: function(data) {
             return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
+        },
+        registerReviewStep: function(review) {
+            reviewStep = review;
+        },
+        getReviewStep: function() {
+            if (!reviewStep) {
+                throw new Error('Must register review step');
+            }
+
+            return reviewStep;
+        },
+        registerSuccessStep: function(success) {
+            successStep = success;
         },
         getSuccessStep: function() {
             if (!successStep) {
@@ -100,12 +117,6 @@ function createFormModel({ id, title }) {
             }
 
             return successStep;
-        },
-        registerStep: function(step) {
-            steps.push(createStep(step));
-        },
-        registerSuccessStep: function(success) {
-            successStep = success;
         }
     };
 }

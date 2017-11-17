@@ -65,11 +65,6 @@ $errorColor: #b00;
 .form-field {
     margin-bottom: $spacingUnit;
 
-    &.has-errors {
-        border-left: 3px solid $errorColor;
-        padding-left: $spacingUnit / 2;
-    }
-
     &:target {
         background-color: rgba(255, 255, 0, 0.5);
     }
@@ -80,6 +75,12 @@ $errorColor: #b00;
 
     .form-field__help {
         margin-top: $spacingUnit;
+    }
+}
+.form-field.has-errors {
+    .form-field__main {
+        border-left: 3px solid $errorColor;
+        padding-left: $spacingUnit / 2;
     }
 }
 
@@ -109,7 +110,6 @@ $errorColor: #b00;
 }
 
 .review-list {
-    overflow: auto;
     margin-bottom: $spacingUnit * 2;
 
     > dd,
@@ -121,6 +121,9 @@ $errorColor: #b00;
         font-weight: bold;
         border-top: 1px solid palette('soft-grey');
     }
+}
+.review-list:not(.review-list--stacked) {
+    overflow: auto;
 
     @media screen and (min-width: 480px) {
         > dd,

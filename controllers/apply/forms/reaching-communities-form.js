@@ -37,6 +37,10 @@ formModel.registerStep({
     ]
 });
 
+formModel.registerReviewStep({
+    title: 'Check Your idea'
+});
+
 formModel.registerSuccessStep({
     title: 'Success',
     processor: function(data) {

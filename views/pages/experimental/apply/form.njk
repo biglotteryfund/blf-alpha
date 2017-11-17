@@ -95,22 +95,24 @@
                                 data-conditional-fields='{{ field.conditionalFor | dump | safe }}'
                             {% endif %}
                             {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
-                            <div class="form-field__body">
-                                {% if field.type === 'text' %}
-                                    {{ inputText(field) }}
-                                {% endif %}
-                                {% if field.type === 'textarea' %}
-                                    {{ inputTextarea(field) }}
-                                {% endif %}
-                                {% if field.type === 'radio' %}
-                                    {{ inputRadio(field) }}
+                            <div class="form-field__main">
+                                <div class="form-field__body">
+                                    {% if field.type === 'text' %}
+                                        {{ inputText(field) }}
+                                    {% endif %}
+                                    {% if field.type === 'textarea' %}
+                                        {{ inputTextarea(field) }}
+                                    {% endif %}
+                                    {% if field.type === 'radio' %}
+                                        {{ inputRadio(field) }}
+                                    {% endif %}
+                                </div>
+                                {% if fieldErrors | length > 0 %}
+                                    <div class="form-field__errors">
+                                        {{ errorList(errorsForField(field)) }}
+                                    </div>
                                 {% endif %}
                             </div>
-                            {% if fieldErrors | length > 0 %}
-                                <div class="form-field__errors">
-                                    {{ errorList(errorsForField(field)) }}
-                                </div>
-                            {% endif %}
                             {% if field.helpText %}
                                 <details class="form-field__help">
                                     <summary>{{ field.helpText.summary }}</summary>
