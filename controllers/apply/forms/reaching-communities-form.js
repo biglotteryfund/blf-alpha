@@ -38,7 +38,8 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check Your idea'
+    title: 'Check Your idea',
+    proceedLabel: 'Submit Idea'
 });
 
 formModel.registerSuccessStep({

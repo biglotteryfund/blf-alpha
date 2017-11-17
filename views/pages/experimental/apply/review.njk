@@ -21,7 +21,9 @@
                 {% endfor %}
             {% endfor %}
 
-            <a class="btn" href="{{ procceedUrl }}">Accept and submit application</a>
+            <a class="btn" href="{{ procceedUrl }}">
+                {% if review.proceedLabel %}{{ review.proceedLabel }}{% else %}Accept and submit{% endif %}
+            </a>
         </div>
     </div>
 {% endblock %}
