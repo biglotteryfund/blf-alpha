@@ -14,7 +14,9 @@
                         {% for field in fieldset.fields %}
                             {% if field.value %}
                                 <dt>{{ field.label }}</dt>
-                                {% if field.type === 'checkbox' %}
+                                {% if field.type === 'textarea' %}
+                                    <dd class="s-prose">{{ field.value | striptags(true) | escape | nl2br }}</dd>
+                                {% elseif field.type === 'checkbox' %}
                                     <dd>{{ field.value | join(', ') }}</dd>
                                 {% else %}
                                     <dd>{{ field.value }}</dd>

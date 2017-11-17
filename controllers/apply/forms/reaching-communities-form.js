@@ -17,7 +17,7 @@ formModel.registerStep({
                     name: 'your-idea',
                     label: 'What do you want to do and what difference will it make?',
                     isRequired: true,
-                    rows: 6,
+                    rows: 12,
                     validator: function(field) {
                         return check(field.name)
                             .escape()
@@ -28,8 +28,16 @@ formModel.registerStep({
                     },
                     helpText: {
                         summary: 'Show example',
-                        body:
-                            '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae pariatur explicabo architecto numquam non quis!</p>'
+                        body: `
+<p>We support organisations that share our values of being people-led, strengths-based and connected.</p>
+
+<p>Across all of our funding in England, we are looking for ideas that cover at least one of our three priorities:</p>
+<ul>
+<li>Relationships – We will be looking for ideas that bring people together and strengthen relationships in and across communities.</li>
+<li>Places and Spaces – We will be looking for ideas that support people to shape and sustain the places that matter to them, like a park, community centre or online network.</li>
+<li>Early Action – We will be looking for ideas that support activity that empowers people to fulfil their potential, working to address problems at the earliest possible stage.</li>
+</ul>
+`
                     }
                 }
             ]

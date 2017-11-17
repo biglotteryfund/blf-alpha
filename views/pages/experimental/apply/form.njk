@@ -137,8 +137,10 @@
                             </div>
                             {% if field.helpText %}
                                 <details class="form-field__help">
-                                    <summary>{{ field.helpText.summary }}</summary>
-                                    {{ field.helpText.body | safe }}
+                                    <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
+                                    <div class="form-field__help-body s-prose">
+                                        {{ field.helpText.body | safe }}
+                                    </div>
                                 </details>
                             {% endif %}
                         </div>

@@ -68,13 +68,19 @@ $errorColor: #b00;
     &:target {
         background-color: rgba(255, 255, 0, 0.5);
     }
+}
+.form-field__errors {
+    margin-top: $spacingUnit / 3;
+}
+.form-field__help {
+    margin-top: $spacingUnit;
 
-    .form-field__errors {
-        margin-top: $spacingUnit / 3;
+    .form-field__help-summary {
+        margin-bottom: $spacingUnit / 3;
     }
-
-    .form-field__help {
-        margin-top: $spacingUnit;
+    .form-field__help-body {
+        background-color: palette('pale-grey');
+        padding: $spacingUnit / 2;
     }
 }
 .form-field.has-errors {
@@ -107,6 +113,7 @@ $errorColor: #b00;
 
 .ff-textarea {
     width: 100%;
+    padding: 0.5em;
 }
 
 .ff-radio,
