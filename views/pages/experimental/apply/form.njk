@@ -143,6 +143,15 @@
                                     </div>
                                 </details>
                             {% endif %}
+
+                             {% if field.canBeDuplicated === true %}
+                                <p class="form-field__duplicate">
+                                    <button type="button" class="btn btn--link"
+                                        onclick="alert('Not yet implemented')">
+                                        {{ field.duplicateLabel }} +
+                                    </button>
+                                </p>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

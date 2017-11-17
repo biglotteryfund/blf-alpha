@@ -83,6 +83,10 @@ $errorColor: #b00;
         padding: $spacingUnit / 2;
     }
 }
+.form-field__duplicate {
+    margin-top: $spacingUnit / 2;
+}
+
 .form-field.has-errors {
     .form-field__main {
         border-left: 3px solid $errorColor;

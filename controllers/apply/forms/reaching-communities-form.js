@@ -106,6 +106,33 @@ formModel.registerStep({
     ]
 });
 
+formModel.registerStep({
+    name: 'Your Organisation',
+    fieldsets: [
+        {
+            legend: 'Your Organisation',
+            fields: [
+                {
+                    type: 'text',
+                    name: 'organisation-name',
+                    label: 'Organisation Name',
+                    isRequired: true,
+                    canBeDuplicated: true,
+                    duplicateLabel: 'Add another organisation',
+                    validator: function(field) {
+                        return check(field.name)
+                            .escape()
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('First-name must be provided');
+                    }
+                }
+            ]
+        }
+    ]
+});
+
 formModel.registerReviewStep({
     title: 'Check Your idea',
     proceedLabel: 'Submit Idea'
