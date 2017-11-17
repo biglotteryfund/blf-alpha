@@ -40,15 +40,28 @@
    ========================================================================= */
 /*
     Opt-in typography:
+    https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
     http://anthonyshort.me/global-typographic-styles-suck
     http://dbushell.com/2012/04/18/scoping-typography-css/
     http://css-tricks.com/opt-in-typography/
 */
 .s-prose {
+    ul,
     ol {
-        margin-left: 1em;
+        margin-bottom: $spacingUnit;
     }
-    ol,
+
+    ul li,
+    ol li {
+        margin-left: $spacingUnit;
+        margin-bottom: 6px;
+        margin-top: 0;
+    }
+
+    ul li {
+        list-style-type: disc;
+    }
+
     ol li {
         list-style-type: decimal;
     }
