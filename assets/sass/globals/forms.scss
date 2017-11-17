@@ -109,6 +109,20 @@ $errorColor: #b00;
     width: 100%;
 }
 
+.ff-radio,
+.ff-checkbox {
+    margin-bottom: 3px;
+}
+.ff-checkbox__option {
+    margin-bottom: 3px;
+
+    input[type='checkbox'] {
+        position: relative;
+        top: -2px;
+        margin-right: 5px;
+    }
+}
+
 .review-list {
     margin-bottom: $spacingUnit * 2;
 

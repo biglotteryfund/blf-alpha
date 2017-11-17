@@ -37,6 +37,67 @@ formModel.registerStep({
     ]
 });
 
+formModel.registerStep({
+    name: 'Project Location',
+    fieldsets: [
+        {
+            legend: 'Where will your project take place?',
+            fields: [
+                {
+                    label: 'Where will your project take place?',
+                    type: 'checkbox',
+                    options: [
+                        {
+                            label: 'North East',
+                            value: 'North East'
+                        },
+                        {
+                            label: 'North West',
+                            value: 'North West'
+                        },
+                        {
+                            label: 'Yorkshire and the Humber',
+                            value: 'Yorkshire and the Humber'
+                        },
+                        {
+                            label: 'East Midlands',
+                            value: 'East Midlands'
+                        },
+                        {
+                            label: 'West Midlands',
+                            value: 'West Midlands'
+                        },
+                        {
+                            label: 'East of England',
+                            value: 'East of England'
+                        },
+                        {
+                            label: 'London',
+                            value: 'London'
+                        },
+                        {
+                            label: 'South East',
+                            value: 'South East'
+                        },
+                        {
+                            label: 'South West',
+                            value: 'South West'
+                        }
+                    ],
+                    name: 'location',
+                    validator: function(field) {
+                        return check(field.name)
+                            .escape()
+                            .trim()
+                            .not()
+                            .isEmpty();
+                    }
+                }
+            ]
+        }
+    ]
+});
+
 formModel.registerReviewStep({
     title: 'Check Your idea',
     proceedLabel: 'Submit Idea'
