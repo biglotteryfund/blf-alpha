@@ -529,7 +529,161 @@
 			"title": "Empowering Young People"
 		},
         "helpingWorkingFamilies": {
-            "title": "Helping Working Families"
+            "title": "Helpu Teuluoedd sy'n Gweithio",
+            "intro": "<p>Mae Helpu Teuluoedd sy'n Gweithio'n ariannu prosiectau sy'n gwella bywydau teuluoedd sy'n gweithio tra mewn tlodi.</p>",
+            "grantSummary": "<p><strong>Maint y grant</strong>: Tua £500,000<br/><strong>Hyd y grant</strong>: Pedair blynedd (yn dod i ben 2022)<br/><strong>Diwedd y cyfnod ymgeisio</strong>: 15 Mawrth 2018</p>",
+            "howToSucceed": {
+                "title": "Sut i fod yn llwyddiannus",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Rydym eisiau i'n hariannu greu newidiadau cadarnhaol ym mywydau teuluoedd sy'n gweithio ac sy'n magu plentyn, nad oes ganddynt ddigon o arian nac adnoddau i ddiwallu eu hanghenion sylfaenol, gan gynnwys bod yn rhan o'r gymuned a chymdeithas yn ehangach.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Bydd llwyddiant wedi'i benderfynu nid yn unig gan y gweithgareddau a gyflawnir ond gan ba mor effeithiol y mae'r broses wrth ddod â phobl ynghyd i'w dylunio a'u cyflwyno. Oherwydd hwn, nid ydym yn disgwyl gweld cynlluniau manwl gweithgareddau eich prosiect ar yr adeg pan fyddwch yn ymgeisio.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Yn hytrach, rydym eisiau gweld eich cynlluniau ar gyfer sut fydd y prosiect yn dod â phobl a phartneriaid ynghyd i ddylunio a chyflwyno cyllideb a chynllun ar gyfer yr hyn rydych yn bwriadu ei wneud, gan arwain at welliant parhaus mewn ansawdd bywydau pobl.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Rydym eisiau gweld bod y bobl a fydd yn defnyddio’r gwasanaeth yn gweithio mewn partneriaeth gyfartal gyda’r bobl a fydd yn ei ddarparu. Mae hwn yn grymuso pobl a chymunedau i ddod ynghyd i ganfod atebion.</p>"
+                    },
+                    {
+                        "type": "heading",
+                        "body": "Beth a olygwn wrth 'deuluoedd sy'n gweithio’?"
+                    },
+                    {
+                        "type": "text",
+                        "body": "<p>Mae hyn yn golygu aelwyd gydag o leiaf un person mewn swydd amser llawn neu ran-amser neu hunangyflogedig sy'n magu o leiaf un plentyn o dan 18 oed.</p>"
+                    },
+                    {
+                        "type": "image",
+                        "src": "/working-families/working-families.jpg",
+                        "alt": "ADDNI: Attention-to-Detail"
+                    }]
+                }, {
+                    "title": "Enghreifftiau o brosiectau llwyddiannus",
+                    "blocks": [{
+                        "type": "heading",
+                        "body": "Oergell bwyd cymunedol"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Gallai prosiect llwyddiannus gynnwys teuluoedd sy'n dod ynghyd gyda mudiad lleol oherwydd eu pryderon am sut mae bwyd ffres ac iachus yn ddrud ac yn anodd cael gafael arno yn eu hardal.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Ar ôl penderfynu bod hwn yn fater pwysig, maent yn sefydlu oergell bwyd cymunedol sy'n galluogi pobl i rannu bwyd maent wedi'i brynu neu ei dyfu na allant ei fwyta cyn iddo ddechrau pydru.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Yn ogystal â rhoi bwyd iachus i'r gymuned am ddim, mae'n helpu sefydlu rhywbeth a allai barhau y tu hwnt i gyfnod eu grant hefyd.</p>"
+                    }, {
+                        "type": "heading",
+                        "body": "Eiriolwyr cymunedol"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Gallai prosiect llwyddiannus arall ymwneud â darparu cyngor.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Mae teuluoedd yn dod ynghyd gyda mudiad lleol i drafod dyled, cyngor a siarcod benthyca, problemau y mae nifer ohonynt yn delio â nhw.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Er bod darparwyr cyngor yn yr ardal, nid yw teuluoedd yn cysylltu â nhw'n ddigon cynnar i gael y gefnogaeth orau sydd ar gael.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Mae'r prosiect yn cysylltu â darparwr cyngor lleol i drefnu i aelodau'r gymuned gael eu hyfforddi fel eiriolwyr cymunedol, sy'n mynd yn bwynt cyswllt cyntaf i gefnogi pobl.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Yn ogystal â sicrhau bod mwy o bobl yn derbyn cefnogaeth mewn cam cynnar, mae'r gymuned hefyd wedi'i grymuso trwy gael mwy o sgiliau.</p>"
+                    }]
+                }]
+            },
+            "beforeYouApply": {
+                "title": "Cyn i chi ymgeisio",
+                "sections": [{
+                    "title": "Gwirio a ydych yn gymwys",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#check-eligibility\">Cael gwybod a ydych yn gymwys</a></p>"
+                    }]
+                }, {
+                    "title": "Get in touch",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#how-to-succeed\">Ffoniwch ni</a> i ddweud wrthym am eich syniad. Os ydym yn meddwl mai dyma rywbeth y byddem yn ei ariannu, byddwn yn gyrru ffurflen gais atoch.</p>"
+                    }]
+                }, {
+                    "title": "Datblygu eich cais",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Darllenwch am <a href=\"#\">beth sy'n gwneud prosiect yn llwyddiannus</a>.</p>"
+                    }]
+                }, {
+                    "title": "Anfon eich ffurflen wedi'i chwblhau",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Anfonwch eich ffurflen wedi'i chwblhau atom trwy e-bost. Byddwn yn rhoi gwybod i chi pan fyddwn wedi'i derbyn.</p>"
+                    }]
+                }, {
+                    "title": "Dweud mwy wrthym am eich prosiect",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Byddwn yn cysylltu â chi i drafod eich cais yn fanylach.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Ar y pwynt hwn, mae'n bosib y byddwn yn gofyn i chi  anfon mwy o wybodaeth am eich prosiect atom i'n helpu gwneud penderfyniad.</p>"
+                    }]
+                }, {
+                    "title": "Derbyn penderfyniad",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Y terfyn amser i dderbyn ceisiadau yw dydd Iau 15 Mawrth 2018. Bydd penderfyniadau’n cael eu rhoi i ymgeiswyr ddechrau mis Gorffennaf 2018.</p>"
+                    }]
+                }]
+            },
+            "checkEligibility": {
+                "title": "Gwirio a ydych yn gymwys",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>TI ymgeisio am grant, mae angen i chi fod yn fudiad gwirfoddol a chymunedol, fel:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>elusen</li><li>grŵp cymunedol</li><li>cydweithfa</li><li>menter gymdeithasol</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Mae angen i chi fedru cydweithio'n agos â:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>theuluoedd sy'n gweithio</li><li>eich cymuned</li><li>partneriaid ffurfiol neu anffurfiol (gallai'r rhain gynnwys mudiadau lleol o'r sectorau cyhoeddus, preifat neu wirfoddol)</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Ni allwn ariannu:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>canghennau nad ydynt yn rheoli sut maent yn cael eich rhedeg a sut mae eu harian yn cael ei wario</li><li>mudiadau sy'n ymgeisio ar ran rhywun arall</li></ul>"
+                    }]
+                }]
+            },
+            "getInTouch": {
+                "title": "Cysylltu â ni",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Pan fydd gennych syniad am brosiect rydych eisiau ei gyflwyno i ni, ffoniwch ni i siarad trwyddo. Byddwn yn gallu dweud wrthych p'un a yw'n rhywbeth y byddem yn ei ariannu.</p>"
+                    }, {
+                        "type": "heading",
+                        "body": "Cyn cysylltu â ni, gwnewch yn siŵr eich bod wedi:"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>gwirio'ch <a href=\"#check-eligibility\">cymhwysedd</a></li><li>darllen ein harweiniad ar <a href=\"#how-to-succeed\">sut i lwyddo</a></li><li>meddwl yn drwyadl am yr hyn rydych eisiau ei ddweud wrthym - bydd y sgwrs hon yn rhan o'r ffordd y byddwn yn asesu eich prosiect</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Gallwch ffonio ni ar <a href=\"tel:0300 123 0735\">0300 123 0735</a> neu anfon e-bost i <a href=\"mailto:cymru@cronfaloterifawr.org.uk\">cymru@cronfaloterifawr.org.uk</a> dydd Llun i ddydd Gwener, 9.00am tan 5.00pm (heb gynnwys gwyliau banc) i drefnu amser i siarad ag un o'n tîm, a fydd yn ffonio chi'n ôl o fewn tri diwrnod gwaith.</p>"
+                    }]
+                }]
+            }
         }
 	},
 	"about": {

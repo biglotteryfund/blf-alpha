@@ -7,36 +7,10 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% macro tabContent(sections) %}
-    <div class="content-box content-box--borderless">
-        <div class="s-prose u-constrained-content-wide">
-        {% for section in sections %}
-            {% if section.title %}
-                <h2 class="t2 t--underline accent--pink a--text">{{ section.title }}</h2>
-            {% endif %}
-            {% for block in section.blocks %}
-                {% if block.type === 'heading' %}
-                    <h3 class="t4">{{ block.body }}</h3>
-                {% endif %}
-                {% if block.type === 'image' %}
-                    <figure class="u-inline-figure u-inline-figure--padded">
-                        <img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}">
-                    </figure>
-                {% endif %}
-                {% if block.type === 'text' %}
-                    {{ block.body | safe }}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-        </div>
-    </div>
-{% endmacro %}
-
 {% block content %}
-
     {{
         sectionHero(
-            accent = 'blue',
+            accent = 'pink',
             titleText = title,
             image = createHeroImage({
                 small: 'hero/working-families-small.jpg',
@@ -48,10 +22,6 @@
         )
     }}
 
-    {% set howToSucceed %}
-
-    {% endset %}
-
     <main role="main" class="nudge-up">
         <section class="content-box content-box--tinted inner--wide-only accent--pink a--border-top ">
             <div class="s-prose u-constrained-content">
@@ -59,6 +29,31 @@
                 {{ copy.grantSummary | safe }}
             </div>
         </section>
+
+        {% macro tabContent(sections) %}
+            <div class="content-box content-box--borderless">
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                {% for section in sections %}
+                    {% if section.title %}
+                        <h2 class="t2 t--underline accent--pink a--text">{{ section.title }}</h2>
+                    {% endif %}
+                    {% for block in section.blocks %}
+                        {% if block.type === 'heading' %}
+                            <h3 class="t4">{{ block.body }}</h3>
+                        {% endif %}
+                        {% if block.type === 'image' %}
+                            <figure class="u-inline-figure u-inline-figure--padded">
+                                <img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}">
+                            </figure>
+                        {% endif %}
+                        {% if block.type === 'text' %}
+                            {{ block.body | safe }}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </div>
+            </div>
+        {% endmacro %}
 
         <section class="inner--wide-only spaced">
             {{

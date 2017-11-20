@@ -64,3 +64,23 @@
         list-style-type: decimal;
     }
 }
+
+/**
+ * Expanded prose styles for long blocks of text
+ */
+.s-prose--long {
+    a {
+        font-weight: bold;
+    }
+
+    a[href^='tel:'] {
+        font-weight: bold;
+        color: palette('green');
+        text-decoration: none;
+    }
+
+    ol li,
+    ul li {
+        margin-left: $spacingUnit * 3;
+    }
+}
