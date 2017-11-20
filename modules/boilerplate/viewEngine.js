@@ -33,6 +33,15 @@ templateEnv.addFilter('slugify', str => {
     });
 });
 
+// @TODO: This feels awkward, is there an alternative?
+templateEnv.addFilter('joinIfArray', (xs, delimiter) => {
+    if (Array.isArray(xs)) {
+        return xs.join(delimiter);
+    } else {
+        return xs;
+    }
+});
+
 templateEnv.addFilter('makePhoneLink', str => {
     let callable = str.replace(/ /g, '');
     return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;

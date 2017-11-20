@@ -16,6 +16,7 @@ fieldset {
 .form-header {
     margin-bottom: $spacingUnit;
 
+    .form-header__actions,
     .form-header__title {
         margin-bottom: 3px;
     }
@@ -65,17 +66,32 @@ $errorColor: #b00;
 .form-field {
     margin-bottom: $spacingUnit;
 
-    &.has-errors {
-        border-left: 3px solid $errorColor;
-        padding-left: $spacingUnit / 2;
-    }
-
     &:target {
         background-color: rgba(255, 255, 0, 0.5);
     }
+}
+.form-field__errors {
+    margin-top: $spacingUnit / 3;
+}
+.form-field__help {
+    margin-top: $spacingUnit;
 
-    .form-field__errors {
-        margin-top: $spacingUnit / 3;
+    .form-field__help-summary {
+        margin-bottom: $spacingUnit / 3;
+    }
+    .form-field__help-body {
+        background-color: palette('pale-grey');
+        padding: $spacingUnit / 2;
+    }
+}
+.form-field__duplicate {
+    margin-top: $spacingUnit / 2;
+}
+
+.form-field.has-errors {
+    .form-field__main {
+        border-left: 3px solid $errorColor;
+        padding-left: $spacingUnit / 2;
     }
 }
 
@@ -85,7 +101,8 @@ $errorColor: #b00;
 
 .ff-label {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .ff-text,
@@ -101,10 +118,24 @@ $errorColor: #b00;
 
 .ff-textarea {
     width: 100%;
+    padding: 0.5em;
+}
+
+.ff-radio,
+.ff-checkbox {
+    margin-bottom: 3px;
+}
+.ff-checkbox__option {
+    margin-bottom: 3px;
+
+    input[type='checkbox'] {
+        position: relative;
+        top: -2px;
+        margin-right: 5px;
+    }
 }
 
 .review-list {
-    overflow: auto;
     margin-bottom: $spacingUnit * 2;
 
     > dd,
@@ -116,6 +147,9 @@ $errorColor: #b00;
         font-weight: bold;
         border-top: 1px solid palette('soft-grey');
     }
+}
+.review-list:not(.review-list--stacked) {
+    overflow: auto;
 
     @media screen and (min-width: 480px) {
         > dd,
@@ -133,6 +167,15 @@ $errorColor: #b00;
             border-top: 1px solid palette('soft-grey');
         }
     }
+}
+
+.form-success-message {
+    background-color: palette('pale-pink');
+    margin-bottom: $spacingUnit;
+    padding: $spacingUnit / 2;
+}
+.form-success-message__title {
+    margin-bottom: 3px;
 }
 
 /* =========================================================================

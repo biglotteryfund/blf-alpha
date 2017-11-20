@@ -47,6 +47,13 @@ const cymreigio = mountPath => {
     return [mountPath, welshPath];
 };
 
+// @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
+if (process.env.NODE_ENV !== 'production') {
+    const applyPath = '/experimental/apply';
+    app.use(applyPath, require('./controllers/apply'));
+    app.use(cymreigio(applyPath), require('./controllers/apply'));
+}
+
 // route binding
 for (let sectionId in routes.sections) {
     let s = routes.sections[sectionId];
@@ -61,12 +68,6 @@ for (let sectionId in routes.sections) {
             app.use(path, controller);
         });
     }
-}
-
-if (process.env.NODE_ENV !== 'production') {
-    const applyPath = '/experimental/apply';
-    app.use(applyPath, require('./controllers/apply'));
-    app.use(cymreigio(applyPath), require('./controllers/apply'));
 }
 
 // add vanity redirects

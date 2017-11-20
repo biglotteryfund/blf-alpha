@@ -144,6 +144,10 @@ formModel.registerStep({
     ]
 });
 
+formModel.registerReviewStep({
+    title: 'Check Your Answers Before Sending Your Application'
+});
+
 formModel.registerSuccessStep({
     title: 'Success',
     processor: function(data) {
