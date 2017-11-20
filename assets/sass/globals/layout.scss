@@ -107,18 +107,3 @@ $nudgeAmount: 25px;
 .no-space {
     margin-bottom: 0 !important;
 }
-
-/* =========================================================================
-   Layout: Inline Imagery
-   ========================================================================= */
-
-.u-inline-figure {
-    margin: 1em 0 2em;
-
-    &.u-inline-figure--padded {
-        @include mq('tablet') {
-            margin-left: $spacingUnit * 3;
-            margin-right: $spacingUnit * 3;
-        }
-    }
-}

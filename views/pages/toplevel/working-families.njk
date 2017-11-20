@@ -23,7 +23,8 @@
     }}
 
     <main role="main" class="nudge-up">
-        <section class="content-box content-box--tinted inner--wide-only accent--pink a--border-top ">
+        <section class="content-box content-box--tinted content-box--flush-narrow-only
+            inner--wide-only accent--pink a--border-top ">
             <div class="s-prose u-constrained-content">
                 {{ copy.intro | safe }}
                 {{ copy.grantSummary | safe }}
@@ -42,7 +43,7 @@
                             <h3 class="t4">{{ block.body }}</h3>
                         {% endif %}
                         {% if block.type === 'image' %}
-                            <figure class="u-inline-figure u-inline-figure--padded">
+                            <figure class="inline-figure inline-figure--padded">
                                 <img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}">
                             </figure>
                         {% endif %}
