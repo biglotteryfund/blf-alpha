@@ -1,5 +1,6 @@
 const createFormModel = require('./create-form-model');
 const { check } = require('express-validator/check');
+const { castArray } = require('lodash');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -82,11 +83,14 @@ formModel.registerStep({
                     ],
                     name: 'location',
                     validator: function(field) {
-                        return check(field.name)
-                            .escape()
-                            .trim()
-                            .not()
-                            .isEmpty();
+                        return check(field.name).custom(value => {
+                            const values = castArray(value);
+                            if (values.indexOf('Across England') !== -1 && values.length > 1) {
+                                throw new Error('If you’ve selected Accross England no other regions can be selected.');
+                            } else {
+                                return true;
+                            }
+                        });
                     }
                 }
             ]
