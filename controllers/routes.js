@@ -121,6 +121,14 @@ const routes = {
                     aliases: [
                         sectionPaths.toplevel + '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
+                },
+                helpingWorkingFamilies: {
+                    name: 'Helping Working Families',
+                    path: '/helping-working-families',
+                    template: 'pages/toplevel/working-families',
+                    lang: 'toplevel.helpingWorkingFamilies',
+                    static: true,
+                    live: false
                 }
             }
         },

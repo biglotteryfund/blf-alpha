@@ -528,7 +528,9 @@
 		"eyp": {
 			"title": "Empowering Young People"
 		},
-		"about": "about"
+        "helpingWorkingFamilies": {
+            "title": "Helping Working Families"
+        }
 	},
 	"about": {
 		"foi": {
