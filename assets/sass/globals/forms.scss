@@ -16,6 +16,7 @@ fieldset {
 .form-header {
     margin-bottom: $spacingUnit;
 
+    .form-header__actions,
     .form-header__title {
         margin-bottom: 3px;
     }

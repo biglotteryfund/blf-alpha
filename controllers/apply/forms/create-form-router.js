@@ -18,6 +18,8 @@ module.exports = function(router, formModel) {
         const prevStepUrl = baseUrl => {
             if (currentStepNumber > 1) {
                 return `${baseUrl}/${currentStepNumber - 1}`;
+            } else {
+                return baseUrl;
             }
         };
 

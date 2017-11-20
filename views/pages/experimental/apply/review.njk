@@ -6,7 +6,7 @@
             <h1 class="t1">{{ review.title }}</h1>
             {% for step in summary %}
                 <h2 class="t2 t--underline accent--pink">
-                    Step {{ loop.index }}: {{ step.name }}
+                    {{ step.name }}
                     [<a href="{{ baseUrl }}/{{ loop.index }}">Edit</a>]
                 </h2>
                 {% for fieldset in step.fieldsets %}
@@ -17,7 +17,7 @@
                                 {% if field.type === 'textarea' %}
                                     <dd class="s-prose">{{ field.value | striptags(true) | escape | nl2br }}</dd>
                                 {% elseif field.type === 'checkbox' %}
-                                    <dd>{{ field.value | join(', ') }}</dd>
+                                    <dd>{{ field.value | joinIfArray(', ') }}</dd>
                                 {% else %}
                                     <dd>{{ field.value }}</dd>
                                 {% endif %}

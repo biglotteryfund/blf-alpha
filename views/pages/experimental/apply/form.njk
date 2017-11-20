@@ -80,11 +80,13 @@
         class="js-application-form content-box inner inner--wide-only accent--pink a--border-top">
         <div class="form-header">
             {% if prevStepUrl %}
-                <a href="{{ prevStepUrl }}">← Back</a>
+                <div class="form-header__actions">
+                    <a href="{{ prevStepUrl }}">← Back</a>
+                </div>
             {% endif %}
-            <h1 class="form-header__title t1">{{ form.title }}</h1>
+            <h1 class="form-header__title u-visually-hidden">{{ form.title }}</h1>
             <h2 class="form-header__subtitle">
-                Step {{ currentStepNumber }} of {{ totalSteps }}: {{ step.name }}
+                Step {{ currentStepNumber }} of {{ totalSteps }}
             </h2>
         </div>
 
@@ -136,12 +138,18 @@
                                 {% endif %}
                             </div>
                             {% if field.helpText %}
-                                <details class="form-field__help">
-                                    <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
-                                    <div class="form-field__help-body s-prose">
+                                {% if field.helpText.summary %}
+                                    <details class="form-field__help">
+                                        <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
+                                        <div class="form-field__help-body s-prose">
+                                            {{ field.helpText.body | safe }}
+                                        </div>
+                                        </details>
+                                {% else %}
+                                    <div class="form-field__help s-prose">
                                         {{ field.helpText.body | safe }}
                                     </div>
-                                </details>
+                                {% endif %}
                             {% endif %}
 
                              {% if field.canBeDuplicated === true %}
@@ -161,6 +169,6 @@
             </fieldset>
         {% endfor %}
 
-        <input class="btn" type="submit" value="Proceed to next step" />
+        <input class="btn" type="submit" value="Next" />
     </form>
 {% endblock %}

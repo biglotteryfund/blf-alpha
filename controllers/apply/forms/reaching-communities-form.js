@@ -4,19 +4,19 @@ const { castArray } = require('lodash');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
-    title: 'Reaching Communities'
+    title: 'Apply For A Grant Over £10,000'
 });
 
 formModel.registerStep({
     name: 'Your Idea',
     fieldsets: [
         {
-            legend: 'Tell Us Your Idea',
+            legend: 'Your Idea',
             fields: [
                 {
                     type: 'textarea',
                     name: 'your-idea',
-                    label: 'What do you want to do and what difference will it make?',
+                    label: 'Briefly explain your idea and why it’ll make a difference',
                     isRequired: true,
                     rows: 12,
                     validator: function(field) {
@@ -28,7 +28,6 @@ formModel.registerStep({
                             .withMessage('Please tell us your idea');
                     },
                     helpText: {
-                        summary: 'Show example',
                         body: `
 <p>We support organisations that share our values of being people-led, strengths-based and connected.</p>
 
@@ -50,7 +49,7 @@ formModel.registerStep({
     name: 'Project Location',
     fieldsets: [
         {
-            legend: 'Where will your project take place?',
+            legend: 'Where will your project take place? (select all that apply)',
             fields: [
                 {
                     label: 'Where will your project take place?',
@@ -86,7 +85,7 @@ formModel.registerStep({
                         return check(field.name).custom(value => {
                             const values = castArray(value);
                             if (values.indexOf('Across England') !== -1 && values.length > 1) {
-                                throw new Error('If you’ve selected Accross England no other regions can be selected.');
+                                throw new Error('If you’ve selected Across England no other regions can be selected.');
                             } else {
                                 return true;
                             }
@@ -107,12 +106,12 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'organisation-name',
-                    label: 'Organisation Name',
+                    label: 'Legal Name',
                     isRequired: true,
                     canBeDuplicated: true,
                     duplicateLabel: 'Add another organisation',
                     duplicateHelpText:
-                        'If you’re working with other organisations to deliver your idea please list them here.<br />If you don’t know this yet we can discuss this later on.',
+                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
                     validator: function(field) {
                         return check(field.name)
                             .escape()
@@ -128,16 +127,13 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check Your idea',
-    proceedLabel: 'Submit Idea'
+    title: 'Check This Is Right',
+    proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({
     title: 'We Have Received Your Idea',
-    processor: function(data) {
-        // Do something with the data
-        console.log(data);
-    }
+    processor: function() {}
 });
 
 module.exports = formModel;
