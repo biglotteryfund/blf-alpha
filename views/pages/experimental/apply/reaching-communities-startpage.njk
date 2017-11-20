@@ -1,5 +1,14 @@
 {% extends "../../../layouts/main.njk" %}
 
+{% macro startButton(url, label = 'Start') %}
+    <a class="btn btn--start" href="{{ url }}">
+        {{ label }}
+        <span class="btn__icon">
+            {% include "../../../includes/svg/arrow-right.svg" %}
+        </span>
+    </a>
+{% endmacro %}
+
 {% block content %}
     <div class="content-box inner inner--wide-only accent--pink a--border-top">
         <h1 class="t1">Reaching Communities</h1>
@@ -11,10 +20,8 @@
                 on the issues that matter to them. Once you submit your idea you will
                 receive an email from a local funding officer within 28 days.
             </p>
-            <a class="btn btn--start" href="{{ startUrl }}">
-                Start now
-                <span class="btn__icon">{% include "../../../includes/svg/arrow-right.svg" %}</span>
-            </a>
+
+            {{ startButton(startUrl) }}
         </div>
 
         <div class="u-constrained-content s-prose spaced--l">
@@ -22,31 +29,41 @@
             <h3 class="t4">We can fund</h3>
             <ul>
                 <li>Ideas taking place in England</li>
-                <li>Voluntary and community sector orgs and social enterprises</li>
+                <li>Voluntary and community sector organisations and social enterprises</li>
                 <li>Public bodies such as local authorities, schools and health agencies</li>
-                <li>A group of orgs working together led by one of the orgs above</li>
-                <li>Community interest companies so long as profits are reinvested into the org to create more impact</li>
+                <li>Community interest companies so long as profits are reinvested into the organisation to create more impact</li>
+                <li>A group of organisations working together led by one of the organisations above</li>
             </ul>
 
             <h3 class="t4">We can’t fund</h3>
             <ul>
                 <li>Ideas taking place outside of England</li>
-                <li>We’re unable to fund individuals for profit-making organisations</li>
+                <li>Profit-making organisations</li>
+                <li>Individuals</li>
             </ul>
 
             <p><a href="{{ buildUrl('funding', 'programmes') }}">Browse all of our funding programmes</a></p>
 
             <h3 class="t4">You'll Need</h3>
             <ul>
-                <li>We’ll ask you about what you want to do and why it’ll make a difference</li>
-                <li>The legal name of your og and others you’ll be working with</li>
+                <li>To briefly explain your idea and why it’ll make a difference</li>
+                <li>The legal name of your organisation and other organisations you may be working with</li>
                 <li>Your contact details</li>
             </ul>
         </div>
 
         <div class="u-constrained-content s-prose">
             <h2 class="t2 t--underline accent--pink">Other Ways To Apply</h2>
-            <p>Big Advice (+ text relay)</p>
+            <p>
+                We’re available every day from 5am to midnight to discuss about
+                your idea or answer questions about applying.
+            </p>
+            <ul>
+                <li><strong>Telephone</strong>: 0300 300 0120</li>
+                <li><strong>Textphone</strong>: 18001 03454 10 20 30 (for those with a hearing or speech impairment)</li>
+            </ul>
+
+            <p><a href="#">Find out about call charges</a></p>
         </div>
     </div>
 {% endblock %}

@@ -36,13 +36,11 @@
 }
 
 /* =========================================================================
-   Content: Prose Scope
+   Content: Scoped Prose Styles
    ========================================================================= */
 /*
     Opt-in typography:
     https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
-    http://anthonyshort.me/global-typographic-styles-suck
-    http://dbushell.com/2012/04/18/scoping-typography-css/
     http://css-tricks.com/opt-in-typography/
 */
 .s-prose {
@@ -54,7 +52,7 @@
     ul li,
     ol li {
         margin-left: $spacingUnit;
-        margin-bottom: 6px;
+        margin-bottom: 0.5em;
         margin-top: 0;
     }
 
