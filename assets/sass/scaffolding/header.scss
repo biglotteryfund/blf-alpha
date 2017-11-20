@@ -104,7 +104,8 @@ $offscreenNavWidth: 65%;
     }
 
     // use welsh logo (and scale it a bit as it's smaller)
-    .locale--cy & {
+    .locale--cy &,
+    .has-welsh-logo & {
         transform: scale(1.2);
         background-image: url(../../../images/logos/logo-new--welsh.png);
     }
@@ -114,7 +115,8 @@ $offscreenNavWidth: 65%;
         background-image: url(../../../images/logos/logo-small.png);
     }
 
-    .is-ie.locale--cy & {
+    .is-ie.locale--cy &,
+    .is-ie.has-welsh-logo & {
         background-image: url(../../../images/logos/logo-small--welsh.png);
     }
 }
@@ -460,7 +462,8 @@ html:not(.contrast--high) .has-full-bleed-header .header {
         }
     }
 }
-html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
+html:not(.contrast--high).locale--cy .has-full-bleed-header .header,
+html:not(.contrast--high) .has-welsh-logo.has-full-bleed-header .header {
     .logo {
         margin-top: $spacingUnit;
     }
@@ -468,7 +471,8 @@ html:not(.contrast--high).locale--cy .has-full-bleed-header .header {
 html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
     background-image: url(../../../images/logos/logo-new.png);
 }
-html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo {
+html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo,
+html:not(.contrast--high).is-ie .has-welsh-logo.has-full-bleed-header .logo {
     background-image: url(../../../images/logos/logo-new--welsh.png);
 }
 
