@@ -19,7 +19,9 @@
                     <h3 class="t4">{{ block.body }}</h3>
                 {% endif %}
                 {% if block.type === 'image' %}
-                    <p><img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}"></p>
+                    <figure class="u-inline-figure u-inline-figure--padded">
+                        <img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}">
+                    </figure>
                 {% endif %}
                 {% if block.type === 'text' %}
                     {{ block.body | safe }}
