@@ -56,40 +56,28 @@ formModel.registerStep({
                     type: 'checkbox',
                     options: [
                         {
-                            label: 'North East',
-                            value: 'North East'
+                            label: 'North-East',
+                            value: 'North-East'
                         },
                         {
-                            label: 'North West',
-                            value: 'North West'
+                            label: 'North-West',
+                            value: 'North-West'
                         },
                         {
                             label: 'Yorkshire and the Humber',
                             value: 'Yorkshire and the Humber'
                         },
                         {
-                            label: 'East Midlands',
-                            value: 'East Midlands'
+                            label: 'Midlands',
+                            value: 'Midlands'
                         },
                         {
-                            label: 'West Midlands',
-                            value: 'West Midlands'
+                            label: 'London and South-East',
+                            value: 'London and South-East'
                         },
                         {
-                            label: 'East of England',
-                            value: 'East of England'
-                        },
-                        {
-                            label: 'London',
-                            value: 'London'
-                        },
-                        {
-                            label: 'South East',
-                            value: 'South East'
-                        },
-                        {
-                            label: 'South West',
-                            value: 'South West'
+                            label: 'Across England',
+                            value: 'Across England'
                         }
                     ],
                     name: 'location',
