@@ -41,6 +41,8 @@ module.exports = function(router, formModel) {
         router
             .route(`/${currentStepNumber}`)
             .get(function(req, res) {
+                res.cacheControl = { maxAge: 0, noStore: true };
+
                 if (currentStepNumber > 1) {
                     const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
                     if (isEmpty(previousStepData)) {
@@ -53,6 +55,8 @@ module.exports = function(router, formModel) {
                 }
             })
             .post(step.getValidators(), function(req, res) {
+                res.cacheControl = { maxAge: 0, noStore: true };
+
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
@@ -71,6 +75,8 @@ module.exports = function(router, formModel) {
     });
 
     router.get('/review', function(req, res) {
+        res.cacheControl = { maxAge: 0, noStore: true };
+
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
@@ -86,6 +92,8 @@ module.exports = function(router, formModel) {
     });
 
     router.get('/success', function(req, res) {
+        res.cacheControl = { maxAge: 0, noStore: true };
+
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
