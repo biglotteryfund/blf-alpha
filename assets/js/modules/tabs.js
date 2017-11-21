@@ -79,7 +79,10 @@ function showNewTabPane($tabClicked) {
     return tabData;
 }
 
-function initTabBehaviour($tabs) {
+/**
+ * Add core tab behaviour
+ */
+function addTabBehaviour($tabs) {
     // bind clicks on tabs
     $tabs.on('click', function(e) {
         // show the tab pane and get the associated elements
@@ -123,7 +126,11 @@ function initTabBehaviour($tabs) {
     });
 }
 
-function initAriaStates($tabs) {
+/**
+ * Add ARIA states to active tabs
+ * @TODO: Should this be triggered on dynamic tab changes?
+ */
+function addAriaStates($tabs) {
     $('.tab__pane')
         .not(`.${activeClasses.pane}`)
         .attr('aria-hidden', 'true');
@@ -141,24 +148,48 @@ function initAriaStates($tabs) {
     });
 }
 
-function triggerTabForHash(hash, shouldScrollToElement) {
-    const $link = $(`a[href="${hash}"]`).first();
+/**
+ * Open selected tab if loading the page with an existing hash
+ */
+function openTabForCurrentHash() {
+    const hash = window.location.hash;
+    const $link = $(`.js-tab[href="${hash}"]`).first();
     if ($link.length > 0) {
         showNewTabPane($link);
-
-        if (shouldScrollToElement) {
-            $link.get(0).scrollIntoView();
-        } else {
-            /**
-             * hacky but works: scroll back to top of the page
-             * as otherwise the selected pane will be scrolled to
-             * and page intro will be missing
-             */
-            window.setTimeout(() => {
-                window.scrollTo(0, 0);
-            }, 1);
-        }
+        /**
+         * hacky but works: scroll back to top of the page
+         * as otherwise the selected pane will be scrolled to
+         * and page intro will be missing
+         */
+        window.setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 1);
     }
+}
+
+/**
+ * Listen for hashchange events and:
+ * A. Try to toggle tab if anchoring directly to a tab
+ * B. If anchoring to another element see if it's inside a tab
+ *    and if so try to toggle the parent tab
+ */
+function openTabOnHashchange() {
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+
+        const linkEl = $(`.js-tab[href="${hash}"]`).first();
+        if (linkEl.length > 0) {
+            showNewTabPane(linkEl);
+        } else {
+            const idEl = $(hash).first();
+            const parentTabLinkEl = idEl.closest('.tab__pane').find('.js-tab');
+
+            if (idEl.length > 0 && parentTabLinkEl.length > 0) {
+                showNewTabPane(parentTabLinkEl);
+                idEl.get(0).scrollIntoView();
+            }
+        }
+    });
 }
 
 function init() {
@@ -168,15 +199,11 @@ function init() {
         return;
     }
 
-    initTabBehaviour($tabs);
+    addTabBehaviour($tabs);
+    addAriaStates($tabs);
 
-    initAriaStates($tabs);
-
-    // Restore tab from location hash and listen for changes
-    triggerTabForHash(window.location.hash);
-    window.addEventListener('hashchange', () => {
-        triggerTabForHash(window.location.hash, true);
-    });
+    openTabForCurrentHash();
+    openTabOnHashchange();
 }
 
 module.exports = {

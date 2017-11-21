@@ -462,10 +462,14 @@ html:not(.contrast--high) .has-full-bleed-header .header {
         }
     }
 }
-html:not(.contrast--high).locale--cy .has-full-bleed-header .header,
-html:not(.contrast--high) .has-welsh-logo.has-full-bleed-header .header {
-    .logo {
+html:not(.contrast--high).locale--cy .has-full-bleed-header .logo,
+html:not(.contrast--high) .has-welsh-logo.has-full-bleed-header .logo {
+    margin-top: $spacingUnit / 2;
+    margin-left: $spacingUnit / 2;
+
+    @include mq(tablet) {
         margin-top: $spacingUnit;
+        margin-left: 0;
     }
 }
 html:not(.contrast--high).is-ie .has-full-bleed-header .logo {

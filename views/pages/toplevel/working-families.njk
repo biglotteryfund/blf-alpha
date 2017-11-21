@@ -2,7 +2,7 @@
 {% from "../../components/hero.njk" import sectionHero %}
 {% from "../../components/tabs.njk" import tabs %}
 
-{% set bodyClass = "has-full-bleed-header has-welsh-logo" %}
+{% set bodyClass = "has-full-bleed-header has-welsh-logo footer--no-margin" %}
 {% extends "../../layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
@@ -25,7 +25,7 @@
     <main role="main" class="nudge-up">
         <section class="content-box content-box--tinted content-box--flush-narrow-only
             inner--wide-only accent--pink a--border-top ">
-            <div class="s-prose u-constrained-content">
+            <div class="s-prose u-constrained-content-wide">
                 {{ copy.intro | safe }}
                 {{ copy.grantSummary | safe }}
             </div>
@@ -36,7 +36,10 @@
                 <div class="s-prose s-prose--long u-constrained-content-wide">
                 {% for section in sections %}
                     {% if section.title %}
-                        <h2 class="t2 t--underline accent--pink a--text">{{ section.title }}</h2>
+                        <h2 class="t2 t--underline accent--pink a--text"
+                            {% if section.id %}id="{{ section.id }}"{% endif %}>
+                            {{ section.title }}
+                        </h2>
                     {% endif %}
                     {% for block in section.blocks %}
                         {% if block.type === 'heading' %}
@@ -56,7 +59,7 @@
             </div>
         {% endmacro %}
 
-        <section class="inner--wide-only spaced">
+        <div class="inner--wide-only">
             {{
                 tabs(
                     id = 'working-families',
@@ -80,7 +83,7 @@
                     }]
                 )
             }}
-        </section>
+        </div>
     </main>
 
 {% endblock %}

@@ -563,6 +563,7 @@
                         "alt": "ADDNI: Attention-to-Detail"
                     }]
                 }, {
+                    "id": "successful-projects",
                     "title": "Examples of successful projects",
                     "blocks": [{
                         "type": "heading",
@@ -609,13 +610,13 @@
                     "title": "2. Get in touch",
                     "blocks": [{
                         "type": "text",
-                        "body": "<p><a href=\"#\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
+                        "body": "<p><a href=\"#get-in-touch\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
                     }]
                 }, {
                     "title": "3. Develop your application",
                     "blocks": [{
                         "type": "text",
-                        "body": "<p>Read about <a href=\"#how-to-succeed\">what makes a successful project</a>.</p>"
+                        "body": "<p>Read about <a href=\"#successful-projects\">what makes a successful project</a>.</p>"
                     }]
                 }, {
                     "title": "4. Send us your completed form",

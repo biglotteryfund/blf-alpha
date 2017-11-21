@@ -31,7 +31,10 @@ $heroSpaceFromLeft: 20px;
             // Theses are being explicitly named here to isolate this code from core breakpoints
             // This code will be deleted once existing hero image have been migrated to the new
             // section-hero style
-            $breakpointsToUse: (tablet: 760px, desktop: 980px);
+            $breakpointsToUse: (
+                tablet: 760px,
+                desktop: 980px
+            );
 
             // for each of the non-default (eg. breakpoint-matching) sets
             // output a media query with a new image and aspect ratio
@@ -133,7 +136,7 @@ $heroSpaceFromLeft: 20px;
     }
 }
 .section-hero__header {
-    margin-bottom: $spacingUnit / 2;
+    margin-bottom: $spacingUnit / 1.5;
 
     @media screen and (min-width: 380px) {
         margin-bottom: $spacingUnit;
