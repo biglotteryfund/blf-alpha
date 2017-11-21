@@ -1,8 +1,7 @@
-{% import "../../components/hero.njk" as hero %}
-{% import "../../components/headers.njk" as headers %}
 {% from "../../components/blocks.njk" import projectBlock with context %}
-
-{% import "../../components/tabs.njk" as tabs %}
+{% from "../../components/tabs.njk" import tabs %}
+{% import "../../components/headers.njk" as headers %}
+{% import "../../components/hero.njk" as hero %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -35,59 +34,50 @@
     <div class="content-box content-box--borderless">
         <p>There are seven stages to the process of being awarded a grant:</p>
 
-        {# @TODO the paneIds / tabSetIds below are manually linked to the tabs below #}
-        {% set beforeApplyContents = [
-            {
-                id: 'check',
-                title: 'Check if you\'re eligible',
-                content: "<p>" + tabs.tab(title = 'Find out if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'eyp') + ".</p>"
-            },
-            {
-                id: 'develop',
-                title: 'Develop your application',
-                content: "<p>In " + tabs.tab(title = 'How to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') + " you'll find guidance on planning your project.</p>"
-            },
-            {
-                id: 'apply',
-                title: 'Apply for funding',
-                content: "<p>" + tabs.tab(title = 'Find out how to apply', paneId = 'applyForFunding', tabSetId = 'eyp') + ".</p>"
-            },
-            {
-                id: 'assess',
-                title: 'Get an initial assessment',
-                content: '<p>We\'ll be looking at how your project:</p><ul class="list-bullets list--indented">
-                    <li>meets the programme aims and outcomes</li>
-                    <li>involves young people and meets needs that they\'ve identified</li>
-                    <li>complements other services in your area</li>
-                    <li>brings changes or benefits for young people</li>
+        {% set beforeApplyContents = [{
+            id: 'check',
+            title: 'Check if you\'re eligible',
+            content: "<p><a href=\"#checkYouAreEligible\">Find out if you’re eligible</p>"
+        }, {
+            id: 'develop',
+            title: 'Develop your application',
+            content: "<p>In <a href=\"#howToSucceed\">How to succeed</a> you’ll find guidance on planning your project.</p>"
+        }, {
+            id: 'apply',
+            title: 'Apply for funding',
+            content: "<p><a href=\"#applyForFunding\">Find out how to apply</a>.</p>"
+        }, {
+            id: 'assess',
+            title: 'Get an initial assessment',
+            content: '<p>We\'ll be looking at how your project:</p><ul class="list-bullets list--indented">
+                <li>meets the programme aims and outcomes</li>
+                <li>involves young people and meets needs that they\'ve identified</li>
+                <li>complements other services in your area</li>
+                <li>brings changes or benefits for young people</li>
+            </ul>
+            <p>We may get in touch with you if we need more information about your project.</p>'
+        }, {
+            id: 'feedback',
+            title: 'Get initial feedback',
+            content: "<p>A member of our team will call you to let you know the outcome of the initial assessment. If we decide not to proceed with your application, we'll give you feedback at this stage.</p><p>If we decide to proceed with your application, we'll work with you to arrange a visit to your organisation.</p>"
+        }, {
+            id: 'visit',
+            title: 'Host a visit',
+            content: "<p>We love meeting our applicants in person and seeing the great work they do. We'll let you know how to prepare for our visit, and we may contact you afterwards to get more information.</p>"
+        }, {
+            id: 'decision',
+            title: 'Get a decision',
+            content: '<p>Big Lottery Fund staff will consider whether your application is strong enough to be put forward for funding. They\'ll take into account:</p>
+                <ul class="list-bullets list--indented">
+                    <li>how appropriate and realistic your project is</li>
+                    <li>the difference your project will make to young people</li>
+                    <li>whether you have the right skills, experience and resources</li>
                 </ul>
-                <p>We may get in touch with you if we need more information about your project.</p>'
-            },
-            {
-                id: 'feedback',
-                title: 'Get initial feedback',
-                content: "<p>A member of our team will call you to let you know the outcome of the initial assessment. If we decide not to proceed with your application, we'll give you feedback at this stage.</p><p>If we decide to proceed with your application, we'll work with you to arrange a visit to your organisation.</p>"
-            },
-            {
-                id: 'visit',
-                title: 'Host a visit',
-                content: "<p>We love meeting our applicants in person and seeing the great work they do. We'll let you know how to prepare for our visit, and we may contact you afterwards to get more information.</p>"
-            },
-            {
-                id: 'decision',
-                title: 'Get a decision',
-                content: '<p>Big Lottery Fund staff will consider whether your application is strong enough to be put forward for funding. They\'ll take into account:</p>
-                    <ul class="list-bullets list--indented">
-                        <li>how appropriate and realistic your project is</li>
-                        <li>the difference your project will make to young people</li>
-                        <li>whether you have the right skills, experience and resources</li>
-                    </ul>
-                    <p>Then, if your application is strong enough, the final decision about your success will be made by either staff within the Fund (if your application is under £200,000) or a committee of independent experts and young people (if your application is over £200,000).</p>
-                    <p><strong>We\'ll let you know the decision within four months of receiving your application.</strong></p>
-                    <p><strong>If your application is successful</strong> we\'ll send you an offer letter and get in touch to discuss next steps.</p>
-                    <p><strong>If your application is unsuccessful</strong> we\'ll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>'
-            }
-        ] %}
+                <p>Then, if your application is strong enough, the final decision about your success will be made by either staff within the Fund (if your application is under £200,000) or a committee of independent experts and young people (if your application is over £200,000).</p>
+                <p><strong>We\'ll let you know the decision within four months of receiving your application.</strong></p>
+                <p><strong>If your application is successful</strong> we\'ll send you an offer letter and get in touch to discuss next steps.</p>
+                <p><strong>If your application is unsuccessful</strong> we\'ll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>'
+        }] %}
 
         <ol class="list-bullets list--indented u-weight-heavy">
             {% for item in beforeApplyContents %}
@@ -153,9 +143,8 @@
         <p><strong>Before you apply, you'll need to:</strong></p>
 
         <ul class="list-bullets list-bullets--mob-friendly list--indented u-weight-heavy">
-            {# @TODO the paneId / tabSetId are manually linked to the tabs below #}
-            <li>{{ tabs.tab(title = 'check if you\'re eligible', paneId = 'checkYouAreEligible', tabSetId = 'eyp') }}</li>
-            <li>{{ tabs.tab(title = 'read guidance on how to succeed', paneId = 'howToSucceed', tabSetId = 'eyp') }}</li>
+            <li><a href="#checkYouAreEligible"> check if you’re eligible</a></li>
+            <li><a href="#howToSucceed">read guidance on how to succeed</a></li>
         </ul>
 
         <p>
@@ -175,32 +164,7 @@
     </div>
 {% endset %}
 
-{% set exampleProjects = [
-    {
-        name: 'Voice of Young People in Care',
-        description: 'Builds young people\'s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.',
-        image: 'eyp/vypc.jpg',
-        amount: '£590,000',
-        link: '/funding/big-stories/voice-of-young-people-in-care'
-    },
-    {
-        name: 'Bytes',
-        description: 'Supports young people aged 16 to 25 who are facing employment barriers, helping them connect with their community and improve self-esteem.',
-        image: 'eyp/bytes.jpg',
-        amount: '£464,827',
-        link: '/funding/big-stories/bytes'
-    },
-    {
-        name: 'Foyle Down Syndrome Trust',
-        description: 'Helps children and young people with Down Syndrome, offering activities such as gardening, health workshops and a mentoring support programme.',
-        image: 'eyp/fdst.jpg',
-        amount: '£599,032',
-        link: '/funding/big-stories/foyle-down-syndrome-trust'
-    }
-] %}
-
 {% block content %}
-
     {% set heroContent %}
         {{ headers.overlayText('h2', "Empowering Young People", 't2') }}
     {% endset %}
@@ -217,31 +181,50 @@
         </div>
 
         <div class="inner--wide-only spaced">
-
-            {{ tabs.tabs(id = 'eyp', content = [
-                {
-                    title: 'How to succeed',
-                    content: howToSucceed,
-                    active: true,
-                    id: 'howToSucceed'
-                },
-                {
-                    title: 'Before you apply',
-                    content: beforeYouApply,
-                    id: 'beforeYouApply'
-                },
-                {
-                    title: 'Check if you\'re eligible',
-                    content: checkYouAreEligible,
-                    id: 'checkYouAreEligible'
-                },
-                {
-                    title: 'Applying for funding',
-                    content: applyForFunding,
-                    id: 'applyForFunding'
-                }
-            ]) }}
+            {{
+                tabs(
+                    id = 'eyp',
+                    content = [{
+                        title: "How to succeed",
+                        content: howToSucceed,
+                        active: true,
+                        id: 'howToSucceed'
+                    }, {
+                        title: "Before you apply",
+                        content: beforeYouApply,
+                        id: 'beforeYouApply'
+                    }, {
+                        title: "Check if you’re eligible",
+                        content: checkYouAreEligible,
+                        id: 'checkYouAreEligible'
+                    }, {
+                        title: "Applying for funding",
+                        content: applyForFunding,
+                        id: 'applyForFunding'
+                    }]
+                )
+            }}
         </div>
+
+        {% set exampleProjects = [{
+            name: 'Voice of Young People in Care',
+            description: 'Builds young people\'s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.',
+            image: 'eyp/vypc.jpg',
+            amount: '£590,000',
+            link: '/funding/big-stories/voice-of-young-people-in-care'
+        }, {
+            name: 'Bytes',
+            description: 'Supports young people aged 16 to 25 who are facing employment barriers, helping them connect with their community and improve self-esteem.',
+            image: 'eyp/bytes.jpg',
+            amount: '£464,827',
+            link: '/funding/big-stories/bytes'
+        }, {
+            name: 'Foyle Down Syndrome Trust',
+            description: 'Helps children and young people with Down Syndrome, offering activities such as gardening, health workshops and a mentoring support programme.',
+            image: 'eyp/fdst.jpg',
+            amount: '£599,032',
+            link: '/funding/big-stories/foyle-down-syndrome-trust'
+        }] %}
 
         <div class="inner">
             <h3 class="t2">Examples of projects that have been funded</h3>
@@ -251,8 +234,5 @@
                 {% endfor %}
             </ul>
         </div>
-
     </article>
-
-
 {% endblock %}
