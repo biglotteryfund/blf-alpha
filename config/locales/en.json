@@ -609,7 +609,7 @@
                     "title": "2. Get in touch",
                     "blocks": [{
                         "type": "text",
-                        "body": "<p><a href=\"#\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
+                        "body": "<p><a href=\"#get-in-touch\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
                     }]
                 }, {
                     "title": "3. Develop your application",
