@@ -285,6 +285,18 @@ const vanityRedirects = [
         aliasOnly: true
     },
     {
+        name: 'Helping Working Families',
+        path: '/helpingworkingfamilies',
+        destination: routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        aliasOnly: true
+    },
+    {
+        name: 'Helping Working Families (Welsh)',
+        path: '/helputeuluoeddgweithio',
+        destination: '/welsh' + routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        aliasOnly: true
+    },
+    {
         // this stays here (and not as an alias) as express doesn't care about URL case
         // and this link is the same (besides case) as an existing alias
         // (annoyingly, the Title Case version of this link persists on the web... for now.)
