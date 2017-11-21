@@ -36,7 +36,10 @@
                 <div class="s-prose s-prose--long u-constrained-content-wide">
                 {% for section in sections %}
                     {% if section.title %}
-                        <h2 class="t2 t--underline accent--pink a--text">{{ section.title }}</h2>
+                        <h2 class="t2 t--underline accent--pink a--text"
+                            {% if section.id %}id="{{ section.id }}"{% endif %}>
+                            {{ section.title }}
+                        </h2>
                     {% endif %}
                     {% for block in section.blocks %}
                         {% if block.type === 'heading' %}

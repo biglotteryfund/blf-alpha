@@ -563,6 +563,7 @@
                         "alt": "ADDNI: Attention-to-Detail"
                     }]
                 }, {
+                    "id": "successful-projects",
                     "title": "Examples of successful projects",
                     "blocks": [{
                         "type": "heading",
@@ -615,7 +616,7 @@
                     "title": "3. Develop your application",
                     "blocks": [{
                         "type": "text",
-                        "body": "<p>Read about <a href=\"#how-to-succeed\">what makes a successful project</a>.</p>"
+                        "body": "<p>Read about <a href=\"#successful-projects\">what makes a successful project</a>.</p>"
                     }]
                 }, {
                     "title": "4. Send us your completed form",
