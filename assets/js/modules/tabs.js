@@ -10,6 +10,10 @@ let activeClasses = {
 
 let pageHasLoaded = false;
 
+function scrollIntoView(el) {
+    el.get(0).scrollIntoView(true);
+}
+
 function trackTabClick(label, trackTabClicksAsPageviews) {
     analytics.track('Tab', 'Click', label);
 
@@ -104,13 +108,13 @@ function addTabBehaviour($tabs) {
             window.setTimeout(() => {
                 let tabSetIsVisible = tabData.tabset.is(':visible');
                 if (!tabSetIsVisible) {
-                    tabData.paneToShow[0].scrollIntoView();
+                    scrollIntoView(tabData.paneToShow);
                 } else {
                     // is this a mock tab or a real one?
                     if ($(this)[0] !== tabData.tabClicked[0]) {
                         // mock tab, so make sure the tabset is in view
                         // or the lack of scroll change is jarring
-                        tabData.tabClicked[0].scrollIntoView();
+                        scrollIntoView(tabData.tabClicked);
                     }
                 }
                 pageHasLoaded = true;
@@ -180,13 +184,14 @@ function openTabOnHashchange() {
         const linkEl = $(`.js-tab[href="${hash}"]`).first();
         if (linkEl.length > 0) {
             showNewTabPane(linkEl);
+            scrollIntoView(linkEl);
         } else {
             const idEl = $(hash).first();
             const parentTabLinkEl = idEl.closest('.tab__pane').find('.js-tab');
 
             if (idEl.length > 0 && parentTabLinkEl.length > 0) {
                 showNewTabPane(parentTabLinkEl);
-                idEl.get(0).scrollIntoView();
+                scrollIntoView(idEl);
             }
         }
     });
