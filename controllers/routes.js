@@ -128,7 +128,7 @@ const routes = {
                     template: 'pages/toplevel/working-families',
                     lang: 'toplevel.helpingWorkingFamilies',
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         },
