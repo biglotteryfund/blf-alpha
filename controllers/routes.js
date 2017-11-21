@@ -128,7 +128,7 @@ const routes = {
                     template: 'pages/toplevel/working-families',
                     lang: 'toplevel.helpingWorkingFamilies',
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         },
@@ -282,6 +282,18 @@ const vanityRedirects = [
         name: 'Publicity (Welsh)',
         path: '/cyhoeddusrwydd',
         destination: '/welsh' + vanityDestinations.publicity,
+        aliasOnly: true
+    },
+    {
+        name: 'Helping Working Families',
+        path: '/helpingworkingfamilies',
+        destination: routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        aliasOnly: true
+    },
+    {
+        name: 'Helping Working Families (Welsh)',
+        path: '/helputeuluoeddgweithio',
+        destination: '/welsh' + routes.sections.toplevel.pages.helpingWorkingFamilies.path,
         aliasOnly: true
     },
     {
