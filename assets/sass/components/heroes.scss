@@ -302,6 +302,10 @@ $heroSpaceFromLeft: 20px;
         bottom: $heroSpaceFromBottomMobile;
         padding-left: $heroSpaceFromLeft;
 
+        svg {
+            fill: white;
+        }
+
         @include mq('tablet') {
             bottom: $heroSpaceFromBottom;
         }

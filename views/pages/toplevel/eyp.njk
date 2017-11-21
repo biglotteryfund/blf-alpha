@@ -9,11 +9,11 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% set howToSucceed %}
-    <div class="content-box content-box--borderless">
+    <div class="content-box content-box--borderless s-prose s-prose--long">
         <p><strong>Talk to us &ndash; we're really interested in your ideas</strong>. And we're here to support you to make the best application possible.</p>
         <p>We're looking to fund projects that meet one or more of the objectives below:</p>
 
-        <ul class="list-bullets list--indented accent--pink a--text u-weight-heavy">
+        <ul class="accent--pink a--text u-weight-heavy">
             <li>More young people have the skills they need for the future</li>
             <li>Young people have better relationships with their support networks and communities</li>
             <li>Young people have improved health and wellbeing</li>
@@ -27,12 +27,12 @@
         <p><strong>We want to back projects that suit all kinds of young people.</strong> Include a range of interests and experience, as well as different levels of confidence and ability.</p>
         <p><strong>Show us how your project is different from others that are already out there.</strong> Or how you plan to collaborate with others who are similar.</p>
         <p><strong>Be clear and direct in your application.</strong> Use facts and evidence, and focus on the problems you want your project to address.</p>
-        <p class="links-emphasised"><strong>Most important &ndash; give us a call</strong>.  We're available on {{ '02890 551455' | makePhoneLink | safe }} if you have any questions or want to talk about your project idea.</p>
+        <p><strong>Most important &ndash; give us a call</strong>.  We're available on {{ '02890 551455' | makePhoneLink | safe }} if you have any questions or want to talk about your project idea.</p>
     </div>
 {% endset %}
 
 {% set beforeYouApply %}
-    <div class="content-box content-box--borderless">
+    <div class="content-box content-box--borderless s-prose s-prose--long">
         <p>There are seven stages to the process of being awarded a grant:</p>
 
         {# @TODO the paneIds / tabSetIds below are manually linked to the tabs below #}
@@ -89,19 +89,24 @@
             }
         ] %}
 
-        <ol class="list-bullets list--indented u-weight-heavy">
+        <ol class="u-weight-heavy">
             {% for item in beforeApplyContents %}
                 <li><a href="#before-{{ item.id }}">{{ item.title }}</a></li>
             {% endfor %}
         </ol>
 
-        <p class="links-emphasised">People get in touch with us every day to discuss their ideas, their communities and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
+        <p>
+            People get in touch with us every day to discuss their ideas, their communities
+            and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }}
+            Monday to Friday, 9.00am to 5.00pm (not including public holidays).
+        </p>
 
         {% for item in beforeApplyContents %}
-            <h3 id="before-{{ item.id }}" class="t2 t--underline accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
+            <h3 id="before-{{ item.id }}" class="t2 t--underline accent--pink a--text">
+                {{ loop.index }}. {{ item.title }}
+            </h3>
             {{ item.content | safe }}
         {% endfor %}
-
     </div>
 
 {% endset %}

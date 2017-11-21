@@ -107,3 +107,7 @@ $nudgeAmount: 25px;
 .no-space {
     margin-bottom: 0 !important;
 }
+
+.bordered {
+    @include bordered();
+}
