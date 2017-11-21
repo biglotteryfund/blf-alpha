@@ -533,7 +533,7 @@
             "intro": "<p>Helping Working Families funds projects that improve the lives of working families who are in poverty.</p>",
             "grantSummary": "<p><strong>Grant size</strong>: Around £500,000<br/><strong>Grant duration</strong>: Four years (ends 2022)<br/><strong>Applications close</strong>: 15 March 2018</p>",
             "howToSucceed": {
-                "title": "How To Succeed",
+                "title": "How to succeed",
                 "sections": [{
                     "title": null,
                     "blocks": [{
@@ -600,31 +600,31 @@
             "beforeYouApply": {
                 "title": "Before you apply",
                 "sections": [{
-                    "title": "Check if you’re eligible",
+                    "title": "1. Check if you’re eligible",
                     "blocks": [{
                         "type": "text",
                         "body": "<p><a href=\"#check-eligibility\">Find out if you’re eligible</a></p>"
                     }]
                 }, {
-                    "title": "Get in touch",
+                    "title": "2. Get in touch",
                     "blocks": [{
                         "type": "text",
                         "body": "<p><a href=\"#\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
                     }]
                 }, {
-                    "title": "Develop your application",
+                    "title": "3. Develop your application",
                     "blocks": [{
                         "type": "text",
                         "body": "<p>Read about <a href=\"#how-to-succeed\">what makes a successful project</a>.</p>"
                     }]
                 }, {
-                    "title": "Send us your completed form",
+                    "title": "4. Send us your completed form",
                     "blocks": [{
                         "type": "text",
                         "body": "<p>Email us your completed application form. We’ll let you know when we’ve received it.</p>"
                     }]
                 }, {
-                    "title": "Tell us more about your project",
+                    "title": "5. Tell us more about your project",
                     "blocks": [{
                         "type": "text",
                         "body": "<p>We’ll get in touch to talk about your application in more detail.</p>"
@@ -633,7 +633,7 @@
                         "body": "<p>At this point, we may ask you to send us more information about your project to help us make a decision.</p>"
                     }]
                 }, {
-                    "title": "Get A Decision",
+                    "title": "6. Get a decision",
                     "blocks": [{
                         "type": "text",
                         "body": "<p>The application deadline is midday on Thursday the 15th of March 2018. Candidates will be contacted in early July 2018 with decisions.</p>"
@@ -666,7 +666,7 @@
                 }]
             },
             "getInTouch": {
-                "title": "Get In Touch",
+                "title": "Get in touch",
                 "sections": [{
                     "title": null,
                     "blocks": [{
