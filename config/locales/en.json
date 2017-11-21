@@ -527,7 +527,164 @@
 		"eyp": {
 			"title": "Empowering Young People",
 			"description": "Empowering Young People is a grants programme designed to support projects in Northern Ireland that give young people aged 8 to 25 the ability to overcome the challenges they face."
-		}
+        },
+        "helpingWorkingFamilies": {
+            "title": "Helping Working Families",
+            "intro": "<p>Helping Working Families funds projects that improve the lives of working families who are in poverty.</p>",
+            "grantSummary": "<p><strong>Grant size</strong>: Around £500,000<br/><strong>Grant duration</strong>: Four years (ends 2022)<br/><strong>Applications close</strong>: 15 March 2018</p>",
+            "howToSucceed": {
+                "title": "How to succeed",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>We want our funding to bring about positive change in the lives of working families who are supporting a child, but don’t have enough money or resources to meet their basic needs, including being involved in the community and wider society.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Success will not only be determined by the activities you intend to undertake, but by how effective the project is at bringing people together to design and deliver them. Because of this, we don’t expect to see detailed plans of your project’s activities when you apply.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Instead, we want to see your plans for how the project will bring people and partners together to design and deliver a budget and plan for what you’re going to do, which will result in a sustained improvement in people's quality of life.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>We want to see that the people who will use the service are working in an equal partnership with the people who will provide it. This empowers people and communities to come together to find solutions.</p>"
+                    },
+                    {
+                        "type": "heading",
+                        "body": "What do we mean by ‘working families’?"
+                    },
+                    {
+                        "type": "text",
+                        "body": "<p>This means that there is at least one person in a household who has a full or part time job, or who is self employed supporting at least one child under 18.</p>"
+                    },
+                    {
+                        "type": "image",
+                        "src": "/working-families/working-families.jpg",
+                        "alt": "ADDNI: Attention-to-Detail"
+                    }]
+                }, {
+                    "title": "Examples of successful projects",
+                    "blocks": [{
+                        "type": "heading",
+                        "body": "A community food fridge"
+                    }, {
+                        "type": "text",
+                        "body": "<p>A successful project could include families coming together with a local organisation because of their concerns about  how fresh, healthy food is expensive and hard to find in their area.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>After deciding that this is an important issue, they set up a community food fridge that lets people share food they’ve bought or grown, but that they may not be able to eat before it goes off.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>This not only gives healthy food to the community for free, but also help set something that goes on beyond the lifetime of their funding.</p>"
+                    }, {
+                        "type": "heading",
+                        "body": "Community champions"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Another successful project could be around the provision of advice.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Families come together with a local organisation to discuss debt, advice and loan sharks, which many of them are struggling with.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>While there are advice providers in the area, families aren’t accessing them early enough to get the best support.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>The project gets in touch with a local advice provider to arrange for members of the community to be trained as community champions, who become a first port of call to support people.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>Not only does this mean that more people get support at an early stage, but the community is also empowered through having more skills.</p>"
+                    }]
+                }]
+            },
+            "beforeYouApply": {
+                "title": "Before you apply",
+                "sections": [{
+                    "title": "1. Check if you’re eligible",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#check-eligibility\">Find out if you’re eligible</a></p>"
+                    }]
+                }, {
+                    "title": "2. Get in touch",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#\">Give us a call</a> to tell us about your idea. If we think it’s something that we’d fund, we’ll send you an application form.</p>"
+                    }]
+                }, {
+                    "title": "3. Develop your application",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Read about <a href=\"#how-to-succeed\">what makes a successful project</a>.</p>"
+                    }]
+                }, {
+                    "title": "4. Send us your completed form",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Email us your completed application form. We’ll let you know when we’ve received it.</p>"
+                    }]
+                }, {
+                    "title": "5. Tell us more about your project",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>We’ll get in touch to talk about your application in more detail.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>At this point, we may ask you to send us more information about your project to help us make a decision.</p>"
+                    }]
+                }, {
+                    "title": "6. Get a decision",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>The application deadline is midday on Thursday the 15th of March 2018. Candidates will be contacted in early July 2018 with decisions.</p>"
+                    }]
+                }]
+            },
+            "checkEligibility": {
+                "title": "Check you’re eligible",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>To apply for funding, you need to be a voluntary and community organisation, such as as a:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>charity</li><li>community group</li><li>co-operative</li><li>social enterprise</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>You need to be able to work closely with:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>working families</li><li>your community</li><li>formal or informal partners (this could include local organisations from the public, private or voluntary sector)</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>We can’t fund:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul class=\"u-weight-heavy\"><li>branches that don’t control how they’re run and how their money is spent</li><li>organisations that are applying on behalf of someone else</li></ul>"
+                    }]
+                }]
+            },
+            "getInTouch": {
+                "title": "Get in touch",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>When you have a project idea you want to put to us please give us a call to talk it through. We’ll be able to tell you if it’s something that we’d fund.</p>"
+                    }, {
+                        "type": "heading",
+                        "body": "Before you get in touch, make sure you have:"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>checked your <a href=\"#check-eligibility\">eligibility</a></li><li>read our guidance on <a href=\"#how-to-succeed\">how to succeed</a></li><li>thought through what you want to tell us - this chat will be part of the way we assess your project</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>You can reach us on <a href=\"tel:01234567890\">01234 567890</a> Monday to Friday, 9.00am to 5.00pm (not including public holidays) to book an appointment to speak to one of our team, who will call you back within three working days.</p>"
+                    }]
+                }]
+            }
+        }
 	},
 	"about": {
 		"foi": {

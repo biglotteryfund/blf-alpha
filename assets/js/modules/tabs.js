@@ -10,7 +10,7 @@ let activeClasses = {
 
 let pageHasLoaded = false;
 
-let trackTabClick = (label, trackTabClicksAsPageviews) => {
+function trackTabClick(label, trackTabClicksAsPageviews) {
     analytics.track('Tab', 'Click', label);
 
     // optionally set a new URL and pageview
@@ -21,10 +21,10 @@ let trackTabClick = (label, trackTabClicksAsPageviews) => {
     if (trackTabClicksAsPageviews) {
         analytics.setPageView(window.location.pathname + window.location.hash);
     }
-};
+}
 
 // toggle panes/tabs (if valid)
-let showNewTabPane = $tabClicked => {
+function showNewTabPane($tabClicked) {
     let tabData;
     let $tabset;
 
@@ -77,11 +77,9 @@ let showNewTabPane = $tabClicked => {
 
     // click handler needs to know if it should update URL hash etc
     return tabData;
-};
+}
 
-let init = () => {
-    let $tabs = $('.js-tab');
-
+function initTabBehaviour($tabs) {
     // bind clicks on tabs
     $tabs.on('click', function(e) {
         // show the tab pane and get the associated elements
@@ -123,21 +121,9 @@ let init = () => {
             }
         }
     });
+}
 
-    // restore previously-selected hash on pageload
-    let hash = window.location.hash;
-    let $firstLink = $(`a[href="${hash}"]`).first();
-    if ($firstLink.length > 0) {
-        showNewTabPane($firstLink);
-        // hacky but works: scroll back to top of the page
-        // as otherwise the selected pane will be scrolled to
-        // and page intro will be missing
-        window.setTimeout(() => {
-            window.scrollTo(0, 0);
-        }, 1);
-    }
-
-    // add ARIA tags to JS-enhanced tabs
+function initAriaStates($tabs) {
     $('.tab__pane')
         .not(`.${activeClasses.pane}`)
         .attr('aria-hidden', 'true');
@@ -153,7 +139,45 @@ let init = () => {
             $pane.attr('aria-labelledby', $(this).attr('id'));
         }
     });
-};
+}
+
+function triggerTabForHash(hash, shouldScrollToElement) {
+    const $link = $(`a[href="${hash}"]`).first();
+    if ($link.length > 0) {
+        showNewTabPane($link);
+
+        if (shouldScrollToElement) {
+            $link.get(0).scrollIntoView();
+        } else {
+            /**
+             * hacky but works: scroll back to top of the page
+             * as otherwise the selected pane will be scrolled to
+             * and page intro will be missing
+             */
+            window.setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 1);
+        }
+    }
+}
+
+function init() {
+    const $tabs = $('.js-tab');
+
+    if ($tabs.length < 1) {
+        return;
+    }
+
+    initTabBehaviour($tabs);
+
+    initAriaStates($tabs);
+
+    // Restore tab from location hash and listen for changes
+    triggerTabForHash(window.location.hash);
+    window.addEventListener('hashchange', () => {
+        triggerTabForHash(window.location.hash, true);
+    });
+}
 
 module.exports = {
     init: init

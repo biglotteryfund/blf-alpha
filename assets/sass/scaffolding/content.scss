@@ -6,14 +6,20 @@
     @include bordered();
     background-color: palette('pale');
     padding: 20px $contentBoxHorizontalPadding 40px $contentBoxHorizontalPadding;
-    margin-bottom: 20px;
+    margin-bottom: $spacingUnit;
 
     &.content-box--flush {
-        padding: $spacingUnit;
+        margin-bottom: 0;
     }
 
-    &.content-box--narrow {
-        padding: 10px;
+    &.content-box--flush-narrow-only {
+        @include mq('tablet', 'max') {
+            margin-bottom: 0;
+        }
+    }
+
+    &.content-box--even-inset {
+        padding: $spacingUnit;
     }
 
     &.content-box--borderless {
@@ -62,5 +68,41 @@
 
     ol li {
         list-style-type: decimal;
+    }
+}
+
+/**
+ * Expanded prose styles for long blocks of text
+ */
+.s-prose--long {
+    a {
+        font-weight: bold;
+    }
+
+    a[href^='tel:'] {
+        font-weight: bold;
+        color: palette('green');
+        text-decoration: none;
+    }
+
+    ol li,
+    ul li {
+        margin-left: $spacingUnit * 3;
+    }
+
+    .inline-figure {
+        margin-left: -($spacingUnit);
+        margin-right: -($spacingUnit);
+
+        @include mq(tablet) {
+            margin: 1em 0 2em;
+        }
+
+        &.inline-figure--padded {
+            @include mq('tablet') {
+                margin-left: $spacingUnit * 3;
+                margin-right: $spacingUnit * 3;
+            }
+        }
     }
 }
