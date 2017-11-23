@@ -1,5 +1,0 @@
-{
-    "verbose": true,
-    "ignore": ["locales", "assets", "public"],
-    "exec": "bin/www"
-}
