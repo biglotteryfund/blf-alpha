@@ -15,7 +15,6 @@
  */
 @import 'globals/base'; // Global / element-level styles
 @import 'globals/accents'; // Accented colour helpers
-@import 'globals/theme'; // Theming helpers
 @import 'globals/layout'; // Layout helpers
 @import 'globals/typography'; // Typographic scale
 @import 'globals/lists'; // Custom list styles
@@ -56,7 +55,9 @@
 /**
  * 6. Overrides / Utilities
  */
-@import 'utilities/utilities';
+@import 'utilities/utilities-theme';
+@import 'utilities/utilities-display';
+@import 'utilities/utilities-text';
 
 /**
  * 7. Common Print Styles
