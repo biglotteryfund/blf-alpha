@@ -28,9 +28,9 @@
 
             {% if programmes | length > 0 %}
                 {{ programmeList(
-                    programmes = programmes,
                     accent = 'pink',
-                    copy = copy.details
+                    labels = copy.details,
+                    programmes = programmes
                 ) }}
             {% else %}
                 <p>No results</p>
