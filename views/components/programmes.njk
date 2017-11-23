@@ -34,10 +34,14 @@
                 {% endif %}
                 {% if content.fundingSize %}
                     <dt>{{ copy.fundingSize }}</dt>
-                    <dd>{{ fundingRange(
-                        minimum = content.fundingSize.minimum,
-                        maximum = content.fundingSize.maximum
-                    ) }}</dd>
+                    {% if content.fundingSizeDescription %}
+                        <dd>{{ content.fundingSizeDescription }}</dd>
+                    {% else %}
+                        <dd>{{ fundingRange(
+                            minimum = content.fundingSize.minimum,
+                            maximum = content.fundingSize.maximum
+                        ) }}</dd>
+                    {% endif %}
                 {% endif %}
                 {% if content.totalAvailable %}
                     <dt>{{ copy.totalAvailable }}</dt>
