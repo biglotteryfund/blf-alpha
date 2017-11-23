@@ -44,7 +44,7 @@ In order to do this, you'll need to do the following:
 - Obtain AWS credentials for the team's account (with permission to access EC2 Parameter Store)
 - [Configure the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) on your machine
 - Make sure the directory `/etc/blf/` exists and is writeable (this is where application secrets will be downloaded to).
-- Copy `.env.example` to `.env` and populate it with the missing values (ask another member of the team for these). These missing values are used for deployments.
+- Create a file called `.env` and populate ask another member of the team for the values to go in here. These missing values are used for deployments.
 - Run `./bin/scripts/get-secrets` – this will download the application secrets to `/etc/blf/parameters.json`.
 
 #### 3. Install Dependencies:

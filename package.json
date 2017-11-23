@@ -68,6 +68,12 @@
       ]
     ]
   },
+  "nodemonConfig": {
+    "verbose": true,
+    "ignore": ["assets", "public"],
+    "exec": "bin/www",
+    "ext": "js,json,njk"
+  },
   "dependencies": {
     "absolution": "^1.0.0",
     "aws-sdk": "^2.110.0",
