@@ -4,6 +4,7 @@
 {% from "../../components/data.njk" import statsGrid %}
 {% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
 {% from "../../components/news.njk" import articleTeaser with context %}
+{% from "../../components/programmes.njk" import programmeCard, selectionTrail with context %}
 {% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
 {% block content %}
@@ -237,5 +238,56 @@
     <p>Tinted variant of a content box. Used to give focus to important blocks of copy on text heavy pages.</p>
 {% endset %}
 {{ sgBlock('Content Box: Tinted', sgContent, sgNotes) }}
+
+{% set sgContent %}
+    {{ programmeCard(
+        accent = "pink",
+        programme = {
+            "title": "Helping Working Families",
+            "linkUrl": "https://www.biglotteryfund.org.uk/helping-working-families",
+            "photo": "https://dvmwjbtfsnnp0.cloudfront.net/media/helping-working-families.jpg?mtime=20171123121614",
+            "organisationTypes": [
+                "Voluntary or community organisation"
+            ],
+            "description": "Projects co-produced with working families affected by poverty.",
+            "area": {
+                "label": "Wales",
+                "value": "wales"
+            },
+            "fundingSize": {
+                "minimum": 10001,
+                "maximum": 500000
+            },
+            "fundingSizeDescription": "Approx. £500,000 per project",
+            "totalAvailable": "£6 million",
+            "applicationDeadline": "Midday 15 March 2018"
+        }
+    ) }}
+{% endset %}
+{% set sgNotes %}
+    <p>Individual funding programme summary card</p>
+{% endset %}
+{{ sgBlock('Programme Card', sgContent, sgNotes) }}
+
+{% set sgContent %}
+    {{
+        selectionTrail(
+            trail = [{
+                "label": "Funding Programmes"
+            }, {
+                "label": "Awards over £10,000",
+                "url": "#"
+            }, {
+                "label":"Wales"
+            }],
+            itemCount = 3
+        )
+    }}
+{% endset %}
+{% set sgNotes %}
+    <p>Breadcrumb-trail-esque device for showing selected programme filters.</p>
+{% endset %}
+{{ sgBlock('Selection Trail', sgContent, sgNotes) }}
+
 
 {% endblock %}
