@@ -1,5 +1,5 @@
 {% from "../../components/hero.njk" import sectionHero %}
-{% from "../../components/blocks.njk" import projectBlock with context %}
+{% from "../../components/cards.njk" import photoCard with context %}
 
 {% extends "../../layouts/main.njk" %}
 
@@ -62,7 +62,17 @@
             <h3 class="t1">{{ copy.projectExamples }}</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in copy.projects %}
-                    <li class="grid__item">{{ projectBlock(project, 'accent--turquoise') }}</li>
+                    <li class="grid__item">
+                        {{
+                            photoCard(
+                                title = project.name,
+                                description = project.description,
+                                link = project.link,
+                                image = project.image,
+                                accent = 'turquoise'
+                            )
+                        }}
+                    </li>
                 {% endfor %}
             </ul>
 

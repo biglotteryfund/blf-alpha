@@ -2,6 +2,7 @@
 
 {% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
+{% from "../../components/cards.njk" import photoCard with context %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
 {% from "../../components/data.njk" import statsGrid %}
 {% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
@@ -221,6 +222,28 @@
     {{ statsGrid(__('toplevel.data.data')) }}
 {% endset %}
 {{ sgBlock('Stats Grid', sgContent) }}
+
+
+{% set sgContent %}
+    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+        {% for i in [1,2,3]  %}
+            <li class="grid__item">
+                {{ photoCard(
+                    title = "Voice of Young People in Care",
+                    subtitle = "Grant: £590,000",
+                    description = "Builds young people’s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.",
+                    image = "eyp/vypc.jpg",
+                    link = "#"
+                ) }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endset %}
+{% set sgNotes %}
+    <p>Generic photo card, consisting of title, subtitle, description, image, and link.</p>
+{% endset %}
+{{ sgBlock('Photo Card', sgContent, sgNotes) }}
+
 
 {% set sgContent %}
     {{ programmeCard(
