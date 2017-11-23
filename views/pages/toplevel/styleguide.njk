@@ -1,11 +1,13 @@
 {% extends "../../layouts/styleguide.njk" %}
 
+{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
+
 {% from "../../components/caseStudy.njk" import caseStudy %}
 {% from "../../components/data.njk" import statsGrid %}
 {% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
 {% from "../../components/news.njk" import articleTeaser with context %}
 {% from "../../components/programmes.njk" import programmeCard, selectionTrail with context %}
-{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
+{% from "../../components/segment.njk" import segment %}
 {% from "../../components/tabs.njk" import tabs %}
 
 {% block content %}
@@ -290,6 +292,22 @@
     <p>Tinted variant of a content box. Used to give focus to important blocks of copy on text heavy pages.</p>
 {% endset %}
 {{ sgBlock('Content Box: Tinted', sgContent, sgNotes) }}
+
+{% set sgContent %}
+    {% set segmentContent %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab vitae minus quidem beatae dolor voluptatibus incidunt at placeat excepturi, ad nisi, commodi, maxime distinctio delectus! Doloribus ullam deleniti odio cumque.</p>
+    {% endset %}
+    {{ segment(
+        title = "Segment Title",
+        text = segmentContent,
+        color = 'blue',
+        imagePath = 'contact/1.jpg'
+    ) }}
+{% endset %}
+{% set sgNotes %}
+    <p>Content segment. A content box with an attached image.</p>
+{% endset %}
+{{ sgBlock('Content Segment', sgContent, sgNotes) }}
 
 
 {% set sgContent %}
