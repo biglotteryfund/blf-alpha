@@ -30,26 +30,13 @@ function trackTabClick(label, trackTabClicksAsPageviews) {
 // toggle panes/tabs (if valid)
 function showNewTabPane($tabClicked) {
     let tabData;
-    let $tabset;
 
     // get the matching pane element
     let paneId = $tabClicked.attr('href');
     let $paneToShow = $(paneId);
 
-    // is this "tab" just a link to a panel (eg. not in a tabset)?
-    let hasManualTabset = $tabClicked.data('tabset');
-
-    // find the "tabset" - the containing list of tabs
-    if (hasManualTabset) {
-        // for these links we have to manually match it to a tabset elsewhere on the page
-        // eg. so we can toggle the selected tab there
-        $tabset = $($(`#${hasManualTabset}`));
-        // we also need to find the equivalent tab in that tabset to make it active
-        $tabClicked = $tabset.find(`a[href="${paneId}"]`);
-    } else {
-        // find the tabset of the clicked tab
-        $tabset = $tabClicked.parents('.js-tabset').first();
-    }
+    // find the tabset of the clicked tab
+    const $tabset = $tabClicked.parents('.js-tabset').first();
 
     // if we have a pane, let's show it
     if ($paneToShow.length > 0) {
