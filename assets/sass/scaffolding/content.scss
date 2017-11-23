@@ -79,10 +79,22 @@
         font-weight: bold;
     }
 
+    a[href^='mailto:'],
     a[href^='tel:'] {
-        font-weight: bold;
         color: palette('green');
+        font-weight: bold;
+        word-break: break-word;
+    }
+
+    a[href^='tel:'] {
         text-decoration: none;
+    }
+
+    .contrast--high & {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            color: palette('blue') !important;
+        }
     }
 
     ol li,

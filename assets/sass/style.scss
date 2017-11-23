@@ -2,43 +2,50 @@
 // Big Lottery Fund
 // ========================================================================= //
 
-/**
- * 1. Setup and SCSS tools
- */
-@import 'config'; // Shared config (Dynamically generated from `sass.json`)
-@import '_vars'; // Common variables
-@import '_functions'; // Low-level utility function
-@import '_mixins'; // Common mixins and helpers
+// =========================================================================
+// Config & Sass Features
+// ========================================================================= //
+// 'config' is dynamically generated from `sass.json`
 
-/**
- * 2. Global styles
- */
-@import 'globals/base'; // Global / element-level styles
-@import 'globals/accents'; // Accented colour helpers
-@import 'globals/theme'; // Theming helpers
-@import 'globals/layout'; // Layout helpers
-@import 'globals/typography'; // Typographic scale
-@import 'globals/lists'; // Custom list styles
-@import 'globals/forms'; // Site-wide form styles
+@import 'config';
+@import '_vars';
+@import '_functions';
+@import '_mixins';
 
-/**
- * 3. Layout Scaffolding
- */
+// =========================================================================
+// Global
+// ========================================================================= //
+// Global, element-level styles
+
+@import 'globals/base';
+@import 'globals/accents';
+@import 'globals/layout';
+@import 'globals/typography';
+@import 'globals/lists';
+@import 'globals/forms';
+
+// =========================================================================
+// Scaffolding
+// ========================================================================= //
+// Low-level, generic scaffolding styles
+
 @import 'scaffolding/header';
 @import 'scaffolding/footer';
 @import 'scaffolding/content';
 @import 'scaffolding/grid';
 
-/**
- * 4. Components
- */
+// =========================================================================
+// Components
+// ========================================================================= //
+// Individual components & patterns, the majority of our styles are in here
+
 @import 'components/accessibility';
 @import 'components/btn';
 @import 'components/quotes';
 @import 'components/tabs';
 @import 'components/breadcrumbs';
 @import 'components/card';
-@import 'components/data'; // is this is a "component"?
+@import 'components/data';
 @import 'components/programmes';
 @import 'components/materials';
 @import 'components/overlay';
@@ -48,17 +55,24 @@
 @import 'components/heroes';
 @import 'components/survey';
 
-/**
- * 5. Third-party vendor styles
- */
-@import 'lib/swiper';
+// =========================================================================
+// Third-party / Vendor styles
+// ========================================================================= //
 
-/**
- * 6. Overrides / Utilities
- */
-@import 'utilities/utilities';
+@import 'vendor/swiper';
 
-/**
- * 7. Common Print Styles
- */
+// =========================================================================
+// Utilities
+// ========================================================================= //
+// Single use clases, prefixed with u-
+
+@import 'utilities/utilities-theme';
+@import 'utilities/utilities-display';
+@import 'utilities/utilities-text';
+
+// =========================================================================
+// Print Styles
+// ========================================================================= //
+// Global print styles. Component specific styles inlined in component files
+
 @import '_print.common';

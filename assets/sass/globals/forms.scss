@@ -13,6 +13,10 @@ fieldset {
     min-width: 0;
 }
 
+.error {
+    color: red;
+}
+
 .form-header {
     margin-bottom: $spacingUnit;
 
