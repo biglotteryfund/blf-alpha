@@ -9,6 +9,7 @@
 
 {% set howToSucceed %}
     <div class="content-box content-box--borderless">
+        <div class="s-prose s-prose--long u-constrained-content-wide">
         <p><strong>Talk to us &ndash; we're really interested in your ideas</strong>. And we're here to support you to make the best application possible.</p>
         <p>We're looking to fund projects that meet one or more of the objectives below:</p>
 
@@ -27,17 +28,19 @@
         <p><strong>Show us how your project is different from others that are already out there.</strong> Or how you plan to collaborate with others who are similar.</p>
         <p><strong>Be clear and direct in your application.</strong> Use facts and evidence, and focus on the problems you want your project to address.</p>
         <p class="links-emphasised"><strong>Most important &ndash; give us a call</strong>.  We're available on {{ '02890 551455' | makePhoneLink | safe }} if you have any questions or want to talk about your project idea.</p>
+        </div>
     </div>
 {% endset %}
 
 {% set beforeYouApply %}
     <div class="content-box content-box--borderless">
+        <div class="s-prose s-prose--long u-constrained-content-wide">
         <p>There are seven stages to the process of being awarded a grant:</p>
 
         {% set beforeApplyContents = [{
             id: 'check',
             title: 'Check if you\'re eligible',
-            content: "<p><a href=\"#checkYouAreEligible\">Find out if you’re eligible</p>"
+            content: "<p><a href=\"#checkYouAreEligible\">Find out if you’re eligible</a></p>"
         }, {
             id: 'develop',
             title: 'Develop your application',
@@ -79,37 +82,45 @@
                 <p><strong>If your application is unsuccessful</strong> we\'ll send you a letter confirming the decision. You can also request a meeting to get detailed feedback.</p>'
         }] %}
 
-        <ol class="list-bullets list--indented u-weight-heavy">
+        <ol class="u-weight-heavy">
             {% for item in beforeApplyContents %}
                 <li><a href="#before-{{ item.id }}">{{ item.title }}</a></li>
             {% endfor %}
         </ol>
 
-        <p class="links-emphasised">People get in touch with us every day to discuss their ideas, their communities and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
+        <p>People get in touch with us every day to discuss their ideas, their communities and what matters most to them. Call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
 
         {% for item in beforeApplyContents %}
-            <h3 id="before-{{ item.id }}" class="t2 t--underline accent--pink a--text">{{ loop.index }}. {{ item.title }}</h3>
+            <h3 id="before-{{ item.id }}" class="t2 t--underline accent--pink a--text">
+                {{ loop.index }}. {{ item.title }}
+            </h3>
             {{ item.content | safe }}
         {% endfor %}
-
+        </div>
     </div>
-
 {% endset %}
 
 {% set checkYouAreEligible %}
     <div class="content-box content-box--borderless">
+        <div class="s-prose s-prose--long u-constrained-content-wide">
         <p>You can apply if you're a voluntary or community group, such as a:</p>
-        <ul class="list-bullets list--indented u-weight-heavy">
+
+        <ul class="u-weight-heavy">
             <li>charity</li>
             <li>co-operative</li>
             <li>social enterprise</li>
             <li>community interest company</li>
         </ul>
+
         <p>Partnerships are also welcome to apply as long as they're led by a voluntary, community and social enterprise organisation.</p>
+
         <p>Independent branches of larger organisations must have their own governing document and be allowed to manage funds and staff without referring to another body.</p>
-        <p class="links-emphasised">If you're a dependent branch of a larger organisation you could still be eligible to apply. To find out call on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday 9am to 5pm (not including public holidays).</p>
+
+        <p>If you're a dependent branch of a larger organisation you could still be eligible to apply. To find out call on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday 9am to 5pm (not including public holidays).</p>
+
         <p><strong class="accent--pink a--text">We can fund some or all of your project costs</strong>, including:</p>
-        <ul class="list-bullets list--indented u-weight-heavy">
+
+        <ul class="u-weight-heavy">
             <li>staff salaries</li>
             <li>training</li>
             <li>volunteer expenses</li>
@@ -118,9 +129,12 @@
             <li>evaluation</li>
             <li>overheads</li>
         </ul>
+
         <p>You can apply for both revenue costs and capital costs, but capital should be no more than 10% of the total grant that you're applying for.<p>
+
         <p><strong class="accent--pink a--text">We can't fund:</strong></p>
-        <ul class="list-bullets list--indented u-weight-heavy">
+
+        <ul class="u-weight-heavy">
             <li>costs for items or activities you have already incurred before you get a decision</li>
             <li>fundraising activities</li>
             <li>activities that are statutory obligations or will replace statutory funding, including activities on the school curriculum</li>
@@ -134,15 +148,16 @@
             <li>organisations that lack financial records including personnel and payroll records for staff, for seven years after the grant had ended</li>
         </ul>
         <p>As an organisation that gives out public funds, <a href="/funding/funding-guidance/applying-for-funding/information-checks">we'll check the information you provide us</a>.</p>
+        </div>
     </div>
 {% endset %}
 
 {% set applyForFunding %}
     <div class="content-box content-box--borderless">
-
+        <div class="s-prose s-prose--long u-constrained-content-wide">
         <p><strong>Before you apply, you'll need to:</strong></p>
 
-        <ul class="list-bullets list-bullets--mob-friendly list--indented u-weight-heavy">
+        <ul class="u-weight-heavy">
             <li><a href="#checkYouAreEligible"> check if you’re eligible</a></li>
             <li><a href="#howToSucceed">read guidance on how to succeed</a></li>
         </ul>
@@ -158,9 +173,10 @@
             </a>
         </p>
 
-        <p class="links-emphasised">Please email your application form to {{ 'applications.ni@biglotteryfund.org.uk' | mailto | safe }}.</p>
+        <p>Please email your application form to {{ 'applications.ni@biglotteryfund.org.uk' | mailto | safe }}.</p>
 
-        <p class="links-emphasised">If you have any questions or need the form in a different format (such as large print), contact {{ 'enquiries.ni@biglotteryfund.org.uk' | mailto | safe }} or call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
+        <p>If you have any questions or need the form in a different format (such as large print), contact {{ 'enquiries.ni@biglotteryfund.org.uk' | mailto | safe }} or call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
+        </div>
     </div>
 {% endset %}
 
@@ -172,12 +188,13 @@
     {{ hero.header('eyp', heroContent, 'pink', "L'Arche Belfast, Grant: £573,164") }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--pink a--border-top content-box content-box--tinted">
-            <p>Empowering Young People is a grants programme designed to support projects in Northern Ireland that give young people aged 8 to 25 the ability to overcome the challenges they face.</p>
+        <div class="content-box content-box--tinted inner--wide-only accent--pink a--border-top">
+            <div class="s-prose s-prose--long u-constrained-content-wide">
+                <p>Empowering Young People is a grants programme designed to support projects in Northern Ireland that give young people aged 8 to 25 the ability to overcome the challenges they face.</p>
 
-            <p><strong>Grant size</strong>: £30,000 to £500,000<br />
-                <strong>Grant duration</strong>: 2 to 5 Years</p>
-
+                <p><strong>Grant size</strong>: £30,000 to £500,000<br />
+                    <strong>Grant duration</strong>: 2 to 5 Years</p>
+            </div>
         </div>
 
         <div class="inner--wide-only spaced">
