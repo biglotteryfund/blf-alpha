@@ -40,6 +40,28 @@
 {% endset %}
 {{ sgBlock('Overlay text', sgContent) }}
 
+{% set sgContent %}
+    <div class="s-prose s-prose--long">
+        <p>When you have a project idea you want to put to us please give us a call to talk it through. We’ll be able to tell you if it’s something that we’d fund.</p>
+
+        <h3 class="t4">Before you get in touch, make sure you have:</h3>
+
+        <ul>
+            <li>checked your <a href="#check-eligibility">eligibility</a></li>
+            <li>read our guidance on <a href="#how-to-succeed">how to succeed</a></li>
+            <li>thought through what you want to tell us - this chat will be part of the way we assess your project</li>
+        </ul>
+
+        <p>You can reach us by phoning <a href="tel:03001230735">0300 123 0735</a> or e-mailing <a href="mailto:wales@biglotteryfund.org.uk">wales@biglotteryfund.org.uk</a> Monday to Friday, 9.00am to 5.00pm (not including public holidays) to book an appointment to speak to one of our team, who will call you back within three working days.</p>
+    </div>
+{% endset %}
+{% set sgNotes %}
+    <p>
+        Prose styles. Adds additional typographic treatment to long blocks of text: emboldens links, formats telephone and email links, indents and adds bullets to lists.
+    </p>
+{% endset %}
+{{ sgBlock('Prose Text', sgContent, sgNotes) }}
+
 {# ================================ #}
 {# Buttons                          #}
 {# ================================ #}

@@ -75,19 +75,28 @@
  * Expanded prose styles for long blocks of text
  */
 .s-prose--long {
+    ol li,
+    ul li {
+        margin-left: $spacingUnit * 3;
+    }
+
     a {
         font-weight: bold;
     }
 
-    a[href^='tel:'] {
+    a[href^='tel:'],
+    a[href^='mailto'] {
         font-weight: bold;
         color: palette('green');
+        word-break: break-word;
+    }
+
+    a[href^='tel:'] {
         text-decoration: none;
     }
 
-    ol li,
-    ul li {
-        margin-left: $spacingUnit * 3;
+    .contrast--high & a {
+        color: palette('blue') !important;
     }
 
     .inline-figure {

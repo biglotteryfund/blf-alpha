@@ -44,7 +44,7 @@ templateEnv.addFilter('joinIfArray', (xs, delimiter) => {
 
 templateEnv.addFilter('makePhoneLink', str => {
     let callable = str.replace(/ /g, '');
-    return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
+    return `<a href="tel:${callable}">${str}</a>`;
 });
 
 templateEnv.addFilter('dateFormat', (str, format) => {
