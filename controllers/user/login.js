@@ -34,8 +34,8 @@ const attemptAuth = (req, res, next) =>
     })(req, res, next);
 
 const loginForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     res.render('user/login', {
+        csrfToken: req.csrfToken(),
         makeUserLink: makeUserLink
     });
 };

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require('../../modules/authed');
+const middleware = require('../../modules/middleware-helpers');
 const register = require('./register');
 const login = require('./login');
 const password = require('./password');
@@ -22,8 +23,8 @@ router
 // login users
 router
     .route(userEndpoints.login)
-    .get(auth.requireUnauthed, login.loginForm)
-    .post(login.attemptAuth);
+    .get(auth.requireUnauthed, middleware.csrfProtection, login.loginForm)
+    .post(middleware.csrfProtection, login.attemptAuth);
 
 // logout users
 router.get(userEndpoints.logout, (req, res) => {
