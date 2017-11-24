@@ -1,7 +1,7 @@
 const { get, isEmpty, set } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-const csrfProtection = require('../../../modules/csrf');
+const middleware = require('../../../modules/middleware-helpers');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -42,7 +42,7 @@ module.exports = function(router, formModel) {
 
         router
             .route(`/${currentStepNumber}`)
-            .get(csrfProtection, function(req, res) {
+            .get(middleware.csrfProtection, function(req, res) {
                 if (currentStepNumber > 1) {
                     const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
                     if (isEmpty(previousStepData)) {
@@ -54,7 +54,7 @@ module.exports = function(router, formModel) {
                     renderStep(req, res);
                 }
             })
-            .post(step.getValidators(), csrfProtection, function(req, res) {
+            .post(step.getValidators(), middleware.csrfProtection, function(req, res) {
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
@@ -72,9 +72,7 @@ module.exports = function(router, formModel) {
             });
     });
 
-    router.get('/review', function(req, res) {
-        res.cacheControl = { maxAge: 0, noStore: true };
-
+    router.get('/review', middleware.noCache, function(req, res) {
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
@@ -89,9 +87,7 @@ module.exports = function(router, formModel) {
         }
     });
 
-    router.get('/success', function(req, res) {
-        res.cacheControl = { maxAge: 0, noStore: true };
-
+    router.get('/success', middleware.noCache, function(req, res) {
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
