@@ -1,54 +1,13 @@
 'use strict';
 const app = require('../../server');
-const cookieParser = require('cookie-parser');
 const i18n = require('i18n-2');
 const config = require('config');
-const session = require('express-session');
-const passport = require('passport');
-const flash = require('req-flash');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const models = require('../../models/index');
-const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
 const setViewGlobal = (name, value) => {
     return app.get('engineEnv').addGlobal(name, value);
 };
-
-// load auth strategy
-require('../../modules/boilerplate/auth');
-
-let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
-
-app.use(cookieParser(sessionSecret));
-
-// add session
-const sessionConfig = {
-    name: config.get('cookies.session'),
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { sameSite: true },
-    store: new SequelizeStore({
-        db: models.sequelize
-    })
-};
-
-// create sessions table
-sessionConfig.store.sync();
-
-if (app.get('env') !== 'development') {
-    app.set('trust proxy', 4);
-    sessionConfig.cookie.secure = true;
-}
-
-app.use(session(sessionConfig));
-app.use(flash());
-
-// add passport auth
-app.use(passport.initialize());
-app.use(passport.session());
 
 // setup internationalisation
 i18n.expressBind(app, {

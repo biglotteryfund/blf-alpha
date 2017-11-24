@@ -11,8 +11,10 @@ const viewGlobalsService = require('./modules/viewGlobals');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
+const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
+const sessionMiddleware = require('./middleware/session');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
@@ -45,6 +47,8 @@ app.use(loggerMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
 app.use(securityHeadersMiddleware);
 app.use(bodyParserMiddleware);
+app.use(sessionMiddleware(app));
+app.use(passportMiddleware());
 app.use(redirectsMiddleware);
 require('./modules/boilerplate/middleware');
 
