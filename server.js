@@ -30,7 +30,7 @@ const routes = require('./controllers/routes');
 // configure boilerplate
 require('./modules/boilerplate/viewEngine');
 require('./modules/boilerplate/globals');
-require('./modules/boilerplate/security');
+require('./modules/boilerplate/security')(app);
 require('./modules/boilerplate/static');
 require('./modules/boilerplate/cache');
 require('./modules/boilerplate/middleware');

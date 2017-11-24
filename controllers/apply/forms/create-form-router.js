@@ -1,6 +1,7 @@
 const { get, isEmpty, set } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
+const csrfProtection = require('../../../modules/csrf');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -26,6 +27,7 @@ module.exports = function(router, formModel) {
         function renderStep(req, res, errors = []) {
             const stepData = get(req.session, formModel.getSessionProp(currentStepNumber), {});
             res.render('pages/experimental/apply/form', {
+                csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
                 prevStepUrl: prevStepUrl(req.baseUrl),
@@ -40,9 +42,7 @@ module.exports = function(router, formModel) {
 
         router
             .route(`/${currentStepNumber}`)
-            .get(function(req, res) {
-                res.cacheControl = { maxAge: 0, noStore: true };
-
+            .get(csrfProtection, function(req, res) {
                 if (currentStepNumber > 1) {
                     const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
                     if (isEmpty(previousStepData)) {
@@ -54,9 +54,7 @@ module.exports = function(router, formModel) {
                     renderStep(req, res);
                 }
             })
-            .post(step.getValidators(), function(req, res) {
-                res.cacheControl = { maxAge: 0, noStore: true };
-
+            .post(step.getValidators(), csrfProtection, function(req, res) {
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
