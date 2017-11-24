@@ -1,9 +1,7 @@
-const csrf = require('csurf');
 const { get, isEmpty, set } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-
-const csrfProtection = csrf();
+const csrfProtection = require('../../../modules/csrf');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -45,8 +43,6 @@ module.exports = function(router, formModel) {
         router
             .route(`/${currentStepNumber}`)
             .get(csrfProtection, function(req, res) {
-                res.cacheControl = { maxAge: 0, noStore: true };
-
                 if (currentStepNumber > 1) {
                     const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
                     if (isEmpty(previousStepData)) {
@@ -59,8 +55,6 @@ module.exports = function(router, formModel) {
                 }
             })
             .post(step.getValidators(), csrfProtection, function(req, res) {
-                res.cacheControl = { maxAge: 0, noStore: true };
-
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
