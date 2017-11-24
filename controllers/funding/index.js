@@ -7,7 +7,7 @@ const xss = require('xss');
 const config = require('config');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
-const middleware = require('../../modules/middleware-helpers');
+const cached = require('../../middleware/cached');
 const routeStatic = require('../utils/routeStatic');
 
 const mail = require('../../modules/mail');
@@ -36,7 +36,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     // handle adding/removing items
     router
         .route(freeMaterials.path + '/item/:id')
-        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], middleware.noCache, (req, res) => {
+        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], cached.noCache, (req, res) => {
             // update the session with ordered items
             const code = req.body.code;
 
@@ -112,7 +112,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     // PAGE: free materials form
     router
         .route([freeMaterials.path])
-        .get(middleware.csrfProtection, (req, res) => {
+        .get(cached.csrfProtection, (req, res) => {
             let orderStatus;
             // clear order details if it succeeded
             if (req.flash('materialFormSuccess')) {
@@ -140,7 +140,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(validators, middleware.csrfProtection, (req, res) => {
+        .post(validators, cached.csrfProtection, (req, res) => {
             // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);

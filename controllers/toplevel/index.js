@@ -20,7 +20,7 @@ const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
-const middleware = require('../../modules/middleware-helpers');
+const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
 
 const robots = require('../../config/app/robots.json');
@@ -30,7 +30,7 @@ if (app.get('env') !== 'production') {
 }
 
 const newHomepage = [
-    middleware.noCache,
+    cached.noCache,
     (req, res) => {
         const serveHomepage = news => {
             const lang = req.i18n.__('toplevel.home');

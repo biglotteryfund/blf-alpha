@@ -10,7 +10,7 @@ const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 const models = require('../../models/index');
 const auth = require('../../modules/authed');
-const middleware = require('../../modules/middleware-helpers');
+const cached = require('../../middleware/cached');
 
 const LAUNCH_DATE = moment();
 
@@ -22,7 +22,7 @@ const localeFiles = {
 };
 
 // status page used by load balancer
-router.get('/status', middleware.noCache, (req, res) => {
+router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
@@ -96,7 +96,7 @@ router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_RE
 // language file editor tool
 router
     .route('/tools/locales/')
-    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), middleware.noCache, (req, res) => {
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), cached.noCache, (req, res) => {
         res.render('pages/tools/langEditor', {
             user: req.user
         });
