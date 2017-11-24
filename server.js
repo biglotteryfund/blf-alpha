@@ -41,8 +41,12 @@ viewEngineService.init(app);
 viewGlobalsService.init(app);
 
 app.use(loggerMiddleware);
+<<<<<<< HEAD
 app.use(securityHeadersMiddleware);
+=======
+>>>>>>> Extract logger middleware
 app.use(cachedMiddleware.defaultHeaders);
+app.use(securityHeadersMiddleware);
 app.use(redirectsMiddleware);
 require('./modules/boilerplate/middleware');
 
