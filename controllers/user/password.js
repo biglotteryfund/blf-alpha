@@ -11,7 +11,6 @@ const getSecret = require('../../modules/get-secret');
 const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 const requestResetForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     res.render('user/resetpassword', {
         mode: 'enterEmail',
         makeUserLink: makeUserLink,
@@ -21,13 +20,12 @@ const requestResetForm = (req, res) => {
 
 // is this user in password update mode?
 const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError) => {
-    models.Users
-        .findOne({
-            where: {
-                id: userId,
-                is_password_reset: true
-            }
-        })
+    models.Users.findOne({
+        where: {
+            id: userId,
+            is_password_reset: true
+        }
+    })
         .then(user => {
             if (!user) {
                 // no user for this ID, or they already did this reset
@@ -42,7 +40,6 @@ const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError)
 };
 
 const changePasswordForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     let token = req.query.token ? req.query.token : res.locals.token;
     if (!token) {
         return res.redirect(userBasePath + userEndpoints.login);
@@ -97,12 +94,11 @@ const sendResetEmail = (req, res) => {
         });
     } else {
         const email = xss(req.body.username);
-        models.Users
-            .findOne({
-                where: {
-                    username: email
-                }
-            })
+        models.Users.findOne({
+            where: {
+                username: email
+            }
+        })
             .then(user => {
                 if (!user) {
                     // no user found / user not in password reset mode
@@ -133,17 +129,16 @@ const sendResetEmail = (req, res) => {
                     });
 
                     // mark this user as in password reset mode
-                    models.Users
-                        .update(
-                            {
-                                is_password_reset: true
-                            },
-                            {
-                                where: {
-                                    id: user.id
-                                }
+                    models.Users.update(
+                        {
+                            is_password_reset: true
+                        },
+                        {
+                            where: {
+                                id: user.id
                             }
-                        )
+                        }
+                    )
                         .then(() => {
                             req.flash('passwordRequestSent', true);
                             req.session.save(() => {
@@ -195,18 +190,17 @@ const updatePassword = (req, res) => {
                             user => {
                                 // this user exists and requested this change
                                 let newPassword = req.body.password;
-                                models.Users
-                                    .update(
-                                        {
-                                            password: newPassword,
-                                            is_password_reset: false
-                                        },
-                                        {
-                                            where: {
-                                                id: user.id
-                                            }
+                                models.Users.update(
+                                    {
+                                        password: newPassword,
+                                        is_password_reset: false
+                                    },
+                                    {
+                                        where: {
+                                            id: user.id
                                         }
-                                    )
+                                    }
+                                )
                                     .then(() => {
                                         req.flash('passwordUpdated', true);
                                         req.session.save(() => {

@@ -39,8 +39,14 @@ describe('User authentication', () => {
     });
 
     describe('User registration', () => {
+        let csrfToken;
+        beforeEach(async () => {
+            csrfToken = await helper.getCsrfToken(agent, '/user/login');
+        });
+
         it('should prevent registrations from invalid email address', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'not_an_email_address',
                 password: 'wrong'
             };
@@ -55,6 +61,7 @@ describe('User authentication', () => {
 
         it('should prevent registrations with invalid passwords', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'bill@microsoft.com',
                 password: 'clippy'
             };
@@ -69,6 +76,7 @@ describe('User authentication', () => {
 
         it('should allow valid registrations', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'email@website.com',
                 password: 'password1',
                 redirectUrl: '/some-magic-endpoint'
@@ -86,6 +94,7 @@ describe('User authentication', () => {
 
         it('should email valid users with a token', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'email@website.com',
                 password: 'password1',
                 redirectUrl: '/some-magic-endpoint',
