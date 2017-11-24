@@ -1,5 +1,4 @@
 'use strict';
-/* global describe, it, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
@@ -106,11 +105,18 @@ describe('User authentication', () => {
     });
 
     describe('User login', () => {
+        let csrfToken;
+        beforeEach(async () => {
+            csrfToken = await helper.getCsrfToken(agent, '/user/login');
+        });
+
         it('should allow users to login', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'someone@somewhere.com',
                 password: 'dfs32d3fddf!!!'
             };
+
             agent
                 .post('/user/register')
                 .send(formData)
@@ -140,9 +146,11 @@ describe('User authentication', () => {
 
         it('should not allow unknown users to login', done => {
             const formData = {
+                _csrf: csrfToken,
                 username: 'fake@site.com',
                 password: 'myp455w0rd'
             };
+
             agent
                 .post('/user/login')
                 .send(formData)
