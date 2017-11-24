@@ -10,6 +10,7 @@ const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 const models = require('../../models/index');
 const auth = require('../../modules/authed');
+const middleware = require('../../modules/middleware-helpers');
 
 const LAUNCH_DATE = moment();
 
@@ -21,9 +22,7 @@ const localeFiles = {
 };
 
 // status page used by load balancer
-router.get('/status', (req, res) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
+router.get('/status', middleware.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
@@ -68,23 +67,22 @@ router.get('/status/pages', (req, res) => {
 });
 
 router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
-    models.Survey
-        .findAll({
-            include: [
-                {
-                    model: models.SurveyChoice,
-                    as: 'choices',
-                    required: true,
-                    include: [
-                        {
-                            model: models.SurveyResponse,
-                            as: 'responses',
-                            required: true
-                        }
-                    ]
-                }
-            ]
-        })
+    models.Survey.findAll({
+        include: [
+            {
+                model: models.SurveyChoice,
+                as: 'choices',
+                required: true,
+                include: [
+                    {
+                        model: models.SurveyResponse,
+                        as: 'responses',
+                        required: true
+                    }
+                ]
+            }
+        ]
+    })
         .then(surveys => {
             res.render('pages/tools/surveys', {
                 surveys: surveys
@@ -98,9 +96,7 @@ router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_RE
 // language file editor tool
 router
     .route('/tools/locales/')
-    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
-        // don't cache this page!
-        res.cacheControl = { maxAge: 0 };
+    .get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), middleware.noCache, (req, res) => {
         res.render('pages/tools/langEditor', {
             user: req.user
         });
