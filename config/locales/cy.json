@@ -49,7 +49,16 @@
 		"misc": {
 			"readMore": "Darllen mwy",
 			"or": "neu"
-		},
+        },
+        "programmes": {
+            "programmeLabels": {
+                "area": "Ardal",
+                "organisationTypes": "Math o fudiad",
+                "fundingSize": "Maint yr ariannu",
+                "totalAvailable": "Cyfanswm ar gael",
+                "applicationDeadline": "Terfyn amser ymgeisio"
+            }
+        },
 		"surveys": {
 			"response": {
 				"success": "Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.",
@@ -875,14 +884,7 @@
 			"title": "Rhaglenni Ariannu",
 			"under10k": "Grantiau dan £10,000",
 			"over10k": "Grantiau dros £10,000",
-			"breadcrumbAll": "Pob Rhaglenni",
-			"details": {
-				"area": "Ardal",
-				"organisationTypes": "Math o fudiad",
-				"fundingSize": "Maint yr ariannu",
-				"totalAvailable": "Cyfanswm ar gael",
-				"applicationDeadline": "Terfyn amser ymgeisio"
-			}
+			"breadcrumbAll": "Pob Rhaglenni"
 		}
 	}
 }

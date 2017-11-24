@@ -1,4 +1,4 @@
-{% from "../../components/blocks.njk" import projectBlock with context %}
+{% from "../../components/cards.njk" import photoCard with context %}
 {% from "../../components/tabs.njk" import tabs %}
 {% import "../../components/headers.njk" as headers %}
 {% import "../../components/hero.njk" as hero %}
@@ -247,7 +247,18 @@
             <h3 class="t2">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in exampleProjects %}
-                    <li class="grid__item">{{ projectBlock(project, 'accent--pink') }}</li>
+                    <li class="grid__item">
+                        {{
+                            photoCard(
+                                title = project.name,
+                                subTitle = "Grant: " + project.amount,
+                                description = project.description,
+                                link = project.link,
+                                image = project.image,
+                                accent = 'pink'
+                            )
+                        }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
