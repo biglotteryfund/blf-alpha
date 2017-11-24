@@ -141,7 +141,9 @@ function getCommitsToBeDeployed() {
 
         // first commit this returns will be the one currently on TEST
         // @TODO what if we're deploying an older build? no way to save its commit ID in AWS
-        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${ids.test}&per_page=100`;
+        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${
+            ids.test
+        }&per_page=100`;
 
         // now get commits made before the one currently on TEST
         return rp
@@ -239,27 +241,15 @@ function verifyCommitsToDeploy() {
 
 // trigger the deploy itself
 function pushOutDeploy(env, id) {
-    let text = `Attempting to deploy revision ${id} to environment ${env}, please wait...`;
-    console.log(text);
+    console.log(`Attempting to deploy revision ${id} to environment ${env}, please wait…`);
 
     const deployParams = createDeploymentConf(id);
-    let attemptDeploy = codedeploy.createDeployment(deployParams).promise();
-    attemptDeploy
-        .then(data => {
-            let status = 'Deployment started, monitoring...';
-            console.log(status);
-            let deployCheck = codedeploy.waitFor('deploymentSuccessful', { deploymentId: data.deploymentId }).promise();
-            deployCheck
-                .then(() => {
-                    let status = 'Deployment succeeded!';
-                    console.log(status);
-                })
-                .catch(err => {
-                    console.error('Error deploying revision', {
-                        deploymentId: data.deploymentId,
-                        error: err
-                    });
-                });
+
+    codedeploy
+        .createDeployment(deployParams)
+        .promise()
+        .then(() => {
+            console.log('Deployment started, check Slack or the AWS console to monitor the deployment.');
         })
         .catch(err => {
             console.error('Error creating deployment', {
