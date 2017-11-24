@@ -8,6 +8,7 @@ const Raven = require('raven');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 
+const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
 const redirectsMiddleware = require('./middleware/redirects');
@@ -41,12 +42,9 @@ viewEngineService.init(app);
 viewGlobalsService.init(app);
 
 app.use(loggerMiddleware);
-<<<<<<< HEAD
-app.use(securityHeadersMiddleware);
-=======
->>>>>>> Extract logger middleware
 app.use(cachedMiddleware.defaultHeaders);
 app.use(securityHeadersMiddleware);
+app.use(bodyParserMiddleware);
 app.use(redirectsMiddleware);
 require('./modules/boilerplate/middleware');
 

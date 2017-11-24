@@ -1,7 +1,6 @@
 'use strict';
 const app = require('../../server');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
@@ -22,8 +21,6 @@ require('../../modules/boilerplate/auth');
 
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(sessionSecret));
 
 // add session
