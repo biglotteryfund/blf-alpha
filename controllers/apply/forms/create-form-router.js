@@ -96,10 +96,20 @@ module.exports = function(router, formModel) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.render('pages/experimental/apply/success', {
-                form: formModel,
-                success: formModel.getSuccessStep()
-            });
+            let successStep = formModel.getSuccessStep();
+            let processSuccess = successStep.processor(formData);
+            processSuccess
+                .then(success => {
+                    console.log(success);
+                    res.render('pages/experimental/apply/success', {
+                        form: formModel,
+                        success: successStep
+                    });
+                })
+                .catch(err => {
+                    // @TODO handle this
+                    res.send(err);
+                });
         }
     });
 

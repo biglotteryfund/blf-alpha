@@ -133,7 +133,11 @@ formModel.registerReviewStep({
 
 formModel.registerSuccessStep({
     title: 'We Have Received Your Idea',
-    processor: function() {}
+    processor: function(data) {
+        return new Promise((resolve, reject) => {
+            resolve(data);
+        });
+    }
 });
 
 module.exports = formModel;

@@ -111,6 +111,11 @@ function createFormModel({ id, title }) {
             return reviewStep;
         },
         registerSuccessStep: function(success) {
+            if (!success.processor) {
+                throw new Error(
+                    'The success processor is required and must be a function which returns a Promise instance'
+                );
+            }
             successStep = success;
         },
         getSuccessStep: function() {
