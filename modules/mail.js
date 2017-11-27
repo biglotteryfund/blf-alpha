@@ -4,13 +4,6 @@ const config = require('config');
 const AWS = require('aws-sdk');
 const Raven = require('raven');
 
-// Use local environment AWS credentials in dev mode.
-// Otherwise, EC2 instances already have IAM instance roles
-// with valid ses:SendRawEmail permissions
-if (process.env.NODE_ENV === 'development') {
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
-}
-
 // create Nodemailer SES transporter
 const transport = nodemailer.createTransport({
     SES: new AWS.SES({
