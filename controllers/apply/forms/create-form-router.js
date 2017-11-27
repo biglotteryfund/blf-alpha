@@ -100,7 +100,6 @@ module.exports = function(router, formModel) {
             let processSuccess = successStep.processor(formData);
             processSuccess
                 .then(success => {
-                    console.log(success);
                     res.render('pages/experimental/apply/success', {
                         form: formModel,
                         success: successStep

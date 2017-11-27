@@ -3,7 +3,8 @@ const { check } = require('express-validator/check');
 
 const formModel = createFormModel({
     id: 'example-form',
-    title: 'Example Form'
+    title: 'Example Form',
+    shortCode: 'EX'
 });
 
 formModel.registerStep({

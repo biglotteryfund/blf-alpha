@@ -72,17 +72,17 @@ function createStep(step) {
 /**
  * This function allows us to model a form using a schema.
  * Main API is to register "steps":
- * - formModel({ id: 'example', title: 'Example' }).registerStep({});
+ * - formModel({ id: 'example', title: 'Example', shortCode: 'FOO' }).registerStep({});
  * Each step equates to a single page in a multi-page form.
  */
-function createFormModel({ id, title }) {
+function createFormModel({ id, title, shortCode }) {
     let steps = [];
     let reviewStep;
     let successStep;
     return {
         id: id,
         title: title,
-        uuid: `RC-${shortid()}`,
+        uuid: `${shortCode}-${shortid()}`,
         getSessionProp: function(stepNo) {
             const baseProp = `form.${id}`;
             if (stepNo) {

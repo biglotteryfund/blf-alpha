@@ -4,7 +4,8 @@ const { castArray } = require('lodash');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
-    title: 'Apply For A Grant Over £10,000'
+    title: 'Apply For A Grant Over £10,000',
+    shortCode: 'RC'
 });
 
 formModel.registerStep({
