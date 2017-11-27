@@ -34,11 +34,15 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-        const emailData = mail.send({
+        let emailData = {
             subject: 'Activate your Big Lottery Fund website account',
             text: `Please click the following link to activate your account: ${activateUrl}`,
             sendTo: email
-        });
+        };
+
+        // @TODO should we alert users to errors here?
+        mail.send(emailData);
+
         return {
             email: emailData,
             token: token
@@ -76,13 +80,11 @@ const createUser = (req, res, next) => {
         // check if this email address already exists
         // we can't use findOrCreate here because the password changes
         // each time we hash it, which sequelize sees as a new user :(
-        models.Users
-            .findOne({ where: { username: userData.username } })
+        models.Users.findOne({ where: { username: userData.username } })
             .then(user => {
                 if (!user) {
                     // no user found, so make a new one
-                    models.Users
-                        .create(userData)
+                    models.Users.create(userData)
                         .then(newUser => {
                             // success! now send them an activation email
                             let activationData = sendActivationEmail(newUser, req, true);
@@ -148,17 +150,16 @@ const activateUser = (req, res) => {
                 // was the token valid for this user?
                 if (decoded.data.reason === 'activate' && decoded.data.userId === req.user.id) {
                     // activate the user (their token is valid)
-                    models.Users
-                        .update(
-                            {
-                                is_active: true
-                            },
-                            {
-                                where: {
-                                    id: decoded.data.userId
-                                }
+                    models.Users.update(
+                        {
+                            is_active: true
+                        },
+                        {
+                            where: {
+                                id: decoded.data.userId
                             }
-                        )
+                        }
+                    )
                         .then(() => {
                             res.redirect(makeUserLink('dashboard'));
                         })

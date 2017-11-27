@@ -21,13 +21,12 @@ const requestResetForm = (req, res) => {
 
 // is this user in password update mode?
 const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError) => {
-    models.Users
-        .findOne({
-            where: {
-                id: userId,
-                is_password_reset: true
-            }
-        })
+    models.Users.findOne({
+        where: {
+            id: userId,
+            is_password_reset: true
+        }
+    })
         .then(user => {
             if (!user) {
                 // no user for this ID, or they already did this reset
@@ -97,12 +96,11 @@ const sendResetEmail = (req, res) => {
         });
     } else {
         const email = xss(req.body.username);
-        models.Users
-            .findOne({
-                where: {
-                    username: email
-                }
-            })
+        models.Users.findOne({
+            where: {
+                username: email
+            }
+        })
             .then(user => {
                 if (!user) {
                     // no user found / user not in password reset mode
@@ -126,24 +124,29 @@ const sendResetEmail = (req, res) => {
                     let resetPath = makeUserLink('resetpassword');
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
-                    mail.send({
+                    let sendEmail = mail.send({
                         subject: 'Reset the password for your Big Lottery Fund website account',
                         text: `Please click the following link to reset your password: ${resetUrl}`,
                         sendTo: email
                     });
 
+                    sendEmail.catch(() => {
+                        trackError('Error emailing user with password reset link');
+                        res.locals.errors = makeErrorList('There was an error sending your password reset link');
+                        return requestResetForm(req, res);
+                    });
+
                     // mark this user as in password reset mode
-                    models.Users
-                        .update(
-                            {
-                                is_password_reset: true
-                            },
-                            {
-                                where: {
-                                    id: user.id
-                                }
+                    models.Users.update(
+                        {
+                            is_password_reset: true
+                        },
+                        {
+                            where: {
+                                id: user.id
                             }
-                        )
+                        }
+                    )
                         .then(() => {
                             req.flash('passwordRequestSent', true);
                             req.session.save(() => {
@@ -195,18 +198,17 @@ const updatePassword = (req, res) => {
                             user => {
                                 // this user exists and requested this change
                                 let newPassword = req.body.password;
-                                models.Users
-                                    .update(
-                                        {
-                                            password: newPassword,
-                                            is_password_reset: false
-                                        },
-                                        {
-                                            where: {
-                                                id: user.id
-                                            }
+                                models.Users.update(
+                                    {
+                                        password: newPassword,
+                                        is_password_reset: false
+                                    },
+                                    {
+                                        where: {
+                                            id: user.id
                                         }
-                                    )
+                                    }
+                                )
                                     .then(() => {
                                         req.flash('passwordUpdated', true);
                                         req.session.save(() => {
