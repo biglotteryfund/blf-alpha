@@ -105,7 +105,7 @@
         <p>{{ copy.orderSubmitted.success.body | safe }}</p>
     {% elseif orderStatus == 'fail' %}
         <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
-        <h3 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+        <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
     {% endif %}
 {% endblock %}
 
