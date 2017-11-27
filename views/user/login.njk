@@ -30,6 +30,10 @@
 
     <h1>Log in</h1>
     <form action="{{ makeUserLink('login') }}" method="post">
+        {% if csrfToken %}
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        {% endif %}
+
         <div class="form-group">
             <label for="username">Email address</label>
             <input type="email"

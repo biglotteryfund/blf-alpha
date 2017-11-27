@@ -11,7 +11,6 @@ const getSecret = require('../../modules/get-secret');
 const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 const requestResetForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     res.render('user/resetpassword', {
         mode: 'enterEmail',
         makeUserLink: makeUserLink,
@@ -41,7 +40,6 @@ const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError)
 };
 
 const changePasswordForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     let token = req.query.token ? req.query.token : res.locals.token;
     if (!token) {
         return res.redirect(userBasePath + userEndpoints.login);

@@ -28,17 +28,10 @@ describe('Material order form', () => {
     });
 
     let csrfToken;
-
-    beforeEach(done => {
-        // grab a valid CSRF token
+    beforeEach(async () => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
-        agent.get(path).end((err, res) => {
-            // res.should.have.cookie('_csrf');
-            const dom = new JSDOM(res.text);
-            csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
-            done();
-        });
+        csrfToken = await helper.getCsrfToken(agent, path);
     });
 
     it('should serve materials to order', done => {

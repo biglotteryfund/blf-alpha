@@ -5,6 +5,9 @@ const config = require('config');
 const Raven = require('raven');
 const getSecret = require('./modules/get-secret');
 
+const cachedMiddleware = require('./middleware/cached');
+const securityHeadersMiddleware = require('./middleware/securityHeaders');
+
 if (app.get('env') === 'development') {
     require('dotenv').config();
 }
@@ -30,9 +33,10 @@ const routes = require('./controllers/routes');
 // configure boilerplate
 require('./modules/boilerplate/viewEngine');
 require('./modules/boilerplate/globals');
-require('./modules/boilerplate/security')(app);
 require('./modules/boilerplate/static');
-require('./modules/boilerplate/cache');
+
+app.use(securityHeadersMiddleware);
+app.use(cachedMiddleware.defaultCacheControl);
 require('./modules/boilerplate/middleware');
 
 // load tools endpoint (including status page for load balancer)

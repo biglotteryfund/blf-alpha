@@ -51,8 +51,8 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
 };
 
 const registrationForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     res.render('user/register', {
+        csrfToken: req.csrfToken(),
         makeUserLink: makeUserLink,
         errors: res.locals.errors || []
     });
@@ -122,8 +122,6 @@ const createUser = (req, res, next) => {
 };
 
 const activateUser = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
-
     let token = req.query.token;
 
     if (!token) {
