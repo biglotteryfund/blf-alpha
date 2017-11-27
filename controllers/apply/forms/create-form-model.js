@@ -100,6 +100,15 @@ function createFormModel({ id, title, shortCode }) {
         getStepsWithValues: function(data) {
             return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
         },
+        getStepValuesFlattened: function(data) {
+            let obj = {};
+            for (let d in data) {
+                for (let key in data[d]) {
+                    obj[key] = data[d][key];
+                }
+            }
+            return obj;
+        },
         registerReviewStep: function(review) {
             reviewStep = review;
         },
