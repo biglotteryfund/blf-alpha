@@ -1,19 +1,22 @@
 'use strict';
 const nodemailer = require('nodemailer');
 const config = require('config');
-const getSecret = require('../modules/get-secret');
+const AWS = require('aws-sdk');
+const Raven = require('raven');
 
-let mailConfig = {
-    user: getSecret('ses.auth.user'),
-    password: getSecret('ses.auth.password')
-};
-// create reusable transporter object using the default SMTP transport
+// Use local environment AWS credentials in dev mode.
+// Otherwise, EC2 instances already have IAM instance roles
+// with valid ses:SendRawEmail permissions
+if (process.env.NODE_ENV === 'development') {
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+}
+
+// create Nodemailer SES transporter
 const transport = nodemailer.createTransport({
-    service: 'SES-EU-WEST-1',
-    auth: {
-        user: mailConfig.user,
-        pass: mailConfig.password
-    }
+    SES: new AWS.SES({
+        apiVersion: '2010-12-01',
+        region: 'eu-west-1'
+    })
 });
 
 const send = ({ subject, text, sendTo, sendMode }) => {
@@ -41,13 +44,19 @@ const send = ({ subject, text, sendTo, sendMode }) => {
     }
 
     // send mail with defined transport object
-    transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            // @TODO handle this better – re-send it?
-            return console.error('Error sending email via SES', error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
+    let mailSend = transport.sendMail(mailOptions);
+
+    // set a generic error logger
+    mailSend.catch(error => {
+        Raven.captureMessage('Error sending email via SES', {
+            extra: error,
+            tags: {
+                feature: 'email'
+            }
+        });
     });
+
+    return mailSend;
 };
 
 module.exports = {
