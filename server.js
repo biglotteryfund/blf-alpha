@@ -26,7 +26,6 @@ if (app.get('env') === 'development') {
 }
 
 const SENTRY_DSN = getSecret('sentry.dsn');
-
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
         environment: process.env.NODE_ENV || 'development',
@@ -44,6 +43,7 @@ if (SENTRY_DSN) {
 viewEngineService.init(app);
 viewGlobalsService.init(app);
 
+// Add global middlewares
 app.use(loggerMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
 app.use(securityHeadersMiddleware);
