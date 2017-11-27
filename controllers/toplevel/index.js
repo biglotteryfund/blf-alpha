@@ -20,6 +20,7 @@ const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
+const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
 
 const robots = require('../../config/app/robots.json');
@@ -28,34 +29,34 @@ if (app.get('env') !== 'production') {
     robots.push('/');
 }
 
-const newHomepage = (req, res) => {
-    // don't cache this page!
-    res.cacheControl = { maxAge: 0 };
+const newHomepage = [
+    cached.noCache,
+    (req, res) => {
+        const serveHomepage = news => {
+            const lang = req.i18n.__('toplevel.home');
 
-    const serveHomepage = news => {
-        const lang = req.i18n.__('toplevel.home');
+            res.render('pages/toplevel/home', {
+                title: lang.title,
+                description: lang.description || false,
+                copy: lang,
+                news: news || [],
+                heroImage: heroImages.homepageHero
+            });
+        };
 
-        res.render('pages/toplevel/home', {
-            title: lang.title,
-            description: lang.description || false,
-            copy: lang,
-            news: news || [],
-            heroImage: heroImages.homepageHero
-        });
-    };
-
-    // get news articles
-    contentApi
-        .getPromotedNews(req.i18n.getLocale())
-        .then(response => get(response, 'data', []))
-        .then(data => data.map(item => item.attributes))
-        .then(news => {
-            serveHomepage(news);
-        })
-        .catch(() => {
-            serveHomepage();
-        });
-};
+        // get news articles
+        contentApi
+            .getPromotedNews(req.i18n.getLocale())
+            .then(response => get(response, 'data', []))
+            .then(data => data.map(item => item.attributes))
+            .then(news => {
+                serveHomepage(news);
+            })
+            .catch(() => {
+                serveHomepage();
+            });
+    }
+];
 
 const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);

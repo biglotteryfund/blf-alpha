@@ -24,7 +24,7 @@
     "prepush": "npm test"
   },
   "lint-staged": {
-    "{assets,bin,controllers,models,modules,test}/**/*.js": [
+    "{assets,bin,controllers,middleware,models,modules,test}/**/*.js": [
       "prettier --write",
       "eslint",
       "git add"
