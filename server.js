@@ -15,6 +15,7 @@ const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
 const sessionMiddleware = require('./middleware/session');
+const localesMiddleware = require('./middleware/locales');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
@@ -50,7 +51,17 @@ app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware);
-require('./modules/boilerplate/middleware');
+app.use(localesMiddleware(app));
+
+app.use(favicon(path.join('public', '/favicon.ico')));
+
+// configure static files
+app.use(
+    `/${config.get('assetVirtualDir')}`,
+    express.static(path.join(__dirname, './public'), {
+        maxAge: config.get('staticExpiration')
+    })
+);
 
 app.use(favicon(path.join('public', '/favicon.ico')));
 
