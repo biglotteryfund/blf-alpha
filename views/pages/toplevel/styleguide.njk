@@ -1,10 +1,15 @@
 {% extends "../../layouts/styleguide.njk" %}
 
+{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
+
+{% from "../../components/cards.njk" import photoCard with context %}
 {% from "../../components/caseStudy.njk" import caseStudy %}
 {% from "../../components/data.njk" import statsGrid %}
 {% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
 {% from "../../components/news.njk" import articleTeaser with context %}
-{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
+{% from "../../components/programmes.njk" import programmeCard, selectionTrail with context %}
+{% from "../../components/segment.njk" import segment %}
+{% from "../../components/tabs.njk" import tabs %}
 
 {% block content %}
 
@@ -220,6 +225,79 @@
 
 
 {% set sgContent %}
+    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+        {% for i in [1,2,3]  %}
+            <li class="grid__item">
+                {{ photoCard(
+                    title = "Voice of Young People in Care",
+                    subtitle = "Grant: £590,000",
+                    description = "Builds young people’s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.",
+                    image = "eyp/vypc.jpg",
+                    link = "#"
+                ) }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endset %}
+{% set sgNotes %}
+    <p>Generic photo card, consisting of title, subtitle, description, image, and link.</p>
+{% endset %}
+{{ sgBlock('Photo Card', sgContent, sgNotes) }}
+
+
+{% set sgContent %}
+    {{ programmeCard(
+        accent = "pink",
+        programme = {
+            "title": "Helping Working Families",
+            "linkUrl": "https://www.biglotteryfund.org.uk/helping-working-families",
+            "photo": "https://dvmwjbtfsnnp0.cloudfront.net/media/helping-working-families.jpg?mtime=20171123121614",
+            "organisationTypes": [
+                "Voluntary or community organisation"
+            ],
+            "description": "Projects co-produced with working families affected by poverty.",
+            "area": {
+                "label": "Wales",
+                "value": "wales"
+            },
+            "fundingSize": {
+                "minimum": 10001,
+                "maximum": 500000
+            },
+            "fundingSizeDescription": "Approx. £500,000 per project",
+            "totalAvailable": "£6 million",
+            "applicationDeadline": "Midday 15 March 2018"
+        }
+    ) }}
+{% endset %}
+{% set sgNotes %}
+    <p>Individual funding programme summary card</p>
+{% endset %}
+{{ sgBlock('Programme Card', sgContent, sgNotes) }}
+
+{% set sgContent %}
+    {{
+        selectionTrail(
+            trail = [{
+                "label": "Funding Programmes"
+            }, {
+                "label": "Awards over £10,000",
+                "url": "#"
+            }, {
+                "label":"Wales"
+            }],
+            itemCount = 3
+        )
+    }}
+{% endset %}
+{% set sgNotes %}
+    <p>Breadcrumb-trail-esque device for showing selected programme filters.</p>
+{% endset %}
+{{ sgBlock('Selection Trail', sgContent, sgNotes) }}
+
+
+
+{% set sgContent %}
     <div class="content-box inner--wide-only accent--turquoise a--border-top">
         {{ __('funding.guidance.getting-press-coverage.body') | safe }}
     </div>
@@ -237,5 +315,64 @@
     <p>Tinted variant of a content box. Used to give focus to important blocks of copy on text heavy pages.</p>
 {% endset %}
 {{ sgBlock('Content Box: Tinted', sgContent, sgNotes) }}
+
+{% set sgContent %}
+    {% set segmentContent %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab vitae minus quidem beatae dolor voluptatibus incidunt at placeat excepturi, ad nisi, commodi, maxime distinctio delectus! Doloribus ullam deleniti odio cumque.</p>
+    {% endset %}
+    {{ segment(
+        title = "Segment Title",
+        text = segmentContent,
+        color = 'blue',
+        imagePath = 'contact/1.jpg'
+    ) }}
+{% endset %}
+{% set sgNotes %}
+    <p>Content segment. A content box with an attached image.</p>
+{% endset %}
+{{ sgBlock('Content Segment', sgContent, sgNotes) }}
+
+
+{% set sgContent %}
+    {% set tab1 %}
+        <div class="content-box content-box--borderless s-prose">
+            <p>This is the content for tab 1. This is a <a href="#tab2">link to tab 2</a></p>
+        </div>
+    {% endset %}
+    {% set tab2 %}
+        <div class="content-box content-box--borderless s-prose">
+            <p>This is the content for tab 2.</p>
+        </div>
+    {% endset %}
+    {% set tab3 %}
+        <div class="content-box content-box--borderless s-prose">
+            <p>This is the content for tab 3.</p>
+        </div>
+    {% endset %}
+    {{
+        tabs(
+            id = 'tabs',
+            content = [{
+                id: 'tab1',
+                title: 'Tab 1',
+                content: tab1,
+                active: true
+            }, {
+                id: 'tab2',
+                title: 'Tab 2',
+                content: tab2
+            }, {
+                id: 'tab3',
+                title: 'Tab 3',
+                content: tab3
+            }]
+        )
+    }}
+{% endset %}
+{% set sgNotes %}
+    <p>Generic tabbed content component. On small screens tabs are displayed in an accordion pattern.</p>
+{% endset %}
+{{ sgBlock('Tabs', sgContent, sgNotes) }}
+
 
 {% endblock %}

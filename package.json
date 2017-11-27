@@ -70,7 +70,10 @@
   },
   "nodemonConfig": {
     "verbose": true,
-    "ignore": ["assets", "public"],
+    "ignore": [
+      "assets",
+      "public"
+    ],
     "exec": "bin/www"
   },
   "dependencies": {

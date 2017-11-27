@@ -124,6 +124,8 @@ module.exports = (pages, sectionPath, sectionId) => {
             if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
                 delete req.session[freeMaterialsLogic.orderKey];
+            } else if (req.flash('materialFormError')) {
+                orderStatus = 'fail';
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
@@ -194,19 +196,29 @@ module.exports = (pages, sectionPath, sectionId) => {
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(req.session[freeMaterialsLogic.orderKey], details);
 
-                    mail.send({
+                    let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
                         text: text,
                         sendTo: config.get('materialSupplierEmail'),
                         sendMode: 'bcc'
                     });
 
-                    req.flash('materialFormSuccess', true);
-                    req.flash('showOverlay', true);
+                    let redirectToMessage = () => {
+                        req.flash('showOverlay', true);
+                        req.session.save(() => {
+                            res.redirect(req.baseUrl + freeMaterials.path);
+                        });
+                    };
 
-                    req.session.save(() => {
-                        res.redirect(req.baseUrl + freeMaterials.path);
-                    });
+                    sendOrderEmail
+                        .then(() => {
+                            req.flash('materialFormSuccess', true);
+                            redirectToMessage();
+                        })
+                        .catch(() => {
+                            req.flash('materialFormError', true);
+                            redirectToMessage();
+                        });
                 }
             }
         });

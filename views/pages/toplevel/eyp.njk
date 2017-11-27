@@ -1,4 +1,4 @@
-{% from "../../components/blocks.njk" import projectBlock with context %}
+{% from "../../components/cards.njk" import photoCard with context %}
 {% from "../../components/tabs.njk" import tabs %}
 {% import "../../components/headers.njk" as headers %}
 {% import "../../components/hero.njk" as hero %}
@@ -173,7 +173,7 @@
             </a>
         </p>
 
-        <p>Please email your application form to {{ 'applications.ni@biglotteryfund.org.uk' | mailto | safe }}.</p>
+        <p>Please email your application form to {{ 'applicationsni@biglotteryfund.org.uk' | mailto | safe }}.</p>
 
         <p>If you have any questions or need the form in a different format (such as large print), contact {{ 'enquiries.ni@biglotteryfund.org.uk' | mailto | safe }} or call us on {{ '02890 551455' | makePhoneLink | safe }} Monday to Friday, 9.00am to 5.00pm (not including public holidays).</p>
         </div>
@@ -247,7 +247,18 @@
             <h3 class="t2">Examples of projects that have been funded</h3>
             <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
                 {% for project in exampleProjects %}
-                    <li class="grid__item">{{ projectBlock(project, 'accent--pink') }}</li>
+                    <li class="grid__item">
+                        {{
+                            photoCard(
+                                title = project.name,
+                                subTitle = "Grant: " + project.amount,
+                                description = project.description,
+                                link = project.link,
+                                image = project.image,
+                                accent = 'pink'
+                            )
+                        }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>

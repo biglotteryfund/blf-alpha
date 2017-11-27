@@ -1,26 +1,10 @@
 {% from "../../components/hero.njk" import sectionHero %}
-{% from "../../components/programmes.njk" import programmeList %}
+{% from "../../components/programmes.njk" import programmeList, selectionTrail with context %}
 
 {% extends "../../layouts/main.njk" %}
 {% set bodyClass = "has-full-bleed-header" %}
 
 {% block title %}{{ title }} | {% endblock %}
-
-{% macro breadcrumbTrail(items, trail) %}
-    {% if trail | length > 0 %}
-    <ol class="breadcrumb-trail">
-        {% for crumb in trail %}
-        <li class="breadcrumb-trail__item">
-            {% set showUrl = crumb.url  %}
-            {% if showUrl %}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{% endif %}
-            {{ crumb.label }}
-            {% if loop.last %}({{ (items | length) }}){% endif %}
-            {% if showUrl %}</a>{% endif %}
-        </li>
-        {% endfor %}
-    </ol>
-    {% endif %}
-{% endmacro %}
 
 {% block content %}
     <main role="main">
@@ -37,13 +21,16 @@
         ) }}
 
         <section class="inner--wide-only content-box content-box--even-inset accent--green a--border-top nudge-up">
-            {{ breadcrumbTrail(programmes, activeBreadcrumbs) }}
+            {{ selectionTrail(
+                trail = activeBreadcrumbs,
+                itemCount = programmes.length
+            ) }}
 
             {% if programmes | length > 0 %}
                 {{ programmeList(
-                    programmes = programmes,
                     accent = 'pink',
-                    copy = copy.details
+                    labels = copy.details,
+                    programmes = programmes
                 ) }}
             {% else %}
                 <p>No results</p>
