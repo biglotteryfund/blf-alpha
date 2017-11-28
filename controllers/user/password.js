@@ -122,10 +122,16 @@ const sendResetEmail = (req, res) => {
                     let resetPath = makeUserLink('resetpassword');
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
-                    mail.send({
+                    let sendEmail = mail.send({
                         subject: 'Reset the password for your Big Lottery Fund website account',
                         text: `Please click the following link to reset your password: ${resetUrl}`,
                         sendTo: email
+                    });
+
+                    sendEmail.catch(() => {
+                        trackError('Error emailing user with password reset link');
+                        res.locals.errors = makeErrorList('There was an error sending your password reset link');
+                        return requestResetForm(req, res);
                     });
 
                     // mark this user as in password reset mode

@@ -106,7 +106,7 @@ describe('User authentication', () => {
                 .end((err, res) => {
                     // via https://github.com/auth0/node-jsonwebtoken/issues/162
                     res.body.token.should.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-                    res.body.email.to.should.equal(formData.username);
+                    res.body.email.sendTo.should.equal(formData.username);
                     res.body.email.subject.should.equal('Activate your Big Lottery Fund website account');
                     done();
                 });

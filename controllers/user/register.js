@@ -34,11 +34,15 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-        const emailData = mail.send({
+        let emailData = {
             subject: 'Activate your Big Lottery Fund website account',
             text: `Please click the following link to activate your account: ${activateUrl}`,
             sendTo: email
-        });
+        };
+
+        // @TODO should we alert users to errors here?
+        mail.send(emailData);
+
         return {
             email: emailData,
             token: token
