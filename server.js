@@ -5,6 +5,8 @@ const path = require('path');
 const config = require('config');
 const Raven = require('raven');
 
+const viewEngineService = require('./modules/viewEngine');
+
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
 const redirectsMiddleware = require('./middleware/redirects');
@@ -33,8 +35,8 @@ if (SENTRY_DSN) {
     app.use(Raven.requestHandler());
 }
 
-// configure boilerplate
-require('./modules/boilerplate/viewEngine');
+// Configure views
+viewEngineService.init(app);
 require('./modules/boilerplate/globals');
 
 app.use(loggerMiddleware);
