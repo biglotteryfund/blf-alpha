@@ -1,4 +1,5 @@
 'use strict';
+
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
@@ -16,12 +17,13 @@ const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
-const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
+
+const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -62,43 +64,6 @@ const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-// serve the legacy site funding finder (via proxy)
-router.get('/funding/funding-finder', (req, res) => {
-    // rewrite HTML to remove invalid funding programs
-    return proxyLegacy.proxyLegacyPage(req, res, dom => {
-        // should we filter out programs under 10k?
-        if (req.query.over && req.query.over === '10k') {
-            // get the list of program elements
-            let programs = dom.window.document.querySelectorAll('article.programmeList');
-            if (programs.length > 0) {
-                [].forEach.call(programs, p => {
-                    // find the key facts block (which contains the funding size)
-                    let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
-                    if (keyFacts.length > 0) {
-                        [].forEach.call(keyFacts, k => {
-                            // find the node with the funding size info (if it exists)
-                            let textValue = k.textContent.toLowerCase();
-                            // english/welsh version
-                            if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
-                                // convert string into number
-                                let programUpperLimit = utilities.parseValueFromString(k.nextSibling.textContent);
-                                // remove the element if it's below our threshold
-                                if (programUpperLimit <= 10000) {
-                                    p.parentNode.removeChild(p);
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        }
-        return dom;
-    });
-});
-
-// allow form submissions on funding finder to pass through to proxy
-router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
-
 module.exports = (pages, sectionPath, sectionId) => {
     /**
      * 1. Populate static pages
@@ -134,20 +99,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         return proxyLegacy.proxyLegacyPage(req, res, null, '/');
     });
 
-    function proxyAwardsForAll(req, res) {
-        return proxyLegacy.proxyLegacyPage(req, res, dom => {
-            const applyTab = dom.window.document.querySelector('#mainContentContainer .panel:last-of-type');
-            applyTab.innerHTML = `
-                <p>Replacement tab content</p>
-            `;
-            return dom;
-        });
-    }
-
-    router.get('/prog_a4a_eng', proxyAwardsForAll);
-    router.post('/prog_a4a_eng', proxyLegacy.postToLegacyForm);
-    router.get('/global-content/programmes/england/awards-for-all-england', proxyAwardsForAll);
-    router.post('/global-content/programmes/england/awards-for-all-england', proxyLegacy.postToLegacyForm);
+    legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
     router.post(
