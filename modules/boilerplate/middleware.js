@@ -1,15 +1,11 @@
 'use strict';
 const app = require('../../server');
 const globals = require('./globals');
-const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
-const favicon = require('serve-favicon');
-const path = require('path');
-const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -23,17 +19,6 @@ require('../../modules/boilerplate/auth');
 
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
 
-app.use(favicon(path.join('public', '/favicon.ico')));
-let logFormat =
-    '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms ":referrer"';
-app.use(
-    morgan(logFormat, {
-        skip: req => {
-            // don't log status messages
-            return req.originalUrl === '/status';
-        }
-    })
-);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(sessionSecret));
@@ -84,11 +69,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    vary(res, 'Cookie');
-    next();
-});
-
 // inject locale and contrast setting for welsh URLs
 app.use((req, res, next) => {
     const WELSH_LOCALE = 'cy';
@@ -129,15 +109,4 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.locals.request = req;
     return next();
-});
-
-// redirect non-www links to www
-app.use((req, res, next) => {
-    let host = req.headers.host;
-    let domainProd = 'biglotteryfund.org.uk';
-    if (host === domainProd) {
-        return res.redirect(301, req.protocol + '://www.' + domainProd + req.originalUrl);
-    } else {
-        return next();
-    }
 });
