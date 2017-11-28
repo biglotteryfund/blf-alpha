@@ -1,6 +1,5 @@
 {% macro makeContrastLink(mode) %}
-    <a id="js-contrast-{{ mode }}"
-       href="/contrast/{{ mode }}?url={{ getCurrentUrl(request) | urlencode}}"
+    <a href="/contrast/{{ mode }}?url={{ getCurrentUrl(request) | urlencode}}"
        class="js-track-clicks"
        data-category="Change contrast"
        data-action="Click"
@@ -9,10 +8,13 @@
     </a>
 {% endmacro %}
 
-<nav class="accessibility__nav">
+<nav class="accessibility-nav">
     <ul>
         <li><a tabindex="0" href="#content">{{ __("global.accessibility.skipToContent") | safe }}</a></li>
-        <li>{{ makeContrastLink('standard') }}</li>
-        <li>{{ makeContrastLink('high') }}</li>
+        {% if highContrast %}
+            <li>{{ makeContrastLink('standard') }}</li>
+        {% else %}
+            <li>{{ makeContrastLink('high') }}</li>
+        {% endif %}
     </ul>
 </nav>

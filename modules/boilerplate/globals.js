@@ -51,7 +51,7 @@ setGlobal('getHtmlClasses', function() {
     let parts = ['no-js', 'locale--' + locale];
 
     if (highContrast) {
-        parts.push('contrast--hight');
+        parts.push('contrast--high');
     }
 
     return parts.join(' ');
