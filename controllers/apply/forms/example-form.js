@@ -152,9 +152,7 @@ formModel.registerReviewStep({
 formModel.registerSuccessStep({
     title: 'Success',
     processor: function(data) {
-        return new Promise(resolve => {
-            resolve(data);
-        });
+        return Promise.resolve(data);
     }
 });
 

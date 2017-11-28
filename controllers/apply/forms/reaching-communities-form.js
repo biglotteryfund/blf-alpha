@@ -220,7 +220,7 @@ formModel.registerSuccessStep({
                             subject: `Your Reaching Communities application - ${dateNow}`
                         })
                         .catch(err => reject(err))
-                        .then(resolve(formData));
+                        .then(() => resolve(formData));
                 }
             );
         });
