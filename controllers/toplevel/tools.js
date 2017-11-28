@@ -8,7 +8,7 @@ const generateSchema = require('generate-schema');
 
 const routes = require('../routes');
 const models = require('../../models/index');
-const auth = require('../../modules/authed');
+const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const appData = require('../../modules/appData');
 

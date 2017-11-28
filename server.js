@@ -8,10 +8,14 @@ const Raven = require('raven');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 
+const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
+const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
+const sessionMiddleware = require('./middleware/session');
+const localesMiddleware = require('./middleware/locales');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
@@ -22,7 +26,6 @@ if (app.get('env') === 'development') {
 }
 
 const SENTRY_DSN = getSecret('sentry.dsn');
-
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
         environment: process.env.NODE_ENV || 'development',
@@ -40,15 +43,18 @@ if (SENTRY_DSN) {
 viewEngineService.init(app);
 viewGlobalsService.init(app);
 
+// Add global middlewares
 app.use(loggerMiddleware);
-app.use(securityHeadersMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
+app.use(securityHeadersMiddleware);
+app.use(bodyParserMiddleware);
+app.use(sessionMiddleware(app));
+app.use(passportMiddleware());
 app.use(redirectsMiddleware);
-require('./modules/boilerplate/middleware');
+app.use(localesMiddleware(app));
 
+// Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
-
-// configure static files
 app.use(
     `/${config.get('assetVirtualDir')}`,
     express.static(path.join(__dirname, './public'), {

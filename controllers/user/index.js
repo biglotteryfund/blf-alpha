@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../../modules/authed');
+const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const register = require('./register');
 const login = require('./login');
