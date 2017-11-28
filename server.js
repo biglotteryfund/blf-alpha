@@ -1,13 +1,17 @@
 'use strict';
 const express = require('express');
 const app = (module.exports = express());
+const path = require('path');
 const config = require('config');
 const Raven = require('raven');
-const getSecret = require('./modules/get-secret');
 
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
+const favicon = require('serve-favicon');
+
+const getSecret = require('./modules/get-secret');
+const routes = require('./controllers/routes');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -28,18 +32,24 @@ if (SENTRY_DSN) {
     app.use(Raven.requestHandler());
 }
 
-// load the app routing list
-const routes = require('./controllers/routes');
-
 // configure boilerplate
 require('./modules/boilerplate/viewEngine');
 require('./modules/boilerplate/globals');
-require('./modules/boilerplate/static');
 
 app.use(loggerMiddleware);
 app.use(securityHeadersMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
 require('./modules/boilerplate/middleware');
+
+app.use(favicon(path.join('public', '/favicon.ico')));
+
+// configure static files
+app.use(
+    `/${config.get('assetVirtualDir')}`,
+    express.static(path.join(__dirname, './public'), {
+        maxAge: config.get('staticExpiration')
+    })
+);
 
 // load tools endpoint (including status page for load balancer)
 app.use('/', require('./controllers/toplevel/tools'));

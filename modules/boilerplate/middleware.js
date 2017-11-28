@@ -6,8 +6,6 @@ const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
-const favicon = require('serve-favicon');
-const path = require('path');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -20,8 +18,6 @@ const routes = require('../../controllers/routes');
 require('../../modules/boilerplate/auth');
 
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
-
-app.use(favicon(path.join('public', '/favicon.ico')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
