@@ -51,6 +51,12 @@ body.is-ios-editing-survey {
             transform: rotate(180deg);
             height: 100%;
             width: 100%;
+
+            @include on-interact() {
+                path {
+                    fill: palette('soft-grey');
+                }
+            }
         }
     }
     &.is-active {
