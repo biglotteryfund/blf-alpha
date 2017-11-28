@@ -1,7 +1,6 @@
 'use strict';
 const app = require('../../server');
 const globals = require('./globals');
-const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
@@ -24,16 +23,7 @@ require('../../modules/boilerplate/auth');
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
 
 app.use(favicon(path.join('public', '/favicon.ico')));
-let logFormat =
-    '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms ":referrer"';
-app.use(
-    morgan(logFormat, {
-        skip: req => {
-            // don't log status messages
-            return req.originalUrl === '/status';
-        }
-    })
-);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(sessionSecret));
