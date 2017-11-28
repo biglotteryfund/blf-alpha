@@ -24,7 +24,7 @@
     "prepush": "npm test"
   },
   "lint-staged": {
-    "{assets,bin,controllers,middleware,models,modules,test}/**/*.js": [
+    "{assets,controllers,integration-tests,lambda,middleware,models,modules}/**/*.js": [
       "prettier --write",
       "eslint",
       "git add"
@@ -39,7 +39,7 @@
       "git add"
     ],
     "controllers/routes.js": [
-      "./bin/scripts/generate-cloudfront-config.js"
+      "./bin/generate-cloudfront-config"
     ]
   },
   "prettier": {

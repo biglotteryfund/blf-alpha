@@ -44,7 +44,7 @@ In order to do this, you'll need to:
 2. Obtain AWS credentials with permissions to access EC2 Parameter Store
 3. Create a directory called `/etc/blf/` and make sure it is writeable. This is where application secrets will be downloaded to.
 4. Create an `.env` in the root of the project and ask another member of the team for the values to go in here. These values are used for deployments.
-5. Run `./bin/scripts/get-secrets`. This will download the application secrets to `/etc/blf/parameters.json`.
+5. Run `./bin/get-secrets`. This will download the application secrets to `/etc/blf/parameters.json`.
 
 #### 3. Install dependencies:
 
@@ -151,7 +151,7 @@ Once a change is merged to `master`, Travis will build and deploy it (branches a
 Deploys to **production** are manual. Once a deploy has been sanity checked on **tests**, it can be advanced to **production** via AWS CodeDeploy, either by using the web console, or the bundled deploy script within the app:
 
 ```
-./bin/scripts/deploy.js --live
+./bin/deploy --live
 ```
 
 This command will begin a deployment by listing the previous 10 releases deployed to **test** and asking which build you wish to deploy.

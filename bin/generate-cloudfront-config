@@ -4,10 +4,10 @@ const fs = require('fs');
 const _ = require('lodash');
 const config = require('config');
 
-const routes = require('../../controllers/routes');
-const utilities = require('../../modules/utilities');
-const urlTools = require('../../modules/urls');
-const CF_CONFIGS = require('../../config/app/distributions');
+const routes = require('../controllers/routes');
+const utilities = require('../modules/utilities');
+const urlTools = require('../modules/urls');
+const CF_CONFIGS = require('../config/app/distributions');
 
 // lookup cookies from app config
 const cookies = config.get('cookies');
@@ -141,7 +141,7 @@ for (let environment in CF_CONFIGS) {
     const behaviours = generateBehaviours(distribution, environment);
 
     try {
-        const confPath = path.join(__dirname, `../cloudfront/${environment}.json`);
+        const confPath = path.join(__dirname, `../config/cloudfront/${environment}.json`);
         const confData = JSON.stringify(behaviours, null, 4);
         fs.writeFileSync(confPath, confData);
         console.log(`An updated config for the "${environment}" distribution was saved in ${confPath}`);
