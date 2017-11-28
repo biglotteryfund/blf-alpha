@@ -72,17 +72,17 @@ function createStep(step) {
 /**
  * This function allows us to model a form using a schema.
  * Main API is to register "steps":
- * - formModel({ id: 'example', title: 'Example' }).registerStep({});
+ * - formModel({ id: 'example', title: 'Example', shortCode: 'FOO' }).registerStep({});
  * Each step equates to a single page in a multi-page form.
  */
-function createFormModel({ id, title }) {
+function createFormModel({ id, title, shortCode }) {
     let steps = [];
     let reviewStep;
     let successStep;
     return {
         id: id,
         title: title,
-        uuid: `RC-${shortid()}`,
+        uuid: `${shortCode}-${shortid()}`,
         getSessionProp: function(stepNo) {
             const baseProp = `form.${id}`;
             if (stepNo) {
@@ -100,6 +100,15 @@ function createFormModel({ id, title }) {
         getStepsWithValues: function(data) {
             return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
         },
+        getStepValuesFlattened: function(data) {
+            let obj = {};
+            for (let d in data) {
+                for (let key in data[d]) {
+                    obj[key] = data[d][key];
+                }
+            }
+            return obj;
+        },
         registerReviewStep: function(review) {
             reviewStep = review;
         },
@@ -111,6 +120,11 @@ function createFormModel({ id, title }) {
             return reviewStep;
         },
         registerSuccessStep: function(success) {
+            if (!success.processor) {
+                throw new Error(
+                    'The success processor is required and must be a function which returns a Promise instance'
+                );
+            }
             successStep = success;
         },
         getSuccessStep: function() {

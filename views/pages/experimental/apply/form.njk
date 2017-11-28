@@ -14,11 +14,11 @@
     {% endif %}
 {% endmacro %}
 
-{% macro inputText(field) %}
+{% macro inputText(field, type="text") %}
     <label class="ff-label" for="field-{{ field.name }}">{{ field.label }}</label>
     <input
         class="ff-text"
-        type="text"
+        type="{{ type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         value="{% if field.value %}{{ field.value }}{% endif %}"
@@ -118,8 +118,8 @@
                             {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
                             <div class="form-field__main">
                                 <div class="form-field__body">
-                                    {% if field.type === 'text' %}
-                                        {{ inputText(field) }}
+                                    {% if field.type === 'text' or field.type === 'email' %}
+                                        {{ inputText(field, field.type) }}
                                     {% endif %}
                                     {% if field.type === 'textarea' %}
                                         {{ inputTextarea(field) }}

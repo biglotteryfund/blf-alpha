@@ -1,10 +1,15 @@
-const createFormModel = require('./create-form-model');
 const { check } = require('express-validator/check');
 const { castArray } = require('lodash');
+const moment = require('moment');
+
+const app = require('../../../server');
+const mail = require('../../../modules/mail');
+const createFormModel = require('./create-form-model');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
-    title: 'Apply For A Grant Over £10,000'
+    title: 'Apply For A Grant Over £10,000',
+    shortCode: 'RC'
 });
 
 formModel.registerStep({
@@ -118,7 +123,61 @@ formModel.registerStep({
                             .trim()
                             .not()
                             .isEmpty()
+                            .withMessage('Organisation must be provided');
+                    }
+                }
+            ]
+        }
+    ]
+});
+
+formModel.registerStep({
+    name: 'Your Details',
+    fieldsets: [
+        {
+            legend: 'Your Details',
+            fields: [
+                {
+                    type: 'text',
+                    name: 'first-name',
+                    label: 'First Name',
+                    isRequired: true,
+                    validator: function(field) {
+                        return check(field.name)
+                            .escape()
+                            .trim()
+                            .not()
+                            .isEmpty()
                             .withMessage('First-name must be provided');
+                    }
+                },
+                {
+                    type: 'text',
+                    name: 'last-name',
+                    label: 'Last Name',
+                    isRequired: true,
+                    validator: function(field) {
+                        return check(field.name)
+                            .escape()
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('Last-name must be provided');
+                    }
+                },
+                {
+                    type: 'email',
+                    name: 'email',
+                    label: 'Email address',
+                    isRequired: true,
+                    validator: function(field) {
+                        return check(field.name)
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('Please provide your email address')
+                            .isEmail()
+                            .withMessage('Please provide a valid email address');
                     }
                 }
             ]
@@ -133,7 +192,39 @@ formModel.registerReviewStep({
 
 formModel.registerSuccessStep({
     title: 'We Have Received Your Idea',
-    processor: function() {}
+    processor: function(formData) {
+        return new Promise((resolve, reject) => {
+            let summary = formModel.getStepsWithValues(formData);
+            let flatData = formModel.getStepValuesFlattened(formData);
+            const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+
+            let to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
+
+            // generate HTML for email
+            app.render(
+                'emails/applicationSummary',
+                {
+                    summary: summary,
+                    form: formModel,
+                    data: flatData
+                },
+                (err, html) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    mail
+                        .send({
+                            html: html,
+                            sendTo: to,
+                            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                            subject: `Your Reaching Communities application - ${dateNow}`
+                        })
+                        .catch(err => reject(err))
+                        .then(() => resolve(formData));
+                }
+            );
+        });
+    }
 });
 
 module.exports = formModel;

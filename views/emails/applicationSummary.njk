@@ -1,0 +1,28 @@
+<p>Dear {{ data['first-name'] }},</p>
+<p>Thank you for submitting your idea. Reference <code>{{ form.uuid }}</code>. A local funding officer will contact you within 28 days.</p>
+<p>Here's the data you submitted to us:</p>
+
+<pre>======</pre>
+
+{% for step in summary %}
+    <h2>{{ step.name }}</h2>
+    {% for fieldset in step.fieldsets %}
+        {% for field in fieldset.fields %}
+            {% if field.value %}
+                <h3>{{ field.label }}</h3>
+                {% if field.type === 'textarea' %}
+                    <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
+                {% elseif field.type === 'checkbox' %}
+                    <p>{{ field.value | joinIfArray(', ') }}</p>
+                {% else %}
+                    <p>{{ field.value }}</p>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+
+<pre>======</pre>
+
+<p>Thanks,</p>
+<p><strong>The Big Lottery Fund</strong></p>
