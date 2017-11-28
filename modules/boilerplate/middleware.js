@@ -1,6 +1,5 @@
 'use strict';
 const app = require('../../server');
-const globals = require('./globals');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
@@ -13,6 +12,10 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const models = require('../../models/index');
 const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
+
+const setViewGlobal = (name, value) => {
+    return app.get('engineEnv').addGlobal(name, value);
+};
 
 // load auth strategy
 require('../../modules/boilerplate/auth');
@@ -62,9 +65,9 @@ i18n.expressBind(app, {
 // handle overlays
 app.use((req, res, next) => {
     if (req.flash('showOverlay')) {
-        globals.set('showOverlay', true);
+        setViewGlobal('showOverlay', true);
     } else {
-        globals.set('showOverlay', false);
+        setViewGlobal('showOverlay', false);
     }
     next();
 });
@@ -83,15 +86,15 @@ app.use((req, res, next) => {
     }
 
     // store locale prefs globally
-    globals.set('locale', req.i18n.getLocale());
-    globals.set('localePrefix', localePrefix);
+    setViewGlobal('locale', req.i18n.getLocale());
+    setViewGlobal('localePrefix', localePrefix);
 
     // get a11y contrast preferences
     let contrastPref = req.cookies[config.get('cookies.contrast')];
     if (contrastPref && contrastPref === 'high') {
-        globals.set('highContrast', true);
+        setViewGlobal('highContrast', true);
     } else {
-        globals.set('highContrast', false);
+        setViewGlobal('highContrast', false);
     }
 
     return next();
@@ -99,7 +102,7 @@ app.use((req, res, next) => {
 
 // get routes / current section
 app.use((req, res, next) => {
-    globals.set('routes', routes.sections);
+    setViewGlobal('routes', routes.sections);
     return next();
 });
 
