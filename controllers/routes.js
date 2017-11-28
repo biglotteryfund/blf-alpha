@@ -402,6 +402,18 @@ const otherUrls = [
         live: true
     },
     {
+        path: '/global-content/programmes/england/awards-for-all-england',
+        isPostable: true,
+        allowQueryStrings: true,
+        live: false
+    },
+    {
+        path: '/prog_a4a_eng',
+        isPostable: true,
+        allowQueryStrings: true,
+        live: false
+    },
+    {
         path: '/surveys',
         isPostable: false,
         allowQueryStrings: true,

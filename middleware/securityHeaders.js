@@ -3,7 +3,15 @@ const helmet = require('helmet');
 
 // these URLs won't get the helmet header protection
 // @TODO this should only affect the legacy homepage
-const pathsExemptFromHelmet = ['/', '/welsh', '/legacy', '/funding/funding-finder', '/welsh/funding/funding-finder'];
+const pathsExemptFromHelmet = [
+    '/',
+    '/welsh',
+    '/legacy',
+    '/funding/funding-finder',
+    '/welsh/funding/funding-finder',
+    '/global-content/programmes/england/awards-for-all-england',
+    '/prog_a4a_eng'
+];
 
 const defaultSecurityDomains = [
     "'self'",

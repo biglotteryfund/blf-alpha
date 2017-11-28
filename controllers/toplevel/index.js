@@ -134,6 +134,21 @@ module.exports = (pages, sectionPath, sectionId) => {
         return proxyLegacy.proxyLegacyPage(req, res, null, '/');
     });
 
+    function proxyAwardsForAll(req, res) {
+        return proxyLegacy.proxyLegacyPage(req, res, dom => {
+            const applyTab = dom.window.document.querySelector('#mainContentContainer .panel:last-of-type');
+            applyTab.innerHTML = `
+                <p>Replacement tab content</p>
+            `;
+            return dom;
+        });
+    }
+
+    router.get('/prog_a4a_eng', proxyAwardsForAll);
+    router.post('/prog_a4a_eng', proxyLegacy.postToLegacyForm);
+    router.get('/global-content/programmes/england/awards-for-all-england', proxyAwardsForAll);
+    router.post('/global-content/programmes/england/awards-for-all-england', proxyLegacy.postToLegacyForm);
+
     // send form data to the (third party) email newsletter provider
     router.post(
         '/ebulletin',
