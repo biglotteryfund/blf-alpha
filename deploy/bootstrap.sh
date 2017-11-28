@@ -21,7 +21,7 @@ then
 fi
 
 # run environment var script to add them to the current shell
-/var/www/biglotteryfund/bin/scripts/get-secrets --environment=$APP_ENV
+/var/www/biglotteryfund/scripts/get-secrets --environment=$APP_ENV
 
 # specify NODE_ENV based on deploy group ID
 nginx_config=/var/www/biglotteryfund/config/app/server.conf

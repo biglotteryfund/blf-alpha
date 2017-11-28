@@ -6,7 +6,6 @@
 always_restart.txt
 assets.json
 assets/sass/_config.scss
-bin/cloudfront/backup
 deploy.json
 node_modules
 public/build

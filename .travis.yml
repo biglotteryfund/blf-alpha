@@ -12,7 +12,7 @@ script:
 - npm test
 - npm prune --production > /dev/null 2>&1
 before_deploy:
-- sh bin/scripts/store_deploy_info.sh
+- sh deploy/store_deploy_info.sh
 - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
 - mkdir -p dpl_cd_upload
 - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip

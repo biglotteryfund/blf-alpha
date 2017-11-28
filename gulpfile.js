@@ -21,7 +21,7 @@ const DIRS = {
     }
 };
 
-const MANIFEST_PATH = './bin/assets.json';
+const MANIFEST_PATH = './config/assets.json';
 
 gulp.task('clean', function() {
     return del([buildSummary.buildDirBase + '/**/*', MANIFEST_PATH]);
