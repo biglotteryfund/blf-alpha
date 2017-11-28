@@ -7,6 +7,7 @@ const Raven = require('raven');
 
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
+const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
 const favicon = require('serve-favicon');
 
@@ -39,6 +40,7 @@ require('./modules/boilerplate/globals');
 app.use(loggerMiddleware);
 app.use(securityHeadersMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
+app.use(redirectsMiddleware);
 require('./modules/boilerplate/middleware');
 
 app.use(favicon(path.join('public', '/favicon.ico')));

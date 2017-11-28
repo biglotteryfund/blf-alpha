@@ -110,14 +110,3 @@ app.use((req, res, next) => {
     res.locals.request = req;
     return next();
 });
-
-// redirect non-www links to www
-app.use((req, res, next) => {
-    let host = req.headers.host;
-    let domainProd = 'biglotteryfund.org.uk';
-    if (host === domainProd) {
-        return res.redirect(301, req.protocol + '://www.' + domainProd + req.originalUrl);
-    } else {
-        return next();
-    }
-});
