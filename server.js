@@ -6,6 +6,7 @@ const config = require('config');
 const Raven = require('raven');
 
 const viewEngineService = require('./modules/viewEngine');
+const viewGlobalsService = require('./modules/viewGlobals');
 
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
@@ -37,7 +38,7 @@ if (SENTRY_DSN) {
 
 // Configure views
 viewEngineService.init(app);
-require('./modules/boilerplate/globals');
+viewGlobalsService.init(app);
 
 app.use(loggerMiddleware);
 app.use(securityHeadersMiddleware);

@@ -6,11 +6,11 @@ const path = require('path');
 const fs = require('fs');
 const generateSchema = require('generate-schema');
 
-const globals = require('../../modules/boilerplate/globals');
 const routes = require('../routes');
 const models = require('../../models/index');
 const auth = require('../../modules/authed');
 const cached = require('../../middleware/cached');
+const appData = require('../../modules/appData');
 
 const LAUNCH_DATE = moment();
 
@@ -26,7 +26,7 @@ router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
-    const appData = globals.get('appData');
+
     res.send({
         APP_ENV: process.env.NODE_ENV,
         DEPLOY_ID: appData.deployId,
