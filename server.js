@@ -53,19 +53,8 @@ app.use(passportMiddleware());
 app.use(redirectsMiddleware);
 app.use(localesMiddleware(app));
 
+// Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
-
-// configure static files
-app.use(
-    `/${config.get('assetVirtualDir')}`,
-    express.static(path.join(__dirname, './public'), {
-        maxAge: config.get('staticExpiration')
-    })
-);
-
-app.use(favicon(path.join('public', '/favicon.ico')));
-
-// configure static files
 app.use(
     `/${config.get('assetVirtualDir')}`,
     express.static(path.join(__dirname, './public'), {
