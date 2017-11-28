@@ -66,7 +66,7 @@ router.get('/status/pages', (req, res) => {
     });
 });
 
-router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), (req, res) => {
+router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), cached.noCache, (req, res) => {
     models.Survey.findAll({
         include: [
             {
