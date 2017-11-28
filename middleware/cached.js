@@ -1,13 +1,19 @@
 'use strict';
-
 const csurf = require('csurf');
+const vary = require('vary');
 const config = require('config');
 const cacheControl = require('express-cache-controller');
 
 // Apply default cache-control headers
-const defaultCacheControl = cacheControl({
-    maxAge: config.get('viewCacheExpiration')
-});
+const defaultHeaders = [
+    (req, res, next) => {
+        vary(res, 'Cookie');
+        next();
+    },
+    cacheControl({
+        maxAge: config.get('viewCacheExpiration')
+    })
+];
 
 // Apply consistent no-cache headers
 const noCache = (req, res, next) => {
@@ -19,7 +25,7 @@ const noCache = (req, res, next) => {
 const csrfProtection = [csurf(), noCache];
 
 module.exports = {
-    defaultCacheControl,
+    defaultHeaders,
     noCache,
     csrfProtection
 };

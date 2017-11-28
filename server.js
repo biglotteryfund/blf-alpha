@@ -38,7 +38,7 @@ require('./modules/boilerplate/static');
 
 app.use(loggerMiddleware);
 app.use(securityHeadersMiddleware);
-app.use(cachedMiddleware.defaultCacheControl);
+app.use(cachedMiddleware.defaultHeaders);
 require('./modules/boilerplate/middleware');
 
 // load tools endpoint (including status page for load balancer)

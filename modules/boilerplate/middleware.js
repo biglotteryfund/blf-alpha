@@ -8,7 +8,6 @@ const config = require('config');
 const session = require('express-session');
 const favicon = require('serve-favicon');
 const path = require('path');
-const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -71,11 +70,6 @@ app.use((req, res, next) => {
     } else {
         globals.set('showOverlay', false);
     }
-    next();
-});
-
-app.use((req, res, next) => {
-    vary(res, 'Cookie');
     next();
 });
 
