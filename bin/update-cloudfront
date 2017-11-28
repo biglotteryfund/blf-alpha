@@ -11,7 +11,7 @@ const rp = require('request-promise');
 const has = require('lodash/has');
 require('dotenv').config();
 
-const CF_CONFIGS = require('../../config/app/distributions');
+const CF_CONFIGS = require('../config/app/distributions');
 
 const argv = require('yargs')
     .boolean('l')
@@ -57,7 +57,7 @@ function getEnvStatus(env) {
 }
 
 const configFilename = IS_LIVE ? 'live' : 'test';
-const configPath = `bin/cloudfront/${configFilename}.json`;
+const configPath = `config/cloudfront/${configFilename}.json`;
 const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
 
 // are we using a custom config (eg. a backup file)?
@@ -140,7 +140,7 @@ function beginUpdate(cacheBehaviors) {
             // store the existing behaviour config locally, just in case...
             try {
                 const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-                const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
+                const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
                 let existingBehaviours = existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items;
                 fs.writeFileSync(confPath, JSON.stringify(existingBehaviours, null, 4));
                 console.log('A copy of the existing config was saved in ' + confPath);

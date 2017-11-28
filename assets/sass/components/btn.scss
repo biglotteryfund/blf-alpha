@@ -141,6 +141,38 @@ $btnConf: (
     margin-right: 5px;
 }
 
+.btn--start {
+    .icon--arrow-right {
+        fill: currentColor;
+        width: 14px;
+        height: 14px;
+        margin-left: 2px;
+    }
+}
+
+.btn--link {
+    color: palette('blue-text');
+    background-color: transparent;
+    transition: color 0.1s ease-in-out;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    border: none;
+    border-radius: 0;
+    cursor: inherit;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue-text'), 20%);
+        background-color: transparent;
+    }
+}
+
 .btn--carousel {
     position: absolute;
     top: 50%;

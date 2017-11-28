@@ -1,8 +1,5 @@
 'use strict';
-const app = require('../../server');
 const helmet = require('helmet');
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
 
 // these URLs won't get the helmet header protection
 // @TODO this should only affect the legacy homepage
@@ -50,14 +47,10 @@ const helmetSettings = helmet({
     }
 });
 
-app.use((req, res, next) => {
+module.exports = (req, res, next) => {
     if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
         next();
     } else {
         helmetSettings(req, res, next);
     }
-});
-
-module.exports = {
-    csrfProtection: csrfProtection
 };

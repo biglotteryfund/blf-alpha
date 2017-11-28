@@ -1,3 +1,7 @@
+/* =========================================================================
+   Tabs
+   ========================================================================= */
+
 // the tabs themselves (eq. square, blocky elements)
 .tabs__tabset {
     background-color: #ffffff;
@@ -42,24 +46,26 @@
     @media print {
         display: none;
     }
-
 }
 
 .tab__pane--accordion {
-
-    $headerHorizontalSpace: 40px;
-
     // accordion headers (also shown for non-JS users)
     header {
         a {
-            display: block;
-            background-color: palette('blue');
-            padding: 20px $headerHorizontalSpace;
             color: #ffffff;
-            text-decoration: none;
-            margin-bottom: 2px;
+            background-color: palette('blue');
             font-size: 20px;
             font-weight: bold;
+            text-decoration: none;
+
+            display: block;
+            margin-bottom: 2px;
+            padding: $spacingUnit;
+
+            @include mq(tablet) {
+                padding-left: $spacingUnit * 2;
+                padding-right: $spacingUnit * 2;
+            }
 
             @media print {
                 background-color: #eeeeee;
@@ -77,12 +83,16 @@
             position: relative;
 
             .tab__arrow {
+                pointer-events: none;
+                width: 45px;
+                height: 100%;
                 position: absolute;
                 top: 0;
-                right: $headerHorizontalSpace;
-                height: 100%;
-                width: 45px;
-                pointer-events: none;
+                right: $spacingUnit;
+
+                @include mq(tablet) {
+                    right: $spacingUnit * 2;
+                }
 
                 svg {
                     height: 100%;
@@ -103,14 +113,11 @@
             }
         }
     }
-
 }
 
 // the tab panes (eg. the content boxes displayed when tabs are clicked)
 .tab__pane {
-
     .js-on & {
-
         @include mq('tablet') {
             header {
                 display: none;

@@ -53,6 +53,11 @@ describe('CMS Tools', function() {
     });
 
     describe('authorisation for tools', () => {
+        let csrfToken;
+        beforeEach(async () => {
+            csrfToken = await helper.getCsrfToken(agent, '/user/login');
+        });
+
         it('should block access to staff-only tools', done => {
             agent
                 .get('/tools/locales/')
@@ -65,16 +70,14 @@ describe('CMS Tools', function() {
         });
 
         it('should not allow unauthorised access to staff-only tools', done => {
-            const formData = {
-                username: 'test@test.com',
-                password: 'wrong'
-            };
-
             agent
                 .post('/user/login')
-                .send(formData)
+                .send({
+                    _csrf: csrfToken,
+                    username: 'test@test.com',
+                    password: 'wrong'
+                })
                 .end((err, res) => {
-                    res.should.have.cookie(config.get('cookies.session'));
                     res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
                     return agent
                         .get('/tools/locales/')
@@ -87,26 +90,25 @@ describe('CMS Tools', function() {
         });
 
         it('should allow authorised access to staff-only tools', done => {
-            const formData = {
-                username: validUser.username,
-                password: validUser.password,
-                redirectUrl: '/tools/locales/'
-            };
-
             agent
                 .post('/user/login')
-                .send(formData)
+                .send({
+                    _csrf: csrfToken,
+                    username: validUser.username,
+                    password: validUser.password,
+                    redirectUrl: '/tools/locales/'
+                })
                 .redirects(0)
                 .end((err, res) => {
-                    res.should.have.cookie(config.get('cookies.session'));
                     res.should.have.status(302);
                     res.should.redirectTo('/tools/locales/');
+                    res.should.redirectTo('/tools/locales/');
                     return agent.get('/tools/locales/').end((err, res) => {
+                        res.should.have.status(200);
                         res.should.have.status(200);
                         done();
                     });
                 });
         });
     });
-
 });

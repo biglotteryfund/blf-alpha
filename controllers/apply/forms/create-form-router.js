@@ -1,6 +1,7 @@
 const { get, isEmpty, set } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
+const cached = require('../../../middleware/cached');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -18,12 +19,15 @@ module.exports = function(router, formModel) {
         const prevStepUrl = baseUrl => {
             if (currentStepNumber > 1) {
                 return `${baseUrl}/${currentStepNumber - 1}`;
+            } else {
+                return baseUrl;
             }
         };
 
         function renderStep(req, res, errors = []) {
             const stepData = get(req.session, formModel.getSessionProp(currentStepNumber), {});
             res.render('pages/experimental/apply/form', {
+                csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
                 prevStepUrl: prevStepUrl(req.baseUrl),
@@ -38,7 +42,7 @@ module.exports = function(router, formModel) {
 
         router
             .route(`/${currentStepNumber}`)
-            .get(function(req, res) {
+            .get(cached.csrfProtection, function(req, res) {
                 if (currentStepNumber > 1) {
                     const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
                     if (isEmpty(previousStepData)) {
@@ -50,7 +54,7 @@ module.exports = function(router, formModel) {
                     renderStep(req, res);
                 }
             })
-            .post(step.getValidators(), function(req, res) {
+            .post(step.getValidators(), cached.csrfProtection, function(req, res) {
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
@@ -68,12 +72,14 @@ module.exports = function(router, formModel) {
             });
     });
 
-    router.get('/review', function(req, res) {
+    router.get('/review', cached.noCache, function(req, res) {
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
             res.render('pages/experimental/apply/review', {
+                form: formModel,
+                review: formModel.getReviewStep(),
                 summary: formModel.getStepsWithValues(formData),
                 baseUrl: req.baseUrl,
                 procceedUrl: `${req.baseUrl}/success`
@@ -81,12 +87,24 @@ module.exports = function(router, formModel) {
         }
     });
 
-    router.get('/success', function(req, res) {
+    router.get('/success', cached.noCache, function(req, res) {
         const formData = get(req.session, formModel.getSessionProp(), {});
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.render('pages/experimental/apply/success');
+            let successStep = formModel.getSuccessStep();
+            let processSuccess = successStep.processor(formData);
+            processSuccess
+                .then(success => {
+                    res.render('pages/experimental/apply/success', {
+                        form: formModel,
+                        success: successStep
+                    });
+                })
+                .catch(err => {
+                    // @TODO handle this
+                    res.send(err);
+                });
         }
     });
 

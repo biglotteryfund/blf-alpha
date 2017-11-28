@@ -1,6 +1,8 @@
 'use strict';
 const config = require('config');
 const importFresh = require('import-fresh');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
 // use the test database
 process.env.CUSTOM_DB = config.get('database-test');
@@ -41,6 +43,16 @@ const truncateUsers = () => {
     return models.Users.destroy({ where: {} });
 };
 
+function getCsrfToken(agent, urlPath) {
+    return new Promise(resolve => {
+        agent.get(urlPath).end((err, res) => {
+            const dom = new JSDOM(res.text);
+            const csrfToken = dom.window.document.querySelector('input[name=_csrf]').value;
+            resolve(csrfToken);
+        });
+    });
+}
+
 module.exports = {
     before: callback => {
         hook = captureStream(process.stdout);
@@ -54,5 +66,6 @@ module.exports = {
         hook.unhook();
     },
     createTestUser: createTestUser,
-    truncateUsers: truncateUsers
+    truncateUsers: truncateUsers,
+    getCsrfToken: getCsrfToken
 };

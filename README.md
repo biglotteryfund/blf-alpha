@@ -4,16 +4,16 @@
 
 ## Overview
 
-This projects contains initial work on a redesigned website for the Big Lottery Fund.
+This projects contains source-code for the redesigned website for the Big Lottery Fund.
 
 **Technologies used:**
 
 - [Express](https://expressjs.com/) running on [Node.js](https://nodejs.org/en/)
-- Build tooling via [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/) and [Gulp](https://gulpjs.com/) for bundling and versioning static assets
-- A MySQL instance running on AWS RDS used to power a rudimentary CMS for posting/updating news articles to the homepage
-- The app itself runs via [Phusion Passenger](https://www.phusionpassenger.com/) which is integrated into [NGINX](https://www.nginx.com/resources/wiki/) for node process management.
+- Build tooling via [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/), and [Gulp](https://gulpjs.com/)
+- A MySQL instance running on AWS RDS
+- App running through [Phusion Passenger](https://www.phusionpassenger.com/) via [NGINX](https://www.nginx.com/resources/wiki/)
 
-## Getting Started
+## Getting started
 
 To get up and running with the app, here's what you need to do:
 
@@ -21,62 +21,62 @@ To get up and running with the app, here's what you need to do:
 
 You'll need the following tools installed:
 
-- Node.js (https://nodejs.org/en/download/)
-- Git (https://help.github.com/articles/set-up-git/)
-- Some sort of terminal app (OS X comes with one)
+- [Node.js](https://nodejs.org/en/download/) v8+
+- [Git](https://help.github.com/articles/set-up-git/)
 
-### Setup Instructions
+### Setup instructions
 
 Run these commands in your terminal of choice:
 
-#### 1. Clone This Repository
+#### 1. Clone this repository
 
 ```
 git clone git@github.com:biglotteryfund/blf-alpha.git
 ```
 
-#### 2. Configure Secrets
+#### 2. Download application secrets
 
-You'll also need the app secrets – config items that allow it to connect to the database (used for content), send emails (when customers order free items), etc.
+Next, you'll need to download the application secrets. These are configuration settings that allow the application to external services like a database or email sending service.
 
-In order to do this, you'll need to do the following:
+In order to do this, you'll need to:
 
-- Obtain AWS credentials for the team's account (with permission to access EC2 Parameter Store)
-- [Configure the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) on your machine
-- Make sure the directory `/etc/blf/` exists and is writeable (this is where application secrets will be downloaded to).
-- Copy `.env.example` to `.env` and populate it with the missing values (ask another member of the team for these). These missing values are used for deployments.
-- Run `./bin/scripts/get-secrets` – this will download the application secrets to `/etc/blf/parameters.json`.
+1. [Configure the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) on your machine
+2. Obtain AWS credentials with permissions to access EC2 Parameter Store
+3. Create a directory called `/etc/blf/` and make sure it is writeable. This is where application secrets will be downloaded to.
+4. Create an `.env` in the root of the project and ask another member of the team for the values to go in here. These values are used for deployments.
+5. Run `./bin/get-secrets`. This will download the application secrets to `/etc/blf/parameters.json`.
 
-#### 3. Install Dependencies:
+#### 3. Install dependencies:
+
+From the root of the project run:
 
 ```
-cd blf-alpha
 npm install
 ```
 
-#### 4. Run A Build
+#### 4. Run a build
 
-Check the install worked by running a build.
+Check the install worked by running a build and tests.
 
 ```
-npm run build
+npm run build && npm test
 ```
 
-#### 5. Start The App Server:
+#### 5. Start the application:
 
 ```
 npm run startDev
 ```
 
-#### 6. Access The Application
+#### 6. Open the website
 
-The app should now be running. Visit the app in your browser and confirm it's running.
+The application should now be running. Visit the following link in your browser to confirm everything is running.
 
 ```
 http://localhost:3000
 ```
 
-#### 7. Watch For Changes
+#### 7. Watch files for changes
 
 Watch static assets and run an incremental build when files change.
 
@@ -86,24 +86,44 @@ npm run watch
 
 ## Testing
 
-The app comes with several layers of tests to ensure everything works as expected. Tests are still in-development as the app increases in size/scope, but the framework is in place for them.
+The app comes with several layers of tests to ensure everything works as expected. You can run all the tests using:
 
-You can run them all with `gulp test` (or `npm test`) but here are the individual suites:
+```
+npm test
+```
 
-### Integration tests
-Currently we're using PhantomJS to verify that client-side JavaScript tools work as expected. Run `gulp phantomjs` to run these tests, or load `/test/runner.html` in a browser to see them in-place.
 
 ### Unit tests
 
-We're using Mocha to run these tests which check that the web server starts, serves pages, shows 404s and handles invalid data. You can just run `mocha` from the root directory, or just run `gulp mocha` (which will build the required client-side assets before testing).
+Unit tests are written using mocha. These tests are colocated next to the individual files they test. Unit tests can be run using:
+
+```
+npm run test-unit
+```
+
+### Integration tests
+
+Integration tests are stored under `integration-tests/` and check to see that critical server routes are working as expected by starting up a test instance of the application server. Integration tests can be run using:
+
+```
+npm run test-integration
+```
 
 ### Security tests
 
-[Snyk](https://snyk.io/) is in place to test for outdated npm packages with known security vulnerabilities. Run `snyk test` to verify these are secure.
+[Snyk](https://snyk.io/) is in place to check for outdated dependencies with known security vulnerabilities. You can run these checks manually using:
+
+```
+npm run test-deps
+```
 
 ### Linting
 
-We have ESLint to check syntax errors. Run `gulp lint` to verify there's no missing semicolons etc. See `.eslintrc.js` for rules.
+We have ESLint to check syntax errors. Lint checks are run automatically on a pre-push git hook and in CI. You can run these checks directly using:
+
+```
+npm run lint
+```
 
 ## Deployment
 
@@ -111,33 +131,31 @@ We have ESLint to check syntax errors. Run `gulp lint` to verify there's no miss
 
 There are three main environments:
 
-- Test - Deployed to automatically each time `master` builds
-- Production - Deployed to manually by triggering a release
+- **Test** - Deployed to automatically each time `master` builds
+- **Production** - Deployed to manually by triggering a release
 
 All three environments run on AWS behind CloudFront to ensure parity between environments.
 
-Environments share a MySQL instance runing on an RDS which has multiple databases used for the app: `website-dev` (for development and also the `TEST` environment), `website-test` (for the automated tests, eg. so they can simulate news posting etc) and `website` (for `PRODUCTION`).
+Environments share a RDS MySQL instance which has multiple databases used for the app:
+
+- `website-dev` for local development and the test environment
+- `website-test` for automated tests
+- `website` for the production environment
 
 ### Deployment Process
 
-#### Travis Builds
-
-Builds are handled by [Travis](https://travis-ci.org/biglotteryfund/blf-alpha). Commits on `master` are automatically pushed to the `TEST` environment via AWS CodeDeploy. These deploys happen in-place by defauly with the option of deploying in "blue/green" style and replacing servers altogether.
-
-#### Automatic Deployment To Test
-
-Once a change is merged to `master`, Travis will build and deploy it (branches are also built, but not deployed). A revision will be uploaded to an S3 bucket, then deployed to AWS via CodeDeploy. Deployments are configured for Travis in `.travis.yml`. Amazon CodeDeploy settings are in `appspec.yml`.
-
-The build script generates a zip file of non-dev npm modules and minified static assets. This is stored permanently for future deployments where required.
+Once a change is merged to `master`, Travis will build and deploy it (branches are also built, but not deployed). A revision will be uploaded to an S3 bucket, then deployed to AWS via CodeDeploy.
 
 #### Deployment to production
 
-Deploys to `PRODUCTION` are manual (for now). Once a deploy has been sanity checked on `TEST`, it can be advanced to `PRODUCTION` via AWS CodeDeploy, either by using the web console, or the bundled deploy script within the app:
+Deploys to **production** are manual. Once a deploy has been sanity checked on **tests**, it can be advanced to **production** via AWS CodeDeploy, either by using the web console, or the bundled deploy script within the app:
 
 ```
-./bin/scripts/deploy.js --live
+./bin/deploy --live
 ```
 
-This command will begin a deployment by listing the previous 10 releases deployed to `TEST` and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. Progress updates will be posted to Slack as the deployment proceeds.
+This command will begin a deployment by listing the previous 10 releases deployed to **test** and asking which build you wish to deploy.
+
+It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. Progress updates will be posted to Slack as the deployment proceeds.
 
 Please speak to [@mattandrews](https://github.com/mattandrews) or [@davidrapson](https://github.com/davidrapson) to obtain credentials to deploy.

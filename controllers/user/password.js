@@ -11,7 +11,6 @@ const getSecret = require('../../modules/get-secret');
 const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 const requestResetForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     res.render('user/resetpassword', {
         mode: 'enterEmail',
         makeUserLink: makeUserLink,
@@ -41,7 +40,6 @@ const checkUserRequestedPasswordReset = (userId, callbackSuccess, callbackError)
 };
 
 const changePasswordForm = (req, res) => {
-    res.cacheControl = { maxAge: 0 };
     let token = req.query.token ? req.query.token : res.locals.token;
     if (!token) {
         return res.redirect(userBasePath + userEndpoints.login);
@@ -124,10 +122,16 @@ const sendResetEmail = (req, res) => {
                     let resetPath = makeUserLink('resetpassword');
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
-                    mail.send({
+                    let sendEmail = mail.send({
                         subject: 'Reset the password for your Big Lottery Fund website account',
                         text: `Please click the following link to reset your password: ${resetUrl}`,
                         sendTo: email
+                    });
+
+                    sendEmail.catch(() => {
+                        trackError('Error emailing user with password reset link');
+                        res.locals.errors = makeErrorList('There was an error sending your password reset link');
+                        return requestResetForm(req, res);
                     });
 
                     // mark this user as in password reset mode

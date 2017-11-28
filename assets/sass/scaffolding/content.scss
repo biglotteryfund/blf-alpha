@@ -6,25 +6,20 @@
     @include bordered();
     background-color: palette('pale');
     padding: 20px $contentBoxHorizontalPadding 40px $contentBoxHorizontalPadding;
-    margin-bottom: 20px;
+    margin-bottom: $spacingUnit;
 
     &.content-box--flush {
+        margin-bottom: 0;
+    }
+
+    &.content-box--flush-narrow-only {
+        @include mq('tablet', 'max') {
+            margin-bottom: 0;
+        }
+    }
+
+    &.content-box--even-inset {
         padding: $spacingUnit;
-    }
-
-    &.content-box--pink {
-        background-color: palette('pale-pink');
-        border-right: none;
-        border-bottom: none;
-        border-left: none;
-    }
-
-    &.content-box--tint {
-        background-color: palette('pale-grey');
-    }
-
-    &.content-box--narrow {
-        padding: 10px;
     }
 
     &.content-box--borderless {
@@ -36,5 +31,90 @@
     &.content-box--frameless {
         border: none;
         background-color: transparent;
+    }
+
+    &.content-box--tinted {
+        background-color: palette('pale-pink');
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
+    }
+}
+
+/* =========================================================================
+   Content: Scoped Prose Styles
+   ========================================================================= */
+/*
+    Opt-in typography:
+    https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
+    http://css-tricks.com/opt-in-typography/
+*/
+.s-prose {
+    ul,
+    ol {
+        margin-bottom: $spacingUnit;
+    }
+
+    ul li,
+    ol li {
+        margin-left: $spacingUnit;
+        margin-bottom: 0.3em;
+        margin-top: 0;
+    }
+
+    ul li {
+        list-style-type: disc;
+    }
+
+    ol li {
+        list-style-type: decimal;
+    }
+}
+
+/**
+ * Expanded prose styles for long blocks of text
+ */
+.s-prose--long {
+    a {
+        font-weight: bold;
+    }
+
+    a[href^='mailto:'],
+    a[href^='tel:'] {
+        color: palette('green');
+        font-weight: bold;
+        word-break: break-word;
+    }
+
+    a[href^='tel:'] {
+        text-decoration: none;
+    }
+
+    .contrast--high & {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            color: palette('blue') !important;
+        }
+    }
+
+    ol li,
+    ul li {
+        margin-left: $spacingUnit * 3;
+    }
+
+    .inline-figure {
+        margin-left: -($spacingUnit);
+        margin-right: -($spacingUnit);
+
+        @include mq(tablet) {
+            margin: 1em 0 2em;
+        }
+
+        &.inline-figure--padded {
+            @include mq('tablet') {
+                margin-left: $spacingUnit * 3;
+                margin-right: $spacingUnit * 3;
+            }
+        }
     }
 }

@@ -2,66 +2,84 @@
     £{{ minimum | numberWithCommas}}{% if maximum %} - £{{ maximum | numberWithCommas }}{% endif %}
 {% endmacro %}
 
-{% macro programmeCard(programme, accent, copy) %}
-    {% set content = programme.content %}
+{% macro programmeCard(programme, accent) %}
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
             <h3 class="programme-card__title t1">
-                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ content.linkUrl }}">
-                    {{ content.title }}
+                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ programme.linkUrl }}">
+                    {{ programme.title }}
                 </a>
             </h3>
-            {% if content.photo %}
+            {% if programme.photo %}
                 <div class="programme-card__media">
-                    <img src="{{ content.photo }}" alt=""/>
+                    <img src="{{ programme.photo }}" alt=""/>
                 </div>
             {% endif %}
         </header>
         <div class="programme-card__body">
-            {% if content.description %}
+            {% if programme.description %}
                 <div class="programme-card__description">
-                    <p>{{ content.description }}</p>
+                    <p>{{ programme.description }}</p>
                 </div>
             {% endif %}
             <dl class="programme-card__details">
-                {% if content.area %}
-                    <dt>{{ copy.area }}</dt>
-                    <dd>{{ content.area.label }}</dd>
+                {% if programme.area %}
+                    <dt>{{ __('global.programmes.programmeLabels.area') }}</dt>
+                    <dd>{{ programme.area.label }}</dd>
                 {% endif %}
-                {% if content.organisationTypes %}
-                    <dt>{{ copy.organisationTypes }}</dt>
-                    <dd>{{ content.organisationTypes | join(', ') }}</dd>
+                {% if programme.organisationTypes %}
+                    <dt>{{ __('global.programmes.programmeLabels.organisationTypes') }}</dt>
+                    <dd>{{ programme.organisationTypes | join(', ') }}</dd>
                 {% endif %}
-                {% if content.fundingSize %}
-                    <dt>{{ copy.fundingSize }}</dt>
-                    <dd>{{ fundingRange(
-                        minimum = content.fundingSize.minimum,
-                        maximum = content.fundingSize.maximum
-                    ) }}</dd>
+                {% if programme.fundingSize %}
+                    <dt>{{ __('global.programmes.programmeLabels.fundingSize') }}</dt>
+                    {% if programme.fundingSizeDescription %}
+                        <dd>{{ programme.fundingSizeDescription }}</dd>
+                    {% else %}
+                        <dd>{{ fundingRange(
+                            minimum = programme.fundingSize.minimum,
+                            maximum = programme.fundingSize.maximum
+                        ) }}</dd>
+                    {% endif %}
                 {% endif %}
-                {% if content.totalAvailable %}
-                    <dt>{{ copy.totalAvailable }}</dt>
-                    <dd>{{ content.totalAvailable }}</dd>
+                {% if programme.totalAvailable %}
+                    <dt>{{ __('global.programmes.programmeLabels.totalAvailable') }}</dt>
+                    <dd>{{ programme.totalAvailable }}</dd>
                 {% endif %}
-                {% if content.applicationDeadline %}
-                    <dt>{{ copy.applicationDeadline }}</dt>
-                    <dd>{{ content.applicationDeadline }}</dd>
+                {% if programme.applicationDeadline %}
+                    <dt>{{ __('global.programmes.programmeLabels.applicationDeadline') }}</dt>
+                    <dd>{{ programme.applicationDeadline }}</dd>
                 {% endif %}
             </dl>
         </div>
     </article>
 {% endmacro %}
 
-{% macro programmeList(programmes, accent, copy) %}
+{% macro programmeList(programmes, accent, labels) %}
     <div class="programmes-list">
         {% for programme in programmes %}
             <div class="programmes-list__item">
                 {{ programmeCard(
-                    programme = programme,
-                    accent = accent,
-                    copy = copy
+                    programme = programme.content,
+                    accent = accent
                 ) }}
             </div>
         {% endfor %}
     </div>
+{% endmacro %}
+
+{% macro selectionTrail(trail, itemCount) %}
+    {% if trail | length > 0 %}
+    <ol class="selection-trail">
+        {% for crumb in trail %}
+        <li class="selection-trail__item">
+            {% set showUrl = crumb.url  %}
+            {% if showUrl %}<a class="selection-trail__link" href="{{ crumb.url }}">{% endif %}
+            {{ crumb.label }}
+            {% if loop.last and itemCount %}({{ itemCount }}){% endif %}
+            {% if showUrl %}</a>{% endif %}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
 {% endmacro %}

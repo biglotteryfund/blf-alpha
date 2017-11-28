@@ -2,8 +2,14 @@
 
 {% block content %}
     <div class="content-box inner inner--wide-only accent--pink a--border-top">
-        <div class="u-constrained-content">
-            <h1>Thank You For Submitting Your Application</h1>
+        <div class="u-constrained-content s-prose spaced">
+            <div class="form-success-message">
+                <h1 class="t1 form-success-message__title">{{ success.title }}</h1>
+                <p class="t7">Reference ID: <strong>{{ form.uuid }}</strong></p>
+            </div>
+
+            <h2 class="t2 t--underline accent--pink">What Happens Next?</h2>
+            <p>Thank you for submitting your idea. A local funding officer will contact you within 28 days.</p>
         </div>
     </div>
 {% endblock %}

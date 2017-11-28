@@ -1,15 +1,10 @@
 'use strict';
 const app = require('../../server');
-const globals = require('./globals');
-const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n-2');
 const config = require('config');
 const session = require('express-session');
-const favicon = require('serve-favicon');
-const path = require('path');
-const vary = require('vary');
 const passport = require('passport');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -18,22 +13,15 @@ const models = require('../../models/index');
 const getSecret = require('../../modules/get-secret');
 const routes = require('../../controllers/routes');
 
+const setViewGlobal = (name, value) => {
+    return app.get('engineEnv').addGlobal(name, value);
+};
+
 // load auth strategy
 require('../../modules/boilerplate/auth');
 
 let sessionSecret = process.env.sessionSecret || getSecret('session.secret');
 
-app.use(favicon(path.join('public', '/favicon.ico')));
-let logFormat =
-    '[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms ":referrer"';
-app.use(
-    morgan(logFormat, {
-        skip: req => {
-            // don't log status messages
-            return req.originalUrl === '/status';
-        }
-    })
-);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(sessionSecret));
@@ -77,15 +65,10 @@ i18n.expressBind(app, {
 // handle overlays
 app.use((req, res, next) => {
     if (req.flash('showOverlay')) {
-        globals.set('showOverlay', true);
+        setViewGlobal('showOverlay', true);
     } else {
-        globals.set('showOverlay', false);
+        setViewGlobal('showOverlay', false);
     }
-    next();
-});
-
-app.use((req, res, next) => {
-    vary(res, 'Cookie');
     next();
 });
 
@@ -103,15 +86,15 @@ app.use((req, res, next) => {
     }
 
     // store locale prefs globally
-    globals.set('locale', req.i18n.getLocale());
-    globals.set('localePrefix', localePrefix);
+    setViewGlobal('locale', req.i18n.getLocale());
+    setViewGlobal('localePrefix', localePrefix);
 
     // get a11y contrast preferences
     let contrastPref = req.cookies[config.get('cookies.contrast')];
     if (contrastPref && contrastPref === 'high') {
-        globals.set('highContrast', true);
+        setViewGlobal('highContrast', true);
     } else {
-        globals.set('highContrast', false);
+        setViewGlobal('highContrast', false);
     }
 
     return next();
@@ -119,7 +102,7 @@ app.use((req, res, next) => {
 
 // get routes / current section
 app.use((req, res, next) => {
-    globals.set('routes', routes.sections);
+    setViewGlobal('routes', routes.sections);
     return next();
 });
 
@@ -129,15 +112,4 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.locals.request = req;
     return next();
-});
-
-// redirect non-www links to www
-app.use((req, res, next) => {
-    let host = req.headers.host;
-    let domainProd = 'biglotteryfund.org.uk';
-    if (host === domainProd) {
-        return res.redirect(301, req.protocol + '://www.' + domainProd + req.originalUrl);
-    } else {
-        return next();
-    }
 });

@@ -72,14 +72,6 @@ address {
     font-style: normal;
 }
 
-img {
-    width: 100%;
-}
-
-a img {
-    border: none;
-}
-
 p {
     margin-bottom: 20px;
 
@@ -114,4 +106,29 @@ blockquote {
     cite {
         font-style: normal;
     }
+}
+
+/*  =========================================================================
+    Embedded content
+    http://developers.whatwg.org/embedded-content-1
+    ========================================================================= */
+
+img,
+picture,
+embed,
+object,
+video {
+    /* Remove border when inside `a` element in IE 8/9 */
+    display: block;
+    border: 0;
+    max-width: 100%;
+}
+
+/* Non-fluid images if you specify `width` attribute. */
+img:not([width]) {
+    width: 100%;
+}
+
+iframe {
+    border: none;
 }

@@ -10,6 +10,10 @@
     <h1>Register</h1>
 
     <form action="{{ makeUserLink('register') }}" method="post">
+        {% if csrfToken %}
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        {% endif %}
+
         <div class="form-group">
             <label for="username">Email address</label>
             <input type="email"

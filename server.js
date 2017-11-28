@@ -1,9 +1,21 @@
 'use strict';
 const express = require('express');
 const app = (module.exports = express());
+const path = require('path');
 const config = require('config');
 const Raven = require('raven');
+
+const viewEngineService = require('./modules/viewEngine');
+const viewGlobalsService = require('./modules/viewGlobals');
+
+const cachedMiddleware = require('./middleware/cached');
+const loggerMiddleware = require('./middleware/logger');
+const redirectsMiddleware = require('./middleware/redirects');
+const securityHeadersMiddleware = require('./middleware/securityHeaders');
+const favicon = require('serve-favicon');
+
 const getSecret = require('./modules/get-secret');
+const routes = require('./controllers/routes');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -24,16 +36,25 @@ if (SENTRY_DSN) {
     app.use(Raven.requestHandler());
 }
 
-// load the app routing list
-const routes = require('./controllers/routes');
+// Configure views
+viewEngineService.init(app);
+viewGlobalsService.init(app);
 
-// configure boilerplate
-require('./modules/boilerplate/viewEngine');
-require('./modules/boilerplate/globals');
-require('./modules/boilerplate/security');
-require('./modules/boilerplate/static');
-require('./modules/boilerplate/cache');
+app.use(loggerMiddleware);
+app.use(securityHeadersMiddleware);
+app.use(cachedMiddleware.defaultHeaders);
+app.use(redirectsMiddleware);
 require('./modules/boilerplate/middleware');
+
+app.use(favicon(path.join('public', '/favicon.ico')));
+
+// configure static files
+app.use(
+    `/${config.get('assetVirtualDir')}`,
+    express.static(path.join(__dirname, './public'), {
+        maxAge: config.get('staticExpiration')
+    })
+);
 
 // load tools endpoint (including status page for load balancer)
 app.use('/', require('./controllers/toplevel/tools'));
@@ -46,6 +67,13 @@ const cymreigio = mountPath => {
     let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
     return [mountPath, welshPath];
 };
+
+// @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
+if (process.env.NODE_ENV !== 'production') {
+    const applyPath = '/experimental/apply';
+    app.use(applyPath, require('./controllers/apply'));
+    app.use(cymreigio(applyPath), require('./controllers/apply'));
+}
 
 // route binding
 for (let sectionId in routes.sections) {
@@ -61,12 +89,6 @@ for (let sectionId in routes.sections) {
             app.use(path, controller);
         });
     }
-}
-
-if (process.env.NODE_ENV !== 'production') {
-    const applyPath = '/experimental/apply';
-    app.use(applyPath, require('./controllers/apply'));
-    app.use(cymreigio(applyPath), require('./controllers/apply'));
 }
 
 // add vanity redirects

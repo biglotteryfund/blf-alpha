@@ -7,10 +7,10 @@
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "lint": "eslint .",
+    "test-deps": "snyk test",
     "test-unit": "mocha {assets,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
-    "test-deps": "snyk test",
     "build": "gulp build",
     "build-production": "export NODE_ENV=production && gulp build:production",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p maxScrollTracker",
@@ -24,7 +24,7 @@
     "prepush": "npm test"
   },
   "lint-staged": {
-    "{assets,bin,controllers,models,modules,test}/**/*.js": [
+    "{assets,controllers,integration-tests,lambda,middleware,models,modules}/**/*.js": [
       "prettier --write",
       "eslint",
       "git add"
@@ -39,7 +39,7 @@
       "git add"
     ],
     "controllers/routes.js": [
-      "./bin/scripts/generate-cloudfront-config.js"
+      "./bin/generate-cloudfront-config"
     ]
   },
   "prettier": {
@@ -67,6 +67,14 @@
         }
       ]
     ]
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "ignore": [
+      "assets",
+      "public"
+    ],
+    "exec": "bin/www"
   },
   "dependencies": {
     "absolution": "^1.0.0",
@@ -110,6 +118,7 @@
     "rootbeer": "^1.0.5",
     "sequelize": "^4.8.0",
     "serve-favicon": "^2.4.3",
+    "shortid": "^2.2.8",
     "slugify": "^1.2.1",
     "snyk": "^1.41.1",
     "sqlite3": "^3.1.13",
@@ -134,6 +143,7 @@
     "del": "^3.0.0",
     "dotenv": "^4.0.0",
     "google-auth-library": "^0.11.0",
+    "filenamify": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-cli": "^1.4.0",
@@ -146,8 +156,10 @@
     "lint-staged": "^4.2.3",
     "livereload": "^0.6.2",
     "node-gmail-api": "^0.6.1",
+    "make-dir": "^1.1.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
+    "p-limit": "^1.1.0",
     "prettier": "^1.8.2",
     "prompt": "^1.0.0",
     "puppeteer": "^0.11.0",

@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+const puppeteer = require('puppeteer');
+const devices = require('puppeteer/DeviceDescriptors');
+
+const assert = require('assert');
+const del = require('del');
+const filenamify = require('filenamify');
+const fs = require('fs');
+const makeDir = require('make-dir');
+const pLimit = require('p-limit');
+const { flatMap } = require('lodash');
+
+const pagesToTest = [
+    'home',
+    'over10k',
+    'funding/programmes',
+    'helping-working-families',
+    'welsh/helping-working-families'
+];
+
+const devicesToTest = ['iPad landscape', 'Nexus 6P', 'iPhone 5'];
+
+const screenshotsPath = './screenshots';
+
+makeDir.sync(screenshotsPath);
+del.sync(`${screenshotsPath}/*`);
+
+function capture(urlPath, deviceName) {
+    return puppeteer.launch({ dumpio: true, args: ['--no-sandbox'] }).then(async browser => {
+        const page = await browser.newPage();
+
+        await page.emulate(devices[deviceName]);
+        await page.goto(`https://www.biglotteryfund.org.uk/${urlPath}`, { waitUntil: ['networkidle0'] });
+
+        const filename = filenamify(`${new Date().toISOString()} - ${urlPath} - ${deviceName}.jpg`, {
+            replacement: '-'
+        });
+
+        const screenshotFullPath = `${screenshotsPath}/${filename}`;
+        await page.screenshot({
+            fullPage: true,
+            type: 'jpeg',
+            quality: 80,
+            path: screenshotFullPath
+        });
+
+        assert(fs.existsSync(screenshotFullPath));
+        console.log(`${screenshotFullPath} saved 🎉 `);
+
+        await browser.close();
+    });
+}
+
+const limit = pLimit(devicesToTest.length);
+const promises = flatMap(pagesToTest, urlPath => {
+    return devicesToTest.map(deviceName => {
+        return limit(() => capture(urlPath, deviceName));
+    });
+});
+
+Promise.all(promises).then(() => {
+    process.exit();
+});

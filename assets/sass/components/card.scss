@@ -53,37 +53,37 @@
 }
 
 /* =========================================================================
-   Project Cards
+   Photo Card
    ========================================================================= */
 
-.project-card {
+.photo-card {
     @include bordered();
     height: 100%;
     background-color: palette('pale-grey');
 }
-.project-card__image {
+.photo-card__image {
     display: block;
 }
-.project-card__header,
-.project-card__subheader {
+.photo-card__header,
+.photo-card__subheader {
     margin-bottom: $spacingUnit / 3;
 }
-.project-card__subheader {
+.photo-card__subheader {
     font-weight: bold;
 }
-.project-card__body {
+.photo-card__body {
     padding: $spacingUnit / 2;
     padding-bottom: $spacingUnit;
 }
 
 @media screen and (min-width: 480px) and (max-width: 760px) {
-    .project-card {
+    .photo-card {
         display: flex;
     }
-    .project-card__media {
+    .photo-card__media {
         flex: 0 0 200px;
     }
-    .project-card__body {
+    .photo-card__body {
         padding: $spacingUnit / 2;
     }
 }

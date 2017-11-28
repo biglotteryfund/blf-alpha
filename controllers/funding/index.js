@@ -3,11 +3,11 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
-const { body, validationResult } = require('express-validator/check');
-const { matchedData, sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
 const config = require('config');
-
+const { body, validationResult } = require('express-validator/check');
+const { matchedData, sanitizeBody } = require('express-validator/filter');
+const cached = require('../../middleware/cached');
 const routeStatic = require('../utils/routeStatic');
 
 const mail = require('../../modules/mail');
@@ -36,10 +36,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     // handle adding/removing items
     router
         .route(freeMaterials.path + '/item/:id')
-        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], (req, res) => {
-            // this page is dynamic so don't cache it
-            res.cacheControl = { maxAge: 0 };
-
+        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], cached.noCache, (req, res) => {
             // update the session with ordered items
             const code = req.body.code;
 
@@ -115,15 +112,14 @@ module.exports = (pages, sectionPath, sectionId) => {
     // PAGE: free materials form
     router
         .route([freeMaterials.path])
-        .get((req, res) => {
-            // this page is dynamic so don't cache it
-            res.cacheControl = { maxAge: 0 };
-
+        .get(cached.csrfProtection, (req, res) => {
             let orderStatus;
             // clear order details if it succeeded
             if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
                 delete req.session[freeMaterialsLogic.orderKey];
+            } else if (req.flash('materialFormError')) {
+                orderStatus = 'fail';
             }
 
             let lang = req.i18n.__(freeMaterials.lang);
@@ -143,10 +139,10 @@ module.exports = (pages, sectionPath, sectionId) => {
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,
-                csrfToken: ''
+                csrfToken: req.csrfToken()
             });
         })
-        .post(validators, (req, res) => {
+        .post(validators, cached.csrfProtection, (req, res) => {
             // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);
@@ -194,19 +190,29 @@ module.exports = (pages, sectionPath, sectionId) => {
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(req.session[freeMaterialsLogic.orderKey], details);
 
-                    mail.send({
+                    let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
                         text: text,
                         sendTo: config.get('materialSupplierEmail'),
                         sendMode: 'bcc'
                     });
 
-                    req.flash('materialFormSuccess', true);
-                    req.flash('showOverlay', true);
+                    let redirectToMessage = () => {
+                        req.flash('showOverlay', true);
+                        req.session.save(() => {
+                            res.redirect(req.baseUrl + freeMaterials.path);
+                        });
+                    };
 
-                    req.session.save(() => {
-                        res.redirect(req.baseUrl + freeMaterials.path);
-                    });
+                    sendOrderEmail
+                        .then(() => {
+                            req.flash('materialFormSuccess', true);
+                            redirectToMessage();
+                        })
+                        .catch(() => {
+                            req.flash('materialFormError', true);
+                            redirectToMessage();
+                        });
                 }
             }
         });

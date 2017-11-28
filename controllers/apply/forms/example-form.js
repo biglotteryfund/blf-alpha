@@ -3,7 +3,8 @@ const { check } = require('express-validator/check');
 
 const formModel = createFormModel({
     id: 'example-form',
-    title: 'Example Form'
+    title: 'Example Form',
+    shortCode: 'EX'
 });
 
 formModel.registerStep({
@@ -144,11 +145,14 @@ formModel.registerStep({
     ]
 });
 
+formModel.registerReviewStep({
+    title: 'Check Your Answers Before Sending Your Application'
+});
+
 formModel.registerSuccessStep({
     title: 'Success',
     processor: function(data) {
-        // Do something with the data
-        console.log(data);
+        return Promise.resolve(data);
     }
 });
 
