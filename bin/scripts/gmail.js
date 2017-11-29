@@ -4,8 +4,12 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const _ = require('lodash');
 const googleAuth = require('google-auth-library');
 const Gmail = require('node-gmail-api');
+const moment = require('moment');
+
+const models = require('../../models/index');
 
 // https://console.developers.google.com/apis/credentials?project=just-rhythm-186214
 
@@ -187,5 +191,92 @@ function getMail(auth) {
     getMessages.on('finish', () => {
         let dataPath = path.join('./', 'messages.json');
         fs.writeFile(dataPath, JSON.stringify(allOrders, null, 4));
+
+        let convertMessageToOrder = (msg) => {
+            let grantAmount = msg.address.grantAmount.toLowerCase()
+                .replace(/£/g, '')
+                .replace('$', '')
+                .replace(/ /g, '')
+                .replace(/,/g, '')
+                .replace(/"/g, '')
+                .replace(/'/g, '')
+                .replace('million', 'm')
+                .replace('k', '000');
+
+            // remove trailing decimal (eg. .23 from 32243.23)
+            // some people entered multiple decimal points (432.342.23)
+            // so we need to remove any other decimals after this
+            let decimalRegex = /(\.(\d{1,2})$)/;
+            let hasDecimal = grantAmount.match(decimalRegex);
+            if (hasDecimal) {
+                grantAmount = grantAmount.replace(hasDecimal[1], '');
+            }
+
+            let millionRegex = /(\d+\.?\d?)m/;
+            let hasMillions = grantAmount.match(millionRegex);
+
+            if (hasMillions) {
+                grantAmount = parseFloat(hasMillions[1]) * 1000000;
+            } else {
+                // remove any additional dots
+                grantAmount = grantAmount.replace(/\./g, '');
+                grantAmount = parseFloat(grantAmount);
+            }
+
+            // drop the decimals
+            grantAmount = Math.round(Number(grantAmount));
+
+            let postcodeArea = msg.address.postcode.replace(/ /g, '').toUpperCase();
+            if (postcodeArea.length > 3) {
+                postcodeArea = postcodeArea.slice(0, -3); // trim final 3 chars
+            }
+
+            let dateFormat = 'dddd, MMMM Do YYYY, h:mm:ss a';
+            let orderDate = moment(msg.time, dateFormat);
+            let mysqlFormat = 'YYYY-MM-DD HH:mm:ss';
+            orderDate = orderDate.format(mysqlFormat);
+
+            let orderItems = msg.items.map(item => {
+                return {
+                    code: item.item,
+                    quantity: item.quantity,
+                    createdAt: orderDate,
+                    updatedAt: orderDate
+                };
+            });
+
+            return {
+                grantAmount: grantAmount,
+                postcodeArea: postcodeArea,
+                items: orderItems,
+                createdAt: orderDate,
+                updatedAt: orderDate
+            };
+        };
+
+        let ordersForDb = allOrders.map(convertMessageToOrder)
+            .filter(o => _.isInteger(o.grantAmount) && o.grantAmount > 1);
+
+        let delay = 300;
+        ordersForDb.forEach((order, i) => {
+            setTimeout(() => {
+                models.Order
+                    .create(order, {
+                        include: [
+                            {
+                                model: models.OrderItem,
+                                as: 'items'
+                            }
+                        ]
+                    })
+                    .then(data => {
+                        console.log(data.postcodeArea, 'added!');
+                    })
+                    .catch(err => {
+                        console.log(err, 'error!');
+                    });
+            }, delay * i);
+        });
+
     });
 }
