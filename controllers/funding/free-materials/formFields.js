@@ -5,8 +5,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Name',
-            'cy': 'Eich enw'
+            en: 'Name',
+            cy: 'Eich enw'
         }
     },
     {
@@ -14,8 +14,8 @@ module.exports = [
         type: 'email',
         required: true,
         label: {
-            'en': 'Email address',
-            'cy': 'Eich cyfeiriad e-bost'
+            en: 'Email address',
+            cy: 'Eich cyfeiriad e-bost'
         }
     },
     {
@@ -23,8 +23,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Phone number',
-            'cy': 'Eich rhif ffôn'
+            en: 'Phone number',
+            cy: 'Eich rhif ffôn'
         }
     },
     {
@@ -32,8 +32,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Address line 1',
-            'cy': 'Eich cyfeiriad llinell 1'
+            en: 'Address line 1',
+            cy: 'Eich cyfeiriad llinell 1'
         }
     },
     {
@@ -41,8 +41,8 @@ module.exports = [
         type: 'text',
         required: false,
         label: {
-            'en': 'Address line 2',
-            'cy': 'Eich cyfeiriad llinell 2'
+            en: 'Address line 2',
+            cy: 'Eich cyfeiriad llinell 2'
         }
     },
     {
@@ -50,8 +50,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Town/city',
-            'cy': 'Eich tref/dinas'
+            en: 'Town/city',
+            cy: 'Eich tref/dinas'
         }
     },
     {
@@ -59,8 +59,8 @@ module.exports = [
         type: 'text',
         required: false,
         label: {
-            'en': 'County',
-            'cy': 'Eich sir'
+            en: 'County',
+            cy: 'Eich sir'
         }
     },
     {
@@ -68,8 +68,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Postcode',
-            'cy': 'Eich côd post'
+            en: 'Postcode',
+            cy: 'Eich côd post'
         }
     },
     {
@@ -77,8 +77,8 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Project name',
-            'cy': 'Enw eich prosiect'
+            en: 'Project name',
+            cy: 'Enw eich prosiect'
         }
     },
     {
@@ -86,17 +86,17 @@ module.exports = [
         type: 'text',
         required: true,
         label: {
-            'en': 'Project ID number',
-            'cy': 'Rhif adnabod eich prosiect'
+            en: 'Project ID number',
+            cy: 'Rhif adnabod eich prosiect'
         }
     },
     {
         name: 'yourGrantAmount',
-        type: 'text',
+        type: 'number',
         required: true,
         label: {
-            'en': 'Grant amount',
-            'cy': 'Swm eich grant'
+            en: 'Grant amount',
+            cy: 'Swm eich grant'
         }
     }
 ];
