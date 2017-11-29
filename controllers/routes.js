@@ -282,19 +282,22 @@ const vanityRedirects = [
         name: 'Publicity (Welsh)',
         path: '/cyhoeddusrwydd',
         destination: '/welsh' + vanityDestinations.publicity,
-        aliasOnly: true
+        aliasOnly: true,
+        live: true
     },
     {
         name: 'Helping Working Families',
         path: '/helpingworkingfamilies',
         destination: routes.sections.toplevel.pages.helpingWorkingFamilies.path,
-        aliasOnly: true
+        aliasOnly: true,
+        live: true
     },
     {
         name: 'Helping Working Families (Welsh)',
         path: '/helputeuluoeddgweithio',
         destination: '/welsh' + routes.sections.toplevel.pages.helpingWorkingFamilies.path,
-        aliasOnly: true
+        aliasOnly: true,
+        live: true
     },
     {
         // this stays here (and not as an alias) as express doesn't care about URL case
@@ -303,44 +306,58 @@ const vanityRedirects = [
         name: 'Logo page',
         path: '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
         destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
-        aliasOnly: true
+        aliasOnly: true,
+        live: true
     },
     // the following aliases use custom destinations (eg. with URL anchors)
     // so can't live in the regular aliases section (as they all have the same destination)
     {
         name: 'Contact press team',
         path: '/news-and-events/contact-press-team',
-        destination: vanityDestinations.contact + '#' + anchors.contactPress
+        destination: vanityDestinations.contact + '#' + anchors.contactPress,
+        live: true
     },
     {
         name: 'Contact press team (Welsh)',
         path: '/welsh/news-and-events/contact-press-team',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress,
+        live: true
     },
     {
         name: 'Complaint page',
         path: '/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints
+        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
+        live: true
     },
     {
         name: 'Complaint page (England)',
         path: '/england/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints
+        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
+        live: true
     },
     {
         name: 'Complaint page (Welsh)',
         path: '/welsh/about-big/customer-service/making-a-complaint',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactComplaints
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactComplaints,
+        live: true
     },
     {
         name: 'Fraud page',
         path: '/about-big/customer-service/fraud',
-        destination: vanityDestinations.contact + '#' + anchors.contactFraud
+        destination: vanityDestinations.contact + '#' + anchors.contactFraud,
+        live: true
     },
     {
         name: 'Fraud page (Welsh)',
         path: '/welsh/about-big/customer-service/fraud',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud
+        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
+        live: true
+    },
+    {
+        name: 'Awards For All England',
+        path: '/prog_a4a_eng',
+        destination: '/global-content/programmes/england/awards-for-all-england',
+        live: false
     }
 ];
 
@@ -403,12 +420,6 @@ const otherUrls = [
     },
     {
         path: '/global-content/programmes/england/awards-for-all-england',
-        isPostable: true,
-        allowQueryStrings: true,
-        live: false
-    },
-    {
-        path: '/prog_a4a_eng',
         isPostable: true,
         allowQueryStrings: true,
         live: false

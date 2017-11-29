@@ -52,11 +52,6 @@ function init(router) {
     }
 
     router
-        .route('/prog_a4a_eng')
-        .get(proxyAwardsForAll)
-        .post(proxyLegacy.postToLegacyForm);
-
-    router
         .route('/global-content/programmes/england/awards-for-all-england')
         .get(proxyAwardsForAll)
         .post(proxyLegacy.postToLegacyForm);
