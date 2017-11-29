@@ -10,7 +10,7 @@ const pathsExemptFromHelmet = [
     '/funding/funding-finder',
     '/welsh/funding/funding-finder',
     '/global-content/programmes/england/awards-for-all-england',
-    '/prog_a4a_eng'
+    '/welsh/global-content/programmes/england/awards-for-all-england'
 ];
 
 const defaultSecurityDomains = [
