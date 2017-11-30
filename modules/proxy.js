@@ -1,9 +1,10 @@
 'use strict';
+const config = require('config');
 const rp = require('request-promise');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const config = require('config');
+const { get } = require('lodash');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -77,8 +78,12 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
                 form.setAttribute('action', pagePath);
             }
 
-            // are we in an A/B test?
-            if (res.locals.ab) {
+            /**
+             * Are we in an A/B test and do we have a Google Experiments ID
+             */
+            const experimentId = get(res.locals, 'ab.id');
+            const variantId = get(res.locals, 'ab.variantId');
+            if (experimentId && variantId) {
                 // create GA snippet for tracking experiment
                 const gaCode = `
                 <script src="//www.google-analytics.com/cx/api.js"></script>
@@ -90,9 +95,9 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
                     ga('create', '${config.get('googleAnalyticsCode')}', {
                         'cookieDomain': 'none'
                     });
-                    ga('set', 'expId', '${res.locals.ab.id}');
-                    ga('set', 'expVar', ${res.locals.ab.variantId});
-                    cxApi.setChosenVariation(${res.locals.ab.variantId}, '${res.locals.ab.id}');
+                    ga('set', 'expId', '${experimentId}');
+                    ga('set', 'expVar', ${variantId});
+                    cxApi.setChosenVariation(${variantId}, '${experimentId}');
                     ga('send', 'pageview');
                 </script>`;
 
