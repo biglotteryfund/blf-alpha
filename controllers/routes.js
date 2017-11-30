@@ -407,12 +407,6 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/funding/funding-finder',
-        isPostable: true,
-        allowQueryStrings: true,
-        live: true
-    },
-    {
         path: '/surveys',
         isPostable: false,
         allowQueryStrings: true,
@@ -432,8 +426,29 @@ const otherUrls = [
     }
 ];
 
+/**
+ * Legacy proxies routes
+ * The following URLs are legacy pages that are being proxied to make small amends to them.
+ * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
+ */
+const withLegacyDefaults = function(obj) {
+    const defaults = {
+        isPostable: true,
+        allowQueryStrings: true
+    };
+    return Object.assign({}, defaults, obj);
+};
+
+const legacyProxiedRoutes = {
+    fundingFinder: withLegacyDefaults({
+        path: '/funding/funding-finder',
+        live: true
+    })
+};
+
 module.exports = {
     sections: routes.sections,
     vanityRedirects: vanityRedirects,
-    otherUrls: otherUrls
+    otherUrls: otherUrls,
+    legacyProxiedRoutes: legacyProxiedRoutes
 };
