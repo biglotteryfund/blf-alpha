@@ -3,7 +3,7 @@
 const config = require('config');
 const sassConfig = require('../config/content/sass.json');
 const routes = require('../controllers/routes');
-const utilities = require('./utilities');
+const { stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
 
@@ -120,7 +120,7 @@ function init(app) {
         }
 
         // remove any trailing slashes (eg. /welsh/ => /welsh)
-        currentUrl = utilities.stripTrailingSlashes(currentUrl);
+        currentUrl = stripTrailingSlashes(currentUrl);
 
         return currentUrl;
     };

@@ -396,12 +396,6 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/funding/funding-finder',
-        isPostable: true,
-        allowQueryStrings: true,
-        live: true
-    },
-    {
         path: '/surveys',
         isPostable: false,
         allowQueryStrings: true,

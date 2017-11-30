@@ -71,6 +71,20 @@ const generateUrlList = routes => {
     return urlList;
 };
 
+/**
+ * Strip trailing slashes from a string
+ * Used to strip slashes from URLs like '/welsh/' => '/welsh'
+ */
+const stripTrailingSlashes = str => {
+    const hasTrailingSlash = s => s[s.length - 1] === '/' && s.length > 1;
+    if (hasTrailingSlash(str)) {
+        str = str.substring(0, str.length - 1);
+    }
+    return str;
+};
+
 module.exports = {
-    generateUrlList
+    makeUrlObject,
+    generateUrlList,
+    stripTrailingSlashes
 };
