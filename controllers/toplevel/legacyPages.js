@@ -50,7 +50,7 @@ function initAwardsForAll(router) {
         return proxyLegacyPage(req, res, dom => dom);
     }
 
-    function proxyAwardsForAllEngland(req, res) {
+    function proxyAwardsForAllTemporaryChangeMe(req, res) {
         return proxyLegacyPage(req, res, dom => {
             const titleEl = dom.window.document.querySelector('#titleBar h1');
             titleEl.innerHTML = 'In the test';
@@ -87,22 +87,22 @@ function initAwardsForAll(router) {
         {
             id: 'england',
             path: legacyProxiedRoutes.awardsForAllEngland.path,
-            modifyFn: proxyAwardsForAllEngland
+            modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
             id: 'scotland',
             path: legacyProxiedRoutes.awardsForAllScotland.path,
-            modifyFn: proxyAwardsForAllEngland
+            modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
             id: 'wales',
             path: legacyProxiedRoutes.awardsForAllWales.path,
-            modifyFn: proxyAwardsForAllEngland
+            modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
-            id: 'wales_welsh',
-            path: '/welsh/global-content/programmes/england/awards-for-all-england',
-            modifyFn: proxyAwardsForAllEngland
+            id: 'wales-welsh',
+            path: legacyProxiedRoutes.awardsForAllWalesWelsh.path,
+            modifyFn: proxyAwardsForAllTemporaryChangeMe
         }
     ];
 
