@@ -4,6 +4,7 @@ const ab = require('express-ab');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
 const { legacyProxiedRoutes } = require('../routes');
 const cached = require('../../middleware/cached');
+const Raven = require('raven');
 
 function initAwardsForAll(router) {
     function proxyWithoutChanges(req, res) {
@@ -24,7 +25,15 @@ function initAwardsForAll(router) {
                 <h4>Apply by post</h4>
             `;
 
-            applyTab.innerHTML = additionalText + applyTab.innerHTML;
+            if (applyTab && applyTab.textContent.indexOf('please contact us at') !== -1) {
+                applyTab.innerHTML = additionalText + applyTab.innerHTML;
+            } else {
+                Raven.captureMessage('Failed to modify awards for all page', {
+                    tags: {
+                        feature: 'awards-for-all'
+                    }
+                });
+            }
 
             return dom;
         });
