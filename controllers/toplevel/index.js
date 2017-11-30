@@ -73,8 +73,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     if (config.get('abTests.enabled')) {
         const testHomepage = ab.test('blf-homepage-2017', {
             cookie: {
-                name: config.get('cookies.abTest'),
-                maxAge: 60 * 60 * 24 * 7 * 1000 // one week
+                name: config.get('cookies.abTestHomepage'),
+                maxAge: moment.duration(1, 'week').asMilliseconds()
             },
             id: config.get('abTests.tests.homepage.id') // google experiment ID
         });
