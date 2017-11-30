@@ -1,125 +1,123 @@
 /* =========================================================================
-   Global Header: Common
-   ========================================================================= */
-
-$navLinkPadding: 25px;
-$logoOffset: $navLinkPadding - 5px;
-
-/* =========================================================================
    Global Header
    ========================================================================= */
 
-.global-header {
-    width: 100%;
-    color: palette('blue-text');
+$offscreenNavWidth: 65%;
+
+@mixin nav-link-style($color: palette('blue-text')) {
+    @include poppins();
+    font-weight: 600;
+    font-size: 16px;
+    color: $color;
+}
+
+// .header {}
+.header__inner {
+    position: relative;
+    padding: 15px 0 15px 0;
 
     @include mq('tablet') {
-        margin-bottom: $spacingUnit;
+        padding: 20px 0 20px 0;
+    }
+}
+.header__content {
+    @include mq('tablet') {
+        display: flex;
+        align-items: center;
     }
 
-    .global-header__inner {
-        position: relative;
-        padding: 10px 0;
-
-        @media only screen and (min-width: 420px) {
-            padding: 15px 0;
-        }
-
-        @include mq('tablet') {
-            padding: 0;
-        }
-    }
-
-    .global-header__content {
-        @include mq('tablet') {
-            display: flex;
-            align-items: flex-start;
-        }
-    }
-
-    .global-header__logo {
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-image: url(../../../images/logos/logo.png);
-        background-size: auto 100%;
-        margin: 0;
-
-        height: 80px;
-        width: 100px;
-
-        @include mq('tablet') {
-            height: 105px;
-            width: 130px;
-            margin-top: $logoOffset;
-        }
-
-        @media only screen and (min-width: $widestScreen) {
-            margin-left: -$spacingUnit;
-        }
-
-        /**
-         * Is this a welsh language page or
-         * are we explicitly showing the welsh logo?
-         */
-        .locale--cy &,
-        .has-welsh-logo & {
-            background-image: url(../../../images/logos/logo-welsh.png);
-            width: 110px;
-            height: 105px;
-
-            @include mq('tablet') {
-                width: 140px;
-                height: 133px;
-            }
-        }
-
-        @media print {
-            width: 100%;
-            height: auto;
-            background: none;
-        }
-    }
-
-    .global-header__nav {
-        @include mq('tablet') {
+    @include mq('tablet') {
+        > .header__content-item {
             flex-grow: 1;
             flex-shrink: 0;
             flex-basis: 0;
-            margin-top: 0;
-        }
-    }
-
-    .global-header__hamburger {
-        cursor: pointer;
-        margin-top: 0;
-        width: 31px;
-        position: absolute;
-        right: 0;
-        top: 25px;
-
-        @media only screen and (min-width: 420px) {
-            top: 40px;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        svg,
-        path {
-            fill: currentColor;
         }
     }
 }
-
-html:not(.contrast--high) .has-full-bleed-header .global-header {
-    color: white;
-    position: absolute;
-    z-index: 1;
+.header__nav {
+    margin-top: $spacingUnit;
 
     @media print {
-        position: static;
+        display: none;
+    }
+
+    @include mq('tablet') {
+        margin-top: 40px; // align with logo
+    }
+
+    &.u-mobile-only {
+        margin-top: 0;
+    }
+}
+.header__hamburger {
+    position: absolute;
+    right: 0;
+    margin-top: 0 !important;
+    cursor: pointer;
+    top: $spacingUnit * 2;
+    width: 31px;
+
+    a {
+        svg,
+        path {
+            fill: palette('blue-text');
+            @include on-interact() {
+                fill: darken(palette('blue-text'), 10%);
+            }
+        }
+    }
+
+    svg {
+        position: absolute;
+    }
+}
+
+/* =========================================================================
+   Global Header: Logo
+   ========================================================================= */
+
+.logo {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../../../images/logos/logo-new.png);
+    margin-bottom: 0;
+
+    @media print {
+        width: 100%;
+        height: auto;
+        background: none;
+    }
+
+    // mobile dimensions
+    height: 80px;
+    width: 100px;
+    background-size: auto 100%;
+
+    @include mq('tablet') {
+        height: 105px;
+        width: 130px;
+    }
+
+    @media only screen and (min-width: $widestScreen) {
+        margin-left: -20px;
+    }
+
+    // use welsh logo (and scale it a bit as it's smaller)
+    .locale--cy &,
+    .has-welsh-logo & {
+        transform: scale(1.2);
+        background-image: url(../../../images/logos/logo-new--welsh.png);
+    }
+
+    // handle broken IE which pixellates our logo
+    .is-ie & {
+        background-image: url(../../../images/logos/logo-small.png);
+    }
+
+    .is-ie.locale--cy &,
+    .is-ie.has-welsh-logo & {
+        background-image: url(../../../images/logos/logo-small--welsh.png);
     }
 }
 
@@ -127,96 +125,92 @@ html:not(.contrast--high) .has-full-bleed-header .global-header {
    Global Navigation
    ========================================================================= */
 
-.global-nav {
-    position: relative;
-    color: currentColor;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    margin-left: $spacingUnit;
+// links themselves
+.nav {
+    margin-top: 0;
+    margin-bottom: $spacingUnit;
 
-    .global-nav__link:after {
-        content: '';
-        display: inline-block;
-        height: 15px;
-        border: solid palette('soft-grey');
-        border-width: 0 1px;
-        border-radius: 30px;
-        vertical-align: middle;
-        margin: 0 ($spacingUnit / 3);
-
-        @include mq('desktop') {
-            margin: 0 26px;
-        }
-    }
-    .global-nav__link--last:after {
-        display: none;
+    @include mq('tablet') {
+        align-items: center;
+        margin-left: $spacingUnit * 2.5;
+        margin-bottom: 0;
     }
 
-    .global-nav__link,
-    .global-nav__lang {
-        @include poppins();
-        font-weight: 600;
-        font-size: 16px;
+    li {
+        @include nav-link-style();
+        margin-top: 0;
 
-        a {
-            color: currentColor;
-            display: inline-block;
-            text-decoration: none;
-        }
+        &.nav__link {
+            &.selected,
+            &.selected a {
+                color: palette('pink-text');
+            }
 
-        a:hover,
-        a:focus,
-        a:active,
-        &.is-selected a {
-            color: palette('pink');
-            border-color: currentColor;
-        }
-    }
+            &,
+            a {
+                color: palette('blue-text');
+            }
 
-    .global-nav__link a {
-        padding: $navLinkPadding ($spacingUnit / 2) 0;
-        border-top: 4px solid transparent;
-    }
+            a {
+                text-decoration: none;
+                @include on-interact {
+                    color: palette('pink-text');
+                    text-decoration: underline;
+                }
+            }
 
-    .global-nav__lang {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        margin-top: $spacingUnit;
+            &:after {
+                content: '';
+                border-right: 2px solid palette('soft-grey');
+                border-radius: 30px;
+                vertical-align: middle;
+                height: 15px;
+                display: inline-block;
+                margin: 0 $spacingUnit;
 
-        a {
-            padding: 0;
-            border: none;
+                @include mq('desktop') {
+                    margin: 0 $spacingUnit * 1.25;
+                }
+            }
 
-            @include on-interact {
-                text-decoration: underline;
+            &.nav__link--last:after {
+                display: none;
             }
         }
     }
-
-    .global-nav__search {
-        margin-left: auto;
-        padding-top: $navLinkPadding;
-    }
 }
+.nav__lang {
+    @include mq('tablet') {
+        position: absolute;
+        top: $spacingUnit * 2;
+        right: 0;
+        a {
+            color: palette('pink') !important;
+            text-decoration: none;
 
-html:not(.contrast--high) .has-full-bleed-header .global-nav {
-    .global-nav__link a,
-    .global-nav__lang a {
-        @include on-interact {
-            color: white;
+            .contrast--high & {
+                color: palette('high-contrast-bg') !important;
+            }
         }
     }
+}
+.nav__search {
+    margin-left: auto; // move to right
 
-    .global-nav__link,
-    .global-nav__lang {
-        a:hover,
-        a:focus,
-        a:active,
-        &.is-selected a {
-            color: white;
-            border-color: currentColor;
+    input {
+        @include nav-link-style(#000000);
+        margin-top: 0;
+        border: 0;
+        padding: $spacingUnit / 4;
+        width: 100px;
+
+        @include mq('tablet') {
+            text-align: right;
+            width: 80px;
+        }
+
+        @include input-placeholder {
+            @include nav-link-style();
         }
     }
 }
@@ -225,13 +219,15 @@ html:not(.contrast--high) .has-full-bleed-header .global-nav {
    Global Search Form
    ========================================================================= */
 
-.global-search {
-    margin: 0;
-    display: flex;
+// .form-search { }
+.form-search__input {
+    @include mq('tablet') {
+        float: right;
+        margin-left: $spacingUnit / 3;
+    }
 }
-.global-search__icon {
+.form-search__icon {
     vertical-align: middle;
-    margin-right: 3px;
 
     .icon--search {
         width: 21px;
@@ -244,46 +240,11 @@ html:not(.contrast--high) .has-full-bleed-header .global-nav {
         top: 5px; // to line up with the search input
     }
 }
-.global-search__input {
-    flex: 1;
 
-    margin-top: 0;
-    border: 0;
-    padding: 6px 0;
-    width: 100px;
-    background: transparent;
-
-    @include poppins();
-    font-weight: 600;
-    font-size: 16px;
-    color: currentColor;
-    border-bottom: 2px solid transparent;
-
-    &:focus {
-        border-color: white;
-    }
-
-    @include input-placeholder {
-        @include poppins();
-        font-weight: 600;
-        font-size: 16px;
-        color: currentColor;
-    }
-
-    @include mq('tablet') {
-        text-align: right;
-        width: 70px;
-    }
-}
-
-/* =========================================================================
-   Offscreen Navigation
-   ========================================================================= */
-
-$offscreenNavWidth: 65%;
-
-.offscreen-navigation {
-    color: white;
+/**
+ * Mobile off-screen navigation
+ */
+.nav--offscreen {
     background-color: palette('blue-nav');
     display: block;
     position: fixed;
@@ -295,29 +256,60 @@ $offscreenNavWidth: 65%;
     margin-top: 0;
     width: $offscreenNavWidth;
     box-shadow: -3px 0px 10px -2px #173077;
-}
-.offscreen-navigation__list li {
-    margin-top: 0;
-    border-bottom: 2px solid rgba(46, 78, 170, 0.4);
-    font-size: 17px;
-}
-.offscreen-navigation__link a,
-.offscreen-navigation__lang a,
-.offscreen-navigation__search {
-    padding: $spacingUnit $spacingUnit * 1.5;
-}
-.offscreen-navigation__link a,
-.offscreen-navigation__lang a {
-    display: block;
-    color: inherit;
-    text-decoration: none;
 
-    @include on-interact {
-        background-color: palette('blue-text');
+    // stick the nav at the bottom of the page without JS
+    .no-js & {
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        top: auto;
+        position: relative;
+        box-shadow: none;
+    }
+
+    li {
+        margin-top: 0;
+        border-bottom: 2px solid rgba(46, 78, 170, 0.4);
+        font-size: 17px;
+
+        &:hover {
+            background-color: palette('blue-text');
+        }
+
+        a,
+        &.nav__search {
+            padding: $spacingUnit $spacingUnit * 1.5;
+        }
+
+        &.nav__search {
+            input {
+                font-weight: 300;
+                background-color: transparent;
+                color: #ffffff;
+                padding: 0;
+
+                @include input-placeholder {
+                    color: #ffffff;
+                    font-weight: 300;
+                }
+            }
+        }
+
+        .form-search__icon {
+            .icon--search {
+                fill: #ffffff;
+            }
+        }
+
+        a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+        }
     }
 }
-
-// Handle animation of offscreen nav for mobile
+// handle animation of offscreen nav for mobile
 @include mq('tablet', 'max') {
     .global-container {
         transition: all 0.3s ease-in-out;
@@ -326,7 +318,7 @@ $offscreenNavWidth: 65%;
     .show-off-canvas {
         overflow: hidden;
 
-        .offscreen-navigation {
+        .nav--offscreen {
             right: 0;
         }
 
@@ -336,9 +328,160 @@ $offscreenNavWidth: 65%;
     }
 }
 
-.no-js .offscreen-navigation {
-    position: static;
+/* =========================================================================
+   Modifiers: Full-Bleed Header
+   ========================================================================= */
+
+html:not(.contrast--high) .has-full-bleed-header .header {
+    position: absolute;
+    z-index: 1;
     width: 100%;
-    height: auto;
-    box-shadow: none;
+
+    .header__inner {
+        padding: 10px 0;
+
+        @media only screen and (min-width: 420px) {
+            padding: 15px 0;
+        }
+
+        @include mq('tablet') {
+            padding: 0;
+        }
+    }
+
+    .header__content {
+        @include mq('tablet') {
+            align-items: flex-start;
+        }
+    }
+
+    .header__nav {
+        @include mq('tablet') {
+            margin-top: 0;
+        }
+
+        &.u-mobile-only {
+            margin-top: 0;
+        }
+    }
+    .header__hamburger {
+        top: 25px;
+
+        @media only screen and (min-width: 420px) {
+            top: 40px;
+        }
+    }
+    .header__hamburger a svg,
+    .header__hamburger a path {
+        fill: white;
+    }
+
+    .logo {
+        margin-top: 0;
+
+        @media only screen and (min-width: 420px) {
+            margin-top: 10px;
+        }
+    }
+
+    .nav {
+        margin-left: $spacingUnit;
+
+        @include mq('tablet') {
+            align-items: initial;
+        }
+    }
+
+    .nav li,
+    .nav li a {
+        color: white;
+    }
+
+    // TODO: Can we reduce this specificity?
+    .nav li.nav__link:not(.nav__lang) {
+        a {
+            display: inline-block;
+            text-decoration: none;
+            padding: $spacingUnit ($spacingUnit / 2) 0;
+            border-top: 4px solid transparent;
+
+            @include on-interact {
+                color: white;
+                text-decoration: none;
+                border-color: white;
+            }
+        }
+
+        &.selected a {
+            color: white;
+            border-color: white;
+        }
+
+        &:after {
+            border-color: white;
+            margin: 0 ($spacingUnit / 3);
+
+            @include mq('desktop') {
+                margin: 0 $spacingUnit * 1.25;
+            }
+        }
+    }
+    .nav__search {
+        margin-top: $spacingUnit;
+    }
+    .nav__search input {
+        @include nav-link-style(white);
+        background-color: transparent;
+        margin: 0;
+        padding: 5px 0;
+        width: 70px;
+
+        @include input-placeholder {
+            @include nav-link-style(white);
+        }
+    }
+    .nav__lang {
+        @include mq('tablet') {
+            top: 70px; // @TODO: This spacing is a bit of a magic number
+
+            a {
+                // Common styles are !important, we should be able to avoid this?
+                color: white !important;
+            }
+        }
+    }
+
+    .form-search__icon {
+        .icon--search {
+            fill: currentColor;
+        }
+    }
+    .form-search__input {
+        &:focus {
+            border-bottom: 2px solid white;
+        }
+    }
+}
+html:not(.contrast--high).locale--cy .has-full-bleed-header .logo,
+html:not(.contrast--high) .has-welsh-logo.has-full-bleed-header .logo {
+    margin-top: $spacingUnit / 2;
+    margin-left: $spacingUnit / 2;
+
+    @include mq(tablet) {
+        margin-top: $spacingUnit;
+        margin-left: 0;
+    }
+}
+html:not(.contrast--high).is-ie .has-full-bleed-header .logo {
+    background-image: url(../../../images/logos/logo-new.png);
+}
+html:not(.contrast--high).locale--cy.is-ie .has-full-bleed-header .logo,
+html:not(.contrast--high).is-ie .has-welsh-logo.has-full-bleed-header .logo {
+    background-image: url(../../../images/logos/logo-new--welsh.png);
+}
+
+@media print {
+    .header {
+        position: static !important;
+    }
 }
