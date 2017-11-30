@@ -1,3 +1,5 @@
+const { filter, forEach } = require('lodash');
+
 // take a route config and format it for cloudfront
 const makeUrlObject = (page, customPath) => {
     return {
@@ -65,6 +67,12 @@ const generateUrlList = routes => {
 
     // Add the miscellaneous routes
     routes.otherUrls.filter(r => r.live).forEach(routeConfig => {
+        urlList.newSite.push(makeUrlObject(routeConfig));
+    });
+
+    // Legacy proxied routes
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, _ => _.live);
+    forEach(liveLegacyRoutes, routeConfig => {
         urlList.newSite.push(makeUrlObject(routeConfig));
     });
 
