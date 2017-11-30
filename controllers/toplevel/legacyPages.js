@@ -50,16 +50,22 @@ function initAwardsForAll(router) {
         return proxyLegacyPage(req, res, dom => dom);
     }
 
-    function proxyAwardsForAllTemporaryChangeMe(req, res) {
+    function proxyAwardsForAllTemporaryChangeMe(applyUrl, req, res) {
         return proxyLegacyPage(req, res, dom => {
-            const titleEl = dom.window.document.querySelector('#titleBar h1');
-            titleEl.innerHTML = 'In the test';
+            res.set('X-BLF-Legacy-Modified', true);
 
             const applyTab = dom.window.document.querySelector('#mainContentContainer .panel:last-of-type');
-            applyTab.innerHTML =
-                `
-                <p><strong>Additional tab content</strong></p>
-            ` + applyTab.innerHTML;
+
+            const additionalText = `
+                <h4>Apply online</h4>
+                <p><br/><a class="roundedButton blueButton" style="display: inline-block;" href="${
+                    applyUrl
+                }">Apply Online</a></p>
+                <h4>Apply by post</h4>
+            `;
+
+            applyTab.innerHTML = additionalText + applyTab.innerHTML;
+
             return dom;
         });
     }
@@ -79,7 +85,7 @@ function initAwardsForAll(router) {
         };
 
         router.get(route.path, testFn(null, percentages.A), proxyWithoutChanges);
-        router.get(route.path, testFn(null, percentages.B), route.modifyFn);
+        router.get(route.path, testFn(null, percentages.B), route.modifyFn.bind(null, route.applyUrl));
         router.post(route.path, postToLegacyForm);
     }
 
@@ -87,21 +93,25 @@ function initAwardsForAll(router) {
         {
             id: 'england',
             path: legacyProxiedRoutes.awardsForAllEngland.path,
+            applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=en',
             modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
             id: 'scotland',
             path: legacyProxiedRoutes.awardsForAllScotland.path,
+            applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
             modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
             id: 'wales',
             path: legacyProxiedRoutes.awardsForAllWales.path,
+            applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=en',
             modifyFn: proxyAwardsForAllTemporaryChangeMe
         },
         {
             id: 'wales-welsh',
             path: legacyProxiedRoutes.awardsForAllWalesWelsh.path,
+            applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh',
             modifyFn: proxyAwardsForAllTemporaryChangeMe
         }
     ];
