@@ -1,4 +1,5 @@
 'use strict';
+
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
@@ -21,6 +22,8 @@ const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
+
+const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -72,8 +75,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     if (config.get('abTests.enabled')) {
         const testHomepage = ab.test('blf-homepage-2017', {
             cookie: {
-                name: config.get('cookies.abTest'),
-                maxAge: 60 * 60 * 24 * 7 * 1000 // one week
+                name: config.get('cookies.abTestHomepage'),
+                maxAge: moment.duration(1, 'week').asMilliseconds()
             },
             id: config.get('abTests.tests.homepage.id') // google experiment ID
         });
@@ -97,6 +100,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/legacy', (req, res) => {
         return proxyLegacy.proxyLegacyPage(req, res, null, '/');
     });
+
+    legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
     router.post(

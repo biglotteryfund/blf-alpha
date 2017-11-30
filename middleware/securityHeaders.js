@@ -1,12 +1,15 @@
 'use strict';
 const helmet = require('helmet');
+const { map } = require('lodash');
+const { legacyProxiedRoutes } = require('../controllers/routes');
 
 module.exports = function(app) {
     /**
      * URLs which should be exempt from security headers
      * Only proxied legacy URLs should be exempt.
      */
-    const pathsExemptFromHelmet = ['/', '/welsh', '/legacy'];
+    const exemptLegacyUrls = map(legacyProxiedRoutes, _ => _.path);
+    const pathsExemptFromHelmet = ['/', '/welsh', '/legacy'].concat(exemptLegacyUrls);
 
     const defaultSecurityDomains = [
         "'self'",

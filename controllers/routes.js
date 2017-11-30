@@ -361,6 +361,12 @@ const vanityRedirects = [
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
         live: true
+    },
+    {
+        name: 'Awards For All England',
+        path: '/prog_a4a_eng',
+        destination: '/global-content/programmes/england/awards-for-all-england',
+        live: false
     }
 ];
 
@@ -435,8 +441,45 @@ const otherUrls = [
     }
 ];
 
+/**
+ * Legacy proxies routes
+ * The following URLs are legacy pages that are being proxied to make small amends to them.
+ * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
+ */
+const withLegacyDefaults = function(obj) {
+    const defaults = {
+        isPostable: true,
+        allowQueryStrings: true
+    };
+    return Object.assign({}, defaults, obj);
+};
+
+const legacyProxiedRoutes = {
+    fundingFinder: withLegacyDefaults({
+        path: '/funding/funding-finder',
+        live: true
+    }),
+    awardsForAllEngland: withLegacyDefaults({
+        path: '/global-content/programmes/england/awards-for-all-england',
+        live: false
+    }),
+    awardsForAllScotland: withLegacyDefaults({
+        path: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: false
+    }),
+    awardsForAllWales: withLegacyDefaults({
+        path: '/global-content/programmes/wales/awards-for-all-wales',
+        live: false
+    }),
+    awardsForAllWalesWelsh: withLegacyDefaults({
+        path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
+        live: false
+    })
+};
+
 module.exports = {
     sections: routes.sections,
     vanityRedirects: vanityRedirects,
-    otherUrls: otherUrls
+    otherUrls: otherUrls,
+    legacyProxiedRoutes: legacyProxiedRoutes
 };
