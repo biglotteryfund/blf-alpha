@@ -22,10 +22,12 @@ const testRoutes = {
     },
     vanityRedirects: [
         {
-            path: '/test'
+            path: '/test',
+            live: true
         },
         {
-            paths: ['/supports', '/multiple', '/redirects']
+            paths: ['/supports', '/multiple', '/redirects'],
+            live: true
         }
     ],
     otherUrls: [
