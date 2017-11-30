@@ -1,10 +1,11 @@
 'use strict';
+const config = require('config');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
 const xss = require('xss');
-const config = require('config');
+const queryString = require('query-string');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
 const Raven = require('raven');
@@ -284,6 +285,32 @@ module.exports = (pages, sectionPath, sectionId) => {
      */
     const programmesConfig = pages.programmes;
     router.get(programmesConfig.path, programmesRoute(programmesConfig));
+
+    router.get('/funding-finder', (req, res) => {
+        const locationMapping = {
+            england: 'england',
+            'northern+ireland': 'northernIreland',
+            scotland: 'scotland',
+            wales: 'wales'
+        };
+
+        let newQuery = {};
+        if (req.query.area) {
+            newQuery.location = locationMapping[req.query.area.toLowerCase()];
+        }
+
+        if (req.query.amount && req.query.amount.toLowerCase() !== 'up to 10000') {
+            newQuery.min = '10000';
+        }
+
+        const newQueryString = queryString.stringify(newQuery);
+        let redirectUrl = programmesConfig.path;
+        if (newQueryString.length > 0) {
+            redirectUrl += `?${newQueryString}`;
+        }
+
+        res.redirect(301, redirectUrl);
+    });
 
     return router;
 };
