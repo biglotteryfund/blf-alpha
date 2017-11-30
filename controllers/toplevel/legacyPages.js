@@ -3,6 +3,7 @@ const moment = require('moment');
 const ab = require('express-ab');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
 const { legacyProxiedRoutes } = require('../routes');
+const cached = require('../../middleware/cached');
 
 function initAwardsForAll(router) {
     function proxyWithoutChanges(req, res) {
@@ -43,8 +44,8 @@ function initAwardsForAll(router) {
             B: percentageForTest / 100
         };
 
-        router.get(route.path, testFn(null, percentages.A), proxyWithoutChanges);
-        router.get(route.path, testFn(null, percentages.B), route.modifyFn.bind(null, route.applyUrl));
+        router.get(route.path, cached.noCache, testFn(null, percentages.A), proxyWithoutChanges);
+        router.get(route.path, cached.noCache, testFn(null, percentages.B), route.modifyFn.bind(null, route.applyUrl));
         router.post(route.path, postToLegacyForm);
     }
 
@@ -81,7 +82,7 @@ function initAwardsForAll(router) {
         awardsForAllRoutes.forEach(route => {
             router
                 .route(route.path)
-                .get(route.modifyFn.bind(null, route.applyUrl))
+                .get(cached.noCache, route.modifyFn.bind(null, route.applyUrl))
                 .post(postToLegacyForm);
         });
     }
