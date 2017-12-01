@@ -83,7 +83,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
              */
             const experimentId = get(res.locals, 'ab.id');
             const variantId = get(res.locals, 'ab.variantId');
-            if (experimentId && variantId) {
+            if (experimentId) {
                 // create GA snippet for tracking experiment
                 const gaCode = `
                 <script src="//www.google-analytics.com/cx/api.js"></script>
