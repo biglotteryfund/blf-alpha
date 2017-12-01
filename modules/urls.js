@@ -51,7 +51,7 @@ const generateUrlList = routes => {
     }
 
     // add vanity redirects too
-    routes.vanityRedirects.forEach(redirect => {
+    routes.vanityRedirects.filter(r => r.live).forEach(redirect => {
         if (redirect.paths) {
             redirect.paths.forEach(path => {
                 let page = { path: path };
