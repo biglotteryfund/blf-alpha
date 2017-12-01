@@ -1,4 +1,3 @@
-{% from "../components/nav.njk" import navlinks with context %}
 <!doctype html>
 <html lang="{{ locale }}" class="{{ getHtmlClasses() }}">
     <head>
@@ -17,12 +16,7 @@
             {% include "../includes/footer.njk" %}
         </div>
 
-        {# mobile nav (duplicated in header above) #}
-        <nav class="u-mobile-only">
-            <ul class="nav--offscreen" id="nav">
-                {{ navlinks('nav--offscreen__link') }}
-            </ul>
-        </nav>
+        {% include "../includes/offscreenNav.njk" %}
 
         {# JS-powered overlay #}
         <div class="overlay{% if showOverlay %} overlay--visible{% endif %}" id="js-overlay">
