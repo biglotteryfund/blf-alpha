@@ -694,8 +694,23 @@
                     }]
                 }]
             }
+        },
+        "reachingCommunities": {
+            "title": "Reaching Communities",
+            "howToSucceed": {
+                "title": "How to succeed"
+            },
+            "beforeYouApply": {
+                "title": "Before you apply"
+            },
+            "checkEligibility": {
+                "title": "Check you’re eligible"
+            },
+            "getInTouch": {
+                "title": "Get in touch"
+            }
         }
-	},
+    },
 	"about": {
 		"foi": {
 			"title": "Freedom of Information",
