@@ -128,7 +128,8 @@ const routes = {
                     template: 'pages/toplevel/working-families',
                     lang: 'toplevel.helpingWorkingFamilies',
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [`${sectionPaths.toplevel}/global-content/programmes/wales/helping-working-families`]
                 }
             }
         },
