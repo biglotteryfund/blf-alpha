@@ -442,7 +442,7 @@ const otherUrls = [
 ];
 
 /**
- * Legacy proxies routes
+ * Legacy proxied routes
  * The following URLs are legacy pages that are being proxied to make small amends to them.
  * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
  */
@@ -455,10 +455,6 @@ const withLegacyDefaults = function(obj) {
 };
 
 const legacyProxiedRoutes = {
-    fundingFinder: withLegacyDefaults({
-        path: '/funding/funding-finder',
-        live: true
-    }),
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: false
