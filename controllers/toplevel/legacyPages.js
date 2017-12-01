@@ -7,7 +7,7 @@ const cached = require('../../middleware/cached');
 const Raven = require('raven');
 
 function initAwardsForAll(router) {
-    function getReplacementText(applyUrl, contactPhone) {
+    function getReplacementText({ applyUrl, contactPhone }) {
         const sharedText = `
             <p>We are currently trialling a quicker and more straightforward online application form for National Lottery Awards for All. Please follow the link below if you are ready to begin filling in your application:</p>
             <p><a class="roundedButton blueButton" style="display: inline-block;" href="${
@@ -74,23 +74,41 @@ function initAwardsForAll(router) {
         {
             id: 'england',
             path: legacyProxiedRoutes.awardsForAllEngland.path,
-            modifyFn: modify(getReplacementText('https://apply.biglotteryfund.org.uk/?cn=en', '0345 4 10 20 30'))
+            modifyFn: modify(
+                getReplacementText({
+                    applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=en',
+                    contactPhone: '0345 4 10 20 30'
+                })
+            )
         },
         {
             id: 'scotland',
             path: legacyProxiedRoutes.awardsForAllScotland.path,
-            modifyFn: modify(getReplacementText('https://apply.biglotteryfund.org.uk/?cn=sc', '0300 123 7110'))
+            modifyFn: modify(
+                getReplacementText({
+                    applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
+                    contactPhone: '0300 123 7110'
+                })
+            )
         },
         {
             id: 'wales',
             path: legacyProxiedRoutes.awardsForAllWales.path,
-            modifyFn: modify(getReplacementText('https://apply.biglotteryfund.org.uk/?cn=wales&ln=en', '0300 123 0735'))
+            modifyFn: modify(
+                getReplacementText({
+                    applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=en',
+                    contactPhone: '0300 123 0735'
+                })
+            )
         },
         {
             id: 'wales-welsh',
             path: legacyProxiedRoutes.awardsForAllWalesWelsh.path,
             modifyFn: modify(
-                getReplacementText('https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh', '0300 123 0735')
+                getReplacementText({
+                    applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh',
+                    contactPhone: '0300 123 0735'
+                })
             )
         }
     ];
