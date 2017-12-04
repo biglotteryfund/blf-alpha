@@ -1,0 +1,67 @@
+{% from "../../components/hero.njk" import sectionHero %}
+{% from "../../components/tabs.njk" import tabs %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+{% extends "../../layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+    {{
+        sectionHero(
+            accent = 'pink',
+            titleText = title,
+            image = createHeroImage({
+                small: 'home/home-hero-4-small.jpg',
+                medium: 'home/home-hero-4-medium.jpg',
+                large: 'home/home-hero-4-large.jpg',
+                default: 'home/home-hero-4-medium.jpg'
+            })
+        )
+    }}
+
+    <main role="main" class="nudge-up">
+        <section class="content-box content-box--tinted content-box--flush-narrow-only
+            inner--wide-only accent--pink a--border-top ">
+            <div class="s-prose u-constrained-content-wide">
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque, perferendis fugiat, soluta molestias voluptatibus aspernatur vero, facilis vitae doloribus esse dolores! Ipsa explicabo fugit reprehenderit, omnis maxime non eveniet est.</p>
+            </div>
+        </section>
+
+        {% macro tabContent() %}
+            <div class="content-box content-box--borderless">
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus nesciunt nulla sapiente, ipsa excepturi recusandae animi consequuntur libero voluptates fuga tenetur aut exercitationem provident pariatur sit totam soluta maxime voluptas.</p>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus nesciunt nulla sapiente, ipsa excepturi recusandae animi consequuntur libero voluptates fuga tenetur aut exercitationem provident pariatur sit totam soluta maxime voluptas.</p>
+                </div>
+            </div>
+        {% endmacro %}
+
+        <div class="inner--wide-only">
+            {{
+                tabs(
+                    id = 'reaching-comminuities',
+                    content = [{
+                        id: 'how-to-succeed',
+                        title: copy.howToSucceed.title,
+                        content: tabContent(),
+                        active: true
+                    }, {
+                        id: 'before-you-apply',
+                        title: copy.beforeYouApply.title,
+                        content: tabContent()
+                    }, {
+                        id: 'check-eligibility',
+                        title: copy.checkEligibility.title,
+                        content: tabContent()
+                    }, {
+                        id: 'get-in-touch',
+                        title: copy.getInTouch.title,
+                        content: tabContent()
+                    }]
+                )
+            }}
+        </div>
+    </main>
+
+{% endblock %}
