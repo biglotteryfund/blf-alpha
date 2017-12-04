@@ -16,7 +16,7 @@ formModel.registerStep({
     name: 'Your Idea',
     fieldsets: [
         {
-            legend: 'Your Idea',
+            legend: 'Find out how we can help you',
             fields: [
                 {
                     type: 'textarea',
