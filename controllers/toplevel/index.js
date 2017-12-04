@@ -31,6 +31,8 @@ if (app.get('env') !== 'production') {
 const newHomepage = [
     cached.noCache,
     (req, res) => {
+        const newsToShow = 3;
+
         const serveHomepage = news => {
             const lang = req.i18n.__('toplevel.home');
 
@@ -47,7 +49,7 @@ const newHomepage = [
         contentApi
             .getPromotedNews(req.i18n.getLocale())
             .then(response => get(response, 'data', []))
-            .then(data => data.map(item => item.attributes))
+            .then(data => data.map(item => item.attributes).slice(0, newsToShow))
             .then(news => {
                 serveHomepage(news);
             })
