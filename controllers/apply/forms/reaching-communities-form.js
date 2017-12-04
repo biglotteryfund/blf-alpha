@@ -44,7 +44,7 @@ formModel.registerStep({
 </ul>
 `,
                         introduction: `
-<p>Use the box below to tell us about your organisation, or your idea, and we will be in touch within 10 days to let you know if we can help. You don’t need to spend too much time on this – if it is something we can fund, this is just the start of the conversation.</p>
+<p>Use the box below to tell us about your organisation, or your idea, and we will be in touch within 24 hours to let you know if we can help. You don’t need to spend too much time on this – if it is something we can fund, this is just the start of the conversation.</p>
 <p>If you have already read our guidance, and feel you have all the information to tell us your idea, you are welcome to insert this below and it will go to one of our funding officers.</p>
 `
                     }
