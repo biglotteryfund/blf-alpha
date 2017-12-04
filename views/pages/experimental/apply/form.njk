@@ -118,6 +118,11 @@
                             {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
                             <div class="form-field__main">
                                 <div class="form-field__body">
+                                    {% if field.helpText %}
+                                        {% if field.helpText.introduction %}
+                                            {{ field.helpText.introduction | safe }}
+                                        {% endif %}
+                                    {% endif %}
                                     {% if field.type === 'text' or field.type === 'email' %}
                                         {{ inputText(field, field.type) }}
                                     {% endif %}
