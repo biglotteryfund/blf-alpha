@@ -12,7 +12,8 @@
                   placeholder="{{ placeholderText }}"
                   id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>{{ getFlash(request, 'formValues', fieldName) }}</textarea>
     {% elseif inputType == 'select' %}
-        <select class="form-fund__item{% if extraClasses %} {{ extraClasses }}{% endif %}">
+        <select class="form-fund__item{% if extraClasses %} {{ extraClasses }}{% endif %}"
+                id="ff-{{ fieldName }}">
             <option value="-1">--{{ fieldLabel }}--</option>
             {% for option in field.options %}
                 <option value="{{ option.value }}">{{ option.name }}</option>
