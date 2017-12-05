@@ -748,7 +748,19 @@
 				},
 				"outOfStock": "Allan o stoc",
 				"enterDeliveryAddress": "Rhowch y cyfeiriad derbyn",
-				"chooseItems": "Dewiswch unrhyw un o'r eitemau a ganlyn"
+				"chooseItems": "Dewiswch unrhyw un o'r eitemau a ganlyn",
+                "formFields": {
+                    "yourName": "Eich enw",
+                    "yourEmail": "Eich cyfeiriad e-bost",
+                    "yourAddress1": "Eich cyfeiriad llinell 1",
+                    "yourAddress2": "Eich cyfeiriad llinell 2",
+                    "yourTown": "Eich tref/dinas",
+                    "yourCounty": "Eich sir",
+                    "yourPostcode": "Eich côd post",
+                    "yourProjectName": "Enw eich prosiect",
+                    "yourGrantAmount": "Swm eich grant",
+                    "yourReason": "Your reason @TODO"
+                }
 			},
 			"logos": {
 				"title": "Sut i hysbysu pobl am eich grant Loteri Genedlaethol gan ddefnyddio ein logo",

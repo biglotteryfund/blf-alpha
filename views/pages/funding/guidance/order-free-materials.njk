@@ -1,10 +1,19 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
-{% from "components/forms.njk" import input with context %}
+{% from "components/forms.njk" import textInput, radios with context %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
+
+{% macro textField(field) %}
+    {{ textInput(
+        fieldName = field.name,
+        fieldLabel = __(field.label),
+        inputType = field.text,
+        required = field.required
+    ) }}
+{% endmacro %}
 
 {% macro itemOrderButtons(item, product) %}
     {% set quantity = orders[product.code].quantity or 0 %}
@@ -168,26 +177,72 @@
                     <form class="inline-form order-form" method="post">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <input type="hidden" name="languageChoice" value="" id="js-language-choice">
-                        <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
-                            {% for field in formFields %}
-                                <li class="grid__item">
-                                    {{ input(
-                                        fieldName = field.name,
-                                        fieldLabel = field.label[locale],
-                                        inputType = field.type,
-                                        required = field.required,
-                                        field = field
-                                    ) }}
-                                </li>
-                            {% endfor %}
-                            <li class="grid__item">
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6">{{ textField(formFields.yourName) }}</div>
+                            <div class="grid__item grid-col-6">{{ textField(formFields.yourEmail) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourAddress1) }}</div>
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourAddress2) }}</div>
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourTown) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourCounty) }}</div>
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourPostcode) }}</div>
+                            <div class="grid__item grid-col-4">{{ textField(formFields.yourProjectName) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+
+                            <div class="grid__item grid-col-4">
+                                {{ radios(
+                                    fieldName = formFields.yourGrantAmount.name,
+                                    label = __(formFields.yourGrantAmount.label),
+                                    options = formFields.yourGrantAmount.options
+                                ) }}
+                            </div>
+
+                            <div class="grid__item grid-col-4">
+                                {{ radios(
+                                    fieldName = formFields.yourReason.name,
+                                    label = __(formFields.yourReason.label),
+                                    options = formFields.yourReason.options
+                                ) }}
+                            </div>
+
+                            <div class="grid__item grid-col-4">
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
                                        v-bind:disabled="isEmpty()"
                                        value="{{ __('global.forms.submit') }}"
                                        class="btn accent--turquoise a--btn order-form__btn"
                                        id="js-submit-material-order">
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+
+
+                        {#<ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">#}
+                            {#{% for field in formFields %}#}
+                                {#<li class="grid__item">#}
+                                    {#{{ textInput(#}
+                                        {#fieldName = field.name,#}
+                                        {#fieldLabel = field.label[locale],#}
+                                        {#inputType = field.type,#}
+                                        {#required = field.required,#}
+                                        {#field = field#}
+                                    {#) }}#}
+                                {#</li>#}
+                            {#{% endfor %}#}
+                            {#<li class="grid__item">#}
+                                {#<input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}#}
+                                       {#v-bind:disabled="isEmpty()"#}
+                                       {#value="{{ __('global.forms.submit') }}"#}
+                                       {#class="btn accent--turquoise a--btn order-form__btn"#}
+                                       {#id="js-submit-material-order">#}
+                            {#</li>#}
+                        {#</ul>#}
                     </form>
                 </div>
             </div>

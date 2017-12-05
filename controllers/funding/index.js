@@ -66,24 +66,35 @@ module.exports = (pages, sectionPath, sectionId) => {
      * https://github.com/ctavan/express-validator#customvalidator
      * @TODO: There should definitely be a better way to model error translations
      */
-    const validators = freeMaterialsLogic.formFields.filter(field => field.required).map(field => {
-        return body(field.name)
-            .exists()
-            .custom((value, { req }) => {
-                const locale = req.i18n.getLocale();
-                // Turn 'Your name' into 'your name' (for error messages)
-                const lcfirst = str => str[0].toLowerCase() + str.substring(1);
-                // Get a translated error message
-                let fieldName = lcfirst(field.label[locale]);
-                let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
-                // Validate field
-                if (!value || value.length < 1) {
-                    throw new Error(errorMessage);
-                }
+    // const validators = freeMaterialsLogic.formFields.filter(field => field.required).map(field => {
+    //     return body(field.name)
+    //         .exists()
+    //         .custom((value, { req }) => {
+    //             const locale = req.i18n.getLocale();
+    //             // Turn 'Your name' into 'your name' (for error messages)
+    //             const lcfirst = str => str[0].toLowerCase() + str.substring(1);
+    //             // Get a translated error message
+    //             let fieldName = lcfirst(field.label[locale]);
+    //             let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
+    //             // Validate field
+    //             if (!value || value.length < 1) {
+    //                 throw new Error(errorMessage);
+    //             }
+    //
+    //             return true;
+    //         });
+    // });
 
-                return true;
-            });
-    });
+    // find validators
+    let validators = [];
+    for (let key in freeMaterialsLogic.formFields.fields) {
+        let field = freeMaterialsLogic.formFields.fields[key];
+        validators.push(
+            body(field.name).custom((value, { req }) => {
+                return field.validator(field, req);
+            })
+        );
+    }
 
     /**
      * Create text for order email
@@ -135,7 +146,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 copy: lang,
                 description: 'Order items free of charge to acknowledge your grant',
                 materials: freeMaterialsLogic.materials.items,
-                formFields: freeMaterialsLogic.formFields,
+                formFields: freeMaterialsLogic.formFields.fields,
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,

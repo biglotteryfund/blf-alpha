@@ -764,7 +764,19 @@
 				},
 				"outOfStock": "Out of stock",
 				"enterDeliveryAddress": "Enter your delivery address",
-				"chooseItems": "Choose any of the following items"
+				"chooseItems": "Choose any of the following items",
+                "formFields": {
+                    "yourName": "Name",
+                    "yourEmail": "Email address",
+                    "yourAddress1": "Address line 1",
+                    "yourAddress2": "Address line 2",
+                    "yourTown": "Town/city",
+                    "yourCounty": "County",
+                    "yourPostcode": "Postcode",
+                    "yourProjectName": "Project name",
+                    "yourGrantAmount": "Grant amount",
+                    "yourReason": "Please tell us why you have ordered the materials"
+                }
 			},
 			"logos": {
 				"title": "How to tell people about your National Lottery funding using our logo",

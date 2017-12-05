@@ -247,7 +247,16 @@ $errorColor: #b00;
         border-bottom: none;
     }
 
-    label {
+    input[type='radio'] {
+        width: auto;
+        display: inline-block;
+    }
+
+    .label--radio {
+        display: block;
+    }
+
+    label.form-fund__item {
         @extend .u-visually-hidden;
     }
 }
