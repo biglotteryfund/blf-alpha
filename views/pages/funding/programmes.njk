@@ -6,17 +6,20 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set heroImage = createHeroImage({
+    small: 'hero/young-foundation-small.jpg',
+    medium: 'hero/young-foundation-medium.jpg',
+    large: 'hero/young-foundation-large.jpg',
+    default: 'hero/young-foundation-medium.jpg',
+    caption: 'The Young Foundation - Amplify, Grant £1.06M'
+}) %}
+{% set socialImage = heroImage %}
+
 {% block content %}
     <main role="main">
         {{ sectionHero(
             titleText = title,
-            image = createHeroImage({
-                small: 'hero/young-foundation-small.jpg',
-                medium: 'hero/young-foundation-medium.jpg',
-                large: 'hero/young-foundation-large.jpg',
-                default: 'hero/young-foundation-medium.jpg',
-                caption: 'The Young Foundation - Amplify, Grant £1.06M'
-            }),
+            image = heroImage,
             accent = 'green'
         ) }}
 

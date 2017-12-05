@@ -8,15 +8,16 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% block content %}
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+{% set socialImage = heroImage %}
 
-    {% set heroImage = createHeroImage({
-        small: 'hero/jobs-small.jpg',
-        medium: 'hero/jobs-medium.jpg',
-        large: 'hero/jobs-large.jpg',
-        default: 'hero/jobs-medium.jpg',
-        caption: 'Street Dreams, Grant £9,000'
-    }) %}
+{% block content %}
 
     {{
         sectionHero(
