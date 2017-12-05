@@ -60,3 +60,30 @@
     {# and a pane set with the panes #}
     {{ paneSet(paneSetId, paneItems) }}
 {% endmacro %}
+
+{% macro tabSections(sections) %}
+    {% for section in sections %}
+        {% if section.title %}
+            <h2 class="t2 t--underline accent--pink a--text"
+                {% if section.id %}id="{{ section.id }}"{% endif %}>
+                {{ section.title }}
+            </h2>
+        {% endif %}
+        {% for block in section.blocks %}
+            {% if block.type === 'heading' %}
+                <h3 class="t4">{{ block.body }}</h3>
+            {% endif %}
+            {% if block.type === 'image' %}
+                <figure class="inline-figure inline-figure--padded">
+                    <img src="{{ block.src | getImagePath }}" alt="{{ block.alt }}">
+                </figure>
+            {% endif %}
+            {% if block.type === 'button' %}
+                <p><a class="btn" href="{{ block.href }}">{{ block.body }}</a></p>
+            {% endif %}
+            {% if block.type === 'text' %}
+                {{ block.body | safe }}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endmacro %}
