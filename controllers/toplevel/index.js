@@ -22,6 +22,7 @@ const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
+const { splitPercentages } = require('../../modules/ab');
 
 const legacyPages = require('./legacyPages');
 
@@ -73,7 +74,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     if (config.get('abTests.enabled')) {
-        const testHomepage = ab.test('blf-homepage-2017', {
+        const testFn = ab.test('blf-homepage-2017', {
             cookie: {
                 name: config.get('cookies.abTestHomepage'),
                 maxAge: moment.duration(1, 'week').asMilliseconds()
@@ -82,12 +83,12 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
         const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
+        const percentages = splitPercentages(percentageToSeeNewHomepage);
 
-        // variant 0/A: existing site (proxied)
-        router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
-
-        // variant 1/B: new homepage
-        router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
+        // Variant 0/A: existing site (proxied)
+        router.get('/', testFn(null, percentages.A), oldHomepage);
+        // Variant 1/B: new homepage
+        router.get('/', testFn(null, percentages.B), newHomepage);
     } else {
         router.get('/', newHomepage);
     }
