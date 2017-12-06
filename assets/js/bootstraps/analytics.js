@@ -31,6 +31,14 @@ export const init = () => {
 
     ga('set', 'transport', 'beacon');
 
+    // Event tracker plugin
+    // https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
+    ga('require', 'eventTracker', {
+        attributePrefix: 'data-'
+    });
+
+    // Max scroll tracker plugin
+    // https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/max-scroll-tracker.md
     ga('require', 'maxScrollTracker', {
         maxScrollMetricIndex: CUSTOM_METRICS.maxScrollPercentage.idx
     });
