@@ -46,7 +46,7 @@ viewGlobalsService.init(app);
 // Add global middlewares
 app.use(loggerMiddleware);
 app.use(cachedMiddleware.defaultHeaders);
-app.use(securityHeadersMiddleware(app));
+app.use(securityHeadersMiddleware(app.get('env')));
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
