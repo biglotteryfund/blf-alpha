@@ -698,16 +698,174 @@
         "reachingCommunities": {
             "title": "Reaching Communities",
             "howToSucceed": {
-                "title": "How to succeed"
+                "title": "How to succeed",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><strong>Get in touch—we really want to hear your ideas</strong>. We’re here to support you as you develop them, even when you’re still exploring what you’d like to do.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>Do you work with partners, or would you like to?</strong> We support organisations to work together through our Partnerships funding - whether you’re interested in working with others or have an established relationship.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>Show us how you’ve involved the community in developing your project</strong>. We want to see that you’ve spoken to people and listened to their ideas.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>How can you support what’s already working well in your community?</strong> Use your knowledge of the skills and experience people already have – and build on them.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>We want to know that you understand the activities and services that already exist in your community</strong>. How will your idea complement them? Have you spoken to other groups that are doing similar work?</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>Most important—give us a call</strong>. We're available on XXXXXX if you have any questions or want to talk about your project idea.</p>"
+                    }]
+                }]
             },
             "beforeYouApply": {
-                "title": "Before you apply"
+                "title": "Before you apply",
+                "sections": [{
+                    "title": null,
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>There’s no closing date for National Lottery Reaching Communities—you can apply at any time.</p>"
+                    }]
+                }, {
+                    "title": "1. Find out if we can fund you",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#check-eligibility\">Check if your eligible</a></p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>If you’d like to talk to us about your idea and find out if it’s something we’d fund, you can:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>speak to a local funding officer</li><li>call our advice line on XXXXXXX</li><li>email us at XXXXXXX</li></ul>"
+                    }]
+                }, {
+                    "title": "2. Submit your idea",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>You can <a href=\"#apply\">send it to us online</a> or give us a call. A local funding officer will then get in touch within X days.</p>"
+                    }]
+                }, {
+                    "title": "3. Talk to us",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>We’ll need to know a bit more to understand your idea. You can either speak to a funding officer or submit a short proposal. We’ll talk to you about:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>what you want to do and why</li><li>what difference you think your idea will make</li><li>how people/communities are involved with your project</li><li>some background to your organisation</li><li>the length of your project budget and how much funding you’ll need from us</li><li>how your idea fits in with other local activity</li></ul>"
+                    }]
+                }, {
+                    "title": "4. Get feedback",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>If we’re interested in your idea, we’ll ask you to submit a full plan for your idea. If we think your idea isn’t for us, we’ll let you know why.</p>"
+                    }]
+                }, {
+                    "title": "5. Give us your plan",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>We can give you advice on what to put in your plan before you get started.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>The format of the plan is up to you—it could be written, or you may want to use other media, such as video. Choose whatever you feel most comfortable with.</p>"
+                    }]
+                }, {
+                    "title": "6. Get a decision",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>We’ll get in touch to let you know if you’ve been successful. We aim to give you a decision within <strong>three months</strong> of receiving your plan.</p>"
+                    }]
+                }]
             },
             "checkEligibility": {
-                "title": "Check you’re eligible"
+                "title": "Check you’re eligible",
+                "sections": [{
+                    "title": "Who can apply?",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>You can apply if you’re a:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>voluntary and community organisation</li><li>social enterprise</li><li>public body (such as a local authority, school or health agency)</li><li>community interest company (so long as profits are reinvested into the organisation to create more impact)</li><li>a group of organisations that is led by a voluntary organisation or social enterprise</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>We can’t accept applications from:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>individuals</li><li>sole traders</li><li>organisations based outside the UK</li><li>anyone who is applying on behalf of another organisation</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><a href=\"/funding/programmes\">Browse all of our funding programmes</a>"
+                    }]
+                }, {
+                    "title": "What can you spend the money on?",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>You can apply if you’re a:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>staff salaries</li><li>activities</li><li>running costs</li><li>small-scale refurbishment</li><li>equipment</li></ul>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>We can’t fund:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>activities that generate profits for personal gain</li><li>religious activity</li><li>activities that replace government funding</li><li>activities that benefit individuals, rather than the wider community</li></ul>"
+                    }]
+                }, {
+                    "title": "Not sure whether you’re eligible?",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>If you’re unclear whether you can be funded, get in touch with us: [contact details]</p>"
+                    }]
+                }]
             },
-            "getInTouch": {
-                "title": "Get in touch"
+            "apply": {
+                "title": "Apply",
+                "sections": [{
+                    "title": "Before you start",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p><a href=\"#check-eligibility\">Check that you’re eligible</a> and read our guidance on <a href=\"#how-to-succeed\">how to succeed</a>.</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p>You’ll need to:</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<ul><li>briefly explain your idea and why it’ll make a difference</li><li>give the legal name of your organisation and other organisations you’re working with</li><li>give your contact details</li></ul>"
+                    }, {
+                        "type": "button",
+                        "body": "Submit your idea",
+                        "href": "/experimental/apply/your-idea"
+                    }]
+                }, {
+                    "title": "What happens next?",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Once you submit your idea a local funding officer will contact you within 28 days.</p>"
+                    }]
+                }, {
+                    "title": "Other ways to apply",
+                    "blocks": [{
+                        "type": "heading",
+                        "body": "Phone"
+                    }, {
+                        "type": "text",
+                        "body": "<p>We’re available every day from 5am to midnight to discuss about your idea or answer questions about applying</p>"
+                    }, {
+                        "type": "text",
+                        "body": "<p><strong>Telephone</strong>: 0300 300 0120<br><strong>Telephone</strong>: 18001 03454 10 20 30 (for those with a hearing or speech impairment)"
+                    }]
+                }, {
+                    "title": "Email",
+                    "blocks": [{
+                        "type": "text",
+                        "body": "<p>Get in touch with us at XXXX@biglotteryfund.org.uk</p>"
+                    }]
+                }]
             }
         }
     },

@@ -1,22 +1,25 @@
 {% from "../../components/hero.njk" import sectionHero %}
-{% from "../../components/tabs.njk" import tabs %}
+{% from "../../components/tabs.njk" import tabs, tabSections %}
 
 {% set bodyClass = "has-full-bleed-header" %}
 {% extends "../../layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set heroImage = createHeroImage({
+    small: 'home/home-hero-4-small.jpg',
+    medium: 'home/home-hero-4-medium.jpg',
+    large: 'home/home-hero-4-large.jpg',
+    default: 'home/home-hero-4-medium.jpg'
+}) %}
+{% set socialImage = heroImage %}
+
 {% block content %}
     {{
         sectionHero(
-            accent = 'pink',
             titleText = title,
-            image = createHeroImage({
-                small: 'home/home-hero-4-small.jpg',
-                medium: 'home/home-hero-4-medium.jpg',
-                large: 'home/home-hero-4-large.jpg',
-                default: 'home/home-hero-4-medium.jpg'
-            })
+            image = heroImage,
+            accent = 'pink'
         )
     }}
 
@@ -28,11 +31,10 @@
             </div>
         </section>
 
-        {% macro tabContent() %}
+        {% macro tabContent(sections) %}
             <div class="content-box content-box--borderless">
                 <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus nesciunt nulla sapiente, ipsa excepturi recusandae animi consequuntur libero voluptates fuga tenetur aut exercitationem provident pariatur sit totam soluta maxime voluptas.</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus nesciunt nulla sapiente, ipsa excepturi recusandae animi consequuntur libero voluptates fuga tenetur aut exercitationem provident pariatur sit totam soluta maxime voluptas.</p>
+                    {{ tabSections(sections) }}
                 </div>
             </div>
         {% endmacro %}
@@ -44,20 +46,20 @@
                     content = [{
                         id: 'how-to-succeed',
                         title: copy.howToSucceed.title,
-                        content: tabContent(),
+                        content: tabContent(copy.howToSucceed.sections),
                         active: true
                     }, {
                         id: 'before-you-apply',
                         title: copy.beforeYouApply.title,
-                        content: tabContent()
+                        content: tabContent(copy.beforeYouApply.sections)
                     }, {
                         id: 'check-eligibility',
                         title: copy.checkEligibility.title,
-                        content: tabContent()
+                        content: tabContent(copy.checkEligibility.sections)
                     }, {
-                        id: 'get-in-touch',
-                        title: copy.getInTouch.title,
-                        content: tabContent()
+                        id: 'apply',
+                        title: copy.apply.title,
+                        content: tabContent(copy.apply.sections)
                     }]
                 )
             }}
