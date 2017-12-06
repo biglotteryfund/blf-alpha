@@ -13,7 +13,7 @@
     "test": "npm run test-unit && npm run test-integration",
     "build": "gulp build",
     "build-production": "export NODE_ENV=production && gulp build:production",
-    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p maxScrollTracker",
+    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p eventTracker,maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",
