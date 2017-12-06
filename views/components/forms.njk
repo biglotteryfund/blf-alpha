@@ -56,10 +56,10 @@
     </label>
 {% endmacro %}
 
-{% macro radios(fieldName, label, options) %}
+{% macro radios(fieldName, label = False, options) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
-    <label class="label-radio">{{ label }}</label>
+    {% if label %}<label class="label-radio">{{ label }}</label>{% endif %}
     {% for opt in options %}
         {{ radioButton(fieldName, opt.name, opt.value, false, true) }}
     {% endfor %}

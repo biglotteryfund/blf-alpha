@@ -107,12 +107,27 @@
                             <p class="intro">{{ copy.ebulletin.intro}}</p>
                             <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
                                 <span class="u-visually-hidden" id="aria-form-loc">{{ copy.ebulletin.location }}</span>
-                                {{ radios('location', [
-                                    [copy.ebulletin.locations.england, 'ENGLAND_MAIL'],
-                                    [copy.ebulletin.locations.wales, 'WALES_MAIL'],
-                                    [copy.ebulletin.locations.scotland, 'SCOTLAND_MAIL'],
-                                    [copy.ebulletin.locations.northernIreland, 'NI_MAIL']
-                                ]) }}
+                                {{ radios(
+                                    fieldName = 'location',
+                                    options = [
+                                        {
+                                            name: copy.ebulletin.locations.england,
+                                            value: 'ENGLAND_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.wales,
+                                            value: 'WALES_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.scotland,
+                                            value: 'SCOTLAND_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.northernIreland,
+                                            value: 'NI_MAIL'
+                                        }
+                                    ]
+                                ) }}
                             </div>
 
                             <div class="grid form-ebulletin__fields">

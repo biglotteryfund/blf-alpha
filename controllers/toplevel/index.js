@@ -97,6 +97,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     });
 
     // send form data to the (third party) email newsletter provider
+    // @TODO translate these error messages
     router.post(
         '/ebulletin',
         [

@@ -161,6 +161,7 @@ module.exports = (pages, sectionPath, sectionId) => {
 
             // get form errors and translate them
             const errors = validationResult(req).formatWith(error => {
+                // not every field has a translated error (or an error at all)
                 let isTranslateable = _.get(error, ['msg', 'translateable'], false);
                 if (!isTranslateable) {
                     return error;
