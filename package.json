@@ -11,8 +11,9 @@
     "test-unit": "mocha {assets,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
+    "size": "size-limit",
     "build": "gulp build",
-    "build-production": "export NODE_ENV=production && gulp build:production",
+    "build-production": "export NODE_ENV=production && gulp build:production && npm run size",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p eventTracker,maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
@@ -47,6 +48,12 @@
     "tabWidth": 4,
     "singleQuote": true
   },
+  "size-limit": [
+    {
+      "limit": "120KB",
+      "path": "public/build/*/javascripts/app.js"
+    }
+  ],
   "babel": {
     "plugins": [
       "lodash",
@@ -162,6 +169,7 @@
     "prompt": "^1.0.0",
     "puppeteer": "^0.11.0",
     "run-sequence": "^2.2.0",
+    "size-limit": "^0.13.2",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.7.1"
   },
