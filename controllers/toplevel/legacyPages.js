@@ -77,6 +77,7 @@ function initAwardsForAll(router) {
         {
             id: 'scotland',
             path: legacyProxiedRoutes.awardsForAllScotland.path,
+            experimentId: 'EcAwbF34R5mbCaWW-y_rFQ',
             replacements: {
                 applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
                 contactPhone: '0300 123 7110'
@@ -85,6 +86,7 @@ function initAwardsForAll(router) {
         {
             id: 'wales',
             path: legacyProxiedRoutes.awardsForAllWales.path,
+            experimentId: 'Ko6MLYegQfaRO1rVU1UB3w',
             replacements: {
                 applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=en',
                 contactPhone: '0300 123 0735'
@@ -93,6 +95,7 @@ function initAwardsForAll(router) {
         {
             id: 'wales-welsh',
             path: legacyProxiedRoutes.awardsForAllWalesWelsh.path,
+            experimentId: 'Ko6MLYegQfaRO1rVU1UB3w',
             replacements: {
                 applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh',
                 contactPhone: '0300 123 0735'
