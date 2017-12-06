@@ -1,14 +1,23 @@
 /* global ga, cxApi */
-import $ from 'jquery';
-const { trackEvent } = require('../modules/metrics');
 
 export const init = () => {
-    // grab main script element (for querying data attributes)
-    const $thisScript = $('#js-script-main');
+    const thisScript = document.getElementById('js-script-main');
+    const CONFIG = {
+        uaCode: thisScript.getAttribute('data-ga-code'),
+        abId: thisScript.getAttribute('data-ab-id'),
+        abVariant: thisScript.getAttribute('data-ab-variant'),
+        customMetrics: {
+            maxScrollPercentage: {
+                idx: 1,
+                name: 'metric1',
+                description: 'Max Scroll Percentage'
+            }
+        }
+    };
 
-    // get per-environment GA code
-    const uaCode = $thisScript.data('ga-code');
-
+    /**
+     * Create ga queue
+     */
     window.ga =
         window.ga ||
         function() {
@@ -16,70 +25,47 @@ export const init = () => {
         };
     ga.l = +new Date();
 
-    const CUSTOM_METRICS = {
-        maxScrollPercentage: {
-            idx: 1,
-            name: 'metric1',
-            description: 'Max Scroll Percentage'
-        }
-    };
-
-    // init GA
-    ga('create', uaCode, {
+    /**
+     * Initialise analytics
+     */
+    ga('create', CONFIG.uaCode, {
         cookieDomain: 'none'
     });
 
+    /**
+     * Use Beacon transport mechanism if available
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits
+     */
     ga('set', 'transport', 'beacon');
 
-    // Event tracker plugin
-    // https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
+    /**
+     * Event tracker plugin
+     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
+     */
     ga('require', 'eventTracker', {
         attributePrefix: 'data-'
     });
 
-    // Max scroll tracker plugin
-    // https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/max-scroll-tracker.md
+    /**
+     * Max scroll tracker plugin
+     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/max-scroll-tracker.md
+     */
     ga('require', 'maxScrollTracker', {
-        maxScrollMetricIndex: CUSTOM_METRICS.maxScrollPercentage.idx
+        maxScrollMetricIndex: CONFIG.customMetrics.maxScrollPercentage.idx
     });
 
-    // initialise A/B tests
-    let ab = {
-        id: $thisScript.data('ab-id'),
-        variant: $thisScript.data('ab-variant')
-    };
-
-    // if we're in a test variant, record it
-    if (ab.id && ab.variant) {
-        ga('set', 'expId', ab.id);
-        ga('set', 'expVar', ab.variant);
-        cxApi.setChosenVariation(ab.variant, ab.id);
+    /**
+     * A/B Tests
+     * If we're in a test variant, record it
+     */
+    if (CONFIG.abId && CONFIG.abVariant) {
+        ga('set', 'expId', CONFIG.abId);
+        ga('set', 'expVar', CONFIG.abVariant);
+        cxApi.setChosenVariation(CONFIG.abVariant, CONFIG.abId);
     }
 
-    // track this pageview
+    /**
+     * Track pageviews
+     */
     ga('send', 'pageview');
-
-    // track interactions with in-page elements
-    $('.js-track-clicks').on('click', function(e) {
-        // get metadata
-        let category = $(this).data('category');
-        let action = $(this).data('action');
-        let label = $(this).data('label');
-
-        let track = () => trackEvent(category, action, label);
-
-        // is this a link?
-        if ($(this).attr('href')) {
-            // delay following it (so GA can track)
-            e.preventDefault();
-            track();
-            window.setTimeout(() => {
-                // now follow the link
-                document.location = $(this).attr('href');
-            }, 350);
-        } else {
-            // not a link, just track it
-            track();
-        }
-    });
 };
