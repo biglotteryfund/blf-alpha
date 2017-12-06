@@ -50,7 +50,7 @@ app.use(securityHeadersMiddleware(app.get('env')));
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(redirectsMiddleware);
+app.use(redirectsMiddleware.all);
 app.use(localesMiddleware(app));
 
 // Configure static files
