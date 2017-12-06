@@ -1,6 +1,6 @@
 /* global ga, cxApi */
 import $ from 'jquery';
-const analytics = require('../modules/analytics');
+const { trackEvent } = require('../modules/metrics');
 
 export const init = () => {
     // grab main script element (for querying data attributes)
@@ -58,7 +58,7 @@ export const init = () => {
         let action = $(this).data('action');
         let label = $(this).data('label');
 
-        let track = () => analytics.track(category, action, label);
+        let track = () => trackEvent(category, action, label);
 
         // is this a link?
         if ($(this).attr('href')) {
