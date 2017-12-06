@@ -2,6 +2,7 @@ const config = require('config');
 const moment = require('moment');
 const ab = require('express-ab');
 const Raven = require('raven');
+const { get } = require('lodash');
 const { legacyProxiedRoutes } = require('../routes');
 const { splitPercentages } = require('../../modules/ab');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
@@ -52,6 +53,12 @@ function initAwardsForAll(router) {
                         }
                     });
                 }
+
+                const relatedDocuments = dom.window.document.getElementById('relatedDocsContainer');
+                if (relatedDocuments) {
+                    relatedDocuments.parentNode.removeChild(relatedDocuments);
+                }
+
                 return dom;
             });
         };
@@ -61,6 +68,7 @@ function initAwardsForAll(router) {
         {
             id: 'england',
             path: legacyProxiedRoutes.awardsForAllEngland.path,
+            experimentId: 'O9FsbkKfSeOammAP0JrEyA',
             replacements: {
                 applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=en',
                 contactPhone: '0345 4 10 20 30'
@@ -98,7 +106,8 @@ function initAwardsForAll(router) {
                 cookie: {
                     name: config.get('cookies.abTestAwardsForAll'),
                     maxAge: moment.duration(4, 'weeks').asMilliseconds()
-                }
+                },
+                id: get(route, 'experimentId', null)
             });
 
             const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
