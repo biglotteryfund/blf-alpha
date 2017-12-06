@@ -819,7 +819,7 @@
                     "title": "Not sure whether you’re eligible?",
                     "blocks": [{
                         "type": "text",
-                        "body": "<p>f you’re unclear whether you can be funded, get in touch with us: [contact details]</p>"
+                        "body": "<p>If you’re unclear whether you can be funded, get in touch with us: [contact details]</p>"
                     }]
                 }]
             },
