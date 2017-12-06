@@ -1,8 +1,6 @@
 /* global ga */
 
-// @TODO explore using autotrack here (needs webpack)
-// https://github.com/googleanalytics/autotrack/#usage
-let track = (category, action, label) => {
+function trackEvent(category, action, label) {
     if (window.ga && category && action && label) {
         ga('send', {
             hitType: 'event',
@@ -11,16 +9,16 @@ let track = (category, action, label) => {
             eventLabel: label
         });
     }
-};
+}
 
-let setPageView = path => {
+function setPageView(path) {
     if (window.ga && path) {
         ga('set', 'page', path);
         ga('send', 'pageview');
     }
-};
+}
 
 module.exports = {
-    track: track,
-    setPageView: setPageView
+    trackEvent,
+    setPageView
 };
