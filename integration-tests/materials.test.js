@@ -159,15 +159,14 @@ describe('Material order form', () => {
             skipEmail: true,
             yourName: 'Little Bobby Tables',
             yourEmail: 'bobby@xkcd.com',
-            yourNumber: '123456789',
             yourAddress1: '123 Fake Street',
             yourAddress2: 'Notrealsville',
             yourTown: 'Madeuptown',
             yourCounty: 'Nonexistentland',
             yourPostcode: 'NW1 6XE',
             yourProjectName: 'White Hat Testing',
-            yourProjectID: '666',
-            yourGrantAmount: '£2038'
+            yourGrantAmount: 'over10k',
+            yourReason: 'event'
         };
 
         agent
