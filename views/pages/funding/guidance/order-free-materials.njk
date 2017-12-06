@@ -179,25 +179,25 @@
                         <input type="hidden" name="languageChoice" value="" id="js-language-choice">
 
                         <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-6">{{ textField(formFields.yourName) }}</div>
-                            <div class="grid__item grid-col-6">{{ textField(formFields.yourEmail) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
                         </div>
 
                         <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourAddress1) }}</div>
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourAddress2) }}</div>
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourTown) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
                         </div>
 
                         <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourCounty) }}</div>
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourPostcode) }}</div>
-                            <div class="grid__item grid-col-4">{{ textField(formFields.yourProjectName) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
+                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourProjectName) }}</div>
                         </div>
 
-                        <div class="grid grid--padded grid-row">
+                        <div class="grid grid--padded grid--top grid-row">
 
-                            <div class="grid__item grid-col-4">
+                            <div class="grid__item grid-col-4 grid-col-3--m">
                                 {{ radios(
                                     fieldName = formFields.yourGrantAmount.name,
                                     label = __(formFields.yourGrantAmount.label),
@@ -205,7 +205,7 @@
                                 ) }}
                             </div>
 
-                            <div class="grid__item grid-col-4">
+                            <div class="grid__item grid-col-4 grid-col-3--m">
                                 {{ radios(
                                     fieldName = formFields.yourReason.name,
                                     label = __(formFields.yourReason.label),
@@ -213,7 +213,7 @@
                                 ) }}
                             </div>
 
-                            <div class="grid__item grid-col-4">
+                            <div class="grid__item grid-col-4 grid-col-3--m">
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
                                        v-bind:disabled="isEmpty()"
                                        value="{{ __('global.forms.submit') }}"

@@ -2,41 +2,47 @@
 const { check } = require('express-validator/check');
 const translationBasePath = 'funding.guidance.order-free-materials.formFields.';
 
-const getTranslatedError = (field, req) => {
-    return req.i18n.__('global.forms.missingFieldError', field.label);
+const getTranslatedError = field => {
+    return {
+        translateable: true,
+        errorPath: 'global.forms.missingFieldError',
+        paramPath: field.label
+    };
 };
 
 const materialFields = {
     yourName: {
         name: 'yourName',
         type: 'text',
+        emailKey: 'Name',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     },
     yourEmail: {
         name: 'yourEmail',
         type: 'email',
+        emailKey: 'Email address',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req))
+                .withMessage(getTranslatedError(field))
                 .isEmail()
                 .withMessage('Please provide a valid email address'); // @TODO
         }
@@ -44,22 +50,24 @@ const materialFields = {
     yourAddress1: {
         name: 'yourAddress1',
         type: 'text',
+        emailKey: 'Address line 1',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     },
     yourAddress2: {
         name: 'yourAddress2',
         type: 'text',
+        emailKey: 'Address line 2',
         get label() {
             return translationBasePath + this.name;
         },
@@ -73,22 +81,24 @@ const materialFields = {
     yourTown: {
         name: 'yourTown',
         type: 'text',
+        emailKey: 'Town/city',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     },
     yourCounty: {
         name: 'yourCounty',
         type: 'text',
+        emailKey: 'County',
         get label() {
             return translationBasePath + this.name;
         },
@@ -102,22 +112,24 @@ const materialFields = {
     yourPostcode: {
         name: 'yourPostcode',
         type: 'text',
+        emailKey: 'Postcode',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     },
     yourProjectName: {
         name: 'yourProjectName',
         type: 'text',
+        emailKey: 'Project name',
         get label() {
             return translationBasePath + this.name;
         },
@@ -145,17 +157,18 @@ const materialFields = {
                 value: 'dunno'
             }
         ],
+        emailKey: 'Grant amount',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     },
     yourReason: {
@@ -184,28 +197,22 @@ const materialFields = {
                 value: 'grantAcknowledgment'
             }
         ],
+        emailKey: 'Order reason',
         get label() {
             return translationBasePath + this.name;
         },
         required: true,
-        validator: function(field, req) {
+        validator: function(field) {
             return check(field.name)
                 .escape()
                 .trim()
                 .not()
                 .isEmpty()
-                .withMessage(getTranslatedError(field, req));
+                .withMessage(getTranslatedError(field));
         }
     }
 };
 
-const getValidators = req => {
-    return materialFields.map(field => {
-        return field.validator(field, req);
-    });
-};
-
 module.exports = {
-    fields: materialFields,
-    getValidators: getValidators
+    fields: materialFields
 };

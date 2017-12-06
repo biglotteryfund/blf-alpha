@@ -5,7 +5,8 @@ const moment = require('moment');
 const _ = require('lodash');
 const xss = require('xss');
 const config = require('config');
-const { body, validationResult } = require('express-validator/check');
+const { body, check, validationResult } = require('express-validator/check');
+
 const { matchedData, sanitizeBody } = require('express-validator/filter');
 const cached = require('../../middleware/cached');
 const routeStatic = require('../utils/routeStatic');
@@ -85,15 +86,11 @@ module.exports = (pages, sectionPath, sectionId) => {
     //         });
     // });
 
-    // find validators
+    // combine all validators for each field
     let validators = [];
     for (let key in freeMaterialsLogic.formFields.fields) {
         let field = freeMaterialsLogic.formFields.fields[key];
-        validators.push(
-            body(field.name).custom((value, { req }) => {
-                return field.validator(field, req);
-            })
-        );
+        validators.push(field.validator(field));
     }
 
     /**
@@ -108,12 +105,14 @@ module.exports = (pages, sectionPath, sectionId) => {
         }
         text += "\nThe customer's personal details are below:\n\n";
 
-        freeMaterialsLogic.formFields.forEach(field => {
+        for (let key in freeMaterialsLogic.formFields.fields) {
+            let field = freeMaterialsLogic.formFields.fields[key];
             const fieldDetail = details[field.name];
+            const fieldLabel = field.emailKey;
             if (fieldDetail) {
-                text += `\t${field.label['en']}: ${fieldDetail}\n\n`;
+                text += `\t${fieldLabel}: ${fieldDetail}\n\n`;
             }
-        });
+        }
 
         text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
@@ -125,6 +124,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         .route([freeMaterials.path])
         .get(cached.csrfProtection, (req, res) => {
             let orderStatus;
+
             // clear order details if it succeeded
             if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
@@ -159,7 +159,18 @@ module.exports = (pages, sectionPath, sectionId) => {
                 req.body[key] = xss(req.body[key]);
             }
 
-            const errors = validationResult(req);
+            // get form errors and translate them
+            const errors = validationResult(req).formatWith(error => {
+                let isTranslateable = _.get(error, ['msg', 'translateable'], false);
+                if (!isTranslateable) {
+                    return error;
+                }
+                let paramTranslated = req.i18n.__(error.msg.paramPath);
+                return Object.assign({}, error, {
+                    msg: req.i18n.__(error.msg.errorPath, paramTranslated)
+                });
+            });
+
             if (!errors.isEmpty()) {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);

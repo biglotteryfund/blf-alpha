@@ -243,7 +243,6 @@ $errorColor: #b00;
     input[type='submit'] {
         display: block;
         width: 100%;
-        margin-top: $spacingUnit * 2;
         border-bottom: none;
     }
 
@@ -252,8 +251,15 @@ $errorColor: #b00;
         display: inline-block;
     }
 
-    .label--radio {
+    .label-radio {
+        font-weight: bold;
+    }
+
+    .label-radio,
+    .label-radio__item {
+        font-size: 16px;
         display: block;
+        margin-bottom: $spacingUnit;
     }
 
     label.form-fund__item {
@@ -274,7 +280,7 @@ $errorColor: #b00;
             flex-wrap: wrap;
             align-items: stretch;
 
-            .label--radio {
+            .label-radio__item {
                 margin: 0;
                 padding: 10px;
                 flex-grow: 1;

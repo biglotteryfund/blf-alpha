@@ -46,7 +46,7 @@
     {% if not suppressErrors and error %}
         <p class="error">{{ error.msg }}</p>
     {% endif %}
-    <label class="label--radio{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+    <label class="label-radio__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
            for="ff-radio-{{ value }}">
         <input type="radio"
                id="ff-radio-{{ value }}"
@@ -59,7 +59,7 @@
 {% macro radios(fieldName, label, options) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
-    <label>{{ label }}</label>
+    <label class="label-radio">{{ label }}</label>
     {% for opt in options %}
         {{ radioButton(fieldName, opt.name, opt.value, false, true) }}
     {% endfor %}
