@@ -1,5 +1,5 @@
 'use strict';
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const getSecret = require('./get-secret');
 
 let API_URL = process.env.cmsUrl || getSecret('content-api.url');
