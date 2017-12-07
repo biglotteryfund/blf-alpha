@@ -17,9 +17,9 @@ function initAwardsForAll(router) {
                 <p>The usual method for applying is via a PDF form that you email or post to us. To apply this way:</p>
                 ${originalText}
                 <h3>Applying using the trial online form</h3>
-                <p>We are trialling a new application process with a small number of users. The service is not generally open yet, whilst we gather feedback and make improvements. If you have already started an application via the online form process, <a href="${
+                <p>We are trialling a new application process with a small number of users. If you are part of the online trial <a href="${
                     replacements.applyUrl
-                }">continue it here</a>. Otherwise please use the PDF application form described above</p>
+                }">continue your application here</a>.</p>
             `,
             B: `
                 <p>There are current two ways to apply, via PDF application form or via online application form.
@@ -29,7 +29,7 @@ function initAwardsForAll(router) {
                 <p><a class="roundedButton blueButton" style="display: inline-block;" href="${
                     replacements.applyUrl
                 }">Apply Online</a></p>
-                <p>This new form is a trial only open to a limited number of new applicants. We’d love your feedback on how you find the experience.</p>
+                <p>This new form is a trial only open to a limited number of applicants. We’d love your feedback on how you find the experience.</p>
                 <h3>Applying via email or post</h3>
                 <p>You are also welcome to apply via email or post using our PDF form. To apply this way:</p>
                 ${originalText}
