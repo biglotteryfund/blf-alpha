@@ -112,7 +112,7 @@ if (customConfig) {
                     });
                 });
         })
-        .catch(err => {
+        .catch(() => {
             console.log('Failed to fetch server status');
         });
 }

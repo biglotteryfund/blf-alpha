@@ -8,10 +8,12 @@ const config = require('config');
 const { body, check, validationResult } = require('express-validator/check');
 
 const { matchedData, sanitizeBody } = require('express-validator/filter');
+const Raven = require('raven');
+
 const cached = require('../../middleware/cached');
 const routeStatic = require('../utils/routeStatic');
-
 const mail = require('../../modules/mail');
+const models = require('../../models/index');
 const programmesRoute = require('./programmes');
 
 const freeMaterialsLogic = {
@@ -210,8 +212,9 @@ module.exports = (pages, sectionPath, sectionId) => {
                     res.send(req.body);
                 } else {
                     const details = matchedData(req, { locations: ['body'] });
+                    const items = req.session[freeMaterialsLogic.orderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
-                    const text = makeOrderText(req.session[freeMaterialsLogic.orderKey], details);
+                    const text = makeOrderText(items, details);
 
                     let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
@@ -227,12 +230,71 @@ module.exports = (pages, sectionPath, sectionId) => {
                         });
                     };
 
+                    let storeOrderData = (items, details) => {
+                        // format ordered items for database
+                        let orderedItems = [];
+                        for (let code in items) {
+                            if (items[code].quantity > 0) {
+                                orderedItems.push({
+                                    code: code,
+                                    quantity: items[code].quantity
+                                });
+                            }
+                        }
+
+                        // work out the postcode area
+                        let postcodeArea = details.yourPostcode.replace(/ /g, '').toUpperCase();
+                        if (postcodeArea.length > 3) {
+                            postcodeArea = postcodeArea.slice(0, -3);
+                        }
+
+                        // save order data to database
+                        return models.Order.create(
+                            {
+                                grantAmount: details.yourGrantAmount,
+                                postcodeArea: postcodeArea,
+                                items: orderedItems
+                            },
+                            {
+                                include: [
+                                    {
+                                        model: models.OrderItem,
+                                        as: 'items'
+                                    }
+                                ]
+                            }
+                        );
+                    };
+
                     sendOrderEmail
                         .then(() => {
-                            req.flash('materialFormSuccess', true);
-                            redirectToMessage();
+                            if (!config.get('storeOrderData')) {
+                                req.flash('materialFormSuccess', true);
+                                redirectToMessage();
+                            } else {
+                                // log this order in the database
+                                storeOrderData(items, details)
+                                    .then(() => {
+                                        // successfully stored order data
+                                        req.flash('materialFormSuccess', true);
+                                        redirectToMessage();
+                                    })
+                                    .catch(error => {
+                                        // error storing order data
+                                        Raven.captureMessage('Error logging material order in database', {
+                                            extra: error,
+                                            tags: {
+                                                feature: 'material-form'
+                                            }
+                                        });
+                                        // this error doesn't affect the user so return a success to them
+                                        req.flash('materialFormSuccess', true);
+                                        redirectToMessage();
+                                    });
+                            }
                         })
                         .catch(() => {
+                            // email to supplier failed to send - prompt user to try again
                             req.flash('materialFormError', true);
                             redirectToMessage();
                         });

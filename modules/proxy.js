@@ -1,10 +1,11 @@
 'use strict';
 const config = require('config');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const { get } = require('lodash');
+const Raven = require('raven');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -123,9 +124,11 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
             res.send(dom.serialize());
         })
         .catch(error => {
-            // we failed to fetch from the proxy, redirect to new
-            console.log(`Error fetching legacy site page: ${req.path}`, error);
-            // @TODO can we send them somewhere better?
+            /**
+             * We failed to fetch from the proxy, redirect to new
+             * @TODO can we send them somewhere better?
+             */
+            Raven.captureException(error);
             res.redirect('/home');
         });
 };

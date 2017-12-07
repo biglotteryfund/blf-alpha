@@ -7,16 +7,16 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set heroImage = createHeroImage({
+    small: 'hero/under-10k-small.jpg',
+    medium: 'hero/under-10k-medium.jpg',
+    large: 'hero/under-10k-large.jpg',
+    default: 'hero/under-10k-medium.jpg',
+    caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
+}) %}
+{% set socialImage = heroImage %}
+
 {% block content %}
-
-    {% set heroImage = createHeroImage({
-        small: 'hero/under-10k-small.jpg',
-        medium: 'hero/under-10k-medium.jpg',
-        large: 'hero/under-10k-large.jpg',
-        default: 'hero/under-10k-medium.jpg',
-        caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
-    }) %}
-
     {{
         sectionHero(
             titleText = copy.title,

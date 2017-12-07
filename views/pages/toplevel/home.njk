@@ -11,6 +11,8 @@
 
 {% block title %}{{ title }} | {{ copy.home }} | {% endblock %}
 
+{% set socialImage = heroImage.default %}
+
 {% block content %}
     {{
         homepageSuperHero(

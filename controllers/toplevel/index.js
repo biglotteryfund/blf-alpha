@@ -1,9 +1,10 @@
 'use strict';
+
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
 const { get, sortBy } = require('lodash');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
@@ -21,6 +22,9 @@ const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
+const { splitPercentages } = require('../../modules/ab');
+
+const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -31,6 +35,8 @@ if (app.get('env') !== 'production') {
 const newHomepage = [
     cached.noCache,
     (req, res) => {
+        const newsToShow = 3;
+
         const serveHomepage = news => {
             const lang = req.i18n.__('toplevel.home');
 
@@ -47,7 +53,7 @@ const newHomepage = [
         contentApi
             .getPromotedNews(req.i18n.getLocale())
             .then(response => get(response, 'data', []))
-            .then(data => data.map(item => item.attributes))
+            .then(data => data.map(item => item.attributes).slice(0, newsToShow))
             .then(news => {
                 serveHomepage(news);
             })
@@ -68,21 +74,21 @@ module.exports = (pages, sectionPath, sectionId) => {
     routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
     if (config.get('abTests.enabled')) {
-        const testHomepage = ab.test('blf-homepage-2017', {
+        const testFn = ab.test('blf-homepage-2017', {
             cookie: {
-                name: config.get('cookies.abTest'),
-                maxAge: 60 * 60 * 24 * 7 * 1000 // one week
+                name: config.get('cookies.abTestHomepage'),
+                maxAge: moment.duration(1, 'week').asMilliseconds()
             },
             id: config.get('abTests.tests.homepage.id') // google experiment ID
         });
 
         const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
+        const percentages = splitPercentages(percentageToSeeNewHomepage);
 
-        // variant 0/A: existing site (proxied)
-        router.get('/', testHomepage(null, (100 - percentageToSeeNewHomepage) / 100), oldHomepage);
-
-        // variant 1/B: new homepage
-        router.get('/', testHomepage(null, percentageToSeeNewHomepage / 100), newHomepage);
+        // Variant 0/A: existing site (proxied)
+        router.get('/', testFn(null, percentages.A), oldHomepage);
+        // Variant 1/B: new homepage
+        router.get('/', testFn(null, percentages.B), newHomepage);
     } else {
         router.get('/', newHomepage);
     }
@@ -95,6 +101,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/legacy', (req, res) => {
         return proxyLegacy.proxyLegacyPage(req, res, null, '/');
     });
+
+    legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
     // @TODO translate these error messages

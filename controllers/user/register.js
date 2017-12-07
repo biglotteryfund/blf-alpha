@@ -96,7 +96,7 @@ const createUser = (req, res, next) => {
                                 login.attemptAuth(req, res, next);
                             }
                         })
-                        .catch(err => {
+                        .catch(() => {
                             // error on user insert
                             trackError('Error creating a new user');
                             res.locals.errors = makeErrorList(
@@ -112,7 +112,7 @@ const createUser = (req, res, next) => {
                     return registrationForm(req, res);
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 // error on user lookup
                 trackError('Error looking up user');
                 res.locals.errors = makeErrorList('There was an error creating your account - please try again');
