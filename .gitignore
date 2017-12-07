@@ -11,3 +11,5 @@ node_modules
 public/build
 screenshots
 tmp/*.db
+gmail_secrets.json
+messages.json

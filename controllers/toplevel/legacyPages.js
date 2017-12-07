@@ -9,6 +9,7 @@ const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
 const cached = require('../../middleware/cached');
 
 function initAwardsForAll(router) {
+
     function getReplacementText(originalText, replacements) {
         return {
             A: `
