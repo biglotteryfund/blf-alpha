@@ -1,9 +1,9 @@
 {% macro makeContrastLink(mode) %}
     <a href="/contrast/{{ mode }}?url={{ getCurrentUrl(request) | urlencode}}"
-       class="js-track-clicks"
-       data-category="Change contrast"
-       data-action="Click"
-       data-label="{{ mode }}">
+       data-on="click"
+       data-event-category="Change contrast"
+       data-event-action="Click"
+       data-event-label="{{ mode }}">
         {{ __("global.accessibility.contrast." + mode ) | safe }}
     </a>
 {% endmacro %}

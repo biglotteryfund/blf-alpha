@@ -6,6 +6,7 @@ chai.use(require('chai-http'));
 chai.should();
 
 const helper = require('./helper');
+const { legacyProxiedRoutes } = require('../controllers/routes');
 
 describe('Express application', () => {
     let server;
@@ -48,32 +49,6 @@ describe('Express application', () => {
             .end((err, res) => {
                 // verify that our proxied page has been correct modified
                 res.should.have.header('X-BLF-Legacy', 'true');
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    it('proxies the legacy funding finder', done => {
-        chai
-            .request(server)
-            .get('/funding/funding-finder?area=Wales')
-            .end((err, res) => {
-                // verify that our proxied page has been correct modified
-                res.should.have.header('X-BLF-Legacy', 'true');
-                res.text.should.include('National Lottery Awards for All Wales');
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    it('modifies the proxied legacy funding finder for over 10k', done => {
-        chai
-            .request(server)
-            .get('/funding/funding-finder?area=Scotland&over=10k')
-            .end((err, res) => {
-                // verify that our proxied page has been correct modified
-                res.should.have.header('X-BLF-Legacy', 'true');
-                res.text.should.not.include('National Lottery Awards for All Scotland');
                 res.should.have.status(200);
                 done();
             });
@@ -127,6 +102,18 @@ describe('Express application', () => {
             .end((err, res) => {
                 res.text.should.include('Error 404 | Big Lottery Fund');
                 res.should.have.status(404);
+                done();
+            });
+    });
+
+    it('proxies the legacy awards for all pages', done => {
+        chai
+            .request(server)
+            .get(legacyProxiedRoutes.awardsForAllEngland.path)
+            .end((err, res) => {
+                res.should.have.header('X-BLF-Legacy', 'true');
+                res.text.should.include('National Lottery Awards for All');
+                res.should.have.status(200);
                 done();
             });
     });

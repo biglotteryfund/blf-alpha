@@ -1,4 +1,4 @@
-{% macro makeAbsoluteImage(path) %}{{ request.protocol }}://{{ request.headers.host }}{{ path | getImagePath }}{% endmacro %}
+{% macro makeAbsoluteImage(path) %}{{ request.protocol }}://{{ request.headers.host }}{{ path }}{% endmacro %}
 
 <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) (Node version: {{ appData.nodeVersion }}) -->
 
@@ -17,8 +17,16 @@
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
-<meta property="twitter:image" content="{{ makeAbsoluteImage("social/twitter.jpg") }}">
-<meta property="og:image" content="{{ makeAbsoluteImage("social/facebook.jpg") }}">
+
+{% if socialImage %}
+<meta property="twitter:image" content="{{ makeAbsoluteImage(socialImage.default) }}">
+<meta property="og:image" content="{{ makeAbsoluteImage(socialImage.default) }}">
+{% else %}
+<meta property="twitter:image" content="{{ makeAbsoluteImage("social/twitter.jpg" | getImagePath) }}">
+<meta property="og:image" content="{{ makeAbsoluteImage("social/facebook.jpg" | getImagePath) }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{% endif %}
 
 {# tiles/themes #}
 <meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">

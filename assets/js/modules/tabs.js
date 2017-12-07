@@ -1,7 +1,7 @@
 'use strict';
 
 const $ = require('jquery');
-const analytics = require('./analytics');
+const { trackEvent, setPageView } = require('./metrics');
 
 let activeClasses = {
     tab: 'tab--active',
@@ -15,7 +15,7 @@ function scrollIntoView(el) {
 }
 
 function trackTabClick(label, trackTabClicksAsPageviews) {
-    analytics.track('Tab', 'Click', label);
+    trackEvent('Tab', 'Click', label);
 
     // optionally set a new URL and pageview
     // this enables us to treat each tab as a unique page
@@ -23,7 +23,7 @@ function trackTabClick(label, trackTabClicksAsPageviews) {
     // calling `set` first means all subsequent events will be marked against this "page"
     // also, isn't it really satisfying how each new line in this block is longer than the one before?
     if (trackTabClicksAsPageviews) {
-        analytics.setPageView(window.location.pathname + window.location.hash);
+        setPageView(window.location.pathname + window.location.hash);
     }
 }
 

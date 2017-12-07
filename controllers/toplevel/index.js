@@ -1,9 +1,10 @@
 'use strict';
+
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
 const { get, sortBy } = require('lodash');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
@@ -16,12 +17,13 @@ const routeStatic = require('../utils/routeStatic');
 const regions = require('../../config/content/regions.json');
 const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
-const utilities = require('../../modules/utilities');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
+
+const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
 // block everything on non-prod envs
@@ -32,6 +34,8 @@ if (app.get('env') !== 'production') {
 const newHomepage = [
     cached.noCache,
     (req, res) => {
+        const newsToShow = 3;
+
         const serveHomepage = news => {
             const lang = req.i18n.__('toplevel.home');
 
@@ -48,7 +52,7 @@ const newHomepage = [
         contentApi
             .getPromotedNews(req.i18n.getLocale())
             .then(response => get(response, 'data', []))
-            .then(data => data.map(item => item.attributes))
+            .then(data => data.map(item => item.attributes).slice(0, newsToShow))
             .then(news => {
                 serveHomepage(news);
             })
@@ -62,43 +66,6 @@ const oldHomepage = (req, res) => {
     return proxyLegacy.proxyLegacyPage(req, res);
 };
 
-// serve the legacy site funding finder (via proxy)
-router.get('/funding/funding-finder', (req, res) => {
-    // rewrite HTML to remove invalid funding programs
-    return proxyLegacy.proxyLegacyPage(req, res, dom => {
-        // should we filter out programs under 10k?
-        if (req.query.over && req.query.over === '10k') {
-            // get the list of program elements
-            let programs = dom.window.document.querySelectorAll('article.programmeList');
-            if (programs.length > 0) {
-                [].forEach.call(programs, p => {
-                    // find the key facts block (which contains the funding size)
-                    let keyFacts = p.querySelectorAll('.taxonomy-keyFacts dt');
-                    if (keyFacts.length > 0) {
-                        [].forEach.call(keyFacts, k => {
-                            // find the node with the funding size info (if it exists)
-                            let textValue = k.textContent.toLowerCase();
-                            // english/welsh version
-                            if (['funding size:', 'maint yr ariannu:'].indexOf(textValue) !== -1) {
-                                // convert string into number
-                                let programUpperLimit = utilities.parseValueFromString(k.nextSibling.textContent);
-                                // remove the element if it's below our threshold
-                                if (programUpperLimit <= 10000) {
-                                    p.parentNode.removeChild(p);
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        }
-        return dom;
-    });
-});
-
-// allow form submissions on funding finder to pass through to proxy
-router.post('/funding/funding-finder', proxyLegacy.postToLegacyForm);
-
 module.exports = (pages, sectionPath, sectionId) => {
     /**
      * 1. Populate static pages
@@ -108,8 +75,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     if (config.get('abTests.enabled')) {
         const testHomepage = ab.test('blf-homepage-2017', {
             cookie: {
-                name: config.get('cookies.abTest'),
-                maxAge: 60 * 60 * 24 * 7 * 1000 // one week
+                name: config.get('cookies.abTestHomepage'),
+                maxAge: moment.duration(1, 'week').asMilliseconds()
             },
             id: config.get('abTests.tests.homepage.id') // google experiment ID
         });
@@ -133,6 +100,8 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/legacy', (req, res) => {
         return proxyLegacy.proxyLegacyPage(req, res, null, '/');
     });
+
+    legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
     router.post(

@@ -6,18 +6,21 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set heroImage = createHeroImage({
+    small: 'hero/working-families-small.jpg',
+    medium: 'hero/working-families-medium.jpg',
+    large: 'hero/working-families-large.jpg',
+    default: 'hero/working-families-medium.jpg',
+    caption: 'Grassroots, Grant £455,268'
+}) %}
+{% set socialImage = heroImage %}
+
 {% block content %}
     {{
         sectionHero(
             accent = 'pink',
             titleText = title,
-            image = createHeroImage({
-                small: 'hero/working-families-small.jpg',
-                medium: 'hero/working-families-medium.jpg',
-                large: 'hero/working-families-large.jpg',
-                default: 'hero/working-families-medium.jpg',
-                caption: 'Grassroots, Grant £455,268'
-            })
+            image = heroImage
         )
     }}
 

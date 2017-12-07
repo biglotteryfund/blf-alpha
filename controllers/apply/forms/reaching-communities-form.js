@@ -16,7 +16,7 @@ formModel.registerStep({
     name: 'Your Idea',
     fieldsets: [
         {
-            legend: 'Your Idea',
+            legend: 'Find out how we can help you',
             fields: [
                 {
                     type: 'textarea',
@@ -42,6 +42,10 @@ formModel.registerStep({
 <li>Places and Spaces – We will be looking for ideas that support people to shape and sustain the places that matter to them, like a park, community centre or online network.</li>
 <li>Early Action – We will be looking for ideas that support activity that empowers people to fulfil their potential, working to address problems at the earliest possible stage.</li>
 </ul>
+`,
+                        introduction: `
+<p>Use the box below to tell us about your organisation, or your idea, and we will be in touch within 24 hours to let you know if we can help. You don’t need to spend too much time on this – if it is something we can fund, this is just the start of the conversation.</p>
+<p>If you have already read our guidance, and feel you have all the information to tell us your idea, you are welcome to insert this below and it will go to one of our funding officers.</p>
 `
                     }
                 }

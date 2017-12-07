@@ -1,3 +1,5 @@
+const { filter, forEach } = require('lodash');
+
 // take a route config and format it for cloudfront
 const makeUrlObject = (page, customPath) => {
     return {
@@ -51,7 +53,7 @@ const generateUrlList = routes => {
     }
 
     // add vanity redirects too
-    routes.vanityRedirects.forEach(redirect => {
+    routes.vanityRedirects.filter(r => r.live).forEach(redirect => {
         if (redirect.paths) {
             redirect.paths.forEach(path => {
                 let page = { path: path };
@@ -63,14 +65,34 @@ const generateUrlList = routes => {
         }
     });
 
-    // finally add the miscellaneous routes for static files etc
+    // Add the miscellaneous routes
     routes.otherUrls.filter(r => r.live).forEach(routeConfig => {
+        urlList.newSite.push(makeUrlObject(routeConfig));
+    });
+
+    // Legacy proxied routes
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, _ => _.live);
+    forEach(liveLegacyRoutes, routeConfig => {
         urlList.newSite.push(makeUrlObject(routeConfig));
     });
 
     return urlList;
 };
 
+/**
+ * Strip trailing slashes from a string
+ * Used to strip slashes from URLs like '/welsh/' => '/welsh'
+ */
+const stripTrailingSlashes = str => {
+    const hasTrailingSlash = s => s[s.length - 1] === '/' && s.length > 1;
+    if (hasTrailingSlash(str)) {
+        str = str.substring(0, str.length - 1);
+    }
+    return str;
+};
+
 module.exports = {
-    generateUrlList
+    makeUrlObject,
+    generateUrlList,
+    stripTrailingSlashes
 };

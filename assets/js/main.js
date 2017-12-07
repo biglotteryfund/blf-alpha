@@ -26,8 +26,7 @@ require('./modules/materials').init();
 require('./modules/forms').init();
 
 /**
- * Analytics
- * If the we are in the live environment then load analytics
+ * If we are in the live environment then load analytics
  * @see metaHeadJS.njk for where App.blockAnalytics is set
  */
 if (!window.AppConfig.blockAnalytics) {

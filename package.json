@@ -8,12 +8,13 @@
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "lint": "eslint .",
     "test-deps": "snyk test",
-    "test-unit": "mocha {assets,modules}/**/*.test.js --exit",
+    "test-unit": "mocha {assets,middleware,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
+    "size": "size-limit",
     "build": "gulp build",
-    "build-production": "export NODE_ENV=production && gulp build:production",
-    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p maxScrollTracker",
+    "build-production": "export NODE_ENV=production && gulp build:production && npm run size",
+    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p eventTracker,maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",
@@ -24,19 +25,16 @@
     "prepush": "npm test"
   },
   "lint-staged": {
+    "assets/**/*.scss": [
+      "prettier --write"
+    ],
     "{assets,controllers,integration-tests,lambda,middleware,models,modules}/**/*.js": [
       "prettier --write",
-      "eslint",
-      "git add"
+      "eslint"
     ],
     "{gulpfile.js,server.js}": [
       "prettier --write",
-      "eslint",
-      "git add"
-    ],
-    "assets/**/*.scss": [
-      "prettier --write",
-      "git add"
+      "eslint"
     ],
     "controllers/routes.js": [
       "./bin/generate-cloudfront-config"
@@ -47,6 +45,12 @@
     "tabWidth": 4,
     "singleQuote": true
   },
+  "size-limit": [
+    {
+      "limit": "120KB",
+      "path": "public/build/*/javascripts/app.js"
+    }
+  ],
   "babel": {
     "plugins": [
       "lodash",
@@ -113,8 +117,8 @@
     "raven": "^2.2.1",
     "raven-js": "^3.18.1",
     "req-flash": "0.0.3",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
     "rootbeer": "^1.0.5",
     "sequelize": "^4.8.0",
     "serve-favicon": "^2.4.3",
@@ -157,6 +161,7 @@
     "livereload": "^0.6.2",
     "node-gmail-api": "^0.6.1",
     "make-dir": "^1.1.0",
+    "node-mocks-http": "^1.6.6",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
     "p-limit": "^1.1.0",
@@ -164,6 +169,7 @@
     "prompt": "^1.0.0",
     "puppeteer": "^0.11.0",
     "run-sequence": "^2.2.0",
+    "size-limit": "^0.13.2",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.7.1"
   },

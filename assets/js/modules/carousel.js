@@ -1,7 +1,7 @@
 'use strict';
 const Swiper = require('swiper');
 const appConfig = require('../../../config/content/sass.json');
-const analytics = require('./analytics');
+const { trackEvent } = require('./metrics');
 
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
@@ -38,7 +38,7 @@ const Carousel = settings => {
         carouselSwiper.on('slideChangeEnd', function(swiperInstance) {
             const idx = swiperInstance.realIndex + 1;
             if (dataName) {
-                analytics.track(dataName, 'Changed slide', 'Changed to item ' + idx);
+                trackEvent(dataName, 'Changed slide', 'Changed to item ' + idx);
             }
         });
     }

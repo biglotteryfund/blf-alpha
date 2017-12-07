@@ -1,25 +1,34 @@
-{% from "../components/nav.njk" import navlinks with context %}
+{% from "../components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
 {% from "../components/surveys.njk" import showSurvey with context %}
 
 {# show a microsurvey for this page (if set) #}
 {{ showSurvey() }}
 
-<header class="header" role="banner">
-    <div class="header__inner inner">
-        <div class="header__content">
-            <a class="header__logo" href="{{ buildUrl('toplevel', '/') }}">
-                <h1 class="logo">
+<header class="global-header" role="banner">
+    <div class="global-header__inner inner">
+        <div class="global-header__content">
+            <a class="global-header__home-link"
+                href="{{ buildUrl('toplevel', '/') }}">
+                <h1 class="global-header__logo">
                     <span class="u-visually-hidden">{{ __("global.brand.title") }}</span>
                 </h1>
             </a>
-            <nav class="header__hamburger u-mobile-only u-dont-print" id="js-mobile-nav-toggle">
+            <nav class="global-header__hamburger u-mobile-only u-dont-print"
+                id="js-mobile-nav-toggle">
                 <a href="#nav">
                     {% include "../includes/svg/hamburger.svg" %}
                 </a>
             </nav>
-            <nav role="navigation" class="header__nav header__content-item u-desktop-only u-dont-print">
-                <ul class="nav grid">
-                    {{ navlinks('nav__link') }}
+            <nav role="navigation"
+                class="global-header__nav u-desktop-only u-dont-print">
+                <ul class="global-nav">
+                    {{ navlinks('global-nav__link') }}
+                    <li class="global-nav__lang">
+                        {{ navLangLink() }}
+                    </li>
+                    <li class="global-nav__search">
+                        {{ navSearchForm() }}
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -10,4 +10,7 @@ function redirectNonWww(req, res, next) {
     }
 }
 
-module.exports = [redirectNonWww];
+module.exports = {
+    all: [redirectNonWww],
+    redirectNonWww
+};
