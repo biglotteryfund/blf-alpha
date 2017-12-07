@@ -184,20 +184,23 @@
                         </div>
 
                         <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
                         </div>
 
                         <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
-                            <div class="grid__item grid-col-4 grid-col-3--m">{{ textField(formFields.yourProjectName) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourProjectName) }}</div>
                         </div>
 
                         <div class="grid grid--padded grid--top grid-row">
 
-                            <div class="grid__item grid-col-4 grid-col-3--m">
+                            <div class="grid__item grid-col-6 grid-col-3--m">
                                 {{ radios(
                                     fieldName = formFields.yourGrantAmount.name,
                                     label = __(formFields.yourGrantAmount.label),
@@ -205,7 +208,7 @@
                                 ) }}
                             </div>
 
-                            <div class="grid__item grid-col-4 grid-col-3--m">
+                            <div class="grid__item grid-col-6 grid-col-3--m">
                                 {{ radios(
                                     fieldName = formFields.yourReason.name,
                                     label = __(formFields.yourReason.label),
@@ -213,36 +216,14 @@
                                 ) }}
                             </div>
 
-                            <div class="grid__item grid-col-4 grid-col-3--m">
-                                <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                       v-bind:disabled="isEmpty()"
-                                       value="{{ __('global.forms.submit') }}"
-                                       class="btn accent--turquoise a--btn order-form__btn"
-                                       id="js-submit-material-order">
-                            </div>
                         </div>
 
+                        <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                               v-bind:disabled="isEmpty()"
+                               value="{{ __('global.forms.submit') }}"
+                               class="btn accent--turquoise a--btn order-form__btn"
+                               id="js-submit-material-order">
 
-                        {#<ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">#}
-                            {#{% for field in formFields %}#}
-                                {#<li class="grid__item">#}
-                                    {#{{ textInput(#}
-                                        {#fieldName = field.name,#}
-                                        {#fieldLabel = field.label[locale],#}
-                                        {#inputType = field.type,#}
-                                        {#required = field.required,#}
-                                        {#field = field#}
-                                    {#) }}#}
-                                {#</li>#}
-                            {#{% endfor %}#}
-                            {#<li class="grid__item">#}
-                                {#<input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}#}
-                                       {#v-bind:disabled="isEmpty()"#}
-                                       {#value="{{ __('global.forms.submit') }}"#}
-                                       {#class="btn accent--turquoise a--btn order-form__btn"#}
-                                       {#id="js-submit-material-order">#}
-                            {#</li>#}
-                        {#</ul>#}
                     </form>
                 </div>
             </div>
