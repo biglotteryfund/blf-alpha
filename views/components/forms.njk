@@ -30,10 +30,10 @@
 
     {% for o in options %}
         <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-               for="ff-radio-{{ o[2] }}-{{ o[1] }}">
+               for="ff-checkbox-{{ o[2] }}-{{ o[1] }}">
             {{ o[0] }}
             <input type="checkbox"
-                   id="ff-radio-{{ o[2] }}-{{ o[1] }}"
+                   id="ff-checkbox-{{ o[2] }}-{{ o[1] }}"
                    name="{{ o[2] }}"
                    value="yes" />
         </label>
@@ -41,26 +41,33 @@
 
 {% endmacro %}
 
-{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false) %}
+{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, otherId = false) %}
+    {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if not suppressErrors and error %}
         <p class="error">{{ error.msg }}</p>
     {% endif %}
     <label class="label-radio__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-           for="ff-radio-{{ value }}">
+           for="{{ uniqueId }}">
         <input type="radio"
-               id="ff-radio-{{ value }}"
+               id="{{ uniqueId }}"
                name="{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
-               value="{{ value }}" />
+               value="{{ value }}"{% if otherId %} class="js-radio-has-other" data-other-id="{{ otherId }}"{% endif %} />
         {{ label }}
     </label>
 {% endmacro %}
 
-{% macro radios(fieldName, label = False, options) %}
+{% macro radios(fieldName, label = false, options, allowOther = false) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
     {% if label %}<label class="label-radio">{{ label }}</label>{% endif %}
     {% for opt in options %}
         {{ radioButton(fieldName, opt.name, opt.value, false, true) }}
     {% endfor %}
+    {% if allowOther %}
+        {% set otherId = 'js-other-' + fieldName %}
+        {# @TODO i18n #}
+        {{ radioButton(fieldName, 'Other (enter below)', 'other', false, true, otherId = otherId) }}
+        <input type="text" name="{{ fieldName }}" id="{{ otherId }}" style="display: none;" placeholder="{{ label }}" />
+    {% endif %}
 {% endmacro %}

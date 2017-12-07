@@ -204,7 +204,8 @@
                                 {{ radios(
                                     fieldName = formFields.yourGrantAmount.name,
                                     label = __(formFields.yourGrantAmount.label),
-                                    options = formFields.yourGrantAmount.options
+                                    options = formFields.yourGrantAmount.options,
+                                    allowOther = true
                                 ) }}
                             </div>
 
@@ -212,7 +213,8 @@
                                 {{ radios(
                                     fieldName = formFields.yourReason.name,
                                     label = __(formFields.yourReason.label),
-                                    options = formFields.yourReason.options
+                                    options = formFields.yourReason.options,
+                                    allowOther = formFields.yourReason.allowOther
                                 ) }}
                             </div>
 
