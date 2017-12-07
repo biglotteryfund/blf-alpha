@@ -10,13 +10,9 @@ function initAwardsForAll(router) {
     function getReplacementText({ applyUrl, contactPhone }) {
         const sharedText = `
             <p>We are currently trialling a quicker and more straightforward online application form for National Lottery Awards for All. Please follow the link below if you are ready to begin filling in your application:</p>
-            <p><a class="roundedButton blueButton" style="display: inline-block;" href="${
-                applyUrl
-            }">Apply Online</a></p>
+            <p><a class="roundedButton blueButton" style="display: inline-block;" href="${applyUrl}">Apply Online</a></p>
             <p>You will be able to quickly set up an account, save your application form, and return to work on it as required. <strong>If you would like to apply online, please visit the link above and bookmark it in your browser so that you can access it later, as it is not yet visible to all visitors to this page</strong>.</p>
-            <p>We are keen to hear any feedback – positive or negative - and to help with any questions or problems you may have. Please do get in touch with us to discuss any of this by calling <strong>${
-                contactPhone
-            }</strong></p>
+            <p>We are keen to hear any feedback – positive or negative - and to help with any questions or problems you may have. Please do get in touch with us to discuss any of this by calling <strong>${contactPhone}</strong></p>
             <p>Please note that you can still submit an application by email or post if preferred.</p>
         `;
 
