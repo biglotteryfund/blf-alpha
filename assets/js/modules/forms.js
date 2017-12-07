@@ -17,20 +17,19 @@ function conditionalRadios($el) {
 }
 
 function init() {
-
     let $radiosWithOtherFields = $('.js-radio-has-other');
-    $radiosWithOtherFields.each(function () {
+    $radiosWithOtherFields.each(function() {
         let $radio = $(this);
         let fieldName = $(this).attr('name');
         let $radioSet = $(`input [type="radio"][name="${fieldName}"]`).not($radio);
         let otherId = $radio.data('other-id');
         let $otherElm = $(`#${otherId}`);
         if ($otherElm.length > 0) {
-            $radio.on('focus', function () {
+            $radio.on('focus', function() {
                 $radio.val('');
                 $otherElm.show();
             });
-            $radioSet.on('focus', function () {
+            $radioSet.on('focus', function() {
                 console.log('other elm');
                 $otherElm.hide();
             });
