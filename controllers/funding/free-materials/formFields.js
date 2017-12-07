@@ -92,7 +92,7 @@ module.exports = [
     },
     {
         name: 'yourGrantAmount',
-        type: 'number',
+        type: 'text',
         required: true,
         label: {
             en: 'Grant amount',
