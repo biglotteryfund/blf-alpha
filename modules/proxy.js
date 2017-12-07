@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;

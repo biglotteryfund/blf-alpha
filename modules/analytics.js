@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const config = require('config');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 
 const track = (category, action, label) => {
     if (category && action) {
