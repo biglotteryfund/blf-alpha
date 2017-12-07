@@ -3,9 +3,6 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-
 const helper = require('./helper');
 const routes = require('../controllers/routes');
 
