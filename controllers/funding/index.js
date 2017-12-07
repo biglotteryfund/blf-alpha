@@ -207,58 +207,68 @@ module.exports = (pages, sectionPath, sectionId) => {
                         });
                     };
 
+                    let storeOrderData = (items, details) => {
+                        // format ordered items for database
+                        let orderedItems = [];
+                        for (let code in items) {
+                            if (items[code].quantity > 0) {
+                                orderedItems.push({
+                                    code: code,
+                                    quantity: items[code].quantity
+                                });
+                            }
+                        }
+
+                        // work out the postcode area
+                        let postcodeArea = details.yourPostcode.replace(/ /g, '').toUpperCase();
+                        if (postcodeArea.length > 3) {
+                            postcodeArea = postcodeArea.slice(0, -3);
+                        }
+
+                        // save order data to database
+                        return models.Order.create(
+                            {
+                                grantAmount: details.yourGrantAmount,
+                                postcodeArea: postcodeArea,
+                                items: orderedItems
+                            },
+                            {
+                                include: [
+                                    {
+                                        model: models.OrderItem,
+                                        as: 'items'
+                                    }
+                                ]
+                            }
+                        );
+                    };
+
                     sendOrderEmail
                         .then(() => {
-                            // format ordered items for database
-                            let orderedItems = [];
-                            for (let code in items) {
-                                if (items[code].quantity > 0) {
-                                    orderedItems.push({
-                                        code: code,
-                                        quantity: items[code].quantity
+                            if (!config.get('storeOrderData')) {
+                                req.flash('materialFormSuccess', true);
+                                redirectToMessage();
+                            } else {
+                                // log this order in the database
+                                storeOrderData(items, details)
+                                    .then(() => {
+                                        // successfully stored order data
+                                        req.flash('materialFormSuccess', true);
+                                        redirectToMessage();
+                                    })
+                                    .catch(error => {
+                                        // error storing order data
+                                        Raven.captureMessage('Error logging material order in database', {
+                                            extra: error,
+                                            tags: {
+                                                feature: 'material-form'
+                                            }
+                                        });
+                                        // this error doesn't affect the user so return a success to them
+                                        req.flash('materialFormSuccess', true);
+                                        redirectToMessage();
                                     });
-                                }
                             }
-
-                            // work out the postcode area
-                            let postcodeArea = details.yourPostcode.replace(/ /g, '').toUpperCase();
-                            if (postcodeArea.length > 3) {
-                                postcodeArea = postcodeArea.slice(0, -3);
-                            }
-
-                            // save order data to database
-                            models.Order.create(
-                                {
-                                    grantAmount: details.yourGrantAmount,
-                                    postcodeArea: postcodeArea,
-                                    items: orderedItems
-                                },
-                                {
-                                    include: [
-                                        {
-                                            model: models.OrderItem,
-                                            as: 'items'
-                                        }
-                                    ]
-                                }
-                            )
-                                .then(() => {
-                                    // successfully stored order data
-                                    req.flash('materialFormSuccess', true);
-                                    redirectToMessage();
-                                })
-                                .catch(error => {
-                                    // error storing order data
-                                    Raven.captureMessage('Error logging material order in database', {
-                                        extra: error,
-                                        tags: {
-                                            feature: 'material-form'
-                                        }
-                                    });
-                                    // this error doesn't affect the user so return a success to them
-                                    req.flash('materialFormSuccess', true);
-                                    redirectToMessage();
-                                });
                         })
                         .catch(() => {
                             // email to supplier failed to send - prompt user to try again
