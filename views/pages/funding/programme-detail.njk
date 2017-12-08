@@ -1,0 +1,34 @@
+{% from "../../components/hero.njk" import sectionHero %}
+{% from "../../components/tabs.njk" import tabs %}
+
+{% extends "../../layouts/main.njk" %}
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% set heroImage = createHeroImage({
+    small: 'hero/young-foundation-small.jpg',
+    medium: 'hero/young-foundation-medium.jpg',
+    large: 'hero/young-foundation-large.jpg',
+    default: 'hero/young-foundation-medium.jpg',
+    caption: 'The Young Foundation - Amplify, Grant £1.06M'
+}) %}
+{% set socialImage = heroImage %}
+
+{% block content %}
+    <main role="main">
+        {{ sectionHero(
+            titleText = title,
+            image = heroImage,
+            accent = 'pink'
+        ) }}
+
+        <section class="content-box inner--wide-only nudge-up
+            accent--pink a--border-top
+            s-prose s-prose--full">
+            {% for section in contentSections %}
+                <h2>{{ section.title }}</h2>
+                {{ section.content | safe }}
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}
