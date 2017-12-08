@@ -1,0 +1,156 @@
+#!/usr/bin/env node
+const path = require('path');
+const moment = require('moment');
+const fs = require('fs');
+const rp = require('request-promise-native');
+const absolution = require('absolution');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+
+const argv = require('yargs')
+    .alias('s', 'scrape')
+    .describe('s', 'Scrape new data for the listed URLs')
+    .alias('p', 'parse')
+    .describe('p', 'Parse content HTML from existing scraped data')
+    .help('h')
+    .alias('h', 'help').argv;
+
+if (!argv.s && !argv.p) {
+    console.log('Please specify either --scrape or --parse');
+    process.exit(1);
+}
+
+const scrapedDataDir = path.join(__dirname, '../config/content/scraped/');
+
+const urlToFilename = url => {
+    return url.replace('https://www.biglotteryfund.org.uk/', '').replace(/\//g, '-');
+};
+
+const getPageHTML = url => {
+    return rp({
+        url: url,
+        strictSSL: false,
+        jar: true,
+        resolveWithFullResponse: true
+    }).then(response => {
+        let body = response.body;
+        // convert all links in the document to be absolute
+        // (only really useful on non-prod envs)
+        body = absolution(body, 'https://www.biglotteryfund.org.uk');
+
+        // fix meta tags in HTML which use the wrong CNAME
+        body = body.replace(/wwwlegacy/g, 'www');
+
+        // parse the DOM
+        let dom = new JSDOM(body);
+
+        // remove redundant ASP viewstate
+        let viewState = dom.window.document.getElementById('__VIEWSTATE');
+        if (viewState) {
+            viewState.parentNode.removeChild(viewState);
+        }
+
+        // clean up HTML
+        let html = dom.window.document.body.innerHTML;
+
+        // remove junk strings
+        html = html.replace(/ {2,}/, '')
+            .replace('\t', '')
+            .replace('\n', '');
+
+        const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
+
+        let data = {
+            dateScraped: timestamp,
+            url: url,
+            html: html
+        };
+
+        try {
+            const urlFilename = urlToFilename(url) + '.json';
+            const pagePath = path.join(scrapedDataDir, urlFilename);
+            const pageData = JSON.stringify(data, null, 4);
+            fs.writeFileSync(pagePath, pageData);
+            console.log(`The content for ${url} was saved in ${pagePath}`);
+        } catch (err) {
+            return console.error(`Error saving ${url}`, err);
+        }
+
+    });
+
+};
+
+let urls = [
+    'https://www.biglotteryfund.org.uk/~/link.aspx?_id=50fab7d4b5a248f8a8c8f5d4d33f9e0f&_z=z',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples',
+    'https://www.biglotteryfund.org.uk/about-big/thankstoyou-toolkit',
+    'https://www.biglotteryfund.org.uk/about-big/strategic-framework',
+    'https://www.biglotteryfund.org.uk/about-big/jobs/current-vacancies',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/full-cost-recovery',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/aims-and-outcomes',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/what-we-will-ask-you',
+    'https://www.biglotteryfund.org.uk/global-content/programmes/england/~/link.aspx?_id=50fab7d4b5a248f8a8c8f5d4d33f9e0f&_z=z',
+    'https://www.biglotteryfund.org.uk/about-big/strategic-framework/our-vision',
+    'https://www.biglotteryfund.org.uk/scotland/about-big/jobs/current-vacancies',
+    'https://www.biglotteryfund.org.uk/about-big/jobs/current-vacancies/scotland-committee-recruitment-2017',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms',
+    'https://www.biglotteryfund.org.uk/about-big/our-approach/about-big-lottery-fund',
+    'https://www.biglotteryfund.org.uk/~/link.aspx?_id=cb1728784d104a509e88801152647b76&_z=z',
+    'https://www.biglotteryfund.org.uk/about-big/our-approach/vision-and-principles',
+    'https://www.biglotteryfund.org.uk/talentmatch',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples/community-engagement',
+    'https://www.biglotteryfund.org.uk/about-big/10-big-lottery-fund-facts',
+    'https://www.biglotteryfund.org.uk/about-big/tender-opportunities',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples/capital-build-project-example',
+    'https://www.biglotteryfund.org.uk/about-big/helping-millions-change-their-lives',
+    'https://www.biglotteryfund.org.uk/informationchecks',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/information-checks',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/managing-your-funding/monitoring-forms',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples/wellbeing',
+    'https://www.biglotteryfund.org.uk/about-big/countries/about-england',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/identifying-need/ways-of-defining-need',
+    'https://www.biglotteryfund.org.uk/youthinvestmentfund',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/tracking-project-progress',
+    'https://www.biglotteryfund.org.uk/funding/scotland-portfolio/three-approaches',
+    'https://www.biglotteryfund.org.uk/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources',
+    'https://www.biglotteryfund.org.uk/about-big/big-lottery-fund-in-your-constituency',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples/older-people-and-isolation-example',
+    'https://www.biglotteryfund.org.uk/about-big/our-approach/international-funding',
+    'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-activities'
+];
+
+if (argv.s) {
+    // scrape URLs
+    let timeout = 250;
+    urls.forEach((url, i) => {
+        setTimeout(() => {
+            getPageHTML(url);
+        }, timeout * i );
+    });
+
+} else if (argv.p) {
+    // parse HTML
+    fs.readdir(scrapedDataDir, function(err, items) {
+        if (err) {
+            console.log('The destination directory does not exist or could not be read: ' + scrapedDataDir);
+            process.exit(1);
+        }
+
+        if (items.length === 0) {
+            console.log('The destination directory was empty! Try running this script with the --scrape flag to scrape new data.');
+            process.exit(1);
+        }
+
+        items.forEach(filename => {
+            try {
+                let content = JSON.parse(fs.readFileSync(path.join(scrapedDataDir, filename), 'utf8'));
+                console.log(content.html);
+            } catch (e) {
+                console.log('Could not parse JSON from file: ' + filename);
+                process.exit(1);
+            }
+        });
+
+    });
+}
+
