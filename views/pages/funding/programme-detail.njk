@@ -14,10 +14,11 @@
 {% set socialImage = heroImage %}
 
 {% block content %}
+    {% set pageAccent = 'pink' %}
     {{ sectionHero(
         titleText = title,
         image = heroImage,
-        accent = 'pink'
+        accent = pageAccent
     ) }}
 
     <main role="main">
@@ -30,9 +31,9 @@
             </section>
         {% endif %}
 
-        {% macro tabContent(content) %}
+        {% macro tabContent(content, pageAccent) %}
             <div class="content-box content-box--borderless">
-                <div class="s-prose s-prose--long u-constrained-content-wide">
+                <div class="s-prose s-prose--long u-constrained-content-wide accent-content--{{ pageAccent }}">
                     {{ content | safe }}
                 </div>
             </div>
@@ -43,7 +44,7 @@
             {% set newTab = {
                 "id": "section-" + loop.index,
                 "title": section.title,
-                "content": tabContent(section.body),
+                "content": tabContent(section.body, pageAccent),
                 "active": loop.index === 1
             } %}
             {% set tabItems = (tabItems.push(newTab), tabItems) %}
@@ -60,8 +61,8 @@
             {% else %}
                 {% set section = entry.contentSections[0] %}
                 <div class="content-box content-box--borderless">
-                    <div class="s-prose s-prose--long u-constrained-content-wide">
-                        <h2 class="t4 t--underline accent--pink">{{ section.title }}</h2>
+                    <div class="s-prose s-prose--long u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
                         {{ section.body | safe }}
                     </div>
                 </div>
