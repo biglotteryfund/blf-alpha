@@ -2,6 +2,38 @@
     £{{ minimum | numberWithCommas}}{% if maximum %} - £{{ maximum | numberWithCommas }}{% endif %}
 {% endmacro %}
 
+{% macro programmeStats(fields, isCompact) %}
+    <dl class="o-definition-list{% if isCompact %} o-definition-list--compact{% endif %}">
+        {% if fields.area %}
+            <dt>{{ __('global.programmes.programmeLabels.area') }}</dt>
+            <dd>{{ fields.area.label }}</dd>
+        {% endif %}
+        {% if fields.organisationTypes %}
+            <dt>{{ __('global.programmes.programmeLabels.organisationTypes') }}</dt>
+            <dd>{{ fields.organisationTypes | join(', ') }}</dd>
+        {% endif %}
+        {% if fields.fundingSize %}
+            <dt>{{ __('global.programmes.programmeLabels.fundingSize') }}</dt>
+            {% if fields.fundingSizeDescription %}
+                <dd>{{ fields.fundingSizeDescription }}</dd>
+            {% else %}
+                <dd>{{ fundingRange(
+                    minimum = fields.fundingSize.minimum,
+                    maximum = fields.fundingSize.maximum
+                ) }}</dd>
+            {% endif %}
+        {% endif %}
+        {% if fields.totalAvailable %}
+            <dt>{{ __('global.programmes.programmeLabels.totalAvailable') }}</dt>
+            <dd>{{ fields.totalAvailable }}</dd>
+        {% endif %}
+        {% if fields.applicationDeadline %}
+            <dt>{{ __('global.programmes.programmeLabels.applicationDeadline') }}</dt>
+            <dd>{{ fields.applicationDeadline }}</dd>
+        {% endif %}
+    </dl>
+{% endmacro %}
+
 {% macro programmeCard(programme, useNewContent, path, accent) %}
     {# Link to new content page if useNewContent is set #}
     {% set urlPath = programme.content.linkUrl %}
@@ -28,35 +60,9 @@
                     <p>{{ programme.content.description }}</p>
                 </div>
             {% endif %}
-            <dl class="programme-card__details">
-                {% if programme.content.area %}
-                    <dt>{{ __('global.programmes.programmeLabels.area') }}</dt>
-                    <dd>{{ programme.content.area.label }}</dd>
-                {% endif %}
-                {% if programme.content.organisationTypes %}
-                    <dt>{{ __('global.programmes.programmeLabels.organisationTypes') }}</dt>
-                    <dd>{{ programme.content.organisationTypes | join(', ') }}</dd>
-                {% endif %}
-                {% if programme.content.fundingSize %}
-                    <dt>{{ __('global.programmes.programmeLabels.fundingSize') }}</dt>
-                    {% if programme.content.fundingSizeDescription %}
-                        <dd>{{ programme.content.fundingSizeDescription }}</dd>
-                    {% else %}
-                        <dd>{{ fundingRange(
-                            minimum = programme.content.fundingSize.minimum,
-                            maximum = programme.content.fundingSize.maximum
-                        ) }}</dd>
-                    {% endif %}
-                {% endif %}
-                {% if programme.content.totalAvailable %}
-                    <dt>{{ __('global.programmes.programmeLabels.totalAvailable') }}</dt>
-                    <dd>{{ programme.content.totalAvailable }}</dd>
-                {% endif %}
-                {% if programme.content.applicationDeadline %}
-                    <dt>{{ __('global.programmes.programmeLabels.applicationDeadline') }}</dt>
-                    <dd>{{ programme.content.applicationDeadline }}</dd>
-                {% endif %}
-            </dl>
+            <div class="programme-card__details">
+                {{ programmeStats(fields = programme.content) }}
+            </div>
         </div>
     </article>
 {% endmacro %}

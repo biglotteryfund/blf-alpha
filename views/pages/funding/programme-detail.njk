@@ -1,5 +1,6 @@
 {% from "../../components/hero.njk" import sectionHero %}
 {% from "../../components/tabs.njk" import tabs %}
+{% from "../../components/programmes.njk" import programmeStats with context %}
 
 {% extends "../../layouts/main.njk" %}
 {% set bodyClass = "has-full-bleed-header" %}
@@ -27,6 +28,10 @@
                 inner--wide-only accent--pink a--border-top ">
                 <div class="s-prose u-constrained-content-wide">
                     {{ entry.intro | safe }}
+                    {{ programmeStats(
+                        fields = entry.summary,
+                        isCompact = true
+                    ) }}
                 </div>
             </section>
         {% endif %}
