@@ -84,8 +84,8 @@ function initAwardsForAll(router) {
         return {
             A: `
                 <p>Ar hyn o bryd mae dau ddull ymgeisio, trwy ffurflen gais PDF neu drwy ffurflen gais ar-lein.</p>
-                <h3>Applying via email or post</h3>
-                <p>The usual method for applying is via a PDF form that you email or post to us. To apply this way:</p>
+                <h3>Ymgeisio trwy e-bost neu’r post</h3>
+                <p>Y dull ymgeisio arferol yw trwy ffurflen PDF yr ydych yn ei hanfon atom trwy e-bost neu’r post. I wneud hwn:</p>
                 ${originalText}
                 <h3>Ymgeisio gan ddefnyddio’r ffurflen dreial ar-lein</h3>
                 <p>Rydym yn treialu proses ymgeisio newydd gyda nifer bach o ddefnyddwyr. Os ydych yn rhan o’r treial ar-lein <a href="${
@@ -100,8 +100,8 @@ function initAwardsForAll(router) {
                     replacements.applyUrl
                 }&variant=B">Cais Ar-lein</a></p>
                 <p>Mae’r ffurflen newydd hon yn dreial sy’n agored i nifer bach o ymgeiswyr yn unig. Byddem yn gwerthfawrogi’n fawr cael adborth gennych ar sut brofiad yr oedd.</p>
-                <h3>Applying via email or post</h3>
-                <p>You are also welcome to apply via email or post using our PDF form. To apply this way:</p>
+                <h3>Ymgeisio trwy e-bost neu’r post</h3>
+                <p>Mae croeso hefyd i chi ymgeisio trwy e-bost neu’r post gan ddefnyddio ein ffurflen PDF. I wneud hwn:</p>
                 ${originalText}
             `
         };
