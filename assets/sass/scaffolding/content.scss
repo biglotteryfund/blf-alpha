@@ -75,6 +75,19 @@
  * Expanded prose styles for long blocks of text
  */
 .s-prose--long {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+    }
+
+    h2::after {
+        @include underlined();
+    }
+
     a {
         font-weight: bold;
     }
@@ -100,6 +113,15 @@
     ol li,
     ul li {
         margin-left: $spacingUnit * 3;
+    }
+
+    figure {
+        margin-left: -($spacingUnit);
+        margin-right: -($spacingUnit);
+
+        @include mq(tablet) {
+            margin: 1em 0 2em;
+        }
     }
 
     .inline-figure {
