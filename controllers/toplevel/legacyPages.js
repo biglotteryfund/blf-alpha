@@ -2,7 +2,7 @@ const config = require('config');
 const moment = require('moment');
 const ab = require('express-ab');
 const Raven = require('raven');
-const { get } = require('lodash');
+const { get, includes } = require('lodash');
 const { legacyProxiedRoutes } = require('../routes');
 const { splitPercentages } = require('../../modules/ab');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
@@ -109,29 +109,41 @@ function initAwardsForAll(router) {
 
     function modify(variant, route) {
         return function(req, res) {
-            return proxyLegacyPage(req, res, dom => {
-                res.set('X-BLF-Legacy-Modified', true);
-                const TAB_SELECTOR = '#mainContentContainer .panel:last-of-type';
-                const applyTab = dom.window.document.querySelector(TAB_SELECTOR);
-                if (applyTab && applyTab.textContent.indexOf('please contact us at') !== -1) {
+            return proxyLegacyPage(
+                req,
+                res,
+                dom => {
+                    res.set('X-BLF-Legacy-Modified', true);
+
+                    // Find the tab to inject content into.
+                    const applyTab = dom.window.document.querySelector('#mainContentContainer .panel:last-of-type');
+
+                    // Determine how to process the text depending on language. Include a sanity check of the text.
                     const modifyFn = route.lang === 'cy' ? getReplacementTextWelsh : getReplacementText;
-                    const replacementText = modifyFn(applyTab.innerHTML, route.replacements)[variant];
-                    applyTab.innerHTML = replacementText;
-                } else {
-                    Raven.captureMessage('Failed to modify awards for all tab content', {
-                        tags: {
-                            feature: 'awards-for-all'
-                        }
-                    });
-                }
+                    const includesText = route.lang === 'cy' ? 'cysylltwch â ni yn' : 'please contact us at';
 
-                const relatedDocuments = dom.window.document.getElementById('relatedDocsContainer');
-                if (relatedDocuments) {
-                    relatedDocuments.parentNode.removeChild(relatedDocuments);
-                }
+                    // Apply text modifications
+                    if (applyTab && includes(applyTab.textContent, includesText)) {
+                        const replacementText = modifyFn(applyTab.innerHTML, route.replacements)[variant];
+                        applyTab.innerHTML = replacementText;
+                    } else {
+                        Raven.captureMessage('Failed to modify awards for all tab content', {
+                            tags: {
+                                feature: 'awards-for-all'
+                            }
+                        });
+                    }
 
-                return dom;
-            });
+                    // Remove related documents
+                    const relatedDocuments = dom.window.document.getElementById('relatedDocsContainer');
+                    if (relatedDocuments) {
+                        relatedDocuments.parentNode.removeChild(relatedDocuments);
+                    }
+
+                    return dom;
+                },
+                route.path
+            );
         };
     }
 
@@ -157,7 +169,7 @@ function initAwardsForAll(router) {
             router
                 .route(route.path)
                 .get(cached.noCache, function proxyWithoutChanges(req, res) {
-                    return proxyLegacyPage(req, res, dom => dom);
+                    return proxyLegacyPage(req, res, dom => dom, route.path);
                 })
                 .post(postToLegacyForm);
         });
