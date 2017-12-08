@@ -62,7 +62,7 @@ function initAwardsForAll(router) {
                 <h3>Applying using the trial online form</h3>
                 <p>We are trialling a new application process with a small number of users. If you are part of the online trial <a href="${
                     replacements.applyUrl
-                }">continue your application here</a>.</p>
+                }&variant=A">continue your application here</a>.</p>
             `,
             B: `
                 <p>There are currently two ways to apply, via PDF application form or via online application form.
@@ -71,7 +71,7 @@ function initAwardsForAll(router) {
                 <p>We are trialling a new application process where you can submit an application via a web form, rather than downloading a PDF.</p>
                 <p><a class="roundedButton blueButton" style="display: inline-block;" href="${
                     replacements.applyUrl
-                }">Apply Online</a></p>
+                }&variant=B">Apply Online</a></p>
                 <p>This new form is a trial only open to a limited number of applicants. We’d love your feedback on how you find the experience.</p>
                 <h3>Applying via email or post</h3>
                 <p>You are also welcome to apply via email or post using our PDF form. To apply this way:</p>
@@ -90,7 +90,7 @@ function initAwardsForAll(router) {
                 <h3>Ymgeisio gan ddefnyddio’r ffurflen dreial ar-lein</h3>
                 <p>Rydym yn treialu proses ymgeisio newydd gyda nifer bach o ddefnyddwyr. Os ydych yn rhan o’r treial ar-lein <a href="${
                     replacements.applyUrl
-                }">parhewch â’ch cais yma</a>.</p>
+                }&variant=A">parhewch â’ch cais yma</a>.</p>
             `,
             B: `
                 <p>Ar hyn o bryd mae dau ddull ymgeisio, trwy ffurflen gais PDF neu drwy ffurflen gais ar-lein.</p>
@@ -98,7 +98,7 @@ function initAwardsForAll(router) {
                 <p>Rydym yn treialu proses ymgeisio newydd sy’n galluogi chi i gyflwyno cais trwy ffurflen we’n hytrach na lawrlwytho PDF.</p>
                 <p><a class="roundedButton blueButton" style="display: inline-block;" href="${
                     replacements.applyUrl
-                }">Cais Ar-lein</a></p>
+                }&variant=B">Cais Ar-lein</a></p>
                 <p>Mae’r ffurflen newydd hon yn dreial sy’n agored i nifer bach o ymgeiswyr yn unig. Byddem yn gwerthfawrogi’n fawr cael adborth gennych ar sut brofiad yr oedd.</p>
                 <h3>Applying via email or post</h3>
                 <p>You are also welcome to apply via email or post using our PDF form. To apply this way:</p>
