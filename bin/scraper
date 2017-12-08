@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const path = require('path');
 const moment = require('moment');
 const fs = require('fs');
@@ -6,6 +7,8 @@ const rp = require('request-promise-native');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const cheerio = require('cheerio');
+const pretty = require('pretty');
 
 const argv = require('yargs')
     .alias('s', 'scrape')
@@ -21,12 +24,13 @@ if (!argv.s && !argv.p) {
 }
 
 const scrapedDataDir = path.join(__dirname, '../config/content/scraped/');
+const cleanedDataDir = path.join(__dirname, '../config/content/cleaned/');
 
 const urlToFilename = url => {
     return url.replace('https://www.biglotteryfund.org.uk/', '').replace(/\//g, '-');
 };
 
-const getPageHTML = url => {
+const getPageHTML = (url, isFinished) => {
     return rp({
         url: url,
         strictSSL: false,
@@ -66,18 +70,106 @@ const getPageHTML = url => {
             html: html
         };
 
-        try {
-            const urlFilename = urlToFilename(url) + '.json';
-            const pagePath = path.join(scrapedDataDir, urlFilename);
-            const pageData = JSON.stringify(data, null, 4);
-            fs.writeFileSync(pagePath, pageData);
-            console.log(`The content for ${url} was saved in ${pagePath}`);
-        } catch (err) {
-            return console.error(`Error saving ${url}`, err);
+        const urlFilename = urlToFilename(url) + '.json';
+        const pagePath = path.join(scrapedDataDir, urlFilename);
+        const pageData = JSON.stringify(data, null, 4);
+        saveFile(pagePath, pageData);
+
+        // if we're done and we want to parse files as well
+        if (isFinished && argv.p) {
+            console.log('Finished scraping - now beginning HTML parsing');
+            loadHtmlFiles();
         }
+    });
+
+};
+
+const saveFile = (path, content) => {
+    try {
+        fs.writeFileSync(path, content);
+        console.log(`The content was saved in ${path}`);
+    } catch (err) {
+        return console.error(`Error saving ${path}`, err);
+    }
+};
+
+// take ugly HTML and pull out just the content we want
+const parseContentFromHtml = (html, url) => {
+    const $ = cheerio.load(html);
+
+    let contentParts = [
+        $('#titleBar'),
+        $('#mainContentContainer')
+    ];
+
+    if (contentParts[0].length === 0 || contentParts[1].length === 0) {
+        console.log(`Error: elements not found for URL ${url}`);
+    }
+
+    let attributesToRemove = [
+        'class',
+        'style',
+        'width',
+        'height',
+        'alt',
+        'title'
+    ];
+
+    // clean up HTML
+    contentParts.forEach(content => {
+        // remove unwanted attributes
+        attributesToRemove.forEach(attr => {
+            let elms = content.find(`[${attr}]`);
+            elms.each(function () {
+                $(this).removeAttr(attr);
+            });
+        });
+
+        // remove empty elements
+        content.children().each(function(i, elm) {
+            if ($(this).html().replace(/\s|&nbsp;/g, '').length === 0) {
+                $(this).remove();
+            }
+        });
 
     });
 
+    // prettify the text/html
+    let title = contentParts[0].text().trim();
+    let body = pretty(contentParts[1].html(), { ocd: true });
+    let cleanHtml = title + "\n\n" + body;
+
+    // write it to a file
+    const urlFilename = urlToFilename(url) + '.html';
+    const pagePath = path.join(cleanedDataDir, urlFilename);
+    saveFile(pagePath, cleanHtml);
+};
+
+let loadHtmlFiles = () => {
+    // parse HTML
+    fs.readdir(scrapedDataDir, function(err, items) {
+        if (err) {
+            console.log('The destination directory does not exist or could not be read: ' + scrapedDataDir);
+            process.exit(1);
+        }
+
+        if (items.length === 0) {
+            console.log('The destination directory was empty! Try running this script with the --scrape flag to scrape new data.');
+            process.exit(1);
+        }
+
+        items.forEach(filename => {
+            let content;
+            try {
+                content = JSON.parse(fs.readFileSync(path.join(scrapedDataDir, filename), 'utf8'));
+            } catch (e) {
+                console.log('Could not parse JSON from file: ' + filename);
+                process.exit(1);
+            }
+            parseContentFromHtml(content.html, content.url);
+        });
+
+    });
 };
 
 let urls = [
@@ -85,7 +177,6 @@ let urls = [
     'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-planning-examples',
     'https://www.biglotteryfund.org.uk/about-big/thankstoyou-toolkit',
     'https://www.biglotteryfund.org.uk/about-big/strategic-framework',
-    'https://www.biglotteryfund.org.uk/about-big/jobs/current-vacancies',
     'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/full-cost-recovery',
     'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/aims-and-outcomes',
     'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/what-we-will-ask-you',
@@ -124,33 +215,11 @@ if (argv.s) {
     let timeout = 250;
     urls.forEach((url, i) => {
         setTimeout(() => {
-            getPageHTML(url);
+            let isFinished = i === urls.length - 1;
+            getPageHTML(url, isFinished);
         }, timeout * i );
     });
-
 } else if (argv.p) {
-    // parse HTML
-    fs.readdir(scrapedDataDir, function(err, items) {
-        if (err) {
-            console.log('The destination directory does not exist or could not be read: ' + scrapedDataDir);
-            process.exit(1);
-        }
-
-        if (items.length === 0) {
-            console.log('The destination directory was empty! Try running this script with the --scrape flag to scrape new data.');
-            process.exit(1);
-        }
-
-        items.forEach(filename => {
-            try {
-                let content = JSON.parse(fs.readFileSync(path.join(scrapedDataDir, filename), 'utf8'));
-                console.log(content.html);
-            } catch (e) {
-                console.log('Could not parse JSON from file: ' + filename);
-                process.exit(1);
-            }
-        });
-
-    });
+    loadHtmlFiles();
 }
 

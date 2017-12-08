@@ -14,3 +14,4 @@ tmp/*.db
 gmail_secrets.json
 messages.json
 config/content/scraped
+config/content/cleaned
