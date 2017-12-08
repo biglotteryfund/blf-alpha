@@ -112,7 +112,14 @@ const parseContentFromHtml = (html, url) => {
         'width',
         'height',
         'alt',
-        'title'
+        'title',
+        'id',
+        'onclick',
+        'align',
+        'cellspacing',
+        'cellpadding',
+        'border',
+        'target',
     ];
 
     // clean up HTML
@@ -132,7 +139,19 @@ const parseContentFromHtml = (html, url) => {
             }
         });
 
+        content.find('style').remove();
+
     });
+
+    /*
+    * Stuff to clean
+    *
+    * subtitles
+    * tweet/print buttons in heading toolbars and massive spaces inside
+    * accordion divs
+    * PDF downloads
+    *
+     */
 
     // prettify the text/html
     let title = contentParts[0].text().trim();
