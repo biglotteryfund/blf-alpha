@@ -20,7 +20,7 @@ const argv = require('yargs')
 
 const prompt = require('prompt');
 const AWS = require('aws-sdk');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 
 let customBuildNumber = argv.build;
 
