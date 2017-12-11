@@ -286,6 +286,9 @@ module.exports = (pages, sectionPath, sectionId) => {
     const programmesConfig = pages.programmes;
     router.get(programmesConfig.path, programmesRoute(programmesConfig));
 
+    /**
+     * Redirect funding finder
+     */
     router.get('/funding-finder', (req, res) => {
         const locationMapping = {
             england: 'england',
@@ -303,11 +306,11 @@ module.exports = (pages, sectionPath, sectionId) => {
             newQuery.min = '10000';
         }
 
-        const newQueryString = queryString.stringify(newQuery);
-        let redirectUrl = programmesConfig.path;
-        if (newQueryString.length > 0) {
-            redirectUrl += `?${newQueryString}`;
-        }
+        const redirectUrl = (function() {
+            const base = req.baseUrl + programmesConfig.path;
+            const query = queryString.stringify(newQuery);
+            return query.length > 0 ? `${base}?${query}` : base;
+        })();
 
         res.redirect(301, redirectUrl);
     });
