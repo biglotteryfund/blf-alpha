@@ -17,20 +17,20 @@ function conditionalRadios($el) {
 }
 
 function init() {
+
+    // generic toggles for form fields with "other" options
     let $radiosWithOtherFields = $('.js-radio-has-other');
     $radiosWithOtherFields.each(function() {
         let $radio = $(this);
         let fieldName = $(this).attr('name');
-        let $radioSet = $(`input [type="radio"][name="${fieldName}"]`).not($radio);
+        let $radioSet = $(`input[type="radio"][name="${fieldName}"]`).not($radio);
         let otherId = $radio.data('other-id');
         let $otherElm = $(`#${otherId}`);
         if ($otherElm.length > 0) {
             $radio.on('focus', function() {
-                $radio.val('');
                 $otherElm.show();
             });
             $radioSet.on('focus', function() {
-                console.log('other elm');
                 $otherElm.hide();
             });
         }
