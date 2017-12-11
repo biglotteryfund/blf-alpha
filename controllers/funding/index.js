@@ -109,10 +109,14 @@ module.exports = (pages, sectionPath, sectionId) => {
 
         for (let key in freeMaterialsLogic.formFields.fields) {
             let field = freeMaterialsLogic.formFields.fields[key];
-            const fieldDetail = details[field.name];
+            const fieldValue = details[field.name];
             const fieldLabel = field.emailKey;
-            if (fieldDetail) {
-                text += `\t${fieldLabel}: ${fieldDetail}\n\n`;
+            // did this order include "other" options?
+            if (field.allowOther) {
+                
+            }
+            if (fieldValue) {
+                text += `\t${fieldLabel}: ${fieldValue}\n\n`;
             }
         }
 

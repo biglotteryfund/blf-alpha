@@ -68,6 +68,6 @@
         {% set otherId = 'js-other-' + fieldName %}
         {# @TODO i18n #}
         {{ radioButton(fieldName, 'Other (enter below)', 'other', false, true, otherId = otherId) }}
-        <input type="text" name="{{ fieldName }}" id="{{ otherId }}" style="display: none;" placeholder="{{ label }}" />
+        <input type="text" name="{{ fieldName }}Other" id="{{ otherId }}" style="display: none;" placeholder="{{ label }}" />
     {% endif %}
 {% endmacro %}
