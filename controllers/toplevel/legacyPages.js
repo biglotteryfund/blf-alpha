@@ -134,6 +134,12 @@ function initAwardsForAll(router) {
                         });
                     }
 
+                    // Remove live chat, document.write on live causes issue when proxying.
+                    const liveChat = dom.window.document.getElementById('askLiveCall');
+                    if (liveChat) {
+                        liveChat.parentNode.removeChild(liveChat);
+                    }
+
                     // Remove related documents
                     const relatedDocuments = dom.window.document.getElementById('relatedDocsContainer');
                     if (relatedDocuments) {

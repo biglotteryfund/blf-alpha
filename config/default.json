@@ -33,7 +33,7 @@
         "enabled": true,
         "tests": {
             "awardsForAll": {
-                "percentage": 50
+                "percentage": 20
             },
             "homepage": {
                 "id": "pR1e00a0Q42tSZuvQdaqpA",
