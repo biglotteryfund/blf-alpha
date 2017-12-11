@@ -367,6 +367,12 @@ const vanityRedirects = [
         path: '/prog_a4a_eng',
         destination: '/global-content/programmes/england/awards-for-all-england',
         live: true
+    },
+    {
+        name: 'Awards For All Scotland',
+        path: '/awardsforallscotland',
+        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: true
     }
 ];
 
@@ -461,15 +467,15 @@ const legacyProxiedRoutes = {
     }),
     awardsForAllScotland: withLegacyDefaults({
         path: '/global-content/programmes/scotland/awards-for-all-scotland',
-        live: false
+        live: true
     }),
     awardsForAllWales: withLegacyDefaults({
         path: '/global-content/programmes/wales/awards-for-all-wales',
-        live: false
+        live: true
     }),
     awardsForAllWalesWelsh: withLegacyDefaults({
         path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
-        live: false
+        live: true
     })
 };
 
