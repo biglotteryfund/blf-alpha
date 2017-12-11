@@ -6,7 +6,7 @@ chai.use(require('chai-http'));
 chai.should();
 
 const helper = require('./helper');
-const models = require('../models/index');
+const surveyService = require('../services/surveys');
 
 let testSurveyData = {
     name: 'Test Survey',
@@ -36,15 +36,8 @@ describe('Survey tool', () => {
             server = serverInstance;
 
             // create initial survey for testing
-            models.Survey
-                .create(testSurveyData, {
-                    include: [
-                        {
-                            model: models.SurveyChoice,
-                            as: 'choices'
-                        }
-                    ]
-                })
+            surveyService
+                .createWithChoices(testSurveyData)
                 .then(data => {
                     // store our survey data to test against
                     storedSurveyData = data;

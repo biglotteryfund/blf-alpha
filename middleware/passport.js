@@ -1,11 +1,12 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const models = require('../models');
+const userService = require('../services/user');
 
 module.exports = function() {
     passport.use(
         new LocalStrategy((username, password, done) => {
-            models.Users.findOne({ where: { username: username } })
+            userService
+                .findByUsername(username)
                 .then(user => {
                     // use generic error messages here to avoid exposing existing accounts
                     let genericError = 'Your username and password combination is invalid';
@@ -28,7 +29,8 @@ module.exports = function() {
     });
 
     passport.deserializeUser((id, cb) => {
-        models.Users.findById(id)
+        userService
+            .findById(id)
             .then(user => {
                 cb(null, user);
             })

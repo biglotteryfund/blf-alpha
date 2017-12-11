@@ -28,7 +28,7 @@
     "assets/**/*.scss": [
       "prettier --write"
     ],
-    "{assets,controllers,integration-tests,lambda,middleware,models,modules}/**/*.js": [
+    "{assets,controllers,integration-tests,lambda,middleware,models,modules,services}/**/*.js": [
       "prettier --write",
       "eslint"
     ],
