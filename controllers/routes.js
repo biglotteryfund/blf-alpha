@@ -366,7 +366,7 @@ const vanityRedirects = [
         name: 'Awards For All England',
         path: '/prog_a4a_eng',
         destination: '/global-content/programmes/england/awards-for-all-england',
-        live: false
+        live: true
     }
 ];
 
@@ -457,7 +457,7 @@ const withLegacyDefaults = function(obj) {
 const legacyProxiedRoutes = {
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
-        live: false
+        live: true
     }),
     awardsForAllScotland: withLegacyDefaults({
         path: '/global-content/programmes/scotland/awards-for-all-scotland',
