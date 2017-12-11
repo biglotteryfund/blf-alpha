@@ -202,15 +202,6 @@
 
                             <div class="grid__item grid-col-6 grid-col-3--m">
                                 {{ radios(
-                                    fieldName = formFields.yourGrantAmount.name,
-                                    label = __(formFields.yourGrantAmount.label),
-                                    options = formFields.yourGrantAmount.options,
-                                    allowOther = true
-                                ) }}
-                            </div>
-
-                            <div class="grid__item grid-col-6 grid-col-3--m">
-                                {{ radios(
                                     fieldName = formFields.yourReason.name,
                                     label = __(formFields.yourReason.label),
                                     options = formFields.yourReason.options,
@@ -218,13 +209,22 @@
                                 ) }}
                             </div>
 
-                        </div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">
+                                {{ radios(
+                                    fieldName = formFields.yourGrantAmount.name,
+                                    label = __(formFields.yourGrantAmount.label),
+                                    options = formFields.yourGrantAmount.options,
+                                    allowOther = true
+                                ) }}
 
-                        <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                               v-bind:disabled="isEmpty()"
-                               value="{{ __('global.forms.submit') }}"
-                               class="btn accent--turquoise a--btn order-form__btn"
-                               id="js-submit-material-order">
+                                <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                                       v-bind:disabled="isEmpty()"
+                                       value="{{ __('global.forms.submit') }}"
+                                       class="btn accent--turquoise a--btn order-form__btn spaced--t--l"
+                                       id="js-submit-material-order">
+                            </div>
+
+                        </div>
 
                     </form>
                 </div>
