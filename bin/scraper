@@ -4,7 +4,6 @@ const path = require('path');
 const moment = require('moment');
 const fs = require('fs');
 const rp = require('request-promise-native');
-const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const cheerio = require('cheerio');
@@ -40,12 +39,6 @@ const getPageHTML = (url, isFinished) => {
         resolveWithFullResponse: true
     }).then(response => {
         let body = response.body;
-        // convert all links in the document to be absolute
-        // (only really useful on non-prod envs)
-        body = absolution(body, 'https://www.biglotteryfund.org.uk');
-
-        // fix meta tags in HTML which use the wrong CNAME
-        body = body.replace(/wwwlegacy/g, 'www');
 
         // parse the DOM
         let dom = new JSDOM(body);
