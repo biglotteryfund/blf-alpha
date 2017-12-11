@@ -80,7 +80,12 @@ const getPageHTML = (url, isFinished) => {
         // if we're done and we want to parse files as well
         if (isFinished && argv.p) {
             console.log('Finished scraping - now beginning HTML parsing');
-            loadHtmlFiles();
+            if (!argv.u) {
+                loadHtmlFiles();
+            } else {
+                let filename = urlToFilename(argv.u) + '.json';
+                loadAndParseHtml(filename);
+            }
         }
     });
 
