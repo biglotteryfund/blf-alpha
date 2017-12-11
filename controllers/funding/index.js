@@ -5,7 +5,6 @@ const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
 const xss = require('xss');
-const queryString = require('query-string');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
 const Raven = require('raven');
@@ -281,38 +280,11 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
     /**
-     * Funding programme list
+     * Funding programmes
      */
-    const programmesConfig = pages.programmes;
-    router.get(programmesConfig.path, programmesRoute(programmesConfig));
-
-    /**
-     * Redirect funding finder
-     */
-    router.get('/funding-finder', (req, res) => {
-        const locationMapping = {
-            england: 'england',
-            'northern+ireland': 'northernIreland',
-            scotland: 'scotland',
-            wales: 'wales'
-        };
-
-        let newQuery = {};
-        if (req.query.area) {
-            newQuery.location = locationMapping[req.query.area.toLowerCase()];
-        }
-
-        if (req.query.amount && req.query.amount.toLowerCase() !== 'up to 10000') {
-            newQuery.min = '10000';
-        }
-
-        const redirectUrl = (function() {
-            const base = req.baseUrl + programmesConfig.path;
-            const query = queryString.stringify(newQuery);
-            return query.length > 0 ? `${base}?${query}` : base;
-        })();
-
-        res.redirect(301, redirectUrl);
+    programmesRoute.init({
+        router: router,
+        config: pages.programmes
     });
 
     return router;

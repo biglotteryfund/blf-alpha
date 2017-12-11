@@ -8,7 +8,7 @@
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "lint": "eslint .",
     "test-deps": "snyk test",
-    "test-unit": "mocha {assets,middleware,modules}/**/*.test.js --exit",
+    "test-unit": "mocha {assets,controllers,middleware,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
     "size": "size-limit",
