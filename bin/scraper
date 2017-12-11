@@ -15,6 +15,8 @@ const argv = require('yargs')
     .describe('s', 'Scrape new data for the listed URLs')
     .alias('p', 'parse')
     .describe('p', 'Parse content HTML from existing scraped data')
+    .alias('u', 'url')
+    .describe('u', 'Specify a URL to scrape/parse rather than looping the default list')
     .help('h')
     .alias('h', 'help').argv;
 
@@ -109,8 +111,6 @@ const parseContentFromHtml = (html, url) => {
     let attributesToRemove = [
         'class',
         'style',
-        'width',
-        'height',
         'alt',
         'title',
         'id',
@@ -122,8 +122,14 @@ const parseContentFromHtml = (html, url) => {
         'target',
     ];
 
+    const validEmptyElements = [
+        'iframe',
+        'img'
+    ];
+
     // clean up HTML
     contentParts.forEach(content => {
+
         // remove unwanted attributes
         attributesToRemove.forEach(attr => {
             let elms = content.find(`[${attr}]`);
@@ -133,35 +139,64 @@ const parseContentFromHtml = (html, url) => {
         });
 
         // remove empty elements
-        content.children().each(function(i, elm) {
-            if ($(this).html().replace(/\s|&nbsp;/g, '').length === 0) {
-                $(this).remove();
+        let empties = content.find(':empty');
+        empties.each(function () {
+            let elmType = $(this)[0].name;
+            if (validEmptyElements.indexOf(elmType) === -1) {
+                $(this)[0].innerHTML = '';
             }
         });
 
+        // remove embedded <style> or <script> tags
         content.find('style').remove();
-
+        content.find('script').remove();
     });
+
+    let title = contentParts[0].find('h1').html();
+    let subtitle = contentParts[0].find('h2').html();
 
     /*
     * Stuff to clean
     *
-    * subtitles
-    * tweet/print buttons in heading toolbars and massive spaces inside
     * accordion divs
     * PDF downloads
     *
      */
 
     // prettify the text/html
-    let title = contentParts[0].text().trim();
-    let body = pretty(contentParts[1].html(), { ocd: true });
-    let cleanHtml = title + "\n\n" + body;
+    let bodyHtml = contentParts[1].html();
+
+    // remove pointless <div> tags
+    bodyHtml = bodyHtml.replace(/<\/?div>/g, '');
+    let body = pretty(bodyHtml, { ocd: true });
+
+    // build final HTML string
+    let cleanHtml = '';
+    if (title) {
+        cleanHtml += `<h1>${title}</h1>`;
+    }
+    if (subtitle) {
+        cleanHtml += `\n<h2>${subtitle}</h2>`;
+    }
+    cleanHtml += "\n\n" + body;
 
     // write it to a file
     const urlFilename = urlToFilename(url) + '.html';
     const pagePath = path.join(cleanedDataDir, urlFilename);
     saveFile(pagePath, cleanHtml);
+};
+
+// load a single HTML file and parse it
+let loadAndParseHtml = filename => {
+    let content;
+    try {
+        content = JSON.parse(fs.readFileSync(path.join(scrapedDataDir, filename), 'utf8'));
+    } catch (e) {
+        console.log('Could not parse JSON from file: ' + filename);
+        console.log('Maybe you need to scrape this URL first?');
+        process.exit(1);
+    }
+    parseContentFromHtml(content.html, content.url);
 };
 
 let loadHtmlFiles = () => {
@@ -177,16 +212,7 @@ let loadHtmlFiles = () => {
             process.exit(1);
         }
 
-        items.forEach(filename => {
-            let content;
-            try {
-                content = JSON.parse(fs.readFileSync(path.join(scrapedDataDir, filename), 'utf8'));
-            } catch (e) {
-                console.log('Could not parse JSON from file: ' + filename);
-                process.exit(1);
-            }
-            parseContentFromHtml(content.html, content.url);
-        });
+        items.forEach(filename => loadAndParseHtml(filename));
 
     });
 };
@@ -230,15 +256,28 @@ let urls = [
 ];
 
 if (argv.s) {
-    // scrape URLs
-    let timeout = 250;
-    urls.forEach((url, i) => {
-        setTimeout(() => {
-            let isFinished = i === urls.length - 1;
-            getPageHTML(url, isFinished);
-        }, timeout * i );
-    });
+
+    if (!argv.u) {
+        // scrape URLs
+        let timeout = 250;
+        urls.forEach((url, i) => {
+            setTimeout(() => {
+                let isFinished = i === urls.length - 1;
+                getPageHTML(url, isFinished);
+            }, timeout * i);
+        });
+    } else {
+        // scrape a single (passed) URL
+        getPageHTML(argv.u, true);
+    }
 } else if (argv.p) {
-    loadHtmlFiles();
+    if (!argv.u) {
+        // traverse scaped directory to parse HTML
+        loadHtmlFiles();
+    } else {
+        // load a URL
+        let filename = urlToFilename(argv.u) + '.json';
+        loadAndParseHtml(filename);
+    }
 }
 
