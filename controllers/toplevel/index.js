@@ -13,9 +13,8 @@ const moment = require('moment');
 const router = express.Router();
 
 const app = require('../../server');
+const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
-const regions = require('../../config/content/regions.json');
-const models = require('../../models/index');
 const proxyLegacy = require('../../modules/proxy');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
@@ -23,6 +22,7 @@ const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
 const { splitPercentages } = require('../../modules/ab');
+const regions = require('../../config/content/regions.json');
 
 const legacyPages = require('./legacyPages');
 
@@ -263,31 +263,15 @@ module.exports = (pages, sectionPath, sectionId) => {
         }
 
         // get the survey from the database
-        models.Survey.findAll({
-            where: {
-                active: true
-            },
-            include: [
-                {
-                    model: models.SurveyChoice,
-                    as: 'choices',
-                    required: true
-                }
-            ]
-        })
+        surveyService
+            .findActiveWithChoices({
+                filterByPath: path
+            })
             .then(surveys => {
-                let returnData = {
-                    status: 'success'
-                };
-
-                // optionally filter surveys
-                if (path) {
-                    returnData.survey = surveys.find(s => s.activePath === path);
-                } else {
-                    returnData.surveys = surveys;
-                }
-
-                res.send(returnData);
+                res.send({
+                    status: 'success',
+                    surveys: surveys
+                });
             })
             .catch(() => {
                 res.send({
@@ -318,9 +302,6 @@ module.exports = (pages, sectionPath, sectionId) => {
                 err: 'Please supply all fields'
             });
         } else {
-            // form was okay, let's store their submission
-
-            // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);
             }
@@ -339,9 +320,13 @@ module.exports = (pages, sectionPath, sectionId) => {
                 responseData.metadata = req.body['metadata'];
             }
 
-            // we could still fail at this point if the choice isn't valid for this ID
-            // (SQL constraint error)
-            models.SurveyResponse.create(responseData)
+            /**
+             * Form was okay, let's store their submission,
+             * we could still fail at this point if the choice isn't valid for this ID
+             * (SQL constraint error)
+             */
+            surveyService
+                .createResponse(responseData)
                 .then(data => {
                     res.send({
                         status: 'success',

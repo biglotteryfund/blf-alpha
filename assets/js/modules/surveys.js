@@ -138,8 +138,8 @@ module.exports = {
     init: () => {
         // does this page have any surveys?
         $.get(`/surveys?path=${window.location.pathname}`).then(response => {
-            if (response.status === 'success' && response.survey) {
-                showSurvey(response.survey);
+            if (response.status === 'success' && response.surveys.length > 0) {
+                showSurvey(response.surveys[0]);
             }
         });
     }
