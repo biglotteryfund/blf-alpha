@@ -5,7 +5,6 @@ const express = require('express');
 const config = require('config');
 const { sortBy } = require('lodash');
 const rp = require('request-promise-native');
-const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
 const moment = require('moment');
@@ -16,12 +15,9 @@ const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
-const proxyLegacy = require('../../modules/proxy');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
-const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
-const { splitPercentages } = require('../../modules/ab');
 const regions = require('../../config/content/regions.json');
 
 const legacyPages = require('./legacyPages');
@@ -32,38 +28,31 @@ if (app.get('env') !== 'production') {
     robots.push('/');
 }
 
-const newHomepage = [
-    cached.noCache,
-    (req, res) => {
-        const serveHomepage = news => {
-            const lang = req.i18n.__('toplevel.home');
+const homepage = (req, res) => {
+    const serveHomepage = news => {
+        const lang = req.i18n.__('toplevel.home');
 
-            res.render('pages/toplevel/home', {
-                title: lang.title,
-                description: lang.description || false,
-                copy: lang,
-                news: news || [],
-                heroImage: heroImages.homepageHero
-            });
-        };
+        res.render('pages/toplevel/home', {
+            title: lang.title,
+            description: lang.description || false,
+            copy: lang,
+            news: news || [],
+            heroImage: heroImages.homepageHero
+        });
+    };
 
-        // get news articles
-        contentApi
-            .getPromotedNews({
-                locale: req.i18n.getLocale(),
-                limit: 3
-            })
-            .then(entries => {
-                serveHomepage(entries);
-            })
-            .catch(() => {
-                serveHomepage();
-            });
-    }
-];
-
-const oldHomepage = (req, res) => {
-    return proxyLegacy.proxyLegacyPage(req, res);
+    // get news articles
+    contentApi
+        .getPromotedNews({
+            locale: req.i18n.getLocale(),
+            limit: 3
+        })
+        .then(entries => {
+            serveHomepage(entries);
+        })
+        .catch(() => {
+            serveHomepage();
+        });
 };
 
 module.exports = (pages, sectionPath, sectionId) => {
@@ -72,35 +61,10 @@ module.exports = (pages, sectionPath, sectionId) => {
      */
     routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
-    if (config.get('abTests.enabled')) {
-        const testFn = ab.test('blf-homepage-2017', {
-            cookie: {
-                name: config.get('cookies.abTestHomepage'),
-                maxAge: moment.duration(1, 'week').asMilliseconds()
-            },
-            id: config.get('abTests.tests.homepage.id') // google experiment ID
-        });
+    // Serve the homepage
+    router.get('/', homepage);
 
-        const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
-        const percentages = splitPercentages(percentageToSeeNewHomepage);
-
-        // Variant 0/A: existing site (proxied)
-        router.get('/', testFn(null, percentages.A), oldHomepage);
-        // Variant 1/B: new homepage
-        router.get('/', testFn(null, percentages.B), newHomepage);
-    } else {
-        router.get('/', newHomepage);
-    }
-
-    router.post('/', proxyLegacy.postToLegacyForm);
-
-    // used for tests: override A/B cohorts
-    router.get('/home', newHomepage);
-
-    router.get('/legacy', (req, res) => {
-        return proxyLegacy.proxyLegacyPage(req, res, null, '/');
-    });
-
+    // Handle all the proxied legacy pages
     legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
@@ -137,7 +101,6 @@ module.exports = (pages, sectionPath, sectionId) => {
             if (!errors.isEmpty()) {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
-                // @TODO should this go to /home (eg. if they're in an A/B test for the old homepage)
                 req.session.save(() => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });

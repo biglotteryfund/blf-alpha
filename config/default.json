@@ -16,7 +16,6 @@
         "contrast": "contrastMode",
         "session": "blf-alpha-session",
         "csrf": "_csrf",
-        "abTestHomepage": "blf-ab-1-50",
         "abTestAwardsForAll": "blf-ab-afa"
     },
     "anchors": {
@@ -34,10 +33,6 @@
         "tests": {
             "awardsForAll": {
                 "percentage": 20
-            },
-            "homepage": {
-                "id": "pR1e00a0Q42tSZuvQdaqpA",
-                "percentage": 50
             }
         }
     },
