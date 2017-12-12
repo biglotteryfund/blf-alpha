@@ -34,10 +34,8 @@ let servePage = (page, router) => {
 };
 
 let serveCmsPage = (page, sectionId, router) => {
-
     router.get(page.path, (req, res) => {
-
-        const renderPage = (content) => {
+        const renderPage = content => {
             res.render('pages/legacy', {
                 title: content.title,
                 content: content
@@ -55,7 +53,6 @@ let serveCmsPage = (page, sectionId, router) => {
                 renderNotFound(req, res);
             });
     });
-
 };
 
 // map this section ID (for all routes in this path)

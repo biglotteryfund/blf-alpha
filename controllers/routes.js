@@ -280,6 +280,12 @@ const routes = {
                         // sectionPaths.aboutLegacy + "/customer-service/data-protection",
                         '/data-protection'
                     ]
+                },
+                peopleInTheLead: {
+                    name: 'People in the Lead',
+                    path: '/helping-millions-change-their-lives',
+                    cms: true,
+                    live: false
                 }
             }
         }
