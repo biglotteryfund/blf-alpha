@@ -9,7 +9,6 @@ module.exports = function(environment) {
      * Only proxied legacy URLs should be exempt.
      */
     const exemptLegacyUrls = map(legacyProxiedRoutes, _ => _.path);
-    const pathsExemptFromHelmet = ['/', '/welsh', '/legacy'].concat(exemptLegacyUrls);
 
     const defaultSecurityDomains = [
         "'self'",
@@ -59,7 +58,7 @@ module.exports = function(environment) {
     });
 
     return function(req, res, next) {
-        if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
+        if (exemptLegacyUrls.indexOf(req.path) !== -1) {
             next();
         } else {
             helmetSettings(req, res, next);
