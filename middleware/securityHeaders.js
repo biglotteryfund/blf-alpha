@@ -23,6 +23,7 @@ module.exports = function(environment) {
         'syndication.twitter.com',
         'cdn.syndication.twimg.com',
         '*.twimg.com',
+        '*.youtube.com',
         'cdn.jsdelivr.net',
         'sentry.io',
         'dvmwjbtfsnnp0.cloudfront.net'

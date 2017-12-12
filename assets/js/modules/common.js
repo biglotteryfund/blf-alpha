@@ -1,6 +1,7 @@
 'use strict';
 
 const $ = require('jquery');
+const fitvids = require('fitvids');
 
 function initToggleMobileNav() {
     // bind mobile nav show/hidew button
@@ -18,9 +19,14 @@ function initOverlays() {
     });
 }
 
+function initFitVids() {
+    fitvids('.video-container');
+}
+
 function init() {
     initToggleMobileNav();
     initOverlays();
+    initFitVids();
 }
 
 module.exports = {
