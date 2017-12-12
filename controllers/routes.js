@@ -377,6 +377,12 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Awards For All Scotland',
+        path: '/awardsforallscotland',
+        destination: '/funding/programmes/awards-for-all-scotland',
+        live: false // Migration experiment
+    },
+    {
         name: 'Reaching Communities England',
         path: '/prog_reaching_communities',
         destination: '/funding/programmes/reaching-communities-england',
