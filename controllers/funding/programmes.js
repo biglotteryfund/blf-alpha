@@ -1,7 +1,7 @@
 'use strict';
 const { find, get, toString, uniq } = require('lodash');
 const queryString = require('query-string');
-const contentApi = require('../../modules/content');
+const contentApi = require('../../services/content-api');
 const { renderNotFound } = require('../http-errors');
 
 const programmeFilters = {
@@ -51,8 +51,9 @@ function initProgrammesList(router, config) {
         };
 
         contentApi
-            .getFundingProgrammes(req.i18n.getLocale())
-            .then(response => response.data.map(item => item.attributes))
+            .getFundingProgrammes({
+                locale: req.i18n.getLocale()
+            })
             .then(programmes => {
                 const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
                 const minAmountParam = req.query.min;
