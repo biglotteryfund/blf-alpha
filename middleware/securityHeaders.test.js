@@ -17,7 +17,7 @@ describe('securityHeaders', () => {
 
     it('should not add Content-Security-Policy header for exempt URLs', () => {
         const req = httpMocks.createRequest({
-            path: '/'
+            path: '/global-content/programmes/wales/awards-for-all-wales'
         });
         const res = httpMocks.createResponse();
 
