@@ -34,28 +34,28 @@
     </dl>
 {% endmacro %}
 
-{% macro programmeCard(content, accent) %}
+{% macro programmeCard(programme, accent) %}
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
             <h3 class="programme-card__title t1">
-                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ content.linkUrl }}">
-                    {{ content.title }}
+                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ programme.linkUrl }}">
+                    {{ programme.title }}
                 </a>
             </h3>
-            {% if content.photo %}
+            {% if programme.photo %}
                 <div class="programme-card__media">
-                    <img src="{{ content.photo }}" alt=""/>
+                    <img src="{{ programme.photo }}" alt=""/>
                 </div>
             {% endif %}
         </header>
         <div class="programme-card__body">
-            {% if content.description %}
+            {% if programme.description %}
                 <div class="programme-card__description">
-                    <p>{{ content.description }}</p>
+                    <p>{{ programme.description }}</p>
                 </div>
             {% endif %}
             <div class="programme-card__details">
-                {{ programmeStats(fields = content) }}
+                {{ programmeStats(fields = programme) }}
             </div>
         </div>
     </article>
@@ -66,7 +66,7 @@
         {% for programme in programmes %}
             <div class="programmes-list__item">
                 {{ programmeCard(
-                    content = programme.content,
+                    programme = programme.content,
                     accent = accent
                 ) }}
             </div>
