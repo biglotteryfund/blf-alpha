@@ -2,8 +2,9 @@
 const { find, get, toString, uniq } = require('lodash');
 const Raven = require('raven');
 const queryString = require('query-string');
-const contentApi = require('../../services/content-api');
 const { renderNotFound } = require('../http-errors');
+const { createHeroImage } = require('../../modules/images');
+const contentApi = require('../../services/content-api');
 
 const programmeFilters = {
     getValidLocation(programmes, requestedLocation) {
@@ -141,6 +142,35 @@ function initLegacyFundingFinder(router, config) {
     });
 }
 
+/**
+ * Hacky approach to allow us to demo the concept
+ * Customise hero image based on path
+ * @TODO: Consider how to model hero images in the CMS, if at all.
+ */
+function getHeroImage(entry) {
+    const heroImageMappings = {
+        'funding/programmes/reaching-communities-england': createHeroImage({
+            small: 'hero/placeholders/rc-small.jpg',
+            medium: 'hero/placeholders/rc-medium.jpg',
+            large: 'hero/placeholders/rc-large.jpg',
+            default: 'hero/placeholders/rc-medium.jpg'
+        }),
+        'funding/programmes/awards-for-all-england': createHeroImage({
+            small: 'hero/placeholders/afa-small.jpg',
+            medium: 'hero/placeholders/afa-medium.jpg',
+            large: 'hero/placeholders/afa-large.jpg',
+            default: 'hero/placeholders/afa-medium.jpg'
+        }),
+        default: createHeroImage({
+            small: 'hero/working-families-small.jpg',
+            medium: 'hero/working-families-medium.jpg',
+            large: 'hero/working-families-large.jpg',
+            default: 'hero/working-families-medium.jpg'
+        })
+    };
+    return heroImageMappings[entry.path] || heroImageMappings['default'];
+}
+
 function initProgrammeDetail(router, config) {
     router.get('/programmes/:slug', function(req, res) {
         contentApi
@@ -151,8 +181,9 @@ function initProgrammeDetail(router, config) {
             .then(entry => {
                 if (entry.contentSections.length > 0) {
                     res.render(config.template, {
+                        entry: entry,
                         title: entry.title,
-                        entry: entry
+                        heroImage: getHeroImage(entry)
                     });
                 } else {
                     throw new Error('NoContent');
