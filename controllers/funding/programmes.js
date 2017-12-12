@@ -1,5 +1,6 @@
 'use strict';
 const { find, get, toString, uniq } = require('lodash');
+const Raven = require('raven');
 const queryString = require('query-string');
 const contentApi = require('../../services/content-api');
 const { renderNotFound } = require('../http-errors');
@@ -140,9 +141,34 @@ function initLegacyFundingFinder(router, config) {
     });
 }
 
+function initProgrammeDetail(router, config) {
+    router.get('/programmes/:slug', function(req, res) {
+        contentApi
+            .getFundingProgramme({
+                locale: req.i18n.getLocale(),
+                slug: req.params.slug
+            })
+            .then(entry => {
+                if (entry.contentSections.length > 0) {
+                    res.render(config.template, {
+                        title: entry.title,
+                        entry: entry
+                    });
+                } else {
+                    throw new Error('NoContent');
+                }
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                renderNotFound(req, res);
+            });
+    });
+}
+
 function init({ router, config }) {
-    initProgrammesList(router, config);
-    initLegacyFundingFinder(router, config);
+    initProgrammesList(router, config.listing);
+    initLegacyFundingFinder(router, config.listing);
+    initProgrammeDetail(router, config.detail);
 }
 
 module.exports = {

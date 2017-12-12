@@ -3,7 +3,7 @@
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const { get, sortBy } = require('lodash');
+const { sortBy } = require('lodash');
 const rp = require('request-promise-native');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
