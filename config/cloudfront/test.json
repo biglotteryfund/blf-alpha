@@ -692,6 +692,66 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/awardsforallscotland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-1-50",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 5
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/contact",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
@@ -2173,6 +2233,136 @@
                         "blf-ab-afa"
                     ],
                     "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": true
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/scotland/awards-for-all-scotland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "DELETE",
+                "POST",
+                "GET",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 7
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-1-50",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 5
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": true
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/wales/awards-for-all-wales",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "DELETE",
+                "POST",
+                "GET",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 7
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-1-50",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 5
                 }
             },
             "QueryStringCacheKeys": {
@@ -5384,6 +5574,71 @@
                         "blf-ab-afa"
                     ],
                     "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": true
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/wales/awards-for-all-wales",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "DELETE",
+                "POST",
+                "GET",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 7
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-1-50",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 5
                 }
             },
             "QueryStringCacheKeys": {
