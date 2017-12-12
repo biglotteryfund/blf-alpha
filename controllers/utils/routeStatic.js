@@ -1,5 +1,10 @@
 'use strict';
 const app = require('../../server');
+const contentApi = require('../../services/content-api');
+const { renderNotFound } = require('../http-errors');
+
+const { get } = require('lodash');
+const Raven = require('raven');
 
 // redirect any aliases to the canonical path
 let setupRedirects = (sectionPath, page) => {
@@ -26,6 +31,31 @@ let servePage = (page, router) => {
             copy: lang
         });
     });
+};
+
+let serveCmsPage = (page, sectionId, router) => {
+
+    router.get(page.path, (req, res) => {
+
+        const renderPage = (content) => {
+            res.render('pages/legacy', {
+                title: content.title,
+                content: content
+            });
+        };
+
+        contentApi
+            .getLegacyPage(req.i18n.getLocale(), sectionId + page.path)
+            .then(response => get(response, 'data.attributes', []))
+            .then(content => {
+                renderPage(content);
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                renderNotFound(req, res);
+            });
+    });
+
 };
 
 // map this section ID (for all routes in this path)
@@ -61,8 +91,11 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
         // redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);
 
-        // auto-serve this page (if marked as static)
-        if (page.static) {
+        if (page.cms) {
+            // serve a static template with CMS-loaded content
+            serveCmsPage(page, sectionId, router);
+        } else if (page.static) {
+            // serve the page with a specific template and copy block
             servePage(page, router);
         }
     }
