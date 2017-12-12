@@ -219,6 +219,14 @@ const routes = {
                     allowQueryStrings: true,
                     static: false,
                     live: true
+                },
+                programmeDetail: {
+                    name: 'Funding programme details',
+                    path: '/programmes/*',
+                    template: 'pages/funding/programme-detail',
+                    allowQueryStrings: false,
+                    static: false,
+                    live: false
                 }
             }
         },

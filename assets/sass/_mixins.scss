@@ -119,3 +119,11 @@
 @mixin bordered() {
     border: 1px solid rgba(202, 202, 202, 0.5);
 }
+
+@mixin underlined() {
+    content: '';
+    display: block;
+    width: 80px;
+    padding-top: 10px;
+    border-bottom: 3px solid;
+}
