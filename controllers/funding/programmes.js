@@ -55,7 +55,6 @@ function initProgrammesList(router, config) {
             .getFundingProgrammes({
                 locale: req.i18n.getLocale()
             })
-            .then(response => response.data.map(item => item.attributes))
             .then(programmes => {
                 const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
                 const minAmountParam = req.query.min;

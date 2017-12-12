@@ -1,4 +1,3 @@
-'use strict';
 const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const getSecret = require('../modules/get-secret');
@@ -24,6 +23,9 @@ function getFundingProgrammes({ locale }) {
     return request({
         url: `${API_URL}/v1/${locale}/funding-programmes`,
         json: true
+    }).then(response => {
+        const programmes = response.data.map(item => item.attributes);
+        return programmes;
     });
 }
 
@@ -31,7 +33,10 @@ function getFundingProgramme({ locale, slug }) {
     return request({
         url: `${API_URL}/v1/${locale}/funding-programme/${slug}`,
         json: true
-    }).then(response => get(response, 'data.attributes'));
+    }).then(response => {
+        const entry = get(response, 'data.attributes');
+        return entry;
+    });
 }
 
 module.exports = {

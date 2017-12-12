@@ -34,34 +34,28 @@
     </dl>
 {% endmacro %}
 
-{% macro programmeCard(programme, useNewContent, path, accent) %}
-    {# Link to new content page if useNewContent is set #}
-    {% set urlPath = programme.content.linkUrl %}
-    {% if programme.useNewContent %}
-        {% set urlPath = '/' + programme.path %}
-    {% endif %}
-
+{% macro programmeCard(content, accent) %}
     <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
         <header class="programme-card__header">
             <h3 class="programme-card__title t1">
-                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ urlPath }}">
-                    {{ programme.content.title }}
+                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ content.linkUrl }}">
+                    {{ content.title }}
                 </a>
             </h3>
-            {% if programme.content.photo %}
+            {% if content.photo %}
                 <div class="programme-card__media">
-                    <img src="{{ programme.content.photo }}" alt=""/>
+                    <img src="{{ content.photo }}" alt=""/>
                 </div>
             {% endif %}
         </header>
         <div class="programme-card__body">
-            {% if programme.content.description %}
+            {% if content.description %}
                 <div class="programme-card__description">
-                    <p>{{ programme.content.description }}</p>
+                    <p>{{ content.description }}</p>
                 </div>
             {% endif %}
             <div class="programme-card__details">
-                {{ programmeStats(fields = programme.content) }}
+                {{ programmeStats(fields = content) }}
             </div>
         </div>
     </article>
@@ -72,7 +66,7 @@
         {% for programme in programmes %}
             <div class="programmes-list__item">
                 {{ programmeCard(
-                    programme = programme,
+                    content = programme.content,
                     accent = accent
                 ) }}
             </div>
