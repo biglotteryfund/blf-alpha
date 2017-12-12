@@ -3,7 +3,7 @@
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const { get, sortBy } = require('lodash');
+const { sortBy } = require('lodash');
 const rp = require('request-promise-native');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
@@ -13,12 +13,12 @@ const moment = require('moment');
 const router = express.Router();
 
 const app = require('../../server');
+const contentApi = require('../../services/content-api');
 const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
 const proxyLegacy = require('../../modules/proxy');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
-const contentApi = require('../../modules/content');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
 const { splitPercentages } = require('../../modules/ab');
@@ -35,8 +35,6 @@ if (app.get('env') !== 'production') {
 const newHomepage = [
     cached.noCache,
     (req, res) => {
-        const newsToShow = 3;
-
         const serveHomepage = news => {
             const lang = req.i18n.__('toplevel.home');
 
@@ -51,11 +49,12 @@ const newHomepage = [
 
         // get news articles
         contentApi
-            .getPromotedNews(req.i18n.getLocale())
-            .then(response => get(response, 'data', []))
-            .then(data => data.map(item => item.attributes).slice(0, newsToShow))
-            .then(news => {
-                serveHomepage(news);
+            .getPromotedNews({
+                locale: req.i18n.getLocale(),
+                limit: 3
+            })
+            .then(entries => {
+                serveHomepage(entries);
             })
             .catch(() => {
                 serveHomepage();
