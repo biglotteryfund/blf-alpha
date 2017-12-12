@@ -1,7 +1,7 @@
 'use strict';
 const { get, take } = require('lodash');
 const request = require('request-promise-native');
-const getSecret = require('./get-secret');
+const getSecret = require('../modules/get-secret');
 
 const API_URL = process.env.cmsUrl || getSecret('content-api.url');
 

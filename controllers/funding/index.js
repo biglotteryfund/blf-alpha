@@ -13,7 +13,6 @@ const mail = require('../../modules/mail');
 const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
 const programmesRoute = require('./programmes');
-const programmeDetailRoute = require('./programme-detail');
 
 const router = express.Router();
 
@@ -282,19 +281,14 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
     /**
-     * Funding programmes listing
+     * Funding programmes
      */
     programmesRoute.init({
         router: router,
-        config: pages.programmes
-    });
-
-    /**
-     * Funding programme detail page
-     */
-    programmeDetailRoute.init({
-        router: router,
-        config: pages.programmeDetail
+        config: {
+            listing: pages.programmes,
+            detail: pages.programmeDetail
+        }
     });
 
     return router;

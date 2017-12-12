@@ -3,7 +3,7 @@
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const { get, sortBy } = require('lodash');
+const { sortBy } = require('lodash');
 const rp = require('request-promise-native');
 const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
@@ -13,12 +13,12 @@ const moment = require('moment');
 const router = express.Router();
 
 const app = require('../../server');
+const contentApi = require('../../services/content-api');
 const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
 const proxyLegacy = require('../../modules/proxy');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
-const contentApi = require('../../modules/content-api');
 const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
 const { splitPercentages } = require('../../modules/ab');

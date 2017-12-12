@@ -115,7 +115,8 @@
         margin-left: $spacingUnit * 3;
     }
 
-    figure {
+    figure,
+    .inline-figure {
         margin-left: -($spacingUnit);
         margin-right: -($spacingUnit);
 
@@ -124,19 +125,10 @@
         }
     }
 
-    .inline-figure {
-        margin-left: -($spacingUnit);
-        margin-right: -($spacingUnit);
-
-        @include mq(tablet) {
-            margin: 1em 0 2em;
-        }
-
-        &.inline-figure--padded {
-            @include mq('tablet') {
-                margin-left: $spacingUnit * 3;
-                margin-right: $spacingUnit * 3;
-            }
+    .inline-figure--padded {
+        @include mq('tablet') {
+            margin-left: $spacingUnit * 3;
+            margin-right: $spacingUnit * 3;
         }
     }
 
