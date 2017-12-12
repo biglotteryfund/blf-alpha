@@ -1,9 +1,45 @@
 'use strict';
+const { find, get, toString, uniq } = require('lodash');
+const queryString = require('query-string');
 const contentApi = require('../../modules/content');
-const programmeFilters = require('../../modules/programmes');
 
-module.exports = function(config) {
-    return function(req, res) {
+const programmeFilters = {
+    getValidLocation(programmes, requestedLocation) {
+        const validLocations = programmes
+            .map(programme => get(programme, 'content.area.value', false))
+            .filter(location => location !== false);
+
+        const uniqLocations = uniq(validLocations);
+        return find(uniqLocations, location => location === requestedLocation);
+    },
+    filterByLocation(locationValue) {
+        return function(programme) {
+            if (!locationValue) {
+                return programme;
+            }
+
+            return (
+                !programme.content.area ||
+                get(programme.content, 'area.value') === 'ukWide' ||
+                get(programme.content, 'area.value') === locationValue
+            );
+        };
+    },
+    filterByMinAmount(minAmount) {
+        return function(programme) {
+            if (!minAmount) {
+                return programme;
+            }
+
+            const data = programme.content;
+            const min = parseInt(minAmount, 10);
+            return !data.fundingSize || !min || data.fundingSize.minimum >= min;
+        };
+    }
+};
+
+function initProgrammesList(router, config) {
+    router.get(config.path, (req, res) => {
         const lang = req.i18n.__(config.lang);
         const templateData = {
             copy: lang,
@@ -65,5 +101,50 @@ module.exports = function(config) {
                 console.log('error', err);
                 res.send(err);
             });
-    };
+    });
+}
+
+function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
+    originalAreaQuery = toString(originalAreaQuery).toLowerCase();
+    originalAmountQuery = toString(originalAmountQuery).toLowerCase();
+
+    let newQuery = {};
+    if (originalAreaQuery) {
+        newQuery.location = {
+            england: 'england',
+            'northern+ireland': 'northernIreland',
+            scotland: 'scotland',
+            wales: 'wales'
+        }[originalAreaQuery];
+    }
+
+    if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
+        newQuery.min = '10000';
+    }
+
+    return queryString.stringify(newQuery);
+}
+
+function initLegacyFundingFinder(router, config) {
+    router.get('/funding-finder', (req, res) => {
+        const baseRedirectUrl = req.baseUrl + config.path;
+        const newQuery = reformatQueryString({
+            originalAreaQuery: req.query.area,
+            originalAmountQuery: req.query.amount
+        });
+        const redirectUrl = newQuery.length > 0 ? `${baseRedirectUrl}?${newQuery}` : baseRedirectUrl;
+        // Redirect from funding finder to new programmes page
+        res.redirect(301, redirectUrl);
+    });
+}
+
+function init({ router, config }) {
+    initProgrammesList(router, config);
+    initLegacyFundingFinder(router, config);
+}
+
+module.exports = {
+    init,
+    programmeFilters,
+    reformatQueryString
 };

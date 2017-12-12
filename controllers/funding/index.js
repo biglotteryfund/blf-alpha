@@ -1,10 +1,10 @@
 'use strict';
+const config = require('config');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const _ = require('lodash');
 const xss = require('xss');
-const config = require('config');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
 const Raven = require('raven');
@@ -280,10 +280,12 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
     /**
-     * Funding programme list
+     * Funding programmes
      */
-    const programmesConfig = pages.programmes;
-    router.get(programmesConfig.path, programmesRoute(programmesConfig));
+    programmesRoute.init({
+        router: router,
+        config: pages.programmes
+    });
 
     return router;
 };

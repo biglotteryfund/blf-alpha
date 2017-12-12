@@ -374,6 +374,12 @@ const vanityRedirects = [
 // via Cloudfront but aren't explicit page routes (eg. static files, custom pages etc)
 const otherUrls = [
     {
+        path: '/funding/funding-finder',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: false
+    },
+    {
         path: '/assets/*',
         isPostable: false,
         allowQueryStrings: false,
