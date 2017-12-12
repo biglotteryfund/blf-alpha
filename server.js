@@ -20,6 +20,7 @@ const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
 const routes = require('./controllers/routes');
+const { renderError, renderNotFound } = require('./controllers/http-errors');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -122,41 +123,27 @@ routes.vanityRedirects.forEach(r => {
     }
 });
 
-const handle404s = () => {
-    let err = new Error('Page not found');
-    err.status = 404;
-    err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
-    return err;
-};
-
 // alias for error pages for old site -> new
-app.get('/error', (req, res, next) => {
-    next(handle404s());
+app.get('/error', (req, res) => {
+    renderNotFound(req, res);
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-    next(handle404s());
+app.use((req, res) => {
+    renderNotFound(req, res);
 });
 
 if (SENTRY_DSN) {
     app.use(Raven.errorHandler());
 }
 
-// error handler
+/**
+ * Global error handler
+ */
 app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
     }
 
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.locals.status = err.status || 500;
-    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
-    res.locals.sentry = res.sentry;
-
-    // render the error page
-    res.status(res.locals.status);
-    res.render('error');
+    renderError(err, req, res);
 });

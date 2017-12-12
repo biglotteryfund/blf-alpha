@@ -2,6 +2,7 @@
 const { find, get, toString, uniq } = require('lodash');
 const queryString = require('query-string');
 const contentApi = require('../../modules/content');
+const { renderNotFound } = require('../http-errors');
 
 const programmeFilters = {
     getValidLocation(programmes, requestedLocation) {
