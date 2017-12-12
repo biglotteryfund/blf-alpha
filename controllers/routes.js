@@ -42,7 +42,10 @@ const routes = {
                     code: 0,
                     static: false,
                     live: true,
-                    isPostable: true
+                    isPostable: true,
+                    aliases: [
+                        '/home'
+                    ]
                 },
                 contact: {
                     name: 'Contact',
@@ -426,12 +429,6 @@ const otherUrls = [
     {
         path: '/ebulletin',
         isPostable: true,
-        allowQueryStrings: false,
-        live: true
-    },
-    {
-        path: '/home',
-        isPostable: false,
         allowQueryStrings: false,
         live: true
     },
