@@ -3,9 +3,6 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-
 const helper = require('./helper');
 const routes = require('../controllers/routes');
 
@@ -177,6 +174,9 @@ describe('Material order form', () => {
             .end((err, res) => {
                 res.body.should.have.property('yourEmail');
                 res.body.yourEmail.should.equal('bobby@xkcd.com');
+                // ensure optional fields are returned too
+                res.body.should.have.property('yourAddress2');
+                res.body.yourAddress2.should.equal('Notrealsville');
                 done();
             });
     });

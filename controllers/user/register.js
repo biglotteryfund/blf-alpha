@@ -1,14 +1,14 @@
-const xss = require('xss');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const models = require('../../models/index');
 const mail = require('../../modules/mail');
+const getSecret = require('../../modules/get-secret');
+const userService = require('../../services/user');
+
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
 const login = require('./login');
 const dashboard = require('./dashboard');
-const getSecret = require('../../modules/get-secret');
 
 // fetch token from CI store or application secrets
 const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
@@ -71,20 +71,21 @@ const createUser = (req, res, next) => {
             return registrationForm(req, res);
         });
     } else {
-        let userData = {
-            username: xss(req.body.username),
-            password: xss(req.body.password),
-            level: 0
-        };
-
+        const { username, password } = req.body;
         // check if this email address already exists
         // we can't use findOrCreate here because the password changes
         // each time we hash it, which sequelize sees as a new user :(
-        models.Users.findOne({ where: { username: userData.username } })
+        userService
+            .findByUsername(username)
             .then(user => {
                 if (!user) {
                     // no user found, so make a new one
-                    models.Users.create(userData)
+                    userService
+                        .createUser({
+                            username: username,
+                            password: password,
+                            level: 0
+                        })
                         .then(newUser => {
                             // success! now send them an activation email
                             let activationData = sendActivationEmail(newUser, req, true);
@@ -148,16 +149,10 @@ const activateUser = (req, res) => {
                 // was the token valid for this user?
                 if (decoded.data.reason === 'activate' && decoded.data.userId === req.user.id) {
                     // activate the user (their token is valid)
-                    models.Users.update(
-                        {
-                            is_active: true
-                        },
-                        {
-                            where: {
-                                id: decoded.data.userId
-                            }
-                        }
-                    )
+                    userService
+                        .updateActivateUser({
+                            id: decoded.data.userId
+                        })
                         .then(() => {
                             res.redirect(makeUserLink('dashboard'));
                         })

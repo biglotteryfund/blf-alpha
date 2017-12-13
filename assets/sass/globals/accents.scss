@@ -142,6 +142,12 @@
             background-color: darken($colour, 15%) !important;
         }
     }
+
+    .accent-content--#{$name} {
+        h2 {
+            color: $colour;
+        }
+    }
 }
 
 // @TODO find a better way to do this

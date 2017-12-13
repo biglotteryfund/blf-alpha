@@ -13,7 +13,7 @@ process.env.USE_LOCAL_DATABASE = true;
 // never send emails in test mode (instead capture their content)
 process.env.DONT_SEND_EMAIL = true;
 
-const models = require('../models/index');
+const userService = require('../services/user');
 
 let hook;
 
@@ -35,13 +35,9 @@ let captureStream = stream => {
     };
 };
 
-const createTestUser = userData => {
-    return models.Users.create(userData);
-};
+const createTestUser = userData => userService.createUser(userData);
 
-const truncateUsers = () => {
-    return models.Users.destroy({ where: {} });
-};
+const truncateUsers = () => userService.__destroyAll();
 
 function getCsrfToken(agent, urlPath) {
     return new Promise(resolve => {

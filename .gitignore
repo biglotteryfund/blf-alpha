@@ -13,5 +13,6 @@ screenshots
 tmp/*.db
 gmail_secrets.json
 messages.json
+config/app/server-dev.conf
 config/content/scraped
 config/content/cleaned

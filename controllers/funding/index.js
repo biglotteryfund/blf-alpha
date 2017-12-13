@@ -1,19 +1,20 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const moment = require('moment');
-const _ = require('lodash');
-const xss = require('xss');
+const { get } = require('lodash');
+const Raven = require('raven');
 const config = require('config');
+const moment = require('moment');
+const express = require('express');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeBody } = require('express-validator/filter');
-const Raven = require('raven');
+const xss = require('xss');
 
 const cached = require('../../middleware/cached');
-const routeStatic = require('../utils/routeStatic');
 const mail = require('../../modules/mail');
+const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
 const programmesRoute = require('./programmes');
+
+const router = express.Router();
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -55,7 +56,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                     req.session.save(() => {
                         res.send({
                             status: 'success',
-                            quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
+                            quantity: get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
                             allOrders: req.session[freeMaterialsLogic.orderKey]
                         });
                     });
@@ -188,7 +189,8 @@ module.exports = (pages, sectionPath, sectionId) => {
                 if (req.body.skipEmail) {
                     res.send(req.body);
                 } else {
-                    const details = matchedData(req, { locations: ['body'] });
+                    // some fields are optional so matchedData misses them here
+                    const details = req.body;
                     const items = req.session[freeMaterialsLogic.orderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(items, details);
@@ -280,10 +282,15 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
     /**
-     * Funding programme list
+     * Funding programmes
      */
-    const programmesConfig = pages.programmes;
-    router.get(programmesConfig.path, programmesRoute(programmesConfig));
+    programmesRoute.init({
+        router: router,
+        config: {
+            listing: pages.programmes,
+            detail: pages.programmeDetail
+        }
+    });
 
     return router;
 };

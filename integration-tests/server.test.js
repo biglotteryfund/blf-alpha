@@ -32,28 +32,6 @@ describe('Express application', () => {
             });
     });
 
-    it('serves the new homepage', done => {
-        chai
-            .request(server)
-            .get('/home')
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    it('serves the legacy homepage', done => {
-        chai
-            .request(server)
-            .get('/legacy')
-            .end((err, res) => {
-                // verify that our proxied page has been correct modified
-                res.should.have.header('X-BLF-Legacy', 'true');
-                res.should.have.status(200);
-                done();
-            });
-    });
-
     it('serves static files', done => {
         const assets = require('../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');

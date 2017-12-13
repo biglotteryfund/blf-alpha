@@ -8,7 +8,7 @@
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses, trackClicksAsPageviews) %}
     <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
         data-paneset="{{ paneSetId }}"{% if not trackClicksAsPageviews %} data-do-not-track-pageviews="true"{% endif %}
-        id="js-tabs-{{ id }}">
+        id="js-tabs-{{ tabSetId }}">
         {% for t in tabs %}
             <li{% if tabClasses %} class="{{ tabClasses }}"{% endif %}>{{ t }}</li>
         {% endfor %}

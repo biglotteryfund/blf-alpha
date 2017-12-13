@@ -42,7 +42,8 @@ const routes = {
                     code: 0,
                     static: false,
                     live: true,
-                    isPostable: true
+                    isPostable: true,
+                    aliases: ['/home']
                 },
                 contact: {
                     name: 'Contact',
@@ -219,6 +220,14 @@ const routes = {
                     allowQueryStrings: true,
                     static: false,
                     live: true
+                },
+                programmeDetail: {
+                    name: 'Funding programme details',
+                    path: '/programmes/*',
+                    template: 'pages/funding/programme-detail',
+                    allowQueryStrings: false,
+                    static: false,
+                    live: false
                 }
             }
         },
@@ -271,6 +280,12 @@ const routes = {
                         // sectionPaths.aboutLegacy + "/customer-service/data-protection",
                         '/data-protection'
                     ]
+                },
+                peopleInTheLead: {
+                    name: 'People in the Lead',
+                    path: '/helping-millions-change-their-lives',
+                    isLegacyPage: true,
+                    live: false
                 }
             }
         }
@@ -366,13 +381,31 @@ const vanityRedirects = [
         name: 'Awards For All England',
         path: '/prog_a4a_eng',
         destination: '/global-content/programmes/england/awards-for-all-england',
-        live: false
+        live: true
+    },
+    {
+        name: 'Awards For All Scotland',
+        path: '/awardsforallscotland',
+        destination: '/funding/programmes/awards-for-all-scotland',
+        live: false // Migration experiment
+    },
+    {
+        name: 'Reaching Communities England',
+        path: '/prog_reaching_communities',
+        destination: '/funding/programmes/reaching-communities-england',
+        live: false // Migration experiment
     }
 ];
 
 // these are other paths that should be routed to this app
 // via Cloudfront but aren't explicit page routes (eg. static files, custom pages etc)
 const otherUrls = [
+    {
+        path: '/funding/funding-finder',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: false
+    },
     {
         path: '/assets/*',
         isPostable: false,
@@ -416,12 +449,6 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/home',
-        isPostable: false,
-        allowQueryStrings: false,
-        live: true
-    },
-    {
         path: '/surveys',
         isPostable: false,
         allowQueryStrings: true,
@@ -457,7 +484,7 @@ const withLegacyDefaults = function(obj) {
 const legacyProxiedRoutes = {
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
-        live: false
+        live: true
     }),
     awardsForAllScotland: withLegacyDefaults({
         path: '/global-content/programmes/scotland/awards-for-all-scotland',

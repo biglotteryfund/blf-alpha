@@ -8,7 +8,7 @@
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
     "lint": "eslint .",
     "test-deps": "snyk test",
-    "test-unit": "mocha {assets,middleware,modules}/**/*.test.js --exit",
+    "test-unit": "mocha {assets,controllers,middleware,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
     "size": "size-limit",
@@ -28,7 +28,7 @@
     "assets/**/*.scss": [
       "prettier --write"
     ],
-    "{assets,controllers,integration-tests,lambda,middleware,models,modules}/**/*.js": [
+    "{assets,controllers,integration-tests,lambda,middleware,models,modules,services}/**/*.js": [
       "prettier --write",
       "eslint"
     ],
@@ -98,6 +98,7 @@
     "express-cache-controller": "^1.0.1",
     "express-session": "^1.15.5",
     "express-validator": "^4.2.1",
+    "fitvids": "^2.0.0",
     "generate-schema": "^2.5.1",
     "helmet": "^3.8.1",
     "i18n-2": "^0.6.3",

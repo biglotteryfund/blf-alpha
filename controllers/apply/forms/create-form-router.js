@@ -95,7 +95,7 @@ module.exports = function(router, formModel) {
             let successStep = formModel.getSuccessStep();
             let processSuccess = successStep.processor(formData);
             processSuccess
-                .then(success => {
+                .then(() => {
                     res.render('pages/experimental/apply/success', {
                         form: formModel,
                         success: successStep
