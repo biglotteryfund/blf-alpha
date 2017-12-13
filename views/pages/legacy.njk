@@ -16,7 +16,14 @@
 
     <article role="main" class="nudge-up s-prose s-prose--full">
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
-            {{ content.body | safe }}
+            {% if content.subtitle %}
+                <h2 class="t2">{{ content.subtitle }}</h2>
+            {% endif %}
+            <div class="grid">
+                <div class="grid__item grid-col-8">
+                    {{ content.body | safe }}
+                </div>
+            </div>
         </div>
     </article>
 
