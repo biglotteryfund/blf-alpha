@@ -12,10 +12,10 @@ module.exports = {
         allowImportExportEverywhere: true
     },
     rules: {
-        eqeqeq: 2,
-        semi: [2, 'always'],
-
-        'no-console': 0,
-        'no-unused-vars': 1
+        eqeqeq: 'error',
+        semi: ['error', 'always'],
+        'no-shadow': 'warn',
+        'no-console': 'off',
+        'no-unused-vars': 'warn'
     }
 };
