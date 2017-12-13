@@ -182,6 +182,7 @@ function initProgrammeDetail(router, config) {
                 if (entry.contentSections.length > 0) {
                     res.render(config.template, {
                         entry: entry,
+                        editUrl: entry.editUrl,
                         title: entry.title,
                         heroImage: getHeroImage(entry)
                     });
