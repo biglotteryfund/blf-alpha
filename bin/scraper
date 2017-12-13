@@ -8,6 +8,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const cheerio = require('cheerio');
 const pretty = require('pretty');
+const absolution = require('absolution');
 
 const argv = require('yargs')
     .alias('s', 'scrape')
@@ -39,6 +40,9 @@ const getPageHTML = (url, isFinished) => {
         resolveWithFullResponse: true
     }).then(response => {
         let body = response.body;
+
+        // convert links/images etc to point directly to live env
+        body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
         // parse the DOM
         let dom = new JSDOM(body);
