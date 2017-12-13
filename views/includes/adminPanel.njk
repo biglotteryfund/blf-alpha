@@ -1,0 +1,9 @@
+{% if editUrl and (appData.APP_ENV !== 'production') %}
+    <div class="admin-panel">
+        <ul class="admin-panel__list">
+            <li class="admin-panel__item">
+                <a class="admin-panel__link" href="{{ editUrl }}">Edit Page</a>
+            </li>
+        </ul>
+    </div>
+{% endif %}
