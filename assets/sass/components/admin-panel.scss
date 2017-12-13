@@ -1,0 +1,41 @@
+/* =========================================================================
+   Admin Panel
+   ========================================================================= */
+
+.admin-panel {
+    display: inline-block;
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    background-color: #28282f;
+    box-shadow: -3px 0 6px rgba(0, 0, 0, 0.2);
+}
+.admin-panel__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.admin-panel__item,
+.admin-panel__link {
+    display: block;
+    float: left;
+    margin: 0;
+}
+.admin-panel__link,
+.admin-panel__link:link,
+.admin-panel__link:visited,
+.admin-panel__link:hover,
+.admin-panel__link:active {
+    color: inherit;
+    padding: 8px 10px;
+    text-decoration: none;
+}
+.admin-panel__link:hover {
+    color: white;
+    background-color: black;
+}

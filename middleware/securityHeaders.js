@@ -26,7 +26,8 @@ module.exports = function(environment) {
         'cdn.jsdelivr.net',
         'sentry.io',
         'dvmwjbtfsnnp0.cloudfront.net',
-        '*.biglotteryfund.org.uk'
+        '*.biglotteryfund.org.uk',
+        '*.biglotteryfund.local'
     ];
 
     const directives = {

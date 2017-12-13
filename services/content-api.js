@@ -9,6 +9,10 @@ if (!API_URL) {
     process.exit(1);
 }
 
+function getAdminLinkEndpont({ locale, contentId }) {
+    return `${API_URL}/v1/${locale}/admin-links/${contentId}`;
+}
+
 function getPromotedNews({ locale, limit }) {
     return request({
         url: `${API_URL}/v1/${locale}/promoted-news`,
@@ -53,6 +57,7 @@ function getLegacyPage({ locale, path }) {
 }
 
 module.exports = {
+    getAdminLinkEndpont,
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
