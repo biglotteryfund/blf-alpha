@@ -3,7 +3,6 @@ const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const { renderNotFound } = require('../http-errors');
 
-const { get } = require('lodash');
 const Raven = require('raven');
 
 // redirect any aliases to the canonical path
@@ -43,8 +42,10 @@ let serveCmsPage = (page, sectionId, router) => {
         };
 
         contentApi
-            .getLegacyPage(req.i18n.getLocale(), sectionId + page.path)
-            .then(response => get(response, 'data.attributes', []))
+            .getLegacyPage({
+                locale: req.i18n.getLocale(),
+                path: sectionId + page.path
+            })
             .then(content => {
                 renderPage(content);
             })
@@ -88,7 +89,7 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
         // redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);
 
-        if (page.cms) {
+        if (page.isLegacyPage) {
             // serve a static template with CMS-loaded content
             serveCmsPage(page, sectionId, router);
         } else if (page.static) {

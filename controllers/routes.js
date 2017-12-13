@@ -284,7 +284,7 @@ const routes = {
                 peopleInTheLead: {
                     name: 'People in the Lead',
                     path: '/helping-millions-change-their-lives',
-                    cms: true,
+                    isLegacyPage: true,
                     live: false
                 }
             }
