@@ -9,6 +9,8 @@ const makeUrlObject = (page, customPath) => {
     };
 };
 
+const isLive = route => route.live === true;
+
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
 const generateUrlList = routes => {
@@ -41,9 +43,9 @@ const generateUrlList = routes => {
                 // add redirects for aliases
                 if (page.aliases) {
                     page.aliases.forEach(alias => {
-                        let page = { path: alias };
-                        urlList.newSite.push(makeUrlObject(page));
-                        urlList.newSite.push(makeUrlObject(page, makeWelsh(page.path)));
+                        const pageObject = { path: alias };
+                        urlList.newSite.push(makeUrlObject(pageObject));
+                        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(alias)));
                     });
                 }
             } else {
@@ -52,8 +54,17 @@ const generateUrlList = routes => {
         }
     }
 
+    /**
+     * Programme migration routes
+     */
+    routes.programmeRedirects.filter(isLive).forEach(routeConfig => {
+        const pageObject = { path: routeConfig.path };
+        urlList.newSite.push(makeUrlObject(pageObject));
+        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
+    });
+
     // add vanity redirects too
-    routes.vanityRedirects.filter(r => r.live).forEach(redirect => {
+    routes.vanityRedirects.filter(isLive).forEach(redirect => {
         if (redirect.paths) {
             redirect.paths.forEach(path => {
                 let page = { path: path };
@@ -65,14 +76,14 @@ const generateUrlList = routes => {
         }
     });
 
-    // Add the miscellaneous routes
-    routes.otherUrls.filter(r => r.live).forEach(routeConfig => {
+    // Legacy proxied routes
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
+    forEach(liveLegacyRoutes, routeConfig => {
         urlList.newSite.push(makeUrlObject(routeConfig));
     });
 
-    // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, _ => _.live);
-    forEach(liveLegacyRoutes, routeConfig => {
+    // Add the miscellaneous routes
+    routes.otherUrls.filter(isLive).forEach(routeConfig => {
         urlList.newSite.push(makeUrlObject(routeConfig));
     });
 
