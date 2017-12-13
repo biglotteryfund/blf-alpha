@@ -174,6 +174,9 @@ describe('Material order form', () => {
             .end((err, res) => {
                 res.body.should.have.property('yourEmail');
                 res.body.yourEmail.should.equal('bobby@xkcd.com');
+                // ensure optional fields are returned too
+                res.body.should.have.property('yourAddress2');
+                res.body.yourAddress2.should.equal('Notrealsville');
                 done();
             });
     });
