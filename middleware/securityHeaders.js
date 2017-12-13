@@ -25,7 +25,8 @@ module.exports = function(environment) {
         '*.youtube.com',
         'cdn.jsdelivr.net',
         'sentry.io',
-        'dvmwjbtfsnnp0.cloudfront.net'
+        'dvmwjbtfsnnp0.cloudfront.net',
+        '*.biglotteryfund.org.uk'
     ];
 
     const directives = {

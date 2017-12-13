@@ -40,8 +40,21 @@ function getFundingProgramme({ locale, slug }) {
     });
 }
 
+function getLegacyPage({ locale, path }) {
+    return request({
+        url: `${API_URL}/v1/${locale}/legacy`,
+        qs: {
+            path: path
+        },
+        json: true
+    }).then(response => {
+        return get(response, 'data.attributes');
+    });
+}
+
 module.exports = {
     getPromotedNews,
     getFundingProgrammes,
-    getFundingProgramme
+    getFundingProgramme,
+    getLegacyPage
 };
