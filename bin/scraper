@@ -139,6 +139,16 @@ const parseContentFromHtml = (html, url) => {
         'img'
     ];
 
+    const invalidEmptyElements = [
+        'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'em', 'i'
+    ];
+
+    // pairs of search/replace tag names
+    const html5Fixes = [
+        ['b', 'strong'],
+        ['i', 'em']
+    ];
+
     // clean up HTML
     contentParts.forEach(content => {
 
@@ -150,12 +160,32 @@ const parseContentFromHtml = (html, url) => {
             });
         });
 
+        // remove non-breaking spaces in otherwise-empty elements
+        invalidEmptyElements.forEach(tagName => {
+            content.find(tagName).each(function() {
+                let $this = $(this);
+                if($this.html().replace(/\s|&nbsp;|&#xA0;/g, '').length === 0) {
+                    $this.remove();
+                }
+            });
+        });
+
+        // use semantic content
+        html5Fixes.forEach(fix => {
+            let search = fix[0];
+            let replace = fix[1];
+            $(search).replaceWith(function() {
+                return $(`<${replace}>`).html($(this).html());
+            });
+        });
+
         // remove empty elements
         let empties = content.find(':empty');
         empties.each(function () {
             let elmType = $(this)[0].name;
             if (validEmptyElements.indexOf(elmType) === -1) {
-                $(this)[0].innerHTML = '';
+                // $(this)[0].innerHTML = '';
+                $(this).remove();
             }
         });
 
