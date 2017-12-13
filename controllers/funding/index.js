@@ -189,7 +189,8 @@ module.exports = (pages, sectionPath, sectionId) => {
                 if (req.body.skipEmail) {
                     res.send(req.body);
                 } else {
-                    const details = matchedData(req, { locations: ['body'] });
+                    // some fields are optional so matchedData misses them here
+                    const details = req.body;
                     const items = req.session[freeMaterialsLogic.orderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(items, details);
