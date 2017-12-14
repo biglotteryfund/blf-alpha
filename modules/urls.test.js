@@ -34,6 +34,15 @@ describe('URL Helpers', () => {
                     }
                 }
             },
+            programmeRedirects: [
+                {
+                    path: '/global-content/programmes/example',
+                    destination: '/funding/programmes/example',
+                    isPostable: false,
+                    allowQueryStrings: false,
+                    live: true
+                }
+            ],
             vanityRedirects: [
                 {
                     path: '/test',
@@ -59,7 +68,7 @@ describe('URL Helpers', () => {
 
         it('should filter out non-live routes', done => {
             let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(9);
+            expect(urlList.newSite.length).to.equal(11);
             done();
         });
 

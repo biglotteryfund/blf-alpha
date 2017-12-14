@@ -140,13 +140,13 @@ describe('User authentication', () => {
                         .post('/user/login')
                         .send(loginFormData)
                         .redirects(0)
-                        .end((err, res) => {
-                            res.should.have.status(302);
-                            res.should.redirectTo(loginFormData.redirectUrl);
+                        .end((loginErr, loginRes) => {
+                            loginRes.should.have.status(302);
+                            loginRes.should.redirectTo(loginFormData.redirectUrl);
 
                             // now try to access something private
-                            agent.get('/user/dashboard').end((err, res) => {
-                                res.text.should.match(/(.*)Logged in as(.*)/);
+                            agent.get('/user/dashboard').end((dashboardErr, dashboardRes) => {
+                                dashboardRes.text.should.match(/(.*)Logged in as(.*)/);
                                 done();
                             });
                         });

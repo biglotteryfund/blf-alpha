@@ -75,9 +75,9 @@ describe('Tab module', () => {
     });
 
     it('removes a class from other tabs when one is clicked', () => {
-        let tabs = tabModule.querySelectorAll('li');
-        let t1 = tabs[1].querySelector('a');
-        let t2 = tabs[0].querySelector('a');
+        const tabEls = tabModule.querySelectorAll('li');
+        const t1 = tabEls[1].querySelector('a');
+        const t2 = tabEls[0].querySelector('a');
         t1.click(); // first click tab 2
         t2.click(); // now click tab 1
         expect(getClassesFromElm(t2)).to.contain('tab--active');
@@ -85,17 +85,17 @@ describe('Tab module', () => {
     });
 
     it('adds a class to the correct pane when a tab is clicked', () => {
-        let tabs = tabModule.querySelectorAll('li');
-        let link = tabs[1].querySelector('a');
+        const tabEls = tabModule.querySelectorAll('li');
+        const link = tabEls[1].querySelector('a');
         link.click();
-        let pane = document.querySelector(link.getAttribute('href'));
+        const pane = document.querySelector(link.getAttribute('href'));
         expect(getClassesFromElm(pane)).to.contain('pane--active');
     });
 
     it('removes a class from other panes when a tab is clicked', () => {
-        let tabs = tabModule.querySelectorAll('li');
-        let t1 = tabs[1].querySelector('a');
-        let t2 = tabs[0].querySelector('a');
+        let tabEls = tabModule.querySelectorAll('li');
+        let t1 = tabEls[1].querySelector('a');
+        let t2 = tabEls[0].querySelector('a');
         t1.click(); // first click tab 1
         t2.click(); // next click tab 2
         let activePane = document.querySelector(t2.getAttribute('href'));

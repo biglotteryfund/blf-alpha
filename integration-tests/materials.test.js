@@ -135,13 +135,13 @@ describe('Material order form', () => {
                     .post(path + '/item/' + itemId)
                     .set('Accept', 'application/json')
                     .send(formData)
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.should.have.header('content-type', /^application\/json/);
-                        res.body.should.have.property('status');
-                        res.body.status.should.equal('success');
-                        res.body.should.have.property('quantity');
-                        res.body.quantity.should.equal(0);
+                    .end((decreaseErr, decreaseRes) => {
+                        decreaseRes.should.have.status(200);
+                        decreaseRes.should.have.header('content-type', /^application\/json/);
+                        decreaseRes.body.should.have.property('status');
+                        decreaseRes.body.status.should.equal('success');
+                        decreaseRes.body.should.have.property('quantity');
+                        decreaseRes.body.quantity.should.equal(0);
                         done();
                     });
             });

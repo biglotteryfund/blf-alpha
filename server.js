@@ -78,11 +78,13 @@ app.use('/', require('./controllers/toplevel/tools'));
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
 
-// aka welshify - create an array of paths: default (english) and welsh variant
-const cymreigio = mountPath => {
-    let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
-    return [mountPath, welshPath];
-};
+/**
+ * Welsh route helpers
+ * makeWelsh = create a welsh version of a given URL path
+ * cymreigio aka welshify - create an array of paths: default (english) and welsh variant
+ */
+const makeWelsh = routePath => `${config.get('i18n.urlPrefix.cy')}${routePath}`;
+const cymreigio = mountPath => [mountPath, makeWelsh(mountPath)];
 
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {
@@ -107,19 +109,42 @@ for (let sectionId in routes.sections) {
     }
 }
 
-// add vanity redirects
-routes.vanityRedirects.forEach(r => {
-    let servePath = path => {
-        app.get(path, (req, res) => {
-            res.redirect(r.destination);
-        });
-    };
-    if (r.paths) {
-        r.paths.forEach(path => {
-            servePath(path, r.destination);
+function serveRedirect({ sourcePath, destinationPath }) {
+    app.get(sourcePath, (req, res) => {
+        res.redirect(destinationPath);
+    });
+}
+
+/**
+ * Programme Migration Redirects
+ */
+routes.programmeRedirects.forEach(route => {
+    serveRedirect({
+        sourcePath: route.path,
+        destinationPath: route.destination
+    });
+    serveRedirect({
+        sourcePath: makeWelsh(route.path),
+        destinationPath: makeWelsh(route.destination)
+    });
+});
+
+/**
+ * Vanity URL Redirects
+ */
+routes.vanityRedirects.forEach(route => {
+    if (route.paths) {
+        route.paths.forEach(routePath => {
+            serveRedirect({
+                sourcePath: routePath,
+                destinationPath: route.destination
+            });
         });
     } else {
-        servePath(r.path, r.destination);
+        serveRedirect({
+            sourcePath: route.path,
+            destinationPath: route.destination
+        });
     }
 });
 

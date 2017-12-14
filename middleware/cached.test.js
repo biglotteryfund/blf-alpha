@@ -46,8 +46,8 @@ describe('cached', () => {
                 done();
             });
 
-        after(function(done) {
-            server.close(done);
+        after(function(afterDone) {
+            server.close(afterDone);
         });
     });
 
@@ -66,8 +66,8 @@ describe('cached', () => {
                 done();
             });
 
-        after(function(done) {
-            server.close(done);
+        after(function(afterDone) {
+            server.close(afterDone);
         });
     });
 
@@ -100,8 +100,8 @@ describe('cached', () => {
                 done();
             });
 
-        after(function(done) {
-            server.close(done);
+        after(function(afterDone) {
+            server.close(afterDone);
         });
     });
 });
