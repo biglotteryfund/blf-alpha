@@ -1,18 +1,27 @@
-{% import "components/hero.njk" as hero %}
-{% import "components/headers.njk" as headers %}
-{% import "components/segment.njk" as segment %}
+{% from "components/hero.njk" import sectionHero %}
 
 {% extends "layouts/main.njk" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% block content %}
-    {% set pageAccent = 'turquoise' %}
-    {% set heroContent %}
-        {{ headers.overlayText('h2', title, 't2') }}
-    {% endset %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+{% set socialImage = heroImage %}
+{% set pageAccent = 'turquoise' %}
 
-    {{ hero.header('foi', heroContent, pageAccent) }}
+{% block content %}
+    {{
+        sectionHero(
+            accent = 'blue',
+            titleText = title,
+            image = heroImage
+        )
+    }}
 
     <main role="main" class="nudge-up">
         <article class="content-box inner--wide-only accent--turquoise a--border-top">
