@@ -32,6 +32,17 @@ let servePage = (page, router) => {
     });
 };
 
+const getCmsPath = (sectionId, pagePath) => {
+    let urlPath = sectionId + pagePath;
+
+    // toplevel sections shouldn't preprend anything
+    if (sectionId === 'toplevel') {
+        urlPath = pagePath.replace(/^\/+/g, '');
+    }
+    
+    return urlPath;
+};
+
 let serveCmsPage = (page, sectionId, router) => {
     router.get(page.path, (req, res) => {
         const renderPage = content => {
@@ -41,17 +52,10 @@ let serveCmsPage = (page, sectionId, router) => {
             });
         };
 
-        let urlPath = sectionId + page.path;
-
-        // toplevel sections shouldn't preprend anything
-        if (sectionId === 'toplevel') {
-            urlPath = page.path.replace(/^\/+/g, '');
-        }
-
         contentApi
             .getLegacyPage({
                 locale: req.i18n.getLocale(),
-                path: urlPath
+                path: getCmsPath(sectionId, page.path)
             })
             .then(content => {
                 renderPage(content);
