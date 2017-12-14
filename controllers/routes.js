@@ -1,6 +1,9 @@
 'use strict';
 const config = require('config');
+const _ = require('lodash');
 const anchors = config.get('anchors');
+
+const importedLegacyPages = require('../config/app/importedLegacyPages');
 
 // pass some parameters onto each controller
 // so we can take route config and init all at once
@@ -280,17 +283,19 @@ const routes = {
                         // sectionPaths.aboutLegacy + "/customer-service/data-protection",
                         '/data-protection'
                     ]
-                },
-                peopleInTheLead: {
-                    name: 'People in the Lead',
-                    path: '/helping-millions-change-their-lives',
-                    isLegacyPage: true,
-                    live: false
                 }
             }
         }
     }
 };
+
+// append the (lengthy) imported list of legacy pages
+for (let section in importedLegacyPages) {
+    if (_.get(routes.sections, section)) {
+        let pages = routes.sections[section].pages;
+        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
+    }
+}
 
 // for the sake of brevity, define some commonly-used paths rather than repeating them below
 const vanityDestinations = {
