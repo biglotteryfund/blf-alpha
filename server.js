@@ -5,6 +5,10 @@ const path = require('path');
 const config = require('config');
 const Raven = require('raven');
 
+if (app.get('env') === 'development') {
+    require('dotenv').config();
+}
+
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 
@@ -21,10 +25,6 @@ const favicon = require('serve-favicon');
 const getSecret = require('./modules/get-secret');
 const routes = require('./controllers/routes');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
-
-if (app.get('env') === 'development') {
-    require('dotenv').config();
-}
 
 const SENTRY_DSN = getSecret('sentry.dsn');
 if (SENTRY_DSN) {

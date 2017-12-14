@@ -2,20 +2,20 @@ const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const getSecret = require('../modules/get-secret');
 
-const API_URL = process.env.cmsUrl || getSecret('content-api.url');
+const apiEndpoint = process.env.cmsUrl || getSecret('content-api.url');
 
-if (!API_URL) {
+if (!apiEndpoint) {
     console.log('Error: CMS_URL endpoint must be defined');
     process.exit(1);
 }
 
 function getAdminLinkEndpont({ locale, contentId }) {
-    return `${API_URL}/v1/${locale}/admin-links/${contentId}`;
+    return `${apiEndpoint}/v1/${locale}/admin-links/${contentId}`;
 }
 
 function getPromotedNews({ locale, limit }) {
     return request({
-        url: `${API_URL}/v1/${locale}/promoted-news`,
+        url: `${apiEndpoint}/v1/${locale}/promoted-news`,
         json: true
     }).then(response => {
         const data = get(response, 'data', []);
@@ -26,7 +26,7 @@ function getPromotedNews({ locale, limit }) {
 
 function getFundingProgrammes({ locale }) {
     return request({
-        url: `${API_URL}/v1/${locale}/funding-programmes`,
+        url: `${apiEndpoint}/v1/${locale}/funding-programmes`,
         json: true
     }).then(response => {
         const programmes = response.data.map(item => item.attributes);
@@ -36,7 +36,7 @@ function getFundingProgrammes({ locale }) {
 
 function getFundingProgramme({ locale, slug }) {
     return request({
-        url: `${API_URL}/v1/${locale}/funding-programme/${slug}`,
+        url: `${apiEndpoint}/v1/${locale}/funding-programme/${slug}`,
         json: true
     }).then(response => {
         const entry = get(response, 'data.attributes');
@@ -46,7 +46,7 @@ function getFundingProgramme({ locale, slug }) {
 
 function getLegacyPage({ locale, path }) {
     return request({
-        url: `${API_URL}/v1/${locale}/legacy`,
+        url: `${apiEndpoint}/v1/${locale}/legacy`,
         qs: {
             path: path
         },
@@ -57,6 +57,7 @@ function getLegacyPage({ locale, path }) {
 }
 
 module.exports = {
+    apiEndpoint,
     getAdminLinkEndpont,
     getPromotedNews,
     getFundingProgrammes,

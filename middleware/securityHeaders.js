@@ -1,7 +1,9 @@
 'use strict';
+const { URL } = require('url');
 const helmet = require('helmet');
 const { map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
+const { apiEndpoint } = require('../services/content-api');
 
 module.exports = function(environment) {
     /**
@@ -26,8 +28,7 @@ module.exports = function(environment) {
         'cdn.jsdelivr.net',
         'sentry.io',
         'dvmwjbtfsnnp0.cloudfront.net',
-        '*.biglotteryfund.org.uk',
-        '*.biglotteryfund.local'
+        new URL(apiEndpoint).hostname
     ];
 
     const directives = {
