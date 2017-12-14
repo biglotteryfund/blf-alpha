@@ -41,10 +41,17 @@ let serveCmsPage = (page, sectionId, router) => {
             });
         };
 
+        let urlPath = sectionId + page.path;
+
+        // toplevel sections shouldn't preprend anything
+        if (sectionId === 'toplevel') {
+            urlPath = page.path.replace(/^\/+/g, '');
+        }
+
         contentApi
             .getLegacyPage({
                 locale: req.i18n.getLocale(),
-                path: sectionId + page.path
+                path: urlPath
             })
             .then(content => {
                 renderPage(content);
