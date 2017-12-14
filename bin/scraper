@@ -243,7 +243,8 @@ const parseContentFromHtml = (htmlLangs, url) => {
         let body = pretty(bodyHtml, { ocd: true });
 
         // build final HTML string
-        let cleanHtml = `${divider}\n`;
+        let pagePath = url.replace('https://www.biglotteryfund.org.uk/', '');
+        let cleanHtml = `${divider}\n${pagePath}\n${divider}\n`;
         if (title) {
             cleanHtml += `${title}`;
         }
