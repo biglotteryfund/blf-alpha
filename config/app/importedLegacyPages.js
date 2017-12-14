@@ -143,9 +143,9 @@ module.exports = {
             isLegacyPage: true,
             live: false
         },
-        'our-approach-lottery-fund': {
-            name: 'our-approach-lottery-fund',
-            path: '/our-approach-lottery-fund',
+        'our-approach/about-big-lottery-fund': {
+            name: 'our-approach/about-big-lottery-fund',
+            path: '/our-approach/about-big-lottery-fund',
             isLegacyPage: true,
             live: false
         },
