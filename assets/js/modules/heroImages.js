@@ -41,7 +41,9 @@ function init() {
                     replaceImage($imageEl, randomImage);
                     replaceCaption($captionEl, randomImage.caption);
 
-                    $heroEl.addClass('has-image');
+                    setTimeout(() => {
+                        $heroEl.addClass('has-image');
+                    }, 0);
                 }
             }
         });

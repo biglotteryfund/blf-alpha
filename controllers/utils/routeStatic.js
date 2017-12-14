@@ -1,6 +1,7 @@
 'use strict';
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
+const { createHeroImage } = require('../../modules/images');
 const { renderNotFound } = require('../http-errors');
 
 const Raven = require('raven');
@@ -34,12 +35,41 @@ let servePage = (page, router) => {
 
 let serveCmsPage = (page, sectionId, router) => {
     router.get(page.path, (req, res) => {
-        const renderPage = content => {
-            res.render('pages/legacy', {
-                title: content.title,
-                content: content
-            });
-        };
+        /**
+         * Placeholder images
+         * @TODO: Replace with different ones, or ideally fetch from CMS.
+         */
+        const heroImage = createHeroImage({
+            small: 'hero/jobs-small.jpg',
+            medium: 'hero/jobs-medium.jpg',
+            large: 'hero/jobs-large.jpg',
+            default: 'hero/jobs-medium.jpg',
+            caption: 'Street Dreams, Grant £9,000'
+        });
+        const heroImageCandidates = [
+            createHeroImage({
+                small: 'hero/over-10k-small.jpg',
+                medium: 'hero/over-10k-medium.jpg',
+                large: 'hero/over-10k-large.jpg',
+                default: 'hero/over-10k-medium.jpg',
+                caption: 'Passion4Fusion, Grant £36,700'
+            }),
+            createHeroImage({
+                small: 'hero/under-10k-small.jpg',
+                medium: 'hero/under-10k-medium.jpg',
+                large: 'hero/under-10k-large.jpg',
+                default: 'hero/under-10k-medium.jpg',
+                caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
+            }),
+            createHeroImage({
+                small: 'hero/young-foundation-small.jpg',
+                medium: 'hero/young-foundation-medium.jpg',
+                large: 'hero/young-foundation-large.jpg',
+                default: 'hero/young-foundation-medium.jpg',
+                caption: 'The Young Foundation - Amplify, Grant £1.06M'
+            }),
+            heroImage
+        ];
 
         contentApi
             .getLegacyPage({
@@ -47,7 +77,12 @@ let serveCmsPage = (page, sectionId, router) => {
                 path: sectionId + page.path
             })
             .then(content => {
-                renderPage(content);
+                res.render('pages/legacy', {
+                    title: content.title,
+                    content: content,
+                    heroImage: heroImage,
+                    heroImageCandidates: heroImageCandidates
+                });
             })
             .catch(err => {
                 Raven.captureException(err);
