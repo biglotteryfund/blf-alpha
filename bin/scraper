@@ -32,47 +32,63 @@ const urlToFilename = url => {
     return url.replace('https://www.biglotteryfund.org.uk/', '').replace(/\//g, '-');
 };
 
-let scrapeUrl = url => {
+let scrapeUrl = urlConf => {
     return rp({
-        url: url,
+        url: urlConf.url,
         strictSSL: false,
         jar: true,
         resolveWithFullResponse: true,
         maxRedirects: 1
+    }).then(response => {
+        return {
+            urlConf: urlConf,
+            response: response
+        };
     });
 };
 
-let storeContent = (response) => {
-    let url = response.request.uri.href;
-    let body = response.body;
+let storeContent = (responses) => {
 
-    // convert links/images etc to point directly to live env
-    body = absolution(body, 'https://www.biglotteryfund.org.uk');
+    let canonicalUrl = responses.find(r => r.urlConf.lang === 'en').urlConf.url;
+    let languages = {};
 
-    // parse the DOM
-    let dom = new JSDOM(body);
+    // fetch english and welsh pages
+    responses.forEach(responseData => {
+        let response = responseData.response;
+        let urlConf = responseData.urlConf;
+        let body = response.body;
 
-    // remove redundant ASP viewstate
-    let viewState = dom.window.document.getElementById('__VIEWSTATE');
-    if (viewState) {
-        viewState.parentNode.removeChild(viewState);
-    }
+        // convert links/images etc to point directly to live env
+        body = absolution(body, 'https://www.biglotteryfund.org.uk');
 
-    // clean up HTML
-    let html = dom.window.document.body.innerHTML;
+        // parse the DOM
+        let dom = new JSDOM(body);
 
-    // remove junk strings
-    html = html.replace(/ {2,}/, '')
-        .replace('\t', '')
-        .replace('\n', '');
+        // remove redundant ASP viewstate
+        let viewState = dom.window.document.getElementById('__VIEWSTATE');
+        if (viewState) {
+            viewState.parentNode.removeChild(viewState);
+        }
 
+        // clean up HTML
+        let html = dom.window.document.body.innerHTML;
+
+        // remove junk strings
+        html = html.replace(/ {2,}/, '')
+            .replace('\t', '')
+            .replace('\n', '');
+
+        languages[urlConf.lang] = html;
+    });
+
+    // write out all languages to file
     let data = {
         dateScraped: moment().format('YYYY-MM-DD-HH-mm-ss'),
-        url: url,
-        html: html
+        url: canonicalUrl,
+        html: languages
     };
 
-    const urlFilename = urlToFilename(url) + '.json';
+    const urlFilename = urlToFilename(canonicalUrl) + '.json';
     const pagePath = path.join(scrapedDataDir, urlFilename);
     const pageData = JSON.stringify(data, null, 4);
     saveFile(pagePath, pageData);
@@ -80,22 +96,29 @@ let storeContent = (response) => {
 
 const getPageHTML = (url) => {
 
-    let urls = [url];
+    let urls = [{
+        url: url,
+        lang: 'en'
+    }];
+
     // do we need to make a Welsh URL too?
     if (url.indexOf('/welsh/') === -1) {
         let welshUrl = url.replace('https://www.biglotteryfund.org.uk/', 'https://www.biglotteryfund.org.uk/welsh/');
-        urls.push(welshUrl);
+        urls.push({
+            url: welshUrl,
+            lang: 'cy'
+        });
     }
 
     // create a list of scrape promises (english + welsh)
     let scrapeUrls = urls.map(u => scrapeUrl(u));
 
     // when they finish, store their HTML output
-    Promise.all(scrapeUrls).then(responses => {
-        responses.forEach(r => storeContent(r));
-    }).catch(err => {
-        console.log(err);
-    });
+    Promise.all(scrapeUrls)
+        .then(responses => storeContent(responses))
+        .catch(err => {
+            console.log(err);
+        });
 };
 
 const saveFile = (path, content) => {
@@ -108,124 +131,134 @@ const saveFile = (path, content) => {
 };
 
 // take ugly HTML and pull out just the content we want
-const parseContentFromHtml = (html, url) => {
-    const $ = cheerio.load(html);
+const parseContentFromHtml = (htmlLangs, url) => {
 
-    let contentParts = [
-        $('#titleBar'),
-        $('#mainContentContainer')
-    ];
+    let outputHtml = '';
+    let divider = '=================================================================';
 
-    if (contentParts[0].length === 0 || contentParts[1].length === 0) {
-        console.log(`Error: elements not found for URL ${url}`);
-    }
+    for (let lang in htmlLangs) {
+        let html = htmlLangs[lang];
 
-    let attributesToRemove = [
-        'class',
-        'style',
-        'alt',
-        'title',
-        'id',
-        'onclick',
-        'align',
-        'cellspacing',
-        'cellpadding',
-        'border',
-        'target',
-    ];
+        const $ = cheerio.load(html);
 
-    const validEmptyElements = [
-        'iframe',
-        'img'
-    ];
+        let contentParts = [
+            $('#titleBar'),
+            $('#mainContentContainer')
+        ];
 
-    const invalidEmptyElements = [
-        'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'em', 'i'
-    ];
+        if (contentParts[0].length === 0 || contentParts[1].length === 0) {
+            console.log(`Error: elements not found for URL ${url}`);
+        }
 
-    // pairs of search/replace tag names
-    const html5Fixes = [
-        ['b', 'strong'],
-        ['i', 'em']
-    ];
+        let attributesToRemove = [
+            'class',
+            'style',
+            'alt',
+            'title',
+            'id',
+            'onclick',
+            'align',
+            'cellspacing',
+            'cellpadding',
+            'border',
+            'target',
+        ];
 
-    // clean up HTML
-    contentParts.forEach(content => {
+        const validEmptyElements = [
+            'iframe',
+            'img'
+        ];
 
-        // remove unwanted attributes
-        attributesToRemove.forEach(attr => {
-            let elms = content.find(`[${attr}]`);
-            elms.each(function () {
-                $(this).removeAttr(attr);
+        const invalidEmptyElements = [
+            'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'em', 'i'
+        ];
+
+        // pairs of search/replace tag names
+        const html5Fixes = [
+            ['b', 'strong'],
+            ['i', 'em']
+        ];
+
+        // clean up HTML
+        contentParts.forEach(content => {
+
+            // remove unwanted attributes
+            attributesToRemove.forEach(attr => {
+                let elms = content.find(`[${attr}]`);
+                elms.each(function () {
+                    $(this).removeAttr(attr);
+                });
             });
-        });
 
-        // remove non-breaking spaces in otherwise-empty elements
-        invalidEmptyElements.forEach(tagName => {
-            content.find(tagName).each(function() {
-                let $this = $(this);
-                if($this.html().replace(/\s|&nbsp;|&#xA0;/g, '').length === 0) {
-                    $this.remove();
+            // remove non-breaking spaces in otherwise-empty elements
+            invalidEmptyElements.forEach(tagName => {
+                content.find(tagName).each(function() {
+                    let $this = $(this);
+                    if($this.html().replace(/\s|&nbsp;|&#xA0;/g, '').length === 0) {
+                        $this.remove();
+                    }
+                });
+            });
+
+            // use semantic content
+            html5Fixes.forEach(fix => {
+                let search = fix[0];
+                let replace = fix[1];
+                $(search).replaceWith(function() {
+                    return $(`<${replace}>`).html($(this).html());
+                });
+            });
+
+            // remove empty elements
+            let empties = content.find(':empty');
+            empties.each(function () {
+                let elmType = $(this)[0].name;
+                if (validEmptyElements.indexOf(elmType) === -1) {
+                    // $(this)[0].innerHTML = '';
+                    $(this).remove();
                 }
             });
+
+            // remove embedded <style> or <script> tags
+            content.find('style').remove();
+            content.find('script').remove();
         });
 
-        // use semantic content
-        html5Fixes.forEach(fix => {
-            let search = fix[0];
-            let replace = fix[1];
-            $(search).replaceWith(function() {
-                return $(`<${replace}>`).html($(this).html());
-            });
-        });
+        let title = contentParts[0].find('h1').html();
+        let subtitle = contentParts[0].find('h2').html();
 
-        // remove empty elements
-        let empties = content.find(':empty');
-        empties.each(function () {
-            let elmType = $(this)[0].name;
-            if (validEmptyElements.indexOf(elmType) === -1) {
-                // $(this)[0].innerHTML = '';
-                $(this).remove();
-            }
-        });
+        /*
+        * Stuff to clean
+        *
+        * accordion divs
+        * PDF downloads
+        *
+         */
 
-        // remove embedded <style> or <script> tags
-        content.find('style').remove();
-        content.find('script').remove();
-    });
+        // prettify the text/html
+        let bodyHtml = contentParts[1].html();
 
-    let title = contentParts[0].find('h1').html();
-    let subtitle = contentParts[0].find('h2').html();
+        // remove pointless <div> tags
+        bodyHtml = bodyHtml.replace(/<\/?div>/g, '');
+        let body = pretty(bodyHtml, { ocd: true });
 
-    /*
-    * Stuff to clean
-    *
-    * accordion divs
-    * PDF downloads
-    *
-     */
+        // build final HTML string
+        let cleanHtml = `${divider}\n`;
+        if (title) {
+            cleanHtml += `${title}`;
+        }
+        if (subtitle) {
+            cleanHtml += `\n${divider} \n${subtitle}`;
+        }
+        cleanHtml += `\n${divider} \n\n ${body} \n\n${divider} \n\n`;
 
-    // prettify the text/html
-    let bodyHtml = contentParts[1].html();
-
-    // remove pointless <div> tags
-    bodyHtml = bodyHtml.replace(/<\/?div>/g, '');
-    let body = pretty(bodyHtml, { ocd: true });
-
-    // build final HTML string
-    let cleanHtml = '';
-    if (title) {
-        cleanHtml += `<h1>${title}</h1>`;
+        outputHtml += cleanHtml;
     }
-    if (subtitle) {
-        cleanHtml += `\n<h2>${subtitle}</h2>`;
-    }
-    cleanHtml += "\n\n" + body;
 
     // write it to a file
     const urlFilename = urlToFilename(url) + '.html';
     const pagePath = path.join(cleanedDataDir, urlFilename);
-    saveFile(pagePath, cleanHtml);
+    saveFile(pagePath, outputHtml);
 };
 
 // load a single HTML file and parse it
@@ -241,7 +274,7 @@ let loadAndParseHtml = filename => {
     parseContentFromHtml(content.html, content.url);
 };
 
-let loadHtmlFiles = () => {
+let loadJsonFiles = () => {
     // parse HTML
     fs.readdir(scrapedDataDir, function(err, items) {
         if (err) {
@@ -297,8 +330,8 @@ let urls = [
     'https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/project-activities'
 ];
 
+// scrape pages
 if (argv.s) {
-
     if (!argv.u) {
         // scrape URLs
         let timeout = 250;
@@ -314,7 +347,7 @@ if (argv.s) {
 } else if (argv.p) {
     if (!argv.u) {
         // traverse scaped directory to parse HTML
-        loadHtmlFiles();
+        loadJsonFiles();
     } else {
         // load a URL
         let filename = urlToFilename(argv.u) + '.json';
