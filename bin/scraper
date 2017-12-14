@@ -10,6 +10,7 @@ const { JSDOM } = jsdom;
 const cheerio = require('cheerio');
 const pretty = require('pretty');
 const absolution = require('absolution');
+const he = require('he');
 
 const argv = require('yargs')
     .alias('s', 'scrape')
@@ -232,6 +233,9 @@ const parseContentFromHtml = (htmlLangs, url) => {
         let title = contentParts[0].find('h1').html();
         let subtitle = contentParts[0].find('h2').html();
 
+        if (title) { title = he.decode(title); }
+        if (subtitle) { subtitle = he.decode(subtitle); }
+
         /*
         * Stuff to clean
         *
@@ -246,6 +250,9 @@ const parseContentFromHtml = (htmlLangs, url) => {
         // remove pointless <div> tags
         bodyHtml = bodyHtml.replace(/<\/?div>/g, '');
         let body = pretty(bodyHtml, { ocd: true });
+
+        // convert `Yngl&#x177;n &#xE2;&#x2019;r` into `Ynglŷn â’r`
+        html = he.decode(html);
 
         // build final HTML string
         let pagePath = url.replace('https://www.biglotteryfund.org.uk/', '');
