@@ -2,6 +2,10 @@
 <script id="script-head">
 (function() {
     var AppConfig = {
+        adminEndpoint: (function() {
+            var shouldReturn = window.location.hostname !== "{{ appData.config.get('siteDomain') }}";
+            return shouldReturn && {% if adminEndpoint %}"{{ adminEndpoint }}"{% else %}null{% endif %};
+        }()),
         isModernBrowser:
             'querySelector' in document &&
             'addEventListener' in window &&

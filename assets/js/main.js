@@ -24,6 +24,7 @@ require('./modules/heroImages').init();
 require('./modules/logos').init();
 require('./modules/materials').init();
 require('./modules/forms').init();
+require('./modules/adminPanel').init();
 
 /**
  * If we are in the live environment then load analytics

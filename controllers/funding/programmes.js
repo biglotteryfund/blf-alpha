@@ -173,15 +173,20 @@ function getHeroImage(entry) {
 
 function initProgrammeDetail(router, config) {
     router.get('/programmes/:slug', function(req, res) {
+        const currentLocale = req.i18n.getLocale();
         contentApi
             .getFundingProgramme({
-                locale: req.i18n.getLocale(),
+                locale: currentLocale,
                 slug: req.params.slug
             })
             .then(entry => {
                 if (entry.contentSections.length > 0) {
                     res.render(config.template, {
                         entry: entry,
+                        adminEndpoint: contentApi.getAdminLinkEndpont({
+                            locale: currentLocale,
+                            contentId: parseInt(entry.contentId, 10)
+                        }),
                         title: entry.title,
                         heroImage: getHeroImage(entry)
                     });
