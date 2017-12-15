@@ -11,7 +11,7 @@ const pLimit = require('p-limit');
 const { flatMap } = require('lodash');
 
 const pagesToTest = [
-    'home',
+    '/',
     'over10k',
     'funding/programmes',
     'helping-working-families',

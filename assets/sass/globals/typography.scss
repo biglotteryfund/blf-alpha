@@ -22,6 +22,7 @@ h3,
     @include font-and-leading(20px, 27px);
     font-weight: 400;
 }
+
 h4,
 .t4 {
     @include poppins();
@@ -59,11 +60,7 @@ h6,
  * Modifier class which adds a border below the text
  */
 .t--underline:after {
-    content: '';
-    display: block;
-    width: 80px;
-    padding-top: 10px;
-    border-bottom: 3px solid;
+    @include underlined();
 }
 
 /**

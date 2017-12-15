@@ -1,10 +1,13 @@
 'use strict';
 const config = require('config');
+const _ = require('lodash');
 const anchors = config.get('anchors');
+
+const importedLegacyPages = require('../config/app/importedLegacyPages');
 
 // pass some parameters onto each controller
 // so we can take route config and init all at once
-let loadController = path => {
+const loadController = path => {
     return (pages, sectionPath, sectionId) => require(path)(pages, sectionPath, sectionId);
 };
 
@@ -42,7 +45,8 @@ const routes = {
                     code: 0,
                     static: false,
                     live: true,
-                    isPostable: true
+                    isPostable: true,
+                    aliases: ['/home']
                 },
                 contact: {
                     name: 'Contact',
@@ -219,6 +223,14 @@ const routes = {
                     allowQueryStrings: true,
                     static: false,
                     live: true
+                },
+                programmeDetail: {
+                    name: 'Funding programme details',
+                    path: '/programmes/*',
+                    template: 'pages/funding/programme-detail',
+                    allowQueryStrings: false,
+                    static: false,
+                    live: false
                 }
             }
         },
@@ -277,13 +289,60 @@ const routes = {
     }
 };
 
-// for the sake of brevity, define some commonly-used paths rather than repeating them below
+/**
+ * Programme Migration
+ *
+ * Handle redirects from /global-content/programmes to /funding/programmes
+ * @TODO: Consider merging into a global-content/programmes/* handler
+ *        once we decide to migrate all programme pages.
+ */
+function programmeMigration(from, to, isLive) {
+    return {
+        path: `/global-content/programmes/${from}`,
+        destination: `/funding/programmes/${to}`,
+        isPostable: false,
+        allowQueryStrings: false,
+        live: !isLive ? false : true
+    };
+}
+const programmeRedirects = [
+    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', false),
+    programmeMigration('england/parks-for-people', 'parks-for-people', false),
+    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
+    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
+    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
+    programmeMigration('scotland/community-assets', 'community-assets', false),
+    programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
+    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', false),
+    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', false),
+    programmeMigration('scotland/our-place', 'our-place', false),
+    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
+    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
+    programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
+    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
+];
+
+/**
+ * Scraped/imported pages
+ *
+ * Serve pages imported via script into the CMS
+ */
+for (let section in importedLegacyPages) {
+    if (_.get(routes.sections, section)) {
+        let pages = routes.sections[section].pages;
+        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
+    }
+}
+
+/**
+ * Vanity URLs
+ *
+ * Set up some vanity URL redirects that can't be defined in the aliases on the routes above
+ */
 const vanityDestinations = {
     publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
     contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
 };
-
-// set up some URL redirects that can't be defined in the aliases on the routes above
 const vanityRedirects = [
     {
         // this has to be here and not as an alias
@@ -366,13 +425,72 @@ const vanityRedirects = [
         name: 'Awards For All England',
         path: '/prog_a4a_eng',
         destination: '/global-content/programmes/england/awards-for-all-england',
-        live: false
+        live: true
+    },
+    {
+        name: 'Awards For All Scotland',
+        path: '/awardsforallscotland',
+        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: false // Mark as live when launching AFA test in Scotland
+    },
+    {
+        name: 'Reaching Communities England',
+        path: '/prog_reaching_communities',
+        destination: '/funding/programmes/reaching-communities-england',
+        live: false // Migration experiment
+    },
+    {
+        name: 'Parks for People',
+        path: '/prog_parks_people',
+        destination: '/funding/programmes/parks-for-people',
+        live: false // Migration experiment
     }
 ];
 
-// these are other paths that should be routed to this app
-// via Cloudfront but aren't explicit page routes (eg. static files, custom pages etc)
+/**
+ * Legacy proxied routes
+ * The following URLs are legacy pages that are being proxied to make small amends to them.
+ * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
+ */
+function withLegacyDefaults(props) {
+    const defaults = {
+        isPostable: true,
+        allowQueryStrings: true,
+        live: false
+    };
+    return Object.assign({}, defaults, props);
+}
+const legacyProxiedRoutes = {
+    awardsForAllEngland: withLegacyDefaults({
+        path: '/global-content/programmes/england/awards-for-all-england',
+        live: true
+    }),
+    awardsForAllScotland: withLegacyDefaults({
+        path: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: false
+    }),
+    awardsForAllWales: withLegacyDefaults({
+        path: '/global-content/programmes/wales/awards-for-all-wales',
+        live: false
+    }),
+    awardsForAllWalesWelsh: withLegacyDefaults({
+        path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
+        live: false
+    })
+};
+
+/**
+ * Other Routes
+ * These are other paths that should be routed to this app via Cloudfront
+ * but aren't explicit page routes (eg. static files, custom pages etc)
+ */
 const otherUrls = [
+    {
+        path: '/funding/funding-finder',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: false
+    },
     {
         path: '/assets/*',
         isPostable: false,
@@ -416,12 +534,6 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/home',
-        isPostable: false,
-        allowQueryStrings: false,
-        live: true
-    },
-    {
         path: '/surveys',
         isPostable: false,
         allowQueryStrings: true,
@@ -441,41 +553,10 @@ const otherUrls = [
     }
 ];
 
-/**
- * Legacy proxied routes
- * The following URLs are legacy pages that are being proxied to make small amends to them.
- * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
- */
-const withLegacyDefaults = function(obj) {
-    const defaults = {
-        isPostable: true,
-        allowQueryStrings: true
-    };
-    return Object.assign({}, defaults, obj);
-};
-
-const legacyProxiedRoutes = {
-    awardsForAllEngland: withLegacyDefaults({
-        path: '/global-content/programmes/england/awards-for-all-england',
-        live: false
-    }),
-    awardsForAllScotland: withLegacyDefaults({
-        path: '/global-content/programmes/scotland/awards-for-all-scotland',
-        live: false
-    }),
-    awardsForAllWales: withLegacyDefaults({
-        path: '/global-content/programmes/wales/awards-for-all-wales',
-        live: false
-    }),
-    awardsForAllWalesWelsh: withLegacyDefaults({
-        path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
-        live: false
-    })
-};
-
 module.exports = {
     sections: routes.sections,
+    programmeRedirects: programmeRedirects,
     vanityRedirects: vanityRedirects,
-    otherUrls: otherUrls,
-    legacyProxiedRoutes: legacyProxiedRoutes
+    legacyProxiedRoutes: legacyProxiedRoutes,
+    otherUrls: otherUrls
 };

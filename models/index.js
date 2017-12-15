@@ -21,6 +21,8 @@ if (dbCredentials.host) {
         host: dbCredentials.host,
         logging: false,
         dialect: 'mysql',
+        // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-security
+        operatorsAliases: false,
         pool: {
             max: 5,
             min: 1,

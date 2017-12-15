@@ -3,8 +3,6 @@
 const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
-const config = require('config');
-chai.should();
 
 const helper = require('./helper');
 
@@ -82,8 +80,8 @@ describe('CMS Tools', function() {
                     return agent
                         .get('/tools/locales/')
                         .redirects(0)
-                        .end((err, res) => {
-                            res.should.have.status(302);
+                        .end((localesErr, localesRes) => {
+                            localesRes.should.have.status(302);
                             done();
                         });
                 });
@@ -102,10 +100,8 @@ describe('CMS Tools', function() {
                 .end((err, res) => {
                     res.should.have.status(302);
                     res.should.redirectTo('/tools/locales/');
-                    res.should.redirectTo('/tools/locales/');
-                    return agent.get('/tools/locales/').end((err, res) => {
-                        res.should.have.status(200);
-                        res.should.have.status(200);
+                    return agent.get('/tools/locales/').end((localesErr, localesRes) => {
+                        localesRes.should.have.status(200);
                         done();
                     });
                 });

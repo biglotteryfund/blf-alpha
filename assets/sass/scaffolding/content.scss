@@ -75,6 +75,23 @@
  * Expanded prose styles for long blocks of text
  */
 .s-prose--long {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+    }
+
+    h2::after {
+        @include underlined();
+    }
+
+    p:empty {
+        display: none;
+    }
+
     a {
         font-weight: bold;
     }
@@ -102,6 +119,7 @@
         margin-left: $spacingUnit * 3;
     }
 
+    figure,
     .inline-figure {
         margin-left: -($spacingUnit);
         margin-right: -($spacingUnit);
@@ -109,12 +127,50 @@
         @include mq(tablet) {
             margin: 1em 0 2em;
         }
+    }
 
-        &.inline-figure--padded {
-            @include mq('tablet') {
-                margin-left: $spacingUnit * 3;
-                margin-right: $spacingUnit * 3;
-            }
+    .inline-figure--padded {
+        @include mq('tablet') {
+            margin-left: $spacingUnit * 3;
+            margin-right: $spacingUnit * 3;
+        }
+    }
+
+    .video-container {
+        margin-bottom: 1em;
+    }
+
+    table {
+        font-size: 90%;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin: 0 0 1em;
+
+        thead,
+        th {
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        thead {
+            border-bottom: 3px solid palette('off-white');
+        }
+        tr {
+            border-bottom: 1px solid palette('off-white');
+        }
+        tr:last-of-type {
+            border-bottom: none;
+        }
+
+        th,
+        td {
+            padding: 10px 8px;
+            text-align: left;
+        }
+        td {
+            vertical-align: top;
         }
     }
 }

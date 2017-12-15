@@ -1,20 +1,20 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const moment = require('moment');
-const _ = require('lodash');
-const xss = require('xss');
-const config = require('config');
-const { body, check, validationResult } = require('express-validator/check');
-
-const { matchedData, sanitizeBody } = require('express-validator/filter');
+const { get } = require('lodash');
 const Raven = require('raven');
+const config = require('config');
+const moment = require('moment');
+const express = require('express');
+const { validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+const xss = require('xss');
 
 const cached = require('../../middleware/cached');
-const routeStatic = require('../utils/routeStatic');
 const mail = require('../../modules/mail');
+const routeStatic = require('../utils/routeStatic');
 const models = require('../../models/index');
 const programmesRoute = require('./programmes');
+
+const router = express.Router();
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -56,7 +56,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                     req.session.save(() => {
                         res.send({
                             status: 'success',
-                            quantity: _.get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
+                            quantity: get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
                             allOrders: req.session[freeMaterialsLogic.orderKey]
                         });
                     });
@@ -113,7 +113,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             const fieldLabel = field.emailKey;
             // did this order include "other" options?
             if (field.allowOther) {
-                
+                // @TODO
             }
             if (fieldValue) {
                 text += `\t${fieldLabel}: ${fieldValue}\n\n`;
@@ -168,7 +168,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             // get form errors and translate them
             const errors = validationResult(req).formatWith(error => {
                 // not every field has a translated error (or an error at all)
-                let isTranslateable = _.get(error, ['msg', 'translateable'], false);
+                let isTranslateable = get(error, ['msg', 'translateable'], false);
                 if (!isTranslateable) {
                     return error;
                 }
@@ -215,7 +215,8 @@ module.exports = (pages, sectionPath, sectionId) => {
                 if (req.body.skipEmail) {
                     res.send(req.body);
                 } else {
-                    const details = matchedData(req, { locations: ['body'] });
+                    // some fields are optional so matchedData misses them here
+                    const details = req.body;
                     const items = req.session[freeMaterialsLogic.orderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const text = makeOrderText(items, details);
@@ -307,10 +308,15 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
 
     /**
-     * Funding programme list
+     * Funding programmes
      */
-    const programmesConfig = pages.programmes;
-    router.get(programmesConfig.path, programmesRoute(programmesConfig));
+    programmesRoute.init({
+        router: router,
+        config: {
+            listing: pages.programmes,
+            detail: pages.programmeDetail
+        }
+    });
 
     return router;
 };

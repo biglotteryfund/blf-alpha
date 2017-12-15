@@ -3,9 +3,8 @@
 const Raven = require('raven');
 const express = require('express');
 const config = require('config');
-const { get, sortBy } = require('lodash');
+const { sortBy } = require('lodash');
 const rp = require('request-promise-native');
-const ab = require('express-ab');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
 const moment = require('moment');
@@ -13,16 +12,13 @@ const moment = require('moment');
 const router = express.Router();
 
 const app = require('../../server');
+const contentApi = require('../../services/content-api');
+const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
-const regions = require('../../config/content/regions.json');
-const models = require('../../models/index');
-const proxyLegacy = require('../../modules/proxy');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
-const contentApi = require('../../modules/content');
-const cached = require('../../middleware/cached');
 const { heroImages } = require('../../modules/images');
-const { splitPercentages } = require('../../modules/ab');
+const regions = require('../../config/content/regions.json');
 
 const legacyPages = require('./legacyPages');
 
@@ -32,39 +28,31 @@ if (app.get('env') !== 'production') {
     robots.push('/');
 }
 
-const newHomepage = [
-    cached.noCache,
-    (req, res) => {
-        const newsToShow = 3;
+const homepage = (req, res) => {
+    const serveHomepage = news => {
+        const lang = req.i18n.__('toplevel.home');
 
-        const serveHomepage = news => {
-            const lang = req.i18n.__('toplevel.home');
+        res.render('pages/toplevel/home', {
+            title: lang.title,
+            description: lang.description || false,
+            copy: lang,
+            news: news || [],
+            heroImage: heroImages.homepageHero
+        });
+    };
 
-            res.render('pages/toplevel/home', {
-                title: lang.title,
-                description: lang.description || false,
-                copy: lang,
-                news: news || [],
-                heroImage: heroImages.homepageHero
-            });
-        };
-
-        // get news articles
-        contentApi
-            .getPromotedNews(req.i18n.getLocale())
-            .then(response => get(response, 'data', []))
-            .then(data => data.map(item => item.attributes).slice(0, newsToShow))
-            .then(news => {
-                serveHomepage(news);
-            })
-            .catch(() => {
-                serveHomepage();
-            });
-    }
-];
-
-const oldHomepage = (req, res) => {
-    return proxyLegacy.proxyLegacyPage(req, res);
+    // get news articles
+    contentApi
+        .getPromotedNews({
+            locale: req.i18n.getLocale(),
+            limit: 3
+        })
+        .then(entries => {
+            serveHomepage(entries);
+        })
+        .catch(() => {
+            serveHomepage();
+        });
 };
 
 module.exports = (pages, sectionPath, sectionId) => {
@@ -73,35 +61,10 @@ module.exports = (pages, sectionPath, sectionId) => {
      */
     routeStatic.initRouting(pages, router, sectionPath, sectionId);
 
-    if (config.get('abTests.enabled')) {
-        const testFn = ab.test('blf-homepage-2017', {
-            cookie: {
-                name: config.get('cookies.abTestHomepage'),
-                maxAge: moment.duration(1, 'week').asMilliseconds()
-            },
-            id: config.get('abTests.tests.homepage.id') // google experiment ID
-        });
+    // Serve the homepage
+    router.get('/', homepage);
 
-        const percentageToSeeNewHomepage = config.get('abTests.tests.homepage.percentage');
-        const percentages = splitPercentages(percentageToSeeNewHomepage);
-
-        // Variant 0/A: existing site (proxied)
-        router.get('/', testFn(null, percentages.A), oldHomepage);
-        // Variant 1/B: new homepage
-        router.get('/', testFn(null, percentages.B), newHomepage);
-    } else {
-        router.get('/', newHomepage);
-    }
-
-    router.post('/', proxyLegacy.postToLegacyForm);
-
-    // used for tests: override A/B cohorts
-    router.get('/home', newHomepage);
-
-    router.get('/legacy', (req, res) => {
-        return proxyLegacy.proxyLegacyPage(req, res, null, '/');
-    });
-
+    // Handle all the proxied legacy pages
     legacyPages.init(router);
 
     // send form data to the (third party) email newsletter provider
@@ -139,7 +102,6 @@ module.exports = (pages, sectionPath, sectionId) => {
             if (!errors.isEmpty()) {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
-                // @TODO should this go to /home (eg. if they're in an A/B test for the old homepage)
                 req.session.save(() => {
                     res.redirect('/#' + config.get('anchors.ebulletin'));
                 });
@@ -264,31 +226,15 @@ module.exports = (pages, sectionPath, sectionId) => {
         }
 
         // get the survey from the database
-        models.Survey.findAll({
-            where: {
-                active: true
-            },
-            include: [
-                {
-                    model: models.SurveyChoice,
-                    as: 'choices',
-                    required: true
-                }
-            ]
-        })
+        surveyService
+            .findActiveWithChoices({
+                filterByPath: path
+            })
             .then(surveys => {
-                let returnData = {
-                    status: 'success'
-                };
-
-                // optionally filter surveys
-                if (path) {
-                    returnData.survey = surveys.find(s => s.activePath === path);
-                } else {
-                    returnData.surveys = surveys;
-                }
-
-                res.send(returnData);
+                res.send({
+                    status: 'success',
+                    surveys: surveys
+                });
             })
             .catch(() => {
                 res.send({
@@ -319,9 +265,6 @@ module.exports = (pages, sectionPath, sectionId) => {
                 err: 'Please supply all fields'
             });
         } else {
-            // form was okay, let's store their submission
-
-            // sanitise input
             for (let key in req.body) {
                 req.body[key] = xss(req.body[key]);
             }
@@ -340,9 +283,13 @@ module.exports = (pages, sectionPath, sectionId) => {
                 responseData.metadata = req.body['metadata'];
             }
 
-            // we could still fail at this point if the choice isn't valid for this ID
-            // (SQL constraint error)
-            models.SurveyResponse.create(responseData)
+            /**
+             * Form was okay, let's store their submission,
+             * we could still fail at this point if the choice isn't valid for this ID
+             * (SQL constraint error)
+             */
+            surveyService
+                .createResponse(responseData)
                 .then(data => {
                     res.send({
                         status: 'success',

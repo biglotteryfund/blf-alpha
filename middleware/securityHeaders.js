@@ -9,7 +9,6 @@ module.exports = function(config) {
      * Only proxied legacy URLs should be exempt.
      */
     const exemptLegacyUrls = map(legacyProxiedRoutes, _ => _.path);
-    const pathsExemptFromHelmet = ['/', '/welsh', '/legacy'].concat(exemptLegacyUrls);
 
     const defaultSecurityDomains = [
         "'self'",
@@ -23,9 +22,11 @@ module.exports = function(config) {
         'syndication.twitter.com',
         'cdn.syndication.twimg.com',
         '*.twimg.com',
+        '*.youtube.com',
         'cdn.jsdelivr.net',
         'sentry.io',
-        'dvmwjbtfsnnp0.cloudfront.net'
+        'dvmwjbtfsnnp0.cloudfront.net',
+        '*.biglotteryfund.org.uk'
     ];
 
     const directives = {
@@ -58,7 +59,7 @@ module.exports = function(config) {
     });
 
     return function(req, res, next) {
-        if (pathsExemptFromHelmet.indexOf(req.path) !== -1) {
+        if (exemptLegacyUrls.indexOf(req.path) !== -1) {
             next();
         } else {
             helmetSettings(req, res, next);

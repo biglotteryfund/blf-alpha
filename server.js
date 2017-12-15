@@ -20,6 +20,7 @@ const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
 const routes = require('./controllers/routes');
+const { renderError, renderNotFound } = require('./controllers/http-errors');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -77,11 +78,13 @@ app.use('/', require('./controllers/toplevel/tools'));
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
 
-// aka welshify - create an array of paths: default (english) and welsh variant
-const cymreigio = mountPath => {
-    let welshPath = config.get('i18n.urlPrefix.cy') + mountPath;
-    return [mountPath, welshPath];
-};
+/**
+ * Welsh route helpers
+ * makeWelsh = create a welsh version of a given URL path
+ * cymreigio aka welshify - create an array of paths: default (english) and welsh variant
+ */
+const makeWelsh = routePath => `${config.get('i18n.urlPrefix.cy')}${routePath}`;
+const cymreigio = mountPath => [mountPath, makeWelsh(mountPath)];
 
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {
@@ -106,57 +109,66 @@ for (let sectionId in routes.sections) {
     }
 }
 
-// add vanity redirects
-routes.vanityRedirects.forEach(r => {
-    let servePath = path => {
-        app.get(path, (req, res) => {
-            res.redirect(r.destination);
-        });
-    };
-    if (r.paths) {
-        r.paths.forEach(path => {
-            servePath(path, r.destination);
+function serveRedirect({ sourcePath, destinationPath }) {
+    app.get(sourcePath, (req, res) => {
+        res.redirect(destinationPath);
+    });
+}
+
+/**
+ * Programme Migration Redirects
+ */
+routes.programmeRedirects.forEach(route => {
+    serveRedirect({
+        sourcePath: route.path,
+        destinationPath: route.destination
+    });
+    serveRedirect({
+        sourcePath: makeWelsh(route.path),
+        destinationPath: makeWelsh(route.destination)
+    });
+});
+
+/**
+ * Vanity URL Redirects
+ */
+routes.vanityRedirects.forEach(route => {
+    if (route.paths) {
+        route.paths.forEach(routePath => {
+            serveRedirect({
+                sourcePath: routePath,
+                destinationPath: route.destination
+            });
         });
     } else {
-        servePath(r.path, r.destination);
+        serveRedirect({
+            sourcePath: route.path,
+            destinationPath: route.destination
+        });
     }
 });
 
-const handle404s = () => {
-    let err = new Error('Page not found');
-    err.status = 404;
-    err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
-    return err;
-};
-
 // alias for error pages for old site -> new
-app.get('/error', (req, res, next) => {
-    next(handle404s());
+app.get('/error', (req, res) => {
+    renderNotFound(req, res);
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-    next(handle404s());
+app.use((req, res) => {
+    renderNotFound(req, res);
 });
 
 if (SENTRY_DSN) {
     app.use(Raven.errorHandler());
 }
 
-// error handler
+/**
+ * Global error handler
+ */
 app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
     }
 
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.locals.status = err.status || 500;
-    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
-    res.locals.sentry = res.sentry;
-
-    // render the error page
-    res.status(res.locals.status);
-    res.render('error');
+    renderError(err, req, res);
 });

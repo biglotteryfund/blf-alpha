@@ -7,10 +7,10 @@ const fs = require('fs');
 const generateSchema = require('generate-schema');
 
 const routes = require('../routes');
-const models = require('../../models/index');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const appData = require('../../modules/appData');
+const surveysService = require('../../services/surveys');
 
 const LAUNCH_DATE = moment();
 
@@ -67,22 +67,8 @@ router.get('/status/pages', (req, res) => {
 });
 
 router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), cached.noCache, (req, res) => {
-    models.Survey.findAll({
-        include: [
-            {
-                model: models.SurveyChoice,
-                as: 'choices',
-                required: true,
-                include: [
-                    {
-                        model: models.SurveyResponse,
-                        as: 'responses',
-                        required: true
-                    }
-                ]
-            }
-        ]
-    })
+    surveysService
+        .findAll()
         .then(surveys => {
             res.render('pages/tools/surveys', {
                 surveys: surveys
