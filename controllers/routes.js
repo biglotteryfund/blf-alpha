@@ -46,7 +46,10 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home']
+                    aliases: [
+                        '/home',
+                        '/index.html'
+                    ]
                 },
                 contact: {
                     name: 'Contact',
