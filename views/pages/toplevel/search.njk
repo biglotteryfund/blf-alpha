@@ -1,0 +1,52 @@
+{% from "../../components/hero.njk" import sectionHero %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {{
+        sectionHero(
+            accent = 'blue',
+            titleText = title,
+            image = heroImage
+        )
+    }}
+
+    <article role="main">
+        <div class="search-header">
+            <div class="search-header__inner inner">
+                <div class="gcse-searchbox" data-enableHistory="false" data-queryParameterName="search"></div>
+            </div>
+        </div>
+        <div class="search-results">
+            <div class="searchresults__inner inner">
+                <div class="gcse-searchresults"></div>
+            </div>
+        </div>
+    </article>
+
+    <script type="text/javascript" id="script-custom-search">
+        (function() {
+            var cx = '000489972289480349349:kapuvcn9kq4';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+        })();
+    </script>
+{% endblock %}
