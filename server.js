@@ -82,7 +82,6 @@ app.use('/', require('./controllers/toplevel/tools'));
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
 
-
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {
     const applyPath = '/experimental/apply';

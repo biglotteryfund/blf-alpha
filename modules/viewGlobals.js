@@ -3,7 +3,7 @@
 const config = require('config');
 const sassConfig = require('../config/content/sass.json');
 const routes = require('../controllers/routes');
-const { stripTrailingSlashes } = require('./urls');
+const { rewriteFullUrlForLocale } = require('../services/locales');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
 
@@ -100,31 +100,13 @@ function init(app) {
 
     // look up the current URL and rewrite to another locale
     setViewGlobal('getCurrentUrl', function(req, locale) {
-        let currentPath = req.originalUrl;
-
-        // is this an HTTPS request? make the URL protocol work
-        let headerProtocol = req.get('X-Forwarded-Proto');
-        let protocol = headerProtocol ? headerProtocol : req.protocol;
-        let currentUrl = protocol + '://' + req.get('host') + currentPath;
-
-        // is the current URL welsh or english?
-        const CYMRU_URL = /\/welsh(\/|$)/;
-        const IS_WELSH = currentUrl.match(CYMRU_URL) !== null;
-        const IS_ENGLISH = currentUrl.match(CYMRU_URL) === null;
-
-        // rewrite URL to requested language
-        if (locale === 'cy' && !IS_WELSH) {
-            // make this URL welsh
-            currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
-        } else if (locale === 'en' && !IS_ENGLISH) {
-            // un-welshify this URL
-            currentUrl = currentUrl.replace(CYMRU_URL, '/');
-        }
-
-        // remove any trailing slashes (eg. /welsh/ => /welsh)
-        currentUrl = stripTrailingSlashes(currentUrl);
-
-        return currentUrl;
+        return rewriteFullUrlForLocale({
+            locale: locale,
+            urlPath: req.originalUrl,
+            // Is this an HTTPS request? make the URL protocol work
+            protocol: req.get('X-Forwarded-Proto') || req.protocol,
+            host: req.get('host')
+        });
     });
 }
 

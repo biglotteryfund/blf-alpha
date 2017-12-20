@@ -28,7 +28,7 @@ module.exports = function(app) {
         }
 
         /**
-         * Atore locale prefs as view globals
+         * Store locale prefs as view globals
          */
         const engineEnv = app.get('engineEnv');
         engineEnv.addGlobal('locale', req.i18n.getLocale());

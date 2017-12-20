@@ -5,7 +5,7 @@ const config = require('config');
 module.exports = function(app) {
     const setViewGlobal = (k, v) => app.get('engineEnv').addGlobal(k, v);
 
-    return function (req, res, next) {
+    return function(req, res, next) {
         // add the request object as a local variable
         // for URL rewriting in templates
         // (eg. locale versions, high-contrast redirect etc)
