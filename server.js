@@ -4,6 +4,7 @@ const app = (module.exports = express());
 const path = require('path');
 const config = require('config');
 const Raven = require('raven');
+const { forEach } = require('lodash');
 
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
@@ -15,12 +16,14 @@ const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
 const sessionMiddleware = require('./middleware/session');
-const localesMiddleware = require('./middleware/locales');
+const i18nMiddleware = require('./middleware/i18n');
+const globalsMiddleware = require('./middleware/globals');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
-const routes = require('./controllers/routes');
+const { makeWelsh, cymreigio } = require('./services/locales');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
+const routes = require('./controllers/routes');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -61,7 +64,8 @@ app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.all);
-app.use(localesMiddleware(app));
+app.use(i18nMiddleware(app));
+app.use(globalsMiddleware(app));
 
 // Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
@@ -78,13 +82,6 @@ app.use('/', require('./controllers/toplevel/tools'));
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
 
-/**
- * Welsh route helpers
- * makeWelsh = create a welsh version of a given URL path
- * cymreigio aka welshify - create an array of paths: default (english) and welsh variant
- */
-const makeWelsh = routePath => `${config.get('i18n.urlPrefix.cy')}${routePath}`;
-const cymreigio = mountPath => [mountPath, makeWelsh(mountPath)];
 
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {
@@ -93,21 +90,18 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(cymreigio(applyPath), require('./controllers/apply'));
 }
 
-// route binding
-for (let sectionId in routes.sections) {
-    let s = routes.sections[sectionId];
-    // turn '/funding' into ['/funding', '/welsh/funding']
-    let sectionPaths = cymreigio(s.path);
-    // init route controller for each page path
-    if (s.controller) {
-        let controller = s.controller(s.pages, s.path, sectionId);
+/**
+ * Route binding
+ */
+forEach(routes.sections, (section, sectionId) => {
+    if (section.controller) {
         // map the top-level section paths (en/cy) to controllers
-        sectionPaths.forEach(path => {
-            // (adding these as an array fails for welsh paths)
-            app.use(path, controller);
+        cymreigio(section.path).forEach(sectionPath => {
+            const controller = section.controller(section.pages, section.path, sectionId);
+            app.use(sectionPath, controller);
         });
     }
-}
+});
 
 function serveRedirect({ sourcePath, destinationPath }) {
     app.get(sourcePath, (req, res) => {

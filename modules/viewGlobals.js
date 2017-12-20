@@ -18,6 +18,8 @@ function init(app) {
 
     setViewGlobal('appData', appData);
 
+    setViewGlobal('routes', routes.sections);
+
     // configure meta tags
     setViewGlobal('metadata', {
         title: config.get('meta.title'),
@@ -97,7 +99,7 @@ function init(app) {
     });
 
     // look up the current URL and rewrite to another locale
-    let getCurrentUrl = function(req, locale) {
+    setViewGlobal('getCurrentUrl', function(req, locale) {
         let currentPath = req.originalUrl;
 
         // is this an HTTPS request? make the URL protocol work
@@ -123,9 +125,7 @@ function init(app) {
         currentUrl = stripTrailingSlashes(currentUrl);
 
         return currentUrl;
-    };
-
-    setViewGlobal('getCurrentUrl', getCurrentUrl);
+    });
 }
 
 module.exports = {
