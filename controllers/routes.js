@@ -151,34 +151,7 @@ const routes = {
             path: sectionPaths.funding,
             controller: controllers.funding,
             pages: {
-                logos: {
-                    name: 'Logos',
-                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-                    template: 'pages/funding/guidance/logos',
-                    lang: 'funding.guidance.logos',
-                    code: 1,
-                    static: true,
-                    live: true,
-                    aliases: [
-                        sectionPaths.funding +
-                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
-                    ]
-                },
-                manageFunding: {
-                    name: 'Managing your funding',
-                    path: '/funding-guidance/managing-your-funding',
-                    template: 'pages/funding/guidance/managing-your-funding',
-                    code: 2,
-                    static: true,
-                    live: true,
-                    useCmsContent: true,
-                    aliases: [
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
-                        '/welcome',
-                        '/publicity'
-                    ]
-                },
+                // @TODO: Work out why this doesn't render
                 freeMaterials: {
                     name: 'Ordering free materials',
                     path: '/funding-guidance/managing-your-funding/ordering-free-materials',
@@ -186,6 +159,7 @@ const routes = {
                     lang: 'funding.guidance.order-free-materials',
                     code: 3,
                     live: true,
+                    static: false,
                     isPostable: true,
                     isWildcard: true,
                     aliases: [
@@ -197,21 +171,24 @@ const routes = {
                         '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
                     ]
                 },
-                helpWithPublicity: {
-                    name: 'Help with publicity',
-                    path: '/funding-guidance/managing-your-funding/social-media',
-                    template: 'pages/funding/guidance/help-with-publicity',
-                    lang: 'funding.guidance.help-with-publicity',
-                    code: 12,
+                logos: {
+                    name: 'Logos',
+                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+                    template: 'pages/funding/guidance/logos',
+                    lang: 'funding.guidance.logos',
+                    code: 1,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
+                    ]
                 },
-                pressCoverage: {
-                    name: 'Getting press coverage',
-                    path: '/funding-guidance/managing-your-funding/press',
-                    template: 'pages/funding/guidance/getting-press-coverage',
-                    lang: 'funding.guidance.getting-press-coverage',
-                    code: 18,
+                fundingGuidance: {
+                    name: 'Funding Guidance (child-pages)',
+                    path: '/funding-guidance/*',
+                    useCmsContent: true,
                     static: true,
                     live: true
                 },
@@ -224,7 +201,7 @@ const routes = {
                     static: false,
                     live: true
                 },
-                programmeDetail: {
+                programmesWildcard: {
                     name: 'Funding programme details',
                     path: '/programmes/*',
                     template: 'pages/funding/programme-detail',
@@ -340,16 +317,29 @@ for (let section in importedLegacyPages) {
  * Set up some vanity URL redirects that can't be defined in the aliases on the routes above
  */
 const vanityDestinations = {
-    publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
+    // publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
     contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
 };
+
+// @TODO How to better handle redirects for CMS powered pages
 const vanityRedirects = [
+    {
+        name: 'Managing your funding',
+        paths: [
+            sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
+            '/welcome',
+            '/publicity'
+        ],
+        destination: '/welsh/funding/funding-guidance/managing-your-funding',
+        aliasOnly: true,
+        live: true
+    },
     {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
         path: '/cyhoeddusrwydd',
-        destination: '/welsh' + vanityDestinations.publicity,
+        destination: '/welsh/funding/funding-guidance/managing-your-funding',
         aliasOnly: true,
         live: true
     },

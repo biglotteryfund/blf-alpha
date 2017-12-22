@@ -1,8 +1,7 @@
 'use strict';
 const { find, get, toString, uniq } = require('lodash');
-const Raven = require('raven');
 const queryString = require('query-string');
-const { renderNotFound } = require('../http-errors');
+const { renderNotFoundWithError } = require('../http-errors');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
 
@@ -190,8 +189,7 @@ function initProgrammeDetail(router, config) {
                 }
             })
             .catch(err => {
-                Raven.captureException(err);
-                renderNotFound(req, res);
+                renderNotFoundWithError(err, req, res);
             });
     });
 }

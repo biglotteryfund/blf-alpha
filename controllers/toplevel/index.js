@@ -14,7 +14,7 @@ const router = express.Router();
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const surveyService = require('../../services/surveys');
-const routeStatic = require('../utils/routeStatic');
+const routeStatic = require('../routeStatic');
 const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const { heroImages } = require('../../modules/images');
@@ -57,9 +57,14 @@ const homepage = (req, res) => {
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
-     * 1. Populate static pages
+     * Populate static pages
      */
-    routeStatic.initRouting(pages, router, sectionPath, sectionId);
+    routeStatic.init({
+        router: router,
+        pages: pages,
+        sectionPath: sectionPath,
+        sectionId: sectionId
+    });
 
     // Serve the homepage
     router.get('/', homepage);
