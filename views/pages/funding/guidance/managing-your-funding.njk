@@ -3,67 +3,44 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ title }} | {% endblock %}
+{% block title %}{{ content.title }} | {% endblock %}
 
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', copy.title, 't2') }}
+        {{ headers.overlayText('h2', content.title, 't2') }}
     {% endset %}
 
     {{ hero.header('managing-grants', heroContent, 'blue') }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--blue a--border-top content-box">
-            <h3 class="t2">{{ copy.body.header1 }}</h3>
-            {{ copy.body.block1 | safe }}
+        <div class="inner--wide-only accent--blue a--border-top content-box s-prose s-prose--long">
+            {{ content.introduction | safe }}
         </div>
 
         <div class="inner">
             <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
-                <li class="grid__item">
-                    {{ hero.miniatureHero(
-                        titleText = copy.body.actions.social,
-                        imagePath = 'funding/tell-the-world.jpg',
-                        imageCaption = 'Three people working together on laptops',
-                        linkUrl = buildUrl('funding', 'helpWithPublicity'),
-                        accent = 'pink-mid'
-                    )}}
-                </li>
-                <li class="grid__item">
-                    {{ hero.miniatureHero(
-                        titleText = copy.body.actions.press,
-                        imagePath = 'funding/local-press.jpg',
-                        imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
-                        linkUrl = buildUrl('funding', 'pressCoverage'),
-                        accent = 'blue'
-                    )}}
-                </li>
-                <li class="grid__item">
-                    {{ hero.miniatureHero(
-                        titleText = copy.body.actions.logo,
-                        imagePath = 'funding/display-the-logo.jpg',
-                        imageCaption = 'A man smiling outside the entrance to a bike shop',
-                        linkUrl = buildUrl('funding', 'logos'),
-                        accent = 'turquoise'
-                    )}}
-                </li>
-                <li class="grid__item">
-                    {{ hero.miniatureHero(
-                        titleText = copy.body.actions.freeMaterial,
-                        imagePath = 'funding/free-branded-materials.jpg',
-                        imageCaption = 'Two people crouching down outdoors in an allotment surrounded by plants',
-                        linkUrl = buildUrl('funding', 'freeMaterials'),
-                        accent = 'orange'
-                    )}}
-                </li>
+                {% set themes = cycler('pink-mid', 'blue', 'turquoise', 'orange') %}
+                {% for page in content.children %}
+                    <li class="grid__item">
+                        {{ hero.miniatureHero(
+                            titleText = page.trailText,
+                            imagePath = page.photo,
+                            imageCaption = page.title,
+                            linkUrl = page.url,
+                            accent = themes.next(),
+                            useRemoteImages = true
+                        )}}
+                    </li>
+                {% endfor %}
             </ul>
         </div>
 
-        <div class="inner--wide-only accent--turquoise a--border-top content-box">
-            <h3 class="t2">{{ copy.body.header2 }}</h3>
-            {{ copy.body.block2 | safe }}
-        </div>
+        {% if content.outro %}
+            <div class="inner--wide-only accent--turquoise a--border-top content-box s-prose s-prose--long">
+                {{ content.outro | safe }}
+            </div>
+        {% endif %}
     </article>
 
 {% endblock %}
