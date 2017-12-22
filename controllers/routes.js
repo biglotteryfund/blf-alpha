@@ -169,10 +169,10 @@ const routes = {
                     name: 'Managing your funding',
                     path: '/funding-guidance/managing-your-funding',
                     template: 'pages/funding/guidance/managing-your-funding',
-                    lang: 'funding.guidance.managing-your-funding',
                     code: 2,
                     static: true,
                     live: true,
+                    useCmsContent: true,
                     aliases: [
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
                         '/welcome',
