@@ -52,9 +52,22 @@ function getLegacyPage({ locale, path }) {
     });
 }
 
+function getListingPage({ locale, path }) {
+    return request({
+        url: `${API_URL}/v1/${locale}/listing`,
+        qs: {
+            path: path
+        },
+        json: true
+    }).then(response => {
+        return response.data.map(item => item.attributes).find(_ => _.path === path);
+    });
+}
+
 module.exports = {
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
-    getLegacyPage
+    getLegacyPage,
+    getListingPage
 };

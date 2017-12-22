@@ -44,6 +44,23 @@ const getCmsPath = (sectionId, pagePath) => {
 };
 
 let serveCmsPage = (page, sectionId, router) => {
+let servePageFromCms = (page, sectionId, router) => {
+    router.get(page.path, (req, res, next) => {
+        contentApi
+            .getListingPage({
+                locale: req.i18n.getLocale(),
+                path: getCmsPath(sectionId, page.path)
+            })
+            .then(content => {
+                res.locals.content = content;
+                next();
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                renderNotFound(req, res);
+            });
+    });
+};
     router.get(page.path, (req, res) => {
         const renderPage = content => {
             res.render('pages/legacy', {
