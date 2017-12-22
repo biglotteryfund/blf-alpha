@@ -21,10 +21,10 @@ let setupRedirects = (sectionPath, page) => {
 let servePage = (page, router) => {
     // serve the canonical path with the supplied template
     router.get(page.path, (req, res) => {
-        let lang = req.i18n.__(page.lang);
+        let lang = page.lang ? req.i18n.__(page.lang) : false;
         res.render(page.template, {
-            title: lang.title,
-            description: lang.description || false,
+            title: lang ? lang.title : false,
+            description: lang ? lang.description : false,
             copy: lang
         });
     });
@@ -41,7 +41,25 @@ const getCmsPath = (sectionId, pagePath) => {
     return urlPath;
 };
 
-let serveCmsPage = (page, sectionId, router) => {
+let servePageFromCms = (page, sectionId, router) => {
+    router.get(page.path, (req, res, next) => {
+        contentApi
+            .getListingPage({
+                locale: req.i18n.getLocale(),
+                path: getCmsPath(sectionId, page.path)
+            })
+            .then(content => {
+                res.locals.content = content;
+                next();
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                renderNotFound(req, res);
+            });
+    });
+};
+
+let serveLegacyPageFromCms = (page, sectionId, router) => {
     router.get(page.path, (req, res) => {
         const renderPage = content => {
             res.render('pages/legacy', {
@@ -99,8 +117,13 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
 
         if (page.isLegacyPage) {
             // serve a static template with CMS-loaded content
-            serveCmsPage(page, sectionId, router);
-        } else if (page.static) {
+            serveLegacyPageFromCms(page, sectionId, router);
+        } else if (page.useCmsContent) {
+            // look up content from CMS then hand over to next route handler
+            servePageFromCms(page, sectionId, router);
+        }
+
+        if (page.static) {
             // serve the page with a specific template and copy block
             servePage(page, router);
         }
