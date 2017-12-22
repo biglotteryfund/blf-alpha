@@ -9,6 +9,15 @@ if (!API_URL) {
     process.exit(1);
 }
 
+/**
+ * Get CMS Path
+ * Returns sanitised pagePath for top-level sections
+ * otherwise prepends sectionId to pagePath
+ */
+function getCmsPath(sectionId, pagePath) {
+    return sectionId === 'toplevel' ? pagePath.replace(/^\/+/g, '') : `${sectionId}${pagePath}`;
+}
+
 function getPromotedNews({ locale, limit }) {
     return request({
         url: `${API_URL}/v1/${locale}/promoted-news`,
@@ -65,6 +74,7 @@ function getListingPage({ locale, path }) {
 }
 
 module.exports = {
+    getCmsPath,
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,

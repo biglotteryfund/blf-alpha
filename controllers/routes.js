@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const _ = require('lodash');
+const { camelCase, get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
 const importedLegacyPages = require('../config/app/importedLegacyPages');
@@ -338,14 +338,38 @@ const programmeRedirects = [
 ];
 
 /**
+ * Funding guidance migration
+ * Helper to concisely define urls for funding guidance page migrations
+ */
+function guidanceMigration(routePath, isLive) {
+    return {
+        path: `/funding-guidance/${routePath}`,
+        useCmsContent: true,
+        static: true,
+        live: isLive || false
+    };
+}
+
+const fundingGuidanceMigration = [
+    guidanceMigration('applying-for-funding/what-we-will-ask-you', false),
+    guidanceMigration('applying-for-funding/sustainable-development', false)
+];
+
+fundingGuidanceMigration.forEach(routeConfig => {
+    const id = camelCase(routeConfig.path);
+    routes.sections.funding[id] = routeConfig;
+});
+
+
+/**
  * Scraped/imported pages
  *
  * Serve pages imported via script into the CMS
  */
 for (let section in importedLegacyPages) {
-    if (_.get(routes.sections, section)) {
+    if (get(routes.sections, section)) {
         let pages = routes.sections[section].pages;
-        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
+        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
     }
 }
 

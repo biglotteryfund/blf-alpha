@@ -1882,7 +1882,7 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/funding/funding-guidance/managing-your-funding",
+        "PathPattern": "/funding/funding-guidance/*",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -2301,124 +2301,6 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/funding/funding-guidance/managing-your-funding/press",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/funding/funding-guidance/managing-your-funding/social-media",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -5752,7 +5634,7 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding",
+        "PathPattern": "/welsh/funding/funding-guidance/*",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -5871,65 +5753,6 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/help-with-publicity",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -6112,124 +5935,6 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/press",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/social-media",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -7055,65 +6760,6 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/welsh/publicity",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
         "PathPattern": "/welsh/scotland/about-big/contact-us",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
@@ -7351,65 +6997,6 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials",
-        "SmoothStreaming": false,
-        "DefaultTTL": 86400,
-        "AllowedMethods": {
-            "Items": [
-                "HEAD",
-                "GET"
-            ],
-            "CachedMethods": {
-                "Items": [
-                    "HEAD",
-                    "GET"
-                ],
-                "Quantity": 2
-            },
-            "Quantity": 2
-        },
-        "MinTTL": 0,
-        "Compress": false
-    },
-    {
-        "TrustedSigners": {
-            "Enabled": false,
-            "Items": [],
-            "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-            "Items": [],
-            "Quantity": 0
-        },
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "ForwardedValues": {
-            "Headers": {
-                "Items": [
-                    "Accept",
-                    "Host"
-                ],
-                "Quantity": 2
-            },
-            "Cookies": {
-                "Forward": "whitelist",
-                "WhitelistedNames": {
-                    "Items": [
-                        "contrastMode",
-                        "blf-alpha-session",
-                        "_csrf",
-                        "blf-ab-afa"
-                    ],
-                    "Quantity": 4
-                }
-            },
-            "QueryStringCacheKeys": {
-                "Items": [],
-                "Quantity": 0
-            },
-            "QueryString": false
-        },
-        "MaxTTL": 31536000,
-        "PathPattern": "/welsh/welcome",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
