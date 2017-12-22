@@ -39,11 +39,10 @@ const getCmsPath = (sectionId, pagePath) => {
     if (sectionId === 'toplevel') {
         urlPath = pagePath.replace(/^\/+/g, '');
     }
-    
+
     return urlPath;
 };
 
-let serveCmsPage = (page, sectionId, router) => {
 let servePageFromCms = (page, sectionId, router) => {
     router.get(page.path, (req, res, next) => {
         contentApi
@@ -61,6 +60,8 @@ let servePageFromCms = (page, sectionId, router) => {
             });
     });
 };
+
+let serveLegacyPageFromCms = (page, sectionId, router) => {
     router.get(page.path, (req, res) => {
         const renderPage = content => {
             res.render('pages/legacy', {
@@ -119,8 +120,13 @@ let initRouting = (pages, router, sectionPath, sectionId) => {
 
         if (page.isLegacyPage) {
             // serve a static template with CMS-loaded content
-            serveCmsPage(page, sectionId, router);
-        } else if (page.static) {
+            serveLegacyPageFromCms(page, sectionId, router);
+        } else if (page.useCmsContent) {
+            // look up content from CMS then hand over to next route handler
+            servePageFromCms(page, sectionId, router);
+        }
+
+        if (page.static) {
             // serve the page with a specific template and copy block
             servePage(page, router);
         }
