@@ -23,10 +23,10 @@ let setupRedirects = (sectionPath, page) => {
 let servePage = (page, router) => {
     // serve the canonical path with the supplied template
     router.get(page.path, (req, res) => {
-        let lang = req.i18n.__(page.lang);
+        let lang = (page.lang) ? req.i18n.__(page.lang) : false;
         res.render(page.template, {
-            title: lang.title,
-            description: lang.description || false,
+            title: (lang) ? lang.title : false,
+            description: (lang) ? lang.description : false,
             copy: lang
         });
     });
