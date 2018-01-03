@@ -5,7 +5,7 @@ const config = require('config');
 const moment = require('moment');
 const express = require('express');
 const { body, validationResult } = require('express-validator/check');
-const { matchedData, sanitizeBody } = require('express-validator/filter');
+const { sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
 
 const cached = require('../../middleware/cached');

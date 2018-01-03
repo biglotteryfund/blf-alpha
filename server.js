@@ -4,6 +4,7 @@ const app = (module.exports = express());
 const path = require('path');
 const config = require('config');
 const Raven = require('raven');
+const queryString = require('query-string');
 
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
@@ -102,16 +103,23 @@ for (let sectionId in routes.sections) {
     if (s.controller) {
         let controller = s.controller(s.pages, s.path, sectionId);
         // map the top-level section paths (en/cy) to controllers
-        sectionPaths.forEach(path => {
+        sectionPaths.forEach(urlPath => {
             // (adding these as an array fails for welsh paths)
-            app.use(path, controller);
+            app.use(urlPath, controller);
         });
     }
 }
 
-function serveRedirect({ sourcePath, destinationPath }) {
+function serveRedirect({ sourcePath, destinationPath, includeQuery }) {
     app.get(sourcePath, (req, res) => {
-        res.redirect(destinationPath);
+        // @TODO: Should we just always handle query strings?
+        if (includeQuery) {
+            const query = queryString.stringify(req.query);
+            const destinationPathWithQuery = destinationPath + (query.length > 0 ? `?${query}` : '');
+            res.redirect(301, destinationPathWithQuery);
+        } else {
+            res.redirect(301, destinationPath);
+        }
     });
 }
 
@@ -137,13 +145,15 @@ routes.vanityRedirects.forEach(route => {
         route.paths.forEach(routePath => {
             serveRedirect({
                 sourcePath: routePath,
-                destinationPath: route.destination
+                destinationPath: route.destination,
+                includeQuery: route.includeQuery
             });
         });
     } else {
         serveRedirect({
             sourcePath: route.path,
-            destinationPath: route.destination
+            destinationPath: route.destination,
+            includeQuery: route.includeQuery
         });
     }
 });

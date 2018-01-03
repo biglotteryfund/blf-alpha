@@ -345,6 +345,22 @@ const vanityDestinations = {
 };
 const vanityRedirects = [
     {
+        name: 'Funding Finder Alias',
+        path: '/Home/Funding/Funding%20Finder',
+        destination: '/funding/funding-finder',
+        includeQuery: true,
+        aliasOnly: true,
+        live: false
+    },
+    {
+        name: 'Funding Finder Alias (Welsh)',
+        path: 'welsh/Home/Funding/Funding%20Finder',
+        destination: '/welsh/funding/funding-finder',
+        includeQuery: true,
+        aliasOnly: true,
+        live: false
+    },
+    {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
