@@ -110,16 +110,9 @@ for (let sectionId in routes.sections) {
     }
 }
 
-function serveRedirect({ sourcePath, destinationPath, includeQuery }) {
+function serveRedirect({ sourcePath, destinationPath }) {
     app.get(sourcePath, (req, res) => {
-        // @TODO: Should we just always handle query strings?
-        if (includeQuery) {
-            const query = queryString.stringify(req.query);
-            const destinationPathWithQuery = destinationPath + (query.length > 0 ? `?${query}` : '');
-            res.redirect(301, destinationPathWithQuery);
-        } else {
-            res.redirect(301, destinationPath);
-        }
+        res.redirect(301, destinationPath);
     });
 }
 
@@ -145,15 +138,13 @@ routes.vanityRedirects.forEach(route => {
         route.paths.forEach(routePath => {
             serveRedirect({
                 sourcePath: routePath,
-                destinationPath: route.destination,
-                includeQuery: route.includeQuery
+                destinationPath: route.destination
             });
         });
     } else {
         serveRedirect({
             sourcePath: route.path,
-            destinationPath: route.destination,
-            includeQuery: route.includeQuery
+            destinationPath: route.destination
         });
     }
 });

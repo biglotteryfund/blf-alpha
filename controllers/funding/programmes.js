@@ -129,12 +129,18 @@ function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
     return queryString.stringify(newQuery);
 }
 
+function originalQueryParam(req, name) {
+    // Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
+    // urlencoded &amp; needs to be normalised when fetching individual query param
+    return req.query[`amp;${name}`] || req.query[name];
+}
+
 function initLegacyFundingFinder(router, config) {
     router.get('/funding-finder', (req, res) => {
         const baseRedirectUrl = req.baseUrl + config.path;
         const newQuery = reformatQueryString({
-            originalAreaQuery: req.query.area,
-            originalAmountQuery: req.query.amount
+            originalAreaQuery: originalQueryParam(req, 'area'),
+            originalAmountQuery: originalQueryParam(req, 'amount')
         });
         const redirectUrl = newQuery.length > 0 ? `${baseRedirectUrl}?${newQuery}` : baseRedirectUrl;
         // Redirect from funding finder to new programmes page
