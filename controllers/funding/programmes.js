@@ -72,7 +72,8 @@ function initProgrammesList(router, config) {
                     ];
                 } else {
                     templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(config.lang + '.title')
+                        label: req.i18n.__(config.lang + '.title'),
+                        url: req.originalUrl.split('?').shift()
                     });
 
                     if (minAmountParam) {
