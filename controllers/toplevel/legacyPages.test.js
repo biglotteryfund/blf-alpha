@@ -2,9 +2,27 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { reformatQueryString } = require('./legacyPages');
+const { normaliseQuery, reformatQueryString } = require('./legacyPages');
 
 describe('Legacy pages', () => {
+    describe('#normaliseQuery', () => {
+        it('should normalise &amp; encoding in query strings', () => {
+            expect(
+                normaliseQuery({
+                    area: 'England',
+                    'amp;amount': '10001 - 50000',
+                    'amp;org': 'Voluntary or community organisation',
+                    'amp;sc': '1'
+                })
+            ).to.eql({
+                area: 'England',
+                amount: '10001 - 50000',
+                org: 'Voluntary or community organisation',
+                sc: '1'
+            });
+        });
+    });
+
     describe('#reformatQueryString', () => {
         it('should return an empty string if no valid query is passed', () => {
             [null, undefined, ''].forEach(falseyValue => {
