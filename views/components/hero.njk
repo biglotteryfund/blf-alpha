@@ -61,9 +61,9 @@
 {% endmacro %}
 
 
-{% macro sectionHero(titleText, image, accent = 'blue') %}
-    <div class="section-hero">
-        <div class="section-hero__image">
+{% macro sectionHero(titleText, image, imageCandidates, accent = 'blue') %}
+    <div class="section-hero {% if imageCandidates %} has-random-images js-random-hero{% endif %}"{% if imageCandidates %} data-image-candidates='{{ imageCandidates | dump | safe }}'{% endif %}>
+        <div class="section-hero__image js-random-hero__image">
             <picture>
                 <source srcset="{{ image.large }}" media="(min-width: 980px)">
                 <source srcset="{{ image.medium }}" media="(min-width: 600px)">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             {% if image.caption %}
-                <span class="section-hero__caption u-desktop-only">
+                <span class="section-hero__caption js-random-hero_caption u-desktop-only">
                     <span class="u-caption">{{ image.caption }}</span>
                 </span>
             {% endif %}

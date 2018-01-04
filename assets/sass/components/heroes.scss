@@ -178,6 +178,22 @@ $heroSpaceFromLeft: 20px;
     }
 }
 
+.js-on.is-repeat-visitor .section-hero.has-random-images {
+    background-color: palette('charcoal');
+
+    .section-hero__image,
+    .section-hero__caption {
+        transition: opacity 600ms ease-in;
+        transition-delay: 150ms;
+        opacity: 0;
+    }
+
+    &.has-image .section-hero__image,
+    &.has-image .section-hero__caption {
+        opacity: 1;
+    }
+}
+
 /* =========================================================================
    Super Hero
    ========================================================================= */
