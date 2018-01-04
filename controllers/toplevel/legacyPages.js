@@ -140,12 +140,6 @@ function initAwardsForAll(router) {
                         liveChat.parentNode.removeChild(liveChat);
                     }
 
-                    // Remove related documents
-                    const relatedDocuments = dom.window.document.getElementById('relatedDocsContainer');
-                    if (relatedDocuments) {
-                        relatedDocuments.parentNode.removeChild(relatedDocuments);
-                    }
-
                     return dom;
                 },
                 route.path
