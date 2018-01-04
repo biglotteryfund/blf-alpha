@@ -1,7 +1,6 @@
 'use strict';
-const { find, get, toString, uniq } = require('lodash');
 const Raven = require('raven');
-const queryString = require('query-string');
+const { find, get, uniq } = require('lodash');
 const { renderNotFound } = require('../http-errors');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
@@ -109,46 +108,6 @@ function initProgrammesList(router, config) {
     });
 }
 
-function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
-    originalAreaQuery = toString(originalAreaQuery).toLowerCase();
-    originalAmountQuery = toString(originalAmountQuery).toLowerCase();
-
-    let newQuery = {};
-    if (originalAreaQuery) {
-        newQuery.location = {
-            england: 'england',
-            'northern+ireland': 'northernIreland',
-            scotland: 'scotland',
-            wales: 'wales'
-        }[originalAreaQuery];
-    }
-
-    if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
-        newQuery.min = '10000';
-    }
-
-    return queryString.stringify(newQuery);
-}
-
-function originalQueryParam(req, name) {
-    // Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
-    // urlencoded &amp; needs to be normalised when fetching individual query param
-    return req.query[`amp;${name}`] || req.query[name];
-}
-
-function initLegacyFundingFinder(router, config) {
-    router.get('/funding-finder', (req, res) => {
-        const baseRedirectUrl = req.baseUrl + config.path;
-        const newQuery = reformatQueryString({
-            originalAreaQuery: originalQueryParam(req, 'area'),
-            originalAmountQuery: originalQueryParam(req, 'amount')
-        });
-        const redirectUrl = newQuery.length > 0 ? `${baseRedirectUrl}?${newQuery}` : baseRedirectUrl;
-        // Redirect from funding finder to new programmes page
-        res.redirect(301, redirectUrl);
-    });
-}
-
 /**
  * Hacky approach to allow us to demo the concept
  * Customise hero image based on path
@@ -205,12 +164,10 @@ function initProgrammeDetail(router, config) {
 
 function init({ router, config }) {
     initProgrammesList(router, config.listing);
-    initLegacyFundingFinder(router, config.listing);
     initProgrammeDetail(router, config.detail);
 }
 
 module.exports = {
     init,
-    programmeFilters,
-    reformatQueryString
+    programmeFilters
 };

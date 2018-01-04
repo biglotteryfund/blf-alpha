@@ -475,6 +475,14 @@ function withLegacyDefaults(props) {
     return Object.assign({}, defaults, props);
 }
 const legacyProxiedRoutes = {
+    fundingFinder: withLegacyDefaults({
+        path: '/funding/funding-finder',
+        live: false
+    }),
+    fundingFinderWelsh: withLegacyDefaults({
+        path: '/welsh/funding/funding-finder',
+        live: false
+    }),
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: true
@@ -499,12 +507,6 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    {
-        path: '/funding/funding-finder',
-        isPostable: false,
-        allowQueryStrings: true,
-        live: false
-    },
     {
         path: '/assets/*',
         isPostable: false,
