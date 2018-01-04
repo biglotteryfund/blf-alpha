@@ -2,6 +2,7 @@
 const csurf = require('csurf');
 const vary = require('vary');
 const cacheControl = require('express-cache-controller');
+const appData = require('../modules/appData');
 
 const defaultVary = (req, res, next) => {
     vary(res, 'Cookie');
@@ -21,7 +22,16 @@ const noCache = (req, res, next) => {
 };
 
 // Apply csrf protection and no-cache at the same time
-const csrfProtection = [csurf(), noCache];
+const csrfProtection = [
+    csurf({
+        cookie: {
+            httpOnly: true,
+            sameSite: true,
+            secure: !appData.isDev
+        }
+    }),
+    noCache
+];
 
 module.exports = {
     defaultVary,
