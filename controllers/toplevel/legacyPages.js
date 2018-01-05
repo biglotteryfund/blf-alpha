@@ -4,7 +4,9 @@ const moment = require('moment');
 const ab = require('express-ab');
 const queryString = require('query-string');
 const { get, includes, reduce, toString } = require('lodash');
+
 const { legacyProxiedRoutes } = require('../routes');
+const { localify } = require('../../modules/urls');
 const { splitPercentages } = require('../../modules/ab');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
 const cached = require('../../middleware/cached');
@@ -72,7 +74,12 @@ function initLegacyFundingFinder(router) {
                         originalAreaQuery: query.area,
                         originalAmountQuery: query.amount
                     });
-                    const redirectUrl = '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : '');
+
+                    const redirectUrl = localify({
+                        urlPath: '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : ''),
+                        locale: req.i18n.getLocale()
+                    });
+
                     res.redirect(301, redirectUrl);
                 }
             })

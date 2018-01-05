@@ -97,6 +97,7 @@ function init(app) {
     });
 
     // look up the current URL and rewrite to another locale
+    // TODO: Combine with logic from modules/urls
     let getCurrentUrl = function(req, locale) {
         let currentPath = req.originalUrl;
 

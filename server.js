@@ -4,7 +4,6 @@ const app = (module.exports = express());
 const path = require('path');
 const config = require('config');
 const Raven = require('raven');
-const queryString = require('query-string');
 
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
@@ -20,8 +19,9 @@ const localesMiddleware = require('./middleware/locales');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
-const routes = require('./controllers/routes');
+const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
+const routes = require('./controllers/routes');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -78,14 +78,6 @@ app.use('/', require('./controllers/toplevel/tools'));
 
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
-
-/**
- * Welsh route helpers
- * makeWelsh = create a welsh version of a given URL path
- * cymreigio aka welshify - create an array of paths: default (english) and welsh variant
- */
-const makeWelsh = routePath => `${config.get('i18n.urlPrefix.cy')}${routePath}`;
-const cymreigio = mountPath => [mountPath, makeWelsh(mountPath)];
 
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {

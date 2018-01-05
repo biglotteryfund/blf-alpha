@@ -1,6 +1,61 @@
+const config = require('config');
 const { filter, forEach } = require('lodash');
 
-// take a route config and format it for cloudfront
+const WELSH_REGEX = /^\/welsh(\/|$)/;
+
+/**
+ * isWelsh
+ * Is the current URL a welsh URL
+ */
+function isWelsh(urlPath) {
+    return urlPath.match(WELSH_REGEX) !== null;
+}
+
+/**
+ * makeWelsh
+ * Create a welsh version of a given URL path
+ */
+function makeWelsh(urlPath) {
+    return `${config.get('i18n.urlPrefix.cy')}${urlPath}`;
+}
+
+/**
+ * removeWelsh
+ * Opposite of makeWelsh
+ */
+function removeWelsh(urlPath) {
+    return urlPath.replace(WELSH_REGEX, '/');
+}
+
+/**
+ * localify
+ * Rewrite urlPath into the current locale
+ */
+function localify({ urlPath, locale }) {
+    const urlIsWelsh = isWelsh(urlPath);
+
+    let newUrlPath = urlPath;
+    if (locale === 'cy' && !urlIsWelsh) {
+        newUrlPath = makeWelsh(urlPath);
+    } else if (locale === 'en' && urlIsWelsh) {
+        newUrlPath = urlPath.replace(WELSH_REGEX, '/');
+    }
+
+    return stripTrailingSlashes(newUrlPath);
+}
+
+/**
+ * cymreigio aka welshify
+ * Create an array of paths: default (english) and welsh variant
+ */
+function cymreigio(urlPath) {
+    return [urlPath, makeWelsh(urlPath)];
+}
+
+/**
+ * makeUrlObject
+ * Take a route config and format it for cloudfront
+ */
 const makeUrlObject = (page, customPath) => {
     return {
         path: customPath || page.path,
@@ -21,8 +76,6 @@ const generateUrlList = routes => {
         legacy: [],
         newSite: []
     };
-
-    let makeWelsh = url => '/welsh' + url;
 
     // add auto URLs from route config
     for (let s in routes.sections) {
@@ -103,6 +156,12 @@ const stripTrailingSlashes = str => {
 };
 
 module.exports = {
+    WELSH_REGEX,
+    isWelsh,
+    makeWelsh,
+    removeWelsh,
+    localify,
+    cymreigio,
     makeUrlObject,
     generateUrlList,
     stripTrailingSlashes
