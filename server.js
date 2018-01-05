@@ -19,8 +19,9 @@ const localesMiddleware = require('./middleware/locales');
 const favicon = require('serve-favicon');
 
 const getSecret = require('./modules/get-secret');
-const routes = require('./controllers/routes');
+const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
+const routes = require('./controllers/routes');
 
 if (app.get('env') === 'development') {
     require('dotenv').config();
@@ -78,14 +79,6 @@ app.use('/', require('./controllers/toplevel/tools'));
 // map user auth controller
 app.use('/user', require('./controllers/user/index'));
 
-/**
- * Welsh route helpers
- * makeWelsh = create a welsh version of a given URL path
- * cymreigio aka welshify - create an array of paths: default (english) and welsh variant
- */
-const makeWelsh = routePath => `${config.get('i18n.urlPrefix.cy')}${routePath}`;
-const cymreigio = mountPath => [mountPath, makeWelsh(mountPath)];
-
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
 if (process.env.NODE_ENV !== 'production') {
     const applyPath = '/experimental/apply';
@@ -102,16 +95,16 @@ for (let sectionId in routes.sections) {
     if (s.controller) {
         let controller = s.controller(s.pages, s.path, sectionId);
         // map the top-level section paths (en/cy) to controllers
-        sectionPaths.forEach(path => {
+        sectionPaths.forEach(urlPath => {
             // (adding these as an array fails for welsh paths)
-            app.use(path, controller);
+            app.use(urlPath, controller);
         });
     }
 }
 
 function serveRedirect({ sourcePath, destinationPath }) {
     app.get(sourcePath, (req, res) => {
-        res.redirect(destinationPath);
+        res.redirect(301, destinationPath);
     });
 }
 

@@ -1,7 +1,6 @@
 'use strict';
-const { find, get, toString, uniq } = require('lodash');
 const Raven = require('raven');
-const queryString = require('query-string');
+const { find, get, uniq } = require('lodash');
 const { renderNotFound } = require('../http-errors');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
@@ -72,7 +71,8 @@ function initProgrammesList(router, config) {
                     ];
                 } else {
                     templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(config.lang + '.title')
+                        label: req.i18n.__(config.lang + '.title'),
+                        url: req.originalUrl.split('?').shift()
                     });
 
                     if (minAmountParam) {
@@ -105,40 +105,6 @@ function initProgrammesList(router, config) {
                 console.log('error', err);
                 res.send(err);
             });
-    });
-}
-
-function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
-    originalAreaQuery = toString(originalAreaQuery).toLowerCase();
-    originalAmountQuery = toString(originalAmountQuery).toLowerCase();
-
-    let newQuery = {};
-    if (originalAreaQuery) {
-        newQuery.location = {
-            england: 'england',
-            'northern+ireland': 'northernIreland',
-            scotland: 'scotland',
-            wales: 'wales'
-        }[originalAreaQuery];
-    }
-
-    if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
-        newQuery.min = '10000';
-    }
-
-    return queryString.stringify(newQuery);
-}
-
-function initLegacyFundingFinder(router, config) {
-    router.get('/funding-finder', (req, res) => {
-        const baseRedirectUrl = req.baseUrl + config.path;
-        const newQuery = reformatQueryString({
-            originalAreaQuery: req.query.area,
-            originalAmountQuery: req.query.amount
-        });
-        const redirectUrl = newQuery.length > 0 ? `${baseRedirectUrl}?${newQuery}` : baseRedirectUrl;
-        // Redirect from funding finder to new programmes page
-        res.redirect(301, redirectUrl);
     });
 }
 
@@ -198,12 +164,10 @@ function initProgrammeDetail(router, config) {
 
 function init({ router, config }) {
     initProgrammesList(router, config.listing);
-    initLegacyFundingFinder(router, config.listing);
     initProgrammeDetail(router, config.detail);
 }
 
 module.exports = {
     init,
-    programmeFilters,
-    reformatQueryString
+    programmeFilters
 };

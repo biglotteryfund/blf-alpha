@@ -345,6 +345,20 @@ const vanityDestinations = {
 };
 const vanityRedirects = [
     {
+        name: 'Funding Finder Alias',
+        path: '/Home/Funding/Funding%20Finder',
+        destination: '/funding/programmes',
+        aliasOnly: true,
+        live: false
+    },
+    {
+        name: 'Funding Finder Alias (Welsh)',
+        path: 'welsh/Home/Funding/Funding%20Finder',
+        destination: '/welsh/funding/programmes',
+        aliasOnly: true,
+        live: false
+    },
+    {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
@@ -461,6 +475,14 @@ function withLegacyDefaults(props) {
     return Object.assign({}, defaults, props);
 }
 const legacyProxiedRoutes = {
+    fundingFinder: withLegacyDefaults({
+        path: '/funding/funding-finder',
+        live: false
+    }),
+    fundingFinderWelsh: withLegacyDefaults({
+        path: '/welsh/funding/funding-finder',
+        live: false
+    }),
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: true
@@ -485,12 +507,6 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    {
-        path: '/funding/funding-finder',
-        isPostable: false,
-        allowQueryStrings: true,
-        live: false
-    },
     {
         path: '/assets/*',
         isPostable: false,
