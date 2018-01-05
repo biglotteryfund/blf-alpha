@@ -2,8 +2,9 @@
 const helmet = require('helmet');
 const { map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
+const appData = require('../modules/appData');
 
-module.exports = function(environment) {
+module.exports = function() {
     /**
      * URLs which should be exempt from security headers
      * Only proxied legacy URLs should be exempt.
@@ -40,7 +41,7 @@ module.exports = function(environment) {
         fontSrc: defaultSecurityDomains.concat(['data:'])
     };
 
-    if (environment === 'development') {
+    if (appData.isDev) {
         // Allow LiveReload in development
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }

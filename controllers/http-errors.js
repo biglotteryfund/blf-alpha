@@ -1,3 +1,5 @@
+const appData = require('../modules/appData');
+
 const renderNotFound = (req, res) => {
     let err = new Error('Page not found');
     err.status = 404;
@@ -15,7 +17,7 @@ const renderNotFound = (req, res) => {
 const renderError = (err, req, res) => {
     // Set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = appData.isDev ? err : {};
     res.locals.status = err.status || 500;
     res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
     res.locals.sentry = res.sentry;

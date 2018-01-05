@@ -4,15 +4,14 @@ const nunjucks = require('nunjucks');
 const moment = require('moment');
 const slugify = require('slugify');
 const assets = require('./assets');
+const appData = require('./appData');
 
 function init(app) {
-    const IS_DEV = (process.env.NODE_ENV || 'development') === 'development';
-
     const templateEnv = nunjucks.configure('views', {
         autoescape: true,
         express: app,
-        noCache: IS_DEV,
-        watch: IS_DEV
+        noCache: appData.isDev,
+        watch: appData.isDev
     });
 
     // register template filters first
