@@ -88,7 +88,8 @@ function initProgrammesList(router, config) {
                                 england: req.i18n.__('global.regions.england'),
                                 wales: req.i18n.__('global.regions.wales'),
                                 scotland: req.i18n.__('global.regions.scotland'),
-                                northernIreland: req.i18n.__('global.regions.northernIreland')
+                                northernIreland: req.i18n.__('global.regions.northernIreland'),
+                                ukWide: req.i18n.__('global.regions.ukWide')
                             };
                             return regions[key];
                         };

@@ -45,7 +45,7 @@ describe('Legacy pages', () => {
 
             expect(
                 reformatQueryString({
-                    originalAreaQuery: 'Northern+Ireland',
+                    originalAreaQuery: 'Northern Ireland',
                     originalAmountQuery: null
                 })
             ).to.equal('location=northernIreland');
