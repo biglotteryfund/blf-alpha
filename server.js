@@ -5,6 +5,7 @@ const path = require('path');
 const config = require('config');
 const Raven = require('raven');
 
+const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 
@@ -23,14 +24,14 @@ const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');
 
-if (app.get('env') === 'development') {
+if (appData.isDev) {
     require('dotenv').config();
 }
 
 const SENTRY_DSN = getSecret('sentry.dsn');
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
-        environment: process.env.NODE_ENV || 'development',
+        environment: appData.environment,
         dataCallback(data) {
             delete data.modules;
             // clear out POST data
@@ -53,11 +54,7 @@ app.use(
         defaultMaxAge: config.get('viewCacheExpiration')
     })
 );
-app.use(
-    securityHeadersMiddleware({
-        environment: app.get('env')
-    })
-);
+app.use(securityHeadersMiddleware());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
@@ -80,7 +77,7 @@ app.use('/', require('./controllers/toplevel/tools'));
 app.use('/user', require('./controllers/user/index'));
 
 // @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
-if (process.env.NODE_ENV !== 'production') {
+if (appData.isNotProduction) {
     const applyPath = '/experimental/apply';
     app.use(applyPath, require('./controllers/apply'));
     app.use(cymreigio(applyPath), require('./controllers/apply'));

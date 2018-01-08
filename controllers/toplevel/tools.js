@@ -28,7 +28,7 @@ router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     res.send({
-        APP_ENV: process.env.NODE_ENV,
+        APP_ENV: appData.environment,
         DEPLOY_ID: appData.deployId,
         COMMIT_ID: appData.commitId,
         BUILD_NUMBER: appData.buildNumber,

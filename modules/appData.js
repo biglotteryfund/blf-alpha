@@ -1,24 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
+const { get } = require('lodash');
 
-// extract deploy ID from AWS (where provided)
-let deploymentData;
-try {
-    deploymentData = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/deploy.json'), 'utf8'));
-} catch (e) {
-    // console.info('deploy.json not found -- are you in DEV mode?');
+/**
+ * Extract deploy ID from AWS (where provided)
+ */
+function getDeploymentData() {
+    let deploymentData;
+    try {
+        const pathToManifest = path.join(__dirname, '../config/deploy.json');
+        deploymentData = JSON.parse(fs.readFileSync(pathToManifest, 'utf8'));
+    } catch (e) {} // eslint-disable-line no-empty
+    return deploymentData;
 }
 
-const appEnv = process.env.NODE_ENV || 'development';
+const deploymentData = getDeploymentData();
+const environment = config.util.getEnv('NODE_ENV'); // Defaults to 'development'
+
 const appData = {
-    nodeVersion: process.version,
-    deployId: deploymentData && deploymentData.deployId ? deploymentData.deployId : 'DEV',
-    buildNumber: deploymentData && deploymentData.buildNumber ? deploymentData.buildNumber : 'DEV',
-    commitId: deploymentData && deploymentData.commitId ? deploymentData.commitId : 'DEV',
-    IS_DEV: appEnv === 'development',
-    environment: appEnv,
-    config: config
+    config: config,
+    environment: environment,
+    isDev: environment === 'development',
+    isNotProduction: environment !== 'development',
+    deployId: get(deploymentData, 'deployId', 'DEV'),
+    buildNumber: get(deploymentData, 'buildNumber', 'DEV'),
+    commitId: get(deploymentData, 'commitId', 'DEV'),
+    nodeVersion: process.version
 };
 
 module.exports = appData;

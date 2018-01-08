@@ -5,9 +5,21 @@ const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const models = require('../models/index');
 const getSecret = require('../modules/get-secret');
+const appData = require('../modules/appData');
 
 module.exports = function(app) {
     const sessionSecret = process.env.sessionSecret || getSecret('session.secret');
+
+    if (!appData.isDev) {
+        app.set('trust proxy', 4);
+    }
+
+    const store = new SequelizeStore({
+        db: models.sequelize
+    });
+
+    // create sessions table
+    store.sync();
 
     // add session
     const sessionConfig = {
@@ -15,19 +27,12 @@ module.exports = function(app) {
         secret: sessionSecret,
         resave: false,
         saveUninitialized: false,
-        cookie: { sameSite: true },
-        store: new SequelizeStore({
-            db: models.sequelize
-        })
+        cookie: {
+            sameSite: true,
+            secure: !appData.isDev
+        },
+        store: store
     };
-
-    // create sessions table
-    sessionConfig.store.sync();
-
-    if (app.get('env') !== 'development') {
-        app.set('trust proxy', 4);
-        sessionConfig.cookie.secure = true;
-    }
 
     return [cookieParser(sessionSecret), session(sessionConfig), flash()];
 };

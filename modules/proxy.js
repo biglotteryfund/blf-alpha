@@ -1,11 +1,12 @@
 'use strict';
+const Raven = require('raven');
 const config = require('config');
+const { get } = require('lodash');
 const rp = require('request-promise-native');
 const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const { get } = require('lodash');
-const Raven = require('raven');
+const appData = require('../modules/appData');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -67,7 +68,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
             // parse the DOM
             let dom = new JSDOM(body);
 
-            if (req.app.get('env') === 'development') {
+            if (appData.isDev) {
                 let titleText = dom.window.document.title;
                 dom.window.document.title = '[PROXIED] ' + titleText;
             }
