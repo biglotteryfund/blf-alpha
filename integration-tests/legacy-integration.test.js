@@ -22,39 +22,57 @@ describe('Legacy pages proxying', () => {
     });
 
     describe('Funding Finder Redirects', () => {
-        function fundingFinderRequest(urlPath) {
+        function fundingFinderRequest({ originalPath, redirectedPath }) {
             return chai
                 .request(server)
-                .get(urlPath)
+                .get(originalPath)
                 .redirects(0)
-                .catch(err => err.response);
+                .catch(err => err.response)
+                .then(res => {
+                    return {
+                        res,
+                        originalPath,
+                        redirectedPath
+                    };
+                });
         }
 
         it('should redirect old funding finder', () => {
             return Promise.all([
-                fundingFinderRequest('/funding/funding-finder'),
-                fundingFinderRequest('/funding/funding-finder?area=England&amount=up to 10000'),
-                fundingFinderRequest('/funding/funding-finder?area=Scotland&amp;amount=10001%20-%2050000'),
-                fundingFinderRequest(
-                    '/funding/funding-finder?area=Wales&amp;amount=up to 10000&amp;org=Voluntary or community organisation'
-                )
-            ]).then(responses => {
-                const [responseA, responseB, responseC, responseD] = responses;
-                responses.map(response => response.status).forEach(status => {
-                    expect(status).to.equal(301);
+                fundingFinderRequest({
+                    originalPath: '/funding/funding-finder',
+                    redirectedPath: '/funding/programmes'
+                }),
+                fundingFinderRequest({
+                    originalPath: '/Home/Funding/Funding Finder',
+                    redirectedPath: '/funding/programmes'
+                }),
+                fundingFinderRequest({
+                    originalPath: '/funding/funding-finder?area=northern+ireland',
+                    redirectedPath: '/funding/programmes?location=northernIreland'
+                }),
+                fundingFinderRequest({
+                    originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
+                    redirectedPath: '/funding/programmes?location=england'
+                }),
+                fundingFinderRequest({
+                    originalPath: '/funding/funding-finder?area=Scotland&amp;amount=10001%20-%2050000',
+                    redirectedPath: '/funding/programmes?location=scotland&min=10000'
+                }),
+                fundingFinderRequest({
+                    originalPath: '/funding/funding-finder?cpage=1&area=uk-wide',
+                    redirectedPath: '/funding/programmes?location=ukWide'
+                }),
+                fundingFinderRequest({
+                    originalPath:
+                        '/funding/funding-finder?area=Wales&amp;amount=up to 10000&amp;org=Voluntary or community organisation',
+                    redirectedPath: '/funding/programmes?location=wales'
+                })
+            ]).then(results => {
+                results.forEach(result => {
+                    expect(result.res.status).to.equal(301);
+                    expect(result.res).to.redirectTo(result.redirectedPath);
                 });
-
-                expect(responseA).to.redirectTo('/funding/programmes');
-                expect(responseB).to.redirectTo('/funding/programmes?location=england');
-                expect(responseC).to.redirectTo('/funding/programmes?location=scotland&min=10000');
-                expect(responseD).to.redirectTo('/funding/programmes?location=wales');
-            });
-        });
-
-        it('should redirect additional funding finder routes', () => {
-            fundingFinderRequest('/Home/Funding/Funding Finder').then(res => {
-                expect(res).to.have.status(301);
-                expect(res).to.redirectTo('/funding/programmes');
             });
         });
 

@@ -39,9 +39,10 @@ function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
     if (originalAreaQuery) {
         newQuery.location = {
             england: 'england',
-            'northern+ireland': 'northernIreland',
+            'northern ireland': 'northernIreland',
             scotland: 'scotland',
-            wales: 'wales'
+            wales: 'wales',
+            'uk-wide': 'ukWide'
         }[originalAreaQuery];
     }
 
