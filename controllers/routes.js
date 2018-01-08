@@ -104,10 +104,7 @@ const routes = {
                     code: 29,
                     static: true,
                     live: true,
-                    aliases: [
-                        sectionPaths.funding + '/Awards-For-All',
-                        sectionPaths.toplevel + '/awardsforall'
-                    ]
+                    aliases: [sectionPaths.funding + '/Awards-For-All', sectionPaths.toplevel + '/awardsforall']
                 },
                 over10k: {
                     name: 'Over 10k',
