@@ -103,7 +103,11 @@ const routes = {
                     lang: 'toplevel.under10k',
                     code: 29,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding + '/Awards-For-All',
+                        sectionPaths.toplevel + '/awardsforall'
+                    ]
                 },
                 over10k: {
                     name: 'Over 10k',
