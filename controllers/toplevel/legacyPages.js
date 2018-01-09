@@ -64,16 +64,17 @@ function initLegacyFundingFinder(router) {
     fundingFinderPaths.forEach(mountPath => {
         router
             .get(mountPath, (req, res) => {
-                const query = normaliseQuery(req.query);
-                const showClosed = parseInt(query.sc, 10) === 1;
+                req.query = normaliseQuery(req.query);
+                const showClosed = parseInt(req.query.sc, 10) === 1;
+
                 if (showClosed) {
                     // Proxy legacy funding finder for closed programmes
                     return proxyLegacyPage(req, res, dom => dom, mountPath);
                 } else {
                     // Redirect from funding finder to new programmes page
                     const newQuery = reformatQueryString({
-                        originalAreaQuery: query.area,
-                        originalAmountQuery: query.amount
+                        originalAreaQuery: req.query.area,
+                        originalAmountQuery: req.query.amount
                     });
 
                     const redirectUrl = localify({
