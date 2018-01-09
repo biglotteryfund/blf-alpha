@@ -350,14 +350,14 @@ const vanityRedirects = [
         path: '/Home/Funding/Funding%20Finder',
         destination: '/funding/programmes',
         aliasOnly: true,
-        live: false
+        live: true
     },
     {
         name: 'Funding Finder Alias (Welsh)',
-        path: 'welsh/Home/Funding/Funding%20Finder',
+        path: '/welsh/Home/Funding/Funding%20Finder',
         destination: '/welsh/funding/programmes',
         aliasOnly: true,
-        live: false
+        live: true
     },
     {
         // this has to be here and not as an alias
