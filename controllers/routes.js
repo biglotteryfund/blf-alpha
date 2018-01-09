@@ -108,7 +108,8 @@ const routes = {
                         sectionPaths.funding + '/Awards-For-All',
                         sectionPaths.funding + '/awards-for-all',
                         sectionPaths.toplevel + '/awardsforall',
-                        sectionPaths.toplevel + '/a4a'
+                        sectionPaths.toplevel + '/a4a',
+                        sectionPaths.toplevel + '/A4A'
                     ]
                 },
                 over10k: {
