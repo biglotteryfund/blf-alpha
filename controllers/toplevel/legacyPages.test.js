@@ -115,7 +115,7 @@ describe('Legacy pages', () => {
                     originalAreaQuery: null,
                     originalAmountQuery: 'up to 10000'
                 })
-            ).to.equal('');
+            ).to.equal('max=10000');
 
             expect(
                 reformatQueryString({
@@ -131,7 +131,7 @@ describe('Legacy pages', () => {
                     originalAreaQuery: 'England',
                     originalAmountQuery: 'up to 10000'
                 })
-            ).to.equal('location=england');
+            ).to.equal('location=england&max=10000');
 
             expect(
                 reformatQueryString({
