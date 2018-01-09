@@ -478,11 +478,11 @@ function withLegacyDefaults(props) {
 const legacyProxiedRoutes = {
     fundingFinder: withLegacyDefaults({
         path: '/funding/funding-finder',
-        live: false
+        live: true
     }),
     fundingFinderWelsh: withLegacyDefaults({
         path: '/welsh/funding/funding-finder',
-        live: false
+        live: true
     }),
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
