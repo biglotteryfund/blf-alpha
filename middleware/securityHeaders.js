@@ -24,7 +24,6 @@ module.exports = function() {
         'cdn.syndication.twimg.com',
         '*.twimg.com',
         '*.youtube.com',
-        'cdn.jsdelivr.net',
         'sentry.io',
         'dvmwjbtfsnnp0.cloudfront.net',
         '*.biglotteryfund.org.uk'
