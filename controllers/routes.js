@@ -46,7 +46,7 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home', '/index.html']
+                    aliases: ['/home', '/index.html', '/en-gb']
                 },
                 contact: {
                     name: 'Contact',
@@ -104,7 +104,13 @@ const routes = {
                     code: 29,
                     static: true,
                     live: true,
-                    aliases: [sectionPaths.funding + '/Awards-For-All', sectionPaths.toplevel + '/awardsforall']
+                    aliases: [
+                        sectionPaths.funding + '/Awards-For-All',
+                        sectionPaths.funding + '/awards-for-all',
+                        sectionPaths.toplevel + '/awardsforall',
+                        sectionPaths.toplevel + '/a4a',
+                        sectionPaths.toplevel + '/A4A'
+                    ]
                 },
                 over10k: {
                     name: 'Over 10k',
