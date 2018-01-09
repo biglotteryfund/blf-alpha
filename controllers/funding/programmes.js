@@ -129,36 +129,18 @@ function initProgrammesList(router, config) {
     });
 }
 
-/**
- * Hacky approach to allow us to demo the concept
- * Customise hero image based on path
- * @TODO: Consider how to model hero images in the CMS, if at all.
- */
-function getHeroImage(entry) {
-    const heroImageMappings = {
-        'funding/programmes/reaching-communities-england': createHeroImage({
-            small: 'hero/placeholders/rc-small.jpg',
-            medium: 'hero/placeholders/rc-medium.jpg',
-            large: 'hero/placeholders/rc-large.jpg',
-            default: 'hero/placeholders/rc-medium.jpg'
-        }),
-        'funding/programmes/awards-for-all-england': createHeroImage({
-            small: 'hero/placeholders/afa-small.jpg',
-            medium: 'hero/placeholders/afa-medium.jpg',
-            large: 'hero/placeholders/afa-large.jpg',
-            default: 'hero/placeholders/afa-medium.jpg'
-        }),
-        default: createHeroImage({
-            small: 'hero/working-families-small.jpg',
-            medium: 'hero/working-families-medium.jpg',
-            large: 'hero/working-families-large.jpg',
-            default: 'hero/working-families-medium.jpg'
-        })
-    };
-    return heroImageMappings[entry.path] || heroImageMappings['default'];
-}
+
 
 function initProgrammeDetail(router, config) {
+
+    // Allow for programmes without heroes
+    const defaultHeroImage = createHeroImage({
+        small: 'hero/working-families-small.jpg',
+        medium: 'hero/working-families-medium.jpg',
+        large: 'hero/working-families-large.jpg',
+        default: 'hero/working-families-medium.jpg'
+    });
+
     router.get('/programmes/:slug', function(req, res) {
         contentApi
             .getFundingProgramme({
@@ -170,7 +152,7 @@ function initProgrammeDetail(router, config) {
                     res.render(config.template, {
                         entry: entry,
                         title: entry.title,
-                        heroImage: getHeroImage(entry)
+                        heroImage: entry.hero || defaultHeroImage
                     });
                 } else {
                     throw new Error('NoContent');
