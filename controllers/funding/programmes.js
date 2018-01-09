@@ -37,6 +37,17 @@ const programmeFilters = {
             const min = parseInt(minAmount, 10);
             return !data.fundingSize || !min || data.fundingSize.minimum >= min;
         };
+    },
+    filterByMaxAmount(maxAmount) {
+        return function(programme) {
+            if (!maxAmount) {
+                return programme;
+            }
+
+            const max = parseInt(maxAmount, 10);
+            const programmeMax = get(programme, 'content.fundingSize.maximum');
+            return programmeMax <= max || false;
+        };
     }
 };
 
@@ -58,12 +69,14 @@ function initProgrammesList(router, config) {
             .then(programmes => {
                 const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
                 const minAmountParam = req.query.min;
+                const maxAmountParam = req.query.max;
 
                 templateData.programmes = programmes
                     .filter(programmeFilters.filterByLocation(locationParam))
-                    .filter(programmeFilters.filterByMinAmount(minAmountParam));
+                    .filter(programmeFilters.filterByMinAmount(minAmountParam))
+                    .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
 
-                if (!minAmountParam && !locationParam) {
+                if (!minAmountParam && !maxAmountParam && !locationParam) {
                     templateData.activeBreadcrumbs = [
                         {
                             label: req.i18n.__(config.lang + '.breadcrumbAll')
@@ -75,10 +88,17 @@ function initProgrammesList(router, config) {
                         url: req.originalUrl.split('?').shift()
                     });
 
-                    if (minAmountParam) {
+                    if (parseInt(minAmountParam, 10) === 10000) {
                         templateData.activeBreadcrumbs.push({
                             label: req.i18n.__(config.lang + '.over10k'),
                             url: '/over10k'
+                        });
+                    }
+
+                    if (parseInt(maxAmountParam, 10) === 10000) {
+                        templateData.activeBreadcrumbs.push({
+                            label: req.i18n.__(config.lang + '.under10k'),
+                            url: '/under10k'
                         });
                     }
 

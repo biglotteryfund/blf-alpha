@@ -46,7 +46,9 @@ function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
         }[originalAreaQuery];
     }
 
-    if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
+    if (originalAmountQuery && originalAmountQuery === 'up to 10000') {
+        newQuery.max = '10000';
+    } else if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
         newQuery.min = '10000';
     }
 
