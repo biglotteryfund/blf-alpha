@@ -102,7 +102,7 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/Home/Funding/Funding%20Finder",
+        "PathPattern": "/Home/Funding/Funding*Finder",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -4095,7 +4095,7 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/welsh/Home/Funding/Funding%20Finder",
+        "PathPattern": "/welsh/Home/Funding/Funding*Finder",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {

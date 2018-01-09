@@ -347,14 +347,14 @@ const vanityDestinations = {
 const vanityRedirects = [
     {
         name: 'Funding Finder Alias',
-        path: '/Home/Funding/Funding%20Finder',
+        path: '/Home/Funding/Funding*Finder',
         destination: '/funding/programmes',
         aliasOnly: true,
         live: true
     },
     {
         name: 'Funding Finder Alias (Welsh)',
-        path: '/welsh/Home/Funding/Funding%20Finder',
+        path: '/welsh/Home/Funding/Funding*Finder',
         destination: '/welsh/funding/programmes',
         aliasOnly: true,
         live: true
