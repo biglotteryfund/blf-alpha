@@ -41,8 +41,6 @@
     ]
   },
   "prettier": {
-    "printWidth": 120,
-    "tabWidth": 4,
     "singleQuote": true
   },
   "size-limit": [
@@ -99,7 +97,6 @@
     "express-session": "^1.15.5",
     "express-validator": "^4.2.1",
     "fitvids": "^2.0.0",
-    "generate-schema": "^2.5.1",
     "helmet": "^3.8.1",
     "i18n-2": "^0.6.3",
     "jquery": "^3.2.1",
