@@ -127,5 +127,14 @@ describe('Programme utilities', () => {
                 ]);
             });
         });
+
+        describe('#filterByMaxAmount', () => {
+            it('should filter programmes by maximum amount', () => {
+                const res = mockProgrammes.filter(programmeFilters.filterByMaxAmount(10000));
+                expect(res.map(item => item.content.title)).to.have.members([
+                    'National Lottery Awards for All England'
+                ]);
+            });
+        });
     });
 });

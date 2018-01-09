@@ -53,7 +53,7 @@ describe('Legacy pages proxying', () => {
                 }),
                 fundingFinderRequest({
                     originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
-                    redirectedPath: '/funding/programmes?location=england'
+                    redirectedPath: '/funding/programmes?location=england&max=10000'
                 }),
                 fundingFinderRequest({
                     originalPath: '/funding/funding-finder?area=Scotland&amp;amount=10001%20-%2050000',
@@ -66,7 +66,7 @@ describe('Legacy pages proxying', () => {
                 fundingFinderRequest({
                     originalPath:
                         '/funding/funding-finder?area=Wales&amp;amount=up to 10000&amp;org=Voluntary or community organisation',
-                    redirectedPath: '/funding/programmes?location=wales'
+                    redirectedPath: '/funding/programmes?location=wales&max=10000'
                 })
             ]).then(results => {
                 results.forEach(result => {
