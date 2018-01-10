@@ -8,13 +8,13 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(path) {
+function getCachebustedPath(urlPath) {
     const version = assets.version || 'latest';
-    return '/' + [assetVirtualDir, 'build', version, path].join('/');
+    return '/' + [assetVirtualDir, 'build', version, urlPath].join('/');
 }
 
-function getImagePath(path) {
-    return '/' + [assetVirtualDir, 'images', path].join('/');
+function getImagePath(urlPath) {
+    return '/' + [assetVirtualDir, 'images', urlPath].join('/');
 }
 
 module.exports = {

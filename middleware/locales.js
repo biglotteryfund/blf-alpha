@@ -3,6 +3,7 @@
 const i18n = require('i18n-2');
 const config = require('config');
 const routes = require('../controllers/routes');
+const { isWelsh } = require('../modules/urls');
 
 module.exports = function(app) {
     const setViewGlobal = (name, value) => {
@@ -28,14 +29,11 @@ module.exports = function(app) {
     }
 
     function localeMiddleware(req, res, next) {
-        const WELSH_LOCALE = 'cy';
-        const CYMRU_URL = /^\/welsh(\/|$)/;
-        const IS_WELSH = req.url.match(CYMRU_URL) !== null;
         let localePrefix = '';
 
-        if (IS_WELSH) {
-            req.i18n.setLocale(WELSH_LOCALE);
-            res.setHeader('Content-Language', WELSH_LOCALE);
+        if (isWelsh(req.url)) {
+            req.i18n.setLocale('cy');
+            res.setHeader('Content-Language', 'cy');
             localePrefix = config.get('i18n.urlPrefix.cy');
         }
 

@@ -58,7 +58,7 @@ describe('CMS Tools', function() {
 
         it('should block access to staff-only tools', done => {
             agent
-                .get('/tools/locales/')
+                .get('/tools/survey-results/')
                 .redirects(0)
                 .end((err, res) => {
                     res.should.redirectTo('/user/login');
@@ -75,13 +75,15 @@ describe('CMS Tools', function() {
                     username: 'test@test.com',
                     password: 'wrong'
                 })
-                .end((err, res) => {
-                    res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
+                .end((postErr, postRes) => {
+                    postRes.text.should.match(
+                        /(.*)Your username and password combination is invalid(.*)/
+                    );
                     return agent
-                        .get('/tools/locales/')
+                        .get('/tools/survey-results/')
                         .redirects(0)
-                        .end((localesErr, localesRes) => {
-                            localesRes.should.have.status(302);
+                        .end((err, res) => {
+                            res.should.have.status(302);
                             done();
                         });
                 });
@@ -94,16 +96,18 @@ describe('CMS Tools', function() {
                     _csrf: csrfToken,
                     username: validUser.username,
                     password: validUser.password,
-                    redirectUrl: '/tools/locales/'
+                    redirectUrl: '/tools/survey-results/'
                 })
                 .redirects(0)
-                .end((err, res) => {
-                    res.should.have.status(302);
-                    res.should.redirectTo('/tools/locales/');
-                    return agent.get('/tools/locales/').end((localesErr, localesRes) => {
-                        localesRes.should.have.status(200);
-                        done();
-                    });
+                .end((postErr, postRes) => {
+                    postRes.should.have.status(302);
+                    postRes.should.redirectTo('/tools/survey-results/');
+                    return agent
+                        .get('/tools/survey-results/')
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            done();
+                        });
                 });
         });
     });
