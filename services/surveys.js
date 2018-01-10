@@ -1,4 +1,3 @@
-const xss = require('xss');
 const { Survey, SurveyChoice, SurveyResponse } = require('../models');
 
 function findAll() {
