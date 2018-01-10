@@ -8,7 +8,8 @@ const getSecret = require('../modules/get-secret');
 const appData = require('../modules/appData');
 
 module.exports = function(app) {
-    const sessionSecret = process.env.sessionSecret || getSecret('session.secret');
+    const sessionSecret =
+        process.env.sessionSecret || getSecret('session.secret');
 
     if (!appData.isDev) {
         app.set('trust proxy', 4);

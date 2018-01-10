@@ -4,11 +4,14 @@ const appData = require('../modules/appData');
 function renderNotFound(req, res) {
     let err = new Error('Page not found');
     err.status = 404;
-    err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
+    err.friendlyText =
+        "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
 
     res.locals.message = err.message;
     res.locals.status = 404;
-    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
+    res.locals.errorTitle = err.friendlyText
+        ? err.friendlyText
+        : 'Error: ' + err.message;
 
     // Render the error page
     res.status(res.locals.status);
@@ -25,7 +28,9 @@ function renderError(err, req, res) {
     res.locals.message = err.message;
     res.locals.error = appData.isDev ? err : {};
     res.locals.status = err.status || 500;
-    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error: ' + err.message;
+    res.locals.errorTitle = err.friendlyText
+        ? err.friendlyText
+        : 'Error: ' + err.message;
     res.locals.sentry = res.sentry;
 
     // Render the error page

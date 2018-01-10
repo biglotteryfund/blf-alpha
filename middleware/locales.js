@@ -66,5 +66,10 @@ module.exports = function(app) {
         return next();
     }
 
-    return [overlayMiddleware, localeMiddleware, routesMiddleware, requestMiddleware];
+    return [
+        overlayMiddleware,
+        localeMiddleware,
+        routesMiddleware,
+        requestMiddleware
+    ];
 };
