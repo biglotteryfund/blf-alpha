@@ -107,8 +107,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             } else {
                 let newsletterLocation = req.body.location;
                 let locale = req.body.locale;
-                let localePrefix =
-                    locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
+                let localePrefix = locale === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
                 // redirect errors back to the homepage
                 let handleSignupError = errMsg => {
@@ -116,28 +115,16 @@ module.exports = (pages, sectionPath, sectionId) => {
                     req.flash('ebulletinStatus', 'error');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
-                        return res.redirect(
-                            localePrefix +
-                                '/#' +
-                                config.get('anchors.ebulletin')
-                        );
+                        return res.redirect(localePrefix + '/#' + config.get('anchors.ebulletin'));
                     });
                 };
 
                 let handleSignupSuccess = () => {
-                    analytics.track(
-                        'emailNewsletter',
-                        'signup',
-                        newsletterLocation
-                    );
+                    analytics.track('emailNewsletter', 'signup', newsletterLocation);
                     req.flash('ebulletinStatus', 'success');
                     req.session.save(() => {
                         // @TODO build this URL more intelligently
-                        return res.redirect(
-                            localePrefix +
-                                '/#' +
-                                config.get('anchors.ebulletin')
-                        );
+                        return res.redirect(localePrefix + '/#' + config.get('anchors.ebulletin'));
                     });
                 };
 

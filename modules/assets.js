@@ -5,9 +5,7 @@ const assetVirtualDir = 'assets';
 // load cachebusted assets
 let assets = {};
 try {
-    assets = JSON.parse(
-        fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8')
-    );
+    assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
 function getCachebustedPath(urlPath) {

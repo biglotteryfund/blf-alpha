@@ -19,15 +19,7 @@ const makeBehaviourItem = ({
         },
         httpMethods: {
             getOnly: ['HEAD', 'GET'],
-            getAndPost: [
-                'HEAD',
-                'DELETE',
-                'POST',
-                'GET',
-                'OPTIONS',
-                'PUT',
-                'PATCH'
-            ]
+            getAndPost: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         },
         TTLs: {
             min: 0,
@@ -55,9 +47,7 @@ const makeBehaviourItem = ({
     // The new site is properly cached, the legacy is not
     // so anything legacy should not cache cookies, headers, etc
     const isLegacy = origin !== 'newSite';
-    const cacheConfig = isLegacy
-        ? BehaviourConfig['legacy']
-        : BehaviourConfig['newSite'];
+    const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
 
     // Strip trailing slashes
     // fixes /welsh => /welsh/ homepage confusion
@@ -66,14 +56,10 @@ const makeBehaviourItem = ({
 
     // Use all HTTP methods for legacy
     const allowedHttpMethods =
-        isLegacy || isPostable
-            ? BehaviourConfig.httpMethods.getAndPost
-            : BehaviourConfig.httpMethods.getOnly;
+        isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
 
     // Allow any protocol for legacy, redirect to HTTPS for new
-    const protocol = isLegacy
-        ? BehaviourConfig.protocols.allowAll
-        : BehaviourConfig.protocols.redirectToHttps;
+    const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
 
     const behaviour = {
         TrustedSigners: {
@@ -179,15 +165,11 @@ function generateUrlList(routes) {
                     page.aliases.forEach(alias => {
                         const pageObject = { path: alias };
                         urlList.newSite.push(makeUrlObject(pageObject));
-                        urlList.newSite.push(
-                            makeUrlObject(pageObject, makeWelsh(alias))
-                        );
+                        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(alias)));
                     });
                 }
             } else {
-                console.log(
-                    `Skipping URL because it's marked as draft: ${url}`
-                );
+                console.log(`Skipping URL because it's marked as draft: ${url}`);
             }
         }
     }
@@ -198,9 +180,7 @@ function generateUrlList(routes) {
     routes.programmeRedirects.filter(isLive).forEach(routeConfig => {
         const pageObject = { path: routeConfig.path };
         urlList.newSite.push(makeUrlObject(pageObject));
-        urlList.newSite.push(
-            makeUrlObject(pageObject, makeWelsh(pageObject.path))
-        );
+        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
     });
 
     // add vanity redirects too
