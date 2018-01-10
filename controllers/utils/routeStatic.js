@@ -1,10 +1,10 @@
 'use strict';
 
 const { forEach } = require('lodash');
-const app = require('../server');
-const contentApi = require('../services/content-api');
-const { injectContent } = require('../middleware/content');
-const { renderNotFoundWithError } = require('./http-errors');
+const app = require('../../server');
+const contentApi = require('../../services/content-api');
+const { injectContent } = require('../../middleware/content');
+const { renderNotFoundWithError } = require('../http-errors');
 
 /**
  * Redirect any aliases to the canonical path

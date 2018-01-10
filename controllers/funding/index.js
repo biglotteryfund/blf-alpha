@@ -2,7 +2,7 @@
 
 const express = require('express');
 
-const routeStatic = require('../routeStatic');
+const routeStatic = require('../utils/routeStatic');
 const programmesRoute = require('./programmes');
 const materialsRoute = require('./materials');
 
