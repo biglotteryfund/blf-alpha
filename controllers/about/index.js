@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const routeStatic = require('../routeStatic');
+const routeStatic = require('../utils/routeStatic');
 
 module.exports = (pages, sectionPath, sectionId) => {
     routeStatic.init({
