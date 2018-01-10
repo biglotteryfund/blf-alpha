@@ -8,7 +8,8 @@ const importedLegacyPages = require('../config/app/importedLegacyPages');
 // pass some parameters onto each controller
 // so we can take route config and init all at once
 const loadController = path => {
-    return (pages, sectionPath, sectionId) => require(path)(pages, sectionPath, sectionId);
+    return (pages, sectionPath, sectionId) =>
+        require(path)(pages, sectionPath, sectionId);
 };
 
 // define top-level controllers for the site
@@ -61,8 +62,10 @@ const routes = {
                         sectionPaths.toplevel + '/help-and-support',
                         sectionPaths.toplevel + '/england/about-big/contact-us',
                         sectionPaths.toplevel + '/wales/about-big/contact-us',
-                        sectionPaths.toplevel + '/scotland/about-big/contact-us',
-                        sectionPaths.toplevel + '/northernireland/about-big/contact-us'
+                        sectionPaths.toplevel +
+                            '/scotland/about-big/contact-us',
+                        sectionPaths.toplevel +
+                            '/northernireland/about-big/contact-us'
                     ]
                 },
                 data: {
@@ -84,7 +87,8 @@ const routes = {
                     aliases: [
                         sectionPaths.toplevel + '/about-big/jobs',
                         sectionPaths.toplevel + '/about-big/jobs/how-to-apply',
-                        sectionPaths.toplevel + '/about-big/jobs/current-vacancies'
+                        sectionPaths.toplevel +
+                            '/about-big/jobs/current-vacancies'
                     ]
                 },
                 benefits: {
@@ -94,7 +98,9 @@ const routes = {
                     lang: 'toplevel.benefits',
                     static: true,
                     live: true,
-                    aliases: [sectionPaths.toplevel + '/about-big/jobs/benefits']
+                    aliases: [
+                        sectionPaths.toplevel + '/about-big/jobs/benefits'
+                    ]
                 },
                 under10k: {
                     name: 'Under 10k',
@@ -130,7 +136,8 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [
-                        sectionPaths.toplevel + '/global-content/programmes/northern-ireland/empowering-young-people'
+                        sectionPaths.toplevel +
+                            '/global-content/programmes/northern-ireland/empowering-young-people'
                     ]
                 },
                 helpingWorkingFamilies: {
@@ -140,7 +147,11 @@ const routes = {
                     lang: 'toplevel.helpingWorkingFamilies',
                     static: true,
                     live: true,
-                    aliases: [`${sectionPaths.toplevel}/global-content/programmes/wales/helping-working-families`]
+                    aliases: [
+                        `${
+                            sectionPaths.toplevel
+                        }/global-content/programmes/wales/helping-working-families`
+                    ]
                 },
                 reachingCommunities: {
                     name: 'Reaching Communities',
@@ -160,7 +171,8 @@ const routes = {
             pages: {
                 logos: {
                     name: 'Logos',
-                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+                    path:
+                        '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
                     template: 'pages/funding/guidance/logos',
                     lang: 'funding.guidance.logos',
                     code: 1,
@@ -169,7 +181,8 @@ const routes = {
                     aliases: [
                         sectionPaths.funding +
                             '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/logodownloads'
                     ]
                 },
                 manageFunding: {
@@ -181,14 +194,16 @@ const routes = {
                     live: true,
                     useCmsContent: true,
                     aliases: [
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/help-with-publicity',
                         '/welcome',
                         '/publicity'
                     ]
                 },
                 freeMaterials: {
                     name: 'Ordering free materials',
-                    path: '/funding-guidance/managing-your-funding/ordering-free-materials',
+                    path:
+                        '/funding-guidance/managing-your-funding/ordering-free-materials',
                     template: 'pages/funding/guidance/order-free-materials',
                     lang: 'funding.guidance.order-free-materials',
                     code: 3,
@@ -206,7 +221,8 @@ const routes = {
                 },
                 helpWithPublicity: {
                     name: 'Help with publicity',
-                    path: '/funding-guidance/managing-your-funding/social-media',
+                    path:
+                        '/funding-guidance/managing-your-funding/social-media',
                     template: 'pages/funding/guidance/help-with-publicity',
                     lang: 'funding.guidance.help-with-publicity',
                     code: 12,
@@ -313,20 +329,56 @@ function programmeMigration(from, to, isLive) {
     };
 }
 const programmeRedirects = [
-    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', false),
+    programmeMigration(
+        'england/reaching-communities-england',
+        'reaching-communities-england',
+        false
+    ),
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
-    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
-    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
-    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
+    programmeMigration(
+        'northern-ireland/people-and-communities',
+        'people-and-communities',
+        false
+    ),
+    programmeMigration(
+        'wales/people-and-places-medium-grants',
+        'people-and-places-medium-grants',
+        false
+    ),
+    programmeMigration(
+        'wales/people-and-places-large-grants',
+        'people-and-places-large-grants',
+        false
+    ),
     programmeMigration('scotland/community-assets', 'community-assets', false),
-    programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
-    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', false),
-    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', false),
+    programmeMigration(
+        'uk-wide/east-africa-disability-fund',
+        'east-africa-disability-fund',
+        false
+    ),
+    programmeMigration(
+        'scotland/grants-for-community-led-activity',
+        'grants-for-community-led-activity',
+        false
+    ),
+    programmeMigration(
+        'scotland/grants-for-improving-lives',
+        'grants-for-improving-lives',
+        false
+    ),
     programmeMigration('scotland/our-place', 'our-place', false),
-    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
+    programmeMigration(
+        'scotland/scottish-land-fund',
+        'scottish-land-fund',
+        false
+    ),
     programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
     programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
-    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
+    programmeMigration(
+        'uk-wide/lottery-funding',
+        'other-lottery-funders',
+        false
+    )
 ];
 
 /**
@@ -337,7 +389,10 @@ const programmeRedirects = [
 for (let section in importedLegacyPages) {
     if (_.get(routes.sections, section)) {
         let pages = routes.sections[section].pages;
-        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
+        routes.sections[section].pages = _.merge(
+            pages,
+            importedLegacyPages[section]
+        );
     }
 }
 
@@ -347,8 +402,12 @@ for (let section in importedLegacyPages) {
  * Set up some vanity URL redirects that can't be defined in the aliases on the routes above
  */
 const vanityDestinations = {
-    publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
+    publicity:
+        routes.sections.funding.path +
+        routes.sections.funding.pages.manageFunding.path,
+    contact:
+        routes.sections.toplevel.path +
+        routes.sections.toplevel.pages.contact.path
 };
 const vanityRedirects = [
     {
@@ -384,7 +443,9 @@ const vanityRedirects = [
     {
         name: 'Helping Working Families (Welsh)',
         path: '/helputeuluoeddgweithio',
-        destination: '/welsh' + routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        destination:
+            '/welsh' +
+            routes.sections.toplevel.pages.helpingWorkingFamilies.path,
         aliasOnly: true,
         live: true
     },
@@ -393,8 +454,11 @@ const vanityRedirects = [
         // and this link is the same (besides case) as an existing alias
         // (annoyingly, the Title Case version of this link persists on the web... for now.)
         name: 'Logo page',
-        path: '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
-        destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
+        path:
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
+        destination:
+            routes.sections.funding.path +
+            routes.sections.funding.pages.logos.path,
         aliasOnly: true,
         live: true
     },
@@ -409,25 +473,32 @@ const vanityRedirects = [
     {
         name: 'Contact press team (Welsh)',
         path: '/welsh/news-and-events/contact-press-team',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress,
+        destination:
+            '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress,
         live: true
     },
     {
         name: 'Complaint page',
         path: '/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
+        destination:
+            vanityDestinations.contact + '#' + anchors.contactComplaints,
         live: true
     },
     {
         name: 'Complaint page (England)',
         path: '/england/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
+        destination:
+            vanityDestinations.contact + '#' + anchors.contactComplaints,
         live: true
     },
     {
         name: 'Complaint page (Welsh)',
         path: '/welsh/about-big/customer-service/making-a-complaint',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactComplaints,
+        destination:
+            '/welsh' +
+            vanityDestinations.contact +
+            '#' +
+            anchors.contactComplaints,
         live: true
     },
     {
@@ -439,19 +510,22 @@ const vanityRedirects = [
     {
         name: 'Fraud page (Welsh)',
         path: '/welsh/about-big/customer-service/fraud',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
+        destination:
+            '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
         live: true
     },
     {
         name: 'Awards For All England',
         path: '/prog_a4a_eng',
-        destination: '/global-content/programmes/england/awards-for-all-england',
+        destination:
+            '/global-content/programmes/england/awards-for-all-england',
         live: true
     },
     {
         name: 'Awards For All Scotland',
         path: '/awardsforallscotland',
-        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        destination:
+            '/global-content/programmes/scotland/awards-for-all-scotland',
         live: false // Mark as live when launching AFA test in Scotland
     },
     {

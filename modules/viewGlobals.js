@@ -114,7 +114,12 @@ function init(app) {
         // rewrite URL to requested language
         if (locale === 'cy' && !IS_WELSH) {
             // make this URL welsh
-            currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
+            currentUrl =
+                protocol +
+                '://' +
+                req.get('host') +
+                config.get('i18n.urlPrefix.cy') +
+                currentPath;
         } else if (locale === 'en' && !IS_ENGLISH) {
             // un-welshify this URL
             currentUrl = currentUrl.replace(CYMRU_URL, '/');

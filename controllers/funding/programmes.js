@@ -67,7 +67,10 @@ function initProgrammesList(router, config) {
                 locale: req.i18n.getLocale()
             })
             .then(programmes => {
-                const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
+                const locationParam = programmeFilters.getValidLocation(
+                    programmes,
+                    req.query.location
+                );
                 const minAmountParam = req.query.min;
                 const maxAmountParam = req.query.max;
 
@@ -107,8 +110,12 @@ function initProgrammesList(router, config) {
                             const regions = {
                                 england: req.i18n.__('global.regions.england'),
                                 wales: req.i18n.__('global.regions.wales'),
-                                scotland: req.i18n.__('global.regions.scotland'),
-                                northernIreland: req.i18n.__('global.regions.northernIreland'),
+                                scotland: req.i18n.__(
+                                    'global.regions.scotland'
+                                ),
+                                northernIreland: req.i18n.__(
+                                    'global.regions.northernIreland'
+                                ),
                                 ukWide: req.i18n.__('global.regions.ukWide')
                             };
                             return regions[key];
@@ -129,10 +136,7 @@ function initProgrammesList(router, config) {
     });
 }
 
-
-
 function initProgrammeDetail(router, config) {
-
     // Allow for programmes without heroes
     const defaultHeroImage = createHeroImage({
         small: 'hero/working-families-small.jpg',

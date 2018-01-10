@@ -14,7 +14,8 @@ const postToLegacyForm = (req, res) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
+    let localePath =
+        req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
     let pagePath = localePath + req.path;
 
     return rp
@@ -43,7 +44,8 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
+    let localePath =
+        req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
 
     // allow a custom path (eg. to serve / over /legacy)
     // which would otherwise fail
@@ -110,7 +112,13 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
 
                 // try to kill the google tag manager (useful for non-prod envs)
                 const scripts = dom.window.document.scripts;
-                let gtm = [].find.call(scripts, s => s.innerHTML.indexOf('www.googletagmanager.com/gtm.js') !== -1);
+                let gtm = [].find.call(
+                    scripts,
+                    s =>
+                        s.innerHTML.indexOf(
+                            'www.googletagmanager.com/gtm.js'
+                        ) !== -1
+                );
                 if (gtm) {
                     gtm.innerHTML = '';
                 }

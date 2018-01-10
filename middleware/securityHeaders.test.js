@@ -10,7 +10,9 @@ describe('securityHeaders', () => {
         const res = httpMocks.createResponse();
 
         securityHeaders()(req, res, () => {});
-        expect(res.get('Content-Security-Policy')).to.contain("default-src 'self'");
+        expect(res.get('Content-Security-Policy')).to.contain(
+            "default-src 'self'"
+        );
         expect(res.get('Content-Security-Policy')).to.exist;
     });
 
