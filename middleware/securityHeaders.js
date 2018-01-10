@@ -32,30 +32,17 @@ module.exports = function() {
     const directives = {
         defaultSrc: defaultSecurityDomains,
         childSrc: defaultSecurityDomains.concat(['www.google.com']),
-        styleSrc: defaultSecurityDomains.concat([
-            "'unsafe-inline'",
-            'fonts.googleapis.com'
-        ]),
+        styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
         connectSrc: defaultSecurityDomains,
-        imgSrc: defaultSecurityDomains.concat([
-            'data:',
-            'localhost',
-            'stats.g.doubleclick.net'
-        ]),
-        scriptSrc: defaultSecurityDomains.concat([
-            "'unsafe-eval'",
-            "'unsafe-inline'"
-        ]),
-        reportUri:
-            'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c',
+        imgSrc: defaultSecurityDomains.concat(['data:', 'localhost', 'stats.g.doubleclick.net']),
+        scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"]),
+        reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c',
         fontSrc: defaultSecurityDomains.concat(['data:'])
     };
 
     if (appData.isDev) {
         // Allow LiveReload in development
-        directives.connectSrc = directives.connectSrc.concat([
-            'ws://127.0.0.1:35729/livereload'
-        ]);
+        directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 
     const helmetSettings = helmet({

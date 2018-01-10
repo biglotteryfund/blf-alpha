@@ -61,10 +61,7 @@ function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
  * For all other requests normalise the query string and redirect to the new funding programmes list.
  */
 function initLegacyFundingFinder(router) {
-    const fundingFinderPaths = [
-        legacyProxiedRoutes.fundingFinder.path,
-        legacyProxiedRoutes.fundingFinderWelsh.path
-    ];
+    const fundingFinderPaths = [legacyProxiedRoutes.fundingFinder.path, legacyProxiedRoutes.fundingFinderWelsh.path];
 
     fundingFinderPaths.forEach(mountPath => {
         router
@@ -83,9 +80,7 @@ function initLegacyFundingFinder(router) {
                     });
 
                     const redirectUrl = localify({
-                        urlPath:
-                            '/funding/programmes' +
-                            (newQuery.length > 0 ? `?${newQuery}` : ''),
+                        urlPath: '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : ''),
                         locale: req.i18n.getLocale()
                     });
 
@@ -134,8 +129,7 @@ function initAwardsForAll(router) {
             path: legacyProxiedRoutes.awardsForAllWalesWelsh.path,
             experimentId: 'Ko6MLYegQfaRO1rVU1UB3w',
             replacements: {
-                applyUrl:
-                    'https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh',
+                applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales&ln=welsh',
                 contactPhone: '0300 123 0735'
             }
         }
@@ -205,45 +199,26 @@ function initAwardsForAll(router) {
                     res.set('X-BLF-Legacy-Modified', true);
 
                     // Find the tab to inject content into.
-                    const applyTab = dom.window.document.querySelector(
-                        '#mainContentContainer .panel:last-of-type'
-                    );
+                    const applyTab = dom.window.document.querySelector('#mainContentContainer .panel:last-of-type');
 
                     // Determine how to process the text depending on language. Include a sanity check of the text.
-                    const modifyFn =
-                        route.lang === 'cy'
-                            ? getReplacementTextWelsh
-                            : getReplacementText;
-                    const includesText =
-                        route.lang === 'cy'
-                            ? 'cysylltwch â ni yn'
-                            : 'please contact us at';
+                    const modifyFn = route.lang === 'cy' ? getReplacementTextWelsh : getReplacementText;
+                    const includesText = route.lang === 'cy' ? 'cysylltwch â ni yn' : 'please contact us at';
 
                     // Apply text modifications
-                    if (
-                        applyTab &&
-                        includes(applyTab.textContent, includesText)
-                    ) {
-                        const replacementText = modifyFn(
-                            applyTab.innerHTML,
-                            route.replacements
-                        )[variant];
+                    if (applyTab && includes(applyTab.textContent, includesText)) {
+                        const replacementText = modifyFn(applyTab.innerHTML, route.replacements)[variant];
                         applyTab.innerHTML = replacementText;
                     } else {
-                        Raven.captureMessage(
-                            'Failed to modify awards for all tab content',
-                            {
-                                tags: {
-                                    feature: 'awards-for-all'
-                                }
+                        Raven.captureMessage('Failed to modify awards for all tab content', {
+                            tags: {
+                                feature: 'awards-for-all'
                             }
-                        );
+                        });
                     }
 
                     // Remove live chat, document.write on live causes issue when proxying.
-                    const liveChat = dom.window.document.getElementById(
-                        'askLiveCall'
-                    );
+                    const liveChat = dom.window.document.getElementById('askLiveCall');
                     if (liveChat) {
                         liveChat.parentNode.removeChild(liveChat);
                     }
@@ -265,23 +240,11 @@ function initAwardsForAll(router) {
                 id: get(route, 'experimentId', null)
             });
 
-            const percentageForTest = config.get(
-                'abTests.tests.awardsForAll.percentage'
-            );
+            const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
             const percentages = splitPercentages(percentageForTest);
 
-            router.get(
-                route.path,
-                cached.noCache,
-                testFn(null, percentages.A),
-                modify('A', route)
-            );
-            router.get(
-                route.path,
-                cached.noCache,
-                testFn(null, percentages.B),
-                modify('B', route)
-            );
+            router.get(route.path, cached.noCache, testFn(null, percentages.A), modify('A', route));
+            router.get(route.path, cached.noCache, testFn(null, percentages.B), modify('B', route));
             router.post(route.path, postToLegacyForm);
         });
     } else {
