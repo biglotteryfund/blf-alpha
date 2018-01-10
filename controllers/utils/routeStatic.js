@@ -1,9 +1,7 @@
 'use strict';
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
-const { renderNotFound } = require('../http-errors');
-
-const Raven = require('raven');
+const { renderNotFoundWithError } = require('../http-errors');
 
 // redirect any aliases to the canonical path
 let setupRedirects = (sectionPath, page) => {
@@ -39,7 +37,7 @@ const getCmsPath = (sectionId, pagePath) => {
     if (sectionId === 'toplevel') {
         urlPath = pagePath.replace(/^\/+/g, '');
     }
-    
+
     return urlPath;
 };
 
@@ -61,8 +59,7 @@ let serveCmsPage = (page, sectionId, router) => {
                 renderPage(content);
             })
             .catch(err => {
-                Raven.captureException(err);
-                renderNotFound(req, res);
+                renderNotFoundWithError(err, req, res);
             });
     });
 };
