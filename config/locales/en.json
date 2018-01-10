@@ -7,7 +7,8 @@
 			"england": "England",
 			"wales": "Wales",
 			"scotland": "Scotland",
-			"northernIreland": "Northern Ireland"
+            "northernIreland": "Northern Ireland",
+            "ukWide": "UK-wide"
 		},
 		"nav": {
 			"home": "Home",

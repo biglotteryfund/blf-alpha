@@ -9,8 +9,7 @@ describe('securityHeaders', () => {
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        securityHeaders('production')(req, res, () => {});
-
+        securityHeaders()(req, res, () => {});
         expect(res.get('Content-Security-Policy')).to.contain("default-src 'self'");
         expect(res.get('Content-Security-Policy')).to.exist;
     });
@@ -21,8 +20,7 @@ describe('securityHeaders', () => {
         });
         const res = httpMocks.createResponse();
 
-        securityHeaders('production')(req, res, () => {});
-
+        securityHeaders()(req, res, () => {});
         expect(res.get('Content-Security-Policy')).to.not.exist;
     });
 });

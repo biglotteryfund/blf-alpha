@@ -46,7 +46,7 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home']
+                    aliases: ['/home', '/index.html', '/en-gb']
                 },
                 contact: {
                     name: 'Contact',
@@ -103,7 +103,14 @@ const routes = {
                     lang: 'toplevel.under10k',
                     code: 29,
                     static: true,
-                    live: true
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding + '/Awards-For-All',
+                        sectionPaths.funding + '/awards-for-all',
+                        sectionPaths.toplevel + '/awardsforall',
+                        sectionPaths.toplevel + '/a4a',
+                        sectionPaths.toplevel + '/A4A'
+                    ]
                 },
                 over10k: {
                     name: 'Over 10k',
@@ -345,6 +352,20 @@ const vanityDestinations = {
 };
 const vanityRedirects = [
     {
+        name: 'Funding Finder Alias',
+        path: '/Home/Funding/Funding*Finder',
+        destination: '/funding/programmes',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Funding Finder Alias (Welsh)',
+        path: '/welsh/Home/Funding/Funding*Finder',
+        destination: '/welsh/funding/programmes',
+        aliasOnly: true,
+        live: true
+    },
+    {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
@@ -461,6 +482,14 @@ function withLegacyDefaults(props) {
     return Object.assign({}, defaults, props);
 }
 const legacyProxiedRoutes = {
+    fundingFinder: withLegacyDefaults({
+        path: '/funding/funding-finder',
+        live: true
+    }),
+    fundingFinderWelsh: withLegacyDefaults({
+        path: '/welsh/funding/funding-finder',
+        live: true
+    }),
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: true
@@ -485,12 +514,6 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    {
-        path: '/funding/funding-finder',
-        isPostable: false,
-        allowQueryStrings: true,
-        live: false
-    },
     {
         path: '/assets/*',
         isPostable: false,

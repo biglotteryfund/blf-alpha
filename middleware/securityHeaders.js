@@ -2,8 +2,9 @@
 const helmet = require('helmet');
 const { map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
+const appData = require('../modules/appData');
 
-module.exports = function(config) {
+module.exports = function() {
     /**
      * URLs which should be exempt from security headers
      * Only proxied legacy URLs should be exempt.
@@ -23,7 +24,6 @@ module.exports = function(config) {
         'cdn.syndication.twimg.com',
         '*.twimg.com',
         '*.youtube.com',
-        'cdn.jsdelivr.net',
         'sentry.io',
         'dvmwjbtfsnnp0.cloudfront.net',
         '*.biglotteryfund.org.uk'
@@ -40,7 +40,7 @@ module.exports = function(config) {
         fontSrc: defaultSecurityDomains.concat(['data:'])
     };
 
-    if (config.environment === 'development') {
+    if (appData.isDev) {
         // Allow LiveReload in development
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }

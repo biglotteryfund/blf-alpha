@@ -26,7 +26,7 @@
                 <small><strong>Error ID:</strong> <code>{{ sentry }}</code></small>
             {% endif %}
 
-            {% if appData.IS_DEV and error.stack %}
+            {% if appData.isDev and error.stack %}
                 <h4>Stack trace:</h4>
                 <pre>{{ error.stack }}</pre>
             {% endif %}

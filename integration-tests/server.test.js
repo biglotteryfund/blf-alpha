@@ -83,16 +83,4 @@ describe('Express application', () => {
                 done();
             });
     });
-
-    it('proxies the legacy awards for all pages', done => {
-        chai
-            .request(server)
-            .get(legacyProxiedRoutes.awardsForAllEngland.path)
-            .end((err, res) => {
-                res.should.have.header('X-BLF-Legacy', 'true');
-                res.text.should.include('National Lottery Awards for All');
-                res.should.have.status(200);
-                done();
-            });
-    });
 });
