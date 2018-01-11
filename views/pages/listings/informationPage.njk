@@ -1,0 +1,60 @@
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/segment.njk" import segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ content.mainHeading }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {{
+        sectionHero(
+            accent = 'cyan',
+            titleText = content.title,
+            image = heroImage
+        )
+    }}
+
+    <main role="main" class="nudge-up">
+        <section class="content-box inner--wide-only accent--cyan a--border-top">
+            <div class=" s-prose s-prose--long">
+                {{ content.introduction | safe }}
+            </div>
+        </section>
+
+        {% if content.segments.length > 0 %}
+            <div class="inner">
+                {% for s in content.segments %}
+                    {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
+                    {{ segment(
+                        title = s.title,
+                        text = s.content,
+                        color = themes.next(),
+                        imagePath = s.photo,
+                        imageIsAbsolute = true
+                    ) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if content.outro %}
+            <section class="content-box inner--wide-only accent--blue a--border-top">
+                <div class=" s-prose s-prose--long">
+                    {{ content.outro | safe }}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+{% endblock %}

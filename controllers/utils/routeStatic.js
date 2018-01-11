@@ -1,13 +1,17 @@
 'use strict';
+
+const { forEach } = require('lodash');
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
+const { injectContent } = require('../../middleware/content');
 const { renderNotFoundWithError } = require('../http-errors');
 
-// redirect any aliases to the canonical path
-let setupRedirects = (sectionPath, page) => {
-    let localePaths = ['', '/welsh'];
+/**
+ * Redirect any aliases to the canonical path
+ */
+function setupRedirects(sectionPath, page) {
     if (page.aliases && page.aliases.length > 0) {
-        localePaths.forEach(localePath => {
+        ['', '/welsh'].forEach(localePath => {
             page.aliases.forEach(pagePath => {
                 app.get(localePath + pagePath, (req, res) => {
                     res.redirect(localePath + sectionPath + page.path);
@@ -15,120 +19,88 @@ let setupRedirects = (sectionPath, page) => {
             });
         });
     }
-};
+}
 
-// serve a static page (eg. no special dependencies)
-let servePage = (page, router) => {
-    // serve the canonical path with the supplied template
+function serveLegacyPageFromCms(page, sectionId, router) {
     router.get(page.path, (req, res) => {
-        let lang = page.lang ? req.i18n.__(page.lang) : false;
-        res.render(page.template, {
-            title: lang ? lang.title : false,
-            description: lang ? lang.description : false,
-            copy: lang
-        });
-    });
-};
-
-const getCmsPath = (sectionId, pagePath) => {
-    let urlPath = sectionId + pagePath;
-
-    // toplevel sections shouldn't preprend anything
-    if (sectionId === 'toplevel') {
-        urlPath = pagePath.replace(/^\/+/g, '');
-    }
-
-    return urlPath;
-};
-
-let servePageFromCms = (page, sectionId, router) => {
-    router.get(page.path, (req, res, next) => {
-        contentApi
-            .getListingPage({
-                locale: req.i18n.getLocale(),
-                path: getCmsPath(sectionId, page.path)
-            })
-            .then(content => {
-                res.locals.content = content;
-                next();
-            })
-            .catch(err => {
-                renderNotFoundWithError(err, req, res);
-            });
-    });
-};
-
-let serveLegacyPageFromCms = (page, sectionId, router) => {
-    router.get(page.path, (req, res) => {
-        const renderPage = content => {
-            res.render('pages/legacy', {
-                title: content.title,
-                content: content
-            });
-        };
-
         contentApi
             .getLegacyPage({
                 locale: req.i18n.getLocale(),
-                path: getCmsPath(sectionId, page.path)
+                path: contentApi.getCmsPath(sectionId, page.path)
             })
             .then(content => {
-                renderPage(content);
+                res.render('pages/legacy', {
+                    title: content.title,
+                    content: content
+                });
             })
             .catch(err => {
                 renderNotFoundWithError(err, req, res);
             });
     });
-};
+}
 
-// map this section ID (for all routes in this path)
-// middleware to add a section ID to requests with a known section
-// (eg. to mark a section as current in the nav)
-let injectSection = (router, sectionId) => {
+/**
+ * Init routing
+ * Set up path routing for a list of (static) pages
+ */
+function init({ pages, router, sectionPath, sectionId }) {
+    /**
+     * Map this section ID (for all routes in this path)
+     * middleware to add a section ID to requests with a known section
+     * (eg. to mark a section as current in the nav)
+     */
     router.use((req, res, next) => {
         res.locals.sectionId = sectionId;
         return next();
     });
-};
 
-// map this page ID (only for this path)
-let injectPageId = (router, path, pageId) => {
-    router.use(path, (req, res, next) => {
-        res.locals.pageId = pageId;
-        return next();
-    });
-};
+    forEach(pages, (page, pageId) => {
+        // Add the page ID to the request
+        router.use(page.path, (req, res, next) => {
+            res.locals.pageId = pageId;
+            return next();
+        });
 
-// set up path routing for a list of (static) pages
-let initRouting = (pages, router, sectionPath, sectionId) => {
-    // first inject the section middleware
-    injectSection(router, sectionId);
-
-    // then route pages
-    for (let pageId in pages) {
-        let page = pages[pageId];
-
-        // add the page ID to the request
-        injectPageId(router, page.path, pageId);
-
-        // redirect any aliases to the canonical path
+        // Redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);
 
         if (page.isLegacyPage) {
-            // serve a static template with CMS-loaded content
+            // Serve a static template with CMS-loaded content
             serveLegacyPageFromCms(page, sectionId, router);
-        } else if (page.useCmsContent) {
-            // look up content from CMS then hand over to next route handler
-            servePageFromCms(page, sectionId, router);
-        }
+        } else if (page.static) {
+            /**
+             * CMS content middleware
+             * Look up content from CMS then hand over to next route handler
+             */
+            if (page.useCmsContent) {
+                router.get(page.path, injectContent(sectionId));
+            }
 
-        if (page.static) {
-            // serve the page with a specific template and copy block
-            servePage(page, router);
+            router.get(page.path, (req, res) => {
+                const content = res.locals.content;
+                // @TODO: Add contentType to API response?
+                if (content && content.children) {
+                    res.render('pages/listings/listingPage', {
+                        content
+                    });
+                } else if (content && content.siblings) {
+                    res.render('pages/listings/informationPage', {
+                        content
+                    });
+                } else {
+                    const lang = page.lang ? req.i18n.__(page.lang) : false;
+                    res.render(page.template, {
+                        title: lang ? lang.title : false,
+                        description: lang ? lang.description : false,
+                        copy: lang
+                    });
+                }
+            });
         }
-    }
-};
+    });
+}
 
 module.exports = {
-    initRouting
+    init
 };
