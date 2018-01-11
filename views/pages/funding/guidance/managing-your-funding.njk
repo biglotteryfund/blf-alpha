@@ -3,12 +3,12 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ content.mainHeading }} | {% endblock %}
+{% block title %}{{ content.title }} | {% endblock %}
 
 {% block content %}
 
     {% set heroContent %}
-        {{ headers.overlayText('h2', content.mainHeading, 't2') }}
+        {{ headers.overlayText('h2', content.title, 't2') }}
     {% endset %}
 
     {{ hero.header('managing-grants', heroContent, 'blue') }}
@@ -24,7 +24,7 @@
                 {% for page in content.children %}
                     <li class="grid__item">
                         {{ hero.miniatureHero(
-                            titleText = page.mainHeading,
+                            titleText = page.trailText,
                             imagePath = page.photo,
                             imageCaption = page.title,
                             linkUrl = page.url,
