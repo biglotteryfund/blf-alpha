@@ -172,6 +172,14 @@ const routes = {
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
                     ]
                 },
+                fundingGuidance: {
+                    name: 'Funding Guidance',
+                    path: '/funding-guidance',
+                    template: 'pages/funding/guidance/managing-your-funding',
+                    static: true,
+                    live: false,
+                    useCmsContent: true
+                },
                 manageFunding: {
                     name: 'Managing your funding',
                     path: '/funding-guidance/managing-your-funding',
