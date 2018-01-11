@@ -351,15 +351,13 @@ function guidanceMigration(routePath, isLive) {
 }
 
 const fundingGuidanceMigration = [
-    guidanceMigration('applying-for-funding/what-we-will-ask-you', false),
-    guidanceMigration('applying-for-funding/sustainable-development', false)
+    guidanceMigration('applying-for-funding/what-we-will-ask-you', false)
 ];
 
 fundingGuidanceMigration.forEach(routeConfig => {
     const id = camelCase(routeConfig.path);
-    routes.sections.funding[id] = routeConfig;
+    routes.sections.funding.pages[id] = routeConfig;
 });
-
 
 /**
  * Scraped/imported pages
