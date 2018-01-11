@@ -1,5 +1,5 @@
 {% macro fundingRange(minimum, maximum) %}
-    £{{ minimum | numberWithCommas}}{% if maximum %} - £{{ maximum | numberWithCommas }}{% endif %}
+    £{{ minimum | numberWithCommas}}{% if maximum %} to £{{ maximum | numberWithCommas }}{% endif %}
 {% endmacro %}
 
 {% macro programmeStats(fields, isCompact) %}
