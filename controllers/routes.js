@@ -350,9 +350,7 @@ function guidanceMigration(routePath, isLive) {
     };
 }
 
-const fundingGuidanceMigration = [
-    guidanceMigration('applying-for-funding/what-we-will-ask-you', false)
-];
+const fundingGuidanceMigration = [guidanceMigration('applying-for-funding/what-we-will-ask-you', false)];
 
 fundingGuidanceMigration.forEach(routeConfig => {
     const id = camelCase(routeConfig.path);
