@@ -223,7 +223,7 @@ formModel.registerSuccessStep({
                             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
                             subject: `Your Reaching Communities application - ${dateNow}`
                         })
-                        .catch(err => reject(err))
+                        .catch(mailSendError => reject(mailSendError))
                         .then(() => resolve(formData));
                 }
             );

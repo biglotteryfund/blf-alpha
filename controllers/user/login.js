@@ -8,8 +8,8 @@ const attemptAuth = (req, res, next) =>
         if (err) {
             return next(err);
         } else {
-            req.logIn(user, err => {
-                if (err) {
+            req.logIn(user, loginErr => {
+                if (loginErr) {
                     // user not valid, send them to login again
                     req.flash('formValues', req.body);
                     res.locals.errors = makeErrorList(info.message);
