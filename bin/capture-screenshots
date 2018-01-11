@@ -20,7 +20,7 @@ const pagesToTest = [
 
 const devicesToTest = ['iPad landscape', 'Nexus 6P', 'iPhone 5'];
 
-const screenshotsPath = './screenshots';
+const screenshotsPath = './tmp/screenshots';
 
 makeDir.sync(screenshotsPath);
 del.sync(`${screenshotsPath}/*`);

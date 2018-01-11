@@ -16,10 +16,7 @@ const USER_LEVEL_REQUIRED = 5;
 // status page used by load balancer
 router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Content-Type', 'application/json');
 
     res.send({
@@ -37,12 +34,8 @@ router.get('/status/pages', (req, res) => {
     const totals = {
         canonical: [],
         aliases: [],
-        vanityRedirects: routes.vanityRedirects
-            .filter(r => r.aliasOnly)
-            .map(r => r.path),
-        redirectedPages: routes.vanityRedirects
-            .filter(r => !r.aliasOnly)
-            .map(r => r.path)
+        vanityRedirects: routes.vanityRedirects.filter(r => r.aliasOnly).map(r => r.path),
+        redirectedPages: routes.vanityRedirects.filter(r => !r.aliasOnly).map(r => r.path)
     };
 
     for (let s in routes.sections) {
@@ -52,7 +45,7 @@ router.get('/status/pages', (req, res) => {
             if (page.live) {
                 totals.canonical.push(page.name);
                 if (page.aliases) {
-                    page.aliases.forEach(p => totals.aliases.push(p));
+                    page.aliases.forEach(alias => totals.aliases.push(alias));
                 }
             }
         }
@@ -65,23 +58,17 @@ router.get('/status/pages', (req, res) => {
     });
 });
 
-router
-    .route('/tools/survey-results/')
-    .get(
-        auth.requireAuthedLevel(USER_LEVEL_REQUIRED),
-        cached.noCache,
-        (req, res) => {
-            surveysService
-                .findAll()
-                .then(surveys => {
-                    res.render('pages/tools/surveys', {
-                        surveys: surveys
-                    });
-                })
-                .catch(err => {
-                    res.send(err);
-                });
-        }
-    );
+router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), cached.noCache, (req, res) => {
+    surveysService
+        .findAll()
+        .then(surveys => {
+            res.render('pages/tools/surveys', {
+                surveys: surveys
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
 
 module.exports = router;
