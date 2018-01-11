@@ -234,8 +234,12 @@ const routes = {
                 programmeDetail: {
                     name: 'Funding programme details',
                     path: '/programmes/*',
-                    template: 'pages/funding/programme-detail',
-                    allowQueryStrings: false,
+                    static: false,
+                    live: false
+                },
+                programmeDetailAfaEngland: {
+                    name: 'Awards For All England',
+                    path: '/programmes/national-lottery-awards-for-all-england',
                     static: false,
                     live: false
                 }
