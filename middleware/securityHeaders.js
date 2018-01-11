@@ -14,10 +14,10 @@ module.exports = function() {
     const defaultSecurityDomains = [
         "'self'",
         'cdn.polyfill.io',
-        'fonts.gstatic.com',
-        'ajax.googleapis.com',
+        '*.google.com',
+        '*.gstatic.com',
+        '*.googleapis.com',
         'www.google-analytics.com',
-        'www.google.com',
         'maxcdn.bootstrapcdn.com',
         'platform.twitter.com',
         'syndication.twitter.com',

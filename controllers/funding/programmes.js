@@ -1,7 +1,6 @@
 'use strict';
-const Raven = require('raven');
 const { find, get, uniq } = require('lodash');
-const { renderNotFound } = require('../http-errors');
+const { renderNotFoundWithError } = require('../http-errors');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
 
@@ -129,10 +128,7 @@ function initProgrammesList(router, config) {
     });
 }
 
-
-
 function initProgrammeDetail(router, config) {
-
     // Allow for programmes without heroes
     const defaultHeroImage = createHeroImage({
         small: 'hero/working-families-small.jpg',
@@ -159,8 +155,7 @@ function initProgrammeDetail(router, config) {
                 }
             })
             .catch(err => {
-                Raven.captureException(err);
-                renderNotFound(req, res);
+                renderNotFoundWithError(err, req, res);
             });
     });
 }
