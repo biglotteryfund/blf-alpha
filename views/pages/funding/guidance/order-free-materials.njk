@@ -221,7 +221,7 @@
                                 ) }}
 
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                       v-bind:disabled="isEmpty()"
+                                       v-bind:disabled="isEmpty() && {{ numOrders }} === 0"
                                        value="{{ __('global.forms.submit') }}"
                                        class="btn accent--turquoise a--btn order-form__btn spaced--t--l"
                                        id="js-submit-material-order">
