@@ -31,7 +31,8 @@ function init() {
                 $otherElm.show();
             });
             $radioSet.on('focus', function() {
-                $otherElm.hide();
+                // reset the value so we don't submit it when they change it
+                $otherElm.hide().val('');
             });
         }
     });
