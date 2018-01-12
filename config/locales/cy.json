@@ -45,8 +45,9 @@
 		},
 		"forms": {
 			"missingFieldError": "Darparwch y maes '%s'",
-			"submit": "Cyflwyno"
-		},
+			"submit": "Cyflwyno",
+            "otherEnterBelow": "Arall (nodwch isod)"
+        },
 		"misc": {
 			"readMore": "Darllen mwy",
 			"or": "neu"
@@ -732,7 +733,7 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Diolch am eich archeb.",
-						"subtitle": "Bydd eich nwyddau gyda chi cyn bo hir.",
+						"subtitle": "Bydd eich nwyddau gyda chi o fewn 6 niwrnod gwaith.",
 						"body": "<a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> os oes gennych unrhyw gwestiynau neu ymholiadau am eich archeb."
 					},
 					"failure": {

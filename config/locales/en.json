@@ -45,7 +45,8 @@
 		},
 		"forms": {
 			"missingFieldError": "Please provide the '%s' field",
-			"submit": "Submit"
+			"submit": "Submit",
+            "otherEnterBelow": "Other (please enter below)"
 		},
 		"misc": {
 			"readMore": "Read more",
@@ -906,7 +907,7 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Thank you for your order.",
-						"subtitle": "Your delivery will be with you soon.",
+						"subtitle": "Your delivery will be with you within 6 working days.",
 						"body": "If you have any questions or queries about your order, please <a href=\"mailto:branding@biglotteryfund.org.uk\">get in touch with our branding team</a>."
 					},
 					"failure": {
