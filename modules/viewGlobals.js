@@ -1,10 +1,11 @@
 'use strict';
 
 const config = require('config');
-const routes = require('../controllers/routes');
+const { get } = require('lodash');
 const { isWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
+const routes = require('../controllers/routes');
 
 const metadata = {
     title: config.get('meta.title'),
@@ -12,6 +13,10 @@ const metadata = {
     themeColour: config.get('meta.themeColour')
 };
 
+/**
+ * getMetaTitle
+ * Get normalised page title for metadata
+ */
 function getMetaTitle(base, pageTitle) {
     if (pageTitle) {
         return `${pageTitle} | ${base}`;
@@ -30,26 +35,40 @@ function getHtmlClasses({ locale, highContrast }) {
     return parts.join(' ');
 }
 
+/**
+ * buildUrl
+ * URL helper, return canonical URL based on sectionName or pageName
+ * Handle fallbacks for toplevel pages or linking to direct paths.
+ */
 function buildUrl(localePrefix) {
+    /**
+     * Handle URLs which can't be fetched directly from routes.
+     * e.g. aliases, direct paths, top-level pages.
+     */
+    function constructFallback(sectionName, pageName) {
+        // Construct base url. Normalise 'toplevel' section name.
+        const baseUrl = sectionName === 'toplevel' ? '' : `/${sectionName}`;
+
+        // Append the page name if we're given one
+        const url = pageName ? baseUrl + pageName : baseUrl;
+
+        // Prepend locale
+        const urlWithLocale = localePrefix + url;
+
+        // Catch the case where we just want a link to the homepage in english
+        const normalisedUrl = urlWithLocale === '' ? '/' : urlWithLocale;
+
+        return normalisedUrl;
+    }
+
     return function(sectionName, pageName) {
-        let section = routes.sections[sectionName];
-        try {
-            let page = section.pages[pageName];
-            return localePrefix + section.path + page.path;
-        } catch (e) {
-            // pages from the "toplevel" section have no prefix
-            // and aliases don't drop into the above block
-            const IS_TOP_LEVEL = sectionName === 'toplevel';
-            let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
-            if (pageName) {
-                url += pageName;
-            }
-            url = localePrefix + url;
-            // catch the edge case where we just want a link to the homepage in english
-            if (url === '') {
-                url = '/';
-            }
-            return url;
+        const sectionFromRoutes = get(routes.sections, sectionName);
+        const pageFromSection = get(sectionFromRoutes, `pages.${pageName}`);
+
+        if (pageFromSection) {
+            return localePrefix + sectionFromRoutes.path + pageFromSection.path;
+        } else {
+            return constructFallback(sectionName, pageName);
         }
     };
 }
@@ -105,8 +124,14 @@ function init(app) {
         });
     });
 
-    // make anchors available everywhere (useful for routing and templates)
     setViewGlobal('anchors', config.get('anchors'));
+
+    setViewGlobal('buildUrl', (sectionName, pageName) => {
+        const localePrefix = getViewGlobal('localePrefix');
+        return buildUrl(localePrefix)(sectionName, pageName);
+    });
+
+    setViewGlobal('getCurrentUrl', getCurrentUrl);
 
     // a global function for finding errors from a form array
     setViewGlobal('getFormErrorForField', (errorList, fieldName) => {
@@ -128,13 +153,6 @@ function init(app) {
         }
     });
 
-    // linkbuilder function for helping with routes
-    // @TODO this is a bit brittle/messy, could do with a cleanup
-    setViewGlobal('buildUrl', (sectionName, pageName) => {
-        const builder = buildUrl(getViewGlobal('localePrefix'));
-        return builder(sectionName, pageName);
-    });
-
     setViewGlobal('createHeroImage', function(opts) {
         return createHeroImage({
             small: opts.small,
@@ -144,8 +162,6 @@ function init(app) {
             caption: opts.caption
         });
     });
-
-    setViewGlobal('getCurrentUrl', getCurrentUrl);
 }
 
 module.exports = {
