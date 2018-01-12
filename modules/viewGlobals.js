@@ -7,6 +7,14 @@ const { stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
 
+function getMetaTitle(base, pageTitle) {
+    if (pageTitle) {
+        return `${pageTitle} | ${base}`;
+    } else {
+        return base;
+    }
+}
+
 function init(app) {
     const setViewGlobal = (name, value) => {
         app.get('engineEnv').addGlobal(name, value);
@@ -24,6 +32,8 @@ function init(app) {
         description: config.get('meta.description'),
         themeColour: sassConfig.themeColour
     });
+
+    setViewGlobal('getMetaTitle', getMetaTitle);
 
     setViewGlobal('getHtmlClasses', function() {
         const locale = getViewGlobal('locale');
@@ -130,5 +140,6 @@ function init(app) {
 }
 
 module.exports = {
-    init
+    init,
+    getMetaTitle
 };

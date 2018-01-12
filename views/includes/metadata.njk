@@ -1,17 +1,16 @@
+{% set metaTitle = getMetaTitle(__("global.brand.title"), title) %}
 {% macro makeAbsoluteImage(path) %}{{ request.protocol }}://{{ request.headers.host }}{{ path }}{% endmacro %}
-
-<!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) (Node version: {{ appData.nodeVersion }}) -->
-
+<!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 
-<meta name="title" content="{% if title %}{{ title }} | {{ metadata.title }}{% else %}{{ metadata.title }}{% endif %}">
+<meta name="title" content="{{ metaTitle }}">
 <meta name="description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
 
 {# Open Graph data #}
 <meta property="og:type" content="website">
-<meta property="og:title" content="{% if title %}{{ title }} | {{ metadata.title }}{% else %}{{ metadata.title }}{% endif %}">
+<meta property="og:title" content="{{ metaTitle }}">
 <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
 <meta property="og:url" content="{{ getCurrentUrl(request) }}">
 
