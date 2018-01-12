@@ -139,7 +139,7 @@ function init({ router, routeConfig }) {
                     return error;
                 }
                 let errorMsg;
-                let errorParam = (error.msg.paramPath) ? error.msg.paramPath : false;
+                let errorParam = error.msg.paramPath ? error.msg.paramPath : false;
 
                 // does this translation require a parameter
                 // (which must also be translated)?
