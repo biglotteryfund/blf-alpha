@@ -206,9 +206,8 @@ function init({ router, routeConfig }) {
                         sendMode: 'bcc'
                     });
 
-
                     // email the customer to confirm theiroprder
-                    app.render('emails/newMaterialOrder',  {}, (err, html) => {
+                    app.render('emails/newMaterialOrder', {}, (err, html) => {
                         if (!err) {
                             mail.send({
                                 subject: `Thank you for your Big Lottery Fund order`,
@@ -217,7 +216,6 @@ function init({ router, routeConfig }) {
                             });
                         }
                     });
-
 
                     let redirectToMessage = () => {
                         req.flash('showOverlay', true);

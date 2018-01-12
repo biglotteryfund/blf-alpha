@@ -155,7 +155,7 @@
                 "en": "Small sticker",
                 "cy": "Sticer bach"
             },
-            "description": "75mm x 50mm",
+            "description": "75mm x 50mm - pack of 5",
             "image": "sticker-small.jpg",
             "maximum": 10,
             "products": [
@@ -175,7 +175,7 @@
                 "en": "Medium sticker",
                 "cy": "Sticer canolig"
             },
-            "description": "80mm x 70mm",
+            "description": "80mm x 70mm - pack of 5",
             "image": "sticker-medium.jpg",
             "maximum": 10,
             "products": [
@@ -190,12 +190,12 @@
             ]
         },
         {
-            "id": 11,
+            "id": 12,
             "name": {
                 "en": "Large sticker",
                 "cy": "Sticer mawr"
             },
-            "description": "120mm x 100mm",
+            "description": "120mm x 100mm - pack of 5",
             "image": "sticker-large.jpg",
             "maximum": 10,
             "products": [
@@ -252,7 +252,6 @@
                 }
             ]
         },
-
         {
             "id": 5,
             "name": {
@@ -294,6 +293,26 @@
                         "cy": "Sticer cerbyd logo gwyn"
                     },
                     "code": "BIG-VEHBW"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": {
+                "en": "Bunting",
+                "cy": "Bunting"
+            },
+            "description": "10 metres long",
+            "image": "bunting.jpg",
+            "maximum": 1,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BIG-EVBUNT"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BIG-EVBUNTBI"
                 }
             ]
         }
