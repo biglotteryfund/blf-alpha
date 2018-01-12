@@ -183,7 +183,6 @@ const routes = {
                 manageFunding: {
                     name: 'Managing your funding',
                     path: '/funding-guidance/managing-your-funding',
-                    template: 'pages/funding/guidance/managing-your-funding',
                     code: 2,
                     static: true,
                     live: true,
