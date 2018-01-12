@@ -205,7 +205,8 @@
                                     fieldName = formFields.yourReason.name,
                                     label = __(formFields.yourReason.label),
                                     options = formFields.yourReason.options,
-                                    allowOther = formFields.yourReason.allowOther
+                                    allowOther = formFields.yourReason.allowOther,
+                                    translateOptionLabels = true
                                 ) }}
                             </div>
 
@@ -214,7 +215,8 @@
                                     fieldName = formFields.yourGrantAmount.name,
                                     label = __(formFields.yourGrantAmount.label),
                                     options = formFields.yourGrantAmount.options,
-                                    allowOther = formFields.yourGrantAmount.allowOther
+                                    allowOther = formFields.yourGrantAmount.allowOther,
+                                    translateOptionLabels = true
                                 ) }}
 
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
@@ -225,6 +227,9 @@
                             </div>
 
                         </div>
+
+                        <h5 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h5>
+                        <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
 
                     </form>
                 </div>

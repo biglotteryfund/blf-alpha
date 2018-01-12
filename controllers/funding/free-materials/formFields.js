@@ -146,15 +146,15 @@ const materialFields = {
         allowOther: true,
         options: [
             {
-                name: 'Under £10,000',
+                name: translationBasePath + 'grantSizes.under10k',
                 value: 'under10k'
             },
             {
-                name: 'Over £10,000',
+                name: translationBasePath + 'grantSizes.over10k',
                 value: 'over10k'
             },
             {
-                name: "Don't know",
+                name: translationBasePath + 'grantSizes.dunno',
                 value: 'dunno'
             }
         ],
@@ -178,23 +178,23 @@ const materialFields = {
         allowOther: true,
         options: [
             {
-                name: 'Event',
+                name: translationBasePath + 'reasons.event',
                 value: 'event'
             },
             {
-                name: 'Project opening',
+                name: translationBasePath + 'reasons.projectOpening',
                 value: 'projectOpening'
             },
             {
-                name: 'Photo opportunity',
+                name: translationBasePath + 'reasons.photoOpportunity',
                 value: 'photoOpportunity'
             },
             {
-                name: 'MP Visit',
+                name: translationBasePath + 'reasons.mpVisit',
                 value: 'mpVisit'
             },
             {
-                name: 'Grant acknowledgment',
+                name: translationBasePath + 'reasons.grantAcknowledgment',
                 value: 'grantAcknowledgment'
             }
         ],

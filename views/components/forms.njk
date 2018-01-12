@@ -41,7 +41,7 @@
 
 {% endmacro %}
 
-{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, otherId = false) %}
+{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, otherId = false, translateOptionLabels = false) %}
     {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if not suppressErrors and error %}
@@ -53,16 +53,16 @@
                id="{{ uniqueId }}"
                name="{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ value }}"{% if otherId %} class="js-radio-has-other" data-other-id="{{ otherId }}"{% endif %} />
-        {{ label }}
+        {% if translateOptionLabels %}{{ __(label) }}{% else %}{{ label }}{% endif %}
     </label>
 {% endmacro %}
 
-{% macro radios(fieldName, label = false, options, allowOther = false) %}
+{% macro radios(fieldName, label = false, options, allowOther = false, translateOptionLabels = false) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
     {% if label %}<label class="label-radio">{{ label }}</label>{% endif %}
     {% for opt in options %}
-        {{ radioButton(fieldName, opt.name, opt.value, false, true) }}
+        {{ radioButton(fieldName, opt.name, opt.value, false, true, translateOptionLabels = translateOptionLabels) }}
     {% endfor %}
     {% if allowOther %}
         {% set otherId = 'js-other-' + fieldName %}
