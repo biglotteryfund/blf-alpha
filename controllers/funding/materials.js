@@ -2,9 +2,10 @@ const Raven = require('raven');
 const config = require('config');
 const moment = require('moment');
 const { get } = require('lodash');
-const { body, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
+const app = require('../../server');
 
 const ordersService = require('../../services/orders');
 const mail = require('../../modules/mail');
@@ -204,6 +205,19 @@ function init({ router, routeConfig }) {
                         sendTo: config.get('materialSupplierEmail'),
                         sendMode: 'bcc'
                     });
+
+
+                    // email the customer to confirm theiroprder
+                    app.render('emails/newMaterialOrder',  {}, (err, html) => {
+                        if (!err) {
+                            mail.send({
+                                subject: `Thank you for your Big Lottery Fund order`,
+                                html: html,
+                                sendTo: req.body.yourEmail
+                            });
+                        }
+                    });
+
 
                     let redirectToMessage = () => {
                         req.flash('showOverlay', true);
