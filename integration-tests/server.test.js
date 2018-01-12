@@ -1,10 +1,10 @@
 'use strict';
 
 const chai = require('chai');
-const config = require('config');
 chai.use(require('chai-http'));
-chai.should();
+const expect = chai.expect;
 
+const config = require('config');
 const helper = require('./helper');
 
 describe('Express application', () => {
@@ -17,69 +17,72 @@ describe('Express application', () => {
         });
     });
 
-    after(() => {
-        helper.after(server);
-    });
+    after(() => helper.after(server));
 
-    it('responds to /', done => {
-        chai
+    it('responds to /', () => {
+        return chai
             .request(server)
             .get('/')
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
+            .then(res => {
+                expect(res).to.have.status(200);
+                const metaTitle = `Home | Big Lottery Fund`;
+                expect(res.text).to.include(`<title>${metaTitle}</title>`);
+                expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
+                expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
             });
     });
 
-    it('serves static files', done => {
+    it('serves Welsh content', () => {
+        return chai
+            .request(server)
+            .get('/welsh')
+            .then(res => {
+                expect(res).to.have.header('Content-Language', 'cy');
+                const metaTitle = `Hafan | Cronfa Loteri Fawr`;
+                expect(res.text).to.include(`<title>${metaTitle}</title>`);
+                expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
+                expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
+                expect(res).to.have.status(200);
+            });
+    });
+
+    it('serves static files', () => {
         const assets = require('../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
-        chai
+        return chai
             .request(server)
             .get(CSS_PATH)
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.should.have.header('content-type', /^text\/css/);
-                done();
+            .then(res => {
+                expect(res).to.have.status(200);
+                expect(res).to.have.header('content-type', /^text\/css/);
             });
     });
 
-    it('serves Welsh content', done => {
-        chai
-            .request(server)
-            .get('/welsh/contact')
-            .end((err, res) => {
-                res.should.have.header('Content-Language', 'cy');
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    it('can set contrast preferences', done => {
+    it('can set contrast preferences', () => {
         let redirectUrl = 'http://www.google.com';
-        chai
+        return chai
             .request(server)
             .get('/contrast/high')
             .query({
                 url: redirectUrl
             })
             .redirects(0)
-            .end((err, res) => {
-                res.should.have.cookie(config.get('cookies.contrast'));
-                res.should.redirectTo(redirectUrl);
-                res.should.have.status(302);
-                done();
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.cookie(config.get('cookies.contrast'));
+                expect(res).to.redirectTo(redirectUrl);
+                expect(res).to.have.status(302);
             });
     });
 
-    it('404s everything else', done => {
-        chai
+    it('404s everything else', () => {
+        return chai
             .request(server)
             .get('/foo/bar')
-            .end((err, res) => {
-                res.text.should.include('Error 404 | Big Lottery Fund');
-                res.should.have.status(404);
-                done();
+            .catch(err => err.response)
+            .then(res => {
+                expect(res.text).to.include('Error 404 | Big Lottery Fund');
+                expect(res).to.have.status(404);
             });
     });
 });
