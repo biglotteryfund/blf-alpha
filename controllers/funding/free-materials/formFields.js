@@ -143,6 +143,7 @@ const materialFields = {
     yourGrantAmount: {
         name: 'yourGrantAmount',
         type: 'radio',
+        allowOther: true,
         options: [
             {
                 name: 'Under £10,000',
