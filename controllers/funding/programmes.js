@@ -51,7 +51,7 @@ const programmeFilters = {
 };
 
 function initProgrammesList(router, config) {
-    router.get(config.path, (req, res) => {
+    router.get(config.path, (req, res, next) => {
         const lang = req.i18n.__(config.lang);
         const templateData = {
             copy: lang,
@@ -122,8 +122,8 @@ function initProgrammesList(router, config) {
                 res.render(config.template, templateData);
             })
             .catch(err => {
-                console.log('error', err);
-                res.send(err);
+                err.friendlyText = 'Unable to load funding programmes';
+                next(err);
             });
     });
 }
