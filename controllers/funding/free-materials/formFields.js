@@ -44,7 +44,10 @@ const materialFields = {
                 .isEmpty()
                 .withMessage(getTranslatedError(field))
                 .isEmail()
-                .withMessage('Please provide a valid email address'); // @TODO
+                .withMessage({
+                    translateable: true,
+                    errorPath: 'global.forms.invalidEmailError'
+                });
         }
     },
     yourAddress1: {

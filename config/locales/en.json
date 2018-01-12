@@ -45,6 +45,7 @@
 		},
 		"forms": {
 			"missingFieldError": "Please provide the '%s' field",
+            "invalidEmailError": "Please provide a valid email address",
 			"submit": "Submit",
             "otherEnterBelow": "Other (please enter below)"
 		},

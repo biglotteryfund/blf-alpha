@@ -138,9 +138,20 @@ function init({ router, routeConfig }) {
                 if (!isTranslateable) {
                     return error;
                 }
-                let paramTranslated = req.i18n.__(error.msg.paramPath);
+                let errorMsg;
+                let errorParam = (error.msg.paramPath) ? error.msg.paramPath : false;
+
+                // does this translation require a parameter
+                // (which must also be translated)?
+                if (errorParam) {
+                    let paramTranslated = req.i18n.__(error.msg.paramPath);
+                    errorMsg = req.i18n.__(error.msg.errorPath, paramTranslated);
+                } else {
+                    errorMsg = req.i18n.__(error.msg.errorPath);
+                }
+
                 return Object.assign({}, error, {
-                    msg: req.i18n.__(error.msg.errorPath, paramTranslated)
+                    msg: errorMsg
                 });
             });
 

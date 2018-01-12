@@ -234,9 +234,7 @@ $errorColor: #b00;
         }
 
         &.is-error {
-            @include input-placeholder {
-                color: #c6183d;
-            }
+            border-bottom-color: #c6183d;
         }
     }
 

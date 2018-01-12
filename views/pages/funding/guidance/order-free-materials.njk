@@ -10,8 +10,9 @@
     {{ textInput(
         fieldName = field.name,
         fieldLabel = __(field.label),
-        inputType = field.text,
-        required = field.required
+        inputType = field.type,
+        required = field.required,
+        showErrorsBelowFields = true
     ) }}
 {% endmacro %}
 
