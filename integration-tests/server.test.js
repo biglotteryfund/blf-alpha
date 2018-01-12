@@ -6,7 +6,6 @@ chai.use(require('chai-http'));
 chai.should();
 
 const helper = require('./helper');
-const { legacyProxiedRoutes } = require('../controllers/routes');
 
 describe('Express application', () => {
     let server;

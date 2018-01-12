@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
 'use strict';
+
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 const readline = require('readline');
-const _ = require('lodash');
 const googleAuth = require('google-auth-library');
 const Gmail = require('node-gmail-api');
-const moment = require('moment');
+const { isInteger } = require('lodash');
 
-const models = require('../../models/index');
+const models = require('../models');
 
 // https://console.developers.google.com/apis/credentials?project=just-rhythm-186214
 
@@ -123,20 +124,25 @@ function getMail(auth) {
     const getMessages = gmail.messages('subject:Order from Big Lottery Fund website', { max: numMessagesToFetch });
     getMessages.on('data', function(d) {
         if (d.payload.body.data) {
-            let re = /The order details are below:([\s\S]*)The customer's personal details are below:([\s\S]*)This email has been automatically generated from the Big Lottery Fund Website/;
-            let body = base64toUTF8(d.payload.body.data);
-            let subject = d.payload.headers.find(_ => _.name === 'Subject').value;
-            let bits = body.match(re);
-            let order = bits[1].trim();
-            let address = bits[2].trim();
-            order = order
+            const re = /The order details are below:([\s\S]*)The customer's personal details are below:([\s\S]*)This email has been automatically generated from the Big Lottery Fund Website/;
+            const body = base64toUTF8(d.payload.body.data);
+            const subject = d.payload.headers.find(_ => _.name === 'Subject').value;
+            const [rawOrder, rawAddress] = body.match(re);
+            const order = rawOrder
+                .trim()
                 .replace(/\t/g, '')
                 .replace(/- /g, '')
                 .replace(/\(.*\)/g, '')
                 .split('\n')
                 .map(_ => _.trim());
 
-            let orders = order
+            const address = rawAddress
+                .trim()
+                .replace(/\t/g, '')
+                .replace(/\r/g, '')
+                .split('\n');
+
+            const orders = order
                 .map(o => {
                     let q = o.match(/x(\d+)/);
                     let i = o.match(/(\w+-\w+)/);
@@ -154,17 +160,13 @@ function getMail(auth) {
                 .filter(_ => !_.error);
 
             let a = {};
-            address = address
-                .replace(/\t/g, '')
-                .replace(/\r/g, '')
-                .split('\n');
             address.forEach(line => {
-                let bits = line.split(':');
-                if (bits[1]) {
-                    let fieldName = bits[0];
+                let lineParts = line.split(':');
+                if (lineParts[1]) {
+                    let fieldName = lineParts[0];
                     fieldName = fieldName.replace('Your ', '');
                     fieldName = camelize(fieldName);
-                    a[fieldName] = bits[1].trim();
+                    a[fieldName] = lineParts[1].trim();
                 }
             });
 
@@ -192,8 +194,9 @@ function getMail(auth) {
         let dataPath = path.join('./', 'messages.json');
         fs.writeFile(dataPath, JSON.stringify(allOrders, null, 4));
 
-        let convertMessageToOrder = (msg) => {
-            let grantAmount = msg.address.grantAmount.toLowerCase()
+        let convertMessageToOrder = msg => {
+            let grantAmount = msg.address.grantAmount
+                .toLowerCase()
                 .replace(/£/g, '')
                 .replace('$', '')
                 .replace(/ /g, '')
@@ -254,21 +257,21 @@ function getMail(auth) {
             };
         };
 
-        let ordersForDb = allOrders.map(convertMessageToOrder)
-            .filter(o => _.isInteger(o.grantAmount) && o.grantAmount > 1);
+        let ordersForDb = allOrders
+            .map(convertMessageToOrder)
+            .filter(o => isInteger(o.grantAmount) && o.grantAmount > 1);
 
         let delay = 300;
         ordersForDb.forEach((order, i) => {
             setTimeout(() => {
-                models.Order
-                    .create(order, {
-                        include: [
-                            {
-                                model: models.OrderItem,
-                                as: 'items'
-                            }
-                        ]
-                    })
+                models.Order.create(order, {
+                    include: [
+                        {
+                            model: models.OrderItem,
+                            as: 'items'
+                        }
+                    ]
+                })
                     .then(data => {
                         console.log(data.postcodeArea, 'added!');
                     })
@@ -277,6 +280,5 @@ function getMail(auth) {
                     });
             }, delay * i);
         });
-
     });
 }

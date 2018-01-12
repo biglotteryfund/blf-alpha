@@ -1,6 +1,7 @@
+const Raven = require('raven');
 const appData = require('../modules/appData');
 
-const renderNotFound = (req, res) => {
+function renderNotFound(req, res) {
     let err = new Error('Page not found');
     err.status = 404;
     err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
@@ -12,9 +13,14 @@ const renderNotFound = (req, res) => {
     // Render the error page
     res.status(res.locals.status);
     res.render('notfound');
-};
+}
 
-const renderError = (err, req, res) => {
+function renderNotFoundWithError(err, req, res) {
+    Raven.captureException(err);
+    renderNotFound(req, res);
+}
+
+function renderError(err, req, res) {
     // Set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = appData.isDev ? err : {};
@@ -25,9 +31,10 @@ const renderError = (err, req, res) => {
     // Render the error page
     res.status(res.locals.status);
     res.render('error');
-};
+}
 
 module.exports = {
     renderNotFound,
+    renderNotFoundWithError,
     renderError
 };

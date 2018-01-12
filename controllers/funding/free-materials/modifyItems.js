@@ -27,8 +27,8 @@ module.exports = (req, orderKey, code) => {
 
         if (notAllowedWithItemId) {
             // check if their current orders contain a blocker
-            for (let code in orders) {
-                if (orders[code].id === notAllowedWithItemId && orders[code].quantity > 0) {
+            for (let orderCode in orders) {
+                if (orders[orderCode].id === notAllowedWithItemId && orders[orderCode].quantity > 0) {
                     hasBlockerItem = true;
                 }
             }
