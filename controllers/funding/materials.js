@@ -67,18 +67,25 @@ function init({ router, routeConfig }) {
 
         for (let key in freeMaterialsLogic.formFields.fields) {
             let field = freeMaterialsLogic.formFields.fields[key];
-            const fieldValue = details[field.name];
+            let fieldValue = details[field.name];
             const fieldLabel = field.emailKey;
+
             // did this order include "other" options?
             if (field.allowOther) {
-                // @TODO
+                // did they enter something?
+                let otherValue = details[field.name + 'Other'];
+                if (otherValue) {
+                    // override the field with their custom text
+                    fieldValue = otherValue;
+                }
             }
+
             if (fieldValue) {
                 text += `\t${fieldLabel}: ${fieldValue}\n\n`;
             }
         }
 
-        text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
+        text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
         return text;
     };
