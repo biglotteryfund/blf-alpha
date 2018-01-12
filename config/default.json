@@ -5,7 +5,8 @@
     "siteDomain": "www.biglotteryfund.org.uk",
     "meta": {
         "title": "The Big Lottery Fund",
-        "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery."
+        "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
+        "themeColour": "#ec008c"
     },
     "i18n": {
         "urlPrefix": {

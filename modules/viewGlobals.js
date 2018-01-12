@@ -1,11 +1,16 @@
 'use strict';
 
 const config = require('config');
-const sassConfig = require('../config/content/sass.json');
 const routes = require('../controllers/routes');
-const { stripTrailingSlashes } = require('./urls');
+const { isWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
+
+const metadata = {
+    title: config.get('meta.title'),
+    description: config.get('meta.description'),
+    themeColour: config.get('meta.themeColour')
+};
 
 function getMetaTitle(base, pageTitle) {
     if (pageTitle) {
@@ -13,6 +18,69 @@ function getMetaTitle(base, pageTitle) {
     } else {
         return base;
     }
+}
+
+function getHtmlClasses({ locale, highContrast }) {
+    let parts = ['no-js', 'locale--' + locale];
+
+    if (highContrast) {
+        parts.push('contrast--high');
+    }
+
+    return parts.join(' ');
+}
+
+function buildUrl(localePrefix) {
+    return function(sectionName, pageName) {
+        let section = routes.sections[sectionName];
+        try {
+            let page = section.pages[pageName];
+            return localePrefix + section.path + page.path;
+        } catch (e) {
+            // pages from the "toplevel" section have no prefix
+            // and aliases don't drop into the above block
+            const IS_TOP_LEVEL = sectionName === 'toplevel';
+            let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
+            if (pageName) {
+                url += pageName;
+            }
+            url = localePrefix + url;
+            // catch the edge case where we just want a link to the homepage in english
+            if (url === '') {
+                url = '/';
+            }
+            return url;
+        }
+    };
+}
+
+/**
+ * getCurrentUrl
+ * Look up the current URL and rewrite to another locale
+ */
+function getCurrentUrl(req, locale) {
+    let currentPath = req.originalUrl;
+
+    // is this an HTTPS request? make the URL protocol work
+    let headerProtocol = req.get('X-Forwarded-Proto');
+    let protocol = headerProtocol ? headerProtocol : req.protocol;
+    let currentUrl = protocol + '://' + req.get('host') + currentPath;
+
+    const isCurrentUrlWelsh = isWelsh(currentUrl);
+
+    // rewrite URL to requested language
+    if (locale === 'cy' && !isCurrentUrlWelsh) {
+        // make this URL welsh
+        currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
+    } else if (locale === 'en' && isCurrentUrlWelsh) {
+        // un-welshify this URL
+        currentUrl = removeWelsh(currentUrl);
+    }
+
+    // remove any trailing slashes (eg. /welsh/ => /welsh)
+    currentUrl = stripTrailingSlashes(currentUrl);
+
+    return currentUrl;
 }
 
 function init(app) {
@@ -26,26 +94,15 @@ function init(app) {
 
     setViewGlobal('appData', appData);
 
-    // configure meta tags
-    setViewGlobal('metadata', {
-        title: config.get('meta.title'),
-        description: config.get('meta.description'),
-        themeColour: sassConfig.themeColour
-    });
+    setViewGlobal('metadata', metadata);
 
     setViewGlobal('getMetaTitle', getMetaTitle);
 
-    setViewGlobal('getHtmlClasses', function() {
-        const locale = getViewGlobal('locale');
-        const highContrast = getViewGlobal('highContrast');
-
-        let parts = ['no-js', 'locale--' + locale];
-
-        if (highContrast) {
-            parts.push('contrast--high');
-        }
-
-        return parts.join(' ');
+    setViewGlobal('getHtmlClasses', () => {
+        return getHtmlClasses({
+            locale: getViewGlobal('locale'),
+            highContrast: getViewGlobal('highContrast')
+        });
     });
 
     // make anchors available everywhere (useful for routing and templates)
@@ -74,26 +131,8 @@ function init(app) {
     // linkbuilder function for helping with routes
     // @TODO this is a bit brittle/messy, could do with a cleanup
     setViewGlobal('buildUrl', (sectionName, pageName) => {
-        let localePrefix = getViewGlobal('localePrefix');
-        let section = routes.sections[sectionName];
-        try {
-            let page = section.pages[pageName];
-            return localePrefix + section.path + page.path;
-        } catch (e) {
-            // pages from the "toplevel" section have no prefix
-            // and aliases don't drop into the above block
-            const IS_TOP_LEVEL = sectionName === 'toplevel';
-            let url = IS_TOP_LEVEL ? '' : '/' + sectionName;
-            if (pageName) {
-                url += pageName;
-            }
-            url = localePrefix + url;
-            // catch the edge case where we just want a link to the homepage in english
-            if (url === '') {
-                url = '/';
-            }
-            return url;
-        }
+        const builder = buildUrl(getViewGlobal('localePrefix'));
+        return builder(sectionName, pageName);
     });
 
     setViewGlobal('createHeroImage', function(opts) {
@@ -106,40 +145,13 @@ function init(app) {
         });
     });
 
-    // look up the current URL and rewrite to another locale
-    // TODO: Combine with logic from modules/urls
-    let getCurrentUrl = function(req, locale) {
-        let currentPath = req.originalUrl;
-
-        // is this an HTTPS request? make the URL protocol work
-        let headerProtocol = req.get('X-Forwarded-Proto');
-        let protocol = headerProtocol ? headerProtocol : req.protocol;
-        let currentUrl = protocol + '://' + req.get('host') + currentPath;
-
-        // is the current URL welsh or english?
-        const CYMRU_URL = /\/welsh(\/|$)/;
-        const IS_WELSH = currentUrl.match(CYMRU_URL) !== null;
-        const IS_ENGLISH = currentUrl.match(CYMRU_URL) === null;
-
-        // rewrite URL to requested language
-        if (locale === 'cy' && !IS_WELSH) {
-            // make this URL welsh
-            currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
-        } else if (locale === 'en' && !IS_ENGLISH) {
-            // un-welshify this URL
-            currentUrl = currentUrl.replace(CYMRU_URL, '/');
-        }
-
-        // remove any trailing slashes (eg. /welsh/ => /welsh)
-        currentUrl = stripTrailingSlashes(currentUrl);
-
-        return currentUrl;
-    };
-
     setViewGlobal('getCurrentUrl', getCurrentUrl);
 }
 
 module.exports = {
     init,
+    buildUrl,
+    getCurrentUrl,
+    getHtmlClasses,
     getMetaTitle
 };
