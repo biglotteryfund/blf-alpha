@@ -33,10 +33,15 @@ describe('locale integration tests', () => {
                 expect(res.text).to.include(`<title>${metaTitle}</title>`);
                 expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
                 expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
+
+                const $ = cheerio.load(res.text);
+                const navLinks = $('.qa-nav-link a');
+                const navLinksText = navLinks.map((i, el) => $(el).text()).get();
+                expect(navLinksText).to.have.members(['Hafan', 'Ariannu', 'Ymchwil', 'Amdanom ni']);
             });
     });
 
-    it('has correct language switcher for en locale', () => {
+    it('has correct language for en locale', () => {
         chai
             .request(server)
             .get('/funding/programmes')
