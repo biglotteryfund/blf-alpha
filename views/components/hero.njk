@@ -107,7 +107,10 @@
     </div>
 {% endmacro %}
 
-{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent) %}
+{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent, useRemoteImages = false) %}
+    {% if not useRemoteImages %}
+        {% set imagePath = imagePath | getImagePath %}
+    {% endif %}
     <div class="miniature-hero accent--{{ accent }} a--border-top--large">
         <div class="miniature-hero__inner">
             {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
@@ -115,11 +118,11 @@
             <div class="minature-hero__image">
                 {% if imagePathMobile %}
                     <picture>
-                        <source srcset="{{ imagePath | getImagePath }}" media="(min-width: 760px)">
-                        <img src="{{ imagePathMobile | getImagePath }}" alt="{{ imageCaption }}" />
+                        <source srcset="{{ imagePath }}" media="(min-width: 760px)">
+                        <img src="{{ imagePathMobile | getImagePath }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
                     </picture>
                 {% else %}
-                    <img src="{{ imagePath | getImagePath }}" alt="{{ imageCaption }}" />
+                    <img src="{{ imagePath }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
                 {% endif %}
             </div>
 

@@ -128,7 +128,10 @@ function initProgrammesList(router, config) {
     });
 }
 
+
+
 function initProgrammeDetail(router, config) {
+
     // Allow for programmes without heroes
     const defaultHeroImage = createHeroImage({
         small: 'hero/working-families-small.jpg',

@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const _ = require('lodash');
+const { camelCase, get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
 const importedLegacyPages = require('../config/app/importedLegacyPages');
@@ -172,14 +172,21 @@ const routes = {
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
                     ]
                 },
+                fundingGuidance: {
+                    name: 'Funding Guidance',
+                    path: '/funding-guidance',
+                    template: 'pages/funding/guidance/managing-your-funding',
+                    static: true,
+                    live: false,
+                    useCmsContent: true
+                },
                 manageFunding: {
                     name: 'Managing your funding',
                     path: '/funding-guidance/managing-your-funding',
-                    template: 'pages/funding/guidance/managing-your-funding',
-                    lang: 'funding.guidance.managing-your-funding',
                     code: 2,
                     static: true,
                     live: true,
+                    useCmsContent: true,
                     aliases: [
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
                         '/welcome',
@@ -330,14 +337,34 @@ const programmeRedirects = [
 ];
 
 /**
+ * Funding guidance migration
+ * Helper to concisely define urls for funding guidance page migrations
+ */
+function guidanceMigration(routePath, isLive) {
+    return {
+        path: `/funding-guidance/${routePath}`,
+        useCmsContent: true,
+        static: true,
+        live: isLive || false
+    };
+}
+
+const fundingGuidanceMigration = [guidanceMigration('applying-for-funding/what-we-will-ask-you', false)];
+
+fundingGuidanceMigration.forEach(routeConfig => {
+    const id = camelCase(routeConfig.path);
+    routes.sections.funding.pages[id] = routeConfig;
+});
+
+/**
  * Scraped/imported pages
  *
  * Serve pages imported via script into the CMS
  */
 for (let section in importedLegacyPages) {
-    if (_.get(routes.sections, section)) {
+    if (get(routes.sections, section)) {
         let pages = routes.sections[section].pages;
-        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
+        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
     }
 }
 
