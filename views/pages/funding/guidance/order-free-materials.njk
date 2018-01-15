@@ -210,7 +210,8 @@
                                     label = __(formFields.yourReason.label),
                                     options = formFields.yourReason.options,
                                     allowOther = formFields.yourReason.allowOther,
-                                    translateOptionLabels = true
+                                    translateOptionLabels = true,
+                                    required = formFields.yourReason.required
                                 ) }}
                             </div>
 
@@ -220,7 +221,8 @@
                                     label = __(formFields.yourGrantAmount.label),
                                     options = formFields.yourGrantAmount.options,
                                     allowOther = formFields.yourGrantAmount.allowOther,
-                                    translateOptionLabels = true
+                                    translateOptionLabels = true,
+                                    required = formFields.yourGrantAmount.required
                                 ) }}
 
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}

@@ -1,3 +1,4 @@
+/* global Vue */
 'use strict';
 
 const $ = require('jquery');
@@ -17,25 +18,6 @@ function conditionalRadios($el) {
 }
 
 function init() {
-
-    // generic toggles for form fields with "other" options
-    let $radiosWithOtherFields = $('.js-radio-has-other');
-    $radiosWithOtherFields.each(function() {
-        let $radio = $(this);
-        let fieldName = $(this).attr('name');
-        let $radioSet = $(`input[type="radio"][name="${fieldName}"]`).not($radio);
-        let otherId = $radio.data('other-id');
-        let $otherElm = $(`#${otherId}`);
-        if ($otherElm.length > 0) {
-            $radio.on('focus', function() {
-                $otherElm.show();
-            });
-            $radioSet.on('focus', function() {
-                // reset the value so we don't submit it when they change it
-                $otherElm.hide().val('');
-            });
-        }
-    });
 
     // application form-specific code
     const formEl = $('.js-application-form');
