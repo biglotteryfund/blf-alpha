@@ -185,7 +185,7 @@ function initProgrammeDetailAfaEngland(router, options) {
         }
     });
 
-    // const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
+    // @TODO use config.get('abTests.tests.awardsForAll.percentage') when launching;
     const percentages = splitPercentages(50);
 
     const getSlug = urlPath => last(urlPath.split('/'));
@@ -194,7 +194,7 @@ function initProgrammeDetailAfaEngland(router, options) {
         handleProgrammeDetail(getSlug(req.path))(req, res);
     });
 
-    router.get(options.path, testFn(null, percentages.A), (req, res) => {
+    router.get(options.path, testFn(null, percentages.B), (req, res) => {
         const locale = req.i18n.getLocale();
         const slug = getSlug(req.path);
         contentApi
@@ -207,10 +207,11 @@ function initProgrammeDetailAfaEngland(router, options) {
 
                     if (applyTabIdx !== -1) {
                         const replacementText = req.i18n.__('global.abTests.awardsForAllEngland');
-                        const newBody = assign({}, entry.contentSections[applyTabIdx], {
-                            body: replacementText[locale]
+                        const newContentSection = assign({}, entry.contentSections[applyTabIdx], {
+                            body: replacementText
                         });
-                        entry.contentSections[applyTabIdx] = newBody;
+
+                        entry.contentSections[applyTabIdx] = newContentSection;
                     } else {
                         Raven.captureMessage('Failed to modify Awards For All page');
                     }
@@ -231,7 +232,9 @@ function initProgrammeDetailAfaEngland(router, options) {
 
 function init({ router, routeConfig }) {
     initProgrammesList(router, routeConfig.programmes);
-    initProgrammeDetailAfaEngland(router, routeConfig.programmeDetailAfaEngland);
+    if (config.get('abTests.enabled')) {
+        initProgrammeDetailAfaEngland(router, routeConfig.programmeDetailAfaEngland);
+    }
     initProgrammeDetail(router);
 }
 
