@@ -79,11 +79,8 @@
     <ol class="selection-trail">
         {% for crumb in trail %}
         <li class="selection-trail__item">
-            {% set showUrl = crumb.url  %}
-            {% if showUrl %}<a class="selection-trail__link" href="{{ crumb.url }}">{% endif %}
-            {{ crumb.label }}
-            {% if loop.last and itemCount %}({{ itemCount }}){% endif %}
-            {% if showUrl %}</a>{% endif %}
+            {% set showUrl = crumb.url %}
+            {% if showUrl %}<a class="selection-trail__link" href="{{ crumb.url }}">{% endif %}{{ crumb.label }}{% if loop.last and itemCount %} ({{ itemCount }}){% endif %}{% if showUrl %}</a>{% endif %}
         </li>
         {% endfor %}
     </ol>
