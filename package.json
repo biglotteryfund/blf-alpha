@@ -14,7 +14,7 @@
     "size": "size-limit",
     "build": "gulp build",
     "build-production": "export NODE_ENV=production && gulp build:production && npm run size",
-    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p eventTracker,maxScrollTracker",
+    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
     "watch-js": "webpack --watch",
     "watch-assets": "gulp watch",
     "prewatch": "npm run build",

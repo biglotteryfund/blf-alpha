@@ -39,6 +39,12 @@ export const init = () => {
     ga('set', 'transport', 'beacon');
 
     /**
+     * Outbound link tracker plugin
+     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/outbound-link-tracker.md
+     */
+    ga('require', 'outboundLinkTracker');
+
+    /**
      * Event tracker plugin
      * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
      */
