@@ -160,6 +160,7 @@ describe('Material order form', () => {
             yourAddress2: 'Notrealsville',
             yourTown: 'Madeuptown',
             yourCounty: 'Nonexistentland',
+            yourCountry: 'Sealand',
             yourPostcode: 'NW1 6XE',
             yourProjectName: 'White Hat Testing',
             yourGrantAmount: 'over10k',

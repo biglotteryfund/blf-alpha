@@ -18,7 +18,6 @@ function conditionalRadios($el) {
 }
 
 function init() {
-
     // application form-specific code
     const formEl = $('.js-application-form');
     if (formEl.length === 0) {
