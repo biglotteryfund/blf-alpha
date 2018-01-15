@@ -2,7 +2,7 @@
 
 const config = require('config');
 const { get } = require('lodash');
-const { isWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
+const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
 const routes = require('../controllers/routes');
@@ -77,29 +77,26 @@ function buildUrl(localePrefix) {
  * getCurrentUrl
  * Look up the current URL and rewrite to another locale
  */
-function getCurrentUrl(req, locale) {
-    let currentPath = req.originalUrl;
+function getCurrentUrl(req, requestedLocale) {
+    const urlPath = req.originalUrl;
+    const baseUrl = getBaseUrl(req);
 
-    // is this an HTTPS request? make the URL protocol work
-    let headerProtocol = req.get('X-Forwarded-Proto');
-    let protocol = headerProtocol ? headerProtocol : req.protocol;
-    let currentUrl = protocol + '://' + req.get('host') + currentPath;
+    const isCurrentUrlWelsh = isWelsh(urlPath);
+    const isCyWithEnRequested = isCurrentUrlWelsh && requestedLocale === 'en';
+    const isEnWithCyRequested = !isCurrentUrlWelsh && requestedLocale === 'cy';
 
-    const isCurrentUrlWelsh = isWelsh(currentUrl);
-
-    // rewrite URL to requested language
-    if (locale === 'cy' && !isCurrentUrlWelsh) {
-        // make this URL welsh
-        currentUrl = protocol + '://' + req.get('host') + config.get('i18n.urlPrefix.cy') + currentPath;
-    } else if (locale === 'en' && isCurrentUrlWelsh) {
-        // un-welshify this URL
-        currentUrl = removeWelsh(currentUrl);
+    // Rewrite URL to requested language
+    let urlPathForRequestedLocale = urlPath;
+    if (isEnWithCyRequested) {
+        urlPathForRequestedLocale = makeWelsh(urlPath);
+    } else if (isCyWithEnRequested) {
+        urlPathForRequestedLocale = removeWelsh(urlPath);
     }
 
-    // remove any trailing slashes (eg. /welsh/ => /welsh)
-    currentUrl = stripTrailingSlashes(currentUrl);
+    // Remove any trailing slashes (eg. /welsh/ => /welsh)
+    const cleanedUrlPath = stripTrailingSlashes(urlPathForRequestedLocale);
 
-    return currentUrl;
+    return baseUrl + cleanedUrlPath;
 }
 
 function init(app) {

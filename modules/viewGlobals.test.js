@@ -38,19 +38,17 @@ describe('View Globals', () => {
         });
 
         it('should correct url if in cy locale', () => {
-            expect('should return expected url for cy locale', () => {
-                const req = httpMocks.createRequest({
-                    method: 'GET',
-                    url: '/welsh/some/example/url/',
-                    headers: {
-                        Host: 'biglotteryfund.org.uk',
-                        'X-Forwarded-Proto': 'https'
-                    }
-                });
-
-                expect(getCurrentUrl(req, 'en')).to.equal('https://biglotteryfund.org.uk/some/example/url');
-                expect(getCurrentUrl(req, 'cy')).to.equal('https://biglotteryfund.org.uk/welsh/some/example/url');
+            const req = httpMocks.createRequest({
+                method: 'GET',
+                url: '/welsh/some/example/url/',
+                headers: {
+                    Host: 'biglotteryfund.org.uk',
+                    'X-Forwarded-Proto': 'https'
+                }
             });
+
+            expect(getCurrentUrl(req, 'en')).to.equal('https://biglotteryfund.org.uk/some/example/url');
+            expect(getCurrentUrl(req, 'cy')).to.equal('https://biglotteryfund.org.uk/welsh/some/example/url');
         });
     });
 
