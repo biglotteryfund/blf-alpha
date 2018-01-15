@@ -206,7 +206,7 @@ function init({ router, routeConfig }) {
                         sendMode: 'bcc'
                     });
 
-                    // email the customer to confirm theiroprder
+                    // email the customer to confirm their order
                     app.render('emails/newMaterialOrder', {}, (err, html) => {
                         if (!err) {
                             mail.send({
