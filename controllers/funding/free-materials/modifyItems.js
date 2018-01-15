@@ -44,6 +44,8 @@ module.exports = (req, orderKey, code) => {
             if (!noSpaceLeft && !hasBlockerItem) {
                 _.set(req.session, [orderKey, code, 'id'], id);
                 _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+            } else {
+                // @TODO alert user that they're blocked from adding this item
             }
         } else if (currentItemQuantity > 1 && action === 'decrease') {
             _.set(req.session, [orderKey, code, 'id'], id);
