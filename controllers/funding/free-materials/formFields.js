@@ -112,6 +112,23 @@ const materialFields = {
                 .trim();
         }
     },
+    yourCountry: {
+        name: 'yourCountry',
+        type: 'text',
+        emailKey: 'Country',
+        get label() {
+            return translationBasePath + this.name;
+        },
+        required: true,
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
+        }
+    },
     yourPostcode: {
         name: 'yourPostcode',
         type: 'text',
