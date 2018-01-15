@@ -19,7 +19,7 @@
         <input class="form-fund__item{% if error %} is-error{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}{% if charLimit %} js-has-char-limit{% endif %}"{% if error %} aria-invalid{% endif %}
                type="{{ inputType }}"
                name="{{ fieldName }}"
-               id="ff-{{ fieldName }}"{% if sssrequired %} required aria-required="true"{% endif %}
+               id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ getFlash(request, 'formValues', fieldName) }}"
                placeholder="{{ placeholderText }}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>
     {% endif %}
