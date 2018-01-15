@@ -12,9 +12,9 @@
 
 {% macro navLangLink() %}
     {% if locale == 'en' %}
-        <a href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
+        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
     {% else %}
-        <a href="{{ getCurrentUrl(request, 'en') }}">English</a>
+        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'en') }}">English</a>
     {% endif %}
 {% endmacro %}
 

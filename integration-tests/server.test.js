@@ -32,20 +32,6 @@ describe('Express application', () => {
             });
     });
 
-    it('serves Welsh content', () => {
-        return chai
-            .request(server)
-            .get('/welsh')
-            .then(res => {
-                expect(res).to.have.header('Content-Language', 'cy');
-                const metaTitle = `Hafan | Cronfa Loteri Fawr`;
-                expect(res.text).to.include(`<title>${metaTitle}</title>`);
-                expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
-                expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
-                expect(res).to.have.status(200);
-            });
-    });
-
     it('serves static files', () => {
         const assets = require('../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
