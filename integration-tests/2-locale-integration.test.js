@@ -51,7 +51,7 @@ describe('Locale integration tests', () => {
                 .get('/over10k')
                 .then(res => {
                     const { document } = new JSDOM(res.text).window;
-                    const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
+                    const langSwitcherHref = document.querySelector('.qa-lang-switcher').href;
                     const urlPath = new URL(langSwitcherHref).pathname;
                     expect(urlPath).to.equal('/welsh/over10k');
                 });
@@ -63,7 +63,7 @@ describe('Locale integration tests', () => {
                 .get('/welsh/over10k')
                 .then(res => {
                     const { document } = new JSDOM(res.text).window;
-                    const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
+                    const langSwitcherHref = document.querySelector('.qa-lang-switcher').href;
                     const urlPath = new URL(langSwitcherHref).pathname;
                     expect(urlPath).to.equal('/over10k');
                 });

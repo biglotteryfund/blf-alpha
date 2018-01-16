@@ -17,15 +17,6 @@
         </div>
 
         {% include "../includes/offscreenNav.njk" %}
-
-        {# JS-powered overlay #}
-        <div class="overlay{% if showOverlay %} overlay--visible{% endif %}" id="js-overlay">
-            <div class="overlay__content">{% block overlay %}{% endblock %}</div>
-            <div class="overlay__close" id="js-close-overlay">
-                {% include "../includes/svg/close.svg" %}
-            </div>
-        </div>
-
         {% include "../includes/metaFooterJS.njk" %}
     </body>
 </html>

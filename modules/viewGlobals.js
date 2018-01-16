@@ -2,6 +2,7 @@
 
 const config = require('config');
 const { get } = require('lodash');
+const shortid = require('shortid');
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
@@ -120,6 +121,8 @@ function init(app) {
     setViewGlobal('appData', appData);
 
     setViewGlobal('metadata', metadata);
+
+    setViewGlobal('shortid', () => shortid());
 
     setViewGlobal('getMetaTitle', getMetaTitle);
 
