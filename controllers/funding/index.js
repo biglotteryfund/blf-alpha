@@ -3,19 +3,14 @@
 const express = require('express');
 
 const routeStatic = require('../utils/routeStatic');
-const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
+const materialsRoute = require('./materials');
 
 const router = express.Router();
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
-     * Populate static pages
-     */
-    routeStatic.initRouting(pages, router, sectionPath, sectionId);
-
-    /**
-     * Free materials
+     * Order Free Materials
      */
     materialsRoute.init({
         router: router,
@@ -32,6 +27,17 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetail: pages.programmeDetail,
             programmeDetailAfaEngland: pages.programmeDetailAfaEngland
         }
+    });
+
+    /**
+     * Populate static pages
+     * Must come last to allow custom routes to take precedence over wildcards
+     */
+    routeStatic.init({
+        router: router,
+        pages: pages,
+        sectionPath: sectionPath,
+        sectionId: sectionId
     });
 
     return router;
