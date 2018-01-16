@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const _ = require('lodash');
+const { forEach, get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
 const importedLegacyPages = require('../config/app/importedLegacyPages');
@@ -301,6 +301,18 @@ const routes = {
 };
 
 /**
+ * Scraped/imported pages
+ *
+ * Serve pages imported via script into the CMS
+ */
+for (let section in importedLegacyPages) {
+    if (get(routes.sections, section)) {
+        let pages = routes.sections[section].pages;
+        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
+    }
+}
+
+/**
  * Programme Migration
  *
  * Handle redirects from /global-content/programmes to /funding/programmes
@@ -317,7 +329,6 @@ function programmeMigration(from, to, isLive) {
     };
 }
 const programmeRedirects = [
-    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', false),
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
@@ -332,18 +343,6 @@ const programmeRedirects = [
     programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
     programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
 ];
-
-/**
- * Scraped/imported pages
- *
- * Serve pages imported via script into the CMS
- */
-for (let section in importedLegacyPages) {
-    if (_.get(routes.sections, section)) {
-        let pages = routes.sections[section].pages;
-        routes.sections[section].pages = _.merge(pages, importedLegacyPages[section]);
-    }
-}
 
 /**
  * Vanity URLs
@@ -370,25 +369,43 @@ const vanityRedirects = [
         live: true
     },
     {
-        // this has to be here and not as an alias
-        // otherwise it won't be recognised as a welsh URL
-        name: 'Publicity (Welsh)',
-        path: '/cyhoeddusrwydd',
-        destination: '/welsh' + vanityDestinations.publicity,
-        aliasOnly: true,
+        name: 'Awards For All England',
+        path: '/prog_a4a_eng',
+        destination: '/global-content/programmes/england/awards-for-all-england',
+        live: true
+    },
+    {
+        name: 'Awards For All Scotland',
+        path: '/awardsforallscotland',
+        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: true
+    },
+    {
+        name: 'Reaching Communities England',
+        path: '/prog_reaching_communities',
+        destination: '/global-content/programmes/england/reaching-communities-england',
         live: true
     },
     {
         name: 'Helping Working Families',
         path: '/helpingworkingfamilies',
-        destination: routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        destination: '/helping-working-families',
         aliasOnly: true,
         live: true
     },
     {
         name: 'Helping Working Families (Welsh)',
         path: '/helputeuluoeddgweithio',
-        destination: '/welsh' + routes.sections.toplevel.pages.helpingWorkingFamilies.path,
+        destination: '/welsh/helping-working-families',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        // this has to be here and not as an alias
+        // otherwise it won't be recognised as a welsh URL
+        name: 'Publicity (Welsh)',
+        path: '/cyhoeddusrwydd',
+        destination: '/welsh' + vanityDestinations.publicity,
         aliasOnly: true,
         live: true
     },
@@ -445,30 +462,6 @@ const vanityRedirects = [
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
         live: true
-    },
-    {
-        name: 'Awards For All England',
-        path: '/prog_a4a_eng',
-        destination: '/global-content/programmes/england/awards-for-all-england',
-        live: true
-    },
-    {
-        name: 'Awards For All Scotland',
-        path: '/awardsforallscotland',
-        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
-        live: false // Mark as live when launching AFA test in Scotland
-    },
-    {
-        name: 'Reaching Communities England',
-        path: '/prog_reaching_communities',
-        destination: '/funding/programmes/reaching-communities-england',
-        live: false // Migration experiment
-    },
-    {
-        name: 'Parks for People',
-        path: '/prog_parks_people',
-        destination: '/funding/programmes/parks-for-people',
-        live: false // Migration experiment
     }
 ];
 
@@ -497,18 +490,6 @@ const legacyProxiedRoutes = {
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: true
-    }),
-    awardsForAllScotland: withLegacyDefaults({
-        path: '/global-content/programmes/scotland/awards-for-all-scotland',
-        live: false
-    }),
-    awardsForAllWales: withLegacyDefaults({
-        path: '/global-content/programmes/wales/awards-for-all-wales',
-        live: false
-    }),
-    awardsForAllWalesWelsh: withLegacyDefaults({
-        path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
-        live: false
     })
 };
 
