@@ -497,18 +497,6 @@ const legacyProxiedRoutes = {
     awardsForAllEngland: withLegacyDefaults({
         path: '/global-content/programmes/england/awards-for-all-england',
         live: true
-    }),
-    awardsForAllScotland: withLegacyDefaults({
-        path: '/global-content/programmes/scotland/awards-for-all-scotland',
-        live: false
-    }),
-    awardsForAllWales: withLegacyDefaults({
-        path: '/global-content/programmes/wales/awards-for-all-wales',
-        live: false
-    }),
-    awardsForAllWalesWelsh: withLegacyDefaults({
-        path: '/welsh/global-content/programmes/wales/awards-for-all-wales',
-        live: false
     })
 };
 
