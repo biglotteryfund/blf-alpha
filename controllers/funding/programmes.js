@@ -190,11 +190,11 @@ function initProgrammeDetailAfaEngland(router, options) {
 
     const getSlug = urlPath => last(urlPath.split('/'));
 
-    router.get(options.path, testFn(null, percentages.A), (req, res) => {
+    function renderVariantA(req, res) {
         handleProgrammeDetail(getSlug(req.path))(req, res);
-    });
+    }
 
-    router.get(options.path, testFn(null, percentages.B), (req, res) => {
+    function renderVariantB(req, res) {
         const locale = req.i18n.getLocale();
         const slug = getSlug(req.path);
         contentApi
@@ -227,6 +227,18 @@ function initProgrammeDetailAfaEngland(router, options) {
             .catch(err => {
                 renderNotFoundWithError(err, req, res);
             });
+    }
+
+    router.get(options.path, testFn(null, percentages.A), renderVariantA);
+    router.get(`${options.path}/a`, (req, res) => {
+        req.url = options.path;
+        renderVariantA(req, res);
+    });
+
+    router.get(options.path, testFn(null, percentages.B), renderVariantB);
+    router.get(`${options.path}/b`, (req, res) => {
+        req.url = options.path;
+        renderVariantB(req, res);
     });
 }
 
