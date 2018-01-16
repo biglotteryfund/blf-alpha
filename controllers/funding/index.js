@@ -22,9 +22,10 @@ module.exports = (pages, sectionPath, sectionId) => {
      */
     programmesRoute.init({
         router: router,
-        config: {
-            listing: pages.programmes,
-            detail: pages.programmeDetail
+        routeConfig: {
+            programmes: pages.programmes,
+            programmeDetail: pages.programmeDetail,
+            programmeDetailAfaEngland: pages.programmeDetailAfaEngland
         }
     });
 

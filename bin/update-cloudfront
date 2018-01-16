@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 'use strict';
 
-const prompt = require('prompt');
-const _ = require('lodash');
-const path = require('path');
-const AWS = require('aws-sdk');
 const fs = require('fs');
+const path = require('path');
+const prompt = require('prompt');
+const AWS = require('aws-sdk');
 const moment = require('moment');
 const rp = require('request-promise-native');
-const has = require('lodash/has');
+const { cloneDeep, filter, find, has } = require('lodash');
+
 require('dotenv').config();
 
 const CF_CONFIGS = require('../config/app/distributions');
@@ -152,19 +152,19 @@ function beginUpdate(cacheBehaviors) {
             const etag = existingConfig.ETag;
 
             // clone the existing config and update the behaviours
-            let newConfigToWrite = _.cloneDeep(existingConfig);
+            let newConfigToWrite = cloneDeep(existingConfig);
             newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items = cacheBehaviors;
             newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity = cacheBehaviors.length;
 
             // allow for diff/comparison before deploy
             const getUrls = item => {
                 // add a leading slash for comparison's sake
-                let path = item.PathPattern;
-                if (path[0] !== '/') {
-                    path = '/' + path;
+                let urlPath = item.PathPattern;
+                if (urlPath[0] !== '/') {
+                    urlPath = '/' + path;
                 }
                 return {
-                    path: path,
+                    path: urlPath,
                     origin: item.TargetOriginId
                 };
             };
@@ -174,8 +174,8 @@ function beginUpdate(cacheBehaviors) {
                 before: existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
                 after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
             };
-            const pathsAdded = _.filter(paths.after, obj => !_.find(paths.before, obj));
-            const pathsRemoved = _.filter(paths.before, obj => !_.find(paths.after, obj));
+            const pathsAdded = filter(paths.after, obj => !find(paths.before, obj));
+            const pathsRemoved = filter(paths.before, obj => !find(paths.after, obj));
 
             // warn users about changes
             console.log(
@@ -233,11 +233,11 @@ function beginUpdate(cacheBehaviors) {
                             console.log(data);
                             console.log('CloudFront was successfully updated with the new configuration!');
                         })
-                        .catch(err => {
+                        .catch(updateError => {
                             // failed to update config
                             console.log(JSON.stringify(newConfigToWrite));
                             console.error('There was an error uploading this config', {
-                                error: err
+                                error: updateError
                             });
                         });
                 } else {

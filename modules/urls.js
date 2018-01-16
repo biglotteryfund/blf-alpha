@@ -51,17 +51,32 @@ function cymreigio(urlPath) {
     return [urlPath, makeWelsh(urlPath)];
 }
 
+function getBaseUrl(req) {
+    const headerProtocol = req.get('X-Forwarded-Proto');
+    const protocol = headerProtocol ? headerProtocol : req.protocol;
+    const baseUrl = `${protocol}://${req.get('host')}`;
+    return baseUrl;
+}
+
+/**
+ * hasTrailingSlash
+ * Does a given URL end with a trailing slash
+ */
+function hasTrailingSlash(urlPath) {
+    return urlPath[urlPath.length - 1] === '/' && urlPath.length > 1;
+}
+
 /**
  * Strip trailing slashes from a string
  * Used to strip slashes from URLs like '/welsh/' => '/welsh'
  */
-const stripTrailingSlashes = str => {
-    const hasTrailingSlash = s => s[s.length - 1] === '/' && s.length > 1;
-    if (hasTrailingSlash(str)) {
-        str = str.substring(0, str.length - 1);
+function stripTrailingSlashes(urlPath) {
+    if (hasTrailingSlash(urlPath)) {
+        urlPath = urlPath.substring(0, urlPath.length - 1);
     }
-    return str;
-};
+
+    return urlPath;
+}
 
 module.exports = {
     WELSH_REGEX,
@@ -70,5 +85,7 @@ module.exports = {
     removeWelsh,
     localify,
     cymreigio,
+    getBaseUrl,
+    hasTrailingSlash,
     stripTrailingSlashes
 };

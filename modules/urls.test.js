@@ -3,7 +3,8 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { isWelsh, localify, stripTrailingSlashes } = require('./urls');
+const { getBaseUrl, isWelsh, localify, hasTrailingSlash, stripTrailingSlashes } = require('./urls');
+const httpMocks = require('node-mocks-http');
 
 describe('URL Helpers', () => {
     describe('#isWelsh', () => {
@@ -14,6 +15,11 @@ describe('URL Helpers', () => {
             expect(isWelsh('/welsh/funding/funding-finder')).to.be.true;
             expect(isWelsh('/welsh/funding/programmes')).to.be.true;
             expect(isWelsh('/funding/programmes')).to.be.false;
+        });
+
+        it('should only be flagged as welsh url if starting with /welsh', () => {
+            expect(isWelsh('/some/path/with/welsh')).to.be.false;
+            expect(isWelsh('/funding/welsh/programmes')).to.be.false;
         });
     });
 
@@ -49,15 +55,56 @@ describe('URL Helpers', () => {
         });
     });
 
+    describe('#getBaseUrl', () => {
+        it('should return a base URL with protocol and host for a given request', () => {
+            expect(
+                getBaseUrl(
+                    httpMocks.createRequest({
+                        method: 'GET',
+                        protocol: 'http',
+                        headers: {
+                            Host: 'example.org.uk'
+                        }
+                    })
+                )
+            ).to.equal('http://example.org.uk');
+
+            expect(
+                getBaseUrl(
+                    httpMocks.createRequest({
+                        method: 'GET',
+                        protocol: 'http',
+                        headers: {
+                            Host: 'example.org.uk',
+                            'X-Forwarded-Proto': 'https'
+                        }
+                    })
+                )
+            ).to.equal('https://example.org.uk');
+        });
+    });
+
+    describe('#hasTrailingSlash', () => {
+        it('should return boolean based on whether a urlPath has a trailing slash', () => {
+            expect(hasTrailingSlash('/foo/')).to.be.true;
+            expect(hasTrailingSlash('/welsh/')).to.be.true;
+            expect(hasTrailingSlash('/path/to/longer/url/')).to.be.true;
+            expect(hasTrailingSlash('/path/without/trailing/slash')).to.be.false;
+        });
+
+        it('should not consider homepage as having a trailing slash', () => {
+            expect(hasTrailingSlash('/')).to.be.false;
+        });
+    });
+
     describe('#stripTrailingSlashes', () => {
-        it('should strip trailing slashes correctly', done => {
+        it('should strip trailing slashes correctly', () => {
             let pathWithSlash = '/foo/';
             let pathWithoutSlash = '/bar';
             let pathToHomepage = '/';
             expect(stripTrailingSlashes(pathWithSlash)).to.equal('/foo');
             expect(stripTrailingSlashes(pathWithoutSlash)).to.equal('/bar');
             expect(stripTrailingSlashes(pathToHomepage)).to.equal('/');
-            done();
         });
     });
 });

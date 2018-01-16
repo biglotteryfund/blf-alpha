@@ -1,6 +1,13 @@
 'use strict';
-const { find, get, uniq } = require('lodash');
+
+const ab = require('express-ab');
+const config = require('config');
+const moment = require('moment');
+const Raven = require('raven');
+const { assign, find, findIndex, get, last, uniq } = require('lodash');
+
 const { renderNotFoundWithError } = require('../http-errors');
+const { splitPercentages } = require('../../modules/ab');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
 
@@ -50,9 +57,9 @@ const programmeFilters = {
     }
 };
 
-function initProgrammesList(router, config) {
-    router.get(config.path, (req, res) => {
-        const lang = req.i18n.__(config.lang);
+function initProgrammesList(router, options) {
+    router.get(options.path, (req, res, next) => {
+        const lang = req.i18n.__(options.lang);
         const templateData = {
             copy: lang,
             title: lang.title,
@@ -78,25 +85,25 @@ function initProgrammesList(router, config) {
                 if (!minAmountParam && !maxAmountParam && !locationParam) {
                     templateData.activeBreadcrumbs = [
                         {
-                            label: req.i18n.__(config.lang + '.breadcrumbAll')
+                            label: req.i18n.__(options.lang + '.breadcrumbAll')
                         }
                     ];
                 } else {
                     templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(config.lang + '.title'),
+                        label: req.i18n.__(options.lang + '.title'),
                         url: req.originalUrl.split('?').shift()
                     });
 
                     if (parseInt(minAmountParam, 10) === 10000) {
                         templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(config.lang + '.over10k'),
+                            label: req.i18n.__(options.lang + '.over10k'),
                             url: '/over10k'
                         });
                     }
 
                     if (parseInt(maxAmountParam, 10) === 10000) {
                         templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(config.lang + '.under10k'),
+                            label: req.i18n.__(options.lang + '.under10k'),
                             url: '/under10k'
                         });
                     }
@@ -119,39 +126,99 @@ function initProgrammesList(router, config) {
                     }
                 }
 
-                res.render(config.template, templateData);
+                res.render(options.template, templateData);
             })
             .catch(err => {
-                console.log('error', err);
-                res.send(err);
+                err.friendlyText = 'Unable to load funding programmes';
+                next(err);
             });
     });
 }
 
-
-
-function initProgrammeDetail(router, config) {
-
-    // Allow for programmes without heroes
-    const defaultHeroImage = createHeroImage({
+function renderProgrammeDetail({ res, entry }) {
+    /**
+     * Allow for programmes without heroes
+     */
+    const defaultProgrammeHeroImage = createHeroImage({
         small: 'hero/working-families-small.jpg',
         medium: 'hero/working-families-medium.jpg',
         large: 'hero/working-families-large.jpg',
         default: 'hero/working-families-medium.jpg'
     });
 
-    router.get('/programmes/:slug', function(req, res) {
+    res.render('pages/funding/programme-detail', {
+        entry: entry,
+        title: entry.title,
+        heroImage: entry.hero || defaultProgrammeHeroImage
+    });
+}
+
+function handleProgrammeDetail(slug) {
+    return function(req, res) {
+        const locale = req.i18n.getLocale();
         contentApi
-            .getFundingProgramme({
-                locale: req.i18n.getLocale(),
-                slug: req.params.slug
-            })
+            .getFundingProgramme({ locale, slug })
             .then(entry => {
                 if (entry.contentSections.length > 0) {
-                    res.render(config.template, {
-                        entry: entry,
-                        title: entry.title,
-                        heroImage: entry.hero || defaultHeroImage
+                    renderProgrammeDetail({ res, entry });
+                } else {
+                    throw new Error('NoContent');
+                }
+            })
+            .catch(err => {
+                renderNotFoundWithError(err, req, res);
+            });
+    };
+}
+
+function initProgrammeDetail(router) {
+    router.get('/programmes/:slug', (req, res) => {
+        handleProgrammeDetail(req.params.slug)(req, res);
+    });
+}
+
+function initProgrammeDetailAfaEngland(router, options) {
+    const testFn = ab.test('blf-afa-rollout-england', {
+        cookie: {
+            name: config.get('cookies.abTestAwardsForAll'),
+            maxAge: moment.duration(4, 'weeks').asMilliseconds()
+        }
+    });
+
+    // @TODO use config.get('abTests.tests.awardsForAll.percentage') when launching;
+    const percentages = splitPercentages(50);
+
+    const getSlug = urlPath => last(urlPath.split('/'));
+
+    function renderVariantA(req, res) {
+        handleProgrammeDetail(getSlug(req.path))(req, res);
+    }
+
+    function renderVariantB(req, res) {
+        const locale = req.i18n.getLocale();
+        const slug = getSlug(req.path);
+        contentApi
+            .getFundingProgramme({ locale, slug })
+            .then(entry => {
+                if (entry.contentSections.length > 0) {
+                    const applyTabIdx = findIndex(entry.contentSections, section => {
+                        return section.title.match(/How do you apply/);
+                    });
+
+                    if (applyTabIdx !== -1) {
+                        const replacementText = req.i18n.__('global.abTests.awardsForAllEngland');
+                        const newContentSection = assign({}, entry.contentSections[applyTabIdx], {
+                            body: replacementText
+                        });
+
+                        entry.contentSections[applyTabIdx] = newContentSection;
+                    } else {
+                        Raven.captureMessage('Failed to modify Awards For All page');
+                    }
+
+                    renderProgrammeDetail({
+                        res,
+                        entry
                     });
                 } else {
                     throw new Error('NoContent');
@@ -160,12 +227,27 @@ function initProgrammeDetail(router, config) {
             .catch(err => {
                 renderNotFoundWithError(err, req, res);
             });
+    }
+
+    router.get(options.path, testFn(null, percentages.A), renderVariantA);
+    router.get(`${options.path}/a`, (req, res) => {
+        req.url = options.path;
+        renderVariantA(req, res);
+    });
+
+    router.get(options.path, testFn(null, percentages.B), renderVariantB);
+    router.get(`${options.path}/b`, (req, res) => {
+        req.url = options.path;
+        renderVariantB(req, res);
     });
 }
 
-function init({ router, config }) {
-    initProgrammesList(router, config.listing);
-    initProgrammeDetail(router, config.detail);
+function init({ router, routeConfig }) {
+    initProgrammesList(router, routeConfig.programmes);
+    if (config.get('abTests.enabled')) {
+        initProgrammeDetailAfaEngland(router, routeConfig.programmeDetailAfaEngland);
+    }
+    initProgrammeDetail(router);
 }
 
 module.exports = {

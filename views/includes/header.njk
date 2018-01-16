@@ -1,5 +1,5 @@
-{% from "../components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
-{% from "../components/surveys.njk" import showSurvey with context %}
+{% from "components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
+{% from "components/surveys.njk" import showSurvey with context %}
 
 {# show a microsurvey for this page (if set) #}
 {{ showSurvey() }}
@@ -16,13 +16,13 @@
             <nav class="global-header__hamburger u-mobile-only u-dont-print"
                 id="js-mobile-nav-toggle">
                 <a href="#nav">
-                    {% include "../includes/svg/hamburger.svg" %}
+                    {% include "includes/svg/hamburger.svg" %}
                 </a>
             </nav>
             <nav role="navigation"
                 class="global-header__nav u-desktop-only u-dont-print">
                 <ul class="global-nav">
-                    {{ navlinks('global-nav__link') }}
+                    {{ navlinks('global-nav__link qa-nav-link') }}
                     <li class="global-nav__lang">
                         {{ navLangLink() }}
                     </li>
