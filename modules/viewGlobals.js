@@ -2,7 +2,7 @@
 
 const config = require('config');
 const { get } = require('lodash');
-const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
+const { getBaseUrl, isWelsh, localify, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { createHeroImage } = require('./images');
 const appData = require('./appData');
 const routes = require('../controllers/routes');
@@ -129,6 +129,13 @@ function init(app) {
     });
 
     setViewGlobal('getCurrentUrl', getCurrentUrl);
+
+    setViewGlobal('localify', urlPath => {
+        return localify({
+            urlPath: urlPath,
+            locale: getViewGlobal('locale')
+        });
+    });
 
     // a global function for finding errors from a form array
     setViewGlobal('getFormErrorForField', (errorList, fieldName) => {
