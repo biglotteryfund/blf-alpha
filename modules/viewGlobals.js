@@ -61,7 +61,7 @@ function buildUrl(localePrefix) {
         return normalisedUrl;
     }
 
-    return function(sectionName, pageName) {
+    return function (sectionName, pageName) {
         const sectionFromRoutes = get(routes.sections, sectionName);
         const pageFromSection = get(sectionFromRoutes, `pages.${pageName}`);
 
@@ -99,6 +99,15 @@ function getCurrentUrl(req, requestedLocale) {
     return baseUrl + cleanedUrlPath;
 }
 
+function getCurrentSection(sectionId, pageId) {
+    const isHomepage = sectionId === 'toplevel' && pageId === 'home';
+    if (isHomepage) {
+        return 'toplevel';
+    } else if (sectionId !== 'toplevel') {
+        return sectionId;
+    }
+}
+
 function init(app) {
     const setViewGlobal = (name, value) => {
         app.get('engineEnv').addGlobal(name, value);
@@ -130,6 +139,8 @@ function init(app) {
 
     setViewGlobal('getCurrentUrl', getCurrentUrl);
 
+    setViewGlobal('getCurrentSection', getCurrentSection);
+
     setViewGlobal('localify', urlPath => {
         return localify({
             urlPath: urlPath,
@@ -157,7 +168,7 @@ function init(app) {
         }
     });
 
-    setViewGlobal('createHeroImage', function(opts) {
+    setViewGlobal('createHeroImage', function (opts) {
         return createHeroImage({
             small: opts.small,
             medium: opts.medium,
@@ -173,5 +184,6 @@ module.exports = {
     buildUrl,
     getCurrentUrl,
     getHtmlClasses,
-    getMetaTitle
+    getMetaTitle,
+    getCurrentSection
 };
