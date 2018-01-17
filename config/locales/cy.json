@@ -161,24 +161,28 @@
         },
         "funding": {
             "title": "Ariannu",
+            "latestProgrammes": "Rhaglenni diweddaraf",
             "sectionLinks": [{
                 "label": "Learn how to apply for funding under £10,000",
-                "href": "/under10k"
+                "href": "/welsh/under10k"
             }, {
                 "label": "Learn how to apply for funding above £10,000",
-                "href": "/over10k"
+                "href": "/welsh/over10k"
             }, {
-                "label": "View open grant programmes",
-                "href": "/funding/programmes"
+                "label": "View all open funding programmes",
+                "href": "/welsh/funding/programmes"
+            }, {
+                "label": "View all closed funding programmes",
+                "href": "/welsh/funding/funding-finder?sc=1"
             }, {
                 "label": "Search funded projects",
-                "href": "/funding/search-past-grants"
+                "href": "/welsh/funding/search-past-grants"
             }, {
                 "label": "Help with applying",
-                "href": "/funding/funding-guidance/applying-for-funding"
+                "href": "/welsh/funding/funding-guidance/applying-for-funding"
             }, {
                 "label": "Help with managing your grant",
-                "href": "/funding/funding-guidance/managing-your-funding"
+                "href": "/welsh/funding/funding-guidance/managing-your-funding"
             }]
         },
 		"contact": {

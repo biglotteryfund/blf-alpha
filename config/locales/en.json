@@ -164,6 +164,7 @@
         },
         "funding": {
             "title": "Funding",
+            "latestProgrammes": "Latest Programmes",
             "sectionLinks": [{
                 "label": "Learn how to apply for funding under £10,000",
                 "href": "/under10k"
@@ -171,8 +172,11 @@
                 "label": "Learn how to apply for funding above £10,000",
                 "href": "/over10k"
             }, {
-                "label": "View open grant programmes",
+                "label": "View all open funding programmes",
                 "href": "/funding/programmes"
+            }, {
+                "label": "View all closed funding programmes",
+                "href": "/funding/funding-finder?sc=1"
             }, {
                 "label": "Search funded projects",
                 "href": "/funding/search-past-grants"

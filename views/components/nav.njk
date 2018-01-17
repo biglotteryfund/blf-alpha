@@ -1,7 +1,7 @@
 {% macro navlinks(itemClass) %}
     {% for id, section in routes %}
         {% set currentSectionId = getCurrentSection(sectionId, pageId)  %}
-        <li class="{% if selectedNavId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
+        <li class="{% if currentSectionId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
             <a href="{{ buildUrl(id) }}" title="{{ sectionId }}, {{ pageId }}">{{ __(section.langTitlePath) }}</a>
         </li>
     {% endfor %}

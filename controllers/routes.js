@@ -163,7 +163,7 @@ const routes = {
                     path: '/',
                     template: 'pages/toplevel/funding',
                     lang: 'toplevel.funding',
-                    static: true,
+                    static: false,
                     live: false
                 },
                 logos: {

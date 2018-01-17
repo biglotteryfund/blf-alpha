@@ -66,6 +66,20 @@
     margin-bottom: $spacingUnit / 2;
 }
 
+.programme-card.programme-card--minimal {
+    background-color: transparent;
+    padding: 0;
+
+    @include mq(large) {
+        padding: 0;
+    }
+
+    .programme-card__title,
+    .programme-card__body {
+        @include font-and-leading(18px, 27px);
+    }
+}
+
 /* =========================================================================
    Selection Trail
    ========================================================================= */
