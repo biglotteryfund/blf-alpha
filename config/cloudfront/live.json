@@ -1759,6 +1759,65 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/funding",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/funding/Awards-For-All",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
@@ -5630,6 +5689,65 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/welsh/freedom-of-information",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/funding",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
