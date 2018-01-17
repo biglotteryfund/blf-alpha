@@ -158,6 +158,14 @@ const routes = {
             path: sectionPaths.funding,
             controller: controllers.funding,
             pages: {
+                root: {
+                    name: 'Funding',
+                    path: '/',
+                    template: 'pages/toplevel/funding',
+                    lang: 'toplevel.funding',
+                    static: false,
+                    live: false
+                },
                 logos: {
                     name: 'Logos',
                     path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
