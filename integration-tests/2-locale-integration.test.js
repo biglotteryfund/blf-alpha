@@ -48,28 +48,24 @@ describe('Locale integration tests', () => {
         it('should include correct language switcher for en locale', () => {
             return chai
                 .request(server)
-                .get('/funding/programmes')
+                .get('/over10k')
                 .then(res => {
                     const { document } = new JSDOM(res.text).window;
                     const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
                     const urlPath = new URL(langSwitcherHref).pathname;
-                    expect(urlPath).to.equal('/welsh/funding/programmes');
-                }).catch(err => {
-                    console.log(err);
+                    expect(urlPath).to.equal('/welsh/over10k');
                 });
         });
 
         it('should include correct language switcher for cy locale', () => {
             return chai
                 .request(server)
-                .get('/welsh/funding/programmes')
+                .get('/welsh/over10k')
                 .then(res => {
                     const { document } = new JSDOM(res.text).window;
                     const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
                     const urlPath = new URL(langSwitcherHref).pathname;
-                    expect(urlPath).to.equal('/funding/programmes');
-                }).catch(err => {
-                    console.log(err);
+                    expect(urlPath).to.equal('/over10k');
                 });
         });
     });
