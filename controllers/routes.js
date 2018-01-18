@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { forEach, get, merge } = require('lodash');
+const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
 const importedLegacyPages = require('../config/app/importedLegacyPages');
