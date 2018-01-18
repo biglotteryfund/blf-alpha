@@ -337,6 +337,9 @@ function programmeMigration(from, to, isLive) {
     };
 }
 const programmeRedirects = [
+    // Live
+    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
+    // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
@@ -386,6 +389,12 @@ const vanityRedirects = [
         name: 'Awards For All Scotland',
         path: '/awardsforallscotland',
         destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        live: true
+    },
+    {
+        name: 'Awards For All Northern Ireland',
+        path: '/prog_a4a_ni',
+        destination: '/funding/programmes/awards-for-all-northern-ireland',
         live: true
     },
     {
