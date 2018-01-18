@@ -243,7 +243,7 @@ const routes = {
                     name: 'Funding programme details',
                     path: '/programmes/*',
                     static: false,
-                    live: false
+                    live: true
                 },
                 programmeDetailAfaEngland: {
                     name: 'Awards For All England',
