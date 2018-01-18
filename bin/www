@@ -1,71 +1,30 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies
- */
-
-var app = require('../server');
-var debug = require('debug')('blf-alpha:server');
-var http = require('http');
-var models = require('../models');
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-var startServer = function() {
-    /**
-     * Listen on provided port, on all network interfaces.
-     */
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-};
-
-// sync database models
-try {
-    models.sequelize.sync().then(function() {
-        console.log('Database sync complete – app now running on port ' + port);
-        startServer();
-    });
-} catch (e) {
-    console.log('Could not start/sync DB');
-    startServer();
-}
-
-/**
- * Normalize a port into a number, string, or false.
- */
+const http = require('http');
+const debug = require('debug')('blf-alpha:server');
+const app = require('../server');
+const models = require('../models');
 
 function normalizePort(val) {
-    var port = parseInt(val, 10);
+    const parsedPort = parseInt(val, 10);
 
-    if (isNaN(port)) {
+    if (isNaN(parsedPort)) {
         // named pipe
         return val;
     }
 
-    if (port >= 0) {
+    if (parsedPort >= 0) {
         // port number
-        return port;
+        return parsedPort;
     }
 
     return false;
 }
 
+
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
@@ -91,11 +50,44 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+/**
+ * Get port from environment and store in Express.
+ */
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+var startServer = function startServer() {
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+};
+
+/**
+ * Sync database models and start server
+ */
+try {
+    models.sequelize.sync().then(function() {
+        debug('Database sync complete – app now running on port ' + port);
+        startServer();
+    });
+} catch (e) {
+    debug('Could not start/sync DB');
+    startServer();
 }
 
 module.exports = server;
