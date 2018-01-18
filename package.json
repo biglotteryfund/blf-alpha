@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern public/",
     "test-deps": "snyk test",
     "test-unit": "mocha {assets,controllers,middleware,modules}/**/*.test.js --exit",
     "test-integration": "mocha integration-tests/*.test.js --exit --timeout 20s",
