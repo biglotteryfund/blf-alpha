@@ -10,8 +10,8 @@ script:
 - npm run lint
 - npm run build-production
 - npm test
-- npm prune --production > /dev/null 2>&1
 before_deploy:
+- npm prune --production > /dev/null 2>&1
 - sh deploy/store_deploy_info.sh
 - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
 - mkdir -p dpl_cd_upload
