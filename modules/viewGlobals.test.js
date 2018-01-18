@@ -76,7 +76,7 @@ describe('View Globals', () => {
         });
     });
 
-    describe.only('#getCurrentSection', () => {
+    describe('#getCurrentSection', () => {
         it('should return navigation section for a given page', () => {
             expect(getCurrentSection('toplevel', 'home')).to.equal('toplevel');
             expect(getCurrentSection('funding', 'root')).to.equal('funding');
