@@ -71,7 +71,6 @@ describe('Survey tool', () => {
             .set('Accept', 'application/json')
             .send(surveyData)
             .end((err, res) => {
-                console.log(err);
                 res.should.have.status(200);
                 res.should.have.header('content-type', /^application\/json/);
                 res.body.should.have.property('status');

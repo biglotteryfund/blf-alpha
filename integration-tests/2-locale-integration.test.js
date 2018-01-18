@@ -10,7 +10,7 @@ const expect = chai.expect;
 
 const helper = require('./helper');
 
-describe('locale integration tests', () => {
+describe('Locale integration tests', () => {
     let server;
 
     before(done => {
@@ -22,8 +22,8 @@ describe('locale integration tests', () => {
 
     after(() => helper.after(server));
 
-    describe('welsh translation', () => {
-        it('serves welsh content', () => {
+    describe('Welsh translation', () => {
+        it('should serve welsh content', () => {
             return chai
                 .request(server)
                 .get('/welsh')
@@ -44,31 +44,32 @@ describe('locale integration tests', () => {
         });
     });
 
-    describe('language switcher', () => {
-        function langSwitherHref(res) {
-            const { document } = new JSDOM(res.text).window;
-            const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
-            const urlPath = new URL(langSwitcherHref).pathname;
-            return urlPath;
-        }
-
-        it('has correct language for en locale', () => {
-            chai
+    describe('Language switcher', () => {
+        it('should include correct language switcher for en locale', () => {
+            return chai
                 .request(server)
                 .get('/funding/programmes')
                 .then(res => {
-                    const urlPath = langSwitherHref(res);
+                    const { document } = new JSDOM(res.text).window;
+                    const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
+                    const urlPath = new URL(langSwitcherHref).pathname;
                     expect(urlPath).to.equal('/welsh/funding/programmes');
+                }).catch(err => {
+                    console.log(err);
                 });
         });
 
-        it('has correct language switcher for cy locale', () => {
-            chai
+        it('should include correct language switcher for cy locale', () => {
+            return chai
                 .request(server)
                 .get('/welsh/funding/programmes')
                 .then(res => {
-                    const urlPath = langSwitherHref(res);
+                    const { document } = new JSDOM(res.text).window;
+                    const langSwitcherHref = document.getElementById('qa-lang-switcher').href;
+                    const urlPath = new URL(langSwitcherHref).pathname;
                     expect(urlPath).to.equal('/funding/programmes');
+                }).catch(err => {
+                    console.log(err);
                 });
         });
     });
