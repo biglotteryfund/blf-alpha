@@ -7,7 +7,7 @@ const expect = chai.expect;
 const config = require('config');
 const helper = require('./helper');
 
-describe('Express application', () => {
+describe('Basic server tests', () => {
     let server;
 
     before(done => {
@@ -19,7 +19,7 @@ describe('Express application', () => {
 
     after(() => helper.after(server));
 
-    it('responds to /', () => {
+    it('should respond to /', () => {
         return chai
             .request(server)
             .get('/')
@@ -32,7 +32,7 @@ describe('Express application', () => {
             });
     });
 
-    it('serves static files', () => {
+    it('should serve static files', () => {
         const assets = require('../modules/assets');
         const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
         return chai
@@ -44,7 +44,7 @@ describe('Express application', () => {
             });
     });
 
-    it('can set contrast preferences', () => {
+    it('should set contrast preferences', () => {
         let redirectUrl = 'http://www.google.com';
         return chai
             .request(server)
@@ -61,7 +61,7 @@ describe('Express application', () => {
             });
     });
 
-    it('404s everything else', () => {
+    it('should 404 everything else', () => {
         return chai
             .request(server)
             .get('/foo/bar')
