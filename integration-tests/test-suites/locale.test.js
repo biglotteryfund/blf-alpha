@@ -8,7 +8,7 @@ const { map } = require('lodash');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-const helper = require('./helper');
+const helper = require('../helper');
 
 describe('Locale integration tests', () => {
     let server;

@@ -5,7 +5,7 @@ chai.use(require('chai-http'));
 const expect = chai.expect;
 
 const config = require('config');
-const helper = require('./helper');
+const helper = require('../helper');
 
 describe('Basic server tests', () => {
     let server;
@@ -66,14 +66,12 @@ describe('Basic server tests', () => {
     });
 
     it('should serve static files', () => {
-        const assets = require('../modules/assets');
-        const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
         return chai
             .request(server)
-            .get(CSS_PATH)
+            .get('/assets/images/favicon/apple-icon.png')
             .then(res => {
                 expect(res).to.have.status(200);
-                expect(res).to.have.header('content-type', /^text\/css/);
+                expect(res).to.have.header('content-type', /^image\/png/);
             });
     });
 
