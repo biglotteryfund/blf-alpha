@@ -337,8 +337,10 @@ function programmeMigration(from, to, isLive) {
         live: !isLive ? false : true
     };
 }
+
 const programmeRedirects = [
     // Live
+    programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england', true),
     programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
@@ -383,7 +385,7 @@ const vanityRedirects = [
     {
         name: 'Awards For All England',
         path: '/prog_a4a_eng',
-        destination: '/global-content/programmes/england/awards-for-all-england',
+        destination: '/funding/programmes/national-lottery-awards-for-all-england',
         live: true
     },
     {
@@ -503,10 +505,6 @@ const legacyProxiedRoutes = {
     }),
     fundingFinderWelsh: withLegacyDefaults({
         path: '/welsh/funding/funding-finder',
-        live: true
-    }),
-    awardsForAllEngland: withLegacyDefaults({
-        path: '/global-content/programmes/england/awards-for-all-england',
         live: true
     })
 };
