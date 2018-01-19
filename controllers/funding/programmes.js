@@ -182,7 +182,8 @@ function initProgrammeDetailAfaEngland(router, options) {
         cookie: {
             name: config.get('cookies.abTestAwardsForAll'),
             maxAge: moment.duration(4, 'weeks').asMilliseconds()
-        }
+        },
+        id: 'O9FsbkKfSeOammAP0JrEyA'
     });
 
     // @TODO use config.get('abTests.tests.awardsForAll.percentage') when launching;
