@@ -10,6 +10,8 @@ const { renderNotFoundWithError } = require('../http-errors');
 const { splitPercentages } = require('../../modules/ab');
 const { createHeroImage } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
+const cached = require('../../middleware/cached');
+const appData = require('../../modules/appData');
 
 const programmeFilters = {
     getValidLocation(programmes, requestedLocation) {
@@ -185,8 +187,8 @@ function initProgrammeDetailAfaEngland(router, options) {
         }
     });
 
-    // @TODO use config.get('abTests.tests.awardsForAll.percentage') when launching;
-    const percentages = splitPercentages(50);
+    const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
+    const percentages = splitPercentages(percentageForTest);
 
     const getSlug = urlPath => last(urlPath.split('/'));
 
@@ -229,17 +231,23 @@ function initProgrammeDetailAfaEngland(router, options) {
             });
     }
 
-    router.get(options.path, testFn(null, percentages.A), renderVariantA);
-    router.get(`${options.path}/a`, (req, res) => {
-        req.url = options.path;
-        renderVariantA(req, res);
-    });
+    router.get(options.path, cached.noCache, testFn(null, percentages.A), renderVariantA);
+    router.get(options.path, cached.noCache, testFn(null, percentages.B), renderVariantB);
 
-    router.get(options.path, testFn(null, percentages.B), renderVariantB);
-    router.get(`${options.path}/b`, (req, res) => {
-        req.url = options.path;
-        renderVariantB(req, res);
-    });
+    /**
+     * Expose preview URLs to see test variants directly
+     */
+    if (appData.isNotProduction) {
+        router.get(`${options.path}/a`, (req, res) => {
+            req.url = options.path;
+            renderVariantA(req, res);
+        });
+
+        router.get(`${options.path}/b`, (req, res) => {
+            req.url = options.path;
+            renderVariantB(req, res);
+        });
+    }
 }
 
 function init({ router, routeConfig }) {
