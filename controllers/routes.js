@@ -384,7 +384,7 @@ const vanityRedirects = [
     },
     {
         name: 'Awards For All England',
-        path: '/prog_a4a_eng',
+        paths: ['/prog_a4a_eng', '/a4aengland'],
         destination: '/funding/programmes/national-lottery-awards-for-all-england',
         live: true
     },
