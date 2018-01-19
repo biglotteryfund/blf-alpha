@@ -164,7 +164,8 @@ const routes = {
                     template: 'pages/toplevel/funding',
                     lang: 'toplevel.funding',
                     static: false,
-                    live: true
+                    live: true,
+                    aliases: ['/home/funding']
                 },
                 logos: {
                     name: 'Logos',
