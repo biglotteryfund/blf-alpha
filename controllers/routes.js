@@ -250,7 +250,7 @@ const routes = {
                     name: 'Awards For All England',
                     path: '/programmes/national-lottery-awards-for-all-england',
                     static: false,
-                    live: false
+                    live: true
                 }
             }
         },
