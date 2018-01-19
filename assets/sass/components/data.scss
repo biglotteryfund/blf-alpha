@@ -3,6 +3,56 @@
    ========================================================================= */
 
 /* =========================================================================
+  Link Grid (@see /jobs)
+  ========================================================================= */
+
+.link-grid {
+    clear: both;
+    margin-bottom: $spacingUnit;
+
+    @include mq('tablet') {
+        $offset: $spacingUnit * 1.5;
+        margin: $spacingUnit 0;
+        margin-left: -$offset;
+        padding-left: $offset;
+        border-left: $accentBorderWidth solid;
+    }
+
+    @include mq('desktop') {
+        $offset: $spacingUnit * 2;
+        margin-left: -$offset;
+        padding-left: $offset;
+    }
+
+    .link-grid__list {
+        @include mq('tablet') {
+            position: relative;
+            overflow: auto;
+        }
+    }
+
+    .link-grid__list > .link-grid__item {
+        display: block;
+
+        @include mq('tablet') {
+            width: 33.333%;
+            float: left;
+            border: solid palette('soft-grey');
+            border-width: 0 1px 1px 0;
+            padding: $spacingUnit 3% ($spacingUnit * 2);
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+/* =========================================================================
    Stats
    ========================================================================= */
 
