@@ -342,6 +342,7 @@ const programmeRedirects = [
     // Live
     programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england', true),
     programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
+    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
@@ -403,7 +404,7 @@ const vanityRedirects = [
     {
         name: 'Reaching Communities England',
         path: '/prog_reaching_communities',
-        destination: '/global-content/programmes/england/reaching-communities-england',
+        destination: '/funding/programmes/reaching-communities-england',
         live: true
     },
     {
