@@ -136,7 +136,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
 };
 
 const redirectUglyLink = (req, res) => {
-    let handleError = () =>  res.redirect('/');
+    let handleError = () => res.redirect('/');
     const livePagePath = `https://${config.get('siteDomain')}${req.originalUrl}`;
     rp({
         url: livePagePath,
@@ -144,14 +144,16 @@ const redirectUglyLink = (req, res) => {
         jar: true,
         resolveWithFullResponse: false,
         maxRedirects: 1
-    }).then(response => {
-        const $ = cheerio.load(response);
-        let canonicalUrl = $('meta[name="identifier"]').attr('content');
-        if (!canonicalUrl) {
-            return handleError();
-        }
-        res.redirect(301, canonicalUrl);
-    }).catch(handleError);
+    })
+        .then(response => {
+            const $ = cheerio.load(response);
+            let canonicalUrl = $('meta[name="identifier"]').attr('content');
+            if (!canonicalUrl) {
+                return handleError();
+            }
+            res.redirect(301, canonicalUrl);
+        })
+        .catch(handleError);
 };
 
 module.exports = {
