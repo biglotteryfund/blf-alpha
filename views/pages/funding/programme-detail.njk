@@ -51,6 +51,7 @@
 
         <div class="inner--wide-only">
             {% if entry.contentSections.length > 1 %}
+                {# @TODO this introduces lots of blank lines in source #}
                 {{
                     tabs(
                         id = entry.title | slugify,
@@ -67,6 +68,5 @@
                 </div>
             {% endif %}
         </div>
-    </main>
     </main>
 {% endblock %}

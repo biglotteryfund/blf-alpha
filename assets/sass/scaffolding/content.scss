@@ -127,6 +127,12 @@
         @include mq(tablet) {
             margin: 1em 0 2em;
         }
+
+        &.auto-width {
+            img {
+                width: auto;
+            }
+        }
     }
 
     .inline-figure--padded {
