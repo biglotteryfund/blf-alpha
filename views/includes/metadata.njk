@@ -1,5 +1,5 @@
 {% set metaTitle = getMetaTitle(__("global.brand.title"), title) %}
-{% macro makeAbsoluteImage(path) %}{{ request.protocol }}://{{ request.headers.host }}{{ path }}{% endmacro %}
+{% macro makeAbsoluteImage(path) %}{% if path.indexOf('://') === -1 %}{{ request.protocol }}://{{ request.headers.host }}{% endif %}{{ path }}{% endmacro %}
 <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
