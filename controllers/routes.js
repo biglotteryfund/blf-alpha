@@ -341,8 +341,11 @@ function programmeMigration(from, to, isLive) {
 const programmeRedirects = [
     // Live
     programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england', true),
-    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
     programmeMigration('england/reaching-communities-england', 'reaching-communities-england', true),
+    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
+    programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
+    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
+    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
@@ -350,8 +353,6 @@ const programmeRedirects = [
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
-    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', false),
-    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', false),
     programmeMigration('scotland/our-place', 'our-place', false),
     programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
     programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
@@ -392,7 +393,7 @@ const vanityRedirects = [
     {
         name: 'Awards For All Scotland',
         path: '/awardsforallscotland',
-        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        destination: '/funding/programmes/national-lottery-awards-for-all-scotland',
         live: true
     },
     {
