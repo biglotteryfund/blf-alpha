@@ -70,13 +70,15 @@
 			},
 			"genericQuestion": "How could we have made this page better?",
 			"genericPrompt": "Tell us how we could improve this page..."
-		}
+        },
+        "abTests": {
+            "awardsForAllEngland": "<p>There are currently two ways to apply: via PDF application form or via online application form.</p><h2>Applying using the online form</h2><p>We are trialling a new application process where you can submit an application via a web form, rather than downloading a PDF.</p><p><a href=\"https://apply.biglotteryfund.org.uk/?cn=en\" class=\"btn\">Apply Online</a></p><p>This new form is a trial, and only open to a limited number of applicants. We’d love your feedback on how you find the experience.</p><h2><strong>Applying via email or post</strong></h2><p>You are also welcome to apply via email or post using our PDF form. To apply this way, follow the instructions below.</p><ol><li><p>Please <a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Programme%20Documents/Awards%20for%20All%20England/NLA4A_guide_england.pdf\">read this guidance document first</a> (PDF 650KB).</p></li><li><p><a href=\"https://www.biglotteryfund.org.uk/-/media/Files/Programme%20Documents/Awards%20for%20All%20England/NLA4A_app_england.pdf\">Save the application form</a> (PDF 700KB) to your computer and open it with the latest version of Adobe Reader. Do not use Preview or any other application. <strong>Please note we are no longer able to accept older versions of the application form.</strong></p></li><li><p>The easiest way is to fill in the form within the file itself – you don’t need to print it off, unless you prefer to send it by post.</p></li><li><p>Email or post the completed application form to us.</p></li></ol><p>We’ll let you know our decision in about ten weeks.</p><p>If you need more information, please contact us at <a href=\"mailto:general.enquiries@awardsforall.org.uk\">general.enquiries@awardsforall.org.uk</a> or call our advice team on <strong>0345 4 10 20 30</strong>. Text Relay users, please use <strong>18001</strong> plus <strong>0345 4 10 20 30</strong>.</p><h2>Checks</h2><p>As an organisation that gives out public funds, we carry out some checks on the information you provide us. <a href=\"https://www.biglotteryfund.org.uk/funding/funding-guidance/applying-for-funding/information-checks\">Learn more</a></p>"
+        }
 	},
 	"toplevel": {
-		"home": {
-			"title": "Big Lottery Fund",
-			"description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
-			"home": "Home",
+        "home": {
+            "title": "Home",
+            "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
 			"hero": {
                 "intro": "The Big Lottery Fund distributes <a href=\"/data\">over £600m</a> a year to communities across the UK, raised by players of the <a href=\"https://www.national-lottery.co.uk/\">National Lottery</a>",
                 "under10k": {
@@ -162,7 +164,33 @@
 				"facebook": "Facebook",
 				"twitter": "Twitter"
 			}
-		},
+        },
+        "funding": {
+            "title": "Funding",
+            "latestProgrammes": "Latest Programmes",
+            "sectionLinks": [{
+                "label": "Learn how to apply for funding under £10,000",
+                "href": "/under10k"
+            }, {
+                "label": "Learn how to apply for funding above £10,000",
+                "href": "/over10k"
+            }, {
+                "label": "View all open funding programmes",
+                "href": "/funding/programmes"
+            }, {
+                "label": "View all closed funding programmes",
+                "href": "/funding/funding-finder?sc=1"
+            }, {
+                "label": "Search funded projects",
+                "href": "/funding/search-past-grants"
+            }, {
+                "label": "Help with applying",
+                "href": "/funding/funding-guidance/applying-for-funding"
+            }, {
+                "label": "Help with managing your grant",
+                "href": "/funding/funding-guidance/managing-your-funding"
+            }]
+        },
 		"about": {
 			"title": "About the Big Lottery Fund"
 		},
@@ -354,7 +382,16 @@
 						"Season ticket loan"
 					],
 					"postscript": "See all benefits"
-				},
+                },
+                "currentVacancies": {
+                    "title": "Senior role available",
+                    "vacancies": [
+                        {
+                            "label": "Head of Legal Services",
+                            "url": "https://jobs.lawgazette.co.uk/job/519914/head-of-legal-services/"
+                        }
+                    ]
+                },
 				"offices": {
 					"title": "Opportunities across the UK"
 				},

@@ -1,5 +1,19 @@
 /* global ga, cxApi */
 
+const { isDownloadLink } = require('../helpers/urls');
+const { trackEvent } = require('../helpers/metrics');
+
+function trackDocumentDownloads() {
+    const links = document.querySelectorAll('.js-content a[href]');
+    [].forEach.call(links, function(link) {
+        if (isDownloadLink(link.href)) {
+            link.addEventListener('click', () => {
+                trackEvent('Documents', 'Downloaded a document', link.href);
+            });
+        }
+    });
+}
+
 export const init = () => {
     const thisScript = document.getElementById('js-script-main');
     const CONFIG = {
@@ -39,6 +53,12 @@ export const init = () => {
     ga('set', 'transport', 'beacon');
 
     /**
+     * Outbound link tracker plugin
+     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/outbound-link-tracker.md
+     */
+    ga('require', 'outboundLinkTracker');
+
+    /**
      * Event tracker plugin
      * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
      */
@@ -68,4 +88,9 @@ export const init = () => {
      * Track pageviews
      */
     ga('send', 'pageview');
+
+    /**
+     * Track document downloads
+     */
+    trackDocumentDownloads();
 };

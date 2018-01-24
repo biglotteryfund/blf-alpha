@@ -127,6 +127,12 @@
         @include mq(tablet) {
             margin: 1em 0 2em;
         }
+
+        &.auto-width {
+            img {
+                width: auto;
+            }
+        }
     }
 
     .inline-figure--padded {
@@ -172,5 +178,22 @@
         td {
             vertical-align: top;
         }
+    }
+
+    code,
+    pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-family: Hack, Consolas, monospace;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 2px;
+        color: palette('pale');
+        background-color: palette('charcoal');
+    }
+
+    pre {
+        padding: 10px;
+        border-radius: 2px;
     }
 }

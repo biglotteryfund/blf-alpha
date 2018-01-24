@@ -1,4 +1,5 @@
 'use strict';
+const debug = require('debug')('blf-alpha:models');
 const Sequelize = require('sequelize');
 const config = require('config');
 const path = require('path');
@@ -41,11 +42,10 @@ if (dbCredentials.host) {
     sequelize
         .authenticate()
         .then(() => {
-            console.log('Connection has been established successfully.');
+            debug('Connection has been established successfully.');
         })
         .catch(err => {
-            console.error('Unable to connect to the database:', err);
-            // process.exit(1);
+            debug('Unable to connect to the database:', err);
         });
 
     // add models

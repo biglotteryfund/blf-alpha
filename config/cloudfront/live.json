@@ -279,6 +279,65 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/a4aengland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/about-big/contact-us",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
@@ -870,6 +929,65 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/awardsforall",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/awardsforallscotland",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -1642,6 +1760,65 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/freedom-of-information",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/funding",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -2533,21 +2710,16 @@
                 "Items": [],
                 "Quantity": 0
             },
-            "QueryString": true
+            "QueryString": false
         },
         "MaxTTL": 31536000,
-        "PathPattern": "/global-content/programmes/england/awards-for-all-england",
+        "PathPattern": "/funding/programmes/*",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
             "Items": [
                 "HEAD",
-                "DELETE",
-                "POST",
-                "GET",
-                "OPTIONS",
-                "PUT",
-                "PATCH"
+                "GET"
             ],
             "CachedMethods": {
                 "Items": [
@@ -2556,7 +2728,243 @@
                 ],
                 "Quantity": 2
             },
-            "Quantity": 7
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/funding/programmes/national-lottery-awards-for-all-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/england/awards-for-all-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/england/reaching-communities-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
         },
         "MinTTL": 0,
         "Compress": false
@@ -2601,6 +3009,183 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/global-content/programmes/northern-ireland/empowering-young-people",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/scotland/awards-for-all-scotland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/scotland/grants-for-community-led-activity",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/global-content/programmes/scotland/grants-for-improving-lives",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -2955,6 +3540,65 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/home",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/home/funding",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -3427,6 +4071,124 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/prog_a4a_eng",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/prog_a4a_ni",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/prog_reaching_communities",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -5570,6 +6332,65 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/welsh/funding",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/welsh/funding/Awards-For-All",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
@@ -6347,7 +7168,479 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/welsh/funding/programmes/*",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/england/awards-for-all-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/england/reaching-communities-england",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/welsh/global-content/programmes/northern-ireland/empowering-young-people",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/scotland/awards-for-all-scotland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/scotland/grants-for-community-led-activity",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/global-content/programmes/scotland/grants-for-improving-lives",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {
@@ -6584,6 +7877,65 @@
         },
         "MaxTTL": 31536000,
         "PathPattern": "/welsh/home",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
+        "PathPattern": "/welsh/home/funding",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,
         "AllowedMethods": {

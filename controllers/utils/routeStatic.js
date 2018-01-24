@@ -2,6 +2,7 @@
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const { renderNotFoundWithError } = require('../http-errors');
+const { stripTrailingSlashes } = require('../../modules/urls');
 
 // redirect any aliases to the canonical path
 let setupRedirects = (sectionPath, page) => {
@@ -10,7 +11,8 @@ let setupRedirects = (sectionPath, page) => {
         localePaths.forEach(localePath => {
             page.aliases.forEach(pagePath => {
                 app.get(localePath + pagePath, (req, res) => {
-                    res.redirect(localePath + sectionPath + page.path);
+                    const redirectPath = stripTrailingSlashes(localePath + sectionPath + page.path);
+                    res.redirect(redirectPath);
                 });
             });
         });

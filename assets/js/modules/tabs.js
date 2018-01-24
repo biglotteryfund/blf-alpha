@@ -1,7 +1,7 @@
 'use strict';
 
 const $ = require('jquery');
-const { trackEvent, setPageView } = require('./metrics');
+const { trackEvent, setPageView } = require('../helpers/metrics');
 
 let activeClasses = {
     tab: 'tab--active',

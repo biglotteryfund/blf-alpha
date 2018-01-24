@@ -2,6 +2,11 @@
    Utilities: Text
    ========================================================================= */
 
+.u-list-unstyled,
+.u-list-unstyled li {
+    list-style-type: none !important;
+}
+
 .u-uppercase {
     text-transform: uppercase !important;
 }
@@ -32,9 +37,26 @@
     }
 }
 
+.u-link-section {
+    display: block;
+    padding: 12px 12px;
+    margin: 0 -6px;
+    @include poppins();
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 140ms ease-in;
+
+    &:hover {
+        background-color: palette('pale-grey');
+        text-decoration: none;
+    }
+}
+
 .u-caption {
     font-size: 14px;
-    opacity: 0.75;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px 6px;
 }
 
 .u-constrained-content {

@@ -1,7 +1,7 @@
 /* global Vue, ga */
 'use strict';
 
-const { storageAvailable } = require('./utility');
+const { storageAvailable } = require('../helpers/storage');
 const $ = require('jquery');
 
 const CAN_STORE = storageAvailable('localStorage');

@@ -1,7 +1,7 @@
 'use strict';
 const Swiper = require('swiper');
 const appConfig = require('../../../config/content/sass.json');
-const { trackEvent } = require('./metrics');
+const { trackEvent } = require('../helpers/metrics');
 
 // read tablet breakpoint from CSS config
 const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));

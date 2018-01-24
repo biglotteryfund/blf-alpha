@@ -1,20 +1,17 @@
 {% macro navlinks(itemClass) %}
-    {% set isHomepage = false %}
-    {% if sectionId == 'toplevel' and pageId == 'home' %}
-        {% set isHomepage = true %}
-    {% endif %}
     {% for id, section in routes %}
-        <li class="{% if (isHomepage and id === 'toplevel') or (not isHomepage and id === sectionId and id !== 'toplevel') %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
-            <a href="{{ buildUrl(id) }}">{{ __(section.langTitlePath) }}</a>
+        {% set currentSectionId = getCurrentSection(sectionId, pageId)  %}
+        <li class="{% if currentSectionId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
+            <a href="{{ buildUrl(id) }}" title="{{ sectionId }}, {{ pageId }}">{{ __(section.langTitlePath) }}</a>
         </li>
     {% endfor %}
 {% endmacro %}
 
 {% macro navLangLink() %}
     {% if locale == 'en' %}
-        <a href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
+        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
     {% else %}
-        <a href="{{ getCurrentUrl(request, 'en') }}">English</a>
+        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'en') }}">English</a>
     {% endif %}
 {% endmacro %}
 
