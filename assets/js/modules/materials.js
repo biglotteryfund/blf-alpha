@@ -77,7 +77,7 @@ function init() {
                     dataType: 'json',
                     success: response => {
                         if (response.itemBlocked) {
-                            alert("Sorry - you can't order this combination of items.");
+                            alert("Sorry - you can't order this combination of items. If you need more than one of these items, please contact branding@biglotteryfund.org.uk or 020 7211 1728.");
                         }
                         // update the basket data from the session
                         allOrderData = response.allOrders;
