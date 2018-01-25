@@ -182,14 +182,11 @@ const materialFields = {
         get label() {
             return translationBasePath + this.name;
         },
-        required: true,
+        required: false,
         validator: function(field) {
             return check(field.name)
                 .escape()
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage(getTranslatedError(field));
+                .trim();
         }
     },
     yourReason: {
@@ -222,14 +219,11 @@ const materialFields = {
         get label() {
             return translationBasePath + this.name;
         },
-        required: true,
+        required: false,
         validator: function(field) {
             return check(field.name)
                 .escape()
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage(getTranslatedError(field));
+                .trim();
         }
     }
 };
