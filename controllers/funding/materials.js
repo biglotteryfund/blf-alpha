@@ -40,7 +40,8 @@ function init({ router, routeConfig }) {
                         res.send({
                             status: 'success',
                             quantity: get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
-                            allOrders: req.session[freeMaterialsLogic.orderKey]
+                            allOrders: req.session[freeMaterialsLogic.orderKey],
+                            itemBlocked: get(req.session, [freeMaterialsLogic.orderKey, 'itemBlocked'], false)
                         });
                     });
                 }

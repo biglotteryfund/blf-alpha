@@ -76,6 +76,9 @@ function init() {
                     data: data,
                     dataType: 'json',
                     success: response => {
+                        if (response.itemBlocked) {
+                            alert("Sorry - you can't order this combination of items.");
+                        }
                         // update the basket data from the session
                         allOrderData = response.allOrders;
                         // this triggers a Vue update (and needs a babel plugin to work in IE)
