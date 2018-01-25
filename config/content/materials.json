@@ -106,15 +106,15 @@
         {
             "id": 8,
             "name": {
-                "en": "Balloon",
+                "en": "Balloons",
                 "cy": "Balwnau"
             },
             "description": {
-                "en": "individual",
-                "cy": "unigolyn"
+                "en": "Pack of 10",
+                "cy": "Pecyn o 10"
             },
             "image": "balloons.jpg",
-            "maximum": 10,
+            "maximum": 1,
             "products": [
                 {
                     "language": "monolingual",
