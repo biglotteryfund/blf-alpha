@@ -8,9 +8,15 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(urlPath) {
+function getCachebustedPath(urlPath, skipVirtualDir) {
     const version = assets.version || 'latest';
-    return '/' + [assetVirtualDir, 'build', version, urlPath].join('/');
+    let pathParts = [assetVirtualDir, 'build', version, urlPath];
+    if (skipVirtualDir) {
+        // Sometimes (eg. email templates) we need the real disk path
+        // not the mounted path for web-served static files.
+        pathParts = pathParts.slice(1);
+    }
+    return '/' + pathParts.join('/');
 }
 
 function getImagePath(urlPath) {
