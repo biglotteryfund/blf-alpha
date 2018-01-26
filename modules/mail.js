@@ -5,6 +5,7 @@ const path = require('path');
 const AWS = require('aws-sdk');
 const Raven = require('raven');
 const juice = require('juice');
+const htmlToText = require('html-to-text');
 
 const renderHtmlEmail = (html) => {
     const options = {
@@ -48,7 +49,11 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
 
     if (html) {
         mailOptions.html = html;
-        delete mailOptions.text; // @TODO produce text version from HTML
+        mailOptions.text = htmlToText.fromString(html, {
+            wordwrap: 130,
+            hideLinkHrefIfSameAsText: true,
+            ignoreImage: true
+        });
     }
 
     if (sendFrom) {
