@@ -50,7 +50,7 @@
 
 {% endmacro %}
 
-{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, translateOptionLabels = false) %}
+{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, translateOptionLabels = false, hasOther = false) %}
     {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if not suppressErrors and error %}
@@ -58,7 +58,7 @@
     {% endif %}
     <label class="label-radio__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
            for="{{ uniqueId }}">
-        <input type="radio"
+        <input type="radio"{% if hasOther %} class="js-other-trigger"{% endif %}
                id="{{ uniqueId }}"
                name="{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ value }}" />
@@ -67,6 +67,8 @@
 {% endmacro %}
 
 {% macro radios(fieldName, label = false, options, allowOther = false, translateOptionLabels = false, required = false) %}
+    {% set otherId = 'js-other-' + fieldName %}
+    {% if allowOther %}<div class="js-has-radios" data-other-id="{{ otherId }}">{% endif %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if label %}<label class="label-radio">{{ label }}{% if required %} *{% endif %}</label>{% endif %}
     {% for opt in options %}
@@ -85,9 +87,11 @@
             label = __('global.forms.otherEnterBelow'),
             value = 'other',
             required = false,
-            suppressErrors = true
+            suppressErrors = true,
+            hasOther = true
         ) }}
-        <input type="text" name="{{ fieldName }}Other" placeholder="{{ __('global.forms.other') }}" />
+        <input type="text" name="{{ fieldName }}Other" id="{{ otherId }}" placeholder="{{ __('global.forms.other') }}" />
     {% endif %}
-    {% if error %}<p class="error t6 spaced--t">{{ error.msg }}{% endif %}
+    {% if error %}<p class="error t6 spaced--t">{{ error.msg }}</p>{% endif %}
+    {% if allowOther %}</div>{% endif %}
 {% endmacro %}
