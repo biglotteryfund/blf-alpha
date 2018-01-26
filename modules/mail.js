@@ -1,8 +1,26 @@
 'use strict';
 const nodemailer = require('nodemailer');
 const config = require('config');
+const path = require('path');
 const AWS = require('aws-sdk');
 const Raven = require('raven');
+const juice = require('juice');
+
+const renderHtmlEmail = (html) => {
+    const options = {
+        webResources: {
+            relativeTo: path.resolve(__dirname, '../public')
+        }
+    };
+    return new Promise((resolve, reject) => {
+        juice.juiceResources(html, options, (err, inlinedHtml) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(inlinedHtml);
+        });
+    });
+};
 
 // create Nodemailer SES transporter
 const transport = nodemailer.createTransport({
@@ -61,6 +79,7 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
 };
 
 module.exports = {
-    transport: transport,
-    send: send
+    transport,
+    send,
+    renderHtmlEmail
 };
