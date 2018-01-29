@@ -596,6 +596,12 @@ const otherUrls = [
         isPostable: true,
         allowQueryStrings: true,
         live: true
+    },
+    {
+        path: '/~/link.aspx',
+        isPostable: false,
+        allowQueryStrings: true,
+        live: true
     }
 ];
 
