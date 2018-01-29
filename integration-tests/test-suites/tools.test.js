@@ -4,7 +4,7 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const helper = require('./helper');
+const helper = require('../helper');
 
 const validUser = {
     username: 'test@fakewebsite.com',
