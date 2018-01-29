@@ -1,59 +1,40 @@
 'use strict';
 
-const importLazy = require('import-lazy')(require);
 const gulp = require('gulp');
-const autoprefixer = importLazy('gulp-autoprefixer');
-const del = importLazy('del');
-const fs = importLazy('fs');
-const jsonSass = importLazy('rootbeer');
-const rename = importLazy('gulp-rename');
-const runSequence = importLazy('run-sequence');
-const sass = importLazy('gulp-sass');
-const source = importLazy('vinyl-source-stream');
-const sourcemaps = importLazy('gulp-sourcemaps');
+const runSequence = require('run-sequence');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
+const livereload = require('livereload');
+const del = require('del');
+const fs = require('fs');
+const { exec } = require('child_process');
 
-const buildSummary = require('./tasks/getBuildSummary')();
+const { getBuildSummary } = require('./build-helpers');
 
-const DIRS = {
-    in: {
-        css: './assets/sass',
-        sassConfig: './config/content'
-    }
-};
-
-const MANIFEST_PATH = './config/assets.json';
+const buildSummary = getBuildSummary();
 
 gulp.task('clean', function() {
-    return del([buildSummary.buildDirBase + '/**/*', MANIFEST_PATH]);
+    return del([buildSummary.buildDirBase + '/**/*', buildSummary.manifestDir]);
 });
 
 /**
  * Compile scripts via Webpack
  */
 gulp.task('scripts', function(cb) {
-    require('child_process').exec('$(npm bin)/webpack', function(err, stdout, stderr) {
+    exec('$(npm bin)/webpack', function(err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
     });
 });
 
-gulp.task('jsonToSass', function() {
-    const jsonPath = DIRS.in.sassConfig + '/sass.json';
-    return fs
-        .createReadStream(jsonPath)
-        .pipe(jsonSass({ prefix: '$appConfig: ' }))
-        .pipe(source(jsonPath))
-        .pipe(rename('_config.scss'))
-        .pipe(gulp.dest(DIRS.in.css));
-});
-
 /**
  * Compile Sass
  */
-gulp.task('styles', ['jsonToSass'], function() {
+gulp.task('styles', function() {
     return gulp
-        .src(DIRS.in.css + '/*.scss')
+        .src(buildSummary.cssInDir + '/*.scss')
         .pipe(sourcemaps.init())
         .pipe(
             sass({
@@ -75,17 +56,16 @@ gulp.task('manifest', function(done) {
         version: buildSummary.buildVersion
     };
 
-    fs.writeFile(MANIFEST_PATH, JSON.stringify(manifestData, null, 4), done);
+    fs.writeFile(buildSummary.manifestDir, JSON.stringify(manifestData, null, 4), done);
 });
 
 /**
  * Watchers
  */
 gulp.task('watch', ['build'], function() {
-    const livereload = require('livereload');
     const server = livereload.createServer();
     server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
-    gulp.watch(DIRS.in.css + '/**/*.scss', ['styles']);
+    gulp.watch(buildSummary.cssInDir + '/**/*.scss', ['styles']);
 });
 
 /**
