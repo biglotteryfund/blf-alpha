@@ -80,14 +80,16 @@ function init({ pages, router, sectionPath, sectionId }) {
             router.get(page.path, (req, res) => {
                 const content = res.locals.content;
                 // @TODO: Add contentType to API response?
-                if (content && content.children) {
-                    res.render('pages/listings/listingPage', {
-                        content
-                    });
-                } else if (content && content.siblings) {
-                    res.render('pages/listings/informationPage', {
-                        content
-                    });
+                if (content) {
+                    if (content.children) {
+                        res.render('pages/listings/listingPage', {
+                            content
+                        });
+                    } else {
+                        res.render('pages/listings/informationPage', {
+                            content
+                        });
+                    }
                 } else {
                     const lang = page.lang ? req.i18n.__(page.lang) : false;
                     res.render(page.template, {
