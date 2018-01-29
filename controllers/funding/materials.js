@@ -207,13 +207,24 @@ function init({ router, routeConfig }) {
                         sendMode: 'bcc'
                     });
 
-                    // email the customer to confirm their order
-                    app.render('emails/newMaterialOrder', {}, (err, html) => {
-                        if (!err) {
-                            mail.send({
-                                subject: `Thank you for your Big Lottery Fund order`,
-                                html: html,
-                                sendTo: req.body.yourEmail
+                    // Email the customer to confirm their order.
+                    // First render a Nunjucks template to a string
+                    app.render('emails/newMaterialOrder', {}, (errorRenderingTemplate, html) => {
+                        if (!errorRenderingTemplate) {
+                            // Next, convert this string into inline-styled HTML
+                            mail.renderHtmlEmail(html).then(inlinedHtml => {
+                                mail.send({
+                                    subject: `Thank you for your Big Lottery Fund order`,
+                                    html: inlinedHtml,
+                                    sendTo: req.body.yourEmail
+                                });
+                            }).catch(err => {
+                                Raven.captureMessage('Error converting template to inline CSS', {
+                                    extra: err,
+                                    tags: {
+                                        feature: 'material-form'
+                                    }
+                                });
                             });
                         }
                     });

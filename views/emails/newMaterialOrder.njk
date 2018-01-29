@@ -1,61 +1,78 @@
-{% if locale == 'cy' %}<h3>This is a bilingual message, please scroll down for English</h3>
+{% set logoToUse = 'logos/logo.png' %}
+{% if locale == 'cy' %}
+    {% set logoToUse = 'logos/logo-welsh.png' %}
+{% endif %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedPath(true) }}">
+        <link href="//fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
+    </head>
+    <body>
+        <div class="logo">
+            <img src="https://{{ appData.config.get('siteDomain') }}{{ logoToUse | getImagePath }}" alt="Big Lottery Fund logo" />
+        </div>
+        {% if locale == 'cy' %}<h3>This is a bilingual message, please scroll down for English</h3>
 
-<h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
-<p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich  bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
+        <h1 class="t1">Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
+        <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich  bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
 
-<h2></h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
+        <h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
 
-<p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
+        <p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
 
-<p>Gallwch rannu'ch lluniau gyda ni ar:</p>
-<ul>
-    <li>Facebook (<a href="https://www.facebook.com/biglotteryfundwales/">@BigLotteryFundWales</a>)</li>
-    <li>Twitter (<a href="https://www.twitter.com/loterifawrcymru">@LoteriFawrCymru</a>)</li>
-    <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
-</ul>
+        <p>Gallwch rannu'ch lluniau gyda ni ar:</p>
+        <ul>
+            <li>Facebook (<a href="https://www.facebook.com/biglotteryfundwales/">@BigLotteryFundWales</a>)</li>
+            <li>Twitter (<a href="https://www.twitter.com/loterifawrcymru">@LoteriFawrCymru</a>)</li>
+            <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+        </ul>
 
-<p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn.</p>
+        <p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn.</p>
 
-<p>Mae hyn yn bwysig iawn os byddwch yn defnyddio'ch siec mewn lluniau.</p>
+        <p>Mae hyn yn bwysig iawn os byddwch yn defnyddio'ch siec mewn lluniau.</p>
 
-<h2>Cyfryngau Cymdeithasol</h2>
+        <h2>Cyfryngau Cymdeithasol</h2>
 
-<p>Heb gefnogaeth gan chwaraewyr y Loteri Genedlaethol, ni fyddai'ch grant yn bosib. Dywedwch diolch wrthynt gan ddefnyddio #LoteriGen yn eich postiadau cyfryngau cymdeithasol.</p>
+        <p>Heb gefnogaeth gan chwaraewyr y Loteri Genedlaethol, ni fyddai'ch grant yn bosib. Dywedwch diolch wrthynt gan ddefnyddio #LoteriGen yn eich postiadau cyfryngau cymdeithasol.</p>
 
-<p>Os ydych yn ansicr beth i'w bostio, copïwch yr enghraifft hon a llenwch y bylchau ar gyfer eich prosiect.</p>
+        <p>Os ydych yn ansicr beth i'w bostio, copïwch yr enghraifft hon a llenwch y bylchau ar gyfer eich prosiect.</p>
 
-<blockquote>Diolch i chwaraewyr y #LoteriGen am wneud ein prosiect yn bosib! Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGen.</blockquote>
+        <blockquote>Diolch i chwaraewyr y #LoteriGen am wneud ein prosiect yn bosib! Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGen.</blockquote>
 
 
-<p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.biglotteryfund.org.uk/croeso">www.biglotteryfund.org.uk/croeso</a></p>
+        <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.biglotteryfund.org.uk/croeso">www.biglotteryfund.org.uk/croeso</a></p>
 
-<p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+        <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
 
-<hr>{% endif %}<h1>Congratulations on getting National Lottery funding</h1>
+    <hr>{% endif %}<h1>Congratulations on getting National Lottery funding</h1>
 
-<p>Thank you for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
+        <p>Thank you for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
 
-<h2>Events/Photo opportunities</h2>
-<p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
+        <h2>Events/Photo opportunities</h2>
+        <p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
 
-<p>You can share your pictures with us on:</p>
-<ul>
-    <li>Facebook (<a href="https://www.facebook.com/BigLotteryFund/">@BigLotteryFund</a>)</li>
-    <li>Twitter (<a href="https://twitter.com/BigLotteryFund">@BigLotteryFund</a>)</li>
-    <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
-</ul>
+        <p>You can share your pictures with us on:</p>
+        <ul>
+            <li>Facebook (<a href="https://www.facebook.com/BigLotteryFund/">@BigLotteryFund</a>)</li>
+            <li>Twitter (<a href="https://twitter.com/BigLotteryFund">@BigLotteryFund</a>)</li>
+            <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+        </ul>
 
-<p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
+        <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
 
-<p>This is really important if you’re going to use your cheque in photos.</p>
+        <p>This is really important if you’re going to use your cheque in photos.</p>
 
-<h2>Social Media</h2>
-<p>Without National Lottery players’ support your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
+        <h2>Social Media</h2>
+        <p>Without support from National Lottery players your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
 
-<p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
+        <p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
 
-<blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
+        <blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
 
-<p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.biglotteryfund.org.uk/welcome">www.biglotteryfund.org.uk/welcome</a>.</p>
+        <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.biglotteryfund.org.uk/welcome">www.biglotteryfund.org.uk/welcome</a>.</p>
 
-<p>If you have any questions about your order, get in touch at branding@biglotteryfund.org.uk.</p>
+        <p>If you have any questions about your order, get in touch at <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+
+    </body>
+</html>
