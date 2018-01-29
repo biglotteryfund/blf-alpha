@@ -172,21 +172,14 @@ const routes = {
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
                     ]
                 },
-                fundingGuidance: {
-                    name: 'Funding Guidance',
-                    path: '/funding-guidance',
-                    template: 'pages/funding/guidance/managing-your-funding',
-                    static: true,
-                    live: false,
-                    useCmsContent: true
-                },
                 manageFunding: {
                     name: 'Managing your funding',
                     path: '/funding-guidance/managing-your-funding',
+                    template: 'pages/funding/guidance/managing-your-funding',
+                    lang: 'funding.guidance.managing-your-funding',
                     code: 2,
                     static: true,
                     live: true,
-                    useCmsContent: true,
                     aliases: [
                         sectionPaths.funding + '/funding-guidance/managing-your-funding/help-with-publicity',
                         '/welcome',
@@ -350,26 +343,6 @@ const programmeRedirects = [
     programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
     programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
 ];
-
-/**
- * Funding guidance migration
- * Helper to concisely define urls for funding guidance page migrations
- */
-function guidanceMigration(routePath, isLive) {
-    return {
-        path: `/funding-guidance/${routePath}`,
-        useCmsContent: true,
-        static: true,
-        live: isLive || false
-    };
-}
-
-const fundingGuidanceMigration = [guidanceMigration('applying-for-funding/what-we-will-ask-you', false)];
-
-fundingGuidanceMigration.forEach(routeConfig => {
-    const id = camelCase(routeConfig.path);
-    routes.sections.funding.pages[id] = routeConfig;
-});
 
 /**
  * Vanity URLs
