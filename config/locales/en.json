@@ -54,7 +54,7 @@
         "programmes": {
             "programmeLabels": {
                 "area": "Area",
-                "organisationTypes": "Organisation types",
+                "organisationTypes": "Suitable for",
                 "fundingSize": "Funding size",
                 "totalAvailable": "Total available",
                 "applicationDeadline": "Application deadline"
