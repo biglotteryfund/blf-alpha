@@ -7,7 +7,6 @@ const absolution = require('absolution');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const appData = require('../modules/appData');
-const cheerio = require('cheerio');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -146,12 +145,13 @@ const redirectUglyLink = (req, res) => {
         maxRedirects: 1
     })
         .then(response => {
-            const $ = cheerio.load(response);
-            let canonicalUrl = $('meta[name="identifier"]').attr('content');
-            if (!canonicalUrl) {
+            let dom = new JSDOM(response);
+            let metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
+            let intendedUrl = metaIdentifier.getAttribute('content');
+            if (!metaIdentifier || !intendedUrl) {
                 return handleError();
             }
-            res.redirect(301, canonicalUrl);
+            res.redirect(301, intendedUrl);
         })
         .catch(handleError);
 };
