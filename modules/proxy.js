@@ -136,7 +136,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
 
 const redirectUglyLink = (req, res) => {
     let handleError = () => res.redirect('/');
-    const livePagePath = `https://${config.get('siteDomain')}${req.originalUrl}`;
+    const livePagePath = `${legacyUrl}${req.originalUrl}`;
     rp({
         url: livePagePath,
         strictSSL: false,
