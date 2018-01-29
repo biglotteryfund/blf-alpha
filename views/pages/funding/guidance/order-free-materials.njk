@@ -1,5 +1,6 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
+{% from "components/icons.njk" import iconClose %}
 {% from "components/forms.njk" import input with context %}
 
 {% extends "layouts/main.njk" %}
@@ -98,17 +99,6 @@
     </ul>
 {% endmacro %}
 
-{% block overlay %}
-    {% if orderStatus == 'success' %}
-        <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
-        <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
-        <p>{{ copy.orderSubmitted.success.body | safe }}</p>
-    {% elseif orderStatus == 'fail' %}
-        <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
-        <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
     {% set heroContent %}
@@ -188,4 +178,20 @@
 
     </article>
 
+    {# JS-powered overlay #}
+    <div class="overlay{% if showOverlay %} overlay--visible{% endif %}" id="js-overlay">
+        <div class="overlay__content">
+            {% if orderStatus == 'success' %}
+                <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
+                <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
+                <p>{{ copy.orderSubmitted.success.body | safe }}</p>
+            {% elseif orderStatus == 'fail' %}
+                <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
+                <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+            {% endif %}
+        </div>
+        <div class="overlay__close" id="js-close-overlay">
+            {{ iconClose() }}
+        </div>
+    </div>
 {% endblock %}

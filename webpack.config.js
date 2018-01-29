@@ -4,8 +4,9 @@
 const webpack = require('webpack');
 const path = require('path');
 const pkg = require('./package.json');
+const { getBuildSummary } = require('./build-helpers');
 
-const buildSummary = require('./tasks/getBuildSummary')();
+const buildSummary = getBuildSummary();
 const isProduction = buildSummary.isProduction;
 
 module.exports = {

@@ -4,8 +4,7 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-const helper = require('./helper');
-const { legacyProxiedRoutes } = require('../controllers/routes');
+const helper = require('../helper');
 
 describe('Legacy pages proxying', () => {
     let server;
@@ -84,19 +83,6 @@ describe('Legacy pages proxying', () => {
                     expect(res).to.have.header('X-BLF-Legacy', 'true');
                     expect(res.text).to.include('This is a list of our funding programmes');
                     expect(res.text).to.include('Show closed programmes');
-                    expect(res.status).to.equal(200);
-                });
-        });
-    });
-
-    describe('Awards For All Experiment', () => {
-        it('should proxy the legacy awards for all pages', () => {
-            return chai
-                .request(server)
-                .get(legacyProxiedRoutes.awardsForAllEngland.path)
-                .then(res => {
-                    expect(res).to.have.header('X-BLF-Legacy', 'true');
-                    expect(res.text).to.include('National Lottery Awards for All');
                     expect(res.status).to.equal(200);
                 });
         });

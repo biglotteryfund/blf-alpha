@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { camelCase, get, merge } = require('lodash');
+const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
 const importedLegacyPages = require('../config/app/importedLegacyPages');
@@ -46,7 +46,7 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home', '/index.html', '/en-gb']
+                    aliases: ['/home', '/index.html', '/en-gb', '/england', '/uk-wide']
                 },
                 contact: {
                     name: 'Contact',
@@ -158,6 +158,15 @@ const routes = {
             path: sectionPaths.funding,
             controller: controllers.funding,
             pages: {
+                root: {
+                    name: 'Funding',
+                    path: '/',
+                    template: 'pages/toplevel/funding',
+                    lang: 'toplevel.funding',
+                    static: false,
+                    live: true,
+                    aliases: ['/home/funding']
+                },
                 logos: {
                     name: 'Logos',
                     path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
@@ -235,13 +244,13 @@ const routes = {
                     name: 'Funding programme details',
                     path: '/programmes/*',
                     static: false,
-                    live: false
+                    live: true
                 },
                 programmeDetailAfaEngland: {
                     name: 'Awards For All England',
                     path: '/programmes/national-lottery-awards-for-all-england',
                     static: false,
-                    live: false
+                    live: true
                 }
             }
         },
@@ -328,15 +337,22 @@ function programmeMigration(from, to, isLive) {
         live: !isLive ? false : true
     };
 }
+
 const programmeRedirects = [
+    // Live
+    programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england', true),
+    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', true),
+    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
+    programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
+    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
+    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
+    // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
-    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', false),
-    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', false),
     programmeMigration('scotland/our-place', 'our-place', false),
     programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
     programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
@@ -370,20 +386,26 @@ const vanityRedirects = [
     },
     {
         name: 'Awards For All England',
-        path: '/prog_a4a_eng',
-        destination: '/global-content/programmes/england/awards-for-all-england',
+        paths: ['/prog_a4a_eng', '/a4aengland'],
+        destination: '/funding/programmes/national-lottery-awards-for-all-england',
         live: true
     },
     {
         name: 'Awards For All Scotland',
         path: '/awardsforallscotland',
-        destination: '/global-content/programmes/scotland/awards-for-all-scotland',
+        destination: '/funding/programmes/national-lottery-awards-for-all-scotland',
+        live: true
+    },
+    {
+        name: 'Awards For All Northern Ireland',
+        path: '/prog_a4a_ni',
+        destination: '/funding/programmes/awards-for-all-northern-ireland',
         live: true
     },
     {
         name: 'Reaching Communities England',
         path: '/prog_reaching_communities',
-        destination: '/global-content/programmes/england/reaching-communities-england',
+        destination: '/funding/programmes/reaching-communities-england',
         live: true
     },
     {
@@ -397,6 +419,20 @@ const vanityRedirects = [
         name: 'Helping Working Families (Welsh)',
         path: '/helputeuluoeddgweithio',
         destination: '/welsh/helping-working-families',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Grants for improving lives',
+        path: '/improvinglives',
+        destination: '/funding/programmes/grants-for-improving-lives',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Grants for community-led activity',
+        path: '/communityled',
+        destination: '/funding/programmes/grants-for-community-led-activity',
         aliasOnly: true,
         live: true
     },
@@ -486,10 +522,6 @@ const legacyProxiedRoutes = {
     fundingFinderWelsh: withLegacyDefaults({
         path: '/welsh/funding/funding-finder',
         live: true
-    }),
-    awardsForAllEngland: withLegacyDefaults({
-        path: '/global-content/programmes/england/awards-for-all-england',
-        live: true
     })
 };
 
@@ -562,6 +594,12 @@ const otherUrls = [
     {
         path: '/user/*',
         isPostable: true,
+        allowQueryStrings: true,
+        live: true
+    },
+    {
+        path: '/~/link.aspx',
+        isPostable: false,
         allowQueryStrings: true,
         live: true
     }

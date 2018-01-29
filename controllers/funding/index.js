@@ -3,14 +3,23 @@
 const express = require('express');
 
 const routeStatic = require('../utils/routeStatic');
-const programmesRoute = require('./programmes');
+const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
+const programmesRoute = require('./programmes');
 
 const router = express.Router();
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
-     * Order Free Materials
+     * Funding landing page
+     */
+    landingPageRoute.init({
+        router: router,
+        routeConfig: pages.root
+    });
+
+    /**
+     * Free materials
      */
     materialsRoute.init({
         router: router,

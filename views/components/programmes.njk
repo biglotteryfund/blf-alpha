@@ -34,11 +34,12 @@
     </dl>
 {% endmacro %}
 
-{% macro programmeCard(programme, accent) %}
-    <article class="programme-card accent--{{ accent }} a--border-top a--border-color">
+{% macro programmeCard(programme, accent, isMinimal) %}
+    <article
+        class="programme-card{% if isMinimal %} programme-card--minimal{% else %} accent--{{ accent }} a--border-top a--border-color{% endif %}">
         <header class="programme-card__header">
             <h3 class="programme-card__title t1">
-                <a class="u-link-minimal accent--{{ accent }} a--text" href="{{ programme.linkUrl }}">
+                <a class="u-link-minimal{% if not isMinimal %} accent--{{ accent }} a--text{% endif %}" href="{{ programme.linkUrl }}">
                     {{ programme.title }}
                 </a>
             </h3>

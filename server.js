@@ -8,6 +8,7 @@ const Raven = require('raven');
 const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
+const { redirectUglyLink } = require('./modules/proxy');
 
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
@@ -137,6 +138,10 @@ routes.vanityRedirects.forEach(route => {
         });
     }
 });
+
+// redirect all bad link aliases to their canonical equivalents
+// (you're welcome, Sitecore)
+app.get('/~/link.aspx', redirectUglyLink);
 
 // alias for error pages for old site -> new
 app.get('/error', (req, res) => {

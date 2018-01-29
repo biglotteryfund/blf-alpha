@@ -12,6 +12,8 @@ process.env.PORT = 8090;
 process.env.USE_LOCAL_DATABASE = true;
 // never send emails in test mode (instead capture their content)
 process.env.DONT_SEND_EMAIL = true;
+// Skip morgan logs
+process.env.SKIP_LOGS = true;
 
 const userService = require('../services/user');
 

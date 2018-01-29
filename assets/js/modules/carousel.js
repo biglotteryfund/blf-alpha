@@ -1,29 +1,18 @@
 'use strict';
 const Swiper = require('swiper');
-const appConfig = require('../../../config/content/sass.json');
-const { trackEvent } = require('./metrics');
+const { trackEvent } = require('../helpers/metrics');
 
-// read tablet breakpoint from CSS config
-const tabletBreakpoint = parseInt(appConfig.breakpoints.tablet.replace('px', ''));
-const defaultPerPage = 3;
+function init() {
+    const settings = {
+        selector: '.js-carousel',
+        nextSelector: '.js-carousel-next',
+        prevSelector: '.js-carousel-prev'
+    };
 
-const Carousel = settings => {
     const carouselElm = document.querySelector(settings.selector);
 
     if (carouselElm) {
         const dataName = carouselElm.getAttribute('data-name');
-
-        let slidesToShow = defaultPerPage;
-        if (carouselElm && carouselElm.getAttribute('data-per-page')) {
-            slidesToShow = parseInt(carouselElm.getAttribute('data-per-page'));
-        }
-
-        // at less than tablet breakpoint, only show 1 slide
-        let breakpoints = {};
-        breakpoints[tabletBreakpoint] = {
-            slidesPerView: 1
-        };
-
         const carouselSwiper = new Swiper(settings.selector, {
             nextButton: settings.nextSelector,
             prevButton: settings.prevSelector,
@@ -31,8 +20,7 @@ const Carousel = settings => {
             autoHeight: true,
             a11y: true,
             loop: true,
-            slidesPerView: slidesToShow,
-            breakpoints: breakpoints
+            slidesPerView: 1
         });
 
         carouselSwiper.on('slideChangeEnd', function(swiperInstance) {
@@ -42,15 +30,7 @@ const Carousel = settings => {
             }
         });
     }
-};
-
-const init = () => {
-    return new Carousel({
-        selector: '.js-carousel',
-        nextSelector: '.js-carousel-next',
-        prevSelector: '.js-carousel-prev'
-    });
-};
+}
 
 module.exports = {
     init: init

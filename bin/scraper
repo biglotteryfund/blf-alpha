@@ -7,10 +7,10 @@ const rp = require('request-promise-native');
 const pSettle = require('p-settle');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const cheerio = require('cheerio');
 const pretty = require('pretty');
 const absolution = require('absolution');
 const he = require('he');
+const { forEach } = require('lodash');
 
 const argv = require('yargs')
     .alias('s', 'scrape')
@@ -145,11 +145,11 @@ const parseContentFromHtml = (htmlLangs, url) => {
     for (let lang in htmlLangs) {
         let html = htmlLangs[lang];
 
-        const $ = cheerio.load(html);
+        const { document } = new JSDOM(html).window;
 
         let contentParts = [
-            $('#titleBar'),
-            $('#mainContentContainer')
+            document.querySelector('#titleBar'),
+            document.querySelector('#mainContentContainer')
         ];
 
         if (contentParts[0].length === 0 || contentParts[1].length === 0) {
@@ -188,64 +188,68 @@ const parseContentFromHtml = (htmlLangs, url) => {
         // clean up HTML
         contentParts.forEach(content => {
 
+            function removeElement(el) {
+                el.parentNode.removeChild(el);
+            }
+
+            function removeFromContent(selector) {
+                forEach(content.querySelectorAll(selector), removeElement);
+            }
+
             // remove unwanted attributes
             attributesToRemove.forEach(attr => {
-                let elms = content.find(`[${attr}]`);
-                elms.each(function () {
-                    $(this).removeAttr(attr);
+                let elms = content.querySelectorAll(`[${attr}]`);
+                forEach(elms, function (elm) {
+                    elm.removeAttribute(attr);
                 });
             });
 
             // remove non-breaking spaces in otherwise-empty elements
             invalidEmptyElements.forEach(tagName => {
-                content.find(tagName).each(function() {
-                    let $this = $(this);
-                    if($this.html().replace(/\s|&nbsp;|&#xA0;/g, '').length === 0) {
-                        $this.remove();
+                forEach(content.querySelectorAll(tagName), function (tag) {
+                    if (tag.innerHTML.replace(/\s|&nbsp;|&#xA0;/g, '').length === 0) {
+                        removeElement(tag);
                     }
                 });
             });
 
             // use semantic content
             html5Fixes.forEach(fix => {
-                let search = fix[0];
-                let replace = fix[1];
-                $(search).replaceWith(function() {
-                    return $(`<${replace}>`).html($(this).html());
+                const [search, replacement] = fix;
+                forEach(document.querySelectorAll(search), el => {
+                    el.outerHTML = `<${replacement}>${el.innerHTML}</${replacement}>`;
                 });
             });
 
             // remove empty elements
-            let empties = content.find(':empty');
-            empties.each(function () {
-                let elmType = $(this)[0].name;
+            forEach(content.querySelectorAll(':empty'), el => {
+                const elmType = el.name;
                 if (validEmptyElements.indexOf(elmType) === -1) {
-                    // $(this)[0].innerHTML = '';
-                    $(this).remove();
+                    removeElement(el);
                 }
             });
 
-            // remove embedded <style> or <script> tags
-            content.find('style').remove();
-            content.find('script').remove();
+            // Remove embedded <style> or <script> tags
+            removeFromContent('style');
+            removeFromContent('script');
         });
 
-        let title = contentParts[0].find('h1').html();
-        let subtitle = contentParts[0].find('h2').html();
+        let title = contentParts[0].querySelector('h1');
+        let subtitle = contentParts[0].querySelector('h2');
 
-        if (title) { title = he.decode(title); }
-        if (subtitle) { subtitle = he.decode(subtitle); }
+        if (title) { title = he.decode(title.innerHTML); }
+        if (subtitle) { subtitle = he.decode(subtitle.innerHTML); }
 
-        /*
-        * Stuff to clean
-        *
-        * accordion divs
-        * PDF downloads
-        *
+        /**
+         * Stuff to clean
+         *
+         * accordion divs
+         * PDF downloads
+         *
          */
 
         // prettify the text/html
-        let bodyHtml = contentParts[1].html();
+        let bodyHtml = contentParts[1].innerHTML;
 
         // remove pointless <div> tags
         bodyHtml = bodyHtml.replace(/<\/?div>/g, '');
@@ -289,7 +293,7 @@ let loadAndParseHtml = filename => {
 
 let loadJsonFiles = () => {
     // parse HTML
-    fs.readdir(scrapedDataDir, function(err, items) {
+    fs.readdir(scrapedDataDir, function (err, items) {
         if (err) {
             console.log('The destination directory does not exist or could not be read: ' + scrapedDataDir);
             process.exit(1);

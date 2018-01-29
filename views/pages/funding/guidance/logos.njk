@@ -1,6 +1,7 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
 {% import "components/tabs.njk" as tabs %}
+{% from "components/logos.njk" import iconClose %}
 
 {% extends "layouts/main.njk" %}
 
@@ -60,7 +61,7 @@
 {% macro downloadBlock(logoId) %}
     <div class="grid__item__overlay" id="js-download-block--{{ logoId }}">
         <div class="overlay__close js-success--close" data-logo-id="{{ logoId }}">
-            {% include "../../../includes/svg/close.svg" %}
+            {{ iconClose() }}
         </div>
         {{ successMessage('digital') }}
         {{ successMessage('print') }}

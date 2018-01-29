@@ -134,7 +134,30 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
         });
 };
 
+const redirectUglyLink = (req, res) => {
+    let handleError = () => res.redirect('/');
+    const livePagePath = `${legacyUrl}${req.originalUrl}`;
+    rp({
+        url: livePagePath,
+        strictSSL: false,
+        jar: true,
+        resolveWithFullResponse: false,
+        maxRedirects: 1
+    })
+        .then(response => {
+            let dom = new JSDOM(response);
+            let metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
+            let intendedUrl = metaIdentifier.getAttribute('content');
+            if (!metaIdentifier || !intendedUrl) {
+                return handleError();
+            }
+            res.redirect(301, intendedUrl);
+        })
+        .catch(handleError);
+};
+
 module.exports = {
     proxyLegacyPage,
-    postToLegacyForm
+    postToLegacyForm,
+    redirectUglyLink
 };

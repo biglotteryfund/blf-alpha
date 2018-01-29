@@ -1,6 +1,5 @@
-{% from "../../components/hero.njk" import sectionHero %}
-{% import "components/headers.njk" as headers %}
-{% import "components/segment.njk" as segment %}
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/linkGrid.njk" import linkGrid %}
 
 {% extends "layouts/main.njk" %}
 
@@ -50,6 +49,19 @@
             </ul>
             <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
         </div>
+
+        {% if copy.sections.currentVacancies.vacancies.length > 0 %}
+            <div class="content-box content-box--borderless
+                inner--wide-only accent--blue a--border-top"
+                id="current-vacancies">
+
+                <h3 class="t1 t--underline accent--pink">
+                    {{ copy.sections.currentVacancies.title }}
+                </h3>
+
+                {{ linkGrid(copy.sections.currentVacancies.vacancies, 'blue') }}
+            </div>
+        {% endif %}
 
         <div class="inner--wide-only accent--turquoise a--border-top content-box">
             <h3 class="t2">{{ copy.sections.offices.title }}</h3>

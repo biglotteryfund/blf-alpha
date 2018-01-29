@@ -1,0 +1,64 @@
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/programmes.njk" import programmeCard with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/active-plus-communities-small.jpg',
+    medium: 'hero/active-plus-communities-medium.jpg',
+    large: 'hero/active-plus-communities-large.jpg',
+    default: 'hero/active-plus-communities-medium.jpg',
+    caption: 'Active Plus Communities'
+}) %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {% set pageAccent = 'pink' %}
+
+    {{
+        sectionHero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
+
+    <main class="nudge-up">
+        <section class="content-box content-box--even-inset
+            inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <ul class="u-list-unstyled">
+                {% for sectionLink in copy.sectionLinks %}
+                    <li>
+                        <a class="u-link-section" href="{{ sectionLink.href }}">
+                            {{ sectionLink.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        {% if latestProgrammes.length > 0 %}
+            <section class="content-box content-box--even-inset
+                inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <h2 class="t1">{{ copy.latestProgrammes }}</h2>
+
+                <ul class="u-list-unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                    {% for programme in latestProgrammes %}
+                        <li class="grid__item">
+                            {{ programmeCard(
+                                isMinimal = true,
+                                accent = 'pink',
+                                programme = programme.content
+                            ) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

@@ -1,36 +1,40 @@
+{% from "components/icons.njk" import iconSearch %}
+
 {% macro navlinks(itemClass) %}
-    {% set isHomepage = false %}
-    {% if sectionId == 'toplevel' and pageId == 'home' %}
-        {% set isHomepage = true %}
-    {% endif %}
     {% for id, section in routes %}
-        <li class="{% if (isHomepage and id === 'toplevel') or (not isHomepage and id === sectionId and id !== 'toplevel') %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
-            <a href="{{ buildUrl(id) }}">{{ __(section.langTitlePath) }}</a>
+        {% set currentSectionId = getCurrentSection(sectionId, pageId)  %}
+        <li class="{% if currentSectionId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %}">
+            <a href="{{ buildUrl(id) }}" title="{{ sectionId }}, {{ pageId }}">{{ __(section.langTitlePath) }}</a>
         </li>
     {% endfor %}
 {% endmacro %}
 
 {% macro navLangLink() %}
     {% if locale == 'en' %}
-        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
+        <a class="qa-lang-switcher" href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
     {% else %}
-        <a id="qa-lang-switcher" href="{{ getCurrentUrl(request, 'en') }}">English</a>
+        <a class="qa-lang-switcher" href="{{ getCurrentUrl(request, 'en') }}">English</a>
     {% endif %}
 {% endmacro %}
 
 {% macro navSearchForm() %}
+    {% set id = shortid() %}
     <form class="global-search" role="search" action="/search">
         <input type="hidden" name="lang" value="en-GB">
         <input type="hidden" name="type" value="All">
         <input type="hidden" name="order" value="r">
-        <label for="global-search-input" class="global-search__icon">
-            {% include "../includes/svg/search.svg" %}
+        <label
+            class="global-search__icon"
+            for="global-search-input-{{ id }}"
+        >
+            {{ iconSearch() }}
             <span class="u-visually-hidden global-search__a11y">{{ __("global.nav.search") }}</span>
         </label>
-        <input class="global-search__input"
+        <input
+            class="global-search__input"
+            id="global-search-input-{{ id }}"
+            name="q"
             type="text"
-            id="global-search-input" name="q"
-            aria-label="{{ __("global.nav.search") }}"
             placeholder="{{ __("global.nav.search") }}"
         >
         <input class="u-visually-hidden" type="submit" value="Search" />

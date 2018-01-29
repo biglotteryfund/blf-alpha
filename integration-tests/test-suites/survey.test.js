@@ -5,8 +5,8 @@ const _ = require('lodash');
 chai.use(require('chai-http'));
 chai.should();
 
-const helper = require('./helper');
-const surveyService = require('../services/surveys');
+const helper = require('../helper');
+const surveyService = require('../../services/surveys');
 
 let testSurveyData = {
     name: 'Test Survey',
@@ -71,7 +71,6 @@ describe('Survey tool', () => {
             .set('Accept', 'application/json')
             .send(surveyData)
             .end((err, res) => {
-                console.log(err);
                 res.should.have.status(200);
                 res.should.have.header('content-type', /^application\/json/);
                 res.body.should.have.property('status');
