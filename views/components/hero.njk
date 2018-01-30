@@ -110,6 +110,7 @@
 {% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent, useRemoteImages = false) %}
     {% if not useRemoteImages %}
         {% set imagePath = imagePath | getImagePath %}
+        {% set imagePathMobile = imagePathMobile | getImagePath %}
     {% endif %}
     <div class="miniature-hero accent--{{ accent }} a--border-top--large">
         <div class="miniature-hero__inner">
@@ -119,7 +120,7 @@
                 {% if imagePathMobile %}
                     <picture>
                         <source srcset="{{ imagePath }}" media="(min-width: 760px)">
-                        <img src="{{ imagePathMobile | getImagePath }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
+                        <img src="{{ imagePathMobile }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
                     </picture>
                 {% else %}
                     <img src="{{ imagePath }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
