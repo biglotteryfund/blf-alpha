@@ -3,7 +3,6 @@
 const { forEach } = require('lodash');
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
-const { injectContent } = require('../../middleware/content');
 const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
 
@@ -23,8 +22,8 @@ function setupRedirects(sectionPath, page) {
     }
 }
 
-function serveLegacyPageFromCms(page, sectionId, router) {
-    router.get(page.path, (req, res) => {
+function handleLegacyCmsPage(page, sectionId) {
+    return function(req, res) {
         contentApi
             .getLegacyPage({
                 locale: req.i18n.getLocale(),
@@ -39,7 +38,42 @@ function serveLegacyPageFromCms(page, sectionId, router) {
             .catch(err => {
                 renderNotFoundWithError(err, req, res);
             });
-    });
+    };
+}
+
+function handleCmsPage(sectionId) {
+    return function(req, res) {
+        contentApi
+            .getListingPage({
+                locale: req.i18n.getLocale(),
+                path: contentApi.getCmsPath(sectionId, req.path)
+            })
+            .then(content => {
+                if (content.children) {
+                    res.render('pages/listings/listingPage', {
+                        content
+                    });
+                } else {
+                    res.render('pages/listings/informationPage', {
+                        content
+                    });
+                }
+            })
+            .catch(err => {
+                renderNotFoundWithError(err, req, res);
+            });
+    };
+}
+
+function handleStaticPage(page) {
+    return function(req, res) {
+        const lang = page.lang ? req.i18n.__(page.lang) : false;
+        res.render(page.template, {
+            title: lang ? lang.title : false,
+            description: lang ? lang.description : false,
+            copy: lang
+        });
+    };
 }
 
 /**
@@ -68,39 +102,11 @@ function init({ pages, router, sectionPath, sectionId }) {
         setupRedirects(sectionPath, page);
 
         if (page.isLegacyPage) {
-            // Serve a static template with CMS-loaded content
-            serveLegacyPageFromCms(page, sectionId, router);
+            router.get(page.path, handleLegacyCmsPage(page, sectionId));
+        } else if (page.useCmsContent) {
+            router.get(page.path, handleCmsPage(sectionId));
         } else if (page.static) {
-            /**
-             * CMS content middleware
-             * Look up content from CMS then hand over to next route handler
-             */
-            if (page.useCmsContent) {
-                router.get(page.path, injectContent(sectionId));
-            }
-
-            router.get(page.path, (req, res) => {
-                const content = res.locals.content;
-                // @TODO: Add contentType to API response?
-                if (content) {
-                    if (content.children) {
-                        res.render('pages/listings/listingPage', {
-                            content
-                        });
-                    } else {
-                        res.render('pages/listings/informationPage', {
-                            content
-                        });
-                    }
-                } else {
-                    const lang = page.lang ? req.i18n.__(page.lang) : false;
-                    res.render(page.template, {
-                        title: lang ? lang.title : false,
-                        description: lang ? lang.description : false,
-                        copy: lang
-                    });
-                }
-            });
+            router.get(page.path, handleStaticPage(page));
         }
     });
 }
