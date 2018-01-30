@@ -1,14 +1,17 @@
 'use strict';
+
+const { forEach } = require('lodash');
 const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
 
-// redirect any aliases to the canonical path
-let setupRedirects = (sectionPath, page) => {
-    let localePaths = ['', '/welsh'];
+/**
+ * Redirect any aliases to the canonical path
+ */
+function setupRedirects(sectionPath, page) {
     if (page.aliases && page.aliases.length > 0) {
-        localePaths.forEach(localePath => {
+        ['', '/welsh'].forEach(localePath => {
             page.aliases.forEach(pagePath => {
                 app.get(localePath + pagePath, (req, res) => {
                     const redirectPath = stripTrailingSlashes(localePath + sectionPath + page.path);
@@ -17,98 +20,97 @@ let setupRedirects = (sectionPath, page) => {
             });
         });
     }
-};
+}
 
-// serve a static page (eg. no special dependencies)
-let servePage = (page, router) => {
-    // serve the canonical path with the supplied template
-    router.get(page.path, (req, res) => {
-        let lang = req.i18n.__(page.lang);
-        res.render(page.template, {
-            title: lang.title,
-            description: lang.description || false,
-            copy: lang
-        });
-    });
-};
-
-const getCmsPath = (sectionId, pagePath) => {
-    let urlPath = sectionId + pagePath;
-
-    // toplevel sections shouldn't preprend anything
-    if (sectionId === 'toplevel') {
-        urlPath = pagePath.replace(/^\/+/g, '');
-    }
-
-    return urlPath;
-};
-
-let serveCmsPage = (page, sectionId, router) => {
-    router.get(page.path, (req, res) => {
-        const renderPage = content => {
-            res.render('pages/legacy', {
-                title: content.title,
-                content: content
-            });
-        };
-
+function handleLegacyCmsPage(page, sectionId) {
+    return function(req, res) {
         contentApi
             .getLegacyPage({
                 locale: req.i18n.getLocale(),
-                path: getCmsPath(sectionId, page.path)
+                path: contentApi.getCmsPath(sectionId, page.path)
             })
             .then(content => {
-                renderPage(content);
+                res.render('pages/legacy', {
+                    title: content.title,
+                    content: content
+                });
             })
             .catch(err => {
                 renderNotFoundWithError(err, req, res);
             });
-    });
-};
+    };
+}
 
-// map this section ID (for all routes in this path)
-// middleware to add a section ID to requests with a known section
-// (eg. to mark a section as current in the nav)
-let injectSection = (router, sectionId) => {
+function handleCmsPage(sectionId) {
+    return function(req, res) {
+        contentApi
+            .getListingPage({
+                locale: req.i18n.getLocale(),
+                path: contentApi.getCmsPath(sectionId, req.path)
+            })
+            .then(content => {
+                if (content.children) {
+                    res.render('pages/listings/listingPage', {
+                        content
+                    });
+                } else {
+                    res.render('pages/listings/informationPage', {
+                        content
+                    });
+                }
+            })
+            .catch(err => {
+                renderNotFoundWithError(err, req, res);
+            });
+    };
+}
+
+function handleStaticPage(page) {
+    return function(req, res) {
+        const lang = page.lang ? req.i18n.__(page.lang) : false;
+        res.render(page.template, {
+            title: lang ? lang.title : false,
+            description: lang ? lang.description : false,
+            copy: lang
+        });
+    };
+}
+
+/**
+ * Init routing
+ * Set up path routing for a list of (static) pages
+ */
+function init({ pages, router, sectionPath, sectionId }) {
+    /**
+     * Map this section ID (for all routes in this path)
+     * middleware to add a section ID to requests with a known section
+     * (eg. to mark a section as current in the nav)
+     */
     router.use((req, res, next) => {
         res.locals.sectionId = sectionId;
         return next();
     });
-};
 
-// map this page ID (only for this path)
-let injectPageId = (router, path, pageId) => {
-    router.use(path, (req, res, next) => {
-        res.locals.pageId = pageId;
-        return next();
-    });
-};
+    forEach(pages, (page, pageId) => {
+        // Add the page ID to the request
+        router.use(page.path, (req, res, next) => {
+            res.locals.pageId = pageId;
+            return next();
+        });
 
-// set up path routing for a list of (static) pages
-let initRouting = (pages, router, sectionPath, sectionId) => {
-    // first inject the section middleware
-    injectSection(router, sectionId);
-
-    // then route pages
-    for (let pageId in pages) {
-        let page = pages[pageId];
-
-        // add the page ID to the request
-        injectPageId(router, page.path, pageId);
-
-        // redirect any aliases to the canonical path
+        // Redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);
 
         if (page.isLegacyPage) {
-            // serve a static template with CMS-loaded content
-            serveCmsPage(page, sectionId, router);
+            router.get(page.path, handleLegacyCmsPage(page, sectionId));
+        } else if (page.useCmsContent) {
+            router.get(page.path, handleCmsPage(sectionId));
         } else if (page.static) {
-            // serve the page with a specific template and copy block
-            servePage(page, router);
+            router.get(page.path, handleStaticPage(page));
         }
-    }
-};
+    });
+}
 
 module.exports = {
-    initRouting
+    init
 };

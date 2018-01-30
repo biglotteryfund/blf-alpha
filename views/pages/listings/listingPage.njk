@@ -1,0 +1,65 @@
+{% from "components/hero.njk" import sectionHero, miniatureHero %}
+{% from "components/segment.njk" import segment %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ content.title }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {{
+        sectionHero(
+            accent = 'blue',
+            titleText = content.title,
+            image = heroImage
+        )
+    }}
+
+    <main role="main" class="nudge-up">
+        <section class="content-box inner--wide-only accent--blue a--border-top">
+            <div class=" s-prose s-prose--long">
+                {{ content.introduction | safe }}
+            </div>
+        </section>
+
+        {% if content.children.length > 0 %}
+            <div class="inner">
+                <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
+                {% set themes = cycler('pink-mid', 'blue', 'turquoise', 'orange') %}
+                {% for page in content.children %}
+                    <li class="grid__item">
+                        {{ miniatureHero(
+                            titleText = page.trailText,
+                            imagePath = page.photo,
+                            imageCaption = page.title,
+                            linkUrl = '/' + page.path,
+                            accent = themes.next(),
+                            useRemoteImages = true
+                        )}}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if content.outro %}
+            <section class="content-box inner--wide-only accent--blue a--border-top">
+                <div class=" s-prose s-prose--long">
+                    {{ content.outro | safe }}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+{% endblock %}
