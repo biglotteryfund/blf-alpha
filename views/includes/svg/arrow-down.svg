@@ -1,6 +1,0 @@
-<svg class="icon--arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="10"
-     aria-labelledby="aria-arrow-down-title" aria-describedby="aria-arrow-down-desc" role="img">
-    <title id="aria-arrow-down-title">Arrow pointing down</title>
-    <desc id="aria-arrow-down-desc">This indicates a collapsible panel</desc>
-    <path fill="white" d="M396.6 160l19.4 20.7L256 352 96 180.7l19.3-20.7L256 310.5"/>
-</svg>

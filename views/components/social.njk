@@ -1,0 +1,21 @@
+{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
+
+{% macro socialLinks(labels) %}
+    <div class="o-button-group-block u-gutter-half">
+        <a class="btn btn--small btn--outline accent--blue"
+            href="{{ appData.config.get('social.instagram') }}">
+            <span class="btn__icon">{{ iconInstagram() }}</span>
+            {{ labels.followUsOn }} {{ labels.instagram }}
+        </a>
+        <a class="btn btn--small btn--outline accent--blue"
+            href="{{ appData.config.get('social.facebookAccounts.' + locale) }}">
+            <span class="btn__icon">{{ iconFacebook() }}</span>
+            {{ labels.followUsOn }} {{ labels.facebook }}
+        </a>
+        <a class="btn btn--small btn--outline accent--blue"
+            href="https://www.twitter.com/{{ appData.config.get('social.twitterAccounts.' + locale) }}" >
+            <span class="btn__icon">{{ iconTwitter() }}</span>
+            {{ labels.followUsOn }} {{ labels.twitter }}
+        </a>
+    </div>
+{% endmacro %}

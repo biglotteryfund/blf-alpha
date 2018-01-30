@@ -1,5 +1,4 @@
-{% import "./forms.njk" as forms %}
-{% from "components/icons.njk" import iconClose %}
+{% from "components/icons.njk" import iconArrowDown, iconClose %}
 
 {% macro showSurvey() %}
     <div class="survey"
@@ -15,7 +14,9 @@
         >
             <h6 class="survey__header"
                 v-on:click="toggleSurvey()">
-                <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">{% include "../includes/svg/arrow-down.svg" %}</span>
+                <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">
+                {{ iconArrowDown() }}
+                </span>
             </h6>
 
             <span class="survey__close-icon"
