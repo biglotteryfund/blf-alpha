@@ -1,4 +1,5 @@
 {% import "./forms.njk" as forms %}
+{% from "components/icons.njk" import iconClose %}
 
 {% macro showSurvey() %}
     <div class="survey"
@@ -19,7 +20,7 @@
 
             <span class="survey__close-icon"
                 v-on:click="blockSurvey()">
-                {% include "../includes/svg/close.svg" %}
+                {{ iconClose() }}
             </span>
 
             <p class="survey__response"

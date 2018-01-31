@@ -4,7 +4,7 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-const helper = require('./helper');
+const helper = require('../helper');
 
 describe('Legacy pages proxying', () => {
     let server;

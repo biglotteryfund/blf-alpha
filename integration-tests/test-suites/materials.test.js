@@ -3,8 +3,8 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const helper = require('./helper');
-const routes = require('../controllers/routes');
+const helper = require('../helper');
+const routes = require('../../controllers/routes');
 
 describe('Material order form', () => {
     let server, agent;

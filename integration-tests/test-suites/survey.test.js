@@ -5,8 +5,8 @@ const _ = require('lodash');
 chai.use(require('chai-http'));
 chai.should();
 
-const helper = require('./helper');
-const surveyService = require('../services/surveys');
+const helper = require('../helper');
+const surveyService = require('../../services/surveys');
 
 let testSurveyData = {
     name: 'Test Survey',

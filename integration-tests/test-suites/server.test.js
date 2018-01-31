@@ -5,7 +5,7 @@ chai.use(require('chai-http'));
 const expect = chai.expect;
 
 const config = require('config');
-const helper = require('./helper');
+const helper = require('../helper');
 
 describe('Basic server tests', () => {
     let server;
@@ -32,19 +32,50 @@ describe('Basic server tests', () => {
             });
     });
 
+    it('should redirect trailing slashes', () => {
+        function redirectRequest({ originalPath, redirectedPath }) {
+            return chai
+                .request(server)
+                .get(originalPath)
+                .redirects(0)
+                .catch(err => err.response)
+                .then(res => {
+                    return {
+                        res,
+                        originalPath,
+                        redirectedPath
+                    };
+                });
+        }
+
+        return Promise.all([
+            redirectRequest({
+                originalPath: '/funding/',
+                redirectedPath: '/funding'
+            }),
+            redirectRequest({
+                originalPath: '/funding/programmes/?location=wales',
+                redirectedPath: '/funding/programmes?location=wales'
+            })
+        ]).then(results => {
+            results.forEach(result => {
+                expect(result.res.status).to.equal(301);
+                expect(result.res).to.redirectTo(result.redirectedPath);
+            });
+        });
+    });
+
     it('should serve static files', () => {
-        const assets = require('../modules/assets');
-        const CSS_PATH = assets.getCachebustedPath('stylesheets/style.css');
         return chai
             .request(server)
-            .get(CSS_PATH)
+            .get('/assets/images/favicon/apple-icon.png')
             .then(res => {
                 expect(res).to.have.status(200);
-                expect(res).to.have.header('content-type', /^text\/css/);
+                expect(res).to.have.header('content-type', /^image\/png/);
             });
     });
 
-    it('should set contrast preferences', () => {
+    it('should allow contrast preferences to be set', () => {
         let redirectUrl = 'http://www.google.com';
         return chai
             .request(server)

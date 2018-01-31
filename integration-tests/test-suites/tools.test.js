@@ -4,7 +4,7 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 chai.should();
 
-const helper = require('./helper');
+const helper = require('../helper');
 
 const validUser = {
     username: 'test@fakewebsite.com',
@@ -58,7 +58,7 @@ describe('CMS Tools', function() {
 
         it('should block access to staff-only tools', done => {
             agent
-                .get('/tools/survey-results/')
+                .get('/tools/survey-results')
                 .redirects(0)
                 .end((err, res) => {
                     res.should.redirectTo('/user/login');
@@ -76,11 +76,9 @@ describe('CMS Tools', function() {
                     password: 'wrong'
                 })
                 .end((postErr, postRes) => {
-                    postRes.text.should.match(
-                        /(.*)Your username and password combination is invalid(.*)/
-                    );
+                    postRes.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
                     return agent
-                        .get('/tools/survey-results/')
+                        .get('/tools/survey-results')
                         .redirects(0)
                         .end((err, res) => {
                             res.should.have.status(302);
@@ -96,18 +94,16 @@ describe('CMS Tools', function() {
                     _csrf: csrfToken,
                     username: validUser.username,
                     password: validUser.password,
-                    redirectUrl: '/tools/survey-results/'
+                    redirectUrl: '/tools/survey-results'
                 })
                 .redirects(0)
                 .end((postErr, postRes) => {
                     postRes.should.have.status(302);
-                    postRes.should.redirectTo('/tools/survey-results/');
-                    return agent
-                        .get('/tools/survey-results/')
-                        .end((err, res) => {
-                            res.should.have.status(200);
-                            done();
-                        });
+                    postRes.should.redirectTo('/tools/survey-results');
+                    return agent.get('/tools/survey-results/').end((err, res) => {
+                        res.should.have.status(200);
+                        done();
+                    });
                 });
         });
     });

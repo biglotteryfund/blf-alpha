@@ -9,6 +9,15 @@ if (!API_URL) {
     process.exit(1);
 }
 
+/**
+ * Get CMS Path
+ * Returns sanitised pagePath for top-level sections
+ * otherwise prepends sectionId to pagePath
+ */
+function getCmsPath(sectionId, pagePath) {
+    return sectionId === 'toplevel' ? pagePath.replace(/^\/+/g, '') : `${sectionId}${pagePath}`;
+}
+
 function getPromotedNews({ locale, limit }) {
     return request({
         url: `${API_URL}/v1/${locale}/promoted-news`,
@@ -52,9 +61,23 @@ function getLegacyPage({ locale, path }) {
     });
 }
 
+function getListingPage({ locale, path }) {
+    return request({
+        url: `${API_URL}/v1/${locale}/listing`,
+        qs: {
+            path: path
+        },
+        json: true
+    }).then(response => {
+        return response.data.map(item => item.attributes).find(_ => _.path === path);
+    });
+}
+
 module.exports = {
+    getCmsPath,
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
-    getLegacyPage
+    getLegacyPage,
+    getListingPage
 };

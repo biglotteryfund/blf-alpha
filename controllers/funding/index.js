@@ -11,11 +11,6 @@ const router = express.Router();
 
 module.exports = (pages, sectionPath, sectionId) => {
     /**
-     * Populate static pages
-     */
-    routeStatic.initRouting(pages, router, sectionPath, sectionId);
-
-    /**
      * Funding landing page
      */
     landingPageRoute.init({
@@ -41,6 +36,17 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetail: pages.programmeDetail,
             programmeDetailAfaEngland: pages.programmeDetailAfaEngland
         }
+    });
+
+    /**
+     * Populate static pages
+     * Must come last to allow custom routes to take precedence over wildcards
+     */
+    routeStatic.init({
+        router: router,
+        pages: pages,
+        sectionPath: sectionPath,
+        sectionId: sectionId
     });
 
     return router;

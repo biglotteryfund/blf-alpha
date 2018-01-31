@@ -150,7 +150,7 @@ function renderProgrammeDetail({ res, entry }) {
 
     res.render('pages/funding/programme-detail', {
         entry: entry,
-        title: entry.title,
+        title: entry.summary.title,
         heroImage: entry.hero || defaultProgrammeHeroImage
     });
 }

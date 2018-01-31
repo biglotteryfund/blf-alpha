@@ -46,7 +46,7 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home', '/index.html', '/en-gb']
+                    aliases: ['/home', '/index.html', '/en-gb', '/england', '/uk-wide']
                 },
                 contact: {
                     name: 'Contact',
@@ -423,6 +423,20 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Grants for improving lives',
+        path: '/improvinglives',
+        destination: '/funding/programmes/grants-for-improving-lives',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Grants for community-led activity',
+        path: '/communityled',
+        destination: '/funding/programmes/grants-for-community-led-activity',
+        aliasOnly: true,
+        live: true
+    },
+    {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
@@ -580,6 +594,12 @@ const otherUrls = [
     {
         path: '/user/*',
         isPostable: true,
+        allowQueryStrings: true,
+        live: true
+    },
+    {
+        path: '/~/link.aspx',
+        isPostable: false,
         allowQueryStrings: true,
         live: true
     }

@@ -1,16 +1,21 @@
 'use strict';
+const slashes = require('connect-slashes');
 
 function redirectNonWww(req, res, next) {
-    let host = req.headers.host;
-    let domainProd = 'biglotteryfund.org.uk';
+    const host = req.headers.host;
+    const domainProd = 'biglotteryfund.org.uk';
     if (host === domainProd) {
-        return res.redirect(301, req.protocol + '://www.' + domainProd + req.originalUrl);
+        const redirectUrl = `${req.protocol}://www.${domainProd}${req.originalUrl}`;
+        return res.redirect(301, redirectUrl);
     } else {
         return next();
     }
 }
 
+const removeTrailingSlashes = slashes(false);
+
 module.exports = {
-    all: [redirectNonWww],
-    redirectNonWww
+    all: [redirectNonWww, removeTrailingSlashes],
+    redirectNonWww,
+    removeTrailingSlashes
 };
