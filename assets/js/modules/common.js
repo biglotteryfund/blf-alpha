@@ -25,7 +25,7 @@ function initFitVids() {
 }
 
 function initContentTweaks() {
-    const $contentArea = $('.s-prose');
+    const $contentArea = $('.js-annotate-links');
     $contentArea.find('a').each((idx, el) => {
         if (isDownloadLink(el.href)) {
             $(el).addClass('is-download-link');

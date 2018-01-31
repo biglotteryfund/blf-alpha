@@ -21,19 +21,19 @@
         {% if content.relatedContent %}
             <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                    <article class="content-box s-prose s-prose--long">
+                    <article class="content-box s-prose s-prose--legacy js-annotate-links">
                         {{ content.introduction | safe }}
                     </article>
                 </div>
                 <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
-                    <aside class="content-box s-prose s-prose--links">
+                    <aside class="content-box s-prose js-annotate-links">
                         {{ content.relatedContent | safe }}
                     </aside>
                 </div>
             </section>
         {% else %}
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class=" s-prose s-prose--long">
+                <div class="s-prose s-prose--legacy js-annotate-links">
                     {{ content.introduction | safe }}
                 </div>
             </section>
@@ -41,7 +41,7 @@
 
         {% if content.outro %}
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class=" s-prose s-prose--long">
+                <div class="s-prose s-prose--legacy">
                     {{ content.outro | safe }}
                 </div>
             </section>
