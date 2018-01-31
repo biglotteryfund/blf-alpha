@@ -3,8 +3,8 @@ function isDownloadLink(href) {
     return documentRegex.test(href);
 }
 
-function isExternalLink(linkEl) {
-    return !(location.hostname === linkEl.hostname || !linkEl.hostname.length);
+function isExternalLink(currentHostname, linkHostname) {
+    return !(currentHostname === linkHostname || !linkHostname.length);
 }
 
 module.exports = {

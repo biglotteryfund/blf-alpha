@@ -29,7 +29,7 @@ function initContentTweaks() {
     $contentArea.find('a').each((idx, el) => {
         if (isDownloadLink(el.href)) {
             $(el).addClass('is-download-link');
-        } else if (isExternalLink(el)) {
+        } else if (isExternalLink(location.hostname, el.hostname)) {
             $(el).addClass('is-external-link');
         }
     });
