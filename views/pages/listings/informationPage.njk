@@ -4,52 +4,43 @@
 {% extends "layouts/main.njk" %}
 
 {% set bodyClass = "has-full-bleed-header" %}
-
-{% block title %}{{ content.title }} | {% endblock %}
-
-{% set heroImage = createHeroImage({
-    small: 'hero/jobs-small.jpg',
-    medium: 'hero/jobs-medium.jpg',
-    large: 'hero/jobs-large.jpg',
-    default: 'hero/jobs-medium.jpg',
-    caption: 'Street Dreams, Grant £9,000'
-}) %}
-
 {% set socialImage = heroImage %}
 
+{% block title %}{{ title }} | {% endblock %}
+
 {% block content %}
-    {{
-        sectionHero(
-            accent = 'cyan',
-            titleText = content.title,
-            image = heroImage
-        )
-    }}
+    {% set pageAccent = 'cyan' %}
+    {{ sectionHero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
 
     <main role="main" class="nudge-up">
-        <section class="content-box inner--wide-only accent--cyan a--border-top">
-            <div class=" s-prose s-prose--long">
-                {{ content.introduction | safe }}
-            </div>
-        </section>
 
-        {% if content.segments.length > 0 %}
-            <div class="inner">
-                {% for s in content.segments %}
-                    {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
-                    {{ segment(
-                        title = s.title,
-                        text = s.content,
-                        color = themes.next(),
-                        imagePath = s.photo,
-                        imageIsAbsolute = true
-                    ) }}
-                {% endfor %}
-            </div>
+        {% if content.relatedContent %}
+            <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="page-section__content accent--{{ pageAccent }} a--border-top">
+                    <article class="content-box s-prose s-prose--long">
+                        {{ content.introduction | safe }}
+                    </article>
+                </div>
+                <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+                    <aside class="content-box s-prose s-prose--links">
+                        {{ content.relatedContent | safe }}
+                    </aside>
+                </div>
+            </section>
+        {% else %}
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class=" s-prose s-prose--long">
+                    {{ content.introduction | safe }}
+                </div>
+            </section>
         {% endif %}
 
         {% if content.outro %}
-            <section class="content-box inner--wide-only accent--blue a--border-top">
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class=" s-prose s-prose--long">
                     {{ content.outro | safe }}
                 </div>

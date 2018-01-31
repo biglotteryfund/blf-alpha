@@ -2,6 +2,44 @@
    Content
    ========================================================================= */
 
+/* =========================================================================
+   Page Section
+   ========================================================================= */
+
+.page-section {
+    @include mq('medium', 'max') {
+        border: none !important;
+    }
+
+    @include mq('medium') {
+        display: flex;
+        flex: 1;
+    }
+}
+.page-section__content,
+.page-section__supplementary {
+    @include mq('medium') {
+        border: none !important;
+    }
+}
+.page-section__content {
+    @include mq('medium') {
+        flex: 1;
+        margin-right: $spacingUnit / 2;
+    }
+}
+.page-section__supplementary {
+    font-size: 18px;
+
+    @include mq('medium') {
+        flex: 0 0 300px;
+    }
+}
+
+/* =========================================================================
+   Content Box
+   ========================================================================= */
+
 .content-box {
     @include bordered();
     background-color: palette('pale');
@@ -69,6 +107,38 @@
     ol li {
         list-style-type: decimal;
     }
+
+    a {
+        font-weight: bold;
+    }
+
+    a.is-download-link {
+        padding-left: 20px;
+        background-repeat: no-repeat;
+        background-position: center left;
+        background-size: 14px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M27.414 19.414l-10 10a2 2 0 0 1-2.828 0l-10-10a2 2 0 1 1 2.828-2.828L14 23.172V4a2 2 0 1 1 4 0v19.172l6.586-6.586c.39-.39.902-.586 1.414-.586s1.024.195 1.414.586a2 2 0 0 1 0 2.828z" fill="#1a44a1"/></svg>');
+    }
+
+    a.is-external-link {
+        padding-right: 20px;
+        background-repeat: no-repeat;
+        background-position: center right;
+        background-size: 12px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32"><path d="M20 24H4V8.06L8 8V4H0v24h24V18h-4v6zM12 4l4 4-6 6 4 4 6-6 4 4V4H12z" fill="#1a44a1"/></svg>');
+    }
+}
+
+.s-prose--links {
+    a,
+    a:link {
+        font-weight: bold;
+        text-decoration: none;
+    }
+    a:hover,
+    a:active {
+        text-decoration: underline;
+    }
 }
 
 /**
@@ -90,10 +160,6 @@
 
     p:empty {
         display: none;
-    }
-
-    a {
-        font-weight: bold;
     }
 
     a[href^='mailto:'],
