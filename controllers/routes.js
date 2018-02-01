@@ -352,17 +352,17 @@ const programmeRedirects = [
     programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
     programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
     programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
+    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
+    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
+    programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
-    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
-    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeMigration('scotland/our-place', 'our-place', false),
     programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
     programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
-    programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
     programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
 ];
 
