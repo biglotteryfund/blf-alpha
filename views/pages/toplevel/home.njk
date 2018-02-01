@@ -1,10 +1,11 @@
-{% from "../../components/caseStudy.njk" import caseStudy %}
-{% from "../../components/forms.njk" import textInput, radios with context %}
-{% from "../../components/hero.njk" import homepageSuperHero %}
-{% from "../../components/news.njk" import articleTeaser with context %}
-{% import "../../components/headers.njk" as headers %}
+{% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
+{% from "components/caseStudy.njk" import caseStudy %}
+{% from "components/forms.njk" import textInput, radios with context %}
+{% from "components/hero.njk" import homepageSuperHero %}
+{% from "components/news.njk" import articleTeaser with context %}
+{% from "components/social.njk" import socialLinks %}
 
-{% extends "../../layouts/main.njk" %}
+{% extends "layouts/main.njk" %}
 
 {% set bodyClass = "has-full-bleed-header" %}
 {% set globalFootnote = "* " + __('global.footerLinks.grantFootnote') %}
@@ -30,12 +31,14 @@
                 accent--blue a--border-top"
                 data-name="Case-studies carousel">
                 <div class="carousel__controls">
-                    <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev">
-                        {% include "../../includes/svg/arrow-left.svg" %}
+                    <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev"
+                        aria-label="When clicked this shows content from the previous slide">
+                        {{ iconArrowLeft() }}
                         <span class="u-visually-hidden">{{ __('global.accessibility.previousItem') }}</span>
                     </button>
-                    <button class="btn--carousel btn--carousel--round btn--carousel--next js-carousel-next">
-                        {% include "../../includes/svg/arrow-right.svg" %}
+                    <button class="btn--carousel btn--carousel--round btn--carousel--next js-carousel-next"
+                        aria-label="When clicked this shows content from the next slide">
+                        {{ iconArrowRight() }}
                         <span class="u-visually-hidden">{{ __('global.accessibility.nextItem') }}</span>
                     </button>
                 </div>
@@ -170,24 +173,7 @@
                     </form>
 
                     {# social buttons #}
-                    <div class="o-button-group-block u-gutter-half">
-                        <a class="btn btn--small btn--outline accent--blue"
-                            href="{{ appData.config.get('social.instagram') }}">
-                            <span class="btn__icon">{% include "../../includes/svg/instagram.svg" %}</span>
-                            {{ copy.social.followUsOn }} {{ copy.social.instagram }}
-                        </a>
-                        <a class="btn btn--small btn--outline accent--blue"
-                            href="{{ appData.config.get('social.facebookAccounts.' + locale) }}">
-                            <span class="btn__icon">{% include "../../includes/svg/facebook.svg" %}</span>
-                            {{ copy.social.followUsOn }} {{ copy.social.facebook }}
-                        </a>
-                        <a class="btn btn--small btn--outline accent--blue"
-                            href="https://www.twitter.com/{{ appData.config.get('social.twitterAccounts.' + locale) }}" >
-                            <span class="btn__icon">{% include "../../includes/svg/twitter.svg" %}</span>
-                            {{ copy.social.followUsOn }} {{ copy.social.twitter }}
-                        </a>
-                    </div>
-
+                    {{ socialLinks(copy.social) }}
                 </li>
             </ul>
 

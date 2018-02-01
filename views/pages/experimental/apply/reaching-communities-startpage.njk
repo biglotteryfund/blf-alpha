@@ -1,10 +1,12 @@
+{% from "components/icons.njk" import iconArrowRight %}
+
 {% extends "../../../layouts/main.njk" %}
 
 {% macro startButton(url, label = 'Start') %}
     <a class="btn btn--start" href="{{ url }}">
         {{ label }}
         <span class="btn__icon">
-            {% include "../../../includes/svg/arrow-right.svg" %}
+            {{ iconArrowRight() }}
         </span>
     </a>
 {% endmacro %}
