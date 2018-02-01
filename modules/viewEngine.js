@@ -15,8 +15,8 @@ function init(app) {
     });
 
     // register template filters first
-    templateEnv.addFilter('getCachebustedPath', str => {
-        return assets.getCachebustedPath(str);
+    templateEnv.addFilter('getCachebustedPath', (str, skipVirtualDir) => {
+        return assets.getCachebustedPath(str, skipVirtualDir);
     });
 
     templateEnv.addFilter('getImagePath', str => {

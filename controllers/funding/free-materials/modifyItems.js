@@ -40,10 +40,16 @@ module.exports = (req, orderKey, code) => {
         // can they add more of this item?
         const noSpaceLeft = currentItemQuantity === maxQuantity;
 
+        // reset the blocker flag
+        _.set(req.session, [orderKey, 'itemBlocked'], false);
+
         if (action === 'increase') {
             if (!noSpaceLeft && !hasBlockerItem) {
                 _.set(req.session, [orderKey, code, 'id'], id);
                 _.set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+            } else {
+                // alert the user that they're blocked from adding this item
+                _.set(req.session, [orderKey, 'itemBlocked'], true);
             }
         } else if (currentItemQuantity > 1 && action === 'decrease') {
             _.set(req.session, [orderKey, code, 'id'], id);

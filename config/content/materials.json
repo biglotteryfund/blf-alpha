@@ -106,15 +106,15 @@
         {
             "id": 8,
             "name": {
-                "en": "Balloon",
+                "en": "Balloons",
                 "cy": "Balwnau"
             },
             "description": {
-                "en": "individual",
-                "cy": "unigolyn"
+                "en": "Pack of 10",
+                "cy": "Pecyn o 10"
             },
             "image": "balloons.jpg",
-            "maximum": 10,
+            "maximum": 1,
             "products": [
                 {
                     "language": "monolingual",
@@ -155,7 +155,10 @@
                 "en": "Small sticker",
                 "cy": "Sticer bach"
             },
-            "description": "75mm x 50mm",
+            "description": {
+                "en": "75mm x 50mm - pack of 5",
+                "cy": "75mm x 50mm - pecyn o 5"
+            },
             "image": "sticker-small.jpg",
             "maximum": 10,
             "products": [
@@ -175,7 +178,10 @@
                 "en": "Medium sticker",
                 "cy": "Sticer canolig"
             },
-            "description": "80mm x 70mm",
+            "description": {
+                "en": "80mm x 70mm - pack of 5",
+                "cy": "80mm x 70mm - pecyn o 5"
+            },
             "image": "sticker-medium.jpg",
             "maximum": 10,
             "products": [
@@ -190,12 +196,15 @@
             ]
         },
         {
-            "id": 11,
+            "id": 12,
             "name": {
                 "en": "Large sticker",
                 "cy": "Sticer mawr"
             },
-            "description": "120mm x 100mm",
+            "description": {
+                "en": "120mm x 100mm - pack of 5",
+                "cy": "120mm x 100mm - pecyn o 5"
+            },
             "image": "sticker-large.jpg",
             "maximum": 10,
             "products": [
@@ -252,7 +261,6 @@
                 }
             ]
         },
-
         {
             "id": 5,
             "name": {
@@ -294,6 +302,29 @@
                         "cy": "Sticer cerbyd logo gwyn"
                     },
                     "code": "BIG-VEHBW"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": {
+                "en": "Bunting",
+                "cy": "Baneri"
+            },
+            "description": {
+                "en": "10 metres long",
+                "cy": "10 metr o hyd"
+            },
+            "image": "bunting.jpg",
+            "maximum": 1,
+            "products": [
+                {
+                    "language": "monolingual",
+                    "code": "BIG-EVBUNT"
+                },
+                {
+                    "language": "bilingual",
+                    "code": "BIG-EVBUNTBI"
                 }
             ]
         }

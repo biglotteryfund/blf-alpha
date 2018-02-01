@@ -1,0 +1,55 @@
+@import '_vars';
+@import '_functions';
+@import '_mixins';
+
+body {
+    padding: 20px;
+    max-width: 75%;
+    margin: auto;
+}
+
+body, p {
+    font-family: arial;
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+    color: palette('charcoal');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @include poppins();
+    font-weight: 500;
+    margin: 0 0 20px 0;
+    color: palette('pink');
+}
+
+h1 { font-size: 26px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+
+a {
+    color: palette('blue-text');
+}
+
+
+blockquote {
+    color: palette('blue-text');
+}
+
+.logo {
+    margin-bottom: 20px;
+    text-align: right;
+    display: block;
+
+    img {
+        width: 150px;
+    }
+}

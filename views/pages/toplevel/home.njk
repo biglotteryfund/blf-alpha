@@ -1,5 +1,5 @@
 {% from "../../components/caseStudy.njk" import caseStudy %}
-{% from "../../components/forms.njk" import input, radios with context %}
+{% from "../../components/forms.njk" import textInput, radios with context %}
 {% from "../../components/hero.njk" import homepageSuperHero %}
 {% from "../../components/news.njk" import articleTeaser with context %}
 {% import "../../components/headers.njk" as headers %}
@@ -108,19 +108,62 @@
                             <p class="intro">{{ copy.ebulletin.intro}}</p>
                             <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
                                 <span class="u-visually-hidden" id="aria-form-loc">{{ copy.ebulletin.location }}</span>
-                                {{ radios('location', [
-                                    [copy.ebulletin.locations.england, 'ENGLAND_MAIL'],
-                                    [copy.ebulletin.locations.wales, 'WALES_MAIL'],
-                                    [copy.ebulletin.locations.scotland, 'SCOTLAND_MAIL'],
-                                    [copy.ebulletin.locations.northernIreland, 'NI_MAIL']
-                                ]) }}
+                                {{ radios(
+                                    fieldName = 'location',
+                                    options = [
+                                        {
+                                            name: copy.ebulletin.locations.england,
+                                            value: 'ENGLAND_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.wales,
+                                            value: 'WALES_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.scotland,
+                                            value: 'SCOTLAND_MAIL'
+                                        },
+                                        {
+                                            name: copy.ebulletin.locations.northernIreland,
+                                            value: 'NI_MAIL'
+                                        }
+                                    ]
+                                ) }}
                             </div>
+
                             <div class="grid form-ebulletin__fields">
-                                {{ input('firstName', copy.ebulletin.fields.firstName, 'text', required = true, extraClasses = 'grid__item grid__item--half') }}
-                                {{ input('lastName', copy.ebulletin.fields.lastName, 'text', required = true, extraClasses = 'grid__item grid__item--half') }}
+                                {{ textInput(
+                                    fieldName = 'firstName',
+                                    fieldLabel = copy.ebulletin.fields.firstName,
+                                    inputType = 'text',
+                                    required = true,
+                                    extraClasses = 'grid__item grid__item--half'
+                                ) }}
+
+                                {{ textInput(
+                                    fieldName = 'lastName',
+                                    fieldLabel = copy.ebulletin.fields.lastName,
+                                    inputType = 'text',
+                                    required = true,
+                                    extraClasses = 'grid__item grid__item--half'
+                                ) }}
                             </div>
-                            {{ input('organisation', copy.ebulletin.fields.organisation, 'text', required = false, extraClasses = 'no-gap') }}
-                            {{ input('email', copy.ebulletin.fields.emailAddress, 'email', required = true) }}
+
+                            {{ textInput(
+                                fieldName = 'organisation',
+                                fieldLabel = copy.ebulletin.fields.organisation,
+                                inputType = 'text',
+                                required = false,
+                                extraClasses = 'no-gap'
+                            ) }}
+
+                            {{ textInput(
+                                fieldName = 'email',
+                                fieldLabel = copy.ebulletin.fields.emailAddress,
+                                inputType = 'email',
+                                required = true
+                            ) }}
+
                             <input type="submit" value="{{ copy.ebulletin.callToAction }}"
                                    class="btn btn--small btn--block-full accent--pink a--btn form-ebulletin__btn"/>
                         {% endif %}

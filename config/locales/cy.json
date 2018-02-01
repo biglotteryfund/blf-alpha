@@ -45,8 +45,11 @@
 		},
 		"forms": {
 			"missingFieldError": "Darparwch y maes '%s'",
-			"submit": "Cyflwyno"
-		},
+            "invalidEmailError": "Rhowch gyfeiriad e-bost dilys",
+			"submit": "Cyflwyno",
+            "other": "Arall",
+            "otherEnterBelow": "Arall (nodwch isod)"
+        },
 		"misc": {
 			"readMore": "Darllen mwy",
 			"or": "neu"
@@ -765,7 +768,7 @@
 		"guidance": {
 			"order-free-materials": {
 				"title": "Sut i gael deunyddiau â'n brand arnynt am ddim",
-				"body": "<p>Mae'n <strong>bwysig iawn</strong> bod pobl sy'n defnyddio neu'n mynd heibio i'ch mudiad yn gallu deall yn gyflym ac yn hawdd eich bod wedi derbyn grant gan y Loteri Genedlaethol. Gallech wneud hwn trwy roi ein logo ar wal, ar wefan neu ddarn o gyfarpar. Yr unig ofyniad yw i chi wneud eich gorau glas i sicrhau bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr y Loteri Genedlaethol.</p><h3>Sut i gael deunyddiau â'n brand arnynt</h3><p>Mae'r dudalen hon yn rhestru pethau fel balwnau, \"sieciau\" mawr neu blaciau y byddwn yn eu hanfon atoch am ddim. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Mae gennym logos y gallwch eu lawrlwytho i'w defnyddio ar-lein neu ar bapur hefyd</a>.</p>",
+				"body": "<p>Mae gennym nifer o eitemau gwahanol â'n brand arnynt y gallwch eu harchebu am ddim. Maent yn ffordd wych o ddangos bod eich prosiect wedi cael ei ariannu gan y Loteri Genedlaethol, gallwch ddefnyddio nhw mewn digwyddiadau, wrth agor prosiectau, ac mewn ardaloedd y gall eich ymwelwyr eu gweld.</p><h2>Sut i gael deunyddiau â'n brand arnynt</h2><p>Mae'r dudalen hon yn dangos yr holl eitemau sydd ar gael i'w harchebu. <a href=\"/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">Gallwch lawrlwytho'r logo yma hefyd</a>.</p><p>Bydd eich archeb yn cymryd hyd at 6 niwrnod gwaith, os bydd ei angen arnoch cyn hynny neu mae gennych unrhyw ymholiadau pellach, cysylltwch â <a href=\"mailto:branding@biglotteryfund.org.uk\">branding@biglotteryfund.org.uk</a> neu <a href=\"tel:020 7211 1728\">020 7211 1728</a>.</p>",
 				"languageOptions": {
 					"monolingual": "yn Saesneg",
 					"bilingual": "yn Gymraeg a Saesneg"
@@ -773,7 +776,7 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Diolch am eich archeb.",
-						"subtitle": "Bydd eich nwyddau gyda chi cyn bo hir.",
+						"subtitle": "Bydd eich nwyddau gyda chi o fewn 6 niwrnod gwaith.",
 						"body": "<a href=\"mailto:branding@biglotteryfund.org.uk\">Cysylltwch â'n tîm brandio</a> os oes gennych unrhyw gwestiynau neu ymholiadau am eich archeb."
 					},
 					"failure": {
@@ -790,7 +793,36 @@
 				},
 				"outOfStock": "Allan o stoc",
 				"enterDeliveryAddress": "Rhowch y cyfeiriad derbyn",
-				"chooseItems": "Dewiswch unrhyw un o'r eitemau a ganlyn"
+				"chooseItems": "Dewiswch unrhyw un o'r eitemau a ganlyn",
+                "formFields": {
+                    "yourName": "Eich enw",
+                    "yourEmail": "Eich cyfeiriad e-bost",
+                    "yourAddress1": "Eich cyfeiriad llinell 1",
+                    "yourAddress2": "Eich cyfeiriad llinell 2",
+                    "yourTown": "Eich tref/dinas",
+                    "yourCountry": "Eich gwlad",
+                    "yourCounty": "Eich sir",
+                    "yourPostcode": "Eich côd post",
+                    "yourProjectName": "Enw eich prosiect",
+                    "yourGrantAmount": "Swm eich grant",
+                    "yourReason": "Dywedwch wrthym pam rydych wedi archebu'r deunyddiau",
+                    "reasons": {
+                        "event": "Digwyddiad",
+                        "projectOpening": "Agor prosiect",
+                        "photoOpportunity": "Cyfle tynnu lluniau",
+                        "mpVisit": "Ymweliad AS/AC",
+                        "grantAcknowledgment": "Chydnabyddiaeth Grant"
+                    },
+                    "grantSizes": {
+                        "under10k": "Dan £10,000",
+                        "over10k": "Dros £10,000",
+                        "dunno": "Ddim yn gwybod"
+                    }
+                },
+                "dataProtection": {
+                    "title": "Diogelu Data",
+                    "text": "<p>Caiff y data a gyflwynoch yn y ffurflen hon ei gasglu gan PSL Print Management LTD er mwyn prosesu a danfon eich archeb.</p><p>Bydd PSL Print Management LTD yn rhannu'ch data gyda'r Gronfa Loteri Fawr at ddibenion dadansoddi data. Bydd y Gronfa Loteri Fawr yn defnyddio'ch data i ddadansoddi patrymau archebu i hysbysu'r Gronfa Loteri Fawr am anghenion yn y dyfodol. Ni chaiff eich data personol ei rannu gydag unrhyw bartïon eraill. Caiff eich data personol ei storio'n ddiogel am 6 mis ar ôl cyflawni'ch archeb rhag ofn y bydd unrhyw ymholiadau ynglŷn ag ef, wedi hynny fe gaiff ei ddinistrio. Delir yr holl ddata personol yn unol â Deddf Diogelu Data 1998 neu unrhyw ddeddfwriaeth berthnasol arall a ddaw i rym, megis y Rheoliad Diogelu Data Cyffredinol (UE) 2016/679.</p>"
+                }
 			},
 			"logos": {
 				"title": "Sut i hysbysu pobl am eich grant Loteri Genedlaethol gan ddefnyddio ein logo",

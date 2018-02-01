@@ -45,7 +45,10 @@
 		},
 		"forms": {
 			"missingFieldError": "Please provide the '%s' field",
-			"submit": "Submit"
+            "invalidEmailError": "Please provide a valid email address",
+			"submit": "Submit",
+            "other": "Other",
+            "otherEnterBelow": "Other (please enter below)"
 		},
 		"misc": {
 			"readMore": "Read more",
@@ -939,7 +942,7 @@
 		"guidance": {
 			"order-free-materials": {
 				"title": "How to get free branded materials",
-				"body": "<p>It is <strong>really important</strong> that people using or passing-by your organisation can quickly and easily understand that you have received National Lottery Funding. You could do this by putting our logo on a wall, a website or a piece of equipment. The only requirement is that you try your best to make sure that most people engaging with your project do understand that it has been supported by players of the National Lottery.</p><h3>How to get branded materials</h3><p>This page lists physical objects like, balloons, large \"cheques\" or plaques that we'll send you for free. <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">We also have logos that you can download for use online or on paper</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p>",
+				"body": "<p>We have a number of different branded items that you can order for free. They are a great way of showing that your project has received National Lottery funding, you can use them at events, project openings, and in areas seen by your visitors.</p><h2>How to get branded materials</h2><p>This page shows all items available to order. You can also <a href=\"/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads\">download the logo here</a>.</p><p>Your order will take up to 6 working days, if you need it before then or have any further queries please contact <a href=\"mailto:branding@biglotteryfund.org.uk\">branding@biglotteryfund.org.uk</a> or <a href=\"tel:020 7211 1728\">020 7211 1728</a>.</p><p>If you have received a Building Better Opportunities grant then visit the resources page for information on how to promote your funding.</p>",
 				"languageOptions": {
 					"monolingual": "in English",
 					"bilingual": "in Welsh & English"
@@ -947,7 +950,7 @@
 				"orderSubmitted": {
 					"success": {
 						"title": "Thank you for your order.",
-						"subtitle": "Your delivery will be with you soon.",
+						"subtitle": "Your delivery will be with you within 6 working days.",
 						"body": "If you have any questions or queries about your order, please <a href=\"mailto:branding@biglotteryfund.org.uk\">get in touch with our branding team</a>."
 					},
 					"failure": {
@@ -964,7 +967,36 @@
 				},
 				"outOfStock": "Out of stock",
 				"enterDeliveryAddress": "Enter your delivery address",
-				"chooseItems": "Choose any of the following items"
+				"chooseItems": "Choose any of the following items",
+                "formFields": {
+                    "yourName": "Name",
+                    "yourEmail": "Email address",
+                    "yourAddress1": "Address line 1",
+                    "yourAddress2": "Address line 2",
+                    "yourTown": "Town/city",
+                    "yourCountry": "Country",
+                    "yourCounty": "County",
+                    "yourPostcode": "Postcode",
+                    "yourProjectName": "Project name",
+                    "yourGrantAmount": "Your grant amount",
+                    "yourReason": "Please tell us why you have ordered the materials",
+                    "reasons": {
+                        "event": "Event",
+                        "projectOpening": "Project opening",
+                        "photoOpportunity": "Photo opportunity",
+                        "mpVisit": "MP Visit",
+                        "grantAcknowledgment": "Grant acknowledgment"
+                    },
+                    "grantSizes": {
+                        "under10k": "Under £10,000",
+                        "over10k": "Over £10,000",
+                        "dunno": "Don't know"
+                    }
+                },
+                "dataProtection": {
+                    "title": "Data Protection",
+                    "text": "<p>The data you submitted within this form will be collected by PSL Print Management LTD in order to process and ship your order</p><p>PSL Print Management LTD shall share your data with the Big Lottery Fund for data analysis purposes. The Big Lottery Fund will use your data to analyse ordering patterns to inform the Big Lottery Fund of future needs. Your personal data will not be shared with any other parties. Your personal data shall be stored securely for 6 months after fulfilment of your order in case of there being any queries with it, following this it will be destroyed. All personal data will be held in line with the Data Protection Act 1998 or any other relevant legislation that comes into force, such as the General Data Protection Regulation (EU) 2016/679.</p>"
+                }
 			},
 			"logos": {
 				"title": "How to tell people about your National Lottery funding using our logo",

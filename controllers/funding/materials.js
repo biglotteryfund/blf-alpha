@@ -2,9 +2,10 @@ const Raven = require('raven');
 const config = require('config');
 const moment = require('moment');
 const { get } = require('lodash');
-const { body, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
+const app = require('../../server');
 
 const ordersService = require('../../services/orders');
 const mail = require('../../modules/mail');
@@ -39,36 +40,20 @@ function init({ router, routeConfig }) {
                         res.send({
                             status: 'success',
                             quantity: get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
-                            allOrders: req.session[freeMaterialsLogic.orderKey]
+                            allOrders: req.session[freeMaterialsLogic.orderKey],
+                            itemBlocked: get(req.session, [freeMaterialsLogic.orderKey, 'itemBlocked'], false)
                         });
                     });
                 }
             });
         });
 
-    /**
-     * Validate fields using custom validator
-     * https://github.com/ctavan/express-validator#customvalidator
-     * @TODO: There should definitely be a better way to model error translations
-     */
-    const validators = freeMaterialsLogic.formFields.filter(field => field.required).map(field => {
-        return body(field.name)
-            .exists()
-            .custom((value, { req }) => {
-                const locale = req.i18n.getLocale();
-                // Turn 'Your name' into 'your name' (for error messages)
-                const lcfirst = str => str[0].toLowerCase() + str.substring(1);
-                // Get a translated error message
-                let fieldName = lcfirst(field.label[locale]);
-                let errorMessage = req.i18n.__('global.forms.missingFieldError', fieldName);
-                // Validate field
-                if (!value || value.length < 1) {
-                    throw new Error(errorMessage);
-                }
-
-                return true;
-            });
-    });
+    // combine all validators for each field
+    let validators = [];
+    for (let key in freeMaterialsLogic.formFields.fields) {
+        let field = freeMaterialsLogic.formFields.fields[key];
+        validators.push(field.validator(field));
+    }
 
     /**
      * Create text for order email
@@ -82,23 +67,38 @@ function init({ router, routeConfig }) {
         }
         text += "\nThe customer's personal details are below:\n\n";
 
-        freeMaterialsLogic.formFields.forEach(field => {
-            const fieldDetail = details[field.name];
-            if (fieldDetail) {
-                text += `\t${field.label['en']}: ${fieldDetail}\n\n`;
-            }
-        });
+        for (let key in freeMaterialsLogic.formFields.fields) {
+            let field = freeMaterialsLogic.formFields.fields[key];
+            let fieldValue = details[field.name];
+            const fieldLabel = field.emailKey;
 
-        text += '\nThis email has been automatically generated from the Big Lottery Fund Website.';
+            // did this order include "other" options?
+            if (field.allowOther) {
+                // did they enter something?
+                let otherValue = details[field.name + 'Other'];
+                if (otherValue) {
+                    // override the field with their custom text
+                    fieldValue = otherValue;
+                }
+            }
+
+            if (fieldValue) {
+                text += `\t${fieldLabel}: ${fieldValue}\n\n`;
+            }
+        }
+
+        text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
         return text;
     };
 
     // PAGE: free materials form
+    // PAGE: free materials form
     router
         .route([routeConfig.path])
         .get(cached.csrfProtection, (req, res) => {
             let orderStatus;
+
             // clear order details if it succeeded
             if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
@@ -115,13 +115,12 @@ function init({ router, routeConfig }) {
                     numOrders += orders[o].quantity;
                 }
             }
-
             res.render(routeConfig.template, {
                 title: lang.title,
                 copy: lang,
                 description: 'Order items free of charge to acknowledge your grant',
                 materials: freeMaterialsLogic.materials.items,
-                formFields: freeMaterialsLogic.formFields,
+                formFields: freeMaterialsLogic.formFields.fields,
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,
@@ -134,33 +133,30 @@ function init({ router, routeConfig }) {
                 req.body[key] = xss(req.body[key]);
             }
 
-            function storeOrderData(items, details) {
-                // format ordered items for database
-                let orderedItems = [];
-                for (let code in items) {
-                    if (items[code].quantity > 0) {
-                        orderedItems.push({
-                            code: code,
-                            quantity: items[code].quantity
-                        });
-                    }
+            // get form errors and translate them
+            const errors = validationResult(req).formatWith(error => {
+                // not every field has a translated error (or an error at all)
+                let isTranslateable = get(error, ['msg', 'translateable'], false);
+                if (!isTranslateable) {
+                    return error;
+                }
+                let errorMsg;
+                let errorParam = error.msg.paramPath ? error.msg.paramPath : false;
+
+                // does this translation require a parameter
+                // (which must also be translated)?
+                if (errorParam) {
+                    let paramTranslated = req.i18n.__(error.msg.paramPath);
+                    errorMsg = req.i18n.__(error.msg.errorPath, paramTranslated);
+                } else {
+                    errorMsg = req.i18n.__(error.msg.errorPath);
                 }
 
-                // work out the postcode area
-                let postcodeArea = details.yourPostcode.replace(/ /g, '').toUpperCase();
-                if (postcodeArea.length > 3) {
-                    postcodeArea = postcodeArea.slice(0, -3);
-                }
-
-                // save order data to database
-                return ordersService.storeOrder({
-                    grantAmount: details.yourGrantAmount,
-                    postcodeArea: postcodeArea,
-                    items: orderedItems
+                return Object.assign({}, error, {
+                    msg: errorMsg
                 });
-            }
+            });
 
-            const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
@@ -211,6 +207,28 @@ function init({ router, routeConfig }) {
                         sendMode: 'bcc'
                     });
 
+                    // Email the customer to confirm their order.
+                    // First render a Nunjucks template to a string
+                    app.render('emails/newMaterialOrder', {}, (errorRenderingTemplate, html) => {
+                        if (!errorRenderingTemplate) {
+                            // Next, convert this string into inline-styled HTML
+                            mail.renderHtmlEmail(html).then(inlinedHtml => {
+                                mail.send({
+                                    subject: `Thank you for your Big Lottery Fund order`,
+                                    html: inlinedHtml,
+                                    sendTo: req.body.yourEmail
+                                });
+                            }).catch(err => {
+                                Raven.captureMessage('Error converting template to inline CSS', {
+                                    extra: err,
+                                    tags: {
+                                        feature: 'material-form'
+                                    }
+                                });
+                            });
+                        }
+                    });
+
                     let redirectToMessage = () => {
                         req.flash('showOverlay', true);
                         req.session.save(() => {
@@ -218,9 +236,38 @@ function init({ router, routeConfig }) {
                         });
                     };
 
+                    let storeOrderData = (orderItems, orderDetails) => {
+                        // format ordered items for database
+                        let orderedItems = [];
+                        for (let code in orderItems) {
+                            if (orderItems[code].quantity > 0) {
+                                orderedItems.push({
+                                    code: code,
+                                    quantity: orderItems[code].quantity
+                                });
+                            }
+                        }
+
+                        // work out the postcode area
+                        let postcodeArea = orderDetails.yourPostcode.replace(/ /g, '').toUpperCase();
+                        if (postcodeArea.length > 3) {
+                            postcodeArea = postcodeArea.slice(0, -3);
+                        }
+
+                        // save order data to database
+                        return ordersService.storeOrder({
+                            grantAmount: details.yourGrantAmount,
+                            postcodeArea: postcodeArea,
+                            items: orderedItems
+                        });
+                    };
+
                     sendOrderEmail
                         .then(() => {
-                            if (config.get('storeOrderData')) {
+                            if (!config.get('storeOrderData')) {
+                                req.flash('materialFormSuccess', true);
+                                redirectToMessage();
+                            } else {
                                 // log this order in the database
                                 storeOrderData(items, details)
                                     .then(() => {
@@ -240,9 +287,6 @@ function init({ router, routeConfig }) {
                                         req.flash('materialFormSuccess', true);
                                         redirectToMessage();
                                     });
-                            } else {
-                                req.flash('materialFormSuccess', true);
-                                redirectToMessage();
                             }
                         })
                         .catch(() => {

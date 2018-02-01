@@ -234,20 +234,33 @@ $errorColor: #b00;
         }
 
         &.is-error {
-            @include input-placeholder {
-                color: #c6183d;
-            }
+            border-bottom-color: #c6183d;
         }
     }
 
     input[type='submit'] {
         display: block;
         width: 100%;
-        margin-top: $spacingUnit * 2;
         border-bottom: none;
     }
 
-    label {
+    input[type='radio'] {
+        width: auto;
+        display: inline-block;
+    }
+
+    .label-radio {
+        font-weight: bold;
+    }
+
+    .label-radio,
+    .label-radio__item {
+        font-size: 16px;
+        display: block;
+        margin-bottom: $spacingUnit;
+    }
+
+    label.form-fund__item {
         @extend .u-visually-hidden;
     }
 }
@@ -265,7 +278,7 @@ $errorColor: #b00;
             flex-wrap: wrap;
             align-items: stretch;
 
-            .label--radio {
+            .label-radio__item {
                 margin: 0;
                 padding: 10px;
                 flex-grow: 1;

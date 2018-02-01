@@ -1,102 +1,233 @@
 'use strict';
-module.exports = [
-    {
+const { check } = require('express-validator/check');
+const translationBasePath = 'funding.guidance.order-free-materials.formFields.';
+
+const getTranslatedError = field => {
+    return {
+        translateable: true,
+        errorPath: 'global.forms.missingFieldError',
+        paramPath: field.label
+    };
+};
+
+const materialFields = {
+    yourName: {
         name: 'yourName',
         type: 'text',
+        emailKey: 'Name',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: true,
-        label: {
-            en: 'Name',
-            cy: 'Eich enw'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
         }
     },
-    {
+    yourEmail: {
         name: 'yourEmail',
         type: 'email',
+        emailKey: 'Email address',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: true,
-        label: {
-            en: 'Email address',
-            cy: 'Eich cyfeiriad e-bost'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field))
+                .isEmail()
+                .withMessage({
+                    translateable: true,
+                    errorPath: 'global.forms.invalidEmailError'
+                });
         }
     },
-    {
-        name: 'yourNumber',
-        type: 'text',
-        required: true,
-        label: {
-            en: 'Phone number',
-            cy: 'Eich rhif ffôn'
-        }
-    },
-    {
+    yourAddress1: {
         name: 'yourAddress1',
         type: 'text',
+        emailKey: 'Address line 1',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: true,
-        label: {
-            en: 'Address line 1',
-            cy: 'Eich cyfeiriad llinell 1'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
         }
     },
-    {
+    yourAddress2: {
         name: 'yourAddress2',
         type: 'text',
+        emailKey: 'Address line 2',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: false,
-        label: {
-            en: 'Address line 2',
-            cy: 'Eich cyfeiriad llinell 2'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim();
         }
     },
-    {
+    yourTown: {
         name: 'yourTown',
         type: 'text',
+        emailKey: 'Town/city',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: true,
-        label: {
-            en: 'Town/city',
-            cy: 'Eich tref/dinas'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
         }
     },
-    {
+    yourCounty: {
         name: 'yourCounty',
         type: 'text',
+        emailKey: 'County',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: false,
-        label: {
-            en: 'County',
-            cy: 'Eich sir'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim();
         }
     },
-    {
+    yourCountry: {
+        name: 'yourCountry',
+        type: 'text',
+        emailKey: 'Country',
+        get label() {
+            return translationBasePath + this.name;
+        },
+        required: true,
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
+        }
+    },
+    yourPostcode: {
         name: 'yourPostcode',
         type: 'text',
+        emailKey: 'Postcode',
+        get label() {
+            return translationBasePath + this.name;
+        },
         required: true,
-        label: {
-            en: 'Postcode',
-            cy: 'Eich côd post'
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(getTranslatedError(field));
         }
     },
-    {
+    yourProjectName: {
         name: 'yourProjectName',
         type: 'text',
-        required: true,
-        label: {
-            en: 'Project name',
-            cy: 'Enw eich prosiect'
+        emailKey: 'Project name',
+        get label() {
+            return translationBasePath + this.name;
+        },
+        required: false,
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim();
         }
     },
-    {
-        name: 'yourProjectID',
-        type: 'text',
-        required: true,
-        label: {
-            en: 'Project ID number',
-            cy: 'Rhif adnabod eich prosiect'
-        }
-    },
-    {
+    yourGrantAmount: {
         name: 'yourGrantAmount',
-        type: 'text',
-        required: true,
-        label: {
-            en: 'Grant amount',
-            cy: 'Swm eich grant'
+        type: 'radio',
+        allowOther: true,
+        options: [
+            {
+                name: translationBasePath + 'grantSizes.under10k',
+                value: 'under10k'
+            },
+            {
+                name: translationBasePath + 'grantSizes.over10k',
+                value: 'over10k'
+            },
+            {
+                name: translationBasePath + 'grantSizes.dunno',
+                value: 'dunno'
+            }
+        ],
+        emailKey: 'Grant amount',
+        get label() {
+            return translationBasePath + this.name;
+        },
+        required: false,
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim();
+        }
+    },
+    yourReason: {
+        name: 'yourReason',
+        type: 'radio',
+        allowOther: true,
+        options: [
+            {
+                name: translationBasePath + 'reasons.event',
+                value: 'event'
+            },
+            {
+                name: translationBasePath + 'reasons.projectOpening',
+                value: 'projectOpening'
+            },
+            {
+                name: translationBasePath + 'reasons.photoOpportunity',
+                value: 'photoOpportunity'
+            },
+            {
+                name: translationBasePath + 'reasons.mpVisit',
+                value: 'mpVisit'
+            },
+            {
+                name: translationBasePath + 'reasons.grantAcknowledgment',
+                value: 'grantAcknowledgment'
+            }
+        ],
+        emailKey: 'Order reason',
+        get label() {
+            return translationBasePath + this.name;
+        },
+        required: false,
+        validator: function(field) {
+            return check(field.name)
+                .escape()
+                .trim();
         }
     }
-];
+};
+
+module.exports = {
+    fields: materialFields
+};

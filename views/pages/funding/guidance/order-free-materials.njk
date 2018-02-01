@@ -1,11 +1,21 @@
 {% import "components/hero.njk" as hero %}
 {% import "components/headers.njk" as headers %}
 {% from "components/icons.njk" import iconClose %}
-{% from "components/forms.njk" import input with context %}
+{% from "components/forms.njk" import textInput, radios with context %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
+
+{% macro textField(field) %}
+    {{ textInput(
+        fieldName = field.name,
+        fieldLabel = __(field.label),
+        inputType = field.type,
+        required = field.required,
+        showErrorsBelowFields = true
+    ) }}
+{% endmacro %}
 
 {% macro itemOrderButtons(item, product) %}
     {% set quantity = orders[product.code].quantity or 0 %}
@@ -158,18 +168,65 @@
                     <form class="inline-form order-form" method="post">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <input type="hidden" name="languageChoice" value="" id="js-language-choice">
-                        <ul class="grid grid--wide-only grid--3-up grid--padded--large unstyled">
-                            {% for field in formFields %}
-                                <li class="grid__item">{{ input(field.name, field.label[locale], inputType = field.type, required = field.required) }}</li>
-                            {% endfor %}
-                            <li class="grid__item">
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
+                        </div>
+
+                        <div class="grid grid--padded grid-row">
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCountry) }}</div>
+                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
+                        </div>
+
+
+                        {{ textField(formFields.yourProjectName) }}
+
+                        <div class="grid grid--padded grid--top grid-row">
+
+                            <div class="grid__item grid-col-6 grid-col-3--m">
+                                {{ radios(
+                                    fieldName = formFields.yourReason.name,
+                                    label = __(formFields.yourReason.label),
+                                    options = formFields.yourReason.options,
+                                    allowOther = formFields.yourReason.allowOther,
+                                    translateOptionLabels = true,
+                                    required = formFields.yourReason.required
+                                ) }}
+                            </div>
+
+                            <div class="grid__item grid-col-6 grid-col-3--m">
+                                {{ radios(
+                                    fieldName = formFields.yourGrantAmount.name,
+                                    label = __(formFields.yourGrantAmount.label),
+                                    options = formFields.yourGrantAmount.options,
+                                    allowOther = formFields.yourGrantAmount.allowOther,
+                                    translateOptionLabels = true,
+                                    required = formFields.yourGrantAmount.required
+                                ) }}
+
                                 <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                       v-bind:disabled="isEmpty()"
+                                       v-bind:disabled="isEmpty() && {{ numOrders }} === 0"
                                        value="{{ __('global.forms.submit') }}"
-                                       class="btn accent--turquoise a--btn order-form__btn"
+                                       class="btn accent--turquoise a--btn order-form__btn spaced--t--l"
                                        id="js-submit-material-order">
-                            </li>
-                        </ul>
+                            </div>
+
+                        </div>
+
+                        <h5 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h5>
+                        <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
+
                     </form>
                 </div>
             </div>

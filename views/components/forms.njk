@@ -1,10 +1,15 @@
-{% macro input(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false, helpText = false, charLimit = false, customPlaceholder = false) %}
-
-    {# this is whitespace sensitive so don't add newlines! #}
-    {% set placeholderText %}{% if customPlaceholder %}{{ customPlaceholder }}{% elseif error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}{% if required %} *{% endif %}{% endset %}
+{% macro textInput(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false, helpText = false, charLimit = false, showErrorsBelowFields = false) %}
 
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
+    {# this is whitespace sensitive so don't add newlines! #}
+    {% set placeholderText %}{{ fieldLabel }}{% if required %} *{% endif %}{% endset %}
+    {% if not showErrorsBelowFields %}
+        {# show errors in placeholders instead #}
+        {% set placeholderText %}{% if customPlaceholder %}{{ customPlaceholder }}{% elseif error %}{{ error.msg }}{% else %}{{ fieldLabel }}{% endif %}{% if required %} *{% endif %}{% endset %}
+    {% endif %}
+
     <label class="form-fund__item" for="ff-{{ fieldName }}">{{ fieldLabel }}{% if required %} *{% endif %}</label>
+
     {% if inputType == 'textarea' %}
         <textarea class="form-fund__item{% if error %} is-error{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}{% if charLimit %} js-has-char-limit{% endif %}"{% if error %} aria-invalid{% endif %}
                   name="{{ fieldName }}"
@@ -18,6 +23,11 @@
                value="{{ getFlash(request, 'formValues', fieldName) }}"
                placeholder="{{ placeholderText }}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>
     {% endif %}
+    {% if showErrorsBelowFields %}
+        <p class="spaced--t error t6">
+            {% if error %}{{ error.msg }}{% else %}&nbsp;{% endif %}
+        </p>
+    {% endif %}
     {% if helpText %}
         <span class="help-block">{{ helpText }}</span>
     {% endif %}
@@ -25,14 +35,14 @@
 
 {% macro checkboxes(fieldName, options) %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
-    {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
+    {% if error %}<p class="error t6">{{ error.msg }}</p>{% endif %}
 
     {% for o in options %}
         <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-               for="ff-radio-{{ o[2] }}-{{ o[1] }}">
+               for="ff-checkbox-{{ o[2] }}-{{ o[1] }}">
             {{ o[0] }}
             <input type="checkbox"
-                   id="ff-radio-{{ o[2] }}-{{ o[1] }}"
+                   id="ff-checkbox-{{ o[2] }}-{{ o[1] }}"
                    name="{{ o[2] }}"
                    value="yes" />
         </label>
@@ -40,27 +50,48 @@
 
 {% endmacro %}
 
-{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false) %}
+{% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, translateOptionLabels = false, hasOther = false) %}
+    {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
     {% if not suppressErrors and error %}
         <p class="error">{{ error.msg }}</p>
     {% endif %}
-    <label class="label--radio{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-           for="ff-radio-{{ value }}">
-        {{ label }}
-        <input type="radio"
-               id="ff-radio-{{ value }}"
+    <label class="label-radio__item{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
+           for="{{ uniqueId }}">
+        <input type="radio"{% if hasOther %} class="js-other-trigger"{% endif %}
+               id="{{ uniqueId }}"
                name="{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ value }}" />
+        {% if translateOptionLabels %}{{ __(label) }}{% else %}{{ label }}{% endif %}
     </label>
 {% endmacro %}
 
-{% macro radios(fieldName, options) %}
+{% macro radios(fieldName, label = false, options, allowOther = false, translateOptionLabels = false, required = false) %}
+    {% set otherId = 'js-other-' + fieldName %}
+    {% if allowOther %}<div class="js-has-radios" data-other-id="{{ otherId }}">{% endif %}
     {% set error = getFormErrorForField(getFlash(request, 'formErrors'), fieldName) %}
-    {% if error %}<p class="error">{{ error.msg }}</p>{% endif %}
-
+    {% if label %}<label class="label-radio">{{ label }}{% if required %} *{% endif %}</label>{% endif %}
     {% for opt in options %}
-        {{ radioButton(fieldName, opt[0], opt[1], false, true) }}
+        {{ radioButton(
+            fieldName = fieldName,
+            label = opt.name,
+            value = opt.value,
+            required = false,
+            suppressErrors = true,
+            translateOptionLabels = translateOptionLabels
+        ) }}
     {% endfor %}
-
+    {% if allowOther %}
+        {{ radioButton(
+            fieldName = fieldName,
+            label = __('global.forms.otherEnterBelow'),
+            value = 'other',
+            required = false,
+            suppressErrors = true,
+            hasOther = true
+        ) }}
+        <input type="text" name="{{ fieldName }}Other" id="{{ otherId }}" placeholder="{{ __('global.forms.other') }}" />
+    {% endif %}
+    {% if error %}<p class="error t6 spaced--t">{{ error.msg }}</p>{% endif %}
+    {% if allowOther %}</div>{% endif %}
 {% endmacro %}
