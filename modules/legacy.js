@@ -156,8 +156,17 @@ const redirectUglyLink = (req, res) => {
         .catch(handleError);
 };
 
+/**
+ * Redirect archived links to the national archives
+ */
+function redirectArchived(req, res) {
+    const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
+    res.redirect(301, `http://webarchive.nationalarchives.gov.uk/*/${fullUrl}`);
+}
+
 module.exports = {
     proxyLegacyPage,
     postToLegacyForm,
-    redirectUglyLink
+    redirectUglyLink,
+    redirectArchived
 };

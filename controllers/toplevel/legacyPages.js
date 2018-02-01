@@ -3,7 +3,7 @@ const { includes, reduce, toString } = require('lodash');
 
 const { legacyProxiedRoutes } = require('../routes');
 const { localify } = require('../../modules/urls');
-const { proxyLegacyPage, postToLegacyForm } = require('../../modules/proxy');
+const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 
 /**
  * Normalize query

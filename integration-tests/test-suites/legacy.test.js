@@ -20,20 +20,23 @@ describe('Legacy pages proxying', () => {
         helper.after(server);
     });
 
+    function requestRedirect(urlPath) {
+        return chai
+            .request(server)
+            .get(urlPath)
+            .redirects(0)
+            .catch(err => err.response);
+    }
+
     describe('Funding Finder Redirects', () => {
         function fundingFinderRequest({ originalPath, redirectedPath }) {
-            return chai
-                .request(server)
-                .get(originalPath)
-                .redirects(0)
-                .catch(err => err.response)
-                .then(res => {
-                    return {
-                        res,
-                        originalPath,
-                        redirectedPath
-                    };
-                });
+            return requestRedirect(originalPath).then(res => {
+                return {
+                    res,
+                    originalPath,
+                    redirectedPath
+                };
+            });
         }
 
         it('should redirect old funding finder', () => {
@@ -85,6 +88,19 @@ describe('Legacy pages proxying', () => {
                     expect(res.text).to.include('Show closed programmes');
                     expect(res.status).to.equal(200);
                 });
+        });
+    });
+
+    describe('Archived pages', () => {
+        it('should redirect archived pages to the national archives', () => {
+            const urlPath =
+                '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms';
+            return requestRedirect(urlPath).then(res => {
+                expect(res.status).to.equal(301);
+                expect(res).to.redirectTo(
+                    `http://webarchive.nationalarchives.gov.uk/*/https://www.biglotteryfund.org.uk${urlPath}`
+                );
+            });
         });
     });
 });

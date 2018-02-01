@@ -3,8 +3,6 @@ const config = require('config');
 const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
 
-const importedLegacyPages = require('../config/app/importedLegacyPages');
-
 // pass some parameters onto each controller
 // so we can take route config and init all at once
 const loadController = path => {
@@ -167,19 +165,11 @@ const routes = {
                     live: true,
                     aliases: ['/home/funding']
                 },
-                logos: {
-                    name: 'Logos',
-                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-                    template: 'pages/funding/guidance/logos',
-                    lang: 'funding.guidance.logos',
-                    code: 1,
-                    static: true,
-                    live: true,
-                    aliases: [
-                        sectionPaths.funding +
-                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
-                    ]
+                applyingForFunding: {
+                    name: 'Applying for funding',
+                    path: '/funding-guidance/applying-for-funding/*',
+                    static: false,
+                    live: false
                 },
                 manageFunding: {
                     name: 'Managing your funding',
@@ -230,6 +220,20 @@ const routes = {
                     code: 18,
                     static: true,
                     live: true
+                },
+                logos: {
+                    name: 'Logos',
+                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+                    template: 'pages/funding/guidance/logos',
+                    lang: 'funding.guidance.logos',
+                    code: 1,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
+                    ]
                 },
                 programmes: {
                     name: 'Funding programmes',
@@ -320,6 +324,28 @@ const routes = {
  *
  * Serve pages imported via script into the CMS
  */
+const importedLegacyPages = {
+    toplevel: {
+        informationchecks: {
+            name: 'informationchecks',
+            path: '/informationchecks',
+            isLegacyPage: true,
+            live: false
+        },
+        talentmatch: {
+            name: 'talentmatch',
+            path: '/talentmatch',
+            isLegacyPage: true,
+            live: false
+        },
+        youthinvestmentfund: {
+            name: 'youthinvestmentfund',
+            path: '/youthinvestmentfund',
+            isLegacyPage: true,
+            live: false
+        }
+    }
+};
 for (let section in importedLegacyPages) {
     if (get(routes.sections, section)) {
         let pages = routes.sections[section].pages;

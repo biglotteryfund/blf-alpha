@@ -6,6 +6,7 @@ const routeStatic = require('../utils/routeStatic');
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
+const { redirectArchived } = require('../../modules/legacy');
 
 const router = express.Router();
 
@@ -37,6 +38,11 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetailAfaEngland: pages.programmeDetailAfaEngland
         }
     });
+
+    /**
+     * Applying for funding (Archived)
+     */
+    router.get(pages.applyingForFunding.path, redirectArchived);
 
     /**
      * Populate static pages
