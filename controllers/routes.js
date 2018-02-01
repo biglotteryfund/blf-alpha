@@ -352,6 +352,8 @@ const programmeRedirects = [
     programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
     programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
     programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
+    programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
+
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
@@ -439,6 +441,20 @@ const vanityRedirects = [
         name: 'Grants for community-led activity',
         path: '/communityled',
         destination: '/funding/programmes/grants-for-community-led-activity',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Building Better Opportunities',
+        path: '/esf',
+        destination: '/funding/programmes/building-better-opportunities',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Building Better Opportunities (Guidance)',
+        path: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding',
+        destination: '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
         aliasOnly: true,
         live: true
     },
