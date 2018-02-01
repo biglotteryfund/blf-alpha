@@ -2,6 +2,54 @@
    Content
    ========================================================================= */
 
+/* =========================================================================
+   Page Section
+   ========================================================================= */
+
+.page-section {
+    @include mq('medium', 'max') {
+        border: none !important;
+    }
+
+    @include mq('medium') {
+        display: flex;
+        flex: 1;
+    }
+}
+.page-section__content,
+.page-section__supplementary {
+    @include mq('medium') {
+        border: none !important;
+    }
+}
+.page-section__content {
+    @include mq('medium') {
+        flex: 1;
+        margin-right: $spacingUnit / 2;
+    }
+}
+.page-section__supplementary {
+    font-size: 18px;
+
+    @include mq('medium') {
+        flex: 0 0 300px;
+    }
+
+    a,
+    a:link {
+        font-weight: bold;
+        text-decoration: none;
+    }
+    a:hover,
+    a:active {
+        text-decoration: underline;
+    }
+}
+
+/* =========================================================================
+   Content Box
+   ========================================================================= */
+
 .content-box {
     @include bordered();
     background-color: palette('pale');
@@ -38,162 +86,5 @@
         border-right: none;
         border-bottom: none;
         border-left: none;
-    }
-}
-
-/* =========================================================================
-   Content: Scoped Prose Styles
-   ========================================================================= */
-/*
-    Opt-in typography:
-    https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
-    http://css-tricks.com/opt-in-typography/
-*/
-.s-prose {
-    ul,
-    ol {
-        margin-bottom: $spacingUnit;
-    }
-
-    ul li,
-    ol li {
-        margin-left: $spacingUnit;
-        margin-bottom: 0.3em;
-        margin-top: 0;
-    }
-
-    ul li {
-        list-style-type: disc;
-    }
-
-    ol li {
-        list-style-type: decimal;
-    }
-}
-
-/**
- * Expanded prose styles for long blocks of text
- */
-.s-prose--long {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-weight: 600;
-    }
-
-    h2::after {
-        @include underlined();
-    }
-
-    p:empty {
-        display: none;
-    }
-
-    a {
-        font-weight: bold;
-    }
-
-    a[href^='mailto:'],
-    a[href^='tel:'] {
-        color: palette('green');
-        font-weight: bold;
-        word-break: break-word;
-    }
-
-    a[href^='tel:'] {
-        text-decoration: none;
-    }
-
-    .contrast--high & {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            color: palette('blue') !important;
-        }
-    }
-
-    ol li,
-    ul li {
-        margin-left: $spacingUnit * 3;
-    }
-
-    figure,
-    .inline-figure {
-        margin-left: -($spacingUnit);
-        margin-right: -($spacingUnit);
-
-        @include mq(tablet) {
-            margin: 1em 0 2em;
-        }
-
-        &.auto-width {
-            img {
-                width: auto;
-            }
-        }
-    }
-
-    .inline-figure--padded {
-        @include mq('tablet') {
-            margin-left: $spacingUnit * 3;
-            margin-right: $spacingUnit * 3;
-        }
-    }
-
-    .video-container {
-        margin-bottom: 1em;
-    }
-
-    table {
-        font-size: 90%;
-        box-sizing: border-box;
-        width: 100%;
-        padding: 0;
-        border-collapse: collapse;
-        table-layout: fixed;
-        margin: 0 0 1em;
-
-        thead,
-        th {
-            font-weight: bold;
-            vertical-align: middle;
-        }
-        thead {
-            border-bottom: 3px solid palette('off-white');
-        }
-        tr {
-            border-bottom: 1px solid palette('off-white');
-        }
-        tr:last-of-type {
-            border-bottom: none;
-        }
-
-        th,
-        td {
-            padding: 10px 8px;
-            text-align: left;
-        }
-        td {
-            vertical-align: top;
-        }
-    }
-
-    code,
-    pre {
-        overflow-x: auto;
-        white-space: pre-wrap;
-        font-family: Hack, Consolas, monospace;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 2px;
-        color: palette('pale');
-        background-color: palette('charcoal');
-    }
-
-    pre {
-        padding: 10px;
-        border-radius: 2px;
     }
 }
