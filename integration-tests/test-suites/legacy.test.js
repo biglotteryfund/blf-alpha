@@ -87,4 +87,34 @@ describe('Legacy pages proxying', () => {
                 });
         });
     });
+
+    describe('Legacy ~/link.aspx URLs', () => {
+        it('Should redirect top-level ~/link.aspx urls', () => {
+            return chai
+                .request(server)
+                .get('/~/link.aspx?_id=50fab7d4b5a248f8a8c8f5d4d33f9e0f&_z=z')
+                .redirects(0)
+                .catch(err => err.response)
+                .then(res => {
+                    expect(res.status).to.equal(301);
+                    expect(res).to.redirectTo(
+                        '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
+                    );
+                });
+        });
+
+        it('Should redirect wildcard ~/link.aspx urls', () => {
+            return chai
+                .request(server)
+                .get('/global-content/programmes/england/~/link.aspx?_id=50FAB7D4B5A248F8A8C8F5D4D33F9E0F&_z=z')
+                .redirects(0)
+                .catch(err => err.response)
+                .then(res => {
+                    expect(res.status).to.equal(301);
+                    expect(res).to.redirectTo(
+                        '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
+                    );
+                });
+        });
+    });
 });
