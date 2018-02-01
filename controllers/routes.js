@@ -604,7 +604,7 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/~/link.aspx',
+        path: '*~/link.aspx',
         isPostable: false,
         allowQueryStrings: true,
         live: true
