@@ -25,7 +25,7 @@ describe('Accessibility integration tests', () => {
 
     it('should pass a11y smoke test @slow', done => {
         const url = testUrl('/funding/programmes');
-        const cmd = `axe ${url} --disable color-contrast --exit --exclude iframe`;
+        const cmd = `axe ${url} --disable color-contrast --exit --exclude iframe --browser chrome`;
         exec(cmd, (error, stdout) => {
             console.log(stdout);
             if (error) {
