@@ -1,4 +1,3 @@
-/* global Vue */
 'use strict';
 
 const $ = require('jquery');
