@@ -17,7 +17,6 @@ function conditionalRadios($el) {
 }
 
 function init() {
-
     // Handle making "other" inputs required for radio sets
     const classes = {
         radioContainer: 'js-has-radios',
@@ -26,7 +25,7 @@ function init() {
 
     // We bind to the body element like this because these
     // fields are rendered by Vue and not always in the DOM
-    $('body').on('click', `.${classes.radioContainer} input[type="radio"]`, function (e) {
+    $('body').on('click', `.${classes.radioContainer} input[type="radio"]`, function() {
         const $clickedRadio = $(this);
         // find the corresponding <input> field for this radio set
         const $other = $('#' + $clickedRadio.parents(`.${classes.radioContainer}`).data('other-id'));
