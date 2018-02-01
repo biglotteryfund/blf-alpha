@@ -5,6 +5,7 @@ const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
+const { createHeroImage } = require('../../modules/images');
 
 /**
  * Redirect any aliases to the canonical path
@@ -49,13 +50,29 @@ function handleCmsPage(sectionId) {
                 path: contentApi.getCmsPath(sectionId, req.path)
             })
             .then(content => {
+                /**
+                 * Allow for pages without heroes
+                 * @TODO: Define better default hero image.
+                 */
+                const defaultHeroImage = createHeroImage({
+                    small: 'hero/jobs-small.jpg',
+                    medium: 'hero/jobs-medium.jpg',
+                    large: 'hero/jobs-large.jpg',
+                    default: 'hero/jobs-medium.jpg',
+                    caption: 'Street Dreams, Grant £9,000'
+                });
+
                 if (content.children) {
                     res.render('pages/listings/listingPage', {
-                        content
+                        title: content.title,
+                        content: content,
+                        heroImage: content.hero || defaultHeroImage
                     });
                 } else {
                     res.render('pages/listings/informationPage', {
-                        content
+                        title: content.title,
+                        content: content,
+                        heroImage: content.hero || defaultHeroImage
                     });
                 }
             })

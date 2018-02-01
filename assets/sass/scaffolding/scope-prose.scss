@@ -1,0 +1,205 @@
+/* =========================================================================
+   Scoped Prose Styles
+   ========================================================================= */
+/*
+    Opt-in typography:
+    https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
+    http://css-tricks.com/opt-in-typography/
+*/
+.s-prose {
+    ul,
+    ol {
+        margin-bottom: $spacingUnit;
+    }
+
+    ul li,
+    ol li {
+        margin-left: $spacingUnit;
+        margin-bottom: 0.3em;
+        margin-top: 0;
+    }
+
+    ul li {
+        list-style-type: disc;
+    }
+
+    ol li {
+        list-style-type: decimal;
+    }
+
+    a {
+        font-weight: bold;
+    }
+
+    a[href^='mailto:'],
+    a[href^='tel:'] {
+        color: palette('green');
+        font-weight: bold;
+        word-break: break-word;
+    }
+
+    a[href^='tel:'] {
+        text-decoration: none;
+    }
+
+    .contrast--high & {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            color: palette('blue') !important;
+        }
+    }
+
+    figure {
+        margin: 0 0 0.5em 0;
+    }
+
+    /**
+     * Download and external link styles
+     * Only applied if a class of `js-annotate-links` is added to the content area
+     */
+    a.is-download-link {
+        padding-left: 20px;
+        background-repeat: no-repeat;
+        background-position: center left;
+        background-size: 14px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M27.414 19.414l-10 10a2 2 0 0 1-2.828 0l-10-10a2 2 0 1 1 2.828-2.828L14 23.172V4a2 2 0 1 1 4 0v19.172l6.586-6.586c.39-.39.902-.586 1.414-.586s1.024.195 1.414.586a2 2 0 0 1 0 2.828z" fill="#1a44a1"/></svg>');
+    }
+    a.is-external-link {
+        padding-right: 20px;
+        background-repeat: no-repeat;
+        background-position: center right;
+        background-size: 12px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32"><path d="M20 24H4V8.06L8 8V4H0v24h24V18h-4v6zM12 4l4 4-6 6 4 4 6-6 4 4V4H12z" fill="#1a44a1"/></svg>');
+    }
+}
+
+/**
+ * Common styles for longer blocks of text
+ * `long` is used for new content, e.g., programme pages
+ * `legacy` is use for legacy migrated content pages
+ */
+.s-prose--long,
+.s-prose--legacy {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+    }
+
+    ol li,
+    ul li {
+        margin-left: $spacingUnit * 3;
+    }
+
+    table {
+        font-size: 90%;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin: 0 0 1em;
+
+        thead,
+        th {
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        thead {
+            border-bottom: 3px solid palette('off-white');
+        }
+        tr {
+            border-bottom: 1px solid palette('off-white');
+        }
+        tr:last-of-type {
+            border-bottom: none;
+        }
+
+        th,
+        td {
+            padding: 10px 8px;
+            text-align: left;
+        }
+        td {
+            vertical-align: top;
+        }
+    }
+
+    code,
+    pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-family: Hack, Consolas, monospace;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 2px;
+        color: palette('pale');
+        background-color: palette('charcoal');
+    }
+
+    pre {
+        padding: 10px;
+        border-radius: 2px;
+    }
+}
+
+/**
+ * Expanded prose styles for long blocks of text
+ */
+.s-prose--long {
+    h2::after {
+        @include underlined();
+    }
+
+    figure,
+    .inline-figure {
+        margin-left: -($spacingUnit);
+        margin-right: -($spacingUnit);
+
+        @include mq(tablet) {
+            margin: 1em 0 2em;
+        }
+
+        &.auto-width {
+            img {
+                width: auto;
+            }
+        }
+    }
+
+    .inline-figure--padded {
+        @include mq('tablet') {
+            margin-left: $spacingUnit * 3;
+            margin-right: $spacingUnit * 3;
+        }
+    }
+
+    .video-container {
+        margin-bottom: 1em;
+    }
+}
+
+/**
+ * Expanded prose styles for legacy pages
+ */
+.s-prose--legacy {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+    }
+
+    h2 {
+        margin: 1em 0 0.5em;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+}

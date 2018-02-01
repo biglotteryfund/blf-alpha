@@ -1,3 +1,4 @@
+{% from "components/icons.njk" import iconHamburger %}
 {% from "components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
 {% from "components/surveys.njk" import showSurvey with context %}
 
@@ -16,7 +17,7 @@
             <nav class="global-header__hamburger u-mobile-only u-dont-print"
                 id="js-mobile-nav-toggle">
                 <a href="#nav">
-                    {% include "includes/svg/hamburger.svg" %}
+                    {{ iconHamburger() }}
                 </a>
             </nav>
             <nav role="navigation"

@@ -251,6 +251,12 @@ const routes = {
                     path: '/programmes/national-lottery-awards-for-all-england',
                     static: false,
                     live: true
+                },
+                buildingBetterOpportunites: {
+                    name: 'Building Better Opportunites',
+                    path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
+                    useCmsContent: true,
+                    live: false
                 }
             }
         },

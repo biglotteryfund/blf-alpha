@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const fitvids = require('fitvids');
+const { isDownloadLink, isExternalLink } = require('../helpers/urls');
 
 function initToggleMobileNav() {
     // bind mobile nav show/hidew button
@@ -23,10 +24,22 @@ function initFitVids() {
     fitvids('.video-container');
 }
 
+function initContentTweaks() {
+    const $contentArea = $('.js-annotate-links');
+    $contentArea.find('a').each((idx, el) => {
+        if (isDownloadLink(el.href)) {
+            $(el).addClass('is-download-link');
+        } else if (isExternalLink(location.hostname, el.hostname)) {
+            $(el).addClass('is-external-link');
+        }
+    });
+}
+
 function init() {
     initToggleMobileNav();
     initOverlays();
     initFitVids();
+    initContentTweaks();
 }
 
 module.exports = {
