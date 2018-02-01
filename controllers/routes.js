@@ -355,6 +355,7 @@ const programmeRedirects = [
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
     programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
+    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
@@ -362,8 +363,7 @@ const programmeRedirects = [
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeMigration('scotland/our-place', 'our-place', false),
     programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
-    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
-    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
+    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false)
 ];
 
 /**
