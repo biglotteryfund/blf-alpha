@@ -16,7 +16,7 @@ function setupRedirects(sectionPath, page) {
             page.aliases.forEach(pagePath => {
                 app.get(localePath + pagePath, (req, res) => {
                     const redirectPath = stripTrailingSlashes(localePath + sectionPath + page.path);
-                    res.redirect(redirectPath);
+                    res.redirect(301, redirectPath);
                 });
             });
         });
