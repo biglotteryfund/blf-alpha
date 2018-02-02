@@ -355,6 +355,7 @@ const programmeRedirects = [
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
     programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
+    programmeMigration('uk-wide/coastal-communities', 'coastal-communities-fund', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
@@ -439,6 +440,13 @@ const vanityRedirects = [
         name: 'Grants for community-led activity',
         path: '/communityled',
         destination: '/funding/programmes/grants-for-community-led-activity',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Coastal Communities Fund',
+        path: '/ccf',
+        destination: '/funding/programmes/coastal-communities-fund',
         aliasOnly: true,
         live: true
     },
