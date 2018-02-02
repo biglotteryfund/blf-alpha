@@ -191,6 +191,76 @@
                 "href": "/welsh/funding/funding-guidance/managing-your-funding"
             }]
         },
+        "research": {
+            "title": "Ymchwil",
+            "sectionLinks": [
+                {
+                    "label": "Communities and places",
+                    "href": "/welsh/research/communities-and-places"
+                },
+                {
+                    "label": "Older people",
+                    "href": "/welsh/research/older-people"
+                },
+                {
+                    "label": "Education, learning and skills",
+                    "href": "/welsh/research/education-learning-skills-and-employment"
+                },
+                {
+                    "label": "Making the most of funding",
+                    "href": "/welsh/research/making-the-most-of-funding"
+                },
+                {
+                    "label": "Environment",
+                    "href": "/welsh/research/environment"
+                },
+                {
+                    "label": "Children, young people and families",
+                    "href": "/welsh/research/children-young-people-and-families"
+                },
+                {
+                    "label": "Emerging social need",
+                    "href": "/welsh/research/emerging-social-need"
+                },
+                {
+                    "label": "Multiple and complex needs",
+                    "href": "/welsh/research/multiple-and-complex-needs"
+                },
+                {
+                    "label": "Health and wellbeing",
+                    "href": "/welsh/research/health-and-well-being"
+                },
+                {
+                    "label": "International",
+                    "href": "/welsh/research/international"
+                },
+                {
+                    "label": "Open data",
+                    "href": "/welsh/research/open-data"
+                },
+                {
+                    "label": "Social investment",
+                    "href": "/welsh/research/social-investment"
+                },
+                {
+                    "label": "A better start",
+                    "href": "/welsh/research/a-better-start"
+                }
+            ],
+            "downloads": {
+                "title": "Downloads",
+                "links": [
+                    {
+                        "label": "Investing in our programmes - maximising the impact of grant-making (PDF 425KB)",
+                        "href": "https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf"
+                    },
+                    {
+                        "label": "Answering big questions - impacts and lessons learned from our evaluation and research (PDF 1850KB)",
+                        "href": "https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf"
+                    }
+                ]
+            }
+        },
 		"contact": {
 			"title": "Cysylltu â ni",
 			"methods": {
