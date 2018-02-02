@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # install passenger/nginx
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
