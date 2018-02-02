@@ -141,3 +141,45 @@
         }
     }
 }
+
+/* =========================================================================
+   Programme Tabs
+   ========================================================================= */
+/* @TODO: Refactor tab styles */
+
+.tabs--programme .tabs__tabset {
+    background-color: palette('pale-grey');
+    border: solid palette('border-tint');
+    border-width: 0 1px 1px;
+    display: flex;
+
+    li {
+        @include poppins();
+        font-size: 16px;
+        margin: 0;
+        display: inline-block;
+        border-left: 1px solid palette('border-tint');
+        flex: 1;
+
+        &:first-child {
+            border-left: 0;
+        }
+    }
+
+    .tab {
+        color: palette('blue-text');
+        display: block;
+        font-weight: bold;
+        padding: 12px ($spacingUnit * 1.5) 14px;
+        text-decoration: none;
+        border-top: 4px solid transparent;
+        white-space: nowrap;
+        text-align: center;
+    }
+    .tab.tab--active {
+        border-width: 4px 0 0;
+        border-top-color: palette('pink');
+        background-color: white;
+        color: palette('pink');
+    }
+}

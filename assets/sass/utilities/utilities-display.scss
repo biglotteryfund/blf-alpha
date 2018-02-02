@@ -3,6 +3,13 @@
    ========================================================================== */
 /* Low level utility classes and display helpers */
 
+.u-no-top-border {
+    border-top: none !important;
+}
+.u-no-bottom-border {
+    border-bottom: none !important;
+}
+
 @include mq('desktop', 'max') {
     .u-wide-only {
         display: none !important;
