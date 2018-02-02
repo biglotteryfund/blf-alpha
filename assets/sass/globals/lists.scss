@@ -63,15 +63,13 @@ ol.list-bullets li {
 
     dt,
     dd {
-        float: left;
         margin-bottom: 0;
     }
 
-    dd + dt {
-        clear: left;
-    }
-
     dt {
+        display: block;
+        float: left;
+        clear: left;
         margin-right: 5px;
     }
 
