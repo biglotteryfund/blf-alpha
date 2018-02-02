@@ -6,6 +6,7 @@
 require('./test-suites/server.test');
 require('./test-suites/locale.test');
 require('./test-suites/legacy.test');
+require('./test-suites/sections.test');
 require('./test-suites/survey.test');
 require('./test-suites/materials.test');
 require('./test-suites/user.test');
