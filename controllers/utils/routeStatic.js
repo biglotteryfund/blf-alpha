@@ -5,7 +5,7 @@ const app = require('../../server');
 const contentApi = require('../../services/content-api');
 const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
-const { createHeroImage } = require('../../modules/images');
+const { withFallbackImage } = require('../../modules/images');
 
 /**
  * Redirect any aliases to the canonical path
@@ -16,7 +16,7 @@ function setupRedirects(sectionPath, page) {
             page.aliases.forEach(pagePath => {
                 app.get(localePath + pagePath, (req, res) => {
                     const redirectPath = stripTrailingSlashes(localePath + sectionPath + page.path);
-                    res.redirect(redirectPath);
+                    res.redirect(301, redirectPath);
                 });
             });
         });
@@ -50,29 +50,20 @@ function handleCmsPage(sectionId) {
                 path: contentApi.getCmsPath(sectionId, req.path)
             })
             .then(content => {
-                /**
-                 * Allow for pages without heroes
-                 * @TODO: Define better default hero image.
-                 */
-                const defaultHeroImage = createHeroImage({
-                    small: 'hero/jobs-small.jpg',
-                    medium: 'hero/jobs-medium.jpg',
-                    large: 'hero/jobs-large.jpg',
-                    default: 'hero/jobs-medium.jpg',
-                    caption: 'Street Dreams, Grant £9,000'
-                });
+                const title = content.title;
+                const heroImage = withFallbackImage(content.hero);
 
                 if (content.children) {
                     res.render('pages/listings/listingPage', {
-                        title: content.title,
-                        content: content,
-                        heroImage: content.hero || defaultHeroImage
+                        title,
+                        content,
+                        heroImage
                     });
                 } else {
                     res.render('pages/listings/informationPage', {
-                        title: content.title,
-                        content: content,
-                        heroImage: content.hero || defaultHeroImage
+                        title,
+                        content,
+                        heroImage
                     });
                 }
             })
