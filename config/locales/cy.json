@@ -192,59 +192,59 @@
             }]
         },
         "research": {
-            "title": "Research",
+            "title": "Ymchwil",
             "sectionLinks": [
                 {
                     "label": "Communities and places",
-                    "href": "/research/communities-and-places"
+                    "href": "/welsh/research/communities-and-places"
                 },
                 {
                     "label": "Older people",
-                    "href": "/research/older-people"
+                    "href": "/welsh/research/older-people"
                 },
                 {
                     "label": "Education, learning and skills",
-                    "href": "/research/education-learning-skills-and-employment"
+                    "href": "/welsh/research/education-learning-skills-and-employment"
                 },
                 {
                     "label": "Making the most of funding",
-                    "href": "/research/making-the-most-of-funding"
+                    "href": "/welsh/research/making-the-most-of-funding"
                 },
                 {
                     "label": "Environment",
-                    "href": "/research/environment"
+                    "href": "/welsh/research/environment"
                 },
                 {
                     "label": "Children, young people and families",
-                    "href": "/research/children-young-people-and-families"
+                    "href": "/welsh/research/children-young-people-and-families"
                 },
                 {
                     "label": "Emerging social need",
-                    "href": "/research/emerging-social-need"
+                    "href": "/welsh/research/emerging-social-need"
                 },
                 {
                     "label": "Multiple and complex needs",
-                    "href": "/research/multiple-and-complex-needs"
+                    "href": "/welsh/research/multiple-and-complex-needs"
                 },
                 {
                     "label": "Health and wellbeing",
-                    "href": "/research/health-and-well-being"
+                    "href": "/welsh/research/health-and-well-being"
                 },
                 {
                     "label": "International",
-                    "href": "/research/international"
+                    "href": "/welsh/research/international"
                 },
                 {
                     "label": "Open data",
-                    "href": "/research/open-data"
+                    "href": "/welsh/research/open-data"
                 },
                 {
                     "label": "Social investment",
-                    "href": "/research/social-investment"
+                    "href": "/welsh/research/social-investment"
                 },
                 {
                     "label": "A better start",
-                    "href": "/research/a-better-start"
+                    "href": "/welsh/research/a-better-start"
                 }
             ],
             "downloads": {
