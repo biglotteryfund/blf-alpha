@@ -13,18 +13,19 @@ const loadController = path => {
 
 // define top-level controllers for the site
 const controllers = {
-    funding: loadController('./funding/index'),
-    toplevel: loadController('./toplevel/index'),
-    about: loadController('./about/index')
+    toplevel: loadController('./toplevel'),
+    funding: loadController('./funding'),
+    research: loadController('./research'),
+    about: loadController('./about')
 };
 
 // configure base paths for site sections
 const sectionPaths = {
     toplevel: '',
     funding: '/funding',
+    research: '/research',
     about: '/about-big', // @TODO rename on launch
-    aboutLegacy: '/about-big', // used on the old site
-    research: '/research'
+    aboutLegacy: '/about-big' // used on the old site
 };
 
 // these top-level sections appear in the main site nav
@@ -263,7 +264,18 @@ const routes = {
         research: {
             name: 'Research',
             langTitlePath: 'global.nav.research',
-            path: sectionPaths.research
+            path: sectionPaths.research,
+            controller: controllers.research,
+            pages: {
+                root: {
+                    name: 'Research',
+                    path: '/',
+                    template: 'pages/toplevel/research',
+                    lang: 'toplevel.research',
+                    static: true,
+                    live: false
+                }
+            }
         },
         // @TODO rename this to 'about' when ready to launch /about
         'about-big': {
