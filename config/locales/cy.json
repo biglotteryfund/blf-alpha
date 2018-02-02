@@ -191,6 +191,76 @@
                 "href": "/welsh/funding/funding-guidance/managing-your-funding"
             }]
         },
+        "research": {
+            "title": "Research",
+            "sectionLinks": [
+                {
+                    "label": "Communities and places",
+                    "href": "/research/communities-and-places"
+                },
+                {
+                    "label": "Older people",
+                    "href": "/research/older-people"
+                },
+                {
+                    "label": "Education, learning and skills",
+                    "href": "/research/education-learning-skills-and-employment"
+                },
+                {
+                    "label": "Making the most of funding",
+                    "href": "/research/making-the-most-of-funding"
+                },
+                {
+                    "label": "Environment",
+                    "href": "/research/environment"
+                },
+                {
+                    "label": "Children, young people and families",
+                    "href": "/research/children-young-people-and-families"
+                },
+                {
+                    "label": "Emerging social need",
+                    "href": "/research/emerging-social-need"
+                },
+                {
+                    "label": "Multiple and complex needs",
+                    "href": "/research/multiple-and-complex-needs"
+                },
+                {
+                    "label": "Health and wellbeing",
+                    "href": "/research/health-and-well-being"
+                },
+                {
+                    "label": "International",
+                    "href": "/research/international"
+                },
+                {
+                    "label": "Open data",
+                    "href": "/research/open-data"
+                },
+                {
+                    "label": "Social investment",
+                    "href": "/research/social-investment"
+                },
+                {
+                    "label": "A better start",
+                    "href": "/research/a-better-start"
+                }
+            ],
+            "downloads": {
+                "title": "Downloads",
+                "links": [
+                    {
+                        "label": "Investing in our programmes - maximising the impact of grant-making (PDF 425KB)",
+                        "href": "https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf"
+                    },
+                    {
+                        "label": "Answering big questions - impacts and lessons learned from our evaluation and research (PDF 1850KB)",
+                        "href": "https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf"
+                    }
+                ]
+            }
+        },
 		"contact": {
 			"title": "Cysylltu â ni",
 			"methods": {

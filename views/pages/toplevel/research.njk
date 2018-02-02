@@ -8,11 +8,11 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% set heroImage = createHeroImage({
-    small: 'hero/active-plus-communities-small.jpg',
-    medium: 'hero/active-plus-communities-medium.jpg',
-    large: 'hero/active-plus-communities-large.jpg',
-    default: 'hero/active-plus-communities-medium.jpg',
-    caption: 'Active Plus Communities'
+    small: 'hero/grassroots-project-small.jpg',
+    medium: 'hero/grassroots-project-medium.jpg',
+    large: 'hero/grassroots-project-large.jpg',
+    default: 'hero/grassroots-project-medium.jpg',
+    caption: 'Grassroots, Grant £455,268'
 }) %}
 
 {% set socialImage = heroImage %}
@@ -29,28 +29,23 @@
     }}
 
     <main class="nudge-up">
+        {# Section Links #}
         <section class="content-box content-box--even-inset
             inner--wide-only accent--{{ pageAccent }} a--border-top">
             {{ sectionLinks(copy.sectionLinks) }}
         </section>
 
-        {% if latestProgrammes.length > 0 %}
-            <section class="content-box content-box--even-inset
-                inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t1">{{ copy.latestProgrammes }}</h2>
-
-                <ul class="u-list-unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                    {% for programme in latestProgrammes %}
-                        <li class="grid__item">
-                            {{ programmeCard(
-                                isMinimal = true,
-                                accent = 'pink',
-                                programme = programme.content
-                            ) }}
-                        </li>
+        {# Downloads #}
+        <section class="content-box content-box--even-inset
+            inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose">
+                <h2 class="t1">{{ copy.downloads.title }}</h2>
+                <ul class="u-list-unstyled">
+                    {% for link in copy.downloads.links %}
+                        <li><a class="is-download-link" href="{{ link.href }}">{{ link.label }}</a></li>
                     {% endfor %}
                 </ul>
-            </section>
-        {% endif %}
+            </div>
+        </section>
     </main>
 {% endblock %}
