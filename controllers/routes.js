@@ -538,6 +538,12 @@ const vanityRedirects = [
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
         live: true
+    },
+    {
+        name: 'Scotland Portfoilo',
+        path: '/funding/scotland-portfolio',
+        destination: '/funding/programmes?location=scotland',
+        live: true
     }
 ];
 
