@@ -37,7 +37,7 @@
     </div>
 {% endmacro %}
 
-{% macro tabs(id, content, classes = false, accordion = true, trackClicksAsPageviews = true) %}
+{% macro tabs(id, content, classes = false, accordion = true, trackClicksAsPageviews = false) %}
     {% set tabSetId = id %}
     {% set paneSetId = 'js-panes-' + id %}
     {% set tabItems = [] %}
