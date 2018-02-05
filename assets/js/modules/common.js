@@ -43,6 +43,5 @@ function init() {
 }
 
 module.exports = {
-    init,
-    toggleNav
+    init
 };

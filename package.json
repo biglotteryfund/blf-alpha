@@ -49,6 +49,14 @@
     {
       "limit": "120KB",
       "path": "public/build/*/javascripts/app.js"
+    },
+    {
+      "limit": "20KB",
+      "path": "public/build/*/javascripts/enhanced.bundle.js"
+    },
+    {
+      "limit": "10KB",
+      "path": "public/build/*/javascripts/analytics.bundle.js"
     }
   ],
   "babel": {
