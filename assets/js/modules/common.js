@@ -3,13 +3,13 @@
 const $ = require('jquery');
 const fitvids = require('fitvids');
 const { isDownloadLink, isExternalLink } = require('../helpers/urls');
+const { toggleNav } = require('../helpers/display');
 
 function initToggleMobileNav() {
     // bind mobile nav show/hidew button
-    const $html = $('html');
     $('#js-mobile-nav-toggle').on('click', function(e) {
         e.preventDefault();
-        $html.toggleClass('show-off-canvas');
+        toggleNav();
     });
 }
 
