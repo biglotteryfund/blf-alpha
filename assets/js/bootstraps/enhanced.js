@@ -1,8 +1,8 @@
 'use strict';
 const Hammer = require('hammerjs');
-const { toggleNav } = require('./common');
+const { toggleNav } = require('../helpers/display');
 
-const init = () => {
+const swipeNavigation = () => {
     let hammertime = new Hammer(document.body, {});
     // only listen for horizontal swiping
     hammertime.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
@@ -14,6 +14,6 @@ const init = () => {
     });
 };
 
-module.exports = {
-    init: init
+export const init = () => {
+    swipeNavigation();
 };
