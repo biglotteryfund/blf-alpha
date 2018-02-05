@@ -1,9 +1,6 @@
 'use strict';
 const config = require('config');
-const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
-
-const importedLegacyPages = require('../config/app/importedLegacyPages');
 
 // pass some parameters onto each controller
 // so we can take route config and init all at once
@@ -326,18 +323,6 @@ const routes = {
         }
     }
 };
-
-/**
- * Scraped/imported pages
- *
- * Serve pages imported via script into the CMS
- */
-for (let section in importedLegacyPages) {
-    if (get(routes.sections, section)) {
-        let pages = routes.sections[section].pages;
-        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
-    }
-}
 
 /**
  * Programme Migration
