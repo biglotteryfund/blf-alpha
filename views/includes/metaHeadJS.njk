@@ -2,6 +2,7 @@
 <script id="script-head">
 (function() {
     var AppConfig = {
+        environment: '{{ appData.environment }}',
         isModernBrowser:
             'querySelector' in document &&
             'addEventListener' in window &&
