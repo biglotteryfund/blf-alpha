@@ -255,6 +255,22 @@ const routes = {
                     path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
                     useCmsContent: true,
                     live: false
+                },
+                informationChecks: {
+                    name: 'Information checks',
+                    path: '/funding-guidance/information-checks',
+                    useCmsContent: true,
+                    live: true,
+                    aliases: ['/informationchecks']
+                },
+                electronicForms: {
+                    name: 'Help with PDFs',
+                    path: '/funding-guidance/help-using-our-application-forms',
+                    useCmsContent: true,
+                    live: true,
+                    aliases: [
+                        '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
+                    ]
                 }
             }
         },
