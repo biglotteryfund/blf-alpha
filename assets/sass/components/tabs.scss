@@ -9,9 +9,9 @@
 
 .tabset {
     background-color: palette('pale-grey');
-    border: solid palette('border');
-    border-width: 0 1px 1px;
+    border-right: 1px solid palette('border');
     display: flex;
+    flex-wrap: wrap;
 
     li.tabset__item {
         @include poppins();
@@ -19,11 +19,8 @@
         margin: 0;
         display: inline-block;
         border-left: 1px solid palette('border');
+        border-width: 0 1px;
         flex: 1;
-
-        &:first-child {
-            border-left: 0;
-        }
     }
 
     .tab {
@@ -33,12 +30,12 @@
         padding: 12px ($spacingUnit * 1.5) 14px;
         text-decoration: none;
         border-top: 4px solid transparent;
+        border-bottom: 1px solid palette('border');
         white-space: nowrap;
         text-align: center;
     }
 
     .tab.tab--active {
-        border-width: 4px 0 0;
         border-top-color: palette('pink');
         background-color: white;
         color: palette('pink');
