@@ -369,9 +369,10 @@ const programmeRedirects = [
     programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
     programmeMigration('uk-wide/coastal-communities', 'coastal-communities-fund', true),
     programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', true),
+    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', true),
+    programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
-    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeMigration('scotland/our-place', 'our-place', false),
@@ -422,6 +423,12 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Awards For All Wales',
+        paths: ['/prog_a4a_wales', '/a4awales'],
+        destination: '/funding/programmes/national-lottery-awards-for-all-wales',
+        live: true
+    },
+    {
         name: 'Reaching Communities England',
         path: '/prog_reaching_communities',
         destination: '/funding/programmes/reaching-communities-england',
@@ -459,6 +466,13 @@ const vanityRedirects = [
         name: 'Coastal Communities Fund',
         path: '/ccf',
         destination: '/funding/programmes/coastal-communities-fund',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'People and Communities',
+        path: '/peopleandcommunities',
+        destination: '/funding/programmes/people-and-communities',
         aliasOnly: true,
         live: true
     },
@@ -523,6 +537,12 @@ const vanityRedirects = [
         name: 'Fraud page (Welsh)',
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
+        live: true
+    },
+    {
+        name: 'Scotland Portfoilo',
+        path: '/funding/scotland-portfolio',
+        destination: '/funding/programmes?location=scotland',
         live: true
     }
 ];
