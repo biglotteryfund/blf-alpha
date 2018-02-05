@@ -20,7 +20,7 @@
         display: inline-block;
         border-left: 1px solid palette('border');
         border-width: 0 1px;
-        flex: 1;
+        flex: 1 1 auto;
     }
 
     .tab {
@@ -37,6 +37,7 @@
 
     .tab.tab--active {
         border-top-color: palette('pink');
+        border-bottom-color: transparent;
         background-color: white;
         color: palette('pink');
     }
