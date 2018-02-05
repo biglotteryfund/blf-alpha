@@ -1,9 +1,6 @@
 'use strict';
 const config = require('config');
-const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
-
-const importedLegacyPages = require('../config/app/importedLegacyPages');
 
 // pass some parameters onto each controller
 // so we can take route config and init all at once
@@ -258,6 +255,22 @@ const routes = {
                     path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
                     useCmsContent: true,
                     live: false
+                },
+                informationChecks: {
+                    name: 'Information checks',
+                    path: '/funding-guidance/information-checks',
+                    useCmsContent: true,
+                    live: false,
+                    aliases: ['/informationchecks']
+                },
+                electronicForms: {
+                    name: 'Help with PDFs',
+                    path: '/funding-guidance/help-using-our-application-forms',
+                    useCmsContent: true,
+                    live: false,
+                    aliases: [
+                        '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
+                    ]
                 }
             }
         },
@@ -326,18 +339,6 @@ const routes = {
         }
     }
 };
-
-/**
- * Scraped/imported pages
- *
- * Serve pages imported via script into the CMS
- */
-for (let section in importedLegacyPages) {
-    if (get(routes.sections, section)) {
-        let pages = routes.sections[section].pages;
-        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
-    }
-}
 
 /**
  * Programme Migration
