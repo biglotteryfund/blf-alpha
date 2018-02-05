@@ -44,7 +44,7 @@
         {% endmacro %}
 
         {% set tabItems = [] %}
-        {% for section in entry.contentSections %}
+        {% for section in entry.contentSections -%}
             {% set newTab = {
                 "id": "section-" + loop.index,
                 "title": section.title,
@@ -52,19 +52,16 @@
                 "active": loop.index === 1
             } %}
             {% set tabItems = (tabItems.push(newTab), tabItems) %}
-        {% endfor %}
+        {%- endfor %}
 
         <div class="inner--wide-only">
             {% if entry.contentSections.length > 1 %}
-                <div class="tabs--programme">
-                    {# @TODO this introduces lots of blank lines in source #}
-                    {{
-                        tabs(
-                            id = entry.title | slugify,
-                            content = tabItems
-                        )
-                    }}
-                </div>
+                {{
+                    tabs(
+                        id = entry.title | slugify,
+                        content = tabItems
+                    )
+                }}
             {% else %}
                 {% set section = entry.contentSections[0] %}
                 <div class="content-box content-box--borderless">

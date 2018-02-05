@@ -3,6 +3,9 @@
    ========================================================================== */
 /* Low level utility classes and display helpers */
 
+.u-bordered {
+    border: 1px solid palette('border');
+}
 .u-no-top-border {
     border-top: none !important;
 }
