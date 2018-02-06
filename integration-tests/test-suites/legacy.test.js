@@ -94,7 +94,7 @@ describe('Legacy pages proxying', () => {
     describe('Archived pages', () => {
         it('should redirect archived pages to the national archives', () => {
             const urlPath =
-                '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms';
+                '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
             return requestRedirect(urlPath).then(res => {
                 expect(res.status).to.equal(301);
                 expect(res).to.redirectTo(
