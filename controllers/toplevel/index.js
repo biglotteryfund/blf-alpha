@@ -19,6 +19,7 @@ const getSecret = require('../../modules/get-secret');
 const analytics = require('../../modules/analytics');
 const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
+const addSection = require('../../middleware/addSection');
 
 const legacyPages = require('./legacyPages');
 
@@ -56,6 +57,8 @@ const homepage = (req, res) => {
 };
 
 module.exports = (pages, sectionPath, sectionId) => {
+    router.use(addSection(sectionId));
+
     /**
      * Populate static pages
      */
