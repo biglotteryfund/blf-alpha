@@ -7,6 +7,7 @@ const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
 const { redirectArchived } = require('../../modules/legacy');
+const { noCache } = require('../../middleware/cached');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     /**
      * Applying for funding (Archived)
      */
-    router.get(pages.applyingForFunding.path, redirectArchived);
+    router.get(pages.applyingForFunding.path, noCache, redirectArchived);
 
     /**
      * Populate static pages
