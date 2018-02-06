@@ -79,6 +79,7 @@
          * Modifier class which adds a border below the text
          * (see typography.scss)
          */
+        .t--underline:after,
         &.t--underline:after {
             border-bottom-color: $colour;
         }
