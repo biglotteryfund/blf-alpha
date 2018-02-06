@@ -5,6 +5,7 @@
 .u-list-unstyled,
 .u-list-unstyled li {
     list-style-type: none !important;
+    margin-left: 0 !important;
 }
 
 .u-uppercase {
@@ -38,17 +39,28 @@
 }
 
 .u-link-section {
+    $linkPadding: 12px;
+    $iconSize: 20px;
     display: block;
-    padding: 12px 12px;
-    margin: 0 -6px;
+    padding: $linkPadding;
+    margin: 0 -($linkPadding / 2);
     @include poppins();
     font-weight: bold;
     text-decoration: none;
     transition: background-color 140ms ease-in;
+    max-width: 23.5em;
 
-    &:hover {
-        background-color: palette('pale-grey');
+    background-repeat: no-repeat;
+    background-position: calc(100% - #{$linkPadding}) center;
+    background-size: $iconSize;
+    padding-right: $iconSize + $linkPadding;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="none" stroke="#174c9f" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>');
+
+    &:hover,
+    &:active {
         text-decoration: none;
+        background-color: palette('blue-bg');
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>');
     }
 }
 

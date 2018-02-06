@@ -19,6 +19,22 @@ function createHeroImage(opts) {
     };
 }
 
+function withFallbackImage(heroImage) {
+    /**
+     * Allow for pages without heroes
+     * @TODO: Define better default hero image.
+     */
+    const defaultHeroImage = createHeroImage({
+        small: 'hero/jobs-small.jpg',
+        medium: 'hero/jobs-medium.jpg',
+        large: 'hero/jobs-large.jpg',
+        default: 'hero/jobs-medium.jpg',
+        caption: 'Street Dreams, Grant £9,000'
+    });
+
+    return heroImage || defaultHeroImage;
+}
+
 function buildHomepageHero() {
     const heroImageDefault = createHeroImage({
         small: 'home/home-hero-4-small.jpg',
@@ -60,7 +76,8 @@ function buildHomepageHero() {
 }
 
 module.exports = {
-    createHeroImage: createHeroImage,
+    createHeroImage,
+    withFallbackImage,
     heroImages: {
         homepageHero: buildHomepageHero()
     }

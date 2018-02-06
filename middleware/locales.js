@@ -1,6 +1,7 @@
 'use strict';
 
 const i18n = require('i18n-2');
+const yaml = require('js-yaml');
 const config = require('config');
 const routes = require('../controllers/routes');
 const { isWelsh } = require('../modules/urls');
@@ -13,9 +14,10 @@ module.exports = function(app) {
     // setup internationalisation
     i18n.expressBind(app, {
         locales: ['en', 'cy'],
-        cookieName: 'locale',
-        extension: '.json',
         directory: './config/locales',
+        extension: '.yml',
+        parse: data => yaml.safeLoad(data),
+        dump: data => yaml.safeDump(data),
         devMode: false
     });
 

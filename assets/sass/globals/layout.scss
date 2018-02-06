@@ -109,5 +109,5 @@ $nudgeAmount: 25px;
 }
 
 .bordered {
-    @include bordered();
+    border: 1px solid palette('border');
 }

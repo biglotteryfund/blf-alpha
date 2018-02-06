@@ -1,4 +1,5 @@
 {% from "components/hero.njk" import sectionHero %}
+{% from "components/links.njk" import sectionLinks %}
 {% from "components/programmes.njk" import programmeCard with context %}
 
 {% extends "layouts/main.njk" %}
@@ -31,15 +32,7 @@
     <main class="nudge-up">
         <section class="content-box content-box--even-inset
             inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <ul class="u-list-unstyled">
-                {% for sectionLink in copy.sectionLinks %}
-                    <li>
-                        <a class="u-link-section" href="{{ sectionLink.href }}">
-                            {{ sectionLink.label }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+            {{ sectionLinks(copy.sectionLinks) }}
         </section>
 
         {% if latestProgrammes.length > 0 %}

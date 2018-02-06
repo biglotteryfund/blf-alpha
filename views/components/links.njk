@@ -1,3 +1,15 @@
+{% macro sectionLinks(sectionLinks) %}
+    <ul class="u-list-unstyled">
+        {% for sectionLink in sectionLinks %}
+            <li>
+                <a class="u-link-section" href="{{ sectionLink.href }}">
+                    {{ sectionLink.label }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
 {% macro linkGrid(items, accentColor) %}
     <div class="link-grid accent--{{ accentColor }} a--border-color">
         <ul class="link-grid__list unstyled">
