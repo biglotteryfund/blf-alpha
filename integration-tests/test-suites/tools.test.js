@@ -2,7 +2,7 @@
 /* global describe, it, before, beforeEach, afterEach, after */
 const chai = require('chai');
 chai.use(require('chai-http'));
-chai.should();
+const expect = chai.expect;
 
 const helper = require('../helper');
 
@@ -46,65 +46,60 @@ describe('CMS Tools', function() {
             });
     });
 
-    beforeEach(() => {
+    let csrfToken;
+    beforeEach(async () => {
         agent = chai.request.agent(server);
+        csrfToken = await helper.getCsrfToken(agent, '/user/login');
     });
 
-    describe('authorisation for tools', () => {
-        let csrfToken;
-        beforeEach(async () => {
-            csrfToken = await helper.getCsrfToken(agent, '/user/login');
-        });
+    it('should block access to staff-only tools', () => {
+        return agent
+            .get('/tools/survey-results')
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.redirectTo('/user/login');
+                expect(res).to.have.status(302);
+            });
+    });
 
-        it('should block access to staff-only tools', done => {
-            agent
-                .get('/tools/survey-results')
-                .redirects(0)
-                .end((err, res) => {
-                    res.should.redirectTo('/user/login');
-                    res.should.have.status(302);
-                    done();
-                });
-        });
-
-        it('should not allow unauthorised access to staff-only tools', done => {
-            agent
-                .post('/user/login')
-                .send({
-                    _csrf: csrfToken,
-                    username: 'test@test.com',
-                    password: 'wrong'
-                })
-                .end((postErr, postRes) => {
-                    postRes.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
-                    return agent
-                        .get('/tools/survey-results')
-                        .redirects(0)
-                        .end((err, res) => {
-                            res.should.have.status(302);
-                            done();
-                        });
-                });
-        });
-
-        it('should allow authorised access to staff-only tools', done => {
-            agent
-                .post('/user/login')
-                .send({
-                    _csrf: csrfToken,
-                    username: validUser.username,
-                    password: validUser.password,
-                    redirectUrl: '/tools/survey-results'
-                })
-                .redirects(0)
-                .end((postErr, postRes) => {
-                    postRes.should.have.status(302);
-                    postRes.should.redirectTo('/tools/survey-results');
-                    return agent.get('/tools/survey-results/').end((err, res) => {
-                        res.should.have.status(200);
-                        done();
+    it('should not allow unauthorised access to staff-only tools', () => {
+        return agent
+            .post('/user/login')
+            .send({
+                _csrf: csrfToken,
+                username: 'test@test.com',
+                password: 'wrong'
+            })
+            .then(postRes => {
+                expect(postRes.text).to.match(/(.*)Your username and password combination is invalid(.*)/);
+                return agent
+                    .get('/tools/survey-results')
+                    .redirects(0)
+                    .catch(err => err.response)
+                    .then(res => {
+                        expect(res).to.have.status(302);
                     });
+            });
+    });
+
+    it('should allow authorised access to staff-only tools', () => {
+        return agent
+            .post('/user/login')
+            .send({
+                _csrf: csrfToken,
+                username: validUser.username,
+                password: validUser.password,
+                redirectUrl: '/tools/survey-results'
+            })
+            .redirects(0)
+            .catch(err => err.response)
+            .then(postRes => {
+                expect(postRes).to.have.status(302);
+                expect(postRes).to.redirectTo('/tools/survey-results');
+                return agent.get('/tools/survey-results/').then(res => {
+                    expect(res).to.have.status(200);
                 });
-        });
+            });
     });
 });
