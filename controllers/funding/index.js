@@ -6,10 +6,13 @@ const routeStatic = require('../utils/routeStatic');
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
+const addSection = require('../../middleware/addSection');
 
 const router = express.Router();
 
 module.exports = (pages, sectionPath, sectionId) => {
+    router.use(addSection(sectionId));
+
     /**
      * Funding landing page
      */

@@ -89,16 +89,6 @@ function handleStaticPage(page) {
  * Set up path routing for a list of (static) pages
  */
 function init({ pages, router, sectionPath, sectionId }) {
-    /**
-     * Map this section ID (for all routes in this path)
-     * middleware to add a section ID to requests with a known section
-     * (eg. to mark a section as current in the nav)
-     */
-    router.use((req, res, next) => {
-        res.locals.sectionId = sectionId;
-        return next();
-    });
-
     forEach(pages, (page, pageId) => {
         // Add the page ID to the request
         router.use(page.path, (req, res, next) => {
