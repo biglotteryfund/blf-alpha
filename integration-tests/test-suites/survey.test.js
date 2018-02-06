@@ -1,10 +1,10 @@
 'use strict';
-/* global describe, it, before, beforeEach, after, afterEach */
-const chai = require('chai');
-const _ = require('lodash');
-chai.use(require('chai-http'));
-chai.should();
 
+const chai = require('chai');
+chai.use(require('chai-http'));
+const expect = chai.expect;
+
+const { shuffle } = require('lodash');
 const helper = require('../helper');
 const surveyService = require('../../services/surveys');
 
@@ -28,7 +28,7 @@ let testSurveyData = {
     ]
 };
 
-describe('Survey tool', () => {
+describe('Surveys', () => {
     let agent, server, storedSurveyData;
 
     before(done => {
@@ -58,55 +58,52 @@ describe('Survey tool', () => {
         agent = chai.request.agent(server);
     });
 
-    it('should accept valid survey responses', done => {
+    it('should accept valid survey responses', () => {
         // grab a random choice from the database
         let surveyData = {
-            choice: _.shuffle(storedSurveyData.choices)[0].id,
+            choice: shuffle(storedSurveyData.choices)[0].id,
             message: 'Hello from the other side'
         };
 
         // submit the choice to its parent survey
-        agent
+        return agent
             .post(`/survey/${storedSurveyData.id}`)
             .set('Accept', 'application/json')
             .send(surveyData)
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.should.have.header('content-type', /^application\/json/);
-                res.body.should.have.property('status');
-                res.body.status.should.equal('success');
-                done();
+            .then(res => {
+                expect(res).to.have.status(200);
+                expect(res).to.have.header('content-type', /^application\/json/);
+                expect(res.body).to.have.property('status');
+                expect(res.body.status).to.equal('success');
             });
     });
 
-    it('should ignore invalid survey responses', done => {
-        let surveyData = {
-            choice: 111111
-        };
-
-        agent
+    it('should ignore invalid survey responses', () => {
+        return agent
             .post(`/survey/222222`)
             .set('Accept', 'application/json')
-            .send(surveyData)
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.should.have.header('content-type', /^application\/json/);
-                res.body.should.have.property('status');
-                res.body.status.should.equal('error');
-                done();
+            .send({
+                choice: 111111
+            })
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(400);
+                expect(res).to.have.header('content-type', /^application\/json/);
+                expect(res.body).to.have.property('status');
+                expect(res.body.status).to.equal('error');
             });
     });
 
-    it('should ignore missing survey responses', done => {
-        agent
+    it('should ignore missing survey responses', () => {
+        return agent
             .post(`/survey/333333`)
             .set('Accept', 'application/json')
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.should.have.header('content-type', /^application\/json/);
-                res.body.should.have.property('status');
-                res.body.status.should.equal('error');
-                done();
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(400);
+                expect(res).to.have.header('content-type', /^application\/json/);
+                expect(res.body).to.have.property('status');
+                expect(res.body.status).to.equal('error');
             });
     });
 });
