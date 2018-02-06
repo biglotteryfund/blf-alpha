@@ -37,12 +37,12 @@
 }
 .media-aside__figure {
     @include mq('medium-minor') {
-        flex: 0 0 40%;
+        flex: 1 1 40%;
         padding-right: $spacingUnit / 2;
     }
 
     @include mq('medium') {
-        flex: 0 0 50%;
+        flex: 1 1 50%;
         padding-right: $spacingUnit;
     }
 }
@@ -50,12 +50,12 @@
     @include poppins();
 
     @include mq('medium-minor') {
-        flex: 0 0 60%;
+        flex: 1 1 60%;
         padding: 0 $spacingUnit / 2;
     }
 
     @include mq('medium') {
-        flex: 0 0 50%;
+        flex: 1 1 50%;
         padding: 0 $spacingUnit;
     }
 }
