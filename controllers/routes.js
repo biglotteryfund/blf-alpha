@@ -260,14 +260,14 @@ const routes = {
                     name: 'Information checks',
                     path: '/funding-guidance/information-checks',
                     useCmsContent: true,
-                    live: false,
+                    live: true,
                     aliases: ['/informationchecks']
                 },
                 electronicForms: {
                     name: 'Help with PDFs',
                     path: '/funding-guidance/help-using-our-application-forms',
                     useCmsContent: true,
-                    live: false,
+                    live: true,
                     aliases: [
                         '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
                     ]
