@@ -1,7 +1,7 @@
 'use strict';
 const chai = require('chai');
 chai.use(require('chai-http'));
-chai.should();
+const expect = chai.expect;
 
 const helper = require('../helper');
 
@@ -21,8 +21,10 @@ describe('User authentication', () => {
         done();
     });
 
-    beforeEach(() => {
+    let csrfToken;
+    beforeEach(async () => {
         agent = chai.request.agent(server);
+        csrfToken = await helper.getCsrfToken(agent, '/user/login');
     });
 
     // delete test users after each test
@@ -38,135 +40,116 @@ describe('User authentication', () => {
             });
     });
 
-    describe('User registration', () => {
-        let csrfToken;
-        beforeEach(async () => {
-            csrfToken = await helper.getCsrfToken(agent, '/user/login');
-        });
-
-        it('should prevent registrations from invalid email address', done => {
-            const formData = {
+    it('should prevent registrations from invalid email address', () => {
+        return agent
+            .post('/user/register')
+            .send({
                 _csrf: csrfToken,
                 username: 'not_an_email_address',
                 password: 'wrong'
-            };
-            agent
-                .post('/user/register')
-                .send(formData)
-                .end((err, res) => {
-                    res.text.should.match(/(.*)Please provide a valid email address(.*)/);
-                    done();
-                });
-        });
+            })
+            .then(res => {
+                expect(res.text).to.match(/(.*)Please provide a valid email address(.*)/);
+            });
+    });
 
-        it('should prevent registrations with invalid passwords', done => {
-            const formData = {
+    it('should prevent registrations with invalid passwords', () => {
+        return agent
+            .post('/user/register')
+            .send({
                 _csrf: csrfToken,
                 username: 'bill@microsoft.com',
                 password: 'clippy'
-            };
-            agent
-                .post('/user/register')
-                .send(formData)
-                .end((err, res) => {
-                    res.text.should.match(/(.*)Please provide a password that contains at least one number(.*)/);
-                    done();
-                });
-        });
-
-        it('should allow valid registrations', done => {
-            const formData = {
-                _csrf: csrfToken,
-                username: 'email@website.com',
-                password: 'password1',
-                redirectUrl: '/some-magic-endpoint'
-            };
-            agent
-                .post('/user/register')
-                .send(formData)
-                .redirects(0)
-                .end((err, res) => {
-                    res.should.have.status(302);
-                    res.should.redirectTo(formData.redirectUrl);
-                    done();
-                });
-        });
-
-        it('should email valid users with a token', done => {
-            const formData = {
-                _csrf: csrfToken,
-                username: 'email@website.com',
-                password: 'password1',
-                redirectUrl: '/some-magic-endpoint',
-                returnToken: true
-            };
-            agent
-                .post('/user/register')
-                .send(formData)
-                .end((err, res) => {
-                    // via https://github.com/auth0/node-jsonwebtoken/issues/162
-                    res.body.token.should.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-                    res.body.email.sendTo.should.equal(formData.username);
-                    res.body.email.subject.should.equal('Activate your Big Lottery Fund website account');
-                    done();
-                });
-        });
+            })
+            .then(res => {
+                expect(res.text).to.match(/(.*)Please provide a password that contains at least one number(.*)/);
+            });
     });
 
-    describe('User login', () => {
-        let csrfToken;
-        beforeEach(async () => {
-            csrfToken = await helper.getCsrfToken(agent, '/user/login');
-        });
+    it('should allow valid registrations', () => {
+        const formData = {
+            _csrf: csrfToken,
+            username: 'email@website.com',
+            password: 'password1',
+            redirectUrl: '/some-magic-endpoint'
+        };
 
-        it('should allow users to login', done => {
-            const formData = {
-                _csrf: csrfToken,
-                username: 'someone@somewhere.com',
-                password: 'dfs32d3fddf!!!'
-            };
+        return agent
+            .post('/user/register')
+            .send(formData)
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(302);
+                expect(res).to.redirectTo(formData.redirectUrl);
+            });
+    });
 
-            agent
-                .post('/user/register')
-                .send(formData)
-                .redirects(0)
-                .end((err, res) => {
-                    res.should.have.status(302);
+    it('should email valid users with a token', () => {
+        const formData = {
+            _csrf: csrfToken,
+            username: 'email@website.com',
+            password: 'password1',
+            redirectUrl: '/some-magic-endpoint',
+            returnToken: true
+        };
 
-                    // now log them in
-                    let loginFormData = formData;
-                    loginFormData.redirectUrl = '/secret-stuff';
-                    agent
-                        .post('/user/login')
-                        .send(loginFormData)
-                        .redirects(0)
-                        .end((loginErr, loginRes) => {
-                            loginRes.should.have.status(302);
-                            loginRes.should.redirectTo(loginFormData.redirectUrl);
+        return agent
+            .post('/user/register')
+            .send(formData)
+            .then(res => {
+                // via https://github.com/auth0/node-jsonwebtoken/issues/162
+                expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
+                expect(res.body.email.sendTo).to.equal(formData.username);
+                expect(res.body.email.subject).to.equal('Activate your Big Lottery Fund website account');
+            });
+    });
 
-                            // now try to access something private
-                            agent.get('/user/dashboard').end((dashboardErr, dashboardRes) => {
-                                dashboardRes.text.should.match(/(.*)Logged in as(.*)/);
-                                done();
-                            });
+    it('should allow users to login', () => {
+        const formData = {
+            _csrf: csrfToken,
+            username: 'someone@somewhere.com',
+            password: 'dfs32d3fddf!!!'
+        };
+
+        return agent
+            .post('/user/register')
+            .send(formData)
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(302);
+
+                // now log them in
+                let loginFormData = formData;
+                loginFormData.redirectUrl = '/secret-stuff';
+                return agent
+                    .post('/user/login')
+                    .send(loginFormData)
+                    .redirects(0)
+                    .catch(err => err.response)
+                    .then(loginRes => {
+                        expect(loginRes).to.have.status(302);
+                        expect(loginRes).to.redirectTo(loginFormData.redirectUrl);
+
+                        // now try to access something private
+                        return agent.get('/user/dashboard').then(dashboardRes => {
+                            expect(dashboardRes.text).to.match(/(.*)Logged in as(.*)/);
                         });
-                });
-        });
+                    });
+            });
+    });
 
-        it('should not allow unknown users to login', done => {
-            const formData = {
+    it('should not allow unknown users to login', () => {
+        agent
+            .post('/user/login')
+            .send({
                 _csrf: csrfToken,
                 username: 'fake@site.com',
                 password: 'myp455w0rd'
-            };
-
-            agent
-                .post('/user/login')
-                .send(formData)
-                .end((err, res) => {
-                    res.text.should.match(/(.*)Your username and password combination is invalid(.*)/);
-                    done();
-                });
-        });
+            })
+            .then(res => {
+                expect(res.text).to.match(/(.*)Your username and password combination is invalid(.*)/);
+            });
     });
 });

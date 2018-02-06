@@ -26,6 +26,16 @@ require('./modules/materials').init();
 require('./modules/forms').init();
 
 /**
+ * Load enhancements as a separate bundle
+ * Dark-launch until ready for launch
+ */
+// if (window.AppConfig.environment !== 'production') {
+//     import(/* webpackChunkName: "enhanced" */ './bootstraps/enhanced').then(enhanced => {
+//         enhanced.init();
+//     });
+// }
+
+/**
  * If we are in the live environment then load analytics
  * @see metaHeadJS.njk for where App.blockAnalytics is set
  */

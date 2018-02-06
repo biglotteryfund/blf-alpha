@@ -2,10 +2,10 @@ const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const getSecret = require('../modules/get-secret');
 
-const API_URL = process.env.cmsUrl || getSecret('content-api.url');
+const API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
 
 if (!API_URL) {
-    console.log('Error: CMS_URL endpoint must be defined');
+    console.log('Error: API_URL endpoint must be defined');
     process.exit(1);
 }
 

@@ -17,7 +17,7 @@
         "contrast": "contrastMode",
         "session": "blf-alpha-session",
         "csrf": "_csrf",
-        "abTestAwardsForAll": "blf-ab-afa"
+        "abTestAwardsForAll": "blf-ab-afa-v2"
     },
     "anchors": {
         "contactPress": "press",
@@ -25,7 +25,6 @@
         "contactFraud": "fraud",
         "ebulletin": "ebulletin"
     },
-    "materialSupplierEmail": "matt@mattandrews.info",
     "googleAnalyticsCode": "UA-98908627-1",
     "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
     "ebulletinApiEndpoint": "https://apiconnector.com/v2",
@@ -33,7 +32,7 @@
         "enabled": true,
         "tests": {
             "awardsForAll": {
-                "percentage": 20
+                "percentage": 50
             }
         }
     },

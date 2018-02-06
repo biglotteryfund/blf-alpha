@@ -5,6 +5,7 @@ const moment = require('moment');
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
+const getSecret = require('../../../modules/get-secret');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -216,10 +217,16 @@ formModel.registerSuccessStep({
                     if (err) {
                         reject(err);
                     }
+
+                    // BCC internal staff
+                    const rcRecipients = getSecret('emails.reachingcommunities.recipients');
+                    const sendTo = [to].concat(rcRecipients.split(','));
+
                     mail
                         .send({
                             html: html,
-                            sendTo: to,
+                            sendTo: sendTo,
+                            sendMode: 'bcc',
                             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
                             subject: `Your Reaching Communities application - ${dateNow}`
                         })

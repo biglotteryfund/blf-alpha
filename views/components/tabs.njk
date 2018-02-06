@@ -8,21 +8,23 @@
 {% endmacro %}
 
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses, trackClicksAsPageviews) %}
-    <ul class="js-tabset tabs__tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
+    <ul class="js-tabset tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
         data-paneset="{{ paneSetId }}"{% if not trackClicksAsPageviews %} data-do-not-track-pageviews="true"{% endif %}
         id="js-tabs-{{ tabSetId }}">
         {% for t in tabs %}
-            <li{% if tabClasses %} class="{{ tabClasses }}"{% endif %}>{{ t }}</li>
+            <li class="tabset__item{% if tabClasses %} {{ tabClasses }}{% endif %}">{{ t }}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
 
 {% macro pane(paneId, title, content, accordion = false, setActive = false, tabSetId = false, tabId = false) %}
     <section id="{{ paneId }}" class="tab__pane{% if accordion %} tab__pane--accordion{% endif %}{% if setActive %} pane--active{% endif %}">
-        <header class="tab__pane-header">
-            {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = tabId) }}
-            <span class="tab__arrow">{{ iconArrowDown() }}</span>
-        </header>
+        {% if accordion and title %}
+            <header class="tab__pane-header">
+                {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = tabId) }}
+                <span class="tab__arrow">{{ iconArrowDown() }}</span>
+            </header>
+        {% endif %}
         <article class="tab__pane-content">{{ content | safe }}</article>
     </section>
 {% endmacro %}
@@ -35,7 +37,7 @@
     </div>
 {% endmacro %}
 
-{% macro tabs(id, content, classes = false, accordion = true, trackClicksAsPageviews = true) %}
+{% macro tabs(id, content, classes = false, accordion = true, trackClicksAsPageviews = false) %}
     {% set tabSetId = id %}
     {% set paneSetId = 'js-panes-' + id %}
     {% set tabItems = [] %}

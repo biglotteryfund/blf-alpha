@@ -1,7 +1,7 @@
 'use strict';
 const chai = require('chai');
 chai.use(require('chai-http'));
-chai.should();
+const expect = chai.expect;
 
 const helper = require('../helper');
 const routes = require('../../controllers/routes');
@@ -31,25 +31,33 @@ describe('Material order form', () => {
         csrfToken = await helper.getCsrfToken(agent, path);
     });
 
-    it('should serve materials to order', done => {
+    function assertQuantity(res, quantity) {
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type', /^application\/json/);
+        expect(res.body).to.have.property('status');
+        expect(res.body.status).to.equal('success');
+        expect(res.body).to.have.property('quantity');
+        expect(res.body.quantity).to.equal(quantity);
+    }
+
+    it('should serve materials to order', () => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
-        chai
+        return chai
             .request(server)
             .get(path)
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
+            .then(res => {
+                expect(res.status).to.equal(200);
             });
     });
 
-    it('should allow adding a product to an order via AJAX', done => {
+    it('should allow adding a product to an order via AJAX', () => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
-        agent
+        return agent
             .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send({
@@ -57,18 +65,12 @@ describe('Material order form', () => {
                 code: itemCode,
                 action: 'increase'
             })
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.should.have.header('content-type', /^application\/json/);
-                res.body.should.have.property('status');
-                res.body.status.should.equal('success');
-                res.body.should.have.property('quantity');
-                res.body.quantity.should.equal(1);
-                done();
+            .then(res => {
+                assertQuantity(res, 1);
             });
     });
 
-    it('should allow incrementing a product in an order via AJAX', done => {
+    it('should allow incrementing a product in an order via AJAX', () => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
@@ -81,29 +83,23 @@ describe('Material order form', () => {
         };
 
         // add the first item
-        agent
+        return agent
             .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send(formData)
-            .end(() => {
+            .then(() => {
                 // add the second item
-                agent
+                return agent
                     .post(path + '/item/' + itemId)
                     .set('Accept', 'application/json')
                     .send(formData)
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.should.have.header('content-type', /^application\/json/);
-                        res.body.should.have.property('status');
-                        res.body.status.should.equal('success');
-                        res.body.should.have.property('quantity');
-                        res.body.quantity.should.equal(2);
-                        done();
+                    .then(res => {
+                        assertQuantity(res, 2);
                     });
             });
     });
 
-    it('should allow decrementing a product in an order via AJAX', done => {
+    it('should allow decrementing a product in an order via AJAX', () => {
         const itemId = 1;
         const itemCode = 'BIG-PLAQAS';
         const funding = routes.sections.funding;
@@ -116,91 +112,75 @@ describe('Material order form', () => {
         };
 
         // add the first item
-        agent
+        return agent
             .post(path + '/item/' + itemId)
             .set('Accept', 'application/json')
             .send(formData)
-            .end((err, res) => {
+            .then(res => {
                 // check it was added
-                res.should.have.status(200);
-                res.should.have.header('content-type', /^application\/json/);
-                res.body.should.have.property('status');
-                res.body.status.should.equal('success');
-                res.body.should.have.property('quantity');
-                res.body.quantity.should.equal(1);
+                assertQuantity(res, 1);
 
                 // now remove the first item
                 formData.action = 'decrease';
-                agent
+                return agent
                     .post(path + '/item/' + itemId)
                     .set('Accept', 'application/json')
                     .send(formData)
-                    .end((decreaseErr, decreaseRes) => {
-                        decreaseRes.should.have.status(200);
-                        decreaseRes.should.have.header('content-type', /^application\/json/);
-                        decreaseRes.body.should.have.property('status');
-                        decreaseRes.body.status.should.equal('success');
-                        decreaseRes.body.should.have.property('quantity');
-                        decreaseRes.body.quantity.should.equal(0);
-                        done();
+                    .then(decreaseRes => {
+                        assertQuantity(decreaseRes, 0);
                     });
             });
     });
 
-    it('should allow ordering with personal details', done => {
+    it('should allow ordering with personal details', () => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
-        const formData = {
-            _csrf: csrfToken,
-            skipEmail: true,
-            yourName: 'Little Bobby Tables',
-            yourEmail: 'bobby@xkcd.com',
-            yourAddress1: '123 Fake Street',
-            yourAddress2: 'Notrealsville',
-            yourTown: 'Madeuptown',
-            yourCounty: 'Nonexistentland',
-            yourCountry: 'Sealand',
-            yourPostcode: 'NW1 6XE',
-            yourProjectName: 'White Hat Testing',
-            yourGrantAmount: 'over10k',
-            yourReason: 'event'
-        };
-
-        agent
+        return agent
             .post(path)
-            .send(formData)
+            .send({
+                _csrf: csrfToken,
+                skipEmail: true,
+                yourName: 'Little Bobby Tables',
+                yourEmail: 'bobby@xkcd.com',
+                yourAddress1: '123 Fake Street',
+                yourAddress2: 'Notrealsville',
+                yourTown: 'Madeuptown',
+                yourCounty: 'Nonexistentland',
+                yourCountry: 'Sealand',
+                yourPostcode: 'NW1 6XE',
+                yourProjectName: 'White Hat Testing',
+                yourGrantAmount: 'over10k',
+                yourReason: 'event'
+            })
             .redirects(0)
-            .end((err, res) => {
-                res.body.should.have.property('yourEmail');
-                res.body.yourEmail.should.equal('bobby@xkcd.com');
+            .then(res => {
+                expect(res.body).to.have.property('yourEmail');
+                expect(res.body.yourEmail).to.equal('bobby@xkcd.com');
                 // ensure optional fields are returned too
-                res.body.should.have.property('yourAddress2');
-                res.body.yourAddress2.should.equal('Notrealsville');
-                done();
+                expect(res.body).to.have.property('yourAddress2');
+                expect(res.body.yourAddress2).to.equal('Notrealsville');
             });
     });
 
-    it('should block ordering with missing personal details', done => {
+    it('should block ordering with missing personal details', () => {
         const funding = routes.sections.funding;
         const path = funding.path + funding.pages.freeMaterials.path;
 
-        const formData = {
-            _csrf: csrfToken,
-            skipEmail: true,
-            yourName: 'Little Bobby Tables'
-        };
-
-        agent
+        return agent
             .post(path)
-            .send(formData)
+            .send({
+                _csrf: csrfToken,
+                skipEmail: true,
+                yourName: 'Little Bobby Tables'
+            })
             .redirects(0)
-            .end((err, res) => {
-                res.should.redirectTo(
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.redirectTo(
                     '/funding/funding-guidance/managing-your-funding/ordering-free-materials#your-details'
                 );
-                res.should.have.status(302);
-                done();
+                expect(res.status).to.equal(302);
             });
     });
 });

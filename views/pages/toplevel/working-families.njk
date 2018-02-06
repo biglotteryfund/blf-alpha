@@ -25,8 +25,8 @@
     }}
 
     <main role="main" class="nudge-up">
-        <section class="content-box content-box--tinted content-box--flush-narrow-only
-            inner--wide-only accent--pink a--border-top ">
+        <section class="content-box content-box--flush
+            inner--wide-only accent--pink a--border-top u-no-bottom-border">
             <div class="s-prose u-constrained-content-wide">
                 {{ copy.intro | safe }}
                 {{ copy.grantSummary | safe }}
@@ -34,7 +34,7 @@
         </section>
 
         {% macro tabContent(sections) %}
-            <div class="content-box content-box--borderless">
+            <div class="content-box content-box--frameless">
                 <div class="s-prose s-prose--long u-constrained-content-wide">
                 {% for section in sections %}
                     {% if section.title %}

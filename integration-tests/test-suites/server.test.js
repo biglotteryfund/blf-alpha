@@ -4,7 +4,6 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-const config = require('config');
 const helper = require('../helper');
 
 describe('Basic server tests', () => {
@@ -25,10 +24,6 @@ describe('Basic server tests', () => {
             .get('/')
             .then(res => {
                 expect(res).to.have.status(200);
-                const metaTitle = `Home | Big Lottery Fund`;
-                expect(res.text).to.include(`<title>${metaTitle}</title>`);
-                expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
-                expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
             });
     });
 
@@ -72,23 +67,6 @@ describe('Basic server tests', () => {
             .then(res => {
                 expect(res).to.have.status(200);
                 expect(res).to.have.header('content-type', /^image\/png/);
-            });
-    });
-
-    it('should allow contrast preferences to be set', () => {
-        let redirectUrl = 'http://www.google.com';
-        return chai
-            .request(server)
-            .get('/contrast/high')
-            .query({
-                url: redirectUrl
-            })
-            .redirects(0)
-            .catch(err => err.response)
-            .then(res => {
-                expect(res).to.have.cookie(config.get('cookies.contrast'));
-                expect(res).to.redirectTo(redirectUrl);
-                expect(res).to.have.status(302);
             });
     });
 

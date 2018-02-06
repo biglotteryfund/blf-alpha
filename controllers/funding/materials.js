@@ -10,6 +10,7 @@ const app = require('../../server');
 const ordersService = require('../../services/orders');
 const mail = require('../../modules/mail');
 const cached = require('../../middleware/cached');
+const getSecret = require('../../modules/get-secret');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -203,7 +204,7 @@ function init({ router, routeConfig }) {
                     let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
                         text: text,
-                        sendTo: config.get('materialSupplierEmail'),
+                        sendTo: process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier'),
                         sendMode: 'bcc'
                     });
 

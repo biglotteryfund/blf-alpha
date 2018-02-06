@@ -1,9 +1,6 @@
 'use strict';
 const config = require('config');
-const { get, merge } = require('lodash');
 const anchors = config.get('anchors');
-
-const importedLegacyPages = require('../config/app/importedLegacyPages');
 
 // pass some parameters onto each controller
 // so we can take route config and init all at once
@@ -13,18 +10,19 @@ const loadController = path => {
 
 // define top-level controllers for the site
 const controllers = {
-    funding: loadController('./funding/index'),
-    toplevel: loadController('./toplevel/index'),
-    about: loadController('./about/index')
+    toplevel: loadController('./toplevel'),
+    funding: loadController('./funding'),
+    research: loadController('./research'),
+    about: loadController('./about')
 };
 
 // configure base paths for site sections
 const sectionPaths = {
     toplevel: '',
     funding: '/funding',
+    research: '/research',
     about: '/about-big', // @TODO rename on launch
-    aboutLegacy: '/about-big', // used on the old site
-    research: '/research'
+    aboutLegacy: '/about-big' // used on the old site
 };
 
 // these top-level sections appear in the main site nav
@@ -167,19 +165,11 @@ const routes = {
                     live: true,
                     aliases: ['/home/funding']
                 },
-                logos: {
-                    name: 'Logos',
-                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-                    template: 'pages/funding/guidance/logos',
-                    lang: 'funding.guidance.logos',
-                    code: 1,
-                    static: true,
-                    live: true,
-                    aliases: [
-                        sectionPaths.funding +
-                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
-                    ]
+                applyingForFunding: {
+                    name: 'Applying for funding',
+                    path: '/funding-guidance/applying-for-funding/*',
+                    static: false,
+                    live: false
                 },
                 manageFunding: {
                     name: 'Managing your funding',
@@ -231,6 +221,20 @@ const routes = {
                     static: true,
                     live: true
                 },
+                logos: {
+                    name: 'Logos',
+                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+                    template: 'pages/funding/guidance/logos',
+                    lang: 'funding.guidance.logos',
+                    code: 1,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
+                    ]
+                },
                 programmes: {
                     name: 'Funding programmes',
                     path: '/programmes',
@@ -257,13 +261,40 @@ const routes = {
                     path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
                     useCmsContent: true,
                     live: false
+                },
+                informationChecks: {
+                    name: 'Information checks',
+                    path: '/funding-guidance/information-checks',
+                    useCmsContent: true,
+                    live: true,
+                    aliases: ['/informationchecks']
+                },
+                electronicForms: {
+                    name: 'Help with PDFs',
+                    path: '/funding-guidance/help-using-our-application-forms',
+                    useCmsContent: true,
+                    live: true,
+                    aliases: [
+                        '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
+                    ]
                 }
             }
         },
         research: {
             name: 'Research',
             langTitlePath: 'global.nav.research',
-            path: sectionPaths.research
+            path: sectionPaths.research,
+            controller: controllers.research,
+            pages: {
+                root: {
+                    name: 'Research',
+                    path: '/',
+                    template: 'pages/toplevel/research',
+                    lang: 'toplevel.research',
+                    static: true,
+                    live: false
+                }
+            }
         },
         // @TODO rename this to 'about' when ready to launch /about
         'about-big': {
@@ -316,18 +347,6 @@ const routes = {
 };
 
 /**
- * Scraped/imported pages
- *
- * Serve pages imported via script into the CMS
- */
-for (let section in importedLegacyPages) {
-    if (get(routes.sections, section)) {
-        let pages = routes.sections[section].pages;
-        routes.sections[section].pages = merge(pages, importedLegacyPages[section]);
-    }
-}
-
-/**
  * Programme Migration
  *
  * Handle redirects from /global-content/programmes to /funding/programmes
@@ -353,19 +372,20 @@ const programmeRedirects = [
     programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
     programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
     programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
-
+    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
+    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
+    programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
+    programmeMigration('uk-wide/coastal-communities', 'coastal-communities-fund', true),
+    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', true),
+    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', true),
+    programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
-    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', false),
-    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', false),
-    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeMigration('scotland/our-place', 'our-place', false),
     programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
-    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false),
-    programmeMigration('uk-wide/uk-portfolio', 'uk-portfolio', false),
-    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', false)
+    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false)
 ];
 
 /**
@@ -411,6 +431,12 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Awards For All Wales',
+        paths: ['/prog_a4a_wales', '/a4awales'],
+        destination: '/funding/programmes/national-lottery-awards-for-all-wales',
+        live: true
+    },
+    {
         name: 'Reaching Communities England',
         path: '/prog_reaching_communities',
         destination: '/funding/programmes/reaching-communities-england',
@@ -452,9 +478,23 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Coastal Communities Fund',
+        path: '/ccf',
+        destination: '/funding/programmes/coastal-communities-fund',
+        aliasOnly: true,
+        live: true
+    },
+    {
         name: 'Building Better Opportunities (Guidance)',
         path: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding',
         destination: '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'People and Communities',
+        path: '/peopleandcommunities',
+        destination: '/funding/programmes/people-and-communities',
         aliasOnly: true,
         live: true
     },
@@ -519,6 +559,12 @@ const vanityRedirects = [
         name: 'Fraud page (Welsh)',
         path: '/welsh/about-big/customer-service/fraud',
         destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
+        live: true
+    },
+    {
+        name: 'Scotland Portfoilo',
+        path: '/funding/scotland-portfolio',
+        destination: '/funding/programmes?location=scotland',
         live: true
     }
 ];
