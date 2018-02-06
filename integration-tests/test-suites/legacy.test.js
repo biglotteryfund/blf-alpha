@@ -28,7 +28,7 @@ describe('Legacy pages', () => {
             .catch(err => err.response);
     }
 
-    describe('Funding Finder Redirects', () => {
+    it('should redirect old funding finder', () => {
         function fundingFinderRequest({ originalPath, redirectedPath }) {
             return requestRedirect(originalPath).then(res => {
                 return {
@@ -89,16 +89,13 @@ describe('Legacy pages', () => {
             });
     });
 
-    describe('Archived pages', () => {
-        it('should redirect archived pages to the national archives', () => {
-            const urlPath =
-                '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
-            return requestRedirect(urlPath).then(res => {
-                expect(res.status).to.equal(301);
-                expect(res).to.redirectTo(
-                    `http://webarchive.nationalarchives.gov.uk/*/https://www.biglotteryfund.org.uk${urlPath}`
-                );
-            });
+    it('should redirect archived pages to the national archives', () => {
+        const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+        return requestRedirect(urlPath).then(res => {
+            expect(res.status).to.equal(301);
+            expect(res).to.redirectTo(
+                `http://webarchive.nationalarchives.gov.uk/*/https://www.biglotteryfund.org.uk${urlPath}`
+            );
         });
     });
 });
