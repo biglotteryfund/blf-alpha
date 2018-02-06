@@ -4,7 +4,6 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-const config = require('config');
 const helper = require('../helper');
 
 describe('Basic server tests', () => {
