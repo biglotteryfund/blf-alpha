@@ -286,7 +286,7 @@ const routes = {
                     template: 'pages/toplevel/research',
                     lang: 'toplevel.research',
                     static: true,
-                    live: false
+                    live: true
                 }
             }
         },
