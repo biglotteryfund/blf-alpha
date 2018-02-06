@@ -12,7 +12,7 @@
     medium: 'hero/mental-health-foundation-medium.jpg',
     large: 'hero/mental-health-foundation-large.jpg',
     default: 'hero/jobs-medium.jpg',
-    caption: 'Mental Health Foundation, Grant size: £TBD'
+    caption: 'Mental Health Foundation, Grant £TBD'
 }) %}
 
 {% set socialImage = heroImage %}
@@ -33,51 +33,47 @@
 
             {# Intro #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p><strong>We use money raised by <a href="https://www.national-lottery.co.uk/">National Lottery</a> players to help communities achieve their ambitions. We do this by making grants.</strong></p>
-
-                <p><a href="#">Find out how to apply for funding</a></p>
+                <p><strong>{{ copy.intro.opening | safe }}</strong></p>
+                <p><a href="#">{{ copy.intro.applyForFunding | safe }}</a></p>
             </div>
 
             {# Annual Report #}
             {{ mediaAside(
-                quoteText = "In 2016/17 we awarded over £700 million, including 10,000 grants under £10,000.",
-                linkText = "Read our latest annual report",
-                linkHref = "#",
+                quoteText = copy.asideAnnualReport.quoteText,
+                linkText = copy.asideAnnualReport.linkText,
+                linkHref = copy.asideAnnualReport.linkHref,
                 imageUrl = "/assets/images/about/pennine-lancashire.jpg",
-                imageCaption = "Pennine Lancashire Community Farm",
+                imageCaption = copy.asideAnnualReport.imageCaption,
                 accentColor = pageAccent
             ) }}
 
             {# Good Causes #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>The National Lottery raises money for good causes. It makes a difference to people by transforming communities, protecting our heritage, and enriching lives through arts, sports and culture. Communities come in all shapes and sizes, and National Lottery funding is there for everyone.</p>
+                <p>{{ copy.goodCauses }}</p>
             </div>
 
+            {# Our Structure #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                {# Our Structure #}
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">Our structure</h2>
-
-                <p><strong>We are led by our <a href="#">senior management team</a> and overseen by a <a href="#">board of directors</a>.</strong><p>
-
-                <p><a href="#">Learn about our structure and how we’re governed</a></p>
-
-                <p>We’re the largest distributor of National Lottery funding, established as a non- departmental public body by an Act of Parliament</p>
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
+                <p><strong>{{ copy.ourStructure.leadership | safe }}</strong><p>
+                <p><a href="#">{{ copy.ourStructure.governing }}</a></p>
+                <p>{{ copy.ourStructure.established }}</p>
             </div>
 
             {# People In The Lead #}
             {{ mediaAside(
-                quoteText = "We reached nearly 10 million people with our funding last year",
-                linkText = "Discover our strategic framework: People in the Lead",
-                linkHref = "#",
+                quoteText = copy.asidePeopleInTheLead.quoteText,
+                linkText = copy.asidePeopleInTheLead.linkText,
+                linkHref = copy.asidePeopleInTheLead.linkHref,
                 imageUrl = "/assets/images/about/dawn.jpg",
-                imageCaption = "Dawn Austwick, CEO",
+                imageCaption = copy.asidePeopleInTheLead.imageCaption,
                 accentColor = pageAccent,
                 isReversed = true
             ) }}
 
             {# Largest Distributor #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>We are the largest distributor of National Lottery funding, established as a non- departmental public body by an Act of Parliament. Our work is divided into five portfolios, which cover funding across England, Northern Ireland, Wales and Scotland, and the UK as a whole.</p>
+                <p>{{ copy.outro }}</p>
             </div>
         </section>
     </main>

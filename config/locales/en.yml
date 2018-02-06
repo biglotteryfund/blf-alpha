@@ -184,6 +184,26 @@ toplevel:
       href: "/funding/funding-guidance/managing-your-funding"
   about:
     title: About the Big Lottery Fund
+    intro:
+        opening: We use money raised by <a href="https://www.national-lottery.co.uk/">National Lottery</a> players to help communities achieve their ambitions. We do this by making grants.
+        applyForFunding: Find out how to apply for funding
+    asideAnnualReport:
+        quoteText: In 2016/17 we awarded over £700 million, including 10,000 grants under £10,000
+        linkText: Read our latest annual report
+        linkHref: #
+        imageCaption: Pennine Lancashire Community Farm
+    goodCauses: The National Lottery raises money for good causes. It makes a difference to people by transforming communities, protecting our heritage, and enriching lives through arts, sports and culture. Communities come in all shapes and sizes, and National Lottery funding is there for everyone.
+    ourStructure:
+        title: Our structure
+        leadership: We are led by our <a href="#">senior management team</a> and overseen by a <a href="#">board of directors</a>.
+        governing: Learn about our structure and how we’re governed
+        established: We’re the largest distributor of National Lottery funding, established as a non-departmental public body by an Act of Parliament
+    asidePeopleInTheLead:
+        quoteText: We reached nearly 10 million people with our funding last year
+        linkText: "Discover our strategic framework: People in the Lead"
+        linkHref: #
+        imageCaption: Dawn Austwick, CEO
+    outro: We are the largest distributor of National Lottery funding, established as a non- departmental public body by an Act of Parliament. Our work is divided into five portfolios, which cover funding across England, Northern Ireland, Wales and Scotland, and the UK as a whole.
   research:
     title: Research
     sectionLinks:
