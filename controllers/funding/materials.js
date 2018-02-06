@@ -213,20 +213,23 @@ function init({ router, routeConfig }) {
                     app.render('emails/newMaterialOrder', {}, (errorRenderingTemplate, html) => {
                         if (!errorRenderingTemplate) {
                             // Next, convert this string into inline-styled HTML
-                            mail.renderHtmlEmail(html).then(inlinedHtml => {
-                                mail.send({
-                                    subject: `Thank you for your Big Lottery Fund order`,
-                                    html: inlinedHtml,
-                                    sendTo: req.body.yourEmail
+                            mail
+                                .renderHtmlEmail(html)
+                                .then(inlinedHtml => {
+                                    mail.send({
+                                        subject: `Thank you for your Big Lottery Fund order`,
+                                        html: inlinedHtml,
+                                        sendTo: req.body.yourEmail
+                                    });
+                                })
+                                .catch(err => {
+                                    Raven.captureMessage('Error converting template to inline CSS', {
+                                        extra: err,
+                                        tags: {
+                                            feature: 'material-form'
+                                        }
+                                    });
                                 });
-                            }).catch(err => {
-                                Raven.captureMessage('Error converting template to inline CSS', {
-                                    extra: err,
-                                    tags: {
-                                        feature: 'material-form'
-                                    }
-                                });
-                            });
                         }
                     });
 
