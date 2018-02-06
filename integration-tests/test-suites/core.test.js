@@ -48,7 +48,7 @@ describe('Core sections and features', () => {
                     const navItem = document.querySelector(`.qa-nav-link--${activeSection}`);
 
                     // Test the correct navigation item is selected
-                    expect(navItem.classList.contains('is-selected'));
+                    expect(navItem.classList.contains('is-selected')).to.be.true;
                 });
         }
 
