@@ -39,21 +39,17 @@ $nudgeAmount: 25px;
     text-align: center;
 }
 
-@mixin nudged-up {
-    margin-top: -$nudgeAmount;
-    position: relative;
-    z-index: 10;
-}
-
 @mixin nudged-down {
     position: absolute;
     bottom: $nudgeAmount + 30px;
 }
 
 .nudge-up {
-    margin-top: 0;
     @include mq('tablet') {
-        @include nudged-up();
+        top: -$nudgeAmount;
+        margin-bottom: -$nudgeAmount;
+        position: relative;
+        z-index: 10;
     }
 }
 
