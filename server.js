@@ -8,7 +8,7 @@ const Raven = require('raven');
 const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
-const { redirectUglyLink } = require('./modules/proxy');
+const { redirectUglyLink } = require('./modules/legacy');
 
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');

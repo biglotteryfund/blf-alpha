@@ -165,19 +165,11 @@ const routes = {
                     live: true,
                     aliases: ['/home/funding']
                 },
-                logos: {
-                    name: 'Logos',
-                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-                    template: 'pages/funding/guidance/logos',
-                    lang: 'funding.guidance.logos',
-                    code: 1,
-                    static: true,
-                    live: true,
-                    aliases: [
-                        sectionPaths.funding +
-                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
-                    ]
+                applyingForFunding: {
+                    name: 'Applying for funding',
+                    path: '/funding-guidance/applying-for-funding/*',
+                    static: false,
+                    live: false
                 },
                 manageFunding: {
                     name: 'Managing your funding',
@@ -228,6 +220,20 @@ const routes = {
                     code: 18,
                     static: true,
                     live: true
+                },
+                logos: {
+                    name: 'Logos',
+                    path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+                    template: 'pages/funding/guidance/logos',
+                    lang: 'funding.guidance.logos',
+                    code: 1,
+                    static: true,
+                    live: true,
+                    aliases: [
+                        sectionPaths.funding +
+                            '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+                        sectionPaths.funding + '/funding-guidance/managing-your-funding/logodownloads'
+                    ]
                 },
                 programmes: {
                     name: 'Funding programmes',
