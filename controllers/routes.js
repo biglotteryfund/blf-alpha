@@ -40,7 +40,6 @@ const routes = {
                     path: '/',
                     template: 'pages/toplevel/home',
                     lang: 'toplevel.home',
-                    code: 0,
                     static: false,
                     live: true,
                     isPostable: true,
@@ -58,7 +57,6 @@ const routes = {
                     path: '/contact',
                     template: 'pages/toplevel/contact',
                     lang: 'toplevel.contact',
-                    code: 4,
                     static: true,
                     live: true,
                     aliases: [
@@ -83,7 +81,6 @@ const routes = {
                     path: '/jobs',
                     template: 'pages/toplevel/jobs',
                     lang: 'toplevel.jobs',
-                    code: 7,
                     static: true,
                     live: true,
                     aliases: [
@@ -106,7 +103,6 @@ const routes = {
                     path: '/under10k',
                     template: 'pages/toplevel/under10k',
                     lang: 'toplevel.under10k',
-                    code: 29,
                     static: true,
                     live: true,
                     aliases: [
@@ -122,7 +118,6 @@ const routes = {
                     path: '/over10k',
                     template: 'pages/toplevel/over10k',
                     lang: 'toplevel.over10k',
-                    code: 30,
                     static: true,
                     live: true
                 },
@@ -131,7 +126,6 @@ const routes = {
                     path: '/empowering-young-people',
                     template: 'pages/toplevel/eyp',
                     lang: 'toplevel.eyp',
-                    code: 0,
                     static: true,
                     live: true,
                     aliases: [
@@ -175,7 +169,6 @@ const routes = {
                     path: '/funding-guidance/managing-your-funding',
                     template: 'pages/funding/guidance/managing-your-funding',
                     lang: 'funding.guidance.managing-your-funding',
-                    code: 2,
                     static: true,
                     live: true,
                     aliases: [
@@ -189,7 +182,6 @@ const routes = {
                     path: '/funding-guidance/managing-your-funding/ordering-free-materials',
                     template: 'pages/funding/guidance/order-free-materials',
                     lang: 'funding.guidance.order-free-materials',
-                    code: 3,
                     live: true,
                     isPostable: true,
                     isWildcard: true,
@@ -207,7 +199,6 @@ const routes = {
                     path: '/funding-guidance/managing-your-funding/social-media',
                     template: 'pages/funding/guidance/help-with-publicity',
                     lang: 'funding.guidance.help-with-publicity',
-                    code: 12,
                     static: true,
                     live: true
                 },
@@ -216,7 +207,6 @@ const routes = {
                     path: '/funding-guidance/managing-your-funding/press',
                     template: 'pages/funding/guidance/getting-press-coverage',
                     lang: 'funding.guidance.getting-press-coverage',
-                    code: 18,
                     static: true,
                     live: true
                 },
@@ -225,7 +215,6 @@ const routes = {
                     path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
                     template: 'pages/funding/guidance/logos',
                     lang: 'funding.guidance.logos',
-                    code: 1,
                     static: true,
                     live: true,
                     aliases: [
@@ -310,7 +299,6 @@ const routes = {
                     path: '/',
                     template: 'pages/toplevel/about',
                     lang: 'toplevel.about',
-                    code: 0,
                     static: true,
                     live: false,
                     aliases: [
@@ -322,7 +310,6 @@ const routes = {
                     path: '/customer-service/freedom-of-information',
                     template: 'pages/about/freedom-of-information',
                     lang: 'about.foi',
-                    code: 85,
                     static: true,
                     live: true,
                     aliases: [
@@ -335,7 +322,6 @@ const routes = {
                     path: '/customer-service/data-protection',
                     template: 'pages/about/data-protection',
                     lang: 'about.dataProtection',
-                    code: 84,
                     static: true,
                     live: true,
                     aliases: [
