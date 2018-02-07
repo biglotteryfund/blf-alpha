@@ -139,14 +139,6 @@ const routes = {
                     static: true,
                     live: true,
                     aliases: [`${sectionPaths.toplevel}/global-content/programmes/wales/helping-working-families`]
-                },
-                reachingCommunities: {
-                    name: 'Reaching Communities',
-                    path: '/experimental/reaching-communities',
-                    template: 'pages/experimental/reaching-communities',
-                    lang: 'toplevel.reachingCommunities',
-                    static: true,
-                    live: false
                 }
             }
         },
