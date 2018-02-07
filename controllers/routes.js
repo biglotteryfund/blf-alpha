@@ -484,6 +484,13 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Guidance on tracking progress',
+        path: '/guidancetrackingprogress',
+        destination: 'funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+        aliasOnly: true,
+        live: true
+    },
+    {
         // this has to be here and not as an alias
         // otherwise it won't be recognised as a welsh URL
         name: 'Publicity (Welsh)',
