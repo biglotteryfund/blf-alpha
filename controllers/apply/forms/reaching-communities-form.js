@@ -27,7 +27,6 @@ formModel.registerStep({
                     rows: 12,
                     validator: function(field) {
                         return check(field.name)
-                            .escape()
                             .trim()
                             .not()
                             .isEmpty()
@@ -124,7 +123,6 @@ formModel.registerStep({
                         'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
                     validator: function(field) {
                         return check(field.name)
-                            .escape()
                             .trim()
                             .not()
                             .isEmpty()
@@ -149,7 +147,6 @@ formModel.registerStep({
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)
-                            .escape()
                             .trim()
                             .not()
                             .isEmpty()
@@ -163,7 +160,6 @@ formModel.registerStep({
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)
-                            .escape()
                             .trim()
                             .not()
                             .isEmpty()
