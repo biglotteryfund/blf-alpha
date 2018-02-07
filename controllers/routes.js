@@ -373,7 +373,6 @@ const programmeRedirects = [
     programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
     programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
     programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
-    programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
     programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
@@ -381,6 +380,7 @@ const programmeRedirects = [
     programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', true),
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', true),
     programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales', true),
+    programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
     // Draft
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
@@ -395,181 +395,59 @@ const programmeRedirects = [
  *
  * Set up some vanity URL redirects that can't be defined in the aliases on the routes above
  */
-const vanityDestinations = {
-    publicity: routes.sections.funding.path + routes.sections.funding.pages.manageFunding.path,
-    contact: routes.sections.toplevel.path + routes.sections.toplevel.pages.contact.path
-};
+function vanity(urlPath, destination, isLive = false) {
+    return {
+        path: urlPath,
+        destination: destination,
+        isPostable: false,
+        allowQueryStrings: false,
+        live: isLive
+    };
+}
+
 const vanityRedirects = [
-    {
-        name: 'Funding Finder Alias',
-        path: '/Home/Funding/Funding*Finder',
-        destination: '/funding/programmes',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Funding Finder Alias (Welsh)',
-        path: '/welsh/Home/Funding/Funding*Finder',
-        destination: '/welsh/funding/programmes',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Awards For All England',
-        paths: ['/prog_a4a_eng', '/a4aengland'],
-        destination: '/funding/programmes/national-lottery-awards-for-all-england',
-        live: true
-    },
-    {
-        name: 'Awards For All Scotland',
-        path: '/awardsforallscotland',
-        destination: '/funding/programmes/national-lottery-awards-for-all-scotland',
-        live: true
-    },
-    {
-        name: 'Awards For All Northern Ireland',
-        path: '/prog_a4a_ni',
-        destination: '/funding/programmes/awards-for-all-northern-ireland',
-        live: true
-    },
-    {
-        name: 'Awards For All Wales',
-        paths: ['/prog_a4a_wales', '/a4awales'],
-        destination: '/funding/programmes/national-lottery-awards-for-all-wales',
-        live: true
-    },
-    {
-        name: 'Reaching Communities England',
-        path: '/prog_reaching_communities',
-        destination: '/funding/programmes/reaching-communities-england',
-        live: true
-    },
-    {
-        name: 'Helping Working Families',
-        path: '/helpingworkingfamilies',
-        destination: '/helping-working-families',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Helping Working Families (Welsh)',
-        path: '/helputeuluoeddgweithio',
-        destination: '/welsh/helping-working-families',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Grants for improving lives',
-        path: '/improvinglives',
-        destination: '/funding/programmes/grants-for-improving-lives',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Grants for community-led activity',
-        path: '/communityled',
-        destination: '/funding/programmes/grants-for-community-led-activity',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Building Better Opportunities',
-        path: '/esf',
-        destination: '/funding/programmes/building-better-opportunities',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Coastal Communities Fund',
-        path: '/ccf',
-        destination: '/funding/programmes/coastal-communities-fund',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'People and Communities',
-        path: '/peopleandcommunities',
-        destination: '/funding/programmes/people-and-communities',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        name: 'Guidance on tracking progress',
-        path: '/guidancetrackingprogress',
-        destination:
-            'funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
-        aliasOnly: true,
-        live: true
-    },
-    {
-        // this has to be here and not as an alias
-        // otherwise it won't be recognised as a welsh URL
-        name: 'Publicity (Welsh)',
-        path: '/cyhoeddusrwydd',
-        destination: '/welsh' + vanityDestinations.publicity,
-        aliasOnly: true,
-        live: true
-    },
-    {
-        // this stays here (and not as an alias) as express doesn't care about URL case
-        // and this link is the same (besides case) as an existing alias
-        // (annoyingly, the Title Case version of this link persists on the web... for now.)
-        name: 'Logo page',
-        path: '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
-        destination: routes.sections.funding.path + routes.sections.funding.pages.logos.path,
-        aliasOnly: true,
-        live: true
-    },
-    // the following aliases use custom destinations (eg. with URL anchors)
+    vanity('/Home/Funding/Funding*Finder', '/funding/programmes', true),
+    vanity('/welsh/Home/Funding/Funding*Finder', '/funding/programmes', true),
+    vanity('/funding/scotland-portfolio', '/funding/programmes?location=scotland', true),
+    vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england', true),
+    vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england', true),
+    vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland', true),
+    vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland', true),
+    vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales', true),
+    vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales', true),
+    vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england', true),
+    vanity('/helpingworkingfamilies', '/helping-working-families', true),
+    vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families', true),
+    vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives', true),
+    vanity('/communityled', '/funding/programmes/grants-for-community-led-activity', true),
+    vanity('/peopleandcommunities', '/funding/programmes/people-and-communities', true),
+    vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding', true),
+    vanity('/ccf', '/funding/programmes/coastal-communities-fund', true),
+    vanity('/esf', '/funding/programmes/building-better-opportunities', true),
+    vanity(
+        '/guidancetrackingprogress',
+        '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+        true
+    ),
+
+    // This stays here (and not as an alias) as express doesn't care about URL case
+    // and this link is the same (besides case) as an existing alias
+    // (annoyingly, the Title Case version of this link persists on the web... for now.)
+    vanity(
+        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
+        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+        true
+    ),
+
+    // The following aliases use custom destinations (eg. with URL anchors)
     // so can't live in the regular aliases section (as they all have the same destination)
-    {
-        name: 'Contact press team',
-        path: '/news-and-events/contact-press-team',
-        destination: vanityDestinations.contact + '#' + anchors.contactPress,
-        live: true
-    },
-    {
-        name: 'Contact press team (Welsh)',
-        path: '/welsh/news-and-events/contact-press-team',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactPress,
-        live: true
-    },
-    {
-        name: 'Complaint page',
-        path: '/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
-        live: true
-    },
-    {
-        name: 'Complaint page (England)',
-        path: '/england/about-big/customer-service/making-a-complaint',
-        destination: vanityDestinations.contact + '#' + anchors.contactComplaints,
-        live: true
-    },
-    {
-        name: 'Complaint page (Welsh)',
-        path: '/welsh/about-big/customer-service/making-a-complaint',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactComplaints,
-        live: true
-    },
-    {
-        name: 'Fraud page',
-        path: '/about-big/customer-service/fraud',
-        destination: vanityDestinations.contact + '#' + anchors.contactFraud,
-        live: true
-    },
-    {
-        name: 'Fraud page (Welsh)',
-        path: '/welsh/about-big/customer-service/fraud',
-        destination: '/welsh' + vanityDestinations.contact + '#' + anchors.contactFraud,
-        live: true
-    },
-    {
-        name: 'Scotland Portfoilo',
-        path: '/funding/scotland-portfolio',
-        destination: '/funding/programmes?location=scotland',
-        live: true
-    }
+    vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`, true),
+    vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactComplaints}`, true),
+    vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactPress}`, true),
+    vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`, true),
+    vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`, true),
+    vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`, true),
+    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`, true)
 ];
 
 /**

@@ -183,17 +183,12 @@ function generateUrlList(routes) {
         urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
     });
 
-    // add vanity redirects too
+    /**
+     * Vanity redirects
+     */
     routes.vanityRedirects.filter(isLive).forEach(redirect => {
-        if (redirect.paths) {
-            redirect.paths.forEach(path => {
-                let page = { path: path };
-                urlList.newSite.push(makeUrlObject(page));
-            });
-        } else {
-            let page = { path: redirect.path };
-            urlList.newSite.push(makeUrlObject(page));
-        }
+        const pageObject = { path: redirect.path };
+        urlList.newSite.push(makeUrlObject(pageObject));
     });
 
     // Legacy proxied routes
