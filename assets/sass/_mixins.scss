@@ -127,3 +127,12 @@
     padding-top: 10px;
     border-bottom: 3px solid;
 }
+
+@mixin fullwidth() {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}

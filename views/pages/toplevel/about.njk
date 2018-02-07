@@ -34,7 +34,7 @@
             {# Intro #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
                 <p><strong>{{ copy.intro.opening | safe }}</strong></p>
-                <p><a href="#">{{ copy.intro.applyForFunding | safe }}</a></p>
+                <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.applyForFunding | safe }}</a></p>
             </div>
 
             {# Annual Report #}
@@ -47,17 +47,17 @@
                 accentColor = pageAccent
             ) }}
 
-            {# Good Causes #}
+            {# How Funding Is Used #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>{{ copy.goodCauses }}</p>
+                <p>{{ copy.howOurFundingIsUsed.part1 }}</p>
+                <p>{{ copy.howOurFundingIsUsed.part2 }}</p>
             </div>
 
             {# Our Structure #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
                 <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
                 <p><strong>{{ copy.ourStructure.leadership | safe }}</strong><p>
-                <p><a href="#">{{ copy.ourStructure.governing }}</a></p>
-                <p>{{ copy.ourStructure.established }}</p>
+                <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.governing }}</a></p>
             </div>
 
             {# People In The Lead #}
