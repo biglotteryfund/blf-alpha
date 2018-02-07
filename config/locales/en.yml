@@ -178,8 +178,6 @@ toplevel:
       href: "/funding/funding-finder?sc=1"
     - label: Search funded projects
       href: "/funding/search-past-grants"
-    - label: Help with applying
-      href: "/funding/funding-guidance/applying-for-funding"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
   about:
