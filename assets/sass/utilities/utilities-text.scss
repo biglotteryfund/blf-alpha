@@ -54,13 +54,17 @@
     background-position: calc(100% - #{$linkPadding}) center;
     background-size: $iconSize;
     padding-right: $iconSize + $linkPadding;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="none" stroke="#174c9f" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>');
+    background-image: svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#174c9f" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>'
+    );
 
     &:hover,
     &:active {
         text-decoration: none;
         background-color: palette('blue-bg');
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>');
+        background-image: svg-url(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"/></svg>'
+        );
     }
 }
 
