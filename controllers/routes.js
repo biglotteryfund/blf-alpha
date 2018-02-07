@@ -363,6 +363,7 @@ const programmeRedirects = [
     programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
     programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
     programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
+    programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
     programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
     programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
     programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
@@ -462,9 +463,23 @@ const vanityRedirects = [
         live: true
     },
     {
+        name: 'Building Better Opportunities',
+        path: '/esf',
+        destination: '/funding/programmes/building-better-opportunities',
+        aliasOnly: true,
+        live: true
+    },
+    {
         name: 'Coastal Communities Fund',
         path: '/ccf',
         destination: '/funding/programmes/coastal-communities-fund',
+        aliasOnly: true,
+        live: true
+    },
+    {
+        name: 'Building Better Opportunities (Guidance)',
+        path: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding',
+        destination: '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
         aliasOnly: true,
         live: true
     },
@@ -650,7 +665,7 @@ const otherUrls = [
         live: true
     },
     {
-        path: '/~/link.aspx',
+        path: '*~/link.aspx',
         isPostable: false,
         allowQueryStrings: true,
         live: true

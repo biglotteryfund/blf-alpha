@@ -141,7 +141,7 @@ routes.vanityRedirects.forEach(route => {
 
 // redirect all bad link aliases to their canonical equivalents
 // (you're welcome, Sitecore)
-app.get('/~/link.aspx', redirectUglyLink);
+app.get('*~/link.aspx', redirectUglyLink);
 
 // alias for error pages for old site -> new
 app.get('/error', (req, res) => {

@@ -137,7 +137,11 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
 };
 
 const redirectUglyLink = (req, res) => {
-    let handleError = () => res.redirect('/');
+    const handleError = err => {
+        Raven.captureException(err);
+        res.redirect('/');
+    };
+
     const livePagePath = `${legacyUrl}${req.originalUrl}`;
     rp({
         url: livePagePath,
@@ -151,7 +155,7 @@ const redirectUglyLink = (req, res) => {
             let metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
             let intendedUrl = metaIdentifier.getAttribute('content');
             if (!metaIdentifier || !intendedUrl) {
-                return handleError();
+                return handleError(new Error('Unable to find meta identifier URL'));
             }
             res.redirect(301, intendedUrl);
         })
