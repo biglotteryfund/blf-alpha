@@ -44,7 +44,7 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home', '/index.html', '/en-gb', '/england', '/uk-wide']
+                    aliases: ['/home', '/index.html', '/en-gb', '/england', '/uk-wide', '/funding/funding-guidance/applying-for-funding']
                 },
                 contact: {
                     name: 'Contact',
