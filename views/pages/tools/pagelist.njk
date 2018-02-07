@@ -75,9 +75,12 @@
             <button id="js-open-links">Open all canonical English pages in tabs?</button>
 
             {% for sectionName, section in routes %}
-                <h2>Section: {{ section.name }}</h2>
+                <h2>Section: {{ sectionName }}</h2>
                 {% for pageName, page in section.pages %}
-                    <h3>{{ page.name }} <span class="status {% if page.live %}status--live{% else %}status--draft{% endif %}"></span></h3>
+                    <h3>
+                        {{ pageName }}
+                        <span class="status {% if page.live %}status--live{% else %}status--draft{% endif %}"></span>
+                    </h3>
                     <article>
                         <h4>Canonical URL <span>(eg. the definitive version of this page)</span></h4>
                         {% set link = buildUrl(sectionName, pageName) %}
