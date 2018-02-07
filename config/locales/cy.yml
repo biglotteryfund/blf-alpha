@@ -179,8 +179,6 @@ toplevel:
       href: "/welsh/funding/funding-finder?sc=1"
     - label: Chwilio prosiectau a ariannwyd
       href: "/welsh/funding/search-past-grants"
-    - label: Cymorth ymgeisio
-      href: "/welsh/funding/funding-guidance/applying-for-funding"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/funding-guidance/managing-your-funding"
   research:
