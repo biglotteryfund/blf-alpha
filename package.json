@@ -82,6 +82,7 @@
       "assets",
       "public"
     ],
+    "ext": "js,json,yml",
     "exec": "bin/www"
   },
   "dependencies": {
