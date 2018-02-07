@@ -152,10 +152,6 @@ describe('Cloudfront Helpers', () => {
                 {
                     path: '/test',
                     live: true
-                },
-                {
-                    paths: ['/supports', '/multiple', '/redirects'],
-                    live: true
                 }
             ],
             otherUrls: [
@@ -173,7 +169,7 @@ describe('Cloudfront Helpers', () => {
 
         it('should filter out non-live routes', done => {
             let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(11);
+            expect(urlList.newSite.length).to.equal(8);
             done();
         });
 

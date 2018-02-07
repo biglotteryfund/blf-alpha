@@ -124,19 +124,10 @@ routes.programmeRedirects.forEach(route => {
  * Vanity URL Redirects
  */
 routes.vanityRedirects.forEach(route => {
-    if (route.paths) {
-        route.paths.forEach(routePath => {
-            serveRedirect({
-                sourcePath: routePath,
-                destinationPath: route.destination
-            });
-        });
-    } else {
-        serveRedirect({
-            sourcePath: route.path,
-            destinationPath: route.destination
-        });
-    }
+    serveRedirect({
+        sourcePath: route.path,
+        destinationPath: route.destination
+    });
 });
 
 // redirect all bad link aliases to their canonical equivalents

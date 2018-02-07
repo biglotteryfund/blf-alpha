@@ -34,8 +34,7 @@ router.get('/status/pages', (req, res) => {
     const totals = {
         canonical: [],
         aliases: [],
-        vanityRedirects: routes.vanityRedirects.filter(r => r.aliasOnly).map(r => r.path),
-        redirectedPages: routes.vanityRedirects.filter(r => !r.aliasOnly).map(r => r.path)
+        vanityRedirects: routes.vanityRedirects.map(r => r.path)
     };
 
     for (let s in routes.sections) {
