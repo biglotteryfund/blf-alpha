@@ -44,7 +44,14 @@ const routes = {
                     static: false,
                     live: true,
                     isPostable: true,
-                    aliases: ['/home', '/index.html', '/en-gb', '/england', '/uk-wide', '/funding/funding-guidance/applying-for-funding']
+                    aliases: [
+                        '/home',
+                        '/index.html',
+                        '/en-gb',
+                        '/england',
+                        '/uk-wide',
+                        '/funding/funding-guidance/applying-for-funding'
+                    ]
                 },
                 contact: {
                     name: 'Contact',
@@ -252,7 +259,10 @@ const routes = {
                     name: 'Building Better Opportunites',
                     path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
                     useCmsContent: true,
-                    live: false
+                    live: true,
+                    aliases: [
+                        '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
+                    ]
                 },
                 informationChecks: {
                     name: 'Information checks',
@@ -477,13 +487,6 @@ const vanityRedirects = [
         live: true
     },
     {
-        name: 'Building Better Opportunities (Guidance)',
-        path: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding',
-        destination: '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
-        aliasOnly: true,
-        live: true
-    },
-    {
         name: 'People and Communities',
         path: '/peopleandcommunities',
         destination: '/funding/programmes/people-and-communities',
@@ -493,7 +496,8 @@ const vanityRedirects = [
     {
         name: 'Guidance on tracking progress',
         path: '/guidancetrackingprogress',
-        destination: 'funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+        destination:
+            'funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
         aliasOnly: true,
         live: true
     },
