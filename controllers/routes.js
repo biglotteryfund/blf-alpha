@@ -169,7 +169,7 @@ const routes = {
                     name: 'Applying for funding',
                     path: '/funding-guidance/applying-for-funding/*',
                     static: false,
-                    live: false
+                    live: true
                 },
                 manageFunding: {
                     name: 'Managing your funding',
