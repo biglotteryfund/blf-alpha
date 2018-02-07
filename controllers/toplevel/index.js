@@ -316,13 +316,6 @@ module.exports = (pages, sectionPath, sectionId) => {
         }
     });
 
-    router.get('/search', (req, res) => {
-        res.render('pages/toplevel/search', {
-            title: 'Search',
-            description: 'Search'
-        });
-    });
-
     router.get('/styleguide', (req, res) => {
         res.render('pages/toplevel/styleguide', {
             title: 'Styleguide',

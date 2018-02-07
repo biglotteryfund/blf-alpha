@@ -603,12 +603,6 @@ const legacyProxiedRoutes = {
  */
 const otherUrls = [
     {
-        path: '/search',
-        isPostable: false,
-        allowQueryStrings: false,
-        live: false
-    },
-    {
         path: '/assets/*',
         isPostable: false,
         allowQueryStrings: false,
