@@ -75,7 +75,7 @@ describe('Core sections and features', () => {
                 expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
 
                 const { document } = new JSDOM(res.text).window;
-                const navLinks = document.querySelectorAll('.qa-nav-link a');
+                const navLinks = document.querySelectorAll('.qa-global-nav .qa-nav-link a');
                 const navLinksText = map(navLinks, el => el.text);
                 expect(navLinksText).to.have.members(['Hafan', 'Ariannu', 'Ymchwil', 'Amdanom ni']);
             });
