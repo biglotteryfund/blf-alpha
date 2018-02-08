@@ -234,6 +234,10 @@ sections['about-big'].pages = {
             // '/about-big/customer-service/data-protection,
             '/data-protection'
         ]
+    }),
+    // @TODO this might need fixing once we switch to /about
+    tenFacts: staticRoute({
+        path: '/10-big-lottery-fund-facts'
     })
 };
 
