@@ -111,9 +111,23 @@ function legacyRoute(props) {
 }
 
 /**
- * Vanity redirect
- * Redirect help accepting `from` and `to` location.
- * Allows redirects to be defined using a concise syntax
+ * Alias for
+ * Redirect helper accepting `to` and `from`
+ * Allows aliases to be defined using a concise syntax
+ */
+function aliasFor(to, from, isLive = true) {
+    return Object.assign({}, defaults, {
+        path: from,
+        destination: to,
+        live: isLive
+    });
+}
+
+/**
+ * Vanity
+ * Syntax sugar. Provides the aame functionality as
+ * aliasFor() but with the `from` and `to` arguments swapped.
+ * Allows vanity URLs to be defined using a concise syntax
  */
 function vanity(from, to, isLive = true) {
     return Object.assign({}, defaults, {
@@ -128,7 +142,7 @@ function vanity(from, to, isLive = true) {
  * Handle redirects from /global-content/programmes to /funding/programmes
  * Same behaviour as vanity() but with prefilled url prefix.
  */
-function programmeMigration(from, to, isLive = true) {
+function programmeRedirect(from, to, isLive = true) {
     return Object.assign({}, defaults, {
         path: `/global-content/programmes/${from}`,
         destination: `/funding/programmes/${to}`,
@@ -144,6 +158,7 @@ module.exports = {
     wildcardRoute,
     cmsRoute,
     legacyRoute,
+    aliasFor,
     vanity,
-    programmeMigration
+    programmeRedirect
 };
