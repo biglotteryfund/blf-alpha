@@ -93,4 +93,11 @@ export const init = () => {
      * Track document downloads
      */
     trackDocumentDownloads();
+
+    /**
+     * Report connection type
+     */
+    try {
+        trackEvent('Network', 'Effective Connection Type', navigator.connection.effectiveType);
+    } catch (e) {} // eslint-disable-line no-empty
 };

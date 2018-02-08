@@ -1,6 +1,15 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
-ignore: {}
+version: v1.10.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'npm:content-type-parser:20170905':
+    - jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-03-10T12:22:43.705Z'
+  'npm:superagent:20170807':
+    - chai-http > superagent:
+        reason: None given
+        expires: '2018-03-10T12:22:43.705Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:qs:20170213':
