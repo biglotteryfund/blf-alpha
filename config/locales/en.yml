@@ -132,38 +132,39 @@ toplevel:
       link: funding/big-stories/bytes
     browseFundedProjects: Search for all funded projects
     latestNews: Latest news
-    ebulletin:
-      title: Find out about our funding
-      intro: Sign up for our latest news relating to your country
-      location: Location
-      locations:
-        england: England
-        wales: Wales
-        scotland: Scotland
-        northernIreland: Northern Ireland
-      fields:
-        firstName: First name
-        lastName: Surname
-        organisation: Organisation
-        emailAddress: Email Address
-      callToAction: Subscribe
-      responses:
-        success:
-          title: Thank you for subscribing to receive updates and news from the Big
-            Lottery Fund
-          body: Your personal data is important to us and we will not share it with
-            third parties. We are sure you will enjoy hearing from us, but you can
-            <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe
-            at any time</a> if you wish.
-        error:
-          title: There was an error signing you up to the e-bulletin.
-          body: It looks like we're experiencing an error with our e-bulletin tool.
-            Please try again later.
     social:
       followUsOn: Follow us on
       instagram: Instagram
       facebook: Facebook
       twitter: Twitter
+  ebulletin:
+    title: Find out about our funding
+    shortTitle: e-bulletin
+    intro: Sign up for our latest news relating to your country
+    location: Location
+    locations:
+      england: England
+      wales: Wales
+      scotland: Scotland
+      northernIreland: Northern Ireland
+    fields:
+      firstName: First name
+      lastName: Surname
+      organisation: Organisation
+      emailAddress: Email Address
+    callToAction: Subscribe
+    responses:
+      success:
+        title: Thank you for subscribing to receive updates and news from the Big
+            Lottery Fund
+        body: Your personal data is important to us and we will not share it with
+            third parties. We are sure you will enjoy hearing from us, but you can
+            <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe
+            at any time</a> if you wish.
+      error:
+        title: There was an error signing you up to the e-bulletin.
+        body: It looks like we're experiencing an error with our e-bulletin tool.
+            Please try again later.
   funding:
     title: Funding
     latestProgrammes: Latest Programmes
