@@ -239,10 +239,7 @@ sections['about-big'].pages = {
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
         isPostable: true,
-        aliases: [
-            '/about-big/ebulletin-subscription',
-            '/ebulletin'
-        ]
+        aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
     })
 };
 
