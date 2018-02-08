@@ -133,38 +133,39 @@ toplevel:
       link: funding/big-stories/bytes
     browseFundedProjects: Pori'r holl brosiectau a ariannwyd
     latestNews: Newyddion diweddaraf
-    ebulletin:
-      title: Mwy o wybodaeth am ein grantiau
-      intro: Cofrestrwch am y newyddion diweddaraf yn eich gwlad
-      location: Lleoliad
-      locations:
-        england: Lloegr
-        wales: Cymru
-        scotland: Yr Alban
-        northernIreland: Gogledd Iwerddon
-      fields:
-        firstName: Enw cyntaf
-        lastName: Cyfenw
-        organisation: Mudiad
-        emailAddress: Cyfeiriad e-bost
-      callToAction: Tanysgrifio
-      responses:
-        success:
-          title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion y Gronfa
-            Loteri Fawr
-          body: Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda
-            thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym,
-            <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">ond gallwch
-            dad-danysgrifio unrhyw bryd os mynnwch</a>.
-        error:
-          title: Cafwyd gwall wrth gofrestru chi i'r e-fwletin.
-          body: Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin.
-            Rhowch gynnig arall arni'n nes ymlaen.
     social:
       followUsOn: Dilynwch ni ar
       instagram: Instagram
       facebook: Facebook
       twitter: Twitter
+  ebulletin:
+    title: Mwy o wybodaeth am ein grantiau
+    shortTitle: e-fwletin
+    intro: Cofrestrwch am y newyddion diweddaraf yn eich gwlad
+    location: Lleoliad
+    locations:
+      england: Lloegr
+      wales: Cymru
+      scotland: Yr Alban
+      northernIreland: Gogledd Iwerddon
+    fields:
+      firstName: Enw cyntaf
+      lastName: Cyfenw
+      organisation: Mudiad
+      emailAddress: Cyfeiriad e-bost
+    callToAction: Tanysgrifio
+    responses:
+      success:
+        title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion y Gronfa
+          Loteri Fawr
+        body: Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda
+          thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym,
+          <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">ond gallwch
+          dad-danysgrifio unrhyw bryd os mynnwch</a>.
+      error:
+        title: Cafwyd gwall wrth gofrestru chi i'r e-fwletin.
+        body: Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin.
+          Rhowch gynnig arall arni'n nes ymlaen.
   funding:
     title: Ariannu
     latestProgrammes: Rhaglenni diweddaraf
@@ -401,8 +402,6 @@ toplevel:
       currentVacancies:
         title: Swydd uwch ar gael
         vacancies:
-        - label: Pennaeth Gwasanaethau Cyfreithiol
-          url: https://jobs.lawgazette.co.uk/job/519914/head-of-legal-services/
         - label: Cyfarwyddwr Pobl
           url: https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTcxMjA1OSZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA
       offices:

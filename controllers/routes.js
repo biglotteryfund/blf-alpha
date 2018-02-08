@@ -245,6 +245,12 @@ sections['about-big'].pages = {
     // @TODO this might need fixing once we switch to /about
     tenFacts: staticRoute({
         path: '/10-big-lottery-fund-facts'
+    }),
+    ebulletin: dynamicRoute({
+        path: '/ebulletin',
+        template: 'pages/about/ebulletin',
+        isPostable: true,
+        aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
     })
 };
 
@@ -367,10 +373,6 @@ const otherUrls = [
     basicRoute({
         path: '/contrast/*',
         allowQueryStrings: true
-    }),
-    basicRoute({
-        path: '/ebulletin',
-        isPostable: true
     }),
     basicRoute({
         path: '/surveys',
