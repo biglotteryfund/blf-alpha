@@ -329,6 +329,12 @@ $errorColor: #b00;
         font-size: 22px;
     }
 
+    &.form-ebulletin--wide {
+        input[type='radio'] {
+            float: none;
+        }
+    }
+
     input {
         &.is-error {
             background-color: darken(palette('pale-pink'), 30%);
