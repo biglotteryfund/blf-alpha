@@ -78,7 +78,7 @@ sections.toplevel.pages = {
         path: '/jobs',
         template: 'pages/toplevel/jobs',
         lang: 'toplevel.jobs',
-        aliases: ['/about-big/jobs', '/about-big/jobs/how-to-apply', '/about-big/jobs/current-vacancies']
+        aliases: ['/about-big/jobs', '/about-big/jobs/how-to-apply', '/about-big/jobs/current-vacancies', '/scotland/about-big/jobs/current-vacancies', '/wales/about-big/jobs/current-vacancies', '/northernireland/about-big/jobs/current-vacancies']
     }),
     benefits: staticRoute({
         path: '/jobs/benefits',
