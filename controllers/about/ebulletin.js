@@ -8,14 +8,14 @@ const xss = require('xss');
 
 const analytics = require('../../modules/analytics');
 const getSecret = require('../../modules/get-secret');
-
+const cached = require('../../middleware/cached');
 
 function init({ router, routeConfig, sectionPath }) {
     const ebulletinPath = sectionPath + routeConfig.path;
 
     router
         .route(routeConfig.path)
-        .get((req, res) => {
+        .get(cached.noCache, (req, res) => {
             res.render(routeConfig.template, {
                 redirectTo: ebulletinPath
             });
@@ -23,6 +23,7 @@ function init({ router, routeConfig, sectionPath }) {
         // send form data to the (third party) email newsletter provider
         // @TODO translate these error messages
         .post(
+            cached.noCache,
             [
                 body('firstName', 'Please provide your first name')
                     .exists()
