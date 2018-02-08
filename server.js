@@ -107,9 +107,11 @@ function serveRedirect({ sourcePath, destinationPath }) {
 }
 
 /**
- * Programme Migration Redirects
+ * Legacy Redirects
+ * Redirecy legacy URLs to new locations
+ * For these URLs handle both english and welsh variants
  */
-routes.programmeRedirects.forEach(route => {
+routes.legacyRedirects.forEach(route => {
     serveRedirect({
         sourcePath: route.path,
         destinationPath: route.destination
@@ -121,7 +123,8 @@ routes.programmeRedirects.forEach(route => {
 });
 
 /**
- * Vanity URL Redirects
+ * Vanity URLs
+ * Sharable short-urls redirected to canonical URLs.
  */
 routes.vanityRedirects.forEach(route => {
     serveRedirect({
@@ -130,16 +133,24 @@ routes.vanityRedirects.forEach(route => {
     });
 });
 
-// redirect all bad link aliases to their canonical equivalents
-// (you're welcome, Sitecore)
+/**
+ * Sitecore links
+ * Redirect all bad link aliases to their canonical equivalents
+ */
 app.get('*~/link.aspx', redirectUglyLink);
 
-// alias for error pages for old site -> new
+/**
+ * Error route
+ * Alias for error pages for old site -> new
+ */
 app.get('/error', (req, res) => {
     renderNotFound(req, res);
 });
 
-// catch 404 and forward to error handler
+/**
+ * 404 Handler
+ * Catch 404s render not found page
+ */
 app.use((req, res) => {
     renderNotFound(req, res);
 });

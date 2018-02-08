@@ -4,7 +4,9 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
+const { sampleSize } = require('lodash');
 const helper = require('../helper');
+const { vanityRedirects } = require('../../controllers/routes');
 
 describe('Basic server tests', () => {
     let server;
@@ -68,6 +70,24 @@ describe('Basic server tests', () => {
                 expect(res).to.have.status(200);
                 expect(res).to.have.header('content-type', /^image\/png/);
             });
+    });
+
+    it('should handle vanity URLs', () => {
+        // Pick a random sample of vanity redirects to test
+        const vanityRedirectSample = sampleSize(vanityRedirects, 6);
+        const vanityRedirectAssertions = vanityRedirectSample.map(redirect => {
+            return chai
+                .request(server)
+                .get(redirect.path)
+                .redirects(0)
+                .catch(err => err.response)
+                .then(res => {
+                    expect(res).to.have.status(301);
+                    expect(res).to.redirectTo(redirect.destination);
+                });
+        });
+
+        return Promise.all(vanityRedirectAssertions);
     });
 
     it('should 404 everything else', () => {

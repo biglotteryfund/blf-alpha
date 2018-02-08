@@ -9,7 +9,7 @@
     "lint": "eslint . bin/* --ignore-pattern public/",
     "test-deps": "snyk test",
     "test-unit-client": "mocha assets/**/*.test.js --bail --exit",
-    "test-unit-server": "mocha {controllers,middleware,modules}/**/*.test.js --bail --exit",
+    "test-unit-server": "mocha {controllers,middleware,modules}/{*,**/*}.test.js --bail --exit",
     "test-unit": "npm run test-unit-client && npm run test-unit-server",
     "test-integration": "mocha integration-tests/integration-tests.js --bail --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
