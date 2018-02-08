@@ -258,7 +258,10 @@ const routes = {
                     path: '/funding-guidance/information-checks',
                     useCmsContent: true,
                     live: true,
-                    aliases: ['/informationchecks']
+                    aliases: [
+                        '/informationchecks',
+                        '/funding/funding-guidance/applying-for-funding/information-checks'
+                    ]
                 },
                 electronicForms: {
                     name: 'Help with PDFs',
