@@ -21,19 +21,19 @@
         accent = pageAccent
     ) }}
 
-    <main role="main">
-        {% if entry.intro or entry.summary %}
-            <section class="nudge-up content-box content-box--flush
-                inner--wide-only accent--{{ pageAccent }} a--border-top u-no-bottom-border">
-                <div class="s-prose u-constrained-content-wide">
+    <main role="main" class="nudge-up">
+        <section class="content-box content-box--flush
+            inner--wide-only accent--{{ pageAccent }} a--border-top u-no-bottom-border">
+            <div class="s-prose u-constrained-content-wide">
+                {% if entry.intro %}
                     {{ entry.intro | safe }}
-                    {{ programmeStats(
-                        fields = entry.summary,
-                        isCompact = true
-                    ) }}
-                </div>
-            </section>
-        {% endif %}
+                {% endif %}
+                {{ programmeStats(
+                    fields = entry.summary,
+                    isCompact = true
+                ) }}
+            </div>
+        </section>
 
         {% macro tabContent(content, pageAccent) %}
             <div class="content-box content-box--frameless">
