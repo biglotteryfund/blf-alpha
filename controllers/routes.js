@@ -270,13 +270,13 @@ const legacyRedirects = [
     programmeMigration('northern-ireland/people-and-communities', 'people-and-communities'),
     programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales'),
     programmeMigration('england/building-better-opportunities', 'building-better-opportunities'),
+    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund'),
 
     // Migrated Programme Pages [DRAFT]
     programmeMigration('england/parks-for-people', 'parks-for-people', false),
     programmeMigration('scotland/community-assets', 'community-assets', false),
     programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeMigration('scotland/our-place', 'our-place', false),
-    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
     programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false)
 ];
 
@@ -302,6 +302,7 @@ const vanityRedirects = [
     vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding'),
     vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
     vanity('/esf', '/funding/programmes/building-better-opportunities'),
+    vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
     vanity(
         '/guidancetrackingprogress',
         '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
