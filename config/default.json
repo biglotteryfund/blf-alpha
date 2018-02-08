@@ -22,8 +22,7 @@
     "anchors": {
         "contactPress": "press",
         "contactComplaints": "complaints",
-        "contactFraud": "fraud",
-        "ebulletin": "ebulletin"
+        "contactFraud": "fraud"
     },
     "googleAnalyticsCode": "UA-98908627-1",
     "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",

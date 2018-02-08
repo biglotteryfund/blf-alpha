@@ -1,0 +1,78 @@
+{% from "components/forms.njk" import textInput, radios with context %}
+
+<form method="post" action="/about-big/ebulletin">
+    <h3 class="t1 t--underline accent--pink a--text">{{ __('toplevel.ebulletin.title') }}</h3>
+    {% if request.flash and request.flash('ebulletinStatus') %}
+        {% if request.flash('ebulletinStatus') === 'success' %}
+            <h5 class="t5">{{ __('toplevel.ebulletin.responses.success.title') }}</h5>
+            <p>{{ __('toplevel.ebulletin.responses.success.body') | safe }}</p>
+        {% else %}
+            <h5 class="t5">{{ __('toplevel.ebulletin.responses.error.title') }}</h5>
+            <p>{{ __('toplevel.ebulletin.responses.error.body') }}</p>
+        {% endif %}
+    {% else %}
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <input type="hidden" name="locale" value="{{ locale }}">
+        <p class="intro">{{ __('toplevel.ebulletin.intro') }}</p>
+        <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
+            <span class="u-visually-hidden" id="aria-form-loc">{{ __('toplevel.ebulletin.location')  }}</span>
+            {{ radios(
+                fieldName = 'location',
+                options = [
+                    {
+                        name: __('toplevel.ebulletin.locations.england'),
+                        value: 'ENGLAND_MAIL'
+                    },
+                    {
+                        name: __('toplevel.ebulletin.locations.wales'),
+                        value: 'WALES_MAIL'
+                    },
+                    {
+                        name: __('toplevel.ebulletin.locations.scotland'),
+                        value: 'SCOTLAND_MAIL'
+                    },
+                    {
+                        name: __('toplevel.ebulletin.locations.northernIreland'),
+                        value: 'NI_MAIL'
+                    }
+                ]
+            ) }}
+        </div>
+
+        <div class="grid form-ebulletin__fields">
+            {{ textInput(
+                fieldName = 'firstName',
+                fieldLabel = __('toplevel.ebulletin.fields.firstName'),
+                inputType = 'text',
+                required = true,
+                extraClasses = 'grid__item grid__item--half'
+            ) }}
+
+            {{ textInput(
+                fieldName = 'lastName',
+                fieldLabel = __('toplevel.ebulletin.fields.lastName'),
+                inputType = 'text',
+                required = true,
+                extraClasses = 'grid__item grid__item--half'
+            ) }}
+        </div>
+
+        {{ textInput(
+            fieldName = 'organisation',
+            fieldLabel = __('toplevel.ebulletin.fields.organisation'),
+            inputType = 'text',
+            required = false,
+            extraClasses = 'no-gap'
+        ) }}
+
+        {{ textInput(
+            fieldName = 'email',
+            fieldLabel = __('toplevel.ebulletin.fields.emailAddress'),
+            inputType = 'email',
+            required = true
+        ) }}
+
+        <input type="submit" value="{{ __('toplevel.ebulletin.callToAction') }}"
+               class="btn btn--small btn--block-full accent--pink a--btn form-ebulletin__btn"/>
+    {% endif %}
+</form>

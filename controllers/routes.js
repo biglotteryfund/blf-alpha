@@ -234,6 +234,12 @@ sections['about-big'].pages = {
             // '/about-big/customer-service/data-protection,
             '/data-protection'
         ]
+    }),
+    ebulletin: dynamicRoute({
+        path: '/ebulletin',
+        template: 'pages/about/ebulletin',
+        isPostable: true,
+        aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
     })
 };
 
@@ -350,10 +356,6 @@ const otherUrls = [
     basicRoute({
         path: '/contrast/*',
         allowQueryStrings: true
-    }),
-    basicRoute({
-        path: '/ebulletin',
-        isPostable: true
     }),
     basicRoute({
         path: '/surveys',
