@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { legacyRedirects, vanityRedirects } = require('./aliases');
+const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
     basicRoute,
@@ -125,9 +125,6 @@ sections.funding.pages = {
         lang: 'toplevel.funding',
         aliases: ['/home/funding']
     }),
-    applyingForFunding: staticRoute({
-        path: '/funding-guidance/applying-for-funding/*'
-    }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
         template: 'pages/funding/guidance/managing-your-funding',
@@ -239,10 +236,6 @@ sections['about-big'].pages = {
             '/data-protection'
         ]
     }),
-    // @TODO this might need fixing once we switch to /about
-    tenFacts: staticRoute({
-        path: '/10-big-lottery-fund-facts'
-    }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
@@ -316,6 +309,7 @@ const otherUrls = [
 module.exports = {
     sections: sections,
     legacyProxiedRoutes,
+    archivedRoutes,
     legacyRedirects,
     vanityRedirects,
     otherUrls

@@ -174,37 +174,30 @@ function generateUrlList(routes) {
         }
     }
 
-    /**
-     * Legacy proxied routes
-     */
+    function pushRouteConfig(routeConfig) {
+        urlList.newSite.push(makeUrlObject(routeConfig));
+    }
+
+    function pushDualRouteConfig(routeConfig) {
+        urlList.newSite.push(makeUrlObject(routeConfig));
+        urlList.newSite.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
+    }
+
+    // Legacy proxied routes
     const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
-    forEach(liveLegacyRoutes, routeConfig => {
-        urlList.newSite.push(makeUrlObject(routeConfig));
-    });
+    forEach(liveLegacyRoutes, pushRouteConfig);
 
-    /**
-     * Legacy Redirects
-     */
-    routes.legacyRedirects.filter(isLive).forEach(routeConfig => {
-        const pageObject = { path: routeConfig.path };
-        urlList.newSite.push(makeUrlObject(pageObject));
-        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
-    });
+    // Legacy redirects
+    routes.legacyRedirects.filter(isLive).forEach(pushDualRouteConfig);
 
-    /**
-     * Vanity URLs
-     */
-    routes.vanityRedirects.filter(isLive).forEach(redirect => {
-        const pageObject = { path: redirect.path };
-        urlList.newSite.push(makeUrlObject(pageObject));
-    });
+    // Archived routes
+    routes.archivedRoutes.filter(isLive).forEach(pushDualRouteConfig);
 
-    /**
-     * Other Routes
-     */
-    routes.otherUrls.filter(isLive).forEach(routeConfig => {
-        urlList.newSite.push(makeUrlObject(routeConfig));
-    });
+    // Vanity URLs
+    routes.vanityRedirects.filter(isLive).forEach(pushRouteConfig);
+
+    // Other Routes
+    routes.otherUrls.filter(isLive).forEach(pushRouteConfig);
 
     return urlList;
 }
