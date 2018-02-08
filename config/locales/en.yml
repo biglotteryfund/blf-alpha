@@ -431,8 +431,6 @@ toplevel:
       currentVacancies:
         title: Senior role available
         vacancies:
-        - label: Head of Legal Services
-          url: https://jobs.lawgazette.co.uk/job/519914/head-of-legal-services/
         - label: People Director
           url: https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTcxMjA1OSZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA
       offices:
