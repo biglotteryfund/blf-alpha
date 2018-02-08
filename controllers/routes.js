@@ -78,7 +78,14 @@ sections.toplevel.pages = {
         path: '/jobs',
         template: 'pages/toplevel/jobs',
         lang: 'toplevel.jobs',
-        aliases: ['/about-big/jobs', '/about-big/jobs/how-to-apply', '/about-big/jobs/current-vacancies']
+        aliases: [
+            '/about-big/jobs',
+            '/about-big/jobs/how-to-apply',
+            '/about-big/jobs/current-vacancies',
+            '/scotland/about-big/jobs/current-vacancies',
+            '/wales/about-big/jobs/current-vacancies',
+            '/northernireland/about-big/jobs/current-vacancies'
+        ]
     }),
     benefits: staticRoute({
         path: '/jobs/benefits',
@@ -235,6 +242,10 @@ sections['about-big'].pages = {
             '/data-protection'
         ]
     }),
+    // @TODO this might need fixing once we switch to /about
+    tenFacts: staticRoute({
+        path: '/10-big-lottery-fund-facts'
+    }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
@@ -295,6 +306,10 @@ const vanityRedirects = [
     vanity('/funding/scotland-portfolio', '/funding/programmes?location=scotland'),
     vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
     vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
+    vanity(
+        '/england/global-content/programmes/england/awards-for-all-england',
+        '/funding/programmes/national-lottery-awards-for-all-england'
+    ),
     vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
     vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
     vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
@@ -327,7 +342,9 @@ const vanityRedirects = [
     vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
     vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`),
     vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`),
-    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`)
+    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
+    vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
+    vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales')
 ];
 
 /**
