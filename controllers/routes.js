@@ -38,7 +38,7 @@ const sections = {
 /**
  * Top-level Routes
  */
-sections.toplevel.pages = {
+sections.toplevel.addRoutes({
     home: dynamicRoute({
         path: '/',
         template: 'pages/toplevel/home',
@@ -90,17 +90,6 @@ sections.toplevel.pages = {
         lang: 'toplevel.benefits',
         aliases: ['/about-big/jobs/benefits']
     }),
-    under10k: staticRoute({
-        path: '/under10k',
-        template: 'pages/toplevel/under10k',
-        lang: 'toplevel.under10k',
-        aliases: ['/funding/Awards-For-All', '/funding/awards-for-all', '/awardsforall', '/a4a', '/A4A']
-    }),
-    over10k: staticRoute({
-        path: '/over10k',
-        template: 'pages/toplevel/over10k',
-        lang: 'toplevel.over10k'
-    }),
     eyp: staticRoute({
         path: '/empowering-young-people',
         template: 'pages/toplevel/eyp',
@@ -113,17 +102,28 @@ sections.toplevel.pages = {
         lang: 'toplevel.helpingWorkingFamilies',
         aliases: ['/global-content/programmes/wales/helping-working-families']
     })
-};
+});
 
 /**
  * Funding Routes
  */
-sections.funding.pages = {
+sections.funding.addRoutes({
     root: dynamicRoute({
         path: '/',
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
         aliases: ['/home/funding']
+    }),
+    under10k: staticRoute({
+        path: '/under10k',
+        template: 'pages/toplevel/under10k',
+        lang: 'toplevel.under10k',
+        aliases: ['/funding/Awards-For-All', '/funding/awards-for-all', '/awardsforall', '/a4a', '/A4A']
+    }),
+    over10k: staticRoute({
+        path: '/over10k',
+        template: 'pages/toplevel/over10k',
+        lang: 'toplevel.over10k'
     }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
@@ -191,23 +191,23 @@ sections.funding.pages = {
         path: '/funding-guidance/help-using-our-application-forms',
         aliases: ['/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms']
     })
-};
+});
 
 /**
  * Research Routes
  */
-sections.research.pages = {
+sections.research.addRoutes({
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/research',
         lang: 'toplevel.research'
     })
-};
+});
 
 /**
  * About Routes
  */
-sections['about-big'].pages = {
+sections['about-big'].addRoutes({
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/about',
@@ -241,7 +241,7 @@ sections['about-big'].pages = {
         isPostable: true,
         aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
     })
-};
+});
 
 /**
  * Legacy proxied routes
@@ -307,9 +307,9 @@ const otherUrls = [
 
 module.exports = {
     sections: sections,
-    legacyProxiedRoutes,
-    archivedRoutes,
-    legacyRedirects,
-    vanityRedirects,
-    otherUrls
+    archivedRoutes: archivedRoutes,
+    legacyRedirects: legacyRedirects,
+    legacyProxiedRoutes: legacyProxiedRoutes,
+    vanityRedirects: vanityRedirects(sections),
+    otherUrls: otherUrls
 };
