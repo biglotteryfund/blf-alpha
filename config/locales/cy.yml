@@ -183,6 +183,7 @@ toplevel:
       href: "/welsh/funding/funding-guidance/managing-your-funding"
   research:
     title: Ymchwil
+    intro: Find out more about what we’re learning from the projects we fund.
     sectionLinks:
     - label: Communities and places
       href: "/welsh/research/communities-and-places"
