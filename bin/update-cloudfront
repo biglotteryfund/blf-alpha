@@ -158,13 +158,8 @@ function beginUpdate(cacheBehaviors) {
 
             // allow for diff/comparison before deploy
             const getUrls = item => {
-                // add a leading slash for comparison's sake
-                let urlPath = item.PathPattern;
-                if (urlPath[0] !== '/') {
-                    urlPath = '/' + path;
-                }
                 return {
-                    path: urlPath,
+                    path: item.PathPattern,
                     origin: item.TargetOriginId
                 };
             };
@@ -174,6 +169,7 @@ function beginUpdate(cacheBehaviors) {
                 before: existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
                 after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
             };
+
             const pathsAdded = filter(paths.after, obj => !find(paths.before, obj));
             const pathsRemoved = filter(paths.before, obj => !find(paths.after, obj));
 
