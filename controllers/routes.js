@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { legacyRedirects, vanityRedirects } = require('./aliases');
+const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
     basicRoute,
@@ -259,19 +259,6 @@ const legacyProxiedRoutes = {
 };
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
- */
-const archivedRoutes = [
-    basicRoute({
-        path: '/funding/funding-guidance/applying-for-funding/*'
-    }),
-    basicRoute({
-        path: '/about-big/10-big-lottery-fund-facts'
-    })
-];
-
-/**
  * Other Routes
  * These are other paths that should be routed to this app via Cloudfront
  * but aren't explicit page routes (eg. static files, custom pages etc)
@@ -322,8 +309,8 @@ const otherUrls = [
 module.exports = {
     sections: sections,
     legacyProxiedRoutes,
+    archivedRoutes,
     legacyRedirects,
     vanityRedirects,
-    archivedRoutes,
     otherUrls
 };

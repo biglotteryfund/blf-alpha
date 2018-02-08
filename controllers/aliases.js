@@ -1,9 +1,18 @@
 'use strict';
 
 const config = require('config');
-const { basicRoute, aliasFor, vanity, programmeRedirect } = require('./route-types');
+const { archived, aliasFor, vanity, programmeRedirect } = require('./route-types');
 
 const anchors = config.get('anchors');
+
+/**
+ * Archived Routes
+ * Paths in this array will be redirected to the National Archives
+ */
+const archivedRoutes = [
+    archived('/funding/funding-guidance/applying-for-funding/*'),
+    archived('/about-big/10-big-lottery-fund-facts')
+];
 
 /**
  * Legacy Redirects
@@ -81,6 +90,7 @@ const vanityRedirects = [
 ];
 
 module.exports = {
+    archivedRoutes,
     legacyRedirects,
     vanityRedirects
 };

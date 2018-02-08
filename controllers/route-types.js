@@ -111,6 +111,16 @@ function legacyRoute(props) {
 }
 
 /**
+ * Syntax sugar for archived routes,
+ * quick basicRoute
+ */
+function archived(path) {
+    return basicRoute({
+        path
+    });
+}
+
+/**
  * Alias for
  * Redirect helper accepting `to` and `from`
  * Allows aliases to be defined using a concise syntax
@@ -158,6 +168,7 @@ module.exports = {
     wildcardRoute,
     cmsRoute,
     legacyRoute,
+    archived,
     aliasFor,
     vanity,
     programmeRedirect
