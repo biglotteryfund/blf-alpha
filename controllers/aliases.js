@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('config');
-const { aliasFor, vanity, programmeRedirect } = require('./route-types');
+const { basicRoute, aliasFor, vanity, programmeRedirect } = require('./route-types');
 
 const anchors = config.get('anchors');
 

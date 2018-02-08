@@ -192,6 +192,15 @@ function generateUrlList(routes) {
     });
 
     /**
+     * Archived Routes
+     */
+    routes.archivedRoutes.filter(isLive).forEach(routeConfig => {
+        const pageObject = { path: routeConfig.path };
+        urlList.newSite.push(makeUrlObject(pageObject));
+        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
+    });
+
+    /**
      * Vanity URLs
      */
     routes.vanityRedirects.filter(isLive).forEach(redirect => {

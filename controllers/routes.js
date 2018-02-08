@@ -125,9 +125,6 @@ sections.funding.pages = {
         lang: 'toplevel.funding',
         aliases: ['/home/funding']
     }),
-    applyingForFunding: staticRoute({
-        path: '/funding-guidance/applying-for-funding/*'
-    }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
         template: 'pages/funding/guidance/managing-your-funding',
@@ -239,10 +236,6 @@ sections['about-big'].pages = {
             '/data-protection'
         ]
     }),
-    // @TODO this might need fixing once we switch to /about
-    tenFacts: staticRoute({
-        path: '/10-big-lottery-fund-facts'
-    }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
@@ -264,6 +257,19 @@ const legacyProxiedRoutes = {
         path: '/welsh/funding/funding-finder'
     })
 };
+
+/**
+ * Archived Routes
+ * Paths in this array will be redirected to the National Archives
+ */
+const archivedRoutes = [
+    basicRoute({
+        path: '/funding/funding-guidance/applying-for-funding/*'
+    }),
+    basicRoute({
+        path: '/about-big/10-big-lottery-fund-facts'
+    })
+];
 
 /**
  * Other Routes
@@ -318,5 +324,6 @@ module.exports = {
     legacyProxiedRoutes,
     legacyRedirects,
     vanityRedirects,
+    archivedRoutes,
     otherUrls
 };

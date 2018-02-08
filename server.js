@@ -8,8 +8,9 @@ const Raven = require('raven');
 const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
-const { redirectUglyLink } = require('./modules/legacy');
+const { redirectUglyLink, redirectArchived } = require('./modules/legacy');
 
+const favicon = require('serve-favicon');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
@@ -18,7 +19,7 @@ const redirectsMiddleware = require('./middleware/redirects');
 const securityHeadersMiddleware = require('./middleware/securityHeaders');
 const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
-const favicon = require('serve-favicon');
+const { noCache } = require('./middleware/cached');
 
 const getSecret = require('./modules/get-secret');
 const { cymreigio, makeWelsh } = require('./modules/urls');
@@ -131,6 +132,15 @@ routes.vanityRedirects.forEach(route => {
         sourcePath: route.path,
         destinationPath: route.destination
     });
+});
+
+/**
+ * Archived Routes
+ * Redirect to the National Archvies
+ */
+routes.archivedRoutes.forEach(route => {
+    app.get(route.path, noCache, redirectArchived);
+    app.get(makeWelsh(route.path), noCache, redirectArchived);
 });
 
 /**

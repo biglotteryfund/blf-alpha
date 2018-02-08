@@ -139,6 +139,23 @@ describe('Cloudfront Helpers', () => {
                     }
                 }
             },
+            archivedRoutes: [
+                {
+                    path: '/some/archived/path/*',
+                    live: true
+                }
+            ],
+            otherUrls: [
+                {
+                    path: '/unicorns',
+                    isPostable: true,
+                    live: true
+                },
+                {
+                    path: '/draft',
+                    live: false
+                }
+            ],
             legacyRedirects: [
                 {
                     path: '/global-content/programmes/example',
@@ -153,23 +170,12 @@ describe('Cloudfront Helpers', () => {
                     path: '/test',
                     live: true
                 }
-            ],
-            otherUrls: [
-                {
-                    path: '/unicorns',
-                    isPostable: true,
-                    live: true
-                },
-                {
-                    path: '/draft',
-                    live: false
-                }
             ]
         };
 
         it('should filter out non-live routes', done => {
             let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(8);
+            expect(urlList.newSite.length).to.equal(10);
             done();
         });
 
