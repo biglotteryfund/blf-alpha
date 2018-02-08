@@ -6,6 +6,7 @@ const {
     basicRoute,
     staticRoute,
     dynamicRoute,
+    wildcardRoute,
     cmsRoute,
     legacyRoute,
     vanity,
@@ -129,15 +130,11 @@ sections.funding.pages = {
         lang: 'funding.guidance.managing-your-funding',
         aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
     }),
-
-    // @TODO: This is the only route that uses isWildcard??
-    freeMaterials: {
+    freeMaterials: wildcardRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/guidance/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
-        live: true,
         isPostable: true,
-        isWildcard: true,
         aliases: [
             '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
             '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
@@ -145,7 +142,7 @@ sections.funding.pages = {
             '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
             '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
         ]
-    },
+    }),
     helpWithPublicity: staticRoute({
         path: '/funding-guidance/managing-your-funding/social-media',
         template: 'pages/funding/guidance/help-with-publicity',
@@ -159,12 +156,12 @@ sections.funding.pages = {
         live: true
     }),
     logos: staticRoute({
-        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
         template: 'pages/funding/guidance/logos',
         lang: 'funding.guidance.logos',
         aliases: [
-            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            '/funding/funding-guidance/managing-your-funding/logodownloads'
+            '/funding/funding-guidance/managing-your-funding/logodownloads',
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
         ]
     }),
     programmes: dynamicRoute({
@@ -240,31 +237,6 @@ sections['about-big'].pages = {
     })
 };
 
-const programmeRedirects = [
-    // Live
-    programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england', true),
-    programmeMigration('england/reaching-communities-england', 'reaching-communities-england', true),
-    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland', true),
-    programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland', true),
-    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity', true),
-    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives', true),
-    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants', true),
-    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants', true),
-    programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio', true),
-    programmeMigration('uk-wide/coastal-communities', 'coastal-communities-fund', true),
-    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders', true),
-    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities', true),
-    programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales', true),
-    programmeMigration('england/building-better-opportunities', 'building-better-opportunities', true),
-    // Draft
-    programmeMigration('england/parks-for-people', 'parks-for-people', false),
-    programmeMigration('scotland/community-assets', 'community-assets', false),
-    programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
-    programmeMigration('scotland/our-place', 'our-place', false),
-    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
-    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false)
-];
-
 /**
  * Legacy proxied routes
  * The following URLs are legacy pages that are being proxied to make small amends to them.
@@ -280,51 +252,76 @@ const legacyProxiedRoutes = {
 };
 
 /**
+ * Legacy Redirects
+ */
+const legacyRedirects = [
+    // Migrated Programme Pages [LIVE]
+    programmeMigration('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
+    programmeMigration('england/reaching-communities-england', 'reaching-communities-england'),
+    programmeMigration('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland'),
+    programmeMigration('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland'),
+    programmeMigration('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity'),
+    programmeMigration('scotland/grants-for-improving-lives', 'grants-for-improving-lives'),
+    programmeMigration('wales/people-and-places-medium-grants', 'people-and-places-medium-grants'),
+    programmeMigration('wales/people-and-places-large-grants', 'people-and-places-large-grants'),
+    programmeMigration('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio'),
+    programmeMigration('uk-wide/coastal-communities', 'coastal-communities-fund'),
+    programmeMigration('uk-wide/lottery-funding', 'other-lottery-funders'),
+    programmeMigration('northern-ireland/people-and-communities', 'people-and-communities'),
+    programmeMigration('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales'),
+    programmeMigration('england/building-better-opportunities', 'building-better-opportunities'),
+
+    // Migrated Programme Pages [DRAFT]
+    programmeMigration('england/parks-for-people', 'parks-for-people', false),
+    programmeMigration('scotland/community-assets', 'community-assets', false),
+    programmeMigration('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
+    programmeMigration('scotland/our-place', 'our-place', false),
+    programmeMigration('scotland/scottish-land-fund', 'scottish-land-fund', false),
+    programmeMigration('uk-wide/forces-in-mind', 'forces-in-mind', false)
+];
+
+/**
  * Vanity URLs
  */
 const vanityRedirects = [
-    vanity('/Home/Funding/Funding*Finder', '/funding/programmes', true),
-    vanity('/welsh/Home/Funding/Funding*Finder', '/funding/programmes', true),
-    vanity('/funding/scotland-portfolio', '/funding/programmes?location=scotland', true),
-    vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england', true),
-    vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england', true),
-    vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland', true),
-    vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland', true),
-    vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales', true),
-    vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales', true),
-    vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england', true),
-    vanity('/helpingworkingfamilies', '/helping-working-families', true),
-    vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families', true),
-    vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives', true),
-    vanity('/communityled', '/funding/programmes/grants-for-community-led-activity', true),
-    vanity('/peopleandcommunities', '/funding/programmes/people-and-communities', true),
-    vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding', true),
-    vanity('/ccf', '/funding/programmes/coastal-communities-fund', true),
-    vanity('/esf', '/funding/programmes/building-better-opportunities', true),
+    vanity('/Home/Funding/Funding*Finder', '/funding/programmes'),
+    vanity('/welsh/Home/Funding/Funding*Finder', '/funding/programmes'),
+    vanity('/funding/scotland-portfolio', '/funding/programmes?location=scotland'),
+    vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
+    vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
+    vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
+    vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
+    vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
+    vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
+    vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
+    vanity('/helpingworkingfamilies', '/helping-working-families'),
+    vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families'),
+    vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives'),
+    vanity('/communityled', '/funding/programmes/grants-for-community-led-activity'),
+    vanity('/peopleandcommunities', '/funding/programmes/people-and-communities'),
+    vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding'),
+    vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
+    vanity('/esf', '/funding/programmes/building-better-opportunities'),
     vanity(
         '/guidancetrackingprogress',
-        '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
-        true
+        '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
     ),
-
     // This stays here (and not as an alias) as express doesn't care about URL case
     // and this link is the same (besides case) as an existing alias
     // (annoyingly, the Title Case version of this link persists on the web... for now.)
     vanity(
         '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
-        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-        true
+        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
     ),
-
     // The following aliases use custom destinations (eg. with URL anchors)
     // so can't live in the regular aliases section (as they all have the same destination)
-    vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`, true),
-    vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactComplaints}`, true),
-    vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactPress}`, true),
-    vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`, true),
-    vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`, true),
-    vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`, true),
-    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`, true)
+    vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
+    vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),
+    vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
+    vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
+    vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`),
+    vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`),
+    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`)
 ];
 
 /**
@@ -381,8 +378,8 @@ const otherUrls = [
 
 module.exports = {
     sections: sections,
-    programmeRedirects,
     legacyProxiedRoutes,
+    legacyRedirects,
     vanityRedirects,
     otherUrls
 };

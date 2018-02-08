@@ -175,29 +175,33 @@ function generateUrlList(routes) {
     }
 
     /**
-     * Programme migration routes
+     * Legacy proxied routes
      */
-    routes.programmeRedirects.filter(isLive).forEach(routeConfig => {
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
+    forEach(liveLegacyRoutes, routeConfig => {
+        urlList.newSite.push(makeUrlObject(routeConfig));
+    });
+
+    /**
+     * Legacy Redirects
+     */
+    routes.legacyRedirects.filter(isLive).forEach(routeConfig => {
         const pageObject = { path: routeConfig.path };
         urlList.newSite.push(makeUrlObject(pageObject));
         urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(pageObject.path)));
     });
 
     /**
-     * Vanity redirects
+     * Vanity URLs
      */
     routes.vanityRedirects.filter(isLive).forEach(redirect => {
         const pageObject = { path: redirect.path };
         urlList.newSite.push(makeUrlObject(pageObject));
     });
 
-    // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
-    forEach(liveLegacyRoutes, routeConfig => {
-        urlList.newSite.push(makeUrlObject(routeConfig));
-    });
-
-    // Add the miscellaneous routes
+    /**
+     * Other Routes
+     */
     routes.otherUrls.filter(isLive).forEach(routeConfig => {
         urlList.newSite.push(makeUrlObject(routeConfig));
     });

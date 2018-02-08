@@ -139,7 +139,7 @@ describe('Cloudfront Helpers', () => {
                     }
                 }
             },
-            programmeRedirects: [
+            legacyRedirects: [
                 {
                     path: '/global-content/programmes/example',
                     destination: '/funding/programmes/example',
