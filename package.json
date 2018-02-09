@@ -135,8 +135,7 @@
     "uuid": "^3.1.0",
     "vary": "^1.1.1",
     "vue": "^2.4.4",
-    "xss": "^0.3.4",
-    "yargs": "^7.1.0"
+    "xss": "^0.3.4"
   },
   "devDependencies": {
     "autotrack": "^2.4.1",
@@ -148,18 +147,18 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.6.0",
-    "chai-http": "^3.0.0",
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "del": "^3.0.0",
     "dotenv": "^5.0.0",
     "eslint": "^4.8.0",
     "google-auth-library": "^0.11.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-cli": "^1.4.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp": "^3.9.1",
     "he": "^1.1.1",
     "husky": "^0.14.3",
     "import-fresh": "^2.0.0",
@@ -176,7 +175,8 @@
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.14.0",
-    "webpack": "^3.7.1"
+    "webpack": "^3.7.1",
+    "yargs": "^11.0.0"
   },
   "snyk": true
 }
