@@ -7,7 +7,7 @@ const prompt = require('prompt');
 const AWS = require('aws-sdk');
 const moment = require('moment');
 const rp = require('request-promise-native');
-const { cloneDeep, filter, find, has } = require('lodash');
+const { cloneDeep, filter, find, has, groupBy } = require('lodash');
 
 require('dotenv').config();
 
@@ -173,6 +173,18 @@ function beginUpdate(cacheBehaviors) {
             const pathsAdded = filter(paths.after, obj => !find(paths.before, obj));
             const pathsRemoved = filter(paths.before, obj => !find(paths.after, obj));
 
+            const listChanges = paths => {
+                let pathsByOrigin = groupBy(paths, 'origin');
+                let divider = '=================';
+                for (let origin in pathsByOrigin) {
+                    console.log('\n', divider, origin, divider, '\n');
+                    pathsByOrigin[origin].forEach(p => {
+                        console.log(p.path);
+                    });
+                    console.log('\n');
+                }
+            };
+
             // warn users about changes
             console.log(
                 'There are currently ' +
@@ -183,15 +195,13 @@ function beginUpdate(cacheBehaviors) {
             );
 
             if (pathsRemoved.length) {
-                console.log('The following paths will be removed from Cloudfront:', {
-                    paths: pathsRemoved
-                });
+                console.log('The following paths will be removed from Cloudfront:');
+                listChanges(pathsRemoved);
             }
 
             if (pathsAdded.length) {
-                console.log('The following paths will be added to Cloudfront:', {
-                    paths: pathsAdded
-                });
+                console.log('The following paths will be added to Cloudfront:');
+                listChanges(pathsAdded);
             }
 
             // prompt to confirm change
