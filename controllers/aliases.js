@@ -53,45 +53,49 @@ const legacyRedirects = [
 /**
  * Vanity URLs
  */
-const vanityRedirects = [
-    vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
-    vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
-    vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
-    vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
-    vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
-    vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
-    vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
-    vanity('/helpingworkingfamilies', '/helping-working-families'),
-    vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families'),
-    vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives'),
-    vanity('/communityled', '/funding/programmes/grants-for-community-led-activity'),
-    vanity('/peopleandcommunities', '/funding/programmes/people-and-communities'),
-    vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding'),
-    vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
-    vanity('/esf', '/funding/programmes/building-better-opportunities'),
-    vanity('/scottishlandfund', '/funding/programmes/scottish-land-fund'),
-    vanity(
-        '/wales/global-content/programmes/scotland/awards-for-all-scotland',
-        '/funding/programmes/scottish-land-fund'
-    ),
-    vanity(
-        '/guidancetrackingprogress',
-        '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
-    ),
-    vanity(
-        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
-        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
-    ),
-    vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
-    vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),
-    vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
-    vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
-    vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`),
-    vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`),
-    vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
-    vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
-    vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales')
-];
+const vanityRedirects = sections => {
+    return [
+        vanity('/over10k', sections.funding.find('over10k')),
+        vanity('/under10k', sections.funding.find('under10k')),
+        vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
+        vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
+        vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
+        vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
+        vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
+        vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
+        vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
+        vanity('/helpingworkingfamilies', '/helping-working-families'),
+        vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families'),
+        vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives'),
+        vanity('/communityled', '/funding/programmes/grants-for-community-led-activity'),
+        vanity('/peopleandcommunities', '/funding/programmes/people-and-communities'),
+        vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding'),
+        vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
+        vanity('/esf', '/funding/programmes/building-better-opportunities'),
+        vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
+        vanity(
+            '/wales/global-content/programmes/scotland/awards-for-all-scotland',
+            '/funding/programmes/scottish-land-fund'
+        ),
+        vanity(
+            '/guidancetrackingprogress',
+            '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
+        ),
+        vanity(
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
+        ),
+        vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
+        vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),
+        vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
+        vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
+        vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`),
+        vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`),
+        vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
+        vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
+        vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales')
+    ];
+};
 
 module.exports = {
     archivedRoutes,

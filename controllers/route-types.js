@@ -1,5 +1,7 @@
 'use strict';
 
+const { get } = require('lodash');
+
 /**
  * Create a top-level section
  *
@@ -8,14 +10,39 @@
  * langTitlePath - locale property for translated page title
  */
 function createSection({ path, controllerPath, langTitlePath }) {
-    return {
-        path,
-        controller: function(pages, sectionPath, sectionId) {
-            return require(controllerPath)(pages, sectionPath, sectionId);
-        },
-        langTitlePath,
-        pages: null
+    const newSection = {
+        path: path,
+        pages: null,
+        langTitlePath: langTitlePath
     };
+
+    /**
+     * Controller loader function, allows us to auto-init routes
+     */
+    newSection.controller = function(pages, sectionPath, sectionId) {
+        return require(controllerPath)(pages, sectionPath, sectionId);
+    };
+
+    /**
+     * Setter for route pages
+     */
+    newSection.addRoutes = function(sectionRoutes) {
+        newSection.pages = sectionRoutes;
+    };
+
+    /**
+     * Find the cannonical path for a given page key
+     */
+    newSection.find = function(pageId) {
+        const pagePath = get(newSection.pages, `${pageId}.path`);
+        if (pagePath) {
+            return `${path}${pagePath}`;
+        } else {
+            throw new Error(`No route found for ${pageId}`);
+        }
+    };
+
+    return newSection;
 }
 
 /**
