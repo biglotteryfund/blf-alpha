@@ -69,7 +69,8 @@ const vanityRedirects = [
     vanity('/cyhoeddusrwydd', '/welsh/funding/funding-guidance/managing-your-funding'),
     vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
     vanity('/esf', '/funding/programmes/building-better-opportunities'),
-    vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
+    vanity('/scottishlandfund', '/funding/programmes/scottish-land-fund'),
+    vanity('/wales/global-content/programmes/scotland/awards-for-all-scotland', '/funding/programmes/scottish-land-fund'),
     vanity(
         '/guidancetrackingprogress',
         '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
