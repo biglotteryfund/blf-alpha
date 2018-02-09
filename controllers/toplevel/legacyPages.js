@@ -85,7 +85,7 @@ function initLegacyFundingFinder(router) {
     });
 }
 
-function init(router) {
+function init({ router }) {
     initLegacyFundingFinder(router);
 }
 

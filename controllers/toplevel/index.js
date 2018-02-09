@@ -10,7 +10,7 @@ const moment = require('moment');
 const router = express.Router();
 
 const appData = require('../../modules/appData');
-const contentApi = require('../../services/content-api');
+
 const surveyService = require('../../services/surveys');
 const routeStatic = require('../utils/routeStatic');
 
@@ -18,6 +18,7 @@ const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
 const addSection = require('../../middleware/addSection');
 
+const homepageRoute = require('./homepage');
 const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
@@ -26,48 +27,23 @@ if (appData.isNotProduction) {
     robots.push('/');
 }
 
-const homepage = (req, res) => {
-    const serveHomepage = news => {
-        const lang = req.i18n.__('toplevel.home');
-
-        res.render('pages/toplevel/home', {
-            title: lang.title,
-            description: lang.description || false,
-            copy: lang,
-            news: news || [],
-            heroImage: heroImages.homepageHero
-        });
-    };
-
-    // get news articles
-    contentApi
-        .getPromotedNews({
-            locale: req.i18n.getLocale(),
-            limit: 3
-        })
-        .then(entries => {
-            serveHomepage(entries);
-        })
-        .catch(() => {
-            serveHomepage();
-        });
-};
-
 module.exports = (pages, sectionPath, sectionId) => {
     router.use(addSection(sectionId));
 
     /**
-     * Populate static pages
+     * Homepage
      */
-    routeStatic.init({
+    homepageRoute.init({
         router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
+        routeConfig: pages.home
     });
 
-    // Serve the homepage
-    router.get('/', homepage);
+    /**
+     * Legacy proxied pages
+     */
+    legacyPages.init({
+        router: router
+    });
 
     // Handle all the proxied legacy pages
     legacyPages.init(router);
@@ -208,6 +184,16 @@ module.exports = (pages, sectionPath, sectionId) => {
             text += `Disallow: ${r}\n`;
         });
         res.send(text);
+    });
+
+    /**
+     * Populate static pages
+     */
+    routeStatic.init({
+        router: router,
+        pages: pages,
+        sectionPath: sectionPath,
+        sectionId: sectionId
     });
 
     return router;
