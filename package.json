@@ -38,7 +38,7 @@
       "prettier --write",
       "eslint"
     ],
-    "controllers/routes.js": [
+    "{controllers/routes.js,controllers/aliases.js}": [
       "./bin/generate-cloudfront-config"
     ]
   },
