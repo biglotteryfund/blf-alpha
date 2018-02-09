@@ -89,13 +89,7 @@ function handleStaticPage(page) {
  * Set up path routing for a list of (static) pages
  */
 function init({ pages, router, sectionPath, sectionId }) {
-    forEach(pages, (page, pageId) => {
-        // Add the page ID to the request
-        router.use(page.path, (req, res, next) => {
-            res.locals.pageId = pageId;
-            return next();
-        });
-
+    forEach(pages, page => {
         // Redirect any aliases to the canonical path
         setupRedirects(sectionPath, page);
 

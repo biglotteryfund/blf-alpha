@@ -11,12 +11,12 @@ const router = express.Router();
 
 const appData = require('../../modules/appData');
 
-const surveyService = require('../../services/surveys');
+const routerSetup = require('../setup');
 const routeStatic = require('../utils/routeStatic');
+const surveyService = require('../../services/surveys');
 
 const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
-const addSection = require('../../middleware/addSection');
 
 const homepageRoute = require('./homepage');
 const searchRoute = require('./search');
@@ -29,7 +29,11 @@ if (appData.isNotProduction) {
 }
 
 module.exports = (pages, sectionPath, sectionId) => {
-    router.use(addSection(sectionId));
+    routerSetup({
+        router,
+        pages,
+        sectionId
+    });
 
     /**
      * Homepage
