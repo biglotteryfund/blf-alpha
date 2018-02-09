@@ -184,42 +184,40 @@ toplevel:
       href: "/welsh/funding/funding-guidance/managing-your-funding"
   research:
     title: Ymchwil
-    intro: Find out more about what we’re learning from the projects we fund.
+    intro: Cael gwybod mwy am beth rydym yn ei ddysgu o’r prosiectau a ariannwn.
     sectionLinks:
-    - label: Communities and places
+    - label: Cymunedau a lleoedd
       href: "/welsh/research/communities-and-places"
-    - label: Older people
+    - label: Pobl hŷn
       href: "/welsh/research/older-people"
-    - label: Education, learning and skills
+    - label: Addysg, dysgu a sgiliau
       href: "/welsh/research/education-learning-skills-and-employment"
-    - label: Making the most of funding
+    - label: Manteisio i’r eithaf ar ariannu
       href: "/welsh/research/making-the-most-of-funding"
-    - label: Environment
+    - label: Yr amgylchedd
       href: "/welsh/research/environment"
-    - label: Children, young people and families
+    - label: Plant, pobl ifainc a theuluoedd
       href: "/welsh/research/children-young-people-and-families"
-    - label: Emerging social need
+    - label: Anghenion cymdeithasol sy’n dod i’r amlwg
       href: "/welsh/research/emerging-social-need"
-    - label: Multiple and complex needs
+    - label: Anghenion lluosog a chymhleth
       href: "/welsh/research/multiple-and-complex-needs"
-    - label: Health and wellbeing
+    - label: Iechyd a lles
       href: "/welsh/research/health-and-well-being"
-    - label: International
+    - label: Rhyngwladol
       href: "/welsh/research/international"
-    - label: Open data
+    - label: Data agored
       href: "/welsh/research/open-data"
-    - label: Social investment
+    - label: Buddsoddi cymdeithasol
       href: "/welsh/research/social-investment"
-    - label: A better start
+    - label: Cychwyn gwell
       href: "/welsh/research/a-better-start"
     downloads:
-      title: Downloads
+      title: Dogfennau
       links:
-      - label: Investing in our programmes - maximising the impact of grant-making
-          (PDF 425KB)
+      - label: Buddsoddi yn ein rhaglenni – mwyafu effaith gwneud grantiau (PDF 425KB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf
-      - label: Answering big questions - impacts and lessons learned from our evaluation
-          and research (PDF 1850KB)
+      - label: Ateb cwestiynau mawr – effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1850KB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   contact:
     title: Cysylltu â ni
