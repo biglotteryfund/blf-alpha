@@ -8,7 +8,7 @@ const Raven = require('raven');
 const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
-const { redirectUglyLink, redirectArchived } = require('./modules/legacy');
+const { proxyPassthrough, postToLegacyForm, redirectUglyLink, redirectArchived } = require('./modules/legacy');
 
 const favicon = require('serve-favicon');
 const bodyParserMiddleware = require('./middleware/bodyParser');
@@ -156,6 +156,16 @@ app.get('*~/link.aspx', redirectUglyLink);
 app.get('/error', (req, res) => {
     renderNotFound(req, res);
 });
+
+/**
+ * Final wildcard request handled
+ * Attempt to proxy pages from the legacy site,
+ * if unsuccessful pass through to the 404 handler.
+ */
+app
+    .route('*')
+    .get(proxyPassthrough)
+    .post(postToLegacyForm);
 
 /**
  * 404 Handler

@@ -33,8 +33,14 @@ function renderError(err, req, res) {
     res.render('error');
 }
 
+function redirectWithError(res, err, redirectTo) {
+    Raven.captureException(err);
+    res.redirect(redirectTo);
+}
+
 module.exports = {
     renderNotFound,
     renderNotFoundWithError,
-    renderError
+    renderError,
+    redirectWithError
 };
