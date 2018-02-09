@@ -211,7 +211,7 @@ sections['about-big'].addRoutes({
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/about',
-        lang: 'toplevel.about',
+        lang: 'about.landing',
         live: false,
         aliases: [
             // 'about-big'

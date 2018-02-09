@@ -33,8 +33,16 @@
 
             {# Intro #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p><strong>{{ copy.intro.opening | safe }}</strong></p>
-                <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.applyForFunding | safe }}</a></p>
+                <p>{{ copy.intro.opening | safe }}</p>
+                <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.learnApply }}</a></p>
+            </div>
+
+            {# What We Do #}
+            <div class="s-prose s-prose--long u-constrained-content-wide">
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.whatWeDo.title }}</h2>
+                {% for paragraph in copy.whatWeDo.paragraphs %}
+                    <p>{{ paragraph | safe }}</p>
+                {% endfor %}
             </div>
 
             {# Annual Report #}
@@ -49,15 +57,10 @@
 
             {# How Funding Is Used #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>{{ copy.howOurFundingIsUsed.part1 }}</p>
-                <p>{{ copy.howOurFundingIsUsed.part2 }}</p>
-            </div>
-
-            {# Our Structure #}
-            <div class="s-prose s-prose--long u-constrained-content-wide">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
-                <p><strong>{{ copy.ourStructure.leadership | safe }}</strong><p>
-                <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.governing }}</a></p>
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.howOurFundingIsUsed.title }}</h2>
+                {% for paragraph in copy.howOurFundingIsUsed.paragraphs %}
+                    <p>{{ paragraph | safe }}</p>
+                {% endfor %}
             </div>
 
             {# People In The Lead #}
@@ -71,9 +74,13 @@
                 isReversed = true
             ) }}
 
-            {# Largest Distributor #}
+            {# Our Structure #}
             <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>{{ copy.outro }}</p>
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
+                {% for paragraph in copy.ourStructure.paragraphs %}
+                    <p>{{ paragraph | safe }}</p>
+                {% endfor %}
+                <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.learnGovernance }}</a></p>
             </div>
         </section>
     </main>
