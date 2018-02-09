@@ -4,6 +4,7 @@ const { includes, reduce, toString } = require('lodash');
 const { legacyProxiedRoutes } = require('../routes');
 const { localify } = require('../../modules/urls');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
+const { redirectWithError } = require('../http-errors');
 
 /**
  * Normalize query
@@ -65,7 +66,9 @@ function initLegacyFundingFinder(router) {
 
                 if (showClosed) {
                     // Proxy legacy funding finder for closed programmes
-                    return proxyLegacyPage(req, res, dom => dom, mountPath);
+                    proxyLegacyPage(req, res, dom => dom, mountPath).catch(error => {
+                        redirectWithError(res, error, '/funding/programmes');
+                    });
                 } else {
                     // Redirect from funding finder to new programmes page
                     const newQuery = reformatQueryString({
