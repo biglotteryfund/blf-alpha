@@ -53,11 +53,8 @@ if (dbCredentials.host) {
     db.Survey = sequelize.import('../models/surveys/survey.js');
     db.SurveyChoice = sequelize.import('../models/surveys/choice.js');
     db.SurveyResponse = sequelize.import('../models/surveys/response.js');
-
-    if (config.get('storeOrderData')) {
-        db.Order = sequelize.import('../models/materials/order.js');
-        db.OrderItem = sequelize.import('../models/materials/orderItem.js');
-    }
+    db.Order = sequelize.import('../models/materials/order.js');
+    db.OrderItem = sequelize.import('../models/materials/orderItem.js');
 
     // add model associations (eg. for joins etc)
     Object.keys(db).forEach(modelName => {

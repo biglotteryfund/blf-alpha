@@ -80,6 +80,8 @@ function init({ router, routeConfig }) {
                 if (otherValue) {
                     // override the field with their custom text
                     fieldValue = otherValue;
+                    // update the original too
+                    details[field.name] = otherValue;
                 }
             }
 
@@ -90,7 +92,11 @@ function init({ router, routeConfig }) {
 
         text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
-        return text;
+        
+        return {
+            text,
+            details
+        };
     };
 
     // PAGE: free materials form
@@ -199,11 +205,11 @@ function init({ router, routeConfig }) {
                     const details = req.body;
                     const items = req.session[freeMaterialsLogic.orderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
-                    const text = makeOrderText(items, details);
+                    const orderText = makeOrderText(items, details);
 
                     let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
-                        text: text,
+                        text: orderText.text,
                         sendTo: process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier'),
                         sendMode: 'bcc'
                     });
@@ -260,7 +266,8 @@ function init({ router, routeConfig }) {
 
                         // save order data to database
                         return ordersService.storeOrder({
-                            grantAmount: details.yourGrantAmount,
+                            grantAmount: orderDetails.yourGrantAmount,
+                            orderReason: orderDetails.yourReason,
                             postcodeArea: postcodeArea,
                             items: orderedItems
                         });
@@ -268,30 +275,25 @@ function init({ router, routeConfig }) {
 
                     sendOrderEmail
                         .then(() => {
-                            if (!config.get('storeOrderData')) {
-                                req.flash('materialFormSuccess', true);
-                                redirectToMessage();
-                            } else {
-                                // log this order in the database
-                                storeOrderData(items, details)
-                                    .then(() => {
-                                        // successfully stored order data
-                                        req.flash('materialFormSuccess', true);
-                                        redirectToMessage();
-                                    })
-                                    .catch(error => {
-                                        // error storing order data
-                                        Raven.captureMessage('Error logging material order in database', {
-                                            extra: error,
-                                            tags: {
-                                                feature: 'material-form'
-                                            }
-                                        });
-                                        // this error doesn't affect the user so return a success to them
-                                        req.flash('materialFormSuccess', true);
-                                        redirectToMessage();
+                            // log this order in the database
+                            storeOrderData(items, orderText.details)
+                                .then(() => {
+                                    // successfully stored order data
+                                    req.flash('materialFormSuccess', true);
+                                    redirectToMessage();
+                                })
+                                .catch(error => {
+                                    // error storing order data
+                                    Raven.captureMessage('Error logging material order in database', {
+                                        extra: error,
+                                        tags: {
+                                            feature: 'material-form'
+                                        }
                                     });
-                            }
+                                    // this error doesn't affect the user so return a success to them
+                                    req.flash('materialFormSuccess', true);
+                                    redirectToMessage();
+                                });
                         })
                         .catch(() => {
                             // email to supplier failed to send - prompt user to try again
