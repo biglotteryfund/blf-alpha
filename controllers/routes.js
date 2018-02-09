@@ -200,8 +200,7 @@ sections.research.pages = {
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/research',
-        lang: 'toplevel.research',
-        live: false
+        lang: 'toplevel.research'
     })
 };
 
