@@ -5,7 +5,7 @@ const moment = require('moment');
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
-const getSecret = require('../../../modules/get-secret');
+const { getSecret } = require('../../../modules/secrets');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',

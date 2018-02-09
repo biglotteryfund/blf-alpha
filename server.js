@@ -21,7 +21,7 @@ const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
 
-const getSecret = require('./modules/get-secret');
+const { getSecret } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');

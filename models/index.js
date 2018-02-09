@@ -3,7 +3,7 @@ const debug = require('debug')('blf-alpha:models');
 const Sequelize = require('sequelize');
 const config = require('config');
 const path = require('path');
-const getSecret = require('../modules/get-secret');
+const { getSecret } = require('../modules/secrets');
 
 let db = {};
 
