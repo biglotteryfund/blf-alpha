@@ -8,7 +8,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const appData = require('../modules/appData');
-const { track } = require('../modules/analytics');
+const { customEvent } = require('../modules/analytics');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -167,7 +167,7 @@ const redirectUglyLink = (req, res) => {
  */
 function redirectArchived(req, res) {
     const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
-    track('redirect', 'National Archives', req.originalUrl);
+    customEvent('redirect', 'National Archives', req.originalUrl);
     res.redirect(301, `http://webarchive.nationalarchives.gov.uk/*/${fullUrl}`);
 }
 

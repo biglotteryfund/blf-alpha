@@ -1,14 +1,36 @@
-const uuidv4 = require('uuid/v4');
+/**
+ * Server-side Google Analytics using the Measurement Protocol
+ * @link https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
+ */
 const config = require('config');
 const rp = require('request-promise-native');
+const uuidv4 = require('uuid/v4');
+const { getFullUrl } = require('./urls');
 
-const track = (category, action, label) => {
-    if (category && action) {
-        let payload = {
+const gaCode = config.get('googleAnalyticsCode');
+
+function sendPayload(data) {
+    const payload = Object.assign(
+        {},
+        {
             v: 1,
+            tid: gaCode,
+            cid: uuidv4()
+        },
+        data
+    );
+
+    return rp({
+        uri: 'https://www.google-analytics.com/collect',
+        method: 'POST',
+        form: payload
+    });
+}
+
+function customEvent(category, action, label) {
+    if (category && action) {
+        const payload = {
             t: 'event',
-            tid: config.get('googleAnalyticsCode'),
-            cid: uuidv4(),
             ec: category,
             ea: action
         };
@@ -17,14 +39,18 @@ const track = (category, action, label) => {
             payload.el = label;
         }
 
-        return rp({
-            uri: 'https://www.google-analytics.com/collect',
-            method: 'POST',
-            form: payload
-        });
+        sendPayload(payload);
     }
-};
+}
+
+function trackPageview(req) {
+    sendPayload({
+        t: 'pageview',
+        dl: getFullUrl(req)
+    });
+}
 
 module.exports = {
-    track
+    customEvent,
+    trackPageview
 };
