@@ -19,6 +19,7 @@ const regions = require('../../config/content/regions.json');
 const addSection = require('../../middleware/addSection');
 
 const homepageRoute = require('./homepage');
+const searchRoute = require('./search');
 const legacyPages = require('./legacyPages');
 
 const robots = require('../../config/app/robots.json');
@@ -45,8 +46,13 @@ module.exports = (pages, sectionPath, sectionId) => {
         router: router
     });
 
-    // Handle all the proxied legacy pages
-    legacyPages.init(router);
+    /**
+     * Search
+     */
+    searchRoute.init({
+        router: router,
+        routeConfig: pages.search
+    });
 
     // data page
     router.get(pages.data.path, (req, res) => {

@@ -112,6 +112,11 @@ sections.toplevel.pages = {
         template: 'pages/toplevel/working-families',
         lang: 'toplevel.helpingWorkingFamilies',
         aliases: ['/global-content/programmes/wales/helping-working-families']
+    }),
+    search: dynamicRoute({
+        path: '/search',
+        allowQueryStrings: true,
+        live: false
     })
 };
 
