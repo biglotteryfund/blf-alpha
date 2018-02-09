@@ -2231,6 +2231,65 @@
             "QueryString": false
         },
         "MaxTTL": 31536000,
+        "PathPattern": "/england/global-content/programmes/scotland/awards-for-all-scotland",
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "AllowedMethods": {
+            "Items": [
+                "HEAD",
+                "GET"
+            ],
+            "CachedMethods": {
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ],
+                "Quantity": 2
+            },
+            "Quantity": 2
+        },
+        "MinTTL": 0,
+        "Compress": false
+    },
+    {
+        "TrustedSigners": {
+            "Enabled": false,
+            "Items": [],
+            "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+            "Items": [],
+            "Quantity": 0
+        },
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "ForwardedValues": {
+            "Headers": {
+                "Items": [
+                    "Accept",
+                    "Host"
+                ],
+                "Quantity": 2
+            },
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Items": [
+                        "contrastMode",
+                        "blf-alpha-session",
+                        "_csrf",
+                        "blf-ab-afa-v2"
+                    ],
+                    "Quantity": 4
+                }
+            },
+            "QueryStringCacheKeys": {
+                "Items": [],
+                "Quantity": 0
+            },
+            "QueryString": false
+        },
+        "MaxTTL": 31536000,
         "PathPattern": "/error",
         "SmoothStreaming": false,
         "DefaultTTL": 86400,

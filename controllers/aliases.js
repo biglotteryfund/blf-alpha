@@ -61,7 +61,8 @@ const vanityRedirects = sections => {
         vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
         vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
         vanity(
-            '/england/global-content/programmes/scotland/awards-for-all-scotland', '/funding/programmes/national-lottery-awards-for-all-scotland'
+            '/england/global-content/programmes/scotland/awards-for-all-scotland',
+            '/funding/programmes/national-lottery-awards-for-all-scotland'
         ),
         vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
         vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
