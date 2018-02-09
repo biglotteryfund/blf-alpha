@@ -135,7 +135,8 @@
     "uuid": "^3.1.0",
     "vary": "^1.1.1",
     "vue": "^2.4.4",
-    "xss": "^0.3.4"
+    "xss": "^0.3.4",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "autotrack": "^2.4.1",
@@ -175,8 +176,7 @@
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.14.0",
-    "webpack": "^3.7.1",
-    "yargs": "^11.0.0"
+    "webpack": "^3.7.1"
   },
   "snyk": true
 }
