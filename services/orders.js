@@ -28,7 +28,7 @@ function cleanupOldOrders() {
         where: {
             createdAt: {
                 [Op.lte]: moment()
-                    .subtract(6, 'months')
+                    .subtract(5, 'months')
                     .toDate()
             }
         }
