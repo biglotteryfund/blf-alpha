@@ -27,7 +27,9 @@ function cleanupOldOrders() {
     return Order.destroy({
         where: {
             createdAt: {
-                [Op.lte]: moment().subtract(6, 'months').toDate()
+                [Op.lte]: moment()
+                    .subtract(6, 'months')
+                    .toDate()
             }
         }
     });
