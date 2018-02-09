@@ -3,8 +3,12 @@
 module.exports = (sequelize, DataTypes) => {
     let Order = sequelize.define('order', {
         grantAmount: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        orderReason: {
+            type: DataTypes.STRING,
+            allowNull: true
         },
         postcodeArea: {
             type: DataTypes.STRING,
