@@ -79,7 +79,7 @@ const vanityRedirects = sections => {
         vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
         vanity(
             '/wales/global-content/programmes/scotland/awards-for-all-scotland',
-            '/funding/programmes/scottish-land-fund'
+            '/funding/programmes/national-lottery-awards-for-all-scotland'
         ),
         vanity(
             '/guidancetrackingprogress',
