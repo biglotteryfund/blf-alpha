@@ -185,10 +185,16 @@ sections.funding.addRoutes({
     programmeDetailAfaEngland: dynamicRoute({
         path: '/programmes/national-lottery-awards-for-all-england'
     }),
-    buildingBetterOpportunites: cmsRoute({
+    buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
         aliases: [
             '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
+        ]
+    }),
+    buildingBetterOpportunitiesResources: cmsRoute({
+        path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
+        aliases: [
+            '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
         ]
     }),
     informationChecks: cmsRoute({
