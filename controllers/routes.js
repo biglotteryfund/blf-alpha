@@ -227,27 +227,19 @@ sections.about.addRoutes({
         template: 'pages/toplevel/about',
         lang: 'about.landing',
         live: false,
-        aliases: [
-            '/about-big'
-        ]
+        aliases: ['/about-big']
     }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',
         template: 'pages/about/freedom-of-information',
         lang: 'about.foi',
-        aliases: [
-            '/about-big/customer-service/freedom-of-information',
-            '/freedom-of-information'
-        ]
+        aliases: ['/about-big/customer-service/freedom-of-information', '/freedom-of-information']
     }),
     dataProtection: staticRoute({
         path: '/customer-service/data-protection',
         template: 'pages/about/data-protection',
         lang: 'about.dataProtection',
-        aliases: [
-            '/about-big/customer-service/data-protection',
-            '/data-protection'
-        ]
+        aliases: ['/about-big/customer-service/data-protection', '/data-protection']
     }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
