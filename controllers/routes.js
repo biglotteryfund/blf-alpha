@@ -28,8 +28,8 @@ const sections = {
         langTitlePath: 'global.nav.research',
         controllerPath: path.resolve(__dirname, './research')
     }),
-    'about-big': createSection({
-        path: '/about-big', // @TODO: Rename launching about page
+    about: createSection({
+        path: '/about',
         langTitlePath: 'global.nav.about',
         controllerPath: path.resolve(__dirname, './about')
     })
@@ -221,14 +221,14 @@ sections.research.addRoutes({
 /**
  * About Routes
  */
-sections['about-big'].addRoutes({
+sections.about.addRoutes({
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/about',
         lang: 'about.landing',
         live: false,
         aliases: [
-            // 'about-big'
+            '/about-big'
         ]
     }),
     freedomOfInformation: staticRoute({
@@ -236,7 +236,7 @@ sections['about-big'].addRoutes({
         template: 'pages/about/freedom-of-information',
         lang: 'about.foi',
         aliases: [
-            // '/about-big/customer-service/freedom-of-information',
+            '/about-big/customer-service/freedom-of-information',
             '/freedom-of-information'
         ]
     }),
@@ -245,7 +245,7 @@ sections['about-big'].addRoutes({
         template: 'pages/about/data-protection',
         lang: 'about.dataProtection',
         aliases: [
-            // '/about-big/customer-service/data-protection,
+            '/about-big/customer-service/data-protection',
             '/data-protection'
         ]
     }),
@@ -253,7 +253,7 @@ sections['about-big'].addRoutes({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
         isPostable: true,
-        aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
+        aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
     })
 });
 
