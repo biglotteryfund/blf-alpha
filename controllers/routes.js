@@ -49,6 +49,9 @@ sections.toplevel.addRoutes({
             '/index.html',
             '/en-gb',
             '/england',
+            '/wales',
+            '/scotland',
+            '/northernireland',
             '/uk-wide',
             '/funding/funding-guidance/applying-for-funding'
         ]
