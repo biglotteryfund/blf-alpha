@@ -226,7 +226,7 @@ sections.about.addRoutes({
         path: '/',
         template: 'pages/toplevel/about',
         lang: 'about.landing',
-        live: false,
+        live: true,
         aliases: ['/about-big']
     }),
     freedomOfInformation: staticRoute({
