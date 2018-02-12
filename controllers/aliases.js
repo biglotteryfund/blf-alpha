@@ -41,6 +41,7 @@ const legacyRedirects = [
     programmeRedirect('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales'),
     programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
     programmeRedirect('scotland/scottish-land-fund', 'scottish-land-fund'),
+    programmeRedirect('england/place-based-social-action', 'place-based-social-action'),
 
     // Migrated Programme Pages [DRAFT]
     programmeRedirect('england/parks-for-people', 'parks-for-people', false),
