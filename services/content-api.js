@@ -1,6 +1,6 @@
 const { get, take } = require('lodash');
 const request = require('request-promise-native');
-const getSecret = require('../modules/get-secret');
+const { getSecret } = require('../modules/secrets');
 
 const API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
 
