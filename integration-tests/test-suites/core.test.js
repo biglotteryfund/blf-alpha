@@ -56,7 +56,7 @@ describe('Core sections and features', () => {
             testSection({ urlPath: '/', activeSection: 'toplevel' }),
             testSection({ urlPath: '/funding', activeSection: 'funding' }),
             testSection({ urlPath: '/research', activeSection: 'research' }),
-            testSection({ urlPath: '/about-big', activeSection: 'about-big' }),
+            testSection({ urlPath: '/about', activeSection: 'about' }),
             testSection({ urlPath: '/funding/programmes', activeSection: 'funding' })
         ]);
     });
