@@ -1,10 +1,50 @@
 'use strict';
 const helmet = require('helmet');
-const { map } = require('lodash');
+const { get, map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
 const appData = require('../modules/appData');
 
-module.exports = function() {
+function withDefaultDirectives(directives) {
+    const childSrc = get(directives, 'childSrc', []);
+    const styleSrc = get(directives, 'styleSrc', []);
+    const connectSrc = get(directives, 'connectSrc', []);
+    const imgSrc = get(directives, 'imgSrc', []);
+    const scriptSrc = get(directives, 'scriptSrc', []);
+    const fontSrc = get(directives, 'scriptSrc', []);
+
+    const fullDirectives = {
+        defaultSrc: directives.defaultSrc,
+        childSrc: directives.defaultSrc.concat(childSrc),
+        styleSrc: directives.defaultSrc.concat(["'unsafe-inline'"]).concat(styleSrc),
+        connectSrc: directives.defaultSrc.concat(connectSrc),
+        imgSrc: directives.defaultSrc.concat(['data:', 'localhost']).concat(imgSrc),
+        scriptSrc: directives.defaultSrc.concat(["'unsafe-eval'", "'unsafe-inline'"]).concat(scriptSrc),
+        fontSrc: directives.defaultSrc.concat(['data:']).concat(fontSrc)
+    };
+
+    if (directives.reportUri) {
+        fullDirectives.reportUri = directives.reportUri;
+    }
+
+    return fullDirectives;
+}
+
+function buildSecurityMiddleware(cspDirectives) {
+    return helmet({
+        contentSecurityPolicy: {
+            directives: withDefaultDirectives(cspDirectives),
+            browserSniff: false
+        },
+        dnsPrefetchControl: {
+            allow: true
+        },
+        frameguard: {
+            action: 'sameorigin'
+        }
+    });
+}
+
+function defaultSecurityHeaders() {
     /**
      * URLs which should be exempt from security headers
      * Only proxied legacy URLs should be exempt.
@@ -16,47 +56,31 @@ module.exports = function() {
         'cdn.polyfill.io',
         '*.google.com',
         '*.gstatic.com',
-        '*.googleapis.com',
         'www.google-analytics.com',
-        'maxcdn.bootstrapcdn.com',
         'platform.twitter.com',
         'syndication.twitter.com',
         'cdn.syndication.twimg.com',
         '*.twimg.com',
         '*.youtube.com',
         'sentry.io',
-        'dvmwjbtfsnnp0.cloudfront.net',
         '*.biglotteryfund.org.uk'
     ];
 
     const directives = {
         defaultSrc: defaultSecurityDomains,
-        childSrc: defaultSecurityDomains.concat(['www.google.com']),
-        styleSrc: defaultSecurityDomains.concat(["'unsafe-inline'", 'fonts.googleapis.com']),
-        connectSrc: defaultSecurityDomains,
-        imgSrc: defaultSecurityDomains.concat(['data:', 'localhost', 'stats.g.doubleclick.net']),
-        scriptSrc: defaultSecurityDomains.concat(["'unsafe-eval'", "'unsafe-inline'"]),
-        reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c',
-        fontSrc: defaultSecurityDomains.concat(['data:'])
+        childSrc: ['www.google.com'],
+        styleSrc: ['fonts.googleapis.com'],
+        imgSrc: ['stats.g.doubleclick.net'],
+        connectSrc: [],
+        reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
 
     if (appData.isDev) {
-        // Allow LiveReload in development
+        directives.imgSrc = directives.imgSrc.concat(['localhost']);
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 
-    const helmetSettings = helmet({
-        contentSecurityPolicy: {
-            directives: directives,
-            browserSniff: false
-        },
-        dnsPrefetchControl: {
-            allow: true
-        },
-        frameguard: {
-            action: 'sameorigin'
-        }
-    });
+    const helmetSettings = buildSecurityMiddleware(directives);
 
     return function(req, res, next) {
         if (exemptLegacyUrls.indexOf(req.path) !== -1) {
@@ -65,4 +89,18 @@ module.exports = function() {
             helmetSettings(req, res, next);
         }
     };
+}
+
+function toolsSecurityHeaders() {
+    const helmetSettings = buildSecurityMiddleware({
+        defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com']
+    });
+
+    return helmetSettings;
+}
+
+module.exports = {
+    buildSecurityMiddleware,
+    defaultSecurityHeaders,
+    toolsSecurityHeaders
 };

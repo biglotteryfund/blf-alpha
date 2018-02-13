@@ -3,17 +3,16 @@ const express = require('express');
 const moment = require('moment');
 
 const routes = require('../routes');
+const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
-const appData = require('../../modules/appData');
+const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const surveysService = require('../../services/surveys');
 
 const router = express.Router();
 
-const LAUNCH_DATE = moment();
-const USER_LEVEL_REQUIRED = 5;
-
 // status page used by load balancer
+const LAUNCH_DATE = moment();
 router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -57,7 +56,8 @@ router.get('/status/pages', (req, res) => {
     });
 });
 
-router.route('/tools/survey-results/').get(auth.requireAuthedLevel(USER_LEVEL_REQUIRED), cached.noCache, (req, res) => {
+const requiredAuthed = auth.requireAuthedLevel(5);
+router.route('/tools/survey-results/').get(requiredAuthed, toolsSecurityHeaders(), cached.noCache, (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {

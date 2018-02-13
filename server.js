@@ -16,7 +16,7 @@ const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
-const securityHeadersMiddleware = require('./middleware/securityHeaders');
+const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
@@ -56,7 +56,7 @@ app.use(
         defaultMaxAge: config.get('viewCacheExpiration')
     })
 );
-app.use(securityHeadersMiddleware());
+app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());

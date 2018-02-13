@@ -1,14 +1,19 @@
 'use strict';
 const express = require('express');
-const router = express.Router();
 
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
+const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
+
 const register = require('./register');
 const login = require('./login');
 const password = require('./password');
 const dashboard = require('./dashboard');
 const { userBasePath, userEndpoints, emailPasswordValidations, formValidations } = require('./utils');
+
+const router = express.Router();
+
+router.use(toolsSecurityHeaders());
 
 // serve a logged-in user's dashboard
 router.get(userEndpoints.dashboard, auth.requireAuthed, cached.noCache, dashboard.dashboard);
