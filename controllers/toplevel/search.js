@@ -9,7 +9,7 @@ function init({ router, routeConfig }) {
         req.query = normaliseQuery(req.query);
 
         if (req.query.q) {
-            customEvent('Search', 'Term', req.q);
+            customEvent('Search', 'Term', req.query.q);
             res.redirect(`${queryBase}+${querystring.escape(req.query.q)}`);
         } else {
             res.redirect('/');
