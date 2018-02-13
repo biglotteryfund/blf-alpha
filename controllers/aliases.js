@@ -18,9 +18,6 @@ const archivedRoutes = [
  * Legacy Redirects
  */
 const legacyRedirects = [
-    aliasFor('/funding', '/funding-uk'),
-    aliasFor('/funding', '/funding/funding-guidance'),
-    aliasFor('/funding', '/funding/funding-guidance/applying-for-funding'),
     aliasFor('/funding/programmes', '/Home/Funding/Funding*Finder'),
     aliasFor('/funding/programmes?location=scotland', '/funding/scotland-portfolio'),
     aliasFor(
@@ -63,7 +60,6 @@ const vanityRedirects = sections => {
         vanity('/under10k', sections.funding.find('under10k')),
         vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
         vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
-        vanity('/englandwebinars', '/funding/programmes/national-lottery-awards-for-all-england'),
         vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
         vanity(
             '/england/global-content/programmes/scotland/awards-for-all-scotland',

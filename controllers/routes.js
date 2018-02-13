@@ -44,7 +44,17 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/home',
         lang: 'toplevel.home',
         isPostable: true,
-        aliases: ['/home', '/index.html', '/en-gb', '/england', '/wales', '/scotland', '/northernireland', '/uk-wide']
+        aliases: [
+            '/home',
+            '/index.html',
+            '/en-gb',
+            '/england',
+            '/wales',
+            '/scotland',
+            '/northernireland',
+            '/uk-wide',
+            '/funding/funding-guidance/applying-for-funding'
+        ]
     }),
     contact: staticRoute({
         path: '/contact',
