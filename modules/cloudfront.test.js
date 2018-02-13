@@ -178,7 +178,7 @@ describe('Cloudfront Helpers', () => {
         });
 
         it('should generate the correct section/page path', done => {
-            const urls =  generateUrlList(testRoutes);
+            const urls = generateUrlList(testRoutes);
             expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
             done();
         });

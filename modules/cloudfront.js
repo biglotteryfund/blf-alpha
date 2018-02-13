@@ -91,7 +91,7 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
         // Strip trailing slashes
         // fixes /welsh => /welsh/ homepage confusion
         // but doesn't break root/homepage '/' path
-        behaviour.PathPattern = stripTrailingSlashes(pathPattern)
+        behaviour.PathPattern = stripTrailingSlashes(pathPattern);
     }
 
     const shouldAllowQueryStrings = isLegacy || queryStringWhitelist;
