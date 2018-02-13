@@ -13,7 +13,6 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             live: true
         });
 
@@ -25,7 +24,6 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             live: false
         });
     });
@@ -38,7 +36,6 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             static: true,
             live: true
         });
@@ -52,7 +49,6 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             static: false,
             live: true
         });
@@ -66,7 +62,6 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             useCmsContent: true,
             live: true
         });
@@ -80,7 +75,7 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: true,
-            allowQueryStrings: true,
+            queryStrings: [],
             live: true
         });
     });
@@ -90,7 +85,6 @@ describe('Route types', () => {
             path: '/from/url',
             destination: '/to/url',
             isPostable: false,
-            allowQueryStrings: false,
             live: true
         });
     });

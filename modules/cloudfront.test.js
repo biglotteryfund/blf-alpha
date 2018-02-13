@@ -13,7 +13,6 @@ describe('Cloudfront Helpers', () => {
                 originServer: 'BLF_EXAMPLE',
                 pathPattern: '/',
                 isPostable: false,
-                allowQueryStrings: false,
                 cookiesInUse: ['example']
             });
 
@@ -70,7 +69,6 @@ describe('Cloudfront Helpers', () => {
                 originServer: 'BLF_EXAMPLE',
                 pathPattern: '/',
                 isPostable: true,
-                allowQueryStrings: true,
                 queryStringWhitelist: ['a', 'b', 'c'],
                 cookiesInUse: ['example']
             });
@@ -161,7 +159,6 @@ describe('Cloudfront Helpers', () => {
                     path: '/global-content/programmes/example',
                     destination: '/funding/programmes/example',
                     isPostable: false,
-                    allowQueryStrings: false,
                     live: true
                 }
             ],

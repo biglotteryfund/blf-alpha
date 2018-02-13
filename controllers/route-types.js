@@ -51,7 +51,6 @@ function createSection({ path, controllerPath, langTitlePath }) {
  */
 const defaults = {
     isPostable: false,
-    allowQueryStrings: false,
     live: false
 };
 
@@ -131,7 +130,7 @@ function cmsRoute(props) {
 function legacyRoute(props) {
     const legacyDefaults = {
         isPostable: true,
-        allowQueryStrings: true,
+        queryStrings: [], // Empty array defaults to all query strings
         live: true
     };
     return Object.assign({}, legacyDefaults, props);

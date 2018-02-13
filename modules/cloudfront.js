@@ -7,7 +7,6 @@ const makeBehaviourItem = ({
     originServer,
     pathPattern,
     isPostable,
-    allowQueryStrings,
     queryStringWhitelist,
     cookiesInUse
 }) => {
@@ -101,7 +100,7 @@ const makeBehaviourItem = ({
         Compress: false
     };
 
-    const shouldAllowQueryStrings = isLegacy || allowQueryStrings;
+    const shouldAllowQueryStrings = isLegacy || queryStringWhitelist;
     if (shouldAllowQueryStrings) {
         const whitelist = queryStringWhitelist || [];
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
@@ -124,8 +123,7 @@ function makeUrlObject(page, customPath) {
     return {
         path: customPath || page.path,
         isPostable: page.isPostable || false,
-        allowQueryStrings: page.allowQueryStrings || false,
-        queryStringWhitelist: page.queryStringWhitelist || []
+        queryStrings: page.queryStrings || false
     };
 }
 

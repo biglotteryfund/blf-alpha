@@ -38,8 +38,7 @@ const generateBehaviours = (distribution, environment) => {
                         originServer: originServer,
                         pathPattern: url.path,
                         isPostable: url.isPostable,
-                        allowQueryStrings: url.allowQueryStrings,
-                        queryStringWhitelist: url.queryStringWhitelist,
+                        queryStringWhitelist: url.queryStrings,
                         cookiesInUse: cookiesInUse
                     })
                 );
