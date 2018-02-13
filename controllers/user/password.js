@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 
 const mail = require('../../modules/mail');
-const getSecret = require('../../modules/get-secret');
+const { getSecret } = require('../../modules/secrets');
 const userService = require('../../services/user');
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
 

@@ -90,6 +90,16 @@ describe('Basic server tests', () => {
         return Promise.all(vanityRedirectAssertions);
     });
 
+    it('should pass unknown routes to the legacy site', () => {
+        return chai
+            .request(server)
+            .get('/about-big/publications/corporate-documents')
+            .then(res => {
+                expect(res.status).to.equal(200);
+                expect(res.text).to.include('Read our annual reports and accounts');
+            });
+    });
+
     it('should 404 everything else', () => {
         return chai
             .request(server)

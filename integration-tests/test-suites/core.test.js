@@ -56,7 +56,7 @@ describe('Core sections and features', () => {
             testSection({ urlPath: '/', activeSection: 'toplevel' }),
             testSection({ urlPath: '/funding', activeSection: 'funding' }),
             testSection({ urlPath: '/research', activeSection: 'research' }),
-            testSection({ urlPath: '/about-big', activeSection: 'about-big' }),
+            testSection({ urlPath: '/about', activeSection: 'about' }),
             testSection({ urlPath: '/funding/programmes', activeSection: 'funding' })
         ]);
     });
@@ -130,6 +130,35 @@ describe('Core sections and features', () => {
                 const { document } = new JSDOM(res.text).window;
                 const programmes = document.querySelectorAll('.qa-programme-card');
                 expect(programmes.length).to.be.at.least(2);
+            });
+    });
+
+    it('should redirect search queries to a google site search', () => {
+        return chai
+            .request(server)
+            .get('/search')
+            .query({
+                q: 'This is my search query'
+            })
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(302);
+                expect(res).to.redirectTo(
+                    'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+This%20is%20my%20search%20query'
+                );
+            });
+    });
+
+    it('should redirect legacy site search queries to google site search', () => {
+        return chai
+            .request(server)
+            .get('/search?lang=en-GB&amp;q=something&amp;type=All&amp;order=r')
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(302);
+                expect(res).to.redirectTo('https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+something');
             });
     });
 });

@@ -28,8 +28,8 @@ const sections = {
         langTitlePath: 'global.nav.research',
         controllerPath: path.resolve(__dirname, './research')
     }),
-    'about-big': createSection({
-        path: '/about-big', // @TODO: Rename launching about page
+    about: createSection({
+        path: '/about',
         langTitlePath: 'global.nav.about',
         controllerPath: path.resolve(__dirname, './about')
     })
@@ -49,6 +49,9 @@ sections.toplevel.addRoutes({
             '/index.html',
             '/en-gb',
             '/england',
+            '/wales',
+            '/scotland',
+            '/northernireland',
             '/uk-wide',
             '/funding/funding-guidance/applying-for-funding'
         ]
@@ -101,6 +104,11 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/working-families',
         lang: 'toplevel.helpingWorkingFamilies',
         aliases: ['/global-content/programmes/wales/helping-working-families']
+    }),
+    search: dynamicRoute({
+        path: '/search',
+        allowQueryStrings: true,
+        live: true
     })
 });
 
@@ -177,10 +185,16 @@ sections.funding.addRoutes({
     programmeDetailAfaEngland: dynamicRoute({
         path: '/programmes/national-lottery-awards-for-all-england'
     }),
-    buildingBetterOpportunites: cmsRoute({
+    buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
         aliases: [
             '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
+        ]
+    }),
+    buildingBetterOpportunitiesResources: cmsRoute({
+        path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
+        aliases: [
+            '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
         ]
     }),
     informationChecks: cmsRoute({
@@ -207,39 +221,31 @@ sections.research.addRoutes({
 /**
  * About Routes
  */
-sections['about-big'].addRoutes({
+sections.about.addRoutes({
     root: staticRoute({
         path: '/',
         template: 'pages/toplevel/about',
-        lang: 'toplevel.about',
-        live: false,
-        aliases: [
-            // 'about-big'
-        ]
+        lang: 'about.landing',
+        live: true,
+        aliases: ['/about-big']
     }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',
         template: 'pages/about/freedom-of-information',
         lang: 'about.foi',
-        aliases: [
-            // '/about-big/customer-service/freedom-of-information',
-            '/freedom-of-information'
-        ]
+        aliases: ['/about-big/customer-service/freedom-of-information', '/freedom-of-information']
     }),
     dataProtection: staticRoute({
         path: '/customer-service/data-protection',
         template: 'pages/about/data-protection',
         lang: 'about.dataProtection',
-        aliases: [
-            // '/about-big/customer-service/data-protection,
-            '/data-protection'
-        ]
+        aliases: ['/about-big/customer-service/data-protection', '/data-protection']
     }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
         isPostable: true,
-        aliases: ['/about-big/ebulletin-subscription', '/ebulletin']
+        aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
     })
 });
 

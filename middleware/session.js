@@ -4,7 +4,7 @@ const session = require('express-session');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const models = require('../models/index');
-const getSecret = require('../modules/get-secret');
+const { getSecret } = require('../modules/secrets');
 const appData = require('../modules/appData');
 
 module.exports = function(app) {

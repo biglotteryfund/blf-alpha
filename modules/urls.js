@@ -1,4 +1,5 @@
 const config = require('config');
+const { includes, reduce } = require('lodash');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
 
@@ -58,6 +59,11 @@ function getBaseUrl(req) {
     return baseUrl;
 }
 
+function getFullUrl(req) {
+    const baseUrl = getBaseUrl(req);
+    return `${baseUrl}${req.originalUrl}`;
+}
+
 /**
  * hasTrailingSlash
  * Does a given URL end with a trailing slash
@@ -78,6 +84,26 @@ function stripTrailingSlashes(urlPath) {
     return urlPath;
 }
 
+/**
+ * Normalize query
+ * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
+ * urlencoded &amp; needs to be normalised when fetching individual query param
+ */
+function normaliseQuery(originalQuery) {
+    function reducer(newQuery, value, key) {
+        const prefix = 'amp;';
+        if (includes(key, prefix)) {
+            newQuery[key.replace(prefix, '')] = value;
+        } else {
+            newQuery[key] = value;
+        }
+
+        return newQuery;
+    }
+
+    return reduce(originalQuery, reducer, {});
+}
+
 module.exports = {
     WELSH_REGEX,
     isWelsh,
@@ -86,6 +112,8 @@ module.exports = {
     localify,
     cymreigio,
     getBaseUrl,
+    getFullUrl,
     hasTrailingSlash,
-    stripTrailingSlashes
+    stripTrailingSlashes,
+    normaliseQuery
 };

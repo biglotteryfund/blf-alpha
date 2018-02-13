@@ -6,8 +6,8 @@ const rp = require('request-promise-native');
 const config = require('config');
 const xss = require('xss');
 
-const analytics = require('../../modules/analytics');
-const getSecret = require('../../modules/get-secret');
+const { customEvent } = require('../../modules/analytics');
+const { getSecret } = require('../../modules/secrets');
 const cached = require('../../middleware/cached');
 
 function init({ router, routeConfig, sectionPath }) {
@@ -22,6 +22,7 @@ function init({ router, routeConfig, sectionPath }) {
         })
         // send form data to the (third party) email newsletter provider
         // @TODO translate these error messages
+        // see https://github.com/ctavan/express-validator/issues/466#issuecomment-365220272
         .post(
             cached.noCache,
             [
@@ -72,7 +73,7 @@ function init({ router, routeConfig, sectionPath }) {
                     };
 
                     let handleSignupSuccess = () => {
-                        analytics.track('emailNewsletter', 'signup', newsletterLocation);
+                        customEvent('emailNewsletter', 'signup', newsletterLocation);
                         req.flash('ebulletinStatus', 'success');
                         req.session.save(() => {
                             return res.redirect(ebulletinPath);

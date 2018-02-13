@@ -10,7 +10,7 @@ const app = require('../../server');
 const ordersService = require('../../services/orders');
 const mail = require('../../modules/mail');
 const cached = require('../../middleware/cached');
-const getSecret = require('../../modules/get-secret');
+const { getSecret } = require('../../modules/secrets');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),

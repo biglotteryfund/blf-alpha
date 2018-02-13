@@ -1,30 +1,10 @@
 const queryString = require('query-string');
-const { includes, reduce, toString } = require('lodash');
+const { toString } = require('lodash');
 
 const { legacyProxiedRoutes } = require('../routes');
-const { localify } = require('../../modules/urls');
+const { localify, normaliseQuery } = require('../../modules/urls');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { redirectWithError } = require('../http-errors');
-
-/**
- * Normalize query
- * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
- * urlencoded &amp; needs to be normalised when fetching individual query param
- */
-function normaliseQuery(originalQuery) {
-    function reducer(newQuery, value, key) {
-        const prefix = 'amp;';
-        if (includes(key, prefix)) {
-            newQuery[key.replace(prefix, '')] = value;
-        } else {
-            newQuery[key] = value;
-        }
-
-        return newQuery;
-    }
-
-    return reduce(originalQuery, reducer, {});
-}
 
 function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
     originalAreaQuery = toString(originalAreaQuery).toLowerCase();
@@ -66,7 +46,11 @@ function initLegacyFundingFinder(router) {
 
                 if (showClosed) {
                     // Proxy legacy funding finder for closed programmes
-                    proxyLegacyPage(req, res, dom => dom, mountPath).catch(error => {
+                    proxyLegacyPage({
+                        req,
+                        res,
+                        pathOverride: mountPath
+                    }).catch(error => {
                         redirectWithError(res, error, '/funding/programmes');
                     });
                 } else {
@@ -88,12 +72,11 @@ function initLegacyFundingFinder(router) {
     });
 }
 
-function init(router) {
+function init({ router }) {
     initLegacyFundingFinder(router);
 }
 
 module.exports = {
     init,
-    normaliseQuery,
     reformatQueryString
 };

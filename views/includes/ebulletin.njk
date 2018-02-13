@@ -1,6 +1,6 @@
 {% from "components/forms.njk" import textInput, radios with context %}
 
-<form method="post" action="/about-big/ebulletin">
+<form method="post" action="/about/ebulletin">
     <h3 class="t1 t--underline accent--pink a--text">{{ __('toplevel.ebulletin.title') }}</h3>
     {% if request.flash and request.flash('ebulletinStatus') %}
         {% if request.flash('ebulletinStatus') === 'success' %}

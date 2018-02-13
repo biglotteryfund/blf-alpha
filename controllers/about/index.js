@@ -1,13 +1,18 @@
 'use strict';
 const express = require('express');
+
+const routerSetup = require('../setup');
+const routeStatic = require('../utils/routeStatic');
+const ebulletinRoute = require('./ebulletin');
+
 const router = express.Router();
 
-const ebulletinRoute = require('./ebulletin');
-const routeStatic = require('../utils/routeStatic');
-const addSection = require('../../middleware/addSection');
-
 module.exports = (pages, sectionPath, sectionId) => {
-    router.use(addSection(sectionId));
+    routerSetup({
+        router,
+        pages,
+        sectionId
+    });
 
     ebulletinRoute.init({
         router: router,
