@@ -71,6 +71,5 @@ function init({ router }) {
 
 module.exports = {
     init,
-    normaliseQuery,
     reformatQueryString
 };
