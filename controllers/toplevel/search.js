@@ -1,12 +1,15 @@
 const querystring = require('querystring');
 const { noCache } = require('../../middleware/cached');
-const { trackPageview } = require('../../modules/analytics');
+const { customEvent } = require('../../modules/analytics');
+const { normaliseQuery } = require('../../modules/urls');
 
 function init({ router, routeConfig }) {
     const queryBase = 'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk';
     router.get(routeConfig.path, noCache, (req, res) => {
+        req.query = normaliseQuery(req.query);
+
         if (req.query.q) {
-            trackPageview(req);
+            customEvent('Search', 'Term', req.q);
             res.redirect(`${queryBase}+${querystring.escape(req.query.q)}`);
         } else {
             res.redirect('/');

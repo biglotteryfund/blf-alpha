@@ -1,29 +1,9 @@
 const queryString = require('query-string');
-const { includes, reduce, toString } = require('lodash');
+const { toString } = require('lodash');
 
 const { legacyProxiedRoutes } = require('../routes');
-const { localify } = require('../../modules/urls');
+const { localify, normaliseQuery } = require('../../modules/urls');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
-
-/**
- * Normalize query
- * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
- * urlencoded &amp; needs to be normalised when fetching individual query param
- */
-function normaliseQuery(originalQuery) {
-    function reducer(newQuery, value, key) {
-        const prefix = 'amp;';
-        if (includes(key, prefix)) {
-            newQuery[key.replace(prefix, '')] = value;
-        } else {
-            newQuery[key] = value;
-        }
-
-        return newQuery;
-    }
-
-    return reduce(originalQuery, reducer, {});
-}
 
 function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
     originalAreaQuery = toString(originalAreaQuery).toLowerCase();

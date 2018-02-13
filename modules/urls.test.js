@@ -3,7 +3,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { getBaseUrl, isWelsh, localify, hasTrailingSlash, stripTrailingSlashes } = require('./urls');
+const { getBaseUrl, isWelsh, localify, hasTrailingSlash, stripTrailingSlashes, normaliseQuery } = require('./urls');
 const httpMocks = require('node-mocks-http');
 
 describe('URL Helpers', () => {
@@ -105,6 +105,24 @@ describe('URL Helpers', () => {
             expect(stripTrailingSlashes(pathWithSlash)).to.equal('/foo');
             expect(stripTrailingSlashes(pathWithoutSlash)).to.equal('/bar');
             expect(stripTrailingSlashes(pathToHomepage)).to.equal('/');
+        });
+    });
+
+    describe('#normaliseQuery', () => {
+        it('should normalise &amp; encoding in query strings', () => {
+            expect(
+                normaliseQuery({
+                    area: 'England',
+                    'amp;amount': '10001 - 50000',
+                    'amp;org': 'Voluntary or community organisation',
+                    'amp;sc': '1'
+                })
+            ).to.eql({
+                area: 'England',
+                amount: '10001 - 50000',
+                org: 'Voluntary or community organisation',
+                sc: '1'
+            });
         });
     });
 });
