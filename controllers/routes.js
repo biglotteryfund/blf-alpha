@@ -169,7 +169,7 @@ sections.funding.addRoutes({
         path: '/programmes',
         template: 'pages/funding/programmes',
         lang: 'funding.programmes',
-        allowQueryStrings: true
+        queryStrings: ['location', 'amount', 'min', 'max']
     }),
     programmeDetail: dynamicRoute({
         path: '/programmes/*'
@@ -277,16 +277,15 @@ const otherUrls = [
     }),
     basicRoute({
         path: '/tools/*',
-        isPostable: true,
-        allowQueryStrings: true
+        isPostable: true
     }),
     basicRoute({
         path: '/contrast/*',
-        allowQueryStrings: true
+        queryStrings: ['url']
     }),
     basicRoute({
         path: '/surveys',
-        allowQueryStrings: true,
+        queryStrings: ['path'],
         live: true
     }),
     basicRoute({
@@ -296,11 +295,10 @@ const otherUrls = [
     basicRoute({
         path: '/user/*',
         isPostable: true,
-        allowQueryStrings: true
+        queryStrings: ['token']
     }),
-    basicRoute({
+    legacyRoute({
         path: '*~/link.aspx',
-        allowQueryStrings: true,
         live: true
     })
 ];

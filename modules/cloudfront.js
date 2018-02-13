@@ -2,14 +2,7 @@ const { assign, filter, forEach } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
 // create a JSON object configured for the legacy/new paths
-const makeBehaviourItem = ({
-    origin,
-    originServer,
-    pathPattern,
-    isPostable,
-    queryStringWhitelist,
-    cookiesInUse
-}) => {
+const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, queryStringWhitelist, cookiesInUse }) => {
     // configure headers, cookies and origin servers for paths
     const BehaviourConfig = {
         protocols: {
