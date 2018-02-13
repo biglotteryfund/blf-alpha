@@ -2,9 +2,34 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { basicRoute, staticRoute, dynamicRoute, cmsRoute, legacyRoute, vanity } = require('./route-types');
+const {
+    createSection,
+    basicRoute,
+    staticRoute,
+    dynamicRoute,
+    cmsRoute,
+    legacyRoute,
+    vanity
+} = require('./route-types');
 
-describe('Route types', () => {
+describe.only('Route types', () => {
+    it('should create a new section', () => {
+        const section = createSection({
+            path: '/example',
+            langTitlePath: 'global.nav.about'
+        });
+
+        section.addRoutes({
+            exampleSection: staticRoute({
+                path: '/some/url'
+            })
+        });
+
+        expect(section.path).to.equal('/example');
+        expect(section.find('exampleSection')).to.equal('/example/some/url');
+        expect(() => section.find('doesNotExist')).to.throw('No route found for doesNotExist');
+    });
+
     it('should define a basic route schema', () => {
         expect(
             basicRoute({

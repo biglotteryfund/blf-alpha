@@ -10,7 +10,7 @@
     "test-deps": "snyk test",
     "test-client": "mocha assets/**/*.test.js --bail --exit",
     "test-helpers": "nyc --include={middleware,modules,services}/**/*.js --all mocha {middleware,modules,services}/**/*.test.js --bail --exit",
-    "test-controllers": "nyc mocha controllers/**/*.test.js --bail --exit",
+    "test-controllers": "nyc mocha controllers/{**/*,*}.test.js --bail --exit",
     "test-unit": "npm run test-client && npm run test-helpers && npm run test-controllers",
     "test-integration": "mocha integration-tests/integration-tests.js --bail --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
