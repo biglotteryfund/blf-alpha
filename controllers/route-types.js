@@ -51,7 +51,8 @@ function createSection({ path, controllerPath, langTitlePath }) {
  */
 const defaults = {
     isPostable: false,
-    live: false
+    live: false,
+    queryStrings: false
 };
 
 /**
