@@ -16,7 +16,7 @@ function parseSecrets(rawParameters) {
     return secrets;
 }
 
-function getSecretFromRawParamters(rawParameters, name) {
+function getSecretFromRawParameters(rawParameters, name) {
     const secrets = parseSecrets(rawParameters);
     const secret = get(name)(secrets);
     if (secret) {
@@ -32,12 +32,12 @@ function getSecret(name) {
         console.warn(`Secret "${name}" not found: are you in CI or DEVELOPMENT mode?`);
         return;
     } else {
-        return getSecretFromRawParamters(rawParameters, name);
+        return getSecretFromRawParameters(rawParameters, name);
     }
 }
 
 module.exports = {
     getRawParameters,
-    getSecretFromRawParamters,
+    getSecretFromRawParameters,
     getSecret
 };
