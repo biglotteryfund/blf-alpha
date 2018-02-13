@@ -46,7 +46,11 @@ function initLegacyFundingFinder(router) {
 
                 if (showClosed) {
                     // Proxy legacy funding finder for closed programmes
-                    proxyLegacyPage(req, res, dom => dom, mountPath).catch(error => {
+                    proxyLegacyPage({
+                        req,
+                        res,
+                        pathOverride: mountPath
+                    }).catch(error => {
                         redirectWithError(res, error, '/funding/programmes');
                     });
                 } else {

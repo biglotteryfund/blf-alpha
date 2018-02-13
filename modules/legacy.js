@@ -12,7 +12,7 @@ const { customEvent } = require('../modules/analytics');
 
 const legacyUrl = config.get('legacyDomain');
 
-const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
+const proxyLegacyPage = ({ req, res, domModifications, pathOverride, followRedirect = true }) => {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
@@ -27,6 +27,7 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
         qs: req.query,
         strictSSL: false,
         jar: true,
+        followRedirect: followRedirect,
         resolveWithFullResponse: true
     }).then(response => {
         let body = response.body;
@@ -99,7 +100,11 @@ const proxyLegacyPage = (req, res, domModifications, pathOverride) => {
 };
 
 const proxyPassthrough = (req, res, next) => {
-    return proxyLegacyPage(req, res, dom => dom).catch(() => {
+    return proxyLegacyPage({
+        req,
+        res,
+        followRedirect: false
+    }).catch(function() {
         next();
     });
 };

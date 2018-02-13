@@ -8,7 +8,7 @@ const { sampleSize } = require('lodash');
 const helper = require('../helper');
 const { vanityRedirects } = require('../../controllers/routes');
 
-describe.only('Basic server tests', () => {
+describe('Basic server tests', () => {
     let server;
 
     before(done => {
