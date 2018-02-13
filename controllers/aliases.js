@@ -18,6 +18,9 @@ const archivedRoutes = [
  * Legacy Redirects
  */
 const legacyRedirects = [
+    aliasFor('/funding', '/funding-uk'),
+    aliasFor('/funding', '/funding/funding-guidance'),
+    aliasFor('/funding', '/funding/funding-guidance/applying-for-funding'),
     aliasFor('/funding/programmes', '/Home/Funding/Funding*Finder'),
     aliasFor('/funding/programmes?location=scotland', '/funding/scotland-portfolio'),
     aliasFor(
