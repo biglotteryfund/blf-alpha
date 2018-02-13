@@ -120,9 +120,18 @@ function makeUrlObject(page, customPath) {
     };
 }
 
+function hasSpecialRequirements(route) {
+    return !!(route.queryStrings);
+}
+
 function isLive(route) {
     return route.live === true;
 }
+
+function pageNeedsCustomRouting(page) {
+    return isLive(page) && hasSpecialRequirements(page);
+}
+
 
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
@@ -143,24 +152,14 @@ function generateUrlList(routes) {
         for (let p in pages) {
             let page = pages[p];
             let url = section.path + page.path;
-            if (page.live) {
+
+            if (pageNeedsCustomRouting(page)) {
                 if (page.isWildcard) {
                     url += '*';
                 }
                 // create route mapping for canonical URLs
                 urlList.newSite.push(makeUrlObject(page, url));
                 urlList.newSite.push(makeUrlObject(page, makeWelsh(url)));
-
-                // add redirects for aliases
-                if (page.aliases) {
-                    page.aliases.forEach(alias => {
-                        const pageObject = { path: alias };
-                        urlList.newSite.push(makeUrlObject(pageObject));
-                        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(alias)));
-                    });
-                }
-            } else {
-                console.log(`Skipping URL because it's marked as draft: ${url}`);
             }
         }
     }
@@ -175,20 +174,20 @@ function generateUrlList(routes) {
     }
 
     // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
     forEach(liveLegacyRoutes, pushRouteConfig);
 
     // Legacy redirects
-    routes.legacyRedirects.filter(isLive).forEach(pushDualRouteConfig);
+    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
 
     // Archived routes
-    routes.archivedRoutes.filter(isLive).forEach(pushDualRouteConfig);
+    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
 
     // Vanity URLs
-    routes.vanityRedirects.filter(isLive).forEach(pushRouteConfig);
+    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     // Other Routes
-    routes.otherUrls.filter(isLive).forEach(pushRouteConfig);
+    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     return urlList;
 }
