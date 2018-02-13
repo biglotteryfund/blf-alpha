@@ -149,4 +149,16 @@ describe('Core sections and features', () => {
                 );
             });
     });
+
+    it('should redirect legacy site search queries to google site search', () => {
+        return chai
+            .request(server)
+            .get('/search?lang=en-GB&amp;q=something&amp;type=All&amp;order=r')
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res).to.have.status(302);
+                expect(res).to.redirectTo('https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+something');
+            });
+    });
 });
