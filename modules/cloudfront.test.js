@@ -172,26 +172,26 @@ describe('Cloudfront Helpers', () => {
         };
 
         it('should filter out non-custom routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(2);
+            const urls = generateUrlList(testRoutes);
+            expect(urls.length).to.equal(2);
             done();
         });
 
         it('should generate the correct section/page path', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
+            const urls =  generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
             done();
         });
 
         it('should generate welsh versions of canonical routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
             done();
         });
 
         it('should store properties against routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
             done();
         });
     });

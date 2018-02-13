@@ -41,11 +41,6 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
     const isLegacy = origin !== 'newSite';
     const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
 
-    // Strip trailing slashes
-    // fixes /welsh => /welsh/ homepage confusion
-    // but doesn't break root/homepage '/' path
-    const cleanPathPattern = stripTrailingSlashes(pathPattern);
-
     // Use all HTTP methods for legacy
     const allowedHttpMethods =
         isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
@@ -78,7 +73,6 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
             QueryString: false
         },
         MaxTTL: BehaviourConfig.TTLs.max,
-        PathPattern: cleanPathPattern,
         SmoothStreaming: false,
         DefaultTTL: BehaviourConfig.TTLs.default,
         AllowedMethods: {
@@ -92,6 +86,13 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
         MinTTL: BehaviourConfig.TTLs.min,
         Compress: false
     };
+
+    if (pathPattern) {
+        // Strip trailing slashes
+        // fixes /welsh => /welsh/ homepage confusion
+        // but doesn't break root/homepage '/' path
+        behaviour.PathPattern = stripTrailingSlashes(pathPattern)
+    }
 
     const shouldAllowQueryStrings = isLegacy || queryStringWhitelist;
     if (shouldAllowQueryStrings) {
@@ -135,13 +136,7 @@ function pageNeedsCustomRouting(page) {
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
 function generateUrlList(routes) {
-    // keys here are mapped to origin servers in the Cloudfront distribution config
-    let urlList = {
-        // if anything is added here, the TEST Cloudfront distribution
-        // will fail to update as it doesn't have a legacy origin.
-        legacy: [],
-        newSite: []
-    };
+    const urls = [];
 
     // add auto URLs from route config
     for (let s in routes.sections) {
@@ -157,19 +152,19 @@ function generateUrlList(routes) {
                     url += '*';
                 }
                 // create route mapping for canonical URLs
-                urlList.newSite.push(makeUrlObject(page, url));
-                urlList.newSite.push(makeUrlObject(page, makeWelsh(url)));
+                urls.push(makeUrlObject(page, url));
+                urls.push(makeUrlObject(page, makeWelsh(url)));
             }
         }
     }
 
     function pushRouteConfig(routeConfig) {
-        urlList.newSite.push(makeUrlObject(routeConfig));
+        urls.push(makeUrlObject(routeConfig));
     }
 
     function pushDualRouteConfig(routeConfig) {
-        urlList.newSite.push(makeUrlObject(routeConfig));
-        urlList.newSite.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
+        urls.push(makeUrlObject(routeConfig));
+        urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
     }
 
     // Legacy proxied routes
@@ -188,7 +183,7 @@ function generateUrlList(routes) {
     // Other Routes
     routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
-    return urlList;
+    return urls;
 }
 
 module.exports = {
