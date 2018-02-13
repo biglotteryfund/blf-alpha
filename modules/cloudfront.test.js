@@ -131,8 +131,9 @@ describe('Cloudfront Helpers', () => {
                             path: '/monkey/dishwasher',
                             live: true,
                             isWildcard: false,
-                            isPostable: false,
-                            aliases: ['/green/orangutan/fridge']
+                            isPostable: true,
+                            aliases: ['/green/orangutan/fridge'],
+                            queryStrings: ['foo', 'bar']
                         }
                     }
                 }
@@ -170,9 +171,9 @@ describe('Cloudfront Helpers', () => {
             ]
         };
 
-        it('should filter out non-live routes', done => {
+        it('should filter out non-custom routes', done => {
             let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(10);
+            expect(urlList.newSite.length).to.equal(2);
             done();
         });
 
@@ -190,7 +191,7 @@ describe('Cloudfront Helpers', () => {
 
         it('should store properties against routes', done => {
             let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/unicorns')[0].isPostable).to.equal(true);
+            expect(urlList.newSite.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
             done();
         });
     });

@@ -13,7 +13,8 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            live: true
+            live: true,
+            queryStrings: false
         });
 
         expect(
@@ -24,7 +25,8 @@ describe('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            live: false
+            live: false,
+            queryStrings: false
         });
     });
 
@@ -37,20 +39,23 @@ describe('Route types', () => {
             path: '/some/url',
             isPostable: false,
             static: true,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 
     it('should define a dynamic route schema', () => {
         expect(
             dynamicRoute({
-                path: '/some/url'
+                path: '/some/url',
+                queryStrings: ['foo', 'bar']
             })
         ).to.eql({
             path: '/some/url',
             isPostable: false,
             static: false,
-            live: true
+            live: true,
+            queryStrings: ['foo', 'bar']
         });
     });
 
@@ -63,7 +68,8 @@ describe('Route types', () => {
             path: '/some/url',
             isPostable: false,
             useCmsContent: true,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 
@@ -85,7 +91,8 @@ describe('Route types', () => {
             path: '/from/url',
             destination: '/to/url',
             isPostable: false,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 });

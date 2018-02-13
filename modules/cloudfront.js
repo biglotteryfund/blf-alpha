@@ -121,7 +121,7 @@ function makeUrlObject(page, customPath) {
 }
 
 function hasSpecialRequirements(route) {
-    return !!(route.queryStrings);
+    return !!route.queryStrings;
 }
 
 function isLive(route) {
@@ -131,7 +131,6 @@ function isLive(route) {
 function pageNeedsCustomRouting(page) {
     return isLive(page) && hasSpecialRequirements(page);
 }
-
 
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
