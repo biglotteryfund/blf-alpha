@@ -22,6 +22,7 @@ function init({ router, routeConfig, sectionPath }) {
         })
         // send form data to the (third party) email newsletter provider
         // @TODO translate these error messages
+        // see https://github.com/ctavan/express-validator/issues/466#issuecomment-365220272
         .post(
             cached.noCache,
             [
