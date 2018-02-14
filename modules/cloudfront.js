@@ -187,7 +187,15 @@ function generateBehaviours({ routesConfig, origins }) {
     });
 
     // Serve legacy static files
-    const customBehaviours = ['/-/*', '/js/*', '/css/*', '/images/*', '/default.css'].map(path =>
+    const customBehaviours = [
+        '/-/*',
+        '/js/*',
+        '/css/*',
+        '/images/*',
+        '/default.css',
+        '/funding/search-past-grants',
+        '/funding/search-past-grants/*'
+    ].map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
             pathPattern: path,
