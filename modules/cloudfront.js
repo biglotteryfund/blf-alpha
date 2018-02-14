@@ -16,7 +16,7 @@ function makeUrlObject(page, customPath) {
 }
 
 function hasSpecialRequirements(route) {
-    return route.allowAllQueryStrings || route.queryStrings.length > 0;
+    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0);
 }
 
 function isLive(route) {
