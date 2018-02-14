@@ -1,120 +1,6 @@
-const { assign, filter, forEach } = require('lodash');
+const config = require('config');
+const { assign, concat, filter, forEach, map, sortBy } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-
-// create a JSON object configured for the legacy/new paths
-const makeBehaviourItem = ({
-    origin,
-    originServer,
-    pathPattern,
-    isPostable,
-    allowQueryStrings,
-    queryStringWhitelist,
-    cookiesInUse
-}) => {
-    // configure headers, cookies and origin servers for paths
-    const BehaviourConfig = {
-        protocols: {
-            redirectToHttps: 'redirect-to-https',
-            allowAll: 'allow-all'
-        },
-        httpMethods: {
-            getOnly: ['HEAD', 'GET'],
-            getAndPost: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
-        },
-        TTLs: {
-            min: 0,
-            max: 31536000,
-            default: 86400
-        },
-        newSite: {
-            headersToKeep: ['Accept', 'Host'],
-            cookies: {
-                Forward: 'whitelist',
-                WhitelistedNames: {
-                    Items: cookiesInUse,
-                    Quantity: cookiesInUse.length
-                }
-            }
-        },
-        legacy: {
-            headersToKeep: ['*'],
-            cookies: {
-                Forward: 'all'
-            }
-        }
-    };
-
-    // The new site is properly cached, the legacy is not
-    // so anything legacy should not cache cookies, headers, etc
-    const isLegacy = origin !== 'newSite';
-    const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
-
-    // Strip trailing slashes
-    // fixes /welsh => /welsh/ homepage confusion
-    // but doesn't break root/homepage '/' path
-    const cleanPathPattern = stripTrailingSlashes(pathPattern);
-
-    // Use all HTTP methods for legacy
-    const allowedHttpMethods =
-        isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
-
-    // Allow any protocol for legacy, redirect to HTTPS for new
-    const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
-
-    const behaviour = {
-        TrustedSigners: {
-            Enabled: false,
-            Items: [],
-            Quantity: 0
-        },
-        LambdaFunctionAssociations: {
-            Items: [],
-            Quantity: 0
-        },
-        TargetOriginId: originServer,
-        ViewerProtocolPolicy: protocol,
-        ForwardedValues: {
-            Headers: {
-                Items: cacheConfig.headersToKeep,
-                Quantity: cacheConfig.headersToKeep.length
-            },
-            Cookies: cacheConfig.cookies,
-            QueryStringCacheKeys: {
-                Items: [],
-                Quantity: 0
-            },
-            QueryString: false
-        },
-        MaxTTL: BehaviourConfig.TTLs.max,
-        PathPattern: cleanPathPattern,
-        SmoothStreaming: false,
-        DefaultTTL: BehaviourConfig.TTLs.default,
-        AllowedMethods: {
-            Items: allowedHttpMethods,
-            CachedMethods: {
-                Items: ['HEAD', 'GET'],
-                Quantity: 2
-            },
-            Quantity: allowedHttpMethods.length
-        },
-        MinTTL: BehaviourConfig.TTLs.min,
-        Compress: false
-    };
-
-    const shouldAllowQueryStrings = isLegacy || allowQueryStrings;
-    if (shouldAllowQueryStrings) {
-        const whitelist = queryStringWhitelist || [];
-        behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
-            QueryStringCacheKeys: {
-                Items: whitelist,
-                Quantity: whitelist.length
-            },
-            QueryString: true
-        });
-    }
-
-    return behaviour;
-};
 
 /**
  * makeUrlObject
@@ -124,25 +10,26 @@ function makeUrlObject(page, customPath) {
     return {
         path: customPath || page.path,
         isPostable: page.isPostable || false,
-        allowQueryStrings: page.allowQueryStrings || false,
-        queryStringWhitelist: page.queryStringWhitelist || []
+        queryStrings: page.queryStrings || false
     };
+}
+
+function hasSpecialRequirements(route) {
+    return !!route.queryStrings;
 }
 
 function isLive(route) {
     return route.live === true;
 }
 
+function pageNeedsCustomRouting(page) {
+    return isLive(page) && hasSpecialRequirements(page);
+}
+
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
 function generateUrlList(routes) {
-    // keys here are mapped to origin servers in the Cloudfront distribution config
-    let urlList = {
-        // if anything is added here, the TEST Cloudfront distribution
-        // will fail to update as it doesn't have a legacy origin.
-        legacy: [],
-        newSite: []
-    };
+    const urls = [];
 
     // add auto URLs from route config
     for (let s in routes.sections) {
@@ -152,57 +39,188 @@ function generateUrlList(routes) {
         for (let p in pages) {
             let page = pages[p];
             let url = section.path + page.path;
-            if (page.live) {
+
+            if (pageNeedsCustomRouting(page)) {
                 if (page.isWildcard) {
                     url += '*';
                 }
                 // create route mapping for canonical URLs
-                urlList.newSite.push(makeUrlObject(page, url));
-                urlList.newSite.push(makeUrlObject(page, makeWelsh(url)));
-
-                // add redirects for aliases
-                if (page.aliases) {
-                    page.aliases.forEach(alias => {
-                        const pageObject = { path: alias };
-                        urlList.newSite.push(makeUrlObject(pageObject));
-                        urlList.newSite.push(makeUrlObject(pageObject, makeWelsh(alias)));
-                    });
-                }
-            } else {
-                console.log(`Skipping URL because it's marked as draft: ${url}`);
+                urls.push(makeUrlObject(page, url));
+                urls.push(makeUrlObject(page, makeWelsh(url)));
             }
         }
     }
 
     function pushRouteConfig(routeConfig) {
-        urlList.newSite.push(makeUrlObject(routeConfig));
+        urls.push(makeUrlObject(routeConfig));
     }
 
     function pushDualRouteConfig(routeConfig) {
-        urlList.newSite.push(makeUrlObject(routeConfig));
-        urlList.newSite.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
+        urls.push(makeUrlObject(routeConfig));
+        urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
     }
 
     // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, isLive);
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
     forEach(liveLegacyRoutes, pushRouteConfig);
 
     // Legacy redirects
-    routes.legacyRedirects.filter(isLive).forEach(pushDualRouteConfig);
+    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
 
     // Archived routes
-    routes.archivedRoutes.filter(isLive).forEach(pushDualRouteConfig);
+    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
 
     // Vanity URLs
-    routes.vanityRedirects.filter(isLive).forEach(pushRouteConfig);
+    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     // Other Routes
-    routes.otherUrls.filter(isLive).forEach(pushRouteConfig);
+    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
-    return urlList;
+    return urls;
+}
+
+const makeBehaviourItem = ({
+    originId,
+    pathPattern,
+    isPostable,
+    cookiesInUse = [],
+    allowAllCookies = false,
+    queryStringWhitelist = [],
+    allowAllQueryStrings = false,
+    protocol = 'redirect-to-https',
+    headersToKeep = ['Accept', 'Host']
+}) => {
+    const allowedHttpMethods = isPostable
+        ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
+        : ['HEAD', 'GET'];
+
+    const behaviour = {
+        TargetOriginId: originId,
+        ViewerProtocolPolicy: protocol,
+        MinTTL: 0,
+        MaxTTL: 31536000,
+        DefaultTTL: 86400,
+        Compress: true,
+        SmoothStreaming: false,
+        AllowedMethods: {
+            Items: allowedHttpMethods,
+            Quantity: allowedHttpMethods.length,
+            CachedMethods: {
+                Items: ['HEAD', 'GET'],
+                Quantity: 2
+            }
+        },
+        ForwardedValues: {
+            Headers: {
+                Items: headersToKeep,
+                Quantity: headersToKeep.length
+            },
+            QueryStringCacheKeys: {
+                Items: [],
+                Quantity: 0
+            },
+            QueryString: false
+        },
+        TrustedSigners: {
+            Enabled: false,
+            Items: [],
+            Quantity: 0
+        },
+        LambdaFunctionAssociations: {
+            Items: [],
+            Quantity: 0
+        }
+    };
+
+    if (pathPattern) {
+        behaviour.PathPattern = stripTrailingSlashes(pathPattern);
+    }
+
+    if (allowAllCookies) {
+        behaviour.ForwardedValues.Cookies = {
+            Forward: 'all'
+        };
+    } else if (cookiesInUse.length > 0) {
+        behaviour.ForwardedValues.Cookies = {
+            Forward: 'whitelist',
+            WhitelistedNames: {
+                Items: cookiesInUse,
+                Quantity: cookiesInUse.length
+            }
+        };
+    }
+
+    if (allowAllQueryStrings) {
+        behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
+            QueryStringCacheKeys: {
+                Items: [],
+                Quantity: 0
+            },
+            QueryString: true
+        });
+    } else if (queryStringWhitelist.length > 0) {
+        behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
+            QueryStringCacheKeys: {
+                Items: queryStringWhitelist,
+                Quantity: queryStringWhitelist.length
+            },
+            QueryString: true
+        });
+    }
+
+    return behaviour;
+};
+
+/**
+ * Generate Cloudfront behaviours
+ * construct array of behaviours from a URL list
+ */
+function generateBehaviours({ routesConfig, origins }) {
+    const urlsToSupport = generateUrlList(routesConfig);
+    const cookiesInUse = map(config.get('cookies'), (val, key) => key);
+
+    const defaultBehaviour = makeBehaviourItem({
+        originId: origins.newSite,
+        isPostable: true,
+        cookiesInUse: cookiesInUse
+    });
+
+    const customBehaviours = [
+        makeBehaviourItem({
+            originId: origins.legacy,
+            pathPattern: '/~/*',
+            isPostable: true,
+            allowAllQueryStrings: true,
+            allowAllCookies: true,
+            protocol: 'allow-all',
+            headersToKeep: ['*']
+        })
+    ];
+
+    const primaryBehaviours = urlsToSupport.map(url => {
+        return makeBehaviourItem({
+            originId: origins.newSite,
+            pathPattern: url.path,
+            isPostable: url.isPostable,
+            queryStringWhitelist: url.queryStrings,
+            cookiesInUse: cookiesInUse
+        });
+    });
+
+    const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
+    const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
+
+    return {
+        DefaultCacheBehavior: defaultBehaviour,
+        CacheBehaviors: {
+            Items: sortedBehaviours,
+            Quantity: sortedBehaviours.length
+        }
+    };
 }
 
 module.exports = {
+    generateUrlList,
     makeBehaviourItem,
-    generateUrlList
+    generateBehaviours
 };

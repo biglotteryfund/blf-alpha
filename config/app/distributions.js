@@ -2,6 +2,7 @@ module.exports = {
     test: {
         distributionId: 'E3D5QJTWAG3GDP',
         origins: {
+            legacy: 'Custom-www.biglotteryfund.org.uk',
             newSite: 'ELB-TEST'
         }
     },

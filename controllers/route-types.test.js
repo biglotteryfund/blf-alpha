@@ -38,8 +38,8 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
-            live: true
+            live: true,
+            queryStrings: false
         });
 
         expect(
@@ -50,8 +50,8 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
-            live: false
+            live: false,
+            queryStrings: false
         });
     });
 
@@ -63,23 +63,24 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             static: true,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 
     it('should define a dynamic route schema', () => {
         expect(
             dynamicRoute({
-                path: '/some/url'
+                path: '/some/url',
+                queryStrings: ['foo', 'bar']
             })
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             static: false,
-            live: true
+            live: true,
+            queryStrings: ['foo', 'bar']
         });
     });
 
@@ -91,9 +92,9 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            allowQueryStrings: false,
             useCmsContent: true,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 
@@ -105,7 +106,7 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: true,
-            allowQueryStrings: true,
+            queryStrings: [],
             live: true
         });
     });
@@ -115,8 +116,8 @@ describe.only('Route types', () => {
             path: '/from/url',
             destination: '/to/url',
             isPostable: false,
-            allowQueryStrings: false,
-            live: true
+            live: true,
+            queryStrings: false
         });
     });
 });

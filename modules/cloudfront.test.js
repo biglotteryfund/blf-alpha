@@ -3,79 +3,108 @@
 const chai = require('chai');
 const expect = chai.expect;
 
+const { defaultsDeep } = require('lodash');
 const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
 
 describe('Cloudfront Helpers', () => {
-    describe('#makeBehaviourItem', () => {
-        it('should return cloudfront behaviour for route', () => {
-            const behaviour = makeBehaviourItem({
-                origin: 'newSite',
-                originServer: 'BLF_EXAMPLE',
-                pathPattern: '/',
+    const testRoutes = {
+        sections: {
+            purple: {
+                path: '/purple',
+                pages: {
+                    monkey: {
+                        path: '/monkey/dishwasher',
+                        live: true,
+                        isWildcard: false,
+                        isPostable: true,
+                        aliases: ['/green/orangutan/fridge'],
+                        queryStrings: ['foo', 'bar']
+                    }
+                }
+            }
+        },
+        archivedRoutes: [
+            {
+                path: '/some/archived/path/*',
+                live: true
+            }
+        ],
+        otherUrls: [
+            {
+                path: '/unicorns',
+                isPostable: true,
+                live: true
+            },
+            {
+                path: '/draft',
+                live: false
+            }
+        ],
+        legacyRedirects: [
+            {
+                path: '/global-content/programmes/example',
+                destination: '/funding/programmes/example',
                 isPostable: false,
-                allowQueryStrings: false,
-                cookiesInUse: ['example']
-            });
+                live: true
+            }
+        ],
+        vanityRedirects: [
+            {
+                path: '/test',
+                live: true
+            }
+        ]
+    };
 
-            expect(behaviour).to.eql({
-                TrustedSigners: {
-                    Enabled: false,
-                    Items: [],
-                    Quantity: 0
-                },
-                LambdaFunctionAssociations: {
-                    Items: [],
-                    Quantity: 0
-                },
-                TargetOriginId: 'BLF_EXAMPLE',
-                ViewerProtocolPolicy: 'redirect-to-https',
-                ForwardedValues: {
-                    Headers: {
-                        Items: ['Accept', 'Host'],
+    describe('#generateUrlList', () => {
+        it('should filter out non-custom routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.length).to.equal(2);
+            done();
+        });
+
+        it('should generate the correct section/page path', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
+            done();
+        });
+
+        it('should generate welsh versions of canonical routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
+            done();
+        });
+
+        it('should store properties against routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
+            done();
+        });
+    });
+
+    describe('#makeBehaviourItem', () => {
+        function withDefaults(behaviourConfig) {
+            return defaultsDeep(behaviourConfig, {
+                MinTTL: 0,
+                MaxTTL: 31536000,
+                DefaultTTL: 86400,
+                SmoothStreaming: false,
+                Compress: true,
+                AllowedMethods: {
+                    Items: ['HEAD', 'GET'],
+                    Quantity: 2,
+                    CachedMethods: {
+                        Items: ['HEAD', 'GET'],
                         Quantity: 2
-                    },
-                    Cookies: {
-                        Forward: 'whitelist',
-                        WhitelistedNames: {
-                            Items: ['example'],
-                            Quantity: 1
-                        }
-                    },
+                    }
+                },
+                ForwardedValues: {
                     QueryStringCacheKeys: {
                         Items: [],
                         Quantity: 0
                     },
                     QueryString: false
                 },
-                MaxTTL: 31536000,
-                PathPattern: '/',
-                SmoothStreaming: false,
-                DefaultTTL: 86400,
-                AllowedMethods: {
-                    Items: ['HEAD', 'GET'],
-                    CachedMethods: {
-                        Items: ['HEAD', 'GET'],
-                        Quantity: 2
-                    },
-                    Quantity: 2
-                },
-                MinTTL: 0,
-                Compress: false
-            });
-        });
-
-        it('should allow a query string whitelist', () => {
-            const behaviour = makeBehaviourItem({
-                origin: 'newSite',
-                originServer: 'BLF_EXAMPLE',
-                pathPattern: '/',
-                isPostable: true,
-                allowQueryStrings: true,
-                queryStringWhitelist: ['a', 'b', 'c'],
-                cookiesInUse: ['example']
-            });
-
-            expect(behaviour).to.eql({
                 TrustedSigners: {
                     Enabled: false,
                     Items: [],
@@ -84,117 +113,76 @@ describe('Cloudfront Helpers', () => {
                 LambdaFunctionAssociations: {
                     Items: [],
                     Quantity: 0
-                },
-                TargetOriginId: 'BLF_EXAMPLE',
-                ViewerProtocolPolicy: 'redirect-to-https',
-                ForwardedValues: {
-                    Headers: {
-                        Items: ['Accept', 'Host'],
-                        Quantity: 2
-                    },
-                    Cookies: {
-                        Forward: 'whitelist',
-                        WhitelistedNames: {
-                            Items: ['example'],
-                            Quantity: 1
-                        }
-                    },
-                    QueryStringCacheKeys: {
-                        Items: ['a', 'b', 'c'],
-                        Quantity: 3
-                    },
-                    QueryString: true
-                },
-                MaxTTL: 31536000,
-                PathPattern: '/',
-                SmoothStreaming: false,
-                DefaultTTL: 86400,
-                AllowedMethods: {
-                    Items: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH'],
-                    CachedMethods: {
-                        Items: ['HEAD', 'GET'],
-                        Quantity: 2
-                    },
-                    Quantity: 7
-                },
-                MinTTL: 0,
-                Compress: false
+                }
             });
-        });
-    });
+        }
 
-    describe('#generateUrlList', () => {
-        const testRoutes = {
-            sections: {
-                purple: {
-                    path: '/purple',
-                    pages: {
-                        monkey: {
-                            path: '/monkey/dishwasher',
-                            live: true,
-                            isWildcard: false,
-                            isPostable: false,
-                            aliases: ['/green/orangutan/fridge']
+        it('should return cloudfront behaviour for route', () => {
+            const behaviour = makeBehaviourItem({
+                originId: 'BLF_EXAMPLE',
+                pathPattern: '/',
+                isPostable: false,
+                cookiesInUse: ['example']
+            });
+
+            expect(behaviour).to.eql(
+                withDefaults({
+                    TargetOriginId: 'BLF_EXAMPLE',
+                    ViewerProtocolPolicy: 'redirect-to-https',
+                    PathPattern: '/',
+                    ForwardedValues: {
+                        Headers: {
+                            Items: ['Accept', 'Host'],
+                            Quantity: 2
+                        },
+                        Cookies: {
+                            Forward: 'whitelist',
+                            WhitelistedNames: {
+                                Items: ['example'],
+                                Quantity: 1
+                            }
                         }
                     }
-                }
-            },
-            archivedRoutes: [
-                {
-                    path: '/some/archived/path/*',
-                    live: true
-                }
-            ],
-            otherUrls: [
-                {
-                    path: '/unicorns',
-                    isPostable: true,
-                    live: true
-                },
-                {
-                    path: '/draft',
-                    live: false
-                }
-            ],
-            legacyRedirects: [
-                {
-                    path: '/global-content/programmes/example',
-                    destination: '/funding/programmes/example',
-                    isPostable: false,
-                    allowQueryStrings: false,
-                    live: true
-                }
-            ],
-            vanityRedirects: [
-                {
-                    path: '/test',
-                    live: true
-                }
-            ]
-        };
-
-        it('should filter out non-live routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.length).to.equal(10);
-            done();
+                })
+            );
         });
 
-        it('should generate the correct section/page path', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
-            done();
-        });
+        it('should allow all cookies and querystrings', () => {
+            const behaviour = makeBehaviourItem({
+                originId: 'BLF_LEGACY_EXAMPLE',
+                pathPattern: '/~/*',
+                isPostable: true,
+                allowAllQueryStrings: true,
+                allowAllCookies: true,
+                protocol: 'allow-all',
+                headersToKeep: ['*']
+            });
 
-        it('should generate welsh versions of canonical routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
-            done();
-        });
-
-        it('should store properties against routes', done => {
-            let urlList = generateUrlList(testRoutes);
-            expect(urlList.newSite.filter(r => r.path === '/unicorns')[0].isPostable).to.equal(true);
-            done();
+            expect(behaviour).to.eql(
+                withDefaults({
+                    TargetOriginId: 'BLF_LEGACY_EXAMPLE',
+                    ViewerProtocolPolicy: 'allow-all',
+                    PathPattern: '/~/*',
+                    AllowedMethods: {
+                        Items: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH'],
+                        Quantity: 7
+                    },
+                    ForwardedValues: {
+                        Headers: {
+                            Items: ['*'],
+                            Quantity: 1
+                        },
+                        Cookies: {
+                            Forward: 'all'
+                        },
+                        QueryStringCacheKeys: {
+                            Items: [],
+                            Quantity: 0
+                        },
+                        QueryString: true
+                    }
+                })
+            );
         });
     });
 });

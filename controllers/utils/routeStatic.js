@@ -6,6 +6,7 @@ const contentApi = require('../../services/content-api');
 const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
 const { withFallbackImage } = require('../../modules/images');
+const { shouldServe } = require('../../modules/pageLogic');
 
 /**
  * Redirect any aliases to the canonical path
@@ -90,15 +91,17 @@ function handleStaticPage(page) {
  */
 function init({ pages, router, sectionPath, sectionId }) {
     forEach(pages, page => {
-        // Redirect any aliases to the canonical path
-        setupRedirects(sectionPath, page);
+        if (shouldServe(page.live)) {
+            // Redirect any aliases to the canonical path
+            setupRedirects(sectionPath, page);
 
-        if (page.isLegacyPage) {
-            router.get(page.path, handleLegacyCmsPage(page, sectionId));
-        } else if (page.useCmsContent) {
-            router.get(page.path, handleCmsPage(sectionId));
-        } else if (page.static) {
-            router.get(page.path, handleStaticPage(page));
+            if (page.isLegacyPage) {
+                router.get(page.path, handleLegacyCmsPage(page, sectionId));
+            } else if (page.useCmsContent) {
+                router.get(page.path, handleCmsPage(sectionId));
+            } else if (page.static) {
+                router.get(page.path, handleStaticPage(page));
+            }
         }
     });
 }
