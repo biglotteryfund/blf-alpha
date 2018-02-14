@@ -99,8 +99,14 @@ function toolsSecurityHeaders() {
     return helmetSettings;
 }
 
+function stripCSPHeader(req, res, next) {
+    res.removeHeader('Content-Security-Policy');
+    next();
+}
+
 module.exports = {
     buildSecurityMiddleware,
     defaultSecurityHeaders,
-    toolsSecurityHeaders
+    toolsSecurityHeaders,
+    stripCSPHeader
 };

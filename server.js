@@ -17,7 +17,7 @@ const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
 const redirectsMiddleware = require('./middleware/redirects');
-const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
+const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
 const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
@@ -165,6 +165,7 @@ app.get('/error', (req, res) => {
  */
 app
     .route('*')
+    .all(stripCSPHeader)
     .get(proxyPassthrough)
     .post(postToLegacyForm);
 
