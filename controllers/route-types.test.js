@@ -106,7 +106,7 @@ describe.only('Route types', () => {
         ).to.eql({
             path: '/some/url',
             isPostable: true,
-            queryStrings: [],
+            allowAllQueryStrings: true,
             live: true
         });
     });
