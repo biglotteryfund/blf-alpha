@@ -117,7 +117,34 @@ if (customConfig) {
         });
 }
 
-function beginUpdate(cacheBehaviors) {
+function storeBackup(existingConfig) {
+    try {
+        const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
+        const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
+        const backup = {
+            DefaultCacheBehavior: existingConfig.Distribution.DistributionConfig.DefaultCacheBehavior,
+            CacheBehaviors: existingConfig.Distribution.DistributionConfig.CacheBehaviors
+        };
+        fs.writeFileSync(confPath, JSON.stringify(backup, null, 4));
+        console.log('A copy of the existing config was saved in ' + confPath);
+    } catch (err) {
+        return console.error('Error saving old config', err);
+    }
+}
+
+function listChanges(pathConfigs) {
+    let pathsByOrigin = groupBy(pathConfigs, 'origin');
+    let divider = '=================';
+    for (let origin in pathsByOrigin) {
+        console.log('\n', divider, origin, divider, '\n');
+        pathsByOrigin[origin].forEach(p => {
+            console.log(p.path);
+        });
+        console.log('\n');
+    }
+}
+
+function beginUpdate(savedConfig) {
     // create AWS SDK instance
     AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
     const cloudfront = new AWS.CloudFront();
@@ -135,26 +162,19 @@ function beginUpdate(cacheBehaviors) {
     // handle response from fetching config
     getDistributionConfig
         .then(existingConfig => {
-            // fetching the config worked
-
             // store the existing behaviour config locally, just in case...
-            try {
-                const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-                const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
-                let existingBehaviours = existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items;
-                fs.writeFileSync(confPath, JSON.stringify(existingBehaviours, null, 4));
-                console.log('A copy of the existing config was saved in ' + confPath);
-            } catch (err) {
-                return console.error('Error saving old config', err);
-            }
+            storeBackup(existingConfig);
 
             // store etag for later update
             const etag = existingConfig.ETag;
 
             // clone the existing config and update the behaviours
-            let newConfigToWrite = cloneDeep(existingConfig);
-            newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items = cacheBehaviors;
-            newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity = cacheBehaviors.length;
+            const newConfigToWrite = cloneDeep(existingConfig);
+            newConfigToWrite.Distribution.DistributionConfig = Object.assign(
+                {},
+                newConfigToWrite.Distribution.DistributionConfig,
+                savedConfig
+            );
 
             // allow for diff/comparison before deploy
             const getUrls = item => {
@@ -172,19 +192,6 @@ function beginUpdate(cacheBehaviors) {
 
             const pathsAdded = filter(paths.after, obj => !find(paths.before, obj));
             const pathsRemoved = filter(paths.before, obj => !find(paths.after, obj));
-
-            const listChanges = paths => {
-                let pathsByOrigin = groupBy(paths, 'origin');
-                let divider = '=================';
-                for (let origin in pathsByOrigin) {
-                    console.log('\n', divider, origin, divider, '\n');
-                    pathsByOrigin[origin].forEach(p => {
-                        console.log(p.path);
-                    });
-                    console.log('\n');
-                }
-            };
-
             // warn users about changes
             console.log(
                 'There are currently ' +
