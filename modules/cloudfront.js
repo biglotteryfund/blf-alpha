@@ -1,53 +1,48 @@
 const { assign, filter, forEach } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
-// create a JSON object configured for the legacy/new paths
-const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, queryStringWhitelist, cookiesInUse }) => {
-    // configure headers, cookies and origin servers for paths
-    const BehaviourConfig = {
-        protocols: {
-            redirectToHttps: 'redirect-to-https',
-            allowAll: 'allow-all'
-        },
-        httpMethods: {
-            getOnly: ['HEAD', 'GET'],
-            getAndPost: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
-        },
-        TTLs: {
-            min: 0,
-            max: 31536000,
-            default: 86400
-        },
-        newSite: {
-            headersToKeep: ['Accept', 'Host'],
-            cookies: {
-                Forward: 'whitelist',
-                WhitelistedNames: {
-                    Items: cookiesInUse,
-                    Quantity: cookiesInUse.length
-                }
-            }
-        },
-        legacy: {
-            headersToKeep: ['*'],
-            cookies: {
-                Forward: 'all'
-            }
-        }
-    };
-
-    // The new site is properly cached, the legacy is not
-    // so anything legacy should not cache cookies, headers, etc
-    const isLegacy = origin !== 'newSite';
-    const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
-
-    // Use all HTTP methods for legacy
-    const allowedHttpMethods = isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
-
-    // Allow any protocol for legacy, redirect to HTTPS for new
-    const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
+const makeBehaviourItem = ({
+    originId,
+    pathPattern,
+    isPostable,
+    cookiesInUse = [],
+    allowAllCookies = false,
+    queryStringWhitelist = [],
+    allowAllQueryStrings = false,
+    protocol = 'redirect-to-https',
+    headersToKeep = ['Accept', 'Host']
+}) => {
+    const allowedHttpMethods = isPostable
+        ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
+        : ['HEAD', 'GET'];
 
     const behaviour = {
+        TargetOriginId: originId,
+        ViewerProtocolPolicy: protocol,
+        MinTTL: 0,
+        MaxTTL: 31536000,
+        DefaultTTL: 86400,
+        Compress: true,
+        SmoothStreaming: false,
+        AllowedMethods: {
+            Items: allowedHttpMethods,
+            Quantity: allowedHttpMethods.length,
+            CachedMethods: {
+                Items: ['HEAD', 'GET'],
+                Quantity: 2
+            }
+        },
+        ForwardedValues: {
+            Headers: {
+                Items: headersToKeep,
+                Quantity: headersToKeep.length
+            },
+            QueryStringCacheKeys: {
+                Items: [],
+                Quantity: 0
+            },
+            QueryString: false
+        },
         TrustedSigners: {
             Enabled: false,
             Items: [],
@@ -56,50 +51,40 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
         LambdaFunctionAssociations: {
             Items: [],
             Quantity: 0
-        },
-        TargetOriginId: originServer,
-        ViewerProtocolPolicy: protocol,
-        ForwardedValues: {
-            Headers: {
-                Items: cacheConfig.headersToKeep,
-                Quantity: cacheConfig.headersToKeep.length
-            },
-            Cookies: cacheConfig.cookies,
+        }
+    };
+
+    if (pathPattern) {
+        behaviour.PathPattern = stripTrailingSlashes(pathPattern);
+    }
+
+    if (allowAllCookies) {
+        behaviour.ForwardedValues.Cookies = {
+            Forward: 'all'
+        };
+    } else if (cookiesInUse.length > 0) {
+        behaviour.ForwardedValues.Cookies = {
+            Forward: 'whitelist',
+            WhitelistedNames: {
+                Items: cookiesInUse,
+                Quantity: cookiesInUse.length
+            }
+        };
+    }
+
+    if (allowAllQueryStrings) {
+        behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
                 Items: [],
                 Quantity: 0
             },
-            QueryString: false
-        },
-        MaxTTL: BehaviourConfig.TTLs.max,
-        SmoothStreaming: false,
-        DefaultTTL: BehaviourConfig.TTLs.default,
-        AllowedMethods: {
-            Items: allowedHttpMethods,
-            CachedMethods: {
-                Items: ['HEAD', 'GET'],
-                Quantity: 2
-            },
-            Quantity: allowedHttpMethods.length
-        },
-        MinTTL: BehaviourConfig.TTLs.min,
-        Compress: false
-    };
-
-    if (pathPattern) {
-        // Strip trailing slashes
-        // fixes /welsh => /welsh/ homepage confusion
-        // but doesn't break root/homepage '/' path
-        behaviour.PathPattern = stripTrailingSlashes(pathPattern);
-    }
-
-    const shouldAllowQueryStrings = isLegacy || queryStringWhitelist;
-    if (shouldAllowQueryStrings) {
-        const whitelist = queryStringWhitelist || [];
+            QueryString: true
+        });
+    } else if (queryStringWhitelist.length > 0) {
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
-                Items: whitelist,
-                Quantity: whitelist.length
+                Items: queryStringWhitelist,
+                Quantity: queryStringWhitelist.length
             },
             QueryString: true
         });

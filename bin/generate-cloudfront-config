@@ -8,7 +8,6 @@ const { generateUrlList, makeBehaviourItem } = require('../modules/cloudfront');
 const routes = require('../controllers/routes');
 const cloudfrontDistributions = require('../config/app/distributions');
 
-// lookup cookies from app config
 const cookies = config.get('cookies');
 const cookiesInUse = Object.keys(cookies).map(k => cookies[k]);
 
@@ -16,23 +15,24 @@ const cookiesInUse = Object.keys(cookies).map(k => cookies[k]);
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours(distribution) {
+function generateBehaviours(origins) {
     const urlsToSupport = generateUrlList(routes);
 
     const customBehaviours = [
         makeBehaviourItem({
-            origin: 'legacy',
-            originServer: distribution.origins.legacy,
+            originId: origins.legacy,
             pathPattern: '/~/*',
             isPostable: true,
-            cookiesInUse: cookiesInUse
+            allowAllQueryStrings: true,
+            allowAllCookies: true,
+            protocol: 'allow-all',
+            headersToKeep: ['*']
         })
     ];
 
     const primaryBehaviours = urlsToSupport.map(url => {
         return makeBehaviourItem({
-            origin: 'newSite',
-            originServer: distribution.origins.newSite,
+            originId: origins.newSite,
             pathPattern: url.path,
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
@@ -43,18 +43,19 @@ function generateBehaviours(distribution) {
     return [].concat(customBehaviours).concat(sortBy(primaryBehaviours, 'PathPattern'));
 }
 
-// for each cloudfront distribution, generate a config and store it
+/**
+ * For each CloudFront distribution generate a config and store it
+ */
 forEach(cloudfrontDistributions, (distribution, distributionName) => {
     console.log(`Creating Cloudfront configuration for the "${distributionName}" distribution.`);
 
     const defaultBehaviour = makeBehaviourItem({
-        origin: 'newSite',
-        originServer: distribution.origins.newSite,
+        originId: distribution.origins.newSite,
         isPostable: true,
         cookiesInUse: cookiesInUse
     });
 
-    const behaviours = generateBehaviours(distribution);
+    const behaviours = generateBehaviours(distribution.origins);
 
     const confData = {
         DefaultCacheBehavior: defaultBehaviour,

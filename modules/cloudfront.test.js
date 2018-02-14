@@ -2,78 +2,34 @@
 /* global describe, it */
 const chai = require('chai');
 const expect = chai.expect;
+const { defaultsDeep } = require('lodash');
 
 const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
 
 describe('Cloudfront Helpers', () => {
     describe('#makeBehaviourItem', () => {
-        it('should return cloudfront behaviour for route', () => {
-            const behaviour = makeBehaviourItem({
-                origin: 'newSite',
-                originServer: 'BLF_EXAMPLE',
-                pathPattern: '/',
-                isPostable: false,
-                cookiesInUse: ['example']
-            });
-
-            expect(behaviour).to.eql({
-                TrustedSigners: {
-                    Enabled: false,
-                    Items: [],
-                    Quantity: 0
-                },
-                LambdaFunctionAssociations: {
-                    Items: [],
-                    Quantity: 0
-                },
-                TargetOriginId: 'BLF_EXAMPLE',
-                ViewerProtocolPolicy: 'redirect-to-https',
-                ForwardedValues: {
-                    Headers: {
-                        Items: ['Accept', 'Host'],
+        function withDefaults(behaviourConfig) {
+            return defaultsDeep(behaviourConfig, {
+                MinTTL: 0,
+                MaxTTL: 31536000,
+                DefaultTTL: 86400,
+                SmoothStreaming: false,
+                Compress: true,
+                AllowedMethods: {
+                    Items: ['HEAD', 'GET'],
+                    Quantity: 2,
+                    CachedMethods: {
+                        Items: ['HEAD', 'GET'],
                         Quantity: 2
-                    },
-                    Cookies: {
-                        Forward: 'whitelist',
-                        WhitelistedNames: {
-                            Items: ['example'],
-                            Quantity: 1
-                        }
-                    },
+                    }
+                },
+                ForwardedValues: {
                     QueryStringCacheKeys: {
                         Items: [],
                         Quantity: 0
                     },
                     QueryString: false
                 },
-                MaxTTL: 31536000,
-                PathPattern: '/',
-                SmoothStreaming: false,
-                DefaultTTL: 86400,
-                AllowedMethods: {
-                    Items: ['HEAD', 'GET'],
-                    CachedMethods: {
-                        Items: ['HEAD', 'GET'],
-                        Quantity: 2
-                    },
-                    Quantity: 2
-                },
-                MinTTL: 0,
-                Compress: false
-            });
-        });
-
-        it('should allow a query string whitelist', () => {
-            const behaviour = makeBehaviourItem({
-                origin: 'newSite',
-                originServer: 'BLF_EXAMPLE',
-                pathPattern: '/',
-                isPostable: true,
-                queryStringWhitelist: ['a', 'b', 'c'],
-                cookiesInUse: ['example']
-            });
-
-            expect(behaviour).to.eql({
                 TrustedSigners: {
                     Enabled: false,
                     Items: [],
@@ -82,42 +38,76 @@ describe('Cloudfront Helpers', () => {
                 LambdaFunctionAssociations: {
                     Items: [],
                     Quantity: 0
-                },
-                TargetOriginId: 'BLF_EXAMPLE',
-                ViewerProtocolPolicy: 'redirect-to-https',
-                ForwardedValues: {
-                    Headers: {
-                        Items: ['Accept', 'Host'],
-                        Quantity: 2
-                    },
-                    Cookies: {
-                        Forward: 'whitelist',
-                        WhitelistedNames: {
-                            Items: ['example'],
-                            Quantity: 1
-                        }
-                    },
-                    QueryStringCacheKeys: {
-                        Items: ['a', 'b', 'c'],
-                        Quantity: 3
-                    },
-                    QueryString: true
-                },
-                MaxTTL: 31536000,
-                PathPattern: '/',
-                SmoothStreaming: false,
-                DefaultTTL: 86400,
-                AllowedMethods: {
-                    Items: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH'],
-                    CachedMethods: {
-                        Items: ['HEAD', 'GET'],
-                        Quantity: 2
-                    },
-                    Quantity: 7
-                },
-                MinTTL: 0,
-                Compress: false
+                }
             });
+        }
+
+        it('should return cloudfront behaviour for route', () => {
+            const behaviour = makeBehaviourItem({
+                originId: 'BLF_EXAMPLE',
+                pathPattern: '/',
+                isPostable: false,
+                cookiesInUse: ['example']
+            });
+
+            expect(behaviour).to.eql(
+                withDefaults({
+                    TargetOriginId: 'BLF_EXAMPLE',
+                    ViewerProtocolPolicy: 'redirect-to-https',
+                    PathPattern: '/',
+                    ForwardedValues: {
+                        Headers: {
+                            Items: ['Accept', 'Host'],
+                            Quantity: 2
+                        },
+                        Cookies: {
+                            Forward: 'whitelist',
+                            WhitelistedNames: {
+                                Items: ['example'],
+                                Quantity: 1
+                            }
+                        }
+                    }
+                })
+            );
+        });
+
+        it('should allow all cookies and querystrings', () => {
+            const behaviour = makeBehaviourItem({
+                originId: 'BLF_LEGACY_EXAMPLE',
+                pathPattern: '/~/*',
+                isPostable: true,
+                allowAllQueryStrings: true,
+                allowAllCookies: true,
+                protocol: 'allow-all',
+                headersToKeep: ['*']
+            });
+
+            expect(behaviour).to.eql(
+                withDefaults({
+                    TargetOriginId: 'BLF_LEGACY_EXAMPLE',
+                    ViewerProtocolPolicy: 'allow-all',
+                    PathPattern: '/~/*',
+                    AllowedMethods: {
+                        Items: ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH'],
+                        Quantity: 7
+                    },
+                    ForwardedValues: {
+                        Headers: {
+                            Items: ['*'],
+                            Quantity: 1
+                        },
+                        Cookies: {
+                            Forward: 'all'
+                        },
+                        QueryStringCacheKeys: {
+                            Items: [],
+                            Quantity: 0
+                        },
+                        QueryString: true
+                    }
+                })
+            );
         });
     });
 
