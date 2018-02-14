@@ -8,6 +8,7 @@ const Raven = require('raven');
 const appData = require('./modules/appData');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
+const { shouldServe } = require('./modules/pageLogic');
 const { proxyPassthrough, postToLegacyForm, redirectUglyLink, redirectArchived } = require('./modules/legacy');
 
 const favicon = require('serve-favicon');
@@ -112,7 +113,7 @@ function serveRedirect({ sourcePath, destinationPath }) {
  * Redirecy legacy URLs to new locations
  * For these URLs handle both english and welsh variants
  */
-routes.legacyRedirects.forEach(route => {
+routes.legacyRedirects.filter(p => shouldServe(p.live)).forEach(route => {
     serveRedirect({
         sourcePath: route.path,
         destinationPath: route.destination
@@ -127,7 +128,7 @@ routes.legacyRedirects.forEach(route => {
  * Vanity URLs
  * Sharable short-urls redirected to canonical URLs.
  */
-routes.vanityRedirects.forEach(route => {
+routes.vanityRedirects.filter(p => shouldServe(p.live)).forEach(route => {
     serveRedirect({
         sourcePath: route.path,
         destinationPath: route.destination
@@ -138,7 +139,7 @@ routes.vanityRedirects.forEach(route => {
  * Archived Routes
  * Redirect to the National Archvies
  */
-routes.archivedRoutes.forEach(route => {
+routes.archivedRoutes.filter(p => shouldServe(p.live)).forEach(route => {
     app.get(route.path, noCache, redirectArchived);
     app.get(makeWelsh(route.path), noCache, redirectArchived);
 });
