@@ -10,12 +10,13 @@ function makeUrlObject(page, customPath) {
     return {
         path: customPath || page.path,
         isPostable: page.isPostable || false,
-        queryStrings: page.queryStrings || false
+        queryStrings: page.queryStrings || [],
+        allowAllQueryStrings: page.allowAllQueryStrings || false
     };
 }
 
 function hasSpecialRequirements(route) {
-    return !!route.queryStrings;
+    return route.allowAllQueryStrings || route.queryStrings.length > 0;
 }
 
 function isLive(route) {
@@ -177,7 +178,7 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
-    const cookiesInUse = map(config.get('cookies'), (val, key) => key);
+    const cookiesInUse = map(config.get('cookies'), val => val);
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
@@ -186,9 +187,10 @@ function generateBehaviours({ routesConfig, origins }) {
     });
 
     const customBehaviours = [
+        // Serve legacy static files
         makeBehaviourItem({
             originId: origins.legacy,
-            pathPattern: '/~/*',
+            pathPattern: '/-/*',
             isPostable: true,
             allowAllQueryStrings: true,
             allowAllCookies: true,
@@ -197,12 +199,14 @@ function generateBehaviours({ routesConfig, origins }) {
         })
     ];
 
+    // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
         return makeBehaviourItem({
             originId: origins.newSite,
             pathPattern: url.path,
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
+            allowAllQueryStrings: url.allowAllQueryStrings,
             cookiesInUse: cookiesInUse
         });
     });

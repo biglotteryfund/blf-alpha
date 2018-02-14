@@ -131,7 +131,7 @@ function cmsRoute(props) {
 function legacyRoute(props) {
     const legacyDefaults = {
         isPostable: true,
-        queryStrings: [], // Empty array defaults to all query strings
+        allowAllQueryStrings: true,
         live: true
     };
     return Object.assign({}, legacyDefaults, props);
