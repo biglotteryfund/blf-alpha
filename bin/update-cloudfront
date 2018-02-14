@@ -122,7 +122,7 @@ function storeBackup(existingConfig) {
         const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
         const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
         const backup = {
-            DefaultBehaviour: existingConfig.Distribution.DistributionConfig.DefaultBehaviour,
+            DefaultCacheBehavior: existingConfig.Distribution.DistributionConfig.DefaultCacheBehavior,
             CacheBehaviors: existingConfig.Distribution.DistributionConfig.CacheBehaviors
         };
         fs.writeFileSync(confPath, JSON.stringify(backup, null, 4));

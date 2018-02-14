@@ -57,7 +57,7 @@ forEach(cloudfrontDistributions, (distribution, distributionName) => {
     const behaviours = generateBehaviours(distribution);
 
     const confData = {
-        DefaultBehaviour: defaultBehaviour,
+        DefaultCacheBehavior: defaultBehaviour,
         CacheBehaviors: {
             Items: behaviours,
             Quantity: behaviours.length

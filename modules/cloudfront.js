@@ -42,8 +42,7 @@ const makeBehaviourItem = ({ origin, originServer, pathPattern, isPostable, quer
     const cacheConfig = isLegacy ? BehaviourConfig['legacy'] : BehaviourConfig['newSite'];
 
     // Use all HTTP methods for legacy
-    const allowedHttpMethods =
-        isLegacy || isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
+    const allowedHttpMethods = isPostable ? BehaviourConfig.httpMethods.getAndPost : BehaviourConfig.httpMethods.getOnly;
 
     // Allow any protocol for legacy, redirect to HTTPS for new
     const protocol = isLegacy ? BehaviourConfig.protocols.allowAll : BehaviourConfig.protocols.redirectToHttps;
