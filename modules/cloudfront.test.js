@@ -7,7 +7,6 @@ const { defaultsDeep } = require('lodash');
 const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
 
 describe('Cloudfront Helpers', () => {
-
     const testRoutes = {
         sections: {
             purple: {

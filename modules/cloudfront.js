@@ -79,7 +79,6 @@ function generateUrlList(routes) {
     return urls;
 }
 
-
 const makeBehaviourItem = ({
     originId,
     pathPattern,
@@ -176,7 +175,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours({routesConfig, origins}) {
+function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
     const cookiesInUse = map(config.get('cookies'), (val, key) => key);
 
@@ -219,7 +218,6 @@ function generateBehaviours({routesConfig, origins}) {
         }
     };
 }
-
 
 module.exports = {
     generateUrlList,
