@@ -187,21 +187,17 @@ function generateBehaviours({ routesConfig, origins }) {
     });
 
     // Serve legacy static files
-    const customBehaviours = [
-        '/-/*',
-        '/js/*',
-        '/css/*',
-        '/images/*',
-        '/default.css',
-    ].map(path => makeBehaviourItem({
-        originId: origins.legacy,
-        pathPattern: path,
-        isPostable: true,
-        allowAllQueryStrings: true,
-        allowAllCookies: true,
-        protocol: 'allow-all',
-        headersToKeep: ['*']
-    }));
+    const customBehaviours = ['/-/*', '/js/*', '/css/*', '/images/*', '/default.css'].map(path =>
+        makeBehaviourItem({
+            originId: origins.legacy,
+            pathPattern: path,
+            isPostable: true,
+            allowAllQueryStrings: true,
+            allowAllCookies: true,
+            protocol: 'allow-all',
+            headersToKeep: ['*']
+        })
+    );
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
