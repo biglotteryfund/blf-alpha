@@ -1,77 +1,37 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const config = require('config');
-const { forEach, sortBy } = require('lodash');
+const util = require('util');
+const { forEach } = require('lodash');
 
-const { generateUrlList, makeBehaviourItem } = require('../modules/cloudfront');
 const routes = require('../controllers/routes');
 const cloudfrontDistributions = require('../config/app/distributions');
+const { generateBehaviours } = require('../modules/cloudfront');
 
-const cookies = config.get('cookies');
-const cookiesInUse = Object.keys(cookies).map(k => cookies[k]);
-
-/**
- * Generate Cloudfront behaviours
- * construct array of behaviours from a URL list
- */
-function generateBehaviours(origins) {
-    const urlsToSupport = generateUrlList(routes);
-
-    const customBehaviours = [
-        makeBehaviourItem({
-            originId: origins.legacy,
-            pathPattern: '/~/*',
-            isPostable: true,
-            allowAllQueryStrings: true,
-            allowAllCookies: true,
-            protocol: 'allow-all',
-            headersToKeep: ['*']
-        })
-    ];
-
-    const primaryBehaviours = urlsToSupport.map(url => {
-        return makeBehaviourItem({
-            originId: origins.newSite,
-            pathPattern: url.path,
-            isPostable: url.isPostable,
-            queryStringWhitelist: url.queryStrings,
-            cookiesInUse: cookiesInUse
-        });
-    });
-
-    return [].concat(customBehaviours).concat(sortBy(primaryBehaviours, 'PathPattern'));
-}
+const writeFile = util.promisify(fs.writeFile);
 
 /**
  * For each CloudFront distribution generate a config and store it
  */
 forEach(cloudfrontDistributions, (distribution, distributionName) => {
-    console.log(`Creating Cloudfront configuration for the "${distributionName}" distribution.`);
-
-    const defaultBehaviour = makeBehaviourItem({
-        originId: distribution.origins.newSite,
-        isPostable: true,
-        cookiesInUse: cookiesInUse
+    const behaviours = generateBehaviours({
+        routesConfig: routes,
+        origins: distribution.origins
     });
 
-    const behaviours = generateBehaviours(distribution.origins);
+    const distributionTag = `[${distributionName.toUpperCase()}]`;
+    const behaviourCount = behaviours.CacheBehaviors.Items.length;
 
-    const confData = {
-        DefaultCacheBehavior: defaultBehaviour,
-        CacheBehaviors: {
-            Items: behaviours,
-            Quantity: behaviours.length
-        }
-    };
+    const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
-    console.log(`Adding ${behaviours.length} URLs routing for "${distributionName}" distribution`);
-
-    try {
-        const confPath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
-        fs.writeFileSync(confPath, JSON.stringify(confData, null, 4));
-        console.log(`An updated config for the "${distributionName}" distribution was saved in ${confPath}`);
-    } catch (err) {
-        return console.error('Error saving config', err);
-    }
+    writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8')
+        .then(() => {
+            console.log(
+                `${distributionTag} Cloudfront configuration with ${behaviourCount} behaviours saved at ${relativeFilePath}.`
+            );
+        })
+        .catch(err => {
+            console.error('Error saving config', err);
+        });
 });

@@ -1,5 +1,84 @@
-const { assign, filter, forEach } = require('lodash');
+const config = require('config');
+const { assign, concat, filter, forEach, map, sortBy } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
+
+/**
+ * makeUrlObject
+ * Take a route config and format it for cloudfront
+ */
+function makeUrlObject(page, customPath) {
+    return {
+        path: customPath || page.path,
+        isPostable: page.isPostable || false,
+        queryStrings: page.queryStrings || false
+    };
+}
+
+function hasSpecialRequirements(route) {
+    return !!route.queryStrings;
+}
+
+function isLive(route) {
+    return route.live === true;
+}
+
+function pageNeedsCustomRouting(page) {
+    return isLive(page) && hasSpecialRequirements(page);
+}
+
+// take the routes.js configuration and output locale-friendly URLs
+// with support for POST, querystrings and redirects for Cloudfront
+function generateUrlList(routes) {
+    const urls = [];
+
+    // add auto URLs from route config
+    for (let s in routes.sections) {
+        let section = routes.sections[s];
+        let pages = section.pages;
+
+        for (let p in pages) {
+            let page = pages[p];
+            let url = section.path + page.path;
+
+            if (pageNeedsCustomRouting(page)) {
+                if (page.isWildcard) {
+                    url += '*';
+                }
+                // create route mapping for canonical URLs
+                urls.push(makeUrlObject(page, url));
+                urls.push(makeUrlObject(page, makeWelsh(url)));
+            }
+        }
+    }
+
+    function pushRouteConfig(routeConfig) {
+        urls.push(makeUrlObject(routeConfig));
+    }
+
+    function pushDualRouteConfig(routeConfig) {
+        urls.push(makeUrlObject(routeConfig));
+        urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
+    }
+
+    // Legacy proxied routes
+    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
+    forEach(liveLegacyRoutes, pushRouteConfig);
+
+    // Legacy redirects
+    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
+
+    // Archived routes
+    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
+
+    // Vanity URLs
+    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+
+    // Other Routes
+    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+
+    return urls;
+}
+
 
 const makeBehaviourItem = ({
     originId,
@@ -94,83 +173,56 @@ const makeBehaviourItem = ({
 };
 
 /**
- * makeUrlObject
- * Take a route config and format it for cloudfront
+ * Generate Cloudfront behaviours
+ * construct array of behaviours from a URL list
  */
-function makeUrlObject(page, customPath) {
+function generateBehaviours({routesConfig, origins}) {
+    const urlsToSupport = generateUrlList(routesConfig);
+    const cookiesInUse = map(config.get('cookies'), (val, key) => key);
+
+    const defaultBehaviour = makeBehaviourItem({
+        originId: origins.newSite,
+        isPostable: true,
+        cookiesInUse: cookiesInUse
+    });
+
+    const customBehaviours = [
+        makeBehaviourItem({
+            originId: origins.legacy,
+            pathPattern: '/~/*',
+            isPostable: true,
+            allowAllQueryStrings: true,
+            allowAllCookies: true,
+            protocol: 'allow-all',
+            headersToKeep: ['*']
+        })
+    ];
+
+    const primaryBehaviours = urlsToSupport.map(url => {
+        return makeBehaviourItem({
+            originId: origins.newSite,
+            pathPattern: url.path,
+            isPostable: url.isPostable,
+            queryStringWhitelist: url.queryStrings,
+            cookiesInUse: cookiesInUse
+        });
+    });
+
+    const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
+    const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
+
     return {
-        path: customPath || page.path,
-        isPostable: page.isPostable || false,
-        queryStrings: page.queryStrings || false
+        DefaultCacheBehavior: defaultBehaviour,
+        CacheBehaviors: {
+            Items: sortedBehaviours,
+            Quantity: sortedBehaviours.length
+        }
     };
 }
 
-function hasSpecialRequirements(route) {
-    return !!route.queryStrings;
-}
-
-function isLive(route) {
-    return route.live === true;
-}
-
-function pageNeedsCustomRouting(page) {
-    return isLive(page) && hasSpecialRequirements(page);
-}
-
-// take the routes.js configuration and output locale-friendly URLs
-// with support for POST, querystrings and redirects for Cloudfront
-function generateUrlList(routes) {
-    const urls = [];
-
-    // add auto URLs from route config
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        let pages = section.pages;
-
-        for (let p in pages) {
-            let page = pages[p];
-            let url = section.path + page.path;
-
-            if (pageNeedsCustomRouting(page)) {
-                if (page.isWildcard) {
-                    url += '*';
-                }
-                // create route mapping for canonical URLs
-                urls.push(makeUrlObject(page, url));
-                urls.push(makeUrlObject(page, makeWelsh(url)));
-            }
-        }
-    }
-
-    function pushRouteConfig(routeConfig) {
-        urls.push(makeUrlObject(routeConfig));
-    }
-
-    function pushDualRouteConfig(routeConfig) {
-        urls.push(makeUrlObject(routeConfig));
-        urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
-    }
-
-    // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
-    forEach(liveLegacyRoutes, pushRouteConfig);
-
-    // Legacy redirects
-    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
-    // Archived routes
-    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
-    // Vanity URLs
-    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
-
-    // Other Routes
-    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
-
-    return urls;
-}
 
 module.exports = {
+    generateUrlList,
     makeBehaviourItem,
-    generateUrlList
+    generateBehaviours
 };

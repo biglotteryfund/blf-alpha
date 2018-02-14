@@ -2,11 +2,87 @@
 /* global describe, it */
 const chai = require('chai');
 const expect = chai.expect;
-const { defaultsDeep } = require('lodash');
 
+const { defaultsDeep } = require('lodash');
 const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
 
 describe('Cloudfront Helpers', () => {
+
+    const testRoutes = {
+        sections: {
+            purple: {
+                path: '/purple',
+                pages: {
+                    monkey: {
+                        path: '/monkey/dishwasher',
+                        live: true,
+                        isWildcard: false,
+                        isPostable: true,
+                        aliases: ['/green/orangutan/fridge'],
+                        queryStrings: ['foo', 'bar']
+                    }
+                }
+            }
+        },
+        archivedRoutes: [
+            {
+                path: '/some/archived/path/*',
+                live: true
+            }
+        ],
+        otherUrls: [
+            {
+                path: '/unicorns',
+                isPostable: true,
+                live: true
+            },
+            {
+                path: '/draft',
+                live: false
+            }
+        ],
+        legacyRedirects: [
+            {
+                path: '/global-content/programmes/example',
+                destination: '/funding/programmes/example',
+                isPostable: false,
+                live: true
+            }
+        ],
+        vanityRedirects: [
+            {
+                path: '/test',
+                live: true
+            }
+        ]
+    };
+
+    describe('#generateUrlList', () => {
+        it('should filter out non-custom routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.length).to.equal(2);
+            done();
+        });
+
+        it('should generate the correct section/page path', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
+            done();
+        });
+
+        it('should generate welsh versions of canonical routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
+            done();
+        });
+
+        it('should store properties against routes', done => {
+            const urls = generateUrlList(testRoutes);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
+            done();
+        });
+    });
+
     describe('#makeBehaviourItem', () => {
         function withDefaults(behaviourConfig) {
             return defaultsDeep(behaviourConfig, {
@@ -108,81 +184,6 @@ describe('Cloudfront Helpers', () => {
                     }
                 })
             );
-        });
-    });
-
-    describe('#generateUrlList', () => {
-        const testRoutes = {
-            sections: {
-                purple: {
-                    path: '/purple',
-                    pages: {
-                        monkey: {
-                            path: '/monkey/dishwasher',
-                            live: true,
-                            isWildcard: false,
-                            isPostable: true,
-                            aliases: ['/green/orangutan/fridge'],
-                            queryStrings: ['foo', 'bar']
-                        }
-                    }
-                }
-            },
-            archivedRoutes: [
-                {
-                    path: '/some/archived/path/*',
-                    live: true
-                }
-            ],
-            otherUrls: [
-                {
-                    path: '/unicorns',
-                    isPostable: true,
-                    live: true
-                },
-                {
-                    path: '/draft',
-                    live: false
-                }
-            ],
-            legacyRedirects: [
-                {
-                    path: '/global-content/programmes/example',
-                    destination: '/funding/programmes/example',
-                    isPostable: false,
-                    live: true
-                }
-            ],
-            vanityRedirects: [
-                {
-                    path: '/test',
-                    live: true
-                }
-            ]
-        };
-
-        it('should filter out non-custom routes', done => {
-            const urls = generateUrlList(testRoutes);
-            expect(urls.length).to.equal(2);
-            done();
-        });
-
-        it('should generate the correct section/page path', done => {
-            const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
-            done();
-        });
-
-        it('should generate welsh versions of canonical routes', done => {
-            const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
-            done();
-        });
-
-        it('should store properties against routes', done => {
-            const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
-            done();
         });
     });
 });
