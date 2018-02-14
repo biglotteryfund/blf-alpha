@@ -2,11 +2,25 @@ const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const { getSecret } = require('../modules/secrets');
 
-const API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
+let API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
 
 if (!API_URL) {
     console.log('Error: API_URL endpoint must be defined');
     process.exit(1);
+}
+
+/**
+ * Setter method exposed to aid with tests
+ */
+function setApiUrl(customApiUrl) {
+    API_URL = customApiUrl;
+}
+
+/**
+ * Getter method exposed to aid with tests
+ */
+function getApiUrl() {
+    return API_URL;
 }
 
 /**
@@ -74,6 +88,8 @@ function getListingPage({ locale, path }) {
 }
 
 module.exports = {
+    setApiUrl,
+    getApiUrl,
     getCmsPath,
     getPromotedNews,
     getFundingProgrammes,

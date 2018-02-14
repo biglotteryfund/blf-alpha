@@ -12,7 +12,7 @@ const {
     vanity
 } = require('./route-types');
 
-describe.only('Route types', () => {
+describe('Route types', () => {
     it('should create a new section', () => {
         const section = createSection({
             path: '/example',
