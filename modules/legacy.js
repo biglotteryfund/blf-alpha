@@ -14,7 +14,7 @@ const legacyUrl = config.get('legacyDomain');
 
 const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) => {
     res.cacheControl = { maxAge: 0 };
-    
+
     return rp({
         url: legacyUrl + req.path,
         qs: req.query,
