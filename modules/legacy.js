@@ -93,13 +93,11 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
 };
 
 const proxyPassthrough = (req, res, next) => {
-    console.log('attempting to proxy ' + req.originalUrl);
     return proxyLegacyPage({
         req,
         res,
         followRedirect: false
-    }).catch(function(e) {
-        console.log('err ', e);
+    }).catch(function() {
         next();
     });
 };

@@ -52,6 +52,24 @@ function cymreigio(urlPath) {
     return [urlPath, makeWelsh(urlPath)];
 }
 
+const REGEX_IS_REGIONAL = /^\/(england|scotland|wales|northernireland)\//i;
+
+/**
+ * isRegionalUrl
+ * Does the url path start with scotland, england, wales or nothernireland
+ */
+function isRegionalUrl(urlPath) {
+    return REGEX_IS_REGIONAL.test(urlPath);
+}
+
+/**
+ * stripRegion
+ * Strip scotland, england, wales, or nothernireland from the urlPath
+ */
+function stripRegion(urlPath) {
+    return urlPath.replace(REGEX_IS_REGIONAL, '/');
+}
+
 function getBaseUrl(req) {
     const headerProtocol = req.get('X-Forwarded-Proto');
     const protocol = headerProtocol ? headerProtocol : req.protocol;
@@ -111,6 +129,8 @@ module.exports = {
     removeWelsh,
     localify,
     cymreigio,
+    isRegionalUrl,
+    stripRegion,
     getBaseUrl,
     getFullUrl,
     hasTrailingSlash,

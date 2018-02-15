@@ -19,7 +19,7 @@ const userService = require('../services/user');
 
 let hook;
 
-let captureStream = stream => {
+function captureStream(stream) {
     let oldWrite = stream.write;
     let buf = '';
     stream.write = function(chunk) {
@@ -35,7 +35,20 @@ let captureStream = stream => {
             return buf;
         }
     };
-};
+}
+
+function before(callback) {
+    hook = captureStream(process.stdout);
+    const server = importFresh('../bin/www');
+    server.on('listening', () => {
+        callback(server);
+    });
+}
+
+function after(server) {
+    server.close();
+    hook.unhook();
+}
 
 const createTestUser = userData => userService.createUser(userData);
 
@@ -51,19 +64,25 @@ function getCsrfToken(agent, urlPath) {
     });
 }
 
-module.exports = {
-    before: callback => {
-        hook = captureStream(process.stdout);
-        const server = importFresh('../bin/www');
-        server.on('listening', () => {
-            callback(server);
+function redirectRequest({ agent, originalPath, redirectedPath }) {
+    return agent
+        .get(originalPath)
+        .redirects(0)
+        .catch(err => err.response)
+        .then(res => {
+            return {
+                res,
+                originalPath,
+                redirectedPath
+            };
         });
-    },
-    after: server => {
-        server.close();
-        hook.unhook();
-    },
-    createTestUser: createTestUser,
-    truncateUsers: truncateUsers,
-    getCsrfToken: getCsrfToken
+}
+
+module.exports = {
+    before,
+    after,
+    createTestUser,
+    truncateUsers,
+    getCsrfToken,
+    redirectRequest
 };
