@@ -84,6 +84,7 @@ sections.toplevel.addRoutes({
             '/about-big/jobs/current-vacancies',
             '/scotland/about-big/jobs/current-vacancies',
             '/wales/about-big/jobs/current-vacancies',
+            '/england/about-big/jobs/current-vacancies',
             '/northernireland/about-big/jobs/current-vacancies'
         ]
     }),
