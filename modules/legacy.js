@@ -12,18 +12,11 @@ const { customEvent } = require('../modules/analytics');
 
 const legacyUrl = config.get('legacyDomain');
 
-const proxyLegacyPage = ({ req, res, domModifications, pathOverride, followRedirect = true }) => {
+const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) => {
     res.cacheControl = { maxAge: 0 };
-
-    // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-
-    // allow a custom path (eg. to serve / over /legacy)
-    // which would otherwise fail
-    let pagePath = pathOverride ? pathOverride : localePath + req.path;
-
+    
     return rp({
-        url: legacyUrl + pagePath,
+        url: legacyUrl + req.path,
         qs: req.query,
         strictSSL: false,
         jar: true,
@@ -50,7 +43,7 @@ const proxyLegacyPage = ({ req, res, domModifications, pathOverride, followRedir
         // (currently it's rewritten above to the external one)
         const form = dom.window.document.getElementById('form1');
         if (form) {
-            form.setAttribute('action', pagePath);
+            form.setAttribute('action', req.path);
         }
 
         /**
@@ -100,11 +93,13 @@ const proxyLegacyPage = ({ req, res, domModifications, pathOverride, followRedir
 };
 
 const proxyPassthrough = (req, res, next) => {
+    console.log('attempting to proxy ' + req.originalUrl);
     return proxyLegacyPage({
         req,
         res,
         followRedirect: false
-    }).catch(function() {
+    }).catch(function(e) {
+        console.log('err ', e);
         next();
     });
 };
