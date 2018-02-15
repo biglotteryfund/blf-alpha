@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const moment = require('moment');
+const { concat, compact, filter, flatMap, map, pick, sortBy } = require('lodash');
 
 const routes = require('../routes');
 const appData = require('../../modules/appData');
@@ -8,6 +9,7 @@ const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const surveysService = require('../../services/surveys');
+const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
@@ -28,31 +30,64 @@ router.get('/status', cached.noCache, (req, res) => {
     });
 });
 
-// pagelist
-router.get('/status/pages', (req, res) => {
-    const totals = {
-        canonical: [],
-        aliases: [],
-        vanityRedirects: routes.vanityRedirects.map(r => r.path)
-    };
+router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
+    /**
+     * Build a flat list of all canonical application routes
+     */
+    const routerCanonicalUrls = flatMap(routes.sections, section => {
+        const withoutWildcards = filter(section.pages, _ => _.path.indexOf('*') === -1);
+        return map(withoutWildcards, (page, key) => {
+            return {
+                title: key,
+                path: section.path + page.path,
+                live: page.live
+            };
+        });
+    });
 
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        for (let p in section.pages) {
-            let page = section.pages[p];
-            if (page.live) {
-                totals.canonical.push(page.name);
-                if (page.aliases) {
-                    page.aliases.forEach(alias => totals.aliases.push(alias));
+    /**
+     * Build a flat list of all all canonical redirects
+     * Concatenate all legacy redirects + any page aliases
+     */
+    const customRedirects = routes.legacyRedirects.map(route => pick(route, ['path', 'destination', 'live']));
+    const pageRedirects = compact(
+        flatMap(routes.sections, section => {
+            return flatMap(section.pages, page => {
+                if (page.aliases && page.aliases.length > 0) {
+                    return page.aliases.map(urlPath => {
+                        return {
+                            path: urlPath,
+                            destination: section.path + page.path,
+                            live: true
+                        };
+                    });
                 }
-            }
-        }
-    }
+            });
+        })
+    );
 
-    res.render('pages/tools/pagelist', {
-        routes: routes.sections,
-        vanityRedirects: routes.vanityRedirects,
-        totals: totals
+    const redirectRoutes = sortBy(concat(customRedirects, pageRedirects), 'destination');
+
+    contentApi.getRoutes().then(cmsCanonicalUrls => {
+        const allCanonicalRoutes = sortBy(concat(routerCanonicalUrls, cmsCanonicalUrls), 'path');
+
+        const vanityRoutes = routes.vanityRedirects;
+
+        const totals = {
+            canonicalApp: routerCanonicalUrls.map(_ => _.live).length,
+            canonicalCms: cmsCanonicalUrls.map(_ => _.live).length,
+            vanity: vanityRoutes.map(_ => _.live).length,
+            redirects: redirectRoutes.map(_ => _.live).length
+        };
+
+        const viewData = {
+            totals,
+            allCanonicalRoutes,
+            vanityRoutes,
+            redirectRoutes
+        };
+
+        res.render('pages/tools/pagelist', viewData);
     });
 });
 

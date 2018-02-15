@@ -4,9 +4,7 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -14,22 +12,23 @@
 
     </head>
     <body>
-
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Big Lottery Fund user account</a>
-                    {% if request.user %}
-                        <p class="navbar-text">Logged in as <strong>{{ request.user.username }}</strong> [<a href="/user/logout">Log out?</a>]</p>
-                    {% else %}
-                        <p class="navbar-text"><a href="/user/login">Log in</a></p>
-                    {% endif %}
+        {% block navbar %}
+            <nav class="navbar navbar-dark bg-dark">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Big Lottery Fund</a>
+                        {% if request.user %}
+                            <p class="navbar-text">Logged in as <strong>{{ request.user.username }}</strong> [<a href="/user/logout">Log out?</a>]</p>
+                        {% else %}
+                            <p class="navbar-text"><a href="/user/login">Log in</a></p>
+                        {% endif %}
+                    </div>
+                    {% block headerAction %}{% endblock %}
                 </div>
-                {% block headerAction %}{% endblock %}
-            </div>
-        </nav>
+            </nav>
+        {% endblock %}
 
-        <div class="container" style="padding-top: 70px;">
+        <div class="container pt-4">
             {% block content %}{% endblock %}
         </div>
     </body>
