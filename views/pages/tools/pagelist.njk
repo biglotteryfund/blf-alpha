@@ -1,132 +1,120 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Page index</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            html, body {
-                margin: 0;
-                padding: 0;
-                font-family: arial;
-                line-height: 1.5;
-            }
+{% extends "layouts/tools.njk" %}
 
-            h1 {
-                background-color: #eeeeee;
-                margin: 0;
-                padding: 20px 15%;
-            }
+{% block title %}Page Index{% endblock %}
 
-            main {
-                width: 70%;
-                margin: 20px auto;
-            }
+{% block navbar %}{% endblock %}
 
-            ul li p {
-                margin: 0;
-            }
+{% block content %}
+    <h1 class="border-bottom pb-2 mb-4">Page list</h1>
 
-            h2 {
-                border-bottom: 1px solid #999999;
-                padding-bottom: 10px;
-                margin-bottom: 10px;
-                margin-top: 40px;
-            }
+    <section class="mb-4">
+        <h2 class="mb-4">Totals</h2>
+        <ul class="list-unstyled">
+            <li><strong>{{ totals.canonicalApp }}</strong> live canonical application URLs</li>
+            <li><strong>{{ totals.canonicalCms }}</strong> live canonical pages served from the CMS</li>
+            <li><strong>{{ totals.canonicalApp + totals.canonicalCms }}</strong> total canonical URLs</li>
+            <li>-</li>
+            <li><strong>{{ totals.vanity }}</strong> live vanity URLs</li>
+            <li><strong>{{ totals.redirects }}</strong> live redirect URLs</li>
+        </ul>
+    </section>
 
-            h4 span {
-                font-size: 75%;
-                font-weight: normal;
-                color: #666666;
-            }
+    {% macro statusBadge(message, state) %}
+        <span class="badge badge-{{ state }}">{{ message }}</span>
+    {% endmacro %}
 
-            .status:after {
-                padding: 2px 6px;
-                display: inline-block;
-                color: #ffffff;
-                text-transform: uppercase;
-                font-size: 11px;
-            }
+    <section>
+        <h2 class="mb-4">Canonical URLs</h2>
 
-            .status--live:after {
-                background-color: green;
-                content: "Live";
-            }
-            .status--draft:after {
-                background-color: red;
-                content: 'Draft';
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Page index</h1>
-        <main>
+        <p><button class="btn btn-primary" id="js-open-links">Open all English canonical pages?</button></p>
+        <ul class="list-unstyled">
+            {% for route in allCanonicalRoutes %}
+                <li>
+                    <article class="border-top py-2">
+                        <h3 class="h6">
+                            <a href={{ route.path}} title="{{ route.title }}" class="js-link">{{ route.path }}</a>
+                            {% if route.live %}
+                                {{statusBadge('Live', 'success')}}
+                            {% else %}
+                                {{statusBadge('Draft', 'warning')}}
+                            {% endif %}
 
-            <h2>Totals</h2>
-            {% set totalCanonical =  totals.canonical.length * 2 %}
-            {% set totalAliases = totals.aliases.length * 2  %}
-            {% set totalVanity = totals.vanityRedirects.length  %}
-            <ul>
-                <li><strong>Live canonical pages</strong>: {{ totalCanonical }} (English and Welsh versions)</li>
-                <li><strong>Live alias URLs</strong>: {{ totalAliases }} (links that now point to the above pages)</li>
-                <li><strong>Live vanity redirects</strong>: {{ totalVanity }} (links that redirect to pages)</li>
-                <li><strong>GRAND TOTAL</strong>: {{ totalCanonical + totalAliases + totalVanity }} (Canonical + Aliases + Vanity URLs)</li>
-            </ul>
-
-            <button id="js-open-links">Open all canonical English pages in tabs?</button>
-
-            {% for sectionName, section in routes %}
-                <h2>Section: {{ sectionName }}</h2>
-                {% for pageName, page in section.pages %}
-                    <h3>
-                        {{ pageName }}
-                        <span class="status {% if page.live %}status--live{% else %}status--draft{% endif %}"></span>
-                    </h3>
-                    <article>
-                        <h4>Canonical URL <span>(eg. the definitive version of this page)</span></h4>
-                        {% set link = buildUrl(sectionName, pageName) %}
-                        <ul>
-                            <li><strong>EN:</strong> <a class="js-link" href="{{ link }}">{{ link }}</a></li>
-                            <li><strong>CY:</strong> <a href="/welsh{{ link }}">/welsh{{ link }}</a></li>
-                        </ul>
-                        {% if page.aliases %}
-                            <h4>Aliases <span>(these links redirect to the canonical one above)</span></h4>
-                            <ul>
-                                {% for aliasPath in page.aliases %}
-                                    {% set link = aliasPath %}
-                                    <li><strong>EN:</strong> <a href="{{ link }}">{{ link }}</a></li>
-                                    <li><strong>CY:</strong> <a href="/welsh{{ link }}">/welsh{{ link }}</a></li><br />
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
+                            {% if route.isFromCms %}
+                                {{statusBadge('CMS', 'info')}}
+                            {% endif %}
+                        </h3>
+                        <p>
+                            <a href="{{ route.path }}">English</a> |
+                            <a href="/welsh{{ route.path }}">Welsh</a>
+                        </p>
                     </article>
-                {% endfor %}
+                </li>
             {% endfor %}
+        </ul>
+    </section>
 
-            <h2>Vanity URLs</h2>
-            {% for r in vanityRedirects %}
-                <article>
-                    <ul>
-                        <li><p><strong>Source:</strong> <a href="{{ r.path }}">{{ r.path }}</a></p></li>
-                        <li><p><strong>Destination:</strong> <a href="{{ r.destination }}">{{ r.destination }}</a></p></li>
-                    </ul>
-                </article>
+    <section>
+        <h2 class="mb-4">Vanity URLs</h2>
+        <ul class="list-unstyled">
+            {% for route in vanityRoutes %}
+                <li>
+                    <article class="border-top py-2">
+                        <h3 class="h6">
+                            <a href={{ route.path}} title="{{ route.title }}">
+                                {{ route.path }}
+                            </a>
+                            {% if route.live %}
+                                {{statusBadge('Live', 'success')}}
+                            {% else %}
+                                {{statusBadge('Draft', 'warning')}}
+                            {% endif %}
+                        </h3>
+                        <p><em>→ {{ route.destination }}</em></p>
+                    </article>
+                </li>
             {% endfor %}
+        </ul>
+    </section>
 
-        </main>
+    <section>
+        <h2 class="mb-4">Legacy Redirects</h2>
+        <ul class="list-unstyled">
+            {% for route in redirectRoutes %}
+                <li>
+                    <article class="border-top py-2">
+                        <h3 class="h6">
+                            <a href={{ route.path}} title="{{ route.title }}">
+                                {{ route.path }}
+                            </a>
+                            {% if route.live %}
+                                {{statusBadge('Live', 'success')}}
+                            {% else %}
+                                {{statusBadge('Draft', 'warning')}}
+                            {% endif %}
+                        </h3>
+                        <p><em>→ {{ route.destination }}</em></p>
+                        <p>
+                            <a href="{{ route.path }}">English</a> |
+                            <a href="/welsh{{ route.path }}">Welsh</a>
+                        </p>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 
-        <script>
-            let $btn = document.getElementById('js-open-links');
-            let $links = document.querySelectorAll('.js-link');
-            let origin = window.location.origin;
-                $btn.addEventListener('click', (e) => {
-                    let proceed = confirm(`This will open ${$links.length} new tabs – are you sure? (You may need to disable pop-up blocking for this page, too)`);
-                    if (proceed) {
-                        [].forEach.call($links, ($link) => {
-                            let url = origin + $link.getAttribute('href');
-                            window.open(url, '_blank');
-                        });
-                    }
-                });
-        </script>
-    </body>
-</html>
+    <script>
+        let $btn = document.getElementById('js-open-links');
+        let $links = document.querySelectorAll('.js-link');
+        let origin = window.location.origin;
+            $btn.addEventListener('click', (e) => {
+                let proceed = confirm(`This will open ${$links.length} new tabs – are you sure? (You may need to disable pop-up blocking for this page, too)`);
+                if (proceed) {
+                    [].forEach.call($links, ($link) => {
+                        let url = origin + $link.getAttribute('href');
+                        window.open(url, '_blank');
+                    });
+                }
+            });
+    </script>
+{% endblock %}

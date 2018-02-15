@@ -1,4 +1,4 @@
-const { get, take } = require('lodash');
+const { get, take, sortedUniq } = require('lodash');
 const request = require('request-promise-native');
 const { getSecret } = require('../modules/secrets');
 
@@ -87,6 +87,15 @@ function getListingPage({ locale, path }) {
     });
 }
 
+function getRoutes() {
+    return request({
+        url: `${API_URL}/v1/list-routes`,
+        json: true
+    }).then(response => {
+        return response.data.map(item => item.attributes);
+    });
+}
+
 module.exports = {
     setApiUrl,
     getApiUrl,
@@ -95,5 +104,6 @@ module.exports = {
     getFundingProgrammes,
     getFundingProgramme,
     getLegacyPage,
-    getListingPage
+    getListingPage,
+    getRoutes
 };

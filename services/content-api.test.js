@@ -6,6 +6,7 @@ const expect = chai.expect;
 const contentApi = require('./content-api');
 const fixtureNews = require('./fixtures/promoted-news.json');
 const fixtureProgrammes = require('./fixtures/funding-programmes.json');
+const fixtureListRoutes = require('./fixtures/list-routes.json');
 
 function mockEndpoint() {
     const mockApiUrl = 'https://content.example.com';
@@ -63,5 +64,20 @@ describe('Content API', () => {
                     'National Lottery Awards for All Scotland'
                 ]);
             });
+    });
+
+    it('should fetch all canonical urls from the cms', () => {
+        mockEndpoint()
+            .get('/v1/list-routes')
+            .reply(200, JSON.stringify(fixtureListRoutes, null, 2));
+
+        return contentApi.getRoutes().then(cmsRoutes => {
+            expect(cmsRoutes.length).to.equal(3);
+            expect(cmsRoutes.map(_ => _.path)).to.have.members([
+                '/funding/information-checks',
+                '/funding/programmes/awards-for-all-northern-ireland',
+                '/funding/programmes/awards-from-the-uk-portfolio'
+            ]);
+        });
     });
 });

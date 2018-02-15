@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "type": null,
+      "id": "492",
+      "attributes": {
+        "title": "Checks we’ll carry out on your information",
+        "path": "/funding/information-checks",
+        "live": true
+      }
+    },
+    {
+      "type": null,
+      "id": "43",
+      "attributes": {
+        "title": "Awards for All Northern Ireland",
+        "path": "/funding/programmes/awards-for-all-northern-ireland",
+        "live": true
+      }
+    },
+    {
+      "type": null,
+      "id": "46",
+      "attributes": {
+        "title": "Awards from the UK Portfolio",
+        "path": "/funding/programmes/awards-from-the-uk-portfolio",
+        "live": true
+      }
+    }
+  ]
+}
