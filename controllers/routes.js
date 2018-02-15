@@ -107,7 +107,7 @@ sections.toplevel.addRoutes({
     }),
     search: dynamicRoute({
         path: '/search',
-        allowQueryStrings: true,
+        allowAllQueryStrings: true,
         live: true
     })
 });
