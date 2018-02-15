@@ -3,7 +3,17 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { getBaseUrl, isWelsh, localify, hasTrailingSlash, stripTrailingSlashes, normaliseQuery } = require('./urls');
+const {
+    getBaseUrl,
+    hasTrailingSlash,
+    isRegionalUrl,
+    isWelsh,
+    localify,
+    normaliseQuery,
+    stripRegion,
+    stripTrailingSlashes
+} = require('./urls');
+
 const httpMocks = require('node-mocks-http');
 
 describe('URL Helpers', () => {
@@ -123,6 +133,27 @@ describe('URL Helpers', () => {
                 org: 'Voluntary or community organisation',
                 sc: '1'
             });
+        });
+    });
+
+    describe('#isRegionalUrl', () => {
+        it('should determine if a url is a regional variant', () => {
+            expect(isRegionalUrl('/about-big/some/url')).to.be.false;
+            expect(isRegionalUrl('/about-big/some/scotland/url')).to.be.false;
+            expect(isRegionalUrl('/england/about-big/some/url')).to.be.true;
+            expect(isRegionalUrl('/scotland/about-big/some/url')).to.be.true;
+            expect(isRegionalUrl('/wales/about-big/some/url')).to.be.true;
+            expect(isRegionalUrl('/northernIreland/about-big/some/url')).to.be.true;
+        });
+    });
+
+    describe('#stripRegion', () => {
+        it('should strip regional component from the start of a url path', () => {
+            expect(stripRegion('/some/url')).to.equal('/some/url');
+            expect(stripRegion('/england/some/url')).to.equal('/some/url');
+            expect(stripRegion('/scotland/some/url')).to.equal('/some/url');
+            expect(stripRegion('/wales/some/url')).to.equal('/some/url');
+            expect(stripRegion('/northernIreland/some/url')).to.equal('/some/url');
         });
     });
 });

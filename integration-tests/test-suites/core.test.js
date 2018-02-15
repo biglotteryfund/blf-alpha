@@ -23,6 +23,11 @@ describe('Core sections and features', () => {
 
     after(() => helper.after(server));
 
+    let agent;
+    beforeEach(() => {
+        agent = chai.request.agent(server);
+    });
+
     it('should contain meta title', () => {
         return chai
             .request(server)
@@ -160,5 +165,35 @@ describe('Core sections and features', () => {
                 expect(res).to.have.status(302);
                 expect(res).to.redirectTo('https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+something');
             });
+    });
+
+    it('should redirect regional urls', () => {
+        return Promise.all([
+            helper.redirectRequest({
+                agent: agent,
+                originalPath: '/england/about-big/publications/corporate-documents',
+                redirectedPath: '/about-big/publications/corporate-documents'
+            }),
+            helper.redirectRequest({
+                agent: agent,
+                originalPath: '/scotland/about-big/publications/corporate-documents',
+                redirectedPath: '/about-big/publications/corporate-documents'
+            }),
+            helper.redirectRequest({
+                agent: agent,
+                originalPath: '/wales/about-big/publications/corporate-documents',
+                redirectedPath: '/about-big/publications/corporate-documents'
+            }),
+            helper.redirectRequest({
+                agent: agent,
+                originalPath: '/northernireland/about-big/publications/corporate-documents',
+                redirectedPath: '/about-big/publications/corporate-documents'
+            })
+        ]).then(results => {
+            results.forEach(result => {
+                expect(result.res.status).to.equal(301);
+                expect(result.res).to.redirectTo(result.redirectedPath);
+            });
+        });
     });
 });

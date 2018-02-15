@@ -10,7 +10,6 @@ const { vanityRedirects } = require('../../controllers/routes');
 
 describe('Basic server tests', () => {
     let server;
-
     before(done => {
         helper.before(serverInstance => {
             server = serverInstance;
@@ -19,6 +18,11 @@ describe('Basic server tests', () => {
     });
 
     after(() => helper.after(server));
+
+    let agent;
+    beforeEach(() => {
+        agent = chai.request.agent(server);
+    });
 
     it('should respond to /', () => {
         return chai
@@ -30,27 +34,14 @@ describe('Basic server tests', () => {
     });
 
     it('should redirect trailing slashes', () => {
-        function redirectRequest({ originalPath, redirectedPath }) {
-            return chai
-                .request(server)
-                .get(originalPath)
-                .redirects(0)
-                .catch(err => err.response)
-                .then(res => {
-                    return {
-                        res,
-                        originalPath,
-                        redirectedPath
-                    };
-                });
-        }
-
         return Promise.all([
-            redirectRequest({
+            helper.redirectRequest({
+                agent: agent,
                 originalPath: '/funding/',
                 redirectedPath: '/funding'
             }),
-            redirectRequest({
+            helper.redirectRequest({
+                agent: agent,
                 originalPath: '/funding/programmes/?location=wales',
                 redirectedPath: '/funding/programmes?location=wales'
             })
