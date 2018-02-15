@@ -50,14 +50,7 @@ sections.toplevel.addRoutes({
         path: '/contact',
         template: 'pages/toplevel/contact',
         lang: 'toplevel.contact',
-        aliases: [
-            '/about-big/contact-us',
-            '/help-and-support',
-            '/england/about-big/contact-us',
-            '/wales/about-big/contact-us',
-            '/scotland/about-big/contact-us',
-            '/northernireland/about-big/contact-us'
-        ]
+        aliases: ['/about-big/contact-us', '/help-and-support']
     }),
     data: dynamicRoute({
         path: '/data',
@@ -68,15 +61,7 @@ sections.toplevel.addRoutes({
         path: '/jobs',
         template: 'pages/toplevel/jobs',
         lang: 'toplevel.jobs',
-        aliases: [
-            '/about-big/jobs',
-            '/about-big/jobs/how-to-apply',
-            '/about-big/jobs/current-vacancies',
-            '/scotland/about-big/jobs/current-vacancies',
-            '/wales/about-big/jobs/current-vacancies',
-            '/england/about-big/jobs/current-vacancies',
-            '/northernireland/about-big/jobs/current-vacancies'
-        ]
+        aliases: ['/about-big/jobs', '/about-big/jobs/how-to-apply', '/about-big/jobs/current-vacancies']
     }),
     benefits: staticRoute({
         path: '/jobs/benefits',

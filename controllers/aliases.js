@@ -23,10 +23,6 @@ const legacyRedirects = [
     aliasFor('/funding', '/funding/funding-guidance/applying-for-funding'),
     aliasFor('/funding/programmes', '/Home/Funding/Funding*Finder'),
     aliasFor('/funding/programmes?location=scotland', '/funding/scotland-portfolio'),
-    aliasFor(
-        '/funding/programmes/national-lottery-awards-for-all-england',
-        '/england/global-content/programmes/england/awards-for-all-england'
-    ),
 
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
@@ -65,10 +61,6 @@ const vanityRedirects = sections => {
         vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
         vanity('/englandwebinars', '/funding/programmes/national-lottery-awards-for-all-england'),
         vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
-        vanity(
-            '/england/global-content/programmes/scotland/awards-for-all-scotland',
-            '/funding/programmes/national-lottery-awards-for-all-scotland'
-        ),
         vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
         vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
         vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
@@ -83,10 +75,6 @@ const vanityRedirects = sections => {
         vanity('/esf', '/funding/programmes/building-better-opportunities'),
         vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
         vanity(
-            '/wales/global-content/programmes/scotland/awards-for-all-scotland',
-            '/funding/programmes/national-lottery-awards-for-all-scotland'
-        ),
-        vanity(
             '/guidancetrackingprogress',
             '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress'
         ),
@@ -97,7 +85,6 @@ const vanityRedirects = sections => {
         vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
         vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),
         vanity('/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
-        vanity('/england/about-big/customer-service/making-a-complaint', `/contact#${anchors.contactComplaints}`),
         vanity('/welsh/about-big/customer-service/making-a-complaint', `/welsh/contact#${anchors.contactComplaints}`),
         vanity('/about-big/customer-service/fraud', `/contact#${anchors.contactFraud}`),
         vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
