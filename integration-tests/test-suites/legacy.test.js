@@ -126,4 +126,18 @@ describe('Legacy pages', () => {
                 );
             });
     });
+
+    it('should follow redirects on the legacy site', () => {
+        return chai
+            .request(server)
+            .get('/welshlanguage')
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res.status).to.equal(301);
+                expect(res).to.redirectTo(
+                    '/about-big/customer-service/welsh-language-scheme'
+                );
+            });
+    });
 });

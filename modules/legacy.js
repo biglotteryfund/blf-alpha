@@ -21,6 +21,7 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
         strictSSL: false,
         jar: true,
         followRedirect: followRedirect,
+        maxRedirects: 1,
         resolveWithFullResponse: true
     }).then(response => {
         let body = response.body;
@@ -93,14 +94,27 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
 };
 
 const proxyPassthrough = (req, res, next) => {
-    console.log('attempting to proxy ' + req.originalUrl);
     return proxyLegacyPage({
         req,
         res,
         followRedirect: false
-    }).catch(function(e) {
-        console.log('err ', e);
-        next();
+    }).catch(function(err) {
+        // some URLs are redirects, so let's see if this was one
+        if (err.statusCode === 301 || err.statusCode === 302) {
+            // was it a valid redirect or Sitecore's broken 404 page?
+            const brokenSitecorePath = '/sitecore/service/notfound.aspx';
+            let redirectDestination = get(err, 'response.headers.location', false);
+
+            if (redirectDestination.indexOf(brokenSitecorePath) === -1) {
+                // Make the redirect relative to the current environment
+                // (they seem to come back from Sitecore with an absolute path)
+                let liveUrl = `https://${config.get('siteDomain')}`;
+                redirectDestination = redirectDestination.replace(liveUrl, '');
+                return res.redirect(301, redirectDestination);
+            }
+        }
+        // either it wasn't a redirect, or Sitecore said no
+        return next();
     });
 };
 
