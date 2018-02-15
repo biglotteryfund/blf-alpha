@@ -101,7 +101,6 @@ const proxyPassthrough = (req, res, next) => {
     }).catch(function(err) {
         // some URLs are redirects, so let's see if this was one
         if (err.statusCode === 301 || err.statusCode === 302) {
-
             // was it a valid redirect or Sitecore's broken 404 page?
             const brokenSitecorePath = '/sitecore/service/notfound.aspx';
             let redirectDestination = get(err, 'response.headers.location', false);
