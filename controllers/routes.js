@@ -72,9 +72,14 @@ sections.toplevel.addRoutes({
             '/about-big/jobs',
             '/about-big/jobs/how-to-apply',
             '/about-big/jobs/current-vacancies',
+            // @TODO: Remove when regions can be redirected
+            '/england/about-big/jobs',
+            '/scotland/about-big/jobs',
+            '/wales/about-big/jobs',
+            '/northernireland/about-big/jobs',
+            '/england/about-big/jobs/current-vacancies',
             '/scotland/about-big/jobs/current-vacancies',
             '/wales/about-big/jobs/current-vacancies',
-            '/england/about-big/jobs/current-vacancies',
             '/northernireland/about-big/jobs/current-vacancies'
         ]
     }),
@@ -218,7 +223,14 @@ sections.about.addRoutes({
         template: 'pages/toplevel/about',
         lang: 'about.landing',
         live: true,
-        aliases: ['/about-big']
+        aliases: [
+            '/about-big',
+            // @TODO: Remove when regions can be redirected
+            '/england/about-big',
+            '/scotland/about-big',
+            '/wales/about-big',
+            '/northernireland/about-big'
+        ]
     }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',

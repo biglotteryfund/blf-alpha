@@ -27,7 +27,6 @@ const legacyRedirects = [
         '/funding/programmes/national-lottery-awards-for-all-england',
         '/england/global-content/programmes/england/awards-for-all-england'
     ),
-
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
     programmeRedirect('england/reaching-communities-england', 'reaching-communities-england'),
@@ -82,6 +81,7 @@ const vanityRedirects = sections => {
         vanity('/ccf', '/funding/programmes/coastal-communities-fund'),
         vanity('/esf', '/funding/programmes/building-better-opportunities'),
         vanity('/scottishlandfund', 'funding/programmes/scottish-land-fund'),
+        vanity('/headstart', '/global-content/programmes/england/fulfilling-lives-headstart'),
         vanity(
             '/wales/global-content/programmes/scotland/awards-for-all-scotland',
             '/funding/programmes/national-lottery-awards-for-all-scotland'
@@ -103,7 +103,8 @@ const vanityRedirects = sections => {
         vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
         vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
         vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales'),
-        vanity('/communityassets', '/global-content/programmes/scotland/community-assets')
+        vanity('/communityassets', '/global-content/programmes/scotland/community-assets'),
+        vanity('/funded-projects', '/funding/search-past-grants')
     ];
 };
 
