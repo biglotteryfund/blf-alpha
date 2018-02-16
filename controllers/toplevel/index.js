@@ -189,10 +189,16 @@ module.exports = (pages, sectionPath, sectionId) => {
 
     router.get('/robots.txt', (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
-        let text = 'User-agent: *\n';
-        robots.forEach(r => {
-            text += `Disallow: ${r}\n`;
-        });
+
+        let buildBlocklist = path => `Disallow: ${path}\n`;
+        let pathsToBlock = robots;
+
+        // block everything on preview mode
+        if (res.locals.PREVIEW_MODE) {
+            pathsToBlock = ['/'];
+        }
+
+        let text = pathsToBlock.reduce((acc, path) => acc + buildBlocklist(path), 'User-agent: *\n');
         res.send(text);
     });
 
