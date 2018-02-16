@@ -24,25 +24,6 @@ function setupRedirects(sectionPath, page) {
     }
 }
 
-function handleLegacyCmsPage(page, sectionId) {
-    return function(req, res) {
-        contentApi
-            .getLegacyPage({
-                locale: req.i18n.getLocale(),
-                path: contentApi.getCmsPath(sectionId, page.path)
-            })
-            .then(content => {
-                res.render('pages/legacy', {
-                    title: content.title,
-                    content: content
-                });
-            })
-            .catch(err => {
-                renderNotFoundWithError(err, req, res);
-            });
-    };
-}
-
 function handleCmsPage(sectionId) {
     return function(req, res) {
         contentApi
@@ -96,9 +77,7 @@ function init({ pages, router, sectionPath, sectionId }) {
             // Redirect any aliases to the canonical path
             setupRedirects(sectionPath, page);
 
-            if (page.isLegacyPage) {
-                router.get(page.path, handleLegacyCmsPage(page, sectionId));
-            } else if (page.useCmsContent) {
+            if (page.useCmsContent) {
                 router.get(page.path, handleCmsPage(sectionId));
             } else if (page.static) {
                 router.get(page.path, handleStaticPage(page));

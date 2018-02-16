@@ -81,18 +81,6 @@ function getFundingProgramme({ locale, slug }) {
     });
 }
 
-function getLegacyPage({ locale, path }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/legacy`,
-        qs: {
-            path: path
-        },
-        json: true
-    }).then(response => {
-        return get(response, 'data.attributes');
-    });
-}
-
 function getListingPage({ locale, path, previewMode }) {
     return request({
         url: `${CONTENT_API_URL}/v1/${locale}/listing`,
@@ -123,7 +111,6 @@ module.exports = {
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
-    getLegacyPage,
     getListingPage,
     getRoutes
 };
