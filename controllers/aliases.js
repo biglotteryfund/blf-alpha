@@ -104,7 +104,8 @@ const vanityRedirects = sections => {
         vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
         vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales'),
         vanity('/communityassets', '/global-content/programmes/scotland/community-assets'),
-        vanity('/headstart', '/global-content/programmes/england/fulfilling-lives-headstart')
+        vanity('/headstart', '/global-content/programmes/england/fulfilling-lives-headstart'),
+        vanity('/funded-projects', '/funding/search-past-grants')
     ];
 };
 
