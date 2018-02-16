@@ -21,6 +21,7 @@ const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securit
 const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
+const previewMiddleware = require('./middleware/preview');
 
 const { SENTRY_DSN } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
@@ -62,6 +63,7 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.all);
 app.use(localesMiddleware(app));
+app.use(previewMiddleware);
 
 // Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
