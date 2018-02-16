@@ -103,7 +103,8 @@ const vanityRedirects = sections => {
         vanity('/welsh/about-big/customer-service/fraud', `/welsh/contact#${anchors.contactFraud}`),
         vanity('/prog_people_places', '/funding/programmes?min=10000&location=wales'),
         vanity('/global-content/programmes/wales/people-and-places', '/funding/programmes?min=10000&location=wales'),
-        vanity('/communityassets', '/global-content/programmes/scotland/community-assets')
+        vanity('/communityassets', '/global-content/programmes/scotland/community-assets'),
+        vanity('/headstart', '/global-content/programmes/england/fulfilling-lives-headstart')
     ];
 };
 
