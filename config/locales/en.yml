@@ -14,7 +14,6 @@ global:
     about: About
     search: Search
     research: Research
-    jobs: Jobs
   contact:
     city: London
     phone: 0345 4 10 20 30
@@ -25,6 +24,7 @@ global:
     privacy-policy: Privacy Policy
     terms: Terms
     cookies: Cookies
+    jobs: Jobs
     contact: Contact
     site-map: Site map
     accessibility: Accessibility

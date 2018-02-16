@@ -14,7 +14,6 @@ global:
     about: Amdanom ni
     search: Chwilio
     research: Ymchwil
-    jobs: Swyddi
   contact:
     city: Llundain
     phone: 0300 123 0735
@@ -25,6 +24,7 @@ global:
     privacy-policy: Polisi Preifatrwydd
     terms: Telerau
     cookies: Cwcis
+    jobs: Swyddi
     contact: Cyswllt
     site-map: Map o'r wefan
     accessibility: Hygyrchedd
