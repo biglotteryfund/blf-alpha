@@ -23,6 +23,25 @@ function getApiUrl() {
 }
 
 /**
+ * Adds the preview parameters to the request
+ * (if accessed via the preview domain)
+ */
+function addPreviewParams(previewMode, params) {
+    if (!previewMode) {
+        return params;
+    }
+
+    let previewParams = {};
+    previewParams[previewMode.mode] = previewMode.id; // eg. ?draft=123
+
+    return Object.assign(
+        {},
+        previewParams,
+        params
+    );
+}
+
+/**
  * Get CMS Path
  * Returns sanitised pagePath for top-level sections
  * otherwise prepends sectionId to pagePath
@@ -74,12 +93,12 @@ function getLegacyPage({ locale, path }) {
     });
 }
 
-function getListingPage({ locale, path }) {
+function getListingPage({ locale, path, previewMode }) {
     return request({
         url: `${CONTENT_API_URL}/v1/${locale}/listing`,
-        qs: {
+        qs: addPreviewParams(previewMode, {
             path: path
-        },
+        }),
         json: true
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);

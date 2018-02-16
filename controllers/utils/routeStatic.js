@@ -48,7 +48,8 @@ function handleCmsPage(sectionId) {
         contentApi
             .getListingPage({
                 locale: req.i18n.getLocale(),
-                path: contentApi.getCmsPath(sectionId, req.path)
+                path: contentApi.getCmsPath(sectionId, req.path),
+                previewMode: res.locals.PREVIEW_MODE || false
             })
             .then(content => {
                 const title = content.title;
