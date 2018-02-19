@@ -87,7 +87,7 @@
     "express-ab": "^0.7.1",
     "express-cache-controller": "^1.0.1",
     "express-session": "^1.15.5",
-    "express-validator": "^4.2.1",
+    "express-validator": "^5.0.0",
     "fitvids": "^2.0.0",
     "hammerjs": "^2.0.8",
     "helmet": "^3.8.1",
