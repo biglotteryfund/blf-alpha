@@ -6,9 +6,9 @@ const rp = require('request-promise-native');
 const config = require('config');
 const xss = require('xss');
 
-const cached = require('../../middleware/cached');
 const { customEvent } = require('../../modules/analytics');
-const { DOTMAILER_API_USER, DOTMAILER_API_PASSWORD } = require('../../modules/secrets');
+const { getSecret } = require('../../modules/secrets');
+const cached = require('../../middleware/cached');
 
 function init({ router, routeConfig, sectionPath }) {
     const ebulletinPath = sectionPath + routeConfig.path;
@@ -115,8 +115,8 @@ function init({ router, routeConfig, sectionPath }) {
                         uri: config.get('ebulletinApiEndpoint') + apiAddContactPath,
                         method: 'POST',
                         auth: {
-                            user: DOTMAILER_API_USER,
-                            pass: DOTMAILER_API_PASSWORD,
+                            user: getSecret('dotmailer.api.user'),
+                            pass: getSecret('dotmailer.api.password'),
                             sendImmediately: true
                         },
                         json: true,

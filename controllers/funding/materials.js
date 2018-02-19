@@ -1,4 +1,5 @@
 const Raven = require('raven');
+const config = require('config');
 const moment = require('moment');
 const { get } = require('lodash');
 const { validationResult } = require('express-validator/check');
@@ -9,7 +10,7 @@ const app = require('../../server');
 const ordersService = require('../../services/orders');
 const mail = require('../../modules/mail');
 const cached = require('../../middleware/cached');
-const { EMAIL_MATERIALS_SUPPLIER } = require('../../modules/secrets');
+const { getSecret } = require('../../modules/secrets');
 
 const freeMaterialsLogic = {
     formFields: require('./free-materials/formFields'),
@@ -91,7 +92,7 @@ function init({ router, routeConfig }) {
 
         text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
-
+        
         return {
             text,
             details
@@ -209,7 +210,7 @@ function init({ router, routeConfig }) {
                     let sendOrderEmail = mail.send({
                         subject: `Order from Big Lottery Fund website - ${dateNow}`,
                         text: orderText.text,
-                        sendTo: EMAIL_MATERIALS_SUPPLIER,
+                        sendTo: process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier'),
                         sendMode: 'bcc'
                     });
 

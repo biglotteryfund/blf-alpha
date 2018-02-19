@@ -1,9 +1,11 @@
-const { get, take } = require('lodash');
+const { get, take, sortedUniq } = require('lodash');
 const request = require('request-promise-native');
-let { CONTENT_API_URL } = require('../modules/secrets');
+const { getSecret } = require('../modules/secrets');
 
-if (!CONTENT_API_URL) {
-    console.log('Error: CONTENT_API_URL endpoint must be defined');
+let API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
+
+if (!API_URL) {
+    console.log('Error: API_URL endpoint must be defined');
     process.exit(1);
 }
 
@@ -11,14 +13,14 @@ if (!CONTENT_API_URL) {
  * Setter method exposed to aid with tests
  */
 function setApiUrl(customApiUrl) {
-    CONTENT_API_URL = customApiUrl;
+    API_URL = customApiUrl;
 }
 
 /**
  * Getter method exposed to aid with tests
  */
 function getApiUrl() {
-    return CONTENT_API_URL;
+    return API_URL;
 }
 
 /**
@@ -32,7 +34,7 @@ function getCmsPath(sectionId, pagePath) {
 
 function getPromotedNews({ locale, limit }) {
     return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/promoted-news`,
+        url: `${API_URL}/v1/${locale}/promoted-news`,
         json: true
     }).then(response => {
         const data = get(response, 'data', []);
@@ -43,7 +45,7 @@ function getPromotedNews({ locale, limit }) {
 
 function getFundingProgrammes({ locale }) {
     return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/funding-programmes`,
+        url: `${API_URL}/v1/${locale}/funding-programmes`,
         json: true
     }).then(response => {
         const programmes = response.data.map(item => item.attributes);
@@ -53,7 +55,7 @@ function getFundingProgrammes({ locale }) {
 
 function getFundingProgramme({ locale, slug }) {
     return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/funding-programme/${slug}`,
+        url: `${API_URL}/v1/${locale}/funding-programme/${slug}`,
         json: true
     }).then(response => {
         const entry = get(response, 'data.attributes');
@@ -63,7 +65,7 @@ function getFundingProgramme({ locale, slug }) {
 
 function getLegacyPage({ locale, path }) {
     return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/legacy`,
+        url: `${API_URL}/v1/${locale}/legacy`,
         qs: {
             path: path
         },
@@ -75,7 +77,7 @@ function getLegacyPage({ locale, path }) {
 
 function getListingPage({ locale, path }) {
     return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/listing`,
+        url: `${API_URL}/v1/${locale}/listing`,
         qs: {
             path: path
         },
@@ -87,7 +89,7 @@ function getListingPage({ locale, path }) {
 
 function getRoutes() {
     return request({
-        url: `${CONTENT_API_URL}/v1/list-routes`,
+        url: `${API_URL}/v1/list-routes`,
         json: true
     }).then(response => {
         return response.data.map(item => item.attributes);

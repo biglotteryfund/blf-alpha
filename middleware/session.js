@@ -4,10 +4,12 @@ const session = require('express-session');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const models = require('../models/index');
+const { getSecret } = require('../modules/secrets');
 const appData = require('../modules/appData');
-const { SESSION_SECRET } = require('../modules/secrets');
 
 module.exports = function(app) {
+    const sessionSecret = process.env.sessionSecret || getSecret('session.secret');
+
     if (!appData.isDev) {
         app.set('trust proxy', 4);
     }
@@ -22,7 +24,7 @@ module.exports = function(app) {
     // add session
     const sessionConfig = {
         name: config.get('cookies.session'),
-        secret: SESSION_SECRET,
+        secret: sessionSecret,
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -32,5 +34,5 @@ module.exports = function(app) {
         store: store
     };
 
-    return [cookieParser(SESSION_SECRET), session(sessionConfig), flash()];
+    return [cookieParser(sessionSecret), session(sessionConfig), flash()];
 };
