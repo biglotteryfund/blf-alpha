@@ -227,8 +227,11 @@ sections.about.addRoutes({
             '/england/about-big',
             '/wales/about-big',
             '/scotland/about-big',
-            '/northernireland/about-big',
+            '/northernireland/about-big'
         ]
+    }),
+    content: cmsRoute({
+        path: '/*'
     }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',
