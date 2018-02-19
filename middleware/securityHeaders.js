@@ -63,7 +63,8 @@ function defaultSecurityHeaders() {
         '*.twimg.com',
         '*.youtube.com',
         'sentry.io',
-        '*.biglotteryfund.org.uk'
+        '*.biglotteryfund.org.uk',
+        'via.placeholder.com'
     ];
 
     const directives = {
