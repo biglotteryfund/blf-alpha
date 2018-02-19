@@ -1,9 +1,9 @@
 'use strict';
 const { getSecret } = require('../modules/secrets');
+const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
 
 // Sets a global parameter to indicate if this request came from a preview domain
 module.exports = (req, res, next) => {
-    let PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
     if (req.get('host') === PREVIEW_DOMAIN) {
         let previewData = {};
         const allowedModes = ['version', 'draft'];
