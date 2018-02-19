@@ -92,7 +92,7 @@ router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);
-router.route('/tools/survey-results/').get(requiredAuthed, toolsSecurityHeaders(), cached.noCache, (req, res) => {
+router.route('/tools/survey-results/').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {

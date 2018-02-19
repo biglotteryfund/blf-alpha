@@ -16,7 +16,7 @@ const router = express.Router();
 router.use(toolsSecurityHeaders());
 
 // serve a logged-in user's dashboard
-router.get(userEndpoints.dashboard, auth.requireAuthed, cached.noCache, dashboard.dashboard);
+router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
 
 // register users
 router
@@ -41,7 +41,7 @@ router.get(userEndpoints.logout, cached.noCache, (req, res) => {
 });
 
 // activate an account
-router.get(userEndpoints.activate, auth.requireAuthed, cached.noCache, register.activateUser);
+router.get(userEndpoints.activate, cached.noCache, auth.requireAuthed, register.activateUser);
 
 // request a password reset email
 router
