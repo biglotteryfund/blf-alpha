@@ -3,9 +3,12 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 
 const mail = require('../../modules/mail');
-const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
+const { getSecret } = require('../../modules/secrets');
 const userService = require('../../services/user');
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
+
+// fetch token from CI store or application secrets
+const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 const requestResetForm = (req, res) => {
     res.render('user/resetpassword', {
@@ -41,7 +44,7 @@ const changePasswordForm = (req, res) => {
     }
 
     // a user has followed a reset link
-    jwt.verify(token, JWT_SIGNING_TOKEN, (err, decoded) => {
+    jwt.verify(token, jwtSigningToken, (err, decoded) => {
         if (err) {
             trackError('Password reset token expired or invalid signature');
             // send them to start of the reset process (otherwise this is an endless loop)
@@ -105,7 +108,7 @@ const sendResetEmail = (req, res) => {
                                 reason: 'resetpassword'
                             }
                         },
-                        JWT_SIGNING_TOKEN,
+                        jwtSigningToken,
                         {
                             expiresIn: '1h' // short-lived token
                         }
@@ -170,7 +173,7 @@ const updatePassword = (req, res) => {
             return changePasswordForm(req, res);
         } else {
             // check the token again
-            jwt.verify(changePasswordToken, JWT_SIGNING_TOKEN, (err, decoded) => {
+            jwt.verify(changePasswordToken, jwtSigningToken, (err, decoded) => {
                 if (err) {
                     trackError('Password reset token expired or invalid');
                     res.locals.errors = makeErrorList('Your password reset period has expired - please try again');

@@ -22,7 +22,7 @@ const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
 
-const { SENTRY_DSN } = require('./modules/secrets');
+const { getSecret } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');
@@ -31,6 +31,7 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
+const SENTRY_DSN = getSecret('sentry.dsn');
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
         environment: appData.environment,

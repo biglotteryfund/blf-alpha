@@ -5,7 +5,7 @@ const moment = require('moment');
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
-const { EMAIL_REACHING_COMMUNITIES_RECIPIENTS } = require('../../../modules/secrets');
+const { getSecret } = require('../../../modules/secrets');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -215,7 +215,7 @@ formModel.registerSuccessStep({
                     }
 
                     // BCC internal staff
-                    const rcRecipients = EMAIL_REACHING_COMMUNITIES_RECIPIENTS;
+                    const rcRecipients = getSecret('emails.reachingcommunities.recipients');
                     const sendTo = [to].concat(rcRecipients.split(','));
 
                     mail

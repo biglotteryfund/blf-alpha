@@ -1,16 +1,25 @@
 'use strict';
 const debug = require('debug')('blf-alpha:models');
 const Sequelize = require('sequelize');
+const config = require('config');
 const path = require('path');
-const { DATABASE_NAME, DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD } = require('../modules/secrets');
+const { getSecret } = require('../modules/secrets');
 
 let db = {};
 
+let dbCredentials = {
+    host: process.env.mysqlHost || getSecret('mysql.host'),
+    user: process.env.mysqlUser || getSecret('mysql.user'),
+    pass: process.env.mysqlPassword || getSecret('mysql.password')
+};
+
 let sequelize;
 
-if (DATABASE_HOST) {
-    const sequelizeConfig = {
-        host: DATABASE_HOST,
+if (dbCredentials.host) {
+    let databaseName = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
+
+    let sequelizeConfig = {
+        host: dbCredentials.host,
         logging: false,
         dialect: 'mysql',
         // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-security
@@ -28,7 +37,7 @@ if (DATABASE_HOST) {
         sequelizeConfig.storage = path.join(__dirname, `../tmp/test.db`);
     }
 
-    sequelize = new Sequelize(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, sequelizeConfig);
+    sequelize = new Sequelize(databaseName, dbCredentials.user, dbCredentials.pass, sequelizeConfig);
 
     sequelize
         .authenticate()
