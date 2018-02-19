@@ -34,11 +34,7 @@ function addPreviewParams(previewMode, params) {
     let previewParams = {};
     previewParams[previewMode.mode] = previewMode.id; // eg. ?draft=123
 
-    return Object.assign(
-        {},
-        previewParams,
-        params
-    );
+    return Object.assign({}, previewParams, params);
 }
 
 /**
