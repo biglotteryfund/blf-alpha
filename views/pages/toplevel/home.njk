@@ -1,5 +1,5 @@
 {% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
-{% from "components/caseStudy.njk" import caseStudy %}
+{% from "components/caseStudies.njk" import caseStudyFeature %}
 {% from "components/forms.njk" import textInput, radios with context %}
 {% from "components/hero.njk" import homepageSuperHero %}
 {% from "components/news.njk" import articleTeaser with context %}
@@ -47,7 +47,7 @@
                     {% for c in copy.caseStudies %}
                         <li class="swiper-slide">
                             {{
-                                caseStudy(
+                                caseStudyFeature(
                                     quoteText = c.quoteText,
                                     quoteName = c.quoteName,
                                     quoteNameCaption = c.quoteNameCaption,
