@@ -21,7 +21,7 @@
         {% if content.relatedContent %}
             <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                    <article class="content-box s-prose s-prose--legacy js-annotate-links">
+                    <article class="content-box s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                         {{ content.introduction | safe }}
                     </article>
                 </div>
@@ -32,15 +32,26 @@
                 </div>
             </section>
         {% else %}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose s-prose--legacy js-annotate-links">
+            <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                     {{ content.introduction | safe }}
                 </div>
             </section>
         {% endif %}
 
+        {% if content.segments.length > 0 %}
+            {% for segment in content.segments %}
+                <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
+                    <div class="s-prose s-prose--legacy u-constrained-content-wide">
+                        <h2 class="t1">{{ segment.title }}</h2>
+                        {{ segment.content | safe }}
+                    </div>
+                </section>
+            {% endfor %}
+        {% endif %}
+
         {% if content.outro %}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose s-prose--legacy">
                     {{ content.outro | safe }}
                 </div>
