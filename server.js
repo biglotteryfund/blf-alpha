@@ -6,6 +6,10 @@ const config = require('config');
 const Raven = require('raven');
 
 const appData = require('./modules/appData');
+if (appData.isDev) {
+    require('dotenv').config();
+}
+
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 const { shouldServe } = require('./modules/pageLogic');
@@ -27,10 +31,6 @@ const { SENTRY_DSN } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
 const { renderError, renderNotFound } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');
-
-if (appData.isDev) {
-    require('dotenv').config();
-}
 
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
