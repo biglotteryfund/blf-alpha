@@ -230,9 +230,6 @@ sections.about.addRoutes({
             '/northernireland/about-big'
         ]
     }),
-    content: cmsRoute({
-        path: '/*'
-    }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',
         template: 'pages/about/freedom-of-information',
@@ -250,6 +247,9 @@ sections.about.addRoutes({
         template: 'pages/about/ebulletin',
         isPostable: true,
         aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
+    }),
+    content: cmsRoute({
+        path: '/*'
     })
 });
 
