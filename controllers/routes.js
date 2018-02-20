@@ -249,7 +249,8 @@ sections.about.addRoutes({
         aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
     }),
     content: cmsRoute({
-        path: '/*'
+        path: '/*',
+        live: false
     })
 });
 
