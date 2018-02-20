@@ -75,6 +75,9 @@
     padding: $spacingUnit / 2;
     padding-bottom: $spacingUnit;
 }
+.photo-card__description {
+    margin-bottom: 0;
+}
 
 @media screen and (min-width: 480px) and (max-width: 760px) {
     .photo-card {

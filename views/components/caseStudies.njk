@@ -69,15 +69,15 @@
                     Grant: {{ grantAmount }}
                 </p>
             {% endif %}
-            <div class="photo-card__description t7">
-                {{ trailText | safe }}
+            <p class="photo-card__description t7">
+                {{ trailText }}
                 {% if linkUrl %}
                     <a href="{{ linkUrl }}"
                         class="{% if accent %}accent--{{ accent }} a--text {% endif %}u-weight-heavy">
                         {{ trailTextMore }}
                     </a>
                 {% endif %}
-            </div>
+            </p>
         </div>
     </div>
 {% endmacro %}

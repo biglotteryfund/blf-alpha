@@ -86,18 +86,18 @@ function getListingPage({ locale, path }) {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === path);
 
-        if (match) {
-            const exampleCaseStudy = {
-                title: 'Darren’s Story',
-                trailText:
-                    '<p>Darren Murinas is an expert citizen for <a href="http://www.voicesofstoke.org.uk/">Voices</a>, the Stoke partnership supporting people with multiple needs.</p>',
-                trailTextMore: 'Read Darren’s Story…',
-                thumbnailUrl: 'https://via.placeholder.com/600x339.jpg?text=Placeholder',
-                linkUrl: 'https://www.biglotteryfund.org.uk/about-big/strategic-framework/sfengcasestudy'
-            };
+        // if (match) {
+        //     const exampleCaseStudy = {
+        //         title: 'Darren’s Story',
+        //         trailText:
+        //             '<p>Darren Murinas is an expert citizen for <a href="http://www.voicesofstoke.org.uk/">Voices</a>, the Stoke partnership supporting people with multiple needs.</p>',
+        //         trailTextMore: 'Read Darren’s Story…',
+        //         thumbnailUrl: 'https://via.placeholder.com/600x339.jpg?text=Placeholder',
+        //         linkUrl: 'https://www.biglotteryfund.org.uk/about-big/strategic-framework/sfengcasestudy'
+        //     };
 
-            match.caseStudies = [exampleCaseStudy, exampleCaseStudy, exampleCaseStudy];
-        }
+        //     match.caseStudies = [exampleCaseStudy, exampleCaseStudy, exampleCaseStudy];
+        // }
 
         return match;
     });
