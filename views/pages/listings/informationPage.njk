@@ -9,7 +9,7 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
-    {% set pageAccent = 'cyan' %}
+    {% set pageAccent = content.themeColour | default('pink') %}
     {{ sectionHero(
         titleText = title,
         image = heroImage,
