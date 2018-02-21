@@ -67,10 +67,11 @@ function getFundingProgrammes({ locale }) {
     });
 }
 
-function getFundingProgramme({ locale, slug }) {
+function getFundingProgramme({ locale, slug, previewMode }) {
     return request({
         url: `${CONTENT_API_URL}/v1/${locale}/funding-programme/${slug}`,
-        json: true
+        json: true,
+        qs: addPreviewParams(previewMode)
     }).then(response => {
         const entry = get(response, 'data.attributes');
         return entry;
