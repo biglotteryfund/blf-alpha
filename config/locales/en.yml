@@ -307,6 +307,12 @@ toplevel:
       lastName: Surname
       organisation: Organisation
       emailAddress: Email Address
+    errors:
+      firstName: Please provide your first name
+      lastName: Please provide your last name
+      emailMissing: Please provide your email address
+      emailInvalid: Please provide a valid email address
+      location: Please choose a country newsletter
     callToAction: Subscribe
     responses:
       success:
