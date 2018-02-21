@@ -2,7 +2,6 @@
 
 const chai = require('chai');
 const { JSDOM } = require('jsdom');
-const { URL } = require('url');
 const { map } = require('lodash');
 const config = require('config');
 
@@ -88,8 +87,7 @@ describe('Core sections and features', () => {
             .then(res => {
                 const { document } = new JSDOM(res.text).window;
                 const langSwitcherHref = document.querySelector('.qa-lang-switcher').href;
-                const urlPath = new URL(langSwitcherHref).pathname;
-                expect(urlPath).to.equal('/welsh/funding/over10k');
+                expect(langSwitcherHref).to.equal('/welsh/funding/over10k');
             });
     });
 
@@ -100,8 +98,7 @@ describe('Core sections and features', () => {
             .then(res => {
                 const { document } = new JSDOM(res.text).window;
                 const langSwitcherHref = document.querySelector('.qa-lang-switcher').href;
-                const urlPath = new URL(langSwitcherHref).pathname;
-                expect(urlPath).to.equal('/funding/over10k');
+                expect(langSwitcherHref).to.equal('/funding/over10k');
             });
     });
 

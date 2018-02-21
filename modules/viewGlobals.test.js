@@ -33,8 +33,8 @@ describe('View Globals', () => {
                     'X-Forwarded-Proto': 'https'
                 }
             });
-            expect(getCurrentUrl(req, 'en')).to.equal('https://biglotteryfund.org.uk/some/example/url');
-            expect(getCurrentUrl(req, 'cy')).to.equal('https://biglotteryfund.org.uk/welsh/some/example/url');
+            expect(getCurrentUrl(req, 'en')).to.equal('/some/example/url');
+            expect(getCurrentUrl(req, 'cy')).to.equal('/welsh/some/example/url');
         });
 
         it('should correct url if in cy locale', () => {
@@ -47,8 +47,28 @@ describe('View Globals', () => {
                 }
             });
 
-            expect(getCurrentUrl(req, 'en')).to.equal('https://biglotteryfund.org.uk/some/example/url');
-            expect(getCurrentUrl(req, 'cy')).to.equal('https://biglotteryfund.org.uk/welsh/some/example/url');
+            expect(getCurrentUrl(req, 'en')).to.equal('/some/example/url');
+            expect(getCurrentUrl(req, 'cy')).to.equal('/welsh/some/example/url');
+        });
+
+        it('should strip version and draft query parameters', () => {
+            function withQuery(query) {
+                return httpMocks.createRequest({
+                    method: 'GET',
+                    url: `/some/example/url?${query}`,
+                    headers: {
+                        Host: 'biglotteryfund.org.uk',
+                        'X-Forwarded-Proto': 'https'
+                    }
+                });
+            }
+            expect(getCurrentUrl(withQuery('version=123'))).to.equal('/some/example/url');
+            expect(getCurrentUrl(withQuery('draft=123'))).to.equal('/some/example/url');
+            expect(getCurrentUrl(withQuery('version=123&something=else'))).to.equal('/some/example/url?something=else');
+            expect(getCurrentUrl(withQuery('draft=2&something=else'))).to.equal('/some/example/url?something=else');
+            expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).to.equal(
+                '/some/example/url?something=else'
+            );
         });
     });
 
