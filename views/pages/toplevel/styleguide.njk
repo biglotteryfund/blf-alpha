@@ -1,15 +1,13 @@
-{% extends "../../layouts/styleguide.njk" %}
+{% extends "layouts/styleguide.njk" %}
 
-{% from "../../components/styleguide.njk" import sgSectionHeader, sgBlock %}
+{% from "components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
-{% from "../../components/cards.njk" import photoCard with context %}
-{% from "../../components/caseStudy.njk" import caseStudy %}
-{% from "../../components/data.njk" import statsGrid %}
-{% from "../../components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
-{% from "../../components/news.njk" import articleTeaser with context %}
-{% from "../../components/programmes.njk" import programmeCard, selectionTrail with context %}
-{% from "../../components/segment.njk" import segment %}
-{% from "../../components/tabs.njk" import tabs %}
+{% from "components/data.njk" import statsGrid %}
+{% from "components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
+{% from "components/news.njk" import articleTeaser with context %}
+{% from "components/programmes.njk" import programmeCard, selectionTrail with context %}
+{% from "components/segment.njk" import segment %}
+{% from "components/tabs.njk" import tabs %}
 
 {% block content %}
 
@@ -175,23 +173,6 @@
 {% endset %}
 {{ sgBlock('Article Teaser', sgContent) }}
 
-
-{% set sgContent %}
-    {{
-
-        caseStudy(
-            projectName = 'Voice of Young People in Care',
-            quoteName = 'Andrea Glenn',
-            quoteText = 'I want young people in care to know that they are just as capable of reaching their goals as everyone else.',
-            imageUrl = 'home/case-study-1-medium.jpg',
-            imageSmallUrl = 'home/case-study-1-small.jpg',
-            link = 'funding/big-stories/voice-of-young-people-in-care'
-        )
-    }}
-{% endset %}
-{{ sgBlock('Case Studies', sgContent) }}
-
-
 {% set sgContent %}
     <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
         <li class="grid__item">
@@ -222,28 +203,6 @@
     {{ statsGrid(__('toplevel.data.data')) }}
 {% endset %}
 {{ sgBlock('Stats Grid', sgContent) }}
-
-
-{% set sgContent %}
-    <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-        {% for i in [1,2,3]  %}
-            <li class="grid__item">
-                {{ photoCard(
-                    title = "Voice of Young People in Care",
-                    subtitle = "Grant: £590,000",
-                    description = "Builds young people’s skills and confidence, involving them in decisions about their care, and letting them share their views to shape the care system.",
-                    image = "eyp/vypc.jpg",
-                    link = "#"
-                ) }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endset %}
-{% set sgNotes %}
-    <p>Generic photo card, consisting of title, subtitle, description, image, and link.</p>
-{% endset %}
-{{ sgBlock('Photo Card', sgContent, sgNotes) }}
-
 
 {% set sgContent %}
     {{ programmeCard(

@@ -1,9 +1,9 @@
-{% from "../../components/cards.njk" import photoCard with context %}
-{% from "../../components/tabs.njk" import tabs %}
-{% import "../../components/headers.njk" as headers %}
-{% import "../../components/hero.njk" as hero %}
+{% from "components/caseStudies.njk" import caseStudyCard %}
+{% from "components/tabs.njk" import tabs %}
+{% import "components/headers.njk" as headers %}
+{% import "components/hero.njk" as hero %}
 
-{% extends "../../layouts/main.njk" %}
+{% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
@@ -250,12 +250,13 @@
                 {% for project in exampleProjects %}
                     <li class="grid__item">
                         {{
-                            photoCard(
+                            caseStudyCard(
                                 title = project.name,
-                                subTitle = "Grant: " + project.amount,
-                                description = project.description,
-                                link = project.link,
-                                image = project.image,
+                                grantAmount = project.amount,
+                                linkUrl = project.link,
+                                trailText = project.description,
+                                trailTextMore =  __('global.misc.readMore') + "…",
+                                imageUrl = project.image,
                                 accent = 'pink'
                             )
                         }}

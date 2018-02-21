@@ -91,7 +91,7 @@ function handleStaticPage(page) {
  */
 function init({ pages, router, sectionPath, sectionId }) {
     forEach(pages, page => {
-        if (shouldServe(page.live)) {
+        if (shouldServe(page)) {
             // Redirect any aliases to the canonical path
             setupRedirects(sectionPath, page);
 

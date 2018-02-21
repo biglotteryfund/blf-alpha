@@ -1,6 +1,8 @@
 const appData = require('./appData');
 
-const shouldServe = isLive => appData.isNotProduction ? true : isLive;
+function shouldServe(page) {
+    return appData.isNotProduction ? true : page.live === true;
+}
 
 module.exports = {
     shouldServe

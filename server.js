@@ -113,7 +113,7 @@ function serveRedirect({ sourcePath, destinationPath }) {
  * Redirecy legacy URLs to new locations
  * For these URLs handle both english and welsh variants
  */
-routes.legacyRedirects.filter(p => shouldServe(p.live)).forEach(route => {
+routes.legacyRedirects.filter(shouldServe).forEach(route => {
     serveRedirect({
         sourcePath: route.path,
         destinationPath: route.destination
@@ -128,7 +128,7 @@ routes.legacyRedirects.filter(p => shouldServe(p.live)).forEach(route => {
  * Vanity URLs
  * Sharable short-urls redirected to canonical URLs.
  */
-routes.vanityRedirects.filter(p => shouldServe(p.live)).forEach(route => {
+routes.vanityRedirects.filter(shouldServe).forEach(route => {
     serveRedirect({
         sourcePath: route.path,
         destinationPath: route.destination
@@ -139,7 +139,7 @@ routes.vanityRedirects.filter(p => shouldServe(p.live)).forEach(route => {
  * Archived Routes
  * Redirect to the National Archvies
  */
-routes.archivedRoutes.filter(p => shouldServe(p.live)).forEach(route => {
+routes.archivedRoutes.filter(shouldServe).forEach(route => {
     app.get(route.path, noCache, redirectArchived);
     app.get(makeWelsh(route.path), noCache, redirectArchived);
 });

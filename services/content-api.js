@@ -1,4 +1,4 @@
-const { get, take, sortedUniq } = require('lodash');
+const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const { getSecret } = require('../modules/secrets');
 
@@ -83,7 +83,9 @@ function getListingPage({ locale, path }) {
         },
         json: true
     }).then(response => {
-        return response.data.map(item => item.attributes).find(_ => _.path === path);
+        const attributes = response.data.map(item => item.attributes);
+        const match = attributes.find(_ => _.path === path);
+        return match;
     });
 }
 

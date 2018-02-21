@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import sectionHero %}
-{% from "components/segment.njk" import segment %}
+{% from "components/caseStudies.njk" import caseStudyCard with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -9,7 +9,7 @@
 {% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
-    {% set pageAccent = 'cyan' %}
+    {% set pageAccent = content.themeColour | default('pink') %}
     {{ sectionHero(
         titleText = title,
         image = heroImage,
@@ -21,7 +21,7 @@
         {% if content.relatedContent %}
             <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                    <article class="content-box s-prose s-prose--legacy js-annotate-links">
+                    <article class="content-box s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                         {{ content.introduction | safe }}
                     </article>
                 </div>
@@ -32,15 +32,50 @@
                 </div>
             </section>
         {% else %}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose s-prose--legacy js-annotate-links">
+            <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                     {{ content.introduction | safe }}
                 </div>
             </section>
         {% endif %}
 
+        {% if content.segments.length > 0 %}
+            {% for segment in content.segments %}
+                <section id="segment-{{ loop.index }}" class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
+                    <div class="s-prose s-prose--legacy u-constrained-content-wide">
+                        <h2 class="t1">{{ segment.title }}</h2>
+                        {{ segment.content | safe }}
+                    </div>
+                </section>
+            {% endfor %}
+        {% endif %}
+
+        {% if content.caseStudies.length > 0 %}
+            <section id="case-studies" class="inner">
+                <h2 class="t1">Case Studies</h2>
+                <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                    {% for caseStudy in content.caseStudies %}
+                        <li class="grid__item">
+                            {{
+                                caseStudyCard(
+                                    title = caseStudy.title,
+                                    grantAmount = null,
+                                    linkUrl = caseStudy.linkUrl,
+                                    trailText = caseStudy.trailText,
+                                    trailTextMore = caseStudy.trailTextMore,
+                                    imageUrl = caseStudy.thumbnailUrl,
+                                    useRemoteImages = true,
+                                    accent = pageAccent
+                                )
+                            }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
         {% if content.outro %}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose s-prose--legacy">
                     {{ content.outro | safe }}
                 </div>
