@@ -17,16 +17,13 @@ const surveyService = require('../../services/surveys');
 
 const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
+const { noCache } = require('../../middleware/cached');
 
 const homepageRoute = require('./homepage');
 const searchRoute = require('./search');
 const legacyPages = require('./legacyPages');
 
-const robots = require('../../config/app/robots.json');
-// block everything on non-prod envs
-if (appData.isNotProduction) {
-    robots.push('/');
-}
+const blockedRobotRoutes = require('../../config/app/robots.json');
 
 module.exports = (pages, sectionPath, sectionId) => {
     routerSetup({
@@ -187,15 +184,17 @@ module.exports = (pages, sectionPath, sectionId) => {
         });
     });
 
-    router.get('/robots.txt', (req, res) => {
+    router.get('/robots.txt', noCache, (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
 
         let buildBlocklist = path => `Disallow: ${path}\n`;
-        let pathsToBlock = robots;
 
-        // block everything on preview mode
-        if (res.locals.PREVIEW_MODE) {
-            pathsToBlock = ['/'];
+        // block all by default
+        let pathsToBlock = ['/'];
+
+        // only allow robots to crawl the live production domain
+        if (req.get('host') === config.get('siteDomain')) {
+            pathsToBlock = blockedRobotRoutes;
         }
 
         let text = pathsToBlock.reduce((acc, path) => acc + buildBlocklist(path), 'User-agent: *\n');
