@@ -6,12 +6,15 @@ const rp = require('request-promise-native');
 const config = require('config');
 const xss = require('xss');
 
+const { errorTranslator } = require('../../modules/validators');
 const { customEvent } = require('../../modules/analytics');
 const { getSecret } = require('../../modules/secrets');
 const cached = require('../../middleware/cached');
 
 function init({ router, routeConfig, sectionPath }) {
     const ebulletinPath = sectionPath + routeConfig.path;
+
+    const translateError = errorTranslator('toplevel.ebulletin.errors');
 
     router
         .route(routeConfig.path)
@@ -20,31 +23,31 @@ function init({ router, routeConfig, sectionPath }) {
                 redirectTo: ebulletinPath
             });
         })
-        // send form data to the (third party) email newsletter provider
-        // @TODO translate these error messages
-        // see https://github.com/ctavan/express-validator/issues/466#issuecomment-365220272
         .post(
             cached.noCache,
             [
-                body('firstName', 'Please provide your first name')
+                body('firstName')
                     .exists()
                     .not()
-                    .isEmpty(),
-                body('lastName', 'Please provide your last name')
+                    .isEmpty()
+                    .withMessage(translateError('firstName')),
+                body('lastName')
                     .exists()
                     .not()
-                    .isEmpty(),
+                    .isEmpty()
+                    .withMessage(translateError('lastName')),
                 body('email')
                     .exists()
                     .not()
                     .isEmpty()
-                    .withMessage('Please provide your email address')
+                    .withMessage(translateError('emailMissing'))
                     .isEmail()
-                    .withMessage('Please provide a valid email address'),
-                body('location', 'Please choose a country newsletter')
+                    .withMessage(translateError('emailInvalid')),
+                body('location')
                     .exists()
                     .not()
                     .isEmpty()
+                    .withMessage(translateError('location'))
             ],
             (req, res) => {
                 const errors = validationResult(req);
