@@ -1,4 +1,4 @@
-const { get, take, sortedUniq } = require('lodash');
+const { get, take } = require('lodash');
 const request = require('request-promise-native');
 const { getSecret } = require('../modules/secrets');
 
@@ -85,20 +85,6 @@ function getListingPage({ locale, path }) {
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === path);
-
-        // if (match) {
-        //     const exampleCaseStudy = {
-        //         title: 'Darren’s Story',
-        //         trailText:
-        //             '<p>Darren Murinas is an expert citizen for <a href="http://www.voicesofstoke.org.uk/">Voices</a>, the Stoke partnership supporting people with multiple needs.</p>',
-        //         trailTextMore: 'Read Darren’s Story…',
-        //         thumbnailUrl: 'https://via.placeholder.com/600x339.jpg?text=Placeholder',
-        //         linkUrl: 'https://www.biglotteryfund.org.uk/about-big/strategic-framework/sfengcasestudy'
-        //     };
-
-        //     match.caseStudies = [exampleCaseStudy, exampleCaseStudy, exampleCaseStudy];
-        // }
-
         return match;
     });
 }
