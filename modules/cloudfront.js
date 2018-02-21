@@ -95,6 +95,9 @@ const makeBehaviourItem = ({
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
 
+    const globalQuerystrings = ['draft', 'version'];
+    const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
+
     const behaviour = {
         TargetOriginId: originId,
         ViewerProtocolPolicy: protocol,
@@ -159,11 +162,12 @@ const makeBehaviourItem = ({
             },
             QueryString: true
         });
-    } else if (queryStringWhitelist.length > 0) {
+    } else if (queryStrings.length > 0) {
+
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
-                Items: queryStringWhitelist,
-                Quantity: queryStringWhitelist.length
+                Items: queryStrings,
+                Quantity: queryStrings.length
             },
             QueryString: true
         });
