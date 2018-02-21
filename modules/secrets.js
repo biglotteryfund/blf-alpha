@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('fs');
 const { flow, get, isEmpty, keyBy, mapValues } = require('lodash/fp');
+const config = require('config');
 
 function getRawParameters() {
     let rawParameters;
@@ -37,6 +38,10 @@ function getSecret(name) {
 }
 
 const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
+const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
+const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
+const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
+const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
 const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 const SENTRY_DSN = getSecret('sentry.dsn');
 const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
@@ -46,6 +51,10 @@ module.exports = {
     getSecretFromRawParameters,
     getSecret,
     CONTENT_API_URL,
+    DB_NAME,
+    DB_HOST,
+    DB_USER,
+    DB_PASS,
     JWT_SIGNING_TOKEN,
     SENTRY_DSN,
     SESSION_SECRET
