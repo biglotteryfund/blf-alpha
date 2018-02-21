@@ -1,6 +1,8 @@
 'use strict';
 
 const config = require('config');
+const { URL } = require('url');
+const querystring = require('querystring');
 const { get } = require('lodash');
 const shortid = require('shortid');
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
@@ -97,7 +99,22 @@ function getCurrentUrl(req, requestedLocale) {
     // Remove any trailing slashes (eg. /welsh/ => /welsh)
     const cleanedUrlPath = stripTrailingSlashes(urlPathForRequestedLocale);
 
-    return baseUrl + cleanedUrlPath;
+    const fullUrl = baseUrl + cleanedUrlPath;
+
+    const parsedUrl = new URL(fullUrl);
+    const parsedPathname = parsedUrl.pathname;
+    const parsedQuery = parsedUrl.search.replace(/^\?/, '');
+
+    // Remove draft and version parameters
+    const originalQuery = querystring.parse(parsedQuery);
+    delete originalQuery.version;
+    delete originalQuery.draft;
+
+    // Reconstruct clean URL
+    const newCleanQuery = querystring.stringify(originalQuery);
+    const newCleanUrl = newCleanQuery.length > 0 ? `${parsedPathname}?${newCleanQuery}` : parsedPathname;
+
+    return newCleanUrl;
 }
 
 function getCurrentSection(sectionId, pageId) {
