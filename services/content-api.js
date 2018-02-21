@@ -23,6 +23,21 @@ function getApiUrl() {
 }
 
 /**
+ * Adds the preview parameters to the request
+ * (if accessed via the preview domain)
+ */
+function addPreviewParams(previewMode, params) {
+    if (!previewMode) {
+        return params;
+    }
+
+    let previewParams = {};
+    previewParams[previewMode.mode] = previewMode.id; // eg. ?draft=123
+
+    return Object.assign({}, previewParams, params);
+}
+
+/**
  * Get CMS Path
  * Returns sanitised pagePath for top-level sections
  * otherwise prepends sectionId to pagePath
@@ -52,35 +67,25 @@ function getFundingProgrammes({ locale }) {
     });
 }
 
-function getFundingProgramme({ locale, slug }) {
+function getFundingProgramme({ locale, slug, previewMode }) {
     return request({
         url: `${CONTENT_API_URL}/v1/${locale}/funding-programme/${slug}`,
-        json: true
+        json: true,
+        qs: addPreviewParams(previewMode)
     }).then(response => {
         const entry = get(response, 'data.attributes');
         return entry;
     });
 }
 
-function getLegacyPage({ locale, path }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/legacy`,
-        qs: {
-            path: path
-        },
-        json: true
-    }).then(response => {
-        return get(response, 'data.attributes');
-    });
-}
-
-function getListingPage({ locale, path }) {
+function getListingPage({ locale, path, previewMode }) {
     return request({
         url: `${CONTENT_API_URL}/v1/${locale}/listing`,
-        qs: {
+        qs: addPreviewParams(previewMode, {
             path: path
-        },
-        json: true
+        }),
+        json: true,
+        jar: !!previewMode // send client cookies in preview mode to allow Craft auth
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === path);
@@ -104,7 +109,6 @@ module.exports = {
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
-    getLegacyPage,
     getListingPage,
     getRoutes
 };

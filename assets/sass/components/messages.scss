@@ -1,0 +1,24 @@
+/* =========================================================================
+   Messages
+   ========================================================================= */
+
+.preview-banner {
+    text-align: center;
+    font-size: 15px;
+    padding: 1em 6px;
+    background-color: palette('cyan');
+    background: repeating-linear-gradient(
+        -55deg,
+        palette('cyan'),
+        palette('cyan') 10px,
+        darken(palette('cyan'), 2%) 10px,
+        darken(palette('cyan'), 2%) 20px
+    );
+    border-top: 4px solid darken(palette('cyan'), 10%);
+    color: white;
+
+    a {
+        color: white;
+        font-weight: bold;
+    }
+}

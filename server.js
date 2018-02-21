@@ -6,6 +6,10 @@ const config = require('config');
 const Raven = require('raven');
 
 const appData = require('./modules/appData');
+if (appData.isDev) {
+    require('dotenv').config();
+}
+
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 const { shouldServe } = require('./modules/pageLogic');
@@ -21,15 +25,12 @@ const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securit
 const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
+const previewMiddleware = require('./middleware/preview');
 
 const { SENTRY_DSN } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
-const { renderError, renderNotFound } = require('./controllers/http-errors');
+const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');
-
-if (appData.isDev) {
-    require('dotenv').config();
-}
 
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
@@ -62,6 +63,7 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.all);
 app.use(localesMiddleware(app));
+app.use(previewMiddleware);
 
 // Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
@@ -155,6 +157,14 @@ app.get('*~/link.aspx', redirectUglyLink);
  */
 app.get('/error', (req, res) => {
     renderNotFound(req, res);
+});
+
+/**
+ * Plain text error route
+ * Used for more high-level errors
+ */
+app.get('/error-unauthorised', (req, res) => {
+    renderUnauthorised(req, res);
 });
 
 /**

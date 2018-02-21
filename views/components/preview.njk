@@ -1,0 +1,9 @@
+{% macro previewBanner(status) %}
+    {% if status.isDraftOrVersion %}
+        <div class="preview-banner">
+            ✋ You are viewing a draft (last updated {{ status.lastUpdated }}).
+            Please do not share this page.
+            <a href="{{ getCurrentUrl(request) }}">View original</a>
+        </div>
+    {% endif %}
+{% endmacro %}

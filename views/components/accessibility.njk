@@ -1,0 +1,22 @@
+{% macro makeContrastLink(mode) %}
+    <a href="/contrast/{{ mode }}?url={{ getCurrentUrl(request) | urlencode}}"
+       data-on="click"
+       data-event-category="Change contrast"
+       data-event-action="Click"
+       data-event-label="{{ mode }}">
+        {{ __("global.accessibility.contrast." + mode ) | safe }}
+    </a>
+{% endmacro %}
+
+{% macro accessibilityNav() %}
+    <nav class="accessibility-nav">
+        <ul>
+            <li><a tabindex="0" href="#content">{{ __("global.accessibility.skipToContent") | safe }}</a></li>
+            {% if highContrast %}
+                <li>{{ makeContrastLink('standard') }}</li>
+            {% else %}
+                <li>{{ makeContrastLink('high') }}</li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endmacro %}

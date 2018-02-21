@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Error | Unauthorised</title>
+        <style>
+            body {
+                font-family: arial;
+                padding: 10px;
+                background-color: #eeeeee;
+            }
+
+            h1 {
+                padding-bottom: 10px;
+                border-bottom: 1px solid #cccccc;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Big Lottery Fund</h1>
+        <h2>Error: Unauthorised</h2>
+        <p>You are not authorised to visit this page.</p>
+        <p><a href="https://{{ appData.config.get('siteDomain') }}">Return to the homepage</a>?</p>
+    </body>
+</html>

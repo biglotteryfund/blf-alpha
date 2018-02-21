@@ -1,6 +1,10 @@
 const Raven = require('raven');
 const appData = require('../modules/appData');
 
+function renderUnauthorised(req, res) {
+    res.render('unauthorised');
+}
+
 function renderNotFound(req, res) {
     let err = new Error('Page not found');
     err.status = 404;
@@ -42,5 +46,6 @@ module.exports = {
     renderNotFound,
     renderNotFoundWithError,
     renderError,
-    redirectWithError
+    redirectWithError,
+    renderUnauthorised
 };

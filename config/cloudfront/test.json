@@ -35,10 +35,13 @@
         "Quantity": 2
       },
       "QueryStringCacheKeys": {
-        "Items": [],
-        "Quantity": 0
+        "Items": [
+          "draft",
+          "version"
+        ],
+        "Quantity": 2
       },
-      "QueryString": false,
+      "QueryString": true,
       "Cookies": {
         "Forward": "whitelist",
         "WhitelistedNames": {
@@ -214,9 +217,11 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
+              "draft",
+              "version",
               "url"
             ],
-            "Quantity": 1
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -447,12 +452,14 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
+              "draft",
+              "version",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 4
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
@@ -786,9 +793,11 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
+              "draft",
+              "version",
               "path"
             ],
-            "Quantity": 1
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -852,9 +861,11 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
+              "draft",
+              "version",
               "token"
             ],
-            "Quantity": 1
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -977,12 +988,14 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
+              "draft",
+              "version",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 4
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {

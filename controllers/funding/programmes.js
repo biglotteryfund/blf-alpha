@@ -9,6 +9,7 @@ const { assign, find, findIndex, get, last, uniq } = require('lodash');
 const { renderNotFoundWithError } = require('../http-errors');
 const { splitPercentages } = require('../../modules/ab');
 const { createHeroImage } = require('../../modules/images');
+const { addPreviewStatus } = require('../../modules/preview');
 const contentApi = require('../../services/content-api');
 const cached = require('../../middleware/cached');
 const appData = require('../../modules/appData');
@@ -138,6 +139,8 @@ function initProgrammesList(router, options) {
 }
 
 function renderProgrammeDetail({ res, entry }) {
+    addPreviewStatus(res, entry);
+
     /**
      * Allow for programmes without heroes
      */
@@ -159,7 +162,11 @@ function handleProgrammeDetail(slug) {
     return function(req, res) {
         const locale = req.i18n.getLocale();
         contentApi
-            .getFundingProgramme({ locale, slug })
+            .getFundingProgramme({
+                slug: slug,
+                locale: locale,
+                previewMode: res.locals.PREVIEW_MODE || false
+            })
             .then(entry => {
                 if (entry.contentSections.length > 0) {
                     renderProgrammeDetail({ res, entry });

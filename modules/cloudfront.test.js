@@ -141,6 +141,11 @@ describe('Cloudfront Helpers', () => {
                                 Items: ['example'],
                                 Quantity: 1
                             }
+                        },
+                        QueryString: true,
+                        QueryStringCacheKeys: {
+                            Items: ['draft', 'version'],
+                            Quantity: 2
                         }
                     }
                 })
