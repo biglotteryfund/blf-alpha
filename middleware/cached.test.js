@@ -13,12 +13,7 @@ const cached = require('./cached');
 
 function createAppWithDefaults() {
     const app = express();
-    app.use(
-        cached.defaultVary,
-        cached.defaultCacheControl({
-            defaultMaxAge: 60
-        })
-    );
+    app.use(cached.defaultVary, cached.defaultCacheControl);
     return app;
 }
 
@@ -42,7 +37,7 @@ describe('cached', () => {
             .request(server)
             .get('/')
             .end((err, res) => {
-                expect(res.headers['cache-control']).to.equal('max-age=60');
+                expect(res.headers['cache-control']).to.equal('max-age=300');
                 done();
             });
 

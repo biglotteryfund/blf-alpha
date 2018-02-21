@@ -51,19 +51,15 @@ viewGlobalsService.init(app);
 
 // Add global middlewares
 app.use(loggerMiddleware);
+app.use(previewMiddleware);
 app.use(cachedMiddleware.defaultVary);
-app.use(
-    cachedMiddleware.defaultCacheControl({
-        defaultMaxAge: config.get('viewCacheExpiration')
-    })
-);
+app.use(cachedMiddleware.defaultCacheControl);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.all);
 app.use(localesMiddleware(app));
-app.use(previewMiddleware);
 
 // Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
