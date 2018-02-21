@@ -36,8 +36,17 @@ function getSecret(name) {
     }
 }
 
+const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
+const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
+const SENTRY_DSN = getSecret('sentry.dsn');
+const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
+
 module.exports = {
     getRawParameters,
     getSecretFromRawParameters,
-    getSecret
+    getSecret,
+    CONTENT_API_URL,
+    JWT_SIGNING_TOKEN,
+    SENTRY_DSN,
+    SESSION_SECRET
 };

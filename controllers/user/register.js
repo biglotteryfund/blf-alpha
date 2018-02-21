@@ -3,15 +3,12 @@ const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
 const mail = require('../../modules/mail');
-const { getSecret } = require('../../modules/secrets');
+const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
 const login = require('./login');
 const dashboard = require('./dashboard');
-
-// fetch token from CI store or application secrets
-const jwtSigningToken = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 
 // email users with an activation code
 const sendActivationEmail = (user, req, isBrandNewUser) => {
@@ -26,7 +23,7 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
                     reason: 'activate'
                 }
             },
-            jwtSigningToken,
+            JWT_SIGNING_TOKEN,
             {
                 expiresIn: '7d' // allow a week to activate
             }
@@ -134,7 +131,7 @@ const activateUser = (req, res) => {
         });
     } else {
         // validate the token
-        jwt.verify(token, jwtSigningToken, (err, decoded) => {
+        jwt.verify(token, JWT_SIGNING_TOKEN, (err, decoded) => {
             if (err) {
                 trackError('A user tried to use an expired activation token');
                 res.locals.errors = makeErrorList('There was an error with this activation link - please try again');
