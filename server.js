@@ -29,7 +29,7 @@ const previewMiddleware = require('./middleware/preview');
 
 const { SENTRY_DSN } = require('./modules/secrets');
 const { cymreigio, makeWelsh } = require('./modules/urls');
-const { renderError, renderNotFound } = require('./controllers/http-errors');
+const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
 const routes = require('./controllers/routes');
 
 if (SENTRY_DSN) {
@@ -157,6 +157,14 @@ app.get('*~/link.aspx', redirectUglyLink);
  */
 app.get('/error', (req, res) => {
     renderNotFound(req, res);
+});
+
+/**
+ * Plain text error route
+ * Used for more high-level errors
+ */
+app.get('/error-unauthorised', (req, res) => {
+    renderUnauthorised(req, res);
 });
 
 /**
