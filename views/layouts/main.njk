@@ -1,22 +1,25 @@
+{% from "components/accessibility.njk" import accessibilityNav with context %}
+{% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
 <html lang="{{ locale }}" class="{{ getHtmlClasses() }}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
 
-        {% include "../includes/metadata.njk" %}
-        {% include "../includes/metaHeadJS.njk" %}
-        {% include "../includes/metaHeadCSS.njk" %}
+        {% include "includes/metadata.njk" %}
+        {% include "includes/metaHeadJS.njk" %}
+        {% include "includes/metaHeadCSS.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        {% include "../includes/accessibility.njk" %}
+        {{ accessibilityNav() }}
+        {{ previewBanner(preview) }}
 
         <div class="global-container">
-            {% include "../includes/header.njk" %}
+            {% include "includes/header.njk" %}
             {% block content %}{% endblock %}
-            {% include "../includes/footer.njk" %}
+            {% include "includes/footer.njk" %}
         </div>
 
-        {% include "../includes/offscreenNav.njk" %}
-        {% include "../includes/metaFooterJS.njk" %}
+        {% include "includes/offscreenNav.njk" %}
+        {% include "includes/metaFooterJS.njk" %}
     </body>
 </html>
