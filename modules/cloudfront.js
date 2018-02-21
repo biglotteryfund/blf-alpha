@@ -163,7 +163,6 @@ const makeBehaviourItem = ({
             QueryString: true
         });
     } else if (queryStrings.length > 0) {
-
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
                 Items: queryStrings,
