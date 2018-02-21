@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const moment = require('moment');
-const { concat, compact, filter, flatMap, map, pick, sortBy } = require('lodash');
+const { concat, compact, filter, flatMap, map, pick, sortedUniqBy } = require('lodash');
 
 const routes = require('../routes');
 const appData = require('../../modules/appData');
@@ -66,10 +66,10 @@ router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
         })
     );
 
-    const redirectRoutes = sortBy(concat(customRedirects, pageRedirects), 'destination');
+    const redirectRoutes = sortedUniqBy(concat(customRedirects, pageRedirects), 'destination');
 
     contentApi.getRoutes().then(cmsCanonicalUrls => {
-        const allCanonicalRoutes = sortBy(concat(routerCanonicalUrls, cmsCanonicalUrls), 'path');
+        const allCanonicalRoutes = sortedUniqBy(concat(routerCanonicalUrls, cmsCanonicalUrls), 'path');
 
         const vanityRoutes = routes.vanityRedirects;
 
