@@ -6,6 +6,37 @@
     https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
     http://css-tricks.com/opt-in-typography/
 */
+.u-constrained-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol {
+        max-width: 35em;
+    }
+}
+
+.u-constrained-content-wide {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        max-width: 30em;
+    }
+
+    p,
+    ul,
+    ol {
+        max-width: 42em;
+    }
+}
+
 .s-prose {
     ul,
     ol {
@@ -150,7 +181,11 @@
     }
 
     .video-container {
-        margin-bottom: 1em;
+        margin: 0 -10px 1em;
+
+        @include mq('medium') {
+            margin: 0 1.5em 1.5em;
+        }
     }
 }
 
