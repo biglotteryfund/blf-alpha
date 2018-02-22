@@ -18,6 +18,7 @@ const archivedRoutes = [
  * Legacy Redirects
  */
 const legacyRedirects = [
+    aliasFor('/about/strategic-framework', '/about-big/strategic-framework'),
     aliasFor('/funding', '/funding-uk'),
     aliasFor('/funding', '/funding/funding-guidance'),
     aliasFor('/funding', '/funding/funding-guidance/applying-for-funding'),
