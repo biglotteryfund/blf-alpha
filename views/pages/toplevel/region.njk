@@ -1,0 +1,121 @@
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/tabs.njk" import tabs %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/larche-belfast-small.jpg',
+    medium: 'hero/larche-belfast-medium.jpg',
+    large: 'hero/larche-belfast-large.jpg',
+    default: 'hero/larche-belfast-medium.jpg',
+    caption: 'L’Arche, Belfast'
+}) %}
+
+{% set socialImage = heroImage %}
+
+
+
+{% block content %}
+    {% set pageAccent = 'pink' %}
+
+   {% set availableFundingContent %}
+        <div class="s-prose s-prose--long">
+            <p>{{ copy.sections.availableFunding.introduction | safe }}</p>
+            {% for fundingProgramme in copy.sections.availableFunding.fundingProgrammes %}
+                <div class="programme-overview spaced--l">
+
+                    <h3 class="t1 accent--{{ pageAccent }} a--text no-space">{{ fundingProgramme.title }}</h3>
+                    <h4>{{ fundingProgramme.subTitle }}</h4>
+
+                    {% if fundingProgramme.summaryItems.length > 0 %}
+                        <ul>
+                            {% for item in fundingProgramme.summaryItems %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <div class="u-align-center">
+                        <a
+                            class="btn accent--pink a--btn central-gap"
+                            href="{{ fundingProgramme.linkUrl }}">
+                            {{ __('global.misc.seeProgramme') }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endset %}
+
+
+    {% set fundingInRegionContent %}
+        {% for group in copy.sections.fundingInRegion.groups %}
+            <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ group.description }}</h2>
+            <ul class="stat-river">
+                {% for stat in group.stats %}
+                    <li class="stat-river__item">{{ stat | safe }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endset %}
+
+    {% set aboutIdeasContent %}
+        <div class="s-prose s-prose--long">
+            <p>{{ copy.sections.aboutIdeas.introduction | safe }}</p>
+            {% for contentPart in copy.sections.aboutIdeas.contentParts %}
+                <h3>{{ contentPart.title }}</h3>
+                <ul>
+                    {% for item in contentPart.summaryPoints %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endset %}
+
+    {{
+        sectionHero(
+            accent = pageAccent,
+            titleText = title,
+            image = heroImage
+        )
+    }}
+
+    <main class="nudge-up">
+        <section class="content-box content-box--tinted content-box--even-inset
+            inner--wide-only accent--{{ pageAccent }} a--border-top u-no-bottom-border">
+            <div class="s-prose u-constrained-content-wide">
+                <p>{{ copy.introduction }}</p>
+            </div>
+        </section>
+
+        {% macro tabContent(content, pageAccent) %}
+            <div class="content-box u-no-top-border">
+                {{ content | safe }}
+            </div>
+        {% endmacro %}
+
+        {% set tabItems = [{
+            "id": "section-1",
+            "title": copy.sections.availableFunding.title,
+            "content": tabContent(availableFundingContent, pageAccent),
+            "active": true
+        }, {
+            "id": "section-2",
+            "title": copy.sections.fundingInRegion.title,
+            "content": tabContent(fundingInRegionContent)
+        }, {
+            "id": "section-3",
+            "title": copy.sections.aboutIdeas.title,
+            "content": tabContent(aboutIdeasContent)
+        }] %}
+
+        <div class="inner--wide-only">
+            {{ tabs(id = 'tabs', content = tabItems) }}
+        </div>
+    </main>
+{% endblock %}
