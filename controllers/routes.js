@@ -178,7 +178,13 @@ sections.funding.addRoutes({
         path: '/programmes/*'
     }),
     programmeDetailAfaEngland: dynamicRoute({
-        path: '/programmes/national-lottery-awards-for-all-england'
+        path: '/programmes/national-lottery-awards-for-all-england',
+    }),
+    programmeDetailAfaScotland: dynamicRoute({
+        path: '/programmes/national-lottery-awards-for-all-scotland',
+    }),
+    programmeDetailAfaWales: dynamicRoute({
+        path: '/programmes/national-lottery-awards-for-all-wales',
     }),
     buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',

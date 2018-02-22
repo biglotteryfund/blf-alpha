@@ -41,7 +41,9 @@ module.exports = (pages, sectionPath, sectionId) => {
         routeConfig: {
             programmes: pages.programmes,
             programmeDetail: pages.programmeDetail,
-            programmeDetailAfaEngland: pages.programmeDetailAfaEngland
+            programmeDetailAfaEngland: pages.programmeDetailAfaEngland,
+            programmeDetailAfaWales: pages.programmeDetailAfaWales,
+            programmeDetailAfaScotland: pages.programmeDetailAfaScotland
         }
     });
 
