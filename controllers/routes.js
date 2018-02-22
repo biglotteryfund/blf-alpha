@@ -44,7 +44,14 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/home',
         lang: 'toplevel.home',
         isPostable: true,
-        aliases: ['/home', '/index.html', '/en-gb', '/england', '/wales', '/scotland', '/northernireland', '/uk-wide']
+        aliases: ['/home', '/index.html', '/en-gb', '/england', '/wales', '/scotland', '/uk-wide']
+    }),
+    northernIreland: staticRoute({
+        path: '/northern-ireland',
+        template: 'pages/toplevel/region',
+        lang: 'toplevel.northernIreland',
+        aliases: ['/northernireland'],
+        live: false
     }),
     contact: staticRoute({
         path: '/contact',
