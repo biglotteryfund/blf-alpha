@@ -186,13 +186,13 @@ function initProgrammeDetail(router) {
     });
 }
 
-function initProgrammeDetailAfaEngland(router, options) {
+function initProgrammeDetailAwardsForAll(router, options) {
     const testFn = ab.test('blf-afa-rollout-england', {
         cookie: {
             name: config.get('cookies.abTestAwardsForAll'),
             maxAge: moment.duration(4, 'weeks').asMilliseconds()
         },
-        id: 'O9FsbkKfSeOammAP0JrEyA'
+        id: options.experimentId
     });
 
     const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
@@ -266,7 +266,7 @@ function init({ router, routeConfig }) {
             routeConfig.programmeDetailAfaWales
         ];
         routesToTest.forEach(route => {
-            initProgrammeDetailAfaEngland(router, route);
+            initProgrammeDetailAwardsForAll(router, route);
         });
     }
     initProgrammeDetail(router);
