@@ -186,13 +186,13 @@ function initProgrammeDetail(router) {
     });
 }
 
-function initProgrammeDetailAfaEngland(router, options) {
+function initProgrammeDetailAwardsForAll(router, options) {
     const testFn = ab.test('blf-afa-rollout-england', {
         cookie: {
             name: config.get('cookies.abTestAwardsForAll'),
             maxAge: moment.duration(4, 'weeks').asMilliseconds()
         },
-        id: 'O9FsbkKfSeOammAP0JrEyA'
+        id: options.experimentId
     });
 
     const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
@@ -216,12 +216,11 @@ function initProgrammeDetailAfaEngland(router, options) {
                     });
 
                     if (applyTabIdx !== -1) {
-                        const replacementText = req.i18n.__('global.abTests.awardsForAllEngland');
-                        const newContentSection = assign({}, entry.contentSections[applyTabIdx], {
-                            body: replacementText
+                        const originalTextFromCMS = entry.contentSections[applyTabIdx].body;
+                        const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm');
+                        entry.contentSections[applyTabIdx] = assign({}, entry.contentSections[applyTabIdx], {
+                            body: awardsTextToPrepend + originalTextFromCMS
                         });
-
-                        entry.contentSections[applyTabIdx] = newContentSection;
                     } else {
                         Raven.captureMessage('Failed to modify Awards For All page');
                     }
@@ -261,7 +260,14 @@ function initProgrammeDetailAfaEngland(router, options) {
 function init({ router, routeConfig }) {
     initProgrammesList(router, routeConfig.programmes);
     if (config.get('abTests.enabled')) {
-        initProgrammeDetailAfaEngland(router, routeConfig.programmeDetailAfaEngland);
+        let routesToTest = [
+            routeConfig.programmeDetailAfaEngland,
+            routeConfig.programmeDetailAfaScotland,
+            routeConfig.programmeDetailAfaWales
+        ];
+        routesToTest.forEach(route => {
+            initProgrammeDetailAwardsForAll(router, route);
+        });
     }
     initProgrammeDetail(router);
 }
