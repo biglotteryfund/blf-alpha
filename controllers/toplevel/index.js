@@ -9,11 +9,10 @@ const moment = require('moment');
 
 const router = express.Router();
 
-const appData = require('../../modules/appData');
-
 const routerSetup = require('../setup');
 const routeStatic = require('../utils/routeStatic');
 const surveyService = require('../../services/surveys');
+const contentApi = require('../../services/content-api');
 
 const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
@@ -93,23 +92,25 @@ module.exports = (pages, sectionPath, sectionId) => {
             path = path.replace(CYMRU_URL, '/');
         }
 
-        // get the survey from the database
-        surveyService
-            .findActiveWithChoices({
-                filterByPath: path
-            })
-            .then(surveys => {
+        // fetch all active surveys from the API so we can filter them
+        contentApi.getSurveys({
+            locale: req.i18n.getLocale()
+        }).then(surveys => {
+            // is there a path-specific survey here?
+            let surveyToShow = surveys.find(s => s.surveyPath === path);
+
+            // if not, is there a site-wide survey?
+            if (!surveyToShow) {
+                surveyToShow = surveys.find(s => s.global);
+            }
+
+            if (surveyToShow) {
                 res.send({
                     status: 'success',
-                    surveys: surveys
+                    survey: surveyToShow
                 });
-            })
-            .catch(() => {
-                res.send({
-                    status: 'error',
-                    message: 'Error querying database'
-                });
-            });
+            }
+        });
     });
 
     const surveyValidations = [
@@ -138,7 +139,8 @@ module.exports = (pages, sectionPath, sectionId) => {
             }
 
             let responseData = {
-                surveyChoiceId: req.body['choice']
+                survey_id: surveyId,
+                choice_id: req.body['choice']
             };
 
             // add a message (if we got one)

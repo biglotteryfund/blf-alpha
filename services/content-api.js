@@ -102,6 +102,19 @@ function getRoutes() {
     });
 }
 
+function getSurveys({ locale }) {
+    return request({
+        url: `${CONTENT_API_URL}/v1/${locale}/surveys`,
+        json: true
+    }).then(response => {
+        return response.data.map(item => {
+            let data = item.attributes;
+            data.id = parseInt(item.id);
+            return data;
+        });
+    });
+}
+
 module.exports = {
     setApiUrl,
     getApiUrl,
@@ -110,5 +123,6 @@ module.exports = {
     getFundingProgrammes,
     getFundingProgramme,
     getListingPage,
-    getRoutes
+    getRoutes,
+    getSurveys
 };

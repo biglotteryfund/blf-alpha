@@ -52,7 +52,6 @@ function hasiOSBug() {
 
 const showSurvey = survey => {
     const mountEl = document.getElementById('js-survey-container');
-
     if (hasTakenSurvey(survey.id) || !mountEl) {
         return;
     }
@@ -71,9 +70,6 @@ const showSurvey = survey => {
             }
         },
         methods: {
-            localeify: function(obj, field, locale) {
-                return obj[field + '_' + locale];
-            },
             toggleSurvey: function() {
                 this.isActivated = !this.isActivated;
             },
@@ -82,7 +78,7 @@ const showSurvey = survey => {
                 this.surveyBlocked = true;
             },
             toggleMessage: function(choice) {
-                if (choice.allow_message) {
+                if (choice.allowMessage) {
                     this.showMessageBox = true;
                 } else {
                     this.formData.choice = choice.id;
@@ -138,8 +134,8 @@ module.exports = {
     init: () => {
         // does this page have any surveys?
         $.get(`/surveys?path=${window.location.pathname}`).then(response => {
-            if (response.status === 'success' && response.surveys.length > 0) {
-                showSurvey(response.surveys[0]);
+            if (response.status === 'success') {
+                showSurvey(response.survey);
             }
         });
     }
