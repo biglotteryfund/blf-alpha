@@ -212,7 +212,7 @@ function initProgrammeDetailAwardsForAll(router, options) {
             .then(entry => {
                 if (entry.contentSections.length > 0) {
                     const applyTabIdx = findIndex(entry.contentSections, section => {
-                        return section.title.match(/How do you apply/);
+                        return section.title.match(/How do you apply|Sut ydych chi'n ymgeisio/);
                     });
 
                     if (applyTabIdx !== -1) {
