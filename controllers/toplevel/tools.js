@@ -93,16 +93,20 @@ router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
 
 const requiredAuthed = auth.requireAuthedLevel(5);
 router.route('/tools/survey-results/').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
-    surveysService
-        .findAll()
-        .then(surveys => {
-            res.render('pages/tools/surveys', {
-                surveys: surveys
-            });
-        })
-        .catch(err => {
-            res.send(err);
-        });
+    res.render('pages/tools/surveys', {
+        surveys: []
+    });
+    // @TODO
+    // surveysService
+    //     .findAll()
+    //     .then(surveys => {
+    //         res.render('pages/tools/surveys', {
+    //             surveys: surveys
+    //         });
+    //     })
+    //     .catch(err => {
+    //         res.send(err);
+    //     });
 });
 
 module.exports = router;
