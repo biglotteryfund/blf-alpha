@@ -131,9 +131,14 @@ const showSurvey = survey => {
 };
 
 module.exports = {
+    // does this page have any surveys?
     init: () => {
-        // does this page have any surveys?
-        $.get(`/surveys?path=${window.location.pathname}`).then(response => {
+        // normalise URLs (eg. treat a Welsh URL the same as default)
+        const CYMRU_URL = /\/welsh(\/|$)/;
+        let uri = window.location.pathname;
+        uri = uri.replace(CYMRU_URL, '/');
+        const localePrefix = window.AppConfig.localePrefix;
+        $.get(`${localePrefix}/surveys?path=${uri}`).then(response => {
             if (response.status === 'success') {
                 showSurvey(response.survey);
             }

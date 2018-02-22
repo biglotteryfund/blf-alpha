@@ -86,31 +86,27 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.cacheControl = { maxAge: 60 * 10 }; // 10 mins
         let path = req.query.path;
 
-        if (path) {
-            // normalise URLs (eg. treat a Welsh URL the same as default)
-            const CYMRU_URL = /\/welsh(\/|$)/;
-            path = path.replace(CYMRU_URL, '/');
-        }
-
         // fetch all active surveys from the API so we can filter them
-        contentApi.getSurveys({
-            locale: req.i18n.getLocale()
-        }).then(surveys => {
-            // is there a path-specific survey here?
-            let surveyToShow = surveys.find(s => s.surveyPath === path);
+        contentApi
+            .getSurveys({
+                locale: req.i18n.getLocale()
+            })
+            .then(surveys => {
+                // is there a path-specific survey here?
+                let surveyToShow = surveys.find(s => s.surveyPath === path);
 
-            // if not, is there a site-wide survey?
-            if (!surveyToShow) {
-                surveyToShow = surveys.find(s => s.global);
-            }
+                // if not, is there a site-wide survey?
+                if (!surveyToShow) {
+                    surveyToShow = surveys.find(s => s.global);
+                }
 
-            if (surveyToShow) {
-                res.send({
-                    status: 'success',
-                    survey: surveyToShow
-                });
-            }
-        });
+                if (surveyToShow) {
+                    res.send({
+                        status: 'success',
+                        survey: surveyToShow
+                    });
+                }
+            });
     });
 
     const surveyValidations = [

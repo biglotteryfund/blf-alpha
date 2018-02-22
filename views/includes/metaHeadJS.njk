@@ -3,6 +3,8 @@
 (function() {
     var AppConfig = {
         environment: '{{ appData.environment }}',
+        locale: '{{ locale }}',
+        localePrefix: '{{ localePrefix }}',
         isModernBrowser:
             'querySelector' in document &&
             'addEventListener' in window &&
