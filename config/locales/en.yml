@@ -312,7 +312,7 @@ toplevel:
       lastName: Please provide your last name
       emailMissing: Please provide your email address
       emailInvalid: Please provide a valid email address
-      location: Please choose a country newsletter
+      location: Please choose a country
     callToAction: Subscribe
     responses:
       success:

@@ -1,23 +1,242 @@
 const Raven = require('raven');
-const config = require('config');
 const moment = require('moment');
-const { get } = require('lodash');
-const { validationResult } = require('express-validator/check');
+const { get, set, some } = require('lodash');
+const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 const xss = require('xss');
+
 const app = require('../../server');
-
-const ordersService = require('../../services/orders');
-const mail = require('../../modules/mail');
 const cached = require('../../middleware/cached');
+const mail = require('../../modules/mail');
 const { getSecret } = require('../../modules/secrets');
+const { errorTranslator } = require('../../modules/validators');
+const ordersService = require('../../services/orders');
 
-const freeMaterialsLogic = {
-    formFields: require('./free-materials/formFields'),
-    modifyItems: require('./free-materials/modifyItems'),
-    materials: require('../../config/content/materials.json'),
-    orderKey: 'orderedMaterials'
+const materials = require('../../config/content/materials.json');
+
+const materialsOrderKey = 'orderedMaterials';
+const translateError = errorTranslator('global.forms');
+const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';
+
+function checkClean(fieldName) {
+    return check(fieldName)
+        .escape()
+        .trim();
+}
+
+function createField(props) {
+    const defaults = {
+        label: translationLabelBase + props.name,
+        required: false
+    };
+
+    return Object.assign({}, defaults, props);
+}
+
+const materialFields = {
+    yourName: createField({
+        name: 'yourName',
+        type: 'text',
+        emailKey: 'Name',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]));
+        }
+    }),
+    yourEmail: createField({
+        name: 'yourEmail',
+        type: 'email',
+        emailKey: 'Email address',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]))
+                .isEmail()
+                .withMessage(translateError('invalidEmailError'));
+        }
+    }),
+    yourAddress1: createField({
+        name: 'yourAddress1',
+        type: 'text',
+        emailKey: 'Address line 1',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]));
+        }
+    }),
+    yourAddress2: createField({
+        name: 'yourAddress2',
+        type: 'text',
+        emailKey: 'Address line 2',
+        required: false,
+        validator: function(field) {
+            return checkClean(field.name);
+        }
+    }),
+    yourTown: createField({
+        name: 'yourTown',
+        type: 'text',
+        emailKey: 'Town/city',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]));
+        }
+    }),
+    yourCounty: createField({
+        name: 'yourCounty',
+        type: 'text',
+        emailKey: 'County',
+        required: false,
+        validator: function(field) {
+            return checkClean(field.name);
+        }
+    }),
+    yourCountry: createField({
+        name: 'yourCountry',
+        type: 'text',
+        emailKey: 'Country',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]));
+        }
+    }),
+    yourPostcode: createField({
+        name: 'yourPostcode',
+        type: 'text',
+        emailKey: 'Postcode',
+        required: true,
+        validator: function(field) {
+            return checkClean(field.name)
+                .not()
+                .isEmpty()
+                .withMessage(translateError('missingFieldError', [field.label]));
+        }
+    }),
+    yourProjectName: createField({
+        name: 'yourProjectName',
+        type: 'text',
+        emailKey: 'Project name',
+        required: false,
+        validator: function(field) {
+            return checkClean(field.name);
+        }
+    }),
+    yourGrantAmount: createField({
+        name: 'yourGrantAmount',
+        type: 'radio',
+        allowOther: true,
+        options: [
+            {
+                name: translationLabelBase + 'grantSizes.under10k',
+                value: 'under10k'
+            },
+            {
+                name: translationLabelBase + 'grantSizes.over10k',
+                value: 'over10k'
+            },
+            {
+                name: translationLabelBase + 'grantSizes.dunno',
+                value: 'dunno'
+            }
+        ],
+        emailKey: 'Grant amount',
+        validator: function(field) {
+            return checkClean(field.name);
+        }
+    }),
+    yourReason: createField({
+        name: 'yourReason',
+        type: 'radio',
+        allowOther: true,
+        options: [
+            {
+                name: translationLabelBase + 'reasons.event',
+                value: 'event'
+            },
+            {
+                name: translationLabelBase + 'reasons.projectOpening',
+                value: 'projectOpening'
+            },
+            {
+                name: translationLabelBase + 'reasons.photoOpportunity',
+                value: 'photoOpportunity'
+            },
+            {
+                name: translationLabelBase + 'reasons.mpVisit',
+                value: 'mpVisit'
+            },
+            {
+                name: translationLabelBase + 'reasons.grantAcknowledgment',
+                value: 'grantAcknowledgment'
+            }
+        ],
+        emailKey: 'Order reason',
+        validator: function(field) {
+            return checkClean(field.name);
+        }
+    })
 };
+
+function modifyItems(req, orderKey, code) {
+    const validActions = ['increase', 'decrease', 'remove'];
+    const id = parseInt(req.params.id);
+    const action = req.body.action;
+
+    const itemToBeAdded = materials.items.find(i => i.id === id);
+    const isValidAction = itemToBeAdded && validActions.indexOf(action) !== -1;
+
+    if (isValidAction) {
+        const maxQuantity = itemToBeAdded.maximum;
+        const notAllowedWithItemId = itemToBeAdded.notAllowedWithItem;
+
+        const allCurrentOrders = get(req.session, [orderKey], {});
+
+        // How many of the current item do they have?
+        const currentItemQuantity = get(req.session, [orderKey, code, 'quantity'], 0);
+
+        // Check if their current orders contain a blocker
+        const hasBlockerItem = some(allCurrentOrders, order => {
+            return notAllowedWithItemId && order.id === notAllowedWithItemId && order.quantity > 0;
+        });
+
+        // Store the product name
+        set(req.session, [orderKey, code, 'name'], itemToBeAdded.name.en);
+
+        const noSpaceLeft = currentItemQuantity === maxQuantity;
+
+        // Reset the blocker flag
+        set(req.session, [orderKey, 'itemBlocked'], false);
+
+        if (action === 'increase') {
+            if (!noSpaceLeft && !hasBlockerItem) {
+                set(req.session, [orderKey, code, 'id'], id);
+                set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+            } else {
+                // Alert the user that they're blocked from adding this item
+                set(req.session, [orderKey, 'itemBlocked'], true);
+            }
+        } else if (currentItemQuantity > 1 && action === 'decrease') {
+            set(req.session, [orderKey, code, 'id'], id);
+            set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
+        } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
+            set(req.session, [orderKey, code, 'quantity'], 0);
+        }
+    }
+}
 
 function init({ router, routeConfig }) {
     // handle adding/removing items
@@ -27,7 +246,7 @@ function init({ router, routeConfig }) {
             // update the session with ordered items
             const code = req.body.code;
 
-            freeMaterialsLogic.modifyItems(req, freeMaterialsLogic.orderKey, code);
+            modifyItems(req, materialsOrderKey, code);
 
             // handle ajax/standard form updates
             res.format({
@@ -40,9 +259,9 @@ function init({ router, routeConfig }) {
                     req.session.save(() => {
                         res.send({
                             status: 'success',
-                            quantity: get(req.session, [freeMaterialsLogic.orderKey, code, 'quantity'], 0),
-                            allOrders: req.session[freeMaterialsLogic.orderKey],
-                            itemBlocked: get(req.session, [freeMaterialsLogic.orderKey, 'itemBlocked'], false)
+                            quantity: get(req.session, [materialsOrderKey, code, 'quantity'], 0),
+                            allOrders: req.session[materialsOrderKey],
+                            itemBlocked: get(req.session, [materialsOrderKey, 'itemBlocked'], false)
                         });
                     });
                 }
@@ -51,8 +270,8 @@ function init({ router, routeConfig }) {
 
     // combine all validators for each field
     let validators = [];
-    for (let key in freeMaterialsLogic.formFields.fields) {
-        let field = freeMaterialsLogic.formFields.fields[key];
+    for (let key in materialFields) {
+        let field = materialFields[key];
         validators.push(field.validator(field));
     }
 
@@ -68,8 +287,8 @@ function init({ router, routeConfig }) {
         }
         text += "\nThe customer's personal details are below:\n\n";
 
-        for (let key in freeMaterialsLogic.formFields.fields) {
-            let field = freeMaterialsLogic.formFields.fields[key];
+        for (let key in materialFields) {
+            let field = materialFields[key];
             let fieldValue = details[field.name];
             const fieldLabel = field.emailKey;
 
@@ -92,15 +311,16 @@ function init({ router, routeConfig }) {
 
         text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
         text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
-        
+
         return {
             text,
             details
         };
     };
 
-    // PAGE: free materials form
-    // PAGE: free materials form
+    /**
+     * Free Materials Order Form
+     */
     router
         .route([routeConfig.path])
         .get(cached.csrfProtection, (req, res) => {
@@ -109,13 +329,13 @@ function init({ router, routeConfig }) {
             // clear order details if it succeeded
             if (req.flash('materialFormSuccess')) {
                 orderStatus = 'success';
-                delete req.session[freeMaterialsLogic.orderKey];
+                delete req.session[materialsOrderKey];
             } else if (req.flash('materialFormError')) {
                 orderStatus = 'fail';
             }
 
             let lang = req.i18n.__(routeConfig.lang);
-            let orders = req.session[freeMaterialsLogic.orderKey];
+            let orders = req.session[materialsOrderKey];
             let numOrders = 0;
             if (orders) {
                 for (let o in orders) {
@@ -126,8 +346,8 @@ function init({ router, routeConfig }) {
                 title: lang.title,
                 copy: lang,
                 description: 'Order items free of charge to acknowledge your grant',
-                materials: freeMaterialsLogic.materials.items,
-                formFields: freeMaterialsLogic.formFields.fields,
+                materials: materials.items,
+                formFields: materialFields,
                 orders: orders,
                 numOrders: numOrders,
                 orderStatus: orderStatus,
@@ -203,7 +423,7 @@ function init({ router, routeConfig }) {
                 } else {
                     // some fields are optional so matchedData misses them here
                     const details = req.body;
-                    const items = req.session[freeMaterialsLogic.orderKey];
+                    const items = req.session[materialsOrderKey];
                     const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const orderText = makeOrderText(items, details);
 

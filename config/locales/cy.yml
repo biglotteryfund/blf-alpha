@@ -138,6 +138,12 @@ toplevel:
       lastName: Cyfenw
       organisation: Mudiad
       emailAddress: Cyfeiriad e-bost
+    errors:
+      firstName: Please provide your first name
+      lastName: Please provide your last name
+      emailMissing: Please provide your email address
+      emailInvalid: Please provide a valid email address
+      location: Please choose a country
     callToAction: Tanysgrifio
     responses:
       success:
