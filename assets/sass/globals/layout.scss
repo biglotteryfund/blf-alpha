@@ -35,10 +35,6 @@ $nudgeAmount: 25px;
     max-width: auto;
 }
 
-.align--center {
-    text-align: center;
-}
-
 @mixin nudged-down {
     position: absolute;
     bottom: $nudgeAmount + 30px;
