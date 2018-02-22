@@ -8,6 +8,16 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% macro segmentLinks(segments) %}
+    {% if segments.length > 0 %}
+        <ul>
+            {% for segment in segments %}
+                <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
 {% block content %}
     {% set pageAccent = content.themeColour | default('pink') %}
     {{ sectionHero(
@@ -23,6 +33,7 @@
                 <div class="page-section__content accent--{{ pageAccent }} a--border-top">
                     <article class="content-box s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                         {{ content.introduction | safe }}
+                        {{ segmentLinks(content.segments) }}
                     </article>
                 </div>
                 <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
@@ -35,6 +46,7 @@
             <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
                     {{ content.introduction | safe }}
+                    {{ segmentLinks(content.segments) }}
                 </div>
             </section>
         {% endif %}
