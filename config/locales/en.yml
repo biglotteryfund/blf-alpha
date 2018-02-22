@@ -43,6 +43,7 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    caseStudies: Case studies
     readMore: Read more
     or: or
   programmes:
