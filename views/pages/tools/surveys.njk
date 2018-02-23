@@ -2,6 +2,10 @@
 
 {% block title %}Survey results{% endblock %}
 
+{% block extraHead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js" integrity="sha256-N4u5BjTLNwmGul6RgLoESPNqDFVUibVuOYhP4gJgrew=" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block content %}
     <h1 class="display-4 mb-4">
         All survey results
@@ -14,7 +18,7 @@
                 {{ s.title }}
                 <span class="badge badge-info">{{ s.status }}</span>
             </h2>
-            <small class="text-muted" title="{{ s.dateCreated }}">Created {{ moment(s.dateCreated.date).fromNow() }}</small>
+            <small class="text-muted" title="{{ s.dateCreated }}">Created {{ s.dateCreated.date | timeFromNow }}</small>
         </nav>
         <p class="lead">
             {{ s.question }}
@@ -43,8 +47,8 @@
                             {% if response.message %}
                                 <div class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-3">{{ moment(response.createdAt).format('ddd DD MMM YYYY (hh:mm a)') }}</h6>
-                                        <small title="{{ response.createdAt }}">{{ moment(response.createdAt).fromNow() }}</small>
+                                        <h6 class="mb-3">{{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}</h6>
+                                        <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
                                     </div>
                                     <p class="mb-3">{{ response.message }}</p>
                                     {% if response.metadata %}

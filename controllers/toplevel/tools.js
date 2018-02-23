@@ -97,8 +97,7 @@ router.route('/tools/survey-results/').get(cached.noCache, requiredAuthed, tools
         .findAll()
         .then(surveys => {
             res.render('pages/tools/surveys', {
-                surveys: surveys,
-                moment: moment
+                surveys: surveys
             });
         })
         .catch(err => {

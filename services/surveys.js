@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { minBy, maxBy, sumBy } = require('lodash');
 const moment = require('moment');
 
 const { SurveyResponse } = require('../models');
@@ -16,37 +16,34 @@ function findAll() {
 
     // combine the votes with the choices
     return Promise.all([getSurveys, getResponses]).then(responses => {
-        let surveys = responses[0];
-        let votes = responses[1];
+        const [surveys, votes] = responses;
 
         // merge the datasets
         let mergedSurveys = surveys.map(survey => {
-
             // append responses to the relevant choice
             survey.choices = survey.choices.map(choice => {
-
                 // retrieve the votes for this survey's choices
                 choice.responses = votes.filter(v => {
                     return v.survey_id === survey.id && v.choice_id === choice.id;
                 });
 
                 // fill in gaps for days without votes
-                let oldestVote = _.minBy(choice.responses, 'createdAt');
-                let newestVote = _.maxBy(choice.responses, 'createdAt');
+                let oldestVote = minBy(choice.responses, 'createdAt');
+                let newestVote = maxBy(choice.responses, 'createdAt');
 
                 // calculate votes per day (or substitute with zeroes)
                 if (newestVote && oldestVote) {
                     let daysInRange = moment(newestVote.createdAt).diff(moment(oldestVote.createdAt), 'days');
 
-                    let counts = {};
                     // group votes by day to aid in graphing
-                    choice.responses.forEach(response => {
+                    let counts = choice.responses.reduce((acc, response) => {
                         let normalisedDate = moment(response.createdAt).format(normalisedDateFormat);
-                        if (!counts[normalisedDate]) {
-                            counts[normalisedDate] = 0;
+                        if (!acc[normalisedDate]) {
+                            acc[normalisedDate] = 0;
                         }
-                        counts[normalisedDate] = counts[normalisedDate] + 1;
-                    });
+                        acc[normalisedDate] = acc[normalisedDate] + 1;
+                        return acc;
+                    }, {});
 
                     // fill in the gaps based on the complete range
                     let voteData = [];
@@ -75,8 +72,8 @@ function findAll() {
             });
 
             // find out the winner's percentage
-            let winner = _.maxBy(voteTotals, 'votes');
-            let totalResponses = _.sumBy(voteTotals, 'votes');
+            let winner = maxBy(voteTotals, 'votes');
+            let totalResponses = sumBy(voteTotals, 'votes');
             let winnerPercentage = Math.round(winner.votes / totalResponses * 100);
 
             survey.winner = {

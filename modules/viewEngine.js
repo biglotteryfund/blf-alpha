@@ -23,10 +23,6 @@ function init(app) {
         return assets.getImagePath(str);
     });
 
-    templateEnv.addFilter('localeify', (field, locale) => {
-        return field + '_' + locale;
-    });
-
     templateEnv.addFilter('slugify', str => {
         return slugify(str, {
             lower: true
@@ -49,6 +45,10 @@ function init(app) {
 
     templateEnv.addFilter('dateFormat', (str, format) => {
         return moment(str).format(format);
+    });
+
+    templateEnv.addFilter('timeFromNow', str => {
+        return moment(str).fromNow();
     });
 
     templateEnv.addFilter('mailto', str => {
