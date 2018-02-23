@@ -30,7 +30,10 @@
         </div>
 
         {% set statuses = cycler('success', 'danger') %}
-        <h4 class="mb-2">Response summary</h4>
+        <h4 class="mb-2">
+            Response summary
+            <small class="text-muted">{{ s.totalResponses }} total responses</small>
+        </h4>
         <h6 class="mb-4">
             {% for choice in s.choices %}
                 {{ choice.title }}
@@ -38,7 +41,7 @@
             {% endfor %}
         </h6>
 
-        <h4>User messages</h4>
+        <h4>User messages <small class="text-muted">eg. how can we improve this webpage?</small></h4>
         {% for choice in s.choices %}
             {% if choice.allowMessage %}
                 <div class="border mb-5" style="max-height: 400px; overflow: auto">
@@ -47,7 +50,12 @@
                             {% if response.message %}
                                 <div class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-3">{{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}</h6>
+                                        <h6 class="mb-3">
+                                            {% if response.path %}
+                                                {{ response.path }}
+                                            {% else %}
+                                                {{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}</h6>
+                                            {% endif %}
                                         <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
                                     </div>
                                     <p class="mb-3">{{ response.message }}</p>
