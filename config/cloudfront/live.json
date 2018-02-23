@@ -703,6 +703,60 @@
         "PathPattern": "/js/*"
       },
       {
+        "TargetOriginId": "LEGACY",
+        "ViewerProtocolPolicy": "allow-all",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "*"
+            ],
+            "Quantity": 1
+          },
+          "QueryStringCacheKeys": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "all"
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/news-and-events"
+      },
+      {
         "TargetOriginId": "ELB_LIVE",
         "ViewerProtocolPolicy": "redirect-to-https",
         "MinTTL": 0,
@@ -1082,6 +1136,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 17
+    "Quantity": 18
   }
 }
