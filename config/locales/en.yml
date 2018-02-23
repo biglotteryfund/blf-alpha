@@ -223,6 +223,24 @@ toplevel:
           - This is our most popular grants programme, so we will prioritise groups with smaller incomes.
           - Applying for this grant is quick and simple.
           linkUrl: /funding/programmes/national-lottery-awards-for-all-wales
+        - title: Helping Working Families
+          subTitle: Up to £500,000
+          summaryItems:
+          - Grants for voluntary and community organisations.
+          - The deadline for applications is midday on Thursday the 15th of March 2018.
+          - Funds projects that improve the lives of working families who are in poverty.
+          - Grants are for four years, with the first year co-designing the project idea with people and partners.
+          - Applications will initially be judged on proposals for co-production
+          linkUrl: /helping-working-families
+        - title: Coastal Communities Fund
+          subTitle: £50,000–£300,000
+          summaryItems:
+          - Grants for organisations from the third, public or private sector.
+          - The deadline for applications is midday on Tuesday the 12th of March 2018.
+          - Funds projects that support the economic development of coastal communities by
+            promoting sustainable economic growth and jobs
+          - Project must be complete by March 2021.
+          linkUrl: /funding/programmes/coastal-communities-fund
       fundingInRegion:
         title: Funding in Wales
         groups:
