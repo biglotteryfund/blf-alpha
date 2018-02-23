@@ -144,6 +144,63 @@
 }
 
 /* =========================================================================
+   Fact River
+   ========================================================================= */
+/* @see /wales, /northern-ireland */
+
+.fact-river {
+    @include clearfix();
+    clear: both;
+    list-style: none;
+    margin-bottom: 1em;
+}
+.fact-river__item {
+    margin-bottom: 1em;
+    font-weight: bold;
+
+    strong {
+        color: palette('pink');
+    }
+
+    @include mq('medium') {
+        font-size: 26px;
+        @include poppins();
+        float: left;
+        clear: left;
+        max-width: 60%;
+        margin: 0 0 1em 2em;
+
+        &:nth-child(even) {
+            float: right;
+            clear: right;
+            margin: 0 2em ($spacingUnit * 2) 0;
+        }
+    }
+}
+
+.fact-item {
+    display: flex;
+    align-items: center;
+}
+.fact-item__image {
+    flex: 0 0 auto;
+    flex-basis: 80px;
+    margin: 0 0 0 5px;
+    order: 2;
+
+    @include mq('medium') {
+        flex-basis: 120px;
+    }
+}
+
+.fact-item--reversed {
+    .fact-item__image {
+        margin: 0 $spacingUnit 0 0;
+        order: unset;
+    }
+}
+
+/* =========================================================================
    Grant List
    ========================================================================= */
 

@@ -19,6 +19,17 @@
     padding-bottom: unquote(decimal-round($padding, 1, ceil) + '%');
 }
 
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: ' ';
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
 @mixin input-placeholder {
     &.placeholder {
         @content;

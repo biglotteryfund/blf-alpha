@@ -62,6 +62,7 @@ function handleStaticPage(page) {
         const lang = page.lang ? req.i18n.__(page.lang) : false;
         res.render(page.template, {
             title: lang ? lang.title : false,
+            heroImage: page.heroImage || null,
             description: lang ? lang.description : false,
             copy: lang
         });

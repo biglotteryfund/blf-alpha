@@ -31,3 +31,21 @@
         {% endfor %}
     </ul>
 {% endmacro %}
+
+{% macro factRiver(facts) %}
+    <ul class="fact-river">
+        {% for fact in facts %}
+            <li class="fact-river__item">
+                <div class="fact-item{% if (loop.index % 2 === 0) %} fact-item--reversed{% endif %}">
+                    {% if fact.image %}
+                        <div class="fact-item__image">
+                            {% set imageUrl = "illustrations/" + fact.image  %}
+                            <img src="{{ imageUrl | getImagePath }} " alt="">
+                        </div>
+                    {% endif %}
+                    <div class="fact-item__text">{{ fact.text | safe }}</div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

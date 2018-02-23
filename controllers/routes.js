@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const { createHeroImage } = require('../modules/images');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
@@ -44,7 +45,36 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/home',
         lang: 'toplevel.home',
         isPostable: true,
-        aliases: ['/home', '/index.html', '/en-gb', '/england', '/wales', '/scotland', '/northernireland', '/uk-wide']
+        aliases: ['/home', '/index.html', '/en-gb', '/england', '/scotland', '/uk-wide']
+    }),
+    northernIreland: staticRoute({
+        live: false,
+        path: '/northern-ireland',
+        sMaxAge: '30m',
+        template: 'pages/toplevel/region',
+        lang: 'toplevel.northernIreland',
+        aliases: ['/northernireland'],
+        heroImage: createHeroImage({
+            small: 'hero/larche-belfast-small.jpg',
+            medium: 'hero/larche-belfast-medium.jpg',
+            large: 'hero/larche-belfast-large.jpg',
+            default: 'hero/larche-belfast-medium.jpg',
+            caption: 'L’Arche, Belfast'
+        })
+    }),
+    wales: staticRoute({
+        live: false,
+        path: '/wales',
+        sMaxAge: '30m',
+        template: 'pages/toplevel/region',
+        lang: 'toplevel.wales',
+        heroImage: createHeroImage({
+            small: 'hero/grassroots-small.jpg',
+            medium: 'hero/grassroots-medium.jpg',
+            large: 'hero/grassroots-large.jpg',
+            default: 'hero/grassroots-medium.jpg',
+            caption: 'Grassroots, Grant £455,268'
+        })
     }),
     contact: staticRoute({
         path: '/contact',
