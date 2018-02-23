@@ -85,6 +85,7 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/surveys', (req, res) => {
         res.cacheControl = { maxAge: 60 * 10 }; // 10 mins
         let path = req.query.path;
+        let surveyToShow = false;
 
         // fetch all active surveys from the API so we can filter them
         contentApi
@@ -93,19 +94,17 @@ module.exports = (pages, sectionPath, sectionId) => {
             })
             .then(surveys => {
                 // is there a path-specific survey here?
-                let surveyToShow = surveys.find(s => s.surveyPath === path);
+                surveyToShow = surveys.find(s => s.surveyPath === path);
 
                 // if not, is there a site-wide survey?
                 if (!surveyToShow) {
                     surveyToShow = surveys.find(s => s.global);
                 }
 
-                if (surveyToShow) {
-                    res.send({
-                        status: 'success',
-                        survey: surveyToShow
-                    });
-                }
+                res.send({
+                    status: (surveyToShow) ? 'success' : 'error',
+                    survey: surveyToShow
+                });
             });
     });
 
