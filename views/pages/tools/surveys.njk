@@ -41,7 +41,7 @@
                     <div class="list-group">
                         {% for response in choice.responses %}
                             {% if response.message %}
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h6 class="mb-3">{{ moment(response.createdAt).format('ddd DD MMM YYYY (hh:mm a)') }}</h6>
                                         <small title="{{ response.createdAt }}">{{ moment(response.createdAt).fromNow() }}</small>
@@ -50,7 +50,7 @@
                                     {% if response.metadata %}
                                         <small><pre>{{ response.metadata | dump | safe }}</pre></small>
                                     {% endif %}
-                                </a>
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -86,32 +86,12 @@
             let ctx = document.getElementById(`js-chart-${survey.id}`);
 
             let datasets = survey.choices.map((choice, i) => {
-
-                let counts = {};
-                let data = [];
-                choice.responses.forEach(response => {
-                    let d = new Date(response.createdAt);
-                    let normalisedDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-
-                    if (!counts[normalisedDate]) {
-                        counts[normalisedDate] = 0;
-                    }
-                    counts[normalisedDate] = counts[normalisedDate] + 1;
-                });
-
-                for (let date in counts) {
-                    data.push({
-                        x: date,
-                        y: counts[date]
-                    });
-                }
-
                 return {
                     label: choice.title,
                     backgroundColor: getColor(choice.title, 'bg'),
                     borderColor: getColor(choice.title, 'bg'),
                     fill: false,
-                    data: data,
+                    data: choice.voteData,
                 };
             });
 
