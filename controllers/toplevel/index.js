@@ -102,7 +102,7 @@ module.exports = (pages, sectionPath, sectionId) => {
                 }
 
                 res.send({
-                    status: (surveyToShow) ? 'success' : 'error',
+                    status: surveyToShow ? 'success' : 'error',
                     survey: surveyToShow
                 });
             });

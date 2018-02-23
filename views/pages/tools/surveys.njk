@@ -6,11 +6,11 @@
 
     <h1>All surveys</h1>
     {% for s in surveys %}
-        <h2>{{ s.name }}</h2>
-        <p><strong>Question</strong>: {{ s.question_en }}</p>
+        <h2>{{ s.title }}</h2>
+        <p><strong>Question</strong>: {{ s.question }}</p>
         {% for choice in s.choices %}
-            <h3>{{ choice.title_en }}: {{ choice.responses.length }} votes</h3>
-            {% if choice.allow_message %}
+            <h3>{{ choice.title }}: {{ choice.responses.length }} votes</h3>
+            {% if choice.allowMessage %}
                 <ul>
                     {% for response in choice.responses %}
                         {% if response.message %}
