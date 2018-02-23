@@ -3,30 +3,166 @@
 {% block title %}Survey results{% endblock %}
 
 {% block content %}
+    <h1 class="display-4 mb-4">
+        All survey results
+        <small class="text-muted">{{ surveys.length }} total surveys</small>
+    </h1>
 
-    <h1>All surveys</h1>
     {% for s in surveys %}
-        <h2>{{ s.title }}</h2>
-        <p><strong>Question</strong>: {{ s.question }}</p>
+        <nav class="navbar navbar-dark mb-2" style="background-color: #cfddea;">
+            <h2>
+                {{ s.title }}
+                <span class="badge badge-info">{{ s.status }}</span>
+            </h2>
+            <small class="text-muted" title="{{ s.dateCreated }}">Created {{ moment(s.dateCreated.date).fromNow() }}</small>
+        </nav>
+        <p class="lead">
+            {{ s.question }}
+            <span class="badge badge-success">{{ s.winner.percentage }}% said {{ s.winner.title | lower }}</span>
+        </p>
+
+        <div style="height: 450px" class="border mb-4">
+            <canvas id="js-chart-{{ s.id }}" width="400" height="400"></canvas>
+        </div>
+
+        {% set statuses = cycler('success', 'danger') %}
+        <h4 class="mb-2">Response summary</h4>
+        <h6 class="mb-4">
+            {% for choice in s.choices %}
+                {{ choice.title }}
+                <span class="badge badge-{{ statuses.next() }}">{{ choice.responses.length }} votes</span>
+            {% endfor %}
+        </h6>
+
+        <h4>User messages</h4>
         {% for choice in s.choices %}
-            <h3>{{ choice.title }}: {{ choice.responses.length }} votes</h3>
             {% if choice.allowMessage %}
-                <ul>
-                    {% for response in choice.responses %}
-                        {% if response.message %}
-                            <li>
-                                "{{ response.message }}"<br>
-                                <strong>({{ response.createdAt }})</strong>
-                                {% if response.metadata %}
-                                    <pre><code>{{ response.metadata.clientId }}</code></pre>
-                                {% endif %}
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No additional messages.</p>
+                <div class="border mb-5" style="max-height: 400px; overflow: auto">
+                    <div class="list-group">
+                        {% for response in choice.responses %}
+                            {% if response.message %}
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-3">{{ moment(response.createdAt).format('ddd DD MMM YYYY (hh:mm a)') }}</h6>
+                                        <small title="{{ response.createdAt }}">{{ moment(response.createdAt).fromNow() }}</small>
+                                    </div>
+                                    <p class="mb-3">{{ response.message }}</p>
+                                    {% if response.metadata %}
+                                        <small><pre>{{ response.metadata | dump | safe }}</pre></small>
+                                    {% endif %}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             {% endif %}
         {% endfor %}
     {% endfor %}
+
+    <script>
+        let surveys = {{ surveys | dump | safe }};
+
+        let colourIndex = {
+            yes: {
+                bg: '#41c27f',
+                fg: '#2a7f53'
+            },
+            no: {
+                bg: '#de1d19',
+                fg: '#8e1310',
+            }
+        };
+
+        let getColor = (label, type) => {
+            let l = label.toLowerCase().trim();
+            if (colourIndex[l]) {
+                return colourIndex[l][type];
+            } else {
+                return colourIndex.yes[type];
+            }
+        };
+
+        surveys.forEach(survey => {
+            let ctx = document.getElementById(`js-chart-${survey.id}`);
+
+            let datasets = survey.choices.map((choice, i) => {
+
+                let counts = {};
+                let data = [];
+                choice.responses.forEach(response => {
+                    let d = new Date(response.createdAt);
+                    let normalisedDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+
+                    if (!counts[normalisedDate]) {
+                        counts[normalisedDate] = 0;
+                    }
+                    counts[normalisedDate] = counts[normalisedDate] + 1;
+                });
+
+                for (let date in counts) {
+                    data.push({
+                        x: date,
+                        y: counts[date]
+                    });
+                }
+
+                return {
+                    label: choice.title,
+                    backgroundColor: getColor(choice.title, 'bg'),
+                    borderColor: getColor(choice.title, 'bg'),
+                    fill: false,
+                    data: data,
+                };
+            });
+
+            let config = {
+                type: 'line',
+                data: {
+                    datasets: datasets,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+                        text: "Response distribution"
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: "time",
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Date'
+                            },
+                            ticks: {
+                                major: {
+                                    fontStyle: "bold",
+                                    fontColor: "#FF0000"
+                                }
+                            },
+                            time: {
+                                round: 'day',
+                                unit: 'day'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Number of responses'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1
+                            }
+                        }]
+                    }
+                }
+            };
+
+            let myChart = new Chart(ctx, config);
+        });
+    </script>
+
 {% endblock %}
