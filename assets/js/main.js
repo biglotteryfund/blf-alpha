@@ -39,8 +39,9 @@ require('./modules/forms').init();
  * If we are in the live environment then load analytics
  * @see metaHeadJS.njk for where App.blockAnalytics is set
  */
+const analyticsSplit = () => import(/* webpackChunkName: "analytics" */ './bootstraps/analytics');
 if (!window.AppConfig.blockAnalytics) {
-    import(/* webpackChunkName: "analytics" */ './bootstraps/analytics').then(analytics => {
+    analyticsSplit().then.then(analytics => {
         analytics.init();
     });
 }
