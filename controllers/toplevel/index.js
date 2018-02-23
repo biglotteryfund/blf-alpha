@@ -135,7 +135,8 @@ module.exports = (pages, sectionPath, sectionId) => {
 
             let responseData = {
                 survey_id: surveyId,
-                choice_id: req.body['choice']
+                choice_id: req.body['choice'],
+                path: req.body.path
             };
 
             // add a message (if we got one)

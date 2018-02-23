@@ -11,6 +11,9 @@ module.exports = function(sequelize, DataTypes) {
         message: {
             type: DataTypes.TEXT
         },
+        path: {
+            type: DataTypes.TEXT
+        },
         metadata: {
             type: DataTypes.TEXT,
             get() {

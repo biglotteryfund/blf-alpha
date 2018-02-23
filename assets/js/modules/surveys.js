@@ -108,6 +108,9 @@ const showSurvey = survey => {
                     };
                 });
 
+                // store the page path
+                data.path = window.location.pathname;
+
                 $.ajax({
                     url: e.target.action,
                     type: 'POST',
