@@ -37,7 +37,7 @@ describe('cached', () => {
             .request(server)
             .get('/')
             .end((err, res) => {
-                expect(res.headers['cache-control']).to.equal('max-age=300');
+                expect(res.headers['cache-control']).to.equal('max-age=30,s-maxage=300');
                 done();
             });
 

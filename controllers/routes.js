@@ -113,6 +113,7 @@ sections.toplevel.addRoutes({
 sections.funding.addRoutes({
     root: dynamicRoute({
         path: '/',
+        sMaxAge: '30m',
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
         aliases: ['/home/funding']
@@ -217,6 +218,7 @@ sections.funding.addRoutes({
 sections.research.addRoutes({
     root: staticRoute({
         path: '/',
+        sMaxAge: '30m',
         template: 'pages/toplevel/research',
         lang: 'toplevel.research'
     })
@@ -228,9 +230,9 @@ sections.research.addRoutes({
 sections.about.addRoutes({
     root: staticRoute({
         path: '/',
+        sMaxAge: '30m',
         template: 'pages/toplevel/about',
         lang: 'about.landing',
-        live: true,
         aliases: [
             '/about-big',
             '/england/about-big',
