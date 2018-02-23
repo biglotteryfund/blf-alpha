@@ -103,9 +103,9 @@ const showSurvey = survey => {
 
                 // try to record an anonymous GA clientId to aid in debugging reported issues
                 ga(tracker => {
-                    data.metadata = JSON.stringify({
+                    data.metadata = {
                         clientId: tracker.get('clientId')
-                    });
+                    };
                 });
 
                 $.ajax({

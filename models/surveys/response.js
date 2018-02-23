@@ -12,7 +12,18 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.TEXT
         },
         metadata: {
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            get() {
+                let data = this.getDataValue('metadata');
+                if (data) {
+                    return JSON.parse(data);
+                } else {
+                    return data;
+                }
+            },
+            set(val) {
+                this.setDataValue('metadata', JSON.stringify(val, null, 4));
+            }
         }
     });
 };

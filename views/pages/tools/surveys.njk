@@ -15,9 +15,10 @@
                     {% for response in choice.responses %}
                         {% if response.message %}
                             <li>
-                                "{{ response.message }}" ({{ response.createdAt }})
+                                "{{ response.message }}"<br>
+                                <strong>({{ response.createdAt }})</strong>
                                 {% if response.metadata %}
-                                    <pre><code>{{ response.metadata }}</code></pre>
+                                    <pre><code>{{ response.metadata.clientId }}</code></pre>
                                 {% endif %}
                             </li>
                         {% endif %}
