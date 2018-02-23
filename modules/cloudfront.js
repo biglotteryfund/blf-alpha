@@ -196,6 +196,7 @@ function generateBehaviours({ routesConfig, origins }) {
         '/css/*',
         '/images/*',
         '/default.css',
+        '/news-and-events',
         '/funding/search-past-grants',
         '/funding/search-past-grants/*'
     ].map(path =>
