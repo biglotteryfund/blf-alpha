@@ -1,6 +1,5 @@
 {
     "staticExpiration": 1,
-    "viewCacheExpiration": 300,
     "assetVirtualDir": "assets",
     "siteDomain": "www.biglotteryfund.org.uk",
     "meta": {

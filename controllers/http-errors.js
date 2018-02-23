@@ -6,6 +6,8 @@ function renderUnauthorised(req, res) {
 }
 
 function renderNotFound(req, res) {
+    res.cacheControl = { noStore: true };
+
     let err = new Error('Page not found');
     err.status = 404;
     err.friendlyText = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";

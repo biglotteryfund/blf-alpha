@@ -7,6 +7,7 @@ const { renderNotFoundWithError } = require('../http-errors');
 const { stripTrailingSlashes } = require('../../modules/urls');
 const { withFallbackImage } = require('../../modules/images');
 const { shouldServe } = require('../../modules/pageLogic');
+const { sMaxAge } = require('../../middleware/cached');
 
 /**
  * Redirect any aliases to the canonical path
@@ -80,7 +81,8 @@ function init({ pages, router, sectionPath, sectionId }) {
             if (page.useCmsContent) {
                 router.get(page.path, handleCmsPage(sectionId));
             } else if (page.static) {
-                router.get(page.path, handleStaticPage(page));
+                const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
+                router.get(page.path, cacheMiddleware, handleStaticPage(page));
             }
         }
     });
