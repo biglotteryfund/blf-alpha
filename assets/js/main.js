@@ -3,8 +3,7 @@
 /**
  * Initialise Vue
  */
-const Vue = require('vue');
-Vue.options.delimiters = ['<%', '%>'];
+import Vue from 'vue';
 window.Vue = Vue;
 
 /**
@@ -16,31 +15,24 @@ raven.init(Vue);
 /**
  * Load modules
  */
+import carousel from './modules/carousel';
+
 require('./modules/common').init();
 require('./modules/tabs').init();
 require('./modules/surveys').init();
-require('./modules/carousel').init();
 require('./modules/heroImages').init();
 require('./modules/logos').init();
 require('./modules/materials').init();
 require('./modules/forms').init();
-
-/**
- * Load enhancements as a separate bundle
- * Dark-launch until ready for launch
- */
-// if (window.AppConfig.environment !== 'production') {
-//     import(/* webpackChunkName: "enhanced" */ './bootstraps/enhanced').then(enhanced => {
-//         enhanced.init();
-//     });
-// }
+carousel.init();
 
 /**
  * If we are in the live environment then load analytics
  * @see metaHeadJS.njk for where App.blockAnalytics is set
  */
+const analyticsSplit = () => import(/* webpackChunkName: "analytics" */ './bootstraps/analytics');
 if (!window.AppConfig.blockAnalytics) {
-    import(/* webpackChunkName: "analytics" */ './bootstraps/analytics').then(analytics => {
+    analyticsSplit().then(analytics => {
         analytics.init();
     });
 }

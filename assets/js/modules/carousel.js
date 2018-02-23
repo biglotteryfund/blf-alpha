@@ -1,7 +1,10 @@
 'use strict';
-const Swiper = require('swiper');
-const { forEach } = require('lodash');
+
+import { forEach } from 'lodash';
+import { Swiper, Navigation, Keyboard, A11y } from 'swiper/dist/js/swiper.esm.js';
 const { trackEvent } = require('../helpers/metrics');
+
+Swiper.use([Navigation, Keyboard, A11y]);
 
 function init() {
     const carouselElems = document.querySelectorAll('.js-carousel');
@@ -35,6 +38,6 @@ function init() {
     }
 }
 
-module.exports = {
-    init: init
+export default {
+    init
 };

@@ -47,7 +47,7 @@
   },
   "size-limit": [
     {
-      "limit": "120KB",
+      "limit": "90KB",
       "path": "public/build/*/javascripts/app.js"
     },
     {
@@ -176,6 +176,7 @@
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.14.0",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^3.7.1"
   },
   "snyk": true
