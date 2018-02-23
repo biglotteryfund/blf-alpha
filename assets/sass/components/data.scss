@@ -144,6 +144,43 @@
 }
 
 /* =========================================================================
+   Stat River
+   ========================================================================= */
+
+.stat-river {
+    @include clearfix();
+    clear: both;
+    list-style: none;
+
+    @include mq('medium') {
+        margin-bottom: 1em;
+    }
+}
+.stat-river__item {
+    margin: 0 0 0.5em 0;
+    font-weight: bold;
+
+    strong {
+        color: palette('pink');
+    }
+
+    @include mq('medium') {
+        font-size: 26px;
+        @include poppins();
+        float: left;
+        clear: left;
+        max-width: 60%;
+        margin: 0 0 1em 2em;
+
+        &:nth-child(even) {
+            float: right;
+            clear: right;
+            margin: 0 2em 1em 0;
+        }
+    }
+}
+
+/* =========================================================================
    Grant List
    ========================================================================= */
 
