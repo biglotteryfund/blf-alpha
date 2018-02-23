@@ -33,8 +33,10 @@ module.exports = {
     },
     resolve: {
         alias: {
-            // TODO: Change to vue.esm.js when using import/export
-            vue$: 'vue/dist/vue.common.js'
+            // @TODO: Change to vue.esm.js if/when using import/export
+            vue$: 'vue/dist/vue.common.js',
+            // @TODO: Remove if/when using import/export
+            swiper$: 'swiper/dist/js/swiper.js'
         }
     },
     devtool: isProduction ? 'source-map' : 'eval-source-map',

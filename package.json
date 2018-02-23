@@ -47,7 +47,7 @@
   },
   "size-limit": [
     {
-      "limit": "120KB",
+      "limit": "135KB",
       "path": "public/build/*/javascripts/app.js"
     },
     {
