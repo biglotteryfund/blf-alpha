@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import sectionHero %}
 {% from "components/tabs.njk" import tabs %}
+{% from "components/data.njk" import factRiver %}
 
 {% extends "layouts/main.njk" %}
 
@@ -7,30 +8,26 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/larche-belfast-small.jpg',
-    medium: 'hero/larche-belfast-medium.jpg',
-    large: 'hero/larche-belfast-large.jpg',
-    default: 'hero/larche-belfast-medium.jpg',
-    caption: 'L’Arche, Belfast'
-}) %}
-
 {% set socialImage = heroImage %}
-
-
 
 {% block content %}
     {% set pageAccent = 'pink' %}
 
+    {{
+        sectionHero(
+            accent = pageAccent,
+            titleText = title,
+            image = heroImage
+        )
+    }}
+
    {% set availableFundingContent %}
-        <div class="s-prose s-prose--long">
+        <div class="s-prose s-prose--long u-constrained-content-wide">
             <p>{{ copy.sections.availableFunding.introduction | safe }}</p>
             {% for fundingProgramme in copy.sections.availableFunding.fundingProgrammes %}
                 <div class="programme-overview spaced--l">
-
                     <h3 class="t1 accent--{{ pageAccent }} a--text no-space">{{ fundingProgramme.title }}</h3>
                     <h4>{{ fundingProgramme.subTitle }}</h4>
-
                     {% if fundingProgramme.summaryItems.length > 0 %}
                         <ul>
                             {% for item in fundingProgramme.summaryItems %}
@@ -38,7 +35,6 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-
                     <div class="u-align-center">
                         <a
                             class="btn accent--pink a--btn central-gap"
@@ -51,20 +47,17 @@
         </div>
     {% endset %}
 
-
     {% set fundingInRegionContent %}
         {% for group in copy.sections.fundingInRegion.groups %}
-            <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ group.description }}</h2>
-            <ul class="stat-river">
-                {% for stat in group.stats %}
-                    <li class="stat-river__item">{{ stat | safe }}</li>
-                {% endfor %}
-            </ul>
+            {% if (copy.sections.fundingInRegion.groups.length > 1) %}
+                <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ group.description }}</h2>
+            {% endif %}
+            {{ factRiver(group.facts) }}
         {% endfor %}
     {% endset %}
 
     {% set aboutIdeasContent %}
-        <div class="s-prose s-prose--long">
+        <div class="s-prose s-prose--long u-constrained-content-wide">
             <p>{{ copy.sections.aboutIdeas.introduction | safe }}</p>
             {% for contentPart in copy.sections.aboutIdeas.contentParts %}
                 <h3>{{ contentPart.title }}</h3>
@@ -76,14 +69,6 @@
             {% endfor %}
         </div>
     {% endset %}
-
-    {{
-        sectionHero(
-            accent = pageAccent,
-            titleText = title,
-            image = heroImage
-        )
-    }}
 
     <main class="nudge-up">
         <section class="content-box content-box--tinted content-box--even-inset
