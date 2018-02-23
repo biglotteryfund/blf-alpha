@@ -56,6 +56,7 @@ const sMaxAge = sMaxAgeValue => {
 const csrfProtection = [csurf(), noCache];
 
 module.exports = {
+    toSeconds,
     defaultVary,
     defaultCacheControl,
     noCache,

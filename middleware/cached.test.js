@@ -9,20 +9,25 @@ const session = require('express-session');
 const http = require('http');
 const httpMocks = require('node-mocks-http');
 
-const cached = require('./cached');
+const { csrfProtection, defaultVary, defaultCacheControl, noCache, sMaxAge, toSeconds } = require('./cached');
 
 function createAppWithDefaults() {
     const app = express();
-    app.use(cached.defaultVary, cached.defaultCacheControl);
+    app.use(defaultVary, defaultCacheControl);
     return app;
 }
 
 describe('cached', () => {
+    it('should convert natural time to seconds', () => {
+        expect(toSeconds('10s')).to.equal(10);
+        expect(toSeconds('30m')).to.equal(1800);
+    });
+
     it('should add default vary header', () => {
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        cached.defaultVary(req, res, () => {});
+        defaultVary(req, res, () => {});
         expect(res.header('Vary')).to.equal('Cookie');
     });
 
@@ -48,7 +53,7 @@ describe('cached', () => {
 
     it('should add no-cache headers when middleware is used', done => {
         const app = createAppWithDefaults();
-        app.get('/', cached.noCache, function(req, res) {
+        app.get('/', noCache, function(req, res) {
             res.send('Hello');
         });
         const server = http.createServer(app);
@@ -79,7 +84,7 @@ describe('cached', () => {
         );
 
         let csrf;
-        app.get('/', cached.csrfProtection, function(req, res) {
+        app.get('/', csrfProtection, function(req, res) {
             csrf = req.csrfToken();
             res.send(csrf);
         });
@@ -92,6 +97,26 @@ describe('cached', () => {
             .end((err, res) => {
                 expect(res.text).to.equal(csrf);
                 expect(res.headers['cache-control']).to.equal('no-store,no-cache,max-age=0');
+                done();
+            });
+
+        after(function(afterDone) {
+            server.close(afterDone);
+        });
+    });
+
+    it('should add custom s-max-age', done => {
+        const app = createAppWithDefaults();
+        app.get('/', sMaxAge('30m'), function(req, res) {
+            res.send('Hello');
+        });
+        const server = http.createServer(app);
+
+        chai
+            .request(server)
+            .get('/')
+            .end((err, res) => {
+                expect(res.headers['cache-control']).to.equal('max-age=30,s-maxage=1800');
                 done();
             });
 
