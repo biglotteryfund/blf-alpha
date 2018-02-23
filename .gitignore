@@ -10,7 +10,6 @@ config/app/server-dev.conf
 config/content/cleaned
 config/content/scraped
 deploy.json
-gmail_secrets.json
 messages.json
 node_modules
 public/build
