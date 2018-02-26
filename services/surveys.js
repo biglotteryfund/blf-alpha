@@ -11,7 +11,9 @@ function findAll() {
     });
 
     // get user responses from the database
-    const getResponses = SurveyResponse.findAll();
+    const getResponses = SurveyResponse.findAll({
+        order: [['updatedAt', 'DESC']]
+    });
     const normalisedDateFormat = 'YYYY-MM-DD';
 
     // combine the votes with the choices
