@@ -7,7 +7,7 @@ const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const { shouldServe } = require('../modules/pageLogic');
 const { withFallbackImage } = require('../modules/images');
-const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
+const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
 /**
@@ -59,22 +59,22 @@ function handleCmsPage(sectionId) {
 }
 
 function handleStaticPage(page) {
-    return function(req, res) {
+    return function(req, res, next) {
         const lang = page.lang ? req.i18n.__(page.lang) : false;
         const isBilingual = get(page, 'isBilingual', true);
-        const shouldRedirectLang = !isBilingual || isEmpty(lang);
+        const shouldRedirectLang = (!isBilingual || isEmpty(lang)) && isWelsh(req.originalUrl);
 
-        if (shouldRedirectLang && isWelsh(req.originalUrl)) {
-            res.redirect(removeWelsh(req.originalUrl));
+        if (shouldRedirectLang) {
+            next();
+        } else {
+            res.render(page.template, {
+                title: get(lang, 'title', false),
+                heroImage: page.heroImage || null,
+                description: lang ? lang.description : false,
+                isBilingual: isBilingual,
+                copy: lang
+            });
         }
-
-        res.render(page.template, {
-            title: get(lang, 'title', false),
-            heroImage: page.heroImage || null,
-            description: lang ? lang.description : false,
-            isBilingual: isBilingual,
-            copy: lang
-        });
     };
 }
 

@@ -10,10 +10,15 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
+const { SENTRY_DSN } = require('./modules/secrets');
+const { cymreigio, makeWelsh } = require('./modules/urls');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 const { shouldServe } = require('./modules/pageLogic');
-const { proxyPassthrough, postToLegacyForm, redirectUglyLink, redirectArchived } = require('./modules/legacy');
+const { proxyPassthrough, postToLegacyForm, redirectUglyLink } = require('./modules/legacy');
+const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
+const { redirectArchived, redirectNoWelsh } = require('./modules/redirects');
+const routes = require('./controllers/routes');
 
 const favicon = require('serve-favicon');
 const bodyParserMiddleware = require('./middleware/bodyParser');
@@ -26,11 +31,6 @@ const sessionMiddleware = require('./middleware/session');
 const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
 const previewMiddleware = require('./middleware/preview');
-
-const { SENTRY_DSN } = require('./modules/secrets');
-const { cymreigio, makeWelsh } = require('./modules/urls');
-const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
-const routes = require('./controllers/routes');
 
 if (SENTRY_DSN) {
     Raven.config(SENTRY_DSN, {
@@ -171,7 +171,7 @@ app.get('/error-unauthorised', (req, res) => {
 app
     .route('*')
     .all(stripCSPHeader)
-    .get(proxyPassthrough)
+    .get(redirectNoWelsh, proxyPassthrough)
     .post(postToLegacyForm);
 
 /**
