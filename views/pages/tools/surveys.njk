@@ -57,8 +57,9 @@
                                             {% if response.path %}
                                                 {{ response.path }}
                                             {% else %}
-                                                {{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}</h6>
+                                                {{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}
                                             {% endif %}
+                                        </h6>
                                         <a href="#msg-{{ response.id }}">
                                             <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
                                         </a>
