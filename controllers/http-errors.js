@@ -1,6 +1,5 @@
 const Raven = require('raven');
 const appData = require('../modules/appData');
-const { isWelsh, removeWelsh } = require('../modules/urls');
 
 function renderUnauthorised(req, res) {
     res.render('unauthorised');

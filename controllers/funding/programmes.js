@@ -159,7 +159,7 @@ function renderProgrammeDetail({ res, entry }) {
 }
 
 function handleProgrammeDetail(slug) {
-    return function(req, res) {
+    return function(req, res, next) {
         const locale = req.i18n.getLocale();
         contentApi
             .getFundingProgramme({
@@ -175,14 +175,15 @@ function handleProgrammeDetail(slug) {
                 }
             })
             .catch(err => {
-                renderNotFoundWithError(err, req, res);
+                err.statusCode !== '404' && Raven.captureException(err);
+                next();
             });
     };
 }
 
 function initProgrammeDetail(router) {
-    router.get('/programmes/:slug', (req, res) => {
-        handleProgrammeDetail(req.params.slug)(req, res);
+    router.get('/programmes/:slug', (req, res, next) => {
+        handleProgrammeDetail(req.params.slug)(req, res, next);
     });
 }
 
@@ -200,11 +201,11 @@ function initProgrammeDetailAwardsForAll(router, options) {
 
     const getSlug = urlPath => last(urlPath.split('/'));
 
-    function renderVariantA(req, res) {
-        handleProgrammeDetail(getSlug(req.path))(req, res);
+    function renderVariantA(req, res, next) {
+        handleProgrammeDetail(getSlug(req.path))(req, res, next);
     }
 
-    function renderVariantB(req, res) {
+    function renderVariantB(req, res, next) {
         const locale = req.i18n.getLocale();
         const slug = getSlug(req.path);
         contentApi
@@ -234,7 +235,8 @@ function initProgrammeDetailAwardsForAll(router, options) {
                 }
             })
             .catch(err => {
-                renderNotFoundWithError(err, req, res);
+                err.statusCode !== '404' && Raven.captureException(err);
+                next();
             });
     }
 
@@ -245,14 +247,14 @@ function initProgrammeDetailAwardsForAll(router, options) {
      * Expose preview URLs to see test variants directly
      */
     if (appData.isNotProduction) {
-        router.get(`${options.path}/a`, (req, res) => {
+        router.get(`${options.path}/a`, (req, res, next) => {
             req.url = options.path;
-            renderVariantA(req, res);
+            renderVariantA(req, res, next);
         });
 
-        router.get(`${options.path}/b`, (req, res) => {
+        router.get(`${options.path}/b`, (req, res, next) => {
             req.url = options.path;
-            renderVariantB(req, res);
+            renderVariantB(req, res, next);
         });
     }
 }

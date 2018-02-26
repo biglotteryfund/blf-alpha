@@ -7,7 +7,7 @@ const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const { shouldServe } = require('../modules/pageLogic');
 const { withFallbackImage } = require('../modules/images');
-const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
+const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
 /**
