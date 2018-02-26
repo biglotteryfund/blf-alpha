@@ -223,6 +223,24 @@ toplevel:
           - This is our most popular grants programme, so we will prioritise groups with smaller incomes.
           - Applying for this grant is quick and simple.
           linkUrl: /funding/programmes/national-lottery-awards-for-all-wales
+        - title: "People and Places: Medium grants"
+          subTitle: £10,001–£100,000
+          summaryItems:
+            - Grants for voluntary or community groups.
+            - We will fund revenue or capital expenditure lasting up to five years.
+            - The most important thing is that you tell us about your community and how the
+              project will make positive changes on the lives of people within it.
+            - This is a one stage application process.
+          linkUrl: /funding/programmes/people-and-places-medium-grants
+        - title: "People and Places: Large grants"
+          subTitle: £100,001–£500,000
+          summaryItems:
+            - Grants for voluntary or community groups.
+            - We will fund revenue or capital expenditure lasting up to five years.
+            - The most important thing is that you tell us about your community and how the
+              project will make positive changes on the lives of people within it.
+            - This is a two stage application process.
+          linkUrl: /funding/programmes/people-and-places-large-grants
         - title: Helping Working Families
           subTitle: Up to £500,000
           summaryItems:
