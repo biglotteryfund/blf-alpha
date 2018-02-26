@@ -28,6 +28,7 @@ global:
     contact: Contact
     site-map: Site map
     accessibility: Accessibility
+    tenderOpportunities: Tender opportunities
     grantFootnote: The grant amount shown was awarded within the last 12 months
   accessibility:
     skipToContent: Skip to content
