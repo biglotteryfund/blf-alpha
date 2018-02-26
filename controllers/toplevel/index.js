@@ -146,7 +146,7 @@ module.exports = (pages, sectionPath, sectionId) => {
 
             // include any additional survey data
             if (req.body['metadata']) {
-                responseData.metadata = req.body['metadata'];
+                responseData.metadata = JSON.parse(req.body['metadata']);
             }
 
             /**
