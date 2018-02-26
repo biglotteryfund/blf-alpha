@@ -196,7 +196,8 @@ sections.funding.addRoutes({
         lang: 'funding.guidance.logos',
         aliases: [
             '/funding/funding-guidance/managing-your-funding/logodownloads',
-            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads'
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+            '/logos'
         ]
     }),
     programmes: dynamicRoute({
