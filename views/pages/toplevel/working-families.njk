@@ -55,6 +55,13 @@
                         {% if block.type === 'text' %}
                             {{ block.body | safe }}
                         {% endif %}
+                        {% if block.type === 'list' %}
+                            <ul>
+                                {% for item in block.items %}
+                                    <li>{{ item | safe }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
                 </div>
