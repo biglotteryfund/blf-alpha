@@ -103,9 +103,9 @@ const showSurvey = survey => {
 
                 // try to record an anonymous GA clientId to aid in debugging reported issues
                 ga(tracker => {
-                    data.metadata = {
+                    data.metadata = JSON.stringify({
                         clientId: tracker.get('clientId')
-                    };
+                    });
                 });
 
                 // store the page path

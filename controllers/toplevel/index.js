@@ -6,6 +6,7 @@ const { sortBy } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
 const moment = require('moment');
+const Raven = require('raven');
 
 const router = express.Router();
 
@@ -105,7 +106,14 @@ module.exports = (pages, sectionPath, sectionId) => {
                     status: surveyToShow ? 'success' : 'error',
                     survey: surveyToShow
                 });
-            });
+            }).catch(err => {
+                Raven.captureMessage('Error retrieving surveys', {
+                    extra: err,
+                });
+                res.send({
+                    status: 'error'
+                });
+        });
     });
 
     const surveyValidations = [
@@ -146,7 +154,7 @@ module.exports = (pages, sectionPath, sectionId) => {
 
             // include any additional survey data
             if (req.body['metadata']) {
-                responseData.metadata = req.body['metadata'];
+                responseData.metadata = JSON.parse(req.body['metadata']);
             }
 
             /**
