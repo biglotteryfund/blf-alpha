@@ -1,0 +1,104 @@
+{
+  "data": [
+    {
+      "type": null,
+      "id": "64",
+      "attributes": {
+        "status": "live",
+        "title": "National Lottery Awards for All England",
+        "url": "https://example.com/funding/programmes/national-lottery-awards-for-all-england",
+        "urlPath": "funding/programmes/national-lottery-awards-for-all-england",
+        "content": {
+          "title": "National Lottery Awards for All England",
+          "linkUrl": "/funding/programmes/national-lottery-awards-for-all-england",
+          "photo": "https://media.biglotteryfund.org.uk/media/awards-for-all-england.jpg?mtime=20171108151813",
+          "organisationTypes": ["Voluntary or community organisations"],
+          "description": "A quick and simple way to get small National Lottery grants of between £300 and £10,000.",
+          "area": { "label": "England", "value": "england" },
+          "fundingSize": { "minimum": 300, "maximum": 10000 },
+          "applicationDeadline": "Ongoing"
+        }
+      }
+    },
+    {
+      "type": null,
+      "id": "70",
+      "attributes": {
+        "status": "live",
+        "title": "National Lottery Awards for All Wales",
+        "url": "https://example.com/funding/programmes/national-lottery-awards-for-all-wales",
+        "urlPath": "funding/programmes/national-lottery-awards-for-all-wales",
+        "content": {
+          "title": "National Lottery Awards for All Wales",
+          "linkUrl": "/funding/programmes/national-lottery-awards-for-all-wales",
+          "photo": "https://media.biglotteryfund.org.uk/media/awards-for-all-wales.jpg?mtime=20171108151814",
+          "organisationTypes": ["Voluntary or community organisations"],
+          "description": "A quick and easy way to get small Lottery grants of between £300 and £10,000",
+          "area": { "label": "Wales", "value": "wales" },
+          "fundingSize": { "minimum": 300, "maximum": 10000 },
+          "applicationDeadline": "Ongoing"
+        }
+      }
+    },
+    {
+      "type": null,
+      "id": "67",
+      "attributes": {
+        "status": "live",
+        "title": "National Lottery Awards for All Scotland",
+        "url": "https://example.com/funding/programmes/national-lottery-awards-for-all-scotland",
+        "urlPath": "funding/programmes/national-lottery-awards-for-all-scotland",
+        "content": {
+          "title": "National Lottery Awards for All Scotland",
+          "linkUrl": "/funding/programmes/national-lottery-awards-for-all-scotland",
+          "photo": "https://media.biglotteryfund.org.uk/media/awards-for-all-scotland.jpg?mtime=20171108151814",
+          "organisationTypes": ["Voluntary or community organisations", "Public sector organisations"],
+          "description": "A quick and easy way to get small Lottery grants of between £300 and £10,000",
+          "area": { "label": "Scotland", "value": "scotland" },
+          "fundingSize": { "minimum": 300, "maximum": 10000 },
+          "applicationDeadline": "Ongoing"
+        }
+      }
+    },
+    {
+      "type": null,
+      "id": "43",
+      "attributes": {
+        "status": "live",
+        "title": "Awards for All Northern Ireland",
+        "url": "https://example.com/funding/programmes/awards-for-all-northern-ireland",
+        "urlPath": "funding/programmes/awards-for-all-northern-ireland",
+        "content": {
+          "title": "Awards for All Northern Ireland",
+          "linkUrl": "/funding/programmes/awards-for-all-northern-ireland",
+          "photo": "https://media.biglotteryfund.org.uk/media/awards-for-all-northern-ireland.jpg?mtime=20171108151814",
+          "organisationTypes": ["Voluntary or community organisations", "Public sector organisations"],
+          "description": "Giving groups a quick and easy way to get small Lottery grants of between £500 and £10,000",
+          "area": { "label": "Northern Ireland", "value": "northernIreland" },
+          "fundingSize": { "minimum": 500, "maximum": 10000 },
+          "applicationDeadline": "Ongoing"
+        }
+      }
+    },
+    {
+      "type": null,
+      "id": "351",
+      "attributes": {
+        "status": "live",
+        "title": "Reaching Communities England",
+        "url": "https://example.com/funding/programmes/reaching-communities-england",
+        "urlPath": "funding/programmes/reaching-communities-england",
+        "content": {
+          "title": "Reaching Communities England",
+          "linkUrl": "/funding/programmes/reaching-communities-england",
+          "photo": "https://media.biglotteryfund.org.uk/media/reaching-communities.jpg?mtime=20171108151820",
+          "organisationTypes": ["Voluntary or community organisations"],
+          "description": "Funding projects that help people and communities most in need.",
+          "area": { "label": "England", "value": "england" },
+          "totalAvailable": "£160m this financial year",
+          "applicationDeadline": "Ongoing"
+        }
+      }
+    }
+  ]
+}
