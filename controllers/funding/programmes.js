@@ -154,6 +154,7 @@ function renderProgrammeDetail({ res, entry }) {
     res.render('pages/funding/programme-detail', {
         entry: entry,
         title: entry.summary.title,
+        isBilingual: entry.availableLanguages.length === 2,
         heroImage: entry.hero || defaultProgrammeHeroImage
     });
 }
