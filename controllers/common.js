@@ -1,14 +1,14 @@
 'use strict';
 
-const { forEach, get, isEmpty, isObject } = require('lodash');
+const { forEach, get, isEmpty } = require('lodash');
 
-const app = require('../../server');
-const { renderNotFoundWithError } = require('../http-errors');
-const { sMaxAge } = require('../../middleware/cached');
-const { shouldServe } = require('../../modules/pageLogic');
-const { withFallbackImage } = require('../../modules/images');
-const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../../modules/urls');
-const contentApi = require('../../services/content-api');
+const app = require('../server');
+const { renderNotFoundWithError } = require('./http-errors');
+const { sMaxAge } = require('../middleware/cached');
+const { shouldServe } = require('../modules/pageLogic');
+const { withFallbackImage } = require('../modules/images');
+const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
+const contentApi = require('../services/content-api');
 
 /**
  * Redirect any aliases to the canonical path

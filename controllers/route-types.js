@@ -72,8 +72,8 @@ function basicRoute(props) {
 
 /**
  * Static route
- * Triggers 'routeStatic' behaviour, doesn't need
- * a custom route handler, only a template path.
+ * Triggers static handler in 'routeCommon'
+ * doesn't need a route handler, only a template path.
  */
 function staticRoute(props) {
     const staticDefaults = {
@@ -112,7 +112,7 @@ function wildcardRoute(props) {
 
 /**
  * CMS route
- * Triggers 'routeStatic' behaviour, and fetches content dynamically from CMS
+ * Triggers CMS content handler in 'routeCommon'
  * e.g. Programme detail pages
  */
 function cmsRoute(props) {

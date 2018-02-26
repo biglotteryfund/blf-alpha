@@ -1,7 +1,7 @@
 const express = require('express');
 
 const routerSetup = require('../setup');
-const routeStatic = require('../utils/routeStatic');
+const routeCommon = require('../common');
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         sectionId
     });
 
-    routeStatic.init({
+    routeCommon.init({
         router,
         pages,
         sectionPath,

@@ -11,7 +11,7 @@ const Raven = require('raven');
 const router = express.Router();
 
 const routerSetup = require('../setup');
-const routeStatic = require('../utils/routeStatic');
+const routeCommon = require('../common');
 const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
@@ -106,14 +106,15 @@ module.exports = (pages, sectionPath, sectionId) => {
                     status: surveyToShow ? 'success' : 'error',
                     survey: surveyToShow
                 });
-            }).catch(err => {
+            })
+            .catch(err => {
                 Raven.captureMessage('Error retrieving surveys', {
-                    extra: err,
+                    extra: err
                 });
                 res.send({
                     status: 'error'
                 });
-        });
+            });
     });
 
     const surveyValidations = [
@@ -207,10 +208,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.send(text);
     });
 
-    /**
-     * Populate static pages
-     */
-    routeStatic.init({
+    routeCommon.init({
         router: router,
         pages: pages,
         sectionPath: sectionPath,
