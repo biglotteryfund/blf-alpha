@@ -13,12 +13,14 @@
     </h1>
 
     {% for s in surveys %}
-        <nav class="navbar navbar-dark mb-2" style="background-color: #cfddea;">
+        <nav id="survey-{{ s.id }}" class="navbar navbar-dark mb-2" style="background-color: #cfddea;">
             <h2>
                 {{ s.title }}
                 <span class="badge badge-info">{{ s.status }}</span>
             </h2>
-            <small class="text-muted" title="{{ s.dateCreated }}">Created {{ s.dateCreated.date | timeFromNow }}</small>
+            <a href="#survey-{{ s.id }}">
+                <small class="text-muted" title="{{ s.dateCreated.date }}">Created {{ s.dateCreated.date | timeFromNow }}</small>
+            </a>
         </nav>
         <p class="lead">
             {{ s.question }}
@@ -48,7 +50,8 @@
                     <div class="list-group">
                         {% for response in choice.responses %}
                             {% if response.message %}
-                                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="list-group-item list-group-item-action flex-column align-items-start"
+                                     id="msg-{{ response.id }}">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h6 class="mb-3">
                                             {% if response.path %}
@@ -56,7 +59,9 @@
                                             {% else %}
                                                 {{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}</h6>
                                             {% endif %}
-                                        <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
+                                        <a href="#msg-{{ response.id }}">
+                                            <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
+                                        </a>
                                     </div>
                                     <p class="mb-3">{{ response.message }}</p>
                                     {% if response.metadata %}
