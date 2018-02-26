@@ -9,11 +9,10 @@ const moment = require('moment');
 
 const router = express.Router();
 
-const appData = require('../../modules/appData');
-
 const routerSetup = require('../setup');
 const routeStatic = require('../utils/routeStatic');
 const surveyService = require('../../services/surveys');
+const contentApi = require('../../services/content-api');
 
 const { heroImages } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
@@ -86,28 +85,25 @@ module.exports = (pages, sectionPath, sectionId) => {
     router.get('/surveys', (req, res) => {
         res.cacheControl = { maxAge: 60 * 10 }; // 10 mins
         let path = req.query.path;
+        let surveyToShow = false;
 
-        if (path) {
-            // normalise URLs (eg. treat a Welsh URL the same as default)
-            const CYMRU_URL = /\/welsh(\/|$)/;
-            path = path.replace(CYMRU_URL, '/');
-        }
-
-        // get the survey from the database
-        surveyService
-            .findActiveWithChoices({
-                filterByPath: path
+        // fetch all active surveys from the API so we can filter them
+        contentApi
+            .getSurveys({
+                locale: req.i18n.getLocale()
             })
             .then(surveys => {
+                // is there a path-specific survey here?
+                surveyToShow = surveys.find(s => s.surveyPath === path);
+
+                // if not, is there a site-wide survey?
+                if (!surveyToShow) {
+                    surveyToShow = surveys.find(s => s.global);
+                }
+
                 res.send({
-                    status: 'success',
-                    surveys: surveys
-                });
-            })
-            .catch(() => {
-                res.send({
-                    status: 'error',
-                    message: 'Error querying database'
+                    status: surveyToShow ? 'success' : 'error',
+                    survey: surveyToShow
                 });
             });
     });
@@ -138,7 +134,9 @@ module.exports = (pages, sectionPath, sectionId) => {
             }
 
             let responseData = {
-                surveyChoiceId: req.body['choice']
+                survey_id: surveyId,
+                choice_id: req.body['choice'],
+                path: req.body.path
             };
 
             // add a message (if we got one)

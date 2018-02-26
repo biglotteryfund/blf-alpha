@@ -93,7 +93,7 @@ function defaultSecurityHeaders() {
 
 function toolsSecurityHeaders() {
     const helmetSettings = buildSecurityMiddleware({
-        defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com']
+        defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
     });
 
     return helmetSettings;

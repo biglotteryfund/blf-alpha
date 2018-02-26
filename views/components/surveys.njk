@@ -14,7 +14,7 @@
         >
             <h6 class="survey__header"
                 v-on:click="toggleSurvey()">
-                <% localeify(survey, 'question', '{{ locale }}') %><span class="survey__arrow js-survey-arrow">
+                <% survey.question %> <span class="survey__arrow js-survey-arrow">
                 {{ iconArrowDown() }}
                 </span>
             </h6>
@@ -34,16 +34,16 @@
                 <button
                     v-for="choice in survey.choices"
                     class="btn btn--small survey__btn survey__btn--choice"
-                    :type="(choice.allow_message) ? 'button' : 'submit'"
+                    :type="(choice.allowMessage) ? 'button' : 'submit'"
                     v-on:click="toggleMessage(choice)"
                     v-if="!showMessageBox"
                 >
-                    <% localeify(choice, 'title', '{{ locale }}') %>
+                    <% choice.title %>
                 </button>
 
                 <div class="survey__extra"
                     v-for="choice in survey.choices"
-                    v-if="choice.allow_message && showMessageBox"
+                    v-if="choice.allowMessage && showMessageBox"
                 >
                     <div class="survey__extra-message">
                         <label for="survey-extra-msg"

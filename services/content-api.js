@@ -102,6 +102,24 @@ function getRoutes() {
     });
 }
 
+function getSurveys({ locale = 'en', showAll = false }) {
+    let params = {};
+    if (showAll) {
+        params.all = 'true';
+    }
+    return request({
+        url: `${CONTENT_API_URL}/v1/${locale}/surveys`,
+        qs: params,
+        json: true
+    }).then(response => {
+        return response.data.map(item => {
+            let data = item.attributes;
+            data.id = parseInt(item.id);
+            return data;
+        });
+    });
+}
+
 module.exports = {
     setApiUrl,
     getApiUrl,
@@ -110,5 +128,6 @@ module.exports = {
     getFundingProgrammes,
     getFundingProgramme,
     getListingPage,
-    getRoutes
+    getRoutes,
+    getSurveys
 };

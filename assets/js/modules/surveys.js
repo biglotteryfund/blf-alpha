@@ -52,7 +52,6 @@ function hasiOSBug() {
 
 const showSurvey = survey => {
     const mountEl = document.getElementById('js-survey-container');
-
     if (hasTakenSurvey(survey.id) || !mountEl) {
         return;
     }
@@ -71,9 +70,6 @@ const showSurvey = survey => {
             }
         },
         methods: {
-            localeify: function(obj, field, locale) {
-                return obj[field + '_' + locale];
-            },
             toggleSurvey: function() {
                 this.isActivated = !this.isActivated;
             },
@@ -82,7 +78,7 @@ const showSurvey = survey => {
                 this.surveyBlocked = true;
             },
             toggleMessage: function(choice) {
-                if (choice.allow_message) {
+                if (choice.allowMessage) {
                     this.showMessageBox = true;
                 } else {
                     this.formData.choice = choice.id;
@@ -107,10 +103,13 @@ const showSurvey = survey => {
 
                 // try to record an anonymous GA clientId to aid in debugging reported issues
                 ga(tracker => {
-                    data.metadata = JSON.stringify({
+                    data.metadata = {
                         clientId: tracker.get('clientId')
-                    });
+                    };
                 });
+
+                // store the page path
+                data.path = window.location.pathname;
 
                 $.ajax({
                     url: e.target.action,
@@ -135,11 +134,16 @@ const showSurvey = survey => {
 };
 
 module.exports = {
+    // does this page have any surveys?
     init: () => {
-        // does this page have any surveys?
-        $.get(`/surveys?path=${window.location.pathname}`).then(response => {
-            if (response.status === 'success' && response.surveys.length > 0) {
-                showSurvey(response.surveys[0]);
+        // normalise URLs (eg. treat a Welsh URL the same as default)
+        const CYMRU_URL = /\/welsh(\/|$)/;
+        let uri = window.location.pathname;
+        uri = uri.replace(CYMRU_URL, '/');
+        const localePrefix = window.AppConfig.localePrefix;
+        $.get(`${localePrefix}/surveys?path=${uri}`).then(response => {
+            if (response.status === 'success') {
+                showSurvey(response.survey);
             }
         });
     }

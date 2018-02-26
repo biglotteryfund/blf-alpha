@@ -42,8 +42,6 @@ if (DB_HOST) {
 
     // add models
     db.Users = sequelize.import('../models/user.js');
-    db.Survey = sequelize.import('../models/surveys/survey.js');
-    db.SurveyChoice = sequelize.import('../models/surveys/choice.js');
     db.SurveyResponse = sequelize.import('../models/surveys/response.js');
     db.Order = sequelize.import('../models/materials/order.js');
     db.OrderItem = sequelize.import('../models/materials/orderItem.js');
