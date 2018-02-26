@@ -53,6 +53,7 @@ sections.toplevel.addRoutes({
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
         lang: 'toplevel.northernIreland',
+        isBilingual: false,
         aliases: ['/northernireland'],
         heroImage: createHeroImage({
             small: 'hero/larche-belfast-small.jpg',
