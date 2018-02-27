@@ -74,6 +74,11 @@ const vanityRedirects = sections => {
         vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
         vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
         vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
+        vanity('/prog_reaching_communities.htm', '/funding/programmes/reaching-communities-england'),
+        vanity(
+            '/funding/funding-guidance/managing-your-funding/self-evaluation',
+            '/funding/funding-guidance/managing-your-funding/evaluation'
+        ),
         vanity('/helpingworkingfamilies', '/helping-working-families'),
         vanity('/helputeuluoeddgweithio', '/welsh/helping-working-families'),
         vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives'),
