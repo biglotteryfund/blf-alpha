@@ -19,6 +19,7 @@ function init() {
     let storeLangPrefInForm = newState => $('#js-language-choice').val(newState);
 
     new Vue({
+        delimiters: ['<%', '%>'],
         el: mountEl,
         data: {
             orderData: allOrderData,
