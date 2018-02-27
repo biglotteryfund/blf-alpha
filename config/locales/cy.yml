@@ -619,7 +619,7 @@ toplevel:
     title: Helpu Teuluoedd sy'n Gweithio
     intro: "<p>Mae Helpu Teuluoedd sy'n Gweithio'n ariannu prosiectau sy'n gwella
       bywydau teuluoedd sy'n gweithio tra mewn tlodi.</p>"
-    grantSummary: "<p><strong>Maint y grant</strong>: Tua £500,000<br/><strong>Hyd
+    grantSummary: "<p><strong>Maint y grant</strong>: Hyd at £500,000<br/><strong>Hyd
       y grant</strong>: Pedair blynedd (yn dod i ben 2022)<br/><strong>Diwedd y cyfnod
       ymgeisio</strong>: 15 Mawrth 2018</p>"
     howToSucceed:
@@ -628,66 +628,38 @@ toplevel:
       - title:
         blocks:
         - type: text
-          body: "<p>Rydym eisiau i'n hariannu greu newidiadau cadarnhaol ym mywydau
-            teuluoedd sy'n gweithio ac sy'n magu plentyn, nad oes ganddynt ddigon
-            o arian nac adnoddau i ddiwallu eu hanghenion sylfaenol, gan gynnwys bod
-            yn rhan o'r gymuned a chymdeithas yn ehangach.</p>"
+          body: "<p><strong>Mae Helpu Teuluoedd sy'n Gweithio'n ariannu prosiectau i greu newidiadau cadarnhaol ym mywydau teuluoedd sydd wedi'u heffeithio gan dlodi ac yn cefnogi plentyn.</strong></p>"
         - type: text
-          body: "<p>Bydd llwyddiant wedi'i benderfynu nid yn unig gan y gweithgareddau
-            a gyflawnir ond gan ba mor effeithiol y mae'r broses wrth ddod â phobl
-            ynghyd i'w dylunio a'u cyflwyno. Oherwydd hwn, nid ydym yn disgwyl gweld
-            cynlluniau manwl gweithgareddau eich prosiect ar yr adeg pan fyddwch yn
-            ymgeisio.</p>"
+          body: "<p>Caiff rhan o'ch grant ei ddefnyddio i ariannu datblygiad eich prosiect. Dyma ddull gwahanol iawn o'i gymharu â rhaglenni eraill, sydd wedi'i adlewyrchu yn y broses ymgeisio.</p>"
         - type: text
-          body: "<p>Yn hytrach, rydym eisiau gweld eich cynlluniau ar gyfer sut fydd
-            y prosiect yn dod â phobl a phartneriaid ynghyd i ddylunio a chyflwyno
-            cyllideb a chynllun ar gyfer yr hyn rydych yn bwriadu ei wneud, gan arwain
-            at welliant parhaus mewn ansawdd bywydau pobl.</p>"
+          body: "<p>Nid ydym yn disgwyl i chi ddisgrifio'r hyn y bydd y prosiect yn ei gyflwyno pan fyddwch yn ymgeisio; yn lle, byddwn yn ariannu cam cychwynnol pan fyddwch yn cydweithio â'r teuluoedd rydych eisiau eu helpu i gyd-gynhyrchu'ch cynlluniau a phenderfynu ar yr hyn y dylai'r prosiect ei gyflwyno.</p>"
         - type: text
-          body: "<p>Rydym eisiau gweld bod y bobl a fydd yn defnyddio’r gwasanaeth
-            yn gweithio mewn partneriaeth gyfartal gyda’r bobl a fydd yn ei ddarparu.
-            Mae hwn yn grymuso pobl a chymunedau i ddod ynghyd i ganfod atebion.</p>"
+          body: "<p>Oherwydd hynny, ni fyddwch yn gallu disgrifio'ch cynlluniau'n fanwl pan fyddwch yn ymgeisio am y tro cyntaf, gan na fydd y rhain yn glir hyd nes i chi gwblhau'ch cam datblygu.</p>"
+        - type: text
+          body: "<p>Bydd cais cryf yn cynnwys cynllun a chyllideb glir ar gyfer y cam cyd-gynhyrchu cychwynnol. Rydym eisiau gweld dealltwriaeth dda o sut i gynnwys teuluoedd sy'n gweithio yn eich ardal.</p>"
+        - type: text
+          body: "<p>Bydd prosiectau llwyddiannus yn dangos i ni eu bod wedi gweithio mewn partneriaeth gyfartal gyda'r teuluoedd a fydd yn defnyddio'r gwasanaeth i gynllunio a chyflwyno'r prosiect.</p>"
         - type: heading
-          body: Beth a olygwn wrth 'deuluoedd sy'n gweithio’?
+          body: Beth mae 'tlodi' yn ei olygu i ni
         - type: text
-          body: "<p>Mae hyn yn golygu aelwyd gydag o leiaf un person mewn swydd amser
-            llawn neu ran-amser neu hunangyflogedig sy'n magu o leiaf un plentyn o
-            dan 18 oed.</p>"
+          body: "<p>Rydym yn golygu nad oes gan deulu ddigon o arian nac adnoddau i ddiwallu anghenion sylfaenol, gan gynnwys cymryd rhan yn y gymuned a chymdeithas ehangach.</p>"
+        - type: heading
+          body: Beth mae 'teuluoedd sy'n gweithio' yn ei olygu i ni
+        - type: text
+          body: "<p>Mae hyn yn golygu aelwyd gydag o leiaf un person mewn swydd amser llawn neu ran-amser neu hunangyflogedig sy'n magu o leiaf un plentyn o dan 18 oed.</p>"
         - type: image
           src: "/working-families/working-families.jpg"
           alt: 'ADDNI: Attention-to-Detail'
-      - title: Enghreifftiau o brosiectau llwyddiannus
+      - id: coproducing
+        title: Cyd-gynhyrchu'ch prosiect gyda theuluoedd sy'n gweithio
         blocks:
-        - type: heading
-          body: Oergell bwyd cymunedol
-        - type: text
-          body: "<p>Gallai prosiect llwyddiannus gynnwys teuluoedd sy'n dod ynghyd
-            gyda mudiad lleol oherwydd eu pryderon am sut mae bwyd ffres ac iachus
-            yn ddrud ac yn anodd cael gafael arno yn eu hardal.</p>"
-        - type: text
-          body: "<p>Ar ôl penderfynu bod hwn yn fater pwysig, maent yn sefydlu oergell
-            bwyd cymunedol sy'n galluogi pobl i rannu bwyd maent wedi'i brynu neu
-            ei dyfu na allant ei fwyta cyn iddo ddechrau pydru.</p>"
-        - type: text
-          body: "<p>Yn ogystal â rhoi bwyd iachus i'r gymuned am ddim, mae'n helpu
-            sefydlu rhywbeth a allai barhau y tu hwnt i gyfnod eu grant hefyd.</p>"
-        - type: heading
-          body: Eiriolwyr cymunedol
-        - type: text
-          body: "<p>Gallai prosiect llwyddiannus arall ymwneud â darparu cyngor.</p>"
-        - type: text
-          body: "<p>Mae teuluoedd yn dod ynghyd gyda mudiad lleol i drafod dyled,
-            cyngor a siarcod benthyca, problemau y mae nifer ohonynt yn delio â nhw.</p>"
-        - type: text
-          body: "<p>Er bod darparwyr cyngor yn yr ardal, nid yw teuluoedd yn cysylltu
-            â nhw'n ddigon cynnar i gael y gefnogaeth orau sydd ar gael.</p>"
-        - type: text
-          body: "<p>Mae'r prosiect yn cysylltu â darparwr cyngor lleol i drefnu i
-            aelodau'r gymuned gael eu hyfforddi fel eiriolwyr cymunedol, sy'n mynd
-            yn bwynt cyswllt cyntaf i gefnogi pobl.</p>"
-        - type: text
-          body: "<p>Yn ogystal â sicrhau bod mwy o bobl yn derbyn cefnogaeth mewn
-            cam cynnar, mae'r gymuned hefyd wedi'i grymuso trwy gael mwy o sgiliau.</p>"
+        - type: list
+          items:
+          - Nid oes unrhyw ddull unigol o gyd-gynhyrchu prosiect - chi sy'n penderfynu beth fydd yn gweithio orau ar gyfer y teuluoedd yn eich ardal. Siaradwch â'r teuluoedd yn eich cymuned i helpu dewis y dull gorau.
+          - Hyd yn oed os ydych eisoes yn deall eich buddiolwyr yn dda, rydym eisiau gweld o hyd eich bod wedi datblygu'ch cynlluniau mewn partneriaeth â nhw. Meddyliwch amdanoch eich hun fel hwylusydd, yn hytrach na darparwr gwasanaeth.
+          - Defnyddiwch rwydweithiau sydd eisoes yn bodoli (fel gweithleoedd, ysgolion a mannau addoli) i ennyn diddordeb teuluoedd sy'n anos eu cyrraedd.
+          - Dangoswch i ni fod gennych y sgiliau a phrofiad perthnasol i gyd-gynhyrchu'ch prosiect; os oes bylchau yn eich profiad, rhowch wybod i ni sut y byddwch yn delio â nhw.
+          - Nid oes unrhyw hyd penodol ar gyfer y cam cyd-gynhyrchu - bydd yn dibynnu ar eich profiad a'r teuluoedd rydych yn cydweithio â nhw. Byddwn yn siarad â chi am faint o amser y bydd yn ei gymryd yn ystod y broses asesu.
     beforeYouApply:
       title: Cyn i chi ymgeisio
       sections:
