@@ -776,7 +776,7 @@ toplevel:
     title: Helping Working Families
     intro: "<p>Helping Working Families funds projects that improve the lives of working
       families who are in poverty.</p>"
-    grantSummary: "<p><strong>Grant size</strong>: Around £500,000<br/><strong>Grant
+    grantSummary: "<p><strong>Grant size</strong>: Up to £500,000<br/><strong>Grant
       duration</strong>: Four years (ends 2022)<br/><strong>Applications close</strong>:
       15 March 2018</p>"
     howToSucceed:
@@ -785,66 +785,40 @@ toplevel:
       - title:
         blocks:
         - type: text
-          body: "<p>We want our funding to bring about positive change in the lives
-            of working families who are supporting a child, but don’t have enough
-            money or resources to meet their basic needs, including being involved
-            in the community and wider society.</p>"
+          body: "<p><strong>Helping Working Families funds projects that bring about positive change in the lives of working families who are affected by poverty and supporting a child.</strong></p>"
         - type: text
-          body: "<p>Success will not only be determined by the activities you intend
-            to undertake, but by how effective the project is at bringing people together
-            to design and deliver them. Because of this, we don’t expect to see detailed
-            plans of your project’s activities when you apply.</p>"
+          body: "<p>Part of your grant will be used to fund the development of your project. This is a very different approach to other programmes and this is reflected in the application process.</p>"
         - type: text
-          body: "<p>Instead, we want to see your plans for how the project will bring
-            people and partners together to design and deliver a budget and plan for
-            what you’re going to do, which will result in a sustained improvement
-            in people's quality of life.</p>"
+          body: "<p>We don’t expect you to describe what the project will deliver when you apply; instead we’ll fund an initial phase during which you work with the families you want to help to coproduce your plans and decide what the project should deliver.</p>"
         - type: text
-          body: "<p>We want to see that the people who will use the service are working
-            in an equal partnership with the people who will provide it. This empowers
-            people and communities to come together to find solutions.</p>"
+          body: "<p>Because of this, you won’t be able to describe your plans in detail when you first apply, as these won’t become clear until you’ve completed your development phase.</p>"
+        - type: text
+          body: "<p>A strong application will have a clear plan and budget for the initial co-production phase. We want to see a good understanding of how to involve working families in your area.</p>"
+        - type: text
+          body: "<p>Successful projects will show us that that they’ve worked in an equal partnership with the families who will use the service to plan and deliver the project.</p>"
         - type: heading
-          body: What do we mean by ‘working families’?
+          body: What we mean by ‘poverty’
         - type: text
-          body: "<p>This means that there is at least one person in a household who
+          body: "<p>We mean that a family doesn’t have enough money or resources to meet its basic needs, including being involved in the community and wider society.</p>"
+        - type: heading
+          body: What we mean by ‘working families’
+        - type: text
+          body: "<p>We mean that there is at least one person in a household who
             has a full or part time job, or who is self employed supporting at least
             one child under 18.</p>"
         - type: image
           src: "/working-families/working-families.jpg"
           alt: 'ADDNI: Attention-to-Detail'
-      - id: successful-projects
-        title: Examples of successful projects
+      - id: coproducing
+        title: Coproducing your project with working families
         blocks:
-        - type: heading
-          body: A community food fridge
-        - type: text
-          body: "<p>A successful project could include families coming together with
-            a local organisation because of their concerns about  how fresh, healthy
-            food is expensive and hard to find in their area.</p>"
-        - type: text
-          body: "<p>After deciding that this is an important issue, they set up a
-            community food fridge that lets people share food they’ve bought or grown,
-            but that they may not be able to eat before it goes off.</p>"
-        - type: text
-          body: "<p>This not only gives healthy food to the community for free, but
-            also help set something that goes on beyond the lifetime of their funding.</p>"
-        - type: heading
-          body: Community champions
-        - type: text
-          body: "<p>Another successful project could be around the provision of advice.</p>"
-        - type: text
-          body: "<p>Families come together with a local organisation to discuss debt,
-            advice and loan sharks, which many of them are struggling with.</p>"
-        - type: text
-          body: "<p>While there are advice providers in the area, families aren’t
-            accessing them early enough to get the best support.</p>"
-        - type: text
-          body: "<p>The project gets in touch with a local advice provider to arrange
-            for members of the community to be trained as community champions, who
-            become a first port of call to support people.</p>"
-        - type: text
-          body: "<p>Not only does this mean that more people get support at an early
-            stage, but the community is also empowered through having more skills.</p>"
+        - type: list
+          items:
+          - There’s no single way to co-produce a project – it’s up to you to decide what will work best for the families in your area. Talk to the families in your community to help choose the right approach.
+          - Even if you already understand your beneficiaries well, we still want to see that you’ve developed your plans in partnership with them. Think of yourself as a facilitator, rather than a service provider.
+          - Tap into existing networks (such as workplaces, schools and places of worship) to engage with harder to reach families.
+          - Show us that you have the relevant skills and experience to co-produce your project; if there are gaps in your experience let us know how you’ll address them.
+          - There’s no specific length for the co-production phase – it will depend on your experience and the families you’re working with. We’ll talk to you during the assessment process about how long it will take.
     beforeYouApply:
       title: Before you apply
       sections:
