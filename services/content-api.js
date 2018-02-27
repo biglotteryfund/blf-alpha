@@ -84,8 +84,7 @@ function getListingPage({ locale, path, previewMode }) {
         qs: addPreviewParams(previewMode, {
             path: path
         }),
-        json: true,
-        jar: !!previewMode // send client cookies in preview mode to allow Craft auth
+        json: true
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === path);
