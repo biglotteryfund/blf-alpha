@@ -15,7 +15,7 @@ const routeCommon = require('../common');
 const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
-const { heroImages } = require('../../modules/images');
+const { homepageHero } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
 const { noCache } = require('../../middleware/cached');
 
@@ -187,7 +187,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         res.render('pages/toplevel/styleguide', {
             title: 'Styleguide',
             description: 'Styleguide',
-            superHeroImages: heroImages.homepageHero
+            superHeroImages: homepageHero
         });
     });
 

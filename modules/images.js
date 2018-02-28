@@ -19,31 +19,18 @@ function createHeroImage(opts) {
     };
 }
 
-function withFallbackImage(heroImage) {
-    /**
-     * Allow for pages without heroes
-     * @TODO: Define better default hero image.
-     */
-    const defaultHeroImage = createHeroImage({
+const heroImages = {
+    streetDreams: createHeroImage({
         small: 'hero/jobs-small.jpg',
         medium: 'hero/jobs-medium.jpg',
         large: 'hero/jobs-large.jpg',
         default: 'hero/jobs-medium.jpg',
         caption: 'Street Dreams, Grant £9,000'
-    });
-
-    return heroImage || defaultHeroImage;
-}
+    })
+};
 
 function buildHomepageHero() {
-    const heroImageDefault = createHeroImage({
-        small: 'home/home-hero-4-small.jpg',
-        medium: 'home/home-hero-4-medium.jpg',
-        large: 'home/home-hero-4-large.jpg',
-        default: 'home/home-hero-4-medium.jpg',
-        caption: 'Somewhereto, Grant £7m'
-    });
-
+    const heroImageDefault = heroImages.streetDreams;
     const heroImageCandidates = [
         createHeroImage({
             small: 'home/home-hero-1-small.jpg',
@@ -75,10 +62,15 @@ function buildHomepageHero() {
     };
 }
 
+/**
+ * Allow for pages without heroes
+ * @TODO: Define better default hero image.
+ */
+const withFallbackImage = heroImage => heroImage || heroImages.streetDreams;
+
 module.exports = {
     createHeroImage,
-    withFallbackImage,
-    heroImages: {
-        homepageHero: buildHomepageHero()
-    }
+    heroImages: heroImages,
+    homepageHero: buildHomepageHero(),
+    withFallbackImage
 };
