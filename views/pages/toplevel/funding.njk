@@ -4,18 +4,10 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/active-plus-communities-small.jpg',
-    medium: 'hero/active-plus-communities-medium.jpg',
-    large: 'hero/active-plus-communities-large.jpg',
-    default: 'hero/active-plus-communities-medium.jpg',
-    caption: 'Active Plus Communities'
-}) %}
-
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.activePlus %}
 {% set socialImage = heroImage %}
 
 {% block content %}

@@ -3,17 +3,10 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/under-10k-small.jpg',
-    medium: 'hero/under-10k-medium.jpg',
-    large: 'hero/under-10k-large.jpg',
-    default: 'hero/under-10k-medium.jpg',
-    caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
-}) %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.friendsOfGreenwich %}
 {% set socialImage = heroImage %}
 
 {% block content %}

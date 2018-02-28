@@ -1,18 +1,12 @@
-{% from "../../components/hero.njk" import sectionHero %}
-{% from "../../components/programmes.njk" import programmeList, selectionTrail with context %}
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/programmes.njk" import programmeList, selectionTrail with context %}
 
-{% extends "../../layouts/main.njk" %}
-{% set bodyClass = "has-full-bleed-header" %}
+{% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/young-foundation-small.jpg',
-    medium: 'hero/young-foundation-medium.jpg',
-    large: 'hero/young-foundation-large.jpg',
-    default: 'hero/young-foundation-medium.jpg',
-    caption: 'The Young Foundation - Amplify, Grant £1.06M'
-}) %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.youngFoundation %}
 {% set socialImage = heroImage %}
 
 {% block content %}
