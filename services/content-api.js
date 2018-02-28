@@ -24,6 +24,15 @@ function getApiUrl() {
     return CONTENT_API_URL;
 }
 
+function fetch(urlPath, options) {
+    const defaults = {
+        url: `${CONTENT_API_URL}${urlPath}`,
+        json: true
+    };
+    const params = Object.assign({}, defaults, options);
+    return request(params);
+}
+
 /**
  * Adds the preview parameters to the request
  * (if accessed via the preview domain)
@@ -49,10 +58,7 @@ function getCmsPath(sectionId, pagePath) {
 }
 
 function getPromotedNews({ locale, limit }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/promoted-news`,
-        json: true
-    }).then(response => {
+    return fetch(`/v1/${locale}/promoted-news`).then(response => {
         const data = getOr({}, 'data')(response);
         const entries = data.map(entry => entry.attributes);
         return limit ? take(limit)(entries) : entries;
@@ -60,16 +66,9 @@ function getPromotedNews({ locale, limit }) {
 }
 
 function getFundingProgrammes({ locale }) {
-    return Promise.all(
-        ['en', 'cy'].map(reqLocale => {
-            return request({
-                url: `${CONTENT_API_URL}/v1/${reqLocale}/funding-programmes`,
-                json: true
-            });
-        })
-    ).then(responses => {
+    const promises = ['en', 'cy'].map(reqLocale => fetch(`/v1/${reqLocale}/funding-programmes`));
+    return Promise.all(promises).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
-
         if (locale === 'cy') {
             // Replace item with welsh translation if there is one available
             return enResults.map(enItem => {
@@ -83,9 +82,7 @@ function getFundingProgrammes({ locale }) {
 }
 
 function getFundingProgramme({ locale, slug, previewMode }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/funding-programme/${slug}`,
-        json: true,
+    return fetch(`/v1/${locale}/funding-programme/${slug}`, {
         qs: addPreviewParams(previewMode)
     }).then(response => {
         const entry = get('data.attributes')(response);
@@ -94,12 +91,8 @@ function getFundingProgramme({ locale, slug, previewMode }) {
 }
 
 function getListingPage({ locale, path, previewMode }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/listing`,
-        qs: addPreviewParams(previewMode, {
-            path: path
-        }),
-        json: true
+    return fetch(`/v1/${locale}/listing`, {
+        qs: addPreviewParams(previewMode, { path })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === path);
@@ -112,11 +105,8 @@ function getSurveys({ locale = 'en', showAll = false }) {
     if (showAll) {
         params.all = 'true';
     }
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/surveys`,
-        qs: params,
-        json: true
-    }).then(response => {
+
+    return fetch(`/v1/${locale}/surveys`, { qs: params }).then(response => {
         return response.data.map(item => {
             let data = item.attributes;
             data.id = parseInt(item.id);
@@ -126,17 +116,11 @@ function getSurveys({ locale = 'en', showAll = false }) {
 }
 
 function getProfiles({ locale, section }) {
-    return request({
-        url: `${CONTENT_API_URL}/v1/${locale}/profiles/${section}`,
-        json: true
-    }).then(response => mapAttrs(response));
+    return fetch(`/v1/${locale}/profiles/${section}`).then(mapAttrs);
 }
 
 function getRoutes() {
-    return request({
-        url: `${CONTENT_API_URL}/v1/list-routes`,
-        json: true
-    }).then(response => mapAttrs(response));
+    return fetch('/v1/list-routes').then(mapAttrs);
 }
 
 module.exports = {
