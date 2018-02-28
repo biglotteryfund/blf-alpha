@@ -17,7 +17,7 @@ const viewGlobalsService = require('./modules/viewGlobals');
 const { shouldServe } = require('./modules/pageLogic');
 const { proxyPassthrough, postToLegacyForm, redirectUglyLink } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
-const { redirectArchived, redirectNoWelsh } = require('./modules/redirects');
+const { serveRedirects, redirectArchived, redirectNoWelsh } = require('./modules/redirects');
 const routes = require('./controllers/routes');
 
 const favicon = require('serve-favicon');
@@ -99,37 +99,22 @@ for (let sectionId in routes.sections) {
     }
 }
 
-function serveRedirect({ sourcePath, destinationPath }) {
-    app.get(sourcePath, (req, res) => {
-        res.redirect(301, destinationPath);
-    });
-}
-
 /**
  * Legacy Redirects
  * Redirecy legacy URLs to new locations
  * For these URLs handle both english and welsh variants
  */
-routes.legacyRedirects.filter(shouldServe).forEach(route => {
-    serveRedirect({
-        sourcePath: route.path,
-        destinationPath: route.destination
-    });
-    serveRedirect({
-        sourcePath: makeWelsh(route.path),
-        destinationPath: makeWelsh(route.destination)
-    });
+serveRedirects({
+    redirects: routes.legacyRedirects,
+    makeBilingual: true
 });
 
 /**
  * Vanity URLs
  * Sharable short-urls redirected to canonical URLs.
  */
-routes.vanityRedirects.filter(shouldServe).forEach(route => {
-    serveRedirect({
-        sourcePath: route.path,
-        destinationPath: route.destination
-    });
+serveRedirects({
+    redirects: routes.vanityRedirects
 });
 
 /**
