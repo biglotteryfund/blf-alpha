@@ -2,14 +2,12 @@
 'use strict';
 
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 const pkg = require('./package.json');
 const { getBuildSummary } = require('./build-helpers');
 
 const buildSummary = getBuildSummary();
-const isProduction = buildSummary.isProduction;
 
 module.exports = {
     entry: {
@@ -33,29 +31,9 @@ module.exports = {
             }
         ]
     },
-    devtool: isProduction ? 'source-map' : 'eval-source-map',
-    plugins: (function() {
-        var plugins = [
-            new webpack.DefinePlugin({
-                __DEV__: JSON.stringify(JSON.parse(!isProduction || 'false')),
-                'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
-            })
-        ];
-
-        if (isProduction) {
-            plugins = plugins.concat([
-                new UglifyJsPlugin({
-                    sourceMap: true,
-                    uglifyOptions: {
-                        ecma: 5
-                    }
-                }),
-                new webpack.BannerPlugin({
-                    banner: `${pkg.description} - ${buildSummary.commitHash}`
-                })
-            ]);
-        }
-
-        return plugins;
-    })()
+    plugins: [
+        new webpack.BannerPlugin({
+            banner: `${pkg.description} - ${buildSummary.commitHash}`
+        })
+    ]
 };
