@@ -2,6 +2,8 @@
 'use strict';
 
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const path = require('path');
 const pkg = require('./package.json');
 const { getBuildSummary } = require('./build-helpers');
@@ -31,12 +33,6 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        alias: {
-            // TODO: Change to vue.esm.js when using import/export
-            vue$: 'vue/dist/vue.common.js'
-        }
-    },
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     plugins: (function() {
         var plugins = [
@@ -48,18 +44,11 @@ module.exports = {
 
         if (isProduction) {
             plugins = plugins.concat([
-                new webpack.optimize.UglifyJsPlugin({
-                    beautify: false,
-                    mangle: {
-                        screw_ie8: true,
-                        keep_fnames: true
-                    },
-                    compress: {
-                        warnings: false,
-                        screw_ie8: true
-                    },
-                    comments: false,
-                    sourceMap: true
+                new UglifyJsPlugin({
+                    sourceMap: true,
+                    uglifyOptions: {
+                        ecma: 5
+                    }
                 }),
                 new webpack.BannerPlugin({
                     banner: `${pkg.description} - ${buildSummary.commitHash}`

@@ -47,7 +47,7 @@
   },
   "size-limit": [
     {
-      "limit": "120KB",
+      "limit": "90KB",
       "path": "public/build/*/javascripts/app.js"
     },
     {
@@ -132,7 +132,7 @@
     "slugify": "^1.2.1",
     "snyk": "^1.69.6",
     "sqlite3": "^3.1.13",
-    "swiper": "^3.4.2",
+    "swiper": "^4.1.6",
     "uuid": "^3.1.0",
     "vary": "^1.1.1",
     "vue": "^2.4.4",
@@ -177,6 +177,7 @@
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.14.0",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^3.7.1"
   },
   "snyk": true
