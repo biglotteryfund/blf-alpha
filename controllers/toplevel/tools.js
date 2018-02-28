@@ -112,7 +112,6 @@ router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecu
     orderService
         .getAllOrders()
         .then(orderData => {
-
             let items = materials.items;
             res.locals.findItemByCode = code => items.find(i => i.products.some(p => p.code === code));
 

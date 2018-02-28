@@ -21,15 +21,21 @@ function getAllOrders() {
 
         let totalOrders = orders.length;
         let averageProductsPerOrder = Math.round(meanBy(orders, 'items.length'));
-        let averageItemQuantityPerOrder = Math.round(meanBy(orders, o => o.items.reduce((acc, cur) => acc + cur.quantity, 0)));
+        let averageItemQuantityPerOrder = Math.round(
+            meanBy(orders, o => o.items.reduce((acc, cur) => acc + cur.quantity, 0))
+        );
 
         let orderByCount = arr => {
-            return chain(arr).map((count, code) => {
-                return {
-                    code: code,
-                    count: count
-                };
-            }).sortBy('count').reverse().value();
+            return chain(arr)
+                .map((count, code) => {
+                    return {
+                        code: code,
+                        count: count
+                    };
+                })
+                .sortBy('count')
+                .reverse()
+                .value();
         };
 
         // sum items by their quantity ordered
@@ -90,7 +96,7 @@ function getAllOrders() {
     });
 }
 
-function storeOrder({grantAmount, orderReason, postcodeArea, items}) {
+function storeOrder({ grantAmount, orderReason, postcodeArea, items }) {
     cleanupOldOrders();
     return Order.create(
         {
