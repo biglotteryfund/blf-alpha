@@ -1101,6 +1101,8 @@ about:
       linkText: "Discover our strategic framework: People in the Lead"
       linkHref: "/about/strategic-framework"
       imageCaption: Dawn Austwick, CEO
+  seniorManagement:
+    title: Senior Management Team
   foi:
     title: Freedom of Information
     sections:

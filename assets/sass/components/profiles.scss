@@ -1,0 +1,14 @@
+/* =========================================================================
+   Profiles
+   ========================================================================= */
+
+.profile {
+    margin-bottom: 0;
+}
+.profile__title,
+.profile__photo {
+    margin-bottom: $spacingUnit;
+}
+.profile__role:before {
+    content: ' — ';
+}

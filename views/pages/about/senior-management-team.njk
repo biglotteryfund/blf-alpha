@@ -25,7 +25,7 @@
             <div class="page-section__content accent--{{ pageAccent }} a--border-top">
                 {% for profile in profiles %}
                     <section id="segment-{{ profile.title | slugify }}"
-                        class="content-box{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
+                        class="content-box content-box--even-inset{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
                         {{ profileSummary(profile) }}
                     </section>
                 {% endfor %}
