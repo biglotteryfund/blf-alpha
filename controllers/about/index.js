@@ -2,7 +2,7 @@
 const express = require('express');
 
 const routerSetup = require('../setup');
-const routeStatic = require('../utils/routeStatic');
+const routeCommon = require('../common');
 const ebulletinRoute = require('./ebulletin');
 
 const router = express.Router();
@@ -20,11 +20,7 @@ module.exports = (pages, sectionPath, sectionId) => {
         sectionPath: sectionPath
     });
 
-    /**
-     * Populate static pages
-     * Must come last to allow custom routes to take precedence over wildcards
-     */
-    routeStatic.init({
+    routeCommon.init({
         router: router,
         pages: pages,
         sectionPath: sectionPath,

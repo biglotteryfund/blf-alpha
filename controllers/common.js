@@ -1,13 +1,14 @@
 'use strict';
 
-const { forEach } = require('lodash');
-const app = require('../../server');
-const contentApi = require('../../services/content-api');
-const { renderNotFoundWithError } = require('../http-errors');
-const { stripTrailingSlashes } = require('../../modules/urls');
-const { withFallbackImage } = require('../../modules/images');
-const { shouldServe } = require('../../modules/pageLogic');
-const { sMaxAge } = require('../../middleware/cached');
+const { forEach, get, isEmpty } = require('lodash');
+
+const app = require('../server');
+const { renderNotFoundWithError } = require('./http-errors');
+const { sMaxAge } = require('../middleware/cached');
+const { shouldServe } = require('../modules/pageLogic');
+const { withFallbackImage } = require('../modules/images');
+const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
+const contentApi = require('../services/content-api');
 
 /**
  * Redirect any aliases to the canonical path
@@ -58,14 +59,22 @@ function handleCmsPage(sectionId) {
 }
 
 function handleStaticPage(page) {
-    return function(req, res) {
+    return function(req, res, next) {
         const lang = page.lang ? req.i18n.__(page.lang) : false;
-        res.render(page.template, {
-            title: lang ? lang.title : false,
-            heroImage: page.heroImage || null,
-            description: lang ? lang.description : false,
-            copy: lang
-        });
+        const isBilingual = get(page, 'isBilingual', true);
+        const shouldRedirectLang = (!isBilingual || isEmpty(lang)) && isWelsh(req.originalUrl);
+
+        if (shouldRedirectLang) {
+            next();
+        } else {
+            res.render(page.template, {
+                title: get(lang, 'title', false),
+                heroImage: page.heroImage || null,
+                description: lang ? lang.description : false,
+                isBilingual: isBilingual,
+                copy: lang
+            });
+        }
     };
 }
 
