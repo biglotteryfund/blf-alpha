@@ -1,25 +1,21 @@
 'use strict';
 const helmet = require('helmet');
-const { get, map } = require('lodash');
+const { concat, get, map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
 const appData = require('../modules/appData');
 
 function withDefaultDirectives(directives) {
-    const childSrc = get(directives, 'childSrc', []);
-    const styleSrc = get(directives, 'styleSrc', []);
-    const connectSrc = get(directives, 'connectSrc', []);
-    const imgSrc = get(directives, 'imgSrc', []);
-    const scriptSrc = get(directives, 'scriptSrc', []);
-    const fontSrc = get(directives, 'scriptSrc', []);
+    const { defaultSrc } = directives;
+    const directive = prop => get(directives, prop, []);
 
     const fullDirectives = {
-        defaultSrc: directives.defaultSrc,
-        childSrc: directives.defaultSrc.concat(childSrc),
-        styleSrc: directives.defaultSrc.concat(["'unsafe-inline'"]).concat(styleSrc),
-        connectSrc: directives.defaultSrc.concat(connectSrc),
-        imgSrc: directives.defaultSrc.concat(['data:', 'localhost']).concat(imgSrc),
-        scriptSrc: directives.defaultSrc.concat(["'unsafe-eval'", "'unsafe-inline'"]).concat(scriptSrc),
-        fontSrc: directives.defaultSrc.concat(['data:']).concat(fontSrc)
+        defaultSrc: defaultSrc,
+        childSrc: concat(defaultSrc, directive('childSrc')),
+        styleSrc: concat(defaultSrc, ["'unsafe-inline'"], directive('styleSrc')),
+        connectSrc: concat(defaultSrc, directive('connectSrc')),
+        imgSrc: concat(defaultSrc, ['data:', 'localhost'], directive('imgSrc')),
+        scriptSrc: concat(defaultSrc, ["'unsafe-eval'", "'unsafe-inline'"], directive('scriptSrc')),
+        fontSrc: concat(defaultSrc, ['data:'], directive('fontSrc'))
     };
 
     if (directives.reportUri) {
