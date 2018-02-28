@@ -280,7 +280,8 @@ sections.about.addRoutes({
         path: '/senior-management-team',
         sMaxAge: '30m',
         template: 'pages/about/senior-management-team',
-        lang: 'about.seniorManagement'
+        lang: 'about.seniorManagement',
+        live: false
     }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',

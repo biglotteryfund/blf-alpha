@@ -5,6 +5,7 @@ const routerSetup = require('../setup');
 const routeCommon = require('../common');
 const ebulletinRoute = require('./ebulletin');
 const seniorManagementRoute = require('./seniorManagement');
+const { shouldServe } = require('../../modules/pageLogic');
 
 const router = express.Router();
 
@@ -21,10 +22,12 @@ module.exports = (pages, sectionPath, sectionId) => {
         sectionPath: sectionPath
     });
 
-    seniorManagementRoute.init({
-        router: router,
-        routeConfig: pages.seniorManagement
-    });
+    if (shouldServe(pages.seniorManagement)) {
+        seniorManagementRoute.init({
+            router: router,
+            routeConfig: pages.seniorManagement
+        });
+    }
 
     routeCommon.init({
         router: router,
