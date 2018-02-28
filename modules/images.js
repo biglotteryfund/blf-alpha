@@ -20,12 +20,26 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
+    mentalHealthFoundation: createHeroImage({
+        small: 'hero/mental-health-foundation-small.jpg',
+        medium: 'hero/mental-health-foundation-medium.jpg',
+        large: 'hero/mental-health-foundation-large.jpg',
+        default: 'hero/mental-health-foundation-medium.jpg',
+        caption: 'Mental Health Foundation'
+    }),
     streetDreams: createHeroImage({
         small: 'hero/jobs-small.jpg',
         medium: 'hero/jobs-medium.jpg',
         large: 'hero/jobs-large.jpg',
         default: 'hero/jobs-medium.jpg',
         caption: 'Street Dreams, Grant £9,000'
+    }),
+    rathlinIslandDevelopment: createHeroImage({
+        small: 'hero/rathlin-island-development-small.jpg',
+        medium: 'hero/rathlin-island-development-medium.jpg',
+        large: 'hero/rathlin-island-development-large.jpg',
+        default: 'hero/rathlin-island-development-medium.jpg',
+        caption: 'Rathlin Island Development and Community Association'
     })
 };
 
