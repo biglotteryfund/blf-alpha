@@ -9,7 +9,9 @@ const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const surveysService = require('../../services/surveys');
+const orderService = require('../../services/orders');
 const contentApi = require('../../services/content-api');
+const materials = require('../../config/content/materials.json');
 
 const router = express.Router();
 
@@ -92,12 +94,31 @@ router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);
-router.route('/tools/survey-results/').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+
+router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {
             res.render('pages/tools/surveys', {
                 surveys: surveys
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+
+router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+    orderService
+        .getAllOrders()
+        .then(orderData => {
+
+            let items = materials.items;
+            res.locals.findItemByCode = code => items.find(i => i.products.some(p => p.code === code));
+
+            res.render('pages/tools/orders', {
+                data: orderData,
+                materials: materials
             });
         })
         .catch(err => {
