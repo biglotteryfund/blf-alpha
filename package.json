@@ -16,10 +16,8 @@
     "build": "gulp build && webpack --mode=development",
     "build-production": "export NODE_ENV=production && gulp build && webpack --mode=production && gulp manifest && size-limit",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
-    "watch-js": "webpack --watch",
-    "watch-assets": "gulp watch",
     "prewatch": "npm run build",
-    "watch": "concurrently --kill-others 'npm run watch-js' 'npm run watch-assets'",
+    "watch": "concurrently --kill-others 'webpack --mode=development --watch' 'gulp watch'",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "precommit": "lint-staged",
@@ -46,7 +44,7 @@
   },
   "size-limit": [
     {
-      "limit": "90KB",
+      "limit": "100KB",
       "path": "public/build/*/javascripts/app.js"
     },
     {
