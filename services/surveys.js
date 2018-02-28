@@ -24,14 +24,15 @@ function findAll() {
         let mergedSurveys = surveys.map(survey => {
             // append responses to the relevant choice
             survey.choices = survey.choices.map(choice => {
+
+                let surveyVotes = votes.filter(v => v.survey_id === survey.id);
+
                 // retrieve the votes for this survey's choices
-                choice.responses = votes.filter(v => {
-                    return v.survey_id === survey.id && v.choice_id === choice.id;
-                });
+                choice.responses = surveyVotes.filter(v => v.choice_id === choice.id);
 
                 // fill in gaps for days without votes
-                let oldestVote = minBy(choice.responses, 'createdAt');
-                let newestVote = maxBy(choice.responses, 'createdAt');
+                let oldestVote = minBy(surveyVotes, 'createdAt');
+                let newestVote = maxBy(surveyVotes, 'createdAt');
 
                 // calculate votes per day (or substitute with zeroes)
                 if (newestVote && oldestVote) {
