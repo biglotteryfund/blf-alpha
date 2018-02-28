@@ -1,29 +1,30 @@
 'use strict';
 
-const { forEach, get, isEmpty } = require('lodash');
+const { forEach, isEmpty } = require('lodash');
+const { getOr } = require('lodash/fp');
 
-const app = require('../server');
 const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const { shouldServe } = require('../modules/pageLogic');
 const { withFallbackImage } = require('../modules/images');
-const { isWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
+const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
+const { serveRedirects } = require('../modules/redirects');
 const contentApi = require('../services/content-api');
 
 /**
  * Redirect any aliases to the canonical path
  */
 function setupRedirects(sectionPath, page) {
-    if (page.aliases && page.aliases.length > 0) {
-        ['', '/welsh'].forEach(localePath => {
-            page.aliases.forEach(pagePath => {
-                app.get(localePath + pagePath, (req, res) => {
-                    const redirectPath = stripTrailingSlashes(localePath + sectionPath + page.path);
-                    res.redirect(301, redirectPath);
-                });
-            });
-        });
-    }
+    const aliases = getOr([], 'aliases')(page);
+    const redirects = aliases.map(pagePath => ({
+        path: pagePath,
+        destination: stripTrailingSlashes(sectionPath + page.path)
+    }));
+
+    serveRedirects({
+        redirects: redirects,
+        makeBilingual: true
+    });
 }
 
 function handleCmsPage(sectionId) {
@@ -61,14 +62,14 @@ function handleCmsPage(sectionId) {
 function handleStaticPage(page) {
     return function(req, res, next) {
         const lang = page.lang ? req.i18n.__(page.lang) : false;
-        const isBilingual = get(page, 'isBilingual', true);
+        const isBilingual = getOr(true, 'isBilingual')(page);
         const shouldRedirectLang = (!isBilingual || isEmpty(lang)) && isWelsh(req.originalUrl);
 
         if (shouldRedirectLang) {
             next();
         } else {
             res.render(page.template, {
-                title: get(lang, 'title', false),
+                title: getOr(false, 'title')(lang),
                 heroImage: page.heroImage || null,
                 description: lang ? lang.description : false,
                 isBilingual: isBilingual,

@@ -79,7 +79,7 @@ describe('Content API', () => {
             });
     });
 
-    it.only('should fetch merged welsh funding programmes', () => {
+    it('should fetch merged welsh funding programmes', () => {
         return contentApi
             .getFundingProgrammes({
                 locale: 'cy'
