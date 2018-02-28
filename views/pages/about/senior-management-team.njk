@@ -20,14 +20,22 @@
         )
     }}
 
-    <main>
-        {% for profile in profiles %}
-            {% if profile.image %}
-                <img src="{{ profile.image }}" alt="">
-            {% endif %}
-            <h2>{{ profile.title }}{% if profile.role %} &mdash; {{ profile.role }}{% endif %}</h2>
-            {{ profile.bio | safe }}
-        {% endfor %}
+    <main class="nudge-up">
+        <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="page-section__content accent--{{ pageAccent }} a--border-top">
+                {% for profile in profiles %}
+                    <section id="segment-{{ profile.title | slugify }}"
+                        class="content-box{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
+                        {{ profileSummary(profile) }}
+                    </section>
+                {% endfor %}
+            </div>
+            <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+                <aside class="content-box s-prose js-annotate-links">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis, corrupti eligendi minus dolorem dolorum aperiam sit ex praesentium quidem assumenda, repellat mollitia suscipit maiores vel maxime excepturi repellendus dicta consequatur?</p>
+                </aside>
+            </div>
+        </div>
     </main>
 
 {% endblock %}
