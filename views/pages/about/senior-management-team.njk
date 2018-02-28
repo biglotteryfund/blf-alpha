@@ -1,0 +1,40 @@
+{% from "components/hero.njk" import sectionHero %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = createHeroImage({
+    small: 'hero/jobs-small.jpg',
+    medium: 'hero/jobs-medium.jpg',
+    large: 'hero/jobs-large.jpg',
+    default: 'hero/jobs-medium.jpg',
+    caption: 'Street Dreams, Grant £9,000'
+}) %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {% set pageAccent = 'blue' %}
+
+    {{
+        sectionHero(
+            accent = pageAccent,
+            titleText = title,
+            image = heroImage
+        )
+    }}
+
+    <main>
+        {% for profile in profiles %}
+            {% if profile.image %}
+                <img src="{{ profile.image }}" alt="">
+            {% endif %}
+            <h2>{{ profile.title }}{% if profile.role %} &mdash; {{ profile.role }}{% endif %}</h2>
+            {{ profile.bio | safe }}
+        {% endfor %}
+    </main>
+
+{% endblock %}

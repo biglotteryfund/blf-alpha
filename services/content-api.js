@@ -1,6 +1,8 @@
 const { find, flow, get, getOr, map, take } = require('lodash/fp');
 const request = require('request-promise-native');
 
+const mapAttrs = response => map('attributes')(response.data);
+
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 if (!CONTENT_API_URL) {
@@ -66,22 +68,16 @@ function getFundingProgrammes({ locale }) {
             });
         })
     ).then(responses => {
-        const [enResponse, cyResponse] = responses;
-        const mapAttrs = map('attributes');
+        const [enResults, cyResults] = responses.map(mapAttrs);
 
-        /**
-         * Replace item with welsh translation if there is one available
-         */
         if (locale === 'cy') {
-            return flow(
-                map(item => {
-                    const findCy = find(_ => _.attributes.urlPath === item.attributes.urlPath);
-                    return findCy(cyResponse.data) || item;
-                }),
-                mapAttrs
-            )(enResponse.data);
+            // Replace item with welsh translation if there is one available
+            return enResults.map(enItem => {
+                const findCy = find(cyItem => cyItem.urlPath === enItem.urlPath);
+                return findCy(cyResults) || enItem;
+            });
         } else {
-            return mapAttrs(enResponse.data);
+            return enResults;
         }
     });
 }
@@ -111,15 +107,6 @@ function getListingPage({ locale, path, previewMode }) {
     });
 }
 
-function getRoutes() {
-    return request({
-        url: `${CONTENT_API_URL}/v1/list-routes`,
-        json: true
-    }).then(response => {
-        return response.data.map(item => item.attributes);
-    });
-}
-
 function getSurveys({ locale = 'en', showAll = false }) {
     let params = {};
     if (showAll) {
@@ -138,6 +125,20 @@ function getSurveys({ locale = 'en', showAll = false }) {
     });
 }
 
+function getProfiles({ locale, section }) {
+    return request({
+        url: `${CONTENT_API_URL}/v1/${locale}/profiles/${section}`,
+        json: true
+    }).then(response => mapAttrs(response));
+}
+
+function getRoutes() {
+    return request({
+        url: `${CONTENT_API_URL}/v1/list-routes`,
+        json: true
+    }).then(response => mapAttrs(response));
+}
+
 module.exports = {
     setApiUrl,
     getApiUrl,
@@ -146,6 +147,7 @@ module.exports = {
     getFundingProgrammes,
     getFundingProgramme,
     getListingPage,
-    getRoutes,
-    getSurveys
+    getProfiles,
+    getSurveys,
+    getRoutes
 };
