@@ -35,13 +35,9 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    <div class="u-align-center">
-                        <a
-                            class="btn accent--pink a--btn central-gap"
-                            href="{{ fundingProgramme.linkUrl }}">
-                            {{ __('global.misc.seeProgramme') }}
-                        </a>
-                    </div>
+                    <a class="btn accent--pink a--btn" href="{{ fundingProgramme.linkUrl }}">
+                        {{ __('global.misc.seeProgramme') }}
+                    </a>
                 </div>
             {% endfor %}
         </div>
