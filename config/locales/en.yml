@@ -1103,6 +1103,25 @@ about:
       imageCaption: Dawn Austwick, CEO
   seniorManagement:
     title: Senior Management Team
+    navigation:
+      section:
+        label: Our People
+        link: /about-big/our-people
+      children:
+      - label: Board
+        link: /about-big/our-people/board
+      - label: Senior management team
+        link: /about/our-people/senior-management-team
+      - label: England committee members
+        link: /about-big/our-people/england-committee-members
+      - label: NI committee members
+        link: /about-big/our-people/northern-ireland-committee-members
+      - label: Scotland committee members
+        link: /about-big/our-people/scotland-committee-members
+      - label: Wales committee members
+        link: /about-big/our-people/wales-committee-members
+      - label: UK funding committee
+        link: /about-big/our-people/uk-funding-committee
   foi:
     title: Freedom of Information
     sections:

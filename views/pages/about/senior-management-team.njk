@@ -1,4 +1,5 @@
 {% from "components/hero.njk" import sectionHero %}
+{% from "components/nav.njk" import nestedMenu %}
 {% from "components/profiles.njk" import profileSummary %}
 
 {% extends "layouts/main.njk" %}
@@ -31,8 +32,8 @@
                 {% endfor %}
             </div>
             <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
-                <aside class="content-box s-prose js-annotate-links">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis, corrupti eligendi minus dolorem dolorum aperiam sit ex praesentium quidem assumenda, repellat mollitia suscipit maiores vel maxime excepturi repellendus dicta consequatur?</p>
+                <aside class="content-box content-box--even-inset">
+                    {{ nestedMenu(copy.navigation, getCurrentUrl(request)) }}
                 </aside>
             </div>
         </div>
