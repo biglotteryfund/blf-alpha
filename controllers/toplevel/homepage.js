@@ -1,4 +1,4 @@
-const { heroImages } = require('../../modules/images');
+const { homepageHero } = require('../../modules/images');
 const contentApi = require('../../services/content-api');
 
 function init({ router, routeConfig }) {
@@ -11,7 +11,7 @@ function init({ router, routeConfig }) {
                 description: lang.description || false,
                 copy: lang,
                 news: news || [],
-                heroImage: heroImages.homepageHero
+                heroImage: homepageHero
             });
         };
 
