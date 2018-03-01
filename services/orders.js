@@ -42,7 +42,7 @@ function getAllOrders() {
 
         // @TODO this can be removed after July 1st when all order records will have the correct options
         const filterIsRecentOrder = filter(_ => moment(_.createdAt).isAfter(LAUNCH_DATE));
-        const filterHasCode = filter(_ => _.code !== '');
+        const filterHasCode = filter(_ => _.code !== '' && _.code !== 'null');
 
         // order items by total ordered
         let mostPopularItemsByQuantity = orderByCount(itemsByQuantity);
@@ -61,11 +61,16 @@ function getAllOrders() {
             acc[normalisedDate] = acc[normalisedDate] + 1;
             return acc;
         }, {});
-        
-        ordersByDay = sortBy(map(ordersByDay, (order, date) => ({
-            x: date,
-            y: order
-        })), 'x');
+
+        ordersByDay = sortBy(
+            map(ordersByDay, (order, date) => ({
+                x: date,
+                y: order
+            })),
+            'x'
+        );
+
+        const averageOrdersPerDay = Math.round(meanBy(ordersByDay, 'y'));
 
         return {
             orders,
@@ -77,7 +82,8 @@ function getAllOrders() {
             orderReasons,
             grantAmounts,
             ordersByPostcodes,
-            ordersByDay
+            ordersByDay,
+            averageOrdersPerDay
         };
     });
 }

@@ -9,7 +9,7 @@
 {% macro statBlock(number, caption) %}
     <div class="col-sm text-center">
         <h5 class="display-2">{{ number }}</h5>
-        <h6>{{ caption }}</h6>
+        <h6>{{ caption | safe }}</h6>
     </div>
 {% endmacro %}
 
@@ -21,9 +21,10 @@
 
     <div class="container mb-4">
         <div class="row">
-            {{ statBlock(data.averageProductsPerOrder, 'average products per order') }}
-            {{ statBlock(data.orders.length, 'total orders') }}
-            {{ statBlock(data.averageItemQuantityPerOrder, 'average quantity per order') }}
+            {{ statBlock(data.averageProductsPerOrder, 'average products <br />per order') }}
+            {{ statBlock(data.orders.length, 'total orders<br />from website') }}
+            {{ statBlock(data.averageItemQuantityPerOrder, 'average quantity of <br />items per order') }}
+            {{ statBlock(data.averageOrdersPerDay, 'average orders <br />per day') }}
         </div>
     </div>
 
