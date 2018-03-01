@@ -34,6 +34,7 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let emailData = {
             subject: 'Activate your Big Lottery Fund website account',
             text: `Please click the following link to activate your account: ${activateUrl}`,
+            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             sendTo: email
         };
 
