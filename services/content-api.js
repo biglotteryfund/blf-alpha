@@ -116,7 +116,19 @@ function getSurveys({ locale = 'en', showAll = false }) {
 }
 
 function getProfiles({ locale, section }) {
-    return fetch(`/v1/${locale}/profiles/${section}`).then(mapAttrs);
+    const promises = ['en', 'cy'].map(reqLocale => fetch(`/v1/${reqLocale}/profiles/${section}`));
+    return Promise.all(promises).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        if (locale === 'cy') {
+            // Replace item with welsh translation if there is one available
+            return enResults.map(enItem => {
+                const findCy = find(cyItem => cyItem.slug === enItem.slug);
+                return findCy(cyResults) || enItem;
+            });
+        } else {
+            return enResults;
+        }
+    });
 }
 
 function getRoutes() {

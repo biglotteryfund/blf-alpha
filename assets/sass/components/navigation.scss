@@ -99,4 +99,8 @@
 .quicklinks--sticky {
     position: sticky;
     top: 0;
+
+    @include mq('medium', 'max') {
+        display: none;
+    }
 }
