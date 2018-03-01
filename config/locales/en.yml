@@ -65,7 +65,7 @@ global:
     awardsForAllOnlineForm: '<p>There are currently two ways to apply: via PDF application
       form or via online application form.</p><h2>Applying using the online form</h2><p>We
       are trialling a new application process where you can submit an application
-      via a web form, rather than downloading a PDF.</p><p><a href="https://apply.biglotteryfund.org.uk/?cn=en"
+      via a web form, rather than downloading a PDF.</p><p><a href="%s"
       class="btn">Apply Online</a></p><p>This new form is a trial, and only open to
       a limited number of applicants. We’d love your feedback on how you find the
       experience.</p><h2><strong>Applying via email or post</strong></h2>'

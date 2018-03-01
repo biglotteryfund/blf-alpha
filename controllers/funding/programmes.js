@@ -6,7 +6,6 @@ const moment = require('moment');
 const Raven = require('raven');
 const { assign, find, findIndex, get, last, uniq } = require('lodash');
 
-const { renderNotFoundWithError } = require('../http-errors');
 const { splitPercentages } = require('../../modules/ab');
 const { createHeroImage } = require('../../modules/images');
 const { addPreviewStatus } = require('../../modules/preview');
@@ -218,8 +217,9 @@ function initProgrammeDetailAwardsForAll(router, options) {
                     });
 
                     if (applyTabIdx !== -1) {
+                        const applyUrl = locale === 'cy' ? `${options.applyUrl}&lang=welsh` : options.applyUrl;
                         const originalTextFromCMS = entry.contentSections[applyTabIdx].body;
-                        const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm');
+                        const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm', applyUrl);
                         entry.contentSections[applyTabIdx] = assign({}, entry.contentSections[applyTabIdx], {
                             body: awardsTextToPrepend + originalTextFromCMS
                         });
