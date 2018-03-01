@@ -1,0 +1,161 @@
+{% extends "../../layouts/tools.njk" %}
+
+{% block title %}Material orders{% endblock %}
+
+{% block extraHead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js" integrity="sha256-N4u5BjTLNwmGul6RgLoESPNqDFVUibVuOYhP4gJgrew=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% macro statBlock(number, caption) %}
+    <div class="col-sm text-center">
+        <h5 class="display-2">{{ number }}</h5>
+        <h6>{{ caption }}</h6>
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <h1 class="display-4 mb-4">
+        All material orders
+        <small class="text-muted">in the last five months</small>
+    </h1>
+
+    <div class="container mb-4">
+        <div class="row">
+            {{ statBlock(data.averageProductsPerOrder, 'average products per order') }}
+            {{ statBlock(data.orders.length, 'total orders') }}
+            {{ statBlock(data.averageItemQuantityPerOrder, 'average quantity per order') }}
+        </div>
+    </div>
+
+    <h2 class="mb-4">Most popular items <small class="text-muted">top 10 items</small></h2>
+    <table class="table table-striped mb-5">
+        <thead>
+            <tr>
+                <th scope="col">Item code</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Number ordered</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data.mostPopularItems %}
+                <tr>
+                    <th scope="row">{{ item.code }}</th>
+                    <td>{{ findItemByCode(item.code).name.en }}</td>
+                    <td>{{ item.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mb-4">Popular postcode areas <small class="text-muted">grouped by area</small></h2>
+    <div class="container mb-5">
+        <div class="row">
+            {% for n in range(0, 3) %}
+                {{ statBlock(data.ordersByPostcodes[n].code, data.ordersByPostcodes[n].count+ ' orders') }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <h2 class="mb-4">Order reasons <small class="text-muted">including "other" options</small></h2>
+    <table class="table table-striped mb-5">
+        <thead>
+        <tr>
+            <th scope="col">Reason</th>
+            <th scope="col">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in data.orderReasons %}
+            <tr>
+                <th scope="row">{{ item.code }}</th>
+                <td>{{ item.count }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mb-4">Orders by date</h2>
+    <div style="height: 450px" class="border mb-4">
+        <canvas id="js-chart" width="400" height="400"></canvas>
+    </div>
+
+    <h2 class="mb-4">Grant amounts <small class="text-muted">including "other" options</small></h2>
+    <table class="table table-striped mb-5">
+        <thead>
+        <tr>
+            <th scope="col">Grant size</th>
+            <th scope="col">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in data.grantAmounts %}
+            <tr>
+                <th scope="row">{{ item.code }}</th>
+                <td>{{ item.count }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    <script>
+        let ctx = document.getElementById(`js-chart`);
+
+        let config = {
+            type: 'line',
+            data: {
+                datasets: [
+                    {
+                        label: 'Number of orders',
+                        backgroundColor: '#2a7f53',
+                        borderColor: '#41c27f',
+                        fill: false,
+                        data: {{ data.ordersByDay | dump | safe }},
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: false,
+                    text: "Orders over time"
+                },
+                scales: {
+                    xAxes: [{
+                        type: "time",
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Date'
+                        },
+                        ticks: {
+                            major: {
+                                fontStyle: "bold",
+                                fontColor: "#FF0000"
+                            }
+                        },
+                        time: {
+                            round: 'day',
+                            unit: 'day'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Number of orders'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        };
+
+        let myChart = new Chart(ctx, config);
+    </script>
+{% endblock %}
