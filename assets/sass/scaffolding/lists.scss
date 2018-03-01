@@ -1,3 +1,7 @@
+/* =========================================================================
+   Lists (Common List Objects)
+   ========================================================================= */
+
 .list-spaced {
     li {
         padding: 25px 30px;
@@ -35,12 +39,6 @@ ol.list-bullets li {
     list-style-type: decimal;
 }
 
-.list-tweets {
-    li {
-        margin-left: 0;
-    }
-}
-
 .list--indented {
     li {
         margin-left: $spacingUnit * 3;
@@ -76,4 +74,34 @@ ol.list-bullets li {
     dt:after {
         content: ': ';
     }
+}
+
+/* =========================================================================
+   Lists: Link List
+   ========================================================================= */
+
+.list-links {
+    margin-bottom: $spacingUnit / 2;
+}
+.list-links__item {
+    font-size: 18px;
+    @include downloadIcon();
+    margin-bottom: $spacingUnit;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+.list-links__link {
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+        text-decoration: underline;
+    }
+}
+.list-links__link-caption {
+    display: block;
+    font-weight: normal;
 }

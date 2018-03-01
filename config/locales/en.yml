@@ -1122,6 +1122,22 @@ about:
         link: /about-big/our-people/wales-committee-members
       - label: UK funding committee
         link: /about-big/our-people/uk-funding-committee
+    expenses:
+      title: Senior Management Team expenses
+      documents:
+        - label: Year ending 31 March 2015
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_14_15.xlsx
+        - label: Year ending 31 March 2014
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_13_14.xlsx
+        - label: Year ending 31 March 2013
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_12-13.xls
+        - label: Year ending 31 March 2012
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_11_12.xls
+        - label: Year ending 31 March 2011
+          caption: Amended on 11/12/13 to correct accounting error
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_10_11.xls
+        - label: Year ending 31 March 2010
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_09_10.xls
   foi:
     title: Freedom of Information
     sections:

@@ -1,25 +1,23 @@
 {% from "components/hero.njk" import sectionHero %}
 {% from "components/nav.njk" import nestedMenu %}
+{% from "components/lists.njk" import linksList %}
 {% from "components/profiles.njk" import profileSummary %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set pageAccent = 'pink' %}
 {% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.rathlinIslandDevelopment %}
 {% set socialImage = heroImage %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
-
-    {{
-        sectionHero(
-            accent = pageAccent,
-            titleText = title,
-            image = heroImage
-        )
-    }}
+    {{ sectionHero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
 
     <main class="nudge-up">
         <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
@@ -30,6 +28,12 @@
                         {{ profileSummary(profile) }}
                     </section>
                 {% endfor %}
+
+                <section class="content-box content-box--even-inset
+                    accent--{{ pageAccent }} a--border-top">
+                    <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
+                    {{ linksList(copy.expenses.documents) }}
+                </section>
             </div>
             <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
                 <aside class="content-box content-box--even-inset">
@@ -38,5 +42,4 @@
             </div>
         </div>
     </main>
-
 {% endblock %}
