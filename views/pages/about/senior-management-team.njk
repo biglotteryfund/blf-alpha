@@ -45,7 +45,12 @@
                         {% for profile in profiles %}
                         <li class="quicklinks__item">
                             <a class="quicklinks__link" href="#profile-{{ profile.title | slugify }}">
-                                <strong>{{ profile.title }}</strong>&#8202;&mdash;&#8202;{{ profile.role }}
+                                <span class="quicklinks__link-label">
+                                    {{ profile.title }}
+                                </span>
+                                <span class="quicklinks__link-caption">
+                                    {{ profile.role }}
+                                </span>
                             </a>
                         </li>
                         {% endfor %}
