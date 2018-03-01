@@ -61,11 +61,16 @@ function getAllOrders() {
             acc[normalisedDate] = acc[normalisedDate] + 1;
             return acc;
         }, {});
-        
-        ordersByDay = sortBy(map(ordersByDay, (order, date) => ({
-            x: date,
-            y: order
-        })), 'x');
+
+        ordersByDay = sortBy(
+            map(ordersByDay, (order, date) => ({
+                x: date,
+                y: order
+            })),
+            'x'
+        );
+
+        const averageOrdersPerDay = Math.round(meanBy(ordersByDay, 'y'));
 
         return {
             orders,
@@ -77,7 +82,8 @@ function getAllOrders() {
             orderReasons,
             grantAmounts,
             ordersByPostcodes,
-            ordersByDay
+            ordersByDay,
+            averageOrdersPerDay
         };
     });
 }
