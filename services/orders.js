@@ -1,7 +1,8 @@
 const moment = require('moment');
 const { Op } = require('sequelize');
 const { Order, OrderItem } = require('../models');
-const { take, countBy, meanBy, chain, sortBy } = require('lodash');
+const { take, countBy, meanBy, sortBy, flatMap, map, reverse } = require('lodash');
+const { filter } = require('lodash/fp');
 
 function getAllOrders() {
     return Order.findAll({
@@ -17,7 +18,7 @@ function getAllOrders() {
         // the date we added dropdown grant size options rather than free text
         const LAUNCH_DATE = '2018-02-01';
 
-        let items = orders.reduce((acc, cur) => acc.concat(cur.items), []);
+        const items = flatMap(orders, order => order.items);
 
         let totalOrders = orders.length;
         let averageProductsPerOrder = Math.round(meanBy(orders, 'items.length'));
@@ -26,16 +27,8 @@ function getAllOrders() {
         );
 
         let orderByCount = arr => {
-            return chain(arr)
-                .map((count, code) => {
-                    return {
-                        code: code,
-                        count: count
-                    };
-                })
-                .sortBy('count')
-                .reverse()
-                .value();
+            const mapped = map(arr, (count, code) => ({ code, count }));
+            return reverse(sortBy(mapped, 'count'));
         };
 
         // sum items by their quantity ordered
@@ -47,19 +40,17 @@ function getAllOrders() {
             return acc;
         }, {});
 
+        // @TODO this can be removed after July 1st when all order records will have the correct options
+        const filterIsRecentOrder = filter(_ => moment(_.createdAt).isAfter(LAUNCH_DATE));
+        const filterHasCode = filter(_ => _.code !== '');
+
         // order items by total ordered
         let mostPopularItemsByQuantity = orderByCount(itemsByQuantity);
         let mostPopularItems = take(orderByCount(countBy(items, 'code')), 10);
 
-        let orderReasons = orderByCount(countBy(orders, 'orderReason')).filter(o => {
-            return o.code !== '';
-        });
-
-        let ordersAfterLaunch = orders.filter(o => moment(o.createdAt).isAfter(LAUNCH_DATE));
-        let grantAmounts = orderByCount(countBy(ordersAfterLaunch, 'grantAmount')).filter(o => {
-            return o.code !== '';
-        });
-
+        const orderReasons = filterHasCode(orderByCount(countBy(orders, 'orderReason')));
+        const ordersAfterLaunch = filterIsRecentOrder(orders);
+        const grantAmounts = filterHasCode(orderByCount(countBy(ordersAfterLaunch, 'grantAmount')));
         let ordersByPostcodes = orderByCount(countBy(orders, 'postcodeArea'));
 
         let ordersByDay = orders.reduce((acc, order) => {
@@ -70,16 +61,11 @@ function getAllOrders() {
             acc[normalisedDate] = acc[normalisedDate] + 1;
             return acc;
         }, {});
-
-        let voteData = [];
-        for (let date in ordersByDay) {
-            voteData.push({
-                x: date,
-                y: ordersByDay[date]
-            });
-        }
-
-        ordersByDay = sortBy(voteData, 'x');
+        
+        ordersByDay = sortBy(map(ordersByDay, (order, date) => ({
+            x: date,
+            y: order
+        })), 'x');
 
         return {
             orders,
