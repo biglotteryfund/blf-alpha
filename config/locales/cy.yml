@@ -775,7 +775,43 @@ about:
       linkText: "Darganfod ein fframwaith strategol: Galluogi Pobl i Arwain"
       linkHref: "/welsh/about/strategic-framework"
       imageCaption: Dawn Austwick, Prif Weithredwr
-  foi:
+  seniorManagement:
+    title: Uwch dîm rheoli
+    navigation:
+      section:
+        label: Ein pobl
+        link: /welsh/about-big/our-people
+      children:
+      - label: Y Bwrdd
+        link: /welsh/about-big/our-people/board
+      - label: Uwch dîm rheoli
+        link: /about/our-people/senior-management-team
+      - label: England committee members
+        link: /welsh/about-big/our-people/england-committee-members
+      - label: NI committee members
+        link: /welsh/about-big/our-people/northern-ireland-committee-members
+      - label: Scotland committee members
+        link: /welsh/about-big/our-people/scotland-committee-members
+      - label: Aelodau pwyllgor Cymru
+        link: /welsh/about-big/our-people/wales-committee-members
+      - label: Pwyllgor Ariannu’r Deyrnas Unedig’
+        link: /welsh/about-big/our-people/uk-funding-committee
+    expenses:
+      title: Senior Management Team expenses
+      documents:
+        - label: Year ending 31 March 2015
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_14_15.xlsx
+        - label: Year ending 31 March 2014
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_13_14.xlsx
+        - label: Year ending 31 March 2013
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_12-13.xls
+        - label: Year ending 31 March 2012
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_11_12.xls
+        - label: Year ending 31 March 2011
+          caption: Amended on 11/12/13 to correct accounting error
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_10_11.xls
+        - label: Year ending 31 March 2010
+          url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_09_10.xlsfoi:
     title: Rhyddid Gwybodaeth
     sections:
       intro: "<p>\tMae <a target=\"_blank\" href=\"http://www.legislation.gov.uk/cy/ukpga/2000/36/contents\">Deddf
