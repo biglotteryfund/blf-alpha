@@ -79,21 +79,24 @@
     .quicklinks__item {
         margin-bottom: 12px;
     }
-
     .quicklinks__link {
         display: block;
         text-decoration: none;
         font-size: 16px;
 
-        &:link,
-        &:visited {
-            font-weight: normal;
-        }
-
         &:hover,
         &:active {
-            text-decoration: underline;
+            text-decoration: none;
+
+            .quicklinks__link-label {
+                text-decoration: underline;
+            }
         }
+    }
+    .quicklinks__link-caption {
+        display: block;
+        font-weight: normal;
+        color: palette('charcoal');
     }
 }
 .quicklinks--sticky {
