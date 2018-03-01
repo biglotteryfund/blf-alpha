@@ -42,7 +42,7 @@ function getAllOrders() {
 
         // @TODO this can be removed after July 1st when all order records will have the correct options
         const filterIsRecentOrder = filter(_ => moment(_.createdAt).isAfter(LAUNCH_DATE));
-        const filterHasCode = filter(_ => _.code !== '');
+        const filterHasCode = filter(_ => _.code !== '' && _.code !== 'null');
 
         // order items by total ordered
         let mostPopularItemsByQuantity = orderByCount(itemsByQuantity);
