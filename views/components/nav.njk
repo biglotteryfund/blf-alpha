@@ -43,3 +43,24 @@
         <input class="u-visually-hidden" type="submit" value="Search" />
     </form>
 {% endmacro %}
+
+{% macro nestedMenu(navigationModel, currentUrl) %}
+    <nav class="nested-menu">
+        <h4 class="nested-menu__section">
+            <a class="nested-menu__section-link"
+                href="{{ navigationModel.section.link }}">
+                {{ navigationModel.section.label }}
+            </a>
+        </h4>
+        <ul class="nested-menu__children">
+            {% for child in navigationModel.children %}
+                <li class="nested-menu__item">
+                    <a class="nested-menu__link{% if currentUrl === child.link %} is-active{% endif %}"
+                        href="{{ child.link }}">
+                        {{ child.label }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endmacro %}

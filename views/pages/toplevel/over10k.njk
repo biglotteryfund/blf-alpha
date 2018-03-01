@@ -3,17 +3,10 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/over-10k-small.jpg',
-    medium: 'hero/over-10k-medium.jpg',
-    large: 'hero/over-10k-large.jpg',
-    default: 'hero/over-10k-medium.jpg',
-    caption: 'Passion4Fusion, Grant £36,700'
-}) %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.passion4Fusion %}
 {% set socialImage = heroImage %}
 
 {% block content %}

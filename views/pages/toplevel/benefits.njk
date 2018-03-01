@@ -1,24 +1,14 @@
-{% from "../../components/hero.njk" import sectionHero %}
-{% import "components/headers.njk" as headers %}
-{% import "components/segment.njk" as segment %}
+{% from "components/hero.njk" import sectionHero %}
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/jobs-small.jpg',
-    medium: 'hero/jobs-medium.jpg',
-    large: 'hero/jobs-large.jpg',
-    default: 'hero/jobs-medium.jpg',
-    caption: 'Street Dreams, Grant £9,000'
-}) %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.streetDreams %}
 {% set socialImage = heroImage %}
 
 {% block content %}
-
     {{
         sectionHero(
             titleText = title,
@@ -27,10 +17,8 @@
         )
     }}
 
-    <article role="main" class="nudge-up">
-
+    <main class="nudge-up">
         <div class="inner--wide-only accent--blue a--border-top content-box s-prose">
-
             <div class="u-align-center">
                 <a class="btn accent--pink a--btn central-gap spaced--l" href="{{ buildUrl('toplevel', 'jobs') }}">{{ copy['call-to-action'] }}</a>
             </div>
@@ -39,13 +27,10 @@
                 <h3 class="t2">{{ benefit.title }}</h3>
                 {{ benefit.text | safe }}
             {% endfor %}
-
         </div>
 
         <div class="inner spaced">
             <img src="{{ 'jobs/equality-sponsors.png' | getImagePath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In People, Business Disability Forum and Living Wage Employer" />
         </div>
-
-    </article>
-
+    </main>
 {% endblock %}

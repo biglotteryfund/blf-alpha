@@ -143,13 +143,7 @@
 {% set sgContent %}
     {{ sectionHero(
         titleText = 'Funding Programmes',
-        image = createHeroImage({
-            small: 'hero/young-foundation-small.jpg',
-            medium: 'hero/young-foundation-medium.jpg',
-            large: 'hero/young-foundation-large.jpg',
-            default: 'hero/young-foundation-medium.jpg',
-            caption: 'The Young Foundation - Amplify, Grant £1.06M'
-        }),
+        image = heroImages.youngFoundation,
         accent = 'green'
     ) }}
 {% endset %}

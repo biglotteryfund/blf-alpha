@@ -1,33 +1,27 @@
 {% from "components/hero.njk" import sectionHero %}
+
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set title = __('toplevel.ebulletin.shortTitle') %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/jobs-small.jpg',
-    medium: 'hero/jobs-medium.jpg',
-    large: 'hero/jobs-large.jpg',
-    default: 'hero/jobs-medium.jpg',
-    caption: 'Street Dreams, Grant £9,000'
-}) %}
-
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.streetDreams %}
 {% set socialImage = heroImage %}
 
 {% block content %}
-
+    {% set pageAccent = 'pink' %}
     {{
         sectionHero(
-            accent = 'pink',
             titleText = title,
-            image = heroImage
+            image = heroImage,
+            accent = pageAccent
         )
     }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--pink a--border-top padded spaced form-ebulletin form-ebulletin--wide">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top
+            padded spaced form-ebulletin form-ebulletin--wide">
             {% include "includes/ebulletin.njk" %}
         </div>
     </article>

@@ -3,18 +3,10 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/mental-health-foundation-small.jpg',
-    medium: 'hero/mental-health-foundation-medium.jpg',
-    large: 'hero/mental-health-foundation-large.jpg',
-    default: 'hero/jobs-medium.jpg',
-    caption: 'Mental Health Foundation'
-}) %}
-
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.mentalHealthFoundation %}
 {% set socialImage = heroImage %}
 
 {% block content %}

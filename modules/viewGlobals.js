@@ -6,7 +6,7 @@ const querystring = require('querystring');
 const { get } = require('lodash');
 const shortid = require('shortid');
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
-const { createHeroImage } = require('./images');
+const { heroImages, createHeroImage } = require('./images');
 const appData = require('./appData');
 const routes = require('../controllers/routes');
 
@@ -180,6 +180,8 @@ function init(app) {
             }
         }
     });
+
+    setViewGlobal('heroImages', heroImages);
 
     setViewGlobal('createHeroImage', function(opts) {
         return createHeroImage({

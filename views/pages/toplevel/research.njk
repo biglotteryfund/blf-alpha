@@ -3,18 +3,10 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
-
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = createHeroImage({
-    small: 'hero/grassroots-project-small.jpg',
-    medium: 'hero/grassroots-project-medium.jpg',
-    large: 'hero/grassroots-project-large.jpg',
-    default: 'hero/grassroots-project-medium.jpg',
-    caption: 'Grassroots, Grant £455,268'
-}) %}
-
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.grassroots %}
 {% set socialImage = heroImage %}
 
 {% block content %}

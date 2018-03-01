@@ -19,7 +19,6 @@
 @import 'globals/accents';
 @import 'globals/layout';
 @import 'globals/typography';
-@import 'globals/lists';
 @import 'globals/forms';
 
 // =========================================================================
@@ -32,18 +31,19 @@
 @import 'scaffolding/grid';
 @import 'scaffolding/scope-prose';
 @import 'scaffolding/content';
+@import 'scaffolding/lists';
 
 // =========================================================================
 // Components
 // ========================================================================= //
 // Individual components & patterns, the majority of our styles are in here
 
-@import 'components/accessibility';
-@import 'components/btn';
+@import 'components/buttons';
+@import 'components/navigation';
 @import 'components/messages';
 @import 'components/quotes';
 @import 'components/tabs';
-@import 'components/card';
+@import 'components/cards';
 @import 'components/data';
 @import 'components/media';
 @import 'components/programmes';
@@ -51,6 +51,7 @@
 @import 'components/overlay';
 @import 'components/overlay-text';
 @import 'components/segment';
+@import 'components/profiles';
 @import 'components/case-studies';
 @import 'components/heroes';
 @import 'components/survey';

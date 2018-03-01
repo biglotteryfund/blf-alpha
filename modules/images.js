@@ -19,21 +19,64 @@ function createHeroImage(opts) {
     };
 }
 
-function withFallbackImage(heroImage) {
-    /**
-     * Allow for pages without heroes
-     * @TODO: Define better default hero image.
-     */
-    const defaultHeroImage = createHeroImage({
+const heroImages = {
+    activePlus: createHeroImage({
+        small: 'hero/active-plus-communities-small.jpg',
+        medium: 'hero/active-plus-communities-medium.jpg',
+        large: 'hero/active-plus-communities-large.jpg',
+        default: 'hero/active-plus-communities-medium.jpg',
+        caption: 'Active Plus Communities'
+    }),
+    friendsOfGreenwich: createHeroImage({
+        small: 'hero/friends-of-greenwich-small.jpg',
+        medium: 'hero/friends-of-greenwich-medium.jpg',
+        large: 'hero/friends-of-greenwich-large.jpg',
+        default: 'hero/friends-of-greenwich-medium.jpg',
+        caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
+    }),
+    grassroots: createHeroImage({
+        small: 'hero/grassroots-project-small.jpg',
+        medium: 'hero/grassroots-project-medium.jpg',
+        large: 'hero/grassroots-project-large.jpg',
+        default: 'hero/grassroots-project-medium.jpg',
+        caption: 'Grassroots, Grant £455,268'
+    }),
+    mentalHealthFoundation: createHeroImage({
+        small: 'hero/mental-health-foundation-small.jpg',
+        medium: 'hero/mental-health-foundation-medium.jpg',
+        large: 'hero/mental-health-foundation-large.jpg',
+        default: 'hero/mental-health-foundation-medium.jpg',
+        caption: 'Mental Health Foundation'
+    }),
+    passion4Fusion: createHeroImage({
+        small: 'hero/passion4fusion-small.jpg',
+        medium: 'hero/passion4fusion-medium.jpg',
+        large: 'hero/passion4fusion-large.jpg',
+        default: 'hero/passion4fusion-medium.jpg',
+        caption: 'Passion4Fusion, Grant £36,700'
+    }),
+    streetDreams: createHeroImage({
         small: 'hero/jobs-small.jpg',
         medium: 'hero/jobs-medium.jpg',
         large: 'hero/jobs-large.jpg',
         default: 'hero/jobs-medium.jpg',
         caption: 'Street Dreams, Grant £9,000'
-    });
-
-    return heroImage || defaultHeroImage;
-}
+    }),
+    rathlinIslandDevelopment: createHeroImage({
+        small: 'hero/rathlin-island-development-small.jpg',
+        medium: 'hero/rathlin-island-development-medium.jpg',
+        large: 'hero/rathlin-island-development-large.jpg',
+        default: 'hero/rathlin-island-development-medium.jpg',
+        caption: 'Rathlin Island Development and Community Association'
+    }),
+    youngFoundation: createHeroImage({
+        small: 'hero/young-foundation-small.jpg',
+        medium: 'hero/young-foundation-medium.jpg',
+        large: 'hero/young-foundation-large.jpg',
+        default: 'hero/young-foundation-medium.jpg',
+        caption: 'The Young Foundation - Amplify, Grant £1.06M'
+    })
+};
 
 function buildHomepageHero() {
     const heroImageDefault = createHeroImage({
@@ -75,10 +118,15 @@ function buildHomepageHero() {
     };
 }
 
+/**
+ * Allow for pages without heroes
+ * @TODO: Define better default hero image.
+ */
+const withFallbackImage = heroImage => heroImage || heroImages.streetDreams;
+
 module.exports = {
     createHeroImage,
-    withFallbackImage,
-    heroImages: {
-        homepageHero: buildHomepageHero()
-    }
+    heroImages: heroImages,
+    homepageHero: buildHomepageHero(),
+    withFallbackImage
 };

@@ -1,0 +1,102 @@
+/* =========================================================================
+   Navigation
+   ========================================================================= */
+
+/* =========================================================================
+   Navigation: Accessibility Nav (Quick Links)
+   ========================================================================= */
+
+.accessibility-nav {
+    position: absolute;
+    top: $spacingUnit;
+    left: $spacingUnit;
+    margin-top: 0 !important;
+    z-index: 100;
+
+    ul {
+        margin-top: 0;
+    }
+
+    li {
+        margin: 0;
+
+        a {
+            padding: 20px 30px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+
+            @include on-interact {
+                position: static;
+                width: auto;
+                height: auto;
+                background-color: palette('charcoal');
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Navigation: Nested Menu (Section Navigation)
+   ========================================================================= */
+
+.nested-menu {
+    @include poppins();
+}
+.nested-menu__section {
+    margin-bottom: $spacingUnit / 2;
+}
+.nested-menu__section-link {
+    color: palette('pink');
+    font-weight: bold;
+    margin-bottom: $spacingUnit / 2;
+}
+.nested-menu__children {
+    font-size: 17px;
+    margin-left: 1em;
+}
+.nested-menu__item {
+    margin-bottom: $spacingUnit / 2;
+}
+.nested-menu__link.is-active {
+    color: palette('pink');
+    font-weight: bold;
+}
+
+/* =========================================================================
+   Quick Links
+   ========================================================================= */
+
+.quicklinks {
+    padding: 10px 12px;
+
+    .quicklinks__item {
+        margin-bottom: 12px;
+    }
+
+    .quicklinks__link {
+        display: block;
+        text-decoration: none;
+        font-size: 16px;
+
+        &:link,
+        &:visited {
+            font-weight: normal;
+        }
+
+        &:hover,
+        &:active {
+            text-decoration: underline;
+        }
+    }
+}
+.quicklinks--sticky {
+    position: sticky;
+    top: 0;
+}

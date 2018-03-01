@@ -276,6 +276,13 @@ sections.about.addRoutes({
             '/northernireland/about-big'
         ]
     }),
+    seniorManagement: dynamicRoute({
+        path: '/our-people/senior-management-team',
+        sMaxAge: '30m',
+        template: 'pages/about/senior-management-team',
+        lang: 'about.seniorManagement',
+        live: false
+    }),
     freedomOfInformation: staticRoute({
         path: '/customer-service/freedom-of-information',
         template: 'pages/about/freedom-of-information',
