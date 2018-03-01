@@ -6,8 +6,7 @@
             </div>
         {% endif %}
         <h2 class="profile__title">
-            {{ profile.title }}
-            {% if profile.role %}<span class="profile__role">{{ profile.role }}</span>{% endif %}
+            {{ profile.title }}{% if profile.role %}&thinsp;&mdash;&thinsp;{{ profile.role }}{% endif %}
         </h2>
         <div class="profile__bio s-prose s-prose--long u-constrained-content">
             {{ profile.bio | safe }}

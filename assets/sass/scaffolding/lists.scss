@@ -85,7 +85,6 @@ ol.list-bullets li {
 }
 .list-links__item {
     font-size: 18px;
-    @include downloadIcon();
     margin-bottom: $spacingUnit;
 
     &:last-child {
@@ -104,4 +103,9 @@ ol.list-bullets li {
 .list-links__link-caption {
     display: block;
     font-weight: normal;
+}
+.list-links--documents {
+    .list-links__item {
+        @include downloadIcon();
+    }
 }

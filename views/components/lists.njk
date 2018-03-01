@@ -1,5 +1,5 @@
-{% macro linksList(links) %}
-    <ul class="list-links">
+{% macro linksList(links, isDocumentsList = false) %}
+    <ul class="list-links{% if isDocumentsList %} list-links--documents{% endif %}">
         {% for link in links %}
             <li class="list-links__item">
                 <a class="list-links__link" href="{{ link.url }}">

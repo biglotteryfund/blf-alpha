@@ -23,7 +23,7 @@
         <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="page-section__content accent--{{ pageAccent }} a--border-top">
                 {% for profile in profiles %}
-                    <section id="segment-{{ profile.title | slugify }}"
+                    <section id="profile-{{ profile.title | slugify }}"
                         class="content-box content-box--even-inset{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
                         {{ profileSummary(profile) }}
                     </section>
@@ -32,13 +32,25 @@
                 <section class="content-box content-box--even-inset
                     accent--{{ pageAccent }} a--border-top">
                     <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
-                    {{ linksList(copy.expenses.documents) }}
+                    {{ linksList(copy.expenses.documents, isDocumentsList = true) }}
                 </section>
             </div>
             <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
                 <aside class="content-box content-box--even-inset">
                     {{ nestedMenu(copy.navigation, getCurrentUrl(request)) }}
                 </aside>
+
+                <nav class="quicklinks quicklinks--sticky">
+                    <ul class="quicklinks__list">
+                        {% for profile in profiles %}
+                        <li class="quicklinks__item">
+                            <a class="quicklinks__link" href="#profile-{{ profile.title | slugify }}">
+                                <strong>{{ profile.title }}</strong>&#8202;&mdash;&#8202;{{ profile.role }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </main>
