@@ -6,7 +6,6 @@ const moment = require('moment');
 const Raven = require('raven');
 const { assign, find, findIndex, get, last, uniq } = require('lodash');
 
-const { renderNotFoundWithError } = require('../http-errors');
 const { splitPercentages } = require('../../modules/ab');
 const { createHeroImage } = require('../../modules/images');
 const { addPreviewStatus } = require('../../modules/preview');
