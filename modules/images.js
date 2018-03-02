@@ -48,6 +48,13 @@ const heroImages = {
         default: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
         caption: 'Llanfechain Memorial Hall'
     }),
+    freeMaterials: createHeroImage({
+        small: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-small.jpg',
+        medium: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-medium.jpg',
+        large: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-large.jpg',
+        default: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-medium.jpg',
+        caption: 'Oasis Caring in Action Antrim Youthways'
+    }),
     freedomOfInformation: createHeroImage({
         small: 'hero/freedom-of-information-arkwright-meadows-small.jpg',
         medium: 'hero/freedom-of-information-arkwright-meadows-medium.jpg',
