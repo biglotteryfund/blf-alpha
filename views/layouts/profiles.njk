@@ -1,0 +1,51 @@
+{% from "components/hero.njk" import sectionHero %}
+{% from "components/nav.njk" import nestedMenu, quickLinks %}
+{% from "components/profiles.njk" import profileSummary %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set pageAccent = 'pink' %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.rathlinIslandDevelopment %}
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {{ sectionHero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
+
+    <main class="nudge-up">
+        <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="page-section__content accent--{{ pageAccent }} a--border-top">
+                {% for profile in profiles %}
+                    <section id="profile-{{ profile.title | slugify }}"
+                        class="content-box content-box--even-inset{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
+                        {{ profileSummary(profile) }}
+                    </section>
+                {% endfor %}
+
+                {% block extraPrimaryContent %}{% endblock %}
+            </div>
+            <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+                <aside class="content-box content-box--even-inset">
+                    {{ nestedMenu(navigation, getCurrentUrl(request)) }}
+                </aside>
+
+                {% set quickLinksList = [] %}
+                {% for profile in profiles %}
+                    {% set quickLink = {
+                        href: '#profile-' + profile.title | slugify,
+                        label: profile.title,
+                        caption: profile.role
+                    } %}
+                    {% set quickLinksList = (quickLinksList.push(quickLink), quickLinksList) %}
+                {% endfor %}
+                {{ quickLinks(quickLinksList, isSticky = true) }}
+            </div>
+        </div>
+    </main>
+{% endblock %}

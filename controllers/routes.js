@@ -280,7 +280,12 @@ sections.about.addRoutes({
         path: '/our-people/senior-management-team',
         sMaxAge: '30m',
         template: 'pages/about/senior-management-team',
-        lang: 'about.seniorManagement',
+        live: false
+    }),
+    board: dynamicRoute({
+        path: '/our-people/board',
+        sMaxAge: '30m',
+        template: 'pages/about/board',
         live: false
     }),
     freedomOfInformation: staticRoute({
