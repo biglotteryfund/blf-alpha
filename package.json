@@ -14,7 +14,7 @@
     "test-integration": "mocha integration-tests/integration-tests.js --bail --exit --timeout 20s",
     "test": "npm run test-unit && npm run test-integration",
     "build": "gulp build && webpack --mode=development",
-    "build-production": "export NODE_ENV=production && gulp build && webpack --mode=production && gulp manifest && size-limit",
+    "build-production": "export NODE_ENV=production && gulp build && webpack --mode=production && gulp manifest",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
     "prewatch": "npm run build",
     "watch": "concurrently --kill-others 'webpack --mode=development --watch' 'gulp watch'",
@@ -42,16 +42,6 @@
   "prettier": {
     "singleQuote": true
   },
-  "size-limit": [
-    {
-      "limit": "100KB",
-      "path": "public/build/*/javascripts/app.js"
-    },
-    {
-      "limit": "10KB",
-      "path": "public/build/*/javascripts/analytics.bundle.js"
-    }
-  ],
   "babel": {
     "plugins": [
       "lodash",
@@ -174,7 +164,6 @@
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
-    "size-limit": "^0.15.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9"
   },

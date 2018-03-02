@@ -20,6 +20,9 @@ module.exports = {
         path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts'),
         publicPath: `${buildSummary.publicDir}/javascripts/`
     },
+    performance: {
+        hints: buildSummary.isProduction ? 'error' : 'warn'
+    },
     module: {
         rules: [
             {
