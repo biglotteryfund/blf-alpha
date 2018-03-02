@@ -34,6 +34,13 @@ const heroImages = {
         default: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
         caption: 'Llanfechain Memorial Hall'
     }),
+    freedomOfInformation: createHeroImage({
+        small: 'hero/freedom-of-information-arkwright-meadows-small.jpg',
+        medium: 'hero/freedom-of-information-arkwright-meadows-medium.jpg',
+        large: 'hero/freedom-of-information-arkwright-meadows-large.jpg',
+        default: 'hero/freedom-of-information-arkwright-meadows-medium.jpg',
+        caption: 'Arkwright Meadows'
+    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
