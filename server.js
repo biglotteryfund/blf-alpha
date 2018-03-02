@@ -105,7 +105,7 @@ for (let sectionId in routes.sections) {
  * For these URLs handle both english and welsh variants
  */
 serveRedirects({
-    redirects: routes.legacyRedirects,
+    redirects: routes.legacyRedirects.filter(shouldServe),
     makeBilingual: true
 });
 
@@ -114,7 +114,7 @@ serveRedirects({
  * Sharable short-urls redirected to canonical URLs.
  */
 serveRedirects({
-    redirects: routes.vanityRedirects
+    redirects: routes.vanityRedirects.filter(shouldServe)
 });
 
 /**
