@@ -34,6 +34,13 @@ const heroImages = {
         default: 'hero/contact-new-routes-into-horse-care-medium.jpg',
         caption: 'New Routes into Horse Care'
     }),
+    data: createHeroImage({
+        small: 'hero/data-larche-belfast-small.jpg',
+        medium: 'hero/data-larche-belfast-medium.jpg',
+        large: 'hero/data-larche-belfast-large.jpg',
+        default: 'hero/data-larche-belfast-medium.jpg',
+        caption: 'L\'Arche Belfast'
+    }),
     dataProtection: createHeroImage({
         small: 'hero/data-protection-llanfechain-memorial-hall-small.jpg',
         medium: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
