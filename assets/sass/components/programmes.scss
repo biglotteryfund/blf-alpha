@@ -76,7 +76,10 @@
 
     .programme-card__title,
     .programme-card__body {
-        @include font-and-leading(18px, 27px);
+        font-size: 18px;
+    }
+    .programme-card__title {
+        line-height: 1.25;
     }
 }
 
