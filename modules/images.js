@@ -27,6 +27,13 @@ const heroImages = {
         default: 'hero/active-plus-communities-medium.jpg',
         caption: 'Active Plus Communities'
     }),
+    dataProtection: createHeroImage({
+        small: 'hero/data-protection-llanfechain-memorial-hall-small.jpg',
+        medium: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
+        large: 'hero/data-protection-llanfechain-memorial-hall-large.jpg',
+        default: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
+        caption: 'Llanfechain Memorial Hall'
+    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
