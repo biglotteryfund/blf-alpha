@@ -27,6 +27,13 @@ const heroImages = {
         default: 'hero/active-plus-communities-medium.jpg',
         caption: 'Active Plus Communities'
     }),
+    contact: createHeroImage({
+        small: 'hero/contact-new-routes-into-horse-care-small.jpg',
+        medium: 'hero/contact-new-routes-into-horse-care-medium.jpg',
+        large: 'hero/contact-new-routes-into-horse-care-large.jpg',
+        default: 'hero/contact-new-routes-into-horse-care-medium.jpg',
+        caption: 'New Routes into Horse Care'
+    }),
     dataProtection: createHeroImage({
         small: 'hero/data-protection-llanfechain-memorial-hall-small.jpg',
         medium: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
