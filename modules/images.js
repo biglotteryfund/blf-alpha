@@ -111,6 +111,13 @@ const heroImages = {
         default: 'hero/press-larche-belfast-medium.jpg',
         caption: "L'Arche Belfast"
     }),
+    publicity: createHeroImage({
+        small: 'hero/social-media-centre-for-better-health-bakery-small.jpg',
+        medium: 'hero/social-media-centre-for-better-health-bakery-medium.jpg',
+        large: 'hero/social-media-centre-for-better-health-bakery-large.jpg',
+        default: 'hero/social-media-centre-for-better-health-bakery-medium.jpg',
+        caption: 'Centre for Better Health Bakery'
+    }),
     streetDreams: createHeroImage({
         small: 'hero/jobs-small.jpg',
         medium: 'hero/jobs-medium.jpg',
