@@ -104,6 +104,13 @@ const heroImages = {
         default: 'hero/passion4fusion-medium.jpg',
         caption: 'Passion4Fusion, Grant £36,700'
     }),
+    pressCoverage: createHeroImage({
+        small: 'hero/press-larche-belfast-small.jpg',
+        medium: 'hero/press-larche-belfast-medium.jpg',
+        large: 'hero/press-larche-belfast-large.jpg',
+        default: 'hero/press-larche-belfast-medium.jpg',
+        caption: "L'Arche Belfast"
+    }),
     streetDreams: createHeroImage({
         small: 'hero/jobs-small.jpg',
         medium: 'hero/jobs-medium.jpg',
