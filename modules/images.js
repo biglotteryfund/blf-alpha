@@ -39,7 +39,7 @@ const heroImages = {
         medium: 'hero/data-larche-belfast-medium.jpg',
         large: 'hero/data-larche-belfast-large.jpg',
         default: 'hero/data-larche-belfast-medium.jpg',
-        caption: 'L\'Arche Belfast'
+        caption: "L'Arche Belfast"
     }),
     dataProtection: createHeroImage({
         small: 'hero/data-protection-llanfechain-memorial-hall-small.jpg',
@@ -68,6 +68,13 @@ const heroImages = {
         large: 'hero/grassroots-project-large.jpg',
         default: 'hero/grassroots-project-medium.jpg',
         caption: 'Grassroots, Grant £455,268'
+    }),
+    managingYourFunding: createHeroImage({
+        small: 'hero/managing-your-fundraising-sorted-project-small.jpg',
+        medium: 'hero/managing-your-fundraising-sorted-project-medium.jpg',
+        large: 'hero/managing-your-fundraising-sorted-project-large.jpg',
+        default: 'hero/managing-your-fundraising-sorted-project-medium.jpg',
+        caption: 'Sorted Project'
     }),
     mentalHealthFoundation: createHeroImage({
         small: 'hero/mental-health-foundation-small.jpg',
