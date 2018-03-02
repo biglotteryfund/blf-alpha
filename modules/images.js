@@ -69,6 +69,13 @@ const heroImages = {
         default: 'hero/grassroots-project-medium.jpg',
         caption: 'Grassroots, Grant £455,268'
     }),
+    logos: createHeroImage({
+        small: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-small.jpg',
+        medium: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-medium.jpg',
+        large: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-large.jpg',
+        default: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-medium.jpg',
+        caption: 'Oasis Caring in Action Antrim Youthways'
+    }),
     managingYourFunding: createHeroImage({
         small: 'hero/managing-your-fundraising-sorted-project-small.jpg',
         medium: 'hero/managing-your-fundraising-sorted-project-medium.jpg',
