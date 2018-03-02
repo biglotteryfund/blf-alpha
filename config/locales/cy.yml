@@ -775,8 +775,7 @@ about:
       linkText: "Darganfod ein fframwaith strategol: Galluogi Pobl i Arwain"
       linkHref: "/welsh/about/strategic-framework"
       imageCaption: Dawn Austwick, Prif Weithredwr
-  seniorManagement:
-    title: Uwch dîm rheoli
+  ourPeople:
     navigation:
       section:
         label: Ein pobl
@@ -796,9 +795,11 @@ about:
         link: /welsh/about-big/our-people/wales-committee-members
       - label: Pwyllgor Ariannu’r Deyrnas Unedig’
         link: /welsh/about-big/our-people/uk-funding-committee
-    expenses:
-      title: Senior Management Team expenses
-      documents:
+    seniorManagement:
+      title: Uwch dîm rheoli
+      expenses:
+        title: Senior Management Team expenses
+        documents:
         - label: Year ending 31 March 2015
           url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_14_15.xlsx
         - label: Year ending 31 March 2014
@@ -812,6 +813,8 @@ about:
           url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_10_11.xls
         - label: Year ending 31 March 2010
           url: https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/SMT%20expenses/smt_expenses_09_10.xls
+    board:
+      title: Our Board
   foi:
     title: Rhyddid Gwybodaeth
     sections:

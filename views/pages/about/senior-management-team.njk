@@ -1,62 +1,11 @@
-{% from "components/hero.njk" import sectionHero %}
-{% from "components/nav.njk" import nestedMenu %}
 {% from "components/lists.njk" import linksList %}
-{% from "components/profiles.njk" import profileSummary %}
 
-{% extends "layouts/main.njk" %}
+{% extends "layouts/profiles.njk" %}
 
-{% block title %}{{ title }} | {% endblock %}
-
-{% set pageAccent = 'pink' %}
-{% set bodyClass = "has-full-bleed-header" %}
-{% set heroImage = heroImages.rathlinIslandDevelopment %}
-{% set socialImage = heroImage %}
-
-{% block content %}
-    {{ sectionHero(
-        titleText = title,
-        image = heroImage,
-        accent = pageAccent
-    ) }}
-
-    <main class="nudge-up">
-        <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                {% for profile in profiles %}
-                    <section id="profile-{{ profile.title | slugify }}"
-                        class="content-box content-box--even-inset{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
-                        {{ profileSummary(profile) }}
-                    </section>
-                {% endfor %}
-
-                <section class="content-box content-box--even-inset
-                    accent--{{ pageAccent }} a--border-top">
-                    <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
-                    {{ linksList(copy.expenses.documents, isDocumentsList = true) }}
-                </section>
-            </div>
-            <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
-                <aside class="content-box content-box--even-inset">
-                    {{ nestedMenu(copy.navigation, getCurrentUrl(request)) }}
-                </aside>
-
-                <nav class="quicklinks quicklinks--sticky">
-                    <ul class="quicklinks__list">
-                        {% for profile in profiles %}
-                        <li class="quicklinks__item">
-                            <a class="quicklinks__link" href="#profile-{{ profile.title | slugify }}">
-                                <span class="quicklinks__link-label">
-                                    {{ profile.title }}
-                                </span>
-                                <span class="quicklinks__link-caption">
-                                    {{ profile.role }}
-                                </span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </main>
+{% block extraPrimaryContent %}
+    <section class="content-box content-box--even-inset
+        accent--{{ pageAccent }} a--border-top">
+        <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
+        {{ linksList(copy.expenses.documents, isDocumentsList = true) }}
+    </section>
 {% endblock %}

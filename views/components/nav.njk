@@ -64,3 +64,24 @@
         </ul>
     </nav>
 {% endmacro %}
+
+{% macro quickLinks(links, isSticky = false) %}
+    <nav class="quicklinks quicklinks--sticky">
+        <ul class="quicklinks__list">
+            {% for link in links %}
+            <li class="quicklinks__item">
+                <a class="quicklinks__link" href="{{ link.href }}">
+                    <span class="quicklinks__link-label">
+                        {{ link.label }}
+                    </span>
+                    {% if link.caption %}
+                        <span class="quicklinks__link-caption">
+                            {{ link.caption }}
+                        </span>
+                    {% endif %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endmacro %}
