@@ -2,11 +2,10 @@
 const config = require('config');
 const app = require('../server');
 const { customEvent } = require('../modules/analytics');
-const { shouldServe } = require('../modules/pageLogic');
 const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
 
 function serveRedirects({ redirects, makeBilingual = false }) {
-    redirects.filter(shouldServe).forEach(redirect => {
+    redirects.forEach(redirect => {
         app.get(redirect.path, (req, res) => {
             res.redirect(301, redirect.destination);
         });

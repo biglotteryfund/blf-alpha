@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { createHeroImage } = require('../modules/images');
+const { heroImages } = require('../modules/images');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
@@ -48,20 +48,13 @@ sections.toplevel.addRoutes({
         aliases: ['/home', '/index.html', '/en-gb', '/england', '/scotland', '/uk-wide']
     }),
     northernIreland: staticRoute({
-        live: false,
         path: '/northern-ireland',
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
         lang: 'toplevel.northernIreland',
         isBilingual: false,
         aliases: ['/northernireland'],
-        heroImage: createHeroImage({
-            small: 'hero/larche-belfast-small.jpg',
-            medium: 'hero/larche-belfast-medium.jpg',
-            large: 'hero/larche-belfast-large.jpg',
-            default: 'hero/larche-belfast-medium.jpg',
-            caption: 'L’Arche, Belfast'
-        })
+        heroImage: heroImages.larcheBelfast
     }),
     wales: staticRoute({
         live: false,
@@ -69,13 +62,7 @@ sections.toplevel.addRoutes({
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
         lang: 'toplevel.wales',
-        heroImage: createHeroImage({
-            small: 'hero/grassroots-small.jpg',
-            medium: 'hero/grassroots-medium.jpg',
-            large: 'hero/grassroots-large.jpg',
-            default: 'hero/grassroots-medium.jpg',
-            caption: 'Grassroots, Grant £455,268'
-        })
+        heroImage: heroImages.grassrootsAlt
     }),
     contact: staticRoute({
         path: '/contact',
@@ -280,7 +267,12 @@ sections.about.addRoutes({
         path: '/our-people/senior-management-team',
         sMaxAge: '30m',
         template: 'pages/about/senior-management-team',
-        lang: 'about.seniorManagement',
+        live: false
+    }),
+    board: dynamicRoute({
+        path: '/our-people/board',
+        sMaxAge: '30m',
+        template: 'pages/about/board',
         live: false
     }),
     freedomOfInformation: staticRoute({

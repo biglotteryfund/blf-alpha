@@ -90,6 +90,13 @@ const heroImages = {
         default: 'hero/grassroots-project-medium.jpg',
         caption: 'Grassroots, Grant £455,268'
     }),
+    grassrootsAlt: createHeroImage({
+        small: 'hero/grassroots-small.jpg',
+        medium: 'hero/grassroots-medium.jpg',
+        large: 'hero/grassroots-large.jpg',
+        default: 'hero/grassroots-medium.jpg',
+        caption: 'Grassroots, Grant £455,268'
+    }),
     logos: createHeroImage({
         small: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-small.jpg',
         medium: 'hero/using-our-logo-oasis-caring-in-action-antrim-youthways-medium.jpg',
@@ -103,6 +110,13 @@ const heroImages = {
         large: 'hero/managing-your-fundraising-sorted-project-large.jpg',
         default: 'hero/managing-your-fundraising-sorted-project-medium.jpg',
         caption: 'Sorted Project'
+    }),
+    larcheBelfast: createHeroImage({
+        small: 'hero/larche-belfast-small.jpg',
+        medium: 'hero/larche-belfast-medium.jpg',
+        large: 'hero/larche-belfast-large.jpg',
+        default: 'hero/larche-belfast-medium.jpg',
+        caption: 'L’Arche, Belfast'
     }),
     mentalHealthFoundation: createHeroImage({
         small: 'hero/mental-health-foundation-small.jpg',

@@ -9,13 +9,13 @@ function init({ router, routeConfig }) {
         contentApi
             .getProfiles({
                 locale: locale,
-                section: 'seniorManagementTeam'
+                section: 'boardMembers'
             })
             .then(profiles => {
                 if (profiles.length > 0) {
                     res.render(routeConfig.template, {
-                        title: copy.seniorManagement.title,
-                        copy: copy.seniorManagement,
+                        title: copy.board.title,
+                        copy: copy.board,
                         navigation: copy.navigation,
                         profiles: profiles
                     });
