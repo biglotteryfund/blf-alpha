@@ -2,9 +2,6 @@
    Heroes
    ========================================================================= */
 
-// the list of hero images
-@import '../_heroes.config';
-
 // how much the hero text should appear from the bottom
 $heroSpaceFromBottom: 55px;
 $heroSpaceFromBottomMobile: 20px;
@@ -20,33 +17,6 @@ $heroSpaceFromLeft: 20px;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-
-    // loop through each hero image set
-    @each $hero, $imageset in $heroes {
-        // output a default (mobile) image and aspect ratio
-        &.hero--#{$hero} {
-            $defaultImage: map-get($imageset, 'default');
-            @include makeHeroImage($defaultImage);
-
-            // Theses are being explicitly named here to isolate this code from core breakpoints
-            // This code will be deleted once existing hero image have been migrated to the new
-            // section-hero style
-            $breakpointsToUse: (
-                tablet: 760px,
-                desktop: 980px
-            );
-
-            // for each of the non-default (eg. breakpoint-matching) sets
-            // output a media query with a new image and aspect ratio
-            @each $imageBreakpointName, $imageBreakpoint in $imageset {
-                @if map-has-key($breakpointsToUse, $imageBreakpointName) {
-                    @include mq($imageBreakpointName) {
-                        @include makeHeroImage($imageBreakpoint);
-                    }
-                }
-            }
-        }
-    }
 }
 
 .hero__caption {
