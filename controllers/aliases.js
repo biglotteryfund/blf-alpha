@@ -33,6 +33,7 @@ const legacyRedirects = [
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
     programmeRedirect('england/reaching-communities-england', 'reaching-communities-england'),
     programmeRedirect('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland'),
+    programmeRedirect('northern-ireland/empowering-young-people', 'empowering-young-people'),
     programmeRedirect('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland'),
     programmeRedirect('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity'),
     programmeRedirect('scotland/grants-for-improving-lives', 'grants-for-improving-lives'),
@@ -75,6 +76,7 @@ const vanityRedirects = sections => {
         vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
         vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
         vanity('/prog_reaching_communities.htm', '/funding/programmes/reaching-communities-england'),
+        vanity('/empowering-young-people', '/funding/programmes/empowering-young-people'),
         vanity(
             '/funding/funding-guidance/managing-your-funding/self-evaluation',
             '/funding/funding-guidance/managing-your-funding/evaluation'

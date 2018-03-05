@@ -612,8 +612,6 @@ toplevel:
       description: 'Mae Gofal mewn Galar Cruse yn cynnig cefnogaeth, cyngor a gwybodaeth
         i blant, pobl ifainc ac oedolion pan fydd rhywun yn marw. '
     browseAll: Pori'r holl brosiectau a ariannwyd
-  eyp:
-    title: Empowering Young People
   helpingWorkingFamilies:
     title: Helpu Teuluoedd sy'n Gweithio
     intro: "<p>Mae Helpu Teuluoedd sy'n Gweithio'n ariannu prosiectau sy'n gwella
