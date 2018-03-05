@@ -1,10 +1,9 @@
+<script src="https://www.google-analytics.com/cx/api.js"></script>
 <script src="{{ 'javascripts/app.js' | getCachebustedPath }}"
         id="js-script-main"
         data-ga-code="{{ appData.config.get('googleAnalyticsCode') }}"{% if ab %}
         data-ab-id="{{ ab.id }}"
         data-ab-variant="{{ ab.variantId }}"{% endif %}></script>
 
-
-<script async src="https://www.google-analytics.com/cx/api.js"></script>
 <script async src="https://www.google-analytics.com/analytics.js"></script>
 <script async src="/assets/autotrack/autotrack.js"></script>

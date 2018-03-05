@@ -5,8 +5,6 @@ function init() {
     if (carouselElems.length > 0) {
         const carouselSplit = () => import(/* webpackChunkName: "carousel" */ './carousel.split');
         carouselSplit().then(carousel => {
-            console.log('Hello Carousel', carouselElems);
-
             carousel.init(carouselElems);
         });
     }
