@@ -3,12 +3,13 @@
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
-const autoprefixer = require('gulp-autoprefixer');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const livereload = require('livereload');
 const del = require('del');
 const fs = require('fs');
-const { exec } = require('child_process');
 
 const { getBuildSummary } = require('./build-helpers');
 
@@ -19,34 +20,14 @@ gulp.task('clean', function() {
 });
 
 /**
- * Compile scripts via Webpack
- */
-gulp.task('scripts', function(cb) {
-    exec('$(npm bin)/webpack', function(err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
-});
-
-/**
  * Compile Sass
  */
 gulp.task('styles', function() {
     return gulp
         .src(buildSummary.cssInDir + '/*.scss')
         .pipe(sourcemaps.init())
-        .pipe(
-            sass({
-                outputStyle: buildSummary.isProduction ? 'compressed' : 'expanded'
-            }).on('error', sass.logError)
-        )
-        .pipe(
-            autoprefixer({
-                browsers: ['last 2 versions'],
-                cascade: false
-            })
-        )
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([autoprefixer(), cssnano()]))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(buildSummary.buildDir + '/stylesheets'));
 });
@@ -62,7 +43,7 @@ gulp.task('manifest', function(done) {
 /**
  * Watchers
  */
-gulp.task('watch', ['build'], function() {
+gulp.task('watch', function() {
     const server = livereload.createServer();
     server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
     gulp.watch(buildSummary.cssInDir + '/**/*.scss', ['styles']);
@@ -72,11 +53,7 @@ gulp.task('watch', ['build'], function() {
  * Primary task aliases
  */
 gulp.task('build', function(done) {
-    runSequence('clean', 'styles', 'scripts', done);
-});
-
-gulp.task('build:production', function(done) {
-    runSequence('build', 'manifest', done);
+    runSequence('clean', 'styles', done);
 });
 
 gulp.task('default', ['build']);
