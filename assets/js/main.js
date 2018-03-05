@@ -1,30 +1,16 @@
 'use strict';
 
-/**
- * Initialise Vue
- */
-import Vue from 'vue';
-window.Vue = Vue;
+import raven from './bootstraps/raven';
+import common from './bootstraps/common';
 
-/**
- * Bootstraps
- */
-const raven = require('./bootstraps/raven');
-raven.init(Vue);
+raven.init();
 
-/**
- * Load modules
- */
-import carousel from './modules/carousel';
+common.init();
 
-require('./modules/common').init();
-require('./modules/tabs').init();
-require('./modules/surveys').init();
-require('./modules/heroImages').init();
-require('./modules/logos').init();
-require('./modules/materials').init();
-require('./modules/forms').init();
-carousel.init();
+const vueSplit = () => import(/* webpackChunkName: "vue-components" */ './bootstraps/vue');
+vueSplit().then(vueComponents => {
+    vueComponents.init();
+});
 
 /**
  * If we are in the live environment then load analytics

@@ -3,7 +3,7 @@
 function init() {
     const carouselElems = document.querySelectorAll('.js-carousel');
     if (carouselElems.length > 0) {
-        const carouselSplit = () => import('./carousel.split');
+        const carouselSplit = () => import(/* webpackChunkName: "carousel" */ './carousel.split');
         carouselSplit().then(carousel => {
             console.log('Hello Carousel', carouselElems);
 

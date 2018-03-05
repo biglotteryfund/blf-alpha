@@ -1,9 +1,8 @@
 'use strict';
 
 const Raven = require('raven-js');
-const RavenVue = require('raven-js/plugins/vue');
 
-function init(VueInstance) {
+function init() {
     Raven.config('https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416', {
         autoBreadcrumbs: {
             xhr: false,
@@ -18,9 +17,7 @@ function init(VueInstance) {
             // https://github.com/getsentry/sentry/issues/5267
             /Blocked a frame with origin/
         ]
-    })
-        .addPlugin(RavenVue, VueInstance)
-        .install();
+    }).install();
 
     window.Raven = Raven;
 }
