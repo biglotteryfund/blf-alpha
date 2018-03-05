@@ -57,7 +57,6 @@ const showSurvey = survey => {
     }
 
     new Vue({
-        delimiters: ['<%', '%>'],
         el: mountEl,
         data: {
             survey: survey,
