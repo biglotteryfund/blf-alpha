@@ -21,7 +21,7 @@ module.exports = {
         publicPath: `${buildSummary.publicDir}/javascripts/`
     },
     performance: {
-        hints: buildSummary.isProduction ? 'error' : 'warn'
+        hints: buildSummary.isProduction ? 'error' : false
     },
     module: {
         rules: [
