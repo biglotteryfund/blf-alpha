@@ -106,12 +106,6 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.benefits',
         aliases: ['/about-big/jobs/benefits']
     }),
-    helpingWorkingFamilies: staticRoute({
-        path: '/helping-working-families',
-        template: 'pages/toplevel/working-families',
-        lang: 'toplevel.helpingWorkingFamilies',
-        aliases: ['/global-content/programmes/wales/helping-working-families']
-    }),
     search: dynamicRoute({
         path: '/search',
         allowAllQueryStrings: true,
