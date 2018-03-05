@@ -55,6 +55,13 @@ const heroImages = {
         default: 'hero/error-huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
     }),
+    eyp: createHeroImage({
+        small: 'hero/larche-belfast-2-small.jpg',
+        medium: 'hero/larche-belfast-2-medium.jpg',
+        large: 'hero/larche-belfast-2-large.jpg',
+        default: 'hero/larche-belfast-2-medium.jpg',
+        caption: "L'Arche Belfast, Grant: £573,164"
+    }),
     freeMaterials: createHeroImage({
         small: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-small.jpg',
         medium: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-medium.jpg',
