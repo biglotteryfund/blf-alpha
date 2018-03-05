@@ -48,6 +48,13 @@ const heroImages = {
         default: 'hero/data-protection-llanfechain-memorial-hall-medium.jpg',
         caption: 'Llanfechain Memorial Hall'
     }),
+    error: createHeroImage({
+        small: 'hero/error-huntingtons-project-small.jpg',
+        medium: 'hero/error-huntingtons-project-medium.jpg',
+        large: 'hero/error-huntingtons-project-large.jpg',
+        default: 'hero/error-huntingtons-project-medium.jpg',
+        caption: 'Huntingtons Project'
+    }),
     freeMaterials: createHeroImage({
         small: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-small.jpg',
         medium: 'hero/ordering-free-materials-oasis-caring-in-action-antrim-youthways-medium.jpg',

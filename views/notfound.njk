@@ -1,19 +1,27 @@
-{% import "./components/hero.njk" as hero %}
-{% import "./components/headers.njk" as headers %}
+{% from "components/hero.njk" import sectionHero %}
 
 {% extends "./layouts/main.njk" %}
 
 {% block title %}{{ errorTitle }} | Error {{ status }} | {% endblock %}
 
-{% block content %}
-    {% set heroContent %}
-        {{ headers.overlayText('h2', errorTitle) }}
-    {% endset %}
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.error %}
+{% set socialImage = heroImage %}
 
-    {{ hero.header('reading', heroContent, 'pink') }}
+{% block content %}
+
+    {% set pageAccent = 'pink' %}
+
+    {{
+        sectionHero(
+            titleText = errorTitle,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--pink a--border-top content-box">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box">
             <h3 class="t2">Error {{ status }} &ndash; {{ message }}</h3>
 
             <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
