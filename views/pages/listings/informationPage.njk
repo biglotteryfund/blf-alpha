@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import sectionHero %}
-{% from "components/caseStudies.njk" import caseStudyCard with context %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -62,29 +62,8 @@
             {% endfor %}
         {% endif %}
 
-        {% if content.caseStudies.length > 0 %}
-            <section id="case-studies" class="inner">
-                <h2 class="t1">{{ __('global.misc.caseStudies') }}</h2>
-                <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                    {% for caseStudy in content.caseStudies %}
-                        <li class="grid__item">
-                            {{
-                                caseStudyCard(
-                                    title = caseStudy.title,
-                                    grantAmount = null,
-                                    linkUrl = caseStudy.linkUrl,
-                                    trailText = caseStudy.trailText,
-                                    trailTextMore = caseStudy.trailTextMore,
-                                    imageUrl = caseStudy.thumbnailUrl,
-                                    useRemoteImages = true,
-                                    accent = pageAccent
-                                )
-                            }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% endif %}
+        {# Case Studies #}
+        {{ caseStudyCollection(content.caseStudies) }}
 
         {% if content.outro %}
             <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
