@@ -27,6 +27,20 @@ const heroImages = {
         default: 'hero/active-plus-communities-medium.jpg',
         caption: 'Active Plus Communities'
     }),
+    arkwrightMeadows: createHeroImage({
+        small: 'hero/arkwright-meadows-small.jpg',
+        medium: 'hero/arkwright-meadows-medium.jpg',
+        large: 'hero/arkwright-meadows-large.jpg',
+        default: 'hero/arkwright-meadows-medium.jpg',
+        caption: 'Arkwright Meadows'
+    }),
+    centreForBetterHealthBakery: createHeroImage({
+        small: 'hero/centre-for-better-health-bakery-small.jpg',
+        medium: 'hero/centre-for-better-health-bakery-medium.jpg',
+        large: 'hero/centre-for-better-health-bakery-large.jpg',
+        default: 'hero/centre-for-better-health-bakery-medium.jpg',
+        caption: 'Centre for Better Health Bakery'
+    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
@@ -48,12 +62,40 @@ const heroImages = {
         default: 'hero/grassroots-medium.jpg',
         caption: 'Grassroots, Grant £455,268'
     }),
+    huntingtonsProject: createHeroImage({
+        small: 'hero/huntingtons-project-small.jpg',
+        medium: 'hero/huntingtons-project-medium.jpg',
+        large: 'hero/huntingtons-project-large.jpg',
+        default: 'hero/huntingtons-project-medium.jpg',
+        caption: 'Huntingtons Project'
+    }),
     larcheBelfast: createHeroImage({
         small: 'hero/larche-belfast-small.jpg',
         medium: 'hero/larche-belfast-medium.jpg',
         large: 'hero/larche-belfast-large.jpg',
         default: 'hero/larche-belfast-medium.jpg',
-        caption: 'L’Arche, Belfast'
+        caption: "L'Arche Belfast, Grant: £573,164"
+    }),
+    larcheBelfast2: createHeroImage({
+        small: 'hero/larche-belfast-2-small.jpg',
+        medium: 'hero/larche-belfast-2-medium.jpg',
+        large: 'hero/larche-belfast-2-large.jpg',
+        default: 'hero/larche-belfast-2-medium.jpg',
+        caption: "L'Arche Belfast, Grant: £573,164"
+    }),
+    larcheBelfast3: createHeroImage({
+        small: 'hero/larche-belfast-3-small.jpg',
+        medium: 'hero/larche-belfast-3-medium.jpg',
+        large: 'hero/larche-belfast-3-large.jpg',
+        default: 'hero/larche-belfast-3-medium.jpg',
+        caption: "L'Arche Belfast, Grant: £573,164"
+    }),
+    larcheBelfast4: createHeroImage({
+        small: 'hero/larche-belfast-4-small.jpg',
+        medium: 'hero/larche-belfast-4-medium.jpg',
+        large: 'hero/larche-belfast-4-large.jpg',
+        default: 'hero/larche-belfast-4-medium.jpg',
+        caption: "L'Arche Belfast, Grant: £573,164"
     }),
     mentalHealthFoundation: createHeroImage({
         small: 'hero/mental-health-foundation-small.jpg',
@@ -62,6 +104,20 @@ const heroImages = {
         default: 'hero/mental-health-foundation-medium.jpg',
         caption: 'Mental Health Foundation'
     }),
+    newRoutesIntoHorseCare: createHeroImage({
+        small: 'hero/new-routes-into-horse-care-small.jpg',
+        medium: 'hero/new-routes-into-horse-care-medium.jpg',
+        large: 'hero/new-routes-into-horse-care-large.jpg',
+        default: 'hero/new-routes-into-horse-care-medium.jpg',
+        caption: 'New Routes into Horse Care'
+    }),
+    oasisCaringInAction: createHeroImage({
+        small: 'hero/oasis-caring-in-action-antrim-youthways-small.jpg',
+        medium: 'hero/oasis-caring-in-action-antrim-youthways-medium.jpg',
+        large: 'hero/oasis-caring-in-action-antrim-youthways-large.jpg',
+        default: 'hero/oasis-caring-in-action-antrim-youthways-medium.jpg',
+        caption: 'Oasis Caring in Action Antrim Youthways'
+    }),
     passion4Fusion: createHeroImage({
         small: 'hero/passion4fusion-small.jpg',
         medium: 'hero/passion4fusion-medium.jpg',
@@ -69,19 +125,26 @@ const heroImages = {
         default: 'hero/passion4fusion-medium.jpg',
         caption: 'Passion4Fusion, Grant £36,700'
     }),
-    streetDreams: createHeroImage({
-        small: 'hero/jobs-small.jpg',
-        medium: 'hero/jobs-medium.jpg',
-        large: 'hero/jobs-large.jpg',
-        default: 'hero/jobs-medium.jpg',
-        caption: 'Street Dreams, Grant £9,000'
-    }),
     rathlinIslandDevelopment: createHeroImage({
         small: 'hero/rathlin-island-development-small.jpg',
         medium: 'hero/rathlin-island-development-medium.jpg',
         large: 'hero/rathlin-island-development-large.jpg',
         default: 'hero/rathlin-island-development-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
+    }),
+    sortedProject: createHeroImage({
+        small: 'hero/sorted-project-small.jpg',
+        medium: 'hero/sorted-project-medium.jpg',
+        large: 'hero/sorted-project-large.jpg',
+        default: 'hero/sorted-project-medium.jpg',
+        caption: 'Sorted Project'
+    }),
+    streetDreams: createHeroImage({
+        small: 'hero/street-dreams-small.jpg',
+        medium: 'hero/street-dreams-medium.jpg',
+        large: 'hero/street-dreams-large.jpg',
+        default: 'hero/street-dreams-medium.jpg',
+        caption: 'Street Dreams, Grant £9,000'
     }),
     youngFoundation: createHeroImage({
         small: 'hero/young-foundation-small.jpg',

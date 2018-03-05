@@ -1,20 +1,28 @@
-{% import "components/hero.njk" as hero %}
+{% from "components/hero.njk" import sectionHero, miniatureHero %}
 {% import "components/headers.njk" as headers %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.sortedProject %}
+{% set socialImage = heroImage %}
+
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', copy.title, 't2') }}
-    {% endset %}
+    {% set pageAccent = 'blue' %}
 
-    {{ hero.header('managing-grants', heroContent, 'blue') }}
+    {{
+        sectionHero(
+            titleText = copy.title,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
 
     <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--blue a--border-top content-box">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box">
             <h3 class="t2">{{ copy.body.header1 }}</h3>
             {{ copy.body.block1 | safe }}
         </div>
@@ -22,7 +30,7 @@
         <div class="inner">
             <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
                 <li class="grid__item">
-                    {{ hero.miniatureHero(
+                    {{ miniatureHero(
                         titleText = copy.body.actions.social,
                         imagePath = 'funding/tell-the-world.jpg',
                         imageCaption = 'Three people working together on laptops',
@@ -31,7 +39,7 @@
                     )}}
                 </li>
                 <li class="grid__item">
-                    {{ hero.miniatureHero(
+                    {{ miniatureHero(
                         titleText = copy.body.actions.press,
                         imagePath = 'funding/local-press.jpg',
                         imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
@@ -40,7 +48,7 @@
                     )}}
                 </li>
                 <li class="grid__item">
-                    {{ hero.miniatureHero(
+                    {{ miniatureHero(
                         titleText = copy.body.actions.logo,
                         imagePath = 'funding/display-the-logo.jpg',
                         imageCaption = 'A man smiling outside the entrance to a bike shop',
@@ -49,7 +57,7 @@
                     )}}
                 </li>
                 <li class="grid__item">
-                    {{ hero.miniatureHero(
+                    {{ miniatureHero(
                         titleText = copy.body.actions.freeMaterial,
                         imagePath = 'funding/free-branded-materials.jpg',
                         imageCaption = 'Two people crouching down outdoors in an allotment surrounded by plants',

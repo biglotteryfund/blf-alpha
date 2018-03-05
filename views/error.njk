@@ -1,20 +1,27 @@
-{% import "./components/hero.njk" as hero %}
-{% import "./components/headers.njk" as headers %}
+{% from "components/hero.njk" import sectionHero %}
 
 {% extends "./layouts/main.njk" %}
 
 {% block title %}{{ errorTitle }} | Error {{ status }} | {% endblock %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.huntingtonsProject %}
+{% set socialImage = heroImage %}
+
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', errorTitle) }}
-    {% endset %}
+    {% set pageAccent = 'pink' %}
 
-    {{ hero.header('reading', heroContent, 'pink') }}
+    {{
+        sectionHero(
+            titleText = errorTitle,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
 
     <main class="nudge-up">
-        <div class="content-box inner--wide-only accent--pink a--border-top">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose s-prose--long">
                 <h3 class="t2">Error {{ status }} &ndash; {{ errorTitle }}</h3>
                 

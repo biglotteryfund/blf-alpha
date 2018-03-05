@@ -21,7 +21,7 @@
     }}
 
     <article role="main" class="nudge-up">
-        <div class="content-box inner--wide-only accent--pink a--border-top">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <p>{{ copy.intro }}</p>
 
             <ul class="list-bullets">
@@ -82,7 +82,7 @@
             </ul>
 
             <div class="central-gap spaced">
-                <a href="{{ buildUrl('funding/search-past-grants') }}" class="btn btn--outline accent--pink btn--block btn--small">{{ copy.browseFundedProjects }}</a>
+                <a href="{{ buildUrl('funding/search-past-grants') }}" class="btn btn--outline accent--{{ pageAccent }} btn--block btn--small">{{ copy.browseFundedProjects }}</a>
             </div>
         </div>
 

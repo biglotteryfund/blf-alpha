@@ -1,11 +1,14 @@
-{% import "components/hero.njk" as hero %}
-{% import "components/headers.njk" as headers %}
+{% from "components/hero.njk" import sectionHero %}
 {% from "components/icons.njk" import iconClose %}
 {% from "components/forms.njk" import textInput, radios with context %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
+
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.oasisCaringInAction %}
+{% set socialImage = heroImage %}
 
 {% macro textField(field) %}
     {{ textInput(
@@ -85,7 +88,7 @@
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded unstyled">
         {% for item in materials %}
             <li class="grid__item">
-                <div class="grid__item__inner accent--blue a--border-top--large material-item card card--padded card--title">
+                <div class="grid__item__inner accent--{{ pageAccent }} a--border-top--large material-item card card--padded card--title">
 
                     <h6 class="t5 card__title">{{ item.name[locale] }}</h6>
 
@@ -111,15 +114,19 @@
 
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', title, 't2') }}
-    {% endset %}
+    {% set pageAccent = 'blue' %}
 
-    {{ hero.header('logo', heroContent, 'blue') }}
+    {{
+        sectionHero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
 
     <article role="main" class="nudge-up" id="js-vue" v-cloak>
 
-        <div class="inner--wide-only accent--blue a--border-top content-box">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box">
             {{ copy.body | safe }}
 
             <p><strong>{{ copy.locationPrompt }}</strong></p>
@@ -127,14 +134,14 @@
                 <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
                     <li class="grid__item">
                         <a href="#monolingual"
-                           class="btn btn--block btn--small accent--blue a--btn"
+                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
                            v-on:click.prevent="toggleItemLanguage('monolingual')">
                             {{ copy.locations.monolingual }}
                         </a>
                     </li>
                     <li class="grid__item">
                         <a href="#bilingual"
-                           class="btn btn--block btn--small accent--blue a--btn"
+                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
                            v-on:click.prevent="toggleItemLanguage('bilingual')">
                             {{ copy.locations.bilingual }}
                         </a>
@@ -161,7 +168,7 @@
 
             </div>
 
-            <div class="inner accent--blue a--border-top p" id="your-details">
+            <div class="inner accent--{{ pageAccent }} a--border-top p" id="your-details">
                 <div class="padded">
                     <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 
@@ -240,11 +247,11 @@
         <div class="overlay__content">
             {% if orderStatus == 'success' %}
                 <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
-                <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
+                <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
                 <p>{{ copy.orderSubmitted.success.body | safe }}</p>
             {% elseif orderStatus == 'fail' %}
                 <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
-                <h3 class="t2 accent--blue a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+                <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
             {% endif %}
         </div>
         <div class="overlay__close" id="js-close-overlay">

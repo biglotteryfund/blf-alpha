@@ -1,22 +1,30 @@
-{% import "components/hero.njk" as hero %}
-{% import "components/headers.njk" as headers %}
+{% from "components/hero.njk" import sectionHero %}
 {% import "components/segment.njk" as segment %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
+{% set bodyClass = "has-full-bleed-header" %}
+{% set heroImage = heroImages.arkwrightMeadows %}
+{% set socialImage = heroImage %}
+
 {% block content %}
 
-    {% set heroContent %}
-        {{ headers.overlayText('h2', title, 't2') }}
-    {% endset %}
+    {% set pageAccent = 'blue' %}
 
-    {{ hero.header('dataProtection', heroContent, 'blue') }}
+    {{
+        sectionHero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
+
 
     <article role="main" class="nudge-up">
 
-        <div class="inner--wide-only accent--blue a--border-top content-box s-prose">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box s-prose">
             {{ copy.body | safe }}
         </div>
 
