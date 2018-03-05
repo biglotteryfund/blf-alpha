@@ -106,12 +106,6 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.benefits',
         aliases: ['/about-big/jobs/benefits']
     }),
-    eyp: staticRoute({
-        path: '/empowering-young-people',
-        template: 'pages/toplevel/eyp',
-        lang: 'toplevel.eyp',
-        aliases: ['/global-content/programmes/northern-ireland/empowering-young-people']
-    }),
     helpingWorkingFamilies: staticRoute({
         path: '/helping-working-families',
         template: 'pages/toplevel/working-families',
