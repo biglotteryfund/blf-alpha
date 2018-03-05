@@ -139,10 +139,10 @@ toplevel:
       organisation: Mudiad
       emailAddress: Cyfeiriad e-bost
     errors:
-      firstName: Please provide your first name
-      lastName: Please provide your last name
-      emailMissing: Please provide your email address
-      emailInvalid: Please provide a valid email address
+      firstName: Darparwch y maes enw cyntaf
+      lastName: Darparwch y maes cyfenw
+      emailMissing: Darparwch y maes cyfeiriad e-bost
+      emailInvalid: Rhowch gyfeiriad e-bost dilys
       location: Please choose a country
     callToAction: Tanysgrifio
     responses:
