@@ -81,3 +81,35 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro caseStudyCollection(caseStudies, customSectionTitle = false) %}
+    {% if caseStudies.length > 0 %}
+    <section id="case-studies" class="inner">
+        <h2 class="t1">
+            {%- if customSectionTitle -%}
+                {{ customSectionTitle }}
+            {%- else -%}
+                {{ __('global.misc.caseStudies') }}
+            {%- endif -%}
+        </h2>
+        <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+            {%- for caseStudy in caseStudies -%}
+                <li class="grid__item">
+                    {{
+                        caseStudyCard(
+                            title = caseStudy.title,
+                            grantAmount = caseStudy.grantAmount,
+                            linkUrl = caseStudy.linkUrl,
+                            trailText = caseStudy.trailText,
+                            trailTextMore = caseStudy.trailTextMore,
+                            imageUrl = caseStudy.thumbnailUrl,
+                            useRemoteImages = true,
+                            accent = pageAccent
+                        )
+                    }}
+                </li>
+            {%- endfor -%}
+        </ul>
+    </section>
+    {% endif %}
+{% endmacro %}
