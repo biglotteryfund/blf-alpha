@@ -1,5 +1,5 @@
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=HTMLPictureElement,Promise"></script>
-<script id="script-head">
+<script id="script-config">
 (function() {
     var AppConfig = {
         environment: '{{ appData.environment }}',
@@ -43,27 +43,8 @@
     };
 
     window.AppConfig = AppConfig;
-
-    /**
-     * Add state classes to document
-     */
-    var docEl = document.documentElement;
-    var docClass = docEl.className;
-    var classes = ['js-on'];
-
-    if (AppConfig.isModernBrowser) {
-        classes.push('is-modern');
-    }
-
-    if (AppConfig.isOldIE) {
-        classes.push('is-ie');
-    }
-
-    if (AppConfig.hasSeenPageBefore) {
-        classes.push('is-repeat-visitor');
-    }
-
-    docEl.className = docClass.replace('no-js', '') + ' ' + classes.join(' ');
 })();
-
+</script>
+<script id="script-head">
+    {% include "includes/head.js" %}
 </script>

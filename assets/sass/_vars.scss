@@ -39,6 +39,18 @@ $accentBorderWidth: 4px;
 // (and also referenced in bordered grid)
 $contentBoxHorizontalPadding: 20px;
 
+/* =========================================================================
+   Global Variables: Font Stacks
+   ========================================================================= */
+
+// If updating font-stacks make sure to update in
+// `assets/js/head.js` and `gulpfile.js`
+$font-stacks: (
+    fallback: 'sans-serif',
+    display: "'Poppins', sans-serif",
+    body: "'Roboto', sans-serif"
+);
+
 // =========================================================================
 // Global Variables: Colour Palette
 // ========================================================================= //
