@@ -13,13 +13,10 @@ const orderService = require('../../services/orders');
 const contentApi = require('../../services/content-api');
 const materials = require('../../config/content/materials.json');
 
-const LAUNCH_DATE = moment();
-
 const router = express.Router();
 
-router.use(cached.noCache, toolsSecurityHeaders());
-
 // status page used by load balancer
+const LAUNCH_DATE = moment();
 router.get('/status', cached.noCache, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -35,7 +32,7 @@ router.get('/status', cached.noCache, (req, res) => {
     });
 });
 
-router.get('/status/pages', (req, res) => {
+router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
     /**
      * Build a flat list of all canonical application routes
      */
@@ -98,22 +95,7 @@ router.get('/status/pages', (req, res) => {
 
 const requiredAuthed = auth.requireAuthedLevel(5);
 
-router.route('/tools').get(requiredAuthed, (req, res) => {
-    res.render('pages/tools/index', {
-        links: [
-            {
-                href: 'tools/survey-results',
-                label: 'Survey results'
-            },
-            {
-                href: 'tools/order-stats',
-                label: 'Materials order form stats'
-            }
-        ]
-    });
-});
-
-router.route('/tools/survey-results').get(requiredAuthed, (req, res) => {
+router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {
@@ -126,7 +108,7 @@ router.route('/tools/survey-results').get(requiredAuthed, (req, res) => {
         });
 });
 
-router.route('/tools/order-stats').get(requiredAuthed, (req, res) => {
+router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
