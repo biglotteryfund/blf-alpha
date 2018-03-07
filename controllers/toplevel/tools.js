@@ -70,14 +70,11 @@ router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
 
     const redirectRoutes = sortedUniqBy(concat(customRedirects, pageRedirects), 'destination');
 
-    contentApi.getRoutes().then(cmsCanonicalUrls => {
-        const allCanonicalRoutes = sortedUniqBy(concat(routerCanonicalUrls, cmsCanonicalUrls), 'path');
-
+    contentApi.getCanonicalUrls().then(allCanonicalRoutes => {
         const vanityRoutes = routes.vanityRedirects;
 
         const totals = {
-            canonicalApp: routerCanonicalUrls.map(_ => _.live).length,
-            canonicalCms: cmsCanonicalUrls.map(_ => _.live).length,
+            canonical: allCanonicalRoutes.map(_ => _.live).length,
             vanity: vanityRoutes.map(_ => _.live).length,
             redirects: redirectRoutes.map(_ => _.live).length
         };

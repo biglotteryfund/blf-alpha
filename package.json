@@ -166,6 +166,7 @@
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
+    "sitemap": "^1.13.0",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9"
   },
