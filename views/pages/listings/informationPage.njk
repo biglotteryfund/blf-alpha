@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
 {% extends "layouts/main.njk" %}
@@ -19,7 +19,7 @@
 
 {% block content %}
     {% set pageAccent = content.themeColour | default('pink') %}
-    {{ sectionHero(
+    {{ hero(
         titleText = title,
         image = heroImage,
         accent = pageAccent

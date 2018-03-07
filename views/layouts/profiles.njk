@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import nestedMenu, quickLinks %}
 {% from "components/profiles.njk" import profileSummary %}
 
@@ -11,7 +11,7 @@
 {% set socialImage = heroImage %}
 
 {% block content %}
-    {{ sectionHero(
+    {{ hero(
         titleText = title,
         image = heroImage,
         accent = pageAccent

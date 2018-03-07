@@ -1,4 +1,33 @@
-{% import "./headers.njk" as headers %}
+{% import "components/headers.njk" as headers %}
+
+{% macro hero(titleText, image, accent = 'blue') %}
+    <div class="hero">
+        <div class="hero__image">
+            <picture>
+                <source srcset="{{ image.large }}" media="(min-width: 980px)">
+                <source srcset="{{ image.medium }}" media="(min-width: 600px)">
+                <source srcset="{{ image.small }}">
+                <img src="{{ image.default }}" alt="{{ image.caption }}" />
+            </picture>
+        </div>
+        <div class="hero__content">
+            <div class="hero__header inner" id="content">
+                <div class="hero__header__inner">
+                    {{ headers.overlayText(
+                        tag = 'h1',
+                        text = titleText,
+                        additionalClasses = 'hero__title overlay-text--deep t4 accent--' + accent)
+                    }}
+                </div>
+            </div>
+            {% if image.caption %}
+                <span class="hero__caption u-desktop-only">
+                    <span class="u-caption">{{ image.caption }}</span>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
 
 {% macro superHero(title, content, imageDefault, imageCandidates) %}
     <div class="super-hero js-random-hero" data-image-candidates='{{ imageCandidates | dump | safe }}'>
@@ -60,52 +89,6 @@
     }}
 {% endmacro %}
 
-
-{% macro sectionHero(titleText, image, accent = 'blue') %}
-    <div class="section-hero">
-        <div class="section-hero__image">
-            <picture>
-                <source srcset="{{ image.large }}" media="(min-width: 980px)">
-                <source srcset="{{ image.medium }}" media="(min-width: 600px)">
-                <source srcset="{{ image.small }}">
-                <img src="{{ image.default }}" alt="{{ image.caption }}" />
-            </picture>
-        </div>
-        <div class="section-hero__content">
-            <div class="section-hero__header inner" id="content">
-                <div class="section-hero__header__inner">
-                    {{ headers.overlayText(
-                        tag = 'h1',
-                        text = titleText,
-                        additionalClasses = 'section-hero__title overlay-text--deep t4 accent--' + accent)
-                    }}
-                </div>
-            </div>
-            {% if image.caption %}
-                <span class="section-hero__caption u-desktop-only">
-                    <span class="u-caption">{{ image.caption }}</span>
-                </span>
-            {% endif %}
-        </div>
-    </div>
-{% endmacro %}
-
-{% macro header(name, content, accent, caption = false, extraClasses = false) %}
-    <div class="hero hero--major {% if name %}hero--{{ name }}{% endif %}{% if extraClasses %} {{ extraClasses }}{% endif %}" role="complementary">
-        <section class="hero__inner">
-            {% if caption %}
-                <div class="inner hero__caption u-desktop-only u-dont-print">
-                    <span class="hero__caption-text">{{ caption }}</span>
-                </div>
-            {% endif %}
-            <div class="inner{% if accent %} accent--{{ accent }}{% endif %}">
-                <div class="hero__header" id="content">
-                    {{ content | safe }}
-                </div>
-            </div>
-        </section>
-    </div>
-{% endmacro %}
 
 {% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent, useRemoteImages = false) %}
     {% if not useRemoteImages %}

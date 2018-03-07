@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% import "components/tabs.njk" as tabs %}
 {% from "components/icons.njk" import iconClose %}
 
@@ -214,7 +214,7 @@
     {% set pageAccent = 'blue' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = copy.heroText,
             image = heroImage,
             accent = pageAccent

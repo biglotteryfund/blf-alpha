@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/media.njk" import mediaAside %}
 
 {% extends "layouts/main.njk" %}
@@ -12,7 +12,7 @@
     {% set pageAccent = 'pink' %}
 
     {{
-        sectionHero(
+        hero(
             accent = pageAccent,
             titleText = title,
             image = heroImage

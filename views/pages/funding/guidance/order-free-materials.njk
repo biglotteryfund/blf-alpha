@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconClose %}
 {% from "components/forms.njk" import textInput, radios with context %}
 
@@ -116,7 +116,7 @@
     {% set pageAccent = 'blue' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = title,
             image = heroImage,
             accent = pageAccent

@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/data.njk" import statsGrid %}
 
 {% extends "../../layouts/main.njk" %}
@@ -13,7 +13,7 @@
     {% set pageAccent = 'blue' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = copy.title,
             image = heroImage,
             accent = pageAccent

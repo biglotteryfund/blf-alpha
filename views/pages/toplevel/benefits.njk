@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 
 {% extends "layouts/main.njk" %}
 
@@ -9,7 +9,7 @@
 
 {% block content %}
     {{
-        sectionHero(
+        hero(
             titleText = title,
             image = heroImage,
             accent = 'blue'
