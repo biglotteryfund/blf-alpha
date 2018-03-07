@@ -1,0 +1,202 @@
+/* =========================================================================
+   Base
+   ========================================================================= */
+/* Global and element level styles */
+
+/* =========================================================================
+   Base: Reset
+   ========================================================================= */
+
+[v-cloak] {
+    display: none;
+}
+
+html {
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: font-stack('fallback');
+}
+
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+p {
+    padding: 0;
+    margin: 0;
+}
+
+/* =========================================================================
+   Base: Embedded content
+   ========================================================================= */
+/* http://developers.whatwg.org/embedded-content-1 */
+
+img,
+picture,
+embed,
+object,
+video {
+    /* Remove border when inside `a` element in IE 8/9 */
+    display: block;
+    border: 0;
+    max-width: 100%;
+}
+
+/* Non-fluid images if you specify `width` attribute. */
+img:not([width]) {
+    width: 100%;
+}
+
+iframe {
+    border: none;
+}
+
+/* =========================================================================
+   Base: Typography
+   ========================================================================= */
+
+body,
+input,
+textarea,
+button,
+blockquote {
+    font-family: font-stack('body');
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+    color: palette('charcoal');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: font-stack('display');
+    margin: 0 0 20px 0;
+}
+
+ol,
+ul,
+li,
+.unstyled,
+.unstyled li {
+    list-style-type: none;
+}
+
+address {
+    font-style: normal;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: palette('blue-text');
+    transition: color 0.1s ease-in-out;
+
+    @include on-interact {
+        text-decoration: underline;
+        color: darken(palette('blue-text'), 20%);
+    }
+}
+
+blockquote {
+    @include font-and-leading(20px, 27px);
+    margin: 0 0 $spacingUnit 0;
+    font-style: italic;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    footer {
+        display: inline-block;
+    }
+
+    cite {
+        font-style: normal;
+    }
+}
+
+h1,
+.t1 {
+    @include poppins();
+    @include font-and-leading(22px, 28px);
+    font-weight: 600;
+}
+
+h2,
+.t2 {
+    @include poppins();
+    font-weight: 600;
+    font-size: 20px;
+}
+
+h3,
+.t3 {
+    @include roboto();
+    @include font-and-leading(20px, 27px);
+    font-weight: 400;
+}
+
+h4,
+.t4 {
+    @include poppins();
+    @include font-and-leading(18px, 27px);
+    font-weight: 600;
+}
+
+h5,
+.t5 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(16px, 22px);
+}
+
+h6,
+.t6 {
+    @include poppins();
+    font-weight: 600;
+    @include font-and-leading(14px, 22px);
+}
+
+.t7 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(14px, 24px);
+}
+
+.t8 {
+    @include roboto();
+    font-weight: 400;
+    @include font-and-leading(13px, 20px);
+}
+
+/**
+ * Modifier class which adds a border below the text
+ */
+.t--underline:after {
+    @include underlined();
+}
+
+/**
+ * Modifier to add extra tracking to .t headings
+ */
+.t--tracking {
+    letter-spacing: 2px;
+}
