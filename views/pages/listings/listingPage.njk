@@ -1,17 +1,16 @@
-{% from "components/hero.njk" import sectionHero, miniatureHero %}
+{% from "components/hero.njk" import hero, miniatureHero %}
 {% from "components/segment.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ content.title }} | {% endblock %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.streetDreams %}
 {% set socialImage = heroImage %}
 
 {% block content %}
     {{
-        sectionHero(
+        hero(
             accent = 'blue',
             titleText = content.title,
             image = heroImage

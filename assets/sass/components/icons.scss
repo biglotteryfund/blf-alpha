@@ -1,0 +1,27 @@
+/* =========================================================================
+   Icons
+   ========================================================================= */
+
+.icon {
+    display: inline-block;
+    vertical-align: baseline;
+    fill: currentColor;
+}
+.icon--small {
+    width: 13px;
+    height: 13px;
+}
+.icon--medium {
+    width: 26px;
+    height: 26px;
+}
+.icon--large {
+    width: 32px;
+    height: 32px;
+}
+.icon--top {
+    vertical-align: top;
+}
+.icon--bottom {
+    vertical-align: bottom;
+}

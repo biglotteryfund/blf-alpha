@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% import "components/tabs.njk" as tabs %}
 {% from "components/icons.njk" import iconClose %}
 
@@ -6,7 +6,6 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.oasisCaringInAction %}
 {% set socialImage = heroImage %}
 
@@ -215,7 +214,7 @@
     {% set pageAccent = 'blue' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = copy.heroText,
             image = heroImage,
             accent = pageAccent

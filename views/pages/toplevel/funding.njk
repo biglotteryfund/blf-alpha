@@ -1,4 +1,4 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/links.njk" import sectionLinks %}
 {% from "components/programmes.njk" import programmeCard with context %}
 
@@ -6,7 +6,6 @@
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.activePlus %}
 {% set socialImage = heroImage %}
 
@@ -14,7 +13,7 @@
     {% set pageAccent = 'pink' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = title,
             image = heroImage,
             accent = pageAccent

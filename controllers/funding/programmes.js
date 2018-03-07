@@ -7,7 +7,7 @@ const Raven = require('raven');
 const { assign, find, findIndex, get, last, uniq } = require('lodash');
 
 const { splitPercentages } = require('../../modules/ab');
-const { createHeroImage } = require('../../modules/images');
+const { heroImages } = require('../../modules/images');
 const { addPreviewStatus } = require('../../modules/preview');
 const contentApi = require('../../services/content-api');
 const cached = require('../../middleware/cached');
@@ -140,21 +140,11 @@ function initProgrammesList(router, options) {
 function renderProgrammeDetail({ res, entry }) {
     addPreviewStatus(res, entry);
 
-    /**
-     * Allow for programmes without heroes
-     */
-    const defaultProgrammeHeroImage = createHeroImage({
-        small: 'hero/working-families-small.jpg',
-        medium: 'hero/working-families-medium.jpg',
-        large: 'hero/working-families-large.jpg',
-        default: 'hero/working-families-medium.jpg'
-    });
-
     res.render('pages/funding/programme-detail', {
         entry: entry,
         title: entry.summary.title,
         isBilingual: entry.availableLanguages.length === 2,
-        heroImage: entry.hero || defaultProgrammeHeroImage
+        heroImage: entry.hero || heroImages.rathlinIslandDevelopment
     });
 }
 

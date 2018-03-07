@@ -113,7 +113,7 @@ $logoOffset: $navLinkPadding - 5px;
     }
 }
 
-html:not(.contrast--high) .has-full-bleed-header .global-header {
+html:not(.contrast--high) .global-header {
     color: white;
     position: absolute;
     z-index: 1;
@@ -201,7 +201,7 @@ html:not(.contrast--high) .has-full-bleed-header .global-header {
     }
 }
 
-html:not(.contrast--high) .has-full-bleed-header .global-nav {
+html:not(.contrast--high) .global-nav {
     .global-nav__link a,
     .global-nav__lang a {
         @include on-interact {

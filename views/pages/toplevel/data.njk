@@ -1,11 +1,10 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/data.njk" import statsGrid %}
 
 {% extends "../../layouts/main.njk" %}
 
 {% block title %}{{ copy.title | striptags(true) }} | {% endblock %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.youngShoulders %}
 {% set socialImage = heroImage %}
 
@@ -14,7 +13,7 @@
     {% set pageAccent = 'blue' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = copy.title,
             image = heroImage,
             accent = pageAccent

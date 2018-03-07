@@ -1,11 +1,10 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/tabs.njk" import tabs %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% if entry.summary.area.value === 'wales' %}
     {% set bodyClass = bodyClass + " has-welsh-logo" %}
 {% endif %}
@@ -15,7 +14,7 @@
 
 {% block content %}
     {% set pageAccent = 'pink' %}
-    {{ sectionHero(
+    {{ hero(
         titleText = title,
         image = heroImage,
         accent = pageAccent

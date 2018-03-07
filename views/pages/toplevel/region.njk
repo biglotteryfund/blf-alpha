@@ -1,10 +1,9 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/tabs.njk" import tabs %}
 {% from "components/data.njk" import factRiver %}
 
 {% extends "layouts/main.njk" %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
@@ -14,7 +13,7 @@
     {% set pageAccent = 'pink' %}
 
     {{
-        sectionHero(
+        hero(
             accent = pageAccent,
             titleText = title,
             image = heroImage

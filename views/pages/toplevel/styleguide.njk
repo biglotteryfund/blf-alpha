@@ -3,7 +3,7 @@
 {% from "components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
 {% from "components/data.njk" import statsGrid %}
-{% from "components/hero.njk" import homepageSuperHero, sectionHero, miniatureHero %}
+{% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/programmes.njk" import programmeCard, selectionTrail with context %}
 {% from "components/segment.njk" import segment %}
@@ -141,7 +141,7 @@
 
 
 {% set sgContent %}
-    {{ sectionHero(
+    {{ hero(
         titleText = 'Funding Programmes',
         image = heroImages.youngFoundation,
         accent = 'green'

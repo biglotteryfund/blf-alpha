@@ -1,11 +1,10 @@
-{% from "components/hero.njk" import sectionHero %}
+{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCard %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set bodyClass = "has-full-bleed-header" %}
 {% set heroImage = heroImages.passion4Fusion %}
 {% set socialImage = heroImage %}
 
@@ -13,7 +12,7 @@
     {% set pageAccent = 'turquoise' %}
 
     {{
-        sectionHero(
+        hero(
             titleText = copy.title,
             image = heroImage,
             accent = pageAccent

@@ -1,93 +1,18 @@
 /* =========================================================================
-   Heroes
+   Hero
    ========================================================================= */
-
-// how much the hero text should appear from the bottom
-$heroSpaceFromBottom: 55px;
-$heroSpaceFromBottomMobile: 20px;
-$heroSpaceFromLeft: 20px;
-
-@mixin makeHeroImage($img) {
-    @include responsive-ratio(map-get($img, 'width'), map-get($img, 'height'));
-    background-image: url(map-get($img, 'filename'));
-}
+/* Full bleed hero image used on most pages */
 
 .hero {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-}
-
-.hero__caption {
-    position: relative;
-    height: 100%;
-}
-.hero__caption-text {
-    $captionHeight: 26px;
-    position: absolute;
-    height: $captionHeight;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 4px;
-    color: #ffffff;
-    width: auto;
-    font-size: 15px;
-    bottom: $heroSpaceFromBottomMobile - $captionHeight;
-    @include mq('tablet') {
-        bottom: $heroSpaceFromBottom - $captionHeight;
-    }
-
-    .contrast--high & {
-        background-color: #000000;
-    }
-}
-
-.hero__header {
-    .hero--major & {
-        @include responsiveGutter(true);
-    }
-
-    position: absolute;
-    bottom: $heroSpaceFromBottomMobile;
-
-    @include mq('tablet') {
-        bottom: $heroSpaceFromBottom;
-        padding-left: $heroSpaceFromLeft; // using left here shifts the whole box
-    }
-}
-
-/* =========================================================================
-   Major Heroes [DEPRECATED: To be replaced by super-hero accross site]
-   ========================================================================= */
-
-.hero.hero--major {
-    height: 0;
-
-    .hero__inner {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-}
-
-/* =========================================================================
-   Section Hero
-   ========================================================================= */
-/* New full-bleed section hero (see: Over10k and Under10k) */
-
-.section-hero {
     color: white;
     position: relative;
 }
-.section-hero__content {
+.hero__content {
     position: absolute;
     bottom: 0;
     width: 100%;
 }
-.section-hero__image {
+.hero__image {
     height: 0;
     position: relative;
 
@@ -105,7 +30,7 @@ $heroSpaceFromLeft: 20px;
         display: block;
     }
 }
-.section-hero__header {
+.hero__header {
     margin-bottom: $spacingUnit / 1.5;
 
     @media screen and (min-width: 380px) {
@@ -116,20 +41,20 @@ $heroSpaceFromLeft: 20px;
         margin-bottom: $spacingUnit * 2.5;
     }
 }
-.section-hero__header__inner {
+.hero__header__inner {
     @include mq('tablet') {
         padding-left: $spacingUnit;
         padding-right: $spacingUnit;
     }
 }
-.section-hero__title {
+.hero__title {
     width: 100%;
 
     @include mq('tablet') {
         max-width: 20em;
     }
 }
-.section-hero__caption {
+.hero__caption {
     position: absolute;
     height: auto;
     right: $spacingUnit / 2;
@@ -151,7 +76,7 @@ $heroSpaceFromLeft: 20px;
 /* =========================================================================
    Super Hero
    ========================================================================= */
-/* New full-bleed hero template (see: Homepage) */
+/* Larger hero image (see: Homepage) */
 
 .super-hero {
     color: white;
@@ -262,22 +187,19 @@ $heroSpaceFromLeft: 20px;
 /* =========================================================================
    Minature Heroes
    ========================================================================= */
-/* Small feature panels (see /funding/funding-guidance/managing-your-funding or /about-big) */
+/* e.g /funding/funding-guidance/managing-your-funding */
 
 .miniature-hero {
     position: relative;
 
     .minature-hero__content {
         position: absolute;
-        bottom: $heroSpaceFromBottomMobile;
-        padding-left: $heroSpaceFromLeft;
+        bottom: $spacingUnit / 2;
+        left: $spacingUnit / 2;
 
-        svg {
-            fill: white;
-        }
-
-        @include mq('tablet') {
-            bottom: $heroSpaceFromBottom;
+        @include mq('medium') {
+            bottom: $spacingUnit;
+            left: $spacingUnit;
         }
 
         @media print {
