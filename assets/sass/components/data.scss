@@ -251,17 +251,13 @@
     }
 
     .js-on & {
+        display: none;
         @include mq('tablet') {
             width: 160px;
             position: absolute;
             z-index: 10;
             right: 0;
             top: 20px;
-            display: none;
-
-            &.pane--active {
-                display: block;
-            }
         }
 
         @include mq('desktop') {
@@ -277,6 +273,10 @@
     .map-info__stat {
         margin-bottom: 0;
     }
+}
+
+.js-on .pane--active .map-info {
+    display: block;
 }
 
 .map-holder__inner {
