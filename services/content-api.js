@@ -1,4 +1,4 @@
-const { find, flow, get, getOr, map, take } = require('lodash/fp');
+const { find, get, getOr, map, take } = require('lodash/fp');
 const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);

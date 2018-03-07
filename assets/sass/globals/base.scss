@@ -20,23 +20,7 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-}
-
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-dl,
-dt,
-dd,
-p {
-    padding: 0;
-    margin: 0;
+    font-family: font-stack('fallback');
 }
 
 body,
@@ -44,7 +28,7 @@ input,
 textarea,
 button,
 blockquote {
-    @include roboto();
+    font-family: font-stack('body');
     @include font-and-leading(20px, 27px);
     font-weight: 400;
     color: palette('charcoal');
@@ -56,8 +40,19 @@ h3,
 h4,
 h5,
 h6 {
-    @include poppins();
+    font-family: font-stack('display');
     margin: 0 0 20px 0;
+}
+
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+p {
+    padding: 0;
+    margin: 0;
 }
 
 ol,

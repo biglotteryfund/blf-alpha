@@ -6,8 +6,8 @@
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
 
         {% include "includes/metadata.njk" %}
-        {% include "includes/metaHeadJS.njk" %}
         {% include "includes/metaHeadCSS.njk" %}
+        {% include "includes/metaHeadJS.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {{ accessibilityNav() }}

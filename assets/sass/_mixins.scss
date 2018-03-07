@@ -112,12 +112,14 @@
     }
 }
 
+// @TODO: Replace with function
 @mixin poppins() {
-    font-family: 'Poppins', arial, sans-serif;
+    font-family: font-stack('display');
 }
 
+// @TODO: Replace with function
 @mixin roboto() {
-    font-family: 'Roboto', arial, sans-serif;
+    font-family: font-stack('body');
 }
 
 @mixin disabledBtn() {

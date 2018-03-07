@@ -5,6 +5,7 @@ const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
+const foutWithAClass = require('postcss-fout-with-a-class').default;
 const cssnano = require('cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const livereload = require('livereload');
@@ -27,7 +28,13 @@ gulp.task('styles', function() {
         .src(buildSummary.cssInDir + '/*.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
-        .pipe(postcss([autoprefixer(), cssnano()]))
+        .pipe(
+            postcss([
+                autoprefixer(),
+                foutWithAClass({ families: ['Poppins', 'Roboto'], className: 'fonts-loaded' }),
+                cssnano()
+            ])
+        )
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(buildSummary.buildDir + '/stylesheets'));
 });

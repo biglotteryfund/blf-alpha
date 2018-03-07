@@ -2,6 +2,10 @@
 // Functions
 // ========================================================================= //
 
+// =========================================================================
+// Functions: Colour
+// ========================================================================= //
+
 @function palette($color) {
     @if map-has-key($palette, $color) {
         @return map-get($palette, $color);
@@ -10,13 +14,36 @@
     }
 }
 
+// =========================================================================
+// Functions: Typography
+// ========================================================================= //
+
+@function font-stack($key) {
+    @if type-of(map-get($font-stacks, $key)) == string {
+        @return unquote(map-get($font-stacks, $key));
+    } @else {
+        @error "font-stack #{$key} is not defined";
+    }
+}
+
 @function relative-line-height($fontSize, $leading) {
     @return $leading / $fontSize;
 }
 
+// =========================================================================
+// Functions: Utilities
+// ========================================================================= //
+
+@function palette($color) {
+    @if map-has-key($palette, $color) {
+        @return map-get($palette, $color);
+    } @else {
+        @error "palette requires a color";
+    }
+}
+
 // https://www.sitepoint.com/building-linear-gradient-mixin-sass/
 // @author Chris Eppstein
-
 // Convert angle
 // @param {Number} $value - Value to convert
 // @param {String} $unit - Unit to convert to
