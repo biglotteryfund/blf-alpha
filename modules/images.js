@@ -90,13 +90,6 @@ const heroImages = {
         default: 'hero/larche-belfast-3-medium.jpg',
         caption: "L'Arche Belfast, Grant: £573,164"
     }),
-    larcheBelfast4: createHeroImage({
-        small: 'hero/larche-belfast-4-small.jpg',
-        medium: 'hero/larche-belfast-4-medium.jpg',
-        large: 'hero/larche-belfast-4-large.jpg',
-        default: 'hero/larche-belfast-4-medium.jpg',
-        caption: "L'Arche Belfast, Grant: £573,164"
-    }),
     mentalHealthFoundation: createHeroImage({
         small: 'hero/mental-health-foundation-small.jpg',
         medium: 'hero/mental-health-foundation-medium.jpg',
@@ -152,6 +145,13 @@ const heroImages = {
         large: 'hero/young-foundation-large.jpg',
         default: 'hero/young-foundation-medium.jpg',
         caption: 'The Young Foundation - Amplify, Grant £1.06M'
+    }),
+    youngShoulders: createHeroImage({
+        small: 'hero/cancer-fund-for-children-small.jpg',
+        medium: 'hero/cancer-fund-for-children-medium.jpg',
+        large: 'hero/cancer-fund-for-children-large.jpg',
+        default: 'hero/cancer-fund-for-children-medium.jpg',
+        caption: 'Young Shoulders Programme'
     })
 };
 
