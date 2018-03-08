@@ -29,7 +29,6 @@
             },
             "description": "310mm x 260mm",
             "image": "plaque-perspex.jpg",
-            "outOfStock": false,
             "maximum": 1,
             "notAllowedWithItem": 3,
             "products": [
@@ -174,6 +173,7 @@
         },
         {
             "id": 11,
+            "disabled": true,
             "name": {
                 "en": "Medium sticker",
                 "cy": "Sticer canolig"
