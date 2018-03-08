@@ -13,6 +13,7 @@ const router = express.Router();
 
 const routerSetup = require('../setup');
 const routeCommon = require('../common');
+const { getCanonicalRoutes } = require('../route-helpers');
 const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
@@ -211,10 +212,10 @@ module.exports = (pages, sectionPath, sectionId) => {
     });
 
     router.get('/sitemap.xml', sMaxAge('30m'), (req, res) => {
-        contentApi.getCanonicalUrls().then(canonicalUrls => {
+        getCanonicalRoutes().then(canonicalRoutes => {
             const sitemapInstance = sitemap.createSitemap({
                 hostname: getBaseUrl(req),
-                urls: canonicalUrls.map(route => ({
+                urls: canonicalRoutes.map(route => ({
                     url: route.path
                 }))
             });

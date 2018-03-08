@@ -1,6 +1,5 @@
-const { compose, concat, find, filter, flatMap, get, getOr, map, sortedUniqBy, take } = require('lodash/fp');
+const { find, get, getOr, map, take } = require('lodash/fp');
 const request = require('request-promise-native');
-const routes = require('../controllers/routes');
 
 const mapAttrs = response => map('attributes')(response.data);
 
@@ -136,30 +135,6 @@ function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
 
-function getCanonicalUrls() {
-    /**
-     * Build a flat list of all canonical application routes
-     */
-    const routerCanonicalUrls = flatMap(section => {
-        const withoutWildcards = filter(_ => _.path.indexOf('*') === -1);
-        const mapSummary = map((page, key) => {
-            return {
-                title: key,
-                path: section.path + page.path,
-                live: page.live
-            };
-        });
-
-        return compose(mapSummary, withoutWildcards)(section.pages);
-    })(routes.sections);
-
-    return getRoutes().then(cmsCanonicalUrls => {
-        const sortedUniqByPath = sortedUniqBy('path');
-        const combined = concat(routerCanonicalUrls, cmsCanonicalUrls);
-        return sortedUniqByPath(combined);
-    });
-}
-
 module.exports = {
     setApiUrl,
     getApiUrl,
@@ -170,6 +145,5 @@ module.exports = {
     getListingPage,
     getProfiles,
     getSurveys,
-    getRoutes,
-    getCanonicalUrls
+    getRoutes
 };

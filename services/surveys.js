@@ -24,7 +24,6 @@ function findAll() {
         let mergedSurveys = surveys.map(survey => {
             // append responses to the relevant choice
             survey.choices = survey.choices.map(choice => {
-
                 let surveyVotes = votes.filter(v => v.survey_id === survey.id);
 
                 // retrieve the votes for this survey's choices

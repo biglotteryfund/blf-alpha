@@ -1,17 +1,16 @@
 'use strict';
 const express = require('express');
 const moment = require('moment');
-const { concat, compact, filter, flatMap, map, pick, sortedUniqBy } = require('lodash');
 
-const routes = require('../routes');
+const routeHelpers = require('../route-helpers');
 const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const surveysService = require('../../services/surveys');
 const orderService = require('../../services/orders');
-const contentApi = require('../../services/content-api');
 const materials = require('../../config/content/materials.json');
+const { renderError } = require('../http-errors');
 
 const router = express.Router();
 
@@ -33,61 +32,36 @@ router.get('/status', cached.noCache, (req, res) => {
 });
 
 router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
-    /**
-     * Build a flat list of all canonical application routes
-     */
-    const routerCanonicalUrls = flatMap(routes.sections, section => {
-        const withoutWildcards = filter(section.pages, _ => _.path.indexOf('*') === -1);
-        return map(withoutWildcards, (page, key) => {
-            return {
-                title: key,
-                path: section.path + page.path,
-                live: page.live
+    Promise.all([
+        routeHelpers.getCanonicalRoutes({
+            includeDraft: true
+        }),
+        routeHelpers.getCombinedRedirects({
+            includeDraft: true
+        }),
+        routeHelpers.getVanityRedirects()
+    ]).then(
+        results => {
+            const [canonicalRoutes, redirectRoutes, vanityRoutes] = results;
+            const countRoutes = routeList => routeList.filter(route => route.live === true).length;
+
+            const totals = {
+                canonical: countRoutes(canonicalRoutes),
+                vanity: countRoutes(vanityRoutes),
+                redirects: countRoutes(redirectRoutes)
             };
-        });
-    });
 
-    /**
-     * Build a flat list of all all canonical redirects
-     * Concatenate all legacy redirects + any page aliases
-     */
-    const customRedirects = routes.legacyRedirects.map(route => pick(route, ['path', 'destination', 'live']));
-    const pageRedirects = compact(
-        flatMap(routes.sections, section => {
-            return flatMap(section.pages, page => {
-                if (page.aliases && page.aliases.length > 0) {
-                    return page.aliases.map(urlPath => {
-                        return {
-                            path: urlPath,
-                            destination: section.path + page.path,
-                            live: true
-                        };
-                    });
-                }
+            res.render('pages/tools/pagelist', {
+                totals,
+                canonicalRoutes,
+                vanityRoutes,
+                redirectRoutes
             });
-        })
+        },
+        err => {
+            renderError(err);
+        }
     );
-
-    const redirectRoutes = sortedUniqBy(concat(customRedirects, pageRedirects), 'destination');
-
-    contentApi.getCanonicalUrls().then(allCanonicalRoutes => {
-        const vanityRoutes = routes.vanityRedirects;
-
-        const totals = {
-            canonical: allCanonicalRoutes.map(_ => _.live).length,
-            vanity: vanityRoutes.map(_ => _.live).length,
-            redirects: redirectRoutes.map(_ => _.live).length
-        };
-
-        const viewData = {
-            totals,
-            allCanonicalRoutes,
-            vanityRoutes,
-            redirectRoutes
-        };
-
-        res.render('pages/tools/pagelist', viewData);
-    });
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);
@@ -101,7 +75,7 @@ router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsS
             });
         })
         .catch(err => {
-            res.send(err);
+            renderError(err);
         });
 });
 
