@@ -13,6 +13,7 @@ const { errorTranslator } = require('../../modules/validators');
 const ordersService = require('../../services/orders');
 
 const materials = require('../../config/content/materials.json');
+let availableItems = materials.items.filter(i => !i.disabled);
 
 const materialsOrderKey = 'orderedMaterials';
 const translateError = errorTranslator('global.forms');
@@ -196,7 +197,7 @@ function modifyItems(req, orderKey, code) {
     const id = parseInt(req.params.id);
     const action = req.body.action;
 
-    const itemToBeAdded = materials.items.find(i => i.id === id);
+    const itemToBeAdded = availableItems.find(i => i.id === id);
     const isValidAction = itemToBeAdded && validActions.indexOf(action) !== -1;
 
     if (isValidAction) {
@@ -346,7 +347,7 @@ function init({ router, routeConfig }) {
                 title: lang.title,
                 copy: lang,
                 description: 'Order items free of charge to acknowledge your grant',
-                materials: materials.items,
+                materials: availableItems,
                 formFields: materialFields,
                 orders: orders,
                 numOrders: numOrders,
