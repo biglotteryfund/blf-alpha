@@ -64,6 +64,11 @@ function getFullUrl(req) {
     return `${baseUrl}${req.originalUrl}`;
 }
 
+function getAbsoluteUrl(req, urlPath) {
+    const baseUrl = getBaseUrl(req);
+    return `${baseUrl}${urlPath}`;
+}
+
 /**
  * hasTrailingSlash
  * Does a given URL end with a trailing slash
@@ -113,6 +118,7 @@ module.exports = {
     cymreigio,
     getBaseUrl,
     getFullUrl,
+    getAbsoluteUrl,
     hasTrailingSlash,
     stripTrailingSlashes,
     normaliseQuery
