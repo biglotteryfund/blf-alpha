@@ -75,7 +75,7 @@ router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsS
             });
         })
         .catch(err => {
-            renderError(err);
+            res.send(err);
         });
 });
 
