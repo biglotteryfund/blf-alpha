@@ -44,6 +44,7 @@ global:
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:
+    seeProgramme: Gweld y rhaglen
     caseStudies: Astudiaethau achos
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
@@ -123,6 +124,96 @@ toplevel:
       instagram: Instagram
       facebook: Facebook
       twitter: Twitter
+  wales:
+    title: Cymru
+    introduction: Y Gronfa Loteri Fawr yw ariannwr cymunedol mwyaf y Deyrnas Unedig.
+      Bob blwyddyn rydym yn dosbarthu miliynau o bunnoedd o arian achosion da'r Loteri
+      Genedlaethol i grwpiau cymunedol a phrosiectau elusennol ledled y wlad.
+    sections:
+      availableFunding:
+        title: Pa grantiau sydd ar gael?
+        introduction: Pan fydd gennych syniad prosiectau rydych eisiau ei gyflwyno i ni,
+          rhowch ganiad i ni i siarad amdano. Byddwn yn gallu dweud wrthych p'un a yw'n
+          rhywbeth y byddem yn ei ariannu ai beidio.
+        fundingProgrammes:
+        - title: Arian i Bawb y Loteri Genedlaethol
+          subTitle: £300–£10,000
+          summaryItems:
+          - Ar gyfer gweithgareddau llawr gwlad a chymunedol sydd â'r nod o wella bywydau
+            pobl a chymdogaethau lleol.
+          - Nid oes unrhyw derfyn amser, felly gallwch ymgeisio unrhyw bryd.
+          - Dyma'n rhaglen grantiau fwyaf poblogaidd felly byddwn yn blaenoriaethu grwpiau sydd ag incwm llai.
+          - Mae ymgeisio am y grant hwn yn gyflym ac yn syml.
+          linkUrl: /welsh/funding/programmes/national-lottery-awards-for-all-wales
+        - title: "Pawb a’i Le: Grantiau maint canolig"
+          subTitle: £10,001–£100,000
+          summaryItems:
+            - Grantiau ar gyfer grwpiau gwirfoddol neu gymunedol.
+            - Byddwn yn ariannu gwariant refeniw neu gyfalaf sy'n para hyd at bum mlynedd.
+            - Y peth pwysicaf yw i chi ddweud wrthym am eich cymuned a sut fydd y prosiect
+              yn gwneud newidiadau cadarnhaol i fywydau'r bobl sy'n byw ynddi.
+            - Proses ymgeisio un cam yw hon.
+          linkUrl: /welsh/funding/programmes/people-and-places-medium-grants
+        - title: "Pawb a’i Le: Grantiau mawr"
+          subTitle: £100,001–£500,000
+          summaryItems:
+            - Grantiau ar gyfer grwpiau gwirfoddol neu gymunedol.
+            - Byddwn yn ariannu gwariant refeniw neu gyfalaf sy'n para hyd at bum mlynedd.
+            - Y peth pwysicaf yw i chi ddweud wrthym am eich cymuned a sut fydd y prosiect
+              yn gwneud newidiadau cadarnhaol i fywydau'r bobl sy'n byw ynddi.
+            - Dyma broses ymgeisio dau gam.
+          linkUrl: /welsh/funding/programmes/people-and-places-large-grants
+        - title: Helpu Teuluoedd sy'n Gweithio
+          subTitle: Hyd at £500,000
+          summaryItems:
+          - Grantiau ar gyfer mudiadau gwirfoddol a chymunedol.
+          - Y terfyn amser ar gyfer derbyn ceisiadau yw hanner dydd ar ddydd Iau, 15 Mawrth 2018.
+          - Yn ariannu prosiectau sy'n gwella bywydau teuluoedd sy'n gweithio tra mewn tlodi.
+          - Mae'r grantiau am bedair blynedd, yn y flwyddyn gyntaf mae'r syniad prosiect yn cael
+            ei gyd-ddylunio gyda phobl a phartneriaid.
+          - Yn y lle cyntaf bydd ceisiadau'n cael eu barnu ar sail y cynigion cyd-gynhyrchu.
+          linkUrl: /welsh/funding/programmes/helping-working-families
+        - title: Cronfa Cymunedau'r Arfordir
+          subTitle: £50,000–£300,000
+          summaryItems:
+          - Grantiau ar gyfer mudiadau trydydd sector, sector cyhoeddus neu breifat.
+          - Y terfyn amser ar gyfer derbyn ceisiadau yw hanner dydd ar ddydd Mawrth, 12 Mawrth 2018.
+          - Yn ariannu prosiectau sy'n cefnogi datblygiad economaidd cymunedau'r arfordir trwy
+            hyrwyddo twf economaidd a swyddi cynaliadwy
+          - Mae'n rhaid cwblhau'r prosiect erbyn mis Mawrth 2021.
+          linkUrl: /welsh/funding/programmes/coastal-communities-fund
+      fundingInRegion:
+        title: Ariannu yng Nghymru
+        groups:
+        - facts:
+          - text: Ariannwyd <strong>1,200</strong> o fudiadau cymunedol a gwirfoddol yng Nghymru
+            image: "community.png"
+          - text: Ariannwyd o leiaf <strong>50</strong> o brosiectau ym mhob awdurdod lleol
+            image: "country-wide.png"
+          - text: Dyfarnwyd <strong>£7.5m</strong> i brosiectau sy'n cefnogi plant a phobl ifainc
+            image: "young-people.png"
+          - text: Dyfarnwyd <strong>£8.6m</strong> i brosiectau sy'n cefnogi pobl hŷn
+            image: "older-people.png"
+          - text: Dyfarnwyd <strong>£4.6m</strong> i brosiectau i gefnogi pobl sydd ag anableddau
+            image: "disability.png"
+      aboutIdeas:
+        title: Ynghylch y syniadau a gefnogwn
+        introduction: Rydym yn credu y dylai pobl arwain ar wella'u bywydau a'u cymunedau.
+          Mae ein hymagwedd yn canolbwyntio ar y sgiliau ac egni y gall pobl alw arnynt
+          a'r potensial yn eu syniadau. Rydym yn gofyn beth sy'n bwysig i gymunedau,
+          nid beth sy'n bod gyda nhw.
+        contentParts:
+        - title: "Mae gennym ddiddordeb mewn syniadau sy'n cefnogi:"
+          summaryPoints:
+          - "Cysylltiadau cryfion - gan gefnogi syniadau sy'n dod â phobl ynghyd,
+            gan gryfhau cysylltiadau o fewn ac ar draws cymunedau."
+          - "Mannau a lleoedd cynaliadwy a rennir - gan gefnogi pobl i benderfynu ffurf y
+            lleoedd sy'n bwysig iddynt, fel parc, canolfan gymunedol neu rwydwaith ar-lein."
+          - "Gweithredu Cynnar - gan gefnogi gweithgareddau sy'n grymuso pobl i gyflawni eu potensial,
+            gan weithio i daclo problemau mor gynnar â phosib. Rydym yn gwneud hyn trwy:"
+          - "Ariannu gweithredu cymunedol llawr gwlad ar draws Cymru."
+          - "Cynnig grantiau a chefnogaeth hir dymor a hyblyg i elusennau a grwpiau cymunedol"
+          - "Helpu mudiadau i gydweithio ag eraill i wella cymunedau a datrys problemau"
   ebulletin:
     title: Mwy o wybodaeth am ein grantiau
     shortTitle: e-fwletin

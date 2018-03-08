@@ -60,6 +60,7 @@ const legacyRedirects = [
  */
 const vanityRedirects = sections => {
     return [
+        vanity('/cymru', '/welsh/wales'),
         vanity('/over10k', sections.funding.find('over10k')),
         vanity('/under10k', sections.funding.find('under10k')),
         vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
