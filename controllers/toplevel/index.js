@@ -6,18 +6,21 @@ const { sortBy } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
 const xss = require('xss');
 const moment = require('moment');
+const sitemap = require('sitemap');
 const Raven = require('raven');
 
 const router = express.Router();
 
 const routerSetup = require('../setup');
 const routeCommon = require('../common');
+const { getCanonicalRoutes } = require('../route-helpers');
 const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
+const { getBaseUrl } = require('../../modules/urls');
 const { homepageHero } = require('../../modules/images');
 const regions = require('../../config/content/regions.json');
-const { noCache } = require('../../middleware/cached');
+const { noCache, sMaxAge } = require('../../middleware/cached');
 
 const homepageRoute = require('./homepage');
 const searchRoute = require('./search');
@@ -206,6 +209,25 @@ module.exports = (pages, sectionPath, sectionId) => {
 
         let text = pathsToBlock.reduce((acc, path) => acc + buildBlocklist(path), 'User-agent: *\n');
         res.send(text);
+    });
+
+    router.get('/sitemap.xml', sMaxAge('30m'), (req, res) => {
+        getCanonicalRoutes().then(canonicalRoutes => {
+            const sitemapInstance = sitemap.createSitemap({
+                hostname: getBaseUrl(req),
+                urls: canonicalRoutes.map(route => ({
+                    url: route.path
+                }))
+            });
+
+            sitemapInstance.toXML(function(err, xml) {
+                if (err) {
+                    return res.status(500).end();
+                }
+                res.header('Content-Type', 'application/xml');
+                res.send(xml);
+            });
+        });
     });
 
     routeCommon.init({
