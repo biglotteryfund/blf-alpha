@@ -54,7 +54,7 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.northernIreland',
         isBilingual: false,
         aliases: ['/northernireland'],
-        heroImage: heroImages.larcheBelfast
+        heroImage: heroImages.downRightBrilliant
     }),
     wales: staticRoute({
         live: false,
