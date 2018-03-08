@@ -74,7 +74,7 @@ const heroImages = {
         medium: 'hero/larche-belfast-medium.jpg',
         large: 'hero/larche-belfast-large.jpg',
         default: 'hero/larche-belfast-medium.jpg',
-        caption: "L'Arche Belfast, Grant: £573,164"
+        caption: "Down Right Brilliant"
     }),
     larcheBelfast2: createHeroImage({
         small: 'hero/larche-belfast-2-small.jpg',
