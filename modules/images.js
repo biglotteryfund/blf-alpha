@@ -41,6 +41,13 @@ const heroImages = {
         default: 'hero/centre-for-better-health-bakery-medium.jpg',
         caption: 'Centre for Better Health Bakery'
     }),
+    downRightBrilliant: createHeroImage({
+        small: 'hero/larche-belfast-small.jpg',
+        medium: 'hero/larche-belfast-medium.jpg',
+        large: 'hero/larche-belfast-large.jpg',
+        default: 'hero/larche-belfast-medium.jpg',
+        caption: "Down Right Brilliant"
+    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
@@ -68,13 +75,6 @@ const heroImages = {
         large: 'hero/huntingtons-project-large.jpg',
         default: 'hero/huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
-    }),
-    larcheBelfast: createHeroImage({
-        small: 'hero/larche-belfast-small.jpg',
-        medium: 'hero/larche-belfast-medium.jpg',
-        large: 'hero/larche-belfast-large.jpg',
-        default: 'hero/larche-belfast-medium.jpg',
-        caption: "Down Right Brilliant"
     }),
     larcheBelfast2: createHeroImage({
         small: 'hero/larche-belfast-2-small.jpg',
