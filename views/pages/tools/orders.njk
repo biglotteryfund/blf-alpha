@@ -101,9 +101,9 @@
 
 
     <script>
-        let ctx = document.getElementById(`js-chart`);
+        var ctx = document.getElementById('js-chart');
 
-        let config = {
+        var config = {
             type: 'line',
             data: {
                 datasets: [
@@ -157,6 +157,6 @@
             }
         };
 
-        let myChart = new Chart(ctx, config);
+        var myChart = new Chart(ctx, config);
     </script>
 {% endblock %}
