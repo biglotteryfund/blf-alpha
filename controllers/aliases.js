@@ -31,28 +31,26 @@ const legacyRedirects = [
 
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
+    programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
+    programmeRedirect('england/place-based-social-action', 'place-based-social-action'),
     programmeRedirect('england/reaching-communities-england', 'reaching-communities-england'),
     programmeRedirect('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland'),
     programmeRedirect('northern-ireland/empowering-young-people', 'empowering-young-people'),
+    programmeRedirect('northern-ireland/people-and-communities', 'people-and-communities'),
     programmeRedirect('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland'),
+    programmeRedirect('scotland/community-assets', 'community-assets'),
     programmeRedirect('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity'),
     programmeRedirect('scotland/grants-for-improving-lives', 'grants-for-improving-lives'),
-    programmeRedirect('wales/people-and-places-medium-grants', 'people-and-places-medium-grants'),
-    programmeRedirect('wales/helping-working-families', 'helping-working-families'),
-    programmeRedirect('wales/people-and-places-large-grants', 'people-and-places-large-grants'),
-    programmeRedirect('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio'),
+    programmeRedirect('scotland/scottish-land-fund', 'scottish-land-fund'),
     programmeRedirect('uk-wide/coastal-communities', 'coastal-communities-fund'),
     programmeRedirect('uk-wide/lottery-funding', 'other-lottery-funders'),
-    programmeRedirect('northern-ireland/people-and-communities', 'people-and-communities'),
+    programmeRedirect('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio'),
     programmeRedirect('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales'),
-    programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
-    programmeRedirect('scotland/scottish-land-fund', 'scottish-land-fund'),
-    programmeRedirect('england/place-based-social-action', 'place-based-social-action'),
+    programmeRedirect('wales/helping-working-families', 'helping-working-families'),
+    programmeRedirect('wales/people-and-places-large-grants', 'people-and-places-large-grants'),
+    programmeRedirect('wales/people-and-places-medium-grants', 'people-and-places-medium-grants'),
 
     // Migrated Programme Pages [DRAFT]
-    programmeRedirect('england/parks-for-people', 'parks-for-people', false),
-    programmeRedirect('scotland/community-assets', 'community-assets', false),
-    programmeRedirect('uk-wide/east-africa-disability-fund', 'east-africa-disability-fund', false),
     programmeRedirect('scotland/our-place', 'our-place', false),
     programmeRedirect('uk-wide/forces-in-mind', 'forces-in-mind', false)
 ];
