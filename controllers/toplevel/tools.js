@@ -31,37 +31,29 @@ router.get('/status', cached.noCache, (req, res) => {
     });
 });
 
-router.get('/status/pages', toolsSecurityHeaders(), (req, res) => {
-    Promise.all([
-        routeHelpers.getCanonicalRoutes({
-            includeDraft: true
-        }),
-        routeHelpers.getCombinedRedirects({
-            includeDraft: true
-        }),
-        routeHelpers.getVanityRedirects()
-    ]).then(
-        results => {
-            const [canonicalRoutes, redirectRoutes, vanityRoutes] = results;
-            const countRoutes = routeList => routeList.filter(route => route.live === true).length;
+router.get('/status/pages', toolsSecurityHeaders(), async (req, res) => {
+    try {
+        const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: true });
+        const redirectRoutes = await routeHelpers.getCombinedRedirects({ includeDraft: true });
+        const vanityRoutes = await routeHelpers.getVanityRedirects();
 
-            const totals = {
-                canonical: countRoutes(canonicalRoutes),
-                vanity: countRoutes(vanityRoutes),
-                redirects: countRoutes(redirectRoutes)
-            };
+        const countRoutes = routeList => routeList.filter(route => route.live === true).length;
 
-            res.render('pages/tools/pagelist', {
-                totals,
-                canonicalRoutes,
-                vanityRoutes,
-                redirectRoutes
-            });
-        },
-        err => {
-            renderError(err);
-        }
-    );
+        const totals = {
+            canonical: countRoutes(canonicalRoutes),
+            redirects: countRoutes(redirectRoutes),
+            vanity: countRoutes(vanityRoutes)
+        };
+
+        res.render('pages/tools/pagelist', {
+            totals,
+            canonicalRoutes,
+            redirectRoutes,
+            vanityRoutes
+        });
+    } catch (err) {
+        renderError(err);
+    }
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);
