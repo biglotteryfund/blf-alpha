@@ -10,8 +10,8 @@ export const init = elems => {
 
         const carouselSwiper = new Swiper(carouselElem, {
             navigation: {
-                next: nextEl,
-                prev: prevEl
+                nextEl: nextEl,
+                prevEl: prevEl
             },
             speed: 300,
             autoHeight: true,
