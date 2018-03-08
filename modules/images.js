@@ -157,11 +157,11 @@ const heroImages = {
 
 function buildHomepageHero() {
     const heroImageDefault = createHeroImage({
-        small: 'home/home-hero-4-small.jpg',
-        medium: 'home/home-hero-4-medium.jpg',
-        large: 'home/home-hero-4-large.jpg',
-        default: 'home/home-hero-4-medium.jpg',
-        caption: 'Somewhereto, Grant £7m'
+        small: 'home/home-hero-2-small.jpg',
+        medium: 'home/home-hero-2-medium.jpg',
+        large: 'home/home-hero-2-large.jpg',
+        default: 'home/home-hero-2-medium.jpg',
+        caption: 'Stepping Stones Programme, Grant £405,270'
     });
 
     const heroImageCandidates = [
@@ -171,13 +171,6 @@ function buildHomepageHero() {
             large: 'home/home-hero-1-large.jpg',
             default: 'home/home-hero-1-medium.jpg',
             caption: 'Cycling for All in Bolsover, Grant £9,358 *'
-        }),
-        createHeroImage({
-            small: 'home/home-hero-2-small.jpg',
-            medium: 'home/home-hero-2-medium.jpg',
-            large: 'home/home-hero-2-large.jpg',
-            default: 'home/home-hero-2-medium.jpg',
-            caption: 'Stepping Stones Programme, Grant £405,270'
         }),
         createHeroImage({
             small: 'home/home-hero-3-small.jpg',
