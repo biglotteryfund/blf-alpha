@@ -1,7 +1,9 @@
 'use strict';
+
 const helmet = require('helmet');
 const { concat, get, map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
+const { IMGIX_MEDIA_DOMAIN } = require('../modules/secrets');
 const appData = require('../modules/appData');
 
 function withDefaultDirectives(directives) {
@@ -49,24 +51,24 @@ function defaultSecurityHeaders() {
 
     const defaultSecurityDomains = [
         "'self'",
-        'cdn.polyfill.io',
+        '*.biglotteryfund.org.uk',
         '*.google.com',
         '*.gstatic.com',
-        'www.google-analytics.com',
-        'platform.twitter.com',
-        'syndication.twitter.com',
-        'cdn.syndication.twimg.com',
         '*.twimg.com',
         '*.youtube.com',
+        'cdn.polyfill.io',
+        'cdn.syndication.twimg.com',
+        'platform.twitter.com',
         'sentry.io',
-        '*.biglotteryfund.org.uk'
+        'syndication.twitter.com',
+        'www.google-analytics.com'
     ];
 
     const directives = {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com'],
-        imgSrc: ['stats.g.doubleclick.net'],
+        imgSrc: ['stats.g.doubleclick.net', IMGIX_MEDIA_DOMAIN],
         connectSrc: [],
         reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
