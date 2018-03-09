@@ -140,4 +140,15 @@ describe('Legacy pages', () => {
                 );
             });
     });
+
+    it('should serve welsh versions of legacy pages', () => {
+        return chai
+            .request(server)
+            .get('/welsh/research/communities-and-places')
+            .redirects(0)
+            .catch(err => err.response)
+            .then(res => {
+                expect(res.status).to.equal(200);
+            });
+    });
 });
