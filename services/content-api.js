@@ -1,4 +1,4 @@
-const { find, get, getOr, map, take } = require('lodash/fp');
+const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);
@@ -34,6 +34,21 @@ function fetch(urlPath, options) {
 }
 
 /**
+ * Fetch all locales for a given url path
+ * Usage:
+ * ```
+ * fetchAllLocales(reqLocale => {
+ *   return `/v1/${reqLocale}/funding-programmes`
+ * }).then(responses => ...)
+ * ```
+ */
+function fetchAllLocales(toUrlPathFn) {
+    const urlPaths = ['en', 'cy'].map(toUrlPathFn);
+    const promises = urlPaths.map(urlPath => fetch(urlPath));
+    return Promise.all(promises);
+}
+
+/**
  * Adds the preview parameters to the request
  * (if accessed via the preview domain)
  */
@@ -57,6 +72,36 @@ function getCmsPath(sectionId, pagePath) {
     return sectionId === 'toplevel' ? pagePath.replace(/^\/+/g, '') : `${sectionId}${pagePath}`;
 }
 
+/**
+ * Merge welsh by property name
+ * Merge welsh results where available matched by a given property
+ * Usage:
+ * ```
+ * mergeWelshBy('slug')(currentLocale, enResults, cyResults)
+ * ```
+ */
+function mergeWelshBy(propName) {
+    return function(currentLocale, enResults, cyResults) {
+        if (currentLocale === 'en') {
+            return enResults;
+        } else {
+            return map(enItem => {
+                const findCy = find(cyItem => cyItem[propName] === enItem[propName]);
+                return findCy(cyResults) || enItem;
+            })(enResults);
+        }
+    };
+}
+
+function filterBySlugs(list, slugs) {
+    const matches = filter(result => slugs.indexOf(result.slug) !== -1)(list);
+    return sortBy(item => slugs.indexOf(item.slug))(matches);
+}
+
+/***********************************************
+ * API Methods
+ ***********************************************/
+
 function getPromotedNews({ locale, limit }) {
     return fetch(`/v1/${locale}/promoted-news`).then(response => {
         const data = getOr({}, 'data')(response);
@@ -66,18 +111,10 @@ function getPromotedNews({ locale, limit }) {
 }
 
 function getFundingProgrammes({ locale }) {
-    const promises = ['en', 'cy'].map(reqLocale => fetch(`/v1/${reqLocale}/funding-programmes`));
-    return Promise.all(promises).then(responses => {
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
-        if (locale === 'cy') {
-            // Replace item with welsh translation if there is one available
-            return enResults.map(enItem => {
-                const findCy = find(cyItem => cyItem.urlPath === enItem.urlPath);
-                return findCy(cyResults) || enItem;
-            });
-        } else {
-            return enResults;
-        }
+        const results = mergeWelshBy('urlPath')(locale, enResults, cyResults);
+        return results;
     });
 }
 
@@ -100,6 +137,22 @@ function getListingPage({ locale, path, previewMode }) {
     });
 }
 
+function getCaseStudies({ locale, slugs = [] }) {
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/case-studies`).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
+        return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
+    });
+}
+
+function getProfiles({ locale, section }) {
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/profiles/${section}`).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
+        return results;
+    });
+}
+
 function getSurveys({ locale = 'en', showAll = false }) {
     let params = {};
     if (showAll) {
@@ -115,22 +168,6 @@ function getSurveys({ locale = 'en', showAll = false }) {
     });
 }
 
-function getProfiles({ locale, section }) {
-    const promises = ['en', 'cy'].map(reqLocale => fetch(`/v1/${reqLocale}/profiles/${section}`));
-    return Promise.all(promises).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        if (locale === 'cy') {
-            // Replace item with welsh translation if there is one available
-            return enResults.map(enItem => {
-                const findCy = find(cyItem => cyItem.slug === enItem.slug);
-                return findCy(cyResults) || enItem;
-            });
-        } else {
-            return enResults;
-        }
-    });
-}
-
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -143,6 +180,7 @@ module.exports = {
     getFundingProgrammes,
     getFundingProgramme,
     getListingPage,
+    getCaseStudies,
     getProfiles,
     getSurveys,
     getRoutes
