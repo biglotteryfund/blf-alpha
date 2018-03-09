@@ -49,4 +49,10 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon/favicon-16x16.png' | getImagePath }}">
 <meta name="msapplication-TileImage" content="{{ 'favicon/ms-icon-144x144.png' | getImagePath }}">
 
-{# todo: <link rel="alternate" hreflang="cy" href="#" /> #}
+{% if isBilingual %}
+    {% if locale == 'en' %}
+        <link rel="alternate" hreflang="cy" href="{{ getCurrentUrl(request, 'cy') }}" />
+    {% else %}
+        <link rel="alternate" hreflang="en" href="{{ getCurrentUrl(request, 'en') }}" />
+    {% endif %}
+{% endif %}

@@ -10,8 +10,7 @@
 {% endmacro %}
 
 {% macro navLangLink() %}
-    {% set showLangLink = isBilingual | default(true) %}
-    {% if showLangLink %}
+    {% if isBilingual %}
         {% if locale == 'en' %}
             <a class="qa-lang-switcher" href="{{ getCurrentUrl(request, 'cy') }}">Cymraeg</a>
         {% else %}
