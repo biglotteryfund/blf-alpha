@@ -35,6 +35,42 @@ describe('Content API', () => {
             .reply(200, JSON.stringify(fixtureListRoutes, null, 2));
     });
 
+    it('should merge welsh where available', () => {
+        const enResults = [
+            {
+                slug: 'one',
+                title: 'English'
+            },
+            {
+                slug: 'two',
+                title: 'English'
+            }
+        ];
+
+        const cyResults = [
+            {
+                slug: 'two',
+                title: 'Cymru'
+            }
+        ];
+
+        const cyExpected = [
+            {
+                slug: 'one',
+                title: 'English'
+            },
+            {
+                slug: 'two',
+                title: 'Cymru'
+            }
+        ];
+
+        const mergedEn = contentApi.mergeWelshBy('slug')('en', enResults, cyResults);
+        expect(mergedEn).to.deep.members(enResults);
+        const mergedCy = contentApi.mergeWelshBy('slug')('cy', enResults, cyResults);
+        expect(mergedCy).to.deep.have.members(cyExpected);
+    });
+
     it('should fetch promoted news', () => {
         return contentApi
             .getPromotedNews({

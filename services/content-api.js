@@ -176,6 +176,8 @@ module.exports = {
     setApiUrl,
     getApiUrl,
     getCmsPath,
+    mergeWelshBy,
+    // API methods
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,
