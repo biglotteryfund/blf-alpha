@@ -11,41 +11,31 @@
 @import '_mixins';
 
 // =========================================================================
-// Global
-// ========================================================================= //
-// Global, element-level styles
-
-@import 'globals/base';
-@import 'globals/accents';
-@import 'globals/layout';
-@import 'globals/typography';
-@import 'globals/forms';
-
-// =========================================================================
-// Third-party / Vendor styles
-// ========================================================================= //
-
-@import '../../node_modules/swiper/dist/css/swiper';
-
-// =========================================================================
 // Scaffolding
 // ========================================================================= //
-// Low-level, generic scaffolding styles
+// Global and common scaffolding styles
 
-@import 'scaffolding/header';
-@import 'scaffolding/footer';
-@import 'scaffolding/grid';
-@import 'scaffolding/scope-prose';
+@import 'scaffolding/base';
+@import 'scaffolding/accents';
+@import 'scaffolding/icons';
+@import 'scaffolding/buttons';
+@import 'scaffolding/forms';
+@import 'scaffolding/layout';
 @import 'scaffolding/content';
 @import 'scaffolding/lists';
+@import 'scaffolding/scope-prose';
 
 // =========================================================================
 // Components
 // ========================================================================= //
 // Individual components & patterns, the majority of our styles are in here
 
-@import 'components/icons';
-@import 'components/buttons';
+@import '../../node_modules/swiper/dist/css/swiper';
+
+@import 'components/global-header';
+@import 'components/global-footer';
+@import 'components/heroes';
+@import 'components/programmes';
 @import 'components/navigation';
 @import 'components/messages';
 @import 'components/quotes';
@@ -53,14 +43,12 @@
 @import 'components/cards';
 @import 'components/data';
 @import 'components/media';
-@import 'components/programmes';
 @import 'components/materials';
 @import 'components/overlay';
 @import 'components/overlay-text';
 @import 'components/segment';
 @import 'components/profiles';
 @import 'components/case-studies';
-@import 'components/heroes';
 @import 'components/survey';
 
 // =========================================================================
