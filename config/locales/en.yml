@@ -905,25 +905,6 @@ funding:
       out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
       than £10,000</a> for longer term projects.
     projectExamples: Examples of projects that have been funded
-    projects:
-    - name: Papyrus
-      amount: ''
-      link: '/funding/big-stories/papyrus'
-      image: under10k/hbf.jpg
-      description: Preventing youth suicide across the UK, Papyrus offer help, advice
-        and support to young people with suicidal thoughts and their friends and family.
-    - name: Ragroof Players
-      amount: ''
-      link: '/funding/big-stories/ragroof-players'
-      image: under10k/ragroof.jpg
-      description: The Ragroof Players create theatre shows, performance projects,
-        tea dances, and bespoke events that celebrate social dance and popular theatre.
-    - name: Welsh Refugee Council
-      amount: ''
-      link: '/funding/big-stories/welsh-refugee-council'
-      image: under10k/wrc.jpg
-      description: The Welsh Refugee Council supports those fleeing persecution, conflict
-        and oppression.
     browseFundedProjects: Browse all funded projects
   over10k:
     title: Discover our funding programmes for amounts above £10,000
@@ -939,26 +920,6 @@ funding:
       northernIreland: Northern Ireland
       ukWide: My project will help people right across the UK
     projectExamples: Examples of projects that have been funded
-    projects:
-    - name: Croxteth Gems
-      amount: ''
-      link: '/funding/big-stories/croxteth-gems'
-      image: over10k/croxteth.jpg
-      description: A group at the very heart of its community, Croxteth Gems Community
-        Association has been supporting young people and families for almost 50 years.
-    - name: Dads in Mind
-      amount: ''
-      link: '/funding/big-stories/dads-in-mind'
-      image: over10k/dads.jpg
-      description: Dads in Mind supports dads directly experiencing mental health
-        issues related to pregnancy and parenthood and also offers support to those
-        whose partners are affected.
-    - name: Cruse Bereavement Care
-      amount: ''
-      link: '/funding/big-stories/cruse-bereavement-care'
-      image: over10k/cruse.jpg
-      description: Cruse Bereavement Care offer support, advice and information to
-        children, young people and adults when someone dies.
     browseAll: Browse all funded projects
   guidance:
     order-free-materials:

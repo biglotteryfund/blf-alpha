@@ -841,27 +841,6 @@ funding:
       o wybodaeth am ein grantiau Deyrnas Unedig gyfan</a>. Rydym yn gwneud grantiau
       <a href="/welsh/over10k">dros £10,000</a> ar gyfer prosiectau tymor hirach hefyd. '
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
-    projects:
-    - name: Papyrus
-      amount: ''
-      link: ''
-      image: under10k/hbf.jpg
-      description: 'Yn atal hunanladdiad pobl ifainc ar draws y Deyrnas Unedig, mae
-        Papyrus yn cynnig cymorth, cyngor a chefnogaeth i bobl ifainc sydd â meddyliau
-        hunanddinistriol, eu cyfeillion a''u teuluoedd. '
-    - name: Ragroof Players
-      amount: ''
-      link: ''
-      image: under10k/ragroof.jpg
-      description: Mae'r Ragroof Players yn creu sioeau theatr, prosiectau perfformiad,
-        dawnsiau te a digwyddiadau wedi eu teilwra sy'n dathlu dawns gymdeithasol
-        a theatr boblogaidd.
-    - name: Cyngor Ffoaduriaid Cymru
-      amount: ''
-      link: ''
-      image: under10k/wrc.jpg
-      description: Mae Cyngor Ffoaduriaid Cymru'n cefnogi'r rhai sy'n ffoi rhag erledigaeth,
-        gwrthdaro a gormes.
     browseFundedProjects: Pori'r holl brosiectau a ariannwyd
   over10k:
     title: Darganfod ein rhaglenni grant am symiau dros £10,000
@@ -878,26 +857,6 @@ funding:
       northernIreland: Gogledd Iwerddon
       ukWide: Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
-    projects:
-    - name: Croxteth Gems
-      amount: ''
-      link: ''
-      image: over10k/croxteth.jpg
-      description: 'Fel grŵp wrth wraidd ei gymuned, mae Cymdeithas Gymunedol Croxteth
-        Gems wedi cefnogi pobl ifainc a theuluoedd ers bron 50 mlynedd. '
-    - name: Dads in Mind
-      amount: ''
-      link: ''
-      image: over10k/dads.jpg
-      description: 'Mae Dads in Mind yn cefnogi tadau sy''n profi problemau iechyd
-        meddwl gysylltiedig yn uniongyrchol â beichiogrwydd a bod yn dad ac yn cynnig
-        cefnogaeth i''r rhai y mae eu partneriaid wedi''u heffeithio hefyd. '
-    - name: Cruse Bereavement Care
-      amount: ''
-      link: ''
-      image: over10k/cruse.jpg
-      description: 'Mae Gofal mewn Galar Cruse yn cynnig cefnogaeth, cyngor a gwybodaeth
-        i blant, pobl ifainc ac oedolion pan fydd rhywun yn marw. '
     browseAll: Pori'r holl brosiectau a ariannwyd
   guidance:
     order-free-materials:
