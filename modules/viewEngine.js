@@ -6,15 +6,24 @@ const slugify = require('slugify');
 const assets = require('./assets');
 const appData = require('./appData');
 
-function init(app) {
-    const templateEnv = nunjucks.configure('views', {
-        autoescape: true,
-        express: app,
-        noCache: appData.isDev,
-        watch: appData.isDev
-    });
+/**
+ * Define common app locals
+ * @see https://expressjs.com/en/api.html#app.locals
+ */
+function initAppLocals(app) {
+    /**
+     * Is this page bilingual?
+     * i.e. do we have a Welsh translation
+     * Default to true unless overriden by a route
+     */
+    app.locals.isBilingual = true;
+}
 
-    // register template filters first
+/**
+ * Add custom Nunjucks filters
+ * @see https://mozilla.github.io/nunjucks/api.html#addfilter
+ */
+function initFilters(templateEnv) {
     templateEnv.addFilter('getCachebustedPath', (str, skipVirtualDir) => {
         return assets.getCachebustedPath(str, skipVirtualDir);
     });
@@ -29,7 +38,6 @@ function init(app) {
         });
     });
 
-    // @TODO: This feels awkward, is there an alternative?
     templateEnv.addFilter('joinIfArray', (xs, delimiter) => {
         if (Array.isArray(xs)) {
             return xs.join(delimiter);
@@ -59,28 +67,6 @@ function init(app) {
         return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     });
 
-    // via http://stackoverflow.com/a/25770787
-    templateEnv.addFilter('splitByCharLength', (str, length) => {
-        let rows = [];
-        let maxlen = length || 50;
-        let arr = str.split(' ');
-        let currow = arr[0];
-        let rowlen = currow.length;
-        for (let i = 1; i < arr.length; i++) {
-            let word = arr[i];
-            rowlen += word.length + 1;
-            if (rowlen <= maxlen) {
-                currow += ' ' + word;
-            } else {
-                rows.push(currow);
-                currow = word;
-                rowlen = word.length;
-            }
-        }
-        rows.push(currow);
-        return rows;
-    });
-
     templateEnv.addFilter('lowercaseFirst', str => {
         return str[0].toLowerCase() + str.substring(1);
     });
@@ -92,6 +78,19 @@ function init(app) {
             return plural;
         }
     });
+}
+
+function init(app) {
+    initAppLocals(app);
+
+    const templateEnv = nunjucks.configure('views', {
+        autoescape: true,
+        express: app,
+        noCache: appData.isDev,
+        watch: appData.isDev
+    });
+
+    initFilters(templateEnv);
 
     app.set('view engine', 'njk');
     app.set('engineEnv', templateEnv);
