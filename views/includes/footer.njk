@@ -2,30 +2,18 @@
     <div class="footer__inner inner">
         <ul class="grid grid--top grid--wide-only">
             <li class="grid__item u-desktop-only">
-                <ul class="list-spaced">
-                    <li><strong>{{ __("global.brand.title") | safe }}</strong></li>
-                    <li><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></li>
-                    <li><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></li>
-                    <li>{{ __("global.contact.phone") | safe }}</li>
-                </ul>
+                <h5 class="t6 u-uppercase">{{ __("global.brand.title") | safe }}</h5>
+                <p><address>1 Plough Place, {{ __("global.contact.city") | safe }} EC4A 1DE</address></p>
+                <p><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></p>
+                <p>{{ __("global.contact.phone") | safe }}</p>
             </li>
             <li class="grid__item">
-                <h4 class="footer__header t6 u-desktop-only u-uppercase">{{ __("global.footerLinks.title") | safe }}</h4>
-                <div class="grid grid--wide-only grid--top list-spaced">
-                    <ul class="grid__item">
-                        <li><a href="{{ buildUrl('about/customer-service/freedom-of-information') }}">{{ __("global.footerLinks.foi") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('about-big/customer-service/privacy-policy') }}">{{ __("global.footerLinks.privacy-policy") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('about-big/customer-service/terms-of-use') }}">{{ __("global.footerLinks.terms") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('about-big/customer-service/cookies') }}">{{ __("global.footerLinks.cookies") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('about-big/tender-opportunities') }}">{{ __("global.footerLinks.tenderOpportunities") | safe }}</a></li>
-                    </ul>
-                    <ul class="grid__item">
-                        <li><a href="{{ buildUrl('jobs') }}">{{ __("global.footerLinks.jobs") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('contact') }}">{{ __("global.footerLinks.contact") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('sitemap') }}">{{ __("global.footerLinks.site-map") | safe }}</a></li>
-                        <li><a href="{{ buildUrl('about-big/our-approach/accessibility') }}">{{ __("global.footerLinks.accessibility") | safe }}</a></li>
-                    </ul>
-                </div>
+                <h5 class="t6 u-uppercase u-desktop-only">{{ __("global.footerLinks.title") | safe }}</h5>
+                <ul class="footer-links">
+                    {% for link in __("global.footerLinks.links") %}
+                        <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                    {% endfor %}
+                </ul>
             </li>
         </ul>
         {% if globalFootnote %}
