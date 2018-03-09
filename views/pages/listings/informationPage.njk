@@ -62,7 +62,7 @@
         {% endif %}
 
         {# Case Studies #}
-        {{ caseStudyCollection(content.caseStudies) }}
+        {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
 
         {% if content.outro %}
             <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">

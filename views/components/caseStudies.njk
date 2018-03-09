@@ -82,7 +82,7 @@
     </div>
 {% endmacro %}
 
-{% macro caseStudyCollection(caseStudies, customSectionTitle = false) %}
+{% macro caseStudyCollection(caseStudies, customSectionTitle = false, accent) %}
     {% if caseStudies.length > 0 %}
     <section id="case-studies" class="inner">
         <h2 class="t1">
@@ -104,7 +104,7 @@
                             trailTextMore = caseStudy.trailTextMore,
                             imageUrl = caseStudy.thumbnailUrl,
                             useRemoteImages = true,
-                            accent = pageAccent
+                            accent = accent
                         )
                     }}
                 </li>
