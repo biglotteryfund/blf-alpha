@@ -20,15 +20,27 @@ global:
     email: general.enquiries@biglotteryfund.org.uk
   footerLinks:
     title: Quick links
-    foi: Freedom of Information
-    privacy-policy: Privacy Policy
-    terms: Terms
-    cookies: Cookies
-    jobs: Jobs
-    contact: Contact
-    site-map: Site map
-    accessibility: Accessibility
-    tenderOpportunities: Tender opportunities
+    links:
+    - label: Freedom of Information
+      href: "/about/customer-service/freedom-of-information"
+    - label: Tender opportunities
+      href: "/about-big/tender-opportunities"
+    - label: Corporate documents
+      href: "/about-big/publications/corporate-documents"
+    - label: Privacy Policy
+      href: "/about-big/customer-service/privacy-policy"
+    - label: Terms
+      href: "/about-big/customer-service/terms-of-use"
+    - label: Contact
+      href: "/contact"
+    - label: Jobs
+      href: "/jobs"
+    - label: Cookies
+      href: "/about-big/customer-service/cookies"
+    - label: Site map
+      href: "/sitemap"
+    - label: Accessibility
+      href: "/about-big/our-approach/accessibility"
     grantFootnote: The grant amount shown was awarded within the last 12 months
   accessibility:
     skipToContent: Skip to content

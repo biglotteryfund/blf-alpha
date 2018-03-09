@@ -28,6 +28,27 @@
         padding: 60px 0;
     }
 }
-.footer__header {
-    margin-bottom: $spacingUnit;
+
+.footer-links {
+    @include mq('small') {
+        columns: 2;
+    }
+
+    li {
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid lighten(palette('charcoal'), 10%);
+
+        @include mq('medium') {
+            border-bottom: none;
+            margin-bottom: $spacingUnit / 1.5;
+        }
+    }
+
+    a {
+        @include mq('medium', 'max') {
+            padding: $spacingUnit ($spacingUnit / 2);
+            display: block;
+        }
+    }
 }
