@@ -1,9 +1,9 @@
 'use strict';
 
+const config = require('config');
 const helmet = require('helmet');
 const { concat, get, map } = require('lodash');
 const { legacyProxiedRoutes } = require('../controllers/routes');
-const { IMGIX_MEDIA_DOMAIN } = require('../modules/secrets');
 const appData = require('../modules/appData');
 
 function withDefaultDirectives(directives) {
@@ -68,7 +68,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com'],
-        imgSrc: ['stats.g.doubleclick.net', IMGIX_MEDIA_DOMAIN],
+        imgSrc: ['stats.g.doubleclick.net', config.get('imgix.mediaDomain')],
         connectSrc: [],
         reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
