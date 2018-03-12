@@ -124,16 +124,16 @@ sections.funding.addRoutes({
         lang: 'toplevel.funding',
         aliases: ['/home/funding']
     }),
-    under10k: staticRoute({
+    under10k: dynamicRoute({
         path: '/under10k',
-        template: 'pages/toplevel/under10k',
-        lang: 'toplevel.under10k',
+        template: 'pages/funding/under10k',
+        lang: 'funding.under10k',
         aliases: ['/funding/Awards-For-All', '/funding/awards-for-all', '/awardsforall', '/a4a', '/A4A']
     }),
-    over10k: staticRoute({
+    over10k: dynamicRoute({
         path: '/over10k',
-        template: 'pages/toplevel/over10k',
-        lang: 'toplevel.over10k'
+        template: 'pages/funding/over10k',
+        lang: 'funding.over10k'
     }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',

@@ -1,5 +1,5 @@
-{% from "components/caseStudies.njk" import caseStudyCard %}
 {% from "components/hero.njk" import hero %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 
 {% extends "layouts/main.njk" %}
 
@@ -19,7 +19,7 @@
         )
     }}
 
-    <article role="main" class="nudge-up">
+    <main class="nudge-up">
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <p>{{ copy.intro }}</p>
 
@@ -61,31 +61,17 @@
             <p>{{ copy.ukWideInfo | safe }}</p>
         </div>
 
-        <div class="inner">
-            <h3 class="t1">{{ copy.projectExamples }}</h3>
-            <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                {% for project in copy.projects %}
-                    <li class="grid__item">
-                        {{
-                            caseStudyCard(
-                                title = project.name,
-                                linkUrl = project.link,
-                                trailText = project.description,
-                                trailTextMore =  __('global.misc.readMore') + "…",
-                                imageUrl = project.image,
-                                accent = pageAccent
-                            )
-                        }}
-                    </li>
-                {% endfor %}
-            </ul>
+        {# Case Studies #}
+        {{ caseStudyCollection(
+            caseStudies = caseStudies,
+            customSectionTitle = copy.projectExamples,
+            accent = pageAccent
+        ) }}
 
+        <div class="inner">
             <div class="central-gap spaced">
                 <a href="{{ buildUrl('funding/search-past-grants') }}" class="btn btn--outline accent--{{ pageAccent }} btn--block btn--small">{{ copy.browseFundedProjects }}</a>
             </div>
         </div>
-
-    </article>
-
-
+    </main>
 {% endblock %}
