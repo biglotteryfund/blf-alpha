@@ -113,16 +113,6 @@ $logoOffset: $navLinkPadding - 5px;
     }
 }
 
-html:not(.contrast--high) .global-header {
-    color: white;
-    position: absolute;
-    z-index: 1;
-
-    @media print {
-        position: static;
-    }
-}
-
 /* =========================================================================
    Global Navigation
    ========================================================================= */
@@ -201,7 +191,21 @@ html:not(.contrast--high) .global-header {
     }
 }
 
-html:not(.contrast--high) .global-nav {
+/* =========================================================================
+   Global Header / Navigation - Overlaid header
+   ========================================================================= */
+
+html:not(.contrast--high) body:not(.has-static-header) .global-header {
+    color: white;
+    position: absolute;
+    z-index: 1;
+
+    @media print {
+        position: static;
+    }
+}
+
+html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     .global-nav__link a,
     .global-nav__lang a {
         @include on-interact {

@@ -1,6 +1,8 @@
 {% from "components/icons.njk" import iconArrowRight %}
 
-{% extends "../../../layouts/main.njk" %}
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = 'has-static-header' %}
 
 {% macro startButton(url, label = 'Start') %}
     <a class="btn btn--start" href="{{ url }}">
