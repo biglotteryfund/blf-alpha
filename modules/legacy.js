@@ -40,19 +40,14 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
             dom.window.document.title = '[PROXIED] ' + titleText;
         }
 
+        const regionNav = dom.window.document.getElementById('regionNav');
         const pageIsWelsh = isWelsh(req.path);
-        const hasWelshLink = dom.window.document.querySelectorAll('[hreflang="cy"]').length > 0;
-        const hasEnglishLink = dom.window.document.querySelectorAll('[hreflang="en"]').length > 0;
+        const hasWelshLink = regionNav.querySelectorAll('[hreflang="cy"]').length > 0;
+        const hasEnglishLink = regionNav.querySelectorAll('[hreflang="en"]').length > 0;
 
-        const appendLanguageLink = localeToAppend => {
-            let linkPath, linkText;
-            if (localeToAppend === 'cy') {
-                linkPath = makeWelsh(req.path);
-                linkText = 'Cymraeg';
-            } else {
-                linkPath = removeWelsh(req.path);
-                linkText = 'English';
-            }
+        const appendLanguageLink = (localeToAppend, nav) => {
+            const linkPath = localeToAppend === 'cy' ? makeWelsh(req.path) : removeWelsh(req.path);
+            const linkText = localeToAppend === 'cy' ? 'Cymraeg' : 'English';
             const listItem = dom.window.document.createElement('li');
             listItem.setAttribute('id', 'ctl12_langLi');
             listItem.setAttribute('class', 'last');
@@ -64,15 +59,15 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
                    data-blf-alpha="true">
                    ${linkText}
                </a>`;
-            dom.window.document.getElementById('regionNav').appendChild(listItem);
+            nav.appendChild(listItem);
         };
 
         // some pages aren't welsh but *do* have the link
         // other pages aren't welsh but don't (due to cookies etc)
         if (!pageIsWelsh && !hasWelshLink) {
-            appendLanguageLink('cy');
+            appendLanguageLink('cy', regionNav);
         } else if (pageIsWelsh && !hasEnglishLink) {
-            appendLanguageLink('en');
+            appendLanguageLink('en', regionNav);
         }
 
         // rewrite main ASP.net form to point to this page
