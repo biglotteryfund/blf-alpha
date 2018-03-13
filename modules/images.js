@@ -166,11 +166,11 @@ function buildHomepageHero() {
 
     const heroImageCandidates = [
         createHeroImage({
-            small: 'home/home-hero-1-small.jpg',
-            medium: 'home/home-hero-1-medium.jpg',
-            large: 'home/home-hero-1-large.jpg',
-            default: 'home/home-hero-1-medium.jpg',
-            caption: 'Cycling for All in Bolsover, Grant £9,358 *'
+            small: 'home/home-hero-5-small.jpg',
+            medium: 'home/home-hero-5-medium.jpg',
+            large: 'home/home-hero-5-large.jpg',
+            default: 'home/home-hero-5-medium.jpg',
+            caption: 'Micro Rainbow'
         }),
         createHeroImage({
             small: 'home/home-hero-3-small.jpg',
