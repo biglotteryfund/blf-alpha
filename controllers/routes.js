@@ -57,7 +57,6 @@ sections.toplevel.addRoutes({
         heroImage: heroImages.downRightBrilliant
     }),
     wales: staticRoute({
-        live: false,
         path: '/wales',
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
