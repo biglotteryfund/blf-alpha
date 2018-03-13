@@ -8,6 +8,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const appData = require('../modules/appData');
+const { isWelsh, makeWelsh } = require('../modules/urls');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -37,6 +38,26 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
         if (appData.isDev) {
             let titleText = dom.window.document.title;
             dom.window.document.title = '[PROXIED] ' + titleText;
+        }
+
+        const hasWelshLink = dom.window.document.querySelectorAll('[hreflang="cy"]').length > 0;
+
+        // some pages aren't welsh but *do* have the link
+        // other pages aren't welsh but don't (due to cookies etc)
+        if (!isWelsh(req.path) && !hasWelshLink) {
+            const welshPath = makeWelsh(req.path);
+            const welshListLink = dom.window.document.createElement('li');
+            welshListLink.setAttribute('id', 'ctl12_langLi');
+            welshListLink.setAttribute('class', 'last');
+            welshListLink.innerHTML = `
+                <a href="${welshPath}" 
+                   id="ctl12_welshLanguage"
+                   lang="cy"
+                   hreflang="cy"
+                   data-blf-alpha="true">
+                   Cymraeg
+               </a>`;
+            dom.window.document.getElementById('regionNav').appendChild(welshListLink);
         }
 
         // rewrite main ASP.net form to point to this page
