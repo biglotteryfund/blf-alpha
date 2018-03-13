@@ -8,7 +8,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const appData = require('../modules/appData');
-const { isWelsh, makeWelsh } = require('../modules/urls');
+const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
 
 const legacyUrl = config.get('legacyDomain');
 
@@ -40,24 +40,39 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
             dom.window.document.title = '[PROXIED] ' + titleText;
         }
 
+        const pageIsWelsh = isWelsh(req.path);
         const hasWelshLink = dom.window.document.querySelectorAll('[hreflang="cy"]').length > 0;
+        const hasEnglishLink = dom.window.document.querySelectorAll('[hreflang="en"]').length > 0;
+
+        const appendLanguageLink = localeToAppend => {
+            let linkPath, linkText;
+            if (localeToAppend === 'cy') {
+                linkPath = makeWelsh(req.path);
+                linkText = 'Cymraeg';
+            } else {
+                linkPath = removeWelsh(req.path);
+                linkText = 'English';
+            }
+            const listItem = dom.window.document.createElement('li');
+            listItem.setAttribute('id', 'ctl12_langLi');
+            listItem.setAttribute('class', 'last');
+            listItem.innerHTML = `
+                <a href="${linkPath}" 
+                   id="ctl12_welshLanguage"
+                   lang="${localeToAppend}"
+                   hreflang="${localeToAppend}"
+                   data-blf-alpha="true">
+                   ${linkText}
+               </a>`;
+            dom.window.document.getElementById('regionNav').appendChild(listItem);
+        };
 
         // some pages aren't welsh but *do* have the link
         // other pages aren't welsh but don't (due to cookies etc)
-        if (!isWelsh(req.path) && !hasWelshLink) {
-            const welshPath = makeWelsh(req.path);
-            const welshListLink = dom.window.document.createElement('li');
-            welshListLink.setAttribute('id', 'ctl12_langLi');
-            welshListLink.setAttribute('class', 'last');
-            welshListLink.innerHTML = `
-                <a href="${welshPath}" 
-                   id="ctl12_welshLanguage"
-                   lang="cy"
-                   hreflang="cy"
-                   data-blf-alpha="true">
-                   Cymraeg
-               </a>`;
-            dom.window.document.getElementById('regionNav').appendChild(welshListLink);
+        if (!pageIsWelsh && !hasWelshLink) {
+            appendLanguageLink('cy');
+        } else if (pageIsWelsh && !hasEnglishLink) {
+            appendLanguageLink('en');
         }
 
         // rewrite main ASP.net form to point to this page
