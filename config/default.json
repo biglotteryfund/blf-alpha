@@ -12,6 +12,9 @@
             "cy": "/welsh"
         }
     },
+    "imgix": {
+      "mediaDomain": "big-lottery-fund-media-trial.imgix.net"
+    },
     "cookies": {
         "contrast": "contrastMode",
         "session": "blf-alpha-session",
