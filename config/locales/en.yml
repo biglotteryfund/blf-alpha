@@ -488,7 +488,7 @@ toplevel:
         suffix: "(89.4%)"
         prefix: ''
         showFirst: false
-      caption: Number of grants under £10,000
+      caption: Number of grants under or equal to £10,000
     - number:
         value: '9,377,362'
         suffix: ''

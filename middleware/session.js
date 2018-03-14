@@ -3,7 +3,7 @@ const config = require('config');
 const session = require('express-session');
 const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const models = require('../models/index');
+const models = require('../models');
 const { SESSION_SECRET } = require('../modules/secrets');
 const appData = require('../modules/appData');
 
