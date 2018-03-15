@@ -13,7 +13,8 @@
         }
     },
     "imgix": {
-      "mediaDomain": "big-lottery-fund-media-trial.imgix.net"
+      "mediaDomain": "biglotteryfund-assets.imgix.net",
+      "mediaDomainOriginal": "big-lottery-fund-media-trial.imgix.net"
     },
     "cookies": {
         "contrast": "contrastMode",

@@ -68,7 +68,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com'],
-        imgSrc: ['stats.g.doubleclick.net', config.get('imgix.mediaDomain')],
+        imgSrc: ['stats.g.doubleclick.net', config.get('imgix.mediaDomain'), config.get('imgix.mediaDomainOriginal')],
         connectSrc: [],
         reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
