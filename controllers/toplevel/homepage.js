@@ -1,29 +1,30 @@
-const { homepageHero } = require('../../modules/images');
+const Raven = require('raven');
 const contentApi = require('../../services/content-api');
 
 function init({ router, routeConfig }) {
     router.get(routeConfig.path, (req, res) => {
-        const serveHomepage = news => {
+        const locale = req.i18n.getLocale();
+
+        const serveHomepage = (heroImages, newsArticles) => {
             const lang = req.i18n.__('toplevel.home');
 
             res.render('pages/toplevel/home', {
+                copy: lang,
                 title: lang.title,
                 description: lang.description || false,
-                copy: lang,
-                news: news || [],
-                heroImage: homepageHero
+                news: newsArticles || [],
+                heroImage: heroImages || null
             });
         };
 
         contentApi
-            .getPromotedNews({
-                locale: req.i18n.getLocale(),
-                limit: 3
+            .getHomepage({ locale })
+            .then(response => {
+                const { heroImages, newsArticles } = response;
+                serveHomepage(heroImages, newsArticles);
             })
-            .then(entries => {
-                serveHomepage(entries);
-            })
-            .catch(() => {
+            .catch(err => {
+                Raven.captureException(err);
                 serveHomepage();
             });
     });

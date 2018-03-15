@@ -102,6 +102,10 @@ function filterBySlugs(list, slugs) {
  * API Methods
  ***********************************************/
 
+function getHomepage({ locale }) {
+    return fetch(`/v1/${locale}/homepage`).then(response => response.data.attributes);
+}
+
 function getPromotedNews({ locale, limit }) {
     return fetch(`/v1/${locale}/promoted-news`).then(response => {
         const data = getOr({}, 'data')(response);
@@ -178,6 +182,7 @@ module.exports = {
     getCmsPath,
     mergeWelshBy,
     // API methods
+    getHomepage,
     getPromotedNews,
     getFundingProgrammes,
     getFundingProgramme,

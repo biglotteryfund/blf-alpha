@@ -6,7 +6,7 @@
  */
 const global = require('../modules/global');
 const tabs = require('../modules/tabs');
-const heroImages = require('../modules/heroImages');
+import heroImages from '../modules/heroImages';
 const logos = require('../modules/logos');
 const forms = require('../modules/forms');
 import carousel from '../modules/carousel';

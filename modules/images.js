@@ -46,7 +46,7 @@ const heroImages = {
         medium: 'hero/larche-belfast-medium.jpg',
         large: 'hero/larche-belfast-large.jpg',
         default: 'hero/larche-belfast-medium.jpg',
-        caption: "Down Right Brilliant"
+        caption: 'Down Right Brilliant'
     }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
@@ -155,39 +155,6 @@ const heroImages = {
     })
 };
 
-function buildHomepageHero() {
-    const heroImageDefault = createHeroImage({
-        small: 'home/home-hero-2-small.jpg',
-        medium: 'home/home-hero-2-medium.jpg',
-        large: 'home/home-hero-2-large.jpg',
-        default: 'home/home-hero-2-medium.jpg',
-        caption: 'Stepping Stones Programme, Grant £405,270'
-    });
-
-    const heroImageCandidates = [
-        createHeroImage({
-            small: 'home/home-hero-5-small.jpg',
-            medium: 'home/home-hero-5-medium.jpg',
-            large: 'home/home-hero-5-large.jpg',
-            default: 'home/home-hero-5-medium.jpg',
-            caption: 'Micro Rainbow'
-        }),
-        createHeroImage({
-            small: 'home/home-hero-3-small.jpg',
-            medium: 'home/home-hero-3-medium.jpg',
-            large: 'home/home-hero-3-large.jpg',
-            default: 'home/home-hero-3-medium.jpg',
-            caption: 'Cloughmills Community Action, Grant £4,975*'
-        }),
-        heroImageDefault
-    ];
-
-    return {
-        default: heroImageDefault,
-        candidates: heroImageCandidates
-    };
-}
-
 /**
  * Allow for pages without heroes
  * @TODO: Define better default hero image.
@@ -197,6 +164,5 @@ const withFallbackImage = heroImage => heroImage || heroImages.streetDreams;
 module.exports = {
     createHeroImage,
     heroImages: heroImages,
-    homepageHero: buildHomepageHero(),
     withFallbackImage
 };
