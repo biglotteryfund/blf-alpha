@@ -1,13 +1,13 @@
 'use strict';
-const $ = require('jquery');
+
+import $ from 'jquery';
+import sample from 'lodash/sample';
 
 const SELECTORS = {
     parent: '.js-random-hero',
     image: '.js-random-hero__image',
     caption: '.js-random-hero__caption'
 };
-
-const rand = xs => xs[Math.floor(Math.random() * xs.length)];
 
 function replaceImage($imageEl, randomImage) {
     $imageEl.html(`
@@ -34,8 +34,8 @@ function init() {
             const $imageEl = $heroEl.find(SELECTORS.image);
             const $captionEl = $heroEl.find(SELECTORS.caption);
 
-            if (imageCandidates.length > 1 && $imageEl.length > 0) {
-                const randomImage = rand(imageCandidates);
+            if (imageCandidates.length > 0 && $imageEl.length > 0) {
+                const randomImage = sample(imageCandidates);
 
                 if (randomImage) {
                     replaceImage($imageEl, randomImage);
@@ -48,6 +48,6 @@ function init() {
     }
 }
 
-module.exports = {
+export default {
     init: init
 };

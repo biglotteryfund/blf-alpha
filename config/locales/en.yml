@@ -41,7 +41,6 @@ global:
       href: "/sitemap"
     - label: Accessibility
       href: "/about-big/our-approach/accessibility"
-    grantFootnote: The grant amount shown was awarded within the last 12 months
   accessibility:
     skipToContent: Skip to content
     contrast:
