@@ -1,12 +1,13 @@
 'use strict';
 
+const Raven = require('raven');
 const { forEach, isEmpty } = require('lodash');
-const { getOr } = require('lodash/fp');
+const { get, getOr } = require('lodash/fp');
 
 const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const { shouldServe } = require('../modules/pageLogic');
-const { withFallbackImage } = require('../modules/images');
+const { defaultHeroImage, withFallbackImage } = require('../modules/images');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
 const contentApi = require('../services/content-api');
@@ -25,6 +26,30 @@ function setupRedirects(sectionPath, page) {
         redirects: redirects,
         makeBilingual: true
     });
+}
+
+function injectHeroImage(page) {
+    const heroSlug = get('heroSlug')(page);
+    return function(req, res, next) {
+        if (heroSlug) {
+            contentApi
+                .getHeroImage({
+                    locale: req.i18n.getLocale(),
+                    slug: heroSlug
+                })
+                .then(heroImage => {
+                    res.locals.heroImage = heroImage;
+                    next();
+                })
+                .catch(err => {
+                    Raven.captureException(err);
+                    res.locals.heroImage = defaultHeroImage;
+                    next();
+                });
+        } else {
+            next();
+        }
+    };
 }
 
 function handleCmsPage(sectionId) {
@@ -70,7 +95,7 @@ function handleStaticPage(page) {
         } else {
             res.render(page.template, {
                 title: getOr(false, 'title')(lang),
-                heroImage: page.heroImage || null,
+                heroImage: res.locals.heroImage || page.heroImage || null,
                 description: lang ? lang.description : false,
                 isBilingual: isBilingual,
                 copy: lang
@@ -93,7 +118,7 @@ function init({ pages, router, sectionPath, sectionId }) {
                 router.get(page.path, handleCmsPage(sectionId));
             } else if (page.static) {
                 const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
-                router.get(page.path, cacheMiddleware, handleStaticPage(page));
+                router.get(page.path, cacheMiddleware, injectHeroImage(page), handleStaticPage(page));
             }
         }
     });

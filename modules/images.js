@@ -155,14 +155,13 @@ const heroImages = {
     })
 };
 
-/**
- * Allow for pages without heroes
- * @TODO: Define better default hero image.
- */
-const withFallbackImage = heroImage => heroImage || heroImages.streetDreams;
+const defaultHeroImage = heroImages.streetDreams;
+
+const withFallbackImage = heroImage => heroImage || defaultHeroImage;
 
 module.exports = {
+    heroImages,
+    defaultHeroImage,
     createHeroImage,
-    heroImages: heroImages,
     withFallbackImage
 };

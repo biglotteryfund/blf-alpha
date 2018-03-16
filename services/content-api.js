@@ -102,6 +102,10 @@ function filterBySlugs(list, slugs) {
  * API Methods
  ***********************************************/
 
+function getHeroImage({ locale, slug }) {
+    return fetch(`/v1/${locale}/hero-image/${slug}`).then(response => response.data.attributes);
+}
+
 function getHomepage({ locale }) {
     return fetch(`/v1/${locale}/homepage`).then(response => response.data.attributes);
 }
@@ -182,6 +186,7 @@ module.exports = {
     getCmsPath,
     mergeWelshBy,
     // API methods
+    getHeroImage,
     getHomepage,
     getPromotedNews,
     getFundingProgrammes,
