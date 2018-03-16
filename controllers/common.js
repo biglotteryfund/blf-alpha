@@ -1,13 +1,13 @@
 'use strict';
 
-const Raven = require('raven');
 const { forEach, isEmpty } = require('lodash');
-const { get, getOr } = require('lodash/fp');
+const { getOr } = require('lodash/fp');
 
 const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
+const injectHeroImage = require('../middleware/inject-hero');
 const { shouldServe } = require('../modules/pageLogic');
-const { defaultHeroImage, withFallbackImage } = require('../modules/images');
+const { withFallbackImage } = require('../modules/images');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
 const contentApi = require('../services/content-api');
@@ -26,30 +26,6 @@ function setupRedirects(sectionPath, page) {
         redirects: redirects,
         makeBilingual: true
     });
-}
-
-function injectHeroImage(page) {
-    const heroSlug = get('heroSlug')(page);
-    return function(req, res, next) {
-        if (heroSlug) {
-            contentApi
-                .getHeroImage({
-                    locale: req.i18n.getLocale(),
-                    slug: heroSlug
-                })
-                .then(heroImage => {
-                    res.locals.heroImage = heroImage;
-                    next();
-                })
-                .catch(err => {
-                    Raven.captureException(err);
-                    res.locals.heroImage = defaultHeroImage;
-                    next();
-                });
-        } else {
-            next();
-        }
-    };
 }
 
 function handleCmsPage(sectionId) {
