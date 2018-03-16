@@ -20,21 +20,10 @@
     "watch": "concurrently --kill-others 'webpack --mode=development --watch' 'gulp watch'",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
-    "precommit": "lint-staged",
+    "precommit": "precise-commits && lint-staged && npm run lint",
     "prepush": "npm test"
   },
   "lint-staged": {
-    "assets/**/*.scss": [
-      "prettier --write"
-    ],
-    "{assets,controllers,integration-tests,lambda,middleware,models,modules,services}/**/*.js": [
-      "prettier --write",
-      "eslint"
-    ],
-    "{gulpfile.js,server.js}": [
-      "prettier --write",
-      "eslint"
-    ],
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
       "./bin/generate-cloudfront-config"
     ]
@@ -163,6 +152,7 @@
     "nyc": "^11.4.1",
     "p-settle": "^2.0.0",
     "postcss-fout-with-a-class": "^1.1.0",
+    "precise-commits": "^1.0.2",
     "prettier": "^1.8.2",
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
