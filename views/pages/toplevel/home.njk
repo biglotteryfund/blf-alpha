@@ -2,7 +2,7 @@
 {% from "components/caseStudies.njk" import caseStudyFeature %}
 {% from "components/forms.njk" import textInput, radios with context %}
 {% from "components/hero.njk" import homepageSuperHero %}
-{% from "components/news.njk" import articleTeaser with context %}
+{% from "components/news.njk" import latestNews with context %}
 {% from "components/social.njk" import socialLinks %}
 
 {% extends "layouts/main.njk" %}
@@ -72,18 +72,7 @@
             {% if news.length %}
                 <section class="accent--{{ pageAccent }} a--border-top">
                     <div class="padded padded--wide-only">
-                        <h3 class="t1">
-                            <a href="{{ buildUrl("uk-wide/news-and-events") }}">
-                                {{ copy.latestNews }}
-                            </a>
-                        </h3>
-                        <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-                            {% for article in news %}
-                                <li class="grid__item">
-                                    {{ articleTeaser(article) }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                        {{ latestNews(news) }}
                     </div>
                 </section>
             {% endif %}

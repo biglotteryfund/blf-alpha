@@ -55,6 +55,8 @@ global:
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:
+    latestNews: Newyddion diweddaraf
+    viewAllNews: View all news articles
     seeProgramme: Gweld y rhaglen
     caseStudies: Astudiaethau achos
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
@@ -129,7 +131,6 @@ toplevel:
       imageSmallUrl: home/case-study-3-small.jpg
       link: funding/big-stories/bytes
     browseFundedProjects: Pori'r holl brosiectau a ariannwyd
-    latestNews: Newyddion diweddaraf
     social:
       followUsOn: Dilynwch ni ar
       instagram: Instagram
