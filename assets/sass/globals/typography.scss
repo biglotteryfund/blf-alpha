@@ -13,20 +13,20 @@ h2,
 .t2 {
     @include poppins();
     font-weight: 600;
-    font-size: 20px;
+    @include font-and-leading(20px, 26px);
 }
 
 h3,
 .t3 {
     @include roboto();
-    @include font-and-leading(20px, 27px);
+    @include font-and-leading(20px, 26px);
     font-weight: 400;
 }
 
 h4,
 .t4 {
     @include poppins();
-    @include font-and-leading(18px, 27px);
+    @include font-and-leading(18px, 26px);
     font-weight: 600;
 }
 
@@ -47,7 +47,7 @@ h6,
 .t7 {
     @include roboto();
     font-weight: 400;
-    @include font-and-leading(14px, 24px);
+    @include font-and-leading(14px, 20px);
 }
 
 .t8 {
