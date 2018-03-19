@@ -1,28 +1,45 @@
-<p>Dear {{ data['first-name'] }},</p>
-<p>Thank you for submitting your idea. A local funding officer will contact you within 28 days.</p>
-<p>Here's the data you submitted to us:</p>
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedPath(true) }}">
+        <link href="//fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div class="logo">
+            <img src="https://{{ appData.config.get('siteDomain') }}{{ 'logos/logo.png' | getImagePath }}" alt="Big Lottery Fund logo" />
+        </div>
 
-<pre>======</pre>
+        <p>Dear {{ data['first-name'] }},</p>
+        <p>Thank you for getting in touch with us.</p>
+        <p>You will see a copy of the information you submitted below. This will be forwarded to one of our funding officers who will get in touch within 7 days to let you know if we can help.</p>
+        <p>In the meantime, you can find out more about our funding and how we can support your community on our website: <a href="https://www.biglotteryfund.org.uk/england">www.biglotteryfund.org.uk/england</a></p>
+        <p>Thanks,</p>
+        <p><strong>The Big Lottery Fund</strong></p>
 
-{% for step in summary %}
-    <h2>{{ step.name }}</h2>
-    {% for fieldset in step.fieldsets %}
-        {% for field in fieldset.fields %}
-            {% if field.value %}
-                <h3>{{ field.label }}</h3>
-                {% if field.type === 'textarea' %}
-                    <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
-                {% elseif field.type === 'checkbox' %}
-                    <p>{{ field.value | joinIfArray(', ') }}</p>
-                {% else %}
-                    <p>{{ field.value }}</p>
-                {% endif %}
-            {% endif %}
+        <h2 class="space-above">Your information</h2>
+        {% for step in summary %}
+            <h4 class="data__step">{{ step.name }}</h4>
+            {% for fieldset in step.fieldsets %}
+                {% for field in fieldset.fields %}
+                    {% if field.value %}
+                        <h5 class="data__label">{{ field.label }}</h5>
+                        {% if field.type === 'textarea' %}
+                            <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
+                        {% elseif field.type === 'checkbox' %}
+                            <p>{{ field.value | joinIfArray(', ') }}</p>
+                        {% else %}
+                            <p>{{ field.value }}</p>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-{% endfor %}
 
-<pre>======</pre>
+        <h5 class="space-above">Data protection</h5>
+        <small>The Big Lottery Fund is a public body with a duty to distribute National Lottery and other money in grants for good causes. We use the personal data you provide, such as contact details for individuals at your organisation, to help you apply for a grant and to assess your application.</small>
+        <small>We may share your personal data with organisations which help us with our grant making activities or others which have a legitimate interest in our work or have funded your grant. We will only share personal data which they need to carry out their work and subject to appropriate safety measures.</small>
+        <small>Our Data Protection and Privacy Notice gives more information about how we store and use personal data and the lawful basis for this. Please read the full Notice which is published on our website at www.biglotteryfund.org.uk/data-protection or contact us to request a hard copy. The Notice may be updated from time to time.</small>
 
-<p>Thanks,</p>
-<p><strong>The Big Lottery Fund</strong></p>
+    </body>
+</html>

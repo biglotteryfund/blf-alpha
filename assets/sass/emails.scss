@@ -53,3 +53,24 @@ blockquote {
         width: 150px;
     }
 }
+
+.data__step {
+    border-bottom: 1px solid palette('pink');
+    padding-bottom: 3px;
+    font-weight: bold;
+}
+
+.data__label {
+    font-weight: bold;
+}
+
+small {
+    display: block;
+    font-size: 11px;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.space-above {
+    margin-top: 50px;
+}

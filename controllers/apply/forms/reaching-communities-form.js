@@ -1,6 +1,7 @@
 const { check } = require('express-validator/check');
 const { castArray } = require('lodash');
 const moment = require('moment');
+const Raven = require('raven');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
@@ -195,41 +196,48 @@ formModel.registerSuccessStep({
     title: 'We Have Received Your Idea',
     processor: function(formData) {
         return new Promise((resolve, reject) => {
-            let summary = formModel.getStepsWithValues(formData);
-            let flatData = formModel.getStepValuesFlattened(formData);
-            const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+            const summary = formModel.getStepsWithValues(formData);
+            const flatData = formModel.getStepValuesFlattened(formData);
+            const to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
 
-            let to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
+            // First render a Nunjucks template to a string
+            app.render('emails/applicationSummary', {
+                summary: summary,
+                form: formModel,
+                data: flatData
+            }, (errorRenderingTemplate, html) => {
 
-            // generate HTML for email
-            app.render(
-                'emails/applicationSummary',
-                {
-                    summary: summary,
-                    form: formModel,
-                    data: flatData
-                },
-                (err, html) => {
-                    if (err) {
-                        reject(err);
-                    }
+                if (errorRenderingTemplate) {
+                    return reject(errorRenderingTemplate);
+                }
+                // Next, convert this string into inline-styled HTML
+                mail
+                    .renderHtmlEmail(html)
+                    .then(inlinedHtml => {
+                        // BCC internal staff
+                        const rcRecipients = getSecret('emails.reachingcommunities.recipients');
+                        const sendTo = [to].concat(rcRecipients.split(','));
 
-                    // BCC internal staff
-                    const rcRecipients = getSecret('emails.reachingcommunities.recipients');
-                    const sendTo = [to].concat(rcRecipients.split(','));
-
-                    mail
-                        .send({
-                            html: html,
+                        mail.send({
+                            html: inlinedHtml,
                             sendTo: sendTo,
                             sendMode: 'bcc',
                             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                            subject: `Your Reaching Communities application - ${dateNow}`
+                            subject: `Thank you for getting in touch with the Big Lottery Fund!`
                         })
                         .catch(mailSendError => reject(mailSendError))
                         .then(() => resolve(formData));
-                }
-            );
+                    })
+                    .catch(err => {
+                        Raven.captureMessage('Error converting template to inline CSS', {
+                            extra: err,
+                            tags: {
+                                feature: 'reaching-communities'
+                            }
+                        });
+                        return reject(err);
+                    });
+            });
         });
     }
 });
