@@ -88,7 +88,7 @@ toplevel:
       improve their communities. The money awarded comes from the UK National Lottery.
     hero:
       intro: The Big Lottery Fund distributes <a href="/data">over £600m</a> a year
-        to communities across the UK, raised by players of The <a href="https://www.national-lottery.co.uk/">National
+        to communities across the UK, raised by players of <a href="https://www.national-lottery.co.uk/">The National
         Lottery</a>
       under10k:
         short: Apply for funding under £10,000
@@ -139,7 +139,7 @@ toplevel:
   northernIreland:
     title: Northern Ireland
     introduction: Big Lottery Fund is the largest community funder in the UK.
-      Each year we distribute millions of pounds of the National Lottery’s
+      Each year we distribute millions of pounds of The National Lottery’s
       good causes money to community groups and charitable projects around the country.
     sections:
       availableFunding:
@@ -221,7 +221,7 @@ toplevel:
   wales:
     title: Wales
     introduction: Big Lottery Fund is the largest community funder in the UK.
-      Each year we distribute millions of pounds of the National Lottery’s good
+      Each year we distribute millions of pounds of The National Lottery’s good
       causes money to community groups and charitable projects around the country.
     sections:
       availableFunding:
@@ -999,7 +999,7 @@ funding:
       subtitle: Thank the players of the National Lottery
       heroText: Using our logo
       body: It's really important that people involved with your project understand
-        that it's been supported by players of the National Lottery – having our logo
+        that it's been supported by players of The National Lottery – having our logo
         somewhere easily visible really helps to do this. You can put the logo on
         a wall, add it to your website or a piece of equipment – anywhere where people
         can see it. You can download our logos below.
