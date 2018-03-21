@@ -70,18 +70,18 @@ app.use(
     })
 );
 
-// load tools endpoint (including status page for load balancer)
+// Mount tools controller (including status page for load balancer)
 app.use('/', require('./controllers/toplevel/tools'));
 
-// map user auth controller
-app.use('/user', require('./controllers/user/index'));
-
-// @TODO: Investigate why this needs to come first to avoid unwanted pageId being injected in route binding below
+// Mount apply controller (forms)
 if (appData.isNotProduction) {
-    const applyPath = '/experimental/apply';
+    const applyPath = '/apply';
     app.use(applyPath, require('./controllers/apply'));
     app.use(cymreigio(applyPath), require('./controllers/apply'));
 }
+
+// Mount user auth controller
+app.use('/user', require('./controllers/user'));
 
 // route binding
 for (let sectionId in routes.sections) {

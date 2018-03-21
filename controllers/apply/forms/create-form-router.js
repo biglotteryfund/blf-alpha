@@ -26,7 +26,7 @@ module.exports = function(router, formModel) {
 
         function renderStep(req, res, errors = []) {
             const stepData = get(req.session, formModel.getSessionProp(currentStepNumber), {});
-            res.render('pages/experimental/apply/form', {
+            res.render('pages/apply/form', {
                 csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
@@ -77,7 +77,7 @@ module.exports = function(router, formModel) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.render('pages/experimental/apply/review', {
+            res.render('pages/apply/review', {
                 form: formModel,
                 review: formModel.getReviewStep(),
                 summary: formModel.getStepsWithValues(formData),
@@ -96,7 +96,7 @@ module.exports = function(router, formModel) {
             let processSuccess = successStep.processor(formData);
             processSuccess
                 .then(() => {
-                    res.render('pages/experimental/apply/success', {
+                    res.render('pages/apply/success', {
                         form: formModel,
                         success: successStep
                     });
