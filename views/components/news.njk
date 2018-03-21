@@ -13,3 +13,29 @@
         </p>
     </article>
 {% endmacro %}
+
+{% macro latestNews(articles) %}
+    <div class="latest-news">
+        <div class="latest-news__header">
+            <h3 class="t1 t--underline a--text accent--blue">
+                <a class="u-link-minimal" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                    {{ __('global.misc.latestNews') }}</h3>
+                </a>
+            </h3>
+        </div>
+        <div class="latest-news__content">
+            <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                {% for article in articles %}
+                    <li class="grid__item">
+                        {{ articleTeaser(article) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="latest-news__footer">
+            <a class="latest-news__more" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                {{ __('global.misc.viewAllNews') }}
+            </a>
+        </div>
+    </div>
+{% endmacro %}

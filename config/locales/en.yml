@@ -55,6 +55,8 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    latestNews: Latest news
+    viewAllNews: View all news articles
     seeProgramme: See programme
     projectExamples: Examples of projects that have been funded
     caseStudies: Case studies
@@ -130,7 +132,6 @@ toplevel:
       imageSmallUrl: home/case-study-3-small.jpg
       link: funding/big-stories/bytes
     browseFundedProjects: Search for all funded projects
-    latestNews: Latest news
     social:
       followUsOn: Follow us on
       instagram: Instagram

@@ -1,0 +1,29 @@
+/* =========================================================================
+   News
+   ========================================================================= */
+
+// .article-teaser {}
+.article-teaser__summary {
+    font-size: 18px;
+}
+
+.latest-news {
+    position: relative;
+}
+.latest-news__footer {
+    margin-bottom: $spacingUnit;
+
+    @include mq('medium') {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+    }
+}
+.latest-news__more {
+    font-size: 18px;
+
+    &:after {
+        content: " →";
+    }
+}
