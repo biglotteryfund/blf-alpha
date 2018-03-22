@@ -121,7 +121,8 @@ sections.funding.addRoutes({
         sMaxAge: '30m',
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
-        aliases: ['/home/funding']
+        aliases: ['/home/funding'],
+        heroSlug: 'active-plus-communities'
     }),
     under10k: dynamicRoute({
         path: '/under10k',
