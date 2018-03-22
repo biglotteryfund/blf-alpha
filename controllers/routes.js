@@ -242,6 +242,7 @@ sections.about.addRoutes({
         sMaxAge: '30m',
         template: 'pages/toplevel/about',
         lang: 'about.landing',
+        heroSlug: 'mental-health-foundation',
         aliases: [
             '/about-big',
             '/england/about-big',
