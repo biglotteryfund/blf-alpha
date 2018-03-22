@@ -25,6 +25,8 @@
         type="{{ type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
+        {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
+        {% if field.size %}size="{{ field.size }}"{% endif %}
         value="{% if field.value %}{{ field.value }}{% endif %}"
         {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
     />
