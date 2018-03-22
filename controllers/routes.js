@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const { heroImages } = require('../modules/images');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
@@ -54,14 +53,14 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.northernIreland',
         isBilingual: false,
         aliases: ['/northernireland'],
-        heroImage: heroImages.downRightBrilliant
+        heroSlug: 'down-right-brilliant'
     }),
     wales: staticRoute({
         path: '/wales',
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
         lang: 'toplevel.wales',
-        heroImage: heroImages.grassrootsAlt
+        heroSlug: 'grassroots-wales'
     }),
     contact: staticRoute({
         path: '/contact',

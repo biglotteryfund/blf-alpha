@@ -71,7 +71,7 @@ function handleStaticPage(page) {
         } else {
             res.render(page.template, {
                 title: getOr(false, 'title')(lang),
-                heroImage: res.locals.heroImage || page.heroImage || null,
+                heroImage: page.heroImage || res.locals.heroImage || null,
                 description: lang ? lang.description : false,
                 isBilingual: isBilingual,
                 copy: lang
