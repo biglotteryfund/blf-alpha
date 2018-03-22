@@ -14,7 +14,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStep({
-    name: 'Your Idea',
+    name: 'Your idea',
     fieldsets: [
         {
             legend: 'Find out how we can help you',
@@ -55,7 +55,7 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Project Location',
+    name: 'Project location',
     fieldsets: [
         {
             legend: 'Where will your project take place? (select all that apply)',
@@ -65,11 +65,11 @@ formModel.registerStep({
                     type: 'checkbox',
                     options: [
                         {
-                            label: 'North-East',
+                            label: 'North East',
                             value: 'North-East'
                         },
                         {
-                            label: 'North-West',
+                            label: 'North West',
                             value: 'North-West'
                         },
                         {
@@ -107,10 +107,10 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your Organisation',
+    name: 'Your organisation',
     fieldsets: [
         {
-            legend: 'Your Organisation',
+            legend: 'Your organisation',
             fields: [
                 {
                     type: 'text',
@@ -135,10 +135,10 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your Details',
+    name: 'Your details',
     fieldsets: [
         {
-            legend: 'Your Details',
+            legend: 'Your details',
             fields: [
                 {
                     type: 'text',
@@ -150,7 +150,7 @@ formModel.registerStep({
                             .trim()
                             .not()
                             .isEmpty()
-                            .withMessage('First-name must be provided');
+                            .withMessage('First name must be provided');
                     }
                 },
                 {
@@ -163,7 +163,7 @@ formModel.registerStep({
                             .trim()
                             .not()
                             .isEmpty()
-                            .withMessage('Last-name must be provided');
+                            .withMessage('Last name must be provided');
                     }
                 },
                 {
@@ -187,12 +187,12 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check This Is Right',
+    title: 'Check this is right',
     proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({
-    title: 'We Have Received Your Idea',
+    title: 'We have received your idea',
     processor: function(formData) {
         return new Promise((resolve, reject) => {
             const summary = formModel.getStepsWithValues(formData);
