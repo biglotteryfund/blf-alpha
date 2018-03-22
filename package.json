@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "lint": "eslint . bin/* --ignore-pattern public/ --ignore-pattern views/",
+    "lint": "eslint . bin/*",
     "test-deps": "snyk test",
     "test-client": "mocha assets/**/*.test.js --bail --exit",
     "test-server": "nyc --include={middleware,modules,services}/**/*.js --all mocha {controllers,middleware,modules,services}/{**/*,*}.test.js --bail --exit",
@@ -20,10 +20,14 @@
     "watch": "concurrently --kill-others 'webpack --mode=development --watch' 'gulp watch'",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
-    "precommit": "precise-commits && lint-staged && npm run lint",
+    "precommit": "lint-staged",
     "prepush": "npm test"
   },
   "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint"
+    ],
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
       "./bin/generate-cloudfront-config"
     ]
@@ -152,7 +156,6 @@
     "nyc": "^11.4.1",
     "p-settle": "^2.0.0",
     "postcss-fout-with-a-class": "^1.1.0",
-    "precise-commits": "^1.0.2",
     "prettier": "^1.8.2",
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
