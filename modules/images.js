@@ -20,13 +20,6 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    activePlus: createHeroImage({
-        small: 'hero/active-plus-communities-small.jpg',
-        medium: 'hero/active-plus-communities-medium.jpg',
-        large: 'hero/active-plus-communities-large.jpg',
-        default: 'hero/active-plus-communities-medium.jpg',
-        caption: 'Active Plus Communities'
-    }),
     arkwrightMeadows: createHeroImage({
         small: 'hero/arkwright-meadows-small.jpg',
         medium: 'hero/arkwright-meadows-medium.jpg',
@@ -41,33 +34,12 @@ const heroImages = {
         default: 'hero/centre-for-better-health-bakery-medium.jpg',
         caption: 'Centre for Better Health Bakery'
     }),
-    downRightBrilliant: createHeroImage({
-        small: 'hero/larche-belfast-small.jpg',
-        medium: 'hero/larche-belfast-medium.jpg',
-        large: 'hero/larche-belfast-large.jpg',
-        default: 'hero/larche-belfast-medium.jpg',
-        caption: 'Down Right Brilliant'
-    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
         large: 'hero/friends-of-greenwich-large.jpg',
         default: 'hero/friends-of-greenwich-medium.jpg',
         caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
-    }),
-    grassroots: createHeroImage({
-        small: 'hero/grassroots-project-small.jpg',
-        medium: 'hero/grassroots-project-medium.jpg',
-        large: 'hero/grassroots-project-large.jpg',
-        default: 'hero/grassroots-project-medium.jpg',
-        caption: 'Grassroots, Grant £455,268'
-    }),
-    grassrootsAlt: createHeroImage({
-        small: 'hero/grassroots-small.jpg',
-        medium: 'hero/grassroots-medium.jpg',
-        large: 'hero/grassroots-large.jpg',
-        default: 'hero/grassroots-medium.jpg',
-        caption: 'Grassroots, Grant £455,268'
     }),
     huntingtonsProject: createHeroImage({
         small: 'hero/huntingtons-project-small.jpg',
@@ -76,26 +48,12 @@ const heroImages = {
         default: 'hero/huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
     }),
-    larcheBelfast2: createHeroImage({
-        small: 'hero/larche-belfast-2-small.jpg',
-        medium: 'hero/larche-belfast-2-medium.jpg',
-        large: 'hero/larche-belfast-2-large.jpg',
-        default: 'hero/larche-belfast-2-medium.jpg',
+    larcheBelfast: createHeroImage({
+        small: 'hero/larche-belfast-small.jpg',
+        medium: 'hero/larche-belfast-medium.jpg',
+        large: 'hero/larche-belfast-large.jpg',
+        default: 'hero/larche-belfast-medium.jpg',
         caption: "L'Arche Belfast, Grant: £573,164"
-    }),
-    larcheBelfast3: createHeroImage({
-        small: 'hero/larche-belfast-3-small.jpg',
-        medium: 'hero/larche-belfast-3-medium.jpg',
-        large: 'hero/larche-belfast-3-large.jpg',
-        default: 'hero/larche-belfast-3-medium.jpg',
-        caption: "L'Arche Belfast, Grant: £573,164"
-    }),
-    mentalHealthFoundation: createHeroImage({
-        small: 'hero/mental-health-foundation-small.jpg',
-        medium: 'hero/mental-health-foundation-medium.jpg',
-        large: 'hero/mental-health-foundation-large.jpg',
-        default: 'hero/mental-health-foundation-medium.jpg',
-        caption: 'Mental Health Foundation'
     }),
     newRoutesIntoHorseCare: createHeroImage({
         small: 'hero/new-routes-into-horse-care-small.jpg',
@@ -155,7 +113,7 @@ const heroImages = {
     })
 };
 
-const defaultHeroImage = heroImages.streetDreams;
+const defaultHeroImage = heroImages.rathlinIslandDevelopment;
 
 const withFallbackImage = heroImage => heroImage || defaultHeroImage;
 

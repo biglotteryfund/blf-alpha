@@ -57,9 +57,7 @@ describe('Core sections and features', () => {
             testSection({ urlPath: '/research', activeSection: 'research' }),
             testSection({ urlPath: '/about', activeSection: 'about' }),
             testSection({ urlPath: '/funding/programmes', activeSection: 'funding' })
-        ]).catch(err => {
-            console.log(err);
-        });
+        ]);
     });
 
     it('should serve welsh content', () => {
