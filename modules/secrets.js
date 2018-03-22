@@ -44,7 +44,7 @@ const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
 const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
 const EMAIL_REACHING_COMMUNITIES = getSecret('emails.reachingcommunities.recipients');
 const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
-const SENTRY_DSN = getSecret('sentry.dsn');
+const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
 const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
 
 module.exports = {
