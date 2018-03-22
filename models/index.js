@@ -14,6 +14,12 @@ if (DB_HOST) {
         host: DB_HOST,
         logging: false,
         dialect: 'mysql',
+        define: {
+            charset: 'utf8mb4',
+            dialectOptions: {
+                collate: 'utf8mb4_general_ci'
+            }
+        },
         // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-security
         operatorsAliases: false,
         pool: {
