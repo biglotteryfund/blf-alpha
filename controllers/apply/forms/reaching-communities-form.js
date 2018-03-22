@@ -218,40 +218,44 @@ formModel.registerSuccessStep({
              * Render a Nunjucks template to a string and
              * convert the string to inline HTML
              */
-            app.render('emails/applicationSummary', {
-                summary: summary,
-                form: formModel,
-                data: flatData
-            }, (errorRenderingTemplate, html) => {
+            app.render(
+                'emails/applicationSummary',
+                {
+                    summary: summary,
+                    form: formModel,
+                    data: flatData
+                },
+                (errorRenderingTemplate, html) => {
+                    if (errorRenderingTemplate) {
+                        return reject(errorRenderingTemplate);
+                    }
 
-                if (errorRenderingTemplate) {
-                    return reject(errorRenderingTemplate);
-                }
-
-                mail
-                    .renderHtmlEmail(html)
-                    .then(inlinedHtml => {
-                        mail.send({
-                            html: inlinedHtml,
-                            // BCC internal staff
-                            sendTo: [to].concat(EMAIL_REACHING_COMMUNITIES.split(',')),
-                            sendMode: 'bcc',
-                            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                            subject: `Thank you for getting in touch with the Big Lottery Fund!`
+                    mail
+                        .renderHtmlEmail(html)
+                        .then(inlinedHtml => {
+                            mail
+                                .send({
+                                    html: inlinedHtml,
+                                    // BCC internal staff
+                                    sendTo: [to].concat(EMAIL_REACHING_COMMUNITIES.split(',')),
+                                    sendMode: 'bcc',
+                                    sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`
+                                })
+                                .catch(mailSendError => reject(mailSendError))
+                                .then(() => resolve(formData));
                         })
-                        .catch(mailSendError => reject(mailSendError))
-                        .then(() => resolve(formData));
-                    })
-                    .catch(err => {
-                        Raven.captureMessage('Error converting template to inline CSS', {
-                            extra: err,
-                            tags: {
-                                feature: 'reaching-communities'
-                            }
+                        .catch(err => {
+                            Raven.captureMessage('Error converting template to inline CSS', {
+                                extra: err,
+                                tags: {
+                                    feature: 'reaching-communities'
+                                }
+                            });
+                            return reject(err);
                         });
-                        return reject(err);
-                    });
-            });
+                }
+            );
         });
     }
 });
