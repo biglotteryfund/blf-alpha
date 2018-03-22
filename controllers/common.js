@@ -5,6 +5,7 @@ const { getOr } = require('lodash/fp');
 
 const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
+const injectHeroImage = require('../middleware/inject-hero');
 const { shouldServe } = require('../modules/pageLogic');
 const { withFallbackImage } = require('../modules/images');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
@@ -70,7 +71,7 @@ function handleStaticPage(page) {
         } else {
             res.render(page.template, {
                 title: getOr(false, 'title')(lang),
-                heroImage: page.heroImage || null,
+                heroImage: res.locals.heroImage || page.heroImage || null,
                 description: lang ? lang.description : false,
                 isBilingual: isBilingual,
                 copy: lang
@@ -93,7 +94,7 @@ function init({ pages, router, sectionPath, sectionId }) {
                 router.get(page.path, handleCmsPage(sectionId));
             } else if (page.static) {
                 const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
-                router.get(page.path, cacheMiddleware, handleStaticPage(page));
+                router.get(page.path, cacheMiddleware, injectHeroImage(page), handleStaticPage(page));
             }
         }
     });
