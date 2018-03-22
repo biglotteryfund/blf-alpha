@@ -98,11 +98,8 @@
 
 /**
  * Common styles for longer blocks of text
- * `long` is used for new content, e.g., programme pages
- * `legacy` is use for legacy migrated content pages
  */
-.s-prose--long,
-.s-prose--legacy {
+.s-prose--long {
     h1,
     h2,
     h3,
@@ -110,6 +107,31 @@
     h5,
     h6 {
         font-weight: 600;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 21px;
+
+        &::after {
+            @include underlined();
+        }
+    }
+
+    p + h2,
+    ol + h2,
+    ul + h2 {
+        margin-top: 1.5em;
+    }
+
+    h3 {
+        margin: 1em 0 0.4em;
+        font-size: 21px;
+    }
+
+    h4 {
+        margin: 1em 0 0.4em;
+        font-size: 20px;
     }
 
     ol, ul {
@@ -129,55 +151,75 @@
     }
 
     table {
+        $table-spacing: 4px;
+
         font-size: 90%;
         box-sizing: border-box;
         width: 100%;
-        padding: 0;
-        border-collapse: collapse;
+        max-width: 40em;
+        border-collapse: separate;
+        border-spacing: 0;
         table-layout: fixed;
         margin: 0 0 1em;
+        padding: 0;
+
+
+        tr {
+            background-color: palette('pale-grey');
+
+            &:nth-child(even) {
+                background-color: darken(palette('pale-grey'), 3%);
+            }
+
+            td {
+                border: solid white;
+                border-width: $table-spacing 0 0 $table-spacing;
+
+                &:first-of-type {
+                    border-left: 0;
+                }
+            }
+        }
 
         thead,
         th {
-            font-weight: bold;
+            font-weight: normal;
             vertical-align: middle;
+            font-family: font-stack('display');
         }
+
         thead {
-            border-bottom: 3px solid palette('off-white');
-        }
-        tr {
-            border-bottom: 1px solid palette('off-white');
-        }
-        tr:last-of-type {
-            border-bottom: none;
+            color: white;
+            background-color: palette('pink');
+
+            tr {
+                background-color: transparent;
+            }
+
+            tr th {
+                border-left: $table-spacing solid lighten(palette('pink'), 5%);
+
+                &:first-of-type {
+                    border-left: 0;
+                }
+            }
         }
 
         th,
         td {
-            padding: 10px 8px;
+            padding: 1em;
             text-align: left;
+
+            > p {
+                margin: 0;
+            }
         }
+
         td {
             vertical-align: top;
         }
     }
 
-    code,
-    pre {
-        overflow-x: auto;
-        white-space: pre-wrap;
-        font-family: Hack, Consolas, monospace;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 2px;
-        color: palette('pale');
-        background-color: palette('charcoal');
-    }
-
-    pre {
-        padding: 10px;
-        border-radius: 2px;
-    }
 
     .video-container {
         margin: 0 -10px 1em;
@@ -185,15 +227,6 @@
         @include mq('medium') {
             margin: 0 1.5em 1.5em;
         }
-    }
-}
-
-/**
- * Expanded prose styles for long blocks of text
- */
-.s-prose--long {
-    h2::after {
-        @include underlined();
     }
 
     figure,
@@ -218,44 +251,22 @@
             margin-right: $spacingUnit * 3;
         }
     }
-}
 
-/**
- * Expanded prose styles for legacy pages
- */
-.s-prose--legacy {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-weight: 600;
-        line-height: 1.2;
+    code,
+    pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-family: Hack, Consolas, monospace;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 2px;
+        color: palette('pale');
+        background-color: palette('charcoal');
     }
 
-    h2 {
-        color: palette('pink');
-        margin: 1.5em 0 0.5em;
-        font-size: 24px;
-
-        @include mq('medium') {
-            font-size: 30px;
-            max-width: 22em;
-        }
-
-        &:first-of-type {
-            margin-top: 0;
-        }
+    pre {
+        padding: 10px;
+        border-radius: 2px;
     }
 
-    h3 {
-        margin: 1em 0 0.4em;
-        font-size: 22px;
-    }
-
-    h4 {
-        margin: 1em 0 0.4em;
-        font-size: 20px;
-    }
 }
