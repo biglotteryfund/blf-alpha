@@ -130,18 +130,25 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'organisation-name',
-                    label: 'Legal Name',
+                    label: 'Legal name',
                     isRequired: true,
-                    canBeDuplicated: true,
-                    duplicateLabel: 'Add another organisation',
-                    duplicateHelpText:
-                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
                     validator: function(field) {
                         return check(field.name)
                             .trim()
                             .not()
                             .isEmpty()
                             .withMessage('Organisation must be provided');
+                    }
+                },
+                {
+                    type: 'text',
+                    name: 'additional-organisations',
+                    label: 'Add another organisation',
+                    explanation: 'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
+                    isRequired: false,
+                    size: 60,
+                    validator: function(field) {
+                        return check(field.name).trim();
                     }
                 }
             ]
@@ -158,7 +165,7 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'first-name',
-                    label: 'First Name',
+                    label: 'First name',
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)
@@ -171,7 +178,7 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'last-name',
-                    label: 'Last Name',
+                    label: 'Last name',
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)

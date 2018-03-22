@@ -20,6 +20,9 @@
 
 {% macro inputText(field, type="text") %}
     <label class="ff-label" for="field-{{ field.name }}">{{ field.label }}</label>
+    {% if field.explanation %}
+        <p class="ff-explanation">{{ field.explanation | safe }}</p>
+    {% endif %}
     <input
         class="ff-text"
         type="{{ type }}"
