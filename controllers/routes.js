@@ -229,7 +229,8 @@ sections.research.addRoutes({
         path: '/',
         sMaxAge: '30m',
         template: 'pages/toplevel/research',
-        lang: 'toplevel.research'
+        lang: 'toplevel.research',
+        heroSlug: 'grassroots-project'
     })
 });
 
