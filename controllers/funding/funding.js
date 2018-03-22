@@ -1,9 +1,10 @@
 const { find } = require('lodash');
 const { sMaxAge } = require('../../middleware/cached');
+const injectHeroImage = require('../../middleware/inject-hero');
 const contentApi = require('../../services/content-api');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, sMaxAge(routeConfig.sMaxAge), (req, res) => {
+    router.get(routeConfig.path, sMaxAge(routeConfig.sMaxAge), injectHeroImage(routeConfig), (req, res) => {
         function renderLandingPage(programmes) {
             const lang = req.i18n.__(routeConfig.lang);
             res.render(routeConfig.template, {
