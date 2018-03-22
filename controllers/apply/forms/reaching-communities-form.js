@@ -252,8 +252,8 @@ formModel.registerSuccessStep({
             const customerPlusHubEmail = [customerEmail].concat(hubEmailAddresses);
 
             // only email hubs on production environments
-            const sendTo = (appData.isNotProduction) ? customerEmail : customerPlusHubEmail;
-            const sendMode = (appData.isNotProduction) ? 'to' : 'bcc';
+            const sendTo = appData.isNotProduction ? customerEmail : customerPlusHubEmail;
+            const sendMode = appData.isNotProduction ? 'to' : 'bcc';
 
             /**
              * Render a Nunjucks template to a string and
