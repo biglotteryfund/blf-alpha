@@ -112,9 +112,20 @@
         font-weight: 600;
     }
 
-    ol li,
-    ul li {
-        margin-left: $spacingUnit * 3;
+    ol, ul {
+        margin-bottom: 1em;
+
+        li {
+            margin-left: 1.5em;
+
+            @include mq('medium') {
+                margin-left: 2.5em;
+            }
+
+            > p {
+                margin-bottom: 0;
+            }
+        }
     }
 
     table {
