@@ -249,6 +249,22 @@ $btnConf: (
     }
 }
 
+
+
+.btn--next {
+    background-image: arrow-btn();
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center left;
+    min-width: 158px;
+    background-color: transparent;
+    @include on-interact {
+        background-color: transparent;
+        background-image: arrow-btn(darken(palette('blue'), 15%));
+    }
+}
+
+
 /* =========================================================================
    Button Group
    ========================================================================= */

@@ -144,7 +144,8 @@ formModel.registerStep({
                     type: 'text',
                     name: 'additional-organisations',
                     label: 'Add another organisation',
-                    explanation: 'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
+                    explanation:
+                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
                     isRequired: false,
                     size: 60,
                     validator: function(field) {
