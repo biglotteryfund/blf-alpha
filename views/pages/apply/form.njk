@@ -1,5 +1,7 @@
 {% extends "layouts/main.njk" %}
 
+{% block title %}Step {{ currentStepNumber }} of {{ totalSteps }} | {{ form.title }} | {% endblock %}
+
 {% set bodyClass = 'has-static-header' %}
 
 {% macro errorList(errors, shouldBeLinked)  %}
@@ -86,7 +88,7 @@
                     <a href="{{ prevStepUrl }}">← Back</a>
                 </div>
             {% endif %}
-            <h1 class="form-header__title u-visually-hidden">{{ form.title }}</h1>
+            <h1 class="form-header__title">{{ form.title }}</h1>
             <h2 class="form-header__subtitle">
                 Step {{ currentStepNumber }} of {{ totalSteps }}
             </h2>

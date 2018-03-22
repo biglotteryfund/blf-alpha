@@ -9,7 +9,7 @@ const { EMAIL_REACHING_COMMUNITIES } = require('../../../modules/secrets');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
-    title: 'Apply For A Grant Over £10,000',
+    title: 'Reaching Communities & Partnerships',
     shortCode: 'RC'
 });
 
