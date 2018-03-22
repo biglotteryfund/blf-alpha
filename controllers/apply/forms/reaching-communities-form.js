@@ -1,11 +1,12 @@
 const { check } = require('express-validator/check');
-const { castArray } = require('lodash');
+const { castArray, get, isArray } = require('lodash');
 const Raven = require('raven');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
-const { EMAIL_REACHING_COMMUNITIES } = require('../../../modules/secrets');
+const { HUB_EMAILS } = require('../../../modules/secrets');
+const appData = require('../../../modules/appData');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -54,6 +55,46 @@ formModel.registerStep({
     ]
 });
 
+const DEFAULT_EMAIL = HUB_EMAILS.england;
+
+const PROJECT_LOCATIONS = [
+    {
+        label: 'North East',
+        value: 'North East',
+        email: HUB_EMAILS.northEastCumbria
+    },
+    {
+        label: 'North West',
+        value: 'North West',
+        email: HUB_EMAILS.northWest
+    },
+    {
+        label: 'Yorkshire and the Humber',
+        value: 'Yorkshire and the Humber',
+        email: HUB_EMAILS.yorksHumber
+    },
+    {
+        label: 'Midlands',
+        value: 'Midlands',
+        email: HUB_EMAILS.midlands
+    },
+    {
+        label: 'South West',
+        value: 'South West',
+        email: HUB_EMAILS.southWest
+    },
+    {
+        label: 'London and South-East',
+        value: 'London and South East',
+        email: HUB_EMAILS.londonSouthEast
+    },
+    {
+        label: 'Across England',
+        value: 'Across England',
+        email: DEFAULT_EMAIL
+    }
+];
+
 formModel.registerStep({
     name: 'Project location',
     fieldsets: [
@@ -63,32 +104,7 @@ formModel.registerStep({
                 {
                     label: 'Where will your project take place?',
                     type: 'checkbox',
-                    options: [
-                        {
-                            label: 'North East',
-                            value: 'North-East'
-                        },
-                        {
-                            label: 'North West',
-                            value: 'North-West'
-                        },
-                        {
-                            label: 'Yorkshire and the Humber',
-                            value: 'Yorkshire and the Humber'
-                        },
-                        {
-                            label: 'Midlands',
-                            value: 'Midlands'
-                        },
-                        {
-                            label: 'London and South-East',
-                            value: 'London and South-East'
-                        },
-                        {
-                            label: 'Across England',
-                            value: 'Across England'
-                        }
-                    ],
+                    options: PROJECT_LOCATIONS,
                     name: 'location',
                     validator: function(field) {
                         return check(field.name).custom(value => {
@@ -217,10 +233,27 @@ formModel.registerReviewStep({
 formModel.registerSuccessStep({
     title: 'We have received your idea',
     processor: function(formData) {
+        const flatData = formModel.getStepValuesFlattened(formData);
+        const locationList = isArray(flatData.location) ? flatData.location : [flatData.location];
+
+        // match selected locations with that hub's email address
+        const hubEmailAddresses = locationList.map(location => {
+            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === location);
+            return get(matchedLocation, 'email', DEFAULT_EMAIL);
+        });
+
         return new Promise((resolve, reject) => {
             const summary = formModel.getStepsWithValues(formData);
-            const flatData = formModel.getStepValuesFlattened(formData);
-            const to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
+
+            // construct an email address for the customer
+            const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
+
+            // add the relevant hub emails
+            const customerPlusHubEmail = [customerEmail].concat(hubEmailAddresses);
+
+            // only email hubs on production environments
+            const sendTo = (appData.isNotProduction) ? customerEmail : customerPlusHubEmail;
+            const sendMode = (appData.isNotProduction) ? 'to' : 'bcc';
 
             /**
              * Render a Nunjucks template to a string and
@@ -243,12 +276,11 @@ formModel.registerSuccessStep({
                         .then(inlinedHtml => {
                             mail
                                 .send({
-                                    html: inlinedHtml,
-                                    // BCC internal staff
-                                    sendTo: [to].concat(EMAIL_REACHING_COMMUNITIES.split(',')),
-                                    sendMode: 'bcc',
+                                    sendTo: sendTo,
+                                    sendMode: sendMode,
                                     sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`
+                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`,
+                                    html: inlinedHtml
                                 })
                                 .catch(mailSendError => reject(mailSendError))
                                 .then(() => resolve(formData));
