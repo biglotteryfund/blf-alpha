@@ -42,6 +42,7 @@ const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('data
 const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
 const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
 const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
+const EMAIL_REACHING_COMMUNITIES = getSecret('emails.reachingcommunities.recipients');
 const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 const SENTRY_DSN = getSecret('sentry.dsn');
 const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
@@ -55,6 +56,7 @@ module.exports = {
     DB_HOST,
     DB_USER,
     DB_PASS,
+    EMAIL_REACHING_COMMUNITIES,
     JWT_SIGNING_TOKEN,
     SENTRY_DSN,
     SESSION_SECRET

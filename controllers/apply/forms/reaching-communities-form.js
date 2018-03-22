@@ -1,12 +1,11 @@
 const { check } = require('express-validator/check');
 const { castArray } = require('lodash');
-const moment = require('moment');
 const Raven = require('raven');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
-const { getSecret } = require('../../../modules/secrets');
+const { EMAIL_REACHING_COMMUNITIES } = require('../../../modules/secrets');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -200,7 +199,10 @@ formModel.registerSuccessStep({
             const flatData = formModel.getStepValuesFlattened(formData);
             const to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
 
-            // First render a Nunjucks template to a string
+            /**
+             * Render a Nunjucks template to a string and
+             * convert the string to inline HTML
+             */
             app.render('emails/applicationSummary', {
                 summary: summary,
                 form: formModel,
@@ -210,17 +212,14 @@ formModel.registerSuccessStep({
                 if (errorRenderingTemplate) {
                     return reject(errorRenderingTemplate);
                 }
-                // Next, convert this string into inline-styled HTML
+
                 mail
                     .renderHtmlEmail(html)
                     .then(inlinedHtml => {
-                        // BCC internal staff
-                        const rcRecipients = getSecret('emails.reachingcommunities.recipients');
-                        const sendTo = [to].concat(rcRecipients.split(','));
-
                         mail.send({
                             html: inlinedHtml,
-                            sendTo: sendTo,
+                            // BCC internal staff
+                            sendTo: [to].concat(EMAIL_REACHING_COMMUNITIES.split(',')),
                             sendMode: 'bcc',
                             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
                             subject: `Thank you for getting in touch with the Big Lottery Fund!`

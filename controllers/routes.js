@@ -315,6 +315,10 @@ const otherUrls = [
         path: '/error'
     }),
     basicRoute({
+        path: '/apply/*',
+        live: false
+    }),
+    basicRoute({
         path: '/styleguide'
     }),
     basicRoute({
