@@ -52,7 +52,7 @@
         <div class="programme-card__body">
             {% if programme.description %}
                 <div class="programme-card__description">
-                    <p>{{ programme.description }}</p>
+                    {{ programme.description | safe }}
                 </div>
             {% endif %}
             <div class="programme-card__details">
