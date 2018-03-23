@@ -11,7 +11,8 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
     res.render('pages/apply/reaching-communities-startpage', {
-        startUrl: `${req.baseUrl}/1`
+        startUrl: `${req.baseUrl}/1`,
+        form: formModel
     });
 });
 

@@ -205,3 +205,9 @@
 
     @return url('data:image/svg+xml,#{$encoded}');
 }
+
+@function arrow-btn($color: palette('blue')) {
+    @return svg-url(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="313" height="116"><path fill-rule="evenodd" fill="#{$color}" d="M310.864 66.378c-2.431 2.29-48.785 44.819-52.957 48.701-.339.316-.825.527-1.407.648V116h-199C25.744 116 0 90.256 0 58.5S25.744 1 57.5 1h192.481c1.936-.314 4.011-.317 5.595 0h.924v.244c.533.178.973.403 1.27.68 2.891 2.705 51.163 47.189 53.158 49.056 2.587 2.42 2.971 12.543-.064 15.398z"/></svg>'
+    );
+}

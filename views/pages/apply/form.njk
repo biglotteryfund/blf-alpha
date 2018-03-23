@@ -1,5 +1,7 @@
 {% extends "layouts/main.njk" %}
 
+{% block title %}Step {{ currentStepNumber }} of {{ totalSteps }} | {{ form.title }} | {% endblock %}
+
 {% set bodyClass = 'has-static-header' %}
 
 {% macro errorList(errors, shouldBeLinked)  %}
@@ -18,11 +20,16 @@
 
 {% macro inputText(field, type="text") %}
     <label class="ff-label" for="field-{{ field.name }}">{{ field.label }}</label>
+    {% if field.explanation %}
+        <p class="ff-explanation">{{ field.explanation | safe }}</p>
+    {% endif %}
     <input
         class="ff-text"
         type="{{ type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
+        {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
+        {% if field.size %}size="{{ field.size }}"{% endif %}
         value="{% if field.value %}{{ field.value }}{% endif %}"
         {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
     />
@@ -86,7 +93,7 @@
                     <a href="{{ prevStepUrl }}">← Back</a>
                 </div>
             {% endif %}
-            <h1 class="form-header__title u-visually-hidden">{{ form.title }}</h1>
+            <h1 class="form-header__title">{{ form.title }}</h1>
             <h2 class="form-header__subtitle">
                 Step {{ currentStepNumber }} of {{ totalSteps }}
             </h2>
@@ -180,6 +187,7 @@
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
         {% endif %}
 
-        <input class="btn" type="submit" value="Next" />
+        <input class="btn btn--next" type="submit" value="Next" />
+
     </form>
 {% endblock %}

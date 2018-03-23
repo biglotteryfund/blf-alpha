@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-
+{% block title %}Success | {{ form.title }} | {% endblock %}
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
@@ -9,7 +9,7 @@
                 <h1 class="t1 form-success-message__title">{{ success.title }}</h1>
             </div>
 
-            <h2 class="t2 t--underline accent--pink">What Happens Next?</h2>
+            <h2 class="t2 t--underline accent--pink">What happens next?</h2>
             <p>Thank you for submitting your idea. A local funding officer will contact you within 24 hours.</p>
         </div>
     </div>

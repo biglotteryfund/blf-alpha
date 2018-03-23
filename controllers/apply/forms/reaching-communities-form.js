@@ -1,20 +1,21 @@
 const { check } = require('express-validator/check');
-const { castArray } = require('lodash');
+const { castArray, get, isArray } = require('lodash');
 const Raven = require('raven');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
 const createFormModel = require('./create-form-model');
-const { EMAIL_REACHING_COMMUNITIES } = require('../../../modules/secrets');
+const { HUB_EMAILS } = require('../../../modules/secrets');
+const appData = require('../../../modules/appData');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
-    title: 'Apply For A Grant Over £10,000',
+    title: 'Reaching Communities & Partnerships',
     shortCode: 'RC'
 });
 
 formModel.registerStep({
-    name: 'Your Idea',
+    name: 'Your idea',
     fieldsets: [
         {
             legend: 'Find out how we can help you',
@@ -54,8 +55,48 @@ formModel.registerStep({
     ]
 });
 
+const DEFAULT_EMAIL = HUB_EMAILS.england;
+
+const PROJECT_LOCATIONS = [
+    {
+        label: 'North East',
+        value: 'North East',
+        email: HUB_EMAILS.northEastCumbria
+    },
+    {
+        label: 'North West',
+        value: 'North West',
+        email: HUB_EMAILS.northWest
+    },
+    {
+        label: 'Yorkshire and the Humber',
+        value: 'Yorkshire and the Humber',
+        email: HUB_EMAILS.yorksHumber
+    },
+    {
+        label: 'Midlands',
+        value: 'Midlands',
+        email: HUB_EMAILS.midlands
+    },
+    {
+        label: 'South West',
+        value: 'South West',
+        email: HUB_EMAILS.southWest
+    },
+    {
+        label: 'London and South-East',
+        value: 'London and South East',
+        email: HUB_EMAILS.londonSouthEast
+    },
+    {
+        label: 'Across England',
+        value: 'Across England',
+        email: DEFAULT_EMAIL
+    }
+];
+
 formModel.registerStep({
-    name: 'Project Location',
+    name: 'Project location',
     fieldsets: [
         {
             legend: 'Where will your project take place? (select all that apply)',
@@ -63,32 +104,7 @@ formModel.registerStep({
                 {
                     label: 'Where will your project take place?',
                     type: 'checkbox',
-                    options: [
-                        {
-                            label: 'North-East',
-                            value: 'North-East'
-                        },
-                        {
-                            label: 'North-West',
-                            value: 'North-West'
-                        },
-                        {
-                            label: 'Yorkshire and the Humber',
-                            value: 'Yorkshire and the Humber'
-                        },
-                        {
-                            label: 'Midlands',
-                            value: 'Midlands'
-                        },
-                        {
-                            label: 'London and South-East',
-                            value: 'London and South-East'
-                        },
-                        {
-                            label: 'Across England',
-                            value: 'Across England'
-                        }
-                    ],
+                    options: PROJECT_LOCATIONS,
                     name: 'location',
                     validator: function(field) {
                         return check(field.name).custom(value => {
@@ -100,6 +116,21 @@ formModel.registerStep({
                             }
                         });
                     }
+                },
+                {
+                    type: 'text',
+                    name: 'project-location',
+                    label: "In your own words, describe the location(s) that you'll be running your project(s) in",
+                    placeholder: 'eg. "Newtown community centre" or "Alfreton, Derby and Ripley"',
+                    isRequired: true,
+                    size: 60,
+                    validator: function(field) {
+                        return check(field.name)
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('Project location must be provided');
+                    }
                 }
             ]
         }
@@ -107,20 +138,16 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your Organisation',
+    name: 'Your organisation',
     fieldsets: [
         {
-            legend: 'Your Organisation',
+            legend: 'Your organisation',
             fields: [
                 {
                     type: 'text',
                     name: 'organisation-name',
-                    label: 'Legal Name',
+                    label: 'Legal name',
                     isRequired: true,
-                    canBeDuplicated: true,
-                    duplicateLabel: 'Add another organisation',
-                    duplicateHelpText:
-                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
                     validator: function(field) {
                         return check(field.name)
                             .trim()
@@ -128,6 +155,18 @@ formModel.registerStep({
                             .isEmpty()
                             .withMessage('Organisation must be provided');
                     }
+                },
+                {
+                    type: 'text',
+                    name: 'additional-organisations',
+                    label: 'Add another organisation',
+                    explanation:
+                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
+                    isRequired: false,
+                    size: 60,
+                    validator: function(field) {
+                        return check(field.name).trim();
+                    }
                 }
             ]
         }
@@ -135,35 +174,35 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your Details',
+    name: 'Your details',
     fieldsets: [
         {
-            legend: 'Your Details',
+            legend: 'Your details',
             fields: [
                 {
                     type: 'text',
                     name: 'first-name',
-                    label: 'First Name',
+                    label: 'First name',
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)
                             .trim()
                             .not()
                             .isEmpty()
-                            .withMessage('First-name must be provided');
+                            .withMessage('First name must be provided');
                     }
                 },
                 {
                     type: 'text',
                     name: 'last-name',
-                    label: 'Last Name',
+                    label: 'Last name',
                     isRequired: true,
                     validator: function(field) {
                         return check(field.name)
                             .trim()
                             .not()
                             .isEmpty()
-                            .withMessage('Last-name must be provided');
+                            .withMessage('Last name must be provided');
                     }
                 },
                 {
@@ -187,56 +226,76 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check This Is Right',
+    title: 'Check this is right',
     proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({
-    title: 'We Have Received Your Idea',
+    title: 'We have received your idea',
     processor: function(formData) {
+        const flatData = formModel.getStepValuesFlattened(formData);
+        const locationList = isArray(flatData.location) ? flatData.location : [flatData.location];
+
+        // match selected locations with that hub's email address
+        const hubEmailAddresses = locationList.map(location => {
+            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === location);
+            return get(matchedLocation, 'email', DEFAULT_EMAIL);
+        });
+
         return new Promise((resolve, reject) => {
             const summary = formModel.getStepsWithValues(formData);
-            const flatData = formModel.getStepValuesFlattened(formData);
-            const to = `${flatData['first-name']} ${flatData['first-name']} <${flatData['email']}>`;
+
+            // construct an email address for the customer
+            const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
+
+            // add the relevant hub emails
+            const customerPlusHubEmail = [customerEmail].concat(hubEmailAddresses);
+
+            // only email hubs on production environments
+            const sendTo = appData.isNotProduction ? customerEmail : customerPlusHubEmail;
+            const sendMode = appData.isNotProduction ? 'to' : 'bcc';
 
             /**
              * Render a Nunjucks template to a string and
              * convert the string to inline HTML
              */
-            app.render('emails/applicationSummary', {
-                summary: summary,
-                form: formModel,
-                data: flatData
-            }, (errorRenderingTemplate, html) => {
+            app.render(
+                'emails/applicationSummary',
+                {
+                    summary: summary,
+                    form: formModel,
+                    data: flatData
+                },
+                (errorRenderingTemplate, html) => {
+                    if (errorRenderingTemplate) {
+                        return reject(errorRenderingTemplate);
+                    }
 
-                if (errorRenderingTemplate) {
-                    return reject(errorRenderingTemplate);
-                }
-
-                mail
-                    .renderHtmlEmail(html)
-                    .then(inlinedHtml => {
-                        mail.send({
-                            html: inlinedHtml,
-                            // BCC internal staff
-                            sendTo: [to].concat(EMAIL_REACHING_COMMUNITIES.split(',')),
-                            sendMode: 'bcc',
-                            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                            subject: `Thank you for getting in touch with the Big Lottery Fund!`
+                    mail
+                        .renderHtmlEmail(html)
+                        .then(inlinedHtml => {
+                            mail
+                                .send({
+                                    sendTo: sendTo,
+                                    sendMode: sendMode,
+                                    sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`,
+                                    html: inlinedHtml
+                                })
+                                .catch(mailSendError => reject(mailSendError))
+                                .then(() => resolve(formData));
                         })
-                        .catch(mailSendError => reject(mailSendError))
-                        .then(() => resolve(formData));
-                    })
-                    .catch(err => {
-                        Raven.captureMessage('Error converting template to inline CSS', {
-                            extra: err,
-                            tags: {
-                                feature: 'reaching-communities'
-                            }
+                        .catch(err => {
+                            Raven.captureMessage('Error converting template to inline CSS', {
+                                extra: err,
+                                tags: {
+                                    feature: 'reaching-communities'
+                                }
+                            });
+                            return reject(err);
                         });
-                        return reject(err);
-                    });
-            });
+                }
+            );
         });
     }
 });
