@@ -6,12 +6,13 @@ const moment = require('moment');
 const Raven = require('raven');
 const { assign, find, findIndex, get, last, uniq } = require('lodash');
 
+const cached = require('../../middleware/cached');
 const { splitPercentages } = require('../../modules/ab');
 const { heroImages } = require('../../modules/images');
 const { addPreviewStatus } = require('../../modules/preview');
-const contentApi = require('../../services/content-api');
-const cached = require('../../middleware/cached');
+const { isBilingual } = require('../../modules/pageLogic');
 const appData = require('../../modules/appData');
+const contentApi = require('../../services/content-api');
 
 const programmeFilters = {
     getValidLocation(programmes, requestedLocation) {
@@ -143,7 +144,7 @@ function renderProgrammeDetail({ res, entry }) {
     res.render('pages/funding/programme-detail', {
         entry: entry,
         title: entry.summary.title,
-        isBilingual: entry.availableLanguages.length === 2,
+        isBilingual: isBilingual(entry.availableLanguages),
         heroImage: entry.hero || heroImages.rathlinIslandDevelopment
     });
 }

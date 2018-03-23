@@ -6,8 +6,7 @@ const { getOr } = require('lodash/fp');
 const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const injectHeroImage = require('../middleware/inject-hero');
-const { shouldServe } = require('../modules/pageLogic');
-const { withFallbackImage } = require('../modules/images');
+const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
 const contentApi = require('../services/content-api');
@@ -37,21 +36,17 @@ function handleCmsPage(sectionId) {
                 previewMode: res.locals.PREVIEW_MODE || false
             })
             .then(content => {
-                const title = content.title;
-                const heroImage = content.hero;
+                const viewData = {
+                    content: content,
+                    title: content.title,
+                    heroImage: content.hero,
+                    isBilingual: isBilingual(content.availableLanguages)
+                };
 
                 if (content.children) {
-                    res.render('pages/listings/listingPage', {
-                        title,
-                        content,
-                        heroImage
-                    });
+                    res.render('pages/listings/listingPage', viewData);
                 } else {
-                    res.render('pages/listings/informationPage', {
-                        title,
-                        content,
-                        heroImage
-                    });
+                    res.render('pages/listings/informationPage', viewData);
                 }
             })
             .catch(err => {
@@ -63,8 +58,8 @@ function handleCmsPage(sectionId) {
 function handleStaticPage(page) {
     return function(req, res, next) {
         const lang = page.lang ? req.i18n.__(page.lang) : false;
-        const isBilingual = getOr(true, 'isBilingual')(page);
-        const shouldRedirectLang = (!isBilingual || isEmpty(lang)) && isWelsh(req.originalUrl);
+        const isBilingualOverride = getOr(true, 'isBilingual')(page);
+        const shouldRedirectLang = (!isBilingualOverride || isEmpty(lang)) && isWelsh(req.originalUrl);
 
         if (shouldRedirectLang) {
             next();
@@ -73,7 +68,7 @@ function handleStaticPage(page) {
                 title: getOr(false, 'title')(lang),
                 heroImage: res.locals.heroImage || null,
                 description: lang ? lang.description : false,
-                isBilingual: isBilingual,
+                isBilingual: isBilingualOverride,
                 copy: lang
             });
         }
