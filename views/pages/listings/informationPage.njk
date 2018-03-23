@@ -3,7 +3,11 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set socialImage = heroImage %}
+{% if heroImage %}
+    {% set socialImage = heroImage %}
+{% else %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block title %}{{ title }} | {% endblock %}
 
@@ -19,20 +23,30 @@
 
 {% block content %}
     {% set pageAccent = content.themeColour | default('pink') %}
-    {{ hero(
-        titleText = title,
-        image = heroImage,
-        accent = pageAccent
-    ) }}
 
-    <main role="main" class="nudge-up">
+    {% if heroImage %}
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+    {% endif %}
+
+    {% macro primaryContent() %}
+        {% if not heroImage %}
+           <h1>{{ content.title }}</h1>
+        {% endif %}
+        {{ content.introduction | safe }}
+        {{ segmentLinks(content.segments) }}
+    {% endmacro %}
+
+    <main{% if heroImage %} class="nudge-up"{% endif %}>
 
         {% if content.relatedContent %}
             <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                    <article class="content-box s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
-                        {{ content.introduction | safe }}
-                        {{ segmentLinks(content.segments) }}
+                    <article class="content-box s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+                        {{ primaryContent() }}
                     </article>
                 </div>
                 <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
@@ -43,9 +57,8 @@
             </section>
         {% else %}
             <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose s-prose--legacy u-constrained-content-wide js-annotate-links">
-                    {{ content.introduction | safe }}
-                    {{ segmentLinks(content.segments) }}
+                <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+                    {{ primaryContent() }}
                 </div>
             </section>
         {% endif %}
@@ -53,7 +66,7 @@
         {% if content.segments.length > 0 %}
             {% for segment in content.segments %}
                 <section id="segment-{{ loop.index }}" class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
-                    <div class="s-prose s-prose--legacy u-constrained-content-wide">
+                    <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide">
                         <h2 class="t1">{{ segment.title }}</h2>
                         {{ segment.content | safe }}
                     </div>
@@ -66,7 +79,7 @@
 
         {% if content.outro %}
             <section class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose s-prose--legacy">
+                <div class="s-prose s-prose--long accent-content--{{ pageAccent }}">
                     {{ content.outro | safe }}
                 </div>
             </section>

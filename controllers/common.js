@@ -38,7 +38,7 @@ function handleCmsPage(sectionId) {
             })
             .then(content => {
                 const title = content.title;
-                const heroImage = withFallbackImage(content.hero);
+                const heroImage = content.hero;
 
                 if (content.children) {
                     res.render('pages/listings/listingPage', {

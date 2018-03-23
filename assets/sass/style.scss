@@ -16,7 +16,6 @@
 // Global, element-level styles
 
 @import 'globals/base';
-@import 'globals/accents';
 @import 'globals/layout';
 @import 'globals/typography';
 @import 'globals/forms';
@@ -69,6 +68,7 @@
 // ========================================================================= //
 // Single use clases, prefixed with u-
 
+@import 'utilities/utilities-accents';
 @import 'utilities/utilities-theme';
 @import 'utilities/utilities-display';
 @import 'utilities/utilities-text';
