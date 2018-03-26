@@ -562,11 +562,6 @@ toplevel:
         - Paid volunteering leave
         - Season ticket loan
         postscript: See all benefits
-      currentVacancies:
-        title: Senior role available
-        vacancies:
-        - label: People Director
-          url: https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTcxMjA1OSZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA
       offices:
         title: Opportunities across the UK
       equalities:

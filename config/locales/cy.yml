@@ -483,11 +483,6 @@ toplevel:
         - Absenoldeb gwirfoddoli â thâl
         - Benthyciad tocyn tymor
         postscript: Gweld yr holl fuddion
-      currentVacancies:
-        title: Swydd uwch ar gael
-        vacancies:
-        - label: Cyfarwyddwr Pobl
-          url: https://atsv7.wcn.co.uk/search_engine/jobs.cgi?SID=amNvZGU9MTcxMjA1OSZ2dF90ZW1wbGF0ZT0xNDA2Jm93bmVyPTUwMzE3ODMmb3duZXJ0eXBlPWZhaXImYnJhbmRfaWQ9MA
       offices:
         title: Cyfleoedd ar draws y Deyrnas Unedig
       equalities:

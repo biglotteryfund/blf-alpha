@@ -41,7 +41,7 @@
             <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
         </div>
 
-        {% if copy.sections.currentVacancies.vacancies.length > 0 %}
+        {% if copy.sections.currentVacancies and copy.sections.currentVacancies.vacancies.length > 0 %}
             <div class="content-box content-box--borderless
                 inner--wide-only accent--blue a--border-top"
                 id="current-vacancies">
