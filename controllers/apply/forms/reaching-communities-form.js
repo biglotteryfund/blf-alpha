@@ -61,11 +61,13 @@ const PROJECT_LOCATIONS = [
     {
         label: 'North East',
         value: 'North East',
+        explanation: 'including Newcastle, Cumbria and the north-east of England',
         email: HUB_EMAILS.northEastCumbria
     },
     {
         label: 'North West',
         value: 'North West',
+        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside',
         email: HUB_EMAILS.northWest
     },
     {

@@ -117,6 +117,8 @@ $errorColor: #b00;
 .ff-textarea {
     display: block;
     border: 2px solid palette('charcoal');
+    // prevent elements with size attributes overflowing on mobile
+    max-width: 100%;
 
     &:focus {
         outline: 3px solid lighten(palette('turquoise'), 25%);
@@ -140,6 +142,14 @@ $errorColor: #b00;
         position: relative;
         top: -2px;
         margin-right: 5px;
+    }
+
+    // used inside labels to clarify
+    small {
+        font-size: 13px;
+        color: lighten(palette('charcoal'), 20%);
+        margin-left: 3px;
+        vertical-align: middle;
     }
 }
 
