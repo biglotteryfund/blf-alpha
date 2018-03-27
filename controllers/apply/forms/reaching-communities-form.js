@@ -61,7 +61,7 @@ const PROJECT_LOCATIONS = [
     {
         label: 'North East',
         value: 'North East',
-        explanation: 'including Newcastle, Cumbria and the north-east of England',
+        explanation: 'covering Newcastle, Cumbria and the north-east of England',
         email: HUB_EMAILS.northEastCumbria
     },
     {
@@ -76,18 +76,20 @@ const PROJECT_LOCATIONS = [
         email: HUB_EMAILS.yorksHumber
     },
     {
-        label: 'Midlands',
+        label: 'East and West Midlands',
         value: 'Midlands',
         email: HUB_EMAILS.midlands
     },
     {
         label: 'South West',
         value: 'South West',
+        explanation: 'covering Exeter, Bristol and the south-west of England',
         email: HUB_EMAILS.southWest
     },
     {
         label: 'London and South-East',
         value: 'London and South East',
+        explanation: 'covering London, the south-east and east of England',
         email: HUB_EMAILS.londonSouthEast
     },
     {
