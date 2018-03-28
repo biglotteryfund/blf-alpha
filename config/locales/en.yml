@@ -435,7 +435,7 @@ toplevel:
         body: "<p>\tAt the Big Lottery Fund we try to give the best service possible.
           However we recognise that this does not always happen and you may wish to
           make a complaint.</p><p>\tMaking a complaint will not affect your chances
-          of receiving a grant from us in the future.</p><p>\t<a href=\"/assets/files/en/complaints-procedure.pdf\">View
+          of receiving a grant from us in the future.</p><p>\t<a href=\"https://media.biglotteryfund.org.uk/media/documents/complaints-procedure.pdf\">View
           our complaints procedure here</a>.<br /></p><p>\tWe are interested in any
           comments that you may wish to make, so don't worry whether your concerns
           fit with the description of a complaint.</p><p>\tWe also welcome comments
@@ -824,7 +824,7 @@ about:
           of the public.</p>"
       publicationScheme:
         title: The Publication Scheme
-        body: "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"/assets/files/foi-publication-scheme.doc\">Publication
+        body: "<p>\tThe Freedom of Information Act requires us to produce a <a href=\"https://media.biglotteryfund.org.uk/media/documents/foi-publication-scheme.doc\">Publication
           Scheme</a>. By ‘publication' we mean information that is available to the
           public in a variety of formats, for example, reports on paper or web pages.</p><p>\tThe
           publication scheme is a document that describes the information we routinely
@@ -1021,7 +1021,7 @@ funding:
               the full range and order here</a>.
           brandGuidance:
             title: Brand guidance &ndash; getting it right
-            body: <a href="/assets/files/en/logo-guidance.pdf">Download our Brand Guidance</a> for
+            body: <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">Download our Brand Guidance</a> for
               help with using our logo correctly. If you're still not sure, get in
               touch with the Branding Team at <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>
           format:
