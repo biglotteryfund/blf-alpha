@@ -10,6 +10,7 @@ const { getBuildSummary } = require('./build-helpers');
 const buildSummary = getBuildSummary();
 
 const commonConfig = {
+    mode: buildSummary.isProduction ? 'production' : 'development',
     performance: {
         hints: buildSummary.isProduction ? 'error' : false
     },
@@ -47,6 +48,7 @@ module.exports = [
             path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts'),
             publicPath: `${buildSummary.publicDir}/javascripts/`
         },
+        devtool: buildSummary.isProduction ? 'source-map' : 'eval-source-map',
         resolve: {
             alias: {
                 vue$: 'vue/dist/vue.esm.js'
