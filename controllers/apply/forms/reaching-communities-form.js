@@ -83,9 +83,8 @@ const PROJECT_LOCATIONS = [
         email: HUB_EMAILS.southWest
     },
     {
-        label: 'London and South-East',
+        label: 'London, South-East and East of England',
         value: 'London and South East',
-        explanation: 'covering London, the south-east and east of England',
         email: HUB_EMAILS.londonSouthEast
     },
     {
