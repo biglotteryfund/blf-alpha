@@ -28,8 +28,6 @@ deploy:
   acl: public_read
   cache_control: "max-age=31536000"
   skip_cleanup: true
-  on:
-    branch: deploy-assets
 - provider: s3
   region: eu-west-1
   bucket: blf-travis-test
