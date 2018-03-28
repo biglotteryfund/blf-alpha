@@ -26,6 +26,7 @@ deploy:
   local_dir: public/build
   upload-dir: build
   acl: public_read
+  cache_control: "max-age=31536000"
   skip_cleanup: true
   on:
     branch: deploy-assets
