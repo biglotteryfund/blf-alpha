@@ -73,12 +73,8 @@ const PROJECT_LOCATIONS = [
     {
         label: 'Yorkshire and the Humber',
         value: 'Yorkshire and the Humber',
+        explanation: 'covering Yorkshire, north and north-east Lincolnshire',
         email: HUB_EMAILS.yorksHumber
-    },
-    {
-        label: 'East and West Midlands',
-        value: 'Midlands',
-        email: HUB_EMAILS.midlands
     },
     {
         label: 'South West',
@@ -91,6 +87,11 @@ const PROJECT_LOCATIONS = [
         value: 'London and South East',
         explanation: 'covering London, the south-east and east of England',
         email: HUB_EMAILS.londonSouthEast
+    },
+    {
+        label: 'East and West Midlands',
+        value: 'Midlands',
+        email: HUB_EMAILS.midlands
     },
     {
         label: 'Across England',
