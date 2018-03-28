@@ -28,23 +28,21 @@ function sendPayload(data) {
 }
 
 function customEvent(category, action, label) {
-    if (category && action) {
-        const payload = {
-            t: 'event',
-            ec: category,
-            ea: action
-        };
+    const payload = {
+        t: 'event',
+        ec: category,
+        ea: action
+    };
 
-        if (label) {
-            payload.el = label;
-        }
-
-        sendPayload(payload);
+    if (label) {
+        payload.el = label;
     }
+
+    return sendPayload(payload);
 }
 
 function trackPageview(req) {
-    sendPayload({
+    return sendPayload({
         t: 'pageview',
         dl: getFullUrl(req)
     });
