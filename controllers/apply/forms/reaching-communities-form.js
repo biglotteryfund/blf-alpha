@@ -61,32 +61,36 @@ const PROJECT_LOCATIONS = [
     {
         label: 'North East',
         value: 'North East',
+        explanation: 'covering Newcastle, Cumbria and the north-east of England',
         email: HUB_EMAILS.northEastCumbria
     },
     {
         label: 'North West',
         value: 'North West',
+        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside',
         email: HUB_EMAILS.northWest
     },
     {
         label: 'Yorkshire and the Humber',
         value: 'Yorkshire and the Humber',
+        explanation: 'covering Yorkshire, north and north-east Lincolnshire',
         email: HUB_EMAILS.yorksHumber
-    },
-    {
-        label: 'Midlands',
-        value: 'Midlands',
-        email: HUB_EMAILS.midlands
     },
     {
         label: 'South West',
         value: 'South West',
+        explanation: 'covering Exeter, Bristol and the south-west of England',
         email: HUB_EMAILS.southWest
     },
     {
-        label: 'London and South-East',
+        label: 'London, South-East and East of England',
         value: 'London and South East',
         email: HUB_EMAILS.londonSouthEast
+    },
+    {
+        label: 'East and West Midlands',
+        value: 'Midlands',
+        email: HUB_EMAILS.midlands
     },
     {
         label: 'Across England',
@@ -105,16 +109,23 @@ formModel.registerStep({
                     label: 'Where will your project take place?',
                     type: 'checkbox',
                     options: PROJECT_LOCATIONS,
+                    isRequired: true,
                     name: 'location',
                     validator: function(field) {
-                        return check(field.name).custom(value => {
-                            const values = castArray(value);
-                            if (values.indexOf('Across England') !== -1 && values.length > 1) {
-                                throw new Error('If you’ve selected Across England no other regions can be selected.');
-                            } else {
-                                return true;
-                            }
-                        });
+                        return check(field.name)
+                            .custom(value => {
+                                const values = castArray(value);
+                                if (values.indexOf('Across England') !== -1 && values.length > 1) {
+                                    throw new Error(
+                                        'If you’ve selected Across England no other regions can be selected.'
+                                    );
+                                } else {
+                                    return true;
+                                }
+                            })
+                            .not()
+                            .isEmpty()
+                            .withMessage('Project area must be provided');
                     }
                 },
                 {
