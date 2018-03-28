@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+export DEBUG=blf-alpha:*;
+export CUSTOM_DB=website-test;
+export PORT=8090;
+export USE_LOCAL_DATABASE=true;
+export DONT_SEND_EMAIL=true;
+export SKIP_LOGS=true;
+
+npm run start
