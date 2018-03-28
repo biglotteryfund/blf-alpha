@@ -109,6 +109,7 @@ formModel.registerStep({
                     label: 'Where will your project take place?',
                     type: 'checkbox',
                     options: PROJECT_LOCATIONS,
+                    isRequired: true,
                     name: 'location',
                     validator: function(field) {
                         return check(field.name).custom(value => {
@@ -118,7 +119,10 @@ formModel.registerStep({
                             } else {
                                 return true;
                             }
-                        });
+                        })
+                        .not()
+                        .isEmpty()
+                        .withMessage('Project area must be provided');
                     }
                 },
                 {

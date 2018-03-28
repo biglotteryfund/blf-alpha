@@ -109,6 +109,24 @@ $errorColor: #b00;
     font-weight: bold;
 }
 
+.ff-label--required,
+.ff-label--optional {
+    &:after {
+        content: '* Required field';
+        font-weight: normal;
+        margin-left: 10px;
+        font-size: smaller;
+        color: palette('pink');
+    }
+}
+
+.ff-label--optional {
+    &:after {
+        content: 'Optional';
+        color: palette('soft-grey');
+    }
+}
+
 .ff-explanation {
     font-size: 15px;
 }
