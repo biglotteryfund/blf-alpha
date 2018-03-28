@@ -112,17 +112,20 @@ formModel.registerStep({
                     isRequired: true,
                     name: 'location',
                     validator: function(field) {
-                        return check(field.name).custom(value => {
-                            const values = castArray(value);
-                            if (values.indexOf('Across England') !== -1 && values.length > 1) {
-                                throw new Error('If you’ve selected Across England no other regions can be selected.');
-                            } else {
-                                return true;
-                            }
-                        })
-                        .not()
-                        .isEmpty()
-                        .withMessage('Project area must be provided');
+                        return check(field.name)
+                            .custom(value => {
+                                const values = castArray(value);
+                                if (values.indexOf('Across England') !== -1 && values.length > 1) {
+                                    throw new Error(
+                                        'If you’ve selected Across England no other regions can be selected.'
+                                    );
+                                } else {
+                                    return true;
+                                }
+                            })
+                            .not()
+                            .isEmpty()
+                            .withMessage('Project area must be provided');
                     }
                 },
                 {
