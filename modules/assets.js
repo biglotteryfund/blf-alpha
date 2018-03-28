@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const assetVirtualDir = 'assets';
+const config = require('config');
+const appData = require('../modules/appData');
 
 // load cachebusted assets
 let assets = {};
@@ -8,28 +9,28 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(urlPath, skipVirtualDir) {
-    const version = assets.version || 'latest';
-    let pathParts = [assetVirtualDir, 'build', version, urlPath];
-    if (skipVirtualDir) {
-        // Sometimes (eg. email templates) we need the real disk path
-        // not the mounted path for web-served static files.
-        pathParts = pathParts.slice(1);
-    }
-    return '/' + pathParts.join('/');
+const ASSET_VIRTUAL_DIR = config.get('assetVirtualDir');
+const CURRENT_VERSION = assets.version || 'latest';
+
+function getCachebustedPath(urlPath) {
+    const baseUrl = appData.isDev ? `/${ASSET_VIRTUAL_DIR}` : 'https://media.biglotteryfund.org.uk/';
+    return `${baseUrl}/build/${CURRENT_VERSION}/${urlPath}`;
+}
+
+function getCachebustedRealPath(urlPath) {
+    return `/build/${CURRENT_VERSION}/${urlPath}`;
 }
 
 function getImagePath(urlPath) {
     if (/^http(s?):\/\//.test(urlPath)) {
         return urlPath;
     } else {
-        return '/' + [assetVirtualDir, 'images', urlPath].join('/');
+        return `/${ASSET_VIRTUAL_DIR}/images/${urlPath}`;
     }
 }
 
 module.exports = {
-    assetList: assets,
-    assetVirtualDir: assetVirtualDir,
     getCachebustedPath: getCachebustedPath,
+    getCachebustedRealPath: getCachebustedRealPath,
     getImagePath: getImagePath
 };
