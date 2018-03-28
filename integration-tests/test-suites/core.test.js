@@ -22,19 +22,6 @@ describe('Core sections and features', () => {
 
     after(() => helper.after(server));
 
-    it('should contain meta title', () => {
-        return chai
-            .request(server)
-            .get('/')
-            .then(res => {
-                expect(res).to.have.status(200);
-                const metaTitle = `Home | Big Lottery Fund`;
-                expect(res.text).to.include(`<title>${metaTitle}</title>`);
-                expect(res.text).to.include(`<meta name="title" content="${metaTitle}">`);
-                expect(res.text).to.include(`<meta property="og:title" content="${metaTitle}">`);
-            });
-    });
-
     it('should mark correct section as selected', () => {
         function testSection({ urlPath, activeSection }) {
             return chai

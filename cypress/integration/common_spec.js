@@ -1,8 +1,10 @@
-describe('Interaction tests', function() {
-    it('should toggle mobile navigation', function() {
-        cy.viewport(320, 480);
+describe('Common tests', function() {
+    it('should render basic page', function() {
         cy.visit('/');
-        cy.get('#js-mobile-nav-toggle').click();
-        cy.get('#qa-offscreen-navigation').should('be.visible');
+
+        const metaTitle = 'Home | Big Lottery Fund';
+        cy.title().should('equal', metaTitle);
+        // cy.get('meta[name="title"]').should('equal', metaTitle);
+        // cy.get('meta[property="og:title"]').should('equal', metaTitle);
     });
 });
