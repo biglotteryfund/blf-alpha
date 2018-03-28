@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const isProduction = process.env.NODE_ENV === 'production';
 
 function getBuildSummary() {
-    const commitHash = execSync('git rev-parse --short HEAD')
+    const commitHash = execSync('git rev-parse --short=12 HEAD')
         .toString()
         .trim();
 
