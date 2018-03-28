@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const appData = require('../modules/appData');
 
 // load cachebusted assets
 let assets = {};
@@ -9,11 +8,12 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-const ASSET_VIRTUAL_DIR = config.get('assetVirtualDir');
 const CURRENT_VERSION = assets.version || 'latest';
+const ASSET_VIRTUAL_DIR = config.get('assetVirtualDir');
+const USE_REMOTE_ASSETS = config.get('features.useRemoteAssets');
 
 function getCachebustedPath(urlPath) {
-    const baseUrl = appData.isDev ? `/${ASSET_VIRTUAL_DIR}` : 'https://media.biglotteryfund.org.uk/';
+    const baseUrl = USE_REMOTE_ASSETS ? 'https://media.biglotteryfund.org.uk' : `/${ASSET_VIRTUAL_DIR}`;
     return `${baseUrl}/build/${CURRENT_VERSION}/${urlPath}`;
 }
 
