@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*; nodemon ./bin/www",
-    "lint": "eslint . bin/*",
+    "lint": "eslint .",
     "test-deps": "snyk test",
     "test-client": "mocha assets/**/*.test.js --bail --exit",
     "test-server": "nyc --include={middleware,modules,services}/**/*.js --all mocha {controllers,middleware,modules,services}/{**/*,*}.test.js --bail --exit",
@@ -22,7 +22,7 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "precommit": "lint-staged",
-    "prepush": "npm test"
+    "prepush": "npm run lint && npm run test-unit"
   },
   "lint-staged": {
     "*.js": [
@@ -164,7 +164,6 @@
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.0",
-    "start-server-and-test": "^1.1.0",
     "wait-on": "^2.1.0",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9"
