@@ -10,7 +10,15 @@ Cypress.Commands.add('checkActiveSection', activeSection => {
     cy.get(`.qa-nav-link--${activeSection}`).should('have.class', 'is-selected');
 });
 
-Cypress.Commands.add('checkRedirect', (response, destinationPath) => {
-    expect(response.status).to.eq(301);
-    expect(response.redirectedToUrl).to.eq(`http://localhost:8090${destinationPath}`);
+Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
+    cy
+        .request({
+            url: from,
+            followRedirects: false
+        })
+        .then(response => {
+            const expected = isRelative ? `http://localhost:8090${to}` : to;
+            expect(response.status).to.eq(status);
+            expect(response.redirectedToUrl).to.eq(expected);
+        });
 });
