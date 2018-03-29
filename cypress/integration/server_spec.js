@@ -1,4 +1,21 @@
 describe('Server tests', function() {
+    it('should allow contrast preferences to be set', () => {
+        const redirectUrl = 'http://www.google.com/';
+        cy
+            .request({
+                url: `/contrast/high?url=${redirectUrl}`,
+                followRedirects: false
+            })
+            .then(response => {
+                expect(response.status).to.eq(302);
+                expect(response.redirectedToUrl).to.eq(redirectUrl);
+                cy.getCookies().then(cookies => {
+                    const contrastCookie = cookies.find(_ => _.name === 'contrastMode');
+                    expect(contrastCookie.value).to.eq('high');
+                });
+            });
+    });
+
     it('should redirect trailing slashes', () => {
         const pages = [
             {
