@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/segment.njk" import segment with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -65,24 +66,20 @@
 
         {# Content segments #}
         {% if content.segments.length > 0 %}
-            {% for segment in content.segments %}
-                <section id="segment-{{ loop.index }}" class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
-                    <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide">
-                        <h2 class="t1">{{ segment.title }}</h2>
-                        {{ segment.content | safe }}
-                    </div>
-                </section>
-            {% endfor %}
-        {% endif %}
-
-        {# Generic content #}
-        {% if content.genericContent.length > 0 %}
-            {% set themes = cycler('pink', 'blue', 'orange') %}
-            <div class="s-prose s-prose--long">
-                {% for genericContent in content.genericContent %}
-                    <div class="inner--wide-only accent--{{ themes.next() }} a--border-top content-box">
-                        {{ genericContent | safe }}
-                    </div>
+            <div class="inner--wide-only s-prose s-prose--long u-constrained-content-wide">
+                {% for contentSegment in content.segments %}
+                    {% set image = false %}
+                    {% if contentSegment.photo %}
+                        {% set image = contentSegment.photo %}
+                    {% endif %}
+                    {{ segment(
+                        title = contentSegment.title,
+                        text = contentSegment.content,
+                        color = pageAccent,
+                        imagePath = image,
+                        id = 'segment-' + loop.index,
+                        imageIsAbsolute = true
+                    ) }}
                 {% endfor %}
             </div>
         {% endif %}
