@@ -63,6 +63,7 @@
             </section>
         {% endif %}
 
+        {# Content segments #}
         {% if content.segments.length > 0 %}
             {% for segment in content.segments %}
                 <section id="segment-{{ loop.index }}" class="content-box content-box--even-inset inner--wide-only accent--{{ pageAccent }} a--border-top">
@@ -72,6 +73,18 @@
                     </div>
                 </section>
             {% endfor %}
+        {% endif %}
+
+        {# Generic content #}
+        {% if content.genericContent.length > 0 %}
+            {% set themes = cycler('pink', 'blue', 'orange') %}
+            <div class="s-prose s-prose--long">
+                {% for genericContent in content.genericContent %}
+                    <div class="inner--wide-only accent--{{ themes.next() }} a--border-top content-box">
+                        {{ genericContent | safe }}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
 
         {# Case Studies #}
