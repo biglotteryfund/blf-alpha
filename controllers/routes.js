@@ -264,16 +264,12 @@ sections.about.addRoutes({
         template: 'pages/about/board',
         live: false
     }),
-    freedomOfInformation: staticRoute({
+    freedomOfInformation: cmsRoute({
         path: '/customer-service/freedom-of-information',
-        template: 'pages/about/freedom-of-information',
-        lang: 'about.foi',
         aliases: ['/about-big/customer-service/freedom-of-information', '/freedom-of-information']
     }),
-    dataProtection: staticRoute({
+    dataProtection: cmsRoute({
         path: '/customer-service/data-protection',
-        template: 'pages/about/data-protection',
-        lang: 'about.dataProtection',
         aliases: ['/about-big/customer-service/data-protection', '/data-protection']
     }),
     ebulletin: dynamicRoute({
