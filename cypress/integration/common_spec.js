@@ -5,30 +5,11 @@ describe('Common tests', function() {
         cy.title().should('equal', metaTitle);
         cy.get('meta[name="title"]').should('have.attr', 'content', metaTitle);
         cy.get('meta[property="og:title"]').should('have.attr', 'content', metaTitle);
-    });
 
-    it('should mark correct section as selected', () => {
-        const sections = [
-            { urlPath: '/', activeSection: 'toplevel' },
-            { urlPath: '/funding', activeSection: 'funding' },
-            { urlPath: '/research', activeSection: 'research' },
-            { urlPath: '/about', activeSection: 'about' },
-            { urlPath: '/funding/programmes', activeSection: 'funding' }
-        ];
-
-        sections.forEach(section => {
-            cy.visit(section.urlPath);
-            cy.get(`.qa-nav-link--${section.activeSection}`).should('have.class', 'is-selected');
-        });
+        cy.checkActiveSection('toplevel');
     });
 
     it('should serve welsh content', () => {
-        cy.request('/welsh').then(response => {
-            expect(response.status).to.eq(200);
-            expect(response.headers['content-language']).to.eq('cy');
-            cy.log(response.headers['content-language']);
-        });
-
         cy.visit('/welsh');
 
         const metaTitle = 'Hafan | Cronfa Loteri Fawr';
@@ -36,15 +17,12 @@ describe('Common tests', function() {
         cy.get('meta[name="title"]').should('have.attr', 'content', metaTitle);
         cy.get('meta[property="og:title"]').should('have.attr', 'content', metaTitle);
 
-        const navLinksText = [];
+        cy.checkActiveSection('toplevel');
+
         cy
             .get('.qa-global-nav .qa-nav-link a')
-            .each(el => {
-                navLinksText.push(el.text());
-            })
-            .then(() => {
-                expect(navLinksText).to.have.members(['Hafan', 'Ariannu', 'Ymchwil', 'Amdanom ni']);
-            });
+            .first()
+            .should('have.text', 'Hafan');
     });
 
     it('should include correct language switcher for en locale', () => {
@@ -57,8 +35,22 @@ describe('Common tests', function() {
         cy.get('.qa-lang-switcher').should('have.attr', 'href', '/funding/over10k');
     });
 
+    it('should mark correct section as selected', () => {
+        const sections = [
+            { urlPath: '/funding', activeSection: 'funding' },
+            { urlPath: '/research', activeSection: 'research' },
+            { urlPath: '/about', activeSection: 'about' }
+        ];
+
+        sections.forEach(section => {
+            cy.visit(section.urlPath);
+            cy.checkActiveSection(section.activeSection);
+        });
+    });
+
     it('should serve a list of programmes', () => {
         cy.visit('/funding/programmes');
         cy.get('.qa-programme-card').should('have.length.greaterThan', 6);
+        cy.checkActiveSection('funding');
     });
 });
