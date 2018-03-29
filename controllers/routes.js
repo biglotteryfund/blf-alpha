@@ -264,17 +264,37 @@ sections.about.addRoutes({
         template: 'pages/about/board',
         live: false
     }),
-    freedomOfInformation: staticRoute({
+    freedomOfInformation: cmsRoute({
         path: '/customer-service/freedom-of-information',
-        template: 'pages/about/freedom-of-information',
-        lang: 'about.foi',
         aliases: ['/about-big/customer-service/freedom-of-information', '/freedom-of-information']
     }),
-    dataProtection: staticRoute({
+    dataProtection: cmsRoute({
         path: '/customer-service/data-protection',
-        template: 'pages/about/data-protection',
-        lang: 'about.dataProtection',
         aliases: ['/about-big/customer-service/data-protection', '/data-protection']
+    }),
+    privacyPolicy: cmsRoute({
+        path: '/customer-service/privacy-policy',
+        aliases: ['/about-big/customer-service/privacy-policy']
+    }),
+    termsOfUse: cmsRoute({
+        path: '/customer-service/terms-of-use',
+        aliases: ['/about-big/customer-service/terms-of-use']
+    }),
+    cookies: cmsRoute({
+        path: '/customer-service/cookies',
+        aliases: ['/about-big/customer-service/cookies']
+    }),
+    customerFeedback: cmsRoute({
+        path: '/customer-service/customer-feedback',
+        aliases: ['/about-big/customer-service/customer-feedback']
+    }),
+    bogusLotteryEmails: cmsRoute({
+        path: '/customer-service/bogus-lottery-emails',
+        aliases: ['/about-big/customer-service/bogus-lottery-emails']
+    }),
+    welshLanguageScheme: cmsRoute({
+        path: '/customer-service/welsh-language-scheme',
+        aliases: ['/about-big/customer-service/welsh-language-scheme']
     }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',

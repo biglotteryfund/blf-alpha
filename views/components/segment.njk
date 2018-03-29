@@ -2,15 +2,22 @@
 
 {% macro segment(title, text, color, imagePath, id, imageIsAbsolute = false) %}
     <div class="segment accent--{{ color }} a--border-top">
-        <div class="grid__item__inner segment__media">
-            <img src="{% if imageIsAbsolute %}{{ imagePath }}{% else %}{{ imagePath | getImagePath }}{% endif %}" alt="" />
-            {{ headers.overlayText(
-                tag = 'h4',
-                text = title,
-                additionalClasses = 'segment__title grid__item__title grid__item__title--top',
-                id = id
-            )}}
+        {% if imagePath %}
+            <div class="grid__item__inner segment__media">
+                <img src="{% if imageIsAbsolute %}{{ imagePath }}{% else %}{{ imagePath | getImagePath }}{% endif %}" alt="" />
+                {{ headers.overlayText(
+                    tag = 'h4',
+                    text = title,
+                    additionalClasses = 'segment__title grid__item__title grid__item__title--top',
+                    id = id
+                )}}
+            </div>
+        {% endif %}
+        <div class="segment__aside s-prose s-prose--long">
+            {% if not imagePath %}
+                <h2 class="t1" id="{{ id }}">{{ title }}</h2>
+            {% endif %}
+            {{ text | safe }}
         </div>
-        <div class="segment__aside">{{ text | safe }}</div>
     </div>
 {% endmacro %}

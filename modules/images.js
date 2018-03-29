@@ -20,13 +20,6 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    arkwrightMeadows: createHeroImage({
-        small: 'hero/arkwright-meadows-small.jpg',
-        medium: 'hero/arkwright-meadows-medium.jpg',
-        large: 'hero/arkwright-meadows-large.jpg',
-        default: 'hero/arkwright-meadows-medium.jpg',
-        caption: 'Arkwright Meadows'
-    }),
     centreForBetterHealthBakery: createHeroImage({
         small: 'hero/centre-for-better-health-bakery-small.jpg',
         medium: 'hero/centre-for-better-health-bakery-medium.jpg',
