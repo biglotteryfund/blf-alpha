@@ -17,8 +17,6 @@ describe('Interaction tests', function() {
     it('interact with tabs', () => {
         cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
         cy.get('.js-tabset .js-tab').each($el => {
-            cy.log($el.attr('href'));
-
             // Click the tab and check it is active
             cy
                 .wrap($el)
