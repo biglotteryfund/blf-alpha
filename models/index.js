@@ -31,6 +31,7 @@ if (DB_HOST) {
 
     // allow using a local sqlite db for testing
     if (process.env.USE_LOCAL_DATABASE) {
+        debug('Using local sqlite database');
         sequelizeConfig.dialect = 'sqlite';
         sequelizeConfig.storage = path.join(__dirname, `../tmp/test.db`);
     }

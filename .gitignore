@@ -9,6 +9,8 @@ assets.json
 config/app/server-dev.conf
 config/content/cleaned
 config/content/scraped
+cypress/screenshots
+cypress/videos
 deploy.json
 messages.json
 node_modules

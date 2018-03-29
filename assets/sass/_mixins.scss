@@ -4,7 +4,7 @@
 
 @mixin mq($width, $type: min) {
     @if map_has_key($breakpoints, $width) {
-        $width: unquote(map_get($breakpoints, $width));
+        $width: map_get($breakpoints, $width);
         @if $type == max {
             $width: $width - 1px;
         }
