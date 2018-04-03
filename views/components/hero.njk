@@ -90,14 +90,10 @@
 {% endmacro %}
 
 
-{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent, useRemoteImages = false) %}
-    {% if not useRemoteImages %}
-        {% set imagePath = imagePath | getImagePath %}
-        {% if imagePathMobile %}
-            {% set imagePathMobile = imagePathMobile | getImagePath %}
-        {% else %}
-            {% set imagePathMobile = imagePath %}
-        {% endif %}
+{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent) %}
+    {% set imagePath = imagePath | getImagePath %}
+    {% if not imagePathMobile %}
+        {% set imagePathMobile = imagePath %}
     {% endif %}
     <div class="miniature-hero accent--{{ accent }} a--border-top--large">
         <div class="miniature-hero__inner">

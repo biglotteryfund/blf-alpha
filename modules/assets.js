@@ -20,7 +20,11 @@ function getCachebustedPath(urlPath, skipVirtualDir) {
 }
 
 function getImagePath(urlPath) {
-    return '/' + [assetVirtualDir, 'images', urlPath].join('/');
+    if (/^http(s?):\/\//.test(urlPath)) {
+        return urlPath;
+    } else {
+        return '/' + [assetVirtualDir, 'images', urlPath].join('/');
+    }
 }
 
 module.exports = {
