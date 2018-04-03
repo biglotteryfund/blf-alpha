@@ -28,6 +28,10 @@ const legacyRedirects = [
         '/funding/programmes/national-lottery-awards-for-all-england',
         '/england/global-content/programmes/england/awards-for-all-england'
     ),
+    aliasFor(
+        '/funding/programmes/reaching-communities-england',
+        '/england/global-content/programmes/england/reaching-communities-england'
+    ),
 
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
