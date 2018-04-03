@@ -25,9 +25,9 @@ function init({ router, routeConfig }) {
                  */
                 const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
                 const latestProgrammes = [
-                    findBySlug('helping-working-families'),
-                    findBySlug('empowering-young-people'),
-                    findBySlug('national-lottery-awards-for-all-england')
+                    findBySlug('reaching-communities-england'),
+                    findBySlug('national-lottery-awards-for-all-england'),
+                    findBySlug('empowering-young-people')
                 ];
 
                 renderLandingPage(latestProgrammes);
