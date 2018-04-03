@@ -1,13 +1,17 @@
 describe('Interaction tests', function() {
-    xit('interact with mobile navigation', () => {
+    it('interact with mobile navigation', () => {
         cy.viewport(375, 667);
         cy.visit('/');
+
+        cy.wait(500);
 
         cy.get('#js-mobile-nav-toggle').as('navToggle');
         cy.get('#qa-offscreen-navigation').as('nav');
 
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
+
+        cy.wait(300);
 
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
