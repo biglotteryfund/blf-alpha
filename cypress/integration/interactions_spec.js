@@ -1,5 +1,5 @@
 describe('Interaction tests', function() {
-    it('interact with mobile navigation', () => {
+    xit('interact with mobile navigation', () => {
         cy.viewport(375, 667);
         cy.visit('/');
 
@@ -9,7 +9,6 @@ describe('Interaction tests', function() {
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
 
-        cy.wait(200);
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
     });
