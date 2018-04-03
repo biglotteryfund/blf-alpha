@@ -14,7 +14,7 @@
     "test-unit": "npm run test-client && npm run test-server",
     "test-integration": "mocha integration-tests/integration-tests.js --bail --exit --timeout 20s",
     "test-cypress": "npm run startTest & wait-on http://localhost:8090 && cypress run && fkill :8090",
-    "test": "npm run test-unit && npm run test-integration && npm run test-cypress",
+    "test": "npm run test-unit && npm run test-integration",
     "build": "gulp build && webpack --mode=development",
     "build-production": "export NODE_ENV=production && gulp build && webpack --mode=production && gulp manifest",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
