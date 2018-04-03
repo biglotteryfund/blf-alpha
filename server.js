@@ -74,11 +74,9 @@ app.use(
 app.use('/', require('./controllers/toplevel/tools'));
 
 // Mount apply controller (forms)
-if (appData.isNotProduction) {
-    const applyPath = '/apply';
-    app.use(applyPath, require('./controllers/apply'));
-    app.use(cymreigio(applyPath), require('./controllers/apply'));
-}
+const applyPath = '/apply';
+app.use(applyPath, require('./controllers/apply'));
+app.use(cymreigio(applyPath), require('./controllers/apply'));
 
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));
