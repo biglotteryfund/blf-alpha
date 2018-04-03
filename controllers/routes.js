@@ -184,20 +184,10 @@ sections.funding.addRoutes({
     programmeDetail: dynamicRoute({
         path: '/programmes/*'
     }),
-    programmeDetailAfaEngland: dynamicRoute({
-        path: '/programmes/national-lottery-awards-for-all-england',
-        applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=en',
-        experimentId: 'O9FsbkKfSeOammAP0JrEyA'
-    }),
     programmeDetailAfaScotland: dynamicRoute({
         path: '/programmes/national-lottery-awards-for-all-scotland',
         applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
         experimentId: 'EcAwbF34R5mbCaWW-y_rFQ'
-    }),
-    programmeDetailAfaWales: dynamicRoute({
-        path: '/programmes/national-lottery-awards-for-all-wales',
-        applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=wales',
-        experimentId: 'Ko6MLYegQfaRO1rVU1UB3w'
     }),
     buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',

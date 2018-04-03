@@ -254,12 +254,7 @@ function initProgrammeDetailAwardsForAll(router, options) {
 function init({ router, routeConfig }) {
     initProgrammesList(router, routeConfig.programmes);
     if (config.get('abTests.enabled')) {
-        let routesToTest = [
-            routeConfig.programmeDetailAfaEngland,
-            routeConfig.programmeDetailAfaScotland,
-            routeConfig.programmeDetailAfaWales
-        ];
-        routesToTest.forEach(route => {
+        [routeConfig.programmeDetailAfaScotland].forEach(route => {
             initProgrammeDetailAwardsForAll(router, route);
         });
     }
