@@ -33,6 +33,13 @@ const legacyRedirects = [
         '/england/global-content/programmes/england/reaching-communities-england'
     ),
 
+    // Broken link in https://www.theguardian.com/society/2018/apr/03/travel-training-young-people-learning-disability-cuts-council-costs
+    // @TODO: Can we auto strip spaces in URLs?
+    aliasFor(
+        '/global-content/programmes/england/commissioning-better-outcomes-and-social-outcomes-fund',
+        '/global-%20content/programmes/england/commissioning-better-%20outcomes-%20and-social-%20outcomes-fund'
+    ),
+
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
     programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
