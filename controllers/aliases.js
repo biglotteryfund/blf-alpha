@@ -97,13 +97,11 @@ const vanityRedirects = sections => {
             '/wales/global-content/programmes/wales/awards-for-all-wales',
             '/funding/programmes/national-lottery-awards-for-all-wales'
         ),
+        vanity('/rc', '/funding/programmes/reaching-communities-england'),
+        vanity('/reachingcommunities', '/funding/programmes/reaching-communities-england'),
         vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
         vanity('/prog_reaching_communities.htm', '/funding/programmes/reaching-communities-england'),
         vanity('/empowering-young-people', '/funding/programmes/empowering-young-people'),
-        vanity(
-            '/funding/funding-guidance/managing-your-funding/self-evaluation',
-            '/funding/funding-guidance/managing-your-funding/evaluation'
-        ),
         vanity('/helping-working-families', '/funding/programmes/helping-working-families'),
         vanity('/helpingworkingfamilies', '/funding/programmes/helping-working-families'),
         vanity('/helputeuluoeddgweithio', '/welsh/funding/programmes/helping-working-families'),
@@ -128,6 +126,10 @@ const vanityRedirects = sections => {
         vanity(
             '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
             '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
+        ),
+        vanity(
+            '/funding/funding-guidance/managing-your-funding/self-evaluation',
+            '/funding/funding-guidance/managing-your-funding/evaluation'
         ),
         vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
         vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),

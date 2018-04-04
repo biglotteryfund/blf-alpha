@@ -52,7 +52,7 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
             listItem.setAttribute('id', 'ctl12_langLi');
             listItem.setAttribute('class', 'last');
             listItem.innerHTML = `
-                <a href="${linkPath}" 
+                <a href="${linkPath}"
                    id="ctl12_welshLanguage"
                    lang="${localeToAppend}"
                    hreflang="${localeToAppend}"
@@ -113,7 +113,13 @@ const proxyLegacyPage = ({ req, res, domModifications, followRedirect = true }) 
             }
         }
 
-        // allow custom overrides on a per-page basis
+        // Remove live chat widget as document.write causes issue when proxying.
+        const liveChat = dom.window.document.getElementById('askLiveCall');
+        if (liveChat) {
+            liveChat.parentNode.removeChild(liveChat);
+        }
+
+        // Allow custom overrides on a per-page basis
         if (domModifications) {
             dom = domModifications(dom);
         }
