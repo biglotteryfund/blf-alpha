@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const config = require('config');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
     createSection,
@@ -189,8 +188,7 @@ sections.funding.addRoutes({
     programmeDetailAfaScotland: dynamicRoute({
         path: '/programmes/national-lottery-awards-for-all-scotland',
         applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
-        experimentId: 'EcAwbF34R5mbCaWW-y_rFQ',
-        cookies: [config.get('cookies.abTestAwardsForAll')]
+        experimentId: 'EcAwbF34R5mbCaWW-y_rFQ'
     }),
     buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
