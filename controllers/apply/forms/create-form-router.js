@@ -1,4 +1,4 @@
-const { get, isEmpty, set } = require('lodash');
+const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../../middleware/cached');
@@ -96,9 +96,13 @@ module.exports = function(router, formModel) {
             let processSuccess = successStep.processor(formData);
             processSuccess
                 .then(() => {
-                    res.render('pages/apply/success', {
-                        form: formModel,
-                        success: successStep
+                    // Clear the submission from the session on successfull
+                    unset(req.session, formModel.getSessionProp());
+                    req.session.save(() => {
+                        res.render('pages/apply/success', {
+                            form: formModel,
+                            success: successStep
+                        });
                     });
                 })
                 .catch(err => {
