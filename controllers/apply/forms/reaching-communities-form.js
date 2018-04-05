@@ -127,7 +127,7 @@ formModel.registerStep({
                     type: 'text',
                     name: 'project-location',
                     label: "In your own words, describe the location(s) that you'll be running your project(s) in",
-                    placeholder: 'eg. "Newtown community centre" or "Alfreton, Derby and Ripley"',
+                    placeholder: 'eg. "Newcastle community centre" or "Alfreton, Derby and Ripley"',
                     isRequired: true,
                     size: 60,
                     validator: function(field) {
