@@ -45,15 +45,11 @@
     trailText,
     trailTextMore,
     imageUrl,
-    useRemoteImages,
     accent
 ) %}
     <div class="photo-card {% if accent %}accent--{{ accent }} a--border-top{% endif %}">
         <div class="photo-card__media">
             {% set imageUrlToUse = imageUrl | getImagePath %}
-            {% if useRemoteImages %}
-                {% set imageUrlToUse = imageUrl %}
-            {% endif %}
             {% if linkUrl %}<a href="{{ linkUrl }}">{% endif %}
                 <img
                     class="photo-card__image"
@@ -103,7 +99,6 @@
                             trailText = caseStudy.trailText,
                             trailTextMore = caseStudy.trailTextMore,
                             imageUrl = caseStudy.thumbnailUrl,
-                            useRemoteImages = true,
                             accent = accent
                         )
                     }}

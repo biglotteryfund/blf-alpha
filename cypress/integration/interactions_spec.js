@@ -3,13 +3,16 @@ describe('Interaction tests', function() {
         cy.viewport(375, 667);
         cy.visit('/');
 
+        cy.wait(500);
+
         cy.get('#js-mobile-nav-toggle').as('navToggle');
         cy.get('#qa-offscreen-navigation').as('nav');
 
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
 
-        cy.wait(200);
+        cy.wait(300);
+
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
     });

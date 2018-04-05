@@ -28,6 +28,17 @@ const legacyRedirects = [
         '/funding/programmes/national-lottery-awards-for-all-england',
         '/england/global-content/programmes/england/awards-for-all-england'
     ),
+    aliasFor(
+        '/funding/programmes/reaching-communities-england',
+        '/england/global-content/programmes/england/reaching-communities-england'
+    ),
+
+    // Broken link in https://www.theguardian.com/society/2018/apr/03/travel-training-young-people-learning-disability-cuts-council-costs
+    // @TODO: Can we auto strip spaces in URLs?
+    aliasFor(
+        '/global-content/programmes/england/commissioning-better-outcomes-and-social-outcomes-fund',
+        '/global-%20content/programmes/england/commissioning-better-%20outcomes-%20and-social-%20outcomes-fund'
+    ),
 
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
@@ -86,13 +97,11 @@ const vanityRedirects = sections => {
             '/wales/global-content/programmes/wales/awards-for-all-wales',
             '/funding/programmes/national-lottery-awards-for-all-wales'
         ),
+        vanity('/rc', '/funding/programmes/reaching-communities-england'),
+        vanity('/reachingcommunities', '/funding/programmes/reaching-communities-england'),
         vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
         vanity('/prog_reaching_communities.htm', '/funding/programmes/reaching-communities-england'),
         vanity('/empowering-young-people', '/funding/programmes/empowering-young-people'),
-        vanity(
-            '/funding/funding-guidance/managing-your-funding/self-evaluation',
-            '/funding/funding-guidance/managing-your-funding/evaluation'
-        ),
         vanity('/helping-working-families', '/funding/programmes/helping-working-families'),
         vanity('/helpingworkingfamilies', '/funding/programmes/helping-working-families'),
         vanity('/helputeuluoeddgweithio', '/welsh/funding/programmes/helping-working-families'),
@@ -117,6 +126,10 @@ const vanityRedirects = sections => {
         vanity(
             '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads',
             '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos'
+        ),
+        vanity(
+            '/funding/funding-guidance/managing-your-funding/self-evaluation',
+            '/funding/funding-guidance/managing-your-funding/evaluation'
         ),
         vanity('/news-and-events/contact-press-team', `/contact#${anchors.contactPress}`),
         vanity('/welsh/news-and-events/contact-press-team', `/welsh/contact#${anchors.contactPress}`),

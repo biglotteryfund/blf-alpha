@@ -46,12 +46,9 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode",
-            "blf-alpha-session",
-            "_csrf",
-            "blf-ab-afa-v2"
+            "contrastMode"
           ],
-          "Quantity": 4
+          "Quantity": 1
         }
       }
     },
@@ -111,12 +108,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -282,12 +276,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -454,12 +445,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -520,12 +508,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -539,6 +524,67 @@
           "Quantity": 0
         },
         "PathPattern": "/funding/programmes"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              false
+            ],
+            "Quantity": 3
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-ab-afa-v2"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/funding/programmes/national-lottery-awards-for-all-scotland"
       },
       {
         "TargetOriginId": "LEGACY",
@@ -849,12 +895,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -912,12 +955,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -980,12 +1020,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -1044,12 +1081,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -1110,12 +1144,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -1161,6 +1192,67 @@
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              false
+            ],
+            "Quantity": 3
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-ab-afa-v2"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
             "Items": [],
             "Quantity": 0
           },
@@ -1169,12 +1261,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session",
-                "_csrf",
-                "blf-ab-afa-v2"
+                "contrastMode"
               ],
-              "Quantity": 4
+              "Quantity": 1
             }
           }
         },
@@ -1190,6 +1279,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 19
+    "Quantity": 21
   }
 }

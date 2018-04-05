@@ -21,7 +21,7 @@
     <section id="{{ paneId }}" class="tab__pane{% if accordion %} tab__pane--accordion{% endif %}{% if setActive %} pane--active{% endif %}">
         {% if accordion and title %}
             <header class="tab__pane-header">
-                {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = tabId) }}
+                {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = "accordion-" + tabId) }}
                 <span class="tab__arrow">{{ iconArrowDown() }}</span>
             </header>
         {% endif %}

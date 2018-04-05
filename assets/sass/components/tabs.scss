@@ -9,19 +9,15 @@
 
 .tabset {
     background-color: palette('pale-grey');
-    border-right: 1px solid palette('border');
     display: flex;
     flex-wrap: wrap;
-
-    li.tabset__item {
-        @include poppins();
-        font-size: 16px;
-        margin: 0;
-        display: inline-block;
-        border-left: 1px solid palette('border');
-        border-width: 0 1px;
-        flex: 1 1 auto;
-    }
+}
+.tabset__item {
+    @include poppins();
+    font-size: 16px;
+    margin: 0;
+    display: inline-block;
+    flex: 1 1 auto;
 
     .tab {
         color: palette('blue-text');
@@ -29,10 +25,15 @@
         font-weight: bold;
         padding: 12px 12px 14px;
         text-decoration: none;
-        border-top: 4px solid transparent;
-        border-bottom: 1px solid palette('border');
+        border: solid palette('border');
+        border-width: 4px 0 1px 1px;
+        border-top-color: transparent;
         white-space: nowrap;
         text-align: center;
+    }
+
+    &:last-child .tab {
+        border-right-width: 1px;
     }
 
     .tab.tab--active {
@@ -40,6 +41,14 @@
         border-bottom-color: transparent;
         background-color: white;
         color: palette('pink');
+    }
+
+    &:first-child .tab.tab--active {
+        border-left-color: transparent;
+    }
+
+    &:last-child .tab.tab--active {
+        border-right-color: transparent;
     }
 }
 

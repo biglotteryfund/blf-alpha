@@ -29,14 +29,10 @@ describe('Server tests', function() {
         ];
 
         pages.forEach(page => {
-            cy
-                .request({
-                    url: page.originalPath,
-                    followRedirect: false
-                })
-                .then(response => {
-                    cy.checkRedirect(response, page.redirectedPath);
-                });
+            cy.checkRedirect({
+                from: page.originalPath,
+                to: page.redirectedPath
+            });
         });
     });
 
@@ -60,14 +56,10 @@ describe('Server tests', function() {
         ];
 
         pages.forEach(page => {
-            cy
-                .request({
-                    url: page.originalPath,
-                    followRedirect: false
-                })
-                .then(response => {
-                    cy.checkRedirect(response, page.redirectedPath);
-                });
+            cy.checkRedirect({
+                from: page.originalPath,
+                to: page.redirectedPath
+            });
         });
     });
 

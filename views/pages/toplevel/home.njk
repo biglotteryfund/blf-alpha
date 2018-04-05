@@ -84,7 +84,12 @@
             {% set twitterAccount = appData.config.get('social.twitterAccounts.' + locale)  %}
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
-                    <a class="twitter-timeline" href="https://twitter.com/{{ twitterAccount }}" data-tweet-limit="3" data-chrome="noheader">Tweets by {{ twitterAccount }}</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
+                        href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
+                    >
+                        Tweets by {{ twitterAccount }}
+                    </a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     <div class="form-ebulletin padded spaced">
