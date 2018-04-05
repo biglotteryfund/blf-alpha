@@ -558,10 +558,9 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version",
-              false
+              "version"
             ],
-            "Quantity": 3
+            "Quantity": 2
           },
           "QueryString": true,
           "Cookies": {
@@ -1194,10 +1193,9 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version",
-              false
+              "version"
             ],
-            "Quantity": 3
+            "Quantity": 2
           },
           "QueryString": true,
           "Cookies": {
