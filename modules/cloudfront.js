@@ -1,6 +1,9 @@
 const config = require('config');
-const { assign, concat, filter, forEach, map, sortBy } = require('lodash');
+const { assign, concat, forEach, get, sortBy } = require('lodash');
+const { filter } = require('lodash/fp');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
+
+const GLOBAL_COOKIE_WHITELIST = [config.get('cookies.contrast')];
 
 /**
  * makeUrlObject
@@ -10,13 +13,18 @@ function makeUrlObject(page, customPath) {
     return {
         path: customPath || page.path,
         isPostable: page.isPostable || false,
-        queryStrings: page.queryStrings || [],
+        queryStrings: get(page, 'queryStrings', []),
+        cookies: get(page, 'cookies', []),
         allowAllQueryStrings: page.allowAllQueryStrings || false
     };
 }
 
 function hasSpecialRequirements(route) {
-    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0);
+    return (
+        route.allowAllQueryStrings ||
+        (route.queryStrings && route.queryStrings.length > 0) ||
+        (route.cookies && route.cookies.length > 0)
+    );
 }
 
 function isLive(route) {
@@ -61,21 +69,23 @@ function generateUrlList(routes) {
         urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
     }
 
+    const filterCustomRouting = filter(pageNeedsCustomRouting);
+
     // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
+    const liveLegacyRoutes = filterCustomRouting(routes.legacyProxiedRoutes);
     forEach(liveLegacyRoutes, pushRouteConfig);
 
     // Legacy redirects
-    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
+    filterCustomRouting(routes.legacyRedirects).forEach(pushDualRouteConfig);
 
     // Archived routes
-    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
+    filterCustomRouting(routes.archivedRoutes).forEach(pushDualRouteConfig);
 
     // Vanity URLs
-    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+    filterCustomRouting(routes.vanityRedirects).forEach(pushRouteConfig);
 
     // Other Routes
-    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+    filterCustomRouting(routes.otherUrls).forEach(pushRouteConfig);
 
     return urls;
 }
@@ -181,12 +191,11 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
-    const cookiesInUse = map(config.get('cookies'), val => val);
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: cookiesInUse
+        cookiesInUse: GLOBAL_COOKIE_WHITELIST
     });
 
     // Serve legacy static files
@@ -220,7 +229,7 @@ function generateBehaviours({ routesConfig, origins }) {
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
             allowAllQueryStrings: url.allowAllQueryStrings,
-            cookiesInUse: cookiesInUse
+            cookiesInUse: GLOBAL_COOKIE_WHITELIST.concat(url.cookies)
         });
     });
 
