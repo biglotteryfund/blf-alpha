@@ -50,5 +50,6 @@
     },
     "database": "website-dev",
     "database-test": "website-test",
-    "emailSender": "noreply@biglotteryfund.org.uk"
+    "emailSender": "noreply@biglotteryfund.org.uk",
+    "hotjarEnabled": true
 }

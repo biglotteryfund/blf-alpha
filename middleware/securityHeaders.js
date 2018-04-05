@@ -78,6 +78,11 @@ function defaultSecurityHeaders() {
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 
+    if (config.get('hotjarEnabled')) {
+        directives.connectSrc = directives.connectSrc.concat(['wss://*.hotjar.com']);
+        directives.defaultSrc = directives.defaultSrc.concat(['*.hotjar.com']);
+    }
+
     const helmetSettings = buildSecurityMiddleware(directives);
 
     return function(req, res, next) {
