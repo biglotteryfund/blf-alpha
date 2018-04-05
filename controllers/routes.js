@@ -150,7 +150,8 @@ sections.funding.addRoutes({
             '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
             '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
             '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials'
+            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+            '/yourgrant'
         ]
     }),
     helpWithPublicity: staticRoute({
