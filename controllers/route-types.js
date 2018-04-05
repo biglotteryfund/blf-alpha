@@ -47,12 +47,11 @@ function createSection({ path, controllerPath, langTitlePath }) {
 
 /**
  * Default parameters for cloudfront routes
- * Restrictive by default, GET-only, no-query-strings
+ * Restrictive by default
  */
 const defaults = {
     isPostable: false,
-    live: false,
-    queryStrings: false
+    live: false
 };
 
 /**
