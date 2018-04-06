@@ -13,7 +13,7 @@ const ASSET_VIRTUAL_DIR = config.get('assetVirtualDir');
 const USE_REMOTE_ASSETS = config.get('features.useRemoteAssets');
 
 function getCachebustedPath(urlPath) {
-    const baseUrl = USE_REMOTE_ASSETS ? 'https://media.biglotteryfund.org.uk' : `/${ASSET_VIRTUAL_DIR}`;
+    const baseUrl = USE_REMOTE_ASSETS ? 'https://media.biglotteryfund.org.uk/assets' : `/${ASSET_VIRTUAL_DIR}`;
     return `${baseUrl}/build/${CURRENT_VERSION}/${urlPath}`;
 }
 
