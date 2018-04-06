@@ -24,8 +24,12 @@ function initAppLocals(app) {
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
 function initFilters(templateEnv) {
-    templateEnv.addFilter('getCachebustedPath', (str, skipVirtualDir) => {
-        return assets.getCachebustedPath(str, skipVirtualDir);
+    templateEnv.addFilter('getCachebustedPath', str => {
+        return assets.getCachebustedPath(str);
+    });
+
+    templateEnv.addFilter('getCachebustedRealPath', str => {
+        return assets.getCachebustedRealPath(str);
     });
 
     templateEnv.addFilter('getImagePath', str => {

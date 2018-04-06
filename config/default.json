@@ -12,6 +12,9 @@
             "cy": "/welsh"
         }
     },
+    "features": {
+      "useRemoteAssets": true
+    },
     "imgix": {
       "mediaDomain": "biglotteryfund-assets.imgix.net",
       "mediaDomainOriginal": "big-lottery-fund-media-trial.imgix.net"
