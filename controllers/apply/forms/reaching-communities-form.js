@@ -1,6 +1,5 @@
-const { check } = require('express-validator/check');
 const { castArray, get, isArray } = require('lodash');
-const Raven = require('raven');
+const { check } = require('express-validator/check');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
@@ -296,12 +295,6 @@ formModel.registerSuccessStep({
                                 .then(() => resolve(formData));
                         })
                         .catch(err => {
-                            Raven.captureMessage('Error converting template to inline CSS', {
-                                extra: err,
-                                tags: {
-                                    feature: 'reaching-communities'
-                                }
-                            });
                             return reject(err);
                         });
                 }

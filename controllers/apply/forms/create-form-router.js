@@ -1,7 +1,9 @@
+const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../../middleware/cached');
+const { renderError } = require('../../http-errors');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -92,9 +94,9 @@ module.exports = function(router, formModel) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            let successStep = formModel.getSuccessStep();
-            let processSuccess = successStep.processor(formData);
-            processSuccess
+            const successStep = formModel.getSuccessStep();
+            successStep
+                .processor(formData)
                 .then(() => {
                     // Clear the submission from the session on successfull
                     unset(req.session, formModel.getSessionProp());
@@ -106,8 +108,9 @@ module.exports = function(router, formModel) {
                     });
                 })
                 .catch(err => {
-                    // @TODO handle this
-                    res.send(err);
+                    err.friendlyText = 'There was a problem processing your submission';
+                    Raven.captureException(err);
+                    renderError(err, req, res);
                 });
         }
     });
