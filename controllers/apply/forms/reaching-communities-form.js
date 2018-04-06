@@ -91,11 +91,6 @@ const PROJECT_LOCATIONS = [
         label: 'East and West Midlands',
         value: 'Midlands',
         email: HUB_EMAILS.midlands
-    },
-    {
-        label: 'Across England',
-        value: 'Across England',
-        email: DEFAULT_EMAIL
     }
 ];
 
