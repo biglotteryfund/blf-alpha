@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const uuidv4 = require('uuid/v4');
 
 const { renderError } = require('../http-errors');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
@@ -10,13 +9,14 @@ const materials = require('../../config/content/materials.json');
 const orderService = require('../../services/orders');
 const routeHelpers = require('../route-helpers');
 const surveysService = require('../../services/surveys');
-const userService = require('../../services/user');
 
 const router = express.Router();
 
+const seedRouter = require('./seed');
+
 router.use(toolsSecurityHeaders());
 
-router.get('/status/pages', async (req, res) => {
+router.get('/pages', async (req, res) => {
     try {
         const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: true });
         const redirectRoutes = await routeHelpers.getCombinedRedirects({ includeDraft: true });
@@ -43,7 +43,7 @@ router.get('/status/pages', async (req, res) => {
 
 const requiredAuthed = auth.requireAuthedLevel(5);
 
-router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+router.route('/survey-results').get(cached.noCache, requiredAuthed, (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {
@@ -56,7 +56,7 @@ router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsS
         });
 });
 
-router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+router.route('/order-stats').get(cached.noCache, requiredAuthed, (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
@@ -73,19 +73,8 @@ router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecu
         });
 });
 
-if (process.env.USE_LOCAL_DATABASE) {
-    router.get('/tools/seed/user', (req, res) => {
-        const uuid = uuidv4();
-        const newUser = {
-            username: `${uuid}@example.com`,
-            password: uuid,
-            level: 5
-        };
-
-        userService.createUser(newUser).then(() => {
-            res.json(newUser);
-        });
-    });
-}
+seedRouter.init({
+    router
+});
 
 module.exports = router;
