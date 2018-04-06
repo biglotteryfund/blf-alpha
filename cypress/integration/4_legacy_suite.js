@@ -1,4 +1,9 @@
 describe('Legacy pages', () => {
+    it('should pass unknown routes to the legacy site', () => {
+        cy.visit('/about-big/publications/corporate-documents');
+        cy.title().should('include', 'Corporate documents: About - Big Lottery Fund');
+    });
+
     it('should redirect old funding finder', () => {
         const pages = [
             {
@@ -16,19 +21,6 @@ describe('Legacy pages', () => {
             {
                 originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
                 redirectedPath: '/funding/programmes?location=england&max=10000'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=Scotland&amp;amount=10001%20-%2050000',
-                redirectedPath: '/funding/programmes?location=scotland&min=10000'
-            },
-            {
-                originalPath: '/funding/funding-finder?cpage=1&area=uk-wide',
-                redirectedPath: '/funding/programmes?location=ukWide'
-            },
-            {
-                originalPath:
-                    '/funding/funding-finder?area=Wales&amp;amount=up to 10000&amp;org=Voluntary or community organisation',
-                redirectedPath: '/funding/programmes?location=wales&max=10000'
             }
         ];
 
@@ -57,16 +49,9 @@ describe('Legacy pages', () => {
         });
     });
 
-    it('Should redirect top-level ~/link.aspx urls', () => {
+    it('Should redirect ~/link.aspx urls', () => {
         cy.checkRedirect({
             from: '/~/link.aspx?_id=50fab7d4b5a248f8a8c8f5d4d33f9e0f&_z=z',
-            to: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
-        });
-    });
-
-    it('Should redirect wildcard ~/link.aspx urls', () => {
-        cy.checkRedirect({
-            from: '/global-content/programmes/england/~/link.aspx?_id=50FAB7D4B5A248F8A8C8F5D4D33F9E0F&_z=z',
             to: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
         });
     });
