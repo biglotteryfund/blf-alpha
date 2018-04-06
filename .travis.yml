@@ -23,7 +23,7 @@ deploy:
   access_key_id: &access_key_id AKIAJQ4UBKYUR7O4LMSQ
   secret_access_key: &secret_access_key
     secure: QVmjyOcxtTqPJJyy+gIfXVYGOshkmz2A9PdYBb+RkUJypouWVDSvBfYxjMqwZmVIvhJUlgoRMI9a5oRovjLuvHDw5Mdy5TCNFtVkZx5T0jGN8L4fEDyLjNw1DveuEil4+a87r3v6Jkr05M7LbdvinYac3+OPgN2/mwD4sVRlsCqtllu1jqJX3KvyYp8G6wc/nRwcxhQz6bdMBqP1GRdNRo8ww8cDGpIGiyGTPuFF5alqDobSsGnuuQMLi/p1EUJwxW1IkNLbWMpEy2LUQi4Xs1v3XdrNwuk4xLPa5uWa4usvbEMIPC9Ma72sQOnjumdYM/7s/wMBW6qHZfd/+ONhXZPbIcG5NR5Cj1ew90Xk3cL0AkHDW8hsKMa2mllVuwCtpDlOcVeBgU3riIsc/uhKimByRVHdk+dtQM44J+HsIJCO951GcdUjQ67VbPccIeKf3lZVej6skdP7yogHIGxo/HD8pdH8DkM+CqGDKPQhSU2wUVqaPShr2Hho2THFVnqpLppC7+9AeHZbzFENEmlwXzmEC/FwKgwgMcSuUPTEpUkIWH4tkopXDtO8uYQZRjoWRnO1UDj4+8zA3iRfRUoJbz7c2Hww+MciGUgIj4Iqj3ZRXmC+6o0uIStguMJr5eGD3+mnvla9wU0SR7ZVLZv1unwwz9nl1G/+d6q95aIPUQw=
-  local_dir: public/build
+  local_dir: public
   upload-dir: build
   acl: public_read
   cache_control: "max-age=31536000"
