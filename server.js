@@ -32,18 +32,25 @@ const localesMiddleware = require('./middleware/locales');
 const { noCache } = require('./middleware/cached');
 const previewMiddleware = require('./middleware/preview');
 
-if (SENTRY_DSN) {
-    Raven.config(SENTRY_DSN, {
-        environment: appData.environment,
-        dataCallback(data) {
-            delete data.modules;
-            // clear out POST data
-            delete data.request.data;
-            return data;
-        }
-    }).install();
-    app.use(Raven.requestHandler());
-}
+/**
+ * Configure Sentry client
+ * https://docs.sentry.io/clients/node/config/
+ * https://docs.sentry.io/clients/node/usage/#disable-raven
+ */
+Raven.config(SENTRY_DSN, {
+    environment: appData.environment,
+    autoBreadcrumbs: true,
+    dataCallback(data) {
+        // Clear installed node_modules
+        delete data.modules;
+        // Clear POST data
+        delete data.request.data;
+
+        return data;
+    }
+}).install();
+
+app.use(Raven.requestHandler());
 
 // Configure views
 viewEngineService.init(app);
@@ -166,9 +173,7 @@ app.use((req, res) => {
     renderNotFound(req, res);
 });
 
-if (SENTRY_DSN) {
-    app.use(Raven.errorHandler());
-}
+app.use(Raven.errorHandler());
 
 /**
  * Global error handler
