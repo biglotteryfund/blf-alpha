@@ -1,9 +1,8 @@
-describe('Interaction tests', function() {
-    it('interact with mobile navigation', () => {
+describe('Core funding flow', function() {
+    it('should navigate from homepage to funding page', () => {
+        // Start on homepage
         cy.viewport(375, 667);
         cy.visit('/');
-
-        cy.wait(500);
 
         cy.get('#js-mobile-nav-toggle').as('navToggle');
         cy.get('#qa-offscreen-navigation').as('nav');
@@ -11,16 +10,30 @@ describe('Interaction tests', function() {
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
 
-        cy.wait(300);
-
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
-    });
 
-    it('interact with tabs', () => {
-        cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
+        cy.checkMetaTitles('Home | Big Lottery Fund');
+
+        cy.checkActiveSection('toplevel');
+
+        // Navigate to over 10k page
+        cy.get('#qa-button-over10k').click();
+        cy.checkActiveSection('funding');
+
+        // Navigate to funding programmes list for England
+        cy.get('#qa-button-england').click();
+        cy.checkActiveSection('funding');
+
+        // Navigate to funding programme
+        cy
+            .get('.qa-programme-card')
+            .contains('Reaching Communities')
+            .click();
+
+        cy.viewport(1024, 768);
+        // Click the tab and check it is active
         cy.get('.js-tabset .js-tab').each($el => {
-            // Click the tab and check it is active
             cy
                 .wrap($el)
                 .click()
