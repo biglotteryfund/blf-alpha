@@ -1,8 +1,13 @@
 const uuidv4 = require('uuid/v4');
 const userService = require('../../services/user');
+const appData = require('../../modules/appData');
+
+function shouldMount() {
+    return appData.isNotProduction && process.env.USE_LOCAL_DATABASE;
+}
 
 function init({ router }) {
-    if (!process.env.USE_LOCAL_DATABASE) {
+    if (!shouldMount()) {
         return;
     }
 
@@ -18,6 +23,8 @@ function init({ router }) {
             res.json(newUser);
         });
     });
+
+    return router;
 }
 
 module.exports = {

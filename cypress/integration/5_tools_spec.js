@@ -19,7 +19,7 @@ describe('CMS Tools', function() {
     });
 
     it('should allow authorised access to staff-only tools', () => {
-        cy.seeduser().then(currentUser => {
+        cy.seedUser().then(currentUser => {
             cy.loginUser({
                 username: currentUser.username,
                 password: currentUser.password

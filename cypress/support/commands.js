@@ -22,7 +22,7 @@ Cypress.Commands.add('registerUser', formBody => {
     });
 });
 
-Cypress.Commands.add('seeduser', () => {
+Cypress.Commands.add('seedUser', () => {
     return cy.request('POST', '/tools/seed/user').its('body');
 });
 
