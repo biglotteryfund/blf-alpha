@@ -32,8 +32,8 @@
         text-align: center;
     }
 
-    &:last-child .tab {
-        border-right-width: 1px;
+    &:first-child .tab {
+        border-left: none;
     }
 
     .tab.tab--active {
@@ -41,14 +41,6 @@
         border-bottom-color: transparent;
         background-color: white;
         color: palette('pink');
-    }
-
-    &:first-child .tab.tab--active {
-        border-left-color: transparent;
-    }
-
-    &:last-child .tab.tab--active {
-        border-right-color: transparent;
     }
 }
 
