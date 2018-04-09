@@ -12,62 +12,64 @@
             :action="'/survey/' + survey.id"
             v-on:submit.prevent="submitSurvey"
         >
-            <h6 class="survey__header"
-                v-on:click="toggleSurvey()">
-                <% survey.question %> <span class="survey__arrow js-survey-arrow">
-                {{ iconArrowDown() }}
+            <fieldset>
+                <legend class="survey__header t6"
+                    v-on:click="toggleSurvey()">
+                    <% survey.question %> <span class="survey__arrow js-survey-arrow">
+                    {{ iconArrowDown() }}
+                    </span>
+                </legend>
+
+                <span class="survey__close-icon"
+                    v-on:click="blockSurvey()">
+                    {{ iconClose() }}
                 </span>
-            </h6>
 
-            <span class="survey__close-icon"
-                v-on:click="blockSurvey()">
-                {{ iconClose() }}
-            </span>
+                <p class="survey__response"
+                    v-if="isComplete">
+                    <span v-if="isComplete == 'success'">{{ __('global.surveys.response.success') }}</span>
+                    <span v-if="isComplete == 'error'">{{ __('global.surveys.response.error') }}</span>
+                </p>
 
-            <p class="survey__response"
-                v-if="isComplete">
-                <span v-if="isComplete == 'success'">{{ __('global.surveys.response.success') }}</span>
-                <span v-if="isComplete == 'error'">{{ __('global.surveys.response.error') }}</span>
-            </p>
+                <div class="survey__form-items" v-if="isActivated && !isComplete">
+                    <button
+                        v-for="choice in survey.choices"
+                        class="btn btn--small survey__btn survey__btn--choice"
+                        :type="(choice.allowMessage) ? 'button' : 'submit'"
+                        v-on:click="toggleMessage(choice)"
+                        v-if="!showMessageBox"
+                    >
+                        <% choice.title %>
+                    </button>
 
-            <fieldset class="survey__form-items" v-if="isActivated && !isComplete">
-                <button
-                    v-for="choice in survey.choices"
-                    class="btn btn--small survey__btn survey__btn--choice"
-                    :type="(choice.allowMessage) ? 'button' : 'submit'"
-                    v-on:click="toggleMessage(choice)"
-                    v-if="!showMessageBox"
-                >
-                    <% choice.title %>
-                </button>
-
-                <div class="survey__extra"
-                    v-for="choice in survey.choices"
-                    v-if="choice.allowMessage && showMessageBox"
-                >
-                    <div class="survey__extra-message">
-                        <label for="survey-extra-msg"
-                            class="survey__label">
-                            {{ __('global.surveys.genericQuestion') }}
-                        </label>
-                        <textarea
-                            class="survey__textbox"
-                            id="survey-extra-msg"
-                            placeholder="{{ __('global.surveys.genericPrompt') }}"
-                            v-model="formData.message"
-                            v-on:focus="messageOnFocus"
-                            v-on:blur="messageOnBlur"
-                        >
-                        </textarea>
-                    </div>
-                    {# submit the survey as a "no" #}
-                    <div class="survey__extra-submit">
-                        <button type="submit"
-                            class="btn btn--small survey__btn"
-                            v-on:click="updateChoice(choice)"
-                        >
-                            {{ __('global.forms.submit') }}
-                        </button>
+                    <div class="survey__extra"
+                        v-for="choice in survey.choices"
+                        v-if="choice.allowMessage && showMessageBox"
+                    >
+                        <div class="survey__extra-message">
+                            <label for="survey-extra-msg"
+                                class="survey__label">
+                                {{ __('global.surveys.genericQuestion') }}
+                            </label>
+                            <textarea
+                                class="survey__textbox"
+                                id="survey-extra-msg"
+                                placeholder="{{ __('global.surveys.genericPrompt') }}"
+                                v-model="formData.message"
+                                v-on:focus="messageOnFocus"
+                                v-on:blur="messageOnBlur"
+                            >
+                            </textarea>
+                        </div>
+                        {# submit the survey as a "no" #}
+                        <div class="survey__extra-submit">
+                            <button type="submit"
+                                class="btn btn--small survey__btn"
+                                v-on:click="updateChoice(choice)"
+                            >
+                                {{ __('global.forms.submit') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
