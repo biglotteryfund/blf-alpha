@@ -34,13 +34,19 @@ formModel.registerStep({
                     },
                     helpText: {
                         body: `
-<p>We support organisations that share our values of being people-led, strengths-based and connected.</p>
-
-<p>Across all of our funding in England, we are looking for ideas that cover at least one of our three priorities:</p>
+<p>We support ideas that meet our three funding priorities.</p>
+<p>Show us how you plan to:</p>
 <ul>
-<li>Relationships – We will be looking for ideas that bring people together and strengthen relationships in and across communities.</li>
-<li>Places and Spaces – We will be looking for ideas that support people to shape and sustain the places that matter to them, like a park, community centre or online network.</li>
-<li>Early Action – We will be looking for ideas that support activity that empowers people to fulfil their potential, working to address problems at the earliest possible stage.</li>
+<li>bring people together and build strong relationships in and across communities
+<li>improve the places and spaces that matter to communities</li>
+<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+</ul>
+
+<p>Through all our funding, we’re interested in supporting organisations that are:</p>
+<ul>
+<li><strong>people led</strong> - meaningfully involving the people you’re working with in the development and delivery of your activity</li>
+<li><strong>strengths based</strong> - making the most of the skills that already exist in communities</li>
+<li><strong>connected</strong> - understanding what other relevant organisations are doing and developing good working relationships.</li>
 </ul>
 `,
                         introduction: `
