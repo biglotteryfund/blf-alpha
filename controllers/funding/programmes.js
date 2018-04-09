@@ -4,7 +4,7 @@ const ab = require('express-ab');
 const config = require('config');
 const moment = require('moment');
 const Raven = require('raven');
-const { assign, find, findIndex, get, last, uniq } = require('lodash');
+const { assign, find, findIndex, get, last, map, uniq } = require('lodash');
 
 const cached = require('../../middleware/cached');
 const { splitPercentages } = require('../../modules/ab');
@@ -128,6 +128,8 @@ function initProgrammesList(router, options) {
                         });
                     }
                 }
+
+                templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
                 res.render(options.template, templateData);
             })
