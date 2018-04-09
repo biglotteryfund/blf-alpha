@@ -1,6 +1,5 @@
-const { check } = require('express-validator/check');
 const { castArray, get, isArray } = require('lodash');
-const Raven = require('raven');
+const { check } = require('express-validator/check');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
@@ -127,7 +126,7 @@ formModel.registerStep({
                     type: 'text',
                     name: 'project-location',
                     label: "In your own words, describe the location(s) that you'll be running your project(s) in",
-                    placeholder: 'eg. "Newtown community centre" or "Alfreton, Derby and Ripley"',
+                    placeholder: 'eg. "Newcastle community centre" or "Alfreton, Derby and Ripley"',
                     isRequired: true,
                     size: 60,
                     validator: function(field) {
@@ -238,6 +237,10 @@ formModel.registerReviewStep({
 
 formModel.registerSuccessStep({
     title: 'We have received your idea',
+    message: `
+<h2 class="t2 t--underline accent--pink">What happens next?</h2>
+<p>Thank you for submitting your idea. A local funding officer will contact you within fifteen days.</p>
+`,
     processor: function(formData) {
         const flatData = formModel.getStepValuesFlattened(formData);
 
@@ -296,18 +299,20 @@ formModel.registerSuccessStep({
                                 .then(() => resolve(formData));
                         })
                         .catch(err => {
-                            Raven.captureMessage('Error converting template to inline CSS', {
-                                extra: err,
-                                tags: {
-                                    feature: 'reaching-communities'
-                                }
-                            });
                             return reject(err);
                         });
                 }
             );
         });
     }
+});
+
+formModel.registerErrorStep({
+    title: 'There was an problem submitting your idea',
+    message: `
+<p>There was a problem submitting your idea, we have been notified of the problem.</p>
+<p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+`
 });
 
 module.exports = formModel;

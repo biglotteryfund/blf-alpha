@@ -27,6 +27,10 @@ describe('Application tests', function() {
         cy.get(submitSelector).click();
 
         // Review
-        cy.url().should('include', '/apply/your-idea/review');
+        cy.get('.content-box .btn').click();
+
+        // Success
+        cy.url().should('include', '/apply/your-idea/success');
+        cy.get('.form-message').should('contain', 'We have received your idea');
     });
 });

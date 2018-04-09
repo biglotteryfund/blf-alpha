@@ -1,4 +1,5 @@
 'use strict';
+const debug = require('debug')('blf-alpha:mailer');
 const nodemailer = require('nodemailer');
 const config = require('config');
 const path = require('path');
@@ -7,7 +8,7 @@ const Raven = require('raven');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
 
-const renderHtmlEmail = (html) => {
+const renderHtmlEmail = html => {
     const options = {
         webResources: {
             relativeTo: path.resolve(__dirname, '../public')
@@ -30,6 +31,10 @@ const transport = nodemailer.createTransport({
         region: 'eu-west-1'
     })
 });
+
+function shouldSend() {
+    return !process.env.DONT_SEND_EMAIL;
+}
 
 const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
     // default sending is `to` (as opposed to `bcc` etc)
@@ -62,25 +67,20 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
 
     mailOptions[sendMode] = sendTo;
 
-    // don't trigger an email if we're testing something
-    if (process.env.DONT_SEND_EMAIL) {
-        return mailOptions;
-    }
-
-    // send mail with defined transport object
-    let mailSend = transport.sendMail(mailOptions);
-
-    // set a generic error logger
-    mailSend.catch(error => {
-        Raven.captureMessage('Error sending email via SES', {
-            extra: error,
-            tags: {
-                feature: 'email'
-            }
+    if (shouldSend()) {
+        debug(`sending mail`);
+        return transport.sendMail(mailOptions).catch(error => {
+            Raven.captureMessage('Error sending email via SES', {
+                extra: error,
+                tags: {
+                    feature: 'email'
+                }
+            });
         });
-    });
-
-    return mailSend;
+    } else {
+        debug(`[skipped] sending mail`);
+        return Promise.resolve(mailOptions);
+    }
 };
 
 module.exports = {

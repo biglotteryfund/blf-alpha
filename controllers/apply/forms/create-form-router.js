@@ -1,4 +1,5 @@
-const { get, isEmpty, set } = require('lodash');
+const Raven = require('raven');
+const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../../middleware/cached');
@@ -88,22 +89,32 @@ module.exports = function(router, formModel) {
     });
 
     router.get('/success', cached.noCache, function(req, res) {
+        const successStep = formModel.getSuccessStep();
+        const errorStep = formModel.getErrorStep();
         const formData = get(req.session, formModel.getSessionProp(), {});
+
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            let successStep = formModel.getSuccessStep();
-            let processSuccess = successStep.processor(formData);
-            processSuccess
+            successStep
+                .processor(formData)
                 .then(() => {
-                    res.render('pages/apply/success', {
-                        form: formModel,
-                        success: successStep
+                    // Clear the submission from the session on successfull
+                    unset(req.session, formModel.getSessionProp());
+                    req.session.save(() => {
+                        res.render('pages/apply/success', {
+                            form: formModel,
+                            stepConfig: successStep
+                        });
                     });
                 })
                 .catch(err => {
-                    // @TODO handle this
-                    res.send(err);
+                    Raven.captureException(err);
+                    res.render('pages/apply/error', {
+                        form: formModel,
+                        stepConfig: errorStep,
+                        returnUrl: `${req.baseUrl}/review`
+                    });
                 });
         }
     });
