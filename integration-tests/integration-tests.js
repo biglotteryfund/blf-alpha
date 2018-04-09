@@ -4,4 +4,3 @@
  */
 require('./test-suites/materials.test');
 require('./test-suites/user.test');
-require('./test-suites/tools.test');

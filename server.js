@@ -70,13 +70,14 @@ app.use(
     })
 );
 
-// Mount tools controller (including status page for load balancer)
-app.use('/', require('./controllers/toplevel/tools'));
+// Mount load balancer status route
+app.get('/status', require('./controllers/toplevel/status'));
+
+// Mount tools controller
+app.use('/tools', require('./controllers/tools'));
 
 // Mount apply controller (forms)
-const applyPath = '/apply';
-app.use(applyPath, require('./controllers/apply'));
-app.use(cymreigio(applyPath), require('./controllers/apply'));
+app.use(cymreigio('/apply'), require('./controllers/apply'));
 
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));

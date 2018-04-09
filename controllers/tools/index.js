@@ -1,37 +1,22 @@
 'use strict';
 const express = require('express');
-const moment = require('moment');
 
-const routeHelpers = require('../route-helpers');
-const appData = require('../../modules/appData');
+const { renderError } = require('../http-errors');
+const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
-const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
-const surveysService = require('../../services/surveys');
-const orderService = require('../../services/orders');
 const materials = require('../../config/content/materials.json');
-const { renderError } = require('../http-errors');
+const orderService = require('../../services/orders');
+const routeHelpers = require('../route-helpers');
+const surveysService = require('../../services/surveys');
 
 const router = express.Router();
 
-// status page used by load balancer
-const LAUNCH_DATE = moment();
-router.get('/status', cached.noCache, (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.setHeader('Content-Type', 'application/json');
+const seedRouter = require('./seed');
 
-    res.send({
-        APP_ENV: appData.environment,
-        DEPLOY_ID: appData.deployId,
-        COMMIT_ID: appData.commitId,
-        BUILD_NUMBER: appData.buildNumber,
-        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
-        UPTIME: LAUNCH_DATE.toNow(true)
-    });
-});
+router.use(toolsSecurityHeaders());
 
-router.get('/status/pages', toolsSecurityHeaders(), async (req, res) => {
+router.get('/pages', async (req, res) => {
     try {
         const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: true });
         const redirectRoutes = await routeHelpers.getCombinedRedirects({ includeDraft: true });
@@ -58,7 +43,7 @@ router.get('/status/pages', toolsSecurityHeaders(), async (req, res) => {
 
 const requiredAuthed = auth.requireAuthedLevel(5);
 
-router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+router.route('/survey-results').get(cached.noCache, requiredAuthed, (req, res) => {
     surveysService
         .findAll()
         .then(surveys => {
@@ -71,7 +56,7 @@ router.route('/tools/survey-results').get(cached.noCache, requiredAuthed, toolsS
         });
 });
 
-router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecurityHeaders(), (req, res) => {
+router.route('/order-stats').get(cached.noCache, requiredAuthed, (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
@@ -86,6 +71,10 @@ router.route('/tools/order-stats').get(cached.noCache, requiredAuthed, toolsSecu
         .catch(err => {
             res.send(err);
         });
+});
+
+seedRouter.init({
+    router
 });
 
 module.exports = router;
