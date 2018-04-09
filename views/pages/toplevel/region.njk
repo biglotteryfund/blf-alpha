@@ -67,14 +67,14 @@
 
     <main class="nudge-up">
         <section class="content-box content-box--tinted content-box--even-inset
-            inner--wide-only accent--{{ pageAccent }} a--border-top u-no-bottom-border">
+            inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose u-constrained-content-wide">
                 <p>{{ copy.introduction }}</p>
             </div>
         </section>
 
         {% macro tabContent(content, pageAccent) %}
-            <div class="content-box u-no-top-border">
+            <div class="content-box content-box--frameless">
                 {{ content | safe }}
             </div>
         {% endmacro %}
