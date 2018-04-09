@@ -63,16 +63,16 @@
 {% endmacro %}
 
 {% macro programmeList(programmes, accent, labels) %}
-    <div class="programmes-list">
+    <ol class="programmes-list">
         {% for programme in programmes %}
-            <div class="programmes-list__item">
+            <li class="programmes-list__item">
                 {{ programmeCard(
                     programme = programme.content,
                     accent = accent
                 ) }}
-            </div>
+            </li>
         {% endfor %}
-    </div>
+    </ol>
 {% endmacro %}
 
 {% macro selectionTrail(trail, itemCount) %}

@@ -22,6 +22,8 @@
                 itemCount = programmes.length
             ) }}
 
+            <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
+
             {% if programmes | length > 0 %}
                 {{ programmeList(
                     accent = 'pink',
