@@ -2,7 +2,7 @@
 {% from "components/caseStudies.njk" import caseStudyFeature %}
 {% from "components/forms.njk" import textInput, radios with context %}
 {% from "components/hero.njk" import homepageSuperHero %}
-{% from "components/news.njk" import latestNews with context %}
+{% from "components/news.njk" import articleTeaser with context %}
 {% from "components/social.njk" import socialLinks %}
 
 {% extends "layouts/main.njk" %}
@@ -14,16 +14,16 @@
 {% block content %}
     {% set pageAccent = "blue" %}
 
-    {{
-        homepageSuperHero(
-            copy = copy.hero,
-            imageDefault = heroImage.default,
-            imageCandidates = heroImage.candidates
-        )
-    }}
+    <main role="main">
+        {{
+            homepageSuperHero(
+                copy = copy.hero,
+                imageDefault = heroImage.default,
+                imageCandidates = heroImage.candidates
+            )
+        }}
 
-    <article role="main">
-        <div class="inner">
+        <section class="inner">
             {# case studies #}
             <div class="carousel js-carousel
                 swiper-container
@@ -59,31 +59,48 @@
                         </li>
                     {% endfor %}
                 </ul>
-
             </div>
 
-            {# funding finder #}
             <div class="central-gap">
                 <a href="{{ buildUrl('funding/search-past-grants') }}"
-                   class="btn btn--block accent--{{ pageAccent }} a--btn spaced">{{ copy.browseFundedProjects }}</a>
+                    class="btn btn--block accent--{{ pageAccent }} a--btn spaced">
+                    {{ copy.browseFundedProjects }}
+                </a>
             </div>
+        </section>
 
-            {# News Posts #}
-            {% if news.length %}
-                <section class="accent--{{ pageAccent }} a--border-top">
-                    <div class="padded padded--wide-only">
-                        {{ latestNews(news) }}
-                    </div>
-                </section>
-            {% endif %}
+        {# Latest News #}
+        {% if news.length %}
+        <section class="latest-news accent--{{ pageAccent }} a--border-top inner">
+            <header class="latest-news__header">
+                <h2 class="t1 t--underline a--text accent--blue">
+                    <a class="u-link-minimal" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                        {{ __('global.misc.latestNews') }}
+                    </a>
+                </h2>
+            </header>
+            <div class="latest-news__content">
+                <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                    {% for article in news %}
+                        <li class="grid__item">
+                            {{ articleTeaser(article) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <footer class="latest-news__footer">
+                <a class="latest-news__more" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                    {{ __('global.misc.viewAllNews') }}
+                </a>
+            </footer>
+        </section>
+        {% endif %}
 
-        </div>
-
-        <div class="inner--wide-only spaced">
-            {# tweets #}
-            {% set twitterAccount = appData.config.get('social.twitterAccounts.' + locale)  %}
+        <section class="inner--wide-only spaced">
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
+                    {# Twitter Feed #}
+                    {% set twitterAccount = appData.config.get('social.twitterAccounts.' + locale)  %}
                     <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
                         href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
                     >
@@ -92,6 +109,7 @@
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </li>
                 <li class="grid__item accent--pink a--border-top">
+                    {# Ebulletin #}
                     <div class="form-ebulletin padded spaced">
                         {% include "includes/ebulletin.njk" %}
                     </div>
@@ -99,8 +117,6 @@
                     {{ socialLinks(copy.social) }}
                 </li>
             </ul>
-
-        </div>
-    </article>
-
+        </section>
+    </main>
 {% endblock %}

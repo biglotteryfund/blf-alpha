@@ -9,14 +9,19 @@
 
 .latest-news {
     position: relative;
+    padding: $spacingUnit / 2;
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+    }
 }
 .latest-news__footer {
     margin-bottom: $spacingUnit;
 
     @include mq('medium') {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: $spacingUnit;
+        right: $spacingUnit;
         margin: 0;
     }
 }

@@ -1,7 +1,7 @@
 {% import "components/headers.njk" as headers %}
 
 {% macro hero(titleText, image, accent = 'blue') %}
-    <div class="hero">
+    <section class="hero">
         <div class="hero__image">
             <picture>
                 <source srcset="{{ image.large }}" media="(min-width: 980px)">
@@ -26,11 +26,11 @@
                 </span>
             {% endif %}
         </div>
-    </div>
+    </section>
 {% endmacro %}
 
 {% macro superHero(title, content, imageDefault, imageCandidates) %}
-    <div class="super-hero js-random-hero" data-image-candidates='{{ imageCandidates | dump | safe }}'>
+    <section class="super-hero js-random-hero" data-image-candidates='{{ imageCandidates | dump | safe }}'>
         <div class="super-hero__image js-random-hero__image">
             <picture>
                 <source srcset="{{ imageDefault.large }}" media="(min-width: 980px)">
@@ -53,7 +53,7 @@
                 </div>
             {% endif %}
         </div>
-    </div>
+    </section>
 {% endmacro %}
 
 
