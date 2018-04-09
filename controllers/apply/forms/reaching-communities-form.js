@@ -91,11 +91,6 @@ const PROJECT_LOCATIONS = [
         label: 'East and West Midlands',
         value: 'Midlands',
         email: HUB_EMAILS.midlands
-    },
-    {
-        label: 'Across England',
-        value: 'Across England',
-        email: DEFAULT_EMAIL
     }
 ];
 
@@ -245,13 +240,17 @@ formModel.registerSuccessStep({
     title: 'We have received your idea',
     processor: function(formData) {
         const flatData = formModel.getStepValuesFlattened(formData);
-        const locationList = isArray(flatData.location) ? flatData.location : [flatData.location];
 
-        // match selected locations with that hub's email address
-        const hubEmailAddresses = locationList.map(location => {
-            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === location);
-            return get(matchedLocation, 'email', DEFAULT_EMAIL);
-        });
+        let internalInboxToSendTo;
+
+        if (isArray(flatData.location)) {
+            // send multi-region ideas to the global england-wide inbox
+            internalInboxToSendTo = DEFAULT_EMAIL;
+        } else {
+            // find the applicable email for their region
+            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
+            internalInboxToSendTo = get(matchedLocation, 'email', DEFAULT_EMAIL);
+        }
 
         return new Promise((resolve, reject) => {
             const summary = formModel.getStepsWithValues(formData);
@@ -259,8 +258,8 @@ formModel.registerSuccessStep({
             // construct an email address for the customer
             const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
 
-            // add the relevant hub emails
-            const customerPlusHubEmail = [customerEmail].concat(hubEmailAddresses);
+            // add the relevant hub email address
+            const customerPlusHubEmail = [customerEmail].concat(internalInboxToSendTo);
 
             // only email hubs on production environments
             const sendTo = appData.isNotProduction ? customerEmail : customerPlusHubEmail;
