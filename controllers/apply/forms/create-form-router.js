@@ -3,7 +3,6 @@ const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../../middleware/cached');
-const { renderError } = require('../../http-errors');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
@@ -90,11 +89,13 @@ module.exports = function(router, formModel) {
     });
 
     router.get('/success', cached.noCache, function(req, res) {
+        const successStep = formModel.getSuccessStep();
+        const errorStep = formModel.getErrorStep();
         const formData = get(req.session, formModel.getSessionProp(), {});
+
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            const successStep = formModel.getSuccessStep();
             successStep
                 .processor(formData)
                 .then(() => {
@@ -103,14 +104,17 @@ module.exports = function(router, formModel) {
                     req.session.save(() => {
                         res.render('pages/apply/success', {
                             form: formModel,
-                            success: successStep
+                            stepConfig: successStep
                         });
                     });
                 })
                 .catch(err => {
-                    err.friendlyText = 'There was a problem processing your submission';
                     Raven.captureException(err);
-                    renderError(err, req, res);
+                    res.render('pages/apply/error', {
+                        form: formModel,
+                        stepConfig: errorStep,
+                        returnUrl: `${req.baseUrl}/review`
+                    });
                 });
         }
     });

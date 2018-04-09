@@ -79,6 +79,8 @@ function createFormModel({ id, title, shortCode }) {
     let steps = [];
     let reviewStep;
     let successStep;
+    let errorStep;
+
     return {
         id: id,
         title: title,
@@ -133,6 +135,16 @@ function createFormModel({ id, title, shortCode }) {
             }
 
             return successStep;
+        },
+        registerErrorStep: function(stepConfig) {
+            errorStep = stepConfig;
+        },
+        getErrorStep: function() {
+            if (!errorStep) {
+                throw new Error('Must register error step');
+            }
+
+            return errorStep;
         }
     };
 }

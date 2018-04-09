@@ -31,6 +31,6 @@ describe('Application tests', function() {
 
         // Success
         cy.url().should('include', '/apply/your-idea/success');
-        cy.get('.form-success-message').should('contain', 'We have received your idea');
+        cy.get('.form-message').should('contain', 'We have received your idea');
     });
 });

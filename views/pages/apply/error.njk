@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% block title %}Success | {{ form.title }} | {% endblock %}
+{% block title %}Error | {{ form.title }} | {% endblock %}
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
@@ -10,6 +10,8 @@
             </div>
 
             {{ stepConfig.message | safe }}
+
+            <p><a class="btn" href="{{returnUrl}}">Back</a></p>
         </div>
     </div>
 {% endblock %}
