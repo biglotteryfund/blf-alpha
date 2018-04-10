@@ -137,7 +137,7 @@ $paddedGridGutterLarge: 30px;
                             // the border should be 15px outside
                             .content-box & {
                                 &:after {
-                                    left: -#{ $contentBoxHorizontalPadding + 15px};
+                                    left: -#{ $spacingUnit + 15px};
                                 }
                             }
                         }

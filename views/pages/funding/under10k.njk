@@ -20,18 +20,18 @@
     }}
 
     <main class="nudge-up">
-        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
             <p>{{ copy.intro }}</p>
 
-            <ul class="list-bullets">
+            <ul>
                 {% for item in copy.ideas %}
                     <li>{{ item }}</li>
                 {% endfor %}
             </ul>
 
-            <h3 class="accent--{{ pageAccent }} t1 t--underline">{{ copy.callToAction }}</h3>
+            <h2>{{ copy.callToAction }}</h2>
 
-            <ul class="unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
+            <ul class="u-list-unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
                <li class="grid__item">
                    <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-england') }}"
                       class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">

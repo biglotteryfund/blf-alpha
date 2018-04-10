@@ -100,8 +100,10 @@
     }
 }
 .quicklinks--sticky {
-    position: sticky;
-    top: 0;
+    @media only screen and (min-height: 38em) {
+        position: sticky;
+        top: 0;
+    }
 
     @include mq('medium', 'max') {
         display: none;

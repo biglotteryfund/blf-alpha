@@ -964,9 +964,9 @@ funding:
           so you can keep sharing information and respond to any comments.</p><p>We
           would like you to:</p>"
         actions:
-          '1': Share your grant news on social media, thanking National Lottery players
-          '2': Follow the Big Lottery Fund on social media
-          '3': Use social media to share news of your project throughout your grant
+          - Share your grant news on social media, thanking National Lottery players
+          - Follow the Big Lottery Fund on social media
+          - Use social media to share news of your project throughout your grant
         part2: "<p>We can then share your stories with the wider National Lottery
           community!</p><p>Please always acknowledge National Lottery players' support
           by using the #NationalLottery hashtag when posting content related to your

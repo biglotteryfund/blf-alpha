@@ -9,14 +9,16 @@
 {% set socialImage = heroImage %}
 
 {% block content %}
+    {% set pageAccent = 'pink' %}
     <main role="main">
         {{ hero(
             titleText = title,
             image = heroImage,
-            accent = 'green'
+            accent = pageAccent
         ) }}
 
-        <section class="inner--wide-only content-box content-box--even-inset accent--green a--border-top nudge-up">
+        <section class="content-box inner--wide-only
+            accent--{{ pageAccent }} a--border-top nudge-up">
             {{ selectionTrail(
                 trail = activeBreadcrumbs,
                 itemCount = programmes.length
@@ -26,7 +28,7 @@
 
             {% if programmes | length > 0 %}
                 {{ programmeList(
-                    accent = 'pink',
+                    accent = pageAccent,
                     labels = copy.details,
                     programmes = programmes
                 ) }}

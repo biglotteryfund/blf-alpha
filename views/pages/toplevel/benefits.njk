@@ -8,28 +8,32 @@
 {% set socialImage = heroImage %}
 
 {% block content %}
+    {% set pageAccent = 'blue' %}
     {{
         hero(
             titleText = title,
             image = heroImage,
-            accent = 'blue'
+            accent = pageAccent
         )
     }}
 
     <main class="nudge-up">
-        <div class="inner--wide-only accent--blue a--border-top content-box s-prose">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="u-align-center">
                 <a class="btn accent--pink a--btn central-gap spaced--l" href="{{ buildUrl('toplevel', 'jobs') }}">{{ copy['call-to-action'] }}</a>
             </div>
 
-            {% for benefit in copy.benefits %}
-                <h3 class="t2">{{ benefit.title }}</h3>
-                {{ benefit.text | safe }}
-            {% endfor %}
+            <div class="s-prose s-prose--long accent-content--{{ pageAccent }}">
+                {% for benefit in copy.benefits %}
+                    <h2>{{ benefit.title }}</h2>
+                    {{ benefit.text | safe }}
+                {% endfor %}
+            </div>
         </div>
 
         <div class="inner spaced">
-            <img src="{{ 'jobs/equality-sponsors.png' | getImagePath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In People, Business Disability Forum and Living Wage Employer" />
+            <img src="{{ 'jobs/equality-sponsors.png' | getImagePath }}"
+                alt="The logos of Positive About Disabled People, Stonewall, Investors In People, Business Disability Forum and Living Wage Employer" />
         </div>
     </main>
 {% endblock %}

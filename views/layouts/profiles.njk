@@ -22,7 +22,7 @@
             <div class="page-section__content accent--{{ pageAccent }} a--border-top">
                 {% for profile in profiles %}
                     <section id="profile-{{ profile.title | slugify }}"
-                        class="content-box content-box--even-inset{% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
+                        class="content-box {% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
                         {{ profileSummary(profile) }}
                     </section>
                 {% endfor %}
@@ -30,7 +30,7 @@
                 {% block extraPrimaryContent %}{% endblock %}
             </div>
             <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
-                <aside class="content-box content-box--even-inset">
+                <aside class="content-box">
                     {{ nestedMenu(navigation, getCurrentUrl(request)) }}
                 </aside>
 
