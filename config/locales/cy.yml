@@ -895,10 +895,10 @@ funding:
           er mwyn i chi barhau i rannu gwybodaeth ac ymateb i unrhyw sylwadau.</p><p>Rydym
           am i chi:</p>"
         actions:
-          '1': Rannu'r newyddion am eich grant ar gyfryngau cymdeithasol, gan ddiolch
+          - Rannu'r newyddion am eich grant ar gyfryngau cymdeithasol, gan ddiolch
             i chwaraewyr y Loteri Genedlaethol
-          '2': Dilyn y Gronfa Loteri Fawr ar gyfryngau cymdeithasol
-          '3': Defnyddio cyfryngau cymdeithasol i rannu newyddion am eich trwy gydol
+          - Dilyn y Gronfa Loteri Fawr ar gyfryngau cymdeithasol
+          - Defnyddio cyfryngau cymdeithasol i rannu newyddion am eich trwy gydol
             eich grant
         part2: "<p>Wedyn gallwn rannu'ch storïau  gyda'r gymuned Loteri Genedlaethol
           ehangach!</p><p>Gofynnir i chi gydnabod cefnogaeth chwaraewyr y Loteri Genedlaethol
