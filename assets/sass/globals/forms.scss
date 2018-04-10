@@ -254,16 +254,16 @@ $errorColor: #b00;
     .ff-label {
         @include visually-hidden();
     }
+
     .ff-text {
         display: block;
         width: 100%;
-        padding: 3px;
-        background-color: transparent;
         font-size: 16px;
         border: none;
         border-bottom: 2px solid palette('pink');
-        padding-bottom: 6px;
-        margin-bottom: $spacingUnit / 2;
+        background-color: transparent;
+        padding: 3px 3px 6px;
+        margin-bottom: $spacingUnit;
 
         &.is-error {
             background-color: darken(palette('pale-pink'), 30%);
