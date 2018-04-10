@@ -13,8 +13,8 @@
     {% else %}
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
         <input type="hidden" name="locale" value="{{ locale }}">
-        <p class="intro">{{ __('toplevel.ebulletin.intro') }}</p>
-        <div class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
+        <fieldset class="form-ebulletin--grid" role="group" aria-labelledby="aria-form-loc">
+            <legend class="intro">{{ __('toplevel.ebulletin.intro') }}</legend>
             <span class="u-visually-hidden" id="aria-form-loc">{{ __('toplevel.ebulletin.location')  }}</span>
             {{ radios(
                 fieldName = 'location',
@@ -37,7 +37,7 @@
                     }
                 ]
             ) }}
-        </div>
+        </fieldset>
 
         <div class="grid form-ebulletin__fields">
             {{ textInput(
