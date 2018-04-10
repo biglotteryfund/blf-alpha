@@ -32,14 +32,14 @@ fieldset {
 }
 
 .form-fieldset {
-    margin-bottom: $spacingUnit;
+    margin: 0;
 }
 .form-fieldset__legend {
     font-weight: bold;
     margin-bottom: $spacingUnit;
 }
 .form-fieldset__fields {
-    margin: 0;
+    margin-bottom: $spacingUnit;
 }
 
 $errorColor: #b00;
@@ -149,7 +149,19 @@ $errorColor: #b00;
     padding: 0.5em;
 }
 
-.ff-radio,
+.ff-radio {
+    margin-bottom: 3px;
+}
+.ff-radio__option {
+    margin-bottom: 3px;
+
+    input[type='radio'] {
+        position: relative;
+        top: -2px;
+        margin-right: 5px;
+    }
+}
+
 .ff-checkbox {
     margin-bottom: 3px;
 }
@@ -168,6 +180,20 @@ $errorColor: #b00;
         color: lighten(palette('charcoal'), 20%);
         margin-left: 3px;
         vertical-align: middle;
+    }
+}
+
+.ff-field-pair {
+    display: flex;
+}
+.ff-field-pair__item {
+    flex: 1 1 auto;
+
+    margin-right: 5px;
+
+    &:last-of-type {
+        margin-right: 0;
+        margin-left: 5px;
     }
 }
 
