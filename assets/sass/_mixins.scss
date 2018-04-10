@@ -19,6 +19,22 @@
     padding-bottom: unquote(decimal-round($padding, 1, ceil) + '%');
 }
 
+// via http://simplyaccessible.com/article/three-pitfalls-text-alternatives/
+@mixin visually-hidden() {
+    @media screen {
+        color: #000000;
+        background-color: #ffffff;
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        position: absolute;
+    }
+}
+
 @mixin clearfix() {
     &:before,
     &:after {
