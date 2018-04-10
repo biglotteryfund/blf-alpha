@@ -46,7 +46,8 @@
 
         {% if copy.sections.currentVacancies and copy.sections.currentVacancies.vacancies.length > 0 %}
             <div class="content-box content-box--borderless
-                inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long" id="current-vacancies">
+                inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long"
+                id="current-vacancies">
                 <h2 class="t1 t--underline accent--{{ pageAccent }}">
                     {{ copy.sections.currentVacancies.title }}
                 </h2>
@@ -57,7 +58,7 @@
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
             <h2>{{ copy.sections.offices.title }}</h2>
             <div class="google-map">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1ANUmJnn8RObMDFvo50elNW58F7A&hl=en" width="100%" height="480" frameborder="0"></iframe>
+                <iframe src="https://www.google.com/maps/d/embed?mid=1ANUmJnn8RObMDFvo50elNW58F7A&hl=en" width="100%" height="480" frameborder="0" title="{{ copy.sections.offices.title }}"></iframe>
             </div>
         </div>
 
