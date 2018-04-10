@@ -1,22 +1,33 @@
-{% macro makeContrastLink(mode) %}
-    <a href="/contrast/{{ mode }}?url={{ getCurrentUrl(request) | urlencode}}"
-       data-on="click"
-       data-event-category="Change contrast"
-       data-event-action="Click"
-       data-event-label="{{ mode }}">
-        {{ __("global.accessibility.contrast." + mode ) | safe }}
-    </a>
-{% endmacro %}
-
 {% macro accessibilityNav() %}
     <nav class="accessibility-nav">
         <ul>
-            <li><a tabindex="0" href="#content">{{ __("global.accessibility.skipToContent") | safe }}</a></li>
-            {% if highContrast %}
-                <li>{{ makeContrastLink('standard') }}</li>
-            {% else %}
-                <li>{{ makeContrastLink('high') }}</li>
-            {% endif %}
+            <li>
+                {# Skip to content #}
+                <a href="#content" tabindex="0">
+                    {{ __("global.accessibility.skipToContent") | safe }}
+                </a>
+            </li>
+            <li>
+                {# Accessibility policy #}
+                <a href="{{ __("global.accessibility.policy.link") }}"
+                   title="{{ __("global.accessibility.policy.description") }}">
+                    {{ __("global.accessibility.policy.label") }}
+                </a>
+            </li>
+            <li>
+                {# High-contrast mode switch #}
+                {% set modeToSwitchTo = 'high' %}
+                {% if highContrast %}
+                    {% set modeToSwitchTo = 'standard'  %}
+                {% endif %}
+                <a href="/contrast/{{ modeToSwitchTo }}?url={{ getCurrentUrl(request) | urlencode}}"
+                    data-on="click"
+                    data-event-category="Change contrast"
+                    data-event-action="Click"
+                    data-event-label="{{ modeToSwitchTo }}">
+                    {{ __("global.accessibility.contrast." + modeToSwitchTo ) | safe }}
+                </a>
+            </li>
         </ul>
     </nav>
 {% endmacro %}

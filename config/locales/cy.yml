@@ -28,24 +28,28 @@ global:
     - label: Dogfennau corfforaethol
       href: "/welsh/about-big/publications/corporate-documents"
     - label: Polisi Preifatrwydd
-      href: "/welsh/about-big/customer-service/privacy-policy"
+      href: "/welsh/about/customer-service/privacy-policy"
     - label: Telerau
-      href: "/welsh/about-big/customer-service/terms-of-use"
+      href: "/welsh/about/customer-service/terms-of-use"
     - label: Cyswllt
       href: "/welsh/contact"
     - label: Swyddi
       href: "/welsh/jobs"
     - label: Cwcis
-      href: "/welsh/about-big/customer-service/cookies"
+      href: "/welsh/about/customer-service/cookies"
     - label: Map o'r wefan
       href: "/welsh/sitemap"
     - label: Hygyrchedd
-      href: "/welsh/about-big/our-approach/accessibility"
+      href: "/welsh/about/customer-service/accessibility"
   accessibility:
     skipToContent: Ewch i'r cynnwys
     contrast:
       high: Galluogi'r modd cyferbynnedd uchel
       standard: Galluogi'r modd cyferbynnedd safonol
+    policy:
+      label: Hygyrchedd
+      link: "/welsh/about/customer-service/accessibility"
+      description: Ein hymrwymiad i hygyrchedd a chynhwysiad
     previousItem: Eitem flaenorol
     nextItem: Eitem nesaf
   forms:
