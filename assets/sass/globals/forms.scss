@@ -241,7 +241,52 @@ $errorColor: #b00;
 }
 
 /* =========================================================================
-   Forms: Specific Form Customisations
+   Custom Form: Ebulletin
+   ========================================================================= */
+
+.form-ebulletin {
+    background-color: palette('pale-pink');
+
+    .form-ebulletin__intro {
+        font-size: 18px;
+    }
+
+    .ff-label {
+        @include visually-hidden();
+    }
+    .ff-text {
+        display: block;
+        width: 100%;
+        padding: 3px;
+        background-color: transparent;
+        font-size: 16px;
+        border: none;
+        border-bottom: 2px solid palette('pink');
+        padding-bottom: 6px;
+        margin-bottom: $spacingUnit / 2;
+
+        &.is-error {
+            background-color: darken(palette('pale-pink'), 30%);
+            color: #ffffff;
+
+            @include input-placeholder {
+                color: #ffffff;
+            }
+        }
+    }
+
+    .form-ebulletin__btn {
+        @include mq('tablet', 'max') {
+            width: 80%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+/* =========================================================================
+   Custom Form: Free Materials
    ========================================================================= */
 
 .inline-form {
@@ -288,46 +333,5 @@ $errorColor: #b00;
 
     label.form-fund__item {
         @extend .u-visually-hidden;
-    }
-}
-
-.form-ebulletin {
-    background-color: palette('pale-pink');
-
-    .form-ebulletin__intro {
-        font-size: 18px;
-    }
-
-    .ff-label {
-        @include visually-hidden();
-    }
-    .ff-text {
-        display: block;
-        width: 100%;
-        padding: 3px;
-        background-color: transparent;
-        font-size: 16px;
-        border: none;
-        border-bottom: 2px solid palette('pink');
-        padding-bottom: 6px;
-        margin-bottom: $spacingUnit / 2;
-
-        &.is-error {
-            background-color: darken(palette('pale-pink'), 30%);
-            color: #ffffff;
-
-            @include input-placeholder {
-                color: #ffffff;
-            }
-        }
-    }
-
-    .form-ebulletin__btn {
-        @include mq('tablet', 'max') {
-            width: 80%;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
     }
 }
