@@ -40,6 +40,8 @@ const legacyRedirects = [
         '/global-%20content/programmes/england/commissioning-better-%20outcomes-%20and-social-%20outcomes-fund'
     ),
 
+    aliasFor('/about/customer-service/accessibility', '/about-big/our-approach/accessibility'),
+
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
     programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
