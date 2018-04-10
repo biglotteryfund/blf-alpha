@@ -28,24 +28,28 @@ global:
     - label: Corporate documents
       href: "/about-big/publications/corporate-documents"
     - label: Privacy Policy
-      href: "/about-big/customer-service/privacy-policy"
+      href: "/about/customer-service/privacy-policy"
     - label: Terms
-      href: "/about-big/customer-service/terms-of-use"
+      href: "/about/customer-service/terms-of-use"
     - label: Contact
       href: "/contact"
     - label: Jobs
       href: "/jobs"
     - label: Cookies
-      href: "/about-big/customer-service/cookies"
+      href: "/about/customer-service/cookies"
     - label: Site map
       href: "/sitemap"
     - label: Accessibility
-      href: "/about-big/our-approach/accessibility"
+      href: "/about/customer-service/accessibility"
   accessibility:
     skipToContent: Skip to content
     contrast:
       high: Enable high contrast mode
       standard: Enable standard contrast mode
+    policy:
+      label: Accessibility
+      link: "/about/customer-service/accessibility"
+      description: Our commitment to accessibility and inclusion
     previousItem: Previous item
     nextItem: Next item
   forms:
