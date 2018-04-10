@@ -53,22 +53,11 @@
 .content-box {
     @include bordered();
     background-color: palette('pale');
-    padding: 20px $contentBoxHorizontalPadding 40px $contentBoxHorizontalPadding;
+    padding: $spacingUnit;;
     margin-bottom: $spacingUnit;
 
     &.content-box--flush {
         margin-bottom: 0;
-    }
-
-    &.content-box--flush-narrow-only {
-        @include mq('tablet', 'max') {
-            margin-bottom: 0;
-        }
-    }
-
-    // @TODO: Make this the default
-    &.content-box--even-inset {
-        padding: $spacingUnit;
     }
 
     &.content-box--borderless {

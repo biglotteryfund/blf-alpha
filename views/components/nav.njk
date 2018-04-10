@@ -45,12 +45,12 @@
 
 {% macro nestedMenu(navigationModel, currentUrl) %}
     <nav class="nested-menu">
-        <h4 class="nested-menu__section">
+        <h2 class="nested-menu__section t4">
             <a class="nested-menu__section-link"
                 href="{{ navigationModel.section.link }}">
                 {{ navigationModel.section.label }}
             </a>
-        </h4>
+        </h2>
         <ul class="nested-menu__children">
             {% for child in navigationModel.children %}
                 <li class="nested-menu__item">

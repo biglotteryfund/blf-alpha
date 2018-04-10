@@ -22,7 +22,7 @@
 
     <article role="main" class="nudge-up">
         <div class="inner accent--pink a--border-top stats-holder content-box content-box--borderless">
-            <h3 class="t2 t--underline accent--pink">{{ copy.keyStats }}</h3>
+            <h2 class="t2 t--underline accent--pink">{{ copy.keyStats }}</h2>
             {{ statsGrid(copy.data) }}
         </div>
     </article>
@@ -30,7 +30,7 @@
 
     <aside class="accent--{{ pageAccent }} a--border-top map-holder">
         <div class="inner--wide-only expanded map-holder__inner content-box content-box--frameless no-space">
-            <h3 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.map.title }}</h3>
+            <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.map.title }}</h2>
 
             <div class="map-wrapper">
                 {% include "../../includes/uk-svg.njk" %}
@@ -40,16 +40,22 @@
                 {% for region in grants %}
                     <section id="region-{{ region.id }}" class="tab__pane{% if loop.first %} pane--active{% endif %}">
                         <article class="map-info accent--{{ pageAccent }} a--border-top padded region--{{ region.id }}--b-t">
-                            <h4 class="t2 t--underline region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h4>
+                            <h3 class="t2 t--underline region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h3>
 
-                            <h5 class="map-info__stat t2 accent--{{ pageAccent }} a--text">{{ region.population | numberWithCommas }}</h5>
-                            <h6 class="t8"><strong>{{ copy.map.population }}</strong></h6>
+                            <p class="map-info__stat">
+                                <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.population | numberWithCommas }}</span>
+                                <span class="map-info__stat-caption t8"><strong>{{ copy.map.population }}</strong></span>
+                            </p>
 
-                            <h5 class="map-info__stat t2 accent--{{ pageAccent }} a--text">{{ region.totalAwarded }}</h5>
-                            <h6 class="t8"><strong>{{ copy.map.totalAwarded }}</strong></h6>
+                            <p class="map-info__stat">
+                                <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.totalAwarded }}</span>
+                                <span class="map-info__stat-caption t8"><strong>{{ copy.map.totalAwarded }}</strong></span>
+                            </p>
 
-                            <h5 class="map-info__stat t2 accent--{{ pageAccent }} a--text">{{ region.beneficiaries | numberWithCommas }}</h5>
-                            <h6 class="t8"><strong>{{ copy.map.totalBeneficiaries }}</strong></h6>
+                            <p class="map-info__stat">
+                                <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.beneficiaries | numberWithCommas }}</span>
+                                <span class="map-info__stat-caption t8"><strong>{{ copy.map.totalBeneficiaries }}</strong></span>
+                            </p>
                         </article>
                     </section>
                 {% endfor %}

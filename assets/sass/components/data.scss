@@ -271,7 +271,12 @@
     }
 
     .map-info__stat {
-        margin-bottom: 0;
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    .map-info__stat-data,
+    .map-info__stat-caption {
+        display: block;
     }
 }
 

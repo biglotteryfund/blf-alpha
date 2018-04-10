@@ -3,8 +3,7 @@
 {% extends "layouts/profiles.njk" %}
 
 {% block extraPrimaryContent %}
-    <section class="content-box content-box--even-inset
-        accent--{{ pageAccent }} a--border-top">
+    <section class="content-box accent--{{ pageAccent }} a--border-top">
         <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
         {{ linksList(copy.expenses.documents, isDocumentsList = true) }}
     </section>

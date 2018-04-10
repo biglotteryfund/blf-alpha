@@ -9,67 +9,65 @@
 {% set socialImage = heroImage %}
 
 {% block content %}
+    {% set pageAccent = 'blue' %}
     {{
         hero(
-            accent = 'blue',
             titleText = title,
-            image = heroImage
+            image = heroImage,
+            accent = pageAccent
         )
     }}
 
-    <article role="main" class="nudge-up">
-
-        <div class="inner--wide-only accent--blue a--border-top content-box">
-
+    <main role="main" class="nudge-up">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
             <div class="u-align-center">
-                <a class="btn accent--pink a--btn central-gap spaced--l" href="https://atsv7.wcn.co.uk/search_engine/jobs.cgi?owner=5031783&ownertype=fair&submitSearchForm=1&submitSearchForm=Search&vac_xtra5031783.30_5031783=&posting_code=53">{{ copy['call-to-action'] }}</a>
+                <a class="btn accent--{{ pageAccent }} a--btn central-gap spaced--l" href="https://atsv7.wcn.co.uk/search_engine/jobs.cgi?owner=5031783&ownertype=fair&submitSearchForm=1&submitSearchForm=Search&vac_xtra5031783.30_5031783=&posting_code=53">{{ copy['call-to-action'] }}</a>
             </div>
 
-            <h3 class="t2">{{ copy.sections.whyWork.title }}</h3>
+            <h2>{{ copy.sections.whyWork.title }}</h2>
             {{ copy.sections.whyWork.body | safe }}
-
         </div>
 
-        <div class="inner--wide-only accent--green a--border-top content-box">
-            <h3 class="t2">{{ copy.sections.benefits.title }}</h3>
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
+            <h2>{{ copy.sections.benefits.title }}</h2>
             {{ copy.sections.benefits.body | safe }}
             <ul class="list-bullets u-tone-foreground-highlight">
                 {% for benefit in copy.sections.benefits.list %}
                     <li><strong>{{ benefit }}</strong></li>
                 {% endfor %}
             </ul>
-            <a href="{{ buildUrl('toplevel', 'benefits') }}" class="btn btn--small">{{ copy.sections.benefits.postscript }}</a>
+            <p>
+                <a class="btn btn--small accent--{{ pageAccent }} a--btn"
+                    href="{{ buildUrl('toplevel', 'benefits') }}">
+                    {{ copy.sections.benefits.postscript }}
+                </a>
+            </p>
         </div>
 
         {% if copy.sections.currentVacancies and copy.sections.currentVacancies.vacancies.length > 0 %}
             <div class="content-box content-box--borderless
-                inner--wide-only accent--blue a--border-top"
-                id="current-vacancies">
-
-                <h3 class="t1 t--underline accent--pink">
+                inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long" id="current-vacancies">
+                <h2 class="t1 t--underline accent--{{ pageAccent }}">
                     {{ copy.sections.currentVacancies.title }}
-                </h3>
-
+                </h2>
                 {{ linkGrid(copy.sections.currentVacancies.vacancies, 'blue') }}
             </div>
         {% endif %}
 
-        <div class="inner--wide-only accent--turquoise a--border-top content-box">
-            <h3 class="t2">{{ copy.sections.offices.title }}</h3>
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
+            <h2>{{ copy.sections.offices.title }}</h2>
             <div class="google-map">
                 <iframe src="https://www.google.com/maps/d/embed?mid=1ANUmJnn8RObMDFvo50elNW58F7A&hl=en" width="100%" height="480" frameborder="0"></iframe>
             </div>
         </div>
 
-        <div class="inner--wide-only accent--orange a--border-top content-box">
-            <h3 class="t2">{{ copy.sections.equalities.title }}</h3>
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
+            <h2>{{ copy.sections.equalities.title }}</h2>
             {{ copy.sections.equalities.body | safe }}
         </div>
 
         <div class="inner spaced">
             <img src="{{ 'jobs/equality-sponsors.png' | getImagePath }}" alt="The logos of Positive About Disabled People, Stonewall, Investors In People, Business Disability Forum and Living Wage Employer" />
         </div>
-
-    </article>
-
+    </main>
 {% endblock %}
