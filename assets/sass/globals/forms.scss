@@ -294,31 +294,14 @@ $errorColor: #b00;
 .form-ebulletin {
     background-color: palette('pale-pink');
 
-    .intro {
+    .form-ebulletin__intro {
         font-size: 18px;
     }
 
-    .form-ebulletin--grid {
-        @include mq('tablet', 'max') {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: stretch;
-
-            .label-radio__item {
-                margin: 0;
-                padding: 10px;
-                flex-grow: 1;
-                flex-shrink: 0;
-                flex-basis: 50%;
-            }
-        }
+    .ff-label {
+        @include visually-hidden();
     }
-
-    .form-ebulletin__fields {
-        clear: both;
-    }
-
-    .form-fund__item {
+    .ff-text {
         display: block;
         width: 100%;
         padding: 3px;
@@ -327,41 +310,8 @@ $errorColor: #b00;
         border: none;
         border-bottom: 2px solid palette('pink');
         padding-bottom: 6px;
-        margin: $spacingUnit 0;
+        margin-bottom: $spacingUnit / 2;
 
-        &:last-child {
-            margin-left: $spacingUnit / 2;
-        }
-    }
-
-    label {
-        margin-top: 20px;
-        display: block;
-        line-height: 1;
-        font-weight: 400;
-        font-size: 20px;
-        color: palette('pink');
-        .contrast--high & {
-            color: #000000;
-        }
-    }
-
-    label.form-fund__item {
-        @extend .u-visually-hidden;
-    }
-
-    input[type='radio'] {
-        float: right;
-        font-size: 22px;
-    }
-
-    &.form-ebulletin--wide {
-        input[type='radio'] {
-            float: none;
-        }
-    }
-
-    input {
         &.is-error {
             background-color: darken(palette('pale-pink'), 30%);
             color: #ffffff;
@@ -379,10 +329,5 @@ $errorColor: #b00;
             margin-left: auto;
             margin-right: auto;
         }
-    }
-
-    // bit of a hack to work around doubled margins
-    .no-gap {
-        margin-top: 0 !important;
     }
 }

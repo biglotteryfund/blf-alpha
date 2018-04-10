@@ -1,95 +1,10 @@
+{% from "components/forms-new.njk" import errorList, inputText, inputTextarea, inputRadio, inputCheckbox %}
+
 {% extends "layouts/main.njk" %}
 
 {% block title %}Step {{ currentStepNumber }} of {{ totalSteps }} | {{ form.title }} | {% endblock %}
 
 {% set bodyClass = 'has-static-header' %}
-
-{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% else %} ff-label--optional{% endif %}{% endmacro %}
-
-{% macro errorList(errors, shouldBeLinked)  %}
-    {% if errors | length > 0 %}
-        <ol class="error-list">
-            {% for error in errors %}
-            <li>
-                {% if shouldBeLinked %}<a href="#form-field-{{ error.param }}">{% endif %}
-                {{ error.msg }}
-                {% if shouldBeLinked %}</a>{% endif %}
-            </li>
-            {% endfor %}
-        </ol>
-    {% endif %}
-{% endmacro %}
-
-{% macro inputText(field, type="text") %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    {% if field.explanation %}
-        <p class="ff-explanation">{{ field.explanation | safe }}</p>
-    {% endif %}
-    <input
-        class="ff-text"
-        type="{{ type }}"
-        id="field-{{ field.name }}"
-        name="{{ field.name }}"
-        {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
-        {% if field.size %}size="{{ field.size }}"{% endif %}
-        value="{% if field.value %}{{ field.value }}{% endif %}"
-         {% if field.isRequired %}required aria-required="true"{% endif %}
-    />
-{% endmacro %}
-
-{% macro inputTextarea(field) %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    <textarea
-        class="ff-textarea"
-        id="field-{{ field.name }}"
-        name="{{ field.name }}"
-         {% if field.isRequired %}required aria-required="true"{% endif %}
-        rows="{{ field.rows }}"
-    >{{ field.value }}</textarea>
-{% endmacro %}
-
-{% macro inputRadio(field) %}
-    <div class="ff-radio">
-        <ul class="ff-radio__list">
-            {% for option in field.options %}
-                <li class="ff-radio__option">
-                    <input
-                        type="radio"
-                        id="field-{{ field.name }}-{{ loop.index }}"
-                        name="{{ field.name }}"
-                        value="{{ option.value }}"
-                        {% if field.value === option.value %}checked{% endif %}
-                    />
-                    <label for="field-{{ field.name }}-{{ loop.index }}">{{ option.label }}</label>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endmacro %}
-
-{% macro inputCheckbox(field) %}
-    <div class="ff-checkbox">
-        <ul class="ff-checkbox__list">
-            {% for option in field.options %}
-                <li class="ff-checkbox__option">
-                    <input
-                        type="checkbox"
-                        id="field-{{ field.name }}-{{ loop.index }}"
-                        name="{{ field.name }}"
-                        value="{{ option.value }}"
-                        {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                    />
-                    <label for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
-                        {% if option.explanation %}
-                            <small>{{ option.explanation }}</small>
-                        {% endif %}
-                    </label>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endmacro %}
 
 {% block content %}
     <form action="" method="POST"
@@ -195,6 +110,5 @@
         {% endif %}
 
         <input class="btn btn--next" type="submit" value="Next" />
-
     </form>
 {% endblock %}

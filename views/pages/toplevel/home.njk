@@ -1,7 +1,7 @@
-{% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
 {% from "components/caseStudies.njk" import caseStudyFeature %}
-{% from "components/forms.njk" import textInput, radios with context %}
+{% from "components/ebulletin.njk" import ebulletinForm with context %}
 {% from "components/hero.njk" import homepageSuperHero %}
+{% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/social.njk" import socialLinks %}
 
@@ -110,9 +110,8 @@
                 </li>
                 <li class="grid__item accent--pink a--border-top">
                     {# Ebulletin #}
-                    <div class="form-ebulletin padded spaced">
-                        {% include "includes/ebulletin.njk" %}
-                    </div>
+                    {{ ebulletinForm() }}
+
                     {# social buttons #}
                     {{ socialLinks(copy.social) }}
                 </li>

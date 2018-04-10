@@ -1,4 +1,5 @@
 {% from "components/hero.njk" import hero %}
+{% from "components/ebulletin.njk" import ebulletinForm with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -18,10 +19,9 @@
         )
     }}
 
-    <article role="main" class="nudge-up">
-        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top
-            padded spaced form-ebulletin form-ebulletin--wide">
-            {% include "includes/ebulletin.njk" %}
+    <main role="main" class="nudge-up">
+        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top">
+            {{ ebulletinForm() }}
         </div>
-    </article>
+    </main>
 {% endblock %}
