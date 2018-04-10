@@ -218,38 +218,6 @@ $errorColor: #b00;
    Forms: Specific Form Customisations
    ========================================================================= */
 
-.form-fund {
-    &.form-fund--inline {
-        height: 40px;
-
-        & > * {
-            display: inline-block;
-            margin-top: 0;
-            height: 100%;
-        }
-    }
-
-    input,
-    textarea,
-    select {
-        background-color: #ffffff;
-        color: #000000;
-        border: 1px solid palette('soft-grey');
-        border-radius: 20px;
-        font-size: 16px;
-        margin-right: $spacingUnit;
-        padding: $spacingUnit / 4 $spacingUnit / 2;
-    }
-
-    input[type='submit'] {
-        border: none;
-    }
-
-    .form-fund__item {
-        display: block;
-    }
-}
-
 .inline-form {
     input {
         display: block;
