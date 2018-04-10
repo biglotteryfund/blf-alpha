@@ -125,16 +125,26 @@
     }
 
     h3 {
-        margin: 1em 0 0.4em;
+        margin: 0 0 0.4em;
         font-size: 21px;
     }
 
     h4 {
-        margin: 1em 0 0.4em;
+        margin: 0 0 0.4em;
         font-size: 20px;
     }
 
-    ol, ul {
+    p + h3,
+    ol + h3,
+    ul + h3,
+    p + h4,
+    ol + h4,
+    ul + h4 {
+        margin-top: 1em;
+    }
+
+    ol,
+    ul {
         margin-bottom: 1em;
 
         li {
@@ -162,7 +172,6 @@
         table-layout: fixed;
         margin: 0 0 1em;
         padding: 0;
-
 
         tr {
             background-color: palette('pale-grey');
@@ -220,7 +229,6 @@
         }
     }
 
-
     .video-container {
         margin: 0 -10px 1em;
 
@@ -268,5 +276,4 @@
         padding: 10px;
         border-radius: 2px;
     }
-
 }

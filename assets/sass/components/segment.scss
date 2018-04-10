@@ -44,17 +44,12 @@
 
     .segment__aside {
         flex-grow: 1;
-        padding: 17px 20px 40px 20px;
-
-        @include mq('tablet', 'max') {
-            margin-top: 0;
-        }
+        padding: $spacingUnit;
+        margin-top: 0;
 
         @include mq('tablet') {
             @include bordered();
             background-color: palette('pale');
-            padding: 40px 20px;
-            margin-top: 0;
         }
     }
 }
