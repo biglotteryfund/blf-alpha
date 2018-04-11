@@ -10,31 +10,33 @@
 {% block content %}
     {% set pageAccent = 'pink' %}
 
-    {{
-        hero(
-            titleText = title,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
+    <main role="main">
+        {{
+            hero(
+                titleText = title,
+                image = heroImage,
+                accent = pageAccent
+            )
+        }}
 
-    <main class="nudge-up">
-        {# Section Links #}
-        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <p>{{ copy.intro }}</p>
-            {{ sectionLinks(copy.sectionLinks) }}
-        </section>
+        <div class="nudge-up">
+            {# Section Links #}
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <p>{{ copy.intro }}</p>
+                {{ sectionLinks(copy.sectionLinks) }}
+            </section>
 
-        {# Downloads #}
-        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="s-prose">
-                <h2 class="t1">{{ copy.downloads.title }}</h2>
-                <ul class="u-list-unstyled">
-                    {% for link in copy.downloads.links %}
-                        <li><a class="is-download-link" href="{{ link.href }}">{{ link.label }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </section>
+            {# Downloads #}
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose">
+                    <h2 class="t1">{{ copy.downloads.title }}</h2>
+                    <ul class="u-list-unstyled">
+                        {% for link in copy.downloads.links %}
+                            <li><a class="is-download-link" href="{{ link.href }}">{{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </div>
     </main>
 {% endblock %}

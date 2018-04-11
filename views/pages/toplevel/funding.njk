@@ -11,20 +11,21 @@
 {% block content %}
     {% set pageAccent = 'pink' %}
 
-    {{
-        hero(
-            titleText = title,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
+    <main role="main">
+        {{
+            hero(
+                titleText = title,
+                image = heroImage,
+                accent = pageAccent
+            )
+        }}
 
-    <main class="nudge-up">
-        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            {{ sectionLinks(copy.sectionLinks) }}
-        </section>
+        <div class="nudge-up">
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                {{ sectionLinks(copy.sectionLinks) }}
+            </section>
 
-        {% if latestProgrammes.length > 0 %}
+            {% if latestProgrammes.length > 0 %}
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t1">{{ copy.latestProgrammes }}</h2>
 
@@ -40,6 +41,7 @@
                     {% endfor %}
                 </ul>
             </section>
-        {% endif %}
+            {% endif %}
+        </div>
     </main>
 {% endblock %}
