@@ -7,38 +7,40 @@
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
-    <form action="" method="POST"
-        class="js-application-form content-box inner inner--wide-only accent--pink a--border-top">
-        <div class="form-header">
-            {% if prevStepUrl %}
-                <div class="form-header__actions">
-                    <a href="{{ prevStepUrl }}">← Back</a>
-                </div>
+    <main role="main" id="content">
+        <form action="" method="POST"
+            class="js-application-form content-box inner inner--wide-only accent--pink a--border-top">
+            <div class="form-header">
+                {% if prevStepUrl %}
+                    <div class="form-header__actions">
+                        <a href="{{ prevStepUrl }}">← Back</a>
+                    </div>
+                {% endif %}
+                <h1 class="form-header__title">{{ form.title }}</h1>
+                <h2 class="form-header__subtitle">
+                    Step {{ currentStepNumber }} of {{ totalSteps }}
+                </h2>
+            </div>
+
+            {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+
+            {% for fieldset in step.fieldsets %}
+                <fieldset class="form-fieldset u-constrained-content">
+                    <legend class="form-fieldset__legend t4 t--underline accent--pink">{{ fieldset.legend }}</legend>
+                    <div class="form-fieldset__fields">
+                        {% for field in fieldset.fields %}
+                            {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+                            {{ formField(field, fieldErrors) }}
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            {% endfor %}
+
+            {% if csrfToken %}
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {% endif %}
-            <h1 class="form-header__title">{{ form.title }}</h1>
-            <h2 class="form-header__subtitle">
-                Step {{ currentStepNumber }} of {{ totalSteps }}
-            </h2>
-        </div>
 
-        {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
-
-        {% for fieldset in step.fieldsets %}
-            <fieldset class="form-fieldset u-constrained-content">
-                <legend class="form-fieldset__legend t4 t--underline accent--pink">{{ fieldset.legend }}</legend>
-                <div class="form-fieldset__fields">
-                    {% for field in fieldset.fields %}
-                        {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-                        {{ formField(field, fieldErrors) }}
-                    {% endfor %}
-                </div>
-            </fieldset>
-        {% endfor %}
-
-        {% if csrfToken %}
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        {% endif %}
-
-        <input class="btn btn--next" type="submit" value="Next" />
-    </form>
+            <input class="btn btn--next" type="submit" value="Next" />
+        </form>
+    </main>
 {% endblock %}
