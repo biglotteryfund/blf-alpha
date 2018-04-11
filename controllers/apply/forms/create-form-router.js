@@ -34,10 +34,7 @@ module.exports = function(router, formModel) {
                 prevStepUrl: prevStepUrl(req.baseUrl),
                 currentStepNumber: currentStepNumber,
                 totalSteps: formSteps.length,
-                errors: errors,
-                errorsForField: function(field) {
-                    return errors.filter(error => error.param === field.name);
-                }
+                errors: errors
             });
         }
 

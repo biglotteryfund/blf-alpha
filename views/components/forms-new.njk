@@ -14,6 +14,19 @@
     {% endif %}
 {% endmacro %}
 
+{% macro formErrors(errors, title) %}
+    {% if errors | length > 0 %}
+        <div class="form-errors">
+            {% if title %}
+                <h3 class="form-errors__title">{{ title }}</h3>
+            {% endif %}
+            <div class="form-errors__body">
+                {{ errorList(errors, shouldBeLinked = true) }}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
 {% macro inputText(field, type="text") %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
     {% if field.explanation %}
@@ -27,7 +40,7 @@
         {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
         {% if field.size %}size="{{ field.size }}"{% endif %}
         value="{% if field.value %}{{ field.value }}{% endif %}"
-         {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
     />
 {% endmacro %}
 
@@ -37,7 +50,7 @@
         class="ff-textarea"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
-         {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
         rows="{{ field.rows }}"
     >{{ field.value }}</textarea>
 {% endmacro %}
@@ -82,5 +95,60 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
+{% endmacro %}
+
+{% macro formField(field, fieldErrors) %}
+    <div
+        id="form-field-{{ field.name }}"
+        class="form-field
+        {% if fieldErrors | length > 0 %}has-errors{% endif %}
+        {% if field.isConditionalOn %}is-conditional{% endif %}
+        {% if field.isConditionalFor %}js-conditional-for{% endif %}"
+        {% if field.isConditionalFor %}
+            data-conditional-type="{{ field.type }}"
+            data-conditional-fields='{{ field.conditionalFor | dump | safe }}'
+        {% endif %}
+        {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
+        <div class="form-field__main">
+            <div class="form-field__body">
+                {% if field.helpText %}
+                    {% if field.helpText.introduction %}
+                        {{ field.helpText.introduction | safe }}
+                    {% endif %}
+                {% endif %}
+                {% if field.type === 'text' or field.type === 'email' %}
+                    {{ inputText(field, field.type) }}
+                {% endif %}
+                {% if field.type === 'textarea' %}
+                    {{ inputTextarea(field) }}
+                {% endif %}
+                {% if field.type === 'radio' %}
+                    {{ inputRadio(field) }}
+                {% endif %}
+                {% if field.type === 'checkbox' %}
+                    {{ inputCheckbox(field) }}
+                {% endif %}
+            </div>
+            {% if fieldErrors | length > 0 %}
+                <div class="form-field__errors">
+                    {{ errorList(fieldErrors) }}
+                </div>
+            {% endif %}
+        </div>
+        {% if field.helpText %}
+            {% if field.helpText.summary %}
+                <details class="form-field__help">
+                    <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
+                    <div class="form-field__help-body s-prose">
+                        {{ field.helpText.body | safe }}
+                    </div>
+                    </details>
+            {% else %}
+                <div class="form-field__help s-prose">
+                    {{ field.helpText.body | safe }}
+                </div>
+            {% endif %}
+        {% endif %}
     </div>
 {% endmacro %}

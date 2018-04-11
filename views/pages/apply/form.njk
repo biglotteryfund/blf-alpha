@@ -1,4 +1,4 @@
-{% from "components/forms-new.njk" import errorList, inputText, inputTextarea, inputRadio, inputCheckbox %}
+{% from "components/forms-new.njk" import errorList, formErrors, formField %}
 
 {% extends "layouts/main.njk" %}
 
@@ -21,85 +21,15 @@
             </h2>
         </div>
 
-        {% if errors | length > 0 %}
-            <div class="form-errors">
-                <h3 class="form-errors__title">There was a problem with your submission</h3>
-                <div class="form-errors__body">
-                    {{ errorList(errors, shouldBeLinked = true) }}
-                </div>
-            </div>
-        {% endif %}
+        {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
         {% for fieldset in step.fieldsets %}
             <fieldset class="form-fieldset u-constrained-content">
                 <legend class="form-fieldset__legend t4 t--underline accent--pink">{{ fieldset.legend }}</legend>
                 <div class="form-fieldset__fields">
                     {% for field in fieldset.fields %}
-                        {% set fieldErrors = errorsForField(field) %}
-                        <div
-                            id="form-field-{{ field.name }}"
-                            class="form-field
-                            {% if fieldErrors | length > 0 %}has-errors{% endif %}
-                            {% if field.isConditionalOn %}is-conditional{% endif %}
-                            {% if field.isConditionalFor %}js-conditional-for{% endif %}"
-                            {% if field.isConditionalFor %}
-                                data-conditional-type="{{ field.type }}"
-                                data-conditional-fields='{{ field.conditionalFor | dump | safe }}'
-                            {% endif %}
-                            {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
-                            <div class="form-field__main">
-                                <div class="form-field__body">
-                                    {% if field.helpText %}
-                                        {% if field.helpText.introduction %}
-                                            {{ field.helpText.introduction | safe }}
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if field.type === 'text' or field.type === 'email' %}
-                                        {{ inputText(field, field.type) }}
-                                    {% endif %}
-                                    {% if field.type === 'textarea' %}
-                                        {{ inputTextarea(field) }}
-                                    {% endif %}
-                                    {% if field.type === 'radio' %}
-                                        {{ inputRadio(field) }}
-                                    {% endif %}
-                                    {% if field.type === 'checkbox' %}
-                                        {{ inputCheckbox(field) }}
-                                    {% endif %}
-                                </div>
-                                {% if fieldErrors | length > 0 %}
-                                    <div class="form-field__errors">
-                                        {{ errorList(errorsForField(field)) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            {% if field.helpText %}
-                                {% if field.helpText.summary %}
-                                    <details class="form-field__help">
-                                        <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
-                                        <div class="form-field__help-body s-prose">
-                                            {{ field.helpText.body | safe }}
-                                        </div>
-                                        </details>
-                                {% else %}
-                                    <div class="form-field__help s-prose">
-                                        {{ field.helpText.body | safe }}
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-
-                             {% if field.canBeDuplicated === true %}
-                                <div class="form-field__duplicate">
-                                    <button type="button" class="btn btn--link"
-                                        onclick="alert('Not yet implemented')">
-                                        {{ field.duplicateLabel }} +
-                                    </button>
-                                    {% if field.duplicateHelpText %}
-                                        <p class="t7">{{ field.duplicateHelpText | safe }}</p>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        </div>
+                        {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+                        {{ formField(field, fieldErrors) }}
                     {% endfor %}
                 </div>
             </fieldset>
