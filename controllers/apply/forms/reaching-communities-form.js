@@ -3,7 +3,7 @@ const { check } = require('express-validator/check');
 
 const app = require('../../../server');
 const mail = require('../../../modules/mail');
-const createFormModel = require('./create-form-model');
+const { createFormModel } = require('./create-form-model');
 const { HUB_EMAILS } = require('../../../modules/secrets');
 const appData = require('../../../modules/appData');
 

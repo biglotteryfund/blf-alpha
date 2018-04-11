@@ -231,6 +231,7 @@ toplevel:
       wales: Cymru
       scotland: Yr Alban
       northernIreland: Gogledd Iwerddon
+    yourDetails: Eich Manylion
     fields:
       firstName: Enw cyntaf
       lastName: Cyfenw

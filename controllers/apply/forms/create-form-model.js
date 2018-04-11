@@ -149,4 +149,7 @@ function createFormModel({ id, title, shortCode }) {
     };
 }
 
-module.exports = createFormModel;
+module.exports = {
+    createFormModel,
+    createStep
+};

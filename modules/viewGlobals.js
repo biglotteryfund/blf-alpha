@@ -5,9 +5,11 @@ const { URL } = require('url');
 const querystring = require('querystring');
 const { get } = require('lodash');
 const shortid = require('shortid');
+
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { heroImages } = require('./images');
 const appData = require('./appData');
+const formHelpers = require('./forms');
 const routes = require('../controllers/routes');
 
 const metadata = {
@@ -180,6 +182,8 @@ function init(app) {
             }
         }
     });
+
+    setViewGlobal('formHelpers', formHelpers);
 
     setViewGlobal('heroImages', heroImages);
 }

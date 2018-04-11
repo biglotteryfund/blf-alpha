@@ -32,14 +32,14 @@ fieldset {
 }
 
 .form-fieldset {
-    margin-bottom: $spacingUnit;
+    margin: 0;
 }
 .form-fieldset__legend {
     font-weight: bold;
     margin-bottom: $spacingUnit;
 }
 .form-fieldset__fields {
-    margin: 0;
+    margin-bottom: $spacingUnit;
 }
 
 $errorColor: #b00;
@@ -149,7 +149,19 @@ $errorColor: #b00;
     padding: 0.5em;
 }
 
-.ff-radio,
+.ff-radio {
+    margin-bottom: 3px;
+}
+.ff-radio__option {
+    margin-bottom: 3px;
+
+    input[type='radio'] {
+        position: relative;
+        top: -2px;
+        margin: 0 5px 0 0;
+    }
+}
+
 .ff-checkbox {
     margin-bottom: 3px;
 }
@@ -215,40 +227,52 @@ $errorColor: #b00;
 }
 
 /* =========================================================================
-   Forms: Specific Form Customisations
+   Custom Form: Ebulletin
    ========================================================================= */
 
-.form-fund {
-    &.form-fund--inline {
-        height: 40px;
+.form-ebulletin {
+    .form-field--type-text .ff-label,
+    .form-field--type-email .ff-label {
+        @include visually-hidden();
+    }
 
-        & > * {
-            display: inline-block;
-            margin-top: 0;
-            height: 100%;
+    .form-fieldset--details {
+        .form-fieldset__fields {
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .form-field {
+            flex: 1 1 100%;
+            margin-bottom: $spacingUnit / 2;
+        }
+
+        .form-field--firstName,
+        .form-field--lastName {
+            flex: 0 0 50%;
+        }
+        .form-field--firstName {
+            padding-right: 5px;
+        }
+        .form-field--lastName {
+            padding-left: 5px;
         }
     }
 
-    input,
-    textarea,
-    select {
-        background-color: #ffffff;
-        color: #000000;
-        border: 1px solid palette('soft-grey');
-        border-radius: 20px;
-        font-size: 16px;
-        margin-right: $spacingUnit;
-        padding: $spacingUnit / 4 $spacingUnit / 2;
-    }
-
-    input[type='submit'] {
-        border: none;
-    }
-
-    .form-fund__item {
+    .ff-text {
         display: block;
+        width: 100%;
+        font-size: 16px;
+        border: none;
+        border-bottom: 2px solid palette('pink');
+        background-color: transparent;
+        padding: 3px 3px 6px;
     }
 }
+
+/* =========================================================================
+   Custom Form: Free Materials
+   ========================================================================= */
 
 .inline-form {
     input {
@@ -294,101 +318,5 @@ $errorColor: #b00;
 
     label.form-fund__item {
         @extend .u-visually-hidden;
-    }
-}
-
-.form-ebulletin {
-    background-color: palette('pale-pink');
-
-    .intro {
-        font-size: 18px;
-    }
-
-    .form-ebulletin--grid {
-        @include mq('tablet', 'max') {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: stretch;
-
-            .label-radio__item {
-                margin: 0;
-                padding: 10px;
-                flex-grow: 1;
-                flex-shrink: 0;
-                flex-basis: 50%;
-            }
-        }
-    }
-
-    .form-ebulletin__fields {
-        clear: both;
-    }
-
-    .form-fund__item {
-        display: block;
-        width: 100%;
-        padding: 3px;
-        background-color: transparent;
-        font-size: 16px;
-        border: none;
-        border-bottom: 2px solid palette('pink');
-        padding-bottom: 6px;
-        margin: $spacingUnit 0;
-
-        &:last-child {
-            margin-left: $spacingUnit / 2;
-        }
-    }
-
-    label {
-        margin-top: 20px;
-        display: block;
-        line-height: 1;
-        font-weight: 400;
-        font-size: 20px;
-        color: palette('pink');
-        .contrast--high & {
-            color: #000000;
-        }
-    }
-
-    label.form-fund__item {
-        @extend .u-visually-hidden;
-    }
-
-    input[type='radio'] {
-        float: right;
-        font-size: 22px;
-    }
-
-    &.form-ebulletin--wide {
-        input[type='radio'] {
-            float: none;
-        }
-    }
-
-    input {
-        &.is-error {
-            background-color: darken(palette('pale-pink'), 30%);
-            color: #ffffff;
-
-            @include input-placeholder {
-                color: #ffffff;
-            }
-        }
-    }
-
-    .form-ebulletin__btn {
-        @include mq('tablet', 'max') {
-            width: 80%;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
-
-    // bit of a hack to work around doubled margins
-    .no-gap {
-        margin-top: 0 !important;
     }
 }

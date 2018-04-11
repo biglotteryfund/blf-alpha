@@ -309,6 +309,7 @@ toplevel:
       wales: Wales
       scotland: Scotland
       northernIreland: Northern Ireland
+    yourDetails: Your Details
     fields:
       firstName: First name
       lastName: Surname
