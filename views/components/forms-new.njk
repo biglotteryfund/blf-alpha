@@ -101,7 +101,7 @@
 {% macro formField(field, fieldErrors) %}
     <div
         id="form-field-{{ field.name }}"
-        class="form-field
+        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}
         {% if fieldErrors | length > 0 %}has-errors{% endif %}
         {% if field.isConditionalOn %}is-conditional{% endif %}
         {% if field.isConditionalFor %}js-conditional-for{% endif %}"

@@ -158,7 +158,7 @@ $errorColor: #b00;
     input[type='radio'] {
         position: relative;
         top: -2px;
-        margin-right: 5px;
+        margin: 0 5px 0 0;
     }
 }
 
@@ -180,20 +180,6 @@ $errorColor: #b00;
         color: lighten(palette('charcoal'), 20%);
         margin-left: 3px;
         vertical-align: middle;
-    }
-}
-
-.ff-field-pair {
-    display: flex;
-}
-.ff-field-pair__item {
-    flex: 1 1 auto;
-
-    margin-right: 5px;
-
-    &:last-of-type {
-        margin-right: 0;
-        margin-left: 5px;
     }
 }
 
@@ -245,14 +231,32 @@ $errorColor: #b00;
    ========================================================================= */
 
 .form-ebulletin {
-    background-color: palette('pale-pink');
-
-    .form-ebulletin__intro {
-        font-size: 18px;
+    .form-field--type-text .ff-label,
+    .form-field--type-email .ff-label {
+        @include visually-hidden();
     }
 
-    .ff-label {
-        @include visually-hidden();
+    .form-fieldset--details {
+        .form-fieldset__fields {
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .form-field {
+            flex: 1 1 100%;
+            margin-bottom: $spacingUnit / 2;
+        }
+
+        .form-field--firstName,
+        .form-field--lastName {
+            flex: 0 0 50%;
+        }
+        .form-field--firstName {
+            padding-right: 5px;
+        }
+        .form-field--lastName {
+            padding-left: 5px;
+        }
     }
 
     .ff-text {
@@ -263,25 +267,6 @@ $errorColor: #b00;
         border-bottom: 2px solid palette('pink');
         background-color: transparent;
         padding: 3px 3px 6px;
-        margin-bottom: $spacingUnit;
-
-        &.is-error {
-            background-color: darken(palette('pale-pink'), 30%);
-            color: #ffffff;
-
-            @include input-placeholder {
-                color: #ffffff;
-            }
-        }
-    }
-
-    .form-ebulletin__btn {
-        @include mq('tablet', 'max') {
-            width: 80%;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
     }
 }
 

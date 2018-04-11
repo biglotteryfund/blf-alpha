@@ -1,93 +1,103 @@
-{% from "components/forms.njk" import textInput, radios with context %}
-{% from "components/forms-new.njk" import inputText, inputRadio %}
+{% from "components/forms-new.njk" import formErrors, formField %}
+
+{% macro renderField(field) %}
+    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+{% endmacro %}
+
+{% macro submissionMessage(title, message) %}
+    <div class="s-prose s-prose--long">
+        <h3>{{ title }}</h3>
+        <p>{{ message | safe }}</p>
+    </div>
+{% endmacro %}
 
 {% macro ebulletinForm() %}
-<form class="form-ebulletin padded spaced" method="post" action="/about/ebulletin">
+<form class="form-ebulletin" method="post" action="/about/ebulletin">
     <h2 class="t1 t--underline accent--pink a--text">{{ __('toplevel.ebulletin.title') }}</h2>
-    <p class="form-ebulletin__intro">{{ __('toplevel.ebulletin.intro') }}</p>
 
-    {% if request.flash and request.flash('ebulletinStatus') %}
-        {% if request.flash('ebulletinStatus') === 'success' %}
-            <h3 class="t5">{{ __('toplevel.ebulletin.responses.success.title') }}</h3>
-            <p>{{ __('toplevel.ebulletin.responses.success.body') | safe }}</p>
-        {% else %}
-            <h3 class="t5">{{ __('toplevel.ebulletin.responses.error.title') }}</h3>
-            <p>{{ __('toplevel.ebulletin.responses.error.body') }}</p>
-        {% endif %}
+    {% if status === formHelpers.FORM_STATES.SUBMISSION_SUCCCESS %}
+        {{ submissionMessage(
+            title = __('toplevel.ebulletin.responses.success.title'),
+            message = __('toplevel.ebulletin.responses.success.body')
+        ) }}
+    {% elseif status ===  formHelpers.FORM_STATES.SUBMISSION_ERROR %}
+        {{ submissionMessage(
+            title = __('toplevel.ebulletin.responses.error.title'),
+            message = __('toplevel.ebulletin.responses.error.body')
+        ) }}
     {% else %}
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        <input type="hidden" name="locale" value="{{ locale }}">
+        <p>{{ __('toplevel.ebulletin.intro') }}</p>
 
-        <fieldset class="form-fieldset">
+        {{ formErrors(
+            errors = errors,
+            title = __('toplevel.ebulletin.responses.error.title')
+        ) }}
+
+        <fieldset class="form-fieldset form-fieldset--location">
             <legend class="form-fieldset__legend u-visually-hidden">{{ __('toplevel.ebulletin.location')  }}</legend>
             <div class="form-fieldset__fields">
-                {% set radioField = {
+                {{ renderField({
                     name: 'location',
-                    options: [
-                        {
-                            label: __('toplevel.ebulletin.locations.england'),
-                            value: 'ENGLAND_MAIL'
-                        },
-                        {
-                            label: __('toplevel.ebulletin.locations.wales'),
-                            value: 'WALES_MAIL'
-                        },
-                        {
-                            label: __('toplevel.ebulletin.locations.scotland'),
-                            value: 'SCOTLAND_MAIL'
-                        },
-                        {
-                            label: __('toplevel.ebulletin.locations.northernIreland'),
-                            value: 'NI_MAIL'
-                        }
-                    ]
-                } %}
-                {{ inputRadio(radioField) }}
+                    type: 'radio',
+                    options: [{
+                        label: __('toplevel.ebulletin.locations.england'),
+                        value: 'ENGLAND_MAIL'
+                    }, {
+                        label: __('toplevel.ebulletin.locations.wales'),
+                        value: 'WALES_MAIL'
+                    }, {
+                        label: __('toplevel.ebulletin.locations.scotland'),
+                        value: 'SCOTLAND_MAIL'
+                    }, {
+                        label: __('toplevel.ebulletin.locations.northernIreland'),
+                        value: 'NI_MAIL'
+                    }]
+                }) }}
             </div>
         </fieldset>
 
-        <fieldset class="form-fieldset">
+        <fieldset class="form-fieldset form-fieldset--details">
             <legend class="form-fieldset__legend u-visually-hidden">
                 {{ __('toplevel.ebulletin.yourDetails') }}
             </legend>
             <div class="form-fieldset__fields">
-                <div class="ff-field-pair">
-                    <div class="ff-field-pair__item">
-                        {{ inputText({
-                            name: 'firstName',
-                            label: __('toplevel.ebulletin.fields.firstName'),
-                            placeholder: __('toplevel.ebulletin.fields.firstName') + ' *',
-                            isRequired: true
-                        }) }}
-                    </div>
-                    <div class="ff-field-pair__item">
-                        {{ inputText({
-                            name: 'lastName',
-                            label: __('toplevel.ebulletin.fields.lastName'),
-                            placeholder: __('toplevel.ebulletin.fields.lastName') + ' *',
-                            isRequired: true
-                        }) }}
-                    </div>
-                </div>
+                {{ renderField({
+                    type: 'text',
+                    name: 'firstName',
+                    label: __('toplevel.ebulletin.fields.firstName'),
+                    placeholder: __('toplevel.ebulletin.fields.firstName') + ' *',
+                    isRequired: true
+                }) }}
 
-                {{ inputText({
+                {{ renderField({
+                    type: 'text',
+                    name: 'lastName',
+                    label: __('toplevel.ebulletin.fields.lastName'),
+                    placeholder: __('toplevel.ebulletin.fields.lastName') + ' *',
+                    isRequired: true
+                }) }}
+
+                {{ renderField({
+                    type: 'text',
                     name: 'organisation',
                     label: __('toplevel.ebulletin.fields.organisation'),
                     placeholder: __('toplevel.ebulletin.fields.organisation'),
                     isRequired: false
                 }) }}
 
-                {{ inputText({
+                {{ renderField({
+                    type: 'email',
                     name: 'email',
                     label: __('toplevel.ebulletin.fields.emailAddress'),
                     placeholder: __('toplevel.ebulletin.fields.emailAddress') + ' *',
                     isRequired: true
-                }, 'email') }}
+                }) }}
             </div>
         </fieldset>
 
         <input type="submit" value="{{ __('toplevel.ebulletin.callToAction') }}"
-            class="btn btn--small btn--block-full accent--pink a--btn form-ebulletin__btn"/>
+            class="btn btn--small btn--block-full accent--pink a--btn"/>
     {% endif %}
 </form>
 {% endmacro %}

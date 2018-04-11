@@ -19,8 +19,7 @@ module.exports = (pages, sectionPath, sectionId) => {
 
     ebulletinRoute.init({
         router: router,
-        routeConfig: pages.ebulletin,
-        sectionPath: sectionPath
+        routeConfig: pages.ebulletin
     });
 
     if (shouldServe(pages.seniorManagement)) {
