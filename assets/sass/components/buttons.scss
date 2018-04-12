@@ -257,6 +257,7 @@ $btnConf: (
     background-repeat: no-repeat;
     background-position: center left;
     min-width: 158px;
+    padding-right: 40px;
     background-color: transparent;
     @include on-interact {
         background-color: transparent;
