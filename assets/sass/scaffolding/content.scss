@@ -53,8 +53,12 @@
 .content-box {
     @include bordered();
     background-color: palette('pale');
-    padding: $spacingUnit;
     margin-bottom: $spacingUnit;
+    padding: $spacingUnit ($spacingUnit / 2);
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+    }
 
     &.content-box--flush {
         margin-bottom: 0;
