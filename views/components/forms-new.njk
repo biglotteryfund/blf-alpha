@@ -75,7 +75,8 @@
 {% endmacro %}
 
 {% macro inputCheckbox(field) %}
-    <div class="ff-checkbox">
+    <fieldset class="ff-checkbox">
+        <legend class="ff-label">{{ field.label }}</legend>
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
@@ -95,7 +96,7 @@
                 </li>
             {% endfor %}
         </ul>
-    </div>
+    </fieldset>
 {% endmacro %}
 
 {% macro formField(field, fieldErrors) %}

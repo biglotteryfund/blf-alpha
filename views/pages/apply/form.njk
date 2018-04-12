@@ -26,7 +26,7 @@
 
             {% for fieldset in step.fieldsets %}
                 <fieldset class="form-fieldset u-constrained-content">
-                    <legend class="form-fieldset__legend t4 t--underline accent--pink">{{ fieldset.legend }}</legend>
+                    <legend class="form-fieldset__legend t2 t--underline accent--pink">{{ fieldset.legend }}</legend>
                     <div class="form-fieldset__fields">
                         {% for field in fieldset.fields %}
                             {% set fieldErrors = formHelpers.errorsForField(field, errors) %}

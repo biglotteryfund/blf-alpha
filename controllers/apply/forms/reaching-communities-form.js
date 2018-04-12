@@ -103,10 +103,10 @@ formModel.registerStep({
     name: 'Project location',
     fieldsets: [
         {
-            legend: 'Where will your project take place? (select all that apply)',
+            legend: 'Where will your project take place?',
             fields: [
                 {
-                    label: 'Where will your project take place?',
+                    label: 'Select all regions that apply',
                     type: 'checkbox',
                     options: PROJECT_LOCATIONS,
                     isRequired: true,
