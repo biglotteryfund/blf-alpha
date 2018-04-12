@@ -6,27 +6,34 @@ const cached = require('../../../middleware/cached');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
+
+    function getFormSession(req, step) {
+        return get(req.session, formModel.getSessionProp(step), {});
+    }
+
     formSteps.forEach((step, idx) => {
-        const currentStepIdx = idx;
-        const currentStepNumber = currentStepIdx + 1;
+        const currentStepNumber = idx + 1;
         const nextStepNumber = currentStepNumber + 1;
-        const nextStepUrl = baseUrl => {
+        const prevStepNumber = currentStepNumber - 1;
+
+        function nextStepUrl(baseUrl) {
             if (currentStepNumber === formSteps.length) {
                 return `${baseUrl}/review`;
             } else {
                 return `${baseUrl}/${nextStepNumber}`;
             }
-        };
-        const prevStepUrl = baseUrl => {
+        }
+
+        function prevStepUrl(baseUrl) {
             if (currentStepNumber > 1) {
                 return `${baseUrl}/${currentStepNumber - 1}`;
             } else {
                 return baseUrl;
             }
-        };
+        }
 
         function renderStep(req, res, errors = []) {
-            const stepData = get(req.session, formModel.getSessionProp(currentStepNumber), {});
+            const stepData = getFormSession(req, currentStepNumber);
             res.render('pages/apply/form', {
                 csrfToken: req.csrfToken(),
                 form: formModel,
@@ -40,9 +47,10 @@ module.exports = function(router, formModel) {
 
         router
             .route(`/${currentStepNumber}`)
-            .get(cached.csrfProtection, function(req, res) {
+            .all(cached.csrfProtection)
+            .get(function(req, res) {
                 if (currentStepNumber > 1) {
-                    const previousStepData = get(req.session, formModel.getSessionProp(currentStepNumber - 1), {});
+                    const previousStepData = getFormSession(req, prevStepNumber);
                     if (isEmpty(previousStepData)) {
                         res.redirect(req.baseUrl);
                     } else {
@@ -52,7 +60,7 @@ module.exports = function(router, formModel) {
                     renderStep(req, res);
                 }
             })
-            .post(step.getValidators(), cached.csrfProtection, function(req, res) {
+            .post(step.getValidators(), function(req, res) {
                 // Save valid fields and merge with any existing data (if we are editing the step);
                 const sessionProp = formModel.getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
@@ -70,49 +78,62 @@ module.exports = function(router, formModel) {
             });
     });
 
-    router.get('/review', cached.noCache, function(req, res) {
-        const formData = get(req.session, formModel.getSessionProp(), {});
-        if (isEmpty(formData)) {
-            res.redirect(req.baseUrl);
-        } else {
-            res.render('pages/apply/review', {
-                form: formModel,
-                review: formModel.getReviewStep(),
-                summary: formModel.getStepsWithValues(formData),
-                baseUrl: req.baseUrl,
-                procceedUrl: `${req.baseUrl}/success`
-            });
-        }
-    });
+    router
+        .route('/review')
+        .all(cached.csrfProtection)
+        .get(function(req, res) {
+            const formData = getFormSession(req);
+            if (isEmpty(formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                res.render('pages/apply/review', {
+                    csrfToken: req.csrfToken(),
+                    form: formModel,
+                    review: formModel.getReviewStep(),
+                    summary: formModel.getStepsWithValues(formData),
+                    baseUrl: req.baseUrl
+                });
+            }
+        })
+        .post(function(req, res) {
+            const formData = getFormSession(req);
+            const successStep = formModel.getSuccessStep();
+            const errorStep = formModel.getErrorStep();
 
-    router.get('/success', cached.noCache, function(req, res) {
-        const successStep = formModel.getSuccessStep();
-        const errorStep = formModel.getErrorStep();
-        const formData = get(req.session, formModel.getSessionProp(), {});
-
-        if (isEmpty(formData)) {
-            res.redirect(req.baseUrl);
-        } else {
-            successStep
-                .processor(formData)
-                .then(() => {
-                    // Clear the submission from the session on successfull
-                    unset(req.session, formModel.getSessionProp());
-                    req.session.save(() => {
-                        res.render('pages/apply/success', {
+            if (isEmpty(formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                successStep
+                    .processor(formData)
+                    .then(() => {
+                        res.redirect(`${req.baseUrl}/success`);
+                    })
+                    .catch(err => {
+                        Raven.captureException(err);
+                        res.render('pages/apply/error', {
                             form: formModel,
-                            stepConfig: successStep
+                            stepConfig: errorStep,
+                            returnUrl: `${req.baseUrl}/review`
                         });
                     });
-                })
-                .catch(err => {
-                    Raven.captureException(err);
-                    res.render('pages/apply/error', {
-                        form: formModel,
-                        stepConfig: errorStep,
-                        returnUrl: `${req.baseUrl}/review`
-                    });
+            }
+        });
+
+    router.get('/success', cached.noCache, function(req, res) {
+        const formData = getFormSession(req);
+        const successStep = formModel.getSuccessStep();
+
+        if (isEmpty(formData)) {
+            res.redirect(req.baseUrl);
+        } else {
+            // Clear the submission from the session on success
+            unset(req.session, formModel.getSessionProp());
+            req.session.save(() => {
+                res.render('pages/apply/success', {
+                    form: formModel,
+                    stepConfig: successStep
                 });
+            });
         }
     });
 

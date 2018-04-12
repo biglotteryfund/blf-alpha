@@ -1,11 +1,11 @@
-const { castArray, get, isArray } = require('lodash');
+const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const app = require('../../../server');
-const mail = require('../../../modules/mail');
 const { createFormModel } = require('./create-form-model');
 const { HUB_EMAILS } = require('../../../modules/secrets');
+const app = require('../../../server');
 const appData = require('../../../modules/appData');
+const mail = require('../../../modules/mail');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
