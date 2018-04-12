@@ -1,14 +1,14 @@
 {% from "components/icons.njk" import iconArrowDown %}
 
 {% macro tab(title, paneId, tabClasses = false, setActive = false, id = false) %}
-    <a class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} tab--active{% endif %}"
+    <a role="tab" class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} tab--active{% endif %}"
         href="#{{ paneId }}" {% if id %} id="{{ id }}"{% endif %}>
         {{ title }}
     </a>
 {% endmacro %}
 
 {% macro tabSet(tabSetId, paneSetId, tabs, tabSetClasses, tabClasses, trackClicksAsPageviews) %}
-    <ul class="js-tabset tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
+    <ul role="tablist" class="js-tabset tabset{% if tabSetClasses %} {{ tabSetClasses }}{% endif %}"
         data-paneset="{{ paneSetId }}"{% if not trackClicksAsPageviews %} data-do-not-track-pageviews="true"{% endif %}
         id="js-tabs-{{ tabSetId }}">
         {% for t in tabs %}

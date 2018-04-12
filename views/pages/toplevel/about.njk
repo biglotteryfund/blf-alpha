@@ -10,69 +10,70 @@
 {% block content %}
     {% set pageAccent = 'pink' %}
 
-    {{
-        hero(
-            accent = pageAccent,
-            titleText = title,
-            image = heroImage
-        )
-    }}
+    <main role="main">
+        {{
+            hero(
+                accent = pageAccent,
+                titleText = title,
+                image = heroImage
+            )
+        }}
 
-    <main class="nudge-up">
-        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+        <div class="nudge-up">
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
 
-            {# Intro #}
-            <div class="s-prose s-prose--long u-constrained-content-wide">
-                <p>{{ copy.intro.opening | safe }}</p>
-                <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.learnApply }}</a></p>
-            </div>
+                {# Intro #}
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                    <p>{{ copy.intro.opening | safe }}</p>
+                    <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.learnApply }}</a></p>
+                </div>
 
-            {# What We Do #}
-            <div class="s-prose s-prose--long u-constrained-content-wide">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.whatWeDo.title }}</h2>
-                {% for paragraph in copy.whatWeDo.paragraphs %}
-                    <p>{{ paragraph | safe }}</p>
-                {% endfor %}
-            </div>
+                {# What We Do #}
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                    <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.whatWeDo.title }}</h2>
+                    {% for paragraph in copy.whatWeDo.paragraphs %}
+                        <p>{{ paragraph | safe }}</p>
+                    {% endfor %}
+                </div>
 
-            {# Annual Report #}
-            {{ mediaAside(
-                quoteText = copy.asideAnnualReport.quoteText,
-                linkText = copy.asideAnnualReport.linkText,
-                linkHref = copy.asideAnnualReport.linkHref,
-                imageUrl = "/assets/images/about/pennine-lancashire.jpg",
-                imageCaption = copy.asideAnnualReport.imageCaption,
-                accentColor = pageAccent
-            ) }}
+                {# Annual Report #}
+                {{ mediaAside(
+                    quoteText = copy.asideAnnualReport.quoteText,
+                    linkText = copy.asideAnnualReport.linkText,
+                    linkHref = copy.asideAnnualReport.linkHref,
+                    imageUrl = "/assets/images/about/pennine-lancashire.jpg",
+                    imageCaption = copy.asideAnnualReport.imageCaption,
+                    accentColor = pageAccent
+                ) }}
 
-            {# How Funding Is Used #}
-            <div class="s-prose s-prose--long u-constrained-content-wide">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.howOurFundingIsUsed.title }}</h2>
-                {% for paragraph in copy.howOurFundingIsUsed.paragraphs %}
-                    <p>{{ paragraph | safe }}</p>
-                {% endfor %}
-            </div>
+                {# How Funding Is Used #}
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                    <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.howOurFundingIsUsed.title }}</h2>
+                    {% for paragraph in copy.howOurFundingIsUsed.paragraphs %}
+                        <p>{{ paragraph | safe }}</p>
+                    {% endfor %}
+                </div>
 
-            {# People In The Lead #}
-            {{ mediaAside(
-                quoteText = copy.asidePeopleInTheLead.quoteText,
-                linkText = copy.asidePeopleInTheLead.linkText,
-                linkHref = copy.asidePeopleInTheLead.linkHref,
-                imageUrl = "/assets/images/about/dawn.jpg",
-                imageCaption = copy.asidePeopleInTheLead.imageCaption,
-                accentColor = pageAccent,
-                isReversed = true
-            ) }}
+                {# People In The Lead #}
+                {{ mediaAside(
+                    quoteText = copy.asidePeopleInTheLead.quoteText,
+                    linkText = copy.asidePeopleInTheLead.linkText,
+                    linkHref = copy.asidePeopleInTheLead.linkHref,
+                    imageUrl = "/assets/images/about/dawn.jpg",
+                    imageCaption = copy.asidePeopleInTheLead.imageCaption,
+                    accentColor = pageAccent,
+                    isReversed = true
+                ) }}
 
-            {# Our Structure #}
-            <div class="s-prose s-prose--long u-constrained-content-wide">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
-                {% for paragraph in copy.ourStructure.paragraphs %}
-                    <p>{{ paragraph | safe }}</p>
-                {% endfor %}
-                <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.learnGovernance }}</a></p>
-            </div>
-        </section>
+                {# Our Structure #}
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                    <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.ourStructure.title }}</h2>
+                    {% for paragraph in copy.ourStructure.paragraphs %}
+                        <p>{{ paragraph | safe }}</p>
+                    {% endfor %}
+                    <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.learnGovernance }}</a></p>
+                </div>
+            </section>
+        </div>
     </main>
-
 {% endblock %}

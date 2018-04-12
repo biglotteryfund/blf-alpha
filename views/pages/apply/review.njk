@@ -5,35 +5,37 @@
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
-    <div class="content-box inner inner--wide-only accent--pink a--border-top">
-        <div class="u-constrained-content">
-            <h1 class="t1">{{ review.title }}</h1>
-            {% for step in summary %}
-                <h2 class="t2 t--underline accent--pink">
-                    {{ step.name }}
-                    [<a href="{{ baseUrl }}/{{ loop.index }}">Edit</a>]
-                </h2>
-                {% for fieldset in step.fieldsets %}
-                    <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
-                        {% for field in fieldset.fields %}
-                            {% if field.value %}
-                                <dt>{{ field.label }}</dt>
-                                {% if field.type === 'textarea' %}
-                                    <dd class="s-prose" data-hj-suppress>{{ field.value | striptags(true) | escape | nl2br }}</dd>
-                                {% elseif field.type === 'checkbox' %}
-                                    <dd data-hj-suppress>{{ field.value | joinIfArray(', ') }}</dd>
-                                {% else %}
-                                    <dd data-hj-suppress>{{ field.value }}</dd>
+    <main role="main" id="content">
+        <div class="content-box inner inner--wide-only accent--pink a--border-top">
+            <div class="u-constrained-content">
+                <h1 class="t1">{{ review.title }}</h1>
+                {% for step in summary %}
+                    <h2 class="t2 t--underline accent--pink">
+                        {{ step.name }}
+                        [<a href="{{ baseUrl }}/{{ loop.index }}">Edit</a>]
+                    </h2>
+                    {% for fieldset in step.fieldsets %}
+                        <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
+                            {% for field in fieldset.fields %}
+                                {% if field.value %}
+                                    <dt>{{ field.label }}</dt>
+                                    {% if field.type === 'textarea' %}
+                                        <dd class="s-prose" data-hj-suppress>{{ field.value | striptags(true) | escape | nl2br }}</dd>
+                                    {% elseif field.type === 'checkbox' %}
+                                        <dd data-hj-suppress>{{ field.value | joinIfArray(', ') }}</dd>
+                                    {% else %}
+                                        <dd data-hj-suppress>{{ field.value }}</dd>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </dl>
+                            {% endfor %}
+                        </dl>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
 
-            <a class="btn" href="{{ procceedUrl }}">
-                {% if review.proceedLabel %}{{ review.proceedLabel }}{% else %}Accept and submit{% endif %}
-            </a>
+                <a class="btn" href="{{ procceedUrl }}">
+                    {% if review.proceedLabel %}{{ review.proceedLabel }}{% else %}Accept and submit{% endif %}
+                </a>
+            </div>
         </div>
-    </div>
+    </main>
 {% endblock %}
