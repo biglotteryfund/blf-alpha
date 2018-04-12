@@ -26,8 +26,9 @@ fieldset {
     }
     .form-header__subtitle {
         margin: 0;
-        font-weight: 14px;
-        color: palette('soft-grey');
+        font-size: 16px;
+        font-weight: normal;
+        color: palette('charcoal-note');
     }
 }
 
@@ -123,7 +124,7 @@ $errorColor: #b00;
 .ff-label--optional {
     &:after {
         content: 'Optional';
-        color: palette('soft-grey');
+        color: palette('charcoal-note');
     }
 }
 
