@@ -2,9 +2,19 @@
    News
    ========================================================================= */
 
-// .article-teaser {}
+.article-teaser {
+    margin: 0;
+}
+.article-teaser__title {
+    margin-bottom: $spacingUnit / 2;
+
+    @include mq('medium') {
+        margin-bottom: $spacingUnit;
+    }
+}
 .article-teaser__summary {
     font-size: 18px;
+    margin-bottom: 0;
 }
 
 .latest-news {

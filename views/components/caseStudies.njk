@@ -9,13 +9,11 @@
 ) %}
     <div class="case-study">
         <div class="case-study__image">
-            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
-                <picture>
-                    <source srcset="{{ imageUrl | getImagePath }}" media="(min-width: 600px)">
-                    <source srcset="{{ imageSmallUrl | getImagePath }}">
-                    <img src="{{ imageSmallUrl | getImagePath }}" alt="{{ quoteName }} {{ projectName }}" />
-                </picture>
-            {% if link %}</a>{% endif %}
+            <picture>
+                <source srcset="{{ imageUrl | getImagePath }}" media="(min-width: 600px)">
+                <source srcset="{{ imageSmallUrl | getImagePath }}">
+                <img src="{{ imageSmallUrl | getImagePath }}" alt="{{ quoteName }} {{ projectName }}" />
+            </picture>
         </div>
         <div class="case-study__content">
                 <blockquote class="pullquote">
@@ -28,7 +26,8 @@
                             {% if quoteNameCaption %}
                                 <p class="t8 u-weight-normal">{{ quoteNameCaption }}</p>
                             {% endif %}
-                            {% if link %}<a href="{{ buildUrl(link) }}">{% endif %}
+                            {% if link %}<a href="{{ buildUrl(link) }}"
+                                aria-label="{{ __('global.misc.readMoreAbout', projectName) }}">{% endif %}
                                 <p class="t8 u-weight-normal">{{ projectName | safe }}</p>
                             {% if link %}</a>{% endif %}
                         </div>
@@ -69,7 +68,8 @@
                 {{ trailText }}
                 {% if linkUrl %}
                     <a href="{{ linkUrl }}"
-                        class="{% if accent %}accent--{{ accent }} a--text {% endif %}u-weight-heavy">
+                        class="{% if accent %}accent--{{ accent }} a--text {% endif %}u-weight-heavy"
+                        aria-label="{{ __('global.misc.readMoreAbout', title) }}">
                         {{ trailTextMore }}
                     </a>
                 {% endif %}

@@ -16,7 +16,6 @@ export const init = elems => {
             speed: 300,
             autoHeight: true,
             a11y: true,
-            loop: true,
             slidesPerView: 1
         });
 
