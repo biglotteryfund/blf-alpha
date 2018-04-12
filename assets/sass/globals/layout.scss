@@ -4,10 +4,14 @@
 
 $nudgeAmount: 25px;
 
+// @TODO: Rename all uses
+.u-inner,
 .inner {
     @include responsiveGutter();
 }
 
+// @TODO: Rename all uses
+.u-inner-wide-only,
 .inner--wide-only {
     @include mq('tablet') {
         @include responsiveGutter();
@@ -35,11 +39,6 @@ $nudgeAmount: 25px;
     max-width: auto;
 }
 
-@mixin nudged-down {
-    position: absolute;
-    bottom: $nudgeAmount + 30px;
-}
-
 .nudge-up {
     @include mq('tablet') {
         top: -$nudgeAmount;
@@ -49,29 +48,16 @@ $nudgeAmount: 25px;
     }
 }
 
-.padded {
+// @TODO: Rename all uses to u-padded
+.padded,
+.u-padded {
     padding: $spacingUnit;
 }
-
-.padded--wide-only {
-    padding: ($spacingUnit / 2) 0;
-
-    @include mq('tablet') {
-        padding: $spacingUnit;
-    }
-}
-
-// @TODO come up with better names for these classes
-.expanded {
+.u-padded-top {
     padding-top: $spacingUnit;
 }
 
-@include mq('tablet') {
-    .d-expanded--l {
-        padding-top: $spacingUnit * 2;
-    }
-}
-
+// @TODO: Rename to u-margin-bottom-*
 .spaced {
     margin-bottom: $spacingUnit;
 }
@@ -94,10 +80,6 @@ $nudgeAmount: 25px;
 
 .spaced--t--l {
     margin-top: $spacingUnit * 2;
-}
-
-.no-space {
-    margin-bottom: 0 !important;
 }
 
 .bordered {

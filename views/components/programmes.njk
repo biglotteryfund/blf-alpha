@@ -75,6 +75,29 @@
     </ol>
 {% endmacro %}
 
+{% macro programmeOverview(programme, accentColour) %}
+    <article class="programme-overview">
+        <header class="programme-overview__header">
+            <h3 class="programme-overview__title t1 accent--{{ accentColour }} a--text">
+                {{ programme.title }}
+            </h3>
+        </header>
+        <h4 class="programme-overview__subtitle">{{ programme.subTitle }}</h4>
+        {% if programme.summaryItems.length > 0 %}
+            <ul class="programme-overview__summary">
+                {% for item in programme.summaryItems %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <footer class="programme-overview__actions">
+            <a class="btn accent--pink a--btn" href="{{ programme.linkUrl }}">
+                {{ __('global.misc.seeProgramme') }}
+            </a>
+        </footer>
+    </article>
+{% endmacro %}
+
 {% macro selectionTrail(trail, itemCount) %}
     {% if trail | length > 0 %}
     <ol class="selection-trail">
