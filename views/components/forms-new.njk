@@ -80,17 +80,19 @@
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
-                    <input
-                        type="checkbox"
-                        id="field-{{ field.name }}-{{ loop.index }}"
-                        name="{{ field.name }}"
-                        value="{{ option.value }}"
-                        {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                    />
-                    <label for="field-{{ field.name }}-{{ loop.index }}">
+                    <div class="ff-checkbox__input">
+                        <input
+                            type="checkbox"
+                            id="field-{{ field.name }}-{{ loop.index }}"
+                            name="{{ field.name }}"
+                            value="{{ option.value }}"
+                            {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                        />
+                    </div>
+                    <label class="ff-checkbox__label" for="field-{{ field.name }}-{{ loop.index }}">
                         {{ option.label }}
                         {% if option.explanation %}
-                            <small>{{ option.explanation }}</small>
+                            <small class="ff-checkbox__caption">{{ option.explanation }}</small>
                         {% endif %}
                     </label>
                 </li>
