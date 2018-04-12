@@ -65,6 +65,7 @@ global:
     projectExamples: Examples of projects that have been funded
     caseStudies: Case studies
     readMore: Read more
+    readMoreAbout: "Read more about %s"
     or: or
   programmes:
     programmeLabels:
