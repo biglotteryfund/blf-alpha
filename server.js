@@ -52,6 +52,11 @@ Raven.config(SENTRY_DSN, {
 
 app.use(Raven.requestHandler());
 
+/**
+ * Set static app locals
+ */
+app.locals.navigationSections = routes.sections;
+
 viewEngineService.init(app);
 viewGlobalsService.init(app);
 

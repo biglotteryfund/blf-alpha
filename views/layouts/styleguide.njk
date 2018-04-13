@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="{{ locale }}" class="{{ getHtmlClasses() }}">
+<html lang="{{ locale }}" class="no-js">
 <head>
     <title>Style Guide | {{ __("global.brand.title") }}</title>
 
-    {% include "../includes/metadata.njk" %}
-    {% include "../includes/metaHeadJS.njk" %}
-    {% include "../includes/metaHeadCSS.njk" %}
+    {% include "includes/metadata.njk" %}
+    {% include "includes/metaHead.njk" %}
 
     <link rel="stylesheet" href="{{ 'stylesheets/styleguide.css' | getCachebustedPath }}"/>
 </head>

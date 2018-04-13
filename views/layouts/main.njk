@@ -1,7 +1,8 @@
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
-<html lang="{{ locale }}" class="{{ getHtmlClasses() }}">
+<html lang="{{ locale }}"
+    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}">
     <head>
         <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
 

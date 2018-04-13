@@ -4,7 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const httpMocks = require('node-mocks-http');
-const { buildUrl, getCurrentUrl, getHtmlClasses, getMetaTitle, getCurrentSection } = require('./viewGlobals');
+const { buildUrl, getCurrentUrl, getMetaTitle, getCurrentSection } = require('./viewGlobals');
 
 describe('View Globals', () => {
     describe('#buildUrl', () => {
@@ -69,20 +69,6 @@ describe('View Globals', () => {
             expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).to.equal(
                 '/some/example/url?something=else'
             );
-        });
-    });
-
-    describe('#getHtmlClasses', () => {
-        it('should return expected html classes based on locale', () => {
-            expect(getHtmlClasses({ locale: 'en' })).to.equal('no-js locale--en');
-            expect(getHtmlClasses({ locale: 'cy' })).to.equal('no-js locale--cy');
-        });
-
-        it('should return expected html classes if in high contrast mode', () => {
-            expect(getHtmlClasses({ locale: 'en', highContrast: true })).to.equal('no-js locale--en contrast--high');
-            expect(getHtmlClasses({ locale: 'cy', highContrast: true })).to.equal('no-js locale--cy contrast--high');
-            expect(getHtmlClasses({ locale: 'en', highContrast: false })).to.equal('no-js locale--en');
-            expect(getHtmlClasses({ locale: 'cy', highContrast: false })).to.equal('no-js locale--cy');
         });
     });
 

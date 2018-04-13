@@ -3,7 +3,6 @@
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const config = require('config');
-const routes = require('../controllers/routes');
 const { isWelsh } = require('../modules/urls');
 
 module.exports = function(app) {
@@ -21,12 +20,17 @@ module.exports = function(app) {
         devMode: false
     });
 
-    function overlayMiddleware(req, res, next) {
+    function viewStateMiddleware(req, res, next) {
+        // get a11y contrast preferences
+        let contrastPref = req.cookies[config.get('cookies.contrast')];
+        res.locals.isHighContrast = contrastPref && contrastPref === 'high';
+
         if (req.flash('showOverlay')) {
             setViewGlobal('showOverlay', true);
         } else {
             setViewGlobal('showOverlay', false);
         }
+
         next();
     }
 
@@ -40,23 +44,9 @@ module.exports = function(app) {
         }
 
         // store locale prefs globally
-        setViewGlobal('locale', req.i18n.getLocale());
+        res.locals.locale = req.i18n.getLocale();
         setViewGlobal('localePrefix', localePrefix);
 
-        // get a11y contrast preferences
-        let contrastPref = req.cookies[config.get('cookies.contrast')];
-        if (contrastPref && contrastPref === 'high') {
-            setViewGlobal('highContrast', true);
-        } else {
-            setViewGlobal('highContrast', false);
-        }
-
-        return next();
-    }
-
-    // get routes / current section
-    function routesMiddleware(req, res, next) {
-        setViewGlobal('routes', routes.sections);
         return next();
     }
 
@@ -68,5 +58,5 @@ module.exports = function(app) {
         return next();
     }
 
-    return [overlayMiddleware, localeMiddleware, routesMiddleware, requestMiddleware];
+    return [viewStateMiddleware, localeMiddleware, requestMiddleware];
 };
