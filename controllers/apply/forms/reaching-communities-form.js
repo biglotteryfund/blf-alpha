@@ -64,8 +64,8 @@ const DEFAULT_EMAIL = HUB_EMAILS.england;
 
 const PROJECT_LOCATIONS = [
     {
-        label: 'North East',
-        value: 'North East',
+        label: 'North East & Cumbria',
+        value: 'North East & Cumbria',
         explanation: 'covering Newcastle, Cumbria and the north-east of England',
         email: HUB_EMAILS.northEastCumbria
     },
