@@ -7,8 +7,7 @@ const rp = require('request-promise-native');
 const config = require('config');
 
 const { customEvent } = require('../../modules/analytics');
-const { purifyUserInput } = require('../../modules/validators');
-const { errorTranslator } = require('../../modules/validators');
+const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { getSecret } = require('../../modules/secrets');
 const cached = require('../../middleware/cached');

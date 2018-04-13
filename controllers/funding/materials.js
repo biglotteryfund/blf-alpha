@@ -20,8 +20,7 @@ const translateError = errorTranslator('global.forms');
 const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';
 
 function checkClean(fieldName) {
-    return check(fieldName)
-        .trim();
+    return check(fieldName).trim();
 }
 
 function createField(props) {
