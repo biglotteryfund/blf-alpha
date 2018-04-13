@@ -13,8 +13,10 @@ fieldset {
     min-width: 0;
 }
 
-.error {
-    color: red;
+input[type="text"],
+input[type="email"],
+input[type="search"] {
+    -webkit-appearance: none;
 }
 
 .form-header {
@@ -26,8 +28,9 @@ fieldset {
     }
     .form-header__subtitle {
         margin: 0;
-        font-weight: 14px;
-        color: palette('soft-grey');
+        font-size: 16px;
+        font-weight: normal;
+        color: palette('charcoal-note');
     }
 }
 
@@ -42,14 +45,13 @@ fieldset {
     margin-bottom: $spacingUnit;
 }
 
-$errorColor: #b00;
 .form-errors {
-    border: 3px solid $errorColor;
+    border: 3px solid palette('error');
     margin-bottom: $spacingUnit;
 }
 .form-errors__title {
     color: white;
-    background-color: $errorColor;
+    background-color: palette('error');
     font-weight: bold;
     margin: 0;
     margin-bottom: $spacingUnit / 2;
@@ -62,7 +64,7 @@ $errorColor: #b00;
 .error-list {
     &,
     a {
-        color: $errorColor;
+        color: palette('error');
         font-weight: bold;
     }
 }
@@ -94,7 +96,7 @@ $errorColor: #b00;
 
 .form-field.has-errors {
     .form-field__main {
-        border-left: 3px solid $errorColor;
+        border-left: 3px solid palette('error');
         padding-left: $spacingUnit / 2;
     }
 }
@@ -123,7 +125,7 @@ $errorColor: #b00;
 .ff-label--optional {
     &:after {
         content: 'Optional';
-        color: palette('soft-grey');
+        color: palette('charcoal-note');
     }
 }
 
@@ -166,20 +168,31 @@ $errorColor: #b00;
     margin-bottom: 3px;
 }
 .ff-checkbox__option {
-    margin-bottom: 3px;
+    display: table;
+    margin-bottom: 5px;
 
     input[type='checkbox'] {
-        position: relative;
-        top: -2px;
-        margin-right: 5px;
-    }
+        margin: 0 6px 0 0;
 
-    // used inside labels to clarify
-    small {
-        font-size: 13px;
-        color: lighten(palette('charcoal'), 20%);
+        @include mq('medium-minor') {
+            margin-right: 10px;
+            position: relative;
+            top: -2px;
+        }
+    }
+}
+.ff-checkbox__input,
+.ff-checkbox__label {
+    display: table-cell;
+}
+.ff-checkbox__caption {
+    font-size: 13px;
+    color: palette('charcoal-note');
+    display: block;
+
+    @include mq('medium-minor') {
+        display: inline-block;
         margin-left: 3px;
-        vertical-align: middle;
     }
 }
 

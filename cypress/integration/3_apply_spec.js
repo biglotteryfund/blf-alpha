@@ -27,7 +27,7 @@ describe('Application tests', function() {
         cy.get(submitSelector).click();
 
         // Review
-        cy.get('.content-box .btn').click();
+        cy.get(submitSelector).click();
 
         // Success
         cy.url().should('include', '/apply/your-idea/success');

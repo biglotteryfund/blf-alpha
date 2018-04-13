@@ -5,37 +5,48 @@
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
+    {% set pageAccent = 'pink' %}
     <main role="main" id="content">
-        <div class="content-box inner inner--wide-only accent--pink a--border-top">
+        <form action="" method="POST"
+            class="js-application-form js-application-form-review
+            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="u-constrained-content">
                 <h1 class="t1">{{ review.title }}</h1>
                 {% for step in summary %}
-                    <h2 class="t2 t--underline accent--pink">
+                    <h2 class="t2 t--underline accent--{{ pageAccent }}">
                         {{ step.name }}
                         [<a href="{{ baseUrl }}/{{ loop.index }}">Edit</a>]
                     </h2>
                     {% for fieldset in step.fieldsets %}
-                        <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
-                            {% for field in fieldset.fields %}
-                                {% if field.value %}
-                                    <dt>{{ field.label }}</dt>
-                                    {% if field.type === 'textarea' %}
-                                        <dd class="s-prose" data-hj-suppress>{{ field.value | striptags(true) | escape | nl2br }}</dd>
-                                    {% elseif field.type === 'checkbox' %}
-                                        <dd data-hj-suppress>{{ field.value | joinIfArray(', ') }}</dd>
-                                    {% else %}
-                                        <dd data-hj-suppress>{{ field.value }}</dd>
-                                    {% endif %}
+                    <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
+                        {% for field in fieldset.fields %}
+                            {% if field.value %}
+                                <dt>{{ field.label }}</dt>
+                                {% if field.type === 'textarea' %}
+                                    <dd class="s-prose" data-hj-suppress>
+                                        {{ field.value | striptags(true) | escape | nl2br }}
+                                    </dd>
+                                {% elseif field.type === 'checkbox' %}
+                                    <dd data-hj-suppress>
+                                        {{ field.value | joinIfArray(', ') }}
+                                    </dd>
+                                {% else %}
+                                    <dd data-hj-suppress>
+                                        {{ field.value }}
+                                    </dd>
                                 {% endif %}
-                            {% endfor %}
-                        </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </dl>
                     {% endfor %}
                 {% endfor %}
-
-                <a class="btn" href="{{ procceedUrl }}">
-                    {% if review.proceedLabel %}{{ review.proceedLabel }}{% else %}Accept and submit{% endif %}
-                </a>
             </div>
-        </div>
+
+            {% if csrfToken %}
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            {% endif %}
+
+            <input class="btn btn--next" type="submit" value="{{ review.proceedLabel }}" />
+        </form>
     </main>
 {% endblock %}

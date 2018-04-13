@@ -1,11 +1,11 @@
-const { castArray, get, isArray } = require('lodash');
+const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const app = require('../../../server');
-const mail = require('../../../modules/mail');
 const { createFormModel } = require('./create-form-model');
 const { HUB_EMAILS } = require('../../../modules/secrets');
+const app = require('../../../server');
 const appData = require('../../../modules/appData');
+const mail = require('../../../modules/mail');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -64,8 +64,8 @@ const DEFAULT_EMAIL = HUB_EMAILS.england;
 
 const PROJECT_LOCATIONS = [
     {
-        label: 'North East',
-        value: 'North East',
+        label: 'North East & Cumbria',
+        value: 'North East & Cumbria',
         explanation: 'covering Newcastle, Cumbria and the north-east of England',
         email: HUB_EMAILS.northEastCumbria
     },
@@ -103,29 +103,19 @@ formModel.registerStep({
     name: 'Project location',
     fieldsets: [
         {
-            legend: 'Where will your project take place? (select all that apply)',
+            legend: 'Where will your project take place?',
             fields: [
                 {
-                    label: 'Where will your project take place?',
+                    label: 'Select all regions that apply',
                     type: 'checkbox',
                     options: PROJECT_LOCATIONS,
                     isRequired: true,
                     name: 'location',
                     validator: function(field) {
                         return check(field.name)
-                            .custom(value => {
-                                const values = castArray(value);
-                                if (values.indexOf('Across England') !== -1 && values.length > 1) {
-                                    throw new Error(
-                                        'If you’ve selected Across England no other regions can be selected.'
-                                    );
-                                } else {
-                                    return true;
-                                }
-                            })
                             .not()
                             .isEmpty()
-                            .withMessage('Project area must be provided');
+                            .withMessage('Project region must be provided');
                     }
                 },
                 {
