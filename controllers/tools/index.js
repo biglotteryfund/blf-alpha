@@ -1,44 +1,22 @@
 'use strict';
 const express = require('express');
 
-const { renderError } = require('../http-errors');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const materials = require('../../config/content/materials.json');
 const orderService = require('../../services/orders');
-const routeHelpers = require('../route-helpers');
 const surveysService = require('../../services/surveys');
 
 const router = express.Router();
 
+const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
 
 router.use(toolsSecurityHeaders());
 
-router.get('/pages', async (req, res) => {
-    try {
-        const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: true });
-        const redirectRoutes = await routeHelpers.getCombinedRedirects({ includeDraft: true });
-        const vanityRoutes = await routeHelpers.getVanityRedirects();
-
-        const countRoutes = routeList => routeList.filter(route => route.live === true).length;
-
-        const totals = {
-            canonical: countRoutes(canonicalRoutes),
-            redirects: countRoutes(redirectRoutes),
-            vanity: countRoutes(vanityRoutes)
-        };
-
-        res.render('pages/tools/pagelist', {
-            totals,
-            canonicalRoutes,
-            redirectRoutes,
-            vanityRoutes
-        });
-    } catch (err) {
-        renderError(err);
-    }
+pagelistRouter.init({
+    router
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);

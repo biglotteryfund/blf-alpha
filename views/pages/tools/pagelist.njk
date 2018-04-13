@@ -35,10 +35,6 @@
                             {% else %}
                                 {{statusBadge('Draft', 'warning')}}
                             {% endif %}
-
-                            {% if route.isFromCms %}
-                                {{statusBadge('CMS', 'info')}}
-                            {% endif %}
                         </h3>
                         <p>
                             <a href="{{ route.path }}">English</a> |
