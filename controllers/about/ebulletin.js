@@ -5,10 +5,9 @@ const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const rp = require('request-promise-native');
 const config = require('config');
-const xss = require('xss');
 
 const { customEvent } = require('../../modules/analytics');
-const { errorTranslator } = require('../../modules/validators');
+const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { getSecret } = require('../../modules/secrets');
 const cached = require('../../middleware/cached');
@@ -99,7 +98,7 @@ function init({ router, routeConfig }) {
         })
         .post(formValidators, (req, res) => {
             for (let key in req.body) {
-                req.body[key] = xss(req.body[key]);
+                req.body[key] = purifyUserInput(req.body[key]);
             }
 
             const formData = matchedData(req);

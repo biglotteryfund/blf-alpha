@@ -1,11 +1,11 @@
-const xss = require('xss');
 const { Op } = require('sequelize');
 const { Users } = require('../models');
+const { purifyUserInput } = require('../modules/validators');
 
 function getSanitizedUser({ username, password, level }) {
     return {
-        username: xss(username),
-        password: xss(password),
+        username: purifyUserInput(username),
+        password: purifyUserInput(password),
         level: level || 0
     };
 }
@@ -18,7 +18,7 @@ function findByUsername(username) {
     return Users.findOne({
         where: {
             username: {
-                [Op.eq]: xss(username)
+                [Op.eq]: purifyUserInput(username)
             }
         }
     });

@@ -78,6 +78,7 @@
     "cookie-parser": "~1.4.3",
     "csurf": "^1.9.0",
     "debug": "^3.1.0",
+    "dompurify": "^1.0.3",
     "express": "^4.15.5",
     "express-ab": "^0.7.1",
     "express-cache-controller": "^1.0.1",
@@ -120,7 +121,6 @@
     "uuid": "^3.1.0",
     "vary": "^1.1.1",
     "vue": "^2.4.4",
-    "xss": "^0.3.4",
     "yargs": "^11.0.0"
   },
   "devDependencies": {

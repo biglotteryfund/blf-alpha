@@ -1,8 +1,8 @@
-const xss = require('xss');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 
 const mail = require('../../modules/mail');
+const { purifyUserInput } = require('../../modules/validators');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
@@ -88,7 +88,7 @@ const sendResetEmail = (req, res) => {
             return requestResetForm(req, res);
         });
     } else {
-        const email = xss(req.body.username);
+        const email = purifyUserInput(req.body.username);
         userService
             .findByUsername(email)
             .then(user => {
