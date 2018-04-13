@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 
-{% block title %}Review | {{ form.title }} | {% endblock %}
+{% block title %}{{ stepConfig.title }} | {{ form.title }} | {% endblock %}
 
 {% set bodyClass = 'has-static-header' %}
 
@@ -9,13 +9,14 @@
     <main role="main" id="content">
         <form action="" method="POST"
             class="js-application-form js-application-form-review
-            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top"
+            data-abandonment-message="{{ stepConfig.abandonmentMessage }}">
             <div class="u-constrained-content">
-                <h1 class="t1">{{ review.title }}</h1>
+                <h1 class="t1">{{ stepConfig.title }}</h1>
                 {% for step in summary %}
                     <h2 class="t2 t--underline accent--{{ pageAccent }}">
                         {{ step.name }}
-                        [<a href="{{ baseUrl }}/{{ loop.index }}">Edit</a>]
+                        [<a href="{{ baseUrl }}/{{ loop.index }}" class="js-application-form-review-edit">Edit</a>]
                     </h2>
                     {% for fieldset in step.fieldsets %}
                     <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
@@ -46,7 +47,7 @@
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {% endif %}
 
-            <input class="btn btn--next" type="submit" value="{{ review.proceedLabel }}" />
+            <input class="btn btn--next" type="submit" value="{{ stepConfig.proceedLabel }}" />
         </form>
     </main>
 {% endblock %}
