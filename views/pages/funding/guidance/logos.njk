@@ -10,28 +10,30 @@
 {% set socialImage = heroImage %}
 
 {% macro howToUseLogo(bilingual = false) %}
-    {% if locale == 'cy' or bilingual %}
-        {% set logoExamplePath = 'logos/examples-cy.png' %}
-    {% else %}
-        {% set logoExamplePath = 'logos/examples.png' %}
-    {% endif %}
+    <div class="padded">
+        {% if locale == 'cy' or bilingual %}
+            {% set logoExamplePath = 'logos/examples-cy.png' %}
+        {% else %}
+            {% set logoExamplePath = 'logos/examples.png' %}
+        {% endif %}
 
-    <h3 class="t5">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
-    <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
+        <h3 class="t5">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-    <h3 class="t5">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
-    <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
+        <h3 class="t5">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-    <h3 class="t5">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
-    <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
+        <h3 class="t5">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
 
-    <h3 class="t5">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
-    <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
+        <h3 class="t5">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
-    <div class="central-gap">
-        <img src="{{ logoExamplePath | getImagePath }}"
-             alt="Examples of our logo"
-             class="width-natural" />
+        <div class="central-gap">
+            <img src="{{ logoExamplePath | getImagePath }}"
+                 alt="Examples of our logo"
+                 class="width-natural" />
+        </div>
     </div>
 {% endmacro %}
 
@@ -130,12 +132,6 @@
     </div>
 {% endset %}
 
-{% set infoMonolingual %}
-    <div class="padded">
-        {{ howToUseLogo(bilingual = false) }}
-    </div>
-{% endset %}
-
 {# england, scotland and NI #}
 {% set contentMonolingual %}
     {{ tabs.tabs(
@@ -148,7 +144,7 @@
             },
             {
                 title: copy.howToUseLogo.title,
-                content: infoMonolingual
+                content: howToUseLogo(bilingual = false)
             }
         ]
     )}}
@@ -184,12 +180,6 @@
     </div>
 {% endset %}
 
-{% set infoBilingual %}
-    <div class="padded">
-        {{ howToUseLogo(bilingual = true) }}
-    </div>
-{% endset %}
-
 {% set contentBilingual %}
     {{ tabs.tabs(
         id = 'logo-bilingual',
@@ -201,7 +191,7 @@
             },
             {
                 title: copy.howToUseLogo.title,
-                content: infoBilingual
+                content: howToUseLogo(bilingual = true)
             }
         ]
     )}}
