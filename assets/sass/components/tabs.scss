@@ -117,8 +117,12 @@
             }
 
             @media print {
-                background-color: #eeeeee;
-                color: #333333;
+                color: palette('charcoal');
+                background-color: transparent;
+                font-size: 26px;
+                line-height: 1.2;
+                margin: 0;
+                padding: 0 $spacingUnit;
             }
 
             @include on-interact() {

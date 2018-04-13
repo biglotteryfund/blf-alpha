@@ -1,7 +1,7 @@
 {% from "components/icons.njk" import iconArrowDown, iconClose %}
 
 {% macro showSurvey() %}
-    <aside role="complementary" class="survey"
+    <aside role="complementary" class="survey u-dont-print"
         v-bind:class="{ 'is-active': isActivated }"
         id="js-survey-container"
         v-if="!surveyBlocked"
