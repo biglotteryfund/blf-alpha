@@ -351,6 +351,10 @@ toplevel:
       href: "/funding/search-past-grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
+    recentProgrammes:
+    - "reaching-communities-england"
+    - "national-lottery-awards-for-all-england"
+    - "empowering-young-people"
   research:
     title: Research
     intro: Find out more about what we’re learning from the projects we fund.
