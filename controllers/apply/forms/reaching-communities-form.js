@@ -228,8 +228,7 @@ formModel.registerStep({
 
 formModel.registerReviewStep({
     title: 'Check this is right',
-    proceedLabel: 'Submit',
-    abandonmentMessage: 'Your idea has not been submitted. Are you sure you want to leave this page?'
+    proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({

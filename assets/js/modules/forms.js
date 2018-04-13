@@ -2,6 +2,7 @@
 
 import $ from 'jquery';
 import { featureIsEnabled } from '../helpers/features';
+const { trackEvent } = require('../helpers/metrics');
 
 // Materials form logic
 function initLegacyForms() {
@@ -45,29 +46,37 @@ function conditionalRadios($el) {
 }
 
 function handleAbandonmentMessage(formEl) {
-    const abandonmentMessage = formEl.getAttribute('data-abandonment-message');
+    if (!featureIsEnabled('review-abandonment-message')) {
+        return;
+    }
+
+    let recordUnload = true;
 
     function handleBeforeUnload(e) {
         // Message cannot be customised in Chrome 51+
         // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
-        var confirmationMessage = abandonmentMessage;
+        trackEvent('Apply', 'Review step abandonment check', 'message shown');
+        var confirmationMessage = 'Are you sure you want to leave this page?';
         e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
         return confirmationMessage; // Gecko, WebKit, Chrome <34
     }
 
-    if (featureIsEnabled('review-abandonment-message') && abandonmentMessage) {
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // Remove beforeunload if clicking on edit links
-        $('.js-application-form-review-edit').on('click', () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        });
-
-        // Remove beforeunload if submitting the form
-        formEl.addEventListener('submit', () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        });
+    function removeBeforeUnload() {
+        recordUnload = false;
+        window.removeEventListener('beforeunload', handleBeforeUnload);
     }
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Remove beforeunload if clicking on edit links
+    $('.js-application-form-review-edit').on('click', removeBeforeUnload);
+
+    // Remove beforeunload if submitting the form
+    formEl.addEventListener('submit', removeBeforeUnload);
+
+    window.addEventListener('unload', function() {
+        recordUnload && trackEvent('Apply', 'Review step abandonment check', 'left page');
+    });
 }
 
 function initApplicationForms() {
