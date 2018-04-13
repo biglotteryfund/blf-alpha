@@ -9,11 +9,11 @@
 {% set heroImage = heroImages.oasisCaringInAction %}
 {% set socialImage = heroImage %}
 
-{% set howToUseLogo %}
-    {% if locale == 'en' %}
-        {% set logoExamplePath = 'logos/examples.png' %}
-    {% else %}
+{% macro howToUseLogo(bilingual = false) %}
+    {% if locale == 'cy' or bilingual %}
         {% set logoExamplePath = 'logos/examples-cy.png' %}
+    {% else %}
+        {% set logoExamplePath = 'logos/examples.png' %}
     {% endif %}
 
     <h3 class="t5">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
@@ -33,7 +33,7 @@
              alt="Examples of our logo"
              class="width-natural" />
     </div>
-{% endset %}
+{% endmacro %}
 
 {% macro logoTabBar(logoTitle, localeId) %}
     <ul class="js-tabs tabs tabs--carousel unstyled" data-no-initial-selection="true">
@@ -132,7 +132,7 @@
 
 {% set infoMonolingual %}
     <div class="padded">
-        {{ howToUseLogo | safe }}
+        {{ howToUseLogo(bilingual = false) }}
     </div>
 {% endset %}
 
@@ -186,7 +186,7 @@
 
 {% set infoBilingual %}
     <div class="padded">
-        {{ howToUseLogo | safe }}
+        {{ howToUseLogo(bilingual = true) }}
     </div>
 {% endset %}
 
