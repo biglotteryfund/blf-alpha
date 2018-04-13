@@ -8,7 +8,7 @@ const global = require('../modules/global');
 const tabs = require('../modules/tabs');
 import heroImages from '../modules/heroImages';
 const logos = require('../modules/logos');
-const forms = require('../modules/forms');
+import forms from '../modules/forms';
 import carousel from '../modules/carousel';
 
 function init() {

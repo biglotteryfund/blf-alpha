@@ -89,7 +89,7 @@ module.exports = function(router, formModel) {
                 res.render('pages/apply/review', {
                     csrfToken: req.csrfToken(),
                     form: formModel,
-                    review: formModel.getReviewStep(),
+                    stepConfig: formModel.getReviewStep(),
                     summary: formModel.getStepsWithValues(formData),
                     baseUrl: req.baseUrl
                 });
