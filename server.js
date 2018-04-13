@@ -52,23 +52,13 @@ Raven.config(SENTRY_DSN, {
 
 app.use(Raven.requestHandler());
 
-// Configure views
 viewEngineService.init(app);
 viewGlobalsService.init(app);
 
-// Add global middlewares
 app.use(loggerMiddleware);
-app.use(previewMiddleware);
 app.use(cachedMiddleware.defaultVary);
 app.use(cachedMiddleware.defaultCacheControl);
-app.use(defaultSecurityHeaders());
-app.use(bodyParserMiddleware);
-app.use(sessionMiddleware(app));
-app.use(passportMiddleware());
-app.use(redirectsMiddleware.all);
-app.use(localesMiddleware(app));
 
-// Configure static files
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use(
     `/${config.get('assetVirtualDir')}`,
@@ -76,6 +66,14 @@ app.use(
         maxAge: config.get('staticExpiration')
     })
 );
+
+app.use(previewMiddleware);
+app.use(defaultSecurityHeaders());
+app.use(bodyParserMiddleware);
+app.use(sessionMiddleware(app));
+app.use(passportMiddleware());
+app.use(redirectsMiddleware.all);
+app.use(localesMiddleware(app));
 
 // Mount load balancer status route
 app.get('/status', require('./controllers/toplevel/status'));
