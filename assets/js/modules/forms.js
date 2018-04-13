@@ -1,6 +1,7 @@
 'use strict';
 
-const $ = require('jquery');
+import $ from 'jquery';
+import { featureIsEnabled } from '../helpers/features';
 
 // Materials form logic
 function initLegacyForms() {
@@ -54,7 +55,7 @@ function handleAbandonmentMessage(formEl) {
         return confirmationMessage; // Gecko, WebKit, Chrome <34
     }
 
-    if (abandonmentMessage) {
+    if (featureIsEnabled('review-abandonment-message') && abandonmentMessage) {
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         // Remove beforeunload if clicking on edit links
@@ -99,6 +100,6 @@ function init() {
     initApplicationForms();
 }
 
-module.exports = {
-    init: init
+export default {
+    init
 };
