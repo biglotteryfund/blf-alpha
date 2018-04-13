@@ -16,7 +16,7 @@
 <form class="form-ebulletin" method="post" action="/about/ebulletin">
     <h2 class="t1 t--underline accent--pink a--text">{{ __('toplevel.ebulletin.title') }}</h2>
 
-    {% if status === formHelpers.FORM_STATES.SUBMISSION_SUCCCESS %}
+    {% if status === formHelpers.FORM_STATES.SUBMISSION_SUCCESS %}
         {{ submissionMessage(
             title = __('toplevel.ebulletin.responses.success.title'),
             message = __('toplevel.ebulletin.responses.success.body')

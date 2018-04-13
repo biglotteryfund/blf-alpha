@@ -117,7 +117,7 @@ function init({ router, routeConfig }) {
                     customEvent('emailNewsletter', 'signup', formData.location);
                     renderForm({
                         res: res,
-                        formStatus: FORM_STATES.SUBMISSION_SUCCCESS,
+                        formStatus: FORM_STATES.SUBMISSION_SUCCESS,
                         formData: formData
                     });
                 };
