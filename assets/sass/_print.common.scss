@@ -22,8 +22,11 @@
         text-decoration: underline;
     }
 
-    a:not(.u-dont-print-link)[href]:after {
+    a:not(.u-dont-print-link):not([href^="#"])[href]:after {
+        display: block;
         content: ' (' attr(href) ')';
+        font-size: 16px;
+        font-weight: normal;
     }
 
     abbr[title]:after {

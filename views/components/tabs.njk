@@ -22,7 +22,7 @@
         {% if accordion and title %}
             <header class="tab__pane-header">
                 {{ tab(title, paneId, tabSetId = tabSetId, setActive = setActive, id = "accordion-" + tabId) }}
-                <span class="tab__arrow">{{ iconArrowDown() }}</span>
+                <span class="tab__arrow u-dont-print">{{ iconArrowDown() }}</span>
             </header>
         {% endif %}
         <article class="tab__pane-content">{{ content | safe }}</article>
