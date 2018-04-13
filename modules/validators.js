@@ -1,5 +1,14 @@
 'use strict';
 
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = (new JSDOM('')).window;
+const DOMPurify = createDOMPurify(window);
+
+function purifyUserInput(input) {
+    return DOMPurify.sanitize(input);
+}
+
 function errorTranslator(prefix) {
     return function(prop, replacementKeys = []) {
         return function(value, { req }) {
@@ -11,5 +20,6 @@ function errorTranslator(prefix) {
 }
 
 module.exports = {
-    errorTranslator
+    errorTranslator,
+    purifyUserInput
 };

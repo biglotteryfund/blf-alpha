@@ -4,7 +4,6 @@ const express = require('express');
 const config = require('config');
 const { sortBy } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
-const xss = require('xss');
 const moment = require('moment');
 const Raven = require('raven');
 
@@ -16,6 +15,7 @@ const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
 const { homepageHero } = require('../../modules/images');
+const { purifyUserInput } = require('../../modules/validators');
 const regions = require('../../config/content/regions.json');
 
 const robotRoutes = require('./robots');
@@ -144,7 +144,7 @@ module.exports = (pages, sectionPath, sectionId) => {
             });
         } else {
             for (let key in req.body) {
-                req.body[key] = xss(req.body[key]);
+                req.body[key] = purifyUserInput(req.body[key]);
             }
 
             let responseData = {

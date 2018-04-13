@@ -3,7 +3,7 @@ const moment = require('moment');
 const { get, set, some } = require('lodash');
 const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
-const xss = require('xss');
+const { purifyUserInput } = require('../../modules/validators');
 
 const app = require('../../server');
 const cached = require('../../middleware/cached');
@@ -21,7 +21,6 @@ const translationLabelBase = 'funding.guidance.order-free-materials.formFields.'
 
 function checkClean(fieldName) {
     return check(fieldName)
-        .escape()
         .trim();
 }
 
@@ -358,7 +357,7 @@ function init({ router, routeConfig }) {
         .post(validators, cached.csrfProtection, (req, res) => {
             // sanitise input
             for (let key in req.body) {
-                req.body[key] = xss(req.body[key]);
+                req.body[key] = purifyUserInput(req.body[key]);
             }
 
             // get form errors and translate them
