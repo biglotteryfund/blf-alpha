@@ -42,11 +42,11 @@ formModel.registerStep({
 <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
 </ul>
 
-<p>Through all our funding, we’re interested in supporting organisations that are:</p>
+<p>Through all of our funding in England we support ideas that:</p>
 <ul>
-<li><strong>people led</strong> - meaningfully involving the people you’re working with in the development and delivery of your activity</li>
-<li><strong>strengths based</strong> - making the most of the skills that already exist in communities</li>
-<li><strong>connected</strong> - understanding what other relevant organisations are doing and developing good working relationships.</li>
+<li>bring people together and build strong relationships in and across communities</li>
+<li>improve the places and spaces that matter to communities</li>
+<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
 </ul>
 `,
                         introduction: `
