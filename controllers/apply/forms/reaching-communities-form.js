@@ -101,6 +101,7 @@ const PROJECT_LOCATIONS = [
 
 formModel.registerStep({
     name: 'Project location',
+    internalOrder: 3,
     fieldsets: [
         {
             legend: 'Where will your project take place?',
@@ -140,6 +141,7 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your organisation',
+    internalOrder: 2,
     fieldsets: [
         {
             legend: 'Your organisation',
@@ -176,6 +178,7 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your details',
+    internalOrder: 1,
     fieldsets: [
         {
             legend: 'Your details',
