@@ -242,10 +242,11 @@ formModel.registerSuccessStep({
 `,
     processor: function(formData) {
         const flatData = formModel.getStepValuesFlattened(formData);
-
         let internalInboxToSendTo;
 
-        if (isArray(flatData.location)) {
+        if (appData.isNotProduction) {
+            internalInboxToSendTo = process.env.RC_INBOX;
+        } else if (isArray(flatData.location)) {
             // send multi-region ideas to the global england-wide inbox
             internalInboxToSendTo = DEFAULT_EMAIL;
         } else {
@@ -256,52 +257,78 @@ formModel.registerSuccessStep({
 
         return new Promise((resolve, reject) => {
             const summary = formModel.getStepsWithValues(formData);
+            const internalSummary = formModel.orderStepsForInternalUse(summary);
 
             // construct an email address for the customer
             const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
 
-            // add the relevant hub email address
-            const customerPlusHubEmail = [customerEmail].concat(internalInboxToSendTo);
-
-            // only email hubs on production environments
-            const sendTo = appData.isNotProduction ? customerEmail : customerPlusHubEmail;
-            const sendMode = appData.isNotProduction ? 'to' : 'bcc';
-
-            /**
-             * Render a Nunjucks template to a string and
-             * convert the string to inline HTML
-             */
-            app.render(
-                'emails/applicationSummary',
-                {
-                    summary: summary,
-                    form: formModel,
-                    data: flatData
-                },
-                (errorRenderingTemplate, html) => {
-                    if (errorRenderingTemplate) {
-                        return reject(errorRenderingTemplate);
-                    }
-
-                    mail
-                        .renderHtmlEmail(html)
-                        .then(inlinedHtml => {
-                            mail
-                                .send({
-                                    sendTo: sendTo,
-                                    sendMode: sendMode,
-                                    sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`,
-                                    html: inlinedHtml
-                                })
-                                .catch(mailSendError => reject(mailSendError))
-                                .then(() => resolve(formData));
-                        })
-                        .catch(err => {
-                            return reject(err);
+            // render a string of HTML from the templating engine
+            const generateHtml = emailData => {
+                return new Promise(resolveEmailHtml => {
+                    app.render(emailData.templateName, emailData.templateData, (errorRenderingTemplate, html) => {
+                        if (errorRenderingTemplate) {
+                            // use the parent reject to break out of this promise and show an error
+                            return reject(errorRenderingTemplate);
+                        }
+                        return resolveEmailHtml({
+                            emailData: emailData,
+                            html: html
                         });
+                    });
+                });
+            };
+
+            // send an email with inlined HTML styles
+            const sendEmail = response => {
+                return mail
+                    .renderHtmlEmail(response.html)
+                    .then(inlinedHtml => {
+                        mail
+                            .send({
+                                sendTo: response.emailData.sendTo,
+                                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                                subject: response.emailData.subject,
+                                html: inlinedHtml
+                            })
+                            .catch(mailSendError => reject(mailSendError))
+                            .then(() => resolve(formData));
+                    })
+                    .catch(err => {
+                        return reject(err);
+                    });
+            };
+
+            const emailsToGenerate = [
+                {
+                    name: 'customer',
+                    templateName: 'emails/applicationSummary',
+                    templateData: {
+                        summary: summary,
+                        form: formModel,
+                        data: flatData
+                    },
+                    sendTo: customerEmail,
+                    subject: 'Thank you for getting in touch with the Big Lottery Fund!'
+                },
+                {
+                    name: 'internal',
+                    templateName: 'emails/applicationSummaryInternal',
+                    templateData: {
+                        summary: internalSummary,
+                        form: formModel,
+                        data: flatData
+                    },
+                    sendTo: internalInboxToSendTo,
+                    subject: 'New idea submission from website'
                 }
-            );
+            ];
+
+            const generatedHtmlEmails = emailsToGenerate.map(generateHtml);
+
+            Promise.all(generatedHtmlEmails).then(responses => {
+                const sendEmails = responses.map(sendEmail);
+                Promise.all(sendEmails);
+            });
         });
     }
 });

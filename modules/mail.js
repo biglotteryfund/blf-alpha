@@ -76,6 +76,7 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
                     feature: 'email'
                 }
             });
+            return Promise.reject(error);
         });
     } else {
         debug(`[skipped] sending mail`);
