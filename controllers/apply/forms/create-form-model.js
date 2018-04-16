@@ -113,7 +113,7 @@ function createFormModel({ id, title, shortCode }) {
         },
         orderStepsForInternalUse: function(stepData) {
             // rank steps by their internal order (if provided), falling back to original (source) order
-            const stepGroups = groupBy(stepData, s => (s.internalOrder) ? 'ordered' : 'unordered');
+            const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
             return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
         },
         registerReviewStep: function(review) {
