@@ -30,16 +30,6 @@ function getMetaTitle(base, pageTitle) {
     }
 }
 
-function getHtmlClasses({ locale, highContrast }) {
-    let parts = ['no-js', 'locale--' + locale];
-
-    if (highContrast) {
-        parts.push('contrast--high');
-    }
-
-    return parts.join(' ');
-}
-
 /**
  * buildUrl
  * URL helper, return canonical URL based on sectionName or pageName
@@ -145,13 +135,6 @@ function init(app) {
 
     setViewGlobal('getMetaTitle', getMetaTitle);
 
-    setViewGlobal('getHtmlClasses', () => {
-        return getHtmlClasses({
-            locale: getViewGlobal('locale'),
-            highContrast: getViewGlobal('highContrast')
-        });
-    });
-
     setViewGlobal('anchors', config.get('anchors'));
 
     setViewGlobal('buildUrl', (sectionName, pageName) => {
@@ -192,7 +175,6 @@ module.exports = {
     init,
     buildUrl,
     getCurrentUrl,
-    getHtmlClasses,
     getMetaTitle,
     getCurrentSection
 };
