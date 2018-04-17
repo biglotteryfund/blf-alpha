@@ -17,7 +17,7 @@
             <li>
                 {# High-contrast mode switch #}
                 {% set modeToSwitchTo = 'high' %}
-                {% if highContrast %}
+                {% if isHighContrast %}
                     {% set modeToSwitchTo = 'standard'  %}
                 {% endif %}
                 <a href="/contrast/{{ modeToSwitchTo }}?url={{ getCurrentUrl(request) | urlencode}}"
