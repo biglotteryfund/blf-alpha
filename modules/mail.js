@@ -1,30 +1,18 @@
 'use strict';
-const debug = require('debug')('blf-alpha:mailer');
-const nodemailer = require('nodemailer');
-const config = require('config');
-const path = require('path');
 const AWS = require('aws-sdk');
-const Raven = require('raven');
-const juice = require('juice');
+const config = require('config');
+const debug = require('debug')('blf-alpha:mailer');
 const htmlToText = require('html-to-text');
+const juice = require('juice');
+const nodemailer = require('nodemailer');
+const path = require('path');
+const Raven = require('raven');
 
-const renderHtmlEmail = html => {
-    const options = {
-        webResources: {
-            relativeTo: path.resolve(__dirname, '../public')
-        }
-    };
-    return new Promise((resolve, reject) => {
-        juice.juiceResources(html, options, (err, inlinedHtml) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(inlinedHtml);
-        });
-    });
-};
+const app = require('../server');
 
-// create Nodemailer SES transporter
+/**
+ * Create Nodemailer SES transporter
+ */
 const transport = nodemailer.createTransport({
     SES: new AWS.SES({
         apiVersion: '2010-12-01',
@@ -32,24 +20,78 @@ const transport = nodemailer.createTransport({
     })
 });
 
+function renderHtmlEmail(html) {
+    return new Promise((resolve, reject) => {
+        juice.juiceResources(
+            html,
+            {
+                webResources: {
+                    relativeTo: path.resolve(__dirname, '../public')
+                }
+            },
+            (err, inlinedHtml) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(inlinedHtml);
+            }
+        );
+    });
+}
+
+/**
+ * genarateHtmlEmail
+ *
+ * Given an email schema generate full email HTML
+ * - Render template through express/template-engine
+ * - Generate full emai HTML and return alongside orignal schema
+ *
+ * @param {Object} emailsToGenerate
+ * e.g. {
+ *   name: 'example,
+ *   templateName: 'emails/someTempalte',
+ *   templateData: { … }
+ *   sendTo: 'example@example.com',
+ *   subject: 'The greatest email ever'
+ * ]
+ */
+function genarateHtmlEmail(emailData) {
+    return new Promise((resolve, reject) => {
+        app.render(emailData.templateName, emailData.templateData, (templateErr, html) => {
+            if (templateErr) {
+                reject(templateErr);
+            }
+
+            renderHtmlEmail(html)
+                .then(inlinedHtml => {
+                    resolve({
+                        data: emailData,
+                        html: inlinedHtml
+                    });
+                })
+                .catch(mailErr => {
+                    reject(mailErr);
+                });
+        });
+    });
+}
+
 function shouldSend() {
     return !process.env.DONT_SEND_EMAIL;
 }
 
-const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
-    // default sending is `to` (as opposed to `bcc` etc)
-    if (!sendMode) {
-        sendMode = 'to';
+const send = ({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) => {
+    if (!subject) {
+        throw new Error('Must pass a subject');
     }
 
-    if (!subject && !text && !sendTo) {
-        throw new Error('Must pass a subject, text content and send to address');
+    if (!sendTo) {
+        throw new Error('Must pass a sendTo address');
     }
 
-    let mailOptions = {
+    const mailOptions = {
         from: `Big Lottery Fund <${config.get('emailSender')}>`,
-        subject: subject,
-        text: text
+        subject: subject
     };
 
     if (html) {
@@ -59,6 +101,12 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
             hideLinkHrefIfSameAsText: true,
             ignoreImage: true
         });
+    } else {
+        if (!text) {
+            throw new Error('Must pass text content');
+        }
+
+        mailOptions.text = text;
     }
 
     if (sendFrom) {
@@ -84,8 +132,37 @@ const send = ({ subject, text, sendTo, sendMode, html, sendFrom }) => {
     }
 };
 
+/**
+ * generateAndSend
+ * @param {Array<Object>} emails
+ * e.g. [{
+ *   name: 'example,
+ *   templateName: 'emails/someTempalte',
+ *   templateData: { … }
+ *   sendTo: 'example@example.com',
+ *   subject: 'The greatest email ever'
+ * ]]
+ */
+function generateAndSend(schemas) {
+    const promises = schemas.map(schema => genarateHtmlEmail(schema));
+    return Promise.all(promises).then(emails => {
+        const mailPromises = emails.map(email => {
+            return send({
+                sendTo: email.data.sendTo,
+                sendFrom: email.data.sendFrom,
+                subject: email.data.subject,
+                html: email.html
+            });
+        });
+
+        return Promise.all(mailPromises);
+    });
+}
+
 module.exports = {
-    transport,
+    genarateHtmlEmail,
+    generateAndSend,
+    renderHtmlEmail,
     send,
-    renderHtmlEmail
+    transport
 };

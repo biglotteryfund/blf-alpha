@@ -1,11 +1,10 @@
 const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('./create-form-model');
-const { HUB_EMAILS } = require('../../../modules/secrets');
-const app = require('../../../server');
-const appData = require('../../../modules/appData');
-const mail = require('../../../modules/mail');
+const { createFormModel } = require('./forms/create-form-model');
+const { HUB_EMAILS } = require('../../modules/secrets');
+const appData = require('../../modules/appData');
+const mail = require('../../modules/mail');
 
 const DEFAULT_EMAIL = HUB_EMAILS.england;
 
@@ -242,94 +241,56 @@ formModel.registerSuccessStep({
 `,
     processor: function(formData) {
         const flatData = formModel.getStepValuesFlattened(formData);
-        let internalInboxToSendTo;
+        const summary = formModel.getStepsWithValues(formData);
 
-        if (appData.isNotProduction) {
-            internalInboxToSendTo = process.env.RC_INBOX;
-        } else if (isArray(flatData.location)) {
-            // send multi-region ideas to the global england-wide inbox
-            internalInboxToSendTo = DEFAULT_EMAIL;
-        } else {
-            // find the applicable email for their region
-            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
-            internalInboxToSendTo = get(matchedLocation, 'email', DEFAULT_EMAIL);
-        }
+        /**
+         * Construct a primary address (i.e. customer email)
+         */
+        const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
 
-        return new Promise((resolve, reject) => {
-            const summary = formModel.getStepsWithValues(formData);
-            const internalSummary = formModel.orderStepsForInternalUse(summary);
+        /**
+         * Determine which internal address to send to:
+         * - If in test then send to primaryAddress
+         * - If multi-region, send to defailt/england-wide inbox
+         * - Otherwise send to the matching inbox for the selected region
+         */
+        const internalAddress = (function() {
+            if (appData.isNotProduction) {
+                return primaryAddress;
+            } else if (isArray(flatData.location)) {
+                return DEFAULT_EMAIL;
+            } else {
+                const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
+                return get(matchedLocation, 'email', DEFAULT_EMAIL);
+            }
+        })();
 
-            // construct an email address for the customer
-            const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-
-            // render a string of HTML from the templating engine
-            const generateHtml = emailData => {
-                return new Promise(resolveEmailHtml => {
-                    app.render(emailData.templateName, emailData.templateData, (errorRenderingTemplate, html) => {
-                        if (errorRenderingTemplate) {
-                            // use the parent reject to break out of this promise and show an error
-                            return reject(errorRenderingTemplate);
-                        }
-                        return resolveEmailHtml({
-                            emailData: emailData,
-                            html: html
-                        });
-                    });
-                });
-            };
-
-            // send an email with inlined HTML styles
-            const sendEmail = response => {
-                return mail
-                    .renderHtmlEmail(response.html)
-                    .then(inlinedHtml => {
-                        mail
-                            .send({
-                                sendTo: response.emailData.sendTo,
-                                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                                subject: response.emailData.subject,
-                                html: inlinedHtml
-                            })
-                            .catch(mailSendError => reject(mailSendError))
-                            .then(() => resolve(formData));
-                    })
-                    .catch(err => {
-                        return reject(err);
-                    });
-            };
-
-            const emailsToGenerate = [
-                {
-                    name: 'customer',
-                    templateName: 'emails/applicationSummary',
-                    templateData: {
-                        summary: summary,
-                        form: formModel,
-                        data: flatData
-                    },
-                    sendTo: customerEmail,
-                    subject: 'Thank you for getting in touch with the Big Lottery Fund!'
-                },
-                {
-                    name: 'internal',
-                    templateName: 'emails/applicationSummaryInternal',
-                    templateData: {
-                        summary: internalSummary,
-                        form: formModel,
-                        data: flatData
-                    },
-                    sendTo: internalInboxToSendTo,
-                    subject: 'New idea submission from website'
+        return mail.generateAndSend([
+            {
+                name: 'customer',
+                sendTo: primaryAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                templateName: 'emails/applicationSummary',
+                templateData: {
+                    summary: summary,
+                    form: formModel,
+                    data: flatData
                 }
-            ];
-
-            const generatedHtmlEmails = emailsToGenerate.map(generateHtml);
-
-            Promise.all(generatedHtmlEmails).then(responses => {
-                const sendEmails = responses.map(sendEmail);
-                Promise.all(sendEmails);
-            });
-        });
+            },
+            {
+                name: 'internal',
+                sendTo: internalAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: 'New idea submission from website',
+                templateName: 'emails/applicationSummaryInternal',
+                templateData: {
+                    summary: formModel.orderStepsForInternalUse(summary),
+                    form: formModel,
+                    data: flatData
+                }
+            }
+        ]);
     }
 });
 
