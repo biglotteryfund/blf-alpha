@@ -38,11 +38,12 @@ function getSecret(name) {
 }
 
 const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
-const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
 const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
-const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
+const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
 const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
+const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
 const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
+const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
 const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
 
@@ -61,12 +62,13 @@ module.exports = {
     getSecretFromRawParameters,
     getSecret,
     CONTENT_API_URL,
-    DB_NAME,
     DB_HOST,
-    DB_USER,
+    DB_NAME,
     DB_PASS,
+    DB_USER,
     HUB_EMAILS,
     JWT_SIGNING_TOKEN,
+    MATERIAL_SUPPLIER,
     SENTRY_DSN,
     SESSION_SECRET
 };

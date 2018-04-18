@@ -1,16 +1,16 @@
+const { check, validationResult } = require('express-validator/check');
+const { get, set, some, sumBy, values } = require('lodash');
+const { purify } = require('../../modules/validators');
+const { sanitizeBody } = require('express-validator/filter');
 const flash = require('req-flash');
 const moment = require('moment');
 const Raven = require('raven');
-const { get, set, some, sumBy, values } = require('lodash');
-const { check, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
-const { purify } = require('../../modules/validators');
 
-const app = require('../../server');
+const { errorTranslator } = require('../../modules/validators');
+const { FORM_STATES } = require('../../modules/forms');
+const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
-const { getSecret } = require('../../modules/secrets');
-const { errorTranslator } = require('../../modules/validators');
 const ordersService = require('../../services/orders');
 
 const materials = require('../../config/content/materials.json');
@@ -238,6 +238,33 @@ function modifyItems(req, orderKey, code) {
     }
 }
 
+function storeOrderSummary({ orderItems, orderDetails }) {
+    // format ordered items for database
+    let orderedItems = [];
+    for (let code in orderItems) {
+        if (orderItems[code].quantity > 0) {
+            orderedItems.push({
+                code: code,
+                quantity: orderItems[code].quantity
+            });
+        }
+    }
+
+    // work out the postcode area
+    let postcodeArea = orderDetails.yourPostcode.replace(/ /g, '').toUpperCase();
+    if (postcodeArea.length > 3) {
+        postcodeArea = postcodeArea.slice(0, -3);
+    }
+
+    // save order data to database
+    return ordersService.storeOrder({
+        grantAmount: orderDetails.yourGrantAmount,
+        orderReason: orderDetails.yourReason,
+        postcodeArea: postcodeArea,
+        items: orderedItems
+    });
+}
+
 function init({ router, routeConfig }) {
     router.use(flash());
 
@@ -320,6 +347,26 @@ function init({ router, routeConfig }) {
         };
     };
 
+    function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
+        const lang = req.i18n.__(routeConfig.lang);
+        const orders = get(req.session, materialsOrderKey, {});
+        const numOrders = sumBy(values(orders), order => {
+            return order.quantity;
+        });
+
+        res.render(routeConfig.template, {
+            csrfToken: req.csrfToken(),
+            copy: lang,
+            title: lang.title,
+            description: 'Order items free of charge to acknowledge your grant',
+            materials: availableItems,
+            formFields: materialFields,
+            orders: orders,
+            numOrders: numOrders,
+            orderStatus: status
+        });
+    }
+
     /**
      * Free Materials Order Form
      */
@@ -327,61 +374,70 @@ function init({ router, routeConfig }) {
         .route(routeConfig.path)
         .all(cached.csrfProtection)
         .get((req, res) => {
-            const lang = req.i18n.__(routeConfig.lang);
-            const orderStatus = req.query.status;
-            const orders = get(req.session, materialsOrderKey, {});
-            const numOrders = sumBy(values(orders), order => {
-                return order.quantity;
-            });
-
-            res.render(routeConfig.template, {
-                csrfToken: req.csrfToken(),
-                copy: lang,
-                title: lang.title,
-                description: 'Order items free of charge to acknowledge your grant',
-                materials: availableItems,
-                formFields: materialFields,
-                orders: orders,
-                numOrders: numOrders,
-                orderStatus: orderStatus
-            });
+            renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })
         .post(validators, purify, (req, res) => {
-            // get form errors and translate them
-            const errors = validationResult(req).formatWith(error => {
-                // not every field has a translated error (or an error at all)
-                let isTranslateable = get(error, ['msg', 'translateable'], false);
-                if (!isTranslateable) {
-                    return error;
-                }
-                let errorMsg;
-                let errorParam = error.msg.paramPath ? error.msg.paramPath : false;
+            const errors = validationResult(req);
 
-                // does this translation require a parameter
-                // (which must also be translated)?
-                if (errorParam) {
-                    let paramTranslated = req.i18n.__(error.msg.paramPath);
-                    errorMsg = req.i18n.__(error.msg.errorPath, paramTranslated);
+            if (errors.isEmpty()) {
+                /**
+                 * Allow tests to run without sending email
+                 * this is only used in tests, so we confirm the form data was correct
+                 */
+                if (req.body.skipEmail) {
+                    res.send(req.body);
                 } else {
-                    errorMsg = req.i18n.__(error.msg.errorPath);
+                    // some fields are optional so matchedData misses them here
+                    const details = req.body;
+                    const items = req.session[materialsOrderKey];
+                    const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+                    const orderText = makeOrderText(items, details);
+
+                    storeOrderSummary({
+                        orderItems: items,
+                        orderDetails: details
+                    })
+                        .then(() => {
+                            const customerEmail = mail.generateAndSend([
+                                {
+                                    name: 'customer',
+                                    sendTo: req.body.yourEmail,
+                                    subject: 'Thank you for your Big Lottery Fund order',
+                                    templateName: 'emails/newMaterialOrder',
+                                    templateData: {}
+                                }
+                            ]);
+
+                            const supplierEmail = mail.send({
+                                subject: `Order from Big Lottery Fund website - ${dateNow}`,
+                                text: orderText.text,
+                                sendTo: MATERIAL_SUPPLIER,
+                                sendMode: 'bcc'
+                            });
+
+                            return Promise.all([customerEmail, supplierEmail]).then(() => {
+                                // Clear order details if success
+                                delete req.session[materialsOrderKey];
+                                req.session.save(() => {
+                                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                                });
+                            });
+                        })
+                        .catch(err => {
+                            Raven.captureException(err);
+                            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                        });
                 }
-
-                return Object.assign({}, error, {
-                    msg: errorMsg
-                });
-            });
-
-            if (!errors.isEmpty()) {
+            } else {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
 
                 req.session.save(() => {
                     // build a redirect URL based on the route, the language of items,
                     // and the form anchor, so the user sees the form again via JS
-                    let returnUrl = req.baseUrl + routeConfig.path;
+                    let redirectUrl = req.baseUrl + routeConfig.path;
                     let formAnchor = '#your-details';
                     let langParam = '?lang=';
-                    let redirectUrl = returnUrl;
 
                     // add their langage choice (if valid)
                     let langChoice = req.body.languageChoice;
@@ -400,117 +456,6 @@ function init({ router, routeConfig }) {
 
                     res.redirect(redirectUrl);
                 });
-            } else {
-                /**
-                 * Allow tests to run without sending email
-                 * this is only used in tests, so we confirm the form data was correct
-                 */
-                if (req.body.skipEmail) {
-                    res.send(req.body);
-                } else {
-                    // some fields are optional so matchedData misses them here
-                    const details = req.body;
-                    const items = req.session[materialsOrderKey];
-                    const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
-                    const orderText = makeOrderText(items, details);
-
-                    let sendOrderEmail = mail.send({
-                        subject: `Order from Big Lottery Fund website - ${dateNow}`,
-                        text: orderText.text,
-                        sendTo: process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier'),
-                        sendMode: 'bcc'
-                    });
-
-                    // Email the customer to confirm their order.
-                    // First render a Nunjucks template to a string
-                    app.render('emails/newMaterialOrder', {}, (errorRenderingTemplate, html) => {
-                        if (!errorRenderingTemplate) {
-                            // Next, convert this string into inline-styled HTML
-                            mail
-                                .inlineCss(html)
-                                .then(inlinedHtml => {
-                                    mail.send({
-                                        subject: `Thank you for your Big Lottery Fund order`,
-                                        html: inlinedHtml,
-                                        sendTo: req.body.yourEmail
-                                    });
-                                })
-                                .catch(err => {
-                                    Raven.captureMessage('Error converting template to inline CSS', {
-                                        extra: err,
-                                        tags: {
-                                            feature: 'material-form'
-                                        }
-                                    });
-                                });
-                        }
-                    });
-
-                    const redirectToMessage = status => {
-                        const redirectBase = req.baseUrl + routeConfig.path;
-                        const redirectUrl = status ? `${redirectBase}?status=${status}` : redirectBase;
-
-                        if (status === 'success') {
-                            // Clear order details if success
-                            delete req.session[materialsOrderKey];
-                        }
-
-                        req.session.save(() => {
-                            res.redirect(redirectUrl);
-                        });
-                    };
-
-                    let storeOrderData = (orderItems, orderDetails) => {
-                        // format ordered items for database
-                        let orderedItems = [];
-                        for (let code in orderItems) {
-                            if (orderItems[code].quantity > 0) {
-                                orderedItems.push({
-                                    code: code,
-                                    quantity: orderItems[code].quantity
-                                });
-                            }
-                        }
-
-                        // work out the postcode area
-                        let postcodeArea = orderDetails.yourPostcode.replace(/ /g, '').toUpperCase();
-                        if (postcodeArea.length > 3) {
-                            postcodeArea = postcodeArea.slice(0, -3);
-                        }
-
-                        // save order data to database
-                        return ordersService.storeOrder({
-                            grantAmount: orderDetails.yourGrantAmount,
-                            orderReason: orderDetails.yourReason,
-                            postcodeArea: postcodeArea,
-                            items: orderedItems
-                        });
-                    };
-
-                    sendOrderEmail
-                        .then(() => {
-                            // log this order in the database
-                            storeOrderData(items, orderText.details)
-                                .then(() => {
-                                    redirectToMessage('success');
-                                })
-                                .catch(error => {
-                                    // error storing order data
-                                    Raven.captureMessage('Error logging material order in database', {
-                                        extra: error,
-                                        tags: {
-                                            feature: 'material-form'
-                                        }
-                                    });
-                                    // this error doesn't affect the user so return a success to them
-                                    redirectToMessage('success');
-                                });
-                        })
-                        .catch(() => {
-                            // email to supplier failed to send - prompt user to try again
-                            redirectToMessage('failure');
-                        });
-                }
             }
         });
 }

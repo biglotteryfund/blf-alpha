@@ -242,13 +242,13 @@
     </article>
 
     {# JS-powered overlay #}
-    <div class="overlay{% if orderStatus === 'success' or orderStatus === 'failure' %} overlay--visible{% endif %}" id="js-overlay">
+    <div class="overlay{% if orderStatus === formHelpers.FORM_STATES.SUBMISSION_SUCCESS or orderStatus === formHelpers.FORM_STATES.SUBMISSION_ERROR %} overlay--visible{% endif %}" id="js-overlay">
         <div class="overlay__content">
-            {% if orderStatus == 'success' %}
+            {% if orderStatus == formHelpers.FORM_STATES.SUBMISSION_SUCCESS %}
                 <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
                 <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
                 <p>{{ copy.orderSubmitted.success.body | safe }}</p>
-            {% elseif orderStatus == 'failure' %}
+            {% elseif orderStatus == formHelpers.FORM_STATES.SUBMISSION_ERROR %}
                 <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
                 <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
             {% endif %}
