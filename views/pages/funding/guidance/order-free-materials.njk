@@ -112,134 +112,133 @@
 {% endmacro %}
 
 {% block content %}
-
     {% set pageAccent = 'blue' %}
 
-    {{
-        hero(
-            titleText = title,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
+    <main role="main">
+        {{
+            hero(
+                titleText = title,
+                image = heroImage,
+                accent = pageAccent
+            )
+        }}
 
-    <article role="main" class="nudge-up" id="js-vue" v-cloak>
+        <div class="nudge-up">
+            <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box" id="js-vue" v-cloak>
+                {{ copy.body | safe }}
 
-        <div class="inner--wide-only accent--{{ pageAccent }} a--border-top content-box">
-            {{ copy.body | safe }}
-
-            <p><strong>{{ copy.locationPrompt }}</strong></p>
-            <div>
-                <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
-                    <li class="grid__item">
-                        <a href="#monolingual"
-                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                           v-on:click.prevent="toggleItemLanguage('monolingual')">
-                            {{ copy.locations.monolingual }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="#bilingual"
-                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                           v-on:click.prevent="toggleItemLanguage('bilingual')">
-                            {{ copy.locations.bilingual }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div v-if="itemLanguage !== null">
-
-            <div class="inner">
-
-                {# monolingual items #}
-                <div v-if="itemLanguage === 'monolingual'" id="monolingual">
-                    <h3 class="t2">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
-                    {{ listProducts('monolingual') }}
+                <p><strong>{{ copy.locationPrompt }}</strong></p>
+                <div>
+                    <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
+                        <li class="grid__item">
+                            <a href="#monolingual"
+                            class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
+                            v-on:click.prevent="toggleItemLanguage('monolingual')">
+                                {{ copy.locations.monolingual }}
+                            </a>
+                        </li>
+                        <li class="grid__item">
+                            <a href="#bilingual"
+                            class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
+                            v-on:click.prevent="toggleItemLanguage('bilingual')">
+                                {{ copy.locations.bilingual }}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-
-                {# bilingual items #}
-                <div v-if="itemLanguage === 'bilingual'" id="bilingual">
-                    <h3 class="t2">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
-                    {{ listProducts('bilingual') }}
-                </div>
-
             </div>
 
-            <div class="inner accent--{{ pageAccent }} a--border-top p" id="your-details">
-                <div class="padded">
-                    <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
+            <div v-if="itemLanguage !== null">
 
-                    <form class="inline-form order-form" method="post">
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        <input type="hidden" name="languageChoice" value="" id="js-language-choice">
+                <div class="inner">
 
-                        <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
-                        </div>
+                    {# monolingual items #}
+                    <div v-if="itemLanguage === 'monolingual'" id="monolingual">
+                        <h3 class="t2">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.monolingual }})</noscript></h3>
+                        {{ listProducts('monolingual') }}
+                    </div>
 
-                        <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
-                        </div>
+                    {# bilingual items #}
+                    <div v-if="itemLanguage === 'bilingual'" id="bilingual">
+                        <h3 class="t2">{{ copy.chooseItems }} <noscript>({{ copy.languageOptions.bilingual }})</noscript></h3>
+                        {{ listProducts('bilingual') }}
+                    </div>
 
-                        <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
-                        </div>
+                </div>
 
-                        <div class="grid grid--padded grid-row">
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCountry) }}</div>
-                            <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
-                        </div>
+                <div class="inner accent--{{ pageAccent }} a--border-top p" id="your-details">
+                    <div class="padded">
+                        <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 
+                        <form class="inline-form order-form" method="post">
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                            <input type="hidden" name="languageChoice" value="" id="js-language-choice">
 
-                        {{ textField(formFields.yourProjectName) }}
-
-                        <div class="grid grid--padded grid--top grid-row">
-
-                            <div class="grid__item grid-col-6 grid-col-3--m">
-                                {{ radios(
-                                    fieldName = formFields.yourReason.name,
-                                    label = __(formFields.yourReason.label),
-                                    options = formFields.yourReason.options,
-                                    allowOther = formFields.yourReason.allowOther,
-                                    translateOptionLabels = true,
-                                    required = formFields.yourReason.required
-                                ) }}
+                            <div class="grid grid--padded grid-row">
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
                             </div>
 
-                            <div class="grid__item grid-col-6 grid-col-3--m">
-                                {{ radios(
-                                    fieldName = formFields.yourGrantAmount.name,
-                                    label = __(formFields.yourGrantAmount.label),
-                                    options = formFields.yourGrantAmount.options,
-                                    allowOther = formFields.yourGrantAmount.allowOther,
-                                    translateOptionLabels = true,
-                                    required = formFields.yourGrantAmount.required
-                                ) }}
-
-                                <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                       v-bind:disabled="isEmpty() && {{ numOrders }} === 0"
-                                       value="{{ __('global.forms.submit') }}"
-                                       class="btn accent--turquoise a--btn order-form__btn spaced--t--l"
-                                       id="js-submit-material-order">
+                            <div class="grid grid--padded grid-row">
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
                             </div>
 
-                        </div>
+                            <div class="grid grid--padded grid-row">
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
+                            </div>
 
-                        <h5 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h5>
-                        <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
+                            <div class="grid grid--padded grid-row">
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCountry) }}</div>
+                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
+                            </div>
 
-                    </form>
+
+                            {{ textField(formFields.yourProjectName) }}
+
+                            <div class="grid grid--padded grid--top grid-row">
+
+                                <div class="grid__item grid-col-6 grid-col-3--m">
+                                    {{ radios(
+                                        fieldName = formFields.yourReason.name,
+                                        label = __(formFields.yourReason.label),
+                                        options = formFields.yourReason.options,
+                                        allowOther = formFields.yourReason.allowOther,
+                                        translateOptionLabels = true,
+                                        required = formFields.yourReason.required
+                                    ) }}
+                                </div>
+
+                                <div class="grid__item grid-col-6 grid-col-3--m">
+                                    {{ radios(
+                                        fieldName = formFields.yourGrantAmount.name,
+                                        label = __(formFields.yourGrantAmount.label),
+                                        options = formFields.yourGrantAmount.options,
+                                        allowOther = formFields.yourGrantAmount.allowOther,
+                                        translateOptionLabels = true,
+                                        required = formFields.yourGrantAmount.required
+                                    ) }}
+
+                                    <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
+                                        v-bind:disabled="isEmpty() && {{ numOrders }} === 0"
+                                        value="{{ __('global.forms.submit') }}"
+                                        class="btn accent--turquoise a--btn order-form__btn spaced--t--l"
+                                        id="js-submit-material-order">
+                                </div>
+
+                            </div>
+
+                            <h5 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h5>
+                            <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
+
+                        </form>
+                    </div>
                 </div>
+
             </div>
-
         </div>
-
-    </article>
+    </main>
 
     {# JS-powered overlay #}
     <div class="overlay{% if orderStatus === formHelpers.FORM_STATES.SUBMISSION_SUCCESS or orderStatus === formHelpers.FORM_STATES.SUBMISSION_ERROR %} overlay--visible{% endif %}" id="js-overlay">
