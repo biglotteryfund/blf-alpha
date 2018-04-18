@@ -1,6 +1,6 @@
 const express = require('express');
 const createFormRouter = require('./forms/create-form-router');
-const formModel = require('./forms/reaching-communities-form');
+const formModel = require('./reaching-communities-form');
 
 const router = express.Router();
 

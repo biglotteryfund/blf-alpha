@@ -1,5 +1,5 @@
 const shortid = require('shortid');
-const { find, flatMap, has, get } = require('lodash');
+const { find, flatMap, has, get, sortBy, groupBy } = require('lodash');
 
 /**
  * For a given field attach some additional computed properties
@@ -110,6 +110,11 @@ function createFormModel({ id, title, shortCode }) {
                 }
             }
             return obj;
+        },
+        orderStepsForInternalUse: function(stepData) {
+            // rank steps by their internal order (if provided), falling back to original (source) order
+            const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
+            return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
         },
         registerReviewStep: function(review) {
             reviewStep = review;

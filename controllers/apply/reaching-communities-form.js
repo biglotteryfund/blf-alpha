@@ -1,11 +1,49 @@
 const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('./create-form-model');
-const { HUB_EMAILS } = require('../../../modules/secrets');
-const app = require('../../../server');
-const appData = require('../../../modules/appData');
-const mail = require('../../../modules/mail');
+const { createFormModel } = require('./forms/create-form-model');
+const { HUB_EMAILS } = require('../../modules/secrets');
+const appData = require('../../modules/appData');
+const mail = require('../../modules/mail');
+
+const DEFAULT_EMAIL = HUB_EMAILS.england;
+
+const PROJECT_LOCATIONS = [
+    {
+        label: 'North East & Cumbria',
+        value: 'North East & Cumbria',
+        explanation: 'covering Newcastle, Cumbria and the north-east of England',
+        email: HUB_EMAILS.northEastCumbria
+    },
+    {
+        label: 'North West',
+        value: 'North West',
+        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside',
+        email: HUB_EMAILS.northWest
+    },
+    {
+        label: 'Yorkshire and the Humber',
+        value: 'Yorkshire and the Humber',
+        explanation: 'covering Yorkshire, north and north-east Lincolnshire',
+        email: HUB_EMAILS.yorksHumber
+    },
+    {
+        label: 'South West',
+        value: 'South West',
+        explanation: 'covering Exeter, Bristol and the south-west of England',
+        email: HUB_EMAILS.southWest
+    },
+    {
+        label: 'London, South-East and East of England',
+        value: 'London and South East',
+        email: HUB_EMAILS.londonSouthEast
+    },
+    {
+        label: 'East and West Midlands',
+        value: 'Midlands',
+        email: HUB_EMAILS.midlands
+    }
+];
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -60,47 +98,9 @@ formModel.registerStep({
     ]
 });
 
-const DEFAULT_EMAIL = HUB_EMAILS.england;
-
-const PROJECT_LOCATIONS = [
-    {
-        label: 'North East & Cumbria',
-        value: 'North East & Cumbria',
-        explanation: 'covering Newcastle, Cumbria and the north-east of England',
-        email: HUB_EMAILS.northEastCumbria
-    },
-    {
-        label: 'North West',
-        value: 'North West',
-        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside',
-        email: HUB_EMAILS.northWest
-    },
-    {
-        label: 'Yorkshire and the Humber',
-        value: 'Yorkshire and the Humber',
-        explanation: 'covering Yorkshire, north and north-east Lincolnshire',
-        email: HUB_EMAILS.yorksHumber
-    },
-    {
-        label: 'South West',
-        value: 'South West',
-        explanation: 'covering Exeter, Bristol and the south-west of England',
-        email: HUB_EMAILS.southWest
-    },
-    {
-        label: 'London, South-East and East of England',
-        value: 'London and South East',
-        email: HUB_EMAILS.londonSouthEast
-    },
-    {
-        label: 'East and West Midlands',
-        value: 'Midlands',
-        email: HUB_EMAILS.midlands
-    }
-];
-
 formModel.registerStep({
     name: 'Project location',
+    internalOrder: 3,
     fieldsets: [
         {
             legend: 'Where will your project take place?',
@@ -140,6 +140,7 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your organisation',
+    internalOrder: 2,
     fieldsets: [
         {
             legend: 'Your organisation',
@@ -176,6 +177,7 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your details',
+    internalOrder: 1,
     fieldsets: [
         {
             legend: 'Your details',
@@ -239,67 +241,56 @@ formModel.registerSuccessStep({
 `,
     processor: function(formData) {
         const flatData = formModel.getStepValuesFlattened(formData);
+        const summary = formModel.getStepsWithValues(formData);
 
-        let internalInboxToSendTo;
+        /**
+         * Construct a primary address (i.e. customer email)
+         */
+        const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
 
-        if (isArray(flatData.location)) {
-            // send multi-region ideas to the global england-wide inbox
-            internalInboxToSendTo = DEFAULT_EMAIL;
-        } else {
-            // find the applicable email for their region
-            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
-            internalInboxToSendTo = get(matchedLocation, 'email', DEFAULT_EMAIL);
-        }
+        /**
+         * Determine which internal address to send to:
+         * - If in test then send to primaryAddress
+         * - If multi-region, send to defailt/england-wide inbox
+         * - Otherwise send to the matching inbox for the selected region
+         */
+        const internalAddress = (function() {
+            if (appData.isNotProduction) {
+                return primaryAddress;
+            } else if (isArray(flatData.location)) {
+                return DEFAULT_EMAIL;
+            } else {
+                const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
+                return get(matchedLocation, 'email', DEFAULT_EMAIL);
+            }
+        })();
 
-        return new Promise((resolve, reject) => {
-            const summary = formModel.getStepsWithValues(formData);
-
-            // construct an email address for the customer
-            const customerEmail = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-
-            // add the relevant hub email address
-            const customerPlusHubEmail = [customerEmail].concat(internalInboxToSendTo);
-
-            // only email hubs on production environments
-            const sendTo = appData.isNotProduction ? customerEmail : customerPlusHubEmail;
-            const sendMode = appData.isNotProduction ? 'to' : 'bcc';
-
-            /**
-             * Render a Nunjucks template to a string and
-             * convert the string to inline HTML
-             */
-            app.render(
-                'emails/applicationSummary',
-                {
+        return mail.generateAndSend([
+            {
+                name: 'customer',
+                sendTo: primaryAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                templateName: 'emails/applicationSummary',
+                templateData: {
                     summary: summary,
                     form: formModel,
                     data: flatData
-                },
-                (errorRenderingTemplate, html) => {
-                    if (errorRenderingTemplate) {
-                        return reject(errorRenderingTemplate);
-                    }
-
-                    mail
-                        .renderHtmlEmail(html)
-                        .then(inlinedHtml => {
-                            mail
-                                .send({
-                                    sendTo: sendTo,
-                                    sendMode: sendMode,
-                                    sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                                    subject: `Thank you for getting in touch with the Big Lottery Fund!`,
-                                    html: inlinedHtml
-                                })
-                                .catch(mailSendError => reject(mailSendError))
-                                .then(() => resolve(formData));
-                        })
-                        .catch(err => {
-                            return reject(err);
-                        });
                 }
-            );
-        });
+            },
+            {
+                name: 'internal',
+                sendTo: internalAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: 'New idea submission from website',
+                templateName: 'emails/applicationSummaryInternal',
+                templateData: {
+                    summary: formModel.orderStepsForInternalUse(summary),
+                    form: formModel,
+                    data: flatData
+                }
+            }
+        ]);
     }
 });
 
