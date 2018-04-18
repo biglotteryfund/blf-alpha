@@ -1,4 +1,5 @@
 'use strict';
+
 const AWS = require('aws-sdk');
 const config = require('config');
 const debug = require('debug')('blf-alpha:mailer');
@@ -7,6 +8,7 @@ const juice = require('juice');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const Raven = require('raven');
+const util = require('util');
 
 const app = require('../server');
 
@@ -20,22 +22,17 @@ const transport = nodemailer.createTransport({
     })
 });
 
-function renderHtmlEmail(html) {
-    return new Promise((resolve, reject) => {
-        juice.juiceResources(
-            html,
-            {
-                webResources: {
-                    relativeTo: path.resolve(__dirname, '../public')
-                }
-            },
-            (err, inlinedHtml) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(inlinedHtml);
-            }
-        );
+/**
+ * inlineCss
+ * Wrapper around juice, inline external CSS into provided HTML
+ * @param {String} html
+ */
+function inlineCss(html) {
+    const juiceResources = util.promisify(juice.juiceResources);
+    return juiceResources(html, {
+        webResources: {
+            relativeTo: path.resolve(__dirname, '../public')
+        }
     });
 }
 
@@ -43,8 +40,8 @@ function renderHtmlEmail(html) {
  * genarateHtmlEmail
  *
  * Given an email schema generate full email HTML
- * - Render template through express/template-engine
- * - Generate full emai HTML and return alongside orignal schema
+ * - Render template through express / template engine
+ * - Generate full email HTML and return alongside the original schema
  *
  * @param {Object} emailsToGenerate
  * e.g. {
@@ -56,23 +53,12 @@ function renderHtmlEmail(html) {
  * ]
  */
 function genarateHtmlEmail(emailData) {
-    return new Promise((resolve, reject) => {
-        app.render(emailData.templateName, emailData.templateData, (templateErr, html) => {
-            if (templateErr) {
-                reject(templateErr);
-            }
-
-            renderHtmlEmail(html)
-                .then(inlinedHtml => {
-                    resolve({
-                        data: emailData,
-                        html: inlinedHtml
-                    });
-                })
-                .catch(mailErr => {
-                    reject(mailErr);
-                });
-        });
+    const appRender = util.promisify(app.render.bind(app));
+    return appRender(emailData.templateName, emailData.templateData).then(html => {
+        return inlineCss(html).then(inlinedHtml => ({
+            data: emailData,
+            html: inlinedHtml
+        }));
     });
 }
 
@@ -80,7 +66,7 @@ function shouldSend() {
     return !process.env.DONT_SEND_EMAIL;
 }
 
-const send = ({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) => {
+function send({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
     if (!subject) {
         throw new Error('Must pass a subject');
     }
@@ -130,7 +116,7 @@ const send = ({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) => {
         debug(`[skipped] sending mail`);
         return Promise.resolve(mailOptions);
     }
-};
+}
 
 /**
  * generateAndSend
@@ -162,7 +148,7 @@ function generateAndSend(schemas) {
 module.exports = {
     genarateHtmlEmail,
     generateAndSend,
-    renderHtmlEmail,
+    inlineCss,
     send,
     transport
 };
