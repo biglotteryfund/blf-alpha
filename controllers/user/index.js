@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const flash = require('req-flash');
 
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
@@ -13,7 +14,7 @@ const { userBasePath, userEndpoints, emailPasswordValidations, formValidations }
 
 const router = express.Router();
 
-router.use(toolsSecurityHeaders());
+router.use(toolsSecurityHeaders(), flash());
 
 // serve a logged-in user's dashboard
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
@@ -28,8 +29,9 @@ router
 // login users
 router
     .route(userEndpoints.login)
-    .get(auth.requireUnauthed, cached.csrfProtection, login.loginForm)
-    .post(cached.csrfProtection, login.attemptAuth);
+    .all(cached.csrfProtection)
+    .get(auth.requireUnauthed, login.loginForm)
+    .post(login.attemptAuth);
 
 // logout users
 router.get(userEndpoints.logout, cached.noCache, (req, res) => {

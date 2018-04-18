@@ -1,6 +1,7 @@
-const Raven = require('raven');
+const flash = require('req-flash');
 const moment = require('moment');
-const { get, set, some } = require('lodash');
+const Raven = require('raven');
+const { get, set, some, sumBy, values } = require('lodash');
 const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 const { purifyUserInput } = require('../../modules/validators');
@@ -238,6 +239,8 @@ function modifyItems(req, orderKey, code) {
 }
 
 function init({ router, routeConfig }) {
+    router.use(flash());
+
     // handle adding/removing items
     router
         .route(routeConfig.path + '/item/:id')

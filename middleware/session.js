@@ -1,11 +1,11 @@
-const cookieParser = require('cookie-parser');
 const config = require('config');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const flash = require('req-flash');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const models = require('../models');
+
 const { SESSION_SECRET } = require('../modules/secrets');
 const appData = require('../modules/appData');
+const models = require('../models');
 
 module.exports = function(app) {
     if (!appData.isDev) {
@@ -32,5 +32,5 @@ module.exports = function(app) {
         store: store
     };
 
-    return [cookieParser(SESSION_SECRET), session(sessionConfig), flash()];
+    return [cookieParser(SESSION_SECRET), session(sessionConfig)];
 };

@@ -24,13 +24,6 @@ module.exports = function(app) {
         // get a11y contrast preferences
         let contrastPref = req.cookies[config.get('cookies.contrast')];
         res.locals.isHighContrast = contrastPref && contrastPref === 'high';
-
-        if (req.flash('showOverlay')) {
-            setViewGlobal('showOverlay', true);
-        } else {
-            setViewGlobal('showOverlay', false);
-        }
-
         next();
     }
 
