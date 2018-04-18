@@ -1,12 +1,22 @@
 'use strict';
 
-const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
+const { mapValues } = require('lodash');
+const createDOMPurify = require('dompurify');
+
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
 function purifyUserInput(input) {
     return DOMPurify.sanitize(input);
+}
+
+/**
+ * Middleware wrapper around purifyUserInput
+ */
+function purify(req, res, next) {
+    req.body = mapValues(req.body, purifyUserInput);
+    next();
 }
 
 function errorTranslator(prefix) {
@@ -21,5 +31,6 @@ function errorTranslator(prefix) {
 
 module.exports = {
     errorTranslator,
-    purifyUserInput
+    purifyUserInput,
+    purify
 };

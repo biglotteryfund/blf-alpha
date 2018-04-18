@@ -4,7 +4,7 @@ const Raven = require('raven');
 const { get, set, some, sumBy, values } = require('lodash');
 const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
-const { purifyUserInput } = require('../../modules/validators');
+const { purify } = require('../../modules/validators');
 
 const app = require('../../server');
 const cached = require('../../middleware/cached');
@@ -324,44 +324,29 @@ function init({ router, routeConfig }) {
      * Free Materials Order Form
      */
     router
-        .route([routeConfig.path])
-        .get(cached.csrfProtection, (req, res) => {
-            let orderStatus;
+        .route(routeConfig.path)
+        .all(cached.csrfProtection)
+        .get((req, res) => {
+            const lang = req.i18n.__(routeConfig.lang);
+            const orderStatus = req.query.status;
+            const orders = get(req.session, materialsOrderKey, {});
+            const numOrders = sumBy(values(orders), order => {
+                return order.quantity;
+            });
 
-            // clear order details if it succeeded
-            if (req.flash('materialFormSuccess')) {
-                orderStatus = 'success';
-                delete req.session[materialsOrderKey];
-            } else if (req.flash('materialFormError')) {
-                orderStatus = 'fail';
-            }
-
-            let lang = req.i18n.__(routeConfig.lang);
-            let orders = req.session[materialsOrderKey];
-            let numOrders = 0;
-            if (orders) {
-                for (let o in orders) {
-                    numOrders += orders[o].quantity;
-                }
-            }
             res.render(routeConfig.template, {
-                title: lang.title,
+                csrfToken: req.csrfToken(),
                 copy: lang,
+                title: lang.title,
                 description: 'Order items free of charge to acknowledge your grant',
                 materials: availableItems,
                 formFields: materialFields,
                 orders: orders,
                 numOrders: numOrders,
-                orderStatus: orderStatus,
-                csrfToken: req.csrfToken()
+                orderStatus: orderStatus
             });
         })
-        .post(validators, cached.csrfProtection, (req, res) => {
-            // sanitise input
-            for (let key in req.body) {
-                req.body[key] = purifyUserInput(req.body[key]);
-            }
-
+        .post(validators, purify, (req, res) => {
             // get form errors and translate them
             const errors = validationResult(req).formatWith(error => {
                 // not every field has a translated error (or an error at all)
@@ -461,10 +446,17 @@ function init({ router, routeConfig }) {
                         }
                     });
 
-                    let redirectToMessage = () => {
-                        req.flash('showOverlay', true);
+                    const redirectToMessage = status => {
+                        const redirectBase = req.baseUrl + routeConfig.path;
+                        const redirectUrl = status ? `${redirectBase}?status=${status}` : redirectBase;
+
+                        if (status === 'success') {
+                            // Clear order details if success
+                            delete req.session[materialsOrderKey];
+                        }
+
                         req.session.save(() => {
-                            res.redirect(req.baseUrl + routeConfig.path);
+                            res.redirect(redirectUrl);
                         });
                     };
 
@@ -500,9 +492,7 @@ function init({ router, routeConfig }) {
                             // log this order in the database
                             storeOrderData(items, orderText.details)
                                 .then(() => {
-                                    // successfully stored order data
-                                    req.flash('materialFormSuccess', true);
-                                    redirectToMessage();
+                                    redirectToMessage('success');
                                 })
                                 .catch(error => {
                                     // error storing order data
@@ -513,14 +503,12 @@ function init({ router, routeConfig }) {
                                         }
                                     });
                                     // this error doesn't affect the user so return a success to them
-                                    req.flash('materialFormSuccess', true);
-                                    redirectToMessage();
+                                    redirectToMessage('success');
                                 });
                         })
                         .catch(() => {
                             // email to supplier failed to send - prompt user to try again
-                            req.flash('materialFormError', true);
-                            redirectToMessage();
+                            redirectToMessage('failure');
                         });
                 }
             }
