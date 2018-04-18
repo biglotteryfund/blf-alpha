@@ -439,7 +439,7 @@ function init({ router, routeConfig }) {
                         if (!errorRenderingTemplate) {
                             // Next, convert this string into inline-styled HTML
                             mail
-                                .renderHtmlEmail(html)
+                                .inlineCss(html)
                                 .then(inlinedHtml => {
                                     mail.send({
                                         subject: `Thank you for your Big Lottery Fund order`,
