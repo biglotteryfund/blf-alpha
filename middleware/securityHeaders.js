@@ -12,6 +12,7 @@ function withDefaultDirectives(directives) {
 
     const fullDirectives = {
         defaultSrc: defaultSrc,
+        baseUri: ["'self'"],
         childSrc: concat(defaultSrc, directive('childSrc')),
         styleSrc: concat(defaultSrc, ["'unsafe-inline'"], directive('styleSrc')),
         connectSrc: concat(defaultSrc, directive('connectSrc')),
