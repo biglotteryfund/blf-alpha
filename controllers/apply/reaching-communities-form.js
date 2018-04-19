@@ -222,6 +222,19 @@ formModel.registerStep({
                             .isEmail()
                             .withMessage('Please provide a valid email address');
                     }
+                },
+                {
+                    type: 'text',
+                    name: 'phone-number',
+                    label: 'Phone number',
+                    isRequired: true,
+                    validator: function(field) {
+                        return check(field.name)
+                            .trim()
+                            .not()
+                            .isEmpty()
+                            .withMessage('Please provide a contact telephone number');
+                    }
                 }
             ]
         }
