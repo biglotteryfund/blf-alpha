@@ -21,6 +21,7 @@ const { serveRedirects } = require('./modules/redirects');
 const routes = require('./controllers/routes');
 
 const favicon = require('serve-favicon');
+const timingsMiddleware = require('./middleware/timings');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
 const loggerMiddleware = require('./middleware/logger');
@@ -52,14 +53,6 @@ Raven.config(SENTRY_DSN, {
 
 app.use(Raven.requestHandler());
 
-/**
- * Set static app locals
- */
-app.locals.navigationSections = routes.sections;
-
-viewEngineService.init(app);
-viewGlobalsService.init(app);
-
 app.use(loggerMiddleware);
 app.use(cachedMiddleware.defaultVary);
 app.use(cachedMiddleware.defaultCacheControl);
@@ -72,6 +65,15 @@ app.use(
     })
 );
 
+/**
+ * Set static app locals
+ */
+app.locals.navigationSections = routes.sections;
+
+viewEngineService.init(app);
+viewGlobalsService.init(app);
+
+app.use(timingsMiddleware);
 app.use(previewMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
