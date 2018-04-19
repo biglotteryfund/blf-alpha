@@ -287,8 +287,9 @@ input[type="search"] {
    Custom Form: Free Materials
    ========================================================================= */
 
-.inline-form {
-    input {
+.form-materials {
+    input[type="text"],
+    input[type="email"] {
         display: block;
         width: 100%;
         padding: 10px;
@@ -307,6 +308,14 @@ input[type="search"] {
         }
     }
 
+    input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+    }
+
     input[type='submit'] {
         display: block;
         width: 100%;
@@ -318,10 +327,6 @@ input[type="search"] {
         display: inline-block;
     }
 
-    .label-radio {
-        font-weight: bold;
-    }
-
     .label-radio,
     .label-radio__item {
         font-size: 16px;
@@ -329,7 +334,10 @@ input[type="search"] {
         margin-bottom: $spacingUnit;
     }
 
-    label.form-fund__item {
-        @extend .u-visually-hidden;
+
+    &:invalid {
+        input[type="submit"] {
+            @include disabledBtn();
+        }
     }
 }
