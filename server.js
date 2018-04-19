@@ -11,13 +11,13 @@ if (appData.isDev) {
 }
 
 const { SENTRY_DSN } = require('./modules/secrets');
-const { cymreigio, makeWelsh } = require('./modules/urls');
+const { cymreigio } = require('./modules/urls');
 const viewEngineService = require('./modules/viewEngine');
 const viewGlobalsService = require('./modules/viewGlobals');
 const { shouldServe } = require('./modules/pageLogic');
-const { proxyPassthrough, postToLegacyForm, redirectUglyLink } = require('./modules/legacy');
+const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
-const { serveRedirects, redirectArchived, redirectNoWelsh } = require('./modules/redirects');
+const { serveRedirects } = require('./modules/redirects');
 const routes = require('./controllers/routes');
 
 const favicon = require('serve-favicon');
@@ -77,7 +77,7 @@ app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(redirectsMiddleware.all);
+app.use(redirectsMiddleware.common);
 app.use(localesMiddleware(app));
 
 // Mount load balancer status route
@@ -131,15 +131,8 @@ serveRedirects({
  * Redirect to the National Archvies
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(route.path, noCache, redirectArchived);
-    app.get(makeWelsh(route.path), noCache, redirectArchived);
+    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
 });
-
-/**
- * Sitecore links
- * Redirect all bad link aliases to their canonical equivalents
- */
-app.get('*~/link.aspx', redirectUglyLink);
 
 /**
  * Error route
@@ -165,7 +158,7 @@ app.get('/error-unauthorised', (req, res) => {
 app
     .route('*')
     .all(stripCSPHeader)
-    .get(proxyPassthrough, redirectNoWelsh)
+    .get(proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
 
 /**

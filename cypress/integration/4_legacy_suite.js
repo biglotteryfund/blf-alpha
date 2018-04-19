@@ -44,12 +44,12 @@ describe('Legacy pages', () => {
         const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
         cy.checkRedirect({
             from: urlPath,
-            to: `http://webarchive.nationalarchives.gov.uk/*/https://www.biglotteryfund.org.uk${urlPath}`,
+            to: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`,
             isRelative: false
         });
     });
 
-    it('Should redirect ~/link.aspx urls', () => {
+    it('should redirect ~/link.aspx urls', () => {
         cy.checkRedirect({
             from: '/~/link.aspx?_id=50fab7d4b5a248f8a8c8f5d4d33f9e0f&_z=z',
             to: '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'

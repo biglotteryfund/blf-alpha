@@ -5,7 +5,7 @@ const expect = chai.expect;
 
 const { getCachebustedPath, getCachebustedRealPath, getImagePath } = require('./assets');
 
-describe.only('assets', () => {
+describe('assets', () => {
     it('should get cachebusted url path for an asset', () => {
         const result = getCachebustedPath('stylesheets/style.css');
         expect(result).to.match(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
