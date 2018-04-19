@@ -1,8 +1,6 @@
 'use strict';
-const config = require('config');
 const app = require('../server');
-const { customEvent } = require('../modules/analytics');
-const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
+const { makeWelsh } = require('../modules/urls');
 
 function serveRedirects({ redirects, makeBilingual = false }) {
     redirects.forEach(redirect => {
@@ -18,25 +16,6 @@ function serveRedirects({ redirects, makeBilingual = false }) {
     });
 }
 
-/**
- * Redirect archived links to the national archives
- */
-function redirectArchived(req, res) {
-    const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
-    customEvent('redirect', 'National Archives', req.originalUrl);
-    res.redirect(301, `http://webarchive.nationalarchives.gov.uk/*/${fullUrl}`);
-}
-
-function redirectNoWelsh(req, res, next) {
-    if (isWelsh(req.originalUrl)) {
-        res.redirect(removeWelsh(req.originalUrl));
-    } else {
-        next();
-    }
-}
-
 module.exports = {
-    serveRedirects,
-    redirectArchived,
-    redirectNoWelsh
+    serveRedirects
 };
