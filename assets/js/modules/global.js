@@ -13,13 +13,6 @@ function initToggleMobileNav() {
     });
 }
 
-function initOverlays() {
-    // show/hide overlay pane
-    $('#js-close-overlay').on('click', () => {
-        $('#js-overlay').hide();
-    });
-}
-
 function initFitVids() {
     fitvids('.video-container');
 }
@@ -37,7 +30,6 @@ function initContentTweaks() {
 
 function init() {
     initToggleMobileNav();
-    initOverlays();
     initFitVids();
     initContentTweaks();
 }
