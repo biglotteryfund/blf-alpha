@@ -57,13 +57,13 @@ app.use(loggerMiddleware);
 app.use(cachedMiddleware.defaultVary);
 app.use(cachedMiddleware.defaultCacheControl);
 
+/**
+ * Static asset paths
+ * Mount early to avoid being processed by any middleware
+ * @see https://expressjs.com/en/4x/api.html#express.static
+ */
 app.use(favicon(path.join('public', '/favicon.ico')));
-app.use(
-    `/${config.get('assetVirtualDir')}`,
-    express.static(path.join(__dirname, './public'), {
-        maxAge: config.get('staticExpiration')
-    })
-);
+app.use('/assets', express.static(path.join(__dirname, './public')));
 
 /**
  * Set static app locals
