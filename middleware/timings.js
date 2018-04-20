@@ -12,38 +12,42 @@ module.exports = responseTime(function(req, res, time) {
     }
 
     if (req.method === 'GET') {
-        cloudwatch.putMetricData({
-            MetricData: [
-                {
-                    MetricName: 'RESPONSE_TIME_GET',
-                    Dimensions: [
-                        {
-                            Name: 'RESPONSE_TIME',
-                            Value: 'TIME_IN_MS'
-                        }
-                    ],
-                    Unit: 'Milliseconds',
-                    Value: time
-                }
-            ],
-            Namespace: 'SITE/TRAFFIC'
-        });
+        cloudwatch
+            .putMetricData({
+                MetricData: [
+                    {
+                        MetricName: 'RESPONSE_TIME_GET',
+                        Dimensions: [
+                            {
+                                Name: 'RESPONSE_TIME',
+                                Value: 'TIME_IN_MS'
+                            }
+                        ],
+                        Unit: 'Milliseconds',
+                        Value: time
+                    }
+                ],
+                Namespace: 'SITE/TRAFFIC'
+            })
+            .send();
     } else if (req.method === 'POST') {
-        cloudwatch.putMetricData({
-            MetricData: [
-                {
-                    MetricName: 'RESPONSE_TIME_POST',
-                    Dimensions: [
-                        {
-                            Name: 'RESPONSE_TIME',
-                            Value: 'TIME_IN_MS'
-                        }
-                    ],
-                    Unit: 'Milliseconds',
-                    Value: time
-                }
-            ],
-            Namespace: 'SITE/TRAFFIC'
-        });
+        cloudwatch
+            .putMetricData({
+                MetricData: [
+                    {
+                        MetricName: 'RESPONSE_TIME_POST',
+                        Dimensions: [
+                            {
+                                Name: 'RESPONSE_TIME',
+                                Value: 'TIME_IN_MS'
+                            }
+                        ],
+                        Unit: 'Milliseconds',
+                        Value: time
+                    }
+                ],
+                Namespace: 'SITE/TRAFFIC'
+            })
+            .send();
     }
 });
