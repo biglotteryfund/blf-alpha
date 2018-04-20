@@ -7,7 +7,7 @@ AWS.config.update({ region: 'eu-west-1' });
 const cloudwatch = new AWS.CloudWatch({ apiVersion: '2010-08-01' });
 
 module.exports = responseTime(function(req, res, time) {
-    if (appData.isDev) {
+    if (appData.isNotProduction) {
         return;
     }
 

@@ -1,6 +1,4 @@
 {
-    "staticExpiration": 1,
-    "assetVirtualDir": "assets",
     "siteDomain": "www.biglotteryfund.org.uk",
     "meta": {
         "title": "The Big Lottery Fund",
@@ -16,8 +14,7 @@
       "useRemoteAssets": true
     },
     "imgix": {
-      "mediaDomain": "biglotteryfund-assets.imgix.net",
-      "mediaDomainOriginal": "big-lottery-fund-media-trial.imgix.net"
+      "mediaDomain": "biglotteryfund-assets.imgix.net"
     },
     "cookies": {
         "contrast": "contrastMode",
