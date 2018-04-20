@@ -24,6 +24,7 @@ describe('Application tests', function() {
         cy.get('#field-first-name').type('Anne');
         cy.get('#field-last-name').type('Example');
         cy.get('#field-email').type('example@example.com');
+        cy.get('#field-phone-number').type('0123456789');
         cy.get(submitSelector).click();
 
         // Review
