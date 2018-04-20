@@ -2,8 +2,8 @@
 const express = require('express');
 const app = (module.exports = express());
 const path = require('path');
-const config = require('config');
 const Raven = require('raven');
+const favicon = require('serve-favicon');
 
 const appData = require('./modules/appData');
 if (appData.isDev) {
@@ -20,23 +20,21 @@ const { renderError, renderNotFound, renderUnauthorised } = require('./controlle
 const { serveRedirects } = require('./modules/redirects');
 const routes = require('./controllers/routes');
 
-const favicon = require('serve-favicon');
-const timingsMiddleware = require('./middleware/timings');
+const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
+const localesMiddleware = require('./middleware/locales');
 const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
-const redirectsMiddleware = require('./middleware/redirects');
-const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
-const sessionMiddleware = require('./middleware/session');
-const localesMiddleware = require('./middleware/locales');
-const { noCache } = require('./middleware/cached');
 const previewMiddleware = require('./middleware/preview');
+const redirectsMiddleware = require('./middleware/redirects');
+const sessionMiddleware = require('./middleware/session');
+const timingsMiddleware = require('./middleware/timings');
 
 /**
  * Configure Sentry client
- * https://docs.sentry.io/clients/node/config/
- * https://docs.sentry.io/clients/node/usage/#disable-raven
+ * @see https://docs.sentry.io/clients/node/config/
  */
 Raven.config(SENTRY_DSN, {
     environment: appData.environment,
@@ -53,9 +51,11 @@ Raven.config(SENTRY_DSN, {
 
 app.use(Raven.requestHandler());
 
-app.use(loggerMiddleware);
-app.use(cachedMiddleware.defaultVary);
-app.use(cachedMiddleware.defaultCacheControl);
+/**
+ * Status endpoint
+ * Mount early to avoid being processed by any middleware
+ */
+app.get('/status', require('./controllers/toplevel/status'));
 
 /**
  * Static asset paths
@@ -66,14 +66,38 @@ app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
 /**
- * Set static app locals
+ * Define common app locals
+ * @see https://expressjs.com/en/api.html#app.locals
  */
-app.locals.navigationSections = routes.sections;
+function initAppLocals() {
+    /**
+     * Is this page bilingual?
+     * i.e. do we have a Welsh translation
+     * Default to true unless overriden by a route
+     */
+    app.locals.isBilingual = true;
 
+    /**
+     * Navigation sections for top-level nav
+     */
+    app.locals.navigationSections = routes.sections;
+}
+
+initAppLocals();
+
+/**
+ * Configure views
+ */
 viewEngineService.init(app);
 viewGlobalsService.init(app);
 
+/**
+ * Register global middlewares
+ */
 app.use(timingsMiddleware);
+app.use(cachedMiddleware.defaultVary);
+app.use(cachedMiddleware.defaultCacheControl);
+app.use(loggerMiddleware);
 app.use(previewMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
@@ -81,9 +105,6 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
 app.use(localesMiddleware(app));
-
-// Mount load balancer status route
-app.get('/status', require('./controllers/toplevel/status'));
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));

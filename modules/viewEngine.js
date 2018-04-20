@@ -7,19 +7,6 @@ const assets = require('./assets');
 const appData = require('./appData');
 
 /**
- * Define common app locals
- * @see https://expressjs.com/en/api.html#app.locals
- */
-function initAppLocals(app) {
-    /**
-     * Is this page bilingual?
-     * i.e. do we have a Welsh translation
-     * Default to true unless overriden by a route
-     */
-    app.locals.isBilingual = true;
-}
-
-/**
  * Add custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
@@ -85,8 +72,6 @@ function initFilters(templateEnv) {
 }
 
 function init(app) {
-    initAppLocals(app);
-
     const templateEnv = nunjucks.configure('views', {
         autoescape: true,
         express: app,
