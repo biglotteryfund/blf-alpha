@@ -11,7 +11,14 @@
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="u-constrained-content">
-                <h1 class="t1">{{ stepConfig.title }}</h1>
+                <div class="form-header">
+                    <h1 class="form-header__title">{{ form.title }}</h1>
+                    <h2 class="form-header__subtitle">
+                        Step {{ currentStepNumber }} of {{ totalSteps }}
+                    </h2>
+                    <h3 class="t2 spaced--t spaced--l">{{ stepConfig.title }}</h3>
+                </div>
+
                 {% for step in summary %}
                     <h2 class="t2 t--underline accent--{{ pageAccent }}">
                         {{ step.name }}

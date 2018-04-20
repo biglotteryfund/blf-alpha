@@ -6,6 +6,7 @@ const cached = require('../../../middleware/cached');
 
 module.exports = function(router, formModel) {
     const formSteps = formModel.getSteps();
+    const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
     function getFormSession(req, step) {
         return get(req.session, formModel.getSessionProp(step), {});
@@ -40,7 +41,7 @@ module.exports = function(router, formModel) {
                 step: step.withValues(stepData),
                 prevStepUrl: prevStepUrl(req.baseUrl),
                 currentStepNumber: currentStepNumber,
-                totalSteps: formSteps.length,
+                totalSteps: totalSteps,
                 errors: errors
             });
         }
@@ -90,6 +91,8 @@ module.exports = function(router, formModel) {
                     csrfToken: req.csrfToken(),
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
+                    currentStepNumber: totalSteps,
+                    totalSteps: totalSteps,
                     summary: formModel.getStepsWithValues(formData),
                     baseUrl: req.baseUrl
                 });
