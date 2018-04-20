@@ -19,7 +19,7 @@ export const FEATURES = [
     createFeature({
         id: 'review-abandonment-message',
         description: 'Show abandonment message on the review step',
-        isEnabled: window.AppConfig.isNotProduction
+        isEnabled: true
     })
 ];
 
