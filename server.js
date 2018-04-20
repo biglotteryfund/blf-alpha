@@ -1,11 +1,15 @@
 'use strict';
+const { forEach } = require('lodash');
 const express = require('express');
-const app = (module.exports = express());
+const favicon = require('serve-favicon');
 const path = require('path');
 const Raven = require('raven');
-const favicon = require('serve-favicon');
+
+const app = express();
+module.exports = app;
 
 const appData = require('./modules/appData');
+
 if (appData.isDev) {
     require('dotenv').config();
 }
@@ -115,21 +119,18 @@ app.use(cymreigio('/apply'), require('./controllers/apply'));
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));
 
-// route binding
-for (let sectionId in routes.sections) {
-    let s = routes.sections[sectionId];
-    // turn '/funding' into ['/funding', '/welsh/funding']
-    let sectionPaths = cymreigio(s.path);
-    // init route controller for each page path
-    if (s.controller) {
-        let controller = s.controller(s.pages, s.path, sectionId);
-        // map the top-level section paths (en/cy) to controllers
-        sectionPaths.forEach(urlPath => {
-            // (adding these as an array fails for welsh paths)
+/**
+ * Section routes
+ * Initialise core application routes
+ */
+forEach(routes.sections, (section, sectionId) => {
+    if (section.controller) {
+        const controller = section.controller(section.pages, section.path, sectionId);
+        cymreigio(section.path).forEach(urlPath => {
             app.use(urlPath, controller);
         });
     }
-}
+});
 
 /**
  * Legacy Redirects
@@ -192,12 +193,10 @@ app.use((req, res) => {
     renderNotFound(req, res);
 });
 
-app.use(Raven.errorHandler());
-
 /**
  * Global error handler
  */
-app.use((err, req, res, next) => {
+app.use(Raven.errorHandler(), (err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
     }
