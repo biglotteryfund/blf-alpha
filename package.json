@@ -110,6 +110,7 @@
     "req-flash": "0.0.3",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
+    "response-time": "^2.3.2",
     "sequelize": "^4.8.0",
     "serve-favicon": "^2.4.3",
     "shortid": "^2.2.8",
