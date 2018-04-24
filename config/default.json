@@ -1,4 +1,7 @@
 {
+    "aws": {
+      "region": "eu-west-1"
+    },
     "siteDomain": "www.biglotteryfund.org.uk",
     "meta": {
         "title": "The Big Lottery Fund",

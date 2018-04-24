@@ -1,10 +1,12 @@
 const AWS = require('aws-sdk');
+const config = require('config');
 const responseTime = require('response-time');
 const appData = require('../modules/appData');
 
-AWS.config.update({ region: 'eu-west-1' });
-
-const cloudwatch = new AWS.CloudWatch({ apiVersion: '2010-08-01' });
+const cloudwatch = new AWS.CloudWatch({
+    apiVersion: '2010-08-01',
+    region: config.get('aws.region')
+});
 
 module.exports = responseTime(function(req, res, time) {
     if (appData.isNotProduction) {

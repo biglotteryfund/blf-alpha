@@ -115,6 +115,7 @@ const sendResetEmail = (req, res) => {
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
                     let sendEmail = mail.send({
+                        name: 'user_password_reset',
                         subject: 'Reset the password for your Big Lottery Fund website account',
                         text: `Please click the following link to reset your password: ${resetUrl}`,
                         sendTo: email,

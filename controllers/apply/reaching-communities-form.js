@@ -280,7 +280,7 @@ formModel.registerSuccessStep({
 
         return mail.generateAndSend([
             {
-                name: 'customer',
+                name: 'reaching_communities_customer',
                 sendTo: primaryAddress,
                 sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
                 subject: 'Thank you for getting in touch with the Big Lottery Fund!',
@@ -292,7 +292,7 @@ formModel.registerSuccessStep({
                 }
             },
             {
-                name: 'internal',
+                name: 'reaching_communities_internal',
                 sendTo: internalAddress,
                 sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
                 subject: 'New idea submission from website',
