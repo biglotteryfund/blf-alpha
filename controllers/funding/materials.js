@@ -400,7 +400,7 @@ function init({ router, routeConfig }) {
                         .then(() => {
                             const customerEmail = mail.generateAndSend([
                                 {
-                                    name: 'customer',
+                                    name: 'material_customer',
                                     sendTo: req.body.yourEmail,
                                     subject: 'Thank you for your Big Lottery Fund order',
                                     templateName: 'emails/newMaterialOrder',
@@ -409,6 +409,7 @@ function init({ router, routeConfig }) {
                             ]);
 
                             const supplierEmail = mail.send({
+                                name: 'material_supplier',
                                 subject: `Order from Big Lottery Fund website - ${dateNow}`,
                                 text: orderText.text,
                                 sendTo: MATERIAL_SUPPLIER,

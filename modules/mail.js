@@ -10,17 +10,25 @@ const path = require('path');
 const Raven = require('raven');
 const util = require('util');
 
+const appData = require('./appData');
 const app = require('../server');
+
+const AWS_REGION = config.get('aws.region');
+
+const SES = new AWS.SES({
+    apiVersion: '2010-12-01',
+    region: AWS_REGION
+});
+
+const CloudWatch = new AWS.CloudWatch({
+    apiVersion: '2010-08-01',
+    region: AWS_REGION
+});
 
 /**
  * Create Nodemailer SES transporter
  */
-const transport = nodemailer.createTransport({
-    SES: new AWS.SES({
-        apiVersion: '2010-12-01',
-        region: 'eu-west-1'
-    })
-});
+const transport = nodemailer.createTransport({ SES });
 
 /**
  * inlineCss
@@ -66,7 +74,11 @@ function shouldSend() {
     return !process.env.DONT_SEND_EMAIL;
 }
 
-function send({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
+function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
+    if (!name) {
+        throw new Error('Must pass a name');
+    }
+
     if (!subject) {
         throw new Error('Must pass a subject');
     }
@@ -103,15 +115,41 @@ function send({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
 
     if (shouldSend()) {
         debug(`sending mail`);
-        return transport.sendMail(mailOptions).catch(error => {
-            Raven.captureMessage('Error sending email via SES', {
-                extra: error,
-                tags: {
-                    feature: 'email'
-                }
+
+        const currentEnv = appData.environment.toUpperCase();
+        const mailName = name.toUpperCase();
+
+        return transport
+            .sendMail(mailOptions)
+            .then(response => {
+                CloudWatch.putMetricData({
+                    MetricData: [
+                        {
+                            MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
+                            Dimensions: [
+                                {
+                                    Name: 'MAIL_SENT',
+                                    Value: 'SEND_COUNT'
+                                }
+                            ],
+                            Unit: 'Count',
+                            Value: 1.0
+                        }
+                    ],
+                    Namespace: 'SITE/MAIL'
+                }).send();
+
+                return response;
+            })
+            .catch(error => {
+                Raven.captureMessage('Error sending email via SES', {
+                    extra: error,
+                    tags: {
+                        feature: 'email'
+                    }
+                });
+                return Promise.reject(error);
             });
-            return Promise.reject(error);
-        });
     } else {
         debug(`[skipped] sending mail`);
         return Promise.resolve(mailOptions);
@@ -122,7 +160,7 @@ function send({ subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
  * generateAndSend
  * @param {Array<Object>} emails
  * e.g. [{
- *   name: 'example,
+ *   name: 'example',
  *   templateName: 'emails/someTempalte',
  *   templateData: { … }
  *   sendTo: 'example@example.com',
@@ -134,6 +172,7 @@ function generateAndSend(schemas) {
     return Promise.all(promises).then(emails => {
         const mailPromises = emails.map(email => {
             return send({
+                name: email.data.name,
                 sendTo: email.data.sendTo,
                 sendFrom: email.data.sendFrom,
                 subject: email.data.subject,
