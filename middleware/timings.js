@@ -14,23 +14,26 @@ module.exports = responseTime(function(req, res, time) {
     }
 
     const method = req.method.toUpperCase();
-    const isLegacy = res.getHeader('X-BLF-Legacy') === 'true';
-    const metricPrefix = isLegacy ? 'RESPONSE_TIME_LEGACY' : 'RESPONSE_TIME';
 
-    const metric = {
-        MetricName: `${metricPrefix}_${method}`,
-        Dimensions: [
-            {
-                Name: 'RESPONSE_TIME',
-                Value: 'TIME_IN_MS'
-            }
-        ],
-        Unit: 'Milliseconds',
-        Value: time
-    };
+    if (method === 'GET' || method === 'POST') {
+        const isLegacy = res.getHeader('X-BLF-Legacy') === 'true';
+        const metricPrefix = isLegacy ? 'RESPONSE_TIME_LEGACY' : 'RESPONSE_TIME';
 
-    CloudWatch.putMetricData({
-        MetricData: [metric],
-        Namespace: 'SITE/TRAFFIC'
-    }).send();
+        const metric = {
+            MetricName: `${metricPrefix}_${method}`,
+            Dimensions: [
+                {
+                    Name: 'RESPONSE_TIME',
+                    Value: 'TIME_IN_MS'
+                }
+            ],
+            Unit: 'Milliseconds',
+            Value: time
+        };
+
+        CloudWatch.putMetricData({
+            MetricData: [metric],
+            Namespace: 'SITE/TRAFFIC'
+        }).send();
+    }
 });
