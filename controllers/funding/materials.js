@@ -9,6 +9,7 @@ const Raven = require('raven');
 const { errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
+const { postcodeArea } = require('../../modules/userData');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
@@ -348,13 +349,6 @@ function storeOrderSummary({ orderItems, orderDetails }) {
         }
     });
 
-    // work out the postcode area
-    let postcodeArea = orderDetails.yourPostcode.replace(/ /g, '').toUpperCase();
-    if (postcodeArea.length > 3) {
-        postcodeArea = postcodeArea.slice(0, -3);
-    }
-
-    // save order data to database
     return ordersService.storeOrder({
         grantAmount: preparedOrderDetails.yourGrantAmount,
         orderReason: preparedOrderDetails.yourReason,
