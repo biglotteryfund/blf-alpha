@@ -1,5 +1,5 @@
 const { check, validationResult } = require('express-validator/check');
-const { get, map, reduce, set, some, sumBy, values } = require('lodash');
+const { get, map, mapValues, reduce, set, some, sumBy, values } = require('lodash');
 const { purify } = require('../../modules/validators');
 const { sanitizeBody } = require('express-validator/filter');
 const flash = require('req-flash');
@@ -298,11 +298,6 @@ function makeOrderText(items, details) {
             // Override value if "other" field is entered.
             const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
 
-            // @TODO: Is this being used to mutate the value for `storeOrderSummary`?
-            if (field.allowOther && otherValue) {
-                details[field.name] = otherValue;
-            }
-
             if (fieldValue) {
                 acc.push(`\t${fieldLabel}: ${fieldValue}`);
             }
@@ -328,16 +323,30 @@ If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
 }
 
 function storeOrderSummary({ orderItems, orderDetails }) {
-    // format ordered items for database
-    let orderedItems = [];
-    for (let code in orderItems) {
-        if (orderItems[code].quantity > 0) {
-            orderedItems.push({
-                code: code,
-                quantity: orderItems[code].quantity
-            });
+    const preparedOrderItems = reduce(
+        orderItems,
+        (acc, orderItem, code) => {
+            if (orderItem.quantity > 0) {
+                acc.push({
+                    code: code,
+                    quantity: orderItems[code].quantity
+                });
+            }
+            return acc;
+        },
+        []
+    );
+
+    const preparedOrderDetails = mapValues(orderDetails, (value, key) => {
+        const field = get(materialFields, key);
+
+        if (field) {
+            const otherValue = get(orderDetails, field.name + 'Other');
+            return field.allowOther && otherValue ? otherValue : value;
+        } else {
+            return value;
         }
-    }
+    });
 
     // work out the postcode area
     let postcodeArea = orderDetails.yourPostcode.replace(/ /g, '').toUpperCase();
@@ -347,10 +356,10 @@ function storeOrderSummary({ orderItems, orderDetails }) {
 
     // save order data to database
     return ordersService.storeOrder({
-        grantAmount: orderDetails.yourGrantAmount,
-        orderReason: orderDetails.yourReason,
-        postcodeArea: postcodeArea,
-        items: orderedItems
+        grantAmount: preparedOrderDetails.yourGrantAmount,
+        orderReason: preparedOrderDetails.yourReason,
+        postcodeArea: postcodeArea(preparedOrderDetails.yourPostcode),
+        items: preparedOrderItems
     });
 }
 
