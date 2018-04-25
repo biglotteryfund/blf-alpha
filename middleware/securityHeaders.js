@@ -104,7 +104,10 @@ function toolsSecurityHeaders() {
 }
 
 function stripCSPHeader(req, res, next) {
-    res.removeHeader('Content-Security-Policy');
+    if (!res.headersSent) {
+        res.removeHeader('Content-Security-Policy');
+    }
+
     next();
 }
 
