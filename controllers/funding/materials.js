@@ -1,5 +1,5 @@
 const { check, validationResult } = require('express-validator/check');
-const { get, set, some, sumBy, values } = require('lodash');
+const { get, map, reduce, set, some, sumBy, values } = require('lodash');
 const { purify } = require('../../modules/validators');
 const { sanitizeBody } = require('express-validator/filter');
 const flash = require('req-flash');
@@ -9,6 +9,7 @@ const Raven = require('raven');
 const { errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
+const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
@@ -238,6 +239,94 @@ function modifyItems(req, orderKey, code) {
     }
 }
 
+/**
+ * Handle adding and removing items
+ */
+function initAddRemove({ router, routeConfig }) {
+    const validators = [sanitizeBody('action').escape(), sanitizeBody('code').escape()];
+
+    router.route(`${routeConfig.path}/item/:id`).post(validators, cached.noCache, (req, res) => {
+        const code = req.body.code;
+
+        // Update the session with ordered items
+        modifyItems(req, materialsOrderKey, code);
+
+        res.format({
+            html: () => {
+                req.session.save(() => {
+                    res.redirect(req.baseUrl + routeConfig.path);
+                });
+            },
+            json: () => {
+                req.session.save(() => {
+                    res.send({
+                        status: 'success',
+                        quantity: get(req.session, [materialsOrderKey, code, 'quantity'], 0),
+                        allOrders: req.session[materialsOrderKey],
+                        itemBlocked: get(req.session, [materialsOrderKey, 'itemBlocked'], false)
+                    });
+                });
+            }
+        });
+    });
+
+    return router;
+}
+
+/**
+ * Create text for order email
+ */
+function makeOrderText(items, details) {
+    const orderSummary = reduce(
+        items,
+        (acc, item, code) => {
+            if (item.quantity > 0) {
+                acc.push(`\t- x${item.quantity} ${code}\t (item: ${item.name})`);
+            }
+            return acc;
+        },
+        []
+    );
+
+    const customerDetails = reduce(
+        materialFields,
+        (acc, field) => {
+            let fieldLabel = field.emailKey;
+            const originalFieldValue = details[field.name];
+            const otherValue = details[field.name + 'Other'];
+
+            // Override value if "other" field is entered.
+            const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
+
+            // @TODO: Is this being used to mutate the value for `storeOrderSummary`?
+            if (field.allowOther && otherValue) {
+                details[field.name] = otherValue;
+            }
+
+            if (fieldValue) {
+                acc.push(`\t${fieldLabel}: ${fieldValue}`);
+            }
+
+            return acc;
+        },
+        []
+    );
+
+    const text = `
+A new order has been received from the Big Lottery Fund website. The order details are below:
+
+${orderSummary.join('\n')}
+
+The customer's personal details are below:
+
+${customerDetails.join('\n')}
+
+This email has been automatically generated from the Big Lottery Fund website.
+If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
+
+    return text.trim();
+}
+
 function storeOrderSummary({ orderItems, orderDetails }) {
     // format ordered items for database
     let orderedItems = [];
@@ -265,88 +354,10 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     });
 }
 
-function init({ router, routeConfig }) {
-    router.use(flash());
-
-    // handle adding/removing items
-    router
-        .route(routeConfig.path + '/item/:id')
-        .post([sanitizeBody('action').escape(), sanitizeBody('code').escape()], cached.noCache, (req, res) => {
-            // update the session with ordered items
-            const code = req.body.code;
-
-            modifyItems(req, materialsOrderKey, code);
-
-            // handle ajax/standard form updates
-            res.format({
-                html: () => {
-                    req.session.save(() => {
-                        res.redirect(req.baseUrl + routeConfig.path);
-                    });
-                },
-                json: () => {
-                    req.session.save(() => {
-                        res.send({
-                            status: 'success',
-                            quantity: get(req.session, [materialsOrderKey, code, 'quantity'], 0),
-                            allOrders: req.session[materialsOrderKey],
-                            itemBlocked: get(req.session, [materialsOrderKey, 'itemBlocked'], false)
-                        });
-                    });
-                }
-            });
-        });
-
-    // combine all validators for each field
-    let validators = [];
-    for (let key in materialFields) {
-        let field = materialFields[key];
-        validators.push(field.validator(field));
-    }
-
-    /**
-     * Create text for order email
-     */
-    const makeOrderText = (items, details) => {
-        let text = 'A new order has been received from the Big Lottery Fund website. The order details are below:\n\n';
-        for (let code in items) {
-            if (items[code].quantity > 0) {
-                text += `\t- x${items[code].quantity} ${code}\t (item: ${items[code].name})\n`;
-            }
-        }
-        text += "\nThe customer's personal details are below:\n\n";
-
-        for (let key in materialFields) {
-            let field = materialFields[key];
-            let fieldValue = details[field.name];
-            const fieldLabel = field.emailKey;
-
-            // did this order include "other" options?
-            if (field.allowOther) {
-                // did they enter something?
-                let otherValue = details[field.name + 'Other'];
-                if (otherValue) {
-                    // override the field with their custom text
-                    fieldValue = otherValue;
-                    // update the original too
-                    details[field.name] = otherValue;
-                }
-            }
-
-            if (fieldValue) {
-                text += `\t${fieldLabel}: ${fieldValue}\n\n`;
-            }
-        }
-
-        text += '\nThis email has been automatically generated from the Big Lottery Fund website.';
-        text += '\nIf you have feedback, please contact matt.andrews@biglotteryfund.org.uk.';
-
-        return {
-            text,
-            details
-        };
-    };
-
+/**
+ * Initialise order form
+ */
+function initForm({ router, routeConfig }) {
     function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         const lang = req.i18n.__(routeConfig.lang);
         const orders = get(req.session, materialsOrderKey, {});
@@ -367,9 +378,8 @@ function init({ router, routeConfig }) {
         });
     }
 
-    /**
-     * Free Materials Order Form
-     */
+    const validators = map(materialFields, field => field.validator(field));
+
     router
         .route(routeConfig.path)
         .all(cached.csrfProtection)
@@ -387,10 +397,8 @@ function init({ router, routeConfig }) {
                 if (req.body.skipEmail) {
                     res.send(req.body);
                 } else {
-                    // some fields are optional so matchedData misses them here
                     const details = req.body;
                     const items = req.session[materialsOrderKey];
-                    const dateNow = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
                     const orderText = makeOrderText(items, details);
 
                     storeOrderSummary({
@@ -398,10 +406,13 @@ function init({ router, routeConfig }) {
                         orderDetails: details
                     })
                         .then(() => {
+                            const customerSendTo = details.yourEmail;
+                            const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+
                             const customerEmail = mail.generateAndSend([
                                 {
                                     name: 'material_customer',
-                                    sendTo: req.body.yourEmail,
+                                    sendTo: customerSendTo,
                                     subject: 'Thank you for your Big Lottery Fund order',
                                     templateName: 'emails/newMaterialOrder',
                                     templateData: {}
@@ -410,9 +421,11 @@ function init({ router, routeConfig }) {
 
                             const supplierEmail = mail.send({
                                 name: 'material_supplier',
-                                subject: `Order from Big Lottery Fund website - ${dateNow}`,
-                                text: orderText.text,
-                                sendTo: MATERIAL_SUPPLIER,
+                                subject: `Order from Big Lottery Fund website - ${moment().format(
+                                    'dddd, MMMM Do YYYY, h:mm:ss a'
+                                )}`,
+                                text: orderText,
+                                sendTo: supplierSendTo,
                                 sendMode: 'bcc'
                             });
 
@@ -459,6 +472,22 @@ function init({ router, routeConfig }) {
                 });
             }
         });
+
+    return router;
+}
+
+function init({ router, routeConfig }) {
+    router.use(flash());
+
+    initAddRemove({
+        router,
+        routeConfig
+    });
+
+    initForm({
+        router,
+        routeConfig
+    });
 }
 
 module.exports = {
