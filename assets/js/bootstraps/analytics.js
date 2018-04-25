@@ -47,6 +47,13 @@ export const init = () => {
     });
 
     /**
+     * Anonymise IPs
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization
+     * https://support.google.com/analytics/answer/2763052?hl=en
+     */
+    ga('set', 'anonymizeIp', true);
+
+    /**
      * Use Beacon transport mechanism if available
      * https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits
      */
