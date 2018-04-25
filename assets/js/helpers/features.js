@@ -15,7 +15,20 @@ function createFeature(config) {
     };
 }
 
+export const isDoNotTrack =
+    window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1';
+
 export const FEATURES = [
+    createFeature({
+        id: 'analytics',
+        description: 'Enable Google Analytics',
+        isEnabled: !window.AppConfig.blockAnalytics && !isDoNotTrack
+    }),
+    createFeature({
+        id: 'hotjar',
+        description: 'Enable HotJar',
+        isEnabled: !isDoNotTrack
+    }),
     createFeature({
         id: 'review-abandonment-message',
         description: 'Show abandonment message on the review step',

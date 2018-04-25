@@ -2,6 +2,7 @@
 
 import raven from './bootstraps/raven';
 import common from './bootstraps/common';
+import { featureIsEnabled } from './helpers/features';
 
 raven.init();
 
@@ -13,12 +14,30 @@ vueSplit().then(vueComponents => {
 });
 
 /**
- * If we are in the live environment then load analytics
- * @see metaHeadJS.njk for where App.blockAnalytics is set
+ * Load analytics if enabled
  */
 const analyticsSplit = () => import(/* webpackChunkName: "analytics" */ './bootstraps/analytics');
-if (!window.AppConfig.blockAnalytics) {
+if (featureIsEnabled('analytics')) {
     analyticsSplit().then(analytics => {
         analytics.init();
     });
+}
+
+/**
+ * Load HotJar if enabled
+ */
+if (featureIsEnabled('hotjar')) {
+    (function(h, o, t, j, a, r) {
+        h.hj =
+            h.hj ||
+            function() {
+                (h.hj.q = h.hj.q || []).push(arguments);
+            };
+        h._hjSettings = { hjid: 828894, hjsv: 6 };
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script');
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
 }
