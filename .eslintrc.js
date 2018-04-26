@@ -1,15 +1,14 @@
+'use strict';
+
 module.exports = {
     root: true,
     extends: 'eslint:recommended',
     env: {
         es6: true,
-        node: true,
-        browser: true
+        node: true
     },
-    parser: 'babel-eslint',
     parserOptions: {
-        sourceType: 'module',
-        allowImportExportEverywhere: true
+        ecmaVersion: 8
     },
     rules: {
         eqeqeq: 'error',
