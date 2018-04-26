@@ -2,7 +2,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const httpMocks = require('node-mocks-http');
-const { cleanLinkNoise, redirectNonWww } = require('./redirects');
+const { cleanLinkNoise, cleanSpaces, redirectNonWww } = require('./redirects');
 
 describe('redirects', () => {
     describe('cleanLinkNoise', () => {
@@ -19,6 +19,26 @@ describe('redirects', () => {
 
             expect(cleanLinkNoise('/welsh/england/funding/funding-guidance/applying-for-funding/~/link.aspx')).to.equal(
                 '/welsh/england/funding/funding-guidance/applying-for-funding/'
+            );
+        });
+    });
+
+    describe('cleanSpaces', () => {
+        it('should clean spaces from the URL', () => {
+            expect(
+                cleanSpaces(
+                    '/global-%20content/programmes/england/commissioning-better-%20outcomes-%20and-social-%20outcomes-fund'
+                )
+            ).to.equal('/global-content/programmes/england/commissioning-better-outcomes-and-social-outcomes-fund');
+
+            expect(
+                cleanSpaces(
+                    '/global- content/programmes/england/commissioning-better- outcomes- and-social- outcomes-fund'
+                )
+            ).to.equal('/global-content/programmes/england/commissioning-better-outcomes-and-social-outcomes-fund');
+
+            expect(cleanSpaces('/funding/programmes/reaching-communities-england')).to.equal(
+                '/funding/programmes/reaching-communities-england'
             );
         });
     });

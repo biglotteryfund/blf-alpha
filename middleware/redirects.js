@@ -1,6 +1,7 @@
 'use strict';
 const config = require('config');
 const slashes = require('connect-slashes');
+const { compose } = require('lodash/fp');
 
 const { customEvent } = require('../modules/analytics');
 const { isWelsh, removeWelsh } = require('../modules/urls');
@@ -18,6 +19,21 @@ function cleanLinkNoise(originalUrl) {
     }
 }
 
+/**
+ * Clean spaces
+ * Strips spaces from URLs
+ */
+function cleanSpaces(originalUrl) {
+    const re = /%20|\s+/g;
+    if (re.test(originalUrl)) {
+        return originalUrl.replace(re, '');
+    } else {
+        return originalUrl;
+    }
+}
+
+const cleanUrl = compose(cleanLinkNoise, cleanSpaces);
+
 /**************************************
  * Middlewares
  **************************************/
@@ -33,12 +49,17 @@ function redirectNonWww(req, res, next) {
     }
 }
 
-function redirectLinkNoise(req, res, next) {
-    const cleanedUrl = cleanLinkNoise(req.originalUrl);
-    if (cleanedUrl !== req.originalUrl) {
+/**
+ * Remove noise from urls
+ * - cleanLinkNoise + cleanSpaces
+ */
+function removeUrlNoise(req, res, next) {
+    const cleanedUrl = cleanUrl(req.originalUrl);
+    if (req.method === 'GET' && cleanedUrl !== req.originalUrl) {
         res.redirect(301, cleanedUrl);
+    } else {
+        next();
     }
-    next();
 }
 
 const removeTrailingSlashes = slashes(false);
@@ -61,8 +82,9 @@ function redirectNoWelsh(req, res, next) {
 }
 
 module.exports = {
-    common: [redirectNonWww, redirectLinkNoise, removeTrailingSlashes],
+    common: [redirectNonWww, removeUrlNoise, removeTrailingSlashes],
     cleanLinkNoise,
+    cleanSpaces,
     redirectNonWww,
     removeTrailingSlashes,
     redirectArchived,
