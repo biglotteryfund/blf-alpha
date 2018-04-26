@@ -305,6 +305,18 @@ sections.about.addRoutes({
 });
 
 /**
+ * Blog routes
+ */
+sections.blog.addRoutes({
+    root: dynamicRoute({
+        path: '/',
+        template: 'pages/toplevel/blog',
+        lang: 'toplevel.blog',
+        heroSlug: 'active-plus-communities'
+    })
+});
+
+/**
  * Legacy proxied routes
  * The following URLs are legacy pages that are being proxied to make small amends to them.
  * They have not yet been redesigned or replaced so aren't ready to go into the main routes.

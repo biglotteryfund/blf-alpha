@@ -1,0 +1,27 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/links.njk" import sectionLinks %}
+{% from "components/programmes.njk" import programmeCard with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set socialImage = heroImage %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main">
+        {{
+            hero(
+                titleText = title,
+                image = heroImage,
+                accent = pageAccent
+            )
+        }}
+
+        <div class="nudge-up">
+            Hello
+        </div>
+    </main>
+{% endblock %}

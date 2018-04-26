@@ -395,6 +395,8 @@ toplevel:
       - label: Answering big questions - impacts and lessons learned from our evaluation
           and research (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
+  blog:
+    title: Blog
   contact:
     title: Contact us
     methods:
