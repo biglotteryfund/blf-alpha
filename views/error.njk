@@ -22,12 +22,11 @@
     <main class="nudge-up">
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose s-prose--long">
-                <h3 class="t2">Error {{ status }} &ndash; {{ errorTitle }}</h3>
-
+                <h3 class="t2">Error {{ status }}</h3>
                 <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
                 <p>If you keep encountering problems accessing our pages, please <a href="mailto:webmaster@biglotteryfund.org.uk">let us know</a>.</p>
 
-                <h3 class="t2">Gwall {{ status }} &ndash; {{ errorTitle }}</h3>
+                <h3 class="t2">Gwall {{ status }}</h3>
                 <p>Yn anffodus ni allwn ddangos y dudalen hon ar hyn o bryd. Gallwch ddychwelyd i’r hafan neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>. Os byddwch yn profi anhawster o hyd wrth gyrchu ein tudalennau, <a href="mailto:webmaster@biglotteryfund.org.uk">rhowch wybod i ni</a>.</p>
 
                 {% if sentry %}
@@ -35,9 +34,11 @@
                     <p><code>{{ sentry }}</code></p>
                 {% endif %}
 
-                {% if appData.isDev and error.stack %}
+                {% if error %}
                     <h4>Stack trace:</h4>
                     <pre>{{ error.stack }}</pre>
+                    <h4>Raw error:</h4>
+                    <pre>{{ error | dump(2) }}</pre>
                 {% endif %}
             </div>
         </div>
