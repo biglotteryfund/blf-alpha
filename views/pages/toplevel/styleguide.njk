@@ -5,7 +5,8 @@
 {% from "components/data.njk" import statsGrid %}
 {% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero %}
 {% from "components/news.njk" import articleTeaser with context %}
-{% from "components/programmes.njk" import programmeCard, selectionTrail with context %}
+{% from "components/programmes.njk" import programmeCard with context %}
+{% from "components/nav.njk" import selectionTrail %}
 {% from "components/segment.njk" import segment %}
 {% from "components/tabs.njk" import tabs %}
 
@@ -237,9 +238,9 @@
                 "label": "Awards over £10,000",
                 "url": "#"
             }, {
-                "label":"Wales"
-            }],
-            itemCount = 3
+                "label":"Wales",
+                "count": 3
+            }]
         )
     }}
 {% endset %}

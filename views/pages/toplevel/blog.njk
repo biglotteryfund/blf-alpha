@@ -2,26 +2,27 @@
 {% from "components/links.njk" import sectionLinks %}
 {% from "components/programmes.njk" import programmeCard with context %}
 
+{% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set socialImage = heroImage %}
 
 {% block content %}
     {% set pageAccent = 'cyan' %}
 
     <main role="main">
-        {{
-            hero(
-                titleText = title,
-                image = heroImage,
-                accent = pageAccent
-            )
-        }}
-
-        <div class="nudge-up">
-            Hello
-        </div>
+        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>{{ title }}</h1>
+            <ol>
+                {% for entry in entries %}
+                    <li>
+                        <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
+                        <time pubdate datetime="{{ entry.postDate.date }}">
+                            {{ entry.postDate.date | dateFormat('Do MMMM YYYY') }}
+                        </time>
+                        <p>{{ entry.intro }}</p>
+                        <hr/>
+                    </li>
+                {% endfor %}
+            </ol>
+        </section>
     </main>
 {% endblock %}

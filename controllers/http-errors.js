@@ -1,3 +1,5 @@
+'use strict';
+
 const Raven = require('raven');
 const appData = require('../modules/appData');
 

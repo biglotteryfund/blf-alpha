@@ -42,3 +42,70 @@
         content: " →";
     }
 }
+
+/* =========================================================================
+   Article Detail
+   ========================================================================= */
+
+.article {
+    margin-bottom: $spacingUnit;
+}
+.article__header {
+    margin-bottom: $spacingUnit / 2;
+
+    @include mq('medium') {
+        margin-bottom: $spacingUnit * 2;
+    }
+}
+.article__title {
+    margin: 0;
+
+    @include mq('medium') {
+        font-size: 32px;
+    }
+}
+.article__main {
+    @include mq('medium') {
+        display: flex;
+    }
+}
+.article__body {
+    @include mq('medium') {
+        flex: 1 1 auto;
+        padding-right: 1.5em;
+    }
+}
+.article__meta {
+
+    @include mq('medium') {
+        order: 2;
+        flex: 0 0 180px;
+    }
+
+    .article-meta {
+        border-top: 3px solid;
+        padding-top: $spacingUnit / 2;
+        position: sticky;
+        top: 0;
+
+        @include mq('medium', 'max') {
+            border-bottom: 3px solid;
+            margin-bottom: $spacingUnit;
+        }
+    }
+}
+
+/* =========================================================================
+   Article Meta
+   ========================================================================= */
+
+.article-meta {
+    font-size: 16px;
+}
+.article-meta__author {
+    font-weight: bold;
+}
+.article-meta__author,
+.article-meta__pubdate {
+    margin-bottom: 4px;
+}

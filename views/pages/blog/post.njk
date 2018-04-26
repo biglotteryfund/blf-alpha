@@ -1,0 +1,53 @@
+{% from "components/nav.njk" import selectionTrail %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% macro articleMeta(entry, accent) %}
+    <div class="article-meta  accent--{{ accent }} a--border-color">
+        <p class="article-meta__author">
+            By
+            {% set separator = joiner(',') %}
+            {% for author in entry.author -%}
+            {{ separator() }} {{ author.title }}
+            {%- endfor %}
+        </p>
+        <p class="article-meta__pubdate">
+            <time pubdate datetime="{{ entry.postDate.date }}">
+                {{ entry.postDate.date | dateFormat('Do MMMM YYYY') }}
+            </time>
+        </p>
+        {% if entry.tags.length > 0 %}
+            <p class="article-meta__tags">
+                {% set separator = joiner(' / ') %}
+                {% for tag in entry.tags -%}
+                    {{ separator() }} {{ tag.title }}
+                {%- endfor %}
+            </p>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main">
+        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            {{ selectionTrail(activeBreadcrumbs) }}
+
+            <article class="article">
+                <header class="article__header">
+                    <h1 class="article__title">{{ entry.title }}</a></h1>
+                </header>
+                <div class="article__main">
+                    <footer class="article__meta">
+                        {{ articleMeta(entry, accent = pageAccent) }}
+                    </footer>
+                    <div class="article__body s-prose s-prose--long">
+                        {{ entry.body | safe }}
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+{% endblock %}

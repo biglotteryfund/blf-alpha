@@ -42,6 +42,37 @@
     }
 }
 
+
+/* =========================================================================
+   Selection Trail
+   ========================================================================= */
+
+.selection-trail {
+    margin-bottom: $spacingUnit;
+}
+.selection-trail__item {
+    display: inline-block;
+
+    &::after {
+        content: '›';
+        font-weight: normal;
+        color: #444;
+        margin: 0 4px;
+    }
+
+    &:last-child::after {
+        content: '';
+        display: none;
+    }
+}
+.selection-trail__item,
+.selection-trail__link {
+    color: palette('green');
+}
+.selection-trail__link {
+    font-weight: bold;
+}
+
 /* =========================================================================
    Navigation: Nested Menu (Section Navigation)
    ========================================================================= */

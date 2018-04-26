@@ -1,3 +1,5 @@
+'use strict';
+
 const { forEach } = require('lodash');
 
 module.exports = function({ router, pages, sectionId }) {

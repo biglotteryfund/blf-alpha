@@ -1,34 +1,27 @@
 'use strict';
+
 const express = require('express');
 
 const { shouldServe } = require('../../modules/pageLogic');
-const routeCommon = require('../common');
-const routerSetup = require('../setup');
 
-const landingRoute = require('./landing');
+const landingRouter = require('./landing');
+const articlesRouter = require('./articles');
 
-module.exports = (pages, sectionPath, sectionId) => {
+module.exports = (pages, sectionPath) => {
     const router = express.Router();
 
-    routerSetup({
-        router,
-        pages,
-        sectionId
-    });
-
     if (shouldServe(pages.root)) {
-        landingRoute.init({
+        landingRouter.init({
             router: router,
             routeConfig: pages.root
         });
-    }
 
-    routeCommon.init({
-        router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
-    });
+        articlesRouter.init({
+            router: router,
+            routeConfig: pages.articles,
+            sectionPath: sectionPath
+        });
+    }
 
     return router;
 };

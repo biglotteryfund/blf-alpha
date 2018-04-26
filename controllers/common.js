@@ -50,7 +50,7 @@ function handleCmsPage(sectionId) {
                 }
             })
             .catch(err => {
-                renderNotFoundWithError(err, req, res);
+                renderNotFoundWithError(req, res, err);
             });
     };
 }

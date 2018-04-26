@@ -118,6 +118,18 @@ function getPromotedNews({ locale, limit }) {
     });
 }
 
+function getBlogPosts({ locale }) {
+    return fetch(`/v1/${locale}/blog`).then(response => {
+        const data = getOr({}, 'data')(response);
+        const entries = data.map(entry => entry.attributes);
+        return entries;
+    });
+}
+
+function getBlogDetail({ locale, urlPath }) {
+    return fetch(`/v1/${locale}/blog${urlPath}`);
+}
+
 function getFundingProgrammes({ locale }) {
     return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
@@ -186,6 +198,8 @@ module.exports = {
     getCmsPath,
     mergeWelshBy,
     // API methods
+    getBlogPosts,
+    getBlogDetail,
     getCaseStudies,
     getFundingProgramme,
     getFundingProgrammes,

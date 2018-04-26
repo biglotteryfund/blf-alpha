@@ -313,6 +313,9 @@ sections.blog.addRoutes({
         template: 'pages/toplevel/blog',
         lang: 'toplevel.blog',
         heroSlug: 'active-plus-communities'
+    }),
+    articles: dynamicRoute({
+        path: '/*'
     })
 });
 
