@@ -363,10 +363,10 @@ const otherUrls = [
 ];
 
 module.exports = {
-    sections: sections,
-    archivedRoutes: archivedRoutes,
-    legacyRedirects: legacyRedirects,
-    legacyProxiedRoutes: legacyProxiedRoutes,
-    vanityRedirects: vanityRedirects(sections),
-    otherUrls: otherUrls
+    sections,
+    archivedRoutes,
+    legacyRedirects,
+    legacyProxiedRoutes,
+    vanityRedirects,
+    otherUrls
 };
