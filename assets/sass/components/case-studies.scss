@@ -39,16 +39,3 @@
         align-self: center;
     }
 }
-
-// @TODO: Move this to its own file?
-.carousel {
-    position: relative;
-    margin-bottom: $spacingUnit;
-}
-.carousel__controls {
-    @include mq('tablet', 'max') {
-        position: absolute;
-        width: 100%;
-        top: 100px;
-    }
-}

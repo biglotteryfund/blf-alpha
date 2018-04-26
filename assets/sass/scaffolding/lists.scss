@@ -25,12 +25,6 @@ ol.list-bullets li {
     list-style-type: decimal;
 }
 
-.list--indented {
-    li {
-        margin-left: $spacingUnit * 3;
-    }
-}
-
 .o-definition-list {
     dt {
         font-weight: bold;
