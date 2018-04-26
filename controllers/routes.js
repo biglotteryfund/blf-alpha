@@ -32,6 +32,12 @@ const sections = {
         path: '/about',
         langTitlePath: 'global.nav.about',
         controllerPath: path.resolve(__dirname, './about')
+    }),
+    blog: createSection({
+        path: '/blog',
+        langTitlePath: 'global.nav.blog',
+        controllerPath: path.resolve(__dirname, './blog'),
+        showInNavigation: false
     })
 };
 

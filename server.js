@@ -14,15 +14,16 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { SENTRY_DSN } = require('./modules/secrets');
 const { cymreigio } = require('./modules/urls');
-const viewEngineService = require('./modules/viewEngine');
-const viewGlobalsService = require('./modules/viewGlobals');
-const { shouldServe } = require('./modules/pageLogic');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
+const { getSectionsForNavigation } = require('./controllers/route-helpers');
+const { SENTRY_DSN } = require('./modules/secrets');
 const { serveRedirects } = require('./modules/redirects');
+const { shouldServe } = require('./modules/pageLogic');
 const routes = require('./controllers/routes');
+const viewEngineService = require('./modules/viewEngine');
+const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
 const { noCache } = require('./middleware/cached');
@@ -84,7 +85,7 @@ function initAppLocals() {
     /**
      * Navigation sections for top-level nav
      */
-    app.locals.navigationSections = routes.sections;
+    app.locals.navigationSections = getSectionsForNavigation();
 }
 
 initAppLocals();

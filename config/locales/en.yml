@@ -14,6 +14,7 @@ global:
     about: About
     search: Search
     research: Research
+    blog: Blog
   contact:
     city: London
     phone: 0345 4 10 20 30
