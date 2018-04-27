@@ -198,6 +198,7 @@ module.exports = {
     setApiUrl,
     getApiUrl,
     getCmsPath,
+    mapAttrs,
     mergeWelshBy,
     // API methods
     getBlogPosts,

@@ -309,10 +309,7 @@ sections.about.addRoutes({
  */
 sections.blog.addRoutes({
     root: dynamicRoute({
-        path: '/',
-        template: 'pages/toplevel/blog',
-        lang: 'toplevel.blog',
-        heroSlug: 'active-plus-communities'
+        path: '/'
     }),
     articles: dynamicRoute({
         path: '/*'
