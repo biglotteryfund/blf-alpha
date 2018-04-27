@@ -1,4 +1,4 @@
-{% extends "../../layouts/tools.njk" %}
+{% extends "layouts/tools.njk" %}
 
 {% block title %}Survey results{% endblock %}
 
@@ -57,7 +57,7 @@
                                             {% if response.path %}
                                                 {{ response.path }}
                                             {% else %}
-                                                {{ response.createdAt | dateFormat('ddd DD MMM YYYY (hh:mm a)') }}
+                                                {{ formatDate(response.createdAt, 'ddd DD MMM YYYY (hh:mm a)') }}
                                             {% endif %}
                                         </h6>
                                         <a href="#msg-{{ response.id }}">

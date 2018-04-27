@@ -5,16 +5,18 @@
 
 {% macro articleMeta(entry, accent) %}
     <div class="article-meta  accent--{{ accent }} a--border-color">
-        <p class="article-meta__author">
-            By
-            {% set separator = joiner(',') %}
-            {% for author in entry.author -%}
-            {{ separator() }} {{ author.title }}
-            {%- endfor %}
-        </p>
+        {% if entry.autho %}
+            <p class="article-meta__author">
+                By
+                {% set separator = joiner(',') %}
+                {% for author in entry.author -%}
+                {{ separator() }} {{ author.title }}
+                {%- endfor %}
+            </p>
+        {% endif %}
         <p class="article-meta__pubdate">
             <time pubdate datetime="{{ entry.postDate.date }}">
-                {{ entry.postDate.date | dateFormat('Do MMMM YYYY', locale) }}
+                {{ formatDate(entry.postDate.date, 'Do MMMM YYYY') }}
             </time>
         </p>
         {% if entry.tags.length > 0 %}
