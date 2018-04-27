@@ -68,6 +68,7 @@ global:
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
     or: neu
+    topics: pynciau
   programmes:
     programmeLabels:
       area: Ardal

@@ -68,6 +68,7 @@ global:
     readMore: Read more
     readMoreAbout: "Read more about %s"
     or: or
+    topics: topics
   programmes:
     programmeLabels:
       area: Area

@@ -7,7 +7,7 @@ const contentApi = require('../../services/content-api');
 function renderPost({ req, res, entry }) {
     const activeBreadcrumbs = [
         {
-            label: 'Blog',
+            label: req.i18n.__('global.nav.blog'),
             url: req.baseUrl
         },
         {
@@ -17,8 +17,8 @@ function renderPost({ req, res, entry }) {
     ];
 
     res.render('pages/blog/post', {
-        title: entry.title,
         entry: entry,
+        title: entry.title,
         isBilingual: isBilingual(entry.availableLanguages),
         activeBreadcrumbs: activeBreadcrumbs
     });

@@ -2,6 +2,19 @@
    Lists (Common List Objects)
    ========================================================================= */
 
+.o-list-inline {
+    @include reset-list();
+
+    li {
+        display: inline-block;
+        margin-right: 5px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
 .list-bullets {
     margin-bottom: 20px;
 

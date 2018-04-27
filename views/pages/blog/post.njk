@@ -3,9 +3,9 @@
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
 
-{% macro articleMeta(entry, accent) %}
-    <div class="article-meta  accent--{{ accent }} a--border-color">
-        {% if entry.autho %}
+{% macro articleMeta(entry) %}
+    <div class="article-meta">
+        {% if entry.author %}
             <p class="article-meta__author">
                 By
                 {% set separator = joiner(',') %}
@@ -19,14 +19,19 @@
                 {{ formatDate(entry.postDate.date, 'Do MMMM YYYY') }}
             </time>
         </p>
-        {% if entry.tags.length > 0 %}
-            <p class="article-meta__tags">
-                {% set separator = joiner(' / ') %}
-                {% for tag in entry.tags -%}
-                    {{ separator() }} {{ tag.title }}
-                {%- endfor %}
-            </p>
-        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro topicsList(topics) %}
+    <div class="topics-list">
+        <h3 class="topics-list__title">{{ __('global.misc.topics') | title }}:</h3>
+        <ol class="topics-list__items o-list-inline">
+            {% for topic in topics -%}
+            <li class="topics-list__item">
+                <a href="#">{{ topic.title }}</a>
+            </li>
+            {%- endfor %}
+        </ol>
     </div>
 {% endmacro %}
 
@@ -42,13 +47,18 @@
                     <h1 class="article__title">{{ entry.title }}</a></h1>
                 </header>
                 <div class="article__main">
-                    <footer class="article__meta">
-                        {{ articleMeta(entry, accent = pageAccent) }}
+                    <footer class="article__meta accent--{{ pageAccent }} a--border-color">
+                        {{ articleMeta(entry) }}
                     </footer>
                     <div class="article__body s-prose s-prose--long">
                         {{ entry.body | safe }}
                     </div>
                 </div>
+                {% if entry.tags.length > 0 %}
+                    <aside class="article__topics" role="aside">
+                        {{ topicsList(entry.tags) }}
+                    </aside>
+                {% endif %}
             </article>
         </section>
     </main>
