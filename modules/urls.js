@@ -112,7 +112,6 @@ function normaliseQuery(originalQuery) {
     return reduce(originalQuery, reducer, {});
 }
 
-
 /**
  * buildUrl
  * URL helper, return canonical URL based on sectionName or pageName

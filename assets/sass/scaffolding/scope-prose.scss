@@ -237,8 +237,7 @@
         }
     }
 
-    figure,
-    .inline-figure {
+    figure {
         margin-left: -($spacingUnit);
         margin-right: -($spacingUnit);
 
@@ -253,11 +252,8 @@
         }
     }
 
-    .inline-figure--padded {
-        @include mq('tablet') {
-            margin-left: $spacingUnit * 3;
-            margin-right: $spacingUnit * 3;
-        }
+    figcaption {
+        @include text-caption();
     }
 
     code,

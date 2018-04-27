@@ -145,6 +145,12 @@
     }
 }
 
+@mixin text-caption() {
+    color: palette('charcoal-note');
+    font-size: 14px;
+    margin: 0.5em 0;
+}
+
 @mixin bordered() {
     border: 1px solid rgba(202, 202, 202, 0.5);
 }
