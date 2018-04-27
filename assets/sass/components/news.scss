@@ -2,6 +2,10 @@
    News
    ========================================================================= */
 
+/* =========================================================================
+   Latest News (homepage)
+   ========================================================================= */
+
 .article-teaser {
     margin: 0;
 }
@@ -40,6 +44,42 @@
 
     &:after {
         content: " →";
+    }
+}
+
+/* =========================================================================
+   Blog Listing
+   ========================================================================= */
+
+.blog-teaser {
+    margin-bottom: 0;
+}
+.blog-teaser__header {
+    margin-bottom: $spacingUnit / 2;
+}
+.blog-teaser__title {
+    margin-bottom: 0;
+}
+.blog-teaser__meta {
+    font-size: 18px;
+    margin-bottom: $spacingUnit / 2;
+    color: palette('charcoal-note');
+}
+.blog-teaser__summary {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+// .blog-listing { }
+.blog-listing__item {
+    margin-bottom: $spacingUnit;
+    padding-bottom: $spacingUnit / 2;
+    border-bottom: 1px solid palette('border');
+
+    &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
     }
 }
 

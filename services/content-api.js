@@ -1,3 +1,5 @@
+'use strict';
+
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const request = require('request-promise-native');
 
@@ -119,10 +121,10 @@ function getPromotedNews({ locale, limit }) {
 }
 
 function getBlogPosts({ locale }) {
-    return fetch(`/v1/${locale}/blog`).then(response => {
-        const data = getOr({}, 'data')(response);
-        const entries = data.map(entry => entry.attributes);
-        return entries;
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/blog`).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
+        return results;
     });
 }
 

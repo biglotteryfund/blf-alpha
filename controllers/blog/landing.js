@@ -6,18 +6,29 @@ const injectHeroImage = require('../../middleware/inject-hero');
 
 function init({ router, routeConfig }) {
     router.get(routeConfig.path, injectHeroImage(routeConfig), (req, res) => {
-        const lang = req.i18n.__(routeConfig.lang);
+        const copy = req.i18n.__(routeConfig.lang);
+        const title = req.i18n.__('global.nav.blog');
+
+        const activeBreadcrumbs = [
+            {
+                label: title,
+                url: req.baseUrl
+            }
+        ];
 
         contentApi
             .getBlogPosts({
                 locale: req.i18n.getLocale()
             })
             .then(entries => {
-                res.render(routeConfig.template, {
-                    copy: lang,
-                    title: lang.title,
-                    entries: entries
-                });
+                const templateData = {
+                    copy,
+                    title,
+                    entries,
+                    activeBreadcrumbs
+                };
+
+                res.render(routeConfig.template, templateData);
             })
             .catch(err => {
                 renderNotFoundWithError(req, res, err);

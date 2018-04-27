@@ -14,7 +14,7 @@
         </p>
         <p class="article-meta__pubdate">
             <time pubdate datetime="{{ entry.postDate.date }}">
-                {{ entry.postDate.date | dateFormat('Do MMMM YYYY') }}
+                {{ entry.postDate.date | dateFormat('Do MMMM YYYY', locale) }}
             </time>
         </p>
         {% if entry.tags.length > 0 %}

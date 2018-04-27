@@ -11,8 +11,8 @@ function renderPost({ req, res, entry }) {
             url: req.baseUrl
         },
         {
-            label: entry.category.title
-            // url: entry.category.link
+            label: entry.category.title,
+            url: entry.category.link
         }
     ];
 

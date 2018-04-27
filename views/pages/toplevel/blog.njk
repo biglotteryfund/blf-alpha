@@ -1,6 +1,5 @@
-{% from "components/hero.njk" import hero %}
-{% from "components/links.njk" import sectionLinks %}
-{% from "components/programmes.njk" import programmeCard with context %}
+{% from "components/nav.njk" import selectionTrail %}
+{% from "components/news.njk" import blogTeaser with context %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
@@ -8,18 +7,14 @@
 {% block content %}
     {% set pageAccent = 'cyan' %}
 
-    <main role="main">
+    <main role="main" id="content">
         <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <h1>{{ title }}</h1>
-            <ol>
+            {{ selectionTrail(activeBreadcrumbs) }}
+            <h1 class="u-visually-hidden">{{ title }}</h1>
+            <ol class="blog-listing">
                 {% for entry in entries %}
-                    <li>
-                        <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
-                        <time pubdate datetime="{{ entry.postDate.date }}">
-                            {{ entry.postDate.date | dateFormat('Do MMMM YYYY') }}
-                        </time>
-                        <p>{{ entry.intro }}</p>
-                        <hr/>
+                    <li class="blog-listing__item">
+                        {{ blogTeaser(entry) }}
                     </li>
                 {% endfor %}
             </ol>
