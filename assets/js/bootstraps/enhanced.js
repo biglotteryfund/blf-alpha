@@ -1,4 +1,3 @@
-'use strict';
 const Hammer = require('hammerjs');
 const { toggleNav } = require('../helpers/display');
 

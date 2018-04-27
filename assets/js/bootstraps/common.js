@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Common modules that are run accross the site.
  * (Non-Vue components)

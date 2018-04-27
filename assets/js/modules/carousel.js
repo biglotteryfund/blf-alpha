@@ -1,5 +1,3 @@
-'use strict';
-
 function init() {
     const carouselElems = document.querySelectorAll('.js-carousel');
     if (carouselElems.length > 0) {

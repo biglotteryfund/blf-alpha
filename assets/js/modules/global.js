@@ -1,5 +1,3 @@
-'use strict';
-
 const $ = require('jquery');
 const fitvids = require('fitvids');
 const { isDownloadLink, isExternalLink } = require('../helpers/urls');

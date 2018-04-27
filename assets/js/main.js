@@ -1,5 +1,3 @@
-'use strict';
-
 import raven from './bootstraps/raven';
 import common from './bootstraps/common';
 import { featureIsEnabled } from './helpers/features';

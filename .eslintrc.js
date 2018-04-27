@@ -11,10 +11,11 @@ module.exports = {
         ecmaVersion: 8
     },
     rules: {
+        'no-console': 'off',
+        'no-shadow': 'warn',
+        'no-unused-vars': 'warn',
         eqeqeq: 'error',
         semi: ['error', 'always'],
-        'no-shadow': 'warn',
-        'no-console': 'off',
-        'no-unused-vars': 'warn'
+        strict: ['warn', 'safe']
     }
 };
