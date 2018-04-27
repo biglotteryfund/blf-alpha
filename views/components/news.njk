@@ -25,7 +25,7 @@
         </header>
         <footer class="blog-teaser__meta">
             <time class="blog-teaser__pubdate" pubdate datetime="{{ entry.postDate.date }}">
-                {{ entry.postDate.date | dateFormat('D MMMM YYYY', locale) }}
+                {{ formatDate(entry.postDate.date, 'D MMMM YYYY') }}
             </time>
             {% if entry.category -%}
                 in <a href="{{ entry.category.link }}">{{ entry.category.title }}</a>

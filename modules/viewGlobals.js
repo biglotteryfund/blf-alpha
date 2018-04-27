@@ -3,14 +3,12 @@
 const config = require('config');
 const { URL } = require('url');
 const querystring = require('querystring');
-const { get } = require('lodash');
 const shortid = require('shortid');
 
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
 const { heroImages } = require('./images');
 const appData = require('./appData');
 const formHelpers = require('./forms');
-const routes = require('../controllers/routes');
 
 const metadata = {
     title: config.get('meta.title'),
@@ -28,44 +26,6 @@ function getMetaTitle(base, pageTitle) {
     } else {
         return base;
     }
-}
-
-/**
- * buildUrl
- * URL helper, return canonical URL based on sectionName or pageName
- * Handle fallbacks for toplevel pages or linking to direct paths.
- */
-function buildUrl(localePrefix) {
-    /**
-     * Handle URLs which can't be fetched directly from routes.
-     * e.g. aliases, direct paths, top-level pages.
-     */
-    function constructFallback(sectionName, pageName) {
-        // Construct base url. Normalise 'toplevel' section name.
-        const baseUrl = sectionName === 'toplevel' ? '' : `/${sectionName}`;
-
-        // Append the page name if we're given one
-        const url = pageName ? baseUrl + pageName : baseUrl;
-
-        // Prepend locale
-        const urlWithLocale = localePrefix + url;
-
-        // Catch the case where we just want a link to the homepage in english
-        const normalisedUrl = urlWithLocale === '' ? '/' : urlWithLocale;
-
-        return normalisedUrl;
-    }
-
-    return function(sectionName, pageName) {
-        const sectionFromRoutes = get(routes.sections, sectionName);
-        const pageFromSection = get(sectionFromRoutes, `pages.${pageName}`);
-
-        if (pageFromSection) {
-            return localePrefix + sectionFromRoutes.path + pageFromSection.path;
-        } else {
-            return constructFallback(sectionName, pageName);
-        }
-    };
 }
 
 /**
@@ -137,11 +97,6 @@ function init(app) {
 
     setViewGlobal('anchors', config.get('anchors'));
 
-    setViewGlobal('buildUrl', (sectionName, pageName) => {
-        const localePrefix = getViewGlobal('localePrefix');
-        return buildUrl(localePrefix)(sectionName, pageName);
-    });
-
     setViewGlobal('getCurrentUrl', getCurrentUrl);
 
     setViewGlobal('getCurrentSection', getCurrentSection);
@@ -173,7 +128,6 @@ function init(app) {
 
 module.exports = {
     init,
-    buildUrl,
     getCurrentUrl,
     getMetaTitle,
     getCurrentSection

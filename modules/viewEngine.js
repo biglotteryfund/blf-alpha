@@ -42,11 +42,6 @@ function initFilters(templateEnv) {
         return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
     });
 
-    templateEnv.addFilter('dateFormat', (str, format, locale = 'en') => {
-        moment.locale(locale);
-        return moment(str).format(format);
-    });
-
     templateEnv.addFilter('timeFromNow', str => {
         return moment(str).fromNow();
     });

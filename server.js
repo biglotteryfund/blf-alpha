@@ -2,8 +2,10 @@
 const { forEach } = require('lodash');
 const express = require('express');
 const favicon = require('serve-favicon');
+const i18n = require('i18n-2');
 const path = require('path');
 const Raven = require('raven');
+const yaml = require('js-yaml');
 
 const app = express();
 module.exports = app;
@@ -29,7 +31,8 @@ const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securit
 const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
-const localesMiddleware = require('./middleware/locales');
+const i18nMiddleware = require('./middleware/i18n');
+const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
@@ -55,6 +58,18 @@ Raven.config(SENTRY_DSN, {
 }).install();
 
 app.use(Raven.requestHandler());
+
+/**
+ * Set up internationalisation
+ */
+i18n.expressBind(app, {
+    locales: ['en', 'cy'],
+    directory: './config/locales',
+    extension: '.yml',
+    parse: data => yaml.safeLoad(data),
+    dump: data => yaml.safeDump(data),
+    devMode: false
+});
 
 /**
  * Status endpoint
@@ -100,16 +115,16 @@ viewGlobalsService.init(app);
  * Register global middlewares
  */
 app.use(timingsMiddleware);
-app.use(cachedMiddleware.defaultVary);
-app.use(cachedMiddleware.defaultCacheControl);
+app.use(i18nMiddleware);
+app.use(cachedMiddleware.defaults);
 app.use(loggerMiddleware);
-app.use(previewMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
-app.use(localesMiddleware(app));
+app.use(localsMiddleware);
+app.use(previewMiddleware);
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
