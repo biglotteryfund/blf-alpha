@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jquery';
 import { featureIsEnabled } from '../helpers/features';
 const { trackEvent } = require('../helpers/metrics');

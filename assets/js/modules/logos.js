@@ -1,5 +1,3 @@
-'use strict';
-
 const $ = require('jquery');
 
 function findSuccessBlock($el) {

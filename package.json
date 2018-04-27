@@ -141,7 +141,7 @@
     "cypress": "^2.1.0",
     "del": "^3.0.0",
     "dotenv": "^5.0.0",
-    "eslint": "^4.8.0",
+    "eslint": "^4.19.0",
     "eslint-plugin-cypress": "^2.0.1",
     "fkill-cli": "^4.1.0",
     "gulp": "^3.9.1",

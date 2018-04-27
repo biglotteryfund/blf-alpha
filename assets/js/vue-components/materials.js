@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jquery';
 import Vue from 'vue';
 import { VueConfig } from './vue-config';
