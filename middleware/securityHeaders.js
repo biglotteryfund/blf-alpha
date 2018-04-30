@@ -1,5 +1,4 @@
 'use strict';
-
 const config = require('config');
 const helmet = require('helmet');
 const { concat, get, map } = require('lodash');

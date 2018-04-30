@@ -1,3 +1,4 @@
+'use strict';
 let services = '/services/' + process.env.SLACK_SERVICE_KEY;
 let channel = '#builds';
 

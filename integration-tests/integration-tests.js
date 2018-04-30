@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Require suites individually to control running order
  * We want basic smoke tests first so they can fail early

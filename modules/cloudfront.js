@@ -1,3 +1,4 @@
+'use strict';
 const config = require('config');
 const { assign, concat, filter, forEach, map, sortBy } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');

@@ -1,3 +1,4 @@
+'use strict';
 const queryString = require('query-string');
 const { toString } = require('lodash');
 

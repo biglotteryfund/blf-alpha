@@ -1,3 +1,4 @@
+'use strict';
 const { makeUserLink } = require('../controllers/user/utils');
 
 const checkAuthStatus = (req, res, next, minimumLevel) => {

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { body } = require('express-validator/check');
 const Raven = require('raven');

@@ -1,5 +1,4 @@
 'use strict';
-
 const config = require('config');
 const { URL } = require('url');
 const querystring = require('querystring');
@@ -81,10 +80,6 @@ function getCurrentSection(sectionId, pageId) {
 function init(app) {
     const setViewGlobal = (name, value) => {
         app.get('engineEnv').addGlobal(name, value);
-    };
-
-    const getViewGlobal = name => {
-        return app.get('engineEnv').getGlobal(name);
     };
 
     setViewGlobal('appData', appData);

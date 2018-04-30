@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Server-side Google Analytics using the Measurement Protocol
  * @link https://developers.google.com/analytics/devguides/collection/protocol/v1/reference

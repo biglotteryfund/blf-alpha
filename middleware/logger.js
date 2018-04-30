@@ -1,5 +1,4 @@
 'use strict';
-
 const morgan = require('morgan');
 
 const logFormat =

@@ -1,3 +1,4 @@
+'use strict';
 const { has } = require('lodash');
 const assets = require('./assets');
 

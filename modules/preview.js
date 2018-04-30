@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 
 function addPreviewStatus(res, data) {

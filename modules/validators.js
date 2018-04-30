@@ -1,5 +1,4 @@
 'use strict';
-
 const { JSDOM } = require('jsdom');
 const { mapValues } = require('lodash');
 const createDOMPurify = require('dompurify');

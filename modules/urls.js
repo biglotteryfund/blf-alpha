@@ -1,5 +1,4 @@
 'use strict';
-
 const config = require('config');
 const { get, includes, reduce } = require('lodash');
 const routes = require('../controllers/routes');

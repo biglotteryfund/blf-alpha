@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');

@@ -1,3 +1,4 @@
+'use strict';
 const { makeUserLink } = require('./utils');
 
 const dashboard = (req, res) => {
