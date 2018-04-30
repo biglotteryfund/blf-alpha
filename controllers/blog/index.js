@@ -35,7 +35,7 @@ function renderPost({ req, res, entry }) {
     });
 }
 
-function renderListing({ res, title, entries = [], entriesMeta = {}, activeBreadcrumbs = [] }) {
+function renderListing({ res, title, entries = [], entriesMeta = null, activeBreadcrumbs = [] }) {
     res.render('pages/blog/listing', {
         title,
         entries,

@@ -10,7 +10,21 @@
     <main role="main" id="content">
         <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             {{ selectionTrail(activeBreadcrumbs) }}
-            <h1 class="u-visually-hidden">{{ title }}</h1>
+
+            {% if entriesMeta %}
+                {% if entriesMeta.pageType === 'authors' %}
+                    {% set activeAuthor = entriesMeta.activeAuthor %}
+                    <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    <h1>Viewing all posts tagged {{ activeCategory.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% endif %}
+            {% else %}
+                <h1 class="u-visually-hidden">{{ title }}</h1>
+            {% endif %}
+
             <ol class="blog-listing">
                 {% for entry in entries %}
                     <li class="blog-listing__item">
