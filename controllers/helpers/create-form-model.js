@@ -1,3 +1,4 @@
+'use strict';
 const shortid = require('shortid');
 const { find, flatMap, has, get, sortBy, groupBy } = require('lodash');
 

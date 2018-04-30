@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
-const createFormRouter = require('./forms/create-form-router');
+
+const { createFormRouter } = require('../helpers/create-form-router');
 const formModel = require('./reaching-communities-form');
 
 function initYourIdea() {

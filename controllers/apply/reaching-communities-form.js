@@ -1,7 +1,9 @@
+'use strict';
+
 const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('./forms/create-form-model');
+const { createFormModel } = require('../helpers/create-form-model');
 const { HUB_EMAILS } = require('../../modules/secrets');
 const appData = require('../../modules/appData');
 const mail = require('../../modules/mail');
