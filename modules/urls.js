@@ -68,8 +68,12 @@ function getFullUrl(req) {
 }
 
 function getAbsoluteUrl(req, urlPath) {
-    const baseUrl = getBaseUrl(req);
-    return `${baseUrl}${urlPath}`;
+    if (urlPath.indexOf('://') === -1) {
+        const baseUrl = getBaseUrl(req);
+        return `${baseUrl}${urlPath}`;
+    } else {
+        return urlPath;
+    }
 }
 
 /**

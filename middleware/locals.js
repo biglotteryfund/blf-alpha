@@ -3,7 +3,7 @@
 const config = require('config');
 const moment = require('moment');
 
-const { buildUrl } = require('../modules/urls');
+const { buildUrl, getAbsoluteUrl } = require('../modules/urls');
 
 /**
  * Get normalised page title for metadata
@@ -41,6 +41,13 @@ module.exports = {
          ***********************************************/
 
         res.locals.getMetaTitle = getMetaTitle;
+
+        /**
+         * Abosolute URL helper
+         */
+        res.locals.getAbsoluteUrl = function(urlPath) {
+            return getAbsoluteUrl(req, urlPath);
+        };
 
         /**
          * View helper for building URLs from route names
