@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ metaTitle }}">
 <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
-<meta property="og:url" content="{{ getCurrentUrl(request) }}">
+<meta property="og:url" content="{{ getCurrentUrl() }}">
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
@@ -50,8 +50,8 @@
 
 {% if isBilingual %}
     {% if locale == 'en' %}
-        <link rel="alternate" hreflang="cy" href="{{ getCurrentUrl(request, 'cy') }}" />
+        <link rel="alternate" hreflang="cy" href="{{ getCurrentUrl('cy') }}" />
     {% else %}
-        <link rel="alternate" hreflang="en" href="{{ getCurrentUrl(request, 'en') }}" />
+        <link rel="alternate" hreflang="en" href="{{ getCurrentUrl('en') }}" />
     {% endif %}
 {% endif %}

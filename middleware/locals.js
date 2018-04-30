@@ -3,7 +3,7 @@
 const config = require('config');
 const moment = require('moment');
 
-const { buildUrl, getAbsoluteUrl } = require('../modules/urls');
+const { buildUrl, getCurrentUrl, getAbsoluteUrl } = require('../modules/urls');
 
 /**
  * Get normalised page title for metadata
@@ -47,6 +47,13 @@ module.exports = {
          */
         res.locals.getAbsoluteUrl = function(urlPath) {
             return getAbsoluteUrl(req, urlPath);
+        };
+
+        /**
+         * Current URL helper
+         */
+        res.locals.getCurrentUrl = function(requestedLocale) {
+            return getCurrentUrl(req, requestedLocale);
         };
 
         /**

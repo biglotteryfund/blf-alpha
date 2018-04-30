@@ -20,7 +20,7 @@
                 {% if isHighContrast %}
                     {% set modeToSwitchTo = 'standard'  %}
                 {% endif %}
-                <a href="/contrast/{{ modeToSwitchTo }}?url={{ getCurrentUrl(request) | urlencode}}"
+                <a href="/contrast/{{ modeToSwitchTo }}?url={{ getCurrentUrl() | urlencode}}"
                     data-on="click"
                     data-event-category="Change contrast"
                     data-event-action="Click"
