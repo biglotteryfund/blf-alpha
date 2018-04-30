@@ -53,6 +53,10 @@ const formModel = createFormModel({
     shortCode: 'RC'
 });
 
+formModel.registerStartPage({
+    template: 'pages/apply/reaching-communities-startpage'
+});
+
 formModel.registerStep({
     name: 'Your idea',
     fieldsets: [

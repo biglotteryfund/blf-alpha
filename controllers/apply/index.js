@@ -12,14 +12,7 @@ function initYourIdea() {
         next();
     });
 
-    router.get('/', (req, res) => {
-        res.render('pages/apply/reaching-communities-startpage', {
-            startUrl: `${req.baseUrl}/1`,
-            form: formModel
-        });
-    });
-
-    const routerWithForm = createFormRouter(router, formModel);
+    const routerWithForm = createFormRouter({ router, formModel });
 
     return routerWithForm;
 }

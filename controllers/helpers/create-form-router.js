@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../middleware/cached');
 
-function createFormRouter(router, formModel) {
+function createFormRouter({ router, formModel }) {
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
@@ -13,6 +13,21 @@ function createFormRouter(router, formModel) {
         return get(req.session, formModel.getSessionProp(step), {});
     }
 
+    /**
+     * Route: Start page
+     */
+    router.get('/', function(req, res) {
+        const stepConfig = formModel.getStartPage();
+        res.render(stepConfig.template, {
+            startUrl: `${req.baseUrl}/1`,
+            stepConfig: stepConfig,
+            form: formModel
+        });
+    });
+
+    /**
+     * Route: Form steps
+     */
     formSteps.forEach((step, idx) => {
         const currentStepNumber = idx + 1;
         const nextStepNumber = currentStepNumber + 1;
@@ -80,6 +95,9 @@ function createFormRouter(router, formModel) {
             });
     });
 
+    /**
+     * Route: Review
+     */
     router
         .route('/review')
         .all(cached.csrfProtection)
@@ -123,6 +141,9 @@ function createFormRouter(router, formModel) {
             }
         });
 
+    /**
+     * Route: Success
+     */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
         const successStep = formModel.getSuccessStep();
