@@ -3,6 +3,7 @@ const { forEach } = require('lodash');
 const express = require('express');
 const favicon = require('serve-favicon');
 const i18n = require('i18n-2');
+const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
 const yaml = require('js-yaml');
@@ -17,14 +18,14 @@ if (appData.isDev) {
 }
 
 const { cymreigio } = require('./modules/urls');
+const { getSectionsForNavigation } = require('./controllers/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
-const { getSectionsForNavigation } = require('./controllers/route-helpers');
 const { SENTRY_DSN } = require('./modules/secrets');
 const { serveRedirects } = require('./modules/redirects');
 const { shouldServe } = require('./modules/pageLogic');
 const routes = require('./controllers/routes');
-const viewEngineService = require('./modules/viewEngine');
+const viewFilters = require('./modules/filters');
 const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
@@ -107,9 +108,28 @@ initAppLocals();
 
 /**
  * Configure views
+ * 1. Configure Nunjucks
+ * 2. Add custom filters
+ * 3. Add custom view globals
  */
-viewEngineService.init(app);
-viewGlobalsService.init(app);
+function initViewEngine() {
+    const templateEnv = nunjucks.configure('views', {
+        autoescape: true,
+        express: app,
+        noCache: appData.isDev,
+        watch: appData.isDev
+    });
+
+    forEach(viewFilters, (filterFn, filterName) => {
+        templateEnv.addFilter(filterName, filterFn);
+    });
+
+    app.set('view engine', 'njk').set('engineEnv', templateEnv);
+
+    viewGlobalsService.init(app);
+}
+
+initViewEngine();
 
 /**
  * Register global middlewares
