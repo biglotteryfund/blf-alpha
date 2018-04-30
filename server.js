@@ -149,9 +149,6 @@ app.use(previewMiddleware);
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
 
-// Mount apply controller (forms)
-app.use(cymreigio('/apply'), require('./controllers/apply'));
-
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));
 
