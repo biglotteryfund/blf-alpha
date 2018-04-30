@@ -81,6 +81,7 @@ function createFormModel({ id, title, shortCode }) {
     let reviewStep;
     let successStep;
     let errorStep;
+    let startPage;
 
     return {
         id: id,
@@ -117,8 +118,18 @@ function createFormModel({ id, title, shortCode }) {
             const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
             return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
         },
-        registerReviewStep: function(review) {
-            reviewStep = review;
+        registerStartPage: function(config) {
+            startPage = config;
+        },
+        getStartPage: function() {
+            if (!startPage) {
+                throw new Error('Must register start page');
+            }
+
+            return startPage;
+        },
+        registerReviewStep: function(config) {
+            reviewStep = config;
         },
         getReviewStep: function() {
             if (!reviewStep) {
@@ -127,13 +138,14 @@ function createFormModel({ id, title, shortCode }) {
 
             return reviewStep;
         },
-        registerSuccessStep: function(success) {
-            if (!success.processor) {
+        registerSuccessStep: function(config) {
+            if (!config.processor) {
                 throw new Error(
                     'The success processor is required and must be a function which returns a Promise instance'
                 );
             }
-            successStep = success;
+
+            successStep = config;
         },
         getSuccessStep: function() {
             if (!successStep) {
