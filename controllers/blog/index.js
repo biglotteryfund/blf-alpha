@@ -8,6 +8,31 @@ const { shouldServe } = require('../../modules/pageLogic');
 const contentApi = require('../../services/content-api');
 const injectHeroImage = require('../../middleware/inject-hero');
 
+/**
+ * Build pagination
+ * Translate content API pagination into an object for use in views
+ */
+function buildPagination(paginationMeta) {
+    if (paginationMeta && paginationMeta.total_pages > 1) {
+        const currentPage = paginationMeta.current_page;
+        const totalPages = paginationMeta.total_pages;
+        const prevLink = `?page=${currentPage - 1}`;
+        const nextLink = `?page=${currentPage + 1}`;
+
+        return {
+            count: paginationMeta.count,
+            total: paginationMeta.total,
+            perPage: paginationMeta.per_page,
+            currentPage: currentPage,
+            totalPages: totalPages,
+            prevLink: currentPage > 1 ? prevLink : null,
+            nextLink: currentPage < totalPages ? nextLink : null
+        };
+    } else {
+        return;
+    }
+}
+
 function buildBreadcrumbs(req, activeItem) {
     const trail = [
         {
@@ -36,10 +61,12 @@ function renderPost({ req, res, entry }) {
 }
 
 function renderListing({ res, title, entries = [], entriesMeta = null, activeBreadcrumbs = [] }) {
+    const pagination = buildPagination(entriesMeta.pagination);
     res.render('pages/blog/listing', {
         title,
         entries,
         entriesMeta,
+        pagination,
         activeBreadcrumbs
     });
 }
@@ -48,15 +75,17 @@ function initLanding({ router, routeConfig }) {
     router.get(routeConfig.path, injectHeroImage(routeConfig), (req, res) => {
         contentApi
             .getBlogPosts({
-                locale: req.i18n.getLocale()
+                locale: req.i18n.getLocale(),
+                page: req.query.page || 1
             })
-            .then(entries => {
+            .then(result => {
                 const title = req.i18n.__('global.nav.blog');
                 const activeBreadcrumbs = buildBreadcrumbs(req);
                 renderListing({
                     res,
                     title,
-                    entries,
+                    entries: result.entries,
+                    entriesMeta: result.meta,
                     activeBreadcrumbs
                 });
             })

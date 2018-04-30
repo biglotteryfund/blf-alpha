@@ -120,11 +120,17 @@ function getPromotedNews({ locale, limit }) {
     });
 }
 
-function getBlogPosts({ locale }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/blog`).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
-        return results;
+function getBlogPosts({ locale, page = 1, pageLimit = 10 }) {
+    return fetchAllLocales(reqLocale => {
+        return `/v1/${reqLocale}/blog?page=${page}&page-limit=${pageLimit}`;
+    }).then(responses => {
+        const [enResponse, cyResponse] = responses;
+        const entries = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
+
+        return {
+            entries: entries,
+            meta: enResponse.meta
+        };
     });
 }
 

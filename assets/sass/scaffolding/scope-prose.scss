@@ -1,6 +1,18 @@
 /* =========================================================================
    Scoped Prose Styles
    ========================================================================= */
+
+$constrained: 35em;
+$constrainedWide: 42em;
+
+.u-constrained {
+    max-width: $constrained;
+}
+
+.u-constrained-wide {
+    max-width: $constrainedWide;
+}
+
 /*
     Opt-in typography:
     https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
@@ -16,7 +28,7 @@
     p,
     ul,
     ol {
-        max-width: 35em;
+        max-width: $constrained;
     }
 }
 
@@ -33,7 +45,7 @@
     p,
     ul,
     ol {
-        max-width: 42em;
+        max-width: $constrainedWide;
     }
 }
 

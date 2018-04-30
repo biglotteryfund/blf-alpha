@@ -74,6 +74,50 @@
 }
 
 /* =========================================================================
+   Split Nav (previous / next pagination)
+   ========================================================================= */
+
+.split-nav {
+    @include clearfix();
+    margin: 1.5em 0 1em;
+    padding-top: .5em;
+    border-top: 1px solid palette('border');
+}
+.split-nav__prev,
+.split-nav__next {
+    display: block;
+    font-size: 90%;
+    text-decoration: none;
+
+    @include on-interact {
+        text-decoration: underline;
+    }
+}
+.split-nav__prev {
+    float: left;
+
+    &::before {
+        content: '← ';
+    }
+}
+.split-nav__next {
+    float: right;
+
+    &::after {
+        content: ' →';
+    }
+}
+@include mq('small') {
+    .split-nav__prev,
+    .split-nav__next {
+    }
+    .split-nav__prev {
+    }
+    .split-nav__next {
+    }
+}
+
+/* =========================================================================
    Navigation: Nested Menu (Section Navigation)
    ========================================================================= */
 
