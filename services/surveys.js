@@ -1,3 +1,4 @@
+'use strict';
 const { minBy, maxBy, sumBy } = require('lodash');
 const moment = require('moment');
 

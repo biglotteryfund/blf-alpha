@@ -1,3 +1,4 @@
+'use strict';
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 

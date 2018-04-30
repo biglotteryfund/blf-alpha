@@ -1,5 +1,4 @@
 'use strict';
-
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const request = require('request-promise-native');
 

@@ -1,3 +1,4 @@
+'use strict';
 const { find, get } = require('lodash');
 const { sMaxAge } = require('../../middleware/cached');
 const injectHeroImage = require('../../middleware/inject-hero');

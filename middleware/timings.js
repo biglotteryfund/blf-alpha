@@ -1,3 +1,4 @@
+'use strict';
 const AWS = require('aws-sdk');
 const config = require('config');
 const responseTime = require('response-time');

@@ -1,3 +1,4 @@
+'use strict';
 const passport = require('passport');
 const { makeErrorList, makeUserLink } = require('./utils');
 

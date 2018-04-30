@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Extract post code area (outcode)
  * Based on https://github.com/ideal-postcodes/postcode.js

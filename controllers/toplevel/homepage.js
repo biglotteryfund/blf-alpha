@@ -1,3 +1,4 @@
+'use strict';
 const Raven = require('raven');
 const contentApi = require('../../services/content-api');
 
