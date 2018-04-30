@@ -1,10 +1,11 @@
+'use strict';
 const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-const cached = require('../../../middleware/cached');
+const cached = require('../../middleware/cached');
 
-module.exports = function(router, formModel) {
+function createFormRouter(router, formModel) {
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
@@ -141,4 +142,8 @@ module.exports = function(router, formModel) {
     });
 
     return router;
+}
+
+module.exports = {
+    createFormRouter
 };
