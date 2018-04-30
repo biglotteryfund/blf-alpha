@@ -113,7 +113,7 @@
                 "cy": "Pecyn o 10"
             },
             "image": "balloons.jpg",
-            "maximum": 1,
+            "maximum": 2,
             "products": [
                 {
                     "language": "monolingual",
@@ -312,7 +312,7 @@
                 "cy": "Baneri"
             },
             "description": {
-                "en": "10 metres long",
+                "en": "12 metres long",
                 "cy": "10 metr o hyd"
             },
             "image": "bunting.jpg",
