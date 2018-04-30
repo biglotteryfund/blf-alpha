@@ -6,27 +6,7 @@ const querystring = require('querystring');
 const shortid = require('shortid');
 
 const { getBaseUrl, isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('./urls');
-const { heroImages } = require('./images');
-const appData = require('./appData');
 const formHelpers = require('./forms');
-
-const metadata = {
-    title: config.get('meta.title'),
-    description: config.get('meta.description'),
-    themeColour: config.get('meta.themeColour')
-};
-
-/**
- * getMetaTitle
- * Get normalised page title for metadata
- */
-function getMetaTitle(base, pageTitle) {
-    if (pageTitle) {
-        return `${pageTitle} | ${base}`;
-    } else {
-        return base;
-    }
-}
 
 /**
  * getCurrentUrl
@@ -83,17 +63,7 @@ function init(app) {
         app.get('engineEnv').addGlobal(name, value);
     };
 
-    const getViewGlobal = name => {
-        return app.get('engineEnv').getGlobal(name);
-    };
-
-    setViewGlobal('appData', appData);
-
-    setViewGlobal('metadata', metadata);
-
     setViewGlobal('shortid', () => shortid());
-
-    setViewGlobal('getMetaTitle', getMetaTitle);
 
     setViewGlobal('anchors', config.get('anchors'));
 
@@ -122,13 +92,10 @@ function init(app) {
     });
 
     setViewGlobal('formHelpers', formHelpers);
-
-    setViewGlobal('heroImages', heroImages);
 }
 
 module.exports = {
     init,
     getCurrentUrl,
-    getMetaTitle,
     getCurrentSection
 };
