@@ -20,6 +20,10 @@ function initYourIdea() {
 module.exports = () => {
     const router = express.Router();
 
+    router.get('/', (req, res) => {
+        res.redirect('/');
+    });
+
     router.use('/your-idea', initYourIdea());
 
     return router;

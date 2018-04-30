@@ -41,7 +41,6 @@ const sections = {
     }),
     apply: createSection({
         path: '/apply',
-        langTitlePath: 'global.nav.blog',
         controllerPath: path.resolve(__dirname, './apply'),
         showInNavigation: false
     })
