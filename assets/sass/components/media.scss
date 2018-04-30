@@ -5,17 +5,14 @@
 /* =========================================================================
    Media: Figure
    ========================================================================= */
-// Figure with image and figcaption
+// Figure with image and figcaption (see also: scope-prose.scss)
 
 .media-figure {
     margin: 0;
     border-top: 4px solid;
 }
 .media-figure__caption {
-    color: #667;
-    font-size: 14px;
-    font-style: italic;
-    margin: 0.5em 0;
+    @include text-caption();
 }
 
 /* =========================================================================

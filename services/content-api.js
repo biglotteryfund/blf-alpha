@@ -1,3 +1,5 @@
+'use strict';
+
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const request = require('request-promise-native');
 
@@ -118,6 +120,24 @@ function getPromotedNews({ locale, limit }) {
     });
 }
 
+function getBlogPosts({ locale, page = 1, pageLimit = 10 }) {
+    return fetchAllLocales(reqLocale => {
+        return `/v1/${reqLocale}/blog?page=${page}&page-limit=${pageLimit}`;
+    }).then(responses => {
+        const [enResponse, cyResponse] = responses;
+        const entries = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
+
+        return {
+            entries: entries,
+            meta: enResponse.meta
+        };
+    });
+}
+
+function getBlogDetail({ locale, urlPath }) {
+    return fetch(`/v1/${locale}/blog${urlPath}`);
+}
+
 function getFundingProgrammes({ locale }) {
     return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
@@ -184,8 +204,11 @@ module.exports = {
     setApiUrl,
     getApiUrl,
     getCmsPath,
+    mapAttrs,
     mergeWelshBy,
     // API methods
+    getBlogPosts,
+    getBlogDetail,
     getCaseStudies,
     getFundingProgramme,
     getFundingProgrammes,

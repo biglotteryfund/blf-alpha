@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/programmes.njk" import programmeList, selectionTrail with context %}
+{% from "components/programmes.njk" import programmeList with context %}
+{% from "components/nav.njk" import selectionTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -19,10 +20,7 @@
 
         <section class="content-box inner--wide-only
             accent--{{ pageAccent }} a--border-top nudge-up">
-            {{ selectionTrail(
-                trail = activeBreadcrumbs,
-                itemCount = programmes.length
-            ) }}
+            {{ selectionTrail(trail = activeBreadcrumbs) }}
 
             <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
 

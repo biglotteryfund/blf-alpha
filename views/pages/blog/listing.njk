@@ -1,0 +1,43 @@
+{% from "components/nav.njk" import selectionTrail, splitNav with context %}
+{% from "components/news.njk" import blogTeaser with context %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main" id="content">
+        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            {{ selectionTrail(activeBreadcrumbs) }}
+
+            <div class="u-constrained-wide">
+                {% if entriesMeta %}
+                    {% if entriesMeta.pageType === 'authors' %}
+                        {% set activeAuthor = entriesMeta.activeAuthor %}
+                        <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                    {% elseif entriesMeta.pageType === 'tag' %}
+                        <h1>Viewing all posts tagged {{ activeCategory.title }}</h1>
+                    {% elseif entriesMeta.pageType === 'category' %}
+                        {% set activeCategory = entriesMeta.activeCategory %}
+                        <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                    {% endif %}
+                {% else %}
+                    <h1 class="u-visually-hidden">{{ title }}</h1>
+                {% endif %}
+
+
+                <ol class="blog-listing">
+                    {% for entry in entries %}
+                        <li class="blog-listing__item">
+                            {{ blogTeaser(entry) }}
+                        </li>
+                    {% endfor %}
+                </ol>
+
+                {{ splitNav(pagination) }}
+            </div>
+
+        </section>
+    </main>
+{% endblock %}

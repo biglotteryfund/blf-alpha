@@ -1,12 +1,38 @@
 {% macro articleTeaser(article) %}
     <article class="article-teaser">
-        <h3 class="article-teaser__title t2">
-            <a class="u-link-minimal" href="{{ article.link }}">
-                {{ article.title }}
-            </a>
-        </h3>
-        <p class="article-teaser__summary">
-            {{ article.summary }}
-        </p>
+        <header class="article-teaser__header">
+            <h3 class="article-teaser__title t2">
+                <a class="u-link-minimal" href="{{ article.link }}">
+                    {{ article.title }}
+                </a>
+            </h3>
+        </header>
+        <div class="article-teaser__content">
+            <p class="article-teaser__summary">
+                {{ article.summary }}
+            </p>
+        </div>
+    </article>
+{% endmacro %}
+
+{# TODO: Combine with articleTeaser? #}
+{% macro blogTeaser(entry) %}
+    <article class="blog-teaser">
+        <header class="blog-teaser__header">
+            <h2 class="blog-teaser__title t1">
+                <a class="u-link-minimal" href="{{ entry.link }}">{{ entry.title }}</a>
+            </h2>
+        </header>
+        <footer class="blog-teaser__meta">
+            <time class="blog-teaser__pubdate" pubdate datetime="{{ entry.postDate.date }}">
+                {{ formatDate(entry.postDate.date, 'D MMMM, YYYY') }}
+            </time>
+            {% if entry.category -%}
+                in <a href="{{ entry.category.link }}">{{ entry.category.title }}</a>
+            {%- endif %}
+        </footer>
+        <div class="blog-teaser__content u-constrained-content">
+            <p class="blog-teaser__trail">{{ entry.intro }}</p>
+        </div>
     </article>
 {% endmacro %}

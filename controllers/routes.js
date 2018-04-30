@@ -32,6 +32,12 @@ const sections = {
         path: '/about',
         langTitlePath: 'global.nav.about',
         controllerPath: path.resolve(__dirname, './about')
+    }),
+    blog: createSection({
+        path: '/blog',
+        langTitlePath: 'global.nav.blog',
+        controllerPath: path.resolve(__dirname, './blog'),
+        showInNavigation: false
     })
 };
 
@@ -294,6 +300,18 @@ sections.about.addRoutes({
         aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
     }),
     content: cmsRoute({
+        path: '/*'
+    })
+});
+
+/**
+ * Blog routes
+ */
+sections.blog.addRoutes({
+    root: dynamicRoute({
+        path: '/'
+    }),
+    articles: dynamicRoute({
         path: '/*'
     })
 });

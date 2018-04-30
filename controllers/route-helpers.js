@@ -1,4 +1,7 @@
-const { compact, compose, concat, filter, flatMap, getOr, map, pick, sortBy, uniqBy } = require('lodash/fp');
+'use strict';
+
+const { compact, compose, concat, filter, flatMap, getOr, map, omitBy, pick, sortBy, uniqBy } = require('lodash/fp');
+
 const contentApi = require('../services/content-api');
 const routes = require('./routes');
 
@@ -78,8 +81,14 @@ function getVanityRedirects() {
     return Promise.resolve(sorted);
 }
 
+function getSectionsForNavigation() {
+    const inNav = omitBy(section => section.showInNavigation === false);
+    return inNav(routes.sections);
+}
+
 module.exports = {
     getCanonicalRoutes,
     getCombinedRedirects,
-    getVanityRedirects
+    getVanityRedirects,
+    getSectionsForNavigation
 };

@@ -124,7 +124,8 @@ function initProgrammesList(router, options) {
                         };
 
                         templateData.activeBreadcrumbs.push({
-                            label: locationParamToTranslation(locationParam)
+                            label: locationParamToTranslation(locationParam),
+                            count: templateData.programmes.length
                         });
                     }
                 }

@@ -3,10 +3,34 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { getBaseUrl, isWelsh, localify, hasTrailingSlash, stripTrailingSlashes, normaliseQuery } = require('./urls');
+const {
+    buildUrl,
+    getBaseUrl,
+    isWelsh,
+    localify,
+    hasTrailingSlash,
+    stripTrailingSlashes,
+    normaliseQuery
+} = require('./urls');
 const httpMocks = require('node-mocks-http');
 
 describe('URL Helpers', () => {
+    describe('#buildUrl', () => {
+        it('should build correct url based on section url and page name', () => {
+            const builderEn = buildUrl('');
+            const builderCy = buildUrl('welsh');
+
+            expect(builderEn('toplevel', 'benefits')).to.equal('/jobs/benefits');
+            expect(builderCy('toplevel', 'benefits')).to.equal('welsh/jobs/benefits');
+        });
+
+        it('should build correct url when a simple path is given', () => {
+            const testPath = 'global-content/programmes/england/awards-for-all-england';
+            expect(buildUrl('')(testPath)).to.equal(`/${testPath}`);
+            expect(buildUrl('welsh')(testPath)).to.equal(`welsh/${testPath}`);
+        });
+    });
+
     describe('#isWelsh', () => {
         it('should determine if a given url path is welsh', () => {
             expect(isWelsh('/welsh')).to.be.true;

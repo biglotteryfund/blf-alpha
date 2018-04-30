@@ -102,34 +102,3 @@
 .programme-overview__title {
     margin-bottom: 0
 }
-
-/* =========================================================================
-   Selection Trail
-   ========================================================================= */
-/* Breadcrumb-trail-esque device for showing selected programme filters */
-
-.selection-trail {
-    margin-bottom: $spacingUnit;
-}
-.selection-trail__item {
-    display: inline-block;
-
-    &::after {
-        content: '›';
-        font-weight: normal;
-        color: #444;
-        margin: 0 4px;
-    }
-
-    &:last-child::after {
-        content: '';
-        display: none;
-    }
-}
-.selection-trail__item,
-.selection-trail__link {
-    color: palette('green');
-}
-.selection-trail__link {
-    font-weight: bold;
-}

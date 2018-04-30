@@ -14,6 +14,7 @@ global:
     about: About
     search: Search
     research: Research
+    blog: Blog
   contact:
     city: London
     phone: 0345 4 10 20 30
@@ -67,6 +68,7 @@ global:
     readMore: Read more
     readMoreAbout: "Read more about %s"
     or: or
+    topics: topics
   programmes:
     programmeLabels:
       area: Area

@@ -4,7 +4,7 @@
 <html lang="{{ locale }}"
     class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}">
     <head>
-        <title>{% block title %}{% endblock %}{{ __("global.brand.title") }}</title>
+        <title>{% block title %}{{ title }} | {% endblock %}{{ __("global.brand.title") }}</title>
 
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}

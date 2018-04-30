@@ -14,6 +14,7 @@ global:
     about: Amdanom ni
     search: Chwilio
     research: Ymchwil
+    blog: Blog
   contact:
     city: Llundain
     phone: 0300 123 0735
@@ -67,6 +68,7 @@ global:
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
     or: neu
+    topics: pynciau
   programmes:
     programmeLabels:
       area: Ardal
