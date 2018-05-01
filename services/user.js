@@ -1,3 +1,4 @@
+'use strict';
 const { Op } = require('sequelize');
 const { Users } = require('../models');
 const { purifyUserInput } = require('../modules/validators');

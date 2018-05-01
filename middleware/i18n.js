@@ -1,5 +1,4 @@
 'use strict';
-
 const config = require('config');
 const { isWelsh } = require('../modules/urls');
 

@@ -1,3 +1,4 @@
+'use strict';
 const { check, validationResult } = require('express-validator/check');
 const { get, map, mapValues, reduce, set, some, sumBy, values } = require('lodash');
 const { purify } = require('../../modules/validators');

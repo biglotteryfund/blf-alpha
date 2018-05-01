@@ -1,5 +1,4 @@
 'use strict';
-
 const AWS = require('aws-sdk');
 const config = require('config');
 const debug = require('debug')('blf-alpha:mailer');

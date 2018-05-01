@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+'use strict';
 const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;

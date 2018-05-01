@@ -1,3 +1,4 @@
+'use strict';
 const querystring = require('querystring');
 const { noCache } = require('../../middleware/cached');
 const { customEvent } = require('../../modules/analytics');

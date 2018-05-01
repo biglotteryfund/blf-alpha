@@ -1,3 +1,4 @@
+'use strict';
 const uuidv4 = require('uuid/v4');
 const userService = require('../../services/user');
 const appData = require('../../modules/appData');

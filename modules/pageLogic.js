@@ -1,3 +1,4 @@
+'use strict';
 const appData = require('./appData');
 
 function shouldServe(page) {
