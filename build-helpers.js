@@ -17,7 +17,7 @@ function getBuildSummary() {
     const buildDirBase = './public/build';
     const buildDir = `${buildDirBase}/${buildVersion}`;
 
-    const publicDirBase = '/assets/build';
+    const publicDirBase = '/public/build';
     const publicDir = `${publicDirBase}/${buildVersion}`;
 
     return {

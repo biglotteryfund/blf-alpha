@@ -21,9 +21,15 @@ const defaultCacheControl = [
     cacheControl(),
     (req, res, next) => {
         const shouldHaveNoCache = res.locals.PREVIEW_MODE;
+
+        if (!res.headersSent) {
+            res.setHeader('X-Accel-Expires', shouldHaveNoCache ? 'off' : '10');
+        }
+
         res.cacheControl = shouldHaveNoCache
             ? { noStore: true }
             : { maxAge: DEFAULT_MAX_AGE, sMaxAge: DEFAULT_S_MAX_AGE };
+
         next();
     }
 ];
@@ -32,7 +38,12 @@ const defaultCacheControl = [
  * No cache / no-store middleware
  */
 const noCache = (req, res, next) => {
+    if (!res.headersSent) {
+        res.setHeader('X-Accel-Expires', 'off');
+    }
+
     res.cacheControl = { noStore: true };
+
     next();
 };
 

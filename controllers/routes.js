@@ -340,9 +340,6 @@ const otherUrls = [
         path: '/robots.txt'
     }),
     basicRoute({
-        path: '/assets/*'
-    }),
-    basicRoute({
         path: '/error'
     }),
     basicRoute({

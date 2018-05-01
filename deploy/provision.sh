@@ -8,16 +8,6 @@ sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial m
 apt-get update
 apt-get install -y nginx-extras passenger
 
-# enable passenger
-PassengerDisabled="# include /etc/nginx/passenger.conf;"
-PassengerEnabled="include /etc/nginx/passenger.conf;"
-sed -i "s|$PassengerDisabled|$PassengerEnabled|g" /etc/nginx/nginx.conf
-
-# enable gzip in nginx
-GzipDisabled="# gzip_types"
-GzipEnabled="gzip_types"
-sed -i "s|$GzipDisabled|$GzipEnabled|g" /etc/nginx/nginx.conf
-
 # install node
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
