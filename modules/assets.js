@@ -9,11 +9,12 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
+const BASE_URL_PATH = '/public';
 const CURRENT_VERSION = assets.version || 'latest';
 const USE_REMOTE_ASSETS = config.get('features.useRemoteAssets');
 
 function getCachebustedPath(urlPath) {
-    const baseUrl = USE_REMOTE_ASSETS ? 'https://media.biglotteryfund.org.uk/assets' : `/assets`;
+    const baseUrl = USE_REMOTE_ASSETS ? 'https://media.biglotteryfund.org.uk/assets' : BASE_URL_PATH;
     return `${baseUrl}/build/${CURRENT_VERSION}/${urlPath}`;
 }
 
@@ -25,7 +26,7 @@ function getImagePath(urlPath) {
     if (/^http(s?):\/\//.test(urlPath)) {
         return urlPath;
     } else {
-        return `/assets/images/${urlPath}`;
+        return `${BASE_URL_PATH}/images/${urlPath}`;
     }
 }
 

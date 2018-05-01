@@ -8,7 +8,7 @@ const { getCachebustedPath, getCachebustedRealPath, getImagePath } = require('./
 describe('assets', () => {
     it('should get cachebusted url path for an asset', () => {
         const result = getCachebustedPath('stylesheets/style.css');
-        expect(result).to.match(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).to.match(/^\/public\/build\/\w+\/stylesheets\/style.css$/);
     });
 
     it('should get cachebusted real path for an asset', () => {
@@ -18,6 +18,6 @@ describe('assets', () => {
 
     it('should get path for a given image', () => {
         const result = getImagePath('path/to/image.png');
-        expect(result).to.equal('/assets/images/path/to/image.png');
+        expect(result).to.equal('/public/images/path/to/image.png');
     });
 });

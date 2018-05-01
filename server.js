@@ -86,7 +86,7 @@ app.get('/status', require('./controllers/toplevel/status'));
  * @see https://expressjs.com/en/4x/api.html#express.static
  */
 app.use(favicon(path.join('public', '/favicon.ico')));
-app.use('/assets', express.static(path.join(__dirname, './public')));
+app.use('/public', express.static(path.join(__dirname, './public')));
 
 /**
  * Define common app locals

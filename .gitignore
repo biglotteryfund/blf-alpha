@@ -14,6 +14,7 @@ cypress/videos
 deploy.json
 messages.json
 node_modules
+passenger.*
 public/build
 screenshots
 tmp/*.db
