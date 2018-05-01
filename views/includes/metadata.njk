@@ -1,5 +1,4 @@
 {% set metaTitle = getMetaTitle(__("global.brand.title"), title) %}
-{% macro makeAbsoluteImage(path) %}{% if path.indexOf('://') === -1 %}{{ request.protocol }}://{{ request.headers.host }}{% endif %}{{ path }}{% endmacro %}
 <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +11,17 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ metaTitle }}">
 <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
-<meta property="og:url" content="{{ getCurrentUrl(request) }}">
+<meta property="og:url" content="{{ getCurrentUrl() }}">
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
 
 {% if socialImage %}
-<meta property="twitter:image" content="{{ makeAbsoluteImage(socialImage.default) }}">
-<meta property="og:image" content="{{ makeAbsoluteImage(socialImage.default) }}">
+<meta property="twitter:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
+<meta property="og:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
 {% else %}
-<meta property="twitter:image" content="{{ makeAbsoluteImage("social/twitter.jpg" | getImagePath) }}">
-<meta property="og:image" content="{{ makeAbsoluteImage("social/facebook.jpg" | getImagePath) }}">
+<meta property="twitter:image" content="{{ getAbsoluteUrl("social/twitter.jpg" | getImagePath) }}">
+<meta property="og:image" content="{{ getAbsoluteUrl("social/facebook.jpg" | getImagePath) }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 {% endif %}
@@ -51,8 +50,8 @@
 
 {% if isBilingual %}
     {% if locale == 'en' %}
-        <link rel="alternate" hreflang="cy" href="{{ getCurrentUrl(request, 'cy') }}" />
+        <link rel="alternate" hreflang="cy" href="{{ getCurrentUrl('cy') }}" />
     {% else %}
-        <link rel="alternate" hreflang="en" href="{{ getCurrentUrl(request, 'en') }}" />
+        <link rel="alternate" hreflang="en" href="{{ getCurrentUrl('en') }}" />
     {% endif %}
 {% endif %}

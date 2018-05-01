@@ -1,7 +1,10 @@
 'use strict';
 
-const config = require('config');
 const { get, includes, reduce } = require('lodash');
+const { URL } = require('url');
+const config = require('config');
+const querystring = require('querystring');
+
 const routes = require('../controllers/routes');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
@@ -68,8 +71,12 @@ function getFullUrl(req) {
 }
 
 function getAbsoluteUrl(req, urlPath) {
-    const baseUrl = getBaseUrl(req);
-    return `${baseUrl}${urlPath}`;
+    if (urlPath.indexOf('://') === -1) {
+        const baseUrl = getBaseUrl(req);
+        return `${baseUrl}${urlPath}`;
+    } else {
+        return urlPath;
+    }
 }
 
 /**
@@ -150,11 +157,54 @@ function buildUrl(localePrefix) {
     };
 }
 
+/**
+ * getCurrentUrl
+ * - Look up the current URL and rewrite to another locale
+ * - Normalises and prunes query strings
+ */
+function getCurrentUrl(req, requestedLocale) {
+    const urlPath = req.originalUrl;
+    const baseUrl = getBaseUrl(req);
+
+    const isCurrentUrlWelsh = isWelsh(urlPath);
+    const isCyWithEnRequested = isCurrentUrlWelsh && requestedLocale === 'en';
+    const isEnWithCyRequested = !isCurrentUrlWelsh && requestedLocale === 'cy';
+
+    // Rewrite URL to requested language
+    let urlPathForRequestedLocale = urlPath;
+    if (isEnWithCyRequested) {
+        urlPathForRequestedLocale = makeWelsh(urlPath);
+    } else if (isCyWithEnRequested) {
+        urlPathForRequestedLocale = removeWelsh(urlPath);
+    }
+
+    // Remove any trailing slashes (eg. /welsh/ => /welsh)
+    const cleanedUrlPath = stripTrailingSlashes(urlPathForRequestedLocale);
+
+    const fullUrl = baseUrl + cleanedUrlPath;
+
+    const parsedUrl = new URL(fullUrl);
+    const parsedPathname = parsedUrl.pathname;
+    const parsedQuery = parsedUrl.search.replace(/^\?/, '');
+
+    // Remove draft and version parameters
+    const originalQuery = querystring.parse(parsedQuery);
+    delete originalQuery.version;
+    delete originalQuery.draft;
+
+    // Reconstruct clean URL
+    const newCleanQuery = querystring.stringify(originalQuery);
+    const newCleanUrl = newCleanQuery.length > 0 ? `${parsedPathname}?${newCleanQuery}` : parsedPathname;
+
+    return newCleanUrl;
+}
+
 module.exports = {
     buildUrl,
     cymreigio,
     getAbsoluteUrl,
     getBaseUrl,
+    getCurrentUrl,
     getFullUrl,
     hasTrailingSlash,
     isWelsh,

@@ -1,5 +1,6 @@
 'use strict';
 const { forEach } = require('lodash');
+const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
 const i18n = require('i18n-2');
@@ -19,6 +20,7 @@ if (appData.isDev) {
 
 const { cymreigio } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./controllers/route-helpers');
+const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
 const { SENTRY_DSN } = require('./modules/secrets');
@@ -92,6 +94,16 @@ app.use('/assets', express.static(path.join(__dirname, './public')));
  */
 function initAppLocals() {
     /**
+     * Environment metadata
+     */
+    app.locals.appData = appData;
+
+    /**
+     * Metadata (e.g. global title, description)
+     */
+    app.locals.metadata = config.get('meta');
+
+    /**
      * Is this page bilingual?
      * i.e. do we have a Welsh translation
      * Default to true unless overriden by a route
@@ -102,6 +114,11 @@ function initAppLocals() {
      * Navigation sections for top-level nav
      */
     app.locals.navigationSections = getSectionsForNavigation();
+
+    /**
+     * Common hero images
+     */
+    app.locals.heroImages = heroImages;
 }
 
 initAppLocals();
@@ -143,7 +160,7 @@ app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
-app.use(localsMiddleware);
+app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 
 // Mount tools controller
