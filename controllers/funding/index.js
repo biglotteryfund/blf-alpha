@@ -4,6 +4,7 @@ const express = require('express');
 
 const routerSetup = require('../setup');
 const routeCommon = require('../common');
+const { shouldServe } = require('../../modules/pageLogic');
 
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
@@ -62,10 +63,12 @@ module.exports = (pages, sectionPath, sectionId) => {
     /**
      * Past Grants
      */
-    pastGrantsRoute.init({
-        router: router,
-        routeConfig: pages.pastGrants
-    });
+    if (shouldServe(pages.pastGrants)) {
+        pastGrantsRoute.init({
+            router: router,
+            routeConfig: pages.pastGrants
+        });
+    }
 
     routeCommon.init({
         router: router,
