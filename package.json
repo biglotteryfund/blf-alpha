@@ -58,6 +58,10 @@
       ]
     ]
   },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 10"
+  ],
   "nodemonConfig": {
     "verbose": true,
     "ignore": [
