@@ -1,6 +1,7 @@
 'use strict';
 const Raven = require('raven');
 const contentApi = require('../../services/content-api');
+const images = require('../../modules/images');
 
 function init({ router, routeConfig }) {
     router.get(routeConfig.path, (req, res) => {
@@ -26,7 +27,14 @@ function init({ router, routeConfig }) {
             })
             .catch(err => {
                 Raven.captureException(err);
-                serveHomepage();
+                const fallbackHeroes = {
+                    default: images.heroImages.larcheBelfast,
+                    candidates: [
+                        images.heroImages.passion4Fusion,
+                        images.heroImages.streetDreams
+                    ]
+                };
+                serveHomepage(fallbackHeroes);
             });
     });
 }
