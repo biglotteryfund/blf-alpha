@@ -10,11 +10,6 @@
 {% set heroImage = heroImages.passion4Fusion %}
 {% set socialImage = heroImage %}
 
-{% macro renderField(field) %}
-    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
-{% endmacro %}
-
 {% block content %}
     {% set pageAccent = 'turquoise' %}
 
@@ -29,22 +24,17 @@
 
         <div class="nudge-up">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+
                 <div class="s-prose s-prose--long u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
 
-                    {# @TODO: Style / polyfil this #}
-                    <details style="margin-bottom: 20px">
-                        <summary style="margin-bottom: 10px">{{ copy.surveyText }}</summary>
-                        <form action="" method="POST" style="padding: .5em; background-color: #eee;">
-                            {{ renderField({
-                                type: 'textarea',
-                                name: 'message',
-                                label: 'Tell us what you think',
-                                isRequired: true
-                            }) }}
-                            <input type="submit" class="btn" value="Submit" />
-                        </form>
-
+                    {# Inline Feedback #}
+                    <details class="inline-feedback u-dont-print js-only" id="js-feedback">
+                        <summary>{{ copy.surveyText }}</summary>
+                        <feedback-form
+                            description="Past grants"
+                            label="Tell us what you think"
+                        />
                     </details>
 
                     <p>In the the meantime, there are two ways you can explore our past grants.</p>

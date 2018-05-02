@@ -21,6 +21,7 @@ const regions = require('../../config/content/regions.json');
 const robotRoutes = require('./robots');
 const homepageRoute = require('./homepage');
 const searchRoute = require('./search');
+const feedbackRoute = require('./feedback');
 const legacyPages = require('./legacyPages');
 
 module.exports = (pages, sectionPath, sectionId) => {
@@ -187,6 +188,11 @@ module.exports = (pages, sectionPath, sectionId) => {
                 });
         }
     });
+
+    /**
+     * Feedback
+     */
+    feedbackRoute.init({ router });
 
     router.get('/styleguide', (req, res) => {
         res.render('pages/toplevel/styleguide', {

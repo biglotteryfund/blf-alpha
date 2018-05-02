@@ -42,9 +42,8 @@ const grantNavFacets = {
 };
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, (req, res) => {
+    router.route(routeConfig.path).get((req, res) => {
         const copy = req.i18n.__(routeConfig.lang);
-
         res.render(routeConfig.template, {
             copy,
             title: copy.title,
