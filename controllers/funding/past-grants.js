@@ -1,4 +1,5 @@
 'use strict';
+const injectHeroImage = require('../../middleware/inject-hero');
 
 /**
  * Pre-set GrantNav Facets
@@ -42,7 +43,7 @@ const grantNavFacets = {
 };
 
 function init({ router, routeConfig }) {
-    router.route(routeConfig.path).get((req, res) => {
+    router.route(routeConfig.path).get(injectHeroImage(routeConfig), (req, res) => {
         const copy = req.i18n.__(routeConfig.lang);
         res.render(routeConfig.template, {
             copy,
