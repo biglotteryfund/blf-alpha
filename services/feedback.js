@@ -1,7 +1,16 @@
 'use strict';
 const moment = require('moment');
 const { Op } = require('sequelize');
+const { groupBy } = require('lodash/fp');
 const { Feedback } = require('../models');
+
+function findAll() {
+    return Feedback.findAll({
+        order: [['updatedAt', 'DESC']]
+    }).then(results => {
+        return groupBy('description')(results);
+    });
+}
 
 function storeFeedback(response) {
     cleanupOldData();
@@ -21,5 +30,6 @@ function cleanupOldData() {
 }
 
 module.exports = {
+    findAll,
     storeFeedback
 };
