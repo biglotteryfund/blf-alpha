@@ -3,7 +3,7 @@
 {% from "components/styleguide.njk" import sgSectionHeader, sgBlock %}
 
 {% from "components/data.njk" import statsGrid %}
-{% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero %}
+{% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero with context %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/programmes.njk" import programmeCard with context %}
 {% from "components/nav.njk" import selectionTrail %}
@@ -130,16 +130,6 @@
 {# ================================ #}
 
 {{ sgSectionHeader('Components') }}
-
-{% set sgContent %}
-    {{ homepageSuperHero(
-        copy = __('toplevel.home.hero'),
-        imageDefault = superHeroImages.default,
-        imageCandidates = superHeroImages.candidates
-    ) }}
-{% endset %}
-{{ sgBlock('Hero', sgContent, fullWidth=true) }}
-
 
 {% set sgContent %}
     {{ hero(
