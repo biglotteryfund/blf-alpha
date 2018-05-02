@@ -9,13 +9,11 @@ function init({ router }) {
         body('description')
             .exists()
             .not()
-            .isEmpty()
-            .withMessage('Please supply a message'),
+            .isEmpty(),
         body('message')
             .exists()
             .not()
             .isEmpty()
-            .withMessage('Please supply a message')
     ];
 
     router.post('/feedback', validators, (req, res) => {
