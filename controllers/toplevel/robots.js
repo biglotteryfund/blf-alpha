@@ -1,8 +1,9 @@
+'use strict';
 const config = require('config');
 const sitemap = require('sitemap');
 const { noCache, sMaxAge } = require('../../middleware/cached');
 const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
-const { getCanonicalRoutes } = require('../route-helpers');
+const { getCanonicalRoutes } = require('../helpers/route-helpers');
 
 function initRobots(router) {
     router.get('/robots.txt', noCache, (req, res) => {

@@ -38,6 +38,11 @@ const sections = {
         langTitlePath: 'global.nav.blog',
         controllerPath: path.resolve(__dirname, './blog'),
         showInNavigation: false
+    }),
+    apply: createSection({
+        path: '/apply',
+        controllerPath: path.resolve(__dirname, './apply'),
+        showInNavigation: false
     })
 };
 
@@ -324,6 +329,19 @@ sections.blog.addRoutes({
 });
 
 /**
+ * Apply routes
+ */
+sections.apply.addRoutes({
+    root: dynamicRoute({
+        path: '/'
+    }),
+    yourIdea: dynamicRoute({
+        path: '/your-idea/*',
+        isPostable: true
+    })
+});
+
+/**
  * Legacy proxied routes
  * The following URLs are legacy pages that are being proxied to make small amends to them.
  * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
@@ -351,10 +369,6 @@ const otherUrls = [
     }),
     basicRoute({
         path: '/error'
-    }),
-    basicRoute({
-        path: '/apply/*',
-        live: false
     }),
     basicRoute({
         path: '/styleguide'

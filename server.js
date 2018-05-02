@@ -19,7 +19,7 @@ if (appData.isDev) {
 }
 
 const { cymreigio } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./controllers/route-helpers');
+const { getSectionsForNavigation } = require('./controllers/helpers/route-helpers');
 const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
@@ -165,9 +165,6 @@ app.use(previewMiddleware);
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
-
-// Mount apply controller (forms)
-app.use(cymreigio('/apply'), require('./controllers/apply'));
 
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));

@@ -1,6 +1,7 @@
+'use strict';
 const { renderError } = require('../http-errors');
 const appData = require('../../modules/appData');
-const routeHelpers = require('../route-helpers');
+const routeHelpers = require('../helpers/route-helpers');
 
 function init({ router }) {
     router.get('/pages', async (req, res) => {
