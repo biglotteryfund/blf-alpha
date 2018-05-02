@@ -140,6 +140,11 @@ sections.funding.addRoutes({
         template: 'pages/funding/over10k',
         lang: 'funding.over10k'
     }),
+    pastGrants: dynamicRoute({
+        path: '/past-grants',
+        template: 'pages/funding/past-grants',
+        lang: 'funding.pastGrants'
+    }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
         template: 'pages/funding/guidance/managing-your-funding',

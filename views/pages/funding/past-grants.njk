@@ -1,0 +1,80 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
+{% from "components/forms-new.njk" import formErrors, formField %}
+{% from "components/icons.njk" import iconSearch %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = heroImages.passion4Fusion %}
+{% set socialImage = heroImage %}
+
+{% macro renderField(field) %}
+    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+{% endmacro %}
+
+{% block content %}
+    {% set pageAccent = 'turquoise' %}
+
+    <main role="main">
+        {{
+            hero(
+                titleText = copy.title,
+                image = heroImage,
+                accent = pageAccent
+            )
+        }}
+
+        <div class="nudge-up">
+            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose s-prose--long u-constrained-content-wide">
+                    <p>{{ copy.intro }}</p>
+
+                    {# @TODO: Style / polyfil this #}
+                    <details style="margin-bottom: 20px">
+                        <summary style="margin-bottom: 10px">{{ copy.surveyText }}</summary>
+                        <form action="" method="POST" style="padding: .5em; background-color: #eee;">
+                            {{ renderField({
+                                type: 'textarea',
+                                name: 'message',
+                                label: 'Tell us what you think',
+                                isRequired: true
+                            }) }}
+                            <input type="submit" class="btn" value="Submit" />
+                        </form>
+
+                    </details>
+
+                    <p>In the the meantime, there are two ways you can explore our past grants.</p>
+
+                    <section class="spaced--l">
+                        <h2>1. Use the GrantNav site <span class="t-caption">(not run by the Big Lottery Fund, but quick, nicely designed and full of our data)</span></h2>
+
+                        <form class="inline-search" role="search"
+                            action="http://grantnav.threesixtygiving.org/search" method="GET">
+                            <label class="inline-search__label ff-label" for="text_query">
+                                What are you searching for?
+                            </label>
+                            <div class="inline-search__group">
+                                <input class="inline-search__input ff-text"
+                                    name="text_query" id="text_query" type="search" value="">
+                                <input name="json_query" type="hidden" value="{{ grantNavFacets | dump }}">
+                                <button class="inline-search__submit" type="submit">
+                                    {{ iconSearch() }}
+                                    <span class="u-visually-hidden">Search</span>
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section>
+                        <h2>2. Use our current grants database <span class="t-caption">(official, but bit less nice to use)</span></h2>
+                        <p><a class="btn" href="/funding/past-grants?page=0">Browse past grants</a></p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

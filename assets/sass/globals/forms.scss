@@ -19,6 +19,11 @@ input[type="search"] {
     -webkit-appearance: none;
 }
 
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button {
+	display:none;
+}
+
 .form-header {
     margin-bottom: $spacingUnit;
 
@@ -149,6 +154,7 @@ input[type="search"] {
 .ff-textarea {
     width: 100%;
     padding: 0.5em;
+    box-sizing: border-box;
 }
 
 .ff-radio {
@@ -237,6 +243,45 @@ input[type="search"] {
 }
 .form-message__title {
     margin-bottom: 3px;
+}
+
+/* =========================================================================
+   Inline Search
+   ========================================================================= */
+
+.inline-search {
+    width: 100%;
+    margin-bottom: $spacingUnit;
+    max-width: 35em;
+}
+.inline-search__group {
+    position: relative;
+}
+.inline-search__input {
+    display: block;
+    width: 100%;
+    padding-right: 50px;
+    padding-left: 10px;
+    height: 40px;
+    font-size: 18px;
+}
+.inline-search__submit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 1;
+    border: none;
+    background: palette('blue');
+    color: white;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        top: 2px;
+    }
 }
 
 /* =========================================================================

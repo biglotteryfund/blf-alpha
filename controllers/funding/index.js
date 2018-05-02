@@ -8,6 +8,7 @@ const routeCommon = require('../common');
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
+const pastGrantsRoute = require('./past-grants');
 const tenKRoutes = require('./10k');
 
 const router = express.Router();
@@ -56,6 +57,14 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetailAfaWales: pages.programmeDetailAfaWales,
             programmeDetailAfaScotland: pages.programmeDetailAfaScotland
         }
+    });
+
+    /**
+     * Past Grants
+     */
+    pastGrantsRoute.init({
+        router: router,
+        routeConfig: pages.pastGrants
     });
 
     routeCommon.init({
