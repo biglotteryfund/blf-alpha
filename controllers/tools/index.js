@@ -4,6 +4,7 @@ const express = require('express');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
+const feedbackService = require('../../services/feedback');
 const materials = require('../../config/content/materials.json');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
@@ -20,6 +21,19 @@ pagelistRouter.init({
 });
 
 const requiredAuthed = auth.requireAuthedLevel(5);
+
+router.route('/feedback-results').get(cached.noCache, requiredAuthed, (req, res) => {
+    feedbackService
+        .findAll()
+        .then(feedback => {
+            res.render('pages/tools/feedback-results', {
+                feedback: feedback
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
 
 router.route('/survey-results').get(cached.noCache, requiredAuthed, (req, res) => {
     surveysService

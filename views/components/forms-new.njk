@@ -120,7 +120,7 @@
                         {{ field.helpText.introduction | safe }}
                     {% endif %}
                 {% endif %}
-                {% if field.type === 'text' or field.type === 'email' %}
+                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' %}
                     {{ inputText(field, field.type) }}
                 {% endif %}
                 {% if field.type === 'textarea' %}
@@ -154,4 +154,9 @@
             {% endif %}
         {% endif %}
     </div>
+{% endmacro %}
+
+{% macro renderFieldWithErrors(errors, field) %}
+    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
 {% endmacro %}

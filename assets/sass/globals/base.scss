@@ -97,6 +97,15 @@ blockquote {
     }
 }
 
+details {
+    margin-bottom: $spacingUnit;
+
+    summary {
+        text-decoration: underline;
+        margin-bottom: 1em;
+    }
+}
+
 /*  =========================================================================
     Embedded content
     http://developers.whatwg.org/embedded-content-1

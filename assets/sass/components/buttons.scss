@@ -150,7 +150,11 @@ $btnConf: (
     }
 }
 
-.btn--link {
+/* =========================================================================
+   Link Buttons
+   ========================================================================= */
+
+.btn-link {
     color: palette('blue-text');
     background-color: transparent;
     transition: color 0.1s ease-in-out;
@@ -160,6 +164,9 @@ $btnConf: (
     border: none;
     border-radius: 0;
     cursor: inherit;
+    text-align: inherit;
+    word-wrap: break-word;
+    white-space: normal;
 
     &:active,
     &:focus {

@@ -29,10 +29,7 @@ function init({ router, routeConfig }) {
                 Raven.captureException(err);
                 const fallbackHeroes = {
                     default: images.heroImages.larcheBelfast,
-                    candidates: [
-                        images.heroImages.passion4Fusion,
-                        images.heroImages.streetDreams
-                    ]
+                    candidates: [images.heroImages.passion4Fusion, images.heroImages.streetDreams]
                 };
                 serveHomepage(fallbackHeroes);
             });
