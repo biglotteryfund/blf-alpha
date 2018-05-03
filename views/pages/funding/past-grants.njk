@@ -29,14 +29,14 @@
             <input name="json_query" type="hidden" value="{{ grantNavFacets | dump }}">
             <button class="inline-search__submit" type="submit">
                 {{ iconSearch() }}
-                <span class="u-visually-hidden">Search</span>
+                {{ __('global.misc.search') }}
             </button>
         </div>
     </form>
 {% endmacro %}
 
 {% block content %}
-    {% set pageAccent = 'turquoise' %}
+    {% set pageAccent = 'pink' %}
 
     <main role="main">
         {{
@@ -49,24 +49,29 @@
 
         <div class="nudge-up">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-
-                <div class="s-prose s-prose--long u-constrained-content-wide">
-                    <p>{{ copy.intro }}</p>
-
+                <section class="u-separator s-prose s-prose--long u-constrained-content-wide">
+                    <p>{{ copy.intro | safe }}</p>
                     {{ inlineFeedback() }}
+                </section>
 
-                    <p>In the the meantime, there are two ways you can explore our past grants.</p>
+                <p>In the the meantime, there are two ways you can explore our past grants.</p>
 
-                    <section class="spaced--l">
-                        <h2>1. Use the GrantNav site <span class="t-caption">(not run by the Big Lottery Fund, but quick, nicely designed and full of our data)</span></h2>
-                        {{ grantNavForm() }}
-                    </section>
-
-                    <section>
-                        <h2>2. Use our current grants database <span class="t-caption">(official, but bit less nice to use)</span></h2>
-                        <p><a class="btn" href="/funding/search-past-grants">Browse past grants</a></p>
-                    </section>
-                </div>
+                <ul class="grid grid--2-up grid--padded grid--equal grid--wide-only">
+                    <li class="grid__item">
+                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                            <h2 class="u-margin-bottom-flush">1. Use the GrantNav site</h2>
+                            <p class="t-caption">Not run by the Big Lottery Fund, but quick, nicely designed and full of our data</p>
+                            {{ grantNavForm() }}
+                        </section>
+                    </li>
+                    <li class="grid__item">
+                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                            <h2 class="u-margin-bottom-flush">2. Use our current grants database</h2>
+                            <p class="t-caption">Official, but bit less nice to use</p>
+                            <p><a class="btn btn--medium btn--outline" href="/funding/search-past-grants">Browse past grants</a></p>
+                        </section>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>

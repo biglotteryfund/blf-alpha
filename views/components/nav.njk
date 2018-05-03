@@ -30,16 +30,16 @@
             for="global-search-input-{{ id }}"
         >
             {{ iconSearch() }}
-            <span class="u-visually-hidden global-search__a11y">{{ __("global.nav.search") }}</span>
+            <span class="u-visually-hidden global-search__a11y">{{ __("global.misc.search") }}</span>
         </label>
         <input
             class="global-search__input"
             id="global-search-input-{{ id }}"
             name="q"
             type="text"
-            placeholder="{{ __("global.nav.search") }}"
+            placeholder="{{ __("global.misc.search") }}"
         >
-        <input class="u-visually-hidden" type="submit" value="Search" />
+        <input class="u-visually-hidden" type="submit" value="{{ __("global.misc.search") }}" />
     </form>
 {% endmacro %}
 

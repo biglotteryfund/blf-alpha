@@ -12,7 +12,6 @@ global:
     home: Hafan
     funding: Ariannu
     about: Amdanom ni
-    search: Chwilio
     research: Ymchwil
     blog: Blog
   contact:
@@ -60,6 +59,7 @@ global:
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:
+    search: Chwilio
     latestNews: Newyddion diweddaraf
     viewAllNews: Gweld pob erthygl newyddion
     seeProgramme: Gweld y rhaglen
