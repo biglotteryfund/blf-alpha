@@ -12,7 +12,6 @@ global:
     home: Home
     funding: Funding
     about: About
-    search: Search
     research: Research
     blog: Blog
   contact:
@@ -60,6 +59,7 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    search: Search
     latestNews: Latest news
     viewAllNews: View all news articles
     seeProgramme: See programme
