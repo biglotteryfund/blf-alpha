@@ -18,7 +18,6 @@
 @import 'globals/base';
 @import 'globals/layout';
 @import 'globals/typography';
-@import 'globals/forms';
 
 // =========================================================================
 // Third-party / Vendor styles
@@ -45,6 +44,7 @@
 
 @import 'components/icons';
 @import 'components/buttons';
+@import 'components/forms';
 @import 'components/navigation';
 @import 'components/messages';
 @import 'components/quotes';
