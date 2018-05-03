@@ -97,11 +97,13 @@ blockquote {
     }
 }
 
-summary {
-    text-decoration: underline;
-}
-details[open] summary {
-    margin-bottom: .5em;
+details {
+    margin-bottom: $spacingUnit;
+
+    summary {
+        text-decoration: underline;
+        margin-bottom: 1em;
+    }
 }
 
 /*  =========================================================================
