@@ -3,7 +3,6 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const httpMocks = require('node-mocks-http');
 const { getCurrentSection } = require('./viewGlobals');
 
 describe('View Globals', () => {
