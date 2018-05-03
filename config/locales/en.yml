@@ -827,7 +827,7 @@ funding:
     browseAll: Browse all funded projects
   pastGrants:
     title: Search All Funded Projects
-    intro: Please help us! We know that our current page for searching past grants is a bit too slow and a bit too hard to use.
+    intro: <strong>Please help us</strong>. We know that our current page for searching past grants is a bit too slow and a bit too hard to use.
     surveyText: Can you spare a minute to tell us what you want from this service?
   guidance:
     order-free-materials:
