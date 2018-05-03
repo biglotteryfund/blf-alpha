@@ -251,7 +251,6 @@ input[type='search']::-webkit-search-cancel-button {
 
 .inline-search {
     width: 100%;
-    margin-bottom: $spacingUnit;
     max-width: 35em;
 }
 .inline-search__group {
@@ -266,21 +265,28 @@ input[type='search']::-webkit-search-cancel-button {
     font-size: 18px;
 }
 .inline-search__submit {
+    @include poppins();
+    font-size: 16px;
+    color: white;
+    background: palette('blue');
+    border: none;
+
     position: absolute;
     top: 0;
     right: 0;
-    width: 40px;
     height: 40px;
-    line-height: 1;
-    border: none;
-    background: palette('blue');
-    color: white;
+    padding: 0 12px 0 8px;
+
+    @include on-interact {
+        background-color: darken(palette('blue'), 10%);
+    }
 
     .icon {
         width: 20px;
         height: 20px;
-        position: relative;
-        top: 2px;
+        display: block;
+        float: left;
+        margin-right: 5px;
     }
 }
 

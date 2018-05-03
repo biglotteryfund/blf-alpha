@@ -4,6 +4,18 @@
 
 $nudgeAmount: 25px;
 
+.u-flex-stretch {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.u-separator {
+    padding-bottom: $spacingUnit;
+    border-bottom: 1px solid palette('border');
+    margin-bottom: $spacingUnit * 1.5;
+}
+
 // @TODO: Rename all uses
 .u-inner,
 .inner {
@@ -80,6 +92,10 @@ $nudgeAmount: 25px;
 
 .spaced--t--l {
     margin-top: $spacingUnit * 2;
+}
+
+.u-margin-bottom-flush {
+    margin-bottom: .1em;
 }
 
 .bordered {
