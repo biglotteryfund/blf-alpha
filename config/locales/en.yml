@@ -152,39 +152,42 @@ toplevel:
     sections:
       availableFunding:
         title: What funding is available?
-        introduction: We’d like to talk to you about your ideas early on so we can
+        outro: We’d like to talk to you about your ideas early on so we can
           give you the best funding advice, so please call our team on <a href="tel:02890551455">028 9055 1455</a>.
         fundingProgrammes:
         - title: Awards for All Northern Ireland
           subTitle: £300–£10,000
           summaryItems:
-          - Funding for projects that bring local people together to make positive changes in their community.
-          - There’s no deadline, so groups can apply any time.
-          - We've made the application process simpler and quicker.
-          - We are prioritising groups that have not had funding from this programme within the last two years.
+          - Projects bringing local people together to make positive changes in their community.
+          - No deadline, so groups can apply any time.
+          - Applying is quick and simple.
+          - Applications welcome from constituted voluntary or community organisations, schools, and statutory bodies.
+          - If we funded you within the last two years, we may have to give priority to other groups that have not
+            recently been funded through this programme.
+          - This funding is for projects that will run for 12 months or less
           linkUrl: /funding/programmes/awards-for-all-northern-ireland
         - title: People and Communities
           subTitle: £30,000–£500,000
           summaryItems:
-          - "Projects are people led - the beneficiaries are meaningfully involved in the development,
-            design and delivery of their project."
-          - "Builds on the skills, assets and energy of people in communities and helps them develop their ideas."
-          - "Projects have an understanding of other activities and services in their community
-            and how their project will complement these."
-          - "Funding available for between two and five years, to projects run by voluntary
-            community social enterprise (VCSE) groups."
+          - Project ideas should come from the community. Talk to the people you want to help and get them involved in
+            shaping and planning the project.
+          - Your project should make good use of the skills, knowledge, resources and energy of people within your
+            community; making it stronger and ready for the future.
+          - Understand the need for your project and how it fits with the work of other organisations. Build
+            relationships and work together on shared goals.
+          - Applications welcome from constituted voluntary or community organisations, and social enterprises.
+          - This funding is for projects that will run for between 2 and 5 years.
           linkUrl: /funding/programmes/people-and-communities
         - title: Empowering Young People
           subTitle: £30,000–£500,000
           summaryItems:
-          - "Projects will help more young people meet one or more of the following: have the
-            skills they need for the future; have better relationships with their support networks
-            and communities; have improved health and wellbeing."
-          - "Young people must be involved in the planning and delivery of the project.
-            They must be able to develop the skills to help themselves, and their support networks
-            and communities need to be involved too."
-          - "Funding available for between two and five years, to projects run by VCSE groups for
-            young people aged 8 – 25 years."
+          - This funding is for projects that work with young people (8 – 25 years old), and which will run for between
+            2 and 5 years.
+          - "Projects will help young people to: have the skills they need for the future; have better relationships
+            with their support networks and communities; and/or have improved health and wellbeing."
+          - Young people must be involved in the planning and delivery of the project. They must be able to develop the
+            skills to help themselves, and their support networks and communities need to be involved too.
+          - Applications welcome from constituted voluntary or community organisations, and social enterprises.
           linkUrl: /funding/programmes/empowering-young-people
       fundingInRegion:
         title: Funding in Northern Ireland
@@ -209,23 +212,24 @@ toplevel:
             image: "disability.png"
       aboutIdeas:
         title: About the ideas we support
-        introduction: We believe people should be in the lead when improving their lives and communities.
-          Our approach focuses on the skills and energy people can draw upon and the potential in their ideas.
-          We are asking what matters to communities, not what’s the matter with them.
+        introduction: We believe people should be in the lead when improving their lives and communities. We focus on
+          the potential in people’s ideas, and on the skills and energy people already have that they can draw on. We
+          ask what matters to communities, not what’s the matter with them.
         contentParts:
         - title: "We are interested in ideas that:"
           summaryPoints:
-          - "Involve people right from the start – we want them to be involved in the
-            development, design and delivery of a project."
-          - "Bring people together, strengthening relationships in and across communities."
-          - "Encourage people and organisations to work together to make a difference in their community."
+          - Involve people from the community right from the start – we want them to be involved in the development,
+            design and delivery of a project.
+          - Bring people together and strengthen relationships in and across communities.
+          - Encourage people and organisations to work together to make a difference in their community.
         - title: "We do this through:"
           summaryPoints:
-          - "Funding grassroots projects that bring people and communities together."
-          - "Asking groups to contact us early on so we can give honest feedback on whether
-            it’s the right programme for them and provide advice and support."
-          - "Offering a range of flexible funding and support."
-          - "Helping organisations to share learning."
+          - Funding grassroots projects that bring people and communities together.
+          - Asking groups to contact us early on so we can give advice and support, including feedback about which of
+            our funding programmes is right for them.
+          - Offering a range of flexible funding and support to make sure we’re able to help the biggest range of groups.
+          - Helping organisations to share their learning with others.
+
   wales:
     title: Wales
     introduction: Big Lottery Fund is the largest community funder in the UK.
