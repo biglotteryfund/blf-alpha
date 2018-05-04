@@ -106,11 +106,7 @@ function initAppLocals() {
     /**
      * Common date formats
      */
-    app.locals.DATE_FORMATS = {
-        short: 'D MMMM, YYYY',
-        full: 'dddd D MMMM YYYY',
-        fullTimestamp: 'dddd D MMM YYYY (hh:mm a)'
-    };
+    app.locals.DATE_FORMATS = config.get('dateFormats');
 
     /**
      * Is this page bilingual?

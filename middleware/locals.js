@@ -69,8 +69,9 @@ module.exports = {
          * @see https://momentjs.com/docs/#/displaying/format/
          */
         res.locals.formatDate = function(dateString, format) {
-            moment.locale(locale);
-            return moment(dateString).format(format);
+            return moment(dateString)
+                .locale(locale)
+                .format(format);
         };
 
         /**
@@ -78,8 +79,9 @@ module.exports = {
          * @param {String} dateString
          */
         res.locals.timeFromNow = function(dateString) {
-            moment.locale(locale);
-            return moment(dateString).fromNow();
+            return moment(dateString)
+                .locale(locale)
+                .fromNow();
         };
 
         next();
