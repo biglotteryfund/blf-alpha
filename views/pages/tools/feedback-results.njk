@@ -15,10 +15,10 @@
                             id="msg-{{ response.id }}">
                         <div class="d-flex w-100 justify-content-between">
                             <h3 class="h6">
-                                {{ formatDate(response.createdAt, 'ddd DD MMM YYYY (hh:mm a)') }}
+                                {{ formatDate(response.createdAt, DATE_FORMATS.fullTimestamp) }}
                             </h3>
                             <a href="#msg-{{ response.id }}">
-                                <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
+                                <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
                             </a>
                         </div>
                         <p class="mb-0">{{ response.message }}</p>
