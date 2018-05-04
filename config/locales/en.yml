@@ -828,7 +828,18 @@ funding:
   pastGrants:
     title: Search All Funded Projects
     intro: <strong>Please help us</strong>. We know that our current page for searching past grants is a bit too slow and a bit too hard to use.
-    surveyText: Can you spare a minute to tell us what you want from this service?
+    survey:
+      prompt: Can you spare a minute to tell us what you want from this service?
+      label: Tell us what you think
+    optionsIntro: In the the meantime, there are two ways you can explore our past grants.
+    grantnav:
+      title: 1. Use the GrantNav site
+      subtitle: Not run by the Big Lottery Fund, but quick, nicely designed and full of our data
+      linkText: Search GrantNav
+    legacy:
+      title: 2. Use our current grants database
+      subtitle: Official, but bit less nice to use
+      linkText: Search past grants
   guidance:
     order-free-materials:
       title: How to get free branded materials

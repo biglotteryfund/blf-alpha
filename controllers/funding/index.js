@@ -4,12 +4,10 @@ const express = require('express');
 
 const routerSetup = require('../setup');
 const routeCommon = require('../common');
-const { shouldServe } = require('../../modules/pageLogic');
 
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
-const pastGrantsRoute = require('./past-grants');
 const tenKRoutes = require('./10k');
 
 const router = express.Router();
@@ -59,16 +57,6 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetailAfaScotland: pages.programmeDetailAfaScotland
         }
     });
-
-    /**
-     * Past Grants
-     */
-    if (shouldServe(pages.pastGrants)) {
-        pastGrantsRoute.init({
-            router: router,
-            routeConfig: pages.pastGrants
-        });
-    }
 
     routeCommon.init({
         router: router,
