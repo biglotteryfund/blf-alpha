@@ -4,6 +4,7 @@
 .idea
 .map
 .nyc_output/
+.vscode/
 always_restart.txt
 assets.json
 config/app/server-dev.conf
