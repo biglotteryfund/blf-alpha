@@ -608,6 +608,12 @@ toplevel:
     title: Benefits
     call-to-action: View our current vacancies
     benefits:
+    - title: Healthcare plan
+      text: "<p>We offer an inexpensive healthcare cash plan that looks after you
+        and your family, providing a range of positive health and wellbeing benefits.
+        Even better, it also takes care of the money side of things with cash payments
+        towards costs such as dental and optical bills, prescription charges and even
+        hospital stays.</p>"
     - title: Health and wellbeing
       text: "<p>We recognise that keeping our people happy and healthy enables us
         to be a more effective organisation and make the Big Lottery Fund a better
@@ -628,19 +634,18 @@ toplevel:
         special equipment or glasses for VDU use, we will pay the cost of basic lenses
         and frames within certain maximum limits.</p>"
     - title: Financial
-      text: "<p>Salary progression is split into two forms of progression, a proportion
-        of which is automatic and a proportion which is performance related. The percentage
-        increase available is allocated by HM Treasury on an annual basis. In addition
-        to your salary, we offer several financial benefits.</p>"
+      text: "<p>Salary progression is based on the percentage increase allocated by
+        HM Treasury on an annual basis. In addition to your salary, we offer several
+        financial benefits.</p>"
     - title: Pension scheme
       text: "<p>We offer access to join a generous Civil Service pension scheme. Alternatively
         if you would prefer to join a stakeholder pension, we will make a contribution
         of up to 12.5 per cent of salary, depending on your age, as well as an additional
         matching contribution of up to another 3 per cent.</p>"
     - title: Childcare vouchers
-      text: "<p>We offer a salary sacrifice scheme for childcare vouchers so that
-        you can benefit from the generous tax advantages of covering childcare costs
-        in this way.</p>"
+      text: "<p>We offer a salary sacrifice scheme for childcare vouchers so that you can
+        benefit from the generous tax advantages of covering childcare costs in this way.
+        New scheme entrants have until 24 August to register.</p>"
     - title: Employee Discount Scheme
       text: "<p>We provide a discount benefits scheme that offers a wide range of
         discounts helping you save money off shopping, excursions, holidays and much
