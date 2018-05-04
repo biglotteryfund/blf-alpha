@@ -109,21 +109,6 @@ function sessionRoute(props) {
 }
 
 /**
- * Wildcard route
- * Extends from dynamic route, used when we require wildcard parameters
- * e.g. /some/route/:dynamicId
- * Used on the Free Materials form
- */
-function wildcardRoute(props) {
-    const wildcardDefaults = {
-        static: false,
-        live: true,
-        isWildcard: true
-    };
-    return Object.assign({}, defaults, wildcardDefaults, props);
-}
-
-/**
  * CMS route
  * Triggers CMS content handler in 'routeCommon'
  * e.g. Programme detail pages
@@ -206,7 +191,6 @@ module.exports = {
     staticRoute,
     dynamicRoute,
     sessionRoute,
-    wildcardRoute,
     cmsRoute,
     legacyRoute,
     archived,

@@ -9,8 +9,7 @@ const {
     dynamicRoute,
     legacyRoute,
     sessionRoute,
-    staticRoute,
-    wildcardRoute
+    staticRoute
 } = require('./route-types');
 
 const sections = {

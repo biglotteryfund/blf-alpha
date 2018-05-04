@@ -53,9 +53,6 @@ function generateUrlList(routes) {
             let url = section.path + page.path;
 
             if (pageNeedsCustomRouting(page)) {
-                if (page.isWildcard) {
-                    url += '*';
-                }
                 // create route mapping for canonical URLs
                 urls.push(makeUrlObject(page, url));
                 urls.push(makeUrlObject(page, makeWelsh(url)));
