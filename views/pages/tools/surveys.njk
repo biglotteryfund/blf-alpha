@@ -19,7 +19,7 @@
                 <span class="badge badge-info">{{ s.status }}</span>
             </h2>
             <a href="#survey-{{ s.id }}">
-                <small class="text-muted" title="{{ s.dateCreated.date }}">Created {{ s.dateCreated.date | timeFromNow }}</small>
+                <small class="text-muted" title="{{ s.dateCreated.date }}">Created {{ timeFromNow(s.dateCreated.date) }}</small>
             </a>
         </nav>
         <p class="lead">
@@ -57,11 +57,11 @@
                                             {% if response.path %}
                                                 {{ response.path }}
                                             {% else %}
-                                                {{ formatDate(response.createdAt, 'ddd DD MMM YYYY (hh:mm a)') }}
+                                                {{ formatDate(response.createdAt, DATE_FORMATS.fullTimestamp) }}
                                             {% endif %}
                                         </h6>
                                         <a href="#msg-{{ response.id }}">
-                                            <small title="{{ response.createdAt }}">{{ response.createdAt | timeFromNow }}</small>
+                                            <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
                                         </a>
                                     </div>
                                     <p class="mb-3">{{ response.message }}</p>

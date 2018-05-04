@@ -42,10 +42,6 @@ function mailto(str) {
     return `<a href="mailto:${str}">${str}</a>`;
 }
 
-function timeFromNow(str) {
-    return moment(str).fromNow();
-}
-
 function numberWithCommas(str) {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -67,6 +63,5 @@ module.exports = {
     makePhoneLink,
     numberWithCommas,
     pluralise,
-    slugify,
-    timeFromNow
+    slugify
 };

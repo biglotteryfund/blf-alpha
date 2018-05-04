@@ -73,6 +73,15 @@ module.exports = {
             return moment(dateString).format(format);
         };
 
+        /**
+         * View helper to represent date as relative time
+         * @param {String} dateString
+         */
+        res.locals.timeFromNow = function(dateString) {
+            moment.locale(locale);
+            return moment(dateString).fromNow();
+        };
+
         next();
     },
     getMetaTitle
