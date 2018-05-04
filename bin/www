@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+'use strict';
 const app = require('../server');
 const debug = require('debug')('blf-alpha:server');
 const http = require('http');

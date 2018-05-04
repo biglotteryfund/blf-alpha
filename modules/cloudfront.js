@@ -1,23 +1,23 @@
 'use strict';
 const config = require('config');
-const { assign, concat, filter, forEach, map, sortBy } = require('lodash');
+const { assign, concat, filter, forEach, has, map, sortBy } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
 /**
  * makeUrlObject
- * Take a route config and format it for cloudfront
+ * Apply defaults to route object
  */
 function makeUrlObject(page, customPath) {
-    return {
+    return assign({}, page, {
         path: customPath || page.path,
         isPostable: page.isPostable || false,
         queryStrings: page.queryStrings || [],
         allowAllQueryStrings: page.allowAllQueryStrings || false
-    };
+    });
 }
 
 function hasSpecialRequirements(route) {
-    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0);
+    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0) || has(route, 'abTest');
 }
 
 function isLive(route) {
@@ -215,13 +215,15 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
+        const routeCookies = has(url, 'abTest.cookie') ? concat(cookiesInUse, [url.abTest.cookie]) : cookiesInUse;
+
         return makeBehaviourItem({
             originId: origins.newSite,
             pathPattern: url.path,
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
             allowAllQueryStrings: url.allowAllQueryStrings,
-            cookiesInUse: cookiesInUse
+            cookiesInUse: routeCookies
         });
     });
 
