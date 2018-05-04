@@ -763,9 +763,9 @@ funding:
     browseAll: Pori'r holl brosiectau a ariannwyd
   pastGrants:
     title: Search All Funded Projects
-    intro: <strong>Please help us</strong>. We know that our current page for searching past grants is a bit too slow and a bit too hard to use.
+    intro: We understand that searching through the Big Lottery Fund’s past grants is important for many people. We are currently working to improve the service we currently offer.
     survey:
-      prompt: Can you spare a minute to tell us what you want from this service?
+      prompt: Please help us make the past grants search better by answering this one question
       label: Tell us what you think
     optionsIntro: In the the meantime, there are two ways you can explore our past grants.
     grantnav:
