@@ -5,16 +5,17 @@ const moment = require('moment');
  * Serves a holding/downtime page for the AFA portal if redirected here
  */
 module.exports = (req, res, next) => {
-
     const downtimeEndDate = moment('2018-05-29');
 
     const getDateInLocale = locale => {
-        return moment(downtimeEndDate).locale(locale).format('dddd Do MMMM YYYY');
+        return moment(downtimeEndDate)
+            .locale(locale)
+            .format('dddd Do MMMM YYYY');
     };
 
     const endDates = {
-        'en': getDateInLocale('en'),
-        'cy': getDateInLocale('cy')
+        en: getDateInLocale('en'),
+        cy: getDateInLocale('cy')
     };
 
     const re = /^apply\./;
