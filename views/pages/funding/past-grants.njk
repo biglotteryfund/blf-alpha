@@ -17,35 +17,15 @@
     </details>
 {% endmacro %}
 
-{% macro grantNavForm() %}
-    <form class="inline-search" role="search"
-        action="http://grantnav.threesixtygiving.org/search" method="GET">
-        <label class="inline-search__label ff-label" for="text_query">
-            What are you searching for?
-        </label>
-        <div class="inline-search__group">
-            <input class="inline-search__input ff-text"
-                name="text_query" id="text_query" type="search" value="">
-            <input name="json_query" type="hidden" value="{{ grantNavFacets | dump }}">
-            <button class="inline-search__submit" type="submit">
-                {{ iconSearch() }}
-                {{ __('global.misc.search') }}
-            </button>
-        </div>
-    </form>
-{% endmacro %}
-
 {% block content %}
     {% set pageAccent = 'pink' %}
 
     <main role="main">
-        {{
-            hero(
-                titleText = copy.title,
-                image = heroImage,
-                accent = pageAccent
-            )
-        }}
+        {{ hero(
+            titleText = copy.title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
 
         <div class="nudge-up">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
@@ -61,14 +41,16 @@
                         <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
                             <h2 class="u-margin-bottom-flush">1. Use the GrantNav site</h2>
                             <p class="t-caption">Not run by the Big Lottery Fund, but quick, nicely designed and full of our data</p>
-                            {{ grantNavForm() }}
+                            <p><a class="btn btn--medium btn--outline" href="http://grantnav.threesixtygiving.org/search?json_query=%7B%22query%22%3A+%7B%22bool%22%3A+%7B%22filter%22%3A+%5B%7B%22bool%22%3A+%7B%22should%22%3A+%5B%7B%22term%22%3A+%7B%22fundingOrganization.id_and_name%22%3A+%22%5B%5C%22The+Big+Lottery+Fund%5C%22%2C+%5C%22360G-blf%5C%22%5D%22%7D%7D%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%7B%22range%22%3A+%7B%22amountAwarded%22%3A+%7B%7D%7D%7D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%5D%2C+%22must%22%3A+%7B%22query_string%22%3A+%7B%22default_field%22%3A+%22_all%22%2C+%22query%22%3A+%22%2A%22%7D%7D%7D%7D%2C+%22sort%22%3A+%7B%22_score%22%3A+%7B%22order%22%3A+%22desc%22%7D%7D%2C+%22aggs%22%3A+%7B%22recipientDistrictName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientDistrictName%22%7D%7D%2C+%22currency%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22currency%22%7D%7D%2C+%22recipientOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientOrganization.id_and_name%22%7D%7D%2C+%22fundingOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22fundingOrganization.id_and_name%22%7D%7D%2C+%22recipientRegionName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientRegionName%22%7D%7D%7D%2C+%22extra_context%22%3A+%7B%22awardYear_facet_size%22%3A+3%2C+%22amountAwardedFixed_facet_size%22%3A+3%7D%7D">
+                                Search GrantNav
+                            </a>
                         </section>
                     </li>
                     <li class="grid__item">
                         <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
                             <h2 class="u-margin-bottom-flush">2. Use our current grants database</h2>
                             <p class="t-caption">Official, but bit less nice to use</p>
-                            <p><a class="btn btn--medium btn--outline" href="/funding/search-past-grants">Browse past grants</a></p>
+                            <p><a class="btn btn--medium btn--outline" href="/funding/search-past-grants">Search past grants</a></p>
                         </section>
                     </li>
                 </ul>

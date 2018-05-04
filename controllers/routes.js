@@ -145,7 +145,7 @@ sections.funding.addRoutes({
         template: 'pages/funding/over10k',
         lang: 'funding.over10k'
     }),
-    pastGrants: dynamicRoute({
+    pastGrants: staticRoute({
         path: '/past-grants',
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
