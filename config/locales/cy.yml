@@ -774,7 +774,6 @@ funding:
       linkText: Search GrantNav
     legacy:
       title: 2. Use our current grants database
-      subtitle: Official, but bit less nice to use
       linkText: Chwilio grantiau blaenorol
   guidance:
     order-free-materials:
