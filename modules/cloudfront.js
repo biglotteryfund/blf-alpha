@@ -182,12 +182,13 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
-    const cookiesInUse = map(config.get('cookies'), val => val);
+
+    const defaultCookies = [config.get('cookies.contrast')];
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: cookiesInUse
+        cookiesInUse: defaultCookies
     });
 
     // Serve legacy static files
@@ -215,7 +216,7 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
-        const routeCookies = has(url, 'abTest.cookie') ? concat(cookiesInUse, [url.abTest.cookie]) : cookiesInUse;
+        const cookiesInUse = has(url, 'abTest.cookie') ? concat(defaultCookies, [url.abTest.cookie]) : defaultCookies;
 
         return makeBehaviourItem({
             originId: origins.newSite,
@@ -223,7 +224,7 @@ function generateBehaviours({ routesConfig, origins }) {
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
             allowAllQueryStrings: url.allowAllQueryStrings,
-            cookiesInUse: routeCookies
+            cookiesInUse: cookiesInUse
         });
     });
 

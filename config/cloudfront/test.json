@@ -46,10 +46,9 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode",
-            "blf-alpha-session"
+            "contrastMode"
           ],
-          "Quantity": 2
+          "Quantity": 1
         }
       }
     },
@@ -109,10 +108,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -278,10 +276,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -448,10 +445,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -512,10 +508,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -573,10 +568,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-alpha-session",
                 "blf-ab-afa-v2"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -900,10 +894,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -961,10 +954,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1027,10 +1019,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1089,10 +1080,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1153,10 +1143,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1214,10 +1203,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-alpha-session",
                 "blf-ab-afa-v2"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -1271,10 +1259,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
