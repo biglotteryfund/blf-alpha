@@ -3,13 +3,14 @@
 const path = require('path');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
-    createSection,
     basicRoute,
-    staticRoute,
-    dynamicRoute,
-    wildcardRoute,
     cmsRoute,
-    legacyRoute
+    createSection,
+    dynamicRoute,
+    legacyRoute,
+    sessionRoute,
+    staticRoute,
+    wildcardRoute
 } = require('./route-types');
 
 const sections = {
@@ -158,7 +159,7 @@ sections.funding.addRoutes({
         lang: 'funding.guidance.managing-your-funding',
         aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
     }),
-    freeMaterials: wildcardRoute({
+    freeMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/guidance/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
@@ -339,7 +340,7 @@ sections.apply.addRoutes({
     root: dynamicRoute({
         path: '/'
     }),
-    yourIdea: dynamicRoute({
+    yourIdea: sessionRoute({
         path: '/your-idea/*',
         isPostable: true
     })
@@ -377,7 +378,7 @@ const otherUrls = [
     basicRoute({
         path: '/styleguide'
     }),
-    basicRoute({
+    sessionRoute({
         path: '/tools/*',
         isPostable: true
     }),
@@ -394,7 +395,7 @@ const otherUrls = [
         path: '/survey/*',
         isPostable: true
     }),
-    basicRoute({
+    sessionRoute({
         path: '/user/*',
         isPostable: true,
         queryStrings: ['token']

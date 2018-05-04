@@ -1,7 +1,9 @@
 'use strict';
 const config = require('config');
-const { assign, concat, filter, forEach, has, map, sortBy } = require('lodash');
+const { assign, compact, concat, filter, flatten, forEach, get, has, sortBy } = require('lodash');
+
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
+const appData = require('./appData');
 
 /**
  * makeUrlObject
@@ -17,11 +19,19 @@ function makeUrlObject(page, customPath) {
 }
 
 function hasSpecialRequirements(route) {
-    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0) || has(route, 'abTest');
+    return (
+        // Any route specific query strings?
+        route.allowAllQueryStrings ||
+        (route.queryStrings && route.queryStrings.length > 0) ||
+        // Any route specific cookies?
+        has(route, 'cookies') ||
+        // Any route specific a/b tests?
+        has(route, 'abTest')
+    );
 }
 
 function isLive(route) {
-    return route.live === true;
+    return appData.isNotProduction || route.live === true;
 }
 
 function pageNeedsCustomRouting(page) {
@@ -216,7 +226,16 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
-        const cookiesInUse = has(url, 'abTest.cookie') ? concat(defaultCookies, [url.abTest.cookie]) : defaultCookies;
+        const cookiesInUse = compact(
+            flatten([
+                // Global cookies
+                defaultCookies,
+                // Route specific a/b test cookie
+                get(url, 'abTest.cookie'),
+                // Custom route specific cookies
+                get(url, 'cookies', [])
+            ])
+        );
 
         return makeBehaviourItem({
             originId: origins.newSite,

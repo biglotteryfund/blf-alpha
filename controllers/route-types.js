@@ -1,5 +1,5 @@
 'use strict';
-
+const config = require('config');
 const { get } = require('lodash');
 
 /**
@@ -93,6 +93,19 @@ function dynamicRoute(props) {
         live: true
     };
     return Object.assign({}, defaults, dynamicDefaults, props);
+}
+
+/**
+ * Session route
+ * Route type where session is required
+ */
+function sessionRoute(props) {
+    const sessionDefaults = {
+        cookies: [config.get('cookies.session')],
+        static: false,
+        live: true
+    };
+    return Object.assign({}, sessionDefaults, defaults, props);
 }
 
 /**
@@ -192,6 +205,7 @@ module.exports = {
     basicRoute,
     staticRoute,
     dynamicRoute,
+    sessionRoute,
     wildcardRoute,
     cmsRoute,
     legacyRoute,
