@@ -1,6 +1,7 @@
 'use strict';
 const moment = require('moment');
-
+const config = require('config');
+const DATE_FORMATS = config.get('dateFormats');
 /**
  * Serves a holding/downtime page for the AFA portal if redirected here
  */
@@ -10,7 +11,7 @@ module.exports = (req, res, next) => {
     const getDateInLocale = locale => {
         return moment(downtimeEndDate)
             .locale(locale)
-            .format('dddd D MMMM YYYY');
+            .format(DATE_FORMATS.full);
     };
 
     const endDates = {
