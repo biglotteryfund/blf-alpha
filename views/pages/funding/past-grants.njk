@@ -9,10 +9,10 @@
 
 {% macro inlineFeedback() %}
     <details class="inline-feedback u-dont-print js-only" id="js-feedback">
-        <summary>{{ copy.surveyText }}</summary>
+        <summary>{{ copy.survey.prompt }}</summary>
         <feedback-form
             description="Past grants"
-            label="Tell us what you think"
+            label="{{ copy.survey.label }}"
         />
     </details>
 {% endmacro %}
@@ -34,23 +34,26 @@
                     {{ inlineFeedback() }}
                 </section>
 
-                <p>In the the meantime, there are two ways you can explore our past grants.</p>
+                <p>{{ copy.optionsIntro }}</p>
 
                 <ul class="grid grid--2-up grid--padded grid--equal grid--wide-only">
                     <li class="grid__item">
                         <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
-                            <h2 class="u-margin-bottom-flush">1. Use the GrantNav site</h2>
-                            <p class="t-caption">Not run by the Big Lottery Fund, but quick, nicely designed and full of our data</p>
+                            <h2 class="u-margin-bottom-flush">{{ copy.grantnav.title }}</h2>
+                            <p class="t-caption">{{ copy.grantnav.subtitle }}</p>
                             <p><a class="btn btn--medium btn--outline" href="http://grantnav.threesixtygiving.org/search?json_query=%7B%22query%22%3A+%7B%22bool%22%3A+%7B%22filter%22%3A+%5B%7B%22bool%22%3A+%7B%22should%22%3A+%5B%7B%22term%22%3A+%7B%22fundingOrganization.id_and_name%22%3A+%22%5B%5C%22The+Big+Lottery+Fund%5C%22%2C+%5C%22360G-blf%5C%22%5D%22%7D%7D%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%7B%22range%22%3A+%7B%22amountAwarded%22%3A+%7B%7D%7D%7D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%5D%2C+%22must%22%3A+%7B%22query_string%22%3A+%7B%22default_field%22%3A+%22_all%22%2C+%22query%22%3A+%22%2A%22%7D%7D%7D%7D%2C+%22sort%22%3A+%7B%22_score%22%3A+%7B%22order%22%3A+%22desc%22%7D%7D%2C+%22aggs%22%3A+%7B%22recipientDistrictName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientDistrictName%22%7D%7D%2C+%22currency%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22currency%22%7D%7D%2C+%22recipientOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientOrganization.id_and_name%22%7D%7D%2C+%22fundingOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22fundingOrganization.id_and_name%22%7D%7D%2C+%22recipientRegionName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientRegionName%22%7D%7D%7D%2C+%22extra_context%22%3A+%7B%22awardYear_facet_size%22%3A+3%2C+%22amountAwardedFixed_facet_size%22%3A+3%7D%7D">
-                                Search GrantNav
+                                {{ copy.grantnav.linkText }}
                             </a>
                         </section>
                     </li>
                     <li class="grid__item">
                         <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
-                            <h2 class="u-margin-bottom-flush">2. Use our current grants database</h2>
-                            <p class="t-caption">Official, but bit less nice to use</p>
-                            <p><a class="btn btn--medium btn--outline" href="/funding/search-past-grants">Search past grants</a></p>
+                            <h2 class="u-margin-bottom-flush">{{ copy.legacy.title }}</h2>
+                            <p class="t-caption">{{ copy.legacy.subtitle }}</p>
+                            <p><a class="btn btn--medium btn--outline"
+                                href="{{ buildUrl('/funding/search-past-grants') }}">
+                                {{ copy.legacy.linkText }}
+                            </a></p>
                         </section>
                     </li>
                 </ul>
