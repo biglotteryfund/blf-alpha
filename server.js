@@ -38,6 +38,7 @@ const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
+const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
 const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
@@ -167,6 +168,7 @@ app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
+app.use(portalMiddleware);
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));

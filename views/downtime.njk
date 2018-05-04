@@ -1,0 +1,40 @@
+{% from "components/hero.njk" import hero %}
+
+{% extends "./layouts/main.njk" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% set heroImage = heroImages.huntingtonsProject %}
+{% set socialImage = heroImage %}
+
+{% block content %}
+
+    {% set pageAccent = 'pink' %}
+
+    {{
+        hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        )
+    }}
+
+    <main class="nudge-up">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose s-prose--long">
+                <h3 class="t2">Down for maintenance</h3>
+                <p>The online application form for National Lottery Awards For All is currently offline due to scheduled maintenance{% if endDates %} and should be available again by {{ endDates.en }}.{% else %}. Please check back soon.{% endif %}</p>
+                <p>You can <a href="https://www.biglotteryfund.org.uk/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
+
+                <h3 class="t2">Wrthi’n cynnal a chadw</h3>
+                {% if endDates %}
+                    <p>Nid yw ffurflen gais ar-lein Arian i Bawb y Loteri Genedlaethol ar gael ar hyn o bryd oherwydd gwaith cynnal a cadw rheolaidd, a dylai fod yn ôl erbyn {{ endDates.cy }}.</p>
+                {% else %}
+                    <p>Nid yw ffurflen gais ar-lein Arian i Bawb y Loteri Genedlaethol ar gael ar hyn o bryd oherwydd gwaith cynnal a cadw rheolaidd. Gwiriwch yn ôl ymhen ychydig.</p>
+                {% endif %}
+                <p>Gallwch <a href="https://www.biglotteryfund.org.uk/welsh">ddychwelyd i’r hafan</a> neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>.</p>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
