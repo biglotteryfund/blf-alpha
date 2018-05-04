@@ -16,7 +16,7 @@
         {% endif %}
         <p class="article-meta__pubdate">
             <time pubdate datetime="{{ entry.postDate.date }}">
-                {{ formatDate(entry.postDate.date, 'Do MMMM, YYYY') }}
+                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
             </time>
         </p>
     </div>

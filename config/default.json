@@ -8,12 +8,18 @@
         "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
         "themeColour": "#ec008c"
     },
+    "dateFormats": {
+      "short": "D MMMM, YYYY",
+      "full": "dddd D MMMM YYYY",
+      "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
+    },
     "i18n": {
         "urlPrefix": {
             "cy": "/welsh"
         }
     },
     "features": {
+      "enableAbTests": true,
       "useHotjar": true,
       "useRemoteAssets": true
     },
@@ -22,9 +28,7 @@
     },
     "cookies": {
         "contrast": "contrastMode",
-        "session": "blf-alpha-session",
-        "csrf": "_csrf",
-        "abTestAwardsForAll": "blf-ab-afa-v2"
+        "session": "blf-alpha-session"
     },
     "anchors": {
         "contactPress": "press",
@@ -34,14 +38,6 @@
     "googleAnalyticsCode": "UA-98908627-1",
     "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
     "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-    "abTests": {
-        "enabled": true,
-        "tests": {
-            "awardsForAll": {
-                "percentage": 50
-            }
-        }
-    },
     "social": {
         "instagram": "https://www.instagram.com/big_lottery_fund",
         "twitterAccounts": {

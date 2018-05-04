@@ -168,8 +168,7 @@ function handleProgrammeDetail(slug) {
                     throw new Error('NoContent');
                 }
             })
-            .catch(err => {
-                err.statusCode !== '404' && Raven.captureException(err);
+            .catch(() => {
                 next();
             });
     };
@@ -182,17 +181,6 @@ function initProgrammeDetail(router) {
 }
 
 function initProgrammeDetailAwardsForAll(router, options) {
-    const testFn = ab.test('blf-afa-rollout-england', {
-        cookie: {
-            name: config.get('cookies.abTestAwardsForAll'),
-            maxAge: moment.duration(4, 'weeks').asMilliseconds()
-        },
-        id: options.experimentId
-    });
-
-    const percentageForTest = config.get('abTests.tests.awardsForAll.percentage');
-    const percentages = splitPercentages(percentageForTest);
-
     const getSlug = urlPath => last(urlPath.split('/'));
 
     function renderVariantA(req, res, next) {
@@ -229,11 +217,20 @@ function initProgrammeDetailAwardsForAll(router, options) {
                     throw new Error('NoContent');
                 }
             })
-            .catch(err => {
-                err.statusCode !== '404' && Raven.captureException(err);
+            .catch(() => {
                 next();
             });
     }
+
+    const testFn = ab.test('blf-afa-rollout-england', {
+        cookie: {
+            name: options.abTest.cookie,
+            maxAge: moment.duration(4, 'weeks').asMilliseconds()
+        },
+        id: options.abTest.experimentId
+    });
+
+    const percentages = splitPercentages(options.abTest.percentage);
 
     router.get(options.path, cached.noCache, testFn(null, percentages.A), renderVariantA);
     router.get(options.path, cached.noCache, testFn(null, percentages.B), renderVariantB);
@@ -256,11 +253,13 @@ function initProgrammeDetailAwardsForAll(router, options) {
 
 function init({ router, routeConfig }) {
     initProgrammesList(router, routeConfig.programmes);
-    if (config.get('abTests.enabled')) {
+
+    if (config.get('features.enableAbTests')) {
         [routeConfig.programmeDetailAfaScotland].forEach(route => {
             initProgrammeDetailAwardsForAll(router, route);
         });
     }
+
     initProgrammeDetail(router);
 }
 

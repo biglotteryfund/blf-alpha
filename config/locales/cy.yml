@@ -530,6 +530,12 @@ toplevel:
     title: Buddion
     call-to-action: Gweld pa swyddi sydd ar gael
     benefits:
+    - title: Cynllun gofal iechyd
+      text: "<p>Rydym yn cynnig cynllun gofal iechyd rhad sy'n gofalu amdanoch chi
+        a'ch teulu, gan ddarparu ystod o fuddion iechyd a lles cadarnhaol. Ac yn
+        well byth, mae'n gofalu am ochr ariannol pethau, gyda thaliadau arian parod
+        tuag at gostau fel biliau deintyddol ac optegol, taliadau presgripsiwn a
+        hyd yn oed aros yn yr ysbyty.</p>"
     - title: Iechyd a lles
       text: "<p>Cydnabyddwn fod cadw ein pobl yn hapus ac yn iach yn ein galluogi
         i fod yn fudiad mwy effeithiol ac yn gwneud y Gronfa Loteri Fawr yn lle gwell
@@ -558,10 +564,9 @@ toplevel:
         teulu, ac mae'n eich galluogi i hawlio arian yn ôl ar dreuliau gofal iechyd
         penodol, gan gynnwys therapïau optegol, deintyddol ac amgen.</p>"
     - title: Ariannol
-      text: "<p>Mae cynnydd o ran cyflog yn cael ei rannu i ddwy ffurf, un yn awtomatig
-        ac un yn seiliedig ar berfformiad. Mae'r cynnydd canrannol sydd ar gael wedi'i
-        bennu gan Drysorlys EM bob blwyddyn. Yn ogystal â'ch cyflog mae'r Gronfa Loteri
-        Fawr yn cynnig nifer o fuddion ariannol.</p>"
+      text: "<p>Mae'r cynnydd mewn cyflog yn seiliedig ar y cynnydd canrannol a bennir
+        gan Drysorlys EM bob blwyddyn. Yn ogystal â'ch cyflog rydym yn cynnig nifer o
+        fuddion ariannol.</p>"
     - title: Cynllun pensiwn
       text: "<p>Mae'r Gronfa Loteri Fawr yn cynnig cyfle i ymuno â chynllun pensiwn
         hael y Gwasanaeth Sifil. Fel arall, os yw'n well gennych ymuno â phensiwn
@@ -569,9 +574,10 @@ toplevel:
         gan ddibynnu ar eich oedran, ynghyd â chyfraniad cyfatebol pellach o hyd at
         3 y cant.</p>"
     - title: Talebau gofal plant
-      text: "<p>Cynigiwn gynllun aberthu cyflog ar gyfer talebau gofal plant er mwyn
-        i chi elwa o'r manteision treth hael sy'n deillio o ddefnyddio'r cyfryw ddull
-        o dalu am gostau gofal plant.</p>"
+      text: "<p>Rydym yn cynnig cynllun aberthu cyflog ar gyfer talebau gofal plant er
+        mwyn i chi elwa o'r manteision treth hael sy'n deillio o ddefnyddio'r cyfryw
+        ddull o dalu am gostau gofal plant. Mae gan y sawl sy'n dod i mewn i'r cynllun
+        am y tro cyntaf tan 24 Awst i gofrestru.</p>"
     - title: Cynllun Disgownt Cyflogeion
       text: "<p>Mae'r Gronfa Loteri Fawr yn darparu cynllun buddion disgownt sy'n
         cynnig ystod helaeth o ddisgowntiau i'ch helpu i arbed arian oddi ar siopa,
@@ -755,6 +761,21 @@ funding:
       ukWide: Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     browseAll: Pori'r holl brosiectau a ariannwyd
+  pastGrants:
+    title: Search All Funded Projects
+    intro: We understand that searching through the Big Lottery Fund’s past grants is important for many people. We are currently working to improve the service we currently offer.
+    survey:
+      prompt: Please help us make the past grants search better by answering this one question
+      label: Tell us what you think
+    optionsIntro: In the the meantime, there are two ways you can explore our past grants.
+    grantnav:
+      title: 1. Use the GrantNav site
+      subtitle: Not run by the Big Lottery Fund, but quick, nicely designed and full of our data
+      linkText: Search GrantNav
+    legacy:
+      title: 2. Use our current grants database
+      subtitle: Official, but bit less nice to use
+      linkText: Chwilio grantiau blaenorol
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim

@@ -145,7 +145,7 @@ sections.funding.addRoutes({
         template: 'pages/funding/over10k',
         lang: 'funding.over10k'
     }),
-    pastGrants: dynamicRoute({
+    pastGrants: staticRoute({
         path: '/past-grants',
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
@@ -206,7 +206,11 @@ sections.funding.addRoutes({
     programmeDetailAfaScotland: dynamicRoute({
         path: '/programmes/national-lottery-awards-for-all-scotland',
         applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
-        experimentId: 'EcAwbF34R5mbCaWW-y_rFQ'
+        abTest: {
+            cookie: 'blf-ab-afa-v2',
+            percentage: 50,
+            experimentId: 'EcAwbF34R5mbCaWW-y_rFQ'
+        }
     }),
     buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',

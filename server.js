@@ -105,6 +105,11 @@ function initAppLocals() {
     app.locals.metadata = config.get('meta');
 
     /**
+     * Common date formats
+     */
+    app.locals.DATE_FORMATS = config.get('dateFormats');
+
+    /**
      * Is this page bilingual?
      * i.e. do we have a Welsh translation
      * Default to true unless overriden by a route
