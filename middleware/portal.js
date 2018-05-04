@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     const getDateInLocale = locale => {
         return moment(downtimeEndDate)
             .locale(locale)
-            .format('dddd Do MMMM YYYY');
+            .format('dddd D MMMM YYYY');
     };
 
     const endDates = {
