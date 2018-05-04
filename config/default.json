@@ -14,6 +14,7 @@
         }
     },
     "features": {
+      "enableAbTests": true,
       "useHotjar": true,
       "useRemoteAssets": true
     },
@@ -22,8 +23,7 @@
     },
     "cookies": {
         "contrast": "contrastMode",
-        "session": "blf-alpha-session",
-        "abTestAwardsForAll": "blf-ab-afa-v2"
+        "session": "blf-alpha-session"
     },
     "anchors": {
         "contactPress": "press",
@@ -33,14 +33,6 @@
     "googleAnalyticsCode": "UA-98908627-1",
     "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
     "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-    "abTests": {
-        "enabled": true,
-        "tests": {
-            "awardsForAll": {
-                "percentage": 50
-            }
-        }
-    },
     "social": {
         "instagram": "https://www.instagram.com/big_lottery_fund",
         "twitterAccounts": {

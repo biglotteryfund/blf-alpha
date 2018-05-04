@@ -1,8 +1,6 @@
 {
   "features": {
+    "enableAbTests": true,
     "useRemoteAssets": false
-  },
-  "abTests": {
-    "enabled": true
   }
 }
