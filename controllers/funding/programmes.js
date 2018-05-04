@@ -168,8 +168,7 @@ function handleProgrammeDetail(slug) {
                     throw new Error('NoContent');
                 }
             })
-            .catch(err => {
-                err.statusCode !== '404' && Raven.captureException(err);
+            .catch(() => {
                 next();
             });
     };
@@ -218,8 +217,7 @@ function initProgrammeDetailAwardsForAll(router, options) {
                     throw new Error('NoContent');
                 }
             })
-            .catch(err => {
-                err.statusCode !== '404' && Raven.captureException(err);
+            .catch(() => {
                 next();
             });
     }
