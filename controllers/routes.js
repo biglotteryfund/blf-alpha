@@ -173,6 +173,10 @@ sections.funding.addRoutes({
             '/yourgrant'
         ]
     }),
+    freeMaterialsActions: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
+        isPostable: true
+    }),
     helpWithPublicity: staticRoute({
         path: '/funding-guidance/managing-your-funding/social-media',
         template: 'pages/funding/guidance/help-with-publicity',
