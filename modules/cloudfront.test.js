@@ -15,6 +15,7 @@ describe('Cloudfront Helpers', () => {
                     monkey: {
                         path: '/monkey/dishwasher',
                         live: true,
+                        isWildcard: false,
                         isPostable: true,
                         aliases: ['/green/orangutan/fridge'],
                         queryStrings: ['foo', 'bar']
