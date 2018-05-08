@@ -191,6 +191,7 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'first-name',
+                    autocompleteName: 'given-name',
                     label: 'First name',
                     isRequired: true,
                     validator: function(field) {
@@ -204,6 +205,7 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'last-name',
+                    autocompleteName: 'family-name',
                     label: 'Last name',
                     isRequired: true,
                     validator: function(field) {
@@ -217,6 +219,7 @@ formModel.registerStep({
                 {
                     type: 'email',
                     name: 'email',
+                    autocompleteName: 'email',
                     label: 'Email address',
                     isRequired: true,
                     validator: function(field) {
@@ -232,6 +235,7 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'phone-number',
+                    autocompleteName: 'tel',
                     label: 'Phone number',
                     isRequired: true,
                     validator: function(field) {
