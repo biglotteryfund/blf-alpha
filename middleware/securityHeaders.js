@@ -70,17 +70,37 @@ function defaultSecurityHeaders() {
         styleSrc: ['fonts.googleapis.com'],
         imgSrc: ['stats.g.doubleclick.net', config.get('imgix.mediaDomain')],
         connectSrc: [],
+        scriptSrc: [],
+        frameSrc: [],
+        fontSrc: [],
         reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
+
+    /**
+     * Hotjar CSP rules
+     * @see https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
+     */
+    if (config.get('features.useHotjar')) {
+        directives.imgSrc = directives.imgSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
+        directives.scriptSrc = directives.scriptSrc.concat([
+            'http://*.hotjar.com',
+            'https://*.hotjar.com',
+            "'unsafe-eval'"
+        ]);
+        directives.connectSrc = directives.connectSrc.concat([
+            'http://*.hotjar.com:*',
+            'https://*.hotjar.com:*',
+            'ws://*.hotjar.com',
+            'wss://*.hotjar.com'
+        ]);
+        directives.frameSrc = directives.frameSrc.concat(['https://*.hotjar.com']);
+        directives.childSrc = directives.childSrc.concat(['https://*.hotjar.com']);
+        directives.fontSrc = directives.fontSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
+    }
 
     if (appData.isDev) {
         directives.imgSrc = directives.imgSrc.concat(['localhost', '127.0.0.1:*']);
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
-    }
-
-    if (config.get('features.useHotjar')) {
-        directives.connectSrc = directives.connectSrc.concat(['wss://*.hotjar.com']);
-        directives.defaultSrc = directives.defaultSrc.concat(['*.hotjar.com']);
     }
 
     const helmetSettings = buildSecurityMiddleware(directives);
