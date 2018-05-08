@@ -3,7 +3,7 @@ import Vue from 'vue';
 import { withDefaults } from './vue-config';
 
 const FeedbackForm = {
-    props: ['description', 'label'],
+    props: ['description', 'fieldLabel', 'submitLabel'],
     data: function() {
         return {
             statusMessage: null,
@@ -30,7 +30,7 @@ const FeedbackForm = {
         <div class="content-box content-box--tinted">
             <template v-if="statusMessage"><p>{{ statusMessage }}</p></template>
             <form v-if="!statusMessage" v-on:submit.prevent="handleSubmit">
-                <label class="ff-label" for="field-message">{{ label }}</label>
+                <label class="ff-label" for="field-message">{{ fieldLabel }}</label>
                 <textarea
                     class="ff-textarea spaced"
                     id="field-message"
@@ -39,7 +39,7 @@ const FeedbackForm = {
                     required
                     aria-required="true"
                 ></textarea>
-                <input class="btn btn--small" type="submit" value="Submit" />
+                <input class="btn btn--small" type="submit" :value=submitLabel />
             </form>
         </div>
     `

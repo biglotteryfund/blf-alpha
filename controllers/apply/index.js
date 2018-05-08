@@ -17,9 +17,7 @@ function initYourIdea() {
     return routerWithForm;
 }
 
-module.exports = () => {
-    const router = express.Router();
-
+module.exports = ({ router }) => {
     router.get('/', (req, res) => {
         res.redirect('/');
     });

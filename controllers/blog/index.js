@@ -1,7 +1,5 @@
 'use strict';
 
-const express = require('express');
-
 const { isBilingual } = require('../../modules/pageLogic');
 const { renderNotFoundWithError, redirectWithError } = require('../http-errors');
 const { shouldServe } = require('../../modules/pageLogic');
@@ -165,9 +163,7 @@ function initDetails({ router, routeConfig, sectionPath }) {
     return router;
 }
 
-module.exports = (pages, sectionPath) => {
-    const router = express.Router();
-
+module.exports = ({ router, pages, sectionPath }) => {
     if (shouldServe(pages.root)) {
         initLanding({
             router: router,
