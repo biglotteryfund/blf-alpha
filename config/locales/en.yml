@@ -354,7 +354,7 @@ toplevel:
     - label: View all closed funding programmes
       href: "/funding/funding-finder?sc=1"
     - label: Search funded projects
-      href: "/funding/search-past-grants"
+      href: "/funding/past-grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
     recentProgrammes:

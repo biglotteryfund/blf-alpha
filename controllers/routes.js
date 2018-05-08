@@ -149,8 +149,7 @@ sections.funding.addRoutes({
         path: '/past-grants',
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
-        heroSlug: 'active-plus-communities',
-        live: false
+        heroSlug: 'active-plus-communities'
     }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
