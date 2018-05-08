@@ -50,22 +50,23 @@ module.exports = ({ router, pages }) => {
 
     // data page
     router.get(pages.data.path, (req, res, next) => {
-
         const locale = req.i18n.getLocale();
         const getStatBlocks = contentApi.getStatBlocks(locale);
         const getStatRegions = contentApi.getStatRegions(locale);
 
-        return Promise.all([getStatBlocks, getStatRegions]).then(responses => {
-            const [statBlocks, statRegions] = responses;
-            res.render('pages/toplevel/data', {
-                copy: req.i18n.__(pages.data.lang),
-                statBlocks: statBlocks,
-                statRegions: statRegions
+        return Promise.all([getStatBlocks, getStatRegions])
+            .then(responses => {
+                const [statBlocks, statRegions] = responses;
+                res.render('pages/toplevel/data', {
+                    copy: req.i18n.__(pages.data.lang),
+                    statBlocks: statBlocks,
+                    statRegions: statRegions
+                });
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                next();
             });
-        }).catch(err => {
-            Raven.captureException(err);
-            next();
-        });
     });
 
     // handle contrast shifter
