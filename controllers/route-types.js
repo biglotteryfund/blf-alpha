@@ -13,6 +13,7 @@ function createSection({ path, controllerPath, langTitlePath, showInNavigation =
     const newSection = {
         path: path,
         pages: null,
+        controller: null,
         langTitlePath: langTitlePath,
         showInNavigation: showInNavigation
     };
@@ -20,9 +21,11 @@ function createSection({ path, controllerPath, langTitlePath, showInNavigation =
     /**
      * Controller loader function, allows us to auto-init routes
      */
-    newSection.controller = function(router, pages, sectionPath, sectionId) {
-        return require(controllerPath)(router, pages, sectionPath, sectionId);
-    };
+    if (controllerPath) {
+        newSection.controller = function(options) {
+            return require(controllerPath)(options);
+        };
+    }
 
     /**
      * Setter for route pages
