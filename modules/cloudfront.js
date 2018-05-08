@@ -1,9 +1,7 @@
 'use strict';
 const config = require('config');
-const { assign, compact, concat, filter, flatten, forEach, get, has, sortBy } = require('lodash');
-
+const { assign, concat, filter, forEach, has, map, sortBy } = require('lodash');
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-const appData = require('./appData');
 
 /**
  * makeUrlObject
@@ -19,19 +17,11 @@ function makeUrlObject(page, customPath) {
 }
 
 function hasSpecialRequirements(route) {
-    return (
-        // Any route specific query strings?
-        route.allowAllQueryStrings ||
-        (route.queryStrings && route.queryStrings.length > 0) ||
-        // Any route specific cookies?
-        has(route, 'cookies') ||
-        // Any route specific a/b tests?
-        has(route, 'abTest')
-    );
+    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0) || has(route, 'abTest');
 }
 
 function isLive(route) {
-    return appData.isNotProduction || route.live === true;
+    return route.live === true;
 }
 
 function pageNeedsCustomRouting(page) {
@@ -53,6 +43,9 @@ function generateUrlList(routes) {
             let url = section.path + page.path;
 
             if (pageNeedsCustomRouting(page)) {
+                if (page.isWildcard) {
+                    url += '*';
+                }
                 // create route mapping for canonical URLs
                 urls.push(makeUrlObject(page, url));
                 urls.push(makeUrlObject(page, makeWelsh(url)));
@@ -189,13 +182,12 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
-
-    const defaultCookies = [config.get('cookies.contrast')];
+    const cookiesInUse = map(config.get('cookies'), val => val);
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: defaultCookies
+        cookiesInUse: cookiesInUse
     });
 
     // Serve legacy static files
@@ -223,16 +215,7 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
-        const cookiesInUse = compact(
-            flatten([
-                // Global cookies
-                defaultCookies,
-                // Route specific a/b test cookie
-                get(url, 'abTest.cookie'),
-                // Custom route specific cookies
-                get(url, 'cookies', [])
-            ])
-        );
+        const routeCookies = has(url, 'abTest.cookie') ? concat(cookiesInUse, [url.abTest.cookie]) : cookiesInUse;
 
         return makeBehaviourItem({
             originId: origins.newSite,
@@ -240,7 +223,7 @@ function generateBehaviours({ routesConfig, origins }) {
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
             allowAllQueryStrings: url.allowAllQueryStrings,
-            cookiesInUse: cookiesInUse
+            cookiesInUse: routeCookies
         });
     });
 

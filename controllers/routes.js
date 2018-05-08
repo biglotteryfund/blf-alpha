@@ -3,13 +3,13 @@
 const path = require('path');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
-    basicRoute,
-    cmsRoute,
     createSection,
+    basicRoute,
+    staticRoute,
     dynamicRoute,
-    legacyRoute,
-    sessionRoute,
-    staticRoute
+    wildcardRoute,
+    cmsRoute,
+    legacyRoute
 } = require('./route-types');
 
 const sections = {
@@ -158,7 +158,7 @@ sections.funding.addRoutes({
         lang: 'funding.guidance.managing-your-funding',
         aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
     }),
-    freeMaterials: sessionRoute({
+    freeMaterials: wildcardRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/guidance/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
@@ -171,10 +171,6 @@ sections.funding.addRoutes({
             '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
             '/yourgrant'
         ]
-    }),
-    freeMaterialsActions: sessionRoute({
-        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-        isPostable: true
     }),
     helpWithPublicity: staticRoute({
         path: '/funding-guidance/managing-your-funding/social-media',
@@ -343,7 +339,7 @@ sections.apply.addRoutes({
     root: dynamicRoute({
         path: '/'
     }),
-    yourIdea: sessionRoute({
+    yourIdea: dynamicRoute({
         path: '/your-idea/*',
         isPostable: true
     })
@@ -381,7 +377,7 @@ const otherUrls = [
     basicRoute({
         path: '/styleguide'
     }),
-    sessionRoute({
+    basicRoute({
         path: '/tools/*',
         isPostable: true
     }),
@@ -398,7 +394,7 @@ const otherUrls = [
         path: '/survey/*',
         isPostable: true
     }),
-    sessionRoute({
+    basicRoute({
         path: '/user/*',
         isPostable: true,
         queryStrings: ['token']
