@@ -1,13 +1,11 @@
 'use strict';
 
-const routeCommon = require('../common');
-
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
 const tenKRoutes = require('./10k');
 
-module.exports = (router, pages, sectionPath, sectionId) => {
+module.exports = ({ router, pages }) => {
     /**
      * Funding landing page
      */
@@ -45,13 +43,6 @@ module.exports = (router, pages, sectionPath, sectionId) => {
             programmeDetailAfaWales: pages.programmeDetailAfaWales,
             programmeDetailAfaScotland: pages.programmeDetailAfaScotland
         }
-    });
-
-    routeCommon.init({
-        router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
     });
 
     return router;

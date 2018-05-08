@@ -1,11 +1,10 @@
 'use strict';
-const routeCommon = require('../common');
 const ebulletinRoute = require('./ebulletin');
 const seniorManagementRoute = require('./seniorManagement');
 const boardRoute = require('./boardRoute');
 const { shouldServe } = require('../../modules/pageLogic');
 
-module.exports = (router, pages, sectionPath, sectionId) => {
+module.exports = ({ router, pages }) => {
     ebulletinRoute.init({
         router: router,
         routeConfig: pages.ebulletin
@@ -24,13 +23,6 @@ module.exports = (router, pages, sectionPath, sectionId) => {
             routeConfig: pages.board
         });
     }
-
-    routeCommon.init({
-        router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
-    });
 
     return router;
 };

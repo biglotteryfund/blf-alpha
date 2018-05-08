@@ -26,6 +26,7 @@ const { renderError, renderNotFound, renderUnauthorised } = require('./controlle
 const { SENTRY_DSN } = require('./modules/secrets');
 const { serveRedirects } = require('./modules/redirects');
 const { shouldServe } = require('./modules/pageLogic');
+const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 const viewGlobalsService = require('./modules/viewGlobals');
@@ -177,38 +178,62 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/user', require('./controllers/user'));
 
 /**
- * Section routes
- * Initialise core application routes
+ * Initialise section routes
+ * - Creates a new router for each section
+ * - Apply shared middleware
+ * - Apply section specific controller logic
+ * - Add common routing (for static/fully-CMS powered pages)
  */
 forEach(routes.sections, (section, sectionId) => {
-    if (section.controller) {
-        const router = express.Router();
+    let router = express.Router();
 
-        /**
-         * Middleware to add a section ID to requests with a known section
-         * (eg. to mark a section as current in the nav)
-         */
-        router.use(function(req, res, next) {
-            res.locals.sectionId = sectionId;
+    /**
+     * Middleware to add a section ID to requests with a known section
+     * (eg. to mark a section as current in the nav)
+     */
+    router.use(function(req, res, next) {
+        res.locals.sectionId = sectionId;
+        next();
+    });
+
+    /**
+     * Add pageId to the request for all pages in a section
+     */
+    forEach(section.pages, (page, pageId) => {
+        router.use(page.path, (req, res, next) => {
+            res.locals.pageId = pageId;
             next();
         });
+    });
 
-        /**
-         * Add pageId to the request for all pages in a section
-         */
-        forEach(section.pages, (page, pageId) => {
-            router.use(page.path, (req, res, next) => {
-                res.locals.pageId = pageId;
-                next();
-            });
-        });
-
-        const routerForSection = section.controller(router, section.pages, section.path, sectionId);
-
-        cymreigio(section.path).forEach(urlPath => {
-            app.use(urlPath, routerForSection);
+    /**
+     * Apply section specific controller logic
+     */
+    if (section.controller) {
+        router = section.controller({
+            router: router,
+            pages: section.pages,
+            sectionPath: section.path,
+            sectionId: sectionId
         });
     }
+
+    /**
+     * Add common routing (for static/fully-CMS powered pages)
+     */
+    router = routeCommon.init({
+        router: router,
+        pages: section.pages,
+        sectionPath: section.path,
+        sectionId: sectionId
+    });
+
+    /**
+     * Mount section router
+     */
+    cymreigio(section.path).forEach(urlPath => {
+        app.use(urlPath, router);
+    });
 });
 
 /**

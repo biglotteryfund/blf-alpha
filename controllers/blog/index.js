@@ -163,7 +163,7 @@ function initDetails({ router, routeConfig, sectionPath }) {
     return router;
 }
 
-module.exports = (router, pages, sectionPath) => {
+module.exports = ({ router, pages, sectionPath }) => {
     if (shouldServe(pages.root)) {
         initLanding({
             router: router,

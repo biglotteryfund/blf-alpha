@@ -5,7 +5,6 @@ const { body, validationResult } = require('express-validator/check');
 const moment = require('moment');
 const Raven = require('raven');
 
-const routeCommon = require('../common');
 const surveyService = require('../../services/surveys');
 const contentApi = require('../../services/content-api');
 
@@ -19,7 +18,7 @@ const searchRoute = require('./search');
 const feedbackRoute = require('./feedback');
 const legacyPages = require('./legacyPages');
 
-module.exports = (router, pages, sectionPath, sectionId) => {
+module.exports = ({ router, pages }) => {
     /**
      * Robots / Sitemap
      */
@@ -189,13 +188,6 @@ module.exports = (router, pages, sectionPath, sectionId) => {
             description: 'Styleguide',
             superHeroImages: homepageHero
         });
-    });
-
-    routeCommon.init({
-        router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
     });
 
     return router;

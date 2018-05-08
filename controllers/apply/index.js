@@ -17,7 +17,7 @@ function initYourIdea() {
     return routerWithForm;
 }
 
-module.exports = router => {
+module.exports = ({ router }) => {
     router.get('/', (req, res) => {
         res.redirect('/');
     });
