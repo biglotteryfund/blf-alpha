@@ -65,6 +65,7 @@
                 {{ renderField({
                     type: 'text',
                     name: 'firstName',
+                    autocompleteName: 'given-name',
                     label: __('toplevel.ebulletin.fields.firstName'),
                     placeholder: __('toplevel.ebulletin.fields.firstName') + ' *',
                     isRequired: true
@@ -73,6 +74,7 @@
                 {{ renderField({
                     type: 'text',
                     name: 'lastName',
+                    autocompleteName: 'family-name',
                     label: __('toplevel.ebulletin.fields.lastName'),
                     placeholder: __('toplevel.ebulletin.fields.lastName') + ' *',
                     isRequired: true
@@ -81,6 +83,7 @@
                 {{ renderField({
                     type: 'text',
                     name: 'organisation',
+                    autocompleteName: 'organization',
                     label: __('toplevel.ebulletin.fields.organisation'),
                     placeholder: __('toplevel.ebulletin.fields.organisation'),
                     isRequired: false
@@ -89,6 +92,7 @@
                 {{ renderField({
                     type: 'email',
                     name: 'email',
+                    autocompleteName: 'email',
                     label: __('toplevel.ebulletin.fields.emailAddress'),
                     placeholder: __('toplevel.ebulletin.fields.emailAddress') + ' *',
                     isRequired: true
