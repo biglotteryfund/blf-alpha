@@ -2,15 +2,15 @@
 const express = require('express');
 const flash = require('req-flash');
 
+const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
+const { userBasePath, userEndpoints, emailPasswordValidations, formValidations } = require('./utils');
+const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
-const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
-
-const register = require('./register');
+const dashboard = require('./dashboard');
 const login = require('./login');
 const password = require('./password');
-const dashboard = require('./dashboard');
-const { userBasePath, userEndpoints, emailPasswordValidations, formValidations } = require('./utils');
+const register = require('./register');
 
 const router = express.Router();
 
@@ -20,11 +20,12 @@ router.use(toolsSecurityHeaders(), flash());
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
 
 // register users
-router
-    .route(userEndpoints.register)
-    .get(auth.requireUnauthed, (req, res) => res.send('Temporarily removed.'))
-    // .get(auth.requireUnauthed, cached.csrfProtection, register.registrationForm)
-    .post(emailPasswordValidations, cached.csrfProtection, register.createUser);
+if (appData.isDev) {
+    router.get(userEndpoints.register, auth.requireUnauthed, cached.csrfProtection, register.registrationForm);
+} else {
+    router.get(userEndpoints.register, auth.requireUnauthed, (req, res) => res.send('Temporarily removed.'));
+}
+router.post(userEndpoints.register, emailPasswordValidations, cached.csrfProtection, register.createUser);
 
 // login users
 router

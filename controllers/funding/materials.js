@@ -394,58 +394,50 @@ function initForm({ router, routeConfig }) {
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
-                /**
-                 * Allow tests to run without sending email
-                 * this is only used in tests, so we confirm the form data was correct
-                 */
-                if (req.body.skipEmail) {
-                    res.send(req.body);
-                } else {
-                    const details = req.body;
-                    const items = req.session[materialsOrderKey];
-                    const orderText = makeOrderText(items, details);
+                const details = req.body;
+                const items = req.session[materialsOrderKey];
+                const orderText = makeOrderText(items, details);
 
-                    storeOrderSummary({
-                        orderItems: items,
-                        orderDetails: details
-                    })
-                        .then(() => {
-                            const customerSendTo = details.yourEmail;
-                            const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+                storeOrderSummary({
+                    orderItems: items,
+                    orderDetails: details
+                })
+                    .then(() => {
+                        const customerSendTo = details.yourEmail;
+                        const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const customerEmail = mail.generateAndSend([
-                                {
-                                    name: 'material_customer',
-                                    sendTo: customerSendTo,
-                                    subject: 'Thank you for your Big Lottery Fund order',
-                                    templateName: 'emails/newMaterialOrder',
-                                    templateData: {}
-                                }
-                            ]);
+                        const customerEmail = mail.generateAndSend([
+                            {
+                                name: 'material_customer',
+                                sendTo: customerSendTo,
+                                subject: 'Thank you for your Big Lottery Fund order',
+                                templateName: 'emails/newMaterialOrder',
+                                templateData: {}
+                            }
+                        ]);
 
-                            const supplierEmail = mail.send({
-                                name: 'material_supplier',
-                                subject: `Order from Big Lottery Fund website - ${moment().format(
-                                    'dddd, MMMM Do YYYY, h:mm:ss a'
-                                )}`,
-                                text: orderText,
-                                sendTo: supplierSendTo,
-                                sendMode: 'bcc'
-                            });
-
-                            return Promise.all([customerEmail, supplierEmail]).then(() => {
-                                // Clear order details if success
-                                delete req.session[materialsOrderKey];
-                                req.session.save(() => {
-                                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
-                                });
-                            });
-                        })
-                        .catch(err => {
-                            Raven.captureException(err);
-                            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                        const supplierEmail = mail.send({
+                            name: 'material_supplier',
+                            subject: `Order from Big Lottery Fund website - ${moment().format(
+                                'dddd, MMMM Do YYYY, h:mm:ss a'
+                            )}`,
+                            text: orderText,
+                            sendTo: supplierSendTo,
+                            sendMode: 'bcc'
                         });
-                }
+
+                        return Promise.all([customerEmail, supplierEmail]).then(() => {
+                            // Clear order details if success
+                            delete req.session[materialsOrderKey];
+                            req.session.save(() => {
+                                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        Raven.captureException(err);
+                        renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                    });
             } else {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
