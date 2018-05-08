@@ -4,7 +4,6 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const moment = require('moment');
 const slug = require('slugify');
 
 const assets = require('./assets');
