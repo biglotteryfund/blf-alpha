@@ -182,9 +182,31 @@ app.use('/user', require('./controllers/user'));
  */
 forEach(routes.sections, (section, sectionId) => {
     if (section.controller) {
-        const controller = section.controller(section.pages, section.path, sectionId);
+        const router = express.Router();
+
+        /**
+         * Middleware to add a section ID to requests with a known section
+         * (eg. to mark a section as current in the nav)
+         */
+        router.use(function(req, res, next) {
+            res.locals.sectionId = sectionId;
+            next();
+        });
+
+        /**
+         * Add pageId to the request for all pages in a section
+         */
+        forEach(section.pages, (page, pageId) => {
+            router.use(page.path, (req, res, next) => {
+                res.locals.pageId = pageId;
+                next();
+            });
+        });
+
+        const routerForSection = section.controller(router, section.pages, section.path, sectionId);
+
         cymreigio(section.path).forEach(urlPath => {
-            app.use(urlPath, controller);
+            app.use(urlPath, routerForSection);
         });
     }
 });

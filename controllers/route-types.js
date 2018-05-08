@@ -20,8 +20,8 @@ function createSection({ path, controllerPath, langTitlePath, showInNavigation =
     /**
      * Controller loader function, allows us to auto-init routes
      */
-    newSection.controller = function(pages, sectionPath, sectionId) {
-        return require(controllerPath)(pages, sectionPath, sectionId);
+    newSection.controller = function(router, pages, sectionPath, sectionId) {
+        return require(controllerPath)(router, pages, sectionPath, sectionId);
     };
 
     /**
