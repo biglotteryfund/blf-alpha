@@ -23,7 +23,7 @@
         <div class="nudge-up">
             <div class="inner accent--pink a--border-top stats-holder content-box content-box--borderless">
                 <h2 class="t2 t--underline accent--pink">{{ copy.keyStats }}</h2>
-                {{ statsGrid(copy.data) }}
+                {{ statsGrid(statBlocks) }}
             </div>
 
             <aside class="map-holder accent--{{ pageAccent }} a--border-top">
@@ -35,10 +35,10 @@
                     </div>
 
                     <div id="js-map-panes" class="js-paneset">
-                        {% for region in grants %}
-                            <section id="region-{{ region.id }}" class="tab__pane{% if loop.first %} pane--active{% endif %}">
-                                <article class="map-info accent--{{ pageAccent }} a--border-top padded region--{{ region.id }}--b-t">
-                                    <h3 class="t2 t--underline region--{{ region.id }}--b-b">{{ copy.regions[region.id] }}</h3>
+                        {% for region in statRegions %}
+                            <section id="region-{{ region.slug }}" class="tab__pane{% if loop.first %} pane--active{% endif %}">
+                                <article class="map-info accent--{{ pageAccent }} a--border-top padded region--{{ region.slug }}--b-t">
+                                    <h3 class="t2 t--underline region--{{ region.slug }}--b-b">{{ region.title }}</h3>
 
                                     <p class="map-info__stat">
                                         <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.population | numberWithCommas }}</span>

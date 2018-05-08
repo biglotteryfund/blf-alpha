@@ -195,6 +195,14 @@ function getSurveys({ locale = 'en', showAll = false }) {
     });
 }
 
+function getStatBlocks(locale) {
+    return fetch(`/v1/${locale}/stat-blocks`).then(mapAttrs);
+}
+
+function getStatRegions(locale) {
+    return fetch(`/v1/${locale}/stat-regions`).then(mapAttrs);
+}
+
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -217,5 +225,7 @@ module.exports = {
     getProfiles,
     getPromotedNews,
     getRoutes,
-    getSurveys
+    getSurveys,
+    getStatBlocks,
+    getStatRegions
 };
