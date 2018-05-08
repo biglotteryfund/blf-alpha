@@ -3,7 +3,6 @@
 const { forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
-const { renderNotFoundWithError } = require('./http-errors');
 const { sMaxAge } = require('../middleware/cached');
 const injectHeroImage = require('../middleware/inject-hero');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
@@ -28,7 +27,7 @@ function setupRedirects(sectionPath, page) {
 }
 
 function handleCmsPage(sectionId) {
-    return function(req, res) {
+    return function(req, res, next) {
         contentApi
             .getListingPage({
                 locale: req.i18n.getLocale(),
@@ -49,9 +48,7 @@ function handleCmsPage(sectionId) {
                     res.render('pages/listings/informationPage', viewData);
                 }
             })
-            .catch(err => {
-                renderNotFoundWithError(req, res, err);
-            });
+            .catch(() => next());
     };
 }
 

@@ -7,14 +7,12 @@ function renderUnauthorised(req, res) {
     res.render('unauthorised');
 }
 
-function renderNotFound(req, res, err) {
+function renderNotFound(req, res, err = null) {
     res.cacheControl = { noStore: true };
-
-    err = err || new Error('Page not found');
 
     // Set locals, only providing error in development
     res.locals.status = 404;
-    res.locals.error = appData.environment ? err : null;
+    res.locals.error = err;
     res.locals.errorTitle = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
     res.locals.sentry = res.sentry;
 
