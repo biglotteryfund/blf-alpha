@@ -46,10 +46,9 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode",
-            "blf-alpha-session"
+            "contrastMode"
           ],
-          "Quantity": 2
+          "Quantity": 1
         }
       }
     },
@@ -109,10 +108,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -246,6 +244,71 @@
         "AllowedMethods": {
           "Items": [
             "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/apply/your-idea/*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
             "GET"
           ],
           "Quantity": 2,
@@ -278,10 +341,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -448,6 +510,70 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
+                "contrastMode"
+              ],
+              "Quantity": 1
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/funding/funding-finder"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
                 "contrastMode",
                 "blf-alpha-session"
               ],
@@ -464,7 +590,72 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/funding/funding-finder"
+        "PathPattern": "/funding/funding-guidance/managing-your-funding/ordering-free-materials"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/funding/funding-guidance/managing-your-funding/ordering-free-materials/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -512,10 +703,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -573,10 +763,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-alpha-session",
                 "blf-ab-afa-v2"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -900,10 +1089,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -961,6 +1149,70 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
+                "contrastMode"
+              ],
+              "Quantity": 1
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/surveys"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
                 "contrastMode",
                 "blf-alpha-session"
               ],
@@ -977,7 +1229,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/surveys"
+        "PathPattern": "/tools/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1081,8 +1333,11 @@
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
           },
           "QueryString": true,
           "Cookies": {
@@ -1105,7 +1360,198 @@
           "Items": [],
           "Quantity": 0
         },
+        "PathPattern": "/welsh/apply/your-idea/*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode"
+              ],
+              "Quantity": 1
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
         "PathPattern": "/welsh/funding/funding-finder"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1153,10 +1599,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1214,10 +1659,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-alpha-session",
                 "blf-ab-afa-v2"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -1271,10 +1715,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-alpha-session"
+                "contrastMode"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -1290,6 +1733,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 21
+    "Quantity": 28
   }
 }
