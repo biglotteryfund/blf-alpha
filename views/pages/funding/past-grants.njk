@@ -12,7 +12,8 @@
         <summary>{{ copy.survey.prompt }}</summary>
         <feedback-form
             description="Past grants"
-            label="{{ copy.survey.label }}"
+            field-label="{{ copy.survey.label }}"
+            submit-label=" {{ __('global.forms.submit') }}"
         />
     </details>
 {% endmacro %}

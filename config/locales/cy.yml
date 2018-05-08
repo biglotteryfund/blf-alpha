@@ -762,18 +762,18 @@ funding:
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     browseAll: Pori'r holl brosiectau a ariannwyd
   pastGrants:
-    title: Search All Funded Projects
-    intro: We understand that searching through the Big Lottery Fund’s past grants is important for many people. We are currently working to improve the service we currently offer.
+    title: Chwilio Pob Prosiect a Ariannwyd
+    intro: Rydym yn deall bod chwilio trwy grantiau blaenorol y Gronfa Loteri Fawr yn bwysig i lawer o bobl. Rydym wrthi’n gwella’r gwasanaeth a gynigiwn ar hyn o bryd.
     survey:
-      prompt: Please help us make the past grants search better by answering this one question
-      label: Tell us what you think
-    optionsIntro: In the the meantime, there are two ways you can explore our past grants.
+      prompt: Helpwch ni i wneud chwilio am grantiau blaenorol yn well trwy ateb un cwestiwn
+      label: Rhowch eich barn i ni
+    optionsIntro: Yn y cyfamser, mae dau ddull i chi chwilio trwy ein grantiau blaenorol.
     grantnav:
-      title: 1. Use the GrantNav site
-      subtitle: Not run by the Big Lottery Fund, but quick, nicely designed and full of our data
-      linkText: Search GrantNav
+      title: 1. Defnyddio’r wefan GrantNav
+      subtitle: Nid yw’n cael ei rhedeg gan y Gronfa Loteri Fawr ond mae’n gyflym, wedi’i ddylunio’n dda ac yn llawn dop gyda’n data ni. Noder nad yw’r wefan ar gael yn Gymraeg.
+      linkText: Chwilio GrantNav
     legacy:
-      title: 2. Use our current grants database
+      title: 2. Defnyddio ein cronfa ddata grantiau bresennol
       linkText: Chwilio grantiau blaenorol
   guidance:
     order-free-materials:
