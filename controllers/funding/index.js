@@ -1,24 +1,11 @@
 'use strict';
 
-const express = require('express');
-
-const routerSetup = require('../setup');
-const routeCommon = require('../common');
-
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
 const programmesRoute = require('./programmes');
 const tenKRoutes = require('./10k');
 
-const router = express.Router();
-
-module.exports = (pages, sectionPath, sectionId) => {
-    routerSetup({
-        router,
-        pages,
-        sectionId
-    });
-
+module.exports = ({ router, pages }) => {
     /**
      * Funding landing page
      */
@@ -56,13 +43,6 @@ module.exports = (pages, sectionPath, sectionId) => {
             programmeDetailAfaWales: pages.programmeDetailAfaWales,
             programmeDetailAfaScotland: pages.programmeDetailAfaScotland
         }
-    });
-
-    routeCommon.init({
-        router: router,
-        pages: pages,
-        sectionPath: sectionPath,
-        sectionId: sectionId
     });
 
     return router;

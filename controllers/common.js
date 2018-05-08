@@ -79,7 +79,7 @@ function handleStaticPage(page) {
  * Init routing
  * Set up path routing for a list of (static) pages
  */
-function init({ pages, router, sectionPath, sectionId }) {
+function init({ router, pages, sectionPath, sectionId }) {
     forEach(pages, page => {
         if (shouldServe(page)) {
             // Redirect any aliases to the canonical path
@@ -93,6 +93,8 @@ function init({ pages, router, sectionPath, sectionId }) {
             }
         }
     });
+
+    return router;
 }
 
 module.exports = {

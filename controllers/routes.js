@@ -25,8 +25,7 @@ const sections = {
     }),
     research: createSection({
         path: '/research',
-        langTitlePath: 'global.nav.research',
-        controllerPath: path.resolve(__dirname, './research')
+        langTitlePath: 'global.nav.research'
     }),
     about: createSection({
         path: '/about',
