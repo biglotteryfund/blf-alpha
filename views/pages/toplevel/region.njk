@@ -18,6 +18,9 @@
             {% for fundingProgramme in copy.sections.availableFunding.fundingProgrammes %}
                 {{ programmeOverview(fundingProgramme, pageAccent) }}
             {% endfor %}
+            {% if copy.sections.availableFunding.outro %}
+                <p>{{ copy.sections.availableFunding.outro | safe }}</p>
+            {% endif %}
         </div>
     {% endset %}
 
