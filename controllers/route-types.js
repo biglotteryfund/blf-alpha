@@ -162,23 +162,8 @@ function aliasFor(to, from, isLive = true) {
 }
 
 /**
- * Vanity
- * Syntax sugar. Provides the aame functionality as
- * aliasFor() but with the `from` and `to` arguments swapped.
- * Allows vanity URLs to be defined using a concise syntax
- */
-function vanity(from, to, isLive = true) {
-    return Object.assign({}, defaults, {
-        path: from,
-        destination: to,
-        live: isLive
-    });
-}
-
-/**
  * Programme Migration
  * Handle redirects from /global-content/programmes to /funding/programmes
- * Same behaviour as vanity() but with prefilled url prefix.
  */
 function programmeRedirect(from, to, isLive = true) {
     return Object.assign({}, defaults, {
@@ -198,6 +183,5 @@ module.exports = {
     legacyRoute,
     archived,
     aliasFor,
-    vanity,
     programmeRedirect
 };
