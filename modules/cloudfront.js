@@ -73,14 +73,8 @@ function generateUrlList(routes) {
     const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
     forEach(liveLegacyRoutes, pushRouteConfig);
 
-    // Legacy redirects
-    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
     // Archived routes
     routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
-    // Vanity URLs
-    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     // Other Routes
     routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
