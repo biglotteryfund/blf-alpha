@@ -51,6 +51,7 @@ const timingsMiddleware = require('./middleware/timings');
  */
 Raven.config(SENTRY_DSN, {
     environment: appData.environment,
+    release: appData.commitId,
     autoBreadcrumbs: true,
     dataCallback(data) {
         // Clear installed node_modules
