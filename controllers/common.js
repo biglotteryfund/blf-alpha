@@ -82,11 +82,11 @@ function init({ router, pages, sectionPath, sectionId }) {
             // Redirect any aliases to the canonical path
             setupRedirects(sectionPath, page);
 
-            if (page.useCmsContent) {
-                router.get(page.path, handleCmsPage(sectionId));
-            } else if (page.static) {
+            if (page.static) {
                 const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
                 router.get(page.path, cacheMiddleware, injectHeroImage(page), handleStaticPage(page));
+            } else if (page.useCmsContent) {
+                router.get(page.path, handleCmsPage(sectionId));
             }
         }
     });
