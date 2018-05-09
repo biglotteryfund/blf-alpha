@@ -1,5 +1,5 @@
 'use strict';
-
+const config = require('config');
 const { get } = require('lodash');
 
 /**
@@ -99,18 +99,16 @@ function dynamicRoute(props) {
 }
 
 /**
- * Wildcard route
- * Extends from dynamic route, used when we require wildcard parameters
- * e.g. /some/route/:dynamicId
- * Used on the Free Materials form
+ * Session route
+ * Route type where session is required
  */
-function wildcardRoute(props) {
-    const wildcardDefaults = {
+function sessionRoute(props) {
+    const sessionDefaults = {
+        cookies: [config.get('cookies.session')],
         static: false,
-        live: true,
-        isWildcard: true
+        live: true
     };
-    return Object.assign({}, defaults, wildcardDefaults, props);
+    return Object.assign({}, sessionDefaults, defaults, props);
 }
 
 /**
@@ -195,7 +193,7 @@ module.exports = {
     basicRoute,
     staticRoute,
     dynamicRoute,
-    wildcardRoute,
+    sessionRoute,
     cmsRoute,
     legacyRoute,
     archived,
