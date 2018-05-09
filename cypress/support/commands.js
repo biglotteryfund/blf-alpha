@@ -11,17 +11,6 @@ Cypress.Commands.add('getCsrf', () => {
         });
 });
 
-Cypress.Commands.add('registerUser', formBody => {
-    return cy.request({
-        method: 'POST',
-        url: '/user/register',
-        failOnStatusCode: false,
-        followRedirects: false,
-        form: true,
-        body: formBody
-    });
-});
-
 Cypress.Commands.add('seedUser', () => {
     return cy.request('POST', '/tools/seed/user').its('body');
 });
@@ -37,6 +26,29 @@ Cypress.Commands.add('loginUser', ({ username, password }) => {
                 username: username,
                 password: password
             }
+        });
+    });
+});
+
+Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
+    return cy.getCsrf().then(csrfToken => {
+        const formBody = {
+            _csrf: csrfToken,
+            username: username,
+            password: password
+        };
+
+        if (returnToken) {
+            formBody.returnToken = returnToken;
+        }
+
+        return cy.request({
+            method: 'POST',
+            url: '/user/register',
+            failOnStatusCode: false,
+            followRedirects: false,
+            form: true,
+            body: formBody
         });
     });
 });

@@ -3,9 +3,53 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { postcodeArea } = require('./userData');
+const { makeOrderText, postcodeArea } = require('./materials-helpers');
 
-describe('User data helpers', () => {
+describe('Materials utilities', () => {
+    it('should make order text for email', () => {
+        const items = {
+            'BLF-BR088': {
+                name: 'Stainless steel plaque',
+                id: 3,
+                quantity: 1
+            },
+            itemBlocked: false,
+            'BIG-BANNP': {
+                name: 'Vinyl banner (pink)',
+                id: 6,
+                quantity: 1
+            },
+            'BIG-EVBLN': {
+                name: 'Balloons',
+                id: 8,
+                quantity: 2
+            }
+        };
+
+        const details = {
+            yourName: 'Ann Example',
+            yourEmail: 'ann@example.com',
+            yourAddress1: '1 Plough Place',
+            yourAddress2: '',
+            yourCounty: '',
+            yourTown: 'London',
+            yourCountry: 'United Kingdom',
+            yourPostcode: 'EC4A 1DE',
+            yourProjectName: '',
+            yourReason: 'projectOpening',
+            yourReasonOther: '',
+            yourGrantAmount: 'over10k',
+            yourGrantAmountOther: ''
+        };
+
+        const orderText = makeOrderText(items, details);
+        expect(orderText).to.contain('- x1 BLF-BR088 (item: Stainless steel plaque)');
+        expect(orderText).to.contain('- x1 BIG-BANNP (item: Vinyl banner (pink))');
+        expect(orderText).to.contain('Name: Ann Example');
+        expect(orderText).to.contain('Email address: ann@example.com');
+        expect(orderText).to.contain('Postcode: EC4A 1DE');
+    });
+
     it('should extract postcode outcode', () => {
         const toTest = [
             {

@@ -86,27 +86,12 @@ npm run watch
 
 ## Testing
 
-The app comes with several layers of tests to ensure everything works as expected. You can run all the tests using:
+### Unit & Integration tests
+
+We have two main sets of application tests: unit tests with files collocated next to the module the test; and integration tests written using `cypress`. You can run all test suites using:
 
 ```
 npm test
-```
-
-
-### Unit tests
-
-Unit tests are written using mocha. These tests are colocated next to the individual files they test. Unit tests can be run using:
-
-```
-npm run test-unit
-```
-
-### Integration tests
-
-Integration tests are stored under `integration-tests/` and check to see that critical server routes are working as expected by starting up a test instance of the application server. Integration tests can be run using:
-
-```
-npm run test-integration
 ```
 
 ### Security tests
@@ -129,12 +114,10 @@ npm run lint
 
 ### Environments
 
-There are three main environments:
+There are two main environments, both running on AWS behind CloudFront to ensure parity between environments.
 
 - **Test** - Deployed to automatically each time `master` builds
 - **Production** - Deployed to manually by triggering a release
-
-All three environments run on AWS behind CloudFront to ensure parity between environments.
 
 Environments share a RDS MySQL instance which has multiple databases used for the app:
 

@@ -77,7 +77,7 @@
 {% endmacro %}
 
 {% macro materialCard(material, languageToShow) %}
-<article class="material-card">
+<article class="material-card" id="qa-material-{{ material.id }}">
     <header class="material-card__header">
         <h4 class="material-card__title t5">{{ material.name[locale] }}</h4>
     </header>

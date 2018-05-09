@@ -1,5 +1,5 @@
 'use strict';
-const { check, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const { get, map, mapValues, reduce, set, some, sumBy, values } = require('lodash');
 const { purify } = require('../../modules/validators');
 const { sanitizeBody } = require('express-validator/filter');
@@ -7,192 +7,17 @@ const flash = require('req-flash');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const { postcodeArea } = require('../../modules/userData');
+const { materialFields, makeOrderText, postcodeArea } = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
 
 const materials = require('../../config/content/materials.json');
-let availableItems = materials.items.filter(i => !i.disabled);
-
 const materialsOrderKey = 'orderedMaterials';
-const translateError = errorTranslator('global.forms');
-const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';
-
-function checkClean(fieldName) {
-    return check(fieldName).trim();
-}
-
-function createField(props) {
-    const defaults = {
-        label: translationLabelBase + props.name,
-        required: false
-    };
-
-    return Object.assign({}, defaults, props);
-}
-
-const materialFields = {
-    yourName: createField({
-        name: 'yourName',
-        type: 'text',
-        emailKey: 'Name',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
-        }
-    }),
-    yourEmail: createField({
-        name: 'yourEmail',
-        type: 'email',
-        emailKey: 'Email address',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]))
-                .isEmail()
-                .withMessage(translateError('invalidEmailError'));
-        }
-    }),
-    yourAddress1: createField({
-        name: 'yourAddress1',
-        type: 'text',
-        emailKey: 'Address line 1',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
-        }
-    }),
-    yourAddress2: createField({
-        name: 'yourAddress2',
-        type: 'text',
-        emailKey: 'Address line 2',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourTown: createField({
-        name: 'yourTown',
-        type: 'text',
-        emailKey: 'Town/city',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
-        }
-    }),
-    yourCounty: createField({
-        name: 'yourCounty',
-        type: 'text',
-        emailKey: 'County',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourCountry: createField({
-        name: 'yourCountry',
-        type: 'text',
-        emailKey: 'Country',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
-        }
-    }),
-    yourPostcode: createField({
-        name: 'yourPostcode',
-        type: 'text',
-        emailKey: 'Postcode',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
-        }
-    }),
-    yourProjectName: createField({
-        name: 'yourProjectName',
-        type: 'text',
-        emailKey: 'Project name',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourGrantAmount: createField({
-        name: 'yourGrantAmount',
-        type: 'radio',
-        allowOther: true,
-        options: [
-            {
-                name: translationLabelBase + 'grantSizes.under10k',
-                value: 'under10k'
-            },
-            {
-                name: translationLabelBase + 'grantSizes.over10k',
-                value: 'over10k'
-            },
-            {
-                name: translationLabelBase + 'grantSizes.dunno',
-                value: 'dunno'
-            }
-        ],
-        emailKey: 'Grant amount',
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourReason: createField({
-        name: 'yourReason',
-        type: 'radio',
-        allowOther: true,
-        options: [
-            {
-                name: translationLabelBase + 'reasons.event',
-                value: 'event'
-            },
-            {
-                name: translationLabelBase + 'reasons.projectOpening',
-                value: 'projectOpening'
-            },
-            {
-                name: translationLabelBase + 'reasons.photoOpportunity',
-                value: 'photoOpportunity'
-            },
-            {
-                name: translationLabelBase + 'reasons.mpVisit',
-                value: 'mpVisit'
-            },
-            {
-                name: translationLabelBase + 'reasons.grantAcknowledgment',
-                value: 'grantAcknowledgment'
-            }
-        ],
-        emailKey: 'Order reason',
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    })
-};
+const availableItems = materials.items.filter(i => !i.disabled);
 
 function modifyItems(req, orderKey, code) {
     const validActions = ['increase', 'decrease', 'remove'];
@@ -275,55 +100,6 @@ function initAddRemove({ router, routeConfig }) {
     return router;
 }
 
-/**
- * Create text for order email
- */
-function makeOrderText(items, details) {
-    const orderSummary = reduce(
-        items,
-        (acc, item, code) => {
-            if (item.quantity > 0) {
-                acc.push(`\t- x${item.quantity} ${code}\t (item: ${item.name})`);
-            }
-            return acc;
-        },
-        []
-    );
-
-    const customerDetails = reduce(
-        materialFields,
-        (acc, field) => {
-            let fieldLabel = field.emailKey;
-            const originalFieldValue = details[field.name];
-            const otherValue = details[field.name + 'Other'];
-
-            // Override value if "other" field is entered.
-            const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
-
-            if (fieldValue) {
-                acc.push(`\t${fieldLabel}: ${fieldValue}`);
-            }
-
-            return acc;
-        },
-        []
-    );
-
-    const text = `
-A new order has been received from the Big Lottery Fund website. The order details are below:
-
-${orderSummary.join('\n')}
-
-The customer's personal details are below:
-
-${customerDetails.join('\n')}
-
-This email has been automatically generated from the Big Lottery Fund website.
-If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
-
-    return text.trim();
-}
-
 function storeOrderSummary({ orderItems, orderDetails }) {
     const preparedOrderItems = reduce(
         orderItems,
@@ -394,58 +170,50 @@ function initForm({ router, routeConfig }) {
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
-                /**
-                 * Allow tests to run without sending email
-                 * this is only used in tests, so we confirm the form data was correct
-                 */
-                if (req.body.skipEmail) {
-                    res.send(req.body);
-                } else {
-                    const details = req.body;
-                    const items = req.session[materialsOrderKey];
-                    const orderText = makeOrderText(items, details);
+                const details = req.body;
+                const items = req.session[materialsOrderKey];
+                const orderText = makeOrderText(items, details);
 
-                    storeOrderSummary({
-                        orderItems: items,
-                        orderDetails: details
-                    })
-                        .then(() => {
-                            const customerSendTo = details.yourEmail;
-                            const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+                storeOrderSummary({
+                    orderItems: items,
+                    orderDetails: details
+                })
+                    .then(() => {
+                        const customerSendTo = details.yourEmail;
+                        const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const customerEmail = mail.generateAndSend([
-                                {
-                                    name: 'material_customer',
-                                    sendTo: customerSendTo,
-                                    subject: 'Thank you for your Big Lottery Fund order',
-                                    templateName: 'emails/newMaterialOrder',
-                                    templateData: {}
-                                }
-                            ]);
+                        const customerEmail = mail.generateAndSend([
+                            {
+                                name: 'material_customer',
+                                sendTo: customerSendTo,
+                                subject: 'Thank you for your Big Lottery Fund order',
+                                templateName: 'emails/newMaterialOrder',
+                                templateData: {}
+                            }
+                        ]);
 
-                            const supplierEmail = mail.send({
-                                name: 'material_supplier',
-                                subject: `Order from Big Lottery Fund website - ${moment().format(
-                                    'dddd, MMMM Do YYYY, h:mm:ss a'
-                                )}`,
-                                text: orderText,
-                                sendTo: supplierSendTo,
-                                sendMode: 'bcc'
-                            });
-
-                            return Promise.all([customerEmail, supplierEmail]).then(() => {
-                                // Clear order details if success
-                                delete req.session[materialsOrderKey];
-                                req.session.save(() => {
-                                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
-                                });
-                            });
-                        })
-                        .catch(err => {
-                            Raven.captureException(err);
-                            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                        const supplierEmail = mail.send({
+                            name: 'material_supplier',
+                            subject: `Order from Big Lottery Fund website - ${moment().format(
+                                'dddd, MMMM Do YYYY, h:mm:ss a'
+                            )}`,
+                            text: orderText,
+                            sendTo: supplierSendTo,
+                            sendMode: 'bcc'
                         });
-                }
+
+                        return Promise.all([customerEmail, supplierEmail]).then(() => {
+                            // Clear order details if success
+                            delete req.session[materialsOrderKey];
+                            req.session.save(() => {
+                                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        Raven.captureException(err);
+                        renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                    });
             } else {
                 req.flash('formErrors', errors.array());
                 req.flash('formValues', req.body);
