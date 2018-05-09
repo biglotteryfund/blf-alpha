@@ -102,17 +102,11 @@ const vanityRedirects = [
     vanity('/cymru', '/welsh/wales'),
     vanity('/over10k', '/funding/over10k'),
     vanity('/under10k', '/funding/under10k'),
-    vanity('/a4aengland', '/funding/programmes/national-lottery-awards-for-all-england'),
-    vanity('/prog_a4a_eng', '/funding/programmes/national-lottery-awards-for-all-england'),
     vanity('/englandwebinars', '/funding/programmes/national-lottery-awards-for-all-england'),
-    vanity('/awardsforallscotland', '/funding/programmes/national-lottery-awards-for-all-scotland'),
     vanity(
         '/england/global-content/programmes/scotland/awards-for-all-scotland',
         '/funding/programmes/national-lottery-awards-for-all-scotland'
     ),
-    vanity('/prog_a4a_ni', '/funding/programmes/awards-for-all-northern-ireland'),
-    vanity('/a4awales', '/funding/programmes/national-lottery-awards-for-all-wales'),
-    vanity('/prog_a4a_wales', '/funding/programmes/national-lottery-awards-for-all-wales'),
     vanity(
         '/england/global-content/programmes/wales/awards-for-all-wales',
         '/funding/programmes/national-lottery-awards-for-all-wales'
@@ -125,14 +119,6 @@ const vanityRedirects = [
         '/wales/global-content/programmes/wales/awards-for-all-wales',
         '/funding/programmes/national-lottery-awards-for-all-wales'
     ),
-    vanity('/rc', '/funding/programmes/reaching-communities-england'),
-    vanity('/reachingcommunities', '/funding/programmes/reaching-communities-england'),
-    vanity('/prog_reaching_communities', '/funding/programmes/reaching-communities-england'),
-    vanity('/prog_reaching_communities.htm', '/funding/programmes/reaching-communities-england'),
-    vanity('/empowering-young-people', '/funding/programmes/empowering-young-people'),
-    vanity('/helping-working-families', '/funding/programmes/helping-working-families'),
-    vanity('/helpingworkingfamilies', '/funding/programmes/helping-working-families'),
-    vanity('/helputeuluoeddgweithio', '/welsh/funding/programmes/helping-working-families'),
     vanity('/improvinglives', '/funding/programmes/grants-for-improving-lives'),
     vanity('/communityled', '/funding/programmes/grants-for-community-led-activity'),
     vanity('/peopleandcommunities', '/funding/programmes/people-and-communities'),
