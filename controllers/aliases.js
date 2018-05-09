@@ -1,5 +1,5 @@
 'use strict';
-const { map } = require('lodash');
+const { flatten, map } = require('lodash');
 const { archived, aliasFor, programmeRedirect } = require('./route-types');
 
 /**
@@ -14,11 +14,13 @@ const archivedRoutes = [
 /**
  * Legacy Redirects
  */
-const legacyRedirects = [
+const legacyRedirects = flatten([
     aliasFor('/about/strategic-framework', '/about-big/strategic-framework'),
-    aliasFor('/funding', '/funding-uk'),
-    aliasFor('/funding', '/funding/funding-guidance'),
-    aliasFor('/funding', '/funding/funding-guidance/applying-for-funding'),
+    aliasFor('/funding', [
+        '/funding-uk',
+        '/funding/funding-guidance',
+        '/funding/funding-guidance/applying-for-funding'
+    ]),
     aliasFor('/funding/programmes', '/Home/Funding/Funding*Finder'),
     aliasFor('/funding/programmes?location=scotland', '/funding/scotland-portfolio'),
     aliasFor(
@@ -31,6 +33,30 @@ const legacyRedirects = [
     ),
 
     aliasFor('/about/customer-service/accessibility', '/about-big/our-approach/accessibility'),
+
+    // Manage your funding
+    aliasFor('/funding/funding-guidance/managing-your-funding', [
+        '/funding/funding-guidance/managing-your-funding/help-with-publicity',
+        '/welcome',
+        '/publicity'
+    ]),
+
+    // Logos
+    aliasFor('/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos', [
+        '/funding/funding-guidance/managing-your-funding/logodownloads',
+        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+        '/logos'
+    ]),
+
+    // Free materials
+    aliasFor('/funding/funding-guidance/managing-your-funding/ordering-free-materials', [
+        '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
+        '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+        '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+        '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+        '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+        '/yourgrant'
+    ]),
 
     // Migrated Programme Pages [LIVE]
     programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
@@ -56,7 +82,7 @@ const legacyRedirects = [
     // Migrated Programme Pages [DRAFT]
     programmeRedirect('scotland/our-place', 'our-place', false),
     programmeRedirect('uk-wide/forces-in-mind', 'forces-in-mind', false)
-];
+]);
 
 /**
  * Vanity URLs
