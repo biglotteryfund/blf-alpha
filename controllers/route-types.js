@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { get } = require('lodash');
+const { get, isArray } = require('lodash');
 
 /**
  * Create a top-level section
@@ -148,17 +148,25 @@ function archived(path) {
     });
 }
 
+function alias(to, from, isLive = true) {
+    return Object.assign({}, defaults, {
+        path: from,
+        destination: to,
+        live: isLive
+    });
+}
+
 /**
  * Alias for
  * Redirect helper accepting `to` and `from`
  * Allows aliases to be defined using a concise syntax
  */
 function aliasFor(to, from, isLive = true) {
-    return Object.assign({}, defaults, {
-        path: from,
-        destination: to,
-        live: isLive
-    });
+    if (isArray(from)) {
+        return from.map(fromPath => alias(to, fromPath, isLive));
+    } else {
+        return alias(to, from, isLive);
+    }
 }
 
 /**
@@ -168,11 +176,7 @@ function aliasFor(to, from, isLive = true) {
  * Allows vanity URLs to be defined using a concise syntax
  */
 function vanity(from, to, isLive = true) {
-    return Object.assign({}, defaults, {
-        path: from,
-        destination: to,
-        live: isLive
-    });
+    return alias(to, from, isLive);
 }
 
 /**
