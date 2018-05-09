@@ -50,6 +50,7 @@ const timingsMiddleware = require('./middleware/timings');
  * @see https://docs.sentry.io/clients/node/config/
  */
 Raven.config(SENTRY_DSN, {
+    logger: 'server',
     environment: appData.environment,
     autoBreadcrumbs: true,
     dataCallback(data) {
