@@ -146,15 +146,19 @@ sections.funding.addRoutes({
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
     }),
-    manageFunding: staticRoute({
-        path: '/funding-guidance/managing-your-funding',
-        template: 'pages/funding/guidance/managing-your-funding',
-        lang: 'funding.guidance.managing-your-funding',
-        aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
+    logos: staticRoute({
+        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+        template: 'pages/funding/logos',
+        lang: 'funding.guidance.logos',
+        aliases: [
+            '/funding/funding-guidance/managing-your-funding/logodownloads',
+            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
+            '/logos'
+        ]
     }),
     freeMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-        template: 'pages/funding/guidance/order-free-materials',
+        template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
         isPostable: true,
         aliases: [
@@ -170,27 +174,12 @@ sections.funding.addRoutes({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
         isPostable: true
     }),
-    helpWithPublicity: staticRoute({
-        path: '/funding-guidance/managing-your-funding/social-media',
-        template: 'pages/funding/guidance/help-with-publicity',
-        lang: 'funding.guidance.help-with-publicity'
+    manageFunding: cmsRoute({
+        path: '/funding-guidance/managing-your-funding',
+        aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
     }),
-    pressCoverage: staticRoute({
-        path: '/funding-guidance/managing-your-funding/press',
-        template: 'pages/funding/guidance/getting-press-coverage',
-        lang: 'funding.guidance.getting-press-coverage',
-        static: true,
-        live: true
-    }),
-    logos: staticRoute({
-        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-        template: 'pages/funding/guidance/logos',
-        lang: 'funding.guidance.logos',
-        aliases: [
-            '/funding/funding-guidance/managing-your-funding/logodownloads',
-            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-            '/logos'
-        ]
+    manageFundingContent: cmsRoute({
+        path: '/funding-guidance/managing-your-funding/*'
     }),
     programmes: dynamicRoute({
         path: '/programmes',
