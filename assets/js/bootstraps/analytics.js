@@ -70,7 +70,7 @@ export const init = () => {
      * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
      */
     ga('require', 'eventTracker', {
-        attributePrefix: 'data-'
+        attributePrefix: 'data-ga-'
     });
 
     /**
