@@ -78,7 +78,15 @@ $constrainedWide: 42em;
     a[href^='tel:'] {
         color: palette('green');
         font-weight: bold;
-        word-break: break-word;
+        word-break: break-all;
+    }
+
+    // fix word-break in IE when used in tables
+    td {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            display: table-cell;
+        }
     }
 
     a[href^='tel:'] {
