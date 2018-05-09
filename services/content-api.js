@@ -195,6 +195,10 @@ function getSurveys({ locale = 'en', showAll = false }) {
     });
 }
 
+function getAliases({ locale }) {
+    return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
+}
+
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -206,8 +210,9 @@ module.exports = {
     mapAttrs,
     mergeWelshBy,
     // API methods
-    getBlogPosts,
+    getAliases,
     getBlogDetail,
+    getBlogPosts,
     getCaseStudies,
     getFundingProgramme,
     getFundingProgrammes,
