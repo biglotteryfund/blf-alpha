@@ -288,7 +288,7 @@ app.get('/error-unauthorised', (req, res) => {
 app
     .route('*')
     .all(stripCSPHeader)
-    .get(proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
+    .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
 
 /**
