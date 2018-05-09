@@ -66,7 +66,8 @@
 
         {# Content segments #}
         {% if content.segments.length > 0 %}
-            <div class="inner--wide-only s-prose s-prose--long u-constrained-content-wide">
+            <div class="inner--wide-only u-constrained-content-wide">
+                {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
                 {% for contentSegment in content.segments %}
                     {% set image = false %}
                     {% if contentSegment.photo %}
@@ -75,7 +76,7 @@
                     {{ segment(
                         title = contentSegment.title,
                         text = contentSegment.content,
-                        color = pageAccent,
+                        color = themes.next(),
                         imagePath = image,
                         id = 'segment-' + loop.index,
                         imageIsAbsolute = true

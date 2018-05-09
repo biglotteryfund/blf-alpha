@@ -31,7 +31,7 @@
                 {% for page in content.children %}
                     <li class="grid__item">
                         {{ miniatureHero(
-                            titleText = page.trailText,
+                            titleText = page.title,
                             imagePath = page.photo,
                             imageCaption = page.title,
                             linkUrl = '/' + page.path,
