@@ -766,7 +766,7 @@ funding:
     intro: Rydym yn deall bod chwilio trwy grantiau blaenorol y Gronfa Loteri Fawr yn bwysig i lawer o bobl. Rydym wrthi’n gwella’r gwasanaeth a gynigiwn ar hyn o bryd.
     survey:
       prompt: Helpwch ni i wneud chwilio am grantiau blaenorol yn well trwy ateb un cwestiwn
-      label: Rhowch eich barn i ni
+      label: Dywedwch pam y daethoch i'r dudalen hon heddiw
     optionsIntro: Yn y cyfamser, mae dau ddull i chi chwilio trwy ein grantiau blaenorol.
     grantnav:
       title: 1. Defnyddio’r wefan GrantNav
