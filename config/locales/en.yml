@@ -839,7 +839,7 @@ funding:
     intro: We understand that searching through the Big Lottery Fund’s past grants is important for many people. We are currently working to improve the service we currently offer.
     survey:
       prompt: Please help us make the past grants search better by answering this one question
-      label: Tell us what you think
+      label: Tell us why you came to this page today
     optionsIntro: In the the meantime, there are two ways you can explore our past grants.
     grantnav:
       title: 1. Use the GrantNav site
