@@ -1,7 +1,6 @@
 'use strict';
 const { map } = require('lodash');
 const { archived, aliasFor, programmeRedirect } = require('./route-types');
-const vanityRedirectsMap = require('../config/app/vanity-redirects.json');
 
 /**
  * Archived Routes
@@ -69,7 +68,42 @@ const legacyRedirects = [
 /**
  * Vanity URLs
  */
-const vanityRedirects = map(vanityRedirectsMap, (to, from) => ({
+// prettier-ignore
+const vanityRedirects = map({
+    '/about-big/customer-service/fraud': '/contact#fraud',
+    '/about-big/customer-service/making-a-complaint': '/contact#complaints',
+    '/ccf': '/funding/programmes/coastal-communities-fund',
+    '/communityassets': 'funding/programmes/community-assets',
+    '/communityled': '/funding/programmes/grants-for-community-led-activity',
+    '/cyhoeddusrwydd': '/welsh/funding/funding-guidance/managing-your-funding',
+    '/cymru': '/welsh/wales',
+    '/england/about-big/customer-service/making-a-complaint': '/contact#complaints',
+    '/england/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/england/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
+    '/esf': '/funding/programmes/building-better-opportunities',
+    '/funded-projects': '/funding/past-grants',
+    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
+    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
+    '/guidancetrackingprogress': '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+    '/headstart': '/global-content/programmes/england/fulfilling-lives-headstart',
+    '/improvinglives': '/funding/programmes/grants-for-improving-lives',
+    '/news-and-events/contact-press-team': '/contact#press',
+    '/over10k': '/funding/over10k',
+    '/peopleandcommunities': '/funding/programmes/people-and-communities',
+    '/prog_growing_community_assets': 'funding/programmes/community-assets',
+    '/prog_people_places': '/funding/programmes?min=10000&location=wales',
+    '/scotland/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/scottishlandfund': 'funding/programmes/scottish-land-fund',
+    '/under10k': '/funding/under10k',
+    '/slf': 'funding/programmes/scottish-land-fund',
+    '/wales/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/wales/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
+    '/welsh/about-big/customer-service/making-a-complaint': '/welsh/contact#complaints',
+    '/welsh/news-and-events/contact-press-team': '/welsh/contact#press'
+}, (to, from) => ({
     path: from,
     destination: to,
     live: true
