@@ -179,13 +179,14 @@ sections.funding.addRoutes({
     fundingGuidanceLogos: staticRoute({
         path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
         template: 'pages/funding/logos',
-        lang: 'funding.guidance.logos'
+        lang: 'funding.guidance.logos',
+        heroSlug: 'oasis-caring-in-action'
     }),
     fundingGuidanceMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
-        isWildcard: true,
+        heroSlug: 'oasis-caring-in-action',
         isPostable: true
     }),
     fundingGuidanceMaterialsActions: sessionRoute({
