@@ -7,21 +7,12 @@
 {% block content %}
     <h1 class="border-bottom pb-2 mb-4">Page list</h1>
 
-    <section class="mb-4">
-        <h2 class="mb-4">Totals</h2>
-        <ul class="list-unstyled">
-            <li><strong>{{ totals.canonical }}</strong> live canonical URLs</li>
-            <li><strong>{{ totals.vanity }}</strong> live vanity URLs</li>
-            <li><strong>{{ totals.redirects }}</strong> live redirect URLs</li>
-        </ul>
-    </section>
-
     {% macro statusBadge(message, state) %}
         <span class="badge badge-{{ state }}">{{ message }}</span>
     {% endmacro %}
 
     <section>
-        <h2 class="mb-4">Canonical URLs</h2>
+        <h2 class="mb-4">Canonical URLs (<strong>{{ totalCanonicalRoutes }}</strong> live URLs)</h2>
 
         <p><button class="btn btn-primary" id="js-open-links">Open all English canonical pages?</button></p>
         <ul class="list-unstyled">
@@ -36,56 +27,6 @@
                                 {{statusBadge('Draft', 'warning')}}
                             {% endif %}
                         </h3>
-                        <p>
-                            <a href="{{ route.path }}">English</a> |
-                            <a href="/welsh{{ route.path }}">Welsh</a>
-                        </p>
-                    </article>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h2 class="mb-4">Vanity URLs</h2>
-        <ul class="list-unstyled">
-            {% for route in vanityRoutes %}
-                <li>
-                    <article class="border-top py-2">
-                        <h3 class="h6">
-                            <a href={{ route.path}} title="{{ route.title }}">
-                                {{ route.path }}
-                            </a>
-                            {% if route.live %}
-                                {{statusBadge('Live', 'success')}}
-                            {% else %}
-                                {{statusBadge('Draft', 'warning')}}
-                            {% endif %}
-                        </h3>
-                        <p><em>→ {{ route.destination }}</em></p>
-                    </article>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h2 class="mb-4">Legacy Redirects</h2>
-        <ul class="list-unstyled">
-            {% for route in redirectRoutes %}
-                <li>
-                    <article class="border-top py-2">
-                        <h3 class="h6">
-                            <a href={{ route.path}} title="{{ route.title }}">
-                                {{ route.path }}
-                            </a>
-                            {% if route.live %}
-                                {{statusBadge('Live', 'success')}}
-                            {% else %}
-                                {{statusBadge('Draft', 'warning')}}
-                            {% endif %}
-                        </h3>
-                        <p><em>→ {{ route.destination }}</em></p>
                         <p>
                             <a href="{{ route.path }}">English</a> |
                             <a href="/welsh{{ route.path }}">Welsh</a>

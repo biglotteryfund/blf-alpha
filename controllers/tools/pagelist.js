@@ -1,31 +1,19 @@
 'use strict';
-const { renderError } = require('../http-errors');
 const appData = require('../../modules/appData');
 const routeHelpers = require('../helpers/route-helpers');
 
+const countRoutes = routeList => routeList.filter(route => route.live === true).length;
+
 function init({ router }) {
-    router.get('/pages', async (req, res) => {
+    router.get('/pages', async (req, res, next) => {
         try {
             const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: appData.isNotProduction });
-            const redirectRoutes = await routeHelpers.getCombinedRedirects({ includeDraft: appData.isNotProduction });
-            const vanityRoutes = await routeHelpers.getVanityRedirects();
-
-            const countRoutes = routeList => routeList.filter(route => route.live === true).length;
-
-            const totals = {
-                canonical: countRoutes(canonicalRoutes),
-                redirects: countRoutes(redirectRoutes),
-                vanity: countRoutes(vanityRoutes)
-            };
-
             res.render('pages/tools/pagelist', {
-                totals,
                 canonicalRoutes,
-                redirectRoutes,
-                vanityRoutes
+                totalCanonicalRoutes: countRoutes(canonicalRoutes)
             });
         } catch (err) {
-            renderError(err);
+            next(err);
         }
     });
 
