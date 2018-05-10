@@ -3,13 +3,13 @@
 const path = require('path');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
 const {
-    createSection,
     basicRoute,
-    staticRoute,
-    dynamicRoute,
-    wildcardRoute,
     cmsRoute,
-    legacyRoute
+    createSection,
+    dynamicRoute,
+    legacyRoute,
+    sessionRoute,
+    staticRoute
 } = require('./route-types');
 
 const sections = {
@@ -144,8 +144,7 @@ sections.funding.addRoutes({
         path: '/past-grants',
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
-        heroSlug: 'active-plus-communities',
-        live: false
+        heroSlug: 'active-plus-communities'
     }),
     manageFunding: staticRoute({
         path: '/funding-guidance/managing-your-funding',
@@ -153,7 +152,7 @@ sections.funding.addRoutes({
         lang: 'funding.guidance.managing-your-funding',
         aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
     }),
-    freeMaterials: wildcardRoute({
+    freeMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/guidance/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
@@ -166,6 +165,10 @@ sections.funding.addRoutes({
             '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
             '/yourgrant'
         ]
+    }),
+    freeMaterialsActions: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
+        isPostable: true
     }),
     helpWithPublicity: staticRoute({
         path: '/funding-guidance/managing-your-funding/social-media',
@@ -334,7 +337,7 @@ sections.apply.addRoutes({
     root: dynamicRoute({
         path: '/'
     }),
-    yourIdea: dynamicRoute({
+    yourIdea: sessionRoute({
         path: '/your-idea/*',
         isPostable: true
     })
@@ -372,7 +375,7 @@ const otherUrls = [
     basicRoute({
         path: '/styleguide'
     }),
-    basicRoute({
+    sessionRoute({
         path: '/tools/*',
         isPostable: true
     }),
@@ -389,7 +392,7 @@ const otherUrls = [
         path: '/survey/*',
         isPostable: true
     }),
-    basicRoute({
+    sessionRoute({
         path: '/user/*',
         isPostable: true,
         queryStrings: ['token']
