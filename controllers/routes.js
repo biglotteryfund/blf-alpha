@@ -186,7 +186,7 @@ sections.funding.addRoutes({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
-        heroSlug: 'oasis-caring-in-action',
+        heroSlug: 'passion-4-fusion-2',
         isPostable: true
     }),
     fundingGuidanceMaterialsActions: sessionRoute({
