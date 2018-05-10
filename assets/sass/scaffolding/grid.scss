@@ -122,6 +122,7 @@ $paddedGridGutterLarge: 30px;
                         // internal border
                         &:nth-child(#{$i}n + 1) {
                             $desiredHeight: 50%;
+                            $desiredWidth: 4px;
                             &:after {
                                 position: relative;
                                 display: block;
@@ -130,7 +131,8 @@ $paddedGridGutterLarge: 30px;
                                 height: $desiredHeight;
                                 top: #{ (100% - $desiredHeight) / 2};
                                 border-left-style: solid;
-                                border-left-width: 4px;
+                                border-left-width: $desiredWidth;
+                                width: $desiredWidth;
                             }
 
                             // when used inside a content box,

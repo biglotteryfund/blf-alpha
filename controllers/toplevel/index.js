@@ -10,7 +10,6 @@ const contentApi = require('../../services/content-api');
 
 const { homepageHero } = require('../../modules/images');
 const { purifyUserInput } = require('../../modules/validators');
-const regions = require('../../config/content/regions.json');
 
 const robotRoutes = require('./robots');
 const homepageRoute = require('./homepage');
@@ -50,12 +49,24 @@ module.exports = ({ router, pages }) => {
     });
 
     // data page
-    router.get(pages.data.path, (req, res) => {
-        let grants = sortBy(regions, 'name');
-        res.render('pages/toplevel/data', {
-            grants: grants,
-            copy: req.i18n.__(pages.data.lang)
-        });
+    router.get(pages.data.path, (req, res, next) => {
+        const locale = req.i18n.getLocale();
+        const getStatBlocks = contentApi.getStatBlocks(locale);
+        const getStatRegions = contentApi.getStatRegions(locale);
+
+        return Promise.all([getStatBlocks, getStatRegions])
+            .then(responses => {
+                const [statBlocks, statRegions] = responses;
+                res.render('pages/toplevel/data', {
+                    copy: req.i18n.__(pages.data.lang),
+                    statBlocks: statBlocks,
+                    statRegions: statRegions
+                });
+            })
+            .catch(err => {
+                Raven.captureException(err);
+                next();
+            });
     });
 
     // handle contrast shifter

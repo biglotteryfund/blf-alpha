@@ -22,11 +22,11 @@
     <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
         {% for stat in stats %}
             {{ statBlock(
-                number = stat.number.value,
-                caption = stat.caption,
-                numberPrefix = stat.number.prefix,
-                numberSuffix = stat.number.suffix,
-                numberFirst = stat.number.showFirst
+                number = stat.value,
+                caption = stat.title,
+                numberPrefix = stat.prefix,
+                numberSuffix = stat.suffix,
+                numberFirst = stat.showNumberBeforeTitle
             ) }}
         {% endfor %}
     </ul>

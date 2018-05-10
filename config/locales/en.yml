@@ -477,79 +477,11 @@ toplevel:
   data:
     title: 'Key data about the Big Lottery Fund: <br />financial year 2016/17'
     keyStats: Key statistics
-    data:
-    - number:
-        value: "£712.7m"
-        suffix: ''
-        prefix: ''
-        showFirst: false
-      caption: Total value of funding awarded
-    - number:
-        value: '13,814'
-        suffix: ''
-        prefix: ''
-        showFirst: false
-      caption: Total number of grants awarded
-    - number:
-        value: '12,352'
-        suffix: "(89.4%)"
-        prefix: ''
-        showFirst: false
-      caption: Number of grants under or equal to £10,000
-    - number:
-        value: '9,377,362'
-        suffix: ''
-        prefix: ''
-        showFirst: false
-      caption: Total number of expected beneficiaries
-    - number:
-        value: "£10,805,105"
-        suffix: ''
-        prefix: We gave
-        showFirst: true
-      caption: to award partners to distribute to local projects
-    - number:
-        value: '10,657'
-        suffix: ''
-        prefix: ''
-        showFirst: false
-      caption: Number of charities funded in the UK
-    - number:
-        value: "£164m"
-        suffix: ''
-        prefix: Over
-        showFirst: true
-      caption: will support children and young people
-    - number:
-        value: "£387m"
-        suffix: ''
-        prefix: Over
-        showFirst: true
-      caption: will improve environments and facilities
-    - number:
-        value: "£551m"
-        suffix: ''
-        prefix: Over
-        showFirst: true
-      caption: will support improved mental wellbeing
     map:
       title: Our Year in Numbers
       population: Population
       totalAwarded: Total awarded
       totalBeneficiaries: Total beneficiaries
-    regions:
-      east-midlands: East Midlands
-      east-england: East of England
-      london: London
-      north-east: North East
-      north-west: North West
-      northern-ireland: Northern Ireland
-      scotland: Scotland
-      south-east: South East
-      south-west: South West
-      wales: Wales
-      west-midlands: West Midlands
-      yorkshire: Yorkshire and the Humber
 about:
   landing:
     title: About the Big Lottery Fund
