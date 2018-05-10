@@ -90,10 +90,8 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/data',
         lang: 'toplevel.data'
     }),
-    jobs: staticRoute({
+    jobs: cmsRoute({
         path: '/jobs',
-        template: 'pages/toplevel/jobs',
-        lang: 'toplevel.jobs',
         aliases: [
             '/about-big/jobs',
             '/about-big/jobs/how-to-apply',
@@ -108,10 +106,8 @@ sections.toplevel.addRoutes({
             '/northernireland/about-big/jobs'
         ]
     }),
-    benefits: staticRoute({
+    benefits: cmsRoute({
         path: '/jobs/benefits',
-        template: 'pages/toplevel/benefits',
-        lang: 'toplevel.benefits',
         aliases: ['/about-big/jobs/benefits']
     }),
     search: dynamicRoute({
