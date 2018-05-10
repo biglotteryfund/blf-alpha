@@ -146,28 +146,6 @@ sections.funding.addRoutes({
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
     }),
-    logos: staticRoute({
-        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-        template: 'pages/funding/logos',
-        lang: 'funding.guidance.logos'
-    }),
-    freeMaterials: sessionRoute({
-        path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-        template: 'pages/funding/order-free-materials',
-        lang: 'funding.guidance.order-free-materials',
-        isWildcard: true,
-        isPostable: true
-    }),
-    freeMaterialsActions: sessionRoute({
-        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-        isPostable: true
-    }),
-    manageFunding: cmsRoute({
-        path: '/funding-guidance/managing-your-funding'
-    }),
-    manageFundingContent: cmsRoute({
-        path: '/funding-guidance/managing-your-funding/*'
-    }),
     programmes: dynamicRoute({
         path: '/programmes',
         template: 'pages/funding/programmes',
@@ -198,13 +176,24 @@ sections.funding.addRoutes({
             '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
         ]
     }),
-    informationChecks: cmsRoute({
-        path: '/funding-guidance/information-checks',
-        aliases: ['/informationchecks', '/funding/funding-guidance/applying-for-funding/information-checks']
+    fundingGuidanceLogos: staticRoute({
+        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+        template: 'pages/funding/logos',
+        lang: 'funding.guidance.logos'
     }),
-    electronicForms: cmsRoute({
-        path: '/funding-guidance/help-using-our-application-forms',
-        aliases: ['/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms']
+    fundingGuidanceMaterials: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials',
+        template: 'pages/funding/order-free-materials',
+        lang: 'funding.guidance.order-free-materials',
+        isWildcard: true,
+        isPostable: true
+    }),
+    fundingGuidanceMaterialsActions: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
+        isPostable: true
+    }),
+    fundingGuidance: cmsRoute({
+        path: '/funding-guidance/*'
     })
 });
 

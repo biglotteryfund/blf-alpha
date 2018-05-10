@@ -15,6 +15,13 @@ const archivedRoutes = [
  * Legacy Redirects
  */
 const legacyRedirects = flatten([
+    aliasFor('/funding-guidance/help-using-our-application-forms', [
+        '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
+    ]),
+    aliasFor('/funding/funding-guidance/information-checks', [
+        '/informationchecks',
+        '/funding/funding-guidance/applying-for-funding/information-checks'
+    ]),
     aliasFor('/about/strategic-framework', '/about-big/strategic-framework'),
     aliasFor('/funding', [
         '/funding-uk',
