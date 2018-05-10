@@ -7,6 +7,7 @@ const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
+const timings = require('server-timings');
 const yaml = require('js-yaml');
 
 const app = express();
@@ -65,6 +66,10 @@ Raven.config(SENTRY_DSN, {
 }).install();
 
 app.use(Raven.requestHandler());
+
+app.use(timings);
+
+app.use(timings.start('setup'));
 
 /**
  * Set up internationalisation
@@ -157,6 +162,10 @@ function initViewEngine() {
 
 initViewEngine();
 
+app.use(timings.end('setup'));
+
+app.use(timings.start('global-middleware'));
+
 /**
  * Register global middlewares
  */
@@ -172,6 +181,10 @@ app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 app.use(portalMiddleware);
+
+app.use(timings.end('global-middleware'));
+
+app.use(timings.start('routing'));
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
@@ -263,6 +276,8 @@ serveRedirects({
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
     app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
 });
+
+app.use(timings.end('routing'));
 
 /**
  * Error route

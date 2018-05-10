@@ -115,6 +115,7 @@
     "response-time": "^2.3.2",
     "sequelize": "^4.8.0",
     "serve-favicon": "^2.4.3",
+    "server-timings": "^2.0.1",
     "shortid": "^2.2.8",
     "sitemap": "^1.13.0",
     "slugify": "^1.2.1",
