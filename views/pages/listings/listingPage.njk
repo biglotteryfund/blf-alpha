@@ -33,7 +33,7 @@
                             titleText = page.trailText | default(page.title, true),
                             imagePath = page.photo,
                             imageCaption = page.title,
-                            linkUrl = '/' + page.path,
+                            linkUrl = buildUrl(page.path),
                             accent = page.themeColour,
                             useRemoteImages = true
                         )}}
