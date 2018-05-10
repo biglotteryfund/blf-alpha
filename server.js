@@ -45,6 +45,7 @@ const previewMiddleware = require('./middleware/preview');
 const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
+const injectHeroMiddleware = require('./middleware/inject-hero');
 
 /**
  * Configure Sentry client
@@ -212,10 +213,14 @@ forEach(routes.sections, (section, sectionId) => {
     });
 
     /**
-     * Add pageId to the request for all pages in a section
+     * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        router.use(page.path, (req, res, next) => {
+        /**
+         * Note: must use `router.get` here because `router.use` matches
+         * against URLs which *start with* the path given which is too broad.
+         */
+        router.get(page.path, injectHeroMiddleware(page), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });

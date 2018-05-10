@@ -146,52 +146,6 @@ sections.funding.addRoutes({
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
     }),
-    manageFunding: staticRoute({
-        path: '/funding-guidance/managing-your-funding',
-        template: 'pages/funding/guidance/managing-your-funding',
-        lang: 'funding.guidance.managing-your-funding',
-        aliases: ['/funding/funding-guidance/managing-your-funding/help-with-publicity', '/welcome', '/publicity']
-    }),
-    freeMaterials: sessionRoute({
-        path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-        template: 'pages/funding/guidance/order-free-materials',
-        lang: 'funding.guidance.order-free-materials',
-        isPostable: true,
-        aliases: [
-            '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
-            '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-            '/yourgrant'
-        ]
-    }),
-    freeMaterialsActions: sessionRoute({
-        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-        isPostable: true
-    }),
-    helpWithPublicity: staticRoute({
-        path: '/funding-guidance/managing-your-funding/social-media',
-        template: 'pages/funding/guidance/help-with-publicity',
-        lang: 'funding.guidance.help-with-publicity'
-    }),
-    pressCoverage: staticRoute({
-        path: '/funding-guidance/managing-your-funding/press',
-        template: 'pages/funding/guidance/getting-press-coverage',
-        lang: 'funding.guidance.getting-press-coverage',
-        static: true,
-        live: true
-    }),
-    logos: staticRoute({
-        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-        template: 'pages/funding/guidance/logos',
-        lang: 'funding.guidance.logos',
-        aliases: [
-            '/funding/funding-guidance/managing-your-funding/logodownloads',
-            '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-            '/logos'
-        ]
-    }),
     programmes: dynamicRoute({
         path: '/programmes',
         template: 'pages/funding/programmes',
@@ -222,13 +176,25 @@ sections.funding.addRoutes({
             '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
         ]
     }),
-    informationChecks: cmsRoute({
-        path: '/funding-guidance/information-checks',
-        aliases: ['/informationchecks', '/funding/funding-guidance/applying-for-funding/information-checks']
+    fundingGuidanceLogos: staticRoute({
+        path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+        template: 'pages/funding/logos',
+        lang: 'funding.guidance.logos',
+        heroSlug: 'oasis-caring-in-action'
     }),
-    electronicForms: cmsRoute({
-        path: '/funding-guidance/help-using-our-application-forms',
-        aliases: ['/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms']
+    fundingGuidanceMaterials: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials',
+        template: 'pages/funding/order-free-materials',
+        lang: 'funding.guidance.order-free-materials',
+        heroSlug: 'passion-4-fusion-2',
+        isPostable: true
+    }),
+    fundingGuidanceMaterialsActions: sessionRoute({
+        path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
+        isPostable: true
+    }),
+    fundingGuidance: cmsRoute({
+        path: '/funding-guidance/*'
     })
 });
 

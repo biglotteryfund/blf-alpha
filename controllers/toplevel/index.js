@@ -1,6 +1,5 @@
 'use strict';
 const config = require('config');
-const { sortBy } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
 const moment = require('moment');
 const Raven = require('raven');

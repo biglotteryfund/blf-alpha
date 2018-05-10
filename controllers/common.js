@@ -4,7 +4,6 @@ const { forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
 const { sMaxAge } = require('../middleware/cached');
-const injectHeroImage = require('../middleware/inject-hero');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
@@ -82,11 +81,11 @@ function init({ router, pages, sectionPath, sectionId }) {
             // Redirect any aliases to the canonical path
             setupRedirects(sectionPath, page);
 
-            if (page.useCmsContent) {
-                router.get(page.path, handleCmsPage(sectionId));
-            } else if (page.static) {
+            if (page.static) {
                 const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
-                router.get(page.path, cacheMiddleware, injectHeroImage(page), handleStaticPage(page));
+                router.get(page.path, cacheMiddleware, handleStaticPage(page));
+            } else if (page.useCmsContent) {
+                router.get(page.path, handleCmsPage(sectionId));
             }
         }
     });

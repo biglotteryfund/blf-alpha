@@ -21,13 +21,6 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    centreForBetterHealthBakery: createHeroImage({
-        small: 'hero/centre-for-better-health-bakery-small.jpg',
-        medium: 'hero/centre-for-better-health-bakery-medium.jpg',
-        large: 'hero/centre-for-better-health-bakery-large.jpg',
-        default: 'hero/centre-for-better-health-bakery-medium.jpg',
-        caption: 'Centre for Better Health Bakery'
-    }),
     friendsOfGreenwich: createHeroImage({
         small: 'hero/friends-of-greenwich-small.jpg',
         medium: 'hero/friends-of-greenwich-medium.jpg',
@@ -56,13 +49,6 @@ const heroImages = {
         default: 'hero/new-routes-into-horse-care-medium.jpg',
         caption: 'New Routes into Horse Care'
     }),
-    oasisCaringInAction: createHeroImage({
-        small: 'hero/oasis-caring-in-action-antrim-youthways-small.jpg',
-        medium: 'hero/oasis-caring-in-action-antrim-youthways-medium.jpg',
-        large: 'hero/oasis-caring-in-action-antrim-youthways-large.jpg',
-        default: 'hero/oasis-caring-in-action-antrim-youthways-medium.jpg',
-        caption: 'Oasis Caring in Action Antrim Youthways'
-    }),
     passion4Fusion: createHeroImage({
         small: 'hero/passion4fusion-small.jpg',
         medium: 'hero/passion4fusion-medium.jpg',
@@ -76,13 +62,6 @@ const heroImages = {
         large: 'hero/rathlin-island-development-large.jpg',
         default: 'hero/rathlin-island-development-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
-    }),
-    sortedProject: createHeroImage({
-        small: 'hero/sorted-project-small.jpg',
-        medium: 'hero/sorted-project-medium.jpg',
-        large: 'hero/sorted-project-large.jpg',
-        default: 'hero/sorted-project-medium.jpg',
-        caption: 'Sorted Project'
     }),
     streetDreams: createHeroImage({
         small: 'hero/street-dreams-small.jpg',

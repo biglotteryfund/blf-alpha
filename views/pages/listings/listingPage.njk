@@ -27,15 +27,14 @@
         {% if content.children.length > 0 %}
             <div class="inner">
                 <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
-                {% set themes = cycler('pink-mid', 'blue', 'turquoise', 'orange') %}
                 {% for page in content.children %}
                     <li class="grid__item">
                         {{ miniatureHero(
-                            titleText = page.trailText,
+                            titleText = page.trailText | default(page.title, true),
                             imagePath = page.photo,
                             imageCaption = page.title,
-                            linkUrl = '/' + page.path,
-                            accent = themes.next(),
+                            linkUrl = buildUrl(page.path),
+                            accent = page.themeColour,
                             useRemoteImages = true
                         )}}
                     </li>
