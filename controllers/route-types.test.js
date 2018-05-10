@@ -4,15 +4,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const {
-    createSection,
-    basicRoute,
-    staticRoute,
-    dynamicRoute,
-    cmsRoute,
-    legacyRoute,
-    vanity
-} = require('./route-types');
+const { createSection, basicRoute, staticRoute, dynamicRoute, cmsRoute, legacyRoute } = require('./route-types');
 
 describe('Route types', () => {
     it('should create a new section', () => {
@@ -105,15 +97,6 @@ describe('Route types', () => {
             path: '/some/url',
             isPostable: true,
             allowAllQueryStrings: true,
-            live: true
-        });
-    });
-
-    it('should define a vanity redirect schema', () => {
-        expect(vanity('/from/url', '/to/url')).to.eql({
-            path: '/from/url',
-            destination: '/to/url',
-            isPostable: false,
             live: true
         });
     });
