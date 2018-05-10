@@ -38,8 +38,8 @@ describe('Common tests', function() {
 
     it('should handle aliases', () => {
         cy.checkRedirect({
-            from: '/a4aengland',
-            to: '/funding/programmes/national-lottery-awards-for-all-england'
+            from: '/over10k',
+            to: '/funding/over10k'
         });
     });
 

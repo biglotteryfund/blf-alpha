@@ -9,20 +9,32 @@ const materials = require('../../config/content/materials.json');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
 
-const router = express.Router();
-
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
 
-router.use(toolsSecurityHeaders());
+const router = express.Router();
+
+router.use(cached.noCache, toolsSecurityHeaders());
+
+/**************************************
+ * Public / Unauthed Tools
+ **************************************/
 
 pagelistRouter.init({
     router
 });
 
-const requiredAuthed = auth.requireAuthedLevel(5);
+seedRouter.init({
+    router
+});
 
-router.route('/feedback-results').get(cached.noCache, requiredAuthed, (req, res) => {
+/**************************************
+ * Internal / Authed Tools
+ **************************************/
+
+router.use(auth.requireAuthedLevel(5));
+
+router.route('/feedback-results').get((req, res) => {
     feedbackService
         .findAll()
         .then(feedback => {
@@ -35,7 +47,7 @@ router.route('/feedback-results').get(cached.noCache, requiredAuthed, (req, res)
         });
 });
 
-router.route('/survey-results').get(cached.noCache, requiredAuthed, (req, res) => {
+router.route('/survey-results').get((req, res) => {
     surveysService
         .findAll()
         .then(surveys => {
@@ -48,7 +60,7 @@ router.route('/survey-results').get(cached.noCache, requiredAuthed, (req, res) =
         });
 });
 
-router.route('/order-stats').get(cached.noCache, requiredAuthed, (req, res) => {
+router.route('/order-stats').get((req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
@@ -63,10 +75,6 @@ router.route('/order-stats').get(cached.noCache, requiredAuthed, (req, res) => {
         .catch(err => {
             res.send(err);
         });
-});
-
-seedRouter.init({
-    router
 });
 
 module.exports = router;

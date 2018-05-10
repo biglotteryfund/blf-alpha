@@ -50,7 +50,9 @@ const timingsMiddleware = require('./middleware/timings');
  * @see https://docs.sentry.io/clients/node/config/
  */
 Raven.config(SENTRY_DSN, {
+    logger: 'server',
     environment: appData.environment,
+    release: appData.commitId,
     autoBreadcrumbs: true,
     dataCallback(data) {
         // Clear installed node_modules
@@ -286,7 +288,7 @@ app.get('/error-unauthorised', (req, res) => {
 app
     .route('*')
     .all(stripCSPHeader)
-    .get(proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
+    .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
 
 /**

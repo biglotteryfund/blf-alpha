@@ -7,7 +7,7 @@
     </h1>
 
     {% for description, items in feedback  %}
-        <h2>{{ description }}</h2>
+        <h2>{{ description }}: {{ items.length }} responses</h2>
         <div class="border mb-5" style="max-height: 400px; overflow: auto">
             <div class="list-group">
                 {% for response in items %}

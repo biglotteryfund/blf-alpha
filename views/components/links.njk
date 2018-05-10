@@ -9,17 +9,3 @@
         {% endfor %}
     </ul>
 {% endmacro %}
-
-{% macro linkGrid(items, accentColor) %}
-    <div class="link-grid accent--{{ accentColor }} a--border-color">
-        <ul class="link-grid__list unstyled">
-            {% for item in items %}
-            <li class="link-grid__item">
-                {% if item.url %}<a href="{{ item.url }}" class="u-link-minimal">{% endif %}
-                <span class="t2">{{ item.label }}</span>
-                {% if item.url %}</a>{% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endmacro %}

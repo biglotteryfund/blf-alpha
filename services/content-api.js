@@ -203,6 +203,10 @@ function getStatRegions(locale) {
     return fetch(`/v1/${locale}/stat-regions`).then(mapAttrs);
 }
 
+function getAliases({ locale }) {
+    return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
+}
+
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -214,8 +218,9 @@ module.exports = {
     mapAttrs,
     mergeWelshBy,
     // API methods
-    getBlogPosts,
+    getAliases,
     getBlogDetail,
+    getBlogPosts,
     getCaseStudies,
     getFundingProgramme,
     getFundingProgrammes,
@@ -225,7 +230,7 @@ module.exports = {
     getProfiles,
     getPromotedNews,
     getRoutes,
-    getSurveys,
     getStatBlocks,
-    getStatRegions
+    getStatRegions,
+    getSurveys
 };

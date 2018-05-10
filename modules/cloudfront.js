@@ -1,7 +1,9 @@
 'use strict';
 const config = require('config');
-const { assign, concat, filter, forEach, has, map, sortBy } = require('lodash');
+const { assign, compact, concat, filter, flatten, forEach, get, has, sortBy } = require('lodash');
+
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
+const appData = require('./appData');
 
 /**
  * makeUrlObject
@@ -17,11 +19,19 @@ function makeUrlObject(page, customPath) {
 }
 
 function hasSpecialRequirements(route) {
-    return route.allowAllQueryStrings || (route.queryStrings && route.queryStrings.length > 0) || has(route, 'abTest');
+    return (
+        // Any route specific query strings?
+        route.allowAllQueryStrings ||
+        (route.queryStrings && route.queryStrings.length > 0) ||
+        // Any route specific cookies?
+        has(route, 'cookies') ||
+        // Any route specific a/b tests?
+        has(route, 'abTest')
+    );
 }
 
 function isLive(route) {
-    return route.live === true;
+    return appData.isNotProduction || route.live === true;
 }
 
 function pageNeedsCustomRouting(page) {
@@ -43,9 +53,6 @@ function generateUrlList(routes) {
             let url = section.path + page.path;
 
             if (pageNeedsCustomRouting(page)) {
-                if (page.isWildcard) {
-                    url += '*';
-                }
                 // create route mapping for canonical URLs
                 urls.push(makeUrlObject(page, url));
                 urls.push(makeUrlObject(page, makeWelsh(url)));
@@ -66,14 +73,8 @@ function generateUrlList(routes) {
     const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
     forEach(liveLegacyRoutes, pushRouteConfig);
 
-    // Legacy redirects
-    routes.legacyRedirects.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
     // Archived routes
     routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
-
-    // Vanity URLs
-    routes.vanityRedirects.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     // Other Routes
     routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
@@ -182,12 +183,13 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
-    const cookiesInUse = map(config.get('cookies'), val => val);
+
+    const defaultCookies = [config.get('cookies.contrast')];
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: cookiesInUse
+        cookiesInUse: defaultCookies
     });
 
     // Serve legacy static files
@@ -215,7 +217,16 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
-        const routeCookies = has(url, 'abTest.cookie') ? concat(cookiesInUse, [url.abTest.cookie]) : cookiesInUse;
+        const cookiesInUse = compact(
+            flatten([
+                // Global cookies
+                defaultCookies,
+                // Route specific a/b test cookie
+                get(url, 'abTest.cookie'),
+                // Custom route specific cookies
+                get(url, 'cookies', [])
+            ])
+        );
 
         return makeBehaviourItem({
             originId: origins.newSite,
@@ -223,7 +234,7 @@ function generateBehaviours({ routesConfig, origins }) {
             isPostable: url.isPostable,
             queryStringWhitelist: url.queryStrings,
             allowAllQueryStrings: url.allowAllQueryStrings,
-            cookiesInUse: routeCookies
+            cookiesInUse: cookiesInUse
         });
     });
 
