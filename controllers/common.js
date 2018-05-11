@@ -4,10 +4,10 @@ const { forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
 const { sMaxAge } = require('../middleware/cached');
+const { injectListingContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
-const contentApi = require('../services/content-api');
 
 /**
  * Redirect any aliases to the canonical path
@@ -23,32 +23,6 @@ function setupRedirects(sectionPath, page) {
         redirects: redirects,
         makeBilingual: true
     });
-}
-
-function handleCmsPage(sectionId) {
-    return function(req, res, next) {
-        contentApi
-            .getListingPage({
-                locale: req.i18n.getLocale(),
-                path: contentApi.getCmsPath(sectionId, req.path),
-                previewMode: res.locals.PREVIEW_MODE || false
-            })
-            .then(content => {
-                const viewData = {
-                    content: content,
-                    title: content.title,
-                    heroImage: content.hero,
-                    isBilingual: isBilingual(content.availableLanguages)
-                };
-
-                if (content.children) {
-                    res.render('pages/listings/listingPage', viewData);
-                } else {
-                    res.render('pages/listings/informationPage', viewData);
-                }
-            })
-            .catch(() => next());
-    };
 }
 
 function handleStaticPage(page) {
@@ -71,21 +45,49 @@ function handleStaticPage(page) {
     };
 }
 
+function handleCmsPage(page) {
+    return (req, res) => {
+        const content = res.locals.content;
+
+        const viewData = {
+            content: content,
+            title: content.title,
+            heroImage: content.hero,
+            isBilingual: isBilingual(content.availableLanguages)
+        };
+
+        if (page.lang) {
+            viewData.copy = req.i18n.__(page.lang);
+        }
+
+        const template = (() => {
+            if (page.template) {
+                return page.template;
+            } else if (content.children) {
+                return 'common/listingPage';
+            } else {
+                return 'common/informationPage';
+            }
+        })();
+
+        res.render(template, viewData);
+    };
+}
+
 /**
  * Init routing
  * Set up path routing for a list of (static) pages
  */
-function init({ router, pages, sectionPath, sectionId }) {
+function init({ router, pages, sectionPath }) {
     forEach(pages, page => {
         if (shouldServe(page)) {
             // Redirect any aliases to the canonical path
             setupRedirects(sectionPath, page);
 
             if (page.static) {
-                const cacheMiddleware = page.sMaxAge ? sMaxAge(page.sMaxAge) : (req, res, next) => next();
-                router.get(page.path, cacheMiddleware, handleStaticPage(page));
+                router.get(page.path, sMaxAge(page.sMaxAge), handleStaticPage(page));
             } else if (page.useCmsContent) {
-                router.get(page.path, handleCmsPage(sectionId));
+                router.get(page.path, injectListingContent, handleCmsPage(page));
             }
         }
     });

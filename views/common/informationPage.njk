@@ -1,0 +1,101 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/segment.njk" import segment with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% if heroImage %}
+    {% set socialImage = heroImage %}
+{% else %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% macro segmentLinks(segments) %}
+    {% if segments.length > 0 %}
+        <ul>
+            {% for segment in segments %}
+                <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    {% set pageAccent = content.themeColour | default('pink') %}
+
+    {% if heroImage %}
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+    {% endif %}
+
+    {% macro primaryContent() %}
+        {% if not heroImage %}
+           <h1>{{ content.title }}</h1>
+        {% endif %}
+        {{ content.introduction | safe }}
+        {{ segmentLinks(content.segments) }}
+    {% endmacro %}
+
+    <main{% if heroImage %} class="nudge-up"{% endif %}>
+        {% block contentPrimary %}
+            {% if content.relatedContent %}
+                <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
+                    <div class="page-section__content accent--{{ pageAccent }} a--border-top">
+                        <article class="content-box s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+                            {{ primaryContent() }}
+                        </article>
+                    </div>
+                    <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+                        <aside class="content-box s-prose js-annotate-links">
+                            {{ content.relatedContent | safe }}
+                        </aside>
+                    </div>
+                </section>
+            {% else %}
+                <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                    <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+                        {{ primaryContent() }}
+                    </div>
+                </section>
+            {% endif %}
+
+            {# Content segments #}
+            {% if content.segments.length > 0 %}
+                <div class="inner--wide-only u-constrained-content-wide">
+                    {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
+                    {% for contentSegment in content.segments %}
+                        {% set image = false %}
+                        {% if contentSegment.photo %}
+                            {% set image = contentSegment.photo %}
+                        {% endif %}
+                        {{ segment(
+                            title = contentSegment.title,
+                            text = contentSegment.content,
+                            color = themes.next(),
+                            imagePath = image,
+                            id = 'segment-' + loop.index,
+                            imageIsAbsolute = true
+                        ) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endblock %}
+
+        {# Case Studies #}
+        {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
+
+        {% if content.outro %}
+            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose s-prose--long accent-content--{{ pageAccent }}">
+                    {{ content.outro | safe }}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+{% endblock %}

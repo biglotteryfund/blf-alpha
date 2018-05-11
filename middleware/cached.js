@@ -42,9 +42,10 @@ const noCache = (req, res, next) => {
  * @param { string } sMaxAgeValue  `s-max-age` value in natural language (e.g. 30s, 10m. 1h)
  */
 const sMaxAge = sMaxAgeValue => {
-    const sMaxAgeSeconds = toSeconds(sMaxAgeValue);
     return (req, res, next) => {
-        res.cacheControl = { maxAge: DEFAULT_MAX_AGE, sMaxAge: sMaxAgeSeconds };
+        if (sMaxAgeValue) {
+            res.cacheControl = { maxAge: DEFAULT_MAX_AGE, sMaxAge: toSeconds(sMaxAgeValue) };
+        }
         next();
     };
 };

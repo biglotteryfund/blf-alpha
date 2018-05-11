@@ -33,6 +33,7 @@ const viewFilters = require('./modules/filters');
 const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { injectHeroImage } = require('./middleware/inject-content');
 const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
@@ -45,7 +46,6 @@ const previewMiddleware = require('./middleware/preview');
 const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
-const injectHeroMiddleware = require('./middleware/inject-hero');
 
 /**
  * Configure Sentry client
@@ -220,7 +220,7 @@ forEach(routes.sections, (section, sectionId) => {
          * Note: must use `router.get` here because `router.use` matches
          * against URLs which *start with* the path given which is too broad.
          */
-        router.get(page.path, injectHeroMiddleware(page), (req, res, next) => {
+        router.get(page.path, injectHeroImage(page), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });
@@ -244,8 +244,7 @@ forEach(routes.sections, (section, sectionId) => {
     router = routeCommon.init({
         router: router,
         pages: section.pages,
-        sectionPath: section.path,
-        sectionId: sectionId
+        sectionPath: section.path
     });
 
     /**
