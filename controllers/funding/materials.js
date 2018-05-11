@@ -14,54 +14,72 @@ const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
+const contentApi = require('../../services/content-api');
 
-const materials = require('../../config/content/materials.json');
+// const materials = require('../../config/content/materials.json');
 const materialsOrderKey = 'orderedMaterials';
-const availableItems = materials.items.filter(i => !i.disabled);
+// const availableItems = materials.items.filter(i => !i.disabled);
 
-function modifyItems(req, orderKey, code) {
+/*
+* @TODO
+*   POST the product ID, maximum allowed and disallowed items
+*   check action is valid
+*   check if existing basket contains any disallowed items (and return error if so)
+*   check if they're at max capacity for item (and return error if so)
+*   otherwise increment/decrement/delete product
+ */
+
+function modifyItems(req) {
     const validActions = ['increase', 'decrease', 'remove'];
-    const id = parseInt(req.params.id);
-    const action = req.body.action;
 
-    const itemToBeAdded = availableItems.find(i => i.id === id);
-    const isValidAction = itemToBeAdded && validActions.indexOf(action) !== -1;
+    const action = req.body.action;
+    const productId = parseInt(req.body.productId);
+    const materialId = parseInt(req.body.materialId);
+    const maxQuantity = parseInt(req.body.max);
+    const notAllowedWith = (req.body.notAllowedWith) ? req.body.notAllowedWith.split(',').map(i => parseInt(i)) : false;
+
+    const isValidAction = validActions.indexOf(action) !== -1;
+    const allCurrentOrders = get(req.session, [materialsOrderKey], {});
 
     if (isValidAction) {
-        const maxQuantity = itemToBeAdded.maximum;
-        const notAllowedWithItemId = itemToBeAdded.notAllowedWithItem;
-
-        const allCurrentOrders = get(req.session, [orderKey], {});
 
         // How many of the current item do they have?
-        const currentItemQuantity = get(req.session, [orderKey, code, 'quantity'], 0);
+        const currentItemQuantity = get(req.session, [materialsOrderKey, productId, 'quantity'], 0);
 
         // Check if their current orders contain a blocker
+        // note that this only works in one direction:
+        // eg. it only checks if the product you're adding has constraints
+        // eg. item A is blocked with item B (but you can add item B first, then add A)
+        // solution is to make item A block item B and item B block item A in the CMS
+        // or track the blocked items here and check both ends.
         const hasBlockerItem = some(allCurrentOrders, order => {
-            return notAllowedWithItemId && order.id === notAllowedWithItemId && order.quantity > 0;
+            if (!notAllowedWith) { return; }
+            const itemIsBlocked = notAllowedWith.indexOf(order.materialId) !== -1;
+            return itemIsBlocked && order.quantity > 0;
         });
-
-        // Store the product name
-        set(req.session, [orderKey, code, 'name'], itemToBeAdded.name.en);
 
         const noSpaceLeft = currentItemQuantity === maxQuantity;
 
         // Reset the blocker flag
-        set(req.session, [orderKey, 'itemBlocked'], false);
+        set(req.session, [materialsOrderKey, 'itemBlocked'], false);
 
         if (action === 'increase') {
             if (!noSpaceLeft && !hasBlockerItem) {
-                set(req.session, [orderKey, code, 'id'], id);
-                set(req.session, [orderKey, code, 'quantity'], currentItemQuantity + 1);
+                set(req.session, [materialsOrderKey, productId, 'id'], productId);
+                set(req.session, [materialsOrderKey, productId, 'materialId'], materialId);
+                set(req.session, [materialsOrderKey, productId, 'quantity'], currentItemQuantity + 1);
             } else {
                 // Alert the user that they're blocked from adding this item
-                set(req.session, [orderKey, 'itemBlocked'], true);
+                set(req.session, [materialsOrderKey, 'itemBlocked'], true);
             }
         } else if (currentItemQuantity > 1 && action === 'decrease') {
-            set(req.session, [orderKey, code, 'id'], id);
-            set(req.session, [orderKey, code, 'quantity'], currentItemQuantity - 1);
+            set(req.session, [materialsOrderKey, productId, 'id'], productId);
+            set(req.session, [materialsOrderKey, productId, 'materialId'], materialId);
+            set(req.session, [materialsOrderKey, productId, 'quantity'], currentItemQuantity - 1);
         } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
-            set(req.session, [orderKey, code, 'quantity'], 0);
+            // we do this to preserve a value of 0 on the frontend quantity label
+            // if we delete the product, Vue regards it as missing (eg. remains at 1)
+            set(req.session, [materialsOrderKey, productId, 'quantity'], 0);
         }
     }
 }
@@ -72,11 +90,10 @@ function modifyItems(req, orderKey, code) {
 function initAddRemove({ router, routeConfig }) {
     const validators = [sanitizeBody('action').escape(), sanitizeBody('code').escape()];
 
-    router.route(`${routeConfig.path}/item/:id`).post(validators, cached.noCache, (req, res) => {
-        const code = req.body.code;
+    router.route(`${routeConfig.path}/update-basket`).post(validators, cached.noCache, (req, res) => {
 
         // Update the session with ordered items
-        modifyItems(req, materialsOrderKey, code);
+        modifyItems(req);
 
         res.format({
             html: () => {
@@ -88,7 +105,7 @@ function initAddRemove({ router, routeConfig }) {
                 req.session.save(() => {
                     res.send({
                         status: 'success',
-                        quantity: get(req.session, [materialsOrderKey, code, 'quantity'], 0),
+                        quantity: getNumOrders(get(req.session, [materialsOrderKey])),
                         allOrders: req.session[materialsOrderKey],
                         itemBlocked: get(req.session, [materialsOrderKey, 'itemBlocked'], false)
                     });
@@ -134,16 +151,27 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     });
 }
 
+async function injectMerchandise(req, res, next) {
+    try {
+        res.locals.availableItems = await contentApi.getMerchandise(req.i18n.getLocale());
+        next();
+    } catch(error) {
+        next(error);
+    }
+}
+
+const getNumOrders = orders => sumBy(values(orders), o => o.quantity);
+
 /**
  * Initialise order form
  */
 function initForm({ router, routeConfig }) {
     function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         const lang = req.i18n.__(routeConfig.lang);
+        const availableItems = res.locals.availableItems;
         const orders = get(req.session, materialsOrderKey, {});
-        const numOrders = sumBy(values(orders), order => {
-            return order.quantity;
-        });
+
+        const formActionBase = '/' + res.locals.sectionId + routeConfig.path;
 
         res.render(routeConfig.template, {
             csrfToken: req.csrfToken(),
@@ -153,8 +181,9 @@ function initForm({ router, routeConfig }) {
             materials: availableItems,
             formFields: materialFields,
             orders: orders,
-            numOrders: numOrders,
-            orderStatus: status
+            numOrders: getNumOrders(orders),
+            orderStatus: status,
+            formActionBase: formActionBase
         });
     }
 
@@ -162,7 +191,7 @@ function initForm({ router, routeConfig }) {
 
     router
         .route(routeConfig.path)
-        .all(cached.csrfProtection)
+        .all(cached.csrfProtection, injectMerchandise)
         .get((req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })

@@ -53,6 +53,12 @@ function pluralise(number, singular, plural) {
     }
 }
 
+// allow filtering of a list as nunjucks' selectattr
+// only supports boolean (eg. valueless) filtering
+function filter(arr, key, value) {
+    return arr.filter(a => a[key] === value);
+}
+
 module.exports = {
     getCachebustedPath,
     getCachebustedRealPath,
@@ -62,5 +68,6 @@ module.exports = {
     makePhoneLink,
     numberWithCommas,
     pluralise,
-    slugify
+    slugify,
+    filter
 };

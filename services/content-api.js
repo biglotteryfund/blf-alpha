@@ -207,6 +207,10 @@ function getAliases({ locale }) {
     return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
 }
 
+function getMerchandise(locale) {
+    return fetch(`/v1/${locale}/merchandise`).then(mapAttrs);
+}
+
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -227,6 +231,7 @@ module.exports = {
     getHeroImage,
     getHomepage,
     getListingPage,
+    getMerchandise,
     getProfiles,
     getPromotedNews,
     getRoutes,

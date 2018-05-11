@@ -46,9 +46,9 @@ function init() {
                 },
                 // look up the quantity of a given item, defaulting to its
                 // value when the page was loaded (eg. from session cookie)
-                getQuantity: function(code, valueAtPageload) {
-                    if (this.orderData[code]) {
-                        return this.orderData[code].quantity;
+                getQuantity: function(productId, valueAtPageload) {
+                    if (this.orderData[productId]) {
+                        return this.orderData[productId].quantity;
                     } else {
                         return valueAtPageload;
                     }
