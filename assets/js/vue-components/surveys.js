@@ -1,7 +1,7 @@
 /* global ga */
 import $ from 'jquery';
 import Vue from 'vue';
-import { VueConfig } from './vue-config';
+import { withDefaults } from './vue-config';
 import { storageAvailable } from '../helpers/storage';
 
 const CAN_STORE = storageAvailable('localStorage');
@@ -57,10 +57,11 @@ const showSurvey = survey => {
     }
 
     new Vue(
-        Object.assign({}, VueConfig, {
+        withDefaults({
             el: mountEl,
             data: {
                 survey: survey,
+                isShown: false,
                 isActivated: false,
                 isComplete: undefined,
                 showMessageBox: false,
@@ -70,35 +71,40 @@ const showSurvey = survey => {
                     message: undefined
                 }
             },
+            mounted: function() {
+                setTimeout(() => {
+                    this.isShown = true;
+                }, 3000);
+            },
             methods: {
-                toggleSurvey: function() {
+                toggleSurvey() {
                     this.isActivated = !this.isActivated;
                 },
-                blockSurvey: function() {
+                blockSurvey() {
                     logSurveyTaken(this.survey.id);
                     this.surveyBlocked = true;
                 },
-                toggleMessage: function(choice) {
+                toggleMessage(choice) {
                     if (choice.allowMessage) {
                         this.showMessageBox = true;
                     } else {
                         this.formData.choice = choice.id;
                     }
                 },
-                messageOnFocus: function() {
+                messageOnFocus() {
                     if (hasiOSBug()) {
                         $('body').addClass('is-ios-editing-survey');
                     }
                 },
-                messageOnBlur: function() {
+                messageOnBlur() {
                     if (hasiOSBug()) {
                         $('body').removeClass('is-ios-editing-survey');
                     }
                 },
-                updateChoice: function(choice) {
+                updateChoice(choice) {
                     this.formData.choice = choice.id;
                 },
-                submitSurvey: function(e) {
+                submitSurvey(e) {
                     let self = this;
                     let data = this.formData;
 
