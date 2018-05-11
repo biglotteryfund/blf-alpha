@@ -65,15 +65,6 @@ function addPreviewParams(previewMode, params) {
 }
 
 /**
- * Get CMS Path
- * Returns sanitised pagePath for top-level sections
- * otherwise prepends sectionId to pagePath
- */
-function getCmsPath(sectionId, pagePath) {
-    return sectionId === 'toplevel' ? pagePath.replace(/^\/+/g, '') : `${sectionId}${pagePath}`;
-}
-
-/**
  * Merge welsh by property name
  * Merge welsh results where available matched by a given property
  * Usage:
@@ -155,11 +146,12 @@ function getFundingProgramme({ locale, slug, previewMode }) {
 }
 
 function getListingPage({ locale, path, previewMode }) {
+    const sanitisedPath = path.replace(/^\/+/g, '');
     return fetch(`/v1/${locale}/listing`, {
-        qs: addPreviewParams(previewMode, { path })
+        qs: addPreviewParams(previewMode, { path: sanitisedPath })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
-        const match = attributes.find(_ => _.path === path);
+        const match = attributes.find(_ => _.path === sanitisedPath);
         return match;
     });
 }
@@ -214,7 +206,6 @@ function getRoutes() {
 module.exports = {
     setApiUrl,
     getApiUrl,
-    getCmsPath,
     mapAttrs,
     mergeWelshBy,
     // API methods

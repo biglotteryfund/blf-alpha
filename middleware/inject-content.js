@@ -1,10 +1,11 @@
 'use strict';
 const Raven = require('raven');
 const { get } = require('lodash/fp');
-const contentApi = require('../services/content-api');
-const { defaultHeroImage } = require('../modules/images');
 
-module.exports = function injectHeroImage(page) {
+const { defaultHeroImage } = require('../modules/images');
+const contentApi = require('../services/content-api');
+
+function injectHeroImage(page) {
     const heroSlug = get('heroSlug')(page);
     return async function(req, res, next) {
         if (!heroSlug) {
@@ -32,4 +33,25 @@ module.exports = function injectHeroImage(page) {
             next();
         }
     };
+}
+
+async function injectListingContent(req, res, next) {
+    try {
+        res.locals.timings.start('inject-content');
+        const content = await contentApi.getListingPage({
+            locale: req.i18n.getLocale(),
+            path: req.baseUrl + req.path,
+            previewMode: res.locals.PREVIEW_MODE || false
+        });
+        res.locals.content = content;
+        res.locals.timings.end('inject-content');
+        next();
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {
+    injectHeroImage,
+    injectListingContent
 };
