@@ -36,17 +36,18 @@ function removeWelsh(urlPath) {
  * localify
  * Rewrite urlPath into the current locale
  */
-function localify({ urlPath, locale }) {
-    const urlIsWelsh = isWelsh(urlPath);
+function localify(locale) {
+    return function(urlPath) {
+        const urlIsWelsh = isWelsh(urlPath);
 
-    let newUrlPath = urlPath;
-    if (locale === 'cy' && !urlIsWelsh) {
-        newUrlPath = makeWelsh(urlPath);
-    } else if (locale === 'en' && urlIsWelsh) {
-        newUrlPath = urlPath.replace(WELSH_REGEX, '/');
-    }
-
-    return stripTrailingSlashes(newUrlPath);
+        let newUrlPath = urlPath;
+        if (locale === 'cy' && !urlIsWelsh) {
+            newUrlPath = makeWelsh(urlPath);
+        } else if (locale === 'en' && urlIsWelsh) {
+            newUrlPath = urlPath.replace(WELSH_REGEX, '/');
+        }
+        return stripTrailingSlashes(newUrlPath);
+    };
 }
 
 /**

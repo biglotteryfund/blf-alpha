@@ -3,11 +3,11 @@
 const { forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
-const { sMaxAge } = require('../middleware/cached');
 const { injectListingContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
+const { sMaxAge } = require('../middleware/cached');
 
 /**
  * Redirect any aliases to the canonical path
@@ -51,8 +51,9 @@ function handleCmsPage(page) {
 
         const viewData = {
             content: content,
-            title: content.title,
+            title: content.displayTitle || content.title,
             heroImage: content.hero,
+            breadcrumbs: res.locals.breadcrumbs,
             isBilingual: isBilingual(content.availableLanguages)
         };
 
