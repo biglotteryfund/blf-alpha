@@ -17,7 +17,7 @@
                 {{ stepConfig.message | safe }}
             </div>
 
-            {% if stepConfig.feedback %}
+            {% if stepConfig.feedback and appData.isNotProduction %}
                 {{ inlineFeedback(
                     title = form.title,
                     promptLabel = stepConfig.feedback.promptLabel,
