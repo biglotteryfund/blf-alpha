@@ -194,6 +194,14 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/user', require('./controllers/user'));
 
 /**
+ * Archived Routes
+ * Redirect to the National Archvies
+ */
+routes.archivedRoutes.filter(shouldServe).forEach(route => {
+    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
+});
+
+/**
  * Initialise section routes
  * - Creates a new router for each section
  * - Apply shared middleware
@@ -271,14 +279,6 @@ serveRedirects({
  */
 serveRedirects({
     redirects: routes.vanityRedirects.filter(shouldServe)
-});
-
-/**
- * Archived Routes
- * Redirect to the National Archvies
- */
-routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
 });
 
 app.use(timings.end('routing'));
