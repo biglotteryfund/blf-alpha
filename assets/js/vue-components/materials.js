@@ -32,6 +32,13 @@ function init() {
                     this.itemLanguage = params[langParam];
                 }
             },
+            mounted: function() {
+                this.$el.classList.remove('no-vue');
+                let sessionOrders = this.$el.getAttribute('data-orders');
+                if (sessionOrders) {
+                    this.orderData = Object.assign({}, this.orderData, JSON.parse(sessionOrders));
+                }
+            },
             methods: {
                 // swap between languages for product list
                 toggleItemLanguage: function(newState) {

@@ -36,13 +36,12 @@ function modifyItems(req) {
     const productId = parseInt(req.body.productId);
     const materialId = parseInt(req.body.materialId);
     const maxQuantity = parseInt(req.body.max);
-    const notAllowedWith = (req.body.notAllowedWith) ? req.body.notAllowedWith.split(',').map(i => parseInt(i)) : false;
+    const notAllowedWith = req.body.notAllowedWith ? req.body.notAllowedWith.split(',').map(i => parseInt(i)) : false;
 
     const isValidAction = validActions.indexOf(action) !== -1;
     const allCurrentOrders = get(req.session, [materialsOrderKey], {});
 
     if (isValidAction) {
-
         // How many of the current item do they have?
         const currentItemQuantity = get(req.session, [materialsOrderKey, productId, 'quantity'], 0);
 
@@ -53,7 +52,9 @@ function modifyItems(req) {
         // solution is to make item A block item B and item B block item A in the CMS
         // or track the blocked items here and check both ends.
         const hasBlockerItem = some(allCurrentOrders, order => {
-            if (!notAllowedWith) { return; }
+            if (!notAllowedWith) {
+                return;
+            }
             const itemIsBlocked = notAllowedWith.indexOf(order.materialId) !== -1;
             return itemIsBlocked && order.quantity > 0;
         });
@@ -91,7 +92,6 @@ function initAddRemove({ router, routeConfig }) {
     const validators = [sanitizeBody('action').escape(), sanitizeBody('code').escape()];
 
     router.route(`${routeConfig.path}/update-basket`).post(validators, cached.noCache, (req, res) => {
-
         // Update the session with ordered items
         modifyItems(req);
 
@@ -155,7 +155,7 @@ async function injectMerchandise(req, res, next) {
     try {
         res.locals.availableItems = await contentApi.getMerchandise(req.i18n.getLocale());
         next();
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 }

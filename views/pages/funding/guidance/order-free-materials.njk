@@ -58,7 +58,7 @@
 
 {% macro materialProduct(material, product) %}
     {% set quantity = orders[product.id].quantity or 0 %}
-    <div class="material-product {% if quantity > 0 %}is-selected{% endif %}"
+    <div class="material-product {% if quantity > 0 %}is-selected--no-js{% endif %}"
         v-bind:class="{ 'is-selected': ((orderData['{{ product.id }}']) ? orderData['{{ product.id }}'].quantity > 0 : false) }">
         <h5 class="material-product__title t5">
             {% if product.name %}
@@ -135,7 +135,7 @@
                     <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
                 </div>
             {% else %}
-                <div id="js-vue" class="no-vue">
+                <div id="js-vue" class="no-vue" data-orders="{{ orders | dump }}">
                     <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
                         {{ copy.body | safe }}
 
