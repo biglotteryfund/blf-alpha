@@ -4,6 +4,7 @@ const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);
 
+const { removeWelsh } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 if (!CONTENT_API_URL) {
@@ -146,7 +147,7 @@ function getFundingProgramme({ locale, slug, previewMode }) {
 }
 
 function getListingPage({ locale, path, previewMode }) {
-    const sanitisedPath = path.replace(/^\/+/g, '');
+    const sanitisedPath = removeWelsh(path).replace(/^\/+/g, '');
     return fetch(`/v1/${locale}/listing`, {
         qs: addPreviewParams(previewMode, { path: sanitisedPath })
     }).then(response => {
