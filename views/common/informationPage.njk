@@ -1,5 +1,6 @@
-{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/hero.njk" import hero %}
+{% from "components/nav.njk" import selectionTrail %}
 {% from "components/segment.njk" import segment with context %}
 
 {% extends "layouts/main.njk" %}
@@ -9,8 +10,6 @@
 {% else %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
-
-{% block title %}{{ title }} | {% endblock %}
 
 {% macro segmentLinks(segments) %}
     {% if segments.length > 0 %}
@@ -34,11 +33,14 @@
     {% endif %}
 
     {% macro primaryContent() %}
-        {% if not heroImage %}
-           <h1>{{ content.title }}</h1>
-        {% endif %}
-        {{ content.introduction | safe }}
-        {{ segmentLinks(content.segments) }}
+        {{ selectionTrail(breadcrumbs) }}
+        <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+            {% if not heroImage %}
+            <h1>{{ content.title }}</h1>
+            {% endif %}
+            {{ content.introduction | safe }}
+            {{ segmentLinks(content.segments) }}
+        </div>
     {% endmacro %}
 
     <main{% if heroImage %} class="nudge-up"{% endif %}>
@@ -46,7 +48,7 @@
             {% if content.relatedContent %}
                 <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
                     <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                        <article class="content-box s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+                        <article class="content-box">
                             {{ primaryContent() }}
                         </article>
                     </div>
@@ -58,9 +60,7 @@
                 </section>
             {% else %}
                 <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                    <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
-                        {{ primaryContent() }}
-                    </div>
+                    {{ primaryContent() }}
                 </section>
             {% endif %}
 

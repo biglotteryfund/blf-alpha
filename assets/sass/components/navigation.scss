@@ -48,7 +48,20 @@
    ========================================================================= */
 
 .selection-trail {
+    font-size: 16px;
+    color: #6a6a6b;
+    background-color: rgba(0,0,0,0.03);
+
+    margin: -($spacingUnit / 2);
+    margin-top: -$spacingUnit;
     margin-bottom: $spacingUnit;
+    padding: 1em ($spacingUnit / 2);
+
+    @include mq('medium') {
+        margin: -$spacingUnit;
+        margin-bottom: $spacingUnit;
+        padding: 1em $spacingUnit;
+    }
 }
 .selection-trail__item {
     display: inline-block;
@@ -56,7 +69,7 @@
     &::after {
         content: '›';
         font-weight: normal;
-        color: #444;
+        color: #6a6a6b;
         margin: 0 4px;
     }
 
@@ -67,7 +80,7 @@
 }
 .selection-trail__item,
 .selection-trail__link {
-    color: palette('green');
+    color: inherit;
 }
 .selection-trail__link {
     font-weight: bold;
