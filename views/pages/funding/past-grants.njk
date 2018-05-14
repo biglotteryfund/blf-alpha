@@ -2,7 +2,9 @@
 {% from "components/forms-new.njk" import formErrors, formField %}
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconSearch %}
+{% from "components/nav.njk" import selectionTrail %}
 {% from "components/surveys.njk" import inlineFeedback with context %}
+
 
 {% extends "layouts/main.njk" %}
 
@@ -18,6 +20,8 @@
 
         <div class="nudge-up">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                {{ selectionTrail(breadcrumbs) }}
+
                 <section class="u-separator s-prose s-prose--long u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
                     {{ inlineFeedback(
