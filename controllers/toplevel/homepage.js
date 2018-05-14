@@ -1,19 +1,19 @@
 'use strict';
 const Raven = require('raven');
 const contentApi = require('../../services/content-api');
-const images = require('../../modules/images');
+const { superHeroImages } = require('../../modules/images');
 
 function init({ router, routeConfig }) {
     router.get(routeConfig.path, (req, res) => {
         const locale = req.i18n.getLocale();
 
         const serveHomepage = (heroImages, newsArticles) => {
-            const lang = req.i18n.__('toplevel.home');
+            const copy = req.i18n.__('toplevel.home');
 
             res.render('pages/toplevel/home', {
-                copy: lang,
-                title: lang.title,
-                description: lang.description || false,
+                copy: copy,
+                title: copy.title,
+                description: copy.description || false,
                 news: newsArticles || [],
                 heroImage: heroImages || null
             });
@@ -27,11 +27,10 @@ function init({ router, routeConfig }) {
             })
             .catch(err => {
                 Raven.captureException(err);
-                const fallbackHeroes = {
-                    default: images.heroImages.larcheBelfast,
-                    candidates: [images.heroImages.passion4Fusion, images.heroImages.streetDreams]
-                };
-                serveHomepage(fallbackHeroes);
+                serveHomepage({
+                    default: superHeroImages.steppingStones,
+                    candidates: []
+                });
             });
     });
 }

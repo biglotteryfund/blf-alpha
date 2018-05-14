@@ -86,12 +86,23 @@ const heroImages = {
     })
 };
 
+const superHeroImages = {
+    steppingStones: createHeroImage({
+        small: 'super-hero/stepping-stones-small.jpg',
+        medium: 'super-hero/stepping-stones-medium.jpg',
+        large: 'super-hero/stepping-stones-large.jpg',
+        default: 'super-hero/stepping-stones-medium.jpg',
+        caption: 'Stepping Stones Programme, Grant £405,270'
+    })
+};
+
 const defaultHeroImage = heroImages.rathlinIslandDevelopment;
 
 const withFallbackImage = heroImage => heroImage || defaultHeroImage;
 
 module.exports = {
     heroImages,
+    superHeroImages,
     defaultHeroImage,
     createHeroImage,
     withFallbackImage
