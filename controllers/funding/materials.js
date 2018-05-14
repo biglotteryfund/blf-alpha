@@ -1,6 +1,6 @@
 'use strict';
 const { validationResult } = require('express-validator/check');
-const { get, map, mapValues, reduce, set, some, sumBy, values } = require('lodash');
+const { get, map, mapValues, reduce, some } = require('lodash');
 const { purify } = require('../../modules/validators');
 const { sanitizeBody } = require('express-validator/filter');
 const flash = require('req-flash');

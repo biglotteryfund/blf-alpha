@@ -74,5 +74,5 @@ module.exports = {
     makePhoneLink,
     numberWithCommas,
     pluralise,
-    slugify,
+    slugify
 };
