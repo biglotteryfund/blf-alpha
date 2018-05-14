@@ -28,13 +28,6 @@ const heroImages = {
         default: 'hero/huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
     }),
-    larcheBelfast: createHeroImage({
-        small: 'hero/larche-belfast-small.jpg',
-        medium: 'hero/larche-belfast-medium.jpg',
-        large: 'hero/larche-belfast-large.jpg',
-        default: 'hero/larche-belfast-medium.jpg',
-        caption: "L'Arche Belfast, Grant: £573,164"
-    }),
     newRoutesIntoHorseCare: createHeroImage({
         small: 'hero/new-routes-into-horse-care-small.jpg',
         medium: 'hero/new-routes-into-horse-care-medium.jpg',
