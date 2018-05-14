@@ -67,8 +67,12 @@ async function injectListingContent(req, res, next) {
             path: req.baseUrl + req.path,
             previewMode: res.locals.PREVIEW_MODE || false
         });
-        res.locals.content = content;
-        res.locals.breadcrumbs = buildContentBreadcrumbs(req, res);
+
+        if (content) {
+            res.locals.content = content;
+            res.locals.breadcrumbs = buildContentBreadcrumbs(req, res);
+        }
+
         res.locals.timings.end('inject-content');
         next();
     } catch (error) {

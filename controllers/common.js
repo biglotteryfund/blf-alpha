@@ -46,32 +46,35 @@ function handleStaticPage(page) {
 }
 
 function handleCmsPage(page) {
-    return (req, res) => {
+    return (req, res, next) => {
         const content = res.locals.content;
+        if (content) {
+            const viewData = {
+                content: content,
+                title: content.displayTitle || content.title,
+                heroImage: content.hero,
+                breadcrumbs: res.locals.breadcrumbs,
+                isBilingual: isBilingual(content.availableLanguages)
+            };
 
-        const viewData = {
-            content: content,
-            title: content.displayTitle || content.title,
-            heroImage: content.hero,
-            breadcrumbs: res.locals.breadcrumbs,
-            isBilingual: isBilingual(content.availableLanguages)
-        };
-
-        if (page.lang) {
-            viewData.copy = req.i18n.__(page.lang);
-        }
-
-        const template = (() => {
-            if (page.template) {
-                return page.template;
-            } else if (content.children) {
-                return 'common/listingPage';
-            } else {
-                return 'common/informationPage';
+            if (page.lang) {
+                viewData.copy = req.i18n.__(page.lang);
             }
-        })();
 
-        res.render(template, viewData);
+            const template = (() => {
+                if (page.template) {
+                    return page.template;
+                } else if (content.children) {
+                    return 'common/listingPage';
+                } else {
+                    return 'common/informationPage';
+                }
+            })();
+
+            res.render(template, viewData);
+        } else {
+            next();
+        }
     };
 }
 
