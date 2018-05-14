@@ -127,8 +127,9 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'project-location',
-                    label: "In your own words, describe the location(s) that you'll be running your project(s) in",
-                    placeholder: 'eg. "Newcastle community centre" or "Alfreton, Derby and Ripley"',
+                    label: 'Project location',
+                    explanation:
+                        'In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.',
                     isRequired: true,
                     size: 60,
                     validator: function(field) {
@@ -252,7 +253,7 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check this is right',
+    title: 'Check this is right before submitting your idea',
     proceedLabel: 'Submit'
 });
 
