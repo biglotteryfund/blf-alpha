@@ -275,6 +275,10 @@ formModel.registerSuccessStep({
          * Construct a primary address (i.e. customer email)
          */
         const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
+        let organisationName = `${flatData['organisation-name']}`;
+        if (flatData['additional-organisations']) {
+            organisationName += ` (plus ${flatData['additional-organisations']})`;
+        }
 
         /**
          * Determine which internal address to send to:
@@ -310,7 +314,7 @@ formModel.registerSuccessStep({
                 name: 'reaching_communities_internal',
                 sendTo: internalAddress,
                 sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: 'New idea submission from website',
+                subject: `New idea submission from website: ${organisationName}`,
                 templateName: 'emails/applicationSummaryInternal',
                 templateData: {
                     summary: formModel.orderStepsForInternalUse(summary),
