@@ -219,7 +219,6 @@ serveRedirects({
     redirects: routes.vanityRedirects.filter(shouldServe)
 });
 
-
 /**
  * Initialise section routes
  * - Creates a new router for each section
