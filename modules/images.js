@@ -21,13 +21,6 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    friendsOfGreenwich: createHeroImage({
-        small: 'hero/friends-of-greenwich-small.jpg',
-        medium: 'hero/friends-of-greenwich-medium.jpg',
-        large: 'hero/friends-of-greenwich-large.jpg',
-        default: 'hero/friends-of-greenwich-medium.jpg',
-        caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
-    }),
     huntingtonsProject: createHeroImage({
         small: 'hero/huntingtons-project-small.jpg',
         medium: 'hero/huntingtons-project-medium.jpg',
@@ -35,26 +28,12 @@ const heroImages = {
         default: 'hero/huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
     }),
-    larcheBelfast: createHeroImage({
-        small: 'hero/larche-belfast-small.jpg',
-        medium: 'hero/larche-belfast-medium.jpg',
-        large: 'hero/larche-belfast-large.jpg',
-        default: 'hero/larche-belfast-medium.jpg',
-        caption: "L'Arche Belfast, Grant: £573,164"
-    }),
     newRoutesIntoHorseCare: createHeroImage({
         small: 'hero/new-routes-into-horse-care-small.jpg',
         medium: 'hero/new-routes-into-horse-care-medium.jpg',
         large: 'hero/new-routes-into-horse-care-large.jpg',
         default: 'hero/new-routes-into-horse-care-medium.jpg',
         caption: 'New Routes into Horse Care'
-    }),
-    passion4Fusion: createHeroImage({
-        small: 'hero/passion4fusion-small.jpg',
-        medium: 'hero/passion4fusion-medium.jpg',
-        large: 'hero/passion4fusion-large.jpg',
-        default: 'hero/passion4fusion-medium.jpg',
-        caption: 'Passion4Fusion, Grant £36,700'
     }),
     rathlinIslandDevelopment: createHeroImage({
         small: 'hero/rathlin-island-development-small.jpg',
@@ -86,12 +65,23 @@ const heroImages = {
     })
 };
 
+const superHeroImages = {
+    steppingStones: createHeroImage({
+        small: 'super-hero/stepping-stones-small.jpg',
+        medium: 'super-hero/stepping-stones-medium.jpg',
+        large: 'super-hero/stepping-stones-large.jpg',
+        default: 'super-hero/stepping-stones-medium.jpg',
+        caption: 'Stepping Stones Programme, Grant £405,270'
+    })
+};
+
 const defaultHeroImage = heroImages.rathlinIslandDevelopment;
 
 const withFallbackImage = heroImage => heroImage || defaultHeroImage;
 
 module.exports = {
     heroImages,
+    superHeroImages,
     defaultHeroImage,
     createHeroImage,
     withFallbackImage

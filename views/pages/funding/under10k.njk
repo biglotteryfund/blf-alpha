@@ -1,65 +1,63 @@
-{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
+{% from "components/hero.njk" import hero %}
+{% from "components/nav.njk" import selectionTrail %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set heroImage = heroImages.friendsOfGreenwich %}
-{% set socialImage = heroImage %}
 
 {% block content %}
     {% set pageAccent = 'pink' %}
 
     <main role="main">
-        {{
-            hero(
-                titleText = copy.title,
-                image = heroImage,
-                accent = pageAccent
-            )
-        }}
+        {{ hero(
+            titleText = copy.title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
 
         <div class="nudge-up">
-            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top s-prose s-prose--long">
-                <p>{{ copy.intro }}</p>
+            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                {{ selectionTrail(breadcrumbs) }}
 
-                <ul>
-                    {% for item in copy.ideas %}
-                        <li>{{ item }}</li>
-                    {% endfor %}
-                </ul>
+                <div class="s-prose s-prose--long accent-content--{{ pageAccent }}">
+                    <p>{{ copy.intro }}</p>
 
-                <h2>{{ copy.callToAction }}</h2>
+                    <ul>
+                        {% for item in copy.ideas %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
 
-                <ul class="u-list-unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
-                <li class="grid__item">
-                    <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-england') }}"
-                        class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                        {{ copy.locations.england }}
-                    </a>
-                </li>
-                <li class="grid__item">
-                    <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-scotland') }}"
-                        class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                        {{ copy.locations.scotland }}
-                    </a>
-                </li>
-                <li class="grid__item">
-                    <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-wales') }}"
-                        class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                        {{ copy.locations.wales }}
-                    </a>
-                </li>
-                <li class="grid__item">
-                    <a href="{{ buildUrl('funding/programmes/awards-for-all-northern-ireland') }}"
-                        class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                        {{ copy.locations.northernIreland }}
-                    </a>
-                </li>
-                </ul>
+                    <h2>{{ copy.callToAction }}</h2>
 
-                <p>{{ copy.ukWideInfo | safe }}</p>
+                    <ul class="u-list-unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
+                    <li class="grid__item">
+                        <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-england') }}"
+                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
+                            {{ copy.locations.england }}
+                        </a>
+                    </li>
+                    <li class="grid__item">
+                        <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-scotland') }}"
+                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
+                            {{ copy.locations.scotland }}
+                        </a>
+                    </li>
+                    <li class="grid__item">
+                        <a href="{{ buildUrl('funding/programmes/national-lottery-awards-for-all-wales') }}"
+                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
+                            {{ copy.locations.wales }}
+                        </a>
+                    </li>
+                    <li class="grid__item">
+                        <a href="{{ buildUrl('funding/programmes/awards-for-all-northern-ireland') }}"
+                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
+                            {{ copy.locations.northernIreland }}
+                        </a>
+                    </li>
+                    </ul>
+
+                    <p>{{ copy.ukWideInfo | safe }}</p>
+                </div>
             </div>
 
             {# Case Studies #}

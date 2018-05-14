@@ -1,34 +1,38 @@
 'use strict';
-
+const { get } = require('lodash');
 const contentApi = require('../../services/content-api');
 
+function injectCaseStudies(caseStudySlugs) {
+    return async function(req, res, next) {
+        res.locals.caseStudies = await contentApi.getCaseStudies({
+            locale: req.i18n.getLocale(),
+            slugs: caseStudySlugs
+        });
+        next();
+    };
+}
+
 function init10k({ router, routeConfig, caseStudySlugs }) {
-    router.get(routeConfig.path, (req, res) => {
-        const lang = req.i18n.__(routeConfig.lang);
-        const currentLocale = req.i18n.getLocale();
+    router.get(routeConfig.path, injectCaseStudies(caseStudySlugs), (req, res) => {
+        const copy = req.i18n.__(routeConfig.lang);
 
-        const servePage = caseStudies => {
-            res.render(routeConfig.template, {
-                title: lang.title,
-                description: lang.description || false,
-                copy: lang,
-                caseStudies: caseStudies || []
-            });
-        };
+        const breadcrumbs = [
+            {
+                label: req.i18n.__('global.nav.funding'),
+                url: req.baseUrl
+            },
+            {
+                label: copy.title
+            }
+        ];
 
-        contentApi
-            .getCaseStudies({
-                locale: currentLocale,
-                slugs: caseStudySlugs
-            })
-            .then(
-                caseStudies => {
-                    servePage(caseStudies);
-                },
-                function() {
-                    servePage();
-                }
-            );
+        res.render(routeConfig.template, {
+            copy: copy,
+            title: copy.title,
+            description: copy.description || false,
+            breadcrumbs: breadcrumbs,
+            caseStudies: get(res.locals, 'caseStudies', [])
+        });
     });
 }
 
