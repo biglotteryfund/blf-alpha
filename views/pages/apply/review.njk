@@ -1,3 +1,5 @@
+{% from "components/forms-new.njk" import formHeader %}
+
 {% extends "layouts/main.njk" %}
 
 {% block title %}{{ stepConfig.title }} | {{ form.title }} | {% endblock %}
@@ -11,42 +13,40 @@
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="u-constrained-content">
-                <div class="form-header">
-                    <h1 class="form-header__title">{{ form.title }}</h1>
-                    <h2 class="form-header__subtitle">
-                        Step {{ currentStepNumber }} of {{ totalSteps }}
-                    </h2>
-                    <h3 class="t2 spaced--t spaced--l">{{ stepConfig.title }}</h3>
-                </div>
 
-                {% for step in summary %}
-                    <h2 class="t2 t--underline accent--{{ pageAccent }}">
-                        {{ step.name }}
-                        [<a href="{{ baseUrl }}/{{ loop.index }}" class="js-application-form-review-edit">Edit</a>]
-                    </h2>
-                    {% for fieldset in step.fieldsets %}
-                    <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
-                        {% for field in fieldset.fields %}
-                            {% if field.value %}
-                                <dt>{{ field.label }}</dt>
-                                {% if field.type === 'textarea' %}
-                                    <dd class="s-prose" data-hj-suppress>
-                                        {{ field.value | striptags(true) | escape | nl2br }}
-                                    </dd>
-                                {% elseif field.type === 'checkbox' %}
+                {{ formHeader(form.title, stepProgress) }}
+
+                <section class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-wide">
+                    <h2>{{ stepConfig.title }}</h2>
+
+                    {% for step in summary %}
+                        <h3>
+                            {{ step.name }}
+                            [<a href="{{ baseUrl }}/{{ loop.index }}" class="js-application-form-review-link"
+                                aria-label="Edit {{ step.name }}">
+                                Edit
+                            </a>]
+                        </h3>
+                        {% for fieldset in step.fieldsets %}
+                        <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
+                            {% for field in fieldset.fields %}
+                                {% if field.value %}
+                                    <dt>{{ field.label }}</dt>
                                     <dd data-hj-suppress>
-                                        {{ field.value | joinIfArray(', ') }}
-                                    </dd>
-                                {% else %}
-                                    <dd data-hj-suppress>
-                                        {{ field.value }}
+                                        {% if field.type === 'textarea' %}
+                                            {{ field.value | striptags(true) | escape | nl2br }}
+                                        {% elseif field.type === 'checkbox' %}
+                                            {{ field.value | joinIfArray(', ') }}
+                                        {% else %}
+                                            {{ field.value }}
+                                        {% endif %}
                                     </dd>
                                 {% endif %}
-                            {% endif %}
+                            {% endfor %}
+                        </dl>
                         {% endfor %}
-                    </dl>
                     {% endfor %}
-                {% endfor %}
+                </section>
             </div>
 
             {% if csrfToken %}

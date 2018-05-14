@@ -1,32 +1,26 @@
-{% from "components/forms-new.njk" import errorList, formErrors, formField %}
+{% from "components/forms-new.njk" import errorList, formErrors, formField, formHeader %}
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}Step {{ currentStepNumber }} of {{ totalSteps }} | {{ form.title }} | {% endblock %}
+{% block title %}Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }} | {{ form.title }} | {% endblock %}
 
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
+    {% set pageAccent = 'pink' %}
     <main role="main" id="content">
         <form action="" method="POST"
-            class="js-application-form content-box u-inner-wide-only accent--pink a--border-top">
-            <div class="form-header">
-                {% if prevStepUrl %}
-                    <div class="form-header__actions">
-                        <a href="{{ prevStepUrl }}">← Back</a>
-                    </div>
-                {% endif %}
-                <h1 class="form-header__title">{{ form.title }}</h1>
-                <h2 class="form-header__subtitle">
-                    Step {{ currentStepNumber }} of {{ totalSteps }}
-                </h2>
-            </div>
+            class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+
+            {{ formHeader(form.title, stepProgress) }}
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
             {% for fieldset in step.fieldsets %}
                 <fieldset class="form-fieldset u-constrained-content">
-                    <legend class="form-fieldset__legend t2 t--underline accent--pink">{{ fieldset.legend }}</legend>
+                    <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+                        {{ fieldset.legend }}
+                    </legend>
                     <div class="form-fieldset__fields">
                         {% for field in fieldset.fields %}
                             {% set fieldErrors = formHelpers.errorsForField(field, errors) %}

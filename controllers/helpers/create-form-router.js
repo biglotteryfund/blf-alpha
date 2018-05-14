@@ -13,6 +13,14 @@ function createFormRouter({ router, formModel }) {
         return get(req.session, formModel.getSessionProp(step), {});
     }
 
+    function getStepProgress({ baseUrl, currentStepNumber }) {
+        return {
+            prevStepUrl: currentStepNumber > 1 ? `${baseUrl}/${currentStepNumber - 1}` : baseUrl,
+            currentStepNumber: currentStepNumber,
+            totalSteps: totalSteps
+        };
+    }
+
     /**
      * Route: Start page
      */
@@ -30,24 +38,6 @@ function createFormRouter({ router, formModel }) {
      */
     formSteps.forEach((step, idx) => {
         const currentStepNumber = idx + 1;
-        const nextStepNumber = currentStepNumber + 1;
-        const prevStepNumber = currentStepNumber - 1;
-
-        function nextStepUrl(baseUrl) {
-            if (currentStepNumber === formSteps.length) {
-                return `${baseUrl}/review`;
-            } else {
-                return `${baseUrl}/${nextStepNumber}`;
-            }
-        }
-
-        function prevStepUrl(baseUrl) {
-            if (currentStepNumber > 1) {
-                return `${baseUrl}/${currentStepNumber - 1}`;
-            } else {
-                return baseUrl;
-            }
-        }
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
@@ -55,9 +45,7 @@ function createFormRouter({ router, formModel }) {
                 csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
-                prevStepUrl: prevStepUrl(req.baseUrl),
-                currentStepNumber: currentStepNumber,
-                totalSteps: totalSteps,
+                stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
             });
         }
@@ -67,7 +55,7 @@ function createFormRouter({ router, formModel }) {
             .all(cached.csrfProtection)
             .get(function(req, res) {
                 if (currentStepNumber > 1) {
-                    const previousStepData = getFormSession(req, prevStepNumber);
+                    const previousStepData = getFormSession(req, currentStepNumber - 1);
                     if (isEmpty(previousStepData)) {
                         res.redirect(req.baseUrl);
                     } else {
@@ -90,7 +78,11 @@ function createFormRouter({ router, formModel }) {
                         return renderStep(req, res, errors.array());
                     }
 
-                    res.redirect(nextStepUrl(req.baseUrl));
+                    if (currentStepNumber === formSteps.length) {
+                        res.redirect(`${req.baseUrl}/review`);
+                    } else {
+                        res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
+                    }
                 });
             });
     });
@@ -110,8 +102,7 @@ function createFormRouter({ router, formModel }) {
                     csrfToken: req.csrfToken(),
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
-                    currentStepNumber: totalSteps,
-                    totalSteps: totalSteps,
+                    stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
                     summary: formModel.getStepsWithValues(formData),
                     baseUrl: req.baseUrl
                 });
