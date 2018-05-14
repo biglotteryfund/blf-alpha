@@ -21,13 +21,6 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    friendsOfGreenwich: createHeroImage({
-        small: 'hero/friends-of-greenwich-small.jpg',
-        medium: 'hero/friends-of-greenwich-medium.jpg',
-        large: 'hero/friends-of-greenwich-large.jpg',
-        default: 'hero/friends-of-greenwich-medium.jpg',
-        caption: 'Friends of Greenwich Peninsula Ecology Park, Grant £5,350'
-    }),
     huntingtonsProject: createHeroImage({
         small: 'hero/huntingtons-project-small.jpg',
         medium: 'hero/huntingtons-project-medium.jpg',
@@ -48,13 +41,6 @@ const heroImages = {
         large: 'hero/new-routes-into-horse-care-large.jpg',
         default: 'hero/new-routes-into-horse-care-medium.jpg',
         caption: 'New Routes into Horse Care'
-    }),
-    passion4Fusion: createHeroImage({
-        small: 'hero/passion4fusion-small.jpg',
-        medium: 'hero/passion4fusion-medium.jpg',
-        large: 'hero/passion4fusion-large.jpg',
-        default: 'hero/passion4fusion-medium.jpg',
-        caption: 'Passion4Fusion, Grant £36,700'
     }),
     rathlinIslandDevelopment: createHeroImage({
         small: 'hero/rathlin-island-development-small.jpg',

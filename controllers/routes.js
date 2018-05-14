@@ -133,12 +133,13 @@ sections.funding.addRoutes({
         path: '/under10k',
         template: 'pages/funding/under10k',
         lang: 'funding.under10k',
-        aliases: ['/funding/Awards-For-All', '/funding/awards-for-all', '/awardsforall', '/a4a', '/A4A']
+        heroSlug: 'friends-of-greenwich'
     }),
     over10k: dynamicRoute({
         path: '/over10k',
         template: 'pages/funding/over10k',
-        lang: 'funding.over10k'
+        lang: 'funding.over10k',
+        heroSlug: 'passion-4-fusion-3'
     }),
     pastGrants: staticRoute({
         path: '/past-grants',

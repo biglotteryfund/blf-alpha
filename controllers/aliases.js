@@ -96,8 +96,11 @@ const legacyRedirects = flatten([
  */
 // prettier-ignore
 const vanityRedirects = map({
+    '/A4A': '/funding/under10k',
+    '/a4a': '/funding/under10k',
     '/about-big/customer-service/fraud': '/contact#fraud',
     '/about-big/customer-service/making-a-complaint': '/contact#complaints',
+    '/awardsforall': '/funding/under10k',
     '/ccf': '/funding/programmes/coastal-communities-fund',
     '/communityassets': 'funding/programmes/community-assets',
     '/communityled': '/funding/programmes/grants-for-community-led-activity',
@@ -109,6 +112,8 @@ const vanityRedirects = map({
     '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
     '/esf': '/funding/programmes/building-better-opportunities',
     '/funded-projects': '/funding/past-grants',
+    '/funding/Awards-For-All': '/funding/under10k',
+    '/funding/awards-for-all': '/funding/under10k',
     '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
     '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
@@ -122,8 +127,8 @@ const vanityRedirects = map({
     '/prog_people_places': '/funding/programmes?min=10000&location=wales',
     '/scotland/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/scottishlandfund': 'funding/programmes/scottish-land-fund',
-    '/under10k': '/funding/under10k',
     '/slf': 'funding/programmes/scottish-land-fund',
+    '/under10k': '/funding/under10k',
     '/wales/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
     '/wales/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
