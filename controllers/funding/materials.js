@@ -9,7 +9,13 @@ const Raven = require('raven');
 
 const { FORM_STATES } = require('../../modules/forms');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const { materialFields, makeOrderText, postcodeArea, injectMerchandise, injectMerchandiseCustom } = require('./materials-helpers');
+const {
+    materialFields,
+    makeOrderText,
+    postcodeArea,
+    injectMerchandise,
+    injectMerchandiseCustom
+} = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');

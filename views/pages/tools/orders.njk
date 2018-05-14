@@ -41,7 +41,7 @@
             {% for item in data.mostPopularItems %}
                 <tr>
                     <th scope="row">{{ item.code }}</th>
-                    <td>{{ findItemByCode(item.code).name.en }}</td>
+                    <td>{{ getItemName(item.code) }}</td>
                     <td>{{ item.count }}</td>
                 </tr>
             {% endfor %}
