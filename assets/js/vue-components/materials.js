@@ -52,9 +52,9 @@ function init() {
                 },
                 // look up the quantity of a given item, defaulting to its
                 // value when the page was loaded (eg. from session cookie)
-                getQuantity: function(productId, valueAtPageload) {
+                getQuantity: function(productId) {
                     let product = this.orderData.find(o => o.productId === parseInt(productId));
-                    return product ? product.quantity : valueAtPageload;
+                    return product ? product.quantity : 0;
                 },
                 // work out if the user has anything in their "basket"
                 // eg. should the data form be disabled or not

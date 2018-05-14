@@ -35,13 +35,13 @@
             type="submit"
             value="decrease"
             name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-            v-bind:disabled="getQuantity('{{ product.id }}', {{ quantity }}) == 0"
+            v-bind:disabled="getQuantity('{{ product.id }}') == 0"
             v-on:click.prevent="changeQuantity($event)"
             aria-label="Decrease quantity">-
         </button>
 
         <div aria-label="Quantity" class="step-control__quantity js-material-count">
-            <span class="js-only" v-cloak><% getQuantity('{{ product.id }}', {{ quantity }}) %></span>
+            <span class="js-only" v-cloak><% getQuantity('{{ product.id }}') %></span>
             <noscript>{{ quantity }}</noscript>
         </div>
 
@@ -49,7 +49,7 @@
             type="submit"
             value="increase"
             name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
-            v-bind:disabled="getQuantity('{{ product.id }}', {{ quantity }}) == {{ material.maximum }}"
+            v-bind:disabled="getQuantity('{{ product.id }}') == {{ material.maximum }}"
             v-on:click.prevent="changeQuantity($event)"
             aria-label="Increase quantity">+
         </button>
@@ -57,9 +57,14 @@
 {% endmacro %}
 
 {% macro materialProduct(material, product) %}
-    {% set quantity = orders[product.id].quantity or 0 %}
+    {% set ordersForProduct = orders | find('productId', product.id) %}
+    {% if ordersForProduct %}
+        {% set quantity = ordersForProduct.quantity %}
+    {% else %}
+        {% set quantity = 0 %}
+    {% endif %}
     <div class="material-product {% if quantity > 0 %}is-selected--no-js{% endif %}"
-        v-bind:class="{ 'is-selected': ((orderData['{{ product.id }}']) ? orderData['{{ product.id }}'].quantity > 0 : false) }">
+        v-bind:class="{ 'is-selected': getQuantity('{{ product.id }}') > 0 }">
         <h5 class="material-product__title t5">
             {% if product.name %}
                 {{ product.name }}

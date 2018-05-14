@@ -19,7 +19,6 @@ const contentApi = require('../../services/content-api');
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
 
-
 function modifyItems(req) {
     const validActions = ['increase', 'decrease'];
 
@@ -40,7 +39,6 @@ function modifyItems(req) {
     delete req.session[sessionBlockedItemKey];
 
     if (isValidAction) {
-
         let existingProduct = req.session[sessionOrderKey].find(order => order.productId === productId);
 
         // How many of the current item do they have?
@@ -73,7 +71,7 @@ function modifyItems(req) {
             });
         } else {
             let q = existingProduct.quantity;
-            existingProduct.quantity = (action === 'increase') ? q + 1 : q - 1;
+            existingProduct.quantity = action === 'increase' ? q + 1 : q - 1;
         }
 
         // remove any empty orders
