@@ -67,7 +67,7 @@ function handleAbandonmentMessage(formEl) {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     // Remove beforeunload if clicking on edit links
-    $('.js-application-form-review-edit').on('click', removeBeforeUnload);
+    $('.js-application-form-review-link').on('click', removeBeforeUnload);
 
     // Remove beforeunload if submitting the form
     formEl.addEventListener('submit', removeBeforeUnload);

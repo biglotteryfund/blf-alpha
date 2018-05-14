@@ -3,14 +3,16 @@
    ========================================================================= */
 
 .form-header {
-    margin-bottom: $spacingUnit;
+    margin-bottom: $spacingUnit * 2;
 
-    .form-header__actions,
+    .form-header__actions {
+        margin-bottom: $spacingUnit / 2;
+    }
+    .form-header__prefix,
     .form-header__title {
         margin-bottom: 3px;
     }
-    .form-header__subtitle {
-        margin: 0;
+    .form-header__prefix {
         font-size: 16px;
         font-weight: normal;
         color: palette('charcoal-note');
@@ -53,7 +55,7 @@
 }
 
 .form-field {
-    margin-bottom: $spacingUnit;
+    margin-bottom: 1.5em;
 
     &:target {
         background-color: rgba(255, 255, 0, 0.5);
@@ -113,12 +115,15 @@
 }
 
 .ff-explanation {
-    font-size: 15px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: palette('charcoal-note');
 }
 
 .ff-text,
 .ff-textarea {
     display: block;
+    padding: 6px 12px;
     border: 2px solid palette('charcoal');
     // prevent elements with size attributes overflowing on mobile
     max-width: 100%;
@@ -156,10 +161,10 @@
     margin-bottom: 5px;
 
     input[type='checkbox'] {
-        margin: 0 6px 0 0;
+        margin: 0 .5em 0 0;
 
         @include mq('medium-minor') {
-            margin-right: 10px;
+            margin-right: .75em;
             position: relative;
             top: -2px;
         }
@@ -170,18 +175,18 @@
     display: table-cell;
 }
 .ff-checkbox__caption {
-    font-size: 13px;
+    font-size: 14px;
     color: palette('charcoal-note');
     display: block;
 
     @include mq('medium-minor') {
-        display: inline-block;
-        margin-left: 3px;
+        font-size: 16px;
+        margin-bottom: 3px;
     }
 }
 
 .review-list {
-    margin-bottom: $spacingUnit * 2;
+    margin: $spacingUnit 0 ($spacingUnit * 2);
 
     > dd,
     > dt {
@@ -204,6 +209,7 @@
 
         > dt {
             width: 40%;
+            padding-right: 5px;
             clear: left;
         }
 
