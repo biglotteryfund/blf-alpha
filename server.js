@@ -202,6 +202,25 @@ routes.archivedRoutes.filter(shouldServe).forEach(route => {
 });
 
 /**
+ * Legacy Redirects
+ * Redirecy legacy URLs to new locations
+ * For these URLs handle both english and welsh variants
+ */
+serveRedirects({
+    redirects: routes.legacyRedirects.filter(shouldServe),
+    makeBilingual: true
+});
+
+/**
+ * Vanity URLs
+ * Sharable short-urls redirected to canonical URLs.
+ */
+serveRedirects({
+    redirects: routes.vanityRedirects.filter(shouldServe)
+});
+
+
+/**
  * Initialise section routes
  * - Creates a new router for each section
  * - Apply shared middleware
@@ -261,24 +280,6 @@ forEach(routes.sections, (section, sectionId) => {
     cymreigio(section.path).forEach(urlPath => {
         app.use(urlPath, router);
     });
-});
-
-/**
- * Legacy Redirects
- * Redirecy legacy URLs to new locations
- * For these URLs handle both english and welsh variants
- */
-serveRedirects({
-    redirects: routes.legacyRedirects.filter(shouldServe),
-    makeBilingual: true
-});
-
-/**
- * Vanity URLs
- * Sharable short-urls redirected to canonical URLs.
- */
-serveRedirects({
-    redirects: routes.vanityRedirects.filter(shouldServe)
 });
 
 app.use(timings.end('routing'));
