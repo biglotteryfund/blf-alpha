@@ -230,7 +230,9 @@ function initForm({ router, routeConfig }) {
                                 sendTo: customerSendTo,
                                 subject: 'Thank you for your Big Lottery Fund order',
                                 templateName: 'emails/newMaterialOrder',
-                                templateData: {}
+                                templateData: {
+                                    locale: req.i18n.getLocale()
+                                }
                             }
                         ]);
 
