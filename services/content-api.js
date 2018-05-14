@@ -207,8 +207,12 @@ function getAliases({ locale }) {
     return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
 }
 
-function getMerchandise(locale) {
-    return fetch(`/v1/${locale}/merchandise`).then(mapAttrs);
+function getMerchandise(locale, showAll = false) {
+    let params = {};
+    if (showAll) {
+        params.all = 'true';
+    }
+    return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
 }
 
 function getRoutes() {

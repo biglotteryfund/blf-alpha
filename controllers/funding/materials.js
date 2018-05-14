@@ -9,12 +9,11 @@ const Raven = require('raven');
 
 const { FORM_STATES } = require('../../modules/forms');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const { materialFields, makeOrderText, postcodeArea } = require('./materials-helpers');
+const { materialFields, makeOrderText, postcodeArea, injectMerchandise, injectMerchandiseCustom } = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
-const contentApi = require('../../services/content-api');
 
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
@@ -144,27 +143,6 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     });
 }
 
-async function injectMerchandise(req, res, next) {
-    try {
-        res.locals.availableItems = await contentApi.getMerchandise(req.i18n.getLocale());
-        next();
-    } catch (error) {
-        next(error);
-    }
-}
-
-function injectMerchandiseWithLanguage(forceLocale = false) {
-    return async (req, res, next) => {
-        try {
-            const locale = forceLocale ? forceLocale : req.i18n.getLocale();
-            res.locals.availableItems = await contentApi.getMerchandise(locale);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-}
-
 /**
  * Initialise order form
  */
@@ -197,7 +175,7 @@ function initForm({ router, routeConfig }) {
         .get(injectMerchandise, (req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })
-        .post(injectMerchandiseWithLanguage('en'), validators, purify, (req, res) => {
+        .post(injectMerchandiseCustom({ locale: 'en' }), validators, purify, (req, res) => {
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
