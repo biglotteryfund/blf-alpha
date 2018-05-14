@@ -85,16 +85,19 @@ function initProgrammesList(router, options) {
                     .filter(programmeFilters.filterByMinAmount(minAmountParam))
                     .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
 
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__('global.nav.funding'),
+                    url: req.baseUrl
+                });
+
                 if (!minAmountParam && !maxAmountParam && !locationParam) {
-                    templateData.activeBreadcrumbs = [
-                        {
-                            label: req.i18n.__(options.lang + '.breadcrumbAll')
-                        }
-                    ];
+                    templateData.activeBreadcrumbs.push({
+                        label: req.i18n.__(options.lang + '.breadcrumbAll')
+                    });
                 } else {
                     templateData.activeBreadcrumbs.push({
                         label: req.i18n.__(options.lang + '.title'),
-                        url: req.originalUrl.split('?').shift()
+                        url: req.baseUrl + req.path
                     });
 
                     if (parseInt(minAmountParam, 10) === 10000) {
