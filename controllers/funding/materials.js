@@ -16,21 +16,12 @@ const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
 const contentApi = require('../../services/content-api');
 
-// const materials = require('../../config/content/materials.json');
-const materialsOrderKey = 'orderedMaterials';
-// const availableItems = materials.items.filter(i => !i.disabled);
+const sessionOrderKey = 'materialOrders';
+const sessionBlockedItemKey = 'materialBlockedItem';
 
-/*
-* @TODO
-*   POST the product ID, maximum allowed and disallowed items
-*   check action is valid
-*   check if existing basket contains any disallowed items (and return error if so)
-*   check if they're at max capacity for item (and return error if so)
-*   otherwise increment/decrement/delete product
- */
 
 function modifyItems(req) {
-    const validActions = ['increase', 'decrease', 'remove'];
+    const validActions = ['increase', 'decrease'];
 
     const action = req.body.action;
     const productId = parseInt(req.body.productId);
@@ -39,11 +30,21 @@ function modifyItems(req) {
     const notAllowedWith = req.body.notAllowedWith ? req.body.notAllowedWith.split(',').map(i => parseInt(i)) : false;
 
     const isValidAction = validActions.indexOf(action) !== -1;
-    const allCurrentOrders = get(req.session, [materialsOrderKey], {});
+
+    // create the basket if empty
+    if (!req.session[sessionOrderKey]) {
+        req.session[sessionOrderKey] = [];
+    }
+
+    // Reset the blocker flag
+    delete req.session[sessionBlockedItemKey];
 
     if (isValidAction) {
+
+        let existingProduct = req.session[sessionOrderKey].find(order => order.productId === productId);
+
         // How many of the current item do they have?
-        const currentItemQuantity = get(req.session, [materialsOrderKey, productId, 'quantity'], 0);
+        const currentItemQuantity = existingProduct ? existingProduct.quantity : 0;
 
         // Check if their current orders contain a blocker
         // note that this only works in one direction:
@@ -51,7 +52,7 @@ function modifyItems(req) {
         // eg. item A is blocked with item B (but you can add item B first, then add A)
         // solution is to make item A block item B and item B block item A in the CMS
         // or track the blocked items here and check both ends.
-        const hasBlockerItem = some(allCurrentOrders, order => {
+        const hasBlockerItem = some(req.session[sessionOrderKey], order => {
             if (!notAllowedWith) {
                 return;
             }
@@ -61,27 +62,22 @@ function modifyItems(req) {
 
         const noSpaceLeft = currentItemQuantity === maxQuantity;
 
-        // Reset the blocker flag
-        set(req.session, [materialsOrderKey, 'itemBlocked'], false);
-
-        if (action === 'increase') {
-            if (!noSpaceLeft && !hasBlockerItem) {
-                set(req.session, [materialsOrderKey, productId, 'id'], productId);
-                set(req.session, [materialsOrderKey, productId, 'materialId'], materialId);
-                set(req.session, [materialsOrderKey, productId, 'quantity'], currentItemQuantity + 1);
-            } else {
-                // Alert the user that they're blocked from adding this item
-                set(req.session, [materialsOrderKey, 'itemBlocked'], true);
-            }
-        } else if (currentItemQuantity > 1 && action === 'decrease') {
-            set(req.session, [materialsOrderKey, productId, 'id'], productId);
-            set(req.session, [materialsOrderKey, productId, 'materialId'], materialId);
-            set(req.session, [materialsOrderKey, productId, 'quantity'], currentItemQuantity - 1);
-        } else if (action === 'remove' || (action === 'decrease' && currentItemQuantity === 1)) {
-            // we do this to preserve a value of 0 on the frontend quantity label
-            // if we delete the product, Vue regards it as missing (eg. remains at 1)
-            set(req.session, [materialsOrderKey, productId, 'quantity'], 0);
+        if (action === 'increase' && (hasBlockerItem || noSpaceLeft)) {
+            // Alert the user that they're blocked from adding this item
+            req.session[sessionBlockedItemKey] = true;
+        } else if (!existingProduct) {
+            req.session[sessionOrderKey].push({
+                productId: productId,
+                materialId: materialId,
+                quantity: 1
+            });
+        } else {
+            let q = existingProduct.quantity;
+            existingProduct.quantity = (action === 'increase') ? q + 1 : q - 1;
         }
+
+        // remove any empty orders
+        req.session[sessionOrderKey] = req.session[sessionOrderKey].filter(o => o.quantity > 0);
     }
 }
 
@@ -105,9 +101,8 @@ function initAddRemove({ router, routeConfig }) {
                 req.session.save(() => {
                     res.send({
                         status: 'success',
-                        quantity: getNumOrders(get(req.session, [materialsOrderKey])),
-                        allOrders: req.session[materialsOrderKey],
-                        itemBlocked: get(req.session, [materialsOrderKey, 'itemBlocked'], false)
+                        orders: req.session[sessionOrderKey],
+                        itemBlocked: req.session[sessionBlockedItemKey] || false
                     });
                 });
             }
@@ -120,11 +115,11 @@ function initAddRemove({ router, routeConfig }) {
 function storeOrderSummary({ orderItems, orderDetails }) {
     const preparedOrderItems = reduce(
         orderItems,
-        (acc, orderItem, code) => {
+        (acc, orderItem) => {
             if (orderItem.quantity > 0) {
                 acc.push({
-                    code: code,
-                    quantity: orderItems[code].quantity
+                    code: orderItem.code,
+                    quantity: orderItem.quantity
                 });
             }
             return acc;
@@ -160,8 +155,6 @@ async function injectMerchandise(req, res, next) {
     }
 }
 
-const getNumOrders = orders => sumBy(values(orders), o => o.quantity);
-
 /**
  * Initialise order form
  */
@@ -169,7 +162,7 @@ function initForm({ router, routeConfig }) {
     function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         const lang = req.i18n.__(routeConfig.lang);
         const availableItems = res.locals.availableItems;
-        const orders = get(req.session, materialsOrderKey, {});
+        const orders = req.session[sessionOrderKey] || [];
 
         const formActionBase = '/' + res.locals.sectionId + routeConfig.path;
 
@@ -181,7 +174,6 @@ function initForm({ router, routeConfig }) {
             materials: availableItems,
             formFields: materialFields,
             orders: orders,
-            numOrders: getNumOrders(orders),
             orderStatus: status,
             formActionBase: formActionBase
         });
@@ -191,6 +183,7 @@ function initForm({ router, routeConfig }) {
 
     router
         .route(routeConfig.path)
+        // @TODO this will send a welsh email if user was on CY
         .all(cached.csrfProtection, injectMerchandise)
         .get((req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
@@ -200,11 +193,22 @@ function initForm({ router, routeConfig }) {
 
             if (errors.isEmpty()) {
                 const details = req.body;
-                const items = req.session[materialsOrderKey];
-                const orderText = makeOrderText(items, details);
+                const availableItems = res.locals.availableItems;
+
+                const itemsToEmail = req.session[sessionOrderKey].map(item => {
+                    const material = availableItems.find(i => i.itemId === item.materialId);
+                    const product = material.products.find(p => p.id === item.productId);
+                    return {
+                        name: product.name ? product.name : material.title,
+                        code: product.code,
+                        quantity: item.quantity
+                    };
+                });
+
+                const orderText = makeOrderText(itemsToEmail, details);
 
                 storeOrderSummary({
-                    orderItems: items,
+                    orderItems: itemsToEmail,
                     orderDetails: details
                 })
                     .then(() => {
@@ -232,8 +236,9 @@ function initForm({ router, routeConfig }) {
                         });
 
                         return Promise.all([customerEmail, supplierEmail]).then(() => {
-                            // Clear order details if success
-                            delete req.session[materialsOrderKey];
+                            // Clear order details if successful
+                            delete req.session[sessionOrderKey];
+                            delete req.session[sessionBlockedItemKey];
                             req.session.save(() => {
                                 renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
                             });

@@ -196,9 +196,9 @@ function postcodeArea(postcode) {
 function makeOrderText(items, details) {
     const orderSummary = reduce(
         items,
-        (acc, item, code) => {
+        (acc, item) => {
             if (item.quantity > 0) {
-                acc.push(`\t- x${item.quantity} ${code} (item: ${item.name})`);
+                acc.push(`\t- x${item.quantity} ${item.code} (item: ${item.name})`);
             }
             return acc;
         },
