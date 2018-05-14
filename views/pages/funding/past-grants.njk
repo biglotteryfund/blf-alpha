@@ -1,26 +1,10 @@
-{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 {% from "components/forms-new.njk" import formErrors, formField %}
+{% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconSearch %}
+{% from "components/surveys.njk" import inlineFeedback with context %}
 
 {% extends "layouts/main.njk" %}
-
-{% set socialImage = heroImage %}
-
-{% macro inlineFeedback() %}
-    <details class="inline-feedback u-dont-print js-only" id="js-feedback">
-        <summary
-            data-ga-on="click"
-            data-ga-event-category="Past grants"
-            data-ga-event-action="Toggle survey"
-        >{{ copy.survey.prompt }}</summary>
-        <feedback-form
-            description="Past grants"
-            field-label="{{ copy.survey.label }}"
-            submit-label=" {{ __('global.forms.submit') }}"
-        />
-    </details>
-{% endmacro %}
 
 {% block content %}
     {% set pageAccent = 'pink' %}
@@ -36,7 +20,11 @@
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <section class="u-separator s-prose s-prose--long u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
-                    {{ inlineFeedback() }}
+                    {{ inlineFeedback(
+                        title = "Past Grants",
+                        promptLabel = copy.survey.prompt,
+                        fieldLabel = copy.survey.label
+                    )  }}
                 </section>
 
                 <p>{{ copy.optionsIntro }}</p>

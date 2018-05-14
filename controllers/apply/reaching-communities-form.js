@@ -258,6 +258,10 @@ formModel.registerReviewStep({
 
 formModel.registerSuccessStep({
     title: 'We have received your idea',
+    feedback: {
+        promptLabel: 'Can you spare a minute to give us some feedback?',
+        fieldLabel: 'How was your experience of submitting an idea?'
+    },
     message: `
 <h2 class="t2 t--underline accent--pink">What happens next?</h2>
 <p>Thank you for submitting your idea. A local funding officer will contact you within fifteen working days.</p>

@@ -1,5 +1,21 @@
 {% from "components/icons.njk" import iconArrowDown, iconClose %}
 
+{% macro inlineFeedback(description, promptLabel, fieldLabel) %}
+    <details class="inline-feedback u-dont-print js-only" id="js-feedback">
+        <summary
+            data-ga-on="click"
+            data-ga-event-category="{{ description }}"
+            data-ga-event-action="Toggle survey"
+        >{{ promptLabel }}</summary>
+        <feedback-form
+            description="{{ description }}"
+            field-label="{{ fieldLabel }}"
+            submit-label=" {{ __('global.forms.submit') }}"
+        />
+    </details>
+{% endmacro %}
+
+
 {% macro showSurvey() %}
     <aside role="complementary" class="survey u-dont-print"
         v-bind:class="{ 'is-active': isActivated, 'is-shown': isShown }"
