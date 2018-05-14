@@ -76,9 +76,9 @@
     </div>
 {% endmacro %}
 
-{% macro materialCard(material, languageToShow) %}
+{% macro materialCard(material, languageToShow, loopIndex) %}
     {% set applicableProducts = material.products | filter("language", languageToShow) %}
-    <article class="material-card" id="qa-material-{{ material.itemId }}">
+    <article class="material-card" id="qa-material-{{ languageToShow }}-{{ loopIndex }}">
         <header class="material-card__header">
             <h4 class="material-card__title t5">{{ material.title }}</h4>
         </header>
@@ -104,7 +104,7 @@
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
         {% for material in materials %}
             <li class="grid__item">
-                {{ materialCard(material, languageToShow) }}
+                {{ materialCard(material, languageToShow, loop.index) }}
             </li>
         {% endfor %}
     </ul>

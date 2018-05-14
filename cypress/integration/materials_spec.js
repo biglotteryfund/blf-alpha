@@ -4,8 +4,8 @@ describe('Materials tests', function() {
         cy.get('a[href="#monolingual"]').click();
 
         // Select items
-        cy.get('#qa-material-8').as('materialA');
-        cy.get('#qa-material-10').as('materialB');
+        cy.get('#qa-material-monolingual-2').as('materialA');
+        cy.get('#qa-material-monolingual-3').as('materialB');
 
         cy
             .get('@materialA')
