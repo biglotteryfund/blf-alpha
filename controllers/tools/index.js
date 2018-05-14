@@ -60,7 +60,7 @@ router.route('/survey-results').get((req, res) => {
         });
 });
 
-router.route('/order-stats').get(injectMerchandiseCustom({locale: 'en', showAll: true}), (req, res) => {
+router.route('/order-stats').get(injectMerchandiseCustom({ locale: 'en', showAll: true }), (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
