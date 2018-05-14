@@ -4,6 +4,7 @@ const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);
 
+const { removeWelsh } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 if (!CONTENT_API_URL) {
@@ -62,15 +63,6 @@ function addPreviewParams(previewMode, params) {
     previewParams[previewMode.mode] = previewMode.id; // eg. ?draft=123
 
     return Object.assign({}, previewParams, params);
-}
-
-/**
- * Get CMS Path
- * Returns sanitised pagePath for top-level sections
- * otherwise prepends sectionId to pagePath
- */
-function getCmsPath(sectionId, pagePath) {
-    return sectionId === 'toplevel' ? pagePath.replace(/^\/+/g, '') : `${sectionId}${pagePath}`;
 }
 
 /**
@@ -155,11 +147,12 @@ function getFundingProgramme({ locale, slug, previewMode }) {
 }
 
 function getListingPage({ locale, path, previewMode }) {
+    const sanitisedPath = removeWelsh(path).replace(/^\/+/g, '');
     return fetch(`/v1/${locale}/listing`, {
-        qs: addPreviewParams(previewMode, { path })
+        qs: addPreviewParams(previewMode, { path: sanitisedPath })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
-        const match = attributes.find(_ => _.path === path);
+        const match = attributes.find(_ => _.path === sanitisedPath);
         return match;
     });
 }
@@ -214,7 +207,6 @@ function getRoutes() {
 module.exports = {
     setApiUrl,
     getApiUrl,
-    getCmsPath,
     mapAttrs,
     mergeWelshBy,
     // API methods

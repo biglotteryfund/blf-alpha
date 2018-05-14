@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon ./bin/www",
-    "startDebug": "export DEBUG=blf-alpha:* && nodemon --inspect ./bin/www",
+    "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
     "lint": "eslint .",
     "test-deps": "snyk test",
     "test-client": "mocha assets/**/*.test.js --bail --exit",

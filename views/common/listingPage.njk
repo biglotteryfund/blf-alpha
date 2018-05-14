@@ -1,24 +1,23 @@
 {% from "components/hero.njk" import hero, miniatureHero %}
+{% from "components/nav.njk" import selectionTrail %}
 {% from "components/segment.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ content.title }} | {% endblock %}
 
 {% set heroImage = heroImages.streetDreams %}
 {% set socialImage = heroImage %}
 
 {% block content %}
-    {{
-        hero(
-            accent = 'blue',
-            titleText = content.title,
-            image = heroImage
-        )
-    }}
+    {% set pageAccent = content.themeColour %}
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
 
     <main role="main" class="nudge-up">
         <section class="content-box inner--wide-only accent--blue a--border-top">
+            {{ selectionTrail(breadcrumbs) }}
             <div class=" s-prose s-prose--long">
                 {{ content.introduction | safe }}
             </div>

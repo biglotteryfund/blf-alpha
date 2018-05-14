@@ -63,7 +63,11 @@ $nudgeAmount: 25px;
 // @TODO: Rename all uses to u-padded
 .padded,
 .u-padded {
-    padding: $spacingUnit;
+    padding: $spacingUnit ($spacingUnit / 2);
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+    }
 }
 .u-padded-top {
     padding-top: $spacingUnit;

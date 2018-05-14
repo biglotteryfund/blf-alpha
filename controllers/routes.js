@@ -176,17 +176,15 @@ sections.funding.addRoutes({
             '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
         ]
     }),
-    fundingGuidanceLogos: staticRoute({
+    fundingGuidanceLogos: cmsRoute({
         path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
         template: 'pages/funding/logos',
-        lang: 'funding.guidance.logos',
-        heroSlug: 'oasis-caring-in-action'
+        lang: 'funding.guidance.logos'
     }),
     fundingGuidanceMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
         template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
-        heroSlug: 'passion-4-fusion-2',
         isPostable: true
     }),
     fundingGuidanceMaterialsActions: sessionRoute({

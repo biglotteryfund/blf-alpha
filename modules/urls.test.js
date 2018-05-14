@@ -100,33 +100,13 @@ describe('URL Helpers', () => {
 
     describe('#localify', () => {
         it('should return correct url for a given locale', () => {
-            expect(
-                localify({
-                    urlPath: '/funding/funding-finder',
-                    locale: 'en'
-                })
-            ).to.equal('/funding/funding-finder');
+            expect(localify('en')('/funding/funding-finder')).to.equal('/funding/funding-finder');
 
-            expect(
-                localify({
-                    urlPath: '/funding/funding-finder',
-                    locale: 'cy'
-                })
-            ).to.equal('/welsh/funding/funding-finder');
+            expect(localify('cy')('/funding/funding-finder')).to.equal('/welsh/funding/funding-finder');
 
-            expect(
-                localify({
-                    urlPath: '/welsh/funding/funding-finder',
-                    locale: 'en'
-                })
-            ).to.equal('/funding/funding-finder');
+            expect(localify('en')('/welsh/funding/funding-finder')).to.equal('/funding/funding-finder');
 
-            expect(
-                localify({
-                    urlPath: '/welsh/funding/funding-finder',
-                    locale: 'cy'
-                })
-            ).to.equal('/welsh/funding/funding-finder');
+            expect(localify('cy')('/welsh/funding/funding-finder')).to.equal('/welsh/funding/funding-finder');
         });
     });
 

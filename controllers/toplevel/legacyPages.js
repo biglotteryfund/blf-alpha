@@ -60,10 +60,9 @@ function initLegacyFundingFinder(router) {
                         originalAmountQuery: req.query.amount
                     });
 
-                    const redirectUrl = localify({
-                        urlPath: '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : ''),
-                        locale: req.i18n.getLocale()
-                    });
+                    const redirectUrl = localify(req.i18n.getLocale())(
+                        '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : '')
+                    );
 
                     res.redirect(301, redirectUrl);
                 }

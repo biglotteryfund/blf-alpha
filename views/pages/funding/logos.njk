@@ -1,8 +1,8 @@
 {% from "components/hero.njk" import hero %}
-{% import "components/tabs.njk" as tabs %}
+{% from "components/tabs.njk" import tabs, pane %}
 {% from "components/icons.njk" import iconClose %}
 
-{% extends "layouts/main.njk" %}
+{% extends "common/informationPage.njk" %}
 
 {% macro howToUseLogo(bilingual = false) %}
     <div class="padded">
@@ -129,7 +129,7 @@
 
 {# england, scotland and NI #}
 {% set contentMonolingual %}
-    {{ tabs.tabs(
+    {{ tabs(
         id = 'logo-monolingual',
         content = [
             {
@@ -176,7 +176,7 @@
 {% endset %}
 
 {% set contentBilingual %}
-    {{ tabs.tabs(
+    {{ tabs(
         id = 'logo-bilingual',
         content = [
             {
@@ -192,56 +192,41 @@
     )}}
 {% endset %}
 
-{% block content %}
-
-    {% set pageAccent = 'blue' %}
-
-    {{
-        hero(
-            titleText = copy.heroText,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
-
-    <main role="main" class="nudge-up">
-
-        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="s-prose s-prose--long">
-                <h2>{{ copy.subtitle }}</h2>
-                <p>{{ copy.body | safe }}</p>
-                <p><strong>{{ copy.locationPrompt }}</strong></p>
-            </div>
-
-            <div class="js-tabset" data-paneset="paneset-regions">
-                <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
-                    <li class="grid__item">
-                        <a href="#region1" class="btn btn--block btn--small accent--blue a--btn js-tab">
-                            {{ copy.locations.monolingual }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="#region2" class="btn btn--block btn--small accent--blue a--btn js-tab">
-                            {{ copy.locations.bilingual }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="js-paneset" id="paneset-regions">
-                {{ tabs.pane(
-                    paneId = 'region1',
-                    content = contentMonolingual,
-                    accordion = false
-                ) }}
-
-                {{ tabs.pane(
-                    paneId = 'region2',
-                    content = contentBilingual,
-                    accordion = false
-                ) }}
-            </div>
+{% block contentPrimary %}
+    {% set pageAccent = content.themeColour %}
+    {{ super() }}
+    <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top accent-content--{{ pageAccent }}">
+        <div class="s-prose s-prose--long">
+            <h2>{{ copy.locationPrompt }}</h2>
         </div>
 
-    </main>
+        <div class="js-tabset" data-paneset="paneset-regions">
+            <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
+                <li class="grid__item">
+                    <a href="#region1" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
+                        {{ copy.locations.monolingual }}
+                    </a>
+                </li>
+                <li class="grid__item">
+                    <a href="#region2" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
+                        {{ copy.locations.bilingual }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="js-paneset" id="paneset-regions">
+            {{ pane(
+                paneId = 'region1',
+                content = contentMonolingual,
+                accordion = false
+            ) }}
+
+            {{ pane(
+                paneId = 'region2',
+                content = contentBilingual,
+                accordion = false
+            ) }}
+        </div>
+    </div>
 {% endblock %}
