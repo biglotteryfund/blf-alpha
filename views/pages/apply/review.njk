@@ -22,7 +22,8 @@
                     {% for step in summary %}
                         <h3>
                             {{ step.name }}
-                            [<a href="{{ baseUrl }}/{{ loop.index }}" class="js-application-form-review-link"
+                            [<a href="{{ baseUrl }}/{{ loop.index }}/edit"
+                                class="js-application-form-review-link"
                                 aria-label="Edit {{ step.name }}">
                                 Edit
                             </a>]

@@ -50,41 +50,66 @@ function createFormRouter({ router, formModel }) {
             });
         }
 
+        function renderStepIfAllowed(req, res) {
+            if (currentStepNumber > 1 && isEmpty(getFormSession(req, currentStepNumber - 1))) {
+                res.redirect(req.baseUrl);
+            } else {
+                renderStep(req, res);
+            }
+        }
+
+        function handleSubmitStep({ isEditing = false } = {}) {
+            return [
+                step.getValidators(),
+                function(req, res) {
+                    // Save valid fields and merge with any existing data (if we are editing the step);
+                    const sessionProp = formModel.getSessionProp(currentStepNumber);
+                    const stepData = get(req.session, sessionProp, {});
+                    const bodyData = matchedData(req, { locations: ['body'] });
+                    set(req.session, sessionProp, Object.assign(stepData, bodyData));
+
+                    req.session.save(() => {
+                        const errors = validationResult(req);
+                        if (errors.isEmpty()) {
+                            if (isEditing === true || currentStepNumber === formSteps.length) {
+                                res.redirect(`${req.baseUrl}/review`);
+                            } else {
+                                res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
+                            }
+                        } else {
+                            renderStep(req, res, errors.array());
+                        }
+                    });
+                }
+            ];
+        }
+
+        /**
+         * Step router
+         */
         router
             .route(`/${currentStepNumber}`)
             .all(cached.csrfProtection)
+            .get(renderStepIfAllowed)
+            .post(handleSubmitStep());
+
+        /**
+         * Step edit router
+         *
+         */
+        router
+            .route(`/${currentStepNumber}/edit`)
+            .all(cached.csrfProtection)
             .get(function(req, res) {
-                if (currentStepNumber > 1) {
-                    const previousStepData = getFormSession(req, currentStepNumber - 1);
-                    if (isEmpty(previousStepData)) {
-                        res.redirect(req.baseUrl);
-                    } else {
-                        renderStep(req, res);
-                    }
+                const formSession = getFormSession(req);
+                const completedSteps = Object.keys(formSession).filter(key => /^step-/.test(key)).length;
+                if (completedSteps < totalSteps - 1) {
+                    res.redirect(req.originalUrl.replace('/edit', ''));
                 } else {
-                    renderStep(req, res);
+                    renderStepIfAllowed(req, res);
                 }
             })
-            .post(step.getValidators(), function(req, res) {
-                // Save valid fields and merge with any existing data (if we are editing the step);
-                const sessionProp = formModel.getSessionProp(currentStepNumber);
-                const stepData = get(req.session, sessionProp, {});
-                const bodyData = matchedData(req, { locations: ['body'] });
-                set(req.session, sessionProp, Object.assign(stepData, bodyData));
-
-                req.session.save(() => {
-                    const errors = validationResult(req);
-                    if (!errors.isEmpty()) {
-                        return renderStep(req, res, errors.array());
-                    }
-
-                    if (currentStepNumber === formSteps.length) {
-                        res.redirect(`${req.baseUrl}/review`);
-                    } else {
-                        res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
-                    }
-                });
-            });
+            .post(handleSubmitStep({ isEditing: true }));
     });
 
     /**
