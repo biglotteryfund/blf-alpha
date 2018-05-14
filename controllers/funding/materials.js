@@ -153,6 +153,18 @@ async function injectMerchandise(req, res, next) {
     }
 }
 
+function injectMerchandiseWithLanguage(forceLocale = false) {
+    return async (req, res, next) => {
+        try {
+            const locale = forceLocale ? forceLocale : req.i18n.getLocale();
+            res.locals.availableItems = await contentApi.getMerchandise(locale);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
 /**
  * Initialise order form
  */
@@ -181,12 +193,11 @@ function initForm({ router, routeConfig }) {
 
     router
         .route(routeConfig.path)
-        // @TODO this will send a welsh email if user was on CY
-        .all(cached.csrfProtection, injectMerchandise)
-        .get((req, res) => {
+        .all(cached.csrfProtection)
+        .get(injectMerchandise, (req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })
-        .post(validators, purify, (req, res) => {
+        .post(injectMerchandiseWithLanguage('en'), validators, purify, (req, res) => {
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
