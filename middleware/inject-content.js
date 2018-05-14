@@ -36,27 +36,48 @@ function injectHeroImage(page) {
     };
 }
 
-function buildContentBreadcrumbs(req, res) {
+function injectCopy(page) {
+    return function(req, res, next) {
+        if (page.lang) {
+            const copy = req.i18n.__(page.lang);
+            res.locals.copy = copy;
+            res.locals.title = copy.title;
+            res.locals.description = copy.description || false;
+        }
+
+        next();
+    };
+}
+
+function injectBreadcrumbs(req, res, next) {
     const locale = req.i18n.getLocale();
+    const copy = res.locals.copy;
     const content = res.locals.content;
-    const ancestors = getOr([], 'ancestors')(content);
+
     const sectionSlug = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
+    const sectionLabel = req.i18n.__(`global.nav.${sectionSlug}`);
 
-    const topLevelCrumb = {
-        label: req.i18n.__(`global.nav.${sectionSlug}`),
-        url: localify(locale)(req.baseUrl)
-    };
+    if (sectionLabel) {
+        const topLevelCrumb = {
+            label: sectionLabel,
+            url: localify(locale)(req.baseUrl)
+        };
 
-    const ancestorCrumbs = ancestors.map(ancestor => ({
-        label: ancestor.title,
-        url: localify(locale)(`/${ancestor.path}`)
-    }));
+        const ancestors = getOr([], 'ancestors')(content);
+        const ancestorCrumbs = ancestors.map(ancestor => ({
+            label: ancestor.title,
+            url: localify(locale)(`/${ancestor.path}`)
+        }));
 
-    const currentCrumb = {
-        label: content.title
-    };
+        const getTitle = get('title');
+        const currentCrumb = {
+            label: getTitle(content) || getTitle(copy)
+        };
 
-    return flatten([topLevelCrumb, ancestorCrumbs, currentCrumb]);
+        res.locals.breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs, currentCrumb]);
+    }
+
+    next();
 }
 
 async function injectListingContent(req, res, next) {
@@ -70,7 +91,6 @@ async function injectListingContent(req, res, next) {
 
         if (content) {
             res.locals.content = content;
-            res.locals.breadcrumbs = buildContentBreadcrumbs(req, res);
         }
 
         res.locals.timings.end('inject-content');
@@ -82,5 +102,7 @@ async function injectListingContent(req, res, next) {
 
 module.exports = {
     injectHeroImage,
+    injectCopy,
+    injectBreadcrumbs,
     injectListingContent
 };
