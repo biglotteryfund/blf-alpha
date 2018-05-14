@@ -85,16 +85,19 @@ function initProgrammesList(router, options) {
                     .filter(programmeFilters.filterByMinAmount(minAmountParam))
                     .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
 
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__('global.nav.funding'),
+                    url: req.baseUrl
+                });
+
                 if (!minAmountParam && !maxAmountParam && !locationParam) {
-                    templateData.activeBreadcrumbs = [
-                        {
-                            label: req.i18n.__(options.lang + '.breadcrumbAll')
-                        }
-                    ];
+                    templateData.activeBreadcrumbs.push({
+                        label: req.i18n.__(options.lang + '.breadcrumbAll')
+                    });
                 } else {
                     templateData.activeBreadcrumbs.push({
                         label: req.i18n.__(options.lang + '.title'),
-                        url: req.originalUrl.split('?').shift()
+                        url: req.baseUrl + req.path
                     });
 
                     if (parseInt(minAmountParam, 10) === 10000) {
@@ -155,6 +158,7 @@ function renderProgrammeDetail({ res, entry }) {
 function handleProgrammeDetail(slug) {
     return function(req, res, next) {
         const locale = req.i18n.getLocale();
+        res.locals.timings.start('fetch-funding-programme');
         contentApi
             .getFundingProgramme({
                 slug: slug,
@@ -162,6 +166,7 @@ function handleProgrammeDetail(slug) {
                 previewMode: res.locals.PREVIEW_MODE || false
             })
             .then(entry => {
+                res.locals.timings.end('fetch-funding-programme');
                 if (entry.contentSections.length > 0) {
                     renderProgrammeDetail({ res, entry });
                 } else {
@@ -169,6 +174,7 @@ function handleProgrammeDetail(slug) {
                 }
             })
             .catch(() => {
+                res.locals.timings.end('fetch-funding-programme');
                 next();
             });
     };

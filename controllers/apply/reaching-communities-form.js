@@ -127,8 +127,9 @@ formModel.registerStep({
                 {
                     type: 'text',
                     name: 'project-location',
-                    label: "In your own words, describe the location(s) that you'll be running your project(s) in",
-                    placeholder: 'eg. "Newcastle community centre" or "Alfreton, Derby and Ripley"',
+                    label: 'Project location',
+                    explanation:
+                        'In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.',
                     isRequired: true,
                     size: 60,
                     validator: function(field) {
@@ -252,12 +253,16 @@ formModel.registerStep({
 });
 
 formModel.registerReviewStep({
-    title: 'Check this is right',
+    title: 'Check this is right before submitting your idea',
     proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({
     title: 'We have received your idea',
+    feedback: {
+        promptLabel: 'Can you spare a minute to give us some feedback?',
+        fieldLabel: 'How was your experience of submitting an idea?'
+    },
     message: `
 <h2 class="t2 t--underline accent--pink">What happens next?</h2>
 <p>Thank you for submitting your idea. A local funding officer will contact you within fifteen working days.</p>
@@ -270,6 +275,10 @@ formModel.registerSuccessStep({
          * Construct a primary address (i.e. customer email)
          */
         const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
+        let organisationName = `${flatData['organisation-name']}`;
+        if (flatData['additional-organisations']) {
+            organisationName += ` (plus ${flatData['additional-organisations']})`;
+        }
 
         /**
          * Determine which internal address to send to:
@@ -305,7 +314,7 @@ formModel.registerSuccessStep({
                 name: 'reaching_communities_internal',
                 sendTo: internalAddress,
                 sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: 'New idea submission from website',
+                subject: `New idea submission from website: ${organisationName}`,
                 templateName: 'emails/applicationSummaryInternal',
                 templateData: {
                     summary: formModel.orderStepsForInternalUse(summary),

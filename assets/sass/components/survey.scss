@@ -4,7 +4,7 @@
 
 /**
  * iOS 11 has a bug where if an input is inside a position fixed element the
- * cursor will disapear of the screen when entering text. Why???
+ * cursor will disapear off the screen when entering text. Why???
  * https://stackoverflow.com/questions/46339063/ios-11-safari-bootstrap-modal-text-area-outside-of-cursor/46954486#46954486
  * https://bugs.webkit.org/show_bug.cgi?id=176896
  */
@@ -14,33 +14,36 @@ body.is-ios-editing-survey {
 }
 
 .survey {
-    color: #ffffff;
-    background-color: #4a4a4a;
-
     width: 100%;
     position: fixed;
     bottom: 0;
     right: 0;
     z-index: 100;
-    padding: $spacingUnit / 2;
+    transition: transform 300ms ease-in-out;
+    transform: translateY(100%);
 
-    @include mq(small) {
-        padding-left: $spacingUnit;
-        padding-right: $spacingUnit;
+    &.is-shown {
+        transform: translateY(0%);
     }
 
-    @include mq('tablet') {
-        width: 60%;
+    .survey__form {
+        color: white;
+        background-color: #4a4a4a;
+        max-width: 720px;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
     .survey__header {
+        color: white;
+        width: 100%;
         margin-bottom: 0;
         text-decoration: underline;
         cursor: pointer;
         display: block;
-        color: #ffffff;
+        padding: $spacingUnit / 2;
+        position: relative;
     }
-
     .survey__arrow {
         width: 25px;
         display: inline-block;
@@ -61,18 +64,19 @@ body.is-ios-editing-survey {
             }
         }
     }
+    &:hover,
     &.is-active {
         .survey__arrow svg {
             transform: rotate(0deg);
         }
     }
-
     .survey__close-icon {
         $iconRadius: 25px;
         $iconOffset: 7px;
         position: absolute;
         right: $iconOffset;
         top: $iconOffset;
+        z-index: 1;
         border-radius: 100%;
         border: 1px solid white;
         height: $iconRadius;
@@ -94,6 +98,11 @@ body.is-ios-editing-survey {
         }
     }
 
+    .survey__content {
+        padding: $spacingUnit / 2;
+        padding-top: 0;
+    }
+
     .survey__btn {
         $bg: #747474;
         background-color: $bg;
@@ -107,10 +116,6 @@ body.is-ios-editing-survey {
         &:last-child {
             margin-right: 0;
         }
-    }
-
-    .survey__form-items {
-        margin-top: $spacingUnit / 2;
     }
 
     .survey__extra {

@@ -686,14 +686,6 @@ funding:
           any other relevant legislation that comes into force, such as the General
           Data Protection Regulation (EU) 2016/679.</p>"
     logos:
-      title: How to tell people about your National Lottery funding using our logo
-      subtitle: Thank the players of the National Lottery
-      heroText: Using our logo
-      body: It's really important that people involved with your project understand
-        that it's been supported by players of The National Lottery – having our logo
-        somewhere easily visible really helps to do this. You can put the logo on
-        a wall, add it to your website or a piece of equipment – anywhere where people
-        can see it. You can download our logos below.
       locationPrompt: 'To make sure you get the correct logo please tell us where
         your project is based:'
       locations:
@@ -756,93 +748,6 @@ funding:
             designer or working with large format print.
           body: If you need a smaller logo just close this box and select the Print
             or Digital versions.
-    help-with-publicity:
-      title: Tell the world about your grant via social media
-      body:
-        part1: "<p>Social media channels such as Facebook, Twitter and Instagram are
-          great ways of publicising your grant and the work that you do.</p><p>It
-          is very easy to set up accounts on these social media platforms. It is a
-          good idea to designate someone to be in charge of your social media accounts
-          so you can keep sharing information and respond to any comments.</p><p>We
-          would like you to:</p>"
-        actions:
-          - Share your grant news on social media, thanking National Lottery players
-          - Follow the Big Lottery Fund on social media
-          - Use social media to share news of your project throughout your grant
-        part2: "<p>We can then share your stories with the wider National Lottery
-          community!</p><p>Please always acknowledge National Lottery players' support
-          by using the #NationalLottery hashtag when posting content related to your
-          grant.</p>"
-    managing-your-funding:
-      title: Congratulations on getting National Lottery funding!
-      body:
-        header1: You're now part of a family of fantastic organisations that are making
-          communities across the UK better places to be.
-        block1: "<p>We ask that you publicly announce your funding award. Whilst we
-          would love you to use a range of ways to do this, here are some you should
-          consider:</p>"
-        actions:
-          social: Tell the world about your grant via social media
-          press: Get in touch with your local press
-          logo: Download our logo to tell people about your National Lottery funding
-          freeMaterial: Order free plaques, stickers, balloons and more
-        header2: Why are we asking you to do these things?
-        block2: "<p>You are one of thousands of good causes all over the UK doing
-          amazing things with money raised by National Lottery players. It is very
-          important that you share the good news about your funding and let the public
-          know how they are making life better across the UK by playing National Lottery
-          games.</p><p>This will also encourage people in your local area to apply
-          for lottery funding, increasing the amount of amazing work that takes place
-          in your community.</p>"
-    getting-press-coverage:
-      title: How to get press coverage for your grant
-      body: "<p>Being awarded National Lottery funding is a huge achievement and great
-        news for your local community. Local newspapers and radio stations will be
-        interested to hear your news. They can help you tell your story and raise
-        awareness in the community.</p><p>This is also an important opportunity to
-        thank National Lottery players for making your work possible.</p>"
-      sections:
-        identify:
-          title: Identify which media to target
-          text: "<p>Contact newspapers that are available to buy or are given out
-            for free in the area your project is based. If you are unsure which area
-            they cover you can always ring and ask. Think about contacting your local
-            BBC radio station as well as any commercial stations in your area. See
-            if there are any local websites or blogs who might be interested in your
-            story.</p>"
-        find:
-          title: Find the best contact
-          text: "<p>It is worth calling the newsdesk of a newspaper or radio station
-            to tell them your story and ask if there is anyone in particular you should
-            send it through to.</p>"
-        draft:
-          title: Draft a press release
-          text: "<p>When writing this think about the importance and impact of your
-            project. How will it make a difference to the people you work with? How
-            will it improve their lives? How will it improve the whole community?</p>"
-        send:
-          title: Sending a press release
-          text: "<p>Ensure the subject matter of your email covers the story and the
-            area, for example “Wolverhampton Community Centre Awarded National Lottery
-            Funding”. Paste the press release into the body of the email rather than
-            attaching it. And remember to always include your contact details!</p>"
-        attach:
-          title: Attach an image
-          text: "<p>Attaching a high quality image can really improve your chance
-            of gaining publicity. Even photos taken on smartphones can work really
-            well. Think about what you want the photo to say about your project -
-            think about the setting and who to include in the photo. Make sure you
-            provide the names of everyone in the photo and make clear who is who to
-            help the newspaper caption the image properly.</p>"
-        follow:
-          title: Follow up with a phone call
-          text: "<p>Journalists receive a lot of press releases each day and it will
-            help if you give them a quick call to highlight your news.</p>"
-        tell:
-          title: Tell us about your success stories
-          text: <p>We would love to hear when you get media coverage in your local
-            area. <a href="mailto:pressoffice@biglotteryfund.org.uk">Get in touch
-            with us to tell us all about it</a>!</p>
   programmes:
     title: Funding Programmes
     under10k: Awards under £10,000

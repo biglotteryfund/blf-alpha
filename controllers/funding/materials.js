@@ -8,6 +8,7 @@ const moment = require('moment');
 const Raven = require('raven');
 
 const { FORM_STATES } = require('../../modules/forms');
+const { injectListingContent } = require('../../middleware/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const {
     materialFields,
@@ -154,6 +155,7 @@ function storeOrderSummary({ orderItems, orderDetails }) {
  */
 function initForm({ router, routeConfig }) {
     function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
+        const content = res.locals.content;
         const lang = req.i18n.__(routeConfig.lang);
         const availableItems = res.locals.availableItems;
         const orders = req.session[sessionOrderKey] || [];
@@ -161,10 +163,11 @@ function initForm({ router, routeConfig }) {
         const formActionBase = '/' + res.locals.sectionId + routeConfig.path;
 
         res.render(routeConfig.template, {
-            csrfToken: req.csrfToken(),
             copy: lang,
-            title: lang.title,
-            description: 'Order items free of charge to acknowledge your grant',
+            content: content,
+            title: content.title,
+            heroImage: content.hero,
+            csrfToken: req.csrfToken(),
             materials: availableItems,
             formFields: materialFields,
             orders: orders,
@@ -177,7 +180,7 @@ function initForm({ router, routeConfig }) {
 
     router
         .route(routeConfig.path)
-        .all(cached.csrfProtection)
+        .all(cached.csrfProtection, injectListingContent)
         .get(injectMerchandise, (req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })

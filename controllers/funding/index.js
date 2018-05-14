@@ -28,7 +28,7 @@ module.exports = ({ router, pages }) => {
      */
     materialsRoute.init({
         router: router,
-        routeConfig: pages.freeMaterials
+        routeConfig: pages.fundingGuidanceMaterials
     });
 
     /**

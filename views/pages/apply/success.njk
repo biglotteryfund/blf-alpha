@@ -1,5 +1,9 @@
+{% from "components/surveys.njk" import inlineFeedback with context %}
+
 {% extends "layouts/main.njk" %}
+
 {% block title %}Success | {{ form.title }} | {% endblock %}
+
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
@@ -12,6 +16,14 @@
 
                 {{ stepConfig.message | safe }}
             </div>
+
+            {% if stepConfig.feedback and appData.isNotProduction %}
+                {{ inlineFeedback(
+                    title = form.title,
+                    promptLabel = stepConfig.feedback.promptLabel,
+                    fieldLabel = stepConfig.feedback.fieldLabel
+                )  }}
+            {% endif %}
         </div>
     </main>
 {% endblock %}

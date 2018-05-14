@@ -7,6 +7,7 @@ const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
+const timings = require('server-timings');
 const yaml = require('js-yaml');
 
 const app = express();
@@ -32,6 +33,7 @@ const viewFilters = require('./modules/filters');
 const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { injectHeroImage } = require('./middleware/inject-content');
 const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cachedMiddleware = require('./middleware/cached');
@@ -65,6 +67,10 @@ Raven.config(SENTRY_DSN, {
 }).install();
 
 app.use(Raven.requestHandler());
+
+app.use(timings);
+
+app.use(timings.start('setup'));
 
 /**
  * Set up internationalisation
@@ -157,6 +163,10 @@ function initViewEngine() {
 
 initViewEngine();
 
+app.use(timings.end('setup'));
+
+app.use(timings.start('global-middleware'));
+
 /**
  * Register global middlewares
  */
@@ -173,11 +183,41 @@ app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 app.use(portalMiddleware);
 
+app.use(timings.end('global-middleware'));
+
+app.use(timings.start('routing'));
+
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
 
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));
+
+/**
+ * Archived Routes
+ * Redirect to the National Archvies
+ */
+routes.archivedRoutes.filter(shouldServe).forEach(route => {
+    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
+});
+
+/**
+ * Legacy Redirects
+ * Redirecy legacy URLs to new locations
+ * For these URLs handle both english and welsh variants
+ */
+serveRedirects({
+    redirects: routes.legacyRedirects.filter(shouldServe),
+    makeBilingual: true
+});
+
+/**
+ * Vanity URLs
+ * Sharable short-urls redirected to canonical URLs.
+ */
+serveRedirects({
+    redirects: routes.vanityRedirects.filter(shouldServe)
+});
 
 /**
  * Initialise section routes
@@ -199,10 +239,14 @@ forEach(routes.sections, (section, sectionId) => {
     });
 
     /**
-     * Add pageId to the request for all pages in a section
+     * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        router.use(page.path, (req, res, next) => {
+        /**
+         * Note: must use `router.get` here because `router.use` matches
+         * against URLs which *start with* the path given which is too broad.
+         */
+        router.get(page.path, injectHeroImage(page), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });
@@ -226,8 +270,7 @@ forEach(routes.sections, (section, sectionId) => {
     router = routeCommon.init({
         router: router,
         pages: section.pages,
-        sectionPath: section.path,
-        sectionId: sectionId
+        sectionPath: section.path
     });
 
     /**
@@ -238,31 +281,7 @@ forEach(routes.sections, (section, sectionId) => {
     });
 });
 
-/**
- * Legacy Redirects
- * Redirecy legacy URLs to new locations
- * For these URLs handle both english and welsh variants
- */
-serveRedirects({
-    redirects: routes.legacyRedirects.filter(shouldServe),
-    makeBilingual: true
-});
-
-/**
- * Vanity URLs
- * Sharable short-urls redirected to canonical URLs.
- */
-serveRedirects({
-    redirects: routes.vanityRedirects.filter(shouldServe)
-});
-
-/**
- * Archived Routes
- * Redirect to the National Archvies
- */
-routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
-});
+app.use(timings.end('routing'));
 
 /**
  * Error route

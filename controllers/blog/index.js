@@ -4,7 +4,6 @@ const { isBilingual } = require('../../modules/pageLogic');
 const { renderNotFoundWithError, redirectWithError } = require('../http-errors');
 const { shouldServe } = require('../../modules/pageLogic');
 const contentApi = require('../../services/content-api');
-const injectHeroImage = require('../../middleware/inject-hero');
 
 /**
  * Build pagination
@@ -70,7 +69,7 @@ function renderListing({ res, title, entries = [], entriesMeta = null, activeBre
 }
 
 function initLanding({ router, routeConfig }) {
-    router.get(routeConfig.path, injectHeroImage(routeConfig), (req, res) => {
+    router.get(routeConfig.path, (req, res) => {
         contentApi
             .getBlogPosts({
                 locale: req.i18n.getLocale(),
