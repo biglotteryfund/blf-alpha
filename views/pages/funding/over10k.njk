@@ -1,12 +1,8 @@
-{% from "components/hero.njk" import hero %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
+{% from "components/hero.njk" import hero %}
+{% from "components/nav.njk" import selectionTrail %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set heroImage = heroImages.passion4Fusion %}
-{% set socialImage = heroImage %}
 
 {% block content %}
     {% set pageAccent = 'turquoise' %}
@@ -22,6 +18,8 @@
 
         <div class="nudge-up">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                {{ selectionTrail(breadcrumbs) }}
+
                 <div class="s-prose s-prose--long">
                     <p>{{ copy.intro }}</p>
                     <h2>{{ copy.callToAction }}</h2>
