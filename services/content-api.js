@@ -1,5 +1,6 @@
 'use strict';
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
+const { isArray } = require('lodash');
 const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);
@@ -126,7 +127,10 @@ function getBlogPosts({ locale, page = 1, pageLimit = 10 }) {
 }
 
 function getBlogDetail({ locale, urlPath }) {
-    return fetch(`/v1/${locale}/blog${urlPath}`);
+    return fetch(`/v1/${locale}/blog${urlPath}`).then(response => {
+        const result = isArray(response.data) ? mapAttrs(response) : response.data.attributes;
+        return [response, result];
+    });
 }
 
 function getFundingProgrammes({ locale }) {

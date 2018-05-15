@@ -100,6 +100,38 @@ async function injectListingContent(req, res, next) {
     }
 }
 
+async function injectBlogPosts(req, res, next) {
+    try {
+        const result = await contentApi.getBlogPosts({
+            locale: req.i18n.getLocale(),
+            page: req.query.page || 1
+        });
+
+        res.locals.blogPosts = result;
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectBlogDetail(req, res, next) {
+    try {
+        const [response, result] = await contentApi.getBlogDetail({
+            locale: req.i18n.getLocale(),
+            urlPath: req.path
+        });
+
+        console.log(result);
+        res.locals.blogDetail = {
+            meta: response.meta,
+            result: result
+        };
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 function injectProfiles(section) {
     return async function(req, res, next) {
         try {
@@ -118,6 +150,8 @@ function injectProfiles(section) {
 }
 
 module.exports = {
+    injectBlogDetail,
+    injectBlogPosts,
     injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
