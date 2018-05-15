@@ -1,55 +1,71 @@
 {
-    "aws": {
-      "region": "eu-west-1"
-    },
-    "siteDomain": "www.biglotteryfund.org.uk",
-    "meta": {
-        "title": "The Big Lottery Fund",
-        "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
-        "themeColour": "#ec008c"
-    },
-    "dateFormats": {
-      "short": "D MMMM, YYYY",
-      "full": "dddd D MMMM YYYY",
-      "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
-    },
-    "i18n": {
-        "urlPrefix": {
-            "cy": "/welsh"
+  "aws": {
+    "region": "eu-west-1",
+    "cloudfrontDistributions": {
+      "test": {
+        "distributionId": "E3D5QJTWAG3GDP",
+        "origins": {
+          "legacy": "LEGACY",
+          "newSite": "ELB-TEST"
         }
-    },
-    "features": {
-      "enableAbTests": true,
-      "useHotjar": true,
-      "useRemoteAssets": true
-    },
-    "imgix": {
-      "mediaDomain": "biglotteryfund-assets.imgix.net"
-    },
-    "cookies": {
-        "contrast": "contrastMode",
-        "session": "blf-alpha-session"
-    },
-    "anchors": {
-        "contactPress": "press",
-        "contactComplaints": "complaints",
-        "contactFraud": "fraud"
-    },
-    "googleAnalyticsCode": "UA-98908627-1",
-    "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
-    "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-    "social": {
-        "instagram": "https://www.instagram.com/big_lottery_fund",
-        "twitterAccounts": {
-            "en": "BigLotteryFund",
-            "cy": "LoteriFawrCymru"
-        },
-        "facebookAccounts": {
-           "en": "http://www.facebook.com/BigLotteryFund",
-           "cy": "https://www.facebook.com/biglotteryfundwales"
+      },
+      "live": {
+        "distributionId": "E2WYWBLMWIN5U1",
+        "origins": {
+          "legacy": "LEGACY",
+          "newSite": "ELB_LIVE"
         }
+      }
+    }
+  },
+  "siteDomain": "www.biglotteryfund.org.uk",
+  "meta": {
+    "title": "The Big Lottery Fund",
+    "description": "The Big Lottery Fund gives grants to organisations in the UK to help improve their communities. The money awarded comes from the UK National Lottery.",
+    "themeColour": "#ec008c"
+  },
+  "dateFormats": {
+    "short": "D MMMM, YYYY",
+    "full": "dddd D MMMM YYYY",
+    "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
+  },
+  "i18n": {
+    "urlPrefix": {
+      "cy": "/welsh"
+    }
+  },
+  "features": {
+    "enableAbTests": true,
+    "useHotjar": true,
+    "useRemoteAssets": true
+  },
+  "imgix": {
+    "mediaDomain": "biglotteryfund-assets.imgix.net"
+  },
+  "cookies": {
+    "contrast": "contrastMode",
+    "session": "blf-alpha-session"
+  },
+  "anchors": {
+    "contactPress": "press",
+    "contactComplaints": "complaints",
+    "contactFraud": "fraud"
+  },
+  "googleAnalyticsCode": "UA-98908627-1",
+  "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
+  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
+  "social": {
+    "instagram": "https://www.instagram.com/big_lottery_fund",
+    "twitterAccounts": {
+      "en": "BigLotteryFund",
+      "cy": "LoteriFawrCymru"
     },
-    "database": "website-dev",
-    "database-test": "website-test",
-    "emailSender": "noreply@biglotteryfund.org.uk"
+    "facebookAccounts": {
+      "en": "http://www.facebook.com/BigLotteryFund",
+      "cy": "https://www.facebook.com/biglotteryfundwales"
+    }
+  },
+  "database": "website-dev",
+  "database-test": "website-test",
+  "emailSender": "noreply@biglotteryfund.org.uk"
 }
