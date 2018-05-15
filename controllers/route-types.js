@@ -81,7 +81,7 @@ function staticRoute(props) {
  * Route type where session is required
  */
 function sessionRoute(props) {
-    const sessionDefaults = { cookies: [config.get('cookies.session')] };
+    const sessionDefaults = { isPostable: true, cookies: [config.get('cookies.session')] };
     return { ...defaults, ...sessionDefaults, ...props };
 }
 
@@ -111,39 +111,6 @@ function archived(path) {
     return dynamicRoute({ path });
 }
 
-function alias(to, from, isLive = true) {
-    return dynamicRoute({
-        path: from,
-        destination: to,
-        live: isLive
-    });
-}
-
-/**
- * Alias for
- * Redirect helper accepting `to` and `from`
- * Allows aliases to be defined using a concise syntax
- */
-function aliasFor(to, from, isLive = true) {
-    if (isArray(from)) {
-        return from.map(fromPath => alias(to, fromPath, isLive));
-    } else {
-        return alias(to, from, isLive);
-    }
-}
-
-/**
- * Programme Migration
- * Handle redirects from /global-content/programmes to /funding/programmes
- */
-function programmeRedirect(from, to, isLive = true) {
-    return dynamicRoute({
-        path: `/global-content/programmes/${from}`,
-        destination: `/funding/programmes/${to}`,
-        live: isLive
-    });
-}
-
 module.exports = {
     createSection,
     staticRoute,
@@ -151,7 +118,5 @@ module.exports = {
     sessionRoute,
     cmsRoute,
     legacyRoute,
-    archived,
-    aliasFor,
-    programmeRedirect
+    archived
 };

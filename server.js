@@ -202,7 +202,7 @@ routes.archivedRoutes.filter(shouldServe).forEach(route => {
  * For these URLs handle both english and welsh variants
  */
 serveRedirects({
-    redirects: routes.legacyRedirects.filter(shouldServe),
+    redirects: routes.legacyRedirects,
     makeBilingual: true
 });
 
@@ -211,7 +211,7 @@ serveRedirects({
  * Sharable short-urls redirected to canonical URLs.
  */
 serveRedirects({
-    redirects: routes.vanityRedirects.filter(shouldServe)
+    redirects: routes.vanityRedirects
 });
 
 /**
@@ -264,8 +264,7 @@ forEach(routes.sections, (section, sectionId) => {
      */
     router = routeCommon.init({
         router: router,
-        pages: section.pages,
-        sectionPath: section.path
+        pages: section.pages
     });
 
     /**

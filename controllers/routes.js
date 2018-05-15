@@ -45,8 +45,7 @@ sections.toplevel.addRoutes({
         path: '/',
         template: 'pages/toplevel/home',
         lang: 'toplevel.home',
-        isPostable: true,
-        aliases: ['/home', '/index.html', '/en-gb', '/england', '/scotland', '/uk-wide']
+        isPostable: true
     }),
     northernIreland: staticRoute({
         path: '/northern-ireland',
@@ -54,7 +53,6 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/region',
         lang: 'toplevel.northernIreland',
         isBilingual: false,
-        aliases: ['/northernireland'],
         heroSlug: 'down-right-brilliant'
     }),
     wales: staticRoute({
@@ -67,15 +65,7 @@ sections.toplevel.addRoutes({
     contact: staticRoute({
         path: '/contact',
         template: 'pages/toplevel/contact',
-        lang: 'toplevel.contact',
-        aliases: [
-            '/about-big/contact-us',
-            '/help-and-support',
-            '/england/about-big/contact-us',
-            '/wales/about-big/contact-us',
-            '/scotland/about-big/contact-us',
-            '/northernireland/about-big/contact-us'
-        ]
+        lang: 'toplevel.contact'
     }),
     data: dynamicRoute({
         path: '/data',
@@ -83,24 +73,10 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.data'
     }),
     jobs: cmsRoute({
-        path: '/jobs',
-        aliases: [
-            '/about-big/jobs',
-            '/about-big/jobs/how-to-apply',
-            '/about-big/jobs/current-vacancies',
-            '/scotland/about-big/jobs/current-vacancies',
-            '/wales/about-big/jobs/current-vacancies',
-            '/england/about-big/jobs/current-vacancies',
-            '/northernireland/about-big/jobs/current-vacancies',
-            '/england/about-big/jobs',
-            '/scotland/about-big/jobs',
-            '/wales/about-big/jobs',
-            '/northernireland/about-big/jobs'
-        ]
+        path: '/jobs'
     }),
     benefits: cmsRoute({
-        path: '/jobs/benefits',
-        aliases: ['/about-big/jobs/benefits']
+        path: '/jobs/benefits'
     }),
     search: dynamicRoute({
         path: '/search',
@@ -118,7 +94,6 @@ sections.funding.addRoutes({
         sMaxAge: '30m',
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
-        aliases: ['/home/funding'],
         heroSlug: 'active-plus-communities'
     }),
     under10k: dynamicRoute({
@@ -158,16 +133,10 @@ sections.funding.addRoutes({
         }
     }),
     buildingBetterOpportunities: cmsRoute({
-        path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
-        aliases: [
-            '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding'
-        ]
+        path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'
     }),
     buildingBetterOpportunitiesResources: cmsRoute({
-        path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
-        aliases: [
-            '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources'
-        ]
+        path: '/programmes/building-better-opportunities/building-better-opportunities-resources'
     }),
     fundingGuidanceLogos: cmsRoute({
         path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
@@ -211,14 +180,7 @@ sections.about.addRoutes({
         template: 'pages/toplevel/about',
         lang: 'about.landing',
         heroSlug: 'mental-health-foundation',
-        sMaxAge: '30m',
-        aliases: [
-            '/about-big',
-            '/england/about-big',
-            '/wales/about-big',
-            '/scotland/about-big',
-            '/northernireland/about-big'
-        ]
+        sMaxAge: '30m'
     }),
     seniorManagement: dynamicRoute({
         path: '/our-people/senior-management-team',
@@ -234,42 +196,33 @@ sections.about.addRoutes({
         live: false
     }),
     freedomOfInformation: cmsRoute({
-        path: '/customer-service/freedom-of-information',
-        aliases: ['/about-big/customer-service/freedom-of-information', '/freedom-of-information']
+        path: '/customer-service/freedom-of-information'
     }),
     dataProtection: cmsRoute({
-        path: '/customer-service/data-protection',
-        aliases: ['/about-big/customer-service/data-protection', '/data-protection']
+        path: '/customer-service/data-protection'
     }),
     privacyPolicy: cmsRoute({
-        path: '/customer-service/privacy-policy',
-        aliases: ['/about-big/customer-service/privacy-policy']
+        path: '/customer-service/privacy-policy'
     }),
     termsOfUse: cmsRoute({
-        path: '/customer-service/terms-of-use',
-        aliases: ['/about-big/customer-service/terms-of-use']
+        path: '/customer-service/terms-of-use'
     }),
     cookies: cmsRoute({
-        path: '/customer-service/cookies',
-        aliases: ['/about-big/customer-service/cookies']
+        path: '/customer-service/cookies'
     }),
     customerFeedback: cmsRoute({
-        path: '/customer-service/customer-feedback',
-        aliases: ['/about-big/customer-service/customer-feedback']
+        path: '/customer-service/customer-feedback'
     }),
     bogusLotteryEmails: cmsRoute({
-        path: '/customer-service/bogus-lottery-emails',
-        aliases: ['/about-big/customer-service/bogus-lottery-emails']
+        path: '/customer-service/bogus-lottery-emails'
     }),
     welshLanguageScheme: cmsRoute({
-        path: '/customer-service/welsh-language-scheme',
-        aliases: ['/about-big/customer-service/welsh-language-scheme']
+        path: '/customer-service/welsh-language-scheme'
     }),
     ebulletin: dynamicRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
-        isPostable: true,
-        aliases: ['/about-big/ebulletin-subscription', '/about-big/ebulletin', '/ebulletin']
+        isPostable: true
     }),
     content: cmsRoute({
         path: '/*'
@@ -321,44 +274,16 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    dynamicRoute({
-        path: '/robots.txt'
-    }),
-    dynamicRoute({
-        path: '/assets/*'
-    }),
-    dynamicRoute({
-        path: '/error'
-    }),
-    dynamicRoute({
-        path: '/styleguide'
-    }),
-    sessionRoute({
-        path: '/tools/*',
-        isPostable: true
-    }),
-    dynamicRoute({
-        path: '/contrast/*',
-        queryStrings: ['url']
-    }),
-    dynamicRoute({
-        path: '/surveys',
-        queryStrings: ['path'],
-        live: true
-    }),
-    dynamicRoute({
-        path: '/survey/*',
-        isPostable: true
-    }),
-    sessionRoute({
-        path: '/user/*',
-        isPostable: true,
-        queryStrings: ['token']
-    }),
-    legacyRoute({
-        path: '*~/link.aspx',
-        live: true
-    })
+    dynamicRoute({ path: '/robots.txt' }),
+    dynamicRoute({ path: '/assets/*' }),
+    dynamicRoute({ path: '/error' }),
+    dynamicRoute({ path: '/styleguide' }),
+    sessionRoute({ path: '/tools/*', isPostable: true }),
+    dynamicRoute({ path: '/contrast/*', queryStrings: ['url'] }),
+    dynamicRoute({ path: '/surveys', queryStrings: ['path'] }),
+    dynamicRoute({ path: '/survey/*', isPostable: true }),
+    sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
+    legacyRoute({ path: '*~/link.aspx' })
 ];
 
 module.exports = {

@@ -1,6 +1,5 @@
 'use strict';
-const { flatten, map } = require('lodash');
-const { archived, aliasFor, programmeRedirect } = require('./route-types');
+const { archived } = require('./route-types');
 
 /**
  * Archived Routes
@@ -14,131 +13,144 @@ const archivedRoutes = [
 /**
  * Legacy Redirects
  */
-const legacyRedirects = flatten([
-    aliasFor('/funding-guidance/help-using-our-application-forms', [
-        '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms'
-    ]),
-    aliasFor('/funding/funding-guidance/information-checks', [
-        '/informationchecks',
-        '/funding/funding-guidance/applying-for-funding/information-checks'
-    ]),
-    aliasFor('/about/strategic-framework', '/about-big/strategic-framework'),
-    aliasFor('/funding', [
-        '/funding-uk',
-        '/funding/funding-guidance',
-        '/funding/funding-guidance/applying-for-funding'
-    ]),
-    aliasFor('/funding/programmes', '/Home/Funding/Funding*Finder'),
-    aliasFor('/funding/programmes?location=scotland', '/funding/scotland-portfolio'),
-    aliasFor(
-        '/funding/programmes/national-lottery-awards-for-all-england',
-        '/england/global-content/programmes/england/awards-for-all-england'
-    ),
-    aliasFor(
-        '/funding/programmes/reaching-communities-england',
-        '/england/global-content/programmes/england/reaching-communities-england'
-    ),
-
-    aliasFor('/about/customer-service/accessibility', '/about-big/our-approach/accessibility'),
-
-    // Manage your funding
-    aliasFor('/funding/funding-guidance/managing-your-funding', [
-        '/funding/funding-guidance/managing-your-funding/help-with-publicity',
-        '/welcome',
-        '/publicity'
-    ]),
-
-    // Logos
-    aliasFor('/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos', [
-        '/funding/funding-guidance/managing-your-funding/logodownloads',
-        '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads',
-        '/logos'
-    ]),
-
-    // Free materials
-    aliasFor('/funding/funding-guidance/managing-your-funding/ordering-free-materials', [
-        '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales',
-        '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-        '/yourgrant'
-    ]),
-
-    // Migrated Programme Pages [LIVE]
-    programmeRedirect('england/awards-for-all-england', 'national-lottery-awards-for-all-england'),
-    programmeRedirect('england/building-better-opportunities', 'building-better-opportunities'),
-    programmeRedirect('england/place-based-social-action', 'place-based-social-action'),
-    programmeRedirect('england/reaching-communities-england', 'reaching-communities-england'),
-    programmeRedirect('northern-ireland/awards-for-all-northern-ireland', 'awards-for-all-northern-ireland'),
-    programmeRedirect('northern-ireland/empowering-young-people', 'empowering-young-people'),
-    programmeRedirect('northern-ireland/people-and-communities', 'people-and-communities'),
-    programmeRedirect('scotland/awards-for-all-scotland', 'national-lottery-awards-for-all-scotland'),
-    programmeRedirect('scotland/community-assets', 'community-assets'),
-    programmeRedirect('scotland/grants-for-community-led-activity', 'grants-for-community-led-activity'),
-    programmeRedirect('scotland/grants-for-improving-lives', 'grants-for-improving-lives'),
-    programmeRedirect('scotland/scottish-land-fund', 'scottish-land-fund'),
-    programmeRedirect('uk-wide/coastal-communities', 'coastal-communities-fund'),
-    programmeRedirect('uk-wide/lottery-funding', 'other-lottery-funders'),
-    programmeRedirect('uk-wide/uk-portfolio', 'awards-from-the-uk-portfolio'),
-    programmeRedirect('wales/awards-for-all-wales', 'national-lottery-awards-for-all-wales'),
-    programmeRedirect('wales/helping-working-families', 'helping-working-families'),
-    programmeRedirect('wales/people-and-places-large-grants', 'people-and-places-large-grants'),
-    programmeRedirect('wales/people-and-places-medium-grants', 'people-and-places-medium-grants'),
-
-    // Migrated Programme Pages [DRAFT]
-    programmeRedirect('scotland/our-place', 'our-place', false),
-    programmeRedirect('uk-wide/forces-in-mind', 'forces-in-mind', false)
-]);
+// prettier-ignore
+const legacyRedirects = {
+    '/a4a': '/funding/under10k',
+    '/A4A': '/funding/under10k',
+    '/about-big': '/about',
+    '/about-big/contact-us': '/about',
+    '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
+    '/about-big/customer-service/cookies': '/about/customer-service/cookies',
+    '/about-big/customer-service/customer-feedback': '/about/customer-service/customer-feedback',
+    '/about-big/customer-service/data-protection': '/about/customer-service/data-protection',
+    '/about-big/customer-service/fraud': '/contact#fraud',
+    '/about-big/customer-service/freedom-of-information': '/about/customer-service/freedom-of-information',
+    '/about-big/customer-service/making-a-complaint': '/contact#complaints',
+    '/about-big/customer-service/privacy-policy': '/about/customer-service/privacy-policy',
+    '/about-big/customer-service/terms-of-use': '/about/customer-service/terms-of-use',
+    '/about-big/customer-service/welsh-language-scheme': '/about/customer-service/welsh-language-scheme',
+    '/about-big/ebulletin-subscription': '/about/ebulletin',
+    '/about-big/ebulletin': '/about/ebulletin',
+    '/about-big/jobs': '/jobs',
+    '/about-big/jobs/benefits': '/jobs/benefits',
+    '/about-big/jobs/current-vacancies': '/jobs',
+    '/about-big/jobs/how-to-apply': '/jobs',
+    '/about-big/our-approach/accessibility': '/about/customer-service/accessibility',
+    '/about-big/strategic-framework': '/about/strategic-framework',
+    '/awardsforall': '/funding/under10k',
+    '/data-protection': '/about/customer-service/data-protection',
+    '/ebulletin': '/about/ebulletin',
+    '/en-gb': '/',
+    '/england': '/',
+    '/england/about-big': '/about',
+    '/england/about-big/contact-us': '/about',
+    '/england/about-big/customer-service/making-a-complaint': '/contact#complaints',
+    '/england/about-big/jobs': '/jobs',
+    '/england/about-big/jobs/current-vacancies': '/jobs',
+    '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/england/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
+    '/england/global-content/programmes/england/reaching-communities-england': '/funding/programmes/reaching-communities-england',
+    '/england/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/england/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
+    '/freedom-of-information': '/about/customer-service/freedom-of-information',
+    '/funded-projects': '/funding/past-grants',
+    '/funding-uk': '/funding',
+    '/funding/Awards-For-All': '/funding/under10k',
+    '/funding/awards-for-all': '/funding/under10k',
+    '/funding/funding-guidance': '/funding',
+    '/funding/funding-guidance/applying-for-funding': '/funding',
+    '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms': '/funding-guidance/help-using-our-application-forms',
+    '/funding/funding-guidance/applying-for-funding/information-checks': '/funding/funding-guidance/information-checks',
+    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/help-with-publicity': '/funding/funding-guidance/managing-your-funding',
+    '/funding/funding-guidance/managing-your-funding/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
+    '/funding/scotland-portfolio': '/funding/programmes?location=scotland',
+    '/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
+    '/global-content/programmes/england/building-better-opportunities': '/funding/programmes/building-better-opportunities',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources': '/funding/programmes/building-better-opportunities/building-better-opportunities-resources',
+    '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding': '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
+    '/global-content/programmes/england/place-based-social-action': '/funding/programmes/place-based-social-action',
+    '/global-content/programmes/england/reaching-communities-england': '/funding/programmes/reaching-communities-england',
+    '/global-content/programmes/northern-ireland/awards-for-all-northern-ireland': '/funding/programmes/awards-for-all-northern-ireland',
+    '/global-content/programmes/northern-ireland/empowering-young-people': '/funding/programmes/empowering-young-people',
+    '/global-content/programmes/northern-ireland/people-and-communities': '/funding/programmes/people-and-communities',
+    '/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/global-content/programmes/scotland/community-assets': '/funding/programmes/community-assets',
+    '/global-content/programmes/scotland/grants-for-community-led-activity': '/funding/programmes/grants-for-community-led-activity',
+    '/global-content/programmes/scotland/grants-for-improving-lives': '/funding/programmes/grants-for-improving-lives',
+    '/global-content/programmes/scotland/scottish-land-fund': '/funding/programmes/scottish-land-fund',
+    '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
+    '/global-content/programmes/uk-wide/lottery-funding': '/funding/programmes/other-lottery-funders',
+    '/global-content/programmes/uk-wide/uk-portfolio': '/funding/programmes/awards-from-the-uk-portfolio',
+    '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/global-content/programmes/wales/helping-working-families': '/funding/programmes/helping-working-families',
+    '/global-content/programmes/wales/people-and-places-large-grants': '/funding/programmes/people-and-places-large-grants',
+    '/global-content/programmes/wales/people-and-places-medium-grants': '/funding/programmes/people-and-places-medium-grants',
+    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
+    '/guidancetrackingprogress': '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+    '/help-and-support': '/about',
+    '/home': '/',
+    '/home/funding': '/funding',
+    '/Home/Funding/Funding*Finder': '/funding/programmes',
+    '/index.html': '/',
+    '/logos': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/news-and-events/contact-press-team': '/contact#press',
+    '/northernireland/about-big': '/about',
+    '/northernireland/about-big/contact-us': '/about',
+    '/northernireland/about-big/jobs': '/jobs',
+    '/northernireland/about-big/jobs/current-vacancies': '/jobs',
+    '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/publicity': '/funding/funding-guidance/managing-your-funding',
+    '/scotland': '/',
+    '/scotland/about-big': '/about',
+    '/scotland/about-big/contact-us': '/about',
+    '/scotland/about-big/jobs': '/jobs',
+    '/scotland/about-big/jobs/current-vacancies': '/jobs',
+    '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/scotland/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/uk-wide': '/',
+    '/wales/about-big': '/about',
+    '/wales/about-big/contact-us': '/about',
+    '/wales/about-big/jobs': '/jobs',
+    '/wales/about-big/jobs/current-vacancies': '/jobs',
+    '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/wales/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/wales/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/welcome': '/funding/funding-guidance/managing-your-funding',
+    '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
+    '/welsh/about-big/customer-service/making-a-complaint': '/welsh/contact#complaints',
+    '/welsh/news-and-events/contact-press-team': '/welsh/contact#press',
+    '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+};
 
 /**
  * Vanity URLs
+ * @TODO: Move remaining items in here to the CMS
  */
 // prettier-ignore
-const vanityRedirects = map({
-    '/A4A': '/funding/under10k',
-    '/a4a': '/funding/under10k',
-    '/about-big/customer-service/fraud': '/contact#fraud',
-    '/about-big/customer-service/making-a-complaint': '/contact#complaints',
-    '/awardsforall': '/funding/under10k',
+const vanityRedirects = {
     '/ccf': '/funding/programmes/coastal-communities-fund',
     '/communityassets': 'funding/programmes/community-assets',
     '/communityled': '/funding/programmes/grants-for-community-led-activity',
     '/cyhoeddusrwydd': '/welsh/funding/funding-guidance/managing-your-funding',
     '/cymru': '/welsh/wales',
-    '/england/about-big/customer-service/making-a-complaint': '/contact#complaints',
-    '/england/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/england/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
-    '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
     '/esf': '/funding/programmes/building-better-opportunities',
-    '/funded-projects': '/funding/past-grants',
-    '/funding/Awards-For-All': '/funding/under10k',
-    '/funding/awards-for-all': '/funding/under10k',
-    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-    '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
-    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
-    '/guidancetrackingprogress': '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
     '/headstart': '/global-content/programmes/england/fulfilling-lives-headstart',
     '/improvinglives': '/funding/programmes/grants-for-improving-lives',
-    '/news-and-events/contact-press-team': '/contact#press',
+    '/informationchecks': '/funding/funding-guidance/information-checks',
+    '/northernireland': '/northern-ireland',
     '/over10k': '/funding/over10k',
     '/peopleandcommunities': '/funding/programmes/people-and-communities',
     '/prog_growing_community_assets': 'funding/programmes/community-assets',
     '/prog_people_places': '/funding/programmes?min=10000&location=wales',
-    '/scotland/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/scottishlandfund': 'funding/programmes/scottish-land-fund',
     '/slf': 'funding/programmes/scottish-land-fund',
     '/under10k': '/funding/under10k',
-    '/wales/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/wales/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
-    '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
-    '/welsh/about-big/customer-service/making-a-complaint': '/welsh/contact#complaints',
-    '/welsh/news-and-events/contact-press-team': '/welsh/contact#press'
-}, (to, from) => ({
-    path: from,
-    destination: to,
-    live: true
-}));
+};
 
 module.exports = {
     archivedRoutes,

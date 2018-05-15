@@ -1,16 +1,17 @@
 'use strict';
+const { forEach } = require('lodash');
 const app = require('../server');
 const { makeWelsh } = require('../modules/urls');
 
 function serveRedirects({ redirects, makeBilingual = false }) {
-    redirects.forEach(redirect => {
-        app.get(redirect.path, (req, res) => {
-            res.redirect(301, redirect.destination);
+    forEach(redirects, (to, from) => {
+        app.get(from, (req, res) => {
+            res.redirect(301, to);
         });
 
         if (makeBilingual) {
-            app.get(makeWelsh(redirect.path), (req, res) => {
-                res.redirect(301, makeWelsh(redirect.destination));
+            app.get(makeWelsh(from), (req, res) => {
+                res.redirect(301, makeWelsh(to));
             });
         }
     });
