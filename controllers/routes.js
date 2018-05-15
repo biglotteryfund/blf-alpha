@@ -216,10 +216,10 @@ sections.research.addRoutes({
 sections.about.addRoutes({
     root: staticRoute({
         path: '/',
-        sMaxAge: '30m',
         template: 'pages/toplevel/about',
         lang: 'about.landing',
         heroSlug: 'mental-health-foundation',
+        sMaxAge: '30m',
         aliases: [
             '/about-big',
             '/england/about-big',
@@ -230,14 +230,15 @@ sections.about.addRoutes({
     }),
     seniorManagement: dynamicRoute({
         path: '/our-people/senior-management-team',
-        sMaxAge: '30m',
         template: 'pages/about/senior-management-team',
+        lang: 'about.ourPeople.seniorManagement',
+        heroSlug: 'mental-health-foundation',
         live: false
     }),
     board: dynamicRoute({
         path: '/our-people/board',
-        sMaxAge: '30m',
         template: 'pages/about/board',
+        lang: 'about.ourPeople.board',
         live: false
     }),
     freedomOfInformation: cmsRoute({

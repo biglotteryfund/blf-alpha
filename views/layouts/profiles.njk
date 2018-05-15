@@ -4,13 +4,8 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ title }} | {% endblock %}
-
-{% set pageAccent = 'pink' %}
-{% set heroImage = heroImages.rathlinIslandDevelopment %}
-{% set socialImage = heroImage %}
-
 {% block content %}
+    {% set pageAccent = 'pink' %}
     {{ hero(
         titleText = title,
         image = heroImage,
@@ -30,6 +25,7 @@
                 {% block extraPrimaryContent %}{% endblock %}
             </div>
             <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+                {% set navigation = __('about.ourPeople.navigation') %}
                 <aside class="content-box">
                     {{ nestedMenu(navigation, getCurrentUrl()) }}
                 </aside>

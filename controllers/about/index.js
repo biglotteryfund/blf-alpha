@@ -1,8 +1,6 @@
 'use strict';
 const ebulletinRoute = require('./ebulletin');
-const seniorManagementRoute = require('./seniorManagement');
-const boardRoute = require('./boardRoute');
-const { shouldServe } = require('../../modules/pageLogic');
+const profilesRoutes = require('./profiles');
 
 module.exports = ({ router, pages }) => {
     ebulletinRoute.init({
@@ -10,19 +8,10 @@ module.exports = ({ router, pages }) => {
         routeConfig: pages.ebulletin
     });
 
-    if (shouldServe(pages.seniorManagement)) {
-        seniorManagementRoute.init({
-            router: router,
-            routeConfig: pages.seniorManagement
-        });
-    }
-
-    if (shouldServe(pages.board)) {
-        boardRoute.init({
-            router: router,
-            routeConfig: pages.board
-        });
-    }
+    profilesRoutes.init({
+        router: router,
+        routeConfigs: pages
+    });
 
     return router;
 };

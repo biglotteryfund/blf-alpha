@@ -100,9 +100,27 @@ async function injectListingContent(req, res, next) {
     }
 }
 
+function injectProfiles(section) {
+    return async function(req, res, next) {
+        try {
+            const profiles = await contentApi.getProfiles({
+                locale: req.i18n.getLocale(),
+                section: section
+            });
+
+            res.locals.profiles = profiles;
+            next();
+        } catch (error) {
+            Raven.captureException(error);
+            next();
+        }
+    };
+}
+
 module.exports = {
-    injectHeroImage,
-    injectCopy,
     injectBreadcrumbs,
-    injectListingContent
+    injectCopy,
+    injectHeroImage,
+    injectListingContent,
+    injectProfiles
 };
