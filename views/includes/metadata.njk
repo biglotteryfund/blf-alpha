@@ -1,16 +1,17 @@
 {% set metaTitle = getMetaTitle(__("global.brand.title"), title) %}
+{% set metaDescription =  description | default(metadata.description, true) %}
 <!-- deploy {{ appData.deployId }} (build #{{ appData.buildNumber }}) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 
 <meta name="title" content="{{ metaTitle }}">
-<meta name="description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
+<meta name="description" content="{{ metaDescription }}">
 
 {# Open Graph data #}
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ metaTitle }}">
-<meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
+<meta property="og:description" content="{{ metaDescription }}">
 <meta property="og:url" content="{{ getCurrentUrl() }}">
 
 <meta name="twitter:card" content="summary" />
@@ -31,8 +32,10 @@
 {# tiles/themes #}
 <meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">
 <meta name="application-name" content="{{ metadata.title }}">
-<meta name="msapplication-TileColor" content="{{ metadata.themeColour }}">
-<meta name="theme-color" content="{{ metadata.themeColour }}">
+
+{% set metaThemeColour = "#ec008c"  %}
+<meta name="msapplication-TileColor" content="{{ metaThemeColour }}">
+<meta name="theme-color" content="{{ metaThemeColour }}">
 
 {# favicons #}
 <link rel="apple-touch-icon" sizes="57x57" href="{{ 'favicon/apple-icon-57x57.png' | getImagePath }}">

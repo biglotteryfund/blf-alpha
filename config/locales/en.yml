@@ -2,6 +2,8 @@
 global:
   brand:
     title: Big Lottery Fund
+    description: The Big Lottery Fund gives grants to organisations in the UK to help
+      improve their communities. The money awarded comes from the UK National Lottery.
   regions:
     england: England
     wales: Wales
@@ -93,8 +95,6 @@ global:
 toplevel:
   home:
     title: Home
-    description: The Big Lottery Fund gives grants to organisations in the UK to help
-      improve their communities. The money awarded comes from the UK National Lottery.
     hero:
       intro: The Big Lottery Fund distributes <a href="/data">over £600m</a> a year
         to communities across the UK, raised by players of <a href="https://www.national-lottery.co.uk/">The National

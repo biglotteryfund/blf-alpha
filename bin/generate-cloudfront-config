@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 'use strict';
+const { forEach } = require('lodash');
+const config = require('config');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-const { forEach } = require('lodash');
-
-const routes = require('../controllers/routes');
-const cloudfrontDistributions = require('../config/app/distributions');
-const { generateBehaviours } = require('../modules/cloudfront');
-
 const writeFile = util.promisify(fs.writeFile);
+
+const { generateBehaviours } = require('../modules/cloudfront');
+const routes = require('../controllers/routes');
+
+const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 
 /**
  * For each CloudFront distribution generate a config and store it

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 'use strict';
+const { cloneDeep, filter, find, has, groupBy } = require('lodash');
+const AWS = require('aws-sdk');
+const config = require('config');
 const fs = require('fs');
+const moment = require('moment');
 const path = require('path');
 const prompt = require('prompt');
-const AWS = require('aws-sdk');
-const moment = require('moment');
 const rp = require('request-promise-native');
-const { cloneDeep, filter, find, has, groupBy } = require('lodash');
 
 require('dotenv').config();
 
-const CF_CONFIGS = require('../config/app/distributions');
+const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 
 const argv = require('yargs')
     .boolean('l')
@@ -149,7 +150,7 @@ function beginUpdate(savedConfig) {
     const cloudfront = new AWS.CloudFront();
 
     // decide which config to use (pass --live to this script to use live)
-    const cloudfrontDistribution = IS_LIVE ? CF_CONFIGS.live : CF_CONFIGS.test;
+    const cloudfrontDistribution = IS_LIVE ? cloudfrontDistributions.live : cloudfrontDistributions.test;
 
     // get existing cloudfront config
     const getDistributionConfig = cloudfront
