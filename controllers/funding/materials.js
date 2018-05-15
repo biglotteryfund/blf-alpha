@@ -10,12 +10,7 @@ const Raven = require('raven');
 const { FORM_STATES } = require('../../modules/forms');
 const { injectListingContent } = require('../../middleware/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const {
-    materialFields,
-    makeOrderText,
-    postcodeArea,
-    injectMerchandise
-} = require('./materials-helpers');
+const { materialFields, makeOrderText, postcodeArea, injectMerchandise } = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
@@ -221,6 +216,7 @@ function initForm({ router, routeConfig }) {
                                 subject: 'Thank you for your Big Lottery Fund order',
                                 templateName: 'emails/newMaterialOrder',
                                 templateData: {
+                                    // @TODO work out why string-rendered templates don't inherit globals
                                     locale: req.i18n.getLocale()
                                 }
                             }
