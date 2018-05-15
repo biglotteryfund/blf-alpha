@@ -24,7 +24,7 @@ fi
 /var/www/biglotteryfund/bin/get-secrets --environment=$APP_ENV
 
 # specify NODE_ENV based on deploy group ID
-nginx_config=/var/www/biglotteryfund/config/app/server.conf
+nginx_config=/var/www/biglotteryfund/deploy/server.conf
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $nginx_config
 
 # configure nginx
