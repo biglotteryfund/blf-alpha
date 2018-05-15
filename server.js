@@ -32,11 +32,11 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 const viewGlobalsService = require('./modules/viewGlobals');
 
+const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
 const { injectHeroImage } = require('./middleware/inject-content');
 const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
-const cachedMiddleware = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
@@ -172,7 +172,7 @@ app.use(timings.start('global-middleware'));
  */
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
-app.use(cachedMiddleware.defaults);
+app.use(cachedMiddleware);
 app.use(loggerMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
@@ -246,7 +246,7 @@ forEach(routes.sections, (section, sectionId) => {
          * Note: must use `router.get` here because `router.use` matches
          * against URLs which *start with* the path given which is too broad.
          */
-        router.get(page.path, injectHeroImage(page), (req, res, next) => {
+        router.get(page.path, sMaxAge(page.sMaxAge), injectHeroImage(page), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });
