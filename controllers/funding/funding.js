@@ -1,41 +1,29 @@
 'use strict';
 const { find, get } = require('lodash');
-const contentApi = require('../../services/content-api');
+const { injectCopy, injectFundingProgrammes } = require('../../middleware/inject-content');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, (req, res) => {
-        const lang = req.i18n.__(routeConfig.lang);
+    router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res) => {
+        const { copy, fundingProgrammes } = res.locals;
 
         /**
          * "Latest" programmes
          * Hardcoded for now but we may want to fetch these dynamically.
          */
         function getLatestProgrammes(programmes) {
-            const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
-            const programmeSlugs = get(lang, 'recentProgrammes', []);
-            const latestProgrammes = programmeSlugs.map(findBySlug);
-            return latestProgrammes;
+            if (programmes) {
+                const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
+                const programmeSlugs = get(copy, 'recentProgrammes', []);
+                const latestProgrammes = programmeSlugs.map(findBySlug);
+                return latestProgrammes;
+            } else {
+                return [];
+            }
         }
 
-        function renderLandingPage(programmes) {
-            res.render(routeConfig.template, {
-                copy: lang,
-                title: lang.title,
-                latestProgrammes: programmes || []
-            });
-        }
-
-        contentApi
-            .getFundingProgrammes({
-                locale: req.i18n.getLocale()
-            })
-            .then(programmes => {
-                const latestProgrammes = getLatestProgrammes(programmes);
-                renderLandingPage(latestProgrammes);
-            })
-            .catch(() => {
-                renderLandingPage();
-            });
+        res.render(routeConfig.template, {
+            latestProgrammes: getLatestProgrammes(fundingProgrammes)
+        });
     });
 }
 
