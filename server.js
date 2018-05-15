@@ -25,7 +25,6 @@ const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { serveRedirects } = require('./modules/redirects');
 const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
@@ -197,21 +196,12 @@ routes.archivedRoutes.filter(shouldServe).forEach(route => {
 });
 
 /**
- * Legacy Redirects
- * Redirecy legacy URLs to new locations
- * For these URLs handle both english and welsh variants
+ * Serve Redirects
  */
-serveRedirects({
-    redirects: routes.legacyRedirects,
-    makeBilingual: true
-});
-
-/**
- * Vanity URLs
- * Sharable short-urls redirected to canonical URLs.
- */
-serveRedirects({
-    redirects: routes.vanityRedirects
+routes.redirects.forEach(redirect => {
+    app.get(redirect.from, (req, res) => {
+        res.redirect(301, redirect.to);
+    });
 });
 
 /**

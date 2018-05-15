@@ -1,5 +1,10 @@
 'use strict';
+const config = require('config');
+const { concat, flatMap, map } = require('lodash');
 const { archived } = require('./route-types');
+
+// @TODO: Cannot be imported from modules/urls until buildUrl is removed due to recursive imports
+const makeWelsh = urlPath => `${config.get('i18n.urlPrefix.cy')}${urlPath}`;
 
 /**
  * Archived Routes
@@ -14,7 +19,7 @@ const archivedRoutes = [
  * Legacy Redirects
  */
 // prettier-ignore
-const legacyRedirects = {
+const legacyRedirects = flatMap({
     '/a4a': '/funding/under10k',
     '/A4A': '/funding/under10k',
     '/about-big': '/about',
@@ -42,16 +47,6 @@ const legacyRedirects = {
     '/ebulletin': '/about/ebulletin',
     '/en-gb': '/',
     '/england': '/',
-    '/england/about-big': '/about',
-    '/england/about-big/contact-us': '/about',
-    '/england/about-big/customer-service/making-a-complaint': '/contact#complaints',
-    '/england/about-big/jobs': '/jobs',
-    '/england/about-big/jobs/current-vacancies': '/jobs',
-    '/england/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-    '/england/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
-    '/england/global-content/programmes/england/reaching-communities-england': '/funding/programmes/reaching-communities-england',
-    '/england/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/england/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
     '/freedom-of-information': '/about/customer-service/freedom-of-information',
     '/funded-projects': '/funding/past-grants',
@@ -66,6 +61,7 @@ const legacyRedirects = {
     '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/help-with-publicity': '/funding/funding-guidance/managing-your-funding',
     '/funding/funding-guidance/managing-your-funding/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
     '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
     '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
     '/funding/scotland-portfolio': '/funding/programmes?location=scotland',
@@ -99,40 +95,29 @@ const legacyRedirects = {
     '/index.html': '/',
     '/logos': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/news-and-events/contact-press-team': '/contact#press',
-    '/northernireland/about-big': '/about',
-    '/northernireland/about-big/contact-us': '/about',
-    '/northernireland/about-big/jobs': '/jobs',
-    '/northernireland/about-big/jobs/current-vacancies': '/jobs',
-    '/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
     '/publicity': '/funding/funding-guidance/managing-your-funding',
     '/scotland': '/',
-    '/scotland/about-big': '/about',
-    '/scotland/about-big/contact-us': '/about',
-    '/scotland/about-big/jobs': '/jobs',
-    '/scotland/about-big/jobs/current-vacancies': '/jobs',
-    '/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-    '/scotland/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/uk-wide': '/',
-    '/wales/about-big': '/about',
-    '/wales/about-big/contact-us': '/about',
-    '/wales/about-big/jobs': '/jobs',
-    '/wales/about-big/jobs/current-vacancies': '/jobs',
-    '/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-    '/wales/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/wales/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/welcome': '/funding/funding-guidance/managing-your-funding',
     '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
     '/welsh/about-big/customer-service/making-a-complaint': '/welsh/contact#complaints',
     '/welsh/news-and-events/contact-press-team': '/welsh/contact#press',
     '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-};
+}, (to, from) => {
+    return flatMap(['', '/england', '/scotland', '/northern-ireland', '/wales'], oldRegionPrefix => {
+        const fromWithRegion = `${oldRegionPrefix}${from}`;
+        const enRedirect = { from: fromWithRegion, to: to };
+        const cyRedirect = { from: makeWelsh(fromWithRegion), to: makeWelsh(to) };
+        return [enRedirect, cyRedirect];
+    });
+});
 
 /**
  * Vanity URLs
  * @TODO: Move remaining items in here to the CMS
  */
 // prettier-ignore
-const vanityRedirects = {
+const vanityRedirects = map({
     '/ccf': '/funding/programmes/coastal-communities-fund',
     '/communityassets': 'funding/programmes/community-assets',
     '/communityled': '/funding/programmes/grants-for-community-led-activity',
@@ -150,10 +135,11 @@ const vanityRedirects = {
     '/scottishlandfund': 'funding/programmes/scottish-land-fund',
     '/slf': 'funding/programmes/scottish-land-fund',
     '/under10k': '/funding/under10k',
-};
+}, (to, from) => ({ to, from }));
+
+const redirects = concat(legacyRedirects, vanityRedirects);
 
 module.exports = {
     archivedRoutes,
-    legacyRedirects,
-    vanityRedirects
+    redirects
 };

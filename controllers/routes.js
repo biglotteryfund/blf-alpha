@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
+const { archivedRoutes, redirects } = require('./aliases');
 const { cmsRoute, createSection, dynamicRoute, legacyRoute, sessionRoute, staticRoute } = require('./route-types');
 
 const sections = {
@@ -287,10 +287,9 @@ const otherUrls = [
 ];
 
 module.exports = {
-    sections,
     archivedRoutes,
-    legacyRedirects,
     legacyProxiedRoutes,
-    vanityRedirects,
-    otherUrls
+    otherUrls,
+    redirects,
+    sections
 };
