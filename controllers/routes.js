@@ -2,15 +2,7 @@
 
 const path = require('path');
 const { archivedRoutes, legacyRedirects, vanityRedirects } = require('./aliases');
-const {
-    basicRoute,
-    cmsRoute,
-    createSection,
-    dynamicRoute,
-    legacyRoute,
-    sessionRoute,
-    staticRoute
-} = require('./route-types');
+const { cmsRoute, createSection, dynamicRoute, legacyRoute, sessionRoute, staticRoute } = require('./route-types');
 
 const sections = {
     toplevel: createSection({
@@ -329,32 +321,32 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    basicRoute({
+    dynamicRoute({
         path: '/robots.txt'
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/assets/*'
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/error'
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/styleguide'
     }),
     sessionRoute({
         path: '/tools/*',
         isPostable: true
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/contrast/*',
         queryStrings: ['url']
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/surveys',
         queryStrings: ['path'],
         live: true
     }),
-    basicRoute({
+    dynamicRoute({
         path: '/survey/*',
         isPostable: true
     }),
