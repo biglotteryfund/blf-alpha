@@ -11,7 +11,7 @@
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {{ accessibilityNav() }}
-        {{ previewBanner(preview) }}
+        {{ previewBanner(previewStatus) }}
 
         <div class="global-container">
             {% include "includes/header.njk" %}
