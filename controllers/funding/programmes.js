@@ -4,15 +4,14 @@ const ab = require('express-ab');
 const config = require('config');
 const moment = require('moment');
 const Raven = require('raven');
-const { assign, find, findIndex, get, last, map, uniq } = require('lodash');
+const { assign, find, findIndex, get, map, uniq } = require('lodash');
 
-const cached = require('../../middleware/cached');
-const { splitPercentages } = require('../../modules/ab');
 const { heroImages } = require('../../modules/images');
-const { addPreviewStatus } = require('../../modules/preview');
+const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
+const { noCache } = require('../../middleware/cached');
+const { splitPercentages } = require('../../modules/ab');
 const appData = require('../../modules/appData');
-const contentApi = require('../../services/content-api');
 
 const programmeFilters = {
     getValidLocation(programmes, requestedLocation) {
@@ -60,213 +59,174 @@ const programmeFilters = {
     }
 };
 
-function initProgrammesList(router, options) {
-    router.get(options.path, (req, res, next) => {
-        const lang = req.i18n.__(options.lang);
+function initProgrammesList({ router, routeConfig }) {
+    router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
+        const { fundingProgrammes } = res.locals;
+
+        if (!fundingProgrammes) {
+            next();
+        }
+
         const templateData = {
-            copy: lang,
-            title: lang.title,
             programmes: [],
             activeFacets: [],
             activeBreadcrumbs: []
         };
 
-        contentApi
-            .getFundingProgrammes({
-                locale: req.i18n.getLocale()
-            })
-            .then(programmes => {
-                const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
-                const minAmountParam = req.query.min;
-                const maxAmountParam = req.query.max;
+        const locationParam = programmeFilters.getValidLocation(fundingProgrammes, req.query.location);
+        const minAmountParam = req.query.min;
+        const maxAmountParam = req.query.max;
 
-                templateData.programmes = programmes
-                    .filter(programmeFilters.filterByLocation(locationParam))
-                    .filter(programmeFilters.filterByMinAmount(minAmountParam))
-                    .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
+        templateData.programmes = fundingProgrammes
+            .filter(programmeFilters.filterByLocation(locationParam))
+            .filter(programmeFilters.filterByMinAmount(minAmountParam))
+            .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
+
+        templateData.activeBreadcrumbs.push({
+            label: req.i18n.__('global.nav.funding'),
+            url: req.baseUrl
+        });
+
+        if (!minAmountParam && !maxAmountParam && !locationParam) {
+            templateData.activeBreadcrumbs.push({
+                label: req.i18n.__(routeConfig.lang + '.breadcrumbAll')
+            });
+        } else {
+            templateData.activeBreadcrumbs.push({
+                label: req.i18n.__(routeConfig.lang + '.title'),
+                url: req.baseUrl + req.path
+            });
+
+            if (parseInt(minAmountParam, 10) === 10000) {
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__(routeConfig.lang + '.over10k'),
+                    url: '/over10k'
+                });
+            }
+
+            if (parseInt(maxAmountParam, 10) === 10000) {
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__(routeConfig.lang + '.under10k'),
+                    url: '/under10k'
+                });
+            }
+
+            if (locationParam) {
+                const locationParamToTranslation = key => {
+                    const regions = {
+                        england: req.i18n.__('global.regions.england'),
+                        wales: req.i18n.__('global.regions.wales'),
+                        scotland: req.i18n.__('global.regions.scotland'),
+                        northernIreland: req.i18n.__('global.regions.northernIreland'),
+                        ukWide: req.i18n.__('global.regions.ukWide')
+                    };
+                    return regions[key];
+                };
 
                 templateData.activeBreadcrumbs.push({
-                    label: req.i18n.__('global.nav.funding'),
-                    url: req.baseUrl
+                    label: locationParamToTranslation(locationParam),
+                    count: templateData.programmes.length
                 });
+            }
+        }
 
-                if (!minAmountParam && !maxAmountParam && !locationParam) {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(options.lang + '.breadcrumbAll')
-                    });
-                } else {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(options.lang + '.title'),
-                        url: req.baseUrl + req.path
-                    });
+        templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
-                    if (parseInt(minAmountParam, 10) === 10000) {
-                        templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(options.lang + '.over10k'),
-                            url: '/over10k'
-                        });
-                    }
-
-                    if (parseInt(maxAmountParam, 10) === 10000) {
-                        templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(options.lang + '.under10k'),
-                            url: '/under10k'
-                        });
-                    }
-
-                    if (locationParam) {
-                        const locationParamToTranslation = key => {
-                            const regions = {
-                                england: req.i18n.__('global.regions.england'),
-                                wales: req.i18n.__('global.regions.wales'),
-                                scotland: req.i18n.__('global.regions.scotland'),
-                                northernIreland: req.i18n.__('global.regions.northernIreland'),
-                                ukWide: req.i18n.__('global.regions.ukWide')
-                            };
-                            return regions[key];
-                        };
-
-                        templateData.activeBreadcrumbs.push({
-                            label: locationParamToTranslation(locationParam),
-                            count: templateData.programmes.length
-                        });
-                    }
-                }
-
-                templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
-
-                res.render(options.template, templateData);
-            })
-            .catch(err => {
-                err.friendlyText = 'Unable to load funding programmes';
-                next(err);
-            });
+        res.render(routeConfig.template, templateData);
     });
 }
 
-function renderProgrammeDetail({ res, entry }) {
-    addPreviewStatus(res, entry);
-
-    res.render('pages/funding/programme-detail', {
-        entry: entry,
-        title: entry.summary.title,
-        isBilingual: isBilingual(entry.availableLanguages),
-        heroImage: entry.hero || heroImages.rathlinIslandDevelopment
-    });
+function handleProgrammeDetail(modifyProgrammeMiddleware) {
+    const noop = (req, res, next) => next();
+    return [
+        injectFundingProgramme,
+        modifyProgrammeMiddleware || noop,
+        (req, res) => {
+            const entry = res.locals.fundingProgramme;
+            if (entry.contentSections.length > 0) {
+                res.render('pages/funding/programme-detail', {
+                    entry: res.locals.fundingProgramme,
+                    title: entry.summary.title,
+                    isBilingual: isBilingual(entry.availableLanguages),
+                    heroImage: entry.hero || heroImages.rathlinIslandDevelopment
+                });
+            } else {
+                throw new Error('NoContent');
+            }
+        }
+    ];
 }
 
-function handleProgrammeDetail(slug) {
-    return function(req, res, next) {
+function initProgrammeDetail({ router }) {
+    router.get('/programmes/:slug', handleProgrammeDetail());
+}
+
+function initProgrammeDetailAwardsForAll({ router, routeConfig }) {
+    function injectVariantModifications(req, res, next) {
+        const entry = res.locals.fundingProgramme;
         const locale = req.i18n.getLocale();
-        res.locals.timings.start('fetch-funding-programme');
-        contentApi
-            .getFundingProgramme({
-                slug: slug,
-                locale: locale,
-                previewMode: res.locals.PREVIEW_MODE || false
-            })
-            .then(entry => {
-                res.locals.timings.end('fetch-funding-programme');
-                if (entry.contentSections.length > 0) {
-                    renderProgrammeDetail({ res, entry });
-                } else {
-                    throw new Error('NoContent');
-                }
-            })
-            .catch(() => {
-                res.locals.timings.end('fetch-funding-programme');
-                next();
+
+        const applyTabIdx = findIndex(entry.contentSections, section => {
+            return section.title.match(/How do you apply|Sut ydych chi'n ymgeisio/);
+        });
+
+        if (applyTabIdx !== -1) {
+            const applyUrl = locale === 'cy' ? `${routeConfig.applyUrl}&lang=welsh` : routeConfig.applyUrl;
+            const originalTextFromCMS = entry.contentSections[applyTabIdx].body;
+            const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm', applyUrl);
+            entry.contentSections[applyTabIdx] = assign({}, entry.contentSections[applyTabIdx], {
+                body: awardsTextToPrepend + originalTextFromCMS
             });
-    };
-}
+        } else {
+            Raven.captureMessage('Failed to modify Awards For All page');
+        }
 
-function initProgrammeDetail(router) {
-    router.get('/programmes/:slug', (req, res, next) => {
-        handleProgrammeDetail(req.params.slug)(req, res, next);
-    });
-}
-
-function initProgrammeDetailAwardsForAll(router, options) {
-    const getSlug = urlPath => last(urlPath.split('/'));
-
-    function renderVariantA(req, res, next) {
-        handleProgrammeDetail(getSlug(req.path))(req, res, next);
-    }
-
-    function renderVariantB(req, res, next) {
-        const locale = req.i18n.getLocale();
-        const slug = getSlug(req.path);
-        contentApi
-            .getFundingProgramme({ locale, slug })
-            .then(entry => {
-                if (entry.contentSections.length > 0) {
-                    const applyTabIdx = findIndex(entry.contentSections, section => {
-                        return section.title.match(/How do you apply|Sut ydych chi'n ymgeisio/);
-                    });
-
-                    if (applyTabIdx !== -1) {
-                        const applyUrl = locale === 'cy' ? `${options.applyUrl}&lang=welsh` : options.applyUrl;
-                        const originalTextFromCMS = entry.contentSections[applyTabIdx].body;
-                        const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm', applyUrl);
-                        entry.contentSections[applyTabIdx] = assign({}, entry.contentSections[applyTabIdx], {
-                            body: awardsTextToPrepend + originalTextFromCMS
-                        });
-                    } else {
-                        Raven.captureMessage('Failed to modify Awards For All page');
-                    }
-
-                    renderProgrammeDetail({
-                        res,
-                        entry
-                    });
-                } else {
-                    throw new Error('NoContent');
-                }
-            })
-            .catch(() => {
-                next();
-            });
+        res.locals.fundingProgramme = entry;
+        next();
     }
 
     const testFn = ab.test('blf-afa-rollout-england', {
         cookie: {
-            name: options.abTest.cookie,
+            name: routeConfig.abTest.cookie,
             maxAge: moment.duration(4, 'weeks').asMilliseconds()
         },
-        id: options.abTest.experimentId
+        id: routeConfig.abTest.experimentId
     });
 
-    const percentages = splitPercentages(options.abTest.percentage);
+    const percentages = splitPercentages(routeConfig.abTest.percentage);
 
-    router.get(options.path, cached.noCache, testFn(null, percentages.A), renderVariantA);
-    router.get(options.path, cached.noCache, testFn(null, percentages.B), renderVariantB);
+    router.get(routeConfig.path, noCache, testFn(null, percentages.A), handleProgrammeDetail());
+    router.get(
+        routeConfig.path,
+        noCache,
+        testFn(null, percentages.B),
+        handleProgrammeDetail(injectVariantModifications)
+    );
+
+    function maskUrl(req, res, next) {
+        req.url = routeConfig.path;
+        next();
+    }
 
     /**
      * Expose preview URLs to see test variants directly
      */
     if (appData.isNotProduction) {
-        router.get(`${options.path}/a`, (req, res, next) => {
-            req.url = options.path;
-            renderVariantA(req, res, next);
-        });
-
-        router.get(`${options.path}/b`, (req, res, next) => {
-            req.url = options.path;
-            renderVariantB(req, res, next);
-        });
+        router.get(`${routeConfig.path}/a`, maskUrl, handleProgrammeDetail());
+        router.get(`${routeConfig.path}/b`, maskUrl, handleProgrammeDetail(injectVariantModifications));
     }
 }
 
 function init({ router, routeConfig }) {
-    initProgrammesList(router, routeConfig.programmes);
+    initProgrammesList({ router, routeConfig: routeConfig.programmes });
 
     if (config.get('features.enableAbTests')) {
-        [routeConfig.programmeDetailAfaScotland].forEach(route => {
-            initProgrammeDetailAwardsForAll(router, route);
+        [routeConfig.programmeDetailAfaScotland].forEach(abRouteConfig => {
+            initProgrammeDetailAwardsForAll({ router, routeConfig: abRouteConfig });
         });
     }
 
-    initProgrammeDetail(router);
+    initProgrammeDetail({ router });
 }
 
 module.exports = {

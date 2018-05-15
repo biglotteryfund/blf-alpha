@@ -1,9 +1,8 @@
 'use strict';
 
 const { isBilingual } = require('../../modules/pageLogic');
-const { renderNotFoundWithError, redirectWithError } = require('../http-errors');
 const { shouldServe } = require('../../modules/pageLogic');
-const contentApi = require('../../services/content-api');
+const { injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
 
 /**
  * Build pagination
@@ -69,94 +68,80 @@ function renderListing({ res, title, entries = [], entriesMeta = null, activeBre
 }
 
 function initLanding({ router, routeConfig }) {
-    router.get(routeConfig.path, (req, res) => {
-        contentApi
-            .getBlogPosts({
-                locale: req.i18n.getLocale(),
-                page: req.query.page || 1
-            })
-            .then(result => {
-                const title = req.i18n.__('global.nav.blog');
-                const activeBreadcrumbs = buildBreadcrumbs(req);
-                renderListing({
-                    res,
-                    title,
-                    entries: result.entries,
-                    entriesMeta: result.meta,
-                    activeBreadcrumbs
-                });
-            })
-            .catch(err => {
-                renderNotFoundWithError(req, res, err);
+    router.get(routeConfig.path, injectBlogPosts, (req, res, next) => {
+        const { blogPosts } = res.locals;
+        if (blogPosts) {
+            const title = req.i18n.__('global.nav.blog');
+            const activeBreadcrumbs = buildBreadcrumbs(req);
+            renderListing({
+                res,
+                title,
+                entries: blogPosts.entries,
+                entriesMeta: blogPosts.meta,
+                activeBreadcrumbs
             });
+        } else {
+            next();
+        }
     });
 }
 
 function initDetails({ router, routeConfig, sectionPath }) {
-    router.get(routeConfig.path, function(req, res) {
-        contentApi
-            .getBlogDetail({
-                locale: req.i18n.getLocale(),
-                urlPath: req.path
-            })
-            .then(response => {
-                const pageType = response.meta.pageType;
-                if (pageType === 'blogpost') {
-                    const entry = response.data.attributes;
-                    renderPost({
-                        req,
-                        res,
-                        entry
-                    });
-                } else if (pageType === 'authors') {
-                    const entries = contentApi.mapAttrs(response);
-                    const activeAuthor = response.meta.activeAuthor;
+    router.get(routeConfig.path, injectBlogDetail, function(req, res) {
+        const { blogDetail } = res.locals;
 
-                    renderListing({
-                        res,
-                        title: `Author: ${activeAuthor.title}`,
-                        entries,
-                        entriesMeta: response.meta,
-                        activeBreadcrumbs: buildBreadcrumbs(req, {
-                            label: activeAuthor.title,
-                            url: activeAuthor.link
-                        })
-                    });
-                } else if (pageType === 'category') {
-                    const entries = contentApi.mapAttrs(response);
-                    const activeCategory = response.meta.activeCategory;
+        if (!blogDetail) {
+            res.redirect(sectionPath);
+        }
 
-                    renderListing({
-                        res,
-                        title: `Category: ${activeCategory.title}`,
-                        entries,
-                        entriesMeta: response.meta,
-                        activeBreadcrumbs: buildBreadcrumbs(req, {
-                            label: activeCategory.title,
-                            url: activeCategory.link
-                        })
-                    });
-                } else if (pageType === 'tags') {
-                    const entries = contentApi.mapAttrs(response);
-                    const activeTag = response.meta.activeTag;
-
-                    renderListing({
-                        res,
-                        title: `Tag: ${activeTag.title}`,
-                        entries,
-                        entriesMeta: response.meta,
-                        activeBreadcrumbs: buildBreadcrumbs(req, {
-                            label: activeTag.title,
-                            url: activeTag.link
-                        })
-                    });
-                } else {
-                    res.redirect(sectionPath);
-                }
-            })
-            .catch(err => {
-                redirectWithError(res, err, sectionPath);
+        if (blogDetail.meta.pageType === 'blogpost') {
+            renderPost({
+                req: req,
+                res: res,
+                entry: blogDetail.result
             });
+        } else if (blogDetail.meta.pageType === 'authors') {
+            const activeAuthor = blogDetail.meta.activeAuthor;
+
+            renderListing({
+                res: res,
+                title: `Author: ${activeAuthor.title}`,
+                entries: blogDetail.result,
+                entriesMeta: blogDetail.meta,
+                activeBreadcrumbs: buildBreadcrumbs(req, {
+                    label: activeAuthor.title,
+                    url: activeAuthor.link
+                })
+            });
+        } else if (blogDetail.meta.pageType === 'category') {
+            const activeCategory = blogDetail.meta.activeCategory;
+
+            renderListing({
+                res: res,
+                title: `Category: ${activeCategory.title}`,
+                entries: blogDetail.result,
+                entriesMeta: blogDetail.meta,
+                activeBreadcrumbs: buildBreadcrumbs(req, {
+                    label: activeCategory.title,
+                    url: activeCategory.link
+                })
+            });
+        } else if (blogDetail.meta.pageType === 'tags') {
+            const activeTag = blogDetail.meta.activeTag;
+
+            renderListing({
+                res: res,
+                title: `Tag: ${activeTag.title}`,
+                entries: blogDetail.response,
+                entriesMeta: blogDetail.meta,
+                activeBreadcrumbs: buildBreadcrumbs(req, {
+                    label: activeTag.title,
+                    url: activeTag.link
+                })
+            });
+        } else {
+            res.redirect(sectionPath);
+        }
     });
 
     return router;

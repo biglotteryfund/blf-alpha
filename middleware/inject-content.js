@@ -1,10 +1,18 @@
 'use strict';
+const { flatten, get, getOr, last } = require('lodash/fp');
+const moment = require('moment');
 const Raven = require('raven');
-const { flatten, get, getOr } = require('lodash/fp');
 
 const { defaultHeroImage } = require('../modules/images');
 const { localify, removeWelsh } = require('../modules/urls');
 const contentApi = require('../services/content-api');
+
+function getPreviewStatus(entry) {
+    return {
+        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
+        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
+    };
+}
 
 function injectHeroImage(page) {
     const heroSlug = get('heroSlug')(page);
@@ -100,6 +108,69 @@ async function injectListingContent(req, res, next) {
     }
 }
 
+async function injectFundingProgramme(req, res, next) {
+    try {
+        res.locals.timings.start('fetch-funding-programme');
+        const entry = await contentApi.getFundingProgramme({
+            slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
+            locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false
+        });
+
+        res.locals.fundingProgramme = entry;
+        res.locals.previewStatus = getPreviewStatus(entry);
+        res.locals.timings.end('fetch-funding-programme');
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectFundingProgrammes(req, res, next) {
+    try {
+        res.locals.timings.start('inject-funding-programmes');
+        const fundingProgrammes = await contentApi.getFundingProgrammes({
+            locale: req.i18n.getLocale()
+        });
+        res.locals.fundingProgrammes = fundingProgrammes;
+        res.locals.timings.end('inject-funding-programmes');
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectBlogPosts(req, res, next) {
+    try {
+        const result = await contentApi.getBlogPosts({
+            locale: req.i18n.getLocale(),
+            page: req.query.page || 1
+        });
+
+        res.locals.blogPosts = result;
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectBlogDetail(req, res, next) {
+    try {
+        const [response, result] = await contentApi.getBlogDetail({
+            locale: req.i18n.getLocale(),
+            urlPath: req.path
+        });
+
+        res.locals.blogDetail = {
+            meta: response.meta,
+            result: result
+        };
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 function injectProfiles(section) {
     return async function(req, res, next) {
         try {
@@ -118,8 +189,13 @@ function injectProfiles(section) {
 }
 
 module.exports = {
+    getPreviewStatus,
+    injectBlogDetail,
+    injectBlogPosts,
     injectBreadcrumbs,
     injectCopy,
+    injectFundingProgramme,
+    injectFundingProgrammes,
     injectHeroImage,
     injectListingContent,
     injectProfiles
