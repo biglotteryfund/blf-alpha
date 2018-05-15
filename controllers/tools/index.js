@@ -7,7 +7,7 @@ const cached = require('../../middleware/cached');
 const feedbackService = require('../../services/feedback');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
-const { injectMerchandiseCustom } = require('../../controllers/funding/materials-helpers');
+const { injectMerchandise } = require('../../controllers/funding/materials-helpers');
 
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
@@ -60,7 +60,7 @@ router.route('/survey-results').get((req, res) => {
         });
 });
 
-router.route('/order-stats').get(injectMerchandiseCustom({ locale: 'en', showAll: true }), (req, res) => {
+router.route('/order-stats').get(injectMerchandise({ locale: 'en', showAll: true }), (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {

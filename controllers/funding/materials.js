@@ -14,8 +14,7 @@ const {
     materialFields,
     makeOrderText,
     postcodeArea,
-    injectMerchandise,
-    injectMerchandiseCustom
+    injectMerchandise
 } = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
@@ -160,7 +159,7 @@ function initForm({ router, routeConfig }) {
         const availableItems = res.locals.availableItems;
         const orders = req.session[sessionOrderKey] || [];
 
-        const formActionBase = '/' + res.locals.sectionId + routeConfig.path;
+        const formActionBase = req.baseUrl + routeConfig.path;
 
         res.render(routeConfig.template, {
             copy: lang,
@@ -181,10 +180,10 @@ function initForm({ router, routeConfig }) {
     router
         .route(routeConfig.path)
         .all(cached.csrfProtection, injectListingContent)
-        .get(injectMerchandise, (req, res) => {
+        .get(injectMerchandise({}), (req, res) => {
             renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
         })
-        .post(injectMerchandiseCustom({ locale: 'en' }), validators, purify, (req, res) => {
+        .post(injectMerchandise({ locale: 'en' }), validators, purify, (req, res) => {
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
@@ -194,13 +193,17 @@ function initForm({ router, routeConfig }) {
                 const itemsToEmail = req.session[sessionOrderKey].map(item => {
                     const material = availableItems.find(i => i.itemId === item.materialId);
                     const product = material.products.find(p => p.id === item.productId);
+                    // prevent someone who really loves plaques from hacking the form to increase the maximum
+                    if (item.quantity > material.maximum) {
+                        item.quantity = material.maximum;
+                    }
                     return {
                         name: product.name ? product.name : material.title,
                         code: product.code,
                         quantity: item.quantity
                     };
                 });
-
+                
                 const orderText = makeOrderText(itemsToEmail, details);
 
                 storeOrderSummary({

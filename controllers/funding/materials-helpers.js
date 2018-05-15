@@ -240,16 +240,7 @@ If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
     return text.trim();
 }
 
-async function injectMerchandise(req, res, next) {
-    try {
-        res.locals.availableItems = await contentApi.getMerchandise(req.i18n.getLocale());
-        next();
-    } catch (error) {
-        next(error);
-    }
-}
-
-function injectMerchandiseCustom({ locale = false, showAll = false }) {
+function injectMerchandise({ locale = false, showAll = false }) {
     return async (req, res, next) => {
         try {
             const localeToUse = locale ? locale : req.i18n.getLocale();
@@ -265,6 +256,5 @@ module.exports = {
     materialFields,
     makeOrderText,
     postcodeArea,
-    injectMerchandise,
-    injectMerchandiseCustom
+    injectMerchandise
 };
