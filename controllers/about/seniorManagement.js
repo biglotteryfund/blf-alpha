@@ -1,10 +1,9 @@
 'use strict';
 const Raven = require('raven');
-const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, sMaxAge(routeConfig.sMaxAge), (req, res, next) => {
+    router.get(routeConfig.path, (req, res, next) => {
         const locale = req.i18n.getLocale();
         const copy = req.i18n.__('about.ourPeople');
         contentApi

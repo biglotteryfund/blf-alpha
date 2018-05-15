@@ -1,10 +1,9 @@
 'use strict';
 const { find, get } = require('lodash');
-const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, sMaxAge(routeConfig.sMaxAge), (req, res) => {
+    router.get(routeConfig.path, (req, res) => {
         const lang = req.i18n.__(routeConfig.lang);
 
         /**

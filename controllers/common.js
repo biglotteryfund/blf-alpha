@@ -7,7 +7,6 @@ const { injectBreadcrumbs, injectCopy, injectListingContent } = require('../midd
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
 const { serveRedirects } = require('../modules/redirects');
-const { sMaxAge } = require('../middleware/cached');
 
 /**
  * Redirect any aliases to the canonical path
@@ -85,22 +84,9 @@ function init({ router, pages, sectionPath }) {
             setupRedirects(sectionPath, page);
 
             if (page.static) {
-                router.get(
-                    page.path,
-                    sMaxAge(page.sMaxAge),
-                    injectCopy(page),
-                    injectBreadcrumbs,
-                    handleStaticPage(page)
-                );
+                router.get(page.path, injectCopy(page), injectBreadcrumbs, handleStaticPage(page));
             } else if (page.useCmsContent) {
-                router.get(
-                    page.path,
-                    sMaxAge(page.sMaxAge),
-                    injectCopy(page),
-                    injectListingContent,
-                    injectBreadcrumbs,
-                    handleCmsPage(page)
-                );
+                router.get(page.path, injectCopy(page), injectListingContent, injectBreadcrumbs, handleCmsPage(page));
             }
         }
     });
