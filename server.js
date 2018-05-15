@@ -109,11 +109,6 @@ function initAppLocals() {
     app.locals.appData = appData;
 
     /**
-     * Metadata (e.g. global title, description)
-     */
-    app.locals.metadata = config.get('meta');
-
-    /**
      * Common date formats
      */
     app.locals.DATE_FORMATS = config.get('dateFormats');

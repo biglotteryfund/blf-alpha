@@ -35,6 +35,14 @@ module.exports = {
          */
         res.locals.request = req;
 
+        /**
+         * Metadata (e.g. global title, description)
+         */
+        res.locals.metadata = {
+            title: req.i18n.__('global.brand.title'),
+            description: req.i18n.__('global.brand.description')
+        };
+
         /***********************************************
          * Global view methods
          ***********************************************/
