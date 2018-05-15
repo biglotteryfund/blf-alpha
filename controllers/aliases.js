@@ -1,10 +1,7 @@
 'use strict';
-const config = require('config');
 const { concat, flatMap, map } = require('lodash');
 const { archived } = require('./route-types');
-
-// @TODO: Cannot be imported from modules/urls until buildUrl is removed due to recursive imports
-const makeWelsh = urlPath => `${config.get('i18n.urlPrefix.cy')}${urlPath}`;
+const { makeWelsh } = require('../modules/urls');
 
 /**
  * Archived Routes

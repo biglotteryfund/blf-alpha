@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { get, isArray } = require('lodash');
+const { get } = require('lodash');
 
 /**
  * Create a top-level section

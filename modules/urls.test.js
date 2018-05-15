@@ -4,7 +4,6 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const {
-    buildUrl,
     getBaseUrl,
     getCurrentUrl,
     hasTrailingSlash,
@@ -63,22 +62,6 @@ describe('URL Helpers', () => {
             expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).to.equal(
                 '/some/example/url?something=else'
             );
-        });
-    });
-
-    describe('#buildUrl', () => {
-        it('should build correct url based on section url and page name', () => {
-            const builderEn = buildUrl('');
-            const builderCy = buildUrl('welsh');
-
-            expect(builderEn('toplevel', 'benefits')).to.equal('/jobs/benefits');
-            expect(builderCy('toplevel', 'benefits')).to.equal('welsh/jobs/benefits');
-        });
-
-        it('should build correct url when a simple path is given', () => {
-            const testPath = 'global-content/programmes/england/awards-for-all-england';
-            expect(buildUrl('')(testPath)).to.equal(`/${testPath}`);
-            expect(buildUrl('welsh')(testPath)).to.equal(`welsh/${testPath}`);
         });
     });
 

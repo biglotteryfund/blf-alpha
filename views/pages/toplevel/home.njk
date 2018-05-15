@@ -62,7 +62,7 @@
             </div>
 
             <div class="central-gap">
-                <a href="{{ buildUrl('funding/past-grants') }}"
+                <a href="{{ localify('/funding/past-grants') }}"
                     class="btn btn--block accent--{{ pageAccent }} a--btn spaced">
                     {{ copy.browseFundedProjects }}
                 </a>
@@ -74,7 +74,7 @@
         <section class="latest-news accent--{{ pageAccent }} a--border-top inner">
             <header class="latest-news__header">
                 <h2 class="t1 t--underline a--text accent--blue">
-                    <a class="u-link-minimal" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                    <a class="u-link-minimal" href="{{ localify("/uk-wide/news-and-events") }}">
                         {{ __('global.misc.latestNews') }}
                     </a>
                 </h2>
@@ -89,7 +89,7 @@
                 </ul>
             </div>
             <footer class="latest-news__footer">
-                <a class="latest-news__more" href="{{ buildUrl("uk-wide/news-and-events") }}">
+                <a class="latest-news__more" href="{{ localify("/uk-wide/news-and-events") }}">
                     {{ __('global.misc.viewAllNews') }}
                 </a>
             </footer>
