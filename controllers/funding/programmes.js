@@ -6,11 +6,12 @@ const moment = require('moment');
 const Raven = require('raven');
 const { assign, find, findIndex, get, last, map, uniq } = require('lodash');
 
-const cached = require('../../middleware/cached');
-const { splitPercentages } = require('../../modules/ab');
-const { heroImages } = require('../../modules/images');
 const { addPreviewStatus } = require('../../modules/preview');
+const { heroImages } = require('../../modules/images');
+const { injectCopy, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
+const { noCache } = require('../../middleware/cached');
+const { splitPercentages } = require('../../modules/ab');
 const appData = require('../../modules/appData');
 const contentApi = require('../../services/content-api');
 
@@ -60,87 +61,80 @@ const programmeFilters = {
     }
 };
 
-function initProgrammesList(router, options) {
-    router.get(options.path, (req, res, next) => {
-        const lang = req.i18n.__(options.lang);
+function initProgrammesList({ router, routeConfig }) {
+    router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
+        const { fundingProgrammes } = res.locals;
+
+        if (!fundingProgrammes) {
+            next();
+        }
+
         const templateData = {
-            copy: lang,
-            title: lang.title,
             programmes: [],
             activeFacets: [],
             activeBreadcrumbs: []
         };
 
-        contentApi
-            .getFundingProgrammes({
-                locale: req.i18n.getLocale()
-            })
-            .then(programmes => {
-                const locationParam = programmeFilters.getValidLocation(programmes, req.query.location);
-                const minAmountParam = req.query.min;
-                const maxAmountParam = req.query.max;
+        const locationParam = programmeFilters.getValidLocation(fundingProgrammes, req.query.location);
+        const minAmountParam = req.query.min;
+        const maxAmountParam = req.query.max;
 
-                templateData.programmes = programmes
-                    .filter(programmeFilters.filterByLocation(locationParam))
-                    .filter(programmeFilters.filterByMinAmount(minAmountParam))
-                    .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
+        templateData.programmes = fundingProgrammes
+            .filter(programmeFilters.filterByLocation(locationParam))
+            .filter(programmeFilters.filterByMinAmount(minAmountParam))
+            .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
+
+        templateData.activeBreadcrumbs.push({
+            label: req.i18n.__('global.nav.funding'),
+            url: req.baseUrl
+        });
+
+        if (!minAmountParam && !maxAmountParam && !locationParam) {
+            templateData.activeBreadcrumbs.push({
+                label: req.i18n.__(routeConfig.lang + '.breadcrumbAll')
+            });
+        } else {
+            templateData.activeBreadcrumbs.push({
+                label: req.i18n.__(routeConfig.lang + '.title'),
+                url: req.baseUrl + req.path
+            });
+
+            if (parseInt(minAmountParam, 10) === 10000) {
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__(routeConfig.lang + '.over10k'),
+                    url: '/over10k'
+                });
+            }
+
+            if (parseInt(maxAmountParam, 10) === 10000) {
+                templateData.activeBreadcrumbs.push({
+                    label: req.i18n.__(routeConfig.lang + '.under10k'),
+                    url: '/under10k'
+                });
+            }
+
+            if (locationParam) {
+                const locationParamToTranslation = key => {
+                    const regions = {
+                        england: req.i18n.__('global.regions.england'),
+                        wales: req.i18n.__('global.regions.wales'),
+                        scotland: req.i18n.__('global.regions.scotland'),
+                        northernIreland: req.i18n.__('global.regions.northernIreland'),
+                        ukWide: req.i18n.__('global.regions.ukWide')
+                    };
+                    return regions[key];
+                };
 
                 templateData.activeBreadcrumbs.push({
-                    label: req.i18n.__('global.nav.funding'),
-                    url: req.baseUrl
+                    label: locationParamToTranslation(locationParam),
+                    count: templateData.programmes.length
                 });
+            }
+        }
 
-                if (!minAmountParam && !maxAmountParam && !locationParam) {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(options.lang + '.breadcrumbAll')
-                    });
-                } else {
-                    templateData.activeBreadcrumbs.push({
-                        label: req.i18n.__(options.lang + '.title'),
-                        url: req.baseUrl + req.path
-                    });
+        templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
-                    if (parseInt(minAmountParam, 10) === 10000) {
-                        templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(options.lang + '.over10k'),
-                            url: '/over10k'
-                        });
-                    }
-
-                    if (parseInt(maxAmountParam, 10) === 10000) {
-                        templateData.activeBreadcrumbs.push({
-                            label: req.i18n.__(options.lang + '.under10k'),
-                            url: '/under10k'
-                        });
-                    }
-
-                    if (locationParam) {
-                        const locationParamToTranslation = key => {
-                            const regions = {
-                                england: req.i18n.__('global.regions.england'),
-                                wales: req.i18n.__('global.regions.wales'),
-                                scotland: req.i18n.__('global.regions.scotland'),
-                                northernIreland: req.i18n.__('global.regions.northernIreland'),
-                                ukWide: req.i18n.__('global.regions.ukWide')
-                            };
-                            return regions[key];
-                        };
-
-                        templateData.activeBreadcrumbs.push({
-                            label: locationParamToTranslation(locationParam),
-                            count: templateData.programmes.length
-                        });
-                    }
-                }
-
-                templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
-
-                res.render(options.template, templateData);
-            })
-            .catch(err => {
-                err.friendlyText = 'Unable to load funding programmes';
-                next(err);
-            });
+        res.render(routeConfig.template, templateData);
     });
 }
 
@@ -238,8 +232,8 @@ function initProgrammeDetailAwardsForAll(router, options) {
 
     const percentages = splitPercentages(options.abTest.percentage);
 
-    router.get(options.path, cached.noCache, testFn(null, percentages.A), renderVariantA);
-    router.get(options.path, cached.noCache, testFn(null, percentages.B), renderVariantB);
+    router.get(options.path, noCache, testFn(null, percentages.A), renderVariantA);
+    router.get(options.path, noCache, testFn(null, percentages.B), renderVariantB);
 
     /**
      * Expose preview URLs to see test variants directly
@@ -258,7 +252,7 @@ function initProgrammeDetailAwardsForAll(router, options) {
 }
 
 function init({ router, routeConfig }) {
-    initProgrammesList(router, routeConfig.programmes);
+    initProgrammesList({ router, routeConfig: routeConfig.programmes });
 
     if (config.get('features.enableAbTests')) {
         [routeConfig.programmeDetailAfaScotland].forEach(route => {

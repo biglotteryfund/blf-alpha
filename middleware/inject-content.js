@@ -100,6 +100,20 @@ async function injectListingContent(req, res, next) {
     }
 }
 
+async function injectFundingProgrammes(req, res, next) {
+    try {
+        res.locals.timings.start('inject-funding-programmes');
+        const fundingProgrammes = await contentApi.getFundingProgrammes({
+            locale: req.i18n.getLocale()
+        });
+        res.locals.fundingProgrammes = fundingProgrammes;
+        res.locals.timings.end('inject-funding-programmes');
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 async function injectBlogPosts(req, res, next) {
     try {
         const result = await contentApi.getBlogPosts({
@@ -121,7 +135,6 @@ async function injectBlogDetail(req, res, next) {
             urlPath: req.path
         });
 
-        console.log(result);
         res.locals.blogDetail = {
             meta: response.meta,
             result: result
@@ -154,6 +167,7 @@ module.exports = {
     injectBlogPosts,
     injectBreadcrumbs,
     injectCopy,
+    injectFundingProgrammes,
     injectHeroImage,
     injectListingContent,
     injectProfiles
