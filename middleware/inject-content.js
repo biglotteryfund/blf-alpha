@@ -4,7 +4,7 @@ const moment = require('moment');
 const Raven = require('raven');
 
 const { heroImages } = require('../modules/images');
-const { localify, removeWelsh } = require('../modules/urls');
+const { localify, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
 function getPreviewStatus(entry) {
@@ -95,7 +95,7 @@ async function injectListingContent(req, res, next) {
         res.locals.timings.start('inject-content');
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
-            path: req.baseUrl + req.path,
+            path: stripTrailingSlashes(req.baseUrl + req.path),
             previewMode: res.locals.PREVIEW_MODE || false
         });
 
