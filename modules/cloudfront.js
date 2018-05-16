@@ -64,17 +64,9 @@ function generateUrlList(routes) {
         urls.push(makeUrlObject(routeConfig));
     }
 
-    function pushDualRouteConfig(routeConfig) {
-        urls.push(makeUrlObject(routeConfig));
-        urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
-    }
-
     // Legacy proxied routes
     const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
     forEach(liveLegacyRoutes, pushRouteConfig);
-
-    // Archived routes
-    routes.archivedRoutes.filter(pageNeedsCustomRouting).forEach(pushDualRouteConfig);
 
     // Other Routes
     routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
