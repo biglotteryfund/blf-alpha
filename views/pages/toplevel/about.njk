@@ -25,7 +25,7 @@
                 {# Intro #}
                 <div class="s-prose s-prose--long u-constrained-content-wide">
                     <p>{{ copy.intro.opening | safe }}</p>
-                    <p><a href="{{ buildUrl('funding') }}">{{ copy.intro.learnApply }}</a></p>
+                    <p><a href="{{ localify('/funding') }}">{{ copy.intro.learnApply }}</a></p>
                 </div>
 
                 {# What We Do #}
@@ -71,7 +71,7 @@
                     {% for paragraph in copy.ourStructure.paragraphs %}
                         <p>{{ paragraph | safe }}</p>
                     {% endfor %}
-                    <p><a href="{{ buildUrl('about-big/our-people') }}">{{ copy.ourStructure.learnGovernance }}</a></p>
+                    <p><a href="{{ localify('/about-big/our-people') }}">{{ copy.ourStructure.learnGovernance }}</a></p>
                 </div>
             </section>
         </div>

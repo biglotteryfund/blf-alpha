@@ -5,24 +5,7 @@ const { getOr } = require('lodash/fp');
 
 const { injectBreadcrumbs, injectCopy, injectListingContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
-const { isWelsh, stripTrailingSlashes } = require('../modules/urls');
-const { serveRedirects } = require('../modules/redirects');
-
-/**
- * Redirect any aliases to the canonical path
- */
-function setupRedirects(sectionPath, page) {
-    const aliases = getOr([], 'aliases')(page);
-    const redirects = aliases.map(pagePath => ({
-        path: pagePath,
-        destination: stripTrailingSlashes(sectionPath + page.path)
-    }));
-
-    serveRedirects({
-        redirects: redirects,
-        makeBilingual: true
-    });
-}
+const { isWelsh } = require('../modules/urls');
 
 function handleStaticPage(page) {
     return function(req, res, next) {
@@ -77,12 +60,9 @@ function handleCmsPage(page) {
  * Init routing
  * Set up path routing for a list of (static) pages
  */
-function init({ router, pages, sectionPath }) {
+function init({ router, pages }) {
     forEach(pages, page => {
         if (shouldServe(page)) {
-            // Redirect any aliases to the canonical path
-            setupRedirects(sectionPath, page);
-
             if (page.static) {
                 router.get(page.path, injectCopy(page), injectBreadcrumbs, handleStaticPage(page));
             } else if (page.useCmsContent) {

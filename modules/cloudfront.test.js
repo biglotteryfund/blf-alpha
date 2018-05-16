@@ -38,20 +38,6 @@ describe('Cloudfront Helpers', () => {
                 path: '/draft',
                 live: false
             }
-        ],
-        legacyRedirects: [
-            {
-                path: '/global-content/programmes/example',
-                destination: '/funding/programmes/example',
-                isPostable: false,
-                live: true
-            }
-        ],
-        vanityRedirects: [
-            {
-                path: '/test',
-                live: true
-            }
         ]
     };
 

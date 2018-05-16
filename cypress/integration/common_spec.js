@@ -37,10 +37,17 @@ describe('Common tests', function() {
     });
 
     it('should handle aliases', () => {
-        cy.checkRedirect({
-            from: '/over10k',
-            to: '/funding/over10k'
-        });
+        cy
+            .request('/tools/seed/aliases-sample')
+            .its('body')
+            .then(aliases => {
+                aliases.forEach(alias => {
+                    cy.checkRedirect({
+                        from: alias.from,
+                        to: alias.to
+                    });
+                });
+            });
     });
 
     it('should 404 unknown routes', () => {

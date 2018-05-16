@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { get, isArray } = require('lodash');
+const { get } = require('lodash');
 
 /**
  * Create a top-level section
@@ -55,22 +55,16 @@ function createSection({ path, controllerPath, langTitlePath, showInNavigation =
  */
 const defaults = {
     isPostable: false,
-    live: false
+    live: true
 };
 
 /**
- * Basic route, typically used for custom routes
- * Restrictive by default, GET-only, no-query-strings
+ * Custom route
+ * Route type with no defaults used
+ * for routes with custom controllers
  */
-function basicRoute(props) {
-    return Object.assign(
-        {},
-        defaults,
-        {
-            live: true
-        },
-        props
-    );
+function customRoute(props) {
+    return { ...defaults, ...props };
 }
 
 /**
@@ -79,23 +73,8 @@ function basicRoute(props) {
  * doesn't need a route handler, only a template path.
  */
 function staticRoute(props) {
-    const staticDefaults = {
-        static: true,
-        live: true
-    };
-    return Object.assign({}, defaults, staticDefaults, props);
-}
-
-/**
- * Dynamic route
- * Common route type with a dynamic route handler
- */
-function dynamicRoute(props) {
-    const dynamicDefaults = {
-        static: false,
-        live: true
-    };
-    return Object.assign({}, defaults, dynamicDefaults, props);
+    const staticDefaults = { static: true };
+    return { ...defaults, ...staticDefaults, ...props };
 }
 
 /**
@@ -103,25 +82,17 @@ function dynamicRoute(props) {
  * Route type where session is required
  */
 function sessionRoute(props) {
-    const sessionDefaults = {
-        cookies: [config.get('cookies.session')],
-        static: false,
-        live: true
-    };
-    return Object.assign({}, sessionDefaults, defaults, props);
+    const sessionDefaults = { isPostable: true, cookies: [config.get('cookies.session')] };
+    return { ...defaults, ...sessionDefaults, ...props };
 }
 
 /**
  * CMS route
- * Triggers CMS content handler in 'routeCommon'
- * e.g. Programme detail pages
+ * Triggers CMS content handler in 'controllers/common'
  */
 function cmsRoute(props) {
-    const cmsDefaults = {
-        useCmsContent: true,
-        live: true
-    };
-    return Object.assign({}, defaults, cmsDefaults, props);
+    const cmsDefaults = { useCmsContent: true };
+    return { ...defaults, ...cmsDefaults, ...props };
 }
 
 /**
@@ -130,66 +101,15 @@ function cmsRoute(props) {
  * Used on proxied legacy pages, e.g. funding finder
  */
 function legacyRoute(props) {
-    const legacyDefaults = {
-        isPostable: true,
-        allowAllQueryStrings: true,
-        live: true
-    };
-    return Object.assign({}, legacyDefaults, props);
-}
-
-/**
- * Syntax sugar for archived routes,
- * quick basicRoute
- */
-function archived(path) {
-    return basicRoute({
-        path
-    });
-}
-
-function alias(to, from, isLive = true) {
-    return Object.assign({}, defaults, {
-        path: from,
-        destination: to,
-        live: isLive
-    });
-}
-
-/**
- * Alias for
- * Redirect helper accepting `to` and `from`
- * Allows aliases to be defined using a concise syntax
- */
-function aliasFor(to, from, isLive = true) {
-    if (isArray(from)) {
-        return from.map(fromPath => alias(to, fromPath, isLive));
-    } else {
-        return alias(to, from, isLive);
-    }
-}
-
-/**
- * Programme Migration
- * Handle redirects from /global-content/programmes to /funding/programmes
- */
-function programmeRedirect(from, to, isLive = true) {
-    return Object.assign({}, defaults, {
-        path: `/global-content/programmes/${from}`,
-        destination: `/funding/programmes/${to}`,
-        live: isLive
-    });
+    const legacyDefaults = { isPostable: true, allowAllQueryStrings: true };
+    return { ...defaults, ...legacyDefaults, ...props };
 }
 
 module.exports = {
     createSection,
-    basicRoute,
     staticRoute,
-    dynamicRoute,
+    customRoute,
     sessionRoute,
     cmsRoute,
-    legacyRoute,
-    archived,
-    aliasFor,
-    programmeRedirect
+    legacyRoute
 };

@@ -25,7 +25,6 @@ const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { serveRedirects } = require('./modules/redirects');
 const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
@@ -189,29 +188,20 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/user', require('./controllers/user'));
 
 /**
+ * Handle Aliases
+ */
+routes.aliases.forEach(redirect => {
+    app.get(redirect.from, (req, res) => {
+        res.redirect(301, redirect.to);
+    });
+});
+
+/**
  * Archived Routes
  * Redirect to the National Archvies
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
     app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
-});
-
-/**
- * Legacy Redirects
- * Redirecy legacy URLs to new locations
- * For these URLs handle both english and welsh variants
- */
-serveRedirects({
-    redirects: routes.legacyRedirects.filter(shouldServe),
-    makeBilingual: true
-});
-
-/**
- * Vanity URLs
- * Sharable short-urls redirected to canonical URLs.
- */
-serveRedirects({
-    redirects: routes.vanityRedirects.filter(shouldServe)
 });
 
 /**
@@ -264,8 +254,7 @@ forEach(routes.sections, (section, sectionId) => {
      */
     router = routeCommon.init({
         router: router,
-        pages: section.pages,
-        sectionPath: section.path
+        pages: section.pages
     });
 
     /**

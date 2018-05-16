@@ -73,7 +73,8 @@ describe('Legacy pages', () => {
     });
 
     it('should serve welsh versions of legacy pages', () => {
-        cy.visit('/welsh/research/communities-and-places');
-        cy.title().should('include', 'Cymunedau a lleoedd');
+        cy.request('/welsh/research/communities-and-places').then(response => {
+            expect(response.body).to.include('Cymunedau a lleoedd');
+        });
     });
 });

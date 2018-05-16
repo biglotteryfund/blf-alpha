@@ -1,10 +1,8 @@
 'use strict';
-const { get, includes, reduce } = require('lodash');
+const { includes, reduce } = require('lodash');
 const { URL } = require('url');
 const config = require('config');
 const querystring = require('querystring');
-
-const routes = require('../controllers/routes');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
 
@@ -120,44 +118,6 @@ function normaliseQuery(originalQuery) {
 }
 
 /**
- * buildUrl
- * URL helper, return canonical URL based on sectionName or pageName
- * Handle fallbacks for toplevel pages or linking to direct paths.
- */
-function buildUrl(localePrefix) {
-    /**
-     * Handle URLs which can't be fetched directly from routes.
-     * e.g. aliases, direct paths, top-level pages.
-     */
-    function constructFallback(sectionName, pageName) {
-        // Construct base url. Normalise 'toplevel' section name.
-        const baseUrl = sectionName === 'toplevel' ? '' : `/${sectionName}`;
-
-        // Append the page name if we're given one
-        const url = pageName ? baseUrl + pageName : baseUrl;
-
-        // Prepend locale
-        const urlWithLocale = localePrefix + url;
-
-        // Catch the case where we just want a link to the homepage in english
-        const normalisedUrl = urlWithLocale === '' ? '/' : urlWithLocale;
-
-        return normalisedUrl;
-    }
-
-    return function(sectionName, pageName) {
-        const sectionFromRoutes = get(routes.sections, sectionName);
-        const pageFromSection = get(sectionFromRoutes, `pages.${pageName}`);
-
-        if (pageFromSection) {
-            return localePrefix + sectionFromRoutes.path + pageFromSection.path;
-        } else {
-            return constructFallback(sectionName, pageName);
-        }
-    };
-}
-
-/**
  * getCurrentUrl
  * - Look up the current URL and rewrite to another locale
  * - Normalises and prunes query strings
@@ -200,7 +160,6 @@ function getCurrentUrl(req, requestedLocale) {
 }
 
 module.exports = {
-    buildUrl,
     cymreigio,
     getAbsoluteUrl,
     getBaseUrl,

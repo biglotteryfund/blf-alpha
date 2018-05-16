@@ -4,7 +4,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { createSection, basicRoute, staticRoute, dynamicRoute, cmsRoute, legacyRoute } = require('./route-types');
+const { createSection, staticRoute, customRoute, cmsRoute, legacyRoute } = require('./route-types');
 
 describe('Route types', () => {
     it('should create a new section', () => {
@@ -24,26 +24,17 @@ describe('Route types', () => {
         expect(() => section.find('doesNotExist')).to.throw('No route found for doesNotExist');
     });
 
-    it('should define a basic route schema', () => {
+    it('should define a custom route schema', () => {
         expect(
-            basicRoute({
-                path: '/some/url'
-            })
-        ).to.eql({
-            path: '/some/url',
-            isPostable: false,
-            live: true
-        });
-
-        expect(
-            basicRoute({
+            customRoute({
                 path: '/some/url',
-                live: false
+                queryStrings: ['foo', 'bar']
             })
         ).to.eql({
             path: '/some/url',
             isPostable: false,
-            live: false
+            live: true,
+            queryStrings: ['foo', 'bar']
         });
     });
 
@@ -57,21 +48,6 @@ describe('Route types', () => {
             isPostable: false,
             static: true,
             live: true
-        });
-    });
-
-    it('should define a dynamic route schema', () => {
-        expect(
-            dynamicRoute({
-                path: '/some/url',
-                queryStrings: ['foo', 'bar']
-            })
-        ).to.eql({
-            path: '/some/url',
-            isPostable: false,
-            static: false,
-            live: true,
-            queryStrings: ['foo', 'bar']
         });
     });
 

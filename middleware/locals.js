@@ -2,7 +2,7 @@
 const config = require('config');
 const moment = require('moment');
 
-const { buildUrl, getCurrentUrl, getAbsoluteUrl } = require('../modules/urls');
+const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 
 /**
  * Get normalised page title for metadata
@@ -19,7 +19,6 @@ function getMetaTitle(base, pageTitle) {
 module.exports = {
     middleware: function(req, res, next) {
         const locale = req.i18n.getLocale();
-        const localePrefix = res.locals.localePrefix;
 
         /**
          * High-contrast mode
@@ -64,10 +63,10 @@ module.exports = {
         };
 
         /**
-         * View helper for building URLs from route names
+         * View helper for outputting a path in the current locale
          */
-        res.locals.buildUrl = function(sectionName, pageName) {
-            return buildUrl(localePrefix)(sectionName, pageName);
+        res.locals.localify = function(urlPath) {
+            return localify(req.i18n.getLocale())(urlPath);
         };
 
         /**
