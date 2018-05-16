@@ -172,12 +172,6 @@ $paddedGridGutterLarge: 30px;
     height: auto;
 }
 
-// @TODO kill/rename these classes
-
-.grid__item__poster {
-    display: block;
-}
-
 .grid__item__title {
     @media screen {
         position: absolute;
@@ -188,16 +182,6 @@ $paddedGridGutterLarge: 30px;
             top: $spacingUnit;
             left: $spacingUnit;
             bottom: auto;
-        }
-    }
-}
-
-// @TODO make into a pattern?
-// only used on about page
-@include mq('tablet') {
-    .column--second {
-        .column__item {
-            padding-left: $spacingUnit * 2;
         }
     }
 }
