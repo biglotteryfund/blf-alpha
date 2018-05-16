@@ -3,6 +3,7 @@ const { reduce } = require('lodash');
 const { check } = require('express-validator/check');
 
 const { errorTranslator } = require('../../modules/validators');
+const contentApi = require('../../services/content-api');
 
 const translateError = errorTranslator('global.forms');
 const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';
@@ -196,9 +197,9 @@ function postcodeArea(postcode) {
 function makeOrderText(items, details) {
     const orderSummary = reduce(
         items,
-        (acc, item, code) => {
+        (acc, item) => {
             if (item.quantity > 0) {
-                acc.push(`\t- x${item.quantity} ${code} (item: ${item.name})`);
+                acc.push(`\t- x${item.quantity} ${item.code} (item: ${item.name})`);
             }
             return acc;
         },
@@ -239,8 +240,21 @@ If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
     return text.trim();
 }
 
+function injectMerchandise({ locale = false, showAll = false }) {
+    return async (req, res, next) => {
+        try {
+            const localeToUse = locale ? locale : req.i18n.getLocale();
+            res.locals.availableItems = await contentApi.getMerchandise(localeToUse, showAll);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
 module.exports = {
     materialFields,
     makeOrderText,
-    postcodeArea
+    postcodeArea,
+    injectMerchandise
 };

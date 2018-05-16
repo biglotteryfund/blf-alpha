@@ -30,13 +30,27 @@
 /**
 * Individual products
 */
+@mixin selected-material {
+    background-color: palette('blue-bg');
+}
+
 .material-product {
     padding: $spacingUnit;
 
     &.is-selected {
-        background-color: palette('blue-bg');
+        @include selected-material();
     }
 }
+
+// allows non-JS users to still see selected elements
+// but prevents edge case where JS users decrement a product to 0
+// but still see it as "selected" if they reloaded the page earlier
+.no-vue {
+    .is-selected--no-js {
+        @include selected-material();
+    }
+}
+
 .material-product__title,
 .material-product__subtitle {
     margin-bottom: 0;

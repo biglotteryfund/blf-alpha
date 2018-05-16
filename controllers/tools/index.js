@@ -5,9 +5,9 @@ const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const feedbackService = require('../../services/feedback');
-const materials = require('../../config/content/materials.json');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
+const { injectMerchandise } = require('../../controllers/funding/materials-helpers');
 
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
@@ -60,12 +60,22 @@ router.route('/survey-results').get((req, res) => {
         });
 });
 
-router.route('/order-stats').get((req, res) => {
+router.route('/order-stats').get(injectMerchandise({ locale: 'en', showAll: true }), (req, res) => {
     orderService
         .getAllOrders()
         .then(orderData => {
-            let items = materials.items;
-            res.locals.findItemByCode = code => items.find(i => i.products.some(p => p.code === code));
+            const materials = res.locals.availableItems;
+
+            res.locals.getItemName = code => {
+                // we have to search twice here because we only know the product code
+                // so we have to find the material first (for its name) then check the product
+                const material = materials.find(i => i.products.find(j => j.code === code));
+                if (!material) {
+                    return 'Unknown item';
+                }
+                const product = material.products.find(p => p.code === code);
+                return product.name ? product.name : material.title;
+            };
 
             res.render('pages/tools/orders', {
                 data: orderData,

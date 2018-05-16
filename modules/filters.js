@@ -53,7 +53,19 @@ function pluralise(number, singular, plural) {
     }
 }
 
+// allow filtering of a list as nunjucks' selectattr
+// only supports boolean (eg. valueless) filtering
+function filter(arr, key, value) {
+    return arr.filter(a => a[key] === value);
+}
+
+function find(arr, key, value) {
+    return arr.find(a => a[key] === value);
+}
+
 module.exports = {
+    filter,
+    find,
     getCachebustedPath,
     getCachebustedRealPath,
     getImagePath,

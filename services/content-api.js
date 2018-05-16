@@ -204,6 +204,14 @@ function getAliases({ locale }) {
     return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
 }
 
+function getMerchandise(locale, showAll = false) {
+    let params = {};
+    if (showAll) {
+        params.all = 'true';
+    }
+    return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
+}
+
 function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
@@ -223,6 +231,7 @@ module.exports = {
     getHeroImage,
     getHomepage,
     getListingPage,
+    getMerchandise,
     getProfiles,
     getPromotedNews,
     getRoutes,

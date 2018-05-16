@@ -7,24 +7,23 @@ const { makeOrderText, postcodeArea } = require('./materials-helpers');
 
 describe('Materials utilities', () => {
     it('should make order text for email', () => {
-        const items = {
-            'BLF-BR088': {
+        const items = [
+            {
                 name: 'Stainless steel plaque',
-                id: 3,
+                code: 'BLF-BR088',
                 quantity: 1
             },
-            itemBlocked: false,
-            'BIG-BANNP': {
+            {
                 name: 'Vinyl banner (pink)',
-                id: 6,
+                code: 'BIG-BANNP',
                 quantity: 1
             },
-            'BIG-EVBLN': {
+            {
                 name: 'Balloons',
-                id: 8,
+                code: 'BIG-EVBLN',
                 quantity: 2
             }
-        };
+        ];
 
         const details = {
             yourName: 'Ann Example',

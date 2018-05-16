@@ -9,7 +9,6 @@ function init() {
         return;
     }
 
-    let allOrderData = {};
     let langParam = 'lang';
     // make sure we only allow valid language options
     let isValidLangParam = param => ['monolingual', 'bilingual'].indexOf(param) !== -1;
@@ -21,7 +20,7 @@ function init() {
         Object.assign({}, VueConfig, {
             el: mountEl,
             data: {
-                orderData: allOrderData,
+                orderData: [],
                 itemLanguage: null
             },
             created: function() {
@@ -30,6 +29,13 @@ function init() {
                 if (params[langParam] && isValidLangParam(params[langParam])) {
                     storeLangPrefInForm(params[langParam]);
                     this.itemLanguage = params[langParam];
+                }
+            },
+            mounted: function() {
+                this.$el.classList.remove('no-vue');
+                let sessionOrders = this.$el.getAttribute('data-orders');
+                if (sessionOrders) {
+                    this.orderData = JSON.parse(sessionOrders);
                 }
             },
             methods: {
@@ -46,12 +52,9 @@ function init() {
                 },
                 // look up the quantity of a given item, defaulting to its
                 // value when the page was loaded (eg. from session cookie)
-                getQuantity: function(code, valueAtPageload) {
-                    if (this.orderData[code]) {
-                        return this.orderData[code].quantity;
-                    } else {
-                        return valueAtPageload;
-                    }
+                getQuantity: function(productId) {
+                    let product = this.orderData.find(o => o.productId === parseInt(productId));
+                    return product ? product.quantity : 0;
                 },
                 // work out if the user has anything in their "basket"
                 // eg. should the data form be disabled or not
@@ -81,10 +84,7 @@ function init() {
                                     "Sorry - you can't order this combination of items. If you need more than one of these items, please contact branding@biglotteryfund.org.uk or 020 7211 1728."
                                 );
                             }
-                            // update the basket data from the session
-                            allOrderData = response.allOrders;
-                            // this triggers a Vue update (and needs a babel plugin to work in IE)
-                            this.orderData = Object.assign({}, this.orderData, response.allOrders);
+                            this.orderData = response.orders;
                         }
                     });
                 }

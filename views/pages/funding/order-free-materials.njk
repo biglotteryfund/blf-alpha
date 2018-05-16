@@ -15,95 +15,96 @@
 {% endmacro %}
 
 {% macro stepControl(material, product, quantity) %}
-    {# @TODO this has a weird quirk where vue adds the class a second time if reloading page #}
     <form class="step-control" method="post"
-        action="/funding/funding-guidance/managing-your-funding/ordering-free-materials/item/{{ material.id }}">
-
-        <input type="hidden" name="code" value="{{ product.code }}">
+          action="{{ formActionBase }}/update-basket">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
+        <input type="hidden" name="materialId" value="{{ material.itemId }}">
+        <input type="hidden" name="productId" value="{{ product.id }}">
+        <input type="hidden" name="max" value="{{ material.maximum }}">
+        {% if material.notAllowedWith %}
+            <input type="hidden" name="notAllowedWith" value="{{ material.notAllowedWith | join(",") }}">
+        {% endif %}
+
         <button class="btn step-control__button step-control__button--decrease"
-            type="submit"
-            value="decrease"
-            name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-            v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == 0"
-            v-on:click.prevent="changeQuantity($event)"
-            aria-label="Decrease quantity">-
+                type="submit"
+                value="decrease"
+                name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                v-bind:disabled="getQuantity('{{ product.id }}') == 0"
+                v-on:click.prevent="changeQuantity($event)"
+                aria-label="Decrease quantity">-
         </button>
+
         <div aria-label="Quantity" class="step-control__quantity js-material-count">
-            <span class="js-only"><% getQuantity('{{ product.code }}', {{ quantity }}) %></span>
+            <span class="js-only" v-cloak><% getQuantity('{{ product.id }}') %></span>
             <noscript>{{ quantity }}</noscript>
         </div>
 
         <button class="btn step-control__button step-control__button--increase"
-            type="submit"
-            value="increase"
-            name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
-            v-bind:disabled="getQuantity('{{ product.code }}', {{ quantity }}) == {{ material.maximum }}"
-            v-on:click.prevent="changeQuantity($event)"
-            aria-label="Increase quantity">+
+                type="submit"
+                value="increase"
+                name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
+                v-bind:disabled="getQuantity('{{ product.id }}') == {{ material.maximum }}"
+                v-on:click.prevent="changeQuantity($event)"
+                aria-label="Increase quantity">+
         </button>
     </form>
 {% endmacro %}
 
 {% macro materialProduct(material, product) %}
-    {% set quantity = orders[product.code].quantity or 0 %}
-    <div class="material-product {% if quantity > 0 %}is-selected{% endif %}"
-        v-bind:class="{ 'is-selected': ((orderData['{{ product.code }}']) ? orderData['{{ product.code }}'].quantity > 0 : false) }">
+    {% set ordersForProduct = orders | find('productId', product.id) %}
+    {% if ordersForProduct %}
+        {% set quantity = ordersForProduct.quantity %}
+    {% else %}
+        {% set quantity = 0 %}
+    {% endif %}
+    <div class="material-product {% if quantity > 0 %}is-selected--no-js{% endif %}"
+         v-bind:class="{ 'is-selected': getQuantity('{{ product.id }}') > 0 }">
         <h5 class="material-product__title t5">
-            {% if product.name[locale] %}
-                {{ product.name[locale] }}
+            {% if product.name %}
+                {{ product.name }}
             {% else %}
-                {{ material.name[locale] }}
+                {{ material.title }}
             {% endif %}
         </h5>
         {% if material.description %}
             <p class="material-product__subtitle t8">
-                ({{ material.description[locale] or material.description }})
+                ({{ material.description }})
             </p>
         {% endif %}
-
-        {% if material.outOfStock %}
-            <p class="material-product__out-of-stock">{{ copy.outOfStock }}</p>
-        {% else %}
-            {{ stepControl(material, product, quantity) }}
-        {% endif %}
+        {{ stepControl(material, product, quantity) }}
     </div>
 {% endmacro %}
 
-{% macro materialCard(material, languageToShow) %}
-<article class="material-card" id="qa-material-{{ material.id }}">
-    <header class="material-card__header">
-        <h4 class="material-card__title t5">{{ material.name[locale] }}</h4>
-    </header>
-    <div class="material-card__media">
-        {% set imageLocale = 'en' if languageToShow === 'monolingual' else 'cy' %}
-        {% set imgPath = 'materials/' + imageLocale + '/' + material.image %}
-        <a class="material-item__media" href="{{ imgPath | getImagePath }}" target="_blank">
-            <img src="{{ imgPath | getImagePath }}" alt="{{ material.name[locale] }}"/>
-        </a>
-    </div>
-    <footer class="material-card__actions">
-        <ul class="material-card__products">
-            {% for language, items in material.products | groupby('language') %}
-                {% if language == languageToShow %}
-                    {% for product in items %}
+{% macro materialCard(material, languageToShow, loopIndex) %}
+    {% set applicableProducts = material.products | filter("language", languageToShow) %}
+    <article class="material-card" id="qa-material-{{ languageToShow }}-{{ loopIndex }}">
+        <header class="material-card__header">
+            <h4 class="material-card__title t5">{{ material.title }}</h4>
+        </header>
+        <div class="material-card__media">
+            {% set firstProductInLanguage = applicableProducts | first %}
+            <a class="material-item__media" href="{{ firstProductInLanguage.image }}" target="_blank">
+                <img src="{{ firstProductInLanguage.image }}" alt="{{ material.title }}"/>
+            </a>
+        </div>
+        <footer class="material-card__actions">
+            <ul class="material-card__products">
+                {% for product in applicableProducts %}
                     <li class="material-card__products-item">
                         {{ materialProduct(material, product) }}
                     </li>
-                    {% endfor %}
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </footer>
-</article>
+                {% endfor %}
+            </ul>
+        </footer>
+    </article>
 {% endmacro %}
 
 {% macro listProducts(languageToShow) %}
     <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
         {% for material in materials %}
             <li class="grid__item">
-                {{ materialCard(material, languageToShow) }}
+                {{ materialCard(material, languageToShow, loop.index) }}
             </li>
         {% endfor %}
     </ul>
@@ -125,22 +126,21 @@
         </div>
     {% else %}
         {{ super() }}
-        <div id="js-vue" v-cloak>
-
+        <div id="js-vue" class="no-vue" data-orders="{{ orders | dump }}">
             <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
                 <h2>{{ copy.locationPrompt }}</h2>
                 <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
                     <li class="grid__item">
                         <a href="#monolingual"
-                        class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                        v-on:click.prevent="toggleItemLanguage('monolingual')">
+                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
+                           v-on:click.prevent="toggleItemLanguage('monolingual')">
                             {{ copy.locations.monolingual }}
                         </a>
                     </li>
                     <li class="grid__item">
                         <a href="#bilingual"
-                        class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                        v-on:click.prevent="toggleItemLanguage('bilingual')">
+                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
+                           v-on:click.prevent="toggleItemLanguage('bilingual')">
                             {{ copy.locations.bilingual }}
                         </a>
                     </li>
@@ -191,7 +191,6 @@
                                 <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
                             </div>
 
-
                             {{ textField(formFields.yourProjectName) }}
 
                             <div class="grid grid--padded grid--top grid-row">
@@ -217,11 +216,11 @@
                                         required = formFields.yourGrantAmount.required
                                     ) }}
 
-                                    <input type="submit"{% if numOrders == 0 %} disabled="disabled"{% endif %}
-                                        v-bind:disabled="isEmpty() && {{ numOrders }} === 0"
-                                        value="{{ __('global.forms.submit') }}"
-                                        class="btn spaced--t--l"
-                                        id="js-submit-material-order">
+                                    <input type="submit"{% if orders.length == 0 %} disabled="disabled"{% endif %}
+                                           v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
+                                           value="{{ __('global.forms.submit') }}"
+                                           class="btn spaced--t--l"
+                                           id="js-submit-material-order">
                                 </div>
                             </div>
                             <h4 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h4>
