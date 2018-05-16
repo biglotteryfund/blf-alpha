@@ -12,9 +12,10 @@
 {% endif %}
 
 {% macro segmentLinks(segments) %}
-    {% if segments.length > 0 %}
+    {% set segmentsToShow = segments | filter('type', 'segment')  %}
+    {% if segmentsToShow.length > 0 %}
         <ul>
-            {% for segment in segments %}
+            {% for segment in segmentsToShow %}
                 <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
             {% endfor %}
         </ul>
@@ -71,18 +72,20 @@
                 <div class="inner--wide-only u-constrained-content-wide">
                     {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
                     {% for contentSegment in content.segments %}
-                        {% set image = false %}
-                        {% if contentSegment.photo %}
-                            {% set image = contentSegment.photo %}
+                        {% if contentSegment.type === 'segment' %}
+                            {% set image = false %}
+                            {% if contentSegment.photo %}
+                                {% set image = contentSegment.photo %}
+                            {% endif %}
+                            {{ segment(
+                                title = contentSegment.title,
+                                text = contentSegment.content,
+                                color = themes.next(),
+                                imagePath = image,
+                                id = contentSegment.anchor | default('segment-' + loop.index, true),
+                                imageIsAbsolute = true
+                            ) }}
                         {% endif %}
-                        {{ segment(
-                            title = contentSegment.title,
-                            text = contentSegment.content,
-                            color = themes.next(),
-                            imagePath = image,
-                            id = 'segment-' + loop.index,
-                            imageIsAbsolute = true
-                        ) }}
                     {% endfor %}
                 </div>
             {% endif %}
