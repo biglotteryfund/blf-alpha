@@ -225,8 +225,8 @@ toplevel:
           - "Cynnig grantiau a chefnogaeth hir dymor a hyblyg i elusennau a grwpiau cymunedol"
           - "Helpu mudiadau i gydweithio ag eraill i wella cymunedau a datrys problemau"
   ebulletin:
-    title: Mwy o wybodaeth am ein grantiau
-    shortTitle: e-fwletin
+    title: e-fwletin
+    introHeading: Mwy o wybodaeth am ein grantiau
     intro: Cofrestrwch am y newyddion diweddaraf yn eich gwlad
     location: Lleoliad
     locations:
@@ -317,7 +317,7 @@ toplevel:
       - label: Ateb cwestiynau mawr – effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   data:
-    title: Data allweddol am y Gronfa Loteri Fawr: <br />blwyddyn ariannol 2016/17
+    title: "Data allweddol am y Gronfa Loteri Fawr: blwyddyn ariannol 2016/17"
     keyStats: Ystadegau allweddol
     map:
       title: Ein blwyddyn mewn Rhifau

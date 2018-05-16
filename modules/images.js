@@ -34,27 +34,6 @@ const heroImages = {
         large: 'hero/rathlin-island-development-large.jpg',
         default: 'hero/rathlin-island-development-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
-    }),
-    streetDreams: createHeroImage({
-        small: 'hero/street-dreams-small.jpg',
-        medium: 'hero/street-dreams-medium.jpg',
-        large: 'hero/street-dreams-large.jpg',
-        default: 'hero/street-dreams-medium.jpg',
-        caption: 'Street Dreams, Grant £9,000'
-    }),
-    youngFoundation: createHeroImage({
-        small: 'hero/young-foundation-small.jpg',
-        medium: 'hero/young-foundation-medium.jpg',
-        large: 'hero/young-foundation-large.jpg',
-        default: 'hero/young-foundation-medium.jpg',
-        caption: 'The Young Foundation - Amplify, Grant £1.06M'
-    }),
-    youngShoulders: createHeroImage({
-        small: 'hero/cancer-fund-for-children-small.jpg',
-        medium: 'hero/cancer-fund-for-children-medium.jpg',
-        large: 'hero/cancer-fund-for-children-large.jpg',
-        default: 'hero/cancer-fund-for-children-medium.jpg',
-        caption: 'Young Shoulders Programme'
     })
 };
 
