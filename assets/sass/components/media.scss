@@ -61,10 +61,6 @@
         position: relative;
         top: -$spacingUnit; // Optical alignment
     }
-}
-.media-aside__text {
-    font-weight: bold;
-    margin-bottom: 0;
 
     @include mq('medium-minor', 'max') {
         @include fullwidth();
@@ -73,7 +69,16 @@
         background-color: palette('turquoise');
         margin-top: 1em;
         margin-bottom: 1em;
+
+        a {
+            color: inherit;
+        }
     }
+
+}
+.media-aside__text {
+    font-weight: bold;
+    margin-bottom: 0;
 
     @include mq('medium') {
         font-size: 32px;

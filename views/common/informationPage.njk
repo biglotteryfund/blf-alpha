@@ -2,6 +2,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import selectionTrail %}
 {% from "components/segment.njk" import segment with context %}
+{% from "components/media.njk" import mediaAside %}
 
 {% extends "layouts/main.njk" %}
 
@@ -84,6 +85,15 @@
                                 imagePath = image,
                                 id = contentSegment.anchor | default('segment-' + loop.index, true),
                                 imageIsAbsolute = true
+                            ) }}
+                        {% elseif  contentSegment.type === 'pullQuote' %}
+                            {{ mediaAside(
+                                quoteText = contentSegment.quoteText,
+                                linkText = contentSegment.linkText,
+                                linkHref = contentSegment.linkUrl,
+                                imageUrl = contentSegment.quoteImage,
+                                imageCaption =  contentSegment.quoteImageCaption,
+                                accentColor = themes.next()
                             ) }}
                         {% endif %}
                     {% endfor %}
