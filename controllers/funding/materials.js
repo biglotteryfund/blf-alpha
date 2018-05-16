@@ -132,7 +132,11 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     );
 
     const preparedOrderDetails = normaliseUserInput(orderDetails);
-    const getFieldValue = fieldName => preparedOrderDetails.find(d => d.key === fieldName).value;
+    const getFieldValue = fieldName => {
+        // some fields are optional and won't be here
+        let field = preparedOrderDetails.find(d => d.key === fieldName);
+        return field ? field.value : null;
+    };
 
     return ordersService.storeOrder({
         grantAmount: getFieldValue('yourGrantAmount'),
@@ -196,7 +200,7 @@ function initForm({ router, routeConfig }) {
                         quantity: item.quantity
                     };
                 });
-                
+
                 const orderText = makeOrderText(itemsToEmail, details);
 
                 storeOrderSummary({
