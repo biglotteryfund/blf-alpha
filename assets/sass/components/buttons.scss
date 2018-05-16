@@ -17,7 +17,13 @@ $btnConf: (
     padding-bottom: $paddingVertical;
 }
 
-// default button style
+/* =========================================================================
+   Buttons: Variants
+   ========================================================================= */
+
+/**
+ * Buttons: Default style
+ */
 .btn {
     @include poppins();
     line-height: 1; // so we can calculate padding for the height
@@ -67,6 +73,9 @@ $btnConf: (
     }
 }
 
+/**
+ * Buttons: Medium Variant
+ */
 .btn--medium {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
@@ -88,7 +97,9 @@ $btnConf: (
     }
 }
 
-// small variant (also a different colour)
+/**
+ * Buttons: Small Variant
+ */
 .btn--small {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
@@ -105,17 +116,22 @@ $btnConf: (
     }
 }
 
-// forces full-width
-.btn--block {
-    display: block;
+/**
+ * Buttons: Reversed Variant
+ */
+.btn--reversed {
+    color: palette('charcoal');
+    background-color: white;
+
+    @include on-interact {
+        color: darken(palette('charcoal'), 10%);
+        background-color: darken(white, 5%);
+    }
 }
 
-.btn--block-full {
-    display: block;
-    width: 100%;
-}
-
-// outlined mode
+/**
+ * Button: Outline variant
+ */
 .btn--outline {
     background-color: #ffffff !important;
     color: palette('blue') !important;
@@ -147,6 +163,20 @@ $btnConf: (
         width: 14px;
         height: 14px;
         margin-left: 2px;
+    }
+}
+
+.btn--next {
+    background-image: arrow-btn();
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center left;
+    min-width: 158px;
+    padding-right: 40px;
+    background-color: transparent;
+    @include on-interact {
+        background-color: transparent;
+        background-image: arrow-btn(darken(palette('blue'), 15%));
     }
 }
 
@@ -256,22 +286,19 @@ $btnConf: (
     }
 }
 
+/* =========================================================================
+   Button Utilities
+   ========================================================================= */
 
-
-.btn--next {
-    background-image: arrow-btn();
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center left;
-    min-width: 158px;
-    padding-right: 40px;
-    background-color: transparent;
-    @include on-interact {
-        background-color: transparent;
-        background-image: arrow-btn(darken(palette('blue'), 15%));
-    }
+// forces full-width
+.btn--block {
+    display: block;
 }
 
+.btn--block-full {
+    display: block;
+    width: 100%;
+}
 
 /* =========================================================================
    Button Group
