@@ -62,13 +62,15 @@ function injectBreadcrumbs(req, res, next) {
     const copy = res.locals.copy;
     const content = res.locals.content;
 
-    const sectionSlug = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
+    const cleanedSection = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
+    const sectionSlug = cleanedSection === '' ? 'home' : cleanedSection;
     const sectionLabel = req.i18n.__(`global.nav.${sectionSlug}`);
+    const sectionUrl = req.baseUrl === '' ? '/' : req.baseUrl;
 
     if (sectionLabel) {
         const topLevelCrumb = {
             label: sectionLabel,
-            url: localify(locale)(req.baseUrl)
+            url: localify(locale)(sectionUrl)
         };
 
         const ancestors = getOr([], 'ancestors')(content);
