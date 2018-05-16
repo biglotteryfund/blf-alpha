@@ -59,10 +59,11 @@ const defaults = {
 };
 
 /**
- * Dynamic route
- * Common route type with a dynamic route handler
+ * Custom route
+ * Route type with no defaults used
+ * for routes with custom controllers
  */
-function dynamicRoute(props) {
+function customRoute(props) {
     return { ...defaults, ...props };
 }
 
@@ -104,19 +105,11 @@ function legacyRoute(props) {
     return { ...defaults, ...legacyDefaults, ...props };
 }
 
-/**
- * Syntax sugar for archived routes
- */
-function archived(path) {
-    return dynamicRoute({ path });
-}
-
 module.exports = {
     createSection,
     staticRoute,
-    dynamicRoute,
+    customRoute,
     sessionRoute,
     cmsRoute,
-    legacyRoute,
-    archived
+    legacyRoute
 };

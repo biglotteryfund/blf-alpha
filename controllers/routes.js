@@ -1,8 +1,8 @@
 'use strict';
 
 const path = require('path');
-const { archivedRoutes, redirects } = require('./aliases');
-const { cmsRoute, createSection, dynamicRoute, legacyRoute, sessionRoute, staticRoute } = require('./route-types');
+const aliases = require('./aliases');
+const { cmsRoute, createSection, customRoute, legacyRoute, sessionRoute, staticRoute } = require('./route-types');
 
 const sections = {
     toplevel: createSection({
@@ -41,7 +41,7 @@ const sections = {
  * Top-level Routes
  */
 sections.toplevel.addRoutes({
-    home: dynamicRoute({
+    home: customRoute({
         path: '/',
         template: 'pages/toplevel/home',
         lang: 'toplevel.home',
@@ -67,7 +67,7 @@ sections.toplevel.addRoutes({
         template: 'pages/toplevel/contact',
         lang: 'toplevel.contact'
     }),
-    data: dynamicRoute({
+    data: customRoute({
         path: '/data',
         template: 'pages/toplevel/data',
         lang: 'toplevel.data'
@@ -78,7 +78,7 @@ sections.toplevel.addRoutes({
     benefits: cmsRoute({
         path: '/jobs/benefits'
     }),
-    search: dynamicRoute({
+    search: customRoute({
         path: '/search',
         allowAllQueryStrings: true,
         live: true
@@ -89,20 +89,20 @@ sections.toplevel.addRoutes({
  * Funding Routes
  */
 sections.funding.addRoutes({
-    root: dynamicRoute({
+    root: customRoute({
         path: '/',
         sMaxAge: '30m',
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
         heroSlug: 'active-plus-communities'
     }),
-    under10k: dynamicRoute({
+    under10k: customRoute({
         path: '/under10k',
         template: 'pages/funding/under10k',
         lang: 'funding.under10k',
         heroSlug: 'friends-of-greenwich'
     }),
-    over10k: dynamicRoute({
+    over10k: customRoute({
         path: '/over10k',
         template: 'pages/funding/over10k',
         lang: 'funding.over10k',
@@ -114,16 +114,16 @@ sections.funding.addRoutes({
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
     }),
-    programmes: dynamicRoute({
+    programmes: customRoute({
         path: '/programmes',
         template: 'pages/funding/programmes',
         lang: 'funding.programmes',
         queryStrings: ['location', 'amount', 'min', 'max']
     }),
-    programmeDetail: dynamicRoute({
+    programmeDetail: customRoute({
         path: '/programmes/*'
     }),
-    programmeDetailAfaScotland: dynamicRoute({
+    programmeDetailAfaScotland: customRoute({
         path: '/programmes/national-lottery-awards-for-all-scotland',
         applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
         abTest: {
@@ -182,14 +182,14 @@ sections.about.addRoutes({
         heroSlug: 'mental-health-foundation',
         sMaxAge: '30m'
     }),
-    seniorManagement: dynamicRoute({
+    seniorManagement: customRoute({
         path: '/our-people/senior-management-team',
         template: 'pages/about/senior-management-team',
         lang: 'about.ourPeople.seniorManagement',
         heroSlug: 'mental-health-foundation',
         live: false
     }),
-    board: dynamicRoute({
+    board: customRoute({
         path: '/our-people/board',
         template: 'pages/about/board',
         lang: 'about.ourPeople.board',
@@ -219,7 +219,7 @@ sections.about.addRoutes({
     welshLanguageScheme: cmsRoute({
         path: '/customer-service/welsh-language-scheme'
     }),
-    ebulletin: dynamicRoute({
+    ebulletin: customRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
         isPostable: true
@@ -233,10 +233,10 @@ sections.about.addRoutes({
  * Blog routes
  */
 sections.blog.addRoutes({
-    root: dynamicRoute({
+    root: customRoute({
         path: '/'
     }),
-    articles: dynamicRoute({
+    articles: customRoute({
         path: '/*'
     })
 });
@@ -245,7 +245,7 @@ sections.blog.addRoutes({
  * Apply routes
  */
 sections.apply.addRoutes({
-    root: dynamicRoute({
+    root: customRoute({
         path: '/'
     }),
     yourIdea: sessionRoute({
@@ -274,22 +274,31 @@ const legacyProxiedRoutes = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    dynamicRoute({ path: '/robots.txt' }),
-    dynamicRoute({ path: '/assets/*' }),
-    dynamicRoute({ path: '/error' }),
-    dynamicRoute({ path: '/styleguide' }),
+    customRoute({ path: '/robots.txt' }),
+    customRoute({ path: '/assets/*' }),
+    customRoute({ path: '/error' }),
+    customRoute({ path: '/styleguide' }),
     sessionRoute({ path: '/tools/*', isPostable: true }),
-    dynamicRoute({ path: '/contrast/*', queryStrings: ['url'] }),
-    dynamicRoute({ path: '/surveys', queryStrings: ['path'] }),
-    dynamicRoute({ path: '/survey/*', isPostable: true }),
+    customRoute({ path: '/contrast/*', queryStrings: ['url'] }),
+    customRoute({ path: '/surveys', queryStrings: ['path'] }),
+    customRoute({ path: '/survey/*', isPostable: true }),
     sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
     legacyRoute({ path: '*~/link.aspx' })
+];
+
+/**
+ * Archived Routes
+ * Paths in this array will be redirected to the National Archives
+ */
+const archivedRoutes = [
+    customRoute({ path: '/funding/funding-guidance/applying-for-funding/*' }),
+    customRoute({ path: '/about-big/10-big-lottery-fund-facts' })
 ];
 
 module.exports = {
     archivedRoutes,
     legacyProxiedRoutes,
     otherUrls,
-    redirects,
+    aliases,
     sections
 };
