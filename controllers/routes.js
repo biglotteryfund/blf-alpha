@@ -68,7 +68,8 @@ sections.toplevel.addRoutes({
     data: customRoute({
         path: '/data',
         template: 'pages/toplevel/data',
-        lang: 'toplevel.data'
+        lang: 'toplevel.data',
+        heroSlug: 'young-shoulders-programme'
     }),
     jobs: cmsRoute({
         path: '/jobs/*'
@@ -113,6 +114,7 @@ sections.funding.addRoutes({
         path: '/programmes',
         template: 'pages/funding/programmes',
         lang: 'funding.programmes',
+        heroSlug: 'the-young-foundation',
         queryStrings: ['location', 'amount', 'min', 'max']
     }),
     programmeDetail: customRoute({
@@ -217,6 +219,8 @@ sections.about.addRoutes({
     ebulletin: customRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
+        lang: 'toplevel.ebulletin',
+        heroSlug: 'street-dreams',
         isPostable: true
     }),
     content: cmsRoute({

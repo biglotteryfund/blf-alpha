@@ -1,24 +1,17 @@
-{% from "components/hero.njk" import hero %}
 {% from "components/data.njk" import statsGrid %}
+{% from "components/hero.njk" import hero %}
 
-{% extends "../../layouts/main.njk" %}
-
-{% block title %}{{ copy.title | striptags(true) }} | {% endblock %}
-
-{% set heroImage = heroImages.youngShoulders %}
-{% set socialImage = heroImage %}
+{% extends "layouts/main.njk" %}
 
 {% block content %}
     {% set pageAccent = 'blue' %}
 
     <main role="main">
-        {{
-            hero(
-                titleText = copy.title,
-                image = heroImage,
-                accent = pageAccent
-            )
-        }}
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
 
         <div class="nudge-up">
             <div class="inner accent--pink a--border-top stats-holder content-box content-box--borderless">
@@ -31,7 +24,7 @@
                     <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.map.title }}</h2>
 
                     <div class="map-wrapper" role="tablist">
-                        {% include "../../includes/uk-svg.njk" %}
+                        {% include "includes/uk-svg.njk" %}
                     </div>
 
                     <div id="js-map-panes" class="js-paneset">

@@ -10,11 +10,12 @@ const contentApi = require('../../services/content-api');
 const { homepageHero } = require('../../modules/images');
 const { purifyUserInput } = require('../../modules/validators');
 
-const robotRoutes = require('./robots');
-const homepageRoute = require('./homepage');
-const searchRoute = require('./search');
+const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
+const homepageRoute = require('./homepage');
 const legacyPages = require('./legacyPages');
+const robotRoutes = require('./robots');
+const searchRoute = require('./search');
 
 module.exports = ({ router, pages }) => {
     /**
@@ -47,25 +48,12 @@ module.exports = ({ router, pages }) => {
         routeConfig: pages.search
     });
 
-    // data page
-    router.get(pages.data.path, (req, res, next) => {
-        const locale = req.i18n.getLocale();
-        const getStatBlocks = contentApi.getStatBlocks(locale);
-        const getStatRegions = contentApi.getStatRegions(locale);
-
-        return Promise.all([getStatBlocks, getStatRegions])
-            .then(responses => {
-                const [statBlocks, statRegions] = responses;
-                res.render('pages/toplevel/data', {
-                    copy: req.i18n.__(pages.data.lang),
-                    statBlocks: statBlocks,
-                    statRegions: statRegions
-                });
-            })
-            .catch(err => {
-                Raven.captureException(err);
-                next();
-            });
+    /**
+     * Data
+     */
+    dataRoute.init({
+        router: router,
+        routeConfig: pages.data
     });
 
     // handle contrast shifter

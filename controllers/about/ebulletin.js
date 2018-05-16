@@ -7,9 +7,10 @@ const rp = require('request-promise-native');
 const config = require('config');
 
 const { customEvent } = require('../../modules/analytics');
-const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const { FORM_STATES } = require('../../modules/forms');
 const { getSecret } = require('../../modules/secrets');
+const { injectCopy } = require('../../middleware/inject-content');
+const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
 
 function subscribeToNewsletter(formData) {
@@ -93,7 +94,7 @@ function init({ router, routeConfig }) {
     router
         .route(routeConfig.path)
         .all(cached.noCache)
-        .get((req, res) => {
+        .get(injectCopy(routeConfig), (req, res) => {
             renderForm({ res });
         })
         .post(formValidators, (req, res) => {

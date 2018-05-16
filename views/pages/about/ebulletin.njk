@@ -3,21 +3,13 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set title = __('toplevel.ebulletin.shortTitle') %}
-{% block title %}{{ title }} | {% endblock %}
-
-{% set heroImage = heroImages.streetDreams %}
-{% set socialImage = heroImage %}
-
 {% block content %}
     {% set pageAccent = 'pink' %}
-    {{
-        hero(
-            titleText = title,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
 
     <main role="main" class="nudge-up">
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
