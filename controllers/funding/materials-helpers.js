@@ -191,6 +191,31 @@ function postcodeArea(postcode) {
         .toUpperCase();
 }
 
+function normaliseUserInput(userInput) {
+    return reduce(
+        materialFields,
+        (acc, field) => {
+            let fieldLabel = field.emailKey;
+            const originalFieldValue = userInput[field.name];
+            const otherValue = userInput[field.name + 'Other'];
+
+            // Override value if "other" field is entered.
+            const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
+
+            if (fieldValue) {
+                acc.push({
+                    key: field.name,
+                    label: fieldLabel,
+                    value: fieldValue
+                });
+            }
+
+            return acc;
+        },
+        []
+    );
+}
+
 /**
  * Create text for order email
  */
@@ -206,24 +231,9 @@ function makeOrderText(items, details) {
         []
     );
 
-    const customerDetails = reduce(
-        materialFields,
-        (acc, field) => {
-            let fieldLabel = field.emailKey;
-            const originalFieldValue = details[field.name];
-            const otherValue = details[field.name + 'Other'];
-
-            // Override value if "other" field is entered.
-            const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
-
-            if (fieldValue) {
-                acc.push(`\t${fieldLabel}: ${fieldValue}`);
-            }
-
-            return acc;
-        },
-        []
-    );
+    // parse their details (eg. merge "other" responses into their parent fields)
+    // then build it into a string for the order email
+    const customerDetails = normaliseUserInput(details).map(d => `\t${d.label}: ${d.value}`);
 
     const text = `
 A new order has been received from the Big Lottery Fund website. The order details are below:
@@ -256,5 +266,6 @@ module.exports = {
     materialFields,
     makeOrderText,
     postcodeArea,
-    injectMerchandise
+    injectMerchandise,
+    normaliseUserInput
 };
