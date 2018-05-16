@@ -21,40 +21,12 @@ function createHeroImage(opts) {
 }
 
 const heroImages = {
-    huntingtonsProject: createHeroImage({
-        small: 'hero/huntingtons-project-small.jpg',
-        medium: 'hero/huntingtons-project-medium.jpg',
-        large: 'hero/huntingtons-project-large.jpg',
-        default: 'hero/huntingtons-project-medium.jpg',
-        caption: 'Huntingtons Project'
-    }),
-    rathlinIslandDevelopment: createHeroImage({
-        small: 'hero/rathlin-island-development-small.jpg',
-        medium: 'hero/rathlin-island-development-medium.jpg',
-        large: 'hero/rathlin-island-development-large.jpg',
-        default: 'hero/rathlin-island-development-medium.jpg',
+    fallbackHeroImage: createHeroImage({
+        small: 'hero/hero-fallback-small.jpg',
+        medium: 'hero/hero-fallback-medium.jpg',
+        large: 'hero/hero-fallback-large.jpg',
+        default: 'hero/hero-fallback-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
-    }),
-    streetDreams: createHeroImage({
-        small: 'hero/street-dreams-small.jpg',
-        medium: 'hero/street-dreams-medium.jpg',
-        large: 'hero/street-dreams-large.jpg',
-        default: 'hero/street-dreams-medium.jpg',
-        caption: 'Street Dreams, Grant £9,000'
-    }),
-    youngFoundation: createHeroImage({
-        small: 'hero/young-foundation-small.jpg',
-        medium: 'hero/young-foundation-medium.jpg',
-        large: 'hero/young-foundation-large.jpg',
-        default: 'hero/young-foundation-medium.jpg',
-        caption: 'The Young Foundation - Amplify, Grant £1.06M'
-    }),
-    youngShoulders: createHeroImage({
-        small: 'hero/cancer-fund-for-children-small.jpg',
-        medium: 'hero/cancer-fund-for-children-medium.jpg',
-        large: 'hero/cancer-fund-for-children-large.jpg',
-        default: 'hero/cancer-fund-for-children-medium.jpg',
-        caption: 'Young Shoulders Programme'
     })
 };
 
@@ -68,14 +40,8 @@ const superHeroImages = {
     })
 };
 
-const defaultHeroImage = heroImages.rathlinIslandDevelopment;
-
-const withFallbackImage = heroImage => heroImage || defaultHeroImage;
-
 module.exports = {
     heroImages,
     superHeroImages,
-    defaultHeroImage,
-    createHeroImage,
-    withFallbackImage
+    createHeroImage
 };
