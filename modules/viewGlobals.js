@@ -20,8 +20,6 @@ function init(app) {
 
     setViewGlobal('shortid', () => shortid());
 
-    setViewGlobal('anchors', config.get('anchors'));
-
     setViewGlobal('getCurrentSection', getCurrentSection);
 
     // a global function for finding errors from a form array
