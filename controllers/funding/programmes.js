@@ -148,7 +148,7 @@ function handleProgrammeDetail(modifyProgrammeMiddleware) {
                     entry: res.locals.fundingProgramme,
                     title: entry.summary.title,
                     isBilingual: isBilingual(entry.availableLanguages),
-                    heroImage: entry.hero || heroImages.rathlinIslandDevelopment
+                    heroImage: entry.hero || heroImages.fallbackHeroImage
                 });
             } else {
                 throw new Error('NoContent');
