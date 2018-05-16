@@ -10,7 +10,13 @@ const Raven = require('raven');
 const { FORM_STATES } = require('../../modules/forms');
 const { injectListingContent } = require('../../middleware/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const { materialFields, makeOrderText, postcodeArea, injectMerchandise } = require('./materials-helpers');
+const {
+    materialFields,
+    makeOrderText,
+    postcodeArea,
+    injectMerchandise,
+    normaliseUserInput
+} = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const mail = require('../../modules/mail');
@@ -125,21 +131,17 @@ function storeOrderSummary({ orderItems, orderDetails }) {
         []
     );
 
-    const preparedOrderDetails = mapValues(orderDetails, (value, key) => {
-        const field = get(materialFields, key);
-
-        if (field) {
-            const otherValue = get(orderDetails, field.name + 'Other');
-            return field.allowOther && otherValue ? otherValue : value;
-        } else {
-            return value;
-        }
-    });
+    const preparedOrderDetails = normaliseUserInput(orderDetails);
+    const getFieldValue = fieldName => {
+        // some fields are optional and won't be here
+        let field = preparedOrderDetails.find(d => d.key === fieldName);
+        return field ? field.value : null;
+    };
 
     return ordersService.storeOrder({
-        grantAmount: preparedOrderDetails.yourGrantAmount,
-        orderReason: preparedOrderDetails.yourReason,
-        postcodeArea: postcodeArea(preparedOrderDetails.yourPostcode),
+        grantAmount: getFieldValue('yourGrantAmount'),
+        orderReason: getFieldValue('yourReason'),
+        postcodeArea: postcodeArea(getFieldValue('yourPostcode')),
         items: preparedOrderItems
     });
 }
@@ -198,7 +200,7 @@ function initForm({ router, routeConfig }) {
                         quantity: item.quantity
                     };
                 });
-                
+
                 const orderText = makeOrderText(itemsToEmail, details);
 
                 storeOrderSummary({
