@@ -3,7 +3,7 @@ const { flatten, get, getOr, last } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { defaultHeroImage } = require('../modules/images');
+const { heroImages } = require('../modules/images');
 const { localify, removeWelsh } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
@@ -22,8 +22,8 @@ function injectHeroImage(page) {
         }
 
         // Set defaults
-        res.locals.heroImage = defaultHeroImage;
-        res.locals.socialImage = defaultHeroImage;
+        res.locals.heroImage = heroImages.fallbackHeroImage;
+        res.locals.socialImage = heroImages.fallbackHeroImage;
 
         res.locals.timings.start('inject-hero');
 

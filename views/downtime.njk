@@ -1,10 +1,10 @@
 {% from "components/hero.njk" import hero %}
 
-{% extends "./layouts/main.njk" %}
+{% extends "layouts/main.njk" %}
 
 {% block title %}{{ title }} | {% endblock %}
 
-{% set heroImage = heroImages.huntingtonsProject %}
+{% set heroImage = heroImages.fallbackHeroImage %}
 {% set socialImage = heroImage %}
 
 {% block content %}
