@@ -28,13 +28,6 @@ const heroImages = {
         default: 'hero/huntingtons-project-medium.jpg',
         caption: 'Huntingtons Project'
     }),
-    newRoutesIntoHorseCare: createHeroImage({
-        small: 'hero/new-routes-into-horse-care-small.jpg',
-        medium: 'hero/new-routes-into-horse-care-medium.jpg',
-        large: 'hero/new-routes-into-horse-care-large.jpg',
-        default: 'hero/new-routes-into-horse-care-medium.jpg',
-        caption: 'New Routes into Horse Care'
-    }),
     rathlinIslandDevelopment: createHeroImage({
         small: 'hero/rathlin-island-development-small.jpg',
         medium: 'hero/rathlin-island-development-medium.jpg',

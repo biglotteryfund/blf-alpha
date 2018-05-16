@@ -41,11 +41,6 @@
     "contrast": "contrastMode",
     "session": "blf-alpha-session"
   },
-  "anchors": {
-    "contactPress": "press",
-    "contactComplaints": "complaints",
-    "contactFraud": "fraud"
-  },
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",

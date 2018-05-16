@@ -172,20 +172,6 @@ $paddedGridGutterLarge: 30px;
     height: auto;
 }
 
-.grid__item__title {
-    @media screen {
-        position: absolute;
-        left: $spacingUnit * 1.5;
-        bottom: $spacingUnit * 1.5;
-
-        &.grid__item__title--top {
-            top: $spacingUnit;
-            left: $spacingUnit;
-            bottom: auto;
-        }
-    }
-}
-
 @media print {
     .grid {
         display: block !important;

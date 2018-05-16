@@ -62,10 +62,8 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.wales',
         heroSlug: 'grassroots-wales'
     }),
-    contact: staticRoute({
-        path: '/contact',
-        template: 'pages/toplevel/contact',
-        lang: 'toplevel.contact'
+    contact: cmsRoute({
+        path: '/contact'
     }),
     data: customRoute({
         path: '/data',
@@ -73,10 +71,7 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.data'
     }),
     jobs: cmsRoute({
-        path: '/jobs'
-    }),
-    benefits: cmsRoute({
-        path: '/jobs/benefits'
+        path: '/jobs/*'
     }),
     search: customRoute({
         path: '/search',

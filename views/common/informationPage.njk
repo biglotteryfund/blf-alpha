@@ -59,9 +59,11 @@
                     </div>
                 </section>
             {% else %}
-                <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                    {{ primaryContent() }}
-                </section>
+                {% if content.introduction %}
+                    <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                        {{ primaryContent() }}
+                    </section>
+                {% endif %}
             {% endif %}
 
             {# Content segments #}

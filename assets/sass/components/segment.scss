@@ -1,3 +1,6 @@
+/* =========================================================================
+   Segments
+   ========================================================================= */
 .segment {
     margin-bottom: 40px;
 
@@ -8,48 +11,48 @@
     @include mq('tablet') {
         display: flex;
     }
+}
+.segment__media {
+    position: relative;
+    height: 100%;
 
-    .segment__media {
-
-        @media print {
-            position: static;
-            height: auto;
-            img {
-                display: none;
-            }
-        }
-
-        @include mq('tablet', 'max') {
-            padding: $spacingUnit $spacingUnit 0 $spacingUnit;
-
-            img {
-                display: none;
-            }
-
-            .segment__title {
-                position: static;
-                top: auto;
-                left: auto;
-                margin: 0;
-                width: 100%;
-            }
-        }
-
-        @include mq('tablet') {
-            width: 300px;
-            margin-right: 12px;
-            flex-shrink: 0;
+    @media print {
+        position: static;
+        height: auto;
+        img {
+            display: none;
         }
     }
 
-    .segment__aside {
-        flex-grow: 1;
+    @include mq('tablet', 'max') {
         padding: $spacingUnit;
-        margin-top: 0;
+        padding-bottom: 0;
 
-        @include mq('tablet') {
-            @include bordered();
-            background-color: palette('pale');
+        img {
+            display: none;
         }
+    }
+
+    @include mq('tablet') {
+        width: 300px;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+}
+.segment__title {
+    @include mq('tablet') {
+        position: absolute;
+        top: 1em;
+        left: 1em;
+    }
+}
+.segment__aside {
+    flex-grow: 1;
+    padding: $spacingUnit;
+    margin-top: 0;
+
+    @include mq('tablet') {
+        @include bordered();
+        background-color: palette('pale');
     }
 }
