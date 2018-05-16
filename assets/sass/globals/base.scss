@@ -148,6 +148,8 @@ input[type='text'],
 input[type='email'],
 input[type='search'] {
     -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0; // Normalise border-radius, notably for iOS.
 }
 
 input[type='search']::-webkit-search-decoration,
@@ -160,4 +162,5 @@ button,
 [type='reset'],
 [type='submit'] {
 	-webkit-appearance: button;
+	appearance: button;
 }
