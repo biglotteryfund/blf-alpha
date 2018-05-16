@@ -1,24 +1,18 @@
 'use strict';
-const { concat, flatMap, map } = require('lodash');
-const { archived } = require('./route-types');
+const { flatMapDeep } = require('lodash');
 const { makeWelsh } = require('../modules/urls');
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
- */
-const archivedRoutes = [
-    archived('/funding/funding-guidance/applying-for-funding/*'),
-    archived('/about-big/10-big-lottery-fund-facts')
-];
-
-/**
- * Legacy Redirects
+ * Aliases
+ * Redirect aliases added here will also be handled as
+ * welsh and regional variants. Used to clean up old URL paths.
+ * Newer vanity URLs are handled in the CMS
+ * Syntax: { to: from }
  */
 // prettier-ignore
-const legacyRedirects = flatMap({
-    '/a4a': '/funding/under10k',
+const aliases = {
     '/A4A': '/funding/under10k',
+    '/a4a': '/funding/under10k',
     '/about-big': '/about',
     '/about-big/contact-us': '/about',
     '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
@@ -40,6 +34,7 @@ const legacyRedirects = flatMap({
     '/about-big/our-approach/accessibility': '/about/customer-service/accessibility',
     '/about-big/strategic-framework': '/about/strategic-framework',
     '/awardsforall': '/funding/under10k',
+    '/cymru': '/welsh/wales',
     '/data-protection': '/about/customer-service/data-protection',
     '/ebulletin': '/about/ebulletin',
     '/en-gb': '/',
@@ -54,11 +49,10 @@ const legacyRedirects = flatMap({
     '/funding/funding-guidance/applying-for-funding': '/funding',
     '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms': '/funding-guidance/help-using-our-application-forms',
     '/funding/funding-guidance/applying-for-funding/information-checks': '/funding/funding-guidance/information-checks',
-    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/help-with-publicity': '/funding/funding-guidance/managing-your-funding',
     '/funding/funding-guidance/managing-your-funding/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-    '/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
     '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
     '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/managing-your-funding/evaluation',
     '/funding/scotland-portfolio': '/funding/programmes?location=scotland',
@@ -85,6 +79,7 @@ const legacyRedirects = flatMap({
     '/global-content/programmes/wales/people-and-places-medium-grants': '/funding/programmes/people-and-places-medium-grants',
     '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
     '/guidancetrackingprogress': '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
+    '/headstart': '/global-content/programmes/england/fulfilling-lives-headstart',
     '/help-and-support': '/about',
     '/home': '/',
     '/home/funding': '/funding',
@@ -92,51 +87,28 @@ const legacyRedirects = flatMap({
     '/index.html': '/',
     '/logos': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/news-and-events/contact-press-team': '/contact#press',
+    '/northernireland': '/northern-ireland',
+    '/over10k': '/funding/over10k',
+    '/prog_people_places': '/funding/programmes?min=10000&location=wales',
     '/publicity': '/funding/funding-guidance/managing-your-funding',
     '/scotland': '/',
     '/uk-wide': '/',
+    '/under10k': '/funding/under10k',
     '/welcome': '/funding/funding-guidance/managing-your-funding',
     '/welsh/about-big/customer-service/fraud': '/welsh/contact#fraud',
     '/welsh/about-big/customer-service/making-a-complaint': '/welsh/contact#complaints',
     '/welsh/news-and-events/contact-press-team': '/welsh/contact#press',
     '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-}, (to, from) => {
-    return flatMap(['', '/england', '/scotland', '/northern-ireland', '/wales'], oldRegionPrefix => {
-        const fromWithRegion = `${oldRegionPrefix}${from}`;
-        const enRedirect = { from: fromWithRegion, to: to };
-        const cyRedirect = { from: makeWelsh(fromWithRegion), to: makeWelsh(to) };
+};
+
+const mappedAliases = flatMapDeep(aliases, (to, from) => {
+    const prefixes = ['', '/england', '/scotland', '/northernireland', '/wales'];
+    return prefixes.map(prefix => {
+        const withPrefix = `${prefix}${from}`;
+        const enRedirect = { from: withPrefix, to: to };
+        const cyRedirect = { from: makeWelsh(withPrefix), to: makeWelsh(to) };
         return [enRedirect, cyRedirect];
     });
 });
 
-/**
- * Vanity URLs
- * @TODO: Move remaining items in here to the CMS
- */
-// prettier-ignore
-const vanityRedirects = map({
-    '/ccf': '/funding/programmes/coastal-communities-fund',
-    '/communityassets': 'funding/programmes/community-assets',
-    '/communityled': '/funding/programmes/grants-for-community-led-activity',
-    '/cyhoeddusrwydd': '/welsh/funding/funding-guidance/managing-your-funding',
-    '/cymru': '/welsh/wales',
-    '/esf': '/funding/programmes/building-better-opportunities',
-    '/headstart': '/global-content/programmes/england/fulfilling-lives-headstart',
-    '/improvinglives': '/funding/programmes/grants-for-improving-lives',
-    '/informationchecks': '/funding/funding-guidance/information-checks',
-    '/northernireland': '/northern-ireland',
-    '/over10k': '/funding/over10k',
-    '/peopleandcommunities': '/funding/programmes/people-and-communities',
-    '/prog_growing_community_assets': 'funding/programmes/community-assets',
-    '/prog_people_places': '/funding/programmes?min=10000&location=wales',
-    '/scottishlandfund': 'funding/programmes/scottish-land-fund',
-    '/slf': 'funding/programmes/scottish-land-fund',
-    '/under10k': '/funding/under10k',
-}, (to, from) => ({ to, from }));
-
-const redirects = concat(legacyRedirects, vanityRedirects);
-
-module.exports = {
-    archivedRoutes,
-    redirects
-};
+module.exports = mappedAliases;

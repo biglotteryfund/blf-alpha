@@ -4,7 +4,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { createSection, staticRoute, dynamicRoute, cmsRoute, legacyRoute } = require('./route-types');
+const { createSection, staticRoute, customRoute, cmsRoute, legacyRoute } = require('./route-types');
 
 describe('Route types', () => {
     it('should create a new section', () => {
@@ -24,9 +24,9 @@ describe('Route types', () => {
         expect(() => section.find('doesNotExist')).to.throw('No route found for doesNotExist');
     });
 
-    it('should define a dynamic route schema', () => {
+    it('should define a custom route schema', () => {
         expect(
-            dynamicRoute({
+            customRoute({
                 path: '/some/url',
                 queryStrings: ['foo', 'bar']
             })

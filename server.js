@@ -188,20 +188,20 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/user', require('./controllers/user'));
 
 /**
+ * Handle Aliases
+ */
+routes.aliases.forEach(redirect => {
+    app.get(redirect.from, (req, res) => {
+        res.redirect(301, redirect.to);
+    });
+});
+
+/**
  * Archived Routes
  * Redirect to the National Archvies
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
     app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
-});
-
-/**
- * Serve Redirects
- */
-routes.redirects.forEach(redirect => {
-    app.get(redirect.from, (req, res) => {
-        res.redirect(301, redirect.to);
-    });
 });
 
 /**
