@@ -60,8 +60,7 @@
 {% macro homepageSuperHero(copy, imageDefault, imageCandidates) %}
     {% set heroContent %}
         <div class="o-button-group">
-            <a class="btn btn--medium
-                      accent--white a--btn"
+            <a class="btn btn--reversed btn--medium"
                 href="{{ buildUrl('funding', 'under10k') }}"
                 id="qa-button-under10k">
                 <span class="accent--pink a--text">
@@ -69,8 +68,7 @@
                     <span class="u-not-wide">{{ copy.under10k.short }}</span>
                 </span>
             </a>
-            <a class="btn btn--medium
-                      accent--white a--btn"
+            <a class="btn btn--reversed btn--medium"
                 href="{{ buildUrl('funding', 'over10k') }}"
                 id="qa-button-over10k">
                 <span class="accent--blue a--text">
