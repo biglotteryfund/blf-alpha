@@ -258,12 +258,7 @@ $constrainedWide: 42em;
     }
 
     figure {
-        margin-left: -($spacingUnit);
-        margin-right: -($spacingUnit);
-
-        @include mq(tablet) {
-            margin: 1em 0 2em;
-        }
+        margin: 1em 0 2em;
 
         img {
             width: auto;
