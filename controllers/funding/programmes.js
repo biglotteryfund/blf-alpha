@@ -53,7 +53,8 @@ function initLegacyFundingFinder({ router, routeConfig }) {
 
 function initProgrammesList({ router, routeConfig }) {
     router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
-        const { fundingProgrammes } = res.locals;
+        const { copy, fundingProgrammes } = res.locals;
+        const globalCopy = req.i18n.__('global');
 
         if (!fundingProgrammes) {
             next();
@@ -75,30 +76,30 @@ function initProgrammesList({ router, routeConfig }) {
             .filter(programmeFilters.filterByMaxAmount(maxAmountParam));
 
         templateData.activeBreadcrumbs.push({
-            label: req.i18n.__('global.nav.funding'),
+            label: globalCopy.nav.funding,
             url: req.baseUrl
         });
 
         if (!minAmountParam && !maxAmountParam && !locationParam) {
             templateData.activeBreadcrumbs.push({
-                label: req.i18n.__(routeConfig.lang + '.breadcrumbAll')
+                label: copy.breadcrumbAll
             });
         } else {
             templateData.activeBreadcrumbs.push({
-                label: req.i18n.__(routeConfig.lang + '.title'),
+                label: copy.title,
                 url: req.baseUrl + req.path
             });
 
             if (parseInt(minAmountParam, 10) === 10000) {
                 templateData.activeBreadcrumbs.push({
-                    label: req.i18n.__(routeConfig.lang + '.over10k'),
+                    label: copy.over10k,
                     url: '/over10k'
                 });
             }
 
             if (parseInt(maxAmountParam, 10) === 10000) {
                 templateData.activeBreadcrumbs.push({
-                    label: req.i18n.__(routeConfig.lang + '.under10k'),
+                    label: copy.under10k,
                     url: '/under10k'
                 });
             }
@@ -106,11 +107,11 @@ function initProgrammesList({ router, routeConfig }) {
             if (locationParam) {
                 const locationParamToTranslation = key => {
                     const regions = {
-                        england: req.i18n.__('global.regions.england'),
-                        wales: req.i18n.__('global.regions.wales'),
-                        scotland: req.i18n.__('global.regions.scotland'),
-                        northernIreland: req.i18n.__('global.regions.northernIreland'),
-                        ukWide: req.i18n.__('global.regions.ukWide')
+                        england: globalCopy.regions.england,
+                        wales: globalCopy.regions.wales,
+                        scotland: globalCopy.regions.scotland,
+                        northernIreland: globalCopy.regions.northernIreland,
+                        ukWide: globalCopy.regions.ukWide
                     };
                     return regions[key];
                 };
