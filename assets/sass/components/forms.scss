@@ -333,11 +333,6 @@
         font-size: 16px;
         color: #333333;
 
-        @include input-placeholder {
-            font-size: 16px;
-            color: #808080;
-        }
-
         &.is-error {
             border-bottom-color: #c6183d;
         }

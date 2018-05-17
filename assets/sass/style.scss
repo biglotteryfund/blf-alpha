@@ -30,8 +30,6 @@
 // ========================================================================= //
 // Low-level, generic scaffolding styles
 
-@import 'scaffolding/header';
-@import 'scaffolding/footer';
 @import 'scaffolding/grid';
 @import 'scaffolding/scope-prose';
 @import 'scaffolding/content';
@@ -62,6 +60,8 @@
 @import 'components/heroes';
 @import 'components/survey';
 @import 'components/news';
+@import 'components/global-header';
+@import 'components/global-footer';
 
 // =========================================================================
 // Utilities
