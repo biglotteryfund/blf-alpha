@@ -1,37 +1,28 @@
 'use strict';
+const { get } = require('lodash');
 const Raven = require('raven');
+const { heroImages } = require('../../modules/images');
+const { injectCopy } = require('../../middleware/inject-content');
 const contentApi = require('../../services/content-api');
-const { superHeroImages } = require('../../modules/images');
+
+async function injectHomepageContent(req, res, next) {
+    try {
+        const response = await contentApi.getHomepage({ locale: req.i18n.getLocale() });
+        res.locals.heroImages = response.heroImages;
+        res.locals.newsArticles = response.newsArticles;
+        next();
+    } catch (error) {
+        Raven.captureException(error);
+        next();
+    }
+}
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, (req, res) => {
-        const locale = req.i18n.getLocale();
-
-        const serveHomepage = (heroImages, newsArticles) => {
-            const copy = req.i18n.__('toplevel.home');
-
-            res.render('pages/toplevel/home', {
-                copy: copy,
-                title: copy.title,
-                description: copy.description || false,
-                news: newsArticles || [],
-                heroImage: heroImages || null
-            });
-        };
-
-        contentApi
-            .getHomepage({ locale })
-            .then(response => {
-                const { heroImages, newsArticles } = response;
-                serveHomepage(heroImages, newsArticles);
-            })
-            .catch(err => {
-                Raven.captureException(err);
-                serveHomepage({
-                    default: superHeroImages.steppingStones,
-                    candidates: []
-                });
-            });
+    router.get(routeConfig.path, injectCopy(routeConfig), injectHomepageContent, (req, res) => {
+        res.render(routeConfig.template, {
+            news: get(res.locals, 'newsArticles', []),
+            heroImage: get(res.locals, 'heroImages', heroImages.fallbackSuperheroImage)
+        });
     });
 }
 
