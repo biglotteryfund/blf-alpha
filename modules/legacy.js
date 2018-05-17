@@ -1,14 +1,13 @@
 'use strict';
-const config = require('config');
 const { get } = require('lodash');
-const request = require('request-promise-native');
 const absolution = require('absolution');
+const config = require('config');
 const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const request = require('request-promise-native');
 
-const appData = require('../modules/appData');
 const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
 
+const { JSDOM } = jsdom;
 const legacyUrl = config.get('legacyDomain');
 
 /**
@@ -30,14 +29,14 @@ function getCanonicalUrl(dom) {
  * Append language link
  * Alwas append a language link if there isn't one on the page.
  */
-function appendLanguageLink(req, res, dom) {
-    const pageIsWelsh = isWelsh(req.path);
+function appendLanguageLink(dom, originalUrlPath) {
+    const pageIsWelsh = isWelsh(originalUrlPath);
     const regionNav = dom.window.document.getElementById('regionNav');
     const hasWelshLink = regionNav.querySelectorAll('[hreflang="cy"]').length > 0;
     const hasEnglishLink = regionNav.querySelectorAll('[hreflang="en"]').length > 0;
 
     const injectLink = (localeToAppend, nav) => {
-        const linkPath = localeToAppend === 'cy' ? makeWelsh(req.path) : removeWelsh(req.path);
+        const linkPath = localeToAppend === 'cy' ? makeWelsh(originalUrlPath) : removeWelsh(originalUrlPath);
         const linkText = localeToAppend === 'cy' ? 'Cymraeg' : 'English';
         const listItem = dom.window.document.createElement('li');
         listItem.setAttribute('id', 'ctl12_langLi');
@@ -63,9 +62,10 @@ function appendLanguageLink(req, res, dom) {
 function proxyLegacyPage({ req, res, domModifications, followRedirect = true }) {
     res.cacheControl = { maxAge: 0 };
 
+    const originalUrlPath = req.baseUrl + req.path;
+
     return request({
-        url: legacyUrl + req.path,
-        qs: req.query,
+        url: legacyUrl + req.originalUrl,
         strictSSL: false,
         jar: true,
         followRedirect: followRedirect,
@@ -83,20 +83,16 @@ function proxyLegacyPage({ req, res, domModifications, followRedirect = true }) 
          * from the page and redirect to that.
          */
         const canonicalUrl = getCanonicalUrl(dom);
-        if (canonicalUrl && canonicalUrl !== req.path) {
+        if (canonicalUrl && canonicalUrl !== originalUrlPath) {
             res.redirect(301, canonicalUrl);
         } else {
-            if (appData.isDev) {
-                dom.window.document.title = '[PROXIED] ' + dom.window.document.title;
-            }
-
-            appendLanguageLink(req, res, dom);
+            appendLanguageLink(dom, originalUrlPath);
 
             // rewrite main ASP.net form to point to this page
             // (currently it's rewritten above to the external one)
             const form = dom.window.document.getElementById('form1');
             if (form) {
-                form.setAttribute('action', req.path);
+                form.setAttribute('action', originalUrlPath);
             }
 
             // Remove live chat widget as document.write causes issue when proxying.
@@ -146,7 +142,7 @@ function postToLegacyForm(req, res, next) {
 
     // work out if we need to serve english/welsh page
     let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-    let pagePath = localePath + req.path;
+    let pagePath = localePath + req.baseUrl + req.path;
 
     return request
         .post({

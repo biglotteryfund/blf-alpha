@@ -13,7 +13,6 @@ const { purifyUserInput } = require('../../modules/validators');
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
 const homepageRoute = require('./homepage');
-const legacyPages = require('./legacyPages');
 const robotRoutes = require('./robots');
 const searchRoute = require('./search');
 
@@ -31,13 +30,6 @@ module.exports = ({ router, pages }) => {
     homepageRoute.init({
         router: router,
         routeConfig: pages.home
-    });
-
-    /**
-     * Legacy proxied pages
-     */
-    legacyPages.init({
-        router: router
     });
 
     /**
