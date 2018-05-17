@@ -28,11 +28,12 @@ function initLegacyFundingFinder({ router, routeConfig }) {
         .get(stripCSPHeader, (req, res) => {
             req.query = normaliseQuery(req.query);
             const showClosed = parseInt(req.query.sc, 10) === 1;
+            const programmesUrl = localify(req.i18n.getLocale())('/funding/programmes');
 
             if (showClosed) {
                 // Proxy legacy funding finder for closed programmes
                 proxyLegacyPage({ req, res }).catch(error => {
-                    redirectWithError(res, error, '/funding/programmes');
+                    redirectWithError(res, error, programmesUrl);
                 });
             } else {
                 // Redirect from funding finder to new programmes page
@@ -41,9 +42,7 @@ function initLegacyFundingFinder({ router, routeConfig }) {
                     originalAmountQuery: req.query.amount
                 });
 
-                const redirectUrl = localify(req.i18n.getLocale())(
-                    '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : '')
-                );
+                const redirectUrl = programmesUrl + (newQuery.length > 0 ? `?${newQuery}` : '');
 
                 res.redirect(301, redirectUrl);
             }
