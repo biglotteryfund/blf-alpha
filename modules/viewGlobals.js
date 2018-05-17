@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const shortid = require('shortid');
 
 const formHelpers = require('./forms');
