@@ -1,24 +1,17 @@
 'use strict';
-const { assign, findIndex, get, map } = require('lodash');
-const ab = require('express-ab');
-const config = require('config');
-const moment = require('moment');
-const Raven = require('raven');
+const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
 const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
-const { noCache } = require('../../middleware/cached');
 const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { redirectWithError } = require('../http-errors');
-const { splitPercentages } = require('../../modules/ab');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
-const appData = require('../../modules/appData');
 
 /**
- * Legacy funding finder
+ * Route: Legacy funding finder
  * Proxy the legacy funding finder for closed programmes (where `sc` query is present)
  * For all other requests normalise the query string and redirect to the new funding programmes list.
  */
@@ -50,6 +43,9 @@ function initLegacyFundingFinder({ router, routeConfig }) {
         .post(postToLegacyForm);
 }
 
+/**
+ * Route: Programmes Listing
+ */
 function initProgrammesList({ router, routeConfig }) {
     router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
         const { copy, fundingProgrammes } = res.locals;
@@ -128,86 +124,23 @@ function initProgrammesList({ router, routeConfig }) {
     });
 }
 
-function handleProgrammeDetail(modifyProgrammeMiddleware) {
-    const noop = (req, res, next) => next();
-    return [
-        injectFundingProgramme,
-        modifyProgrammeMiddleware || noop,
-        (req, res, next) => {
-            const { fundingProgramme } = res.locals;
-            const contentSections = get(fundingProgramme, 'contentSections', []);
-            if (contentSections.length > 0) {
-                res.render('pages/funding/programme-detail', {
-                    entry: fundingProgramme,
-                    title: fundingProgramme.summary.title,
-                    isBilingual: isBilingual(fundingProgramme.availableLanguages),
-                    heroImage: fundingProgramme.hero || heroImages.fallbackHeroImage
-                });
-            } else {
-                next();
-            }
-        }
-    ];
-}
-
-function initProgrammeDetail({ router }) {
-    router.get('/programmes/:slug', handleProgrammeDetail());
-}
-
-function initProgrammeDetailAwardsForAll({ router, routeConfig }) {
-    function injectVariantModifications(req, res, next) {
+/**
+ * Route: Programme Detail
+ */
+function initProgrammeDetail({ router, routeConfig }) {
+    router.get('/programmes/:slug', injectFundingProgramme, (req, res, next) => {
         const entry = res.locals.fundingProgramme;
-        const locale = req.i18n.getLocale();
-
-        const applyTabIdx = findIndex(entry.contentSections, section => {
-            return section.title.match(/How do you apply|Sut ydych chi'n ymgeisio/);
-        });
-
-        if (applyTabIdx !== -1) {
-            const applyUrl = locale === 'cy' ? `${routeConfig.applyUrl}&lang=welsh` : routeConfig.applyUrl;
-            const originalTextFromCMS = entry.contentSections[applyTabIdx].body;
-            const awardsTextToPrepend = req.i18n.__('global.abTests.awardsForAllOnlineForm', applyUrl);
-            entry.contentSections[applyTabIdx] = assign({}, entry.contentSections[applyTabIdx], {
-                body: awardsTextToPrepend + originalTextFromCMS
+        if (entry.contentSections.length > 0) {
+            res.render(routeConfig.template, {
+                title: entry.summary.title,
+                entry: res.locals.fundingProgramme,
+                isBilingual: isBilingual(entry.availableLanguages),
+                heroImage: entry.hero || heroImages.fallbackHeroImage
             });
         } else {
-            Raven.captureMessage('Failed to modify Awards For All page');
+            next(new Error('NoContent'));
         }
-
-        res.locals.fundingProgramme = entry;
-        next();
-    }
-
-    const testFn = ab.test('blf-afa-rollout-england', {
-        cookie: {
-            name: routeConfig.abTest.cookie,
-            maxAge: moment.duration(4, 'weeks').asMilliseconds()
-        },
-        id: routeConfig.abTest.experimentId
     });
-
-    const percentages = splitPercentages(routeConfig.abTest.percentage);
-
-    router.get(routeConfig.path, noCache, testFn(null, percentages.A), handleProgrammeDetail());
-    router.get(
-        routeConfig.path,
-        noCache,
-        testFn(null, percentages.B),
-        handleProgrammeDetail(injectVariantModifications)
-    );
-
-    function maskUrl(req, res, next) {
-        req.url = routeConfig.path;
-        next();
-    }
-
-    /**
-     * Expose preview URLs to see test variants directly
-     */
-    if (appData.isNotProduction) {
-        router.get(`${routeConfig.path}/a`, maskUrl, handleProgrammeDetail());
-        router.get(`${routeConfig.path}/b`, maskUrl, handleProgrammeDetail(injectVariantModifications));
-    }
 }
 
 function init({ router, routeConfigs }) {
@@ -216,18 +149,15 @@ function init({ router, routeConfigs }) {
         routeConfig: routeConfigs.programmes
     });
 
+    initProgrammeDetail({
+        router: router,
+        routeConfig: routeConfigs.programmeDetail
+    });
+
     initLegacyFundingFinder({
         router: router,
         routeConfig: routeConfigs.fundingFinderLegacy
     });
-
-    if (config.get('features.enableAbTests')) {
-        [routeConfigs.programmeDetailAfaScotland].forEach(routeConfig => {
-            initProgrammeDetailAwardsForAll({ router, routeConfig });
-        });
-    }
-
-    initProgrammeDetail({ router });
 }
 
 module.exports = {
