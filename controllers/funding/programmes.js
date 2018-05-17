@@ -28,11 +28,8 @@ const programmeFilters = {
                 return programme;
             }
 
-            return (
-                !programme.content.area ||
-                get(programme.content, 'area.value') === 'ukWide' ||
-                get(programme.content, 'area.value') === locationValue
-            );
+            const area = get(programme.content, 'area');
+            return area.value === locationValue;
         };
     },
     filterByMinAmount(minAmount) {

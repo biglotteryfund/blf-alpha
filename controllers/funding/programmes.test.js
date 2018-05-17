@@ -87,33 +87,24 @@ describe('Programme utilities', () => {
         });
 
         describe('#filterByLocation', () => {
-            it('should filter programmes by England, including UK-Wide', () => {
+            it('should filter programmes by England', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('england'));
-                expect(res.map(item => item.content.title)).to.eql([
-                    'National Lottery Awards for All England',
-                    'Awards from the UK Portfolio'
-                ]);
+                expect(res.map(item => item.content.title)).to.eql(['National Lottery Awards for All England']);
             });
 
-            it('should filter programmes by Northern Ireland, including UK-Wide', () => {
+            it('should filter programmes by Northern Ireland', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('northernIreland'));
-                expect(res.map(item => item.content.title)).to.eql([
-                    'Empowering Young People',
-                    'Awards from the UK Portfolio'
-                ]);
+                expect(res.map(item => item.content.title)).to.eql(['Empowering Young People']);
             });
 
-            it('should filter programmes by Wales, including UK-Wide', () => {
+            it('should filter programmes by Wales', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('wales'));
-                expect(res.map(item => item.content.title)).to.eql([
-                    'People and Places: Large Grants',
-                    'Awards from the UK Portfolio'
-                ]);
+                expect(res.map(item => item.content.title)).to.eql(['People and Places: Large Grants']);
             });
 
-            it('should filter programmes by Scotland, including UK-Wide', () => {
+            it('should filter programmes by Scotland', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('scotland'));
-                expect(res.map(item => item.content.title)).to.eql(['Our Place', 'Awards from the UK Portfolio']);
+                expect(res.map(item => item.content.title)).to.eql(['Our Place']);
             });
         });
 
