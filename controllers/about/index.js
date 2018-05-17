@@ -1,8 +1,14 @@
 'use strict';
+const aboutLandingRoute = require('./about');
 const ebulletinRoute = require('./ebulletin');
 const profilesRoutes = require('./profiles');
 
 module.exports = ({ router, pages }) => {
+    aboutLandingRoute.init({
+        router: router,
+        routeConfig: pages.root
+    });
+
     ebulletinRoute.init({
         router: router,
         routeConfig: pages.ebulletin

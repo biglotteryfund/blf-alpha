@@ -5,7 +5,7 @@ const request = require('request-promise-native');
 
 const mapAttrs = response => map('attributes')(response.data);
 
-const { removeWelsh } = require('../modules/urls');
+const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 if (!CONTENT_API_URL) {
@@ -151,13 +151,20 @@ function getFundingProgramme({ locale, slug, previewMode }) {
 }
 
 function getListingPage({ locale, path, previewMode }) {
-    const sanitisedPath = removeWelsh(path).replace(/^\/+/g, '');
+    const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
         qs: addPreviewParams(previewMode, { path: sanitisedPath })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         const match = attributes.find(_ => _.path === sanitisedPath);
         return match;
+    });
+}
+
+function getFlexibleContent({ locale, path }) {
+    const sanitisedPath = sanitiseUrlPath(path);
+    return fetch(`/v1/${locale}/flexible-content?path=${sanitisedPath}`).then(response => {
+        return response.data.attributes;
     });
 }
 
@@ -226,6 +233,7 @@ module.exports = {
     getBlogDetail,
     getBlogPosts,
     getCaseStudies,
+    getFlexibleContent,
     getFundingProgramme,
     getFundingProgrammes,
     getHeroImage,
