@@ -27,21 +27,17 @@ const heroImages = {
         large: 'hero/hero-fallback-large.jpg',
         default: 'hero/hero-fallback-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
-    })
-};
-
-const superHeroImages = {
-    steppingStones: createHeroImage({
-        small: 'super-hero/stepping-stones-small.jpg',
-        medium: 'super-hero/stepping-stones-medium.jpg',
-        large: 'super-hero/stepping-stones-large.jpg',
-        default: 'super-hero/stepping-stones-medium.jpg',
+    }),
+    fallbackSuperheroImage: createHeroImage({
+        small: 'hero/superhero-fallback-small.jpg',
+        medium: 'hero/superhero-fallback-medium.jpg',
+        large: 'hero/superhero-fallback-large.jpg',
+        default: 'hero/superhero-fallback-medium.jpg',
         caption: 'Stepping Stones Programme, Grant £405,270'
     })
 };
 
 module.exports = {
     heroImages,
-    superHeroImages,
     createHeroImage
 };

@@ -152,6 +152,9 @@ sections.funding.addRoutes({
     }),
     fundingGuidance: cmsRoute({
         path: '/funding-guidance/*'
+    }),
+    fundingFinderLegacy: legacyRoute({
+        path: '/funding-finder'
     })
 });
 
@@ -254,20 +257,6 @@ sections.apply.addRoutes({
 });
 
 /**
- * Legacy proxied routes
- * The following URLs are legacy pages that are being proxied to make small amends to them.
- * They have not yet been redesigned or replaced so aren't ready to go into the main routes.
- */
-const legacyProxiedRoutes = {
-    fundingFinder: legacyRoute({
-        path: '/funding/funding-finder'
-    }),
-    fundingFinderWelsh: legacyRoute({
-        path: '/welsh/funding/funding-finder'
-    })
-};
-
-/**
  * Other Routes
  * These are other paths that should be routed to this app via Cloudfront
  * but aren't explicit page routes (eg. static files, custom pages etc)
@@ -295,9 +284,8 @@ const archivedRoutes = [
 ];
 
 module.exports = {
-    archivedRoutes,
-    legacyProxiedRoutes,
-    otherUrls,
     aliases,
+    archivedRoutes,
+    otherUrls,
     sections
 };

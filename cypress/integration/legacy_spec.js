@@ -2,6 +2,7 @@ describe('Legacy pages', () => {
     it('should pass unknown routes to the legacy site', () => {
         cy.request('/about-big/publications/corporate-documents').then(response => {
             expect(response.headers['x-blf-legacy']).to.eq('true');
+            expect(response.headers['content-security-policy']).to.not.exist;
             expect(response.body).to.include('Corporate documents: About - Big Lottery Fund');
         });
 
@@ -9,6 +10,7 @@ describe('Legacy pages', () => {
             .request('/funding/funding-guidance/managing-your-funding/about-equalities/evidence-collection-tools')
             .then(response => {
                 expect(response.headers['x-blf-legacy']).to.eq('true');
+                expect(response.headers['content-security-policy']).to.not.exist;
                 expect(response.body).to.include('Evidence collection tools: Funding - Big Lottery Fund');
             });
     });
@@ -44,6 +46,7 @@ describe('Legacy pages', () => {
     it('should proxy old funding finder if requesting closed programmes', () => {
         cy.request('/funding/funding-finder?area=England&amp;amount=500001 - 1000000&amp;sc=1').then(response => {
             expect(response.headers['x-blf-legacy']).to.eq('true');
+            expect(response.headers['content-security-policy']).to.not.exist;
             expect(response.body).to.include('This is a list of our funding programmes');
             expect(response.body).to.include('Show closed programmes');
         });

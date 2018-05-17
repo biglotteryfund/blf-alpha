@@ -19,8 +19,7 @@ module.exports = ({ router, pages }) => {
      */
     tenKRoutes.init({
         router: router,
-        under10kConfig: pages.under10k,
-        over10kConfig: pages.over10k
+        routeConfigs: pages
     });
 
     /**
@@ -36,13 +35,7 @@ module.exports = ({ router, pages }) => {
      */
     programmesRoute.init({
         router: router,
-        routeConfig: {
-            programmes: pages.programmes,
-            programmeDetail: pages.programmeDetail,
-            programmeDetailAfaEngland: pages.programmeDetailAfaEngland,
-            programmeDetailAfaWales: pages.programmeDetailAfaWales,
-            programmeDetailAfaScotland: pages.programmeDetailAfaScotland
-        }
+        routeConfigs: pages
     });
 
     return router;

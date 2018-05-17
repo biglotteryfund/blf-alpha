@@ -24,16 +24,16 @@ function init10k({ router, routeConfig, caseStudySlugs }) {
     );
 }
 
-function init({ router, under10kConfig, over10kConfig }) {
+function init({ router, routeConfigs }) {
     init10k({
         router: router,
-        routeConfig: under10kConfig,
+        routeConfig: routeConfigs.under10k,
         caseStudySlugs: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
     });
 
     init10k({
         router: router,
-        routeConfig: over10kConfig,
+        routeConfig: routeConfigs.over10k,
         caseStudySlugs: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
     });
 }
