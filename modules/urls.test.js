@@ -10,6 +10,7 @@ const {
     isWelsh,
     localify,
     normaliseQuery,
+    sanitiseUrlPath,
     stripTrailingSlashes
 } = require('./urls');
 
@@ -143,6 +144,13 @@ describe('URL Helpers', () => {
             expect(stripTrailingSlashes(pathWithSlash)).to.equal('/foo');
             expect(stripTrailingSlashes(pathWithoutSlash)).to.equal('/bar');
             expect(stripTrailingSlashes(pathToHomepage)).to.equal('/');
+        });
+    });
+
+    describe('#sanitiseUrlPath', () => {
+        it('should sanitise url path', () => {
+            expect(sanitiseUrlPath('/about/')).to.equal('about');
+            expect(sanitiseUrlPath('/welsh/path/to/something/')).to.equal('path/to/something');
         });
     });
 
