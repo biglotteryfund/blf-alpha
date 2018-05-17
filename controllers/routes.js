@@ -72,7 +72,10 @@ sections.toplevel.addRoutes({
         heroSlug: 'young-shoulders-programme'
     }),
     jobs: cmsRoute({
-        path: '/jobs/*'
+        path: '/jobs'
+    }),
+    jobsBenefits: cmsRoute({
+        path: '/jobs/benefits'
     }),
     search: customRoute({
         path: '/search',
