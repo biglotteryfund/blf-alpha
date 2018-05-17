@@ -1,4 +1,5 @@
 {% from "components/nav.njk" import selectionTrail %}
+{% from "components/content.njk" import flexibleContent %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
@@ -50,8 +51,8 @@
                     <footer class="article__meta accent--{{ pageAccent }} a--border-color">
                         {{ articleMeta(entry) }}
                     </footer>
-                    <div class="article__body s-prose s-prose--long">
-                        {{ entry.body | safe }}
+                    <div class="article__body">
+                        {{ flexibleContent(entry.flexibleContent) }}
                     </div>
                 </div>
                 {% if entry.tags.length > 0 %}

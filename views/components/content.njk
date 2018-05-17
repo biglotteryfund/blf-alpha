@@ -1,0 +1,34 @@
+{% from "components/media.njk" import mediaAside %}
+
+{% macro flexibleContent(flexibleContent) %}
+    {% if flexibleContent.length > 0 %}
+        {% set mediaAsideCounter = 0 %}
+        {% for part in flexibleContent %}
+            {% if part.type === 'contentArea' %}
+                <div class="s-prose s-prose--long u-constrained-content-wide
+                    accent-content--{{ pageAccent }}">
+                    {{ part.content | safe }}
+                </div>
+            {% elseif  part.type === 'inlineFigure' %}
+                <div class="s-prose s-prose--long">
+                    <figure>
+                        <img src="{{ part.photo }}" alt="{{ part.caption }}">
+                        <figcaption>{{ part.photoCaption }}</figcaption>
+                    </figure>
+                </div>
+
+            {% elseif  part.type === 'mediaAside' %}
+                {% set mediaAsideCounter = mediaAsideCounter + 1 %}
+                {{ mediaAside(
+                    quoteText = part.quoteText,
+                    linkText = part.linkText,
+                    linkHref = part.linkUrl,
+                    imageUrl = part.photo,
+                    imageCaption =  part.photoCaption,
+                    accentColor = pageAccent,
+                    isReversed = mediaAsideCounter % 2 == 0
+                ) }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

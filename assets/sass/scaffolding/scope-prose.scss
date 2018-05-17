@@ -265,15 +265,14 @@ $constrainedWide: 42em;
             margin: 1em 0 2em;
         }
 
-        &.auto-width {
-            img {
-                width: auto;
-            }
+        img {
+            width: auto;
+            margin-bottom: 5px;
         }
-    }
 
-    figcaption {
-        @include text-caption();
+        figcaption {
+            @include text-caption();
+        }
     }
 
     code,
