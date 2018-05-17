@@ -325,41 +325,6 @@ toplevel:
       totalAwarded: Cyfanswm a ddyfarnwyd
       totalBeneficiaries: Cyfanswm buddiolwyr
 about:
-  landing:
-    title: Gwaith y Gronfa Loteri Fawr
-    intro:
-      opening: Rydym yn sicrhau bod arian a godir gan chwaraewyr <a href="https://www.national-lottery.co.uk/">Y Loteri Genedlaethol</a> yn helpu cymunedau i gyflawni eu huchelgeisiau a ffynnu. Rydym yn gwneud hwn trwy ddyfarnu grantiau, dod â chymunedau ynghyd, a rhannu'r hyn a ddysgwn gyda chymunedau, arianwyr eraill a'r llywodraeth.
-      learnApply: Darganfod sut i ymgeisio am grant
-    whatWeDo:
-      title: Beth rydym yn ei wneud
-      paragraphs:
-      - <strong>Mae'r Gronfa Loteri Fawr yn ariannu prosiectau a gweithgareddau sy'n gwneud cymunedau'n gryfach ac yn fwy bywiog, ac sydd wedi'u harwain gan y bobl sy'n byw ynddynt.</strong>
-      - Rydym yn cefnogi elusennau, grwpiau cymunedol a phobl sydd â syniadau gwych - rhai mawr neu rai bach, yn lleol neu'n genedlaethol. Rydym yn dod â phobl a grwpiau ynghyd; i rannu profiadau, dysgu o'i gilydd a rhoi cynnig ar ddulliau gweithio newydd.
-    howOurFundingIsUsed:
-      title: Arian y Loteri Genedlaethol
-      paragraphs:
-      - <strong>Mae'r Loteri Genedlaethol yn  codi arian ar gyfer achosion da.</strong>
-      - Mae pobl yn defnyddio'r arian hwn i wneud pethau anhygoel, gan arwain ar wella'u bywydau a'u cymunedau. Rydych yn gwneud i hwn ddigwydd bob tro y byddwch yn prynu tocyn Loteri Genedlaethol.
-      - Daw cymunedau mewn pob math a maint, ac mae arian gan y Loteri Genedlaethol ar gael i bawb.
-      - Mae 12 corff sy'n dosbarthu'r arian a godir gan chwaraewyr y Loteri Genedlaethol, sy'n ariannu prosiectau a gweithgareddau sy'n trawsnewid cymunedau, diogelu ein treftadaeth, ac yn cyfoethogi bywydau trwy'r celfyddydau, chwaraeon a diwylliant.
-    ourStructure:
-      title: Ein strwythur
-      paragraphs:
-      - Rydym yn un o ddosbarthwyr arian y Loteri Genedlaethol, fe'n sefydlwyd fel corff cyhoeddus anadrannol gan Ddeddf Seneddol.
-      - <strong>Rydym wedi'n harwain gan ein <a href="/welsh/about-big/our-people/senior-management-team">huwch dîm rheoli</a> a'n goruchwylio gan <a href="/welsh/about-big/our-people/board">fwrdd</a>.</strong>
-      - Rhennir ein gwaith i bum portffolio, sy'n ymdrin ag ariannu ar draws Cymru, Lloegr, Yr Alban, Gogledd Iwerddon a'r Deyrnas Unedig yn gyffredinol.
-      - Mae gennym dimau ym mhob cwr o'r Deyrnas Unedig sy'n brif bwynt cyswllt ar gyfer cymunedau. Maent yn cydweithio â phobl i ddatblygu syniadau a chreu cyfleoedd i grwpiau ddod ynghyd.
-      learnGovernance: Dysgu am ein strwythur a sut rydym wedi'n llywodraethu
-    asideAnnualReport:
-      quoteText: Yn 2016/17 dyfarnom dros £700 miliwn, gan gynnwys 10,000 o grantiau o lai na £10,000
-      linkText: Darllen ein hadroddiad blynyddol diweddaraf (PDF 3.2MB)
-      linkHref: "https://www.biglotteryfund.org.uk/-/media/Files/Corporate%20documents/Annual%20Reports/pub_annual_report_big_2017_w.pdf"
-      imageCaption: Pennine Lancashire Community Farm
-    asidePeopleInTheLead:
-      quoteText: Cyrhaeddom bron 10 miliwn o bobl gyda'n grantiau y llynedd
-      linkText: "Darganfod ein fframwaith strategol: Galluogi Pobl i Arwain"
-      linkHref: "/welsh/about/strategic-framework"
-      imageCaption: Dawn Austwick, Prif Weithredwr
   ourPeople:
     navigation:
       section:
