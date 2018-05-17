@@ -230,51 +230,6 @@
 }
 
 /* =========================================================================
-   Inline Search
-   ========================================================================= */
-
-.inline-search {
-    width: 100%;
-    max-width: 35em;
-}
-.inline-search__group {
-    position: relative;
-}
-.inline-search__input {
-    display: block;
-    width: 100%;
-    padding-right: 50px;
-    padding-left: 10px;
-    height: 40px;
-    font-size: 18px;
-}
-.inline-search__submit {
-    @include poppins();
-    font-size: 16px;
-    color: white;
-    background: palette('blue');
-    border: none;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 40px;
-    padding: 0 12px 0 8px;
-
-    @include on-interact {
-        background-color: darken(palette('blue'), 10%);
-    }
-
-    .icon {
-        width: 20px;
-        height: 20px;
-        display: block;
-        float: left;
-        margin-right: 5px;
-    }
-}
-
-/* =========================================================================
    Custom Form: Ebulletin
    ========================================================================= */
 
@@ -332,11 +287,6 @@
         border-bottom: 2px solid #666666;
         font-size: 16px;
         color: #333333;
-
-        @include input-placeholder {
-            font-size: 16px;
-            color: #808080;
-        }
 
         &.is-error {
             border-bottom-color: #c6183d;

@@ -25,21 +25,20 @@
         <input type="hidden" name="lang" value="en-GB">
         <input type="hidden" name="type" value="All">
         <input type="hidden" name="order" value="r">
-        <label
-            class="global-search__icon"
-            for="global-search-input-{{ id }}"
-        >
-            {{ iconSearch() }}
-            <span class="u-visually-hidden global-search__a11y">{{ __("global.misc.search") }}</span>
+        <label class="u-visually-hidden" for="global-search-input-{{ id }}">
+            {{ __("global.misc.search") }}
         </label>
         <input
-            class="global-search__input"
+            class="global-search__input ff-text"
             id="global-search-input-{{ id }}"
             name="q"
             type="text"
             placeholder="{{ __("global.misc.search") }}"
         >
-        <input class="u-visually-hidden" type="submit" value="{{ __("global.misc.search") }}" />
+        <button class="global-search__submit" type="submit">
+            {{ iconSearch() }}
+            <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
+        </button>
     </form>
 {% endmacro %}
 

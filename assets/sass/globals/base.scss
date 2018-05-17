@@ -164,3 +164,8 @@ button,
 	-webkit-appearance: button;
 	appearance: button;
 }
+
+/* Allow only vertical resizing of textareas. */
+textarea {
+    resize: vertical;
+}
