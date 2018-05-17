@@ -1,5 +1,5 @@
 'use strict';
-const { assign, findIndex, map } = require('lodash');
+const { assign, findIndex, get, map } = require('lodash');
 const ab = require('express-ab');
 const config = require('config');
 const moment = require('moment');
@@ -133,17 +133,18 @@ function handleProgrammeDetail(modifyProgrammeMiddleware) {
     return [
         injectFundingProgramme,
         modifyProgrammeMiddleware || noop,
-        (req, res) => {
-            const entry = res.locals.fundingProgramme;
-            if (entry.contentSections.length > 0) {
+        (req, res, next) => {
+            const { fundingProgramme } = res.locals;
+            const contentSections = get(fundingProgramme, 'contentSections', []);
+            if (contentSections.length > 0) {
                 res.render('pages/funding/programme-detail', {
-                    entry: res.locals.fundingProgramme,
-                    title: entry.summary.title,
-                    isBilingual: isBilingual(entry.availableLanguages),
-                    heroImage: entry.hero || heroImages.fallbackHeroImage
+                    entry: fundingProgramme,
+                    title: fundingProgramme.summary.title,
+                    isBilingual: isBilingual(fundingProgramme.availableLanguages),
+                    heroImage: fundingProgramme.hero || heroImages.fallbackHeroImage
                 });
             } else {
-                throw new Error('NoContent');
+                next();
             }
         }
     ];
