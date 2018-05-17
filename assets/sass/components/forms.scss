@@ -232,44 +232,25 @@
 /* =========================================================================
    Custom Form: Ebulletin
    ========================================================================= */
+// @TODO: can we define this a general modifier? Slim? Tinted?
 
 .form-ebulletin {
-    .form-field--type-text .ff-label,
-    .form-field--type-email .ff-label {
-        @include visually-hidden();
+    .form-field {
+        margin-bottom: .5em;
     }
 
-    .form-fieldset--details {
-        .form-fieldset__fields {
-            display: flex;
-            flex-flow: row wrap;
-        }
-
-        .form-field {
-            flex: 1 1 100%;
-            margin-bottom: $spacingUnit / 2;
-        }
-
-        .form-field--firstName,
-        .form-field--lastName {
-            flex: 0 0 50%;
-        }
-        .form-field--firstName {
-            padding-right: 5px;
-        }
-        .form-field--lastName {
-            padding-left: 5px;
-        }
+    &,
+    .ff-label {
+        font-size: 18px;
     }
 
-    .ff-text {
+    .ff-text,
+    .ff-textarea {
         display: block;
         width: 100%;
+        padding: .35em;
         font-size: 16px;
-        border: none;
-        border-bottom: 2px solid palette('pink');
-        background-color: transparent;
-        padding: 3px 3px 6px;
+        border: 1px solid rgba(0,0,0,0.2);
     }
 }
 
