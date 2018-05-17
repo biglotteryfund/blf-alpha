@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { assign, compact, concat, filter, flatten, forEach, get, has, sortBy } = require('lodash');
+const { assign, compact, concat, flatten, get, has, sortBy } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 const appData = require('./appData');
@@ -63,10 +63,6 @@ function generateUrlList(routes) {
     function pushRouteConfig(routeConfig) {
         urls.push(makeUrlObject(routeConfig));
     }
-
-    // Legacy proxied routes
-    const liveLegacyRoutes = filter(routes.legacyProxiedRoutes, pageNeedsCustomRouting);
-    forEach(liveLegacyRoutes, pushRouteConfig);
 
     // Other Routes
     routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);

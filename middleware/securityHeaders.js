@@ -1,8 +1,7 @@
 'use strict';
 const config = require('config');
 const helmet = require('helmet');
-const { concat, get, map } = require('lodash');
-const { legacyProxiedRoutes } = require('../controllers/routes');
+const { concat, get } = require('lodash');
 const appData = require('../modules/appData');
 
 function withDefaultDirectives(directives) {
@@ -43,12 +42,6 @@ function buildSecurityMiddleware(cspDirectives) {
 }
 
 function defaultSecurityHeaders() {
-    /**
-     * URLs which should be exempt from security headers
-     * Only proxied legacy URLs should be exempt.
-     */
-    const exemptLegacyUrls = map(legacyProxiedRoutes, _ => _.path);
-
     const defaultSecurityDomains = [
         "'self'",
         '*.biglotteryfund.org.uk',
@@ -103,23 +96,13 @@ function defaultSecurityHeaders() {
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 
-    const helmetSettings = buildSecurityMiddleware(directives);
-
-    return function(req, res, next) {
-        if (exemptLegacyUrls.indexOf(req.path) !== -1) {
-            next();
-        } else {
-            helmetSettings(req, res, next);
-        }
-    };
+    return buildSecurityMiddleware(directives);
 }
 
 function toolsSecurityHeaders() {
-    const helmetSettings = buildSecurityMiddleware({
+    return buildSecurityMiddleware({
         defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
     });
-
-    return helmetSettings;
 }
 
 function stripCSPHeader(req, res, next) {

@@ -1,60 +1,55 @@
 'use strict';
-
+const { assign, findIndex, map } = require('lodash');
 const ab = require('express-ab');
 const config = require('config');
 const moment = require('moment');
 const Raven = require('raven');
-const { assign, find, findIndex, get, map, uniq } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
 const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
+const { localify, normaliseQuery } = require('../../modules/urls');
 const { noCache } = require('../../middleware/cached');
+const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
+const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
+const { redirectWithError } = require('../http-errors');
 const { splitPercentages } = require('../../modules/ab');
+const { stripCSPHeader } = require('../../middleware/securityHeaders');
 const appData = require('../../modules/appData');
 
-const programmeFilters = {
-    getValidLocation(programmes, requestedLocation) {
-        const validLocations = programmes
-            .map(programme => get(programme, 'content.area.value', false))
-            .filter(location => location !== false);
+/**
+ * Legacy funding finder
+ * Proxy the legacy funding finder for closed programmes (where `sc` query is present)
+ * For all other requests normalise the query string and redirect to the new funding programmes list.
+ */
+function initLegacyFundingFinder({ router, routeConfig }) {
+    router
+        .route(routeConfig.path)
+        .get(stripCSPHeader, (req, res) => {
+            req.query = normaliseQuery(req.query);
+            const showClosed = parseInt(req.query.sc, 10) === 1;
 
-        const uniqLocations = uniq(validLocations);
-        return find(uniqLocations, location => location === requestedLocation);
-    },
-    filterByLocation(locationValue) {
-        return function(programme) {
-            if (!locationValue) {
-                return programme;
+            if (showClosed) {
+                // Proxy legacy funding finder for closed programmes
+                proxyLegacyPage({ req, res }).catch(error => {
+                    redirectWithError(res, error, '/funding/programmes');
+                });
+            } else {
+                // Redirect from funding finder to new programmes page
+                const newQuery = reformatQueryString({
+                    originalAreaQuery: req.query.area,
+                    originalAmountQuery: req.query.amount
+                });
+
+                const redirectUrl = localify(req.i18n.getLocale())(
+                    '/funding/programmes' + (newQuery.length > 0 ? `?${newQuery}` : '')
+                );
+
+                res.redirect(301, redirectUrl);
             }
-
-            const area = get(programme.content, 'area');
-            return area.value === locationValue;
-        };
-    },
-    filterByMinAmount(minAmount) {
-        return function(programme) {
-            if (!minAmount) {
-                return programme;
-            }
-
-            const data = programme.content;
-            const min = parseInt(minAmount, 10);
-            return !data.fundingSize || !min || data.fundingSize.minimum >= min;
-        };
-    },
-    filterByMaxAmount(maxAmount) {
-        return function(programme) {
-            if (!maxAmount) {
-                return programme;
-            }
-
-            const max = parseInt(maxAmount, 10);
-            const programmeMax = get(programme, 'content.fundingSize.maximum');
-            return programmeMax <= max || false;
-        };
-    }
-};
+        })
+        .post(postToLegacyForm);
+}
 
 function initProgrammesList({ router, routeConfig }) {
     router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
@@ -214,12 +209,20 @@ function initProgrammeDetailAwardsForAll({ router, routeConfig }) {
     }
 }
 
-function init({ router, routeConfig }) {
-    initProgrammesList({ router, routeConfig: routeConfig.programmes });
+function init({ router, routeConfigs }) {
+    initProgrammesList({
+        router: router,
+        routeConfig: routeConfigs.programmes
+    });
+
+    initLegacyFundingFinder({
+        router: router,
+        routeConfig: routeConfigs.fundingFinderLegacy
+    });
 
     if (config.get('features.enableAbTests')) {
-        [routeConfig.programmeDetailAfaScotland].forEach(abRouteConfig => {
-            initProgrammeDetailAwardsForAll({ router, routeConfig: abRouteConfig });
+        [routeConfigs.programmeDetailAfaScotland].forEach(routeConfig => {
+            initProgrammeDetailAwardsForAll({ router, routeConfig });
         });
     }
 
