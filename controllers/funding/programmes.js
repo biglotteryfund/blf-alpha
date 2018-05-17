@@ -231,6 +231,5 @@ function init({ router, routeConfigs }) {
 }
 
 module.exports = {
-    init,
-    programmeFilters
+    init
 };
