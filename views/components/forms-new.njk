@@ -1,5 +1,9 @@
 {% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% else %} ff-label--optional{% endif %}{% endmacro %}
 
+{% macro label(labelOrProp, isTranslatable) %}
+    {% if isTranslatable %}{{ __(labelOrProp) }}{% else %}{{ labelOrProp }}{% endif %}
+{% endmacro %}
+
 {% macro formHeader(title, stepProgress) %}
     <div class="form-header">
         {% if stepProgress.prevStepUrl %}
@@ -43,25 +47,26 @@
 {% endmacro %}
 
 {% macro inputText(field, type="text") %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ label(field.label, field.isTranslatable) }}</label>
     {% if field.explanation %}
         <p class="ff-explanation">{{ field.explanation | safe }}</p>
     {% endif %}
     <input
         class="ff-text"
-        type="{{ type }}"
+        type="text"
+        {# type="{{ type }}" #}
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
         {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
         size="{% if field.size %}{{ field.size }}{% else %}40{% endif %}"
         value="{% if field.value %}{{ field.value }}{% endif %}"
-        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
     />
 {% endmacro %}
 
 {% macro inputTextarea(field) %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ label(field.label, field.isTranslatable) }}</label>
     <textarea
         class="ff-textarea"
         id="field-{{ field.name }}"
@@ -72,7 +77,8 @@
 {% endmacro %}
 
 {% macro inputRadio(field) %}
-    <div class="ff-radio">
+    <fieldset class="ff-radio">
+        <legend class="ff-label">{{ label(field.label, field.isTranslatable) }}</legend>
         <ul class="ff-radio__list">
             {% for option in field.options %}
                 <li class="ff-radio__option">
@@ -83,16 +89,16 @@
                         value="{{ option.value }}"
                         {% if field.value === option.value %}checked{% endif %}
                     />
-                    <label for="field-{{ field.name }}-{{ loop.index }}">{{ option.label }}</label>
+                    <label for="field-{{ field.name }}-{{ loop.index }}">{{ label(option.label, field.isTranslatable) }}</label>
                 </li>
             {% endfor %}
         </ul>
-    </div>
+    </fieldset>
 {% endmacro %}
 
 {% macro inputCheckbox(field) %}
     <fieldset class="ff-checkbox">
-        <legend class="ff-label">{{ field.label }}</legend>
+        <legend class="ff-label">{{ label(field.label, field.isTranslatable) }}</legend>
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
@@ -106,7 +112,7 @@
                         />
                     </div>
                     <label class="ff-checkbox__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
+                        {{ label(option.label, field.isTranslatable) }}
                         {% if option.explanation %}
                             <small class="ff-checkbox__caption">{{ option.explanation }}</small>
                         {% endif %}
@@ -175,4 +181,20 @@
 {% macro renderFieldWithErrors(errors, field) %}
     {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
     {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+{% endmacro %}
+
+{% macro formFieldsets(fieldsets) %}
+    {% for fieldset in fieldsets %}
+        <fieldset class="form-fieldset u-constrained-content">
+            <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+                {{ fieldset.legend }}
+            </legend>
+            <div class="form-fieldset__fields">
+                {% for field in fieldset.fields %}
+                    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+                    {{ formField(field, fieldErrors) }}
+                {% endfor %}
+            </div>
+        </fieldset>
+    {% endfor %}
 {% endmacro %}

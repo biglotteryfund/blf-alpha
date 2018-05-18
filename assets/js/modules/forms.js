@@ -2,47 +2,6 @@ import $ from 'jquery';
 import { featureIsEnabled } from '../helpers/features';
 const { trackEvent } = require('../helpers/metrics');
 
-// Materials form logic
-function initLegacyForms() {
-    // Handle making "other" inputs required for radio sets
-    const classes = {
-        radioContainer: 'js-has-radios',
-        otherTrigger: 'js-other-trigger'
-    };
-
-    // We bind to the body element like this because these
-    // fields are rendered by Vue and not always in the DOM
-    $('body').on('click', `.${classes.radioContainer} input[type="radio"]`, function() {
-        const $clickedRadio = $(this);
-        // find the corresponding <input> field for this radio set
-        const $other = $('#' + $clickedRadio.parents(`.${classes.radioContainer}`).data('other-id'));
-        if ($other.length === 0) {
-            return;
-        }
-        // is the clicked element an "other" trigger?
-        if ($clickedRadio.hasClass(classes.otherTrigger)) {
-            $other.attr('required', true);
-        } else {
-            // they clicked on one of the regular radio options
-            $other.attr('required', false);
-        }
-    });
-}
-
-function conditionalRadios($el) {
-    const $radios = $el.find('input[type="radio"]');
-    const conditionalFields = $el.data('conditionalFields');
-    $radios.on('change', function() {
-        const selectedValue = $(this).val();
-        conditionalFields.forEach(field => {
-            const $triggerField = $(`[data-conditional-field="${field.triggerField}"]`);
-            $triggerField.attr('hidden', function() {
-                return selectedValue !== field.triggerOnValue;
-            });
-        });
-    });
-}
-
 function handleAbandonmentMessage(formEl) {
     if (!featureIsEnabled('review-abandonment-message')) {
         return;
@@ -77,7 +36,21 @@ function handleAbandonmentMessage(formEl) {
     });
 }
 
-function initApplicationForms() {
+function conditionalRadios($el) {
+    $('body').on('change', `#${$el.get(0).id} input[type="radio"]`, function(e) {
+        const $targetEl = $(e.target);
+        const selectedValue = $targetEl.val();
+        const conditionalFields = $el.data('conditionalFields');
+        conditionalFields.forEach(field => {
+            const $triggerField = $(`[data-conditional-field="${field.triggerField}"]`);
+            $triggerField.attr('hidden', function() {
+                return selectedValue !== field.triggerOnValue;
+            });
+        });
+    });
+}
+
+function init() {
     /**
      * Global application form logic
      */
@@ -100,11 +73,6 @@ function initApplicationForms() {
     if (formReviewEl) {
         handleAbandonmentMessage(formReviewEl);
     }
-}
-
-function init() {
-    initLegacyForms();
-    initApplicationForms();
 }
 
 export default {

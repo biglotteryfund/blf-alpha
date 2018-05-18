@@ -1,18 +1,8 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconClose %}
-{% from "components/forms.njk" import textInput, radios with context %}
+{% from "components/forms-new.njk" import formField, formFieldsets with context %}
 
 {% extends "common/informationPage.njk" %}
-
-{% macro textField(field) %}
-    {{ textInput(
-        fieldName = field.name,
-        fieldLabel = __(field.label),
-        inputType = field.type,
-        required = field.required,
-        showErrorsBelowFields = true
-    ) }}
-{% endmacro %}
 
 {% macro stepControl(material, product, quantity) %}
     <form class="step-control" method="post"
@@ -163,70 +153,23 @@
 
                 </div>
 
-                <div class="inner accent--{{ pageAccent }} a--border-top p" id="your-details">
-                    <div class="padded">
-                        <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
+                <div class="content-box inner accent--{{ pageAccent }} a--border-top" id="your-details">
+                    <form class="form-materials form-style-slim u-constrained-wide js-application-form" method="post">
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <input type="hidden" name="languageChoice" value="" id="js-language-choice">
 
-                        <form class="form-materials" method="post">
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                            <input type="hidden" name="languageChoice" value="" id="js-language-choice">
+                        {{ formFieldsets(step.fieldsets) }}
 
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
-                            </div>
+                        <input class="btn" type="submit"
+                            {% if orders.length == 0 %} disabled="disabled"{% endif %}
+                            v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
+                            value="{{ __('global.forms.submit') }}"
+                            id="js-submit-material-order">
+                    </form>
 
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
-                            </div>
 
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
-                            </div>
-
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCountry) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
-                            </div>
-
-                            {{ textField(formFields.yourProjectName) }}
-
-                            <div class="grid grid--padded grid--top grid-row">
-
-                                <div class="grid__item grid-col-6 grid-col-3--m">
-                                    {{ radios(
-                                        fieldName = formFields.yourReason.name,
-                                        label = __(formFields.yourReason.label),
-                                        options = formFields.yourReason.options,
-                                        allowOther = formFields.yourReason.allowOther,
-                                        translateOptionLabels = true,
-                                        required = formFields.yourReason.required
-                                    ) }}
-                                </div>
-
-                                <div class="grid__item grid-col-6 grid-col-3--m">
-                                    {{ radios(
-                                        fieldName = formFields.yourGrantAmount.name,
-                                        label = __(formFields.yourGrantAmount.label),
-                                        options = formFields.yourGrantAmount.options,
-                                        allowOther = formFields.yourGrantAmount.allowOther,
-                                        translateOptionLabels = true,
-                                        required = formFields.yourGrantAmount.required
-                                    ) }}
-
-                                    <input type="submit"{% if orders.length == 0 %} disabled="disabled"{% endif %}
-                                           v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
-                                           value="{{ __('global.forms.submit') }}"
-                                           class="btn spaced--t--l"
-                                           id="js-submit-material-order">
-                                </div>
-                            </div>
-                            <h4 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h4>
-                            <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
-                        </form>
-                    </div>
+                    <h4 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h4>
+                    <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
                 </div>
             </div>
         </div>

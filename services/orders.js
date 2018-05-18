@@ -5,6 +5,18 @@ const { Order, OrderItem } = require('../models');
 const { take, countBy, meanBy, sortBy, flatMap, map, reverse } = require('lodash');
 const { filter } = require('lodash/fp');
 
+/**
+ * Extract post code area (outcode)
+ * Based on https://github.com/ideal-postcodes/postcode.js
+ */
+function postcodeArea(postcode) {
+    const incodeRegex = /\d[a-z]{2}$/i;
+    return postcode
+        .replace(incodeRegex, '')
+        .replace(/\s+/, '')
+        .toUpperCase();
+}
+
 function getAllOrders() {
     return Order.findAll({
         order: [['updatedAt', 'DESC']],
@@ -89,14 +101,19 @@ function getAllOrders() {
     });
 }
 
-function storeOrder({ grantAmount, orderReason, postcodeArea, items }) {
+function storeOrder({ orderItems, orderDetails }) {
     cleanupOldOrders();
+
+    const grantAmount = orderDetails.yourGrantAmountOther || orderDetails.yourGrantAmount;
+    const orderReason = orderDetails.yourReasonOther || orderDetails.yourReason;
+    const postCodeArea = postcodeArea(orderDetails.yourPostcode);
+
     return Order.create(
         {
+            items: orderItems,
             grantAmount: grantAmount,
             orderReason: orderReason,
-            postcodeArea: postcodeArea,
-            items: items
+            postcodeArea: postCodeArea
         },
         {
             include: [
@@ -123,6 +140,7 @@ function cleanupOldOrders() {
 }
 
 module.exports = {
+    postcodeArea,
     storeOrder,
     getAllOrders
 };

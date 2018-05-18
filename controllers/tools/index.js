@@ -1,13 +1,13 @@
 'use strict';
 const express = require('express');
 
+const { injectMerchandise } = require('../../middleware/inject-content');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const feedbackService = require('../../services/feedback');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
-const { injectMerchandise } = require('../../controllers/funding/materials-helpers');
 
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');

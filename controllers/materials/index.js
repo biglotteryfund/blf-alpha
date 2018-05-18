@@ -1,24 +1,19 @@
 'use strict';
 const { validationResult } = require('express-validator/check');
-const { map, reduce, some } = require('lodash');
+const { get, some } = require('lodash');
+const { filter } = require('lodash/fp');
 const { purify } = require('../../modules/validators');
-const { sanitizeBody } = require('express-validator/filter');
-const flash = require('req-flash');
+const { sanitizeBody, matchedData } = require('express-validator/filter');
 const moment = require('moment');
 const Raven = require('raven');
 
 const { FORM_STATES } = require('../../modules/forms');
-const { injectListingContent } = require('../../middleware/inject-content');
+const { injectCopy, injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
+const { makeOrderText } = require('./materials-helpers');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
-const {
-    materialFields,
-    makeOrderText,
-    postcodeArea,
-    injectMerchandise,
-    normaliseUserInput
-} = require('./materials-helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
+const formStep = require('./materials-form');
 const mail = require('../../modules/mail');
 const ordersService = require('../../services/orders');
 
@@ -116,99 +111,71 @@ function initAddRemove({ router, routeConfig }) {
     return router;
 }
 
-function storeOrderSummary({ orderItems, orderDetails }) {
-    const preparedOrderItems = reduce(
-        orderItems,
-        (acc, orderItem) => {
-            if (orderItem.quantity > 0) {
-                acc.push({
-                    code: orderItem.code,
-                    quantity: orderItem.quantity
-                });
-            }
-            return acc;
-        },
-        []
-    );
-
-    const preparedOrderDetails = normaliseUserInput(orderDetails);
-    const getFieldValue = fieldName => {
-        // some fields are optional and won't be here
-        let field = preparedOrderDetails.find(d => d.key === fieldName);
-        return field ? field.value : null;
-    };
-
-    return ordersService.storeOrder({
-        grantAmount: getFieldValue('yourGrantAmount'),
-        orderReason: getFieldValue('yourReason'),
-        postcodeArea: postcodeArea(getFieldValue('yourPostcode')),
-        items: preparedOrderItems
-    });
-}
-
 /**
  * Initialise order form
  */
 function initForm({ router, routeConfig }) {
-    function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
-        const content = res.locals.content;
-        const lang = req.i18n.__(routeConfig.lang);
-        const availableItems = res.locals.availableItems;
+    function renderForm({ req, res, status = FORM_STATES.NOT_SUBMITTED }) {
+        const { content, availableItems } = res.locals;
         const orders = req.session[sessionOrderKey] || [];
-
         const formActionBase = req.baseUrl + routeConfig.path;
 
+        const formData = get(req.session, 'materials.formData');
+        const formErrors = get(req.session, 'materials.formErrors');
+
         res.render(routeConfig.template, {
-            copy: lang,
             content: content,
             title: content.title,
             heroImage: content.hero,
+            step: formStep.withValues(formData),
             csrfToken: req.csrfToken(),
             materials: availableItems,
-            formFields: materialFields,
             orders: orders,
             orderStatus: status,
-            formActionBase: formActionBase
+            formActionBase,
+            data: formData,
+            errors: formErrors
         });
     }
 
-    const validators = map(materialFields, field => field.validator(field));
+    function summariseOrderItems(orderItems, availableItems) {
+        return filter(item => item.quantity > 0)(orderItems).map(item => {
+            const material = availableItems.find(i => i.itemId === item.materialId);
+            const product = material.products.find(p => p.id === item.productId);
+
+            if (item.quantity > material.maximum) {
+                item.quantity = material.maximum;
+            }
+
+            return {
+                name: product.name ? product.name : material.title,
+                code: product.code,
+                quantity: item.quantity
+            };
+        });
+    }
 
     router
         .route(routeConfig.path)
-        .all(cached.csrfProtection, injectListingContent)
-        .get(injectMerchandise({}), (req, res) => {
-            renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
+        .all(cached.csrfProtection, injectCopy(routeConfig), injectListingContent)
+        .get(injectMerchandise(), (req, res) => {
+            renderForm({ req, res, status: FORM_STATES.NOT_SUBMITTED });
         })
-        .post(injectMerchandise({ locale: 'en' }), validators, purify, (req, res) => {
+        .post(injectMerchandise({ locale: 'en' }), formStep.getValidators(), purify, (req, res) => {
+            const { availableItems } = res.locals;
             const errors = validationResult(req);
+            const orderDetails = req.body;
+            const orderItemsSession = req.session[sessionOrderKey];
+            const formStepWithValues = formStep.withValues(orderDetails);
 
             if (errors.isEmpty()) {
-                const details = req.body;
-                const availableItems = res.locals.availableItems;
+                const orderItems = summariseOrderItems(orderItemsSession, availableItems);
+                const orderText = makeOrderText(orderItems, formStepWithValues.getFields());
 
-                const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                    const material = availableItems.find(i => i.itemId === item.materialId);
-                    const product = material.products.find(p => p.id === item.productId);
-                    // prevent someone who really loves plaques from hacking the form to increase the maximum
-                    if (item.quantity > material.maximum) {
-                        item.quantity = material.maximum;
-                    }
-                    return {
-                        name: product.name ? product.name : material.title,
-                        code: product.code,
-                        quantity: item.quantity
-                    };
-                });
-
-                const orderText = makeOrderText(itemsToEmail, details);
-
-                storeOrderSummary({
-                    orderItems: itemsToEmail,
-                    orderDetails: details
-                })
+                ordersService
+                    .storeOrder({ orderItems, orderDetails })
                     .then(() => {
-                        const customerSendTo = details.yourEmail;
+                        const customerSendTo = orderDetails.yourEmail;
                         const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
                         const customerEmail = mail.generateAndSend([
@@ -239,17 +206,17 @@ function initForm({ router, routeConfig }) {
                             delete req.session[sessionOrderKey];
                             delete req.session[sessionBlockedItemKey];
                             req.session.save(() => {
-                                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                                renderForm({ req, res, status: FORM_STATES.SUBMISSION_SUCCESS });
                             });
                         });
                     })
                     .catch(err => {
                         Raven.captureException(err);
-                        renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                        renderForm({ req, res, status: FORM_STATES.SUBMISSION_ERROR });
                     });
             } else {
-                req.flash('formErrors', errors.array());
-                req.flash('formValues', req.body);
+                req.session['materials.formData'] = matchedData(req, { locations: ['body'] });
+                req.session['materials.formErrors'] = errors.array();
 
                 req.session.save(() => {
                     // build a redirect URL based on the route, the language of items,
@@ -282,8 +249,6 @@ function initForm({ router, routeConfig }) {
 }
 
 function init({ router, routeConfig }) {
-    router.use(flash());
-
     initAddRemove({
         router,
         routeConfig

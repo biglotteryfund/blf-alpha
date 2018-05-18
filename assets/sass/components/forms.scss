@@ -232,96 +232,24 @@
 /* =========================================================================
    Custom Form: Ebulletin
    ========================================================================= */
+// @TODO: can we define this a general modifier? Slim? Tinted?
 
-.form-ebulletin {
-    .form-field--type-text .ff-label,
-    .form-field--type-email .ff-label {
-        @include visually-hidden();
+.form-style-slim {
+    // .form-field {
+    //     margin-bottom: .5em;
+    // }
+
+    &,
+    .ff-label {
+        font-size: 18px;
     }
 
-    .form-fieldset--details {
-        .form-fieldset__fields {
-            display: flex;
-            flex-flow: row wrap;
-        }
-
-        .form-field {
-            flex: 1 1 100%;
-            margin-bottom: $spacingUnit / 2;
-        }
-
-        .form-field--firstName,
-        .form-field--lastName {
-            flex: 0 0 50%;
-        }
-        .form-field--firstName {
-            padding-right: 5px;
-        }
-        .form-field--lastName {
-            padding-left: 5px;
-        }
-    }
-
-    .ff-text {
+    .ff-text,
+    .ff-textarea {
         display: block;
         width: 100%;
+        padding: .35em;
         font-size: 16px;
-        border: none;
-        border-bottom: 2px solid palette('pink');
-        background-color: transparent;
-        padding: 3px 3px 6px;
-    }
-}
-
-/* =========================================================================
-   Custom Form: Free Materials
-   ========================================================================= */
-
-.form-materials {
-    input[type='text'],
-    input[type='email'] {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-bottom: 2px solid #666666;
-        font-size: 16px;
-        color: #333333;
-
-        &.is-error {
-            border-bottom-color: #c6183d;
-        }
-    }
-
-    input[type='submit'] {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: none;
-    }
-
-    input[type='submit'] {
-        display: block;
-        width: 100%;
-        border-bottom: none;
-    }
-
-    input[type='radio'] {
-        width: auto;
-        display: inline-block;
-    }
-
-    .label-radio,
-    .label-radio__item {
-        font-size: 16px;
-        display: block;
-        margin-bottom: $spacingUnit;
-    }
-
-    &:invalid {
-        input[type='submit'] {
-            @include disabledBtn();
-        }
+        border: 1px solid lighten(palette('charcoal'), 20%);
     }
 }
