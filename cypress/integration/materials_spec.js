@@ -27,16 +27,17 @@ describe('Materials tests', function() {
             .should('contain', 2);
 
         // Fill in form
-        cy.get('#ff-yourName').type('Example');
-        cy.get('#ff-yourEmail').type('example@example.com');
-        cy.get('#ff-yourAddress1').type('1 Example Street');
-        cy.get('#ff-yourTown').type('Fake town');
-        cy.get('#ff-yourCountry').type('England');
-        cy.get('#ff-yourPostcode').type('EC4A 1DE');
-        cy.get('#ff-radio-yourReason-projectOpening').check();
-        cy.get('#js-submit-material-order').click();
+        cy.get('#field-yourName').type('Example');
+        cy.get('#field-yourEmail').type('example@example.com');
+        cy.get('#field-yourAddress1').type('1 Example Street');
+        cy.get('#field-yourTown').type('Fake town');
+        cy.get('#field-yourCountry').type('England');
+        cy.get('#field-yourPostcode').type('EC4A 1DE');
+        cy.get('#field-yourGrantAmount-2').check();
+        cy.get('#field-yourReason-2').check();
 
         // Confirm submission
+        cy.get('#js-submit-material-order').click();
         cy.get('h2').should('contain', 'Thank you for your order');
     });
 });

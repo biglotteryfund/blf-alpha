@@ -1,7 +1,7 @@
 'use strict';
 
 const landingPageRoute = require('./funding');
-const materialsRoute = require('./materials');
+const materialsRoute = require('../materials/index');
 const programmesRoute = require('./programmes');
 const tenKRoutes = require('./10k');
 
