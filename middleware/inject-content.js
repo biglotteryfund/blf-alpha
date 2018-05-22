@@ -177,19 +177,22 @@ async function injectBlogPosts(req, res, next) {
 
 async function injectBlogDetail(req, res, next) {
     try {
-        const [response, result] = await contentApi.getBlogDetail({
+        const blogDetail = await contentApi.getBlogDetail({
+            urlPath: req.path,
             locale: req.i18n.getLocale(),
-            urlPath: req.path
+            previewMode: res.locals.PREVIEW_MODE || false
         });
 
-        if (result) {
-            res.locals.blogDetail = {
-                meta: get('meta')(response),
-                result: result
-            };
+        if (blogDetail) {
+            res.locals.blogDetail = blogDetail;
+
+            if (blogDetail.meta.pageType === 'blogpost') {
+                res.locals.previewStatus = getPreviewStatus(blogDetail.result);
+            }
+
+            next();
         }
 
-        next();
     } catch (error) {
         next();
     }
