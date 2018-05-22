@@ -186,8 +186,7 @@ sections.about.addRoutes({
         path: '/our-people/senior-management-team',
         template: 'pages/about/senior-management-team',
         lang: 'about.ourPeople.seniorManagement',
-        heroSlug: 'mental-health-foundation',
-        live: false
+        heroSlug: 'mental-health-foundation'
     }),
     board: customRoute({
         path: '/our-people/board',
