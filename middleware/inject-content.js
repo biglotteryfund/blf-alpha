@@ -182,10 +182,13 @@ async function injectBlogDetail(req, res, next) {
             urlPath: req.path
         });
 
-        res.locals.blogDetail = {
-            meta: response.meta,
-            result: result
-        };
+        if (result) {
+            res.locals.blogDetail = {
+                meta: get('meta')(response),
+                result: result
+            };
+        }
+
         next();
     } catch (error) {
         next();
