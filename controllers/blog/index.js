@@ -1,7 +1,7 @@
 'use strict';
 
-const { isBilingual } = require('../../modules/pageLogic');
-const { shouldServe } = require('../../modules/pageLogic');
+const { get, isEmpty } = require('lodash');
+const { isBilingual, shouldServe } = require('../../modules/pageLogic');
 const { injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
 
 /**
@@ -87,23 +87,24 @@ function initLanding({ router, routeConfig }) {
 }
 
 function initDetails({ router, routeConfig, sectionPath }) {
-    router.get(routeConfig.path, injectBlogDetail, function(req, res) {
+    router.get(routeConfig.path, injectBlogDetail, function (req, res) {
         const { blogDetail } = res.locals;
+        const pageType = get(blogDetail, 'meta.pageType');
 
-        if (!blogDetail) {
-            res.redirect(sectionPath);
+        if (isEmpty(blogDetail)) {
+            return res.redirect(sectionPath);
         }
 
-        if (blogDetail.meta.pageType === 'blogpost') {
-            renderPost({
+        if (pageType === 'blogpost') {
+            return renderPost({
                 req: req,
                 res: res,
                 entry: blogDetail.result
             });
-        } else if (blogDetail.meta.pageType === 'authors') {
+        } else if (pageType === 'authors') {
             const activeAuthor = blogDetail.meta.activeAuthor;
 
-            renderListing({
+            return renderListing({
                 res: res,
                 title: `Author: ${activeAuthor.title}`,
                 entries: blogDetail.result,
@@ -113,10 +114,10 @@ function initDetails({ router, routeConfig, sectionPath }) {
                     url: activeAuthor.link
                 })
             });
-        } else if (blogDetail.meta.pageType === 'category') {
+        } else if (pageType === 'category') {
             const activeCategory = blogDetail.meta.activeCategory;
 
-            renderListing({
+            return renderListing({
                 res: res,
                 title: `Category: ${activeCategory.title}`,
                 entries: blogDetail.result,
@@ -126,10 +127,10 @@ function initDetails({ router, routeConfig, sectionPath }) {
                     url: activeCategory.link
                 })
             });
-        } else if (blogDetail.meta.pageType === 'tags') {
+        } else if (pageType === 'tags') {
             const activeTag = blogDetail.meta.activeTag;
 
-            renderListing({
+            return renderListing({
                 res: res,
                 title: `Tag: ${activeTag.title}`,
                 entries: blogDetail.response,
@@ -140,7 +141,7 @@ function initDetails({ router, routeConfig, sectionPath }) {
                 })
             });
         } else {
-            res.redirect(sectionPath);
+            return res.redirect(sectionPath);
         }
     });
 

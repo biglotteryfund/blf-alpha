@@ -93,6 +93,7 @@ function injectBreadcrumbs(req, res, next) {
 async function injectListingContent(req, res, next) {
     try {
         res.locals.timings.start('inject-content');
+
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
@@ -101,6 +102,7 @@ async function injectListingContent(req, res, next) {
 
         if (content) {
             res.locals.content = content;
+            res.locals.previewStatus = getPreviewStatus(content);
         }
 
         res.locals.timings.end('inject-content');
@@ -112,10 +114,14 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
-        res.locals.entry = await contentApi.getFlexibleContent({
+        const entry = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
-            path: req.baseUrl + req.path
+            path: req.baseUrl + req.path,
+            previewMode: res.locals.PREVIEW_MODE || false
         });
+
+        res.locals.entry = entry;
+        res.locals.previewStatus = getPreviewStatus(entry);
         next();
     } catch (error) {
         next(error);
@@ -125,6 +131,7 @@ async function injectFlexibleContent(req, res, next) {
 async function injectFundingProgramme(req, res, next) {
     try {
         res.locals.timings.start('fetch-funding-programme');
+
         const entry = await contentApi.getFundingProgramme({
             slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
             locale: req.i18n.getLocale(),
@@ -170,16 +177,22 @@ async function injectBlogPosts(req, res, next) {
 
 async function injectBlogDetail(req, res, next) {
     try {
-        const [response, result] = await contentApi.getBlogDetail({
+        const blogDetail = await contentApi.getBlogDetail({
+            urlPath: req.path,
             locale: req.i18n.getLocale(),
-            urlPath: req.path
+            previewMode: res.locals.PREVIEW_MODE || false
         });
 
-        res.locals.blogDetail = {
-            meta: response.meta,
-            result: result
-        };
-        next();
+        if (blogDetail) {
+            res.locals.blogDetail = blogDetail;
+
+            if (blogDetail.meta.pageType === 'blogpost') {
+                res.locals.previewStatus = getPreviewStatus(blogDetail.result);
+            }
+
+            next();
+        }
+
     } catch (error) {
         next();
     }

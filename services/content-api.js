@@ -126,10 +126,16 @@ function getBlogPosts({ locale, page = 1, pageLimit = 10 }) {
     });
 }
 
-function getBlogDetail({ locale, urlPath }) {
-    return fetch(`/v1/${locale}/blog${urlPath}`).then(response => {
+function getBlogDetail({ locale, urlPath, previewMode }) {
+    return fetch(`/v1/${locale}/blog${urlPath}`, {
+        qs: addPreviewParams(previewMode)
+    }).then(response => {
         const result = isArray(response.data) ? mapAttrs(response) : response.data.attributes;
-        return [response, result];
+
+        return {
+            meta: response.meta,
+            result: result
+        };
     });
 }
 
@@ -161,9 +167,11 @@ function getListingPage({ locale, path, previewMode }) {
     });
 }
 
-function getFlexibleContent({ locale, path }) {
+function getFlexibleContent({ locale, path, previewMode }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/flexible-content?path=${sanitisedPath}`).then(response => {
+    return fetch(`/v1/${locale}/flexible-content`, {
+        qs: addPreviewParams(previewMode, { path: sanitisedPath })
+    }).then(response => {
         return response.data.attributes;
     });
 }
