@@ -1,12 +1,11 @@
 {% from "components/media.njk" import mediaAside %}
 
-{% macro flexibleContent(flexibleContent) %}
+{% macro flexibleContent(flexibleContent, accent) %}
     {% if flexibleContent.length > 0 %}
         {% set mediaAsideCounter = 0 %}
         {% for part in flexibleContent %}
             {% if part.type === 'contentArea' %}
-                <div class="s-prose s-prose--long u-constrained-content-wide
-                    accent-content--{{ pageAccent }}">
+                <div class="s-prose s-prose--long u-constrained-content-wide accent-content--{{ accent }}">
                     {{ part.content | safe }}
                 </div>
             {% elseif  part.type === 'inlineFigure' %}
@@ -25,7 +24,7 @@
                     linkHref = part.linkUrl,
                     imageUrl = part.photo,
                     imageCaption =  part.photoCaption,
-                    accentColor = pageAccent,
+                    accentColor = accent,
                     isReversed = mediaAsideCounter % 2 == 0
                 ) }}
             {% endif %}
