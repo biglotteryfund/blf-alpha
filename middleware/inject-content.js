@@ -93,6 +93,7 @@ function injectBreadcrumbs(req, res, next) {
 async function injectListingContent(req, res, next) {
     try {
         res.locals.timings.start('inject-content');
+
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
@@ -101,6 +102,7 @@ async function injectListingContent(req, res, next) {
 
         if (content) {
             res.locals.content = content;
+            res.locals.previewStatus = getPreviewStatus(content);
         }
 
         res.locals.timings.end('inject-content');
@@ -129,6 +131,7 @@ async function injectFlexibleContent(req, res, next) {
 async function injectFundingProgramme(req, res, next) {
     try {
         res.locals.timings.start('fetch-funding-programme');
+
         const entry = await contentApi.getFundingProgramme({
             slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
             locale: req.i18n.getLocale(),
