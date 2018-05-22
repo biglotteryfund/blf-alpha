@@ -110,6 +110,18 @@ async function injectListingContent(req, res, next) {
     }
 }
 
+async function injectFlexibleContent(req, res, next) {
+    try {
+        res.locals.entry = await contentApi.getFlexibleContent({
+            locale: req.i18n.getLocale(),
+            path: req.baseUrl + req.path
+        });
+        next();
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function injectFundingProgramme(req, res, next) {
     try {
         res.locals.timings.start('fetch-funding-programme');
@@ -196,6 +208,7 @@ module.exports = {
     injectBlogPosts,
     injectBreadcrumbs,
     injectCopy,
+    injectFlexibleContent,
     injectFundingProgramme,
     injectFundingProgrammes,
     injectHeroImage,

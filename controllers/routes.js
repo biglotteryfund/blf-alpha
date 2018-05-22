@@ -178,12 +178,9 @@ sections.research.addRoutes({
  * About Routes
  */
 sections.about.addRoutes({
-    root: staticRoute({
+    root: customRoute({
         path: '/',
-        template: 'pages/toplevel/about',
-        lang: 'about.landing',
-        heroSlug: 'mental-health-foundation',
-        sMaxAge: '30m'
+        template: 'pages/toplevel/about'
     }),
     seniorManagement: customRoute({
         path: '/our-people/senior-management-team',

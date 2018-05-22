@@ -98,6 +98,15 @@ function stripTrailingSlashes(urlPath) {
 }
 
 /**
+ * Sanitise URL path
+ * Strip welsh + any preceding or trailing slashes,
+ * leaving plain URL slug. e.g. /welsh/about/ => about
+ */
+function sanitiseUrlPath(urlPath) {
+    return stripTrailingSlashes(removeWelsh(urlPath).replace(/^\/+/g, ''));
+}
+
+/**
  * Normalize query
  * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
  * urlencoded &amp; needs to be normalised when fetching individual query param
@@ -171,6 +180,7 @@ module.exports = {
     makeWelsh,
     normaliseQuery,
     removeWelsh,
+    sanitiseUrlPath,
     stripTrailingSlashes,
     WELSH_REGEX
 };
