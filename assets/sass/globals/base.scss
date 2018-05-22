@@ -173,16 +173,16 @@ fieldset {
     min-width: 0;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='search'] {
+[type='text'],
+[type='email'],
+[type='search'] {
     -webkit-appearance: none;
     appearance: none;
     border-radius: 0; // Normalise border-radius, notably for iOS.
 }
 
-input[type='search']::-webkit-search-decoration,
-input[type='search']::-webkit-search-cancel-button {
+[type='search']::-webkit-search-decoration,
+[type='search']::-webkit-search-cancel-button {
     display: none;
 }
 

@@ -238,13 +238,13 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     }
 }
 .global-search__input {
-    padding: 6px;
+    @include poppins();
+    font-size: 16px;
+    font-weight: normal;
+    border: none;
     width: 100%;
     margin-top: 0;
-    border: none;
-    @include poppins();
-    font-weight: 600;
-    font-size: 16px;
+    padding: 6px 32px 6px 12px;
 }
 .global-search__submit {
     border: 0;
@@ -253,6 +253,7 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     top: 0;
     right: 0;
     cursor: pointer;
+    background-color: transparent;
 
     .icon {
         width: 21px;
@@ -266,6 +267,14 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
             fill: palette('charcoal');
         }
     }
+}
+
+/**
+ * Global search: Offset modifier (i.e. in global header)
+ * Gives search form contrast against light hero images and pages with no image.
+ */
+.global-search--offset {
+    box-shadow: 0 0 2px 1px rgba(0,0,0,0.2);
 }
 
 /* =========================================================================
