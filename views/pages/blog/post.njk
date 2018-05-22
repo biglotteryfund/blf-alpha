@@ -52,7 +52,13 @@
                         {{ articleMeta(entry) }}
                     </footer>
                     <div class="article__body">
-                        {{ flexibleContent(entry.flexibleContent) }}
+                        {% if entry.body %}
+                            <div class="s-prose s-prose--long">
+                                {{ entry.body | safe }}
+                            </div>
+                        {% else %}
+                            {{ flexibleContent(entry.flexibleContent) }}
+                        {% endif %}
                     </div>
                 </div>
                 {% if entry.tags.length > 0 %}
