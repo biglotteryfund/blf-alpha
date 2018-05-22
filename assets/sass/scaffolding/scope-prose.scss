@@ -258,39 +258,15 @@ $constrainedWide: 42em;
     }
 
     figure {
-        margin-left: -($spacingUnit);
-        margin-right: -($spacingUnit);
+        margin: 1em 0 2em;
 
-        @include mq(tablet) {
-            margin: 1em 0 2em;
+        img {
+            width: auto;
+            margin-bottom: 5px;
         }
 
-        &.auto-width {
-            img {
-                width: auto;
-            }
+        figcaption {
+            @include text-caption();
         }
-    }
-
-    figcaption {
-        @include text-caption();
-    }
-
-    code,
-    pre {
-        overflow-x: auto;
-        white-space: pre-wrap;
-        font-family: Hack, Consolas, monospace;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 2px;
-        color: palette('pale');
-        background-color: palette('charcoal');
-    }
-
-    pre {
-        padding: 1em;
-        max-height: 25em;
-        box-shadow: inset 0 0 30px rgba(0,0,0,1);
     }
 }

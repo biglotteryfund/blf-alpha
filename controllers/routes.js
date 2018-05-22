@@ -236,10 +236,12 @@ sections.about.addRoutes({
  */
 sections.blog.addRoutes({
     root: customRoute({
-        path: '/'
+        path: '/',
+        live: false
     }),
     articles: customRoute({
-        path: '/*'
+        path: '/*',
+        live: false
     })
 });
 

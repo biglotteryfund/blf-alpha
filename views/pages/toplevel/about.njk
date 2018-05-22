@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/media.njk" import mediaAside %}
+{% from "components/content.njk" import flexibleContent %}
 
 {% extends "layouts/main.njk" %}
 
@@ -14,28 +14,7 @@
 
         <div class="nudge-up">
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                {% if entry.flexibleContent.length > 0 %}
-                    {% set mediaAsideCounter = 0 %}
-                    {% for part in entry.flexibleContent %}
-                        {% if part.type === 'contentArea' %}
-                            <div class="s-prose s-prose--long u-constrained-content-wide
-                                accent-content--{{ pageAccent }}">
-                                {{ part.content | safe }}
-                            </div>
-                        {% elseif  part.type === 'mediaAside' %}
-                            {% set mediaAsideCounter = mediaAsideCounter + 1 %}
-                            {{ mediaAside(
-                                quoteText = part.quoteText,
-                                linkText = part.linkText,
-                                linkHref = part.linkUrl,
-                                imageUrl = part.photo,
-                                imageCaption =  part.photoCaption,
-                                accentColor = pageAccent,
-                                isReversed = mediaAsideCounter % 2 == 0
-                            ) }}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+                {{ flexibleContent(entry.flexibleContent) }}
             </section>
         </div>
     </main>
