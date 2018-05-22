@@ -161,9 +161,11 @@ function getListingPage({ locale, path, previewMode }) {
     });
 }
 
-function getFlexibleContent({ locale, path }) {
+function getFlexibleContent({ locale, path, previewMode }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/flexible-content?path=${sanitisedPath}`).then(response => {
+    return fetch(`/v1/${locale}/flexible-content`, {
+        qs: addPreviewParams(previewMode, { path: sanitisedPath })
+    }).then(response => {
         return response.data.attributes;
     });
 }

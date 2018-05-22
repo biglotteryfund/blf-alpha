@@ -112,10 +112,14 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
-        res.locals.entry = await contentApi.getFlexibleContent({
+        const entry = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
-            path: req.baseUrl + req.path
+            path: req.baseUrl + req.path,
+            previewMode: res.locals.PREVIEW_MODE || false
         });
+
+        res.locals.entry = entry;
+        res.locals.previewStatus = getPreviewStatus(entry);
         next();
     } catch (error) {
         next(error);
