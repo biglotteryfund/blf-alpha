@@ -19,7 +19,7 @@
 
             {% if stepConfig.feedback and appData.isNotProduction %}
                 {{ inlineFeedback(
-                    title = form.title,
+                    description = form.title,
                     promptLabel = stepConfig.feedback.promptLabel,
                     fieldLabel = stepConfig.feedback.fieldLabel
                 )  }}
