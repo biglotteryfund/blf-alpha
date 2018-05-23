@@ -31,14 +31,16 @@ global:
       href: "/welsh/about-big/publications/corporate-documents"
     - label: Polisi Preifatrwydd
       href: "/welsh/about/customer-service/privacy-policy"
+    - label: Diogelu Data
+      href: "/welsh/about/customer-service/data-protection"
+    - label: Cwcis
+      href: "/welsh/about/customer-service/cookies"
     - label: Telerau
       href: "/welsh/about/customer-service/terms-of-use"
     - label: Cyswllt
       href: "/welsh/contact"
     - label: Swyddi
       href: "/welsh/jobs"
-    - label: Cwcis
-      href: "/welsh/about/customer-service/cookies"
     - label: Map o'r wefan
       href: "/welsh/sitemap"
     - label: Hygyrchedd

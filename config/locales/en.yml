@@ -31,14 +31,16 @@ global:
       href: "/about-big/publications/corporate-documents"
     - label: Privacy Policy
       href: "/about/customer-service/privacy-policy"
+    - label: Data Protection
+      href: "/about/customer-service/data-protection"
+    - label: Cookies
+      href: "/about/customer-service/cookies"
     - label: Terms
       href: "/about/customer-service/terms-of-use"
     - label: Contact
       href: "/contact"
     - label: Jobs
       href: "/jobs"
-    - label: Cookies
-      href: "/about/customer-service/cookies"
     - label: Site map
       href: "/sitemap"
     - label: Accessibility
