@@ -46,4 +46,22 @@ describe('Core funding flow', function() {
             cy.get($el.attr('href')).should('be.visible');
         });
     });
+
+    it.only('should allow feedback submissions', () => {
+        cy.visit('/funding/past-grants');
+        cy.get('#js-feedback').as('feedbackForm');
+        cy
+            .get('@feedbackForm')
+            .find('summary')
+            .click();
+        cy
+            .get('@feedbackForm')
+            .find('textarea')
+            .type('Test feedback');
+        cy
+            .get('@feedbackForm')
+            .find('form')
+            .submit();
+        cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
+    });
 });
