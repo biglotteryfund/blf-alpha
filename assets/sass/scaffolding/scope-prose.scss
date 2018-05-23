@@ -186,7 +186,7 @@ $constrainedWide: 42em;
         font-size: 90%;
         box-sizing: border-box;
         width: 100%;
-        max-width: 40em;
+        max-width: 48em;
         border-collapse: separate;
         border-spacing: 0;
         table-layout: fixed;
@@ -238,6 +238,7 @@ $constrainedWide: 42em;
         td {
             padding: 1em;
             text-align: left;
+            word-wrap: break-word;
 
             > p {
                 margin: 0;
@@ -246,6 +247,18 @@ $constrainedWide: 42em;
 
         td {
             vertical-align: top;
+        }
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-y: auto;
+        margin: 0 0 1em;
+
+        @include mq('medium', 'max') {
+            table {
+                width: auto;
+            }
         }
     }
 
