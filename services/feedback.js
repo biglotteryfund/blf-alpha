@@ -8,7 +8,7 @@ function findAll() {
     return Feedback.findAll({
         order: [['updatedAt', 'DESC']]
     }).then(results => {
-        return groupBy('description')(results);
+        return groupBy(result => result.description.toLowerCase())(results);
     });
 }
 
