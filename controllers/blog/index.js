@@ -87,7 +87,7 @@ function initLanding({ router, routeConfig }) {
 }
 
 function initDetails({ router, routeConfig, sectionPath }) {
-    router.get(routeConfig.path, injectBlogDetail, function (req, res) {
+    router.get(routeConfig.path, injectBlogDetail, function(req, res) {
         const { blogDetail } = res.locals;
         const pageType = get(blogDetail, 'meta.pageType');
 
@@ -133,7 +133,7 @@ function initDetails({ router, routeConfig, sectionPath }) {
             return renderListing({
                 res: res,
                 title: `Tag: ${activeTag.title}`,
-                entries: blogDetail.response,
+                entries: blogDetail.result,
                 entriesMeta: blogDetail.meta,
                 activeBreadcrumbs: buildBreadcrumbs(req, {
                     label: activeTag.title,

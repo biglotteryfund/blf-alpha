@@ -16,8 +16,9 @@
                     {% if entriesMeta.pageType === 'authors' %}
                         {% set activeAuthor = entriesMeta.activeAuthor %}
                         <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
-                    {% elseif entriesMeta.pageType === 'tag' %}
-                        <h1>Viewing all posts tagged {{ activeCategory.title }}</h1>
+                    {% elseif entriesMeta.pageType === 'tags' %}
+                        {% set activeTag = entriesMeta.activeTag %}
+                        <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
                     {% elseif entriesMeta.pageType === 'category' %}
                         {% set activeCategory = entriesMeta.activeCategory %}
                         <h1>Viewing all posts in {{ activeCategory.title }}</h1>
