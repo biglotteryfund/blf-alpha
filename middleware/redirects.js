@@ -39,8 +39,9 @@ function redirectLinkNoise(req, res, next) {
     const cleanedUrl = cleanLinkNoise(req.originalUrl);
     if (cleanedUrl !== req.originalUrl) {
         res.redirect(301, cleanedUrl);
+    } else {
+        next();
     }
-    next();
 }
 
 const removeTrailingSlashes = slashes(false);
