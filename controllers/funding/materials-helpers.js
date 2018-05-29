@@ -245,7 +245,7 @@ The customer's personal details are below:
 ${customerDetails.join('\n')}
 
 This email has been automatically generated from the Big Lottery Fund website.
-If you have feedback, please contact matt.andrews@biglotteryfund.org.uk.`;
+If you have feedback, please contact digital.monitoring@biglotteryfund.org.uk.`;
 
     return text.trim();
 }
