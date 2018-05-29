@@ -91,6 +91,11 @@
             @include on-interact {
                 background-color: darken($colour, 15%);
             }
+
+            // Handle white buttons with otherwise unreadable text
+            @if $colour == #ffffff {
+                color: #000000;
+            }
         }
 
         &.btn--outline {
