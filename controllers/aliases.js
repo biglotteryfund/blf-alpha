@@ -73,6 +73,7 @@ const aliases = {
     '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
     '/global-content/programmes/uk-wide/lottery-funding': '/funding/programmes/other-lottery-funders',
     '/global-content/programmes/uk-wide/uk-portfolio': '/funding/programmes/awards-from-the-uk-portfolio',
+    '/global-content/programmes/uk-wide/forces-in-mind': '/funding/programmes/forces-in-mind',
     '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/global-content/programmes/wales/helping-working-families': '/funding/programmes/helping-working-families',
     '/global-content/programmes/wales/people-and-places-large-grants': '/funding/programmes/people-and-places-large-grants',
