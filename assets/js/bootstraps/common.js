@@ -8,6 +8,7 @@ import heroImages from '../modules/heroImages';
 const logos = require('../modules/logos');
 import forms from '../modules/forms';
 import carousel from '../modules/carousel';
+import cookieWarning from '../modules/cookieWarning';
 
 function init() {
     global.init();
@@ -16,6 +17,7 @@ function init() {
     logos.init();
     forms.init();
     carousel.init();
+    cookieWarning.init();
 }
 
 export default {

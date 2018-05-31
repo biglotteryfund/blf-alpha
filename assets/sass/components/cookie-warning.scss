@@ -1,0 +1,22 @@
+.cookie-warning {
+    background-color: #333333;
+    border-bottom: 1px solid #5f5f5f;
+    padding: 10px 20px;
+    color: #ffffff;
+
+    h4 {
+        font-size: 16px;
+        margin: 0 0 10px 0;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    a {
+        color: palette('soft-grey');
+        @include on-interact {
+            color: lighten(palette('soft-grey'), 10%);
+        }
+    }
+}
