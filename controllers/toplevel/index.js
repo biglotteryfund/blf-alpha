@@ -173,10 +173,36 @@ module.exports = ({ router, pages }) => {
     feedbackRoute.init({ router });
 
     router.get('/styleguide', (req, res) => {
+
+        const demoStats = [
+            {
+                value: '42',
+                title: 'The meaning of life, the universe, and everything',
+                prefix: '',
+                suffix: '',
+                showNumberBeforeTitle: true
+            },
+            {
+                value: '9m',
+                title: 'in Beijing',
+                prefix: 'There are',
+                suffix: 'bicycles',
+                showNumberBeforeTitle: true
+            },
+            {
+                value: '500 miles',
+                title: 'I would walk',
+                prefix: '',
+                suffix: '',
+                showNumberBeforeTitle: false
+            }
+        ];
+
         res.render('pages/toplevel/styleguide', {
             title: 'Styleguide',
             description: 'Styleguide',
-            superHeroImages: homepageHero
+            superHeroImages: homepageHero,
+            demoStats: demoStats
         });
     });
 
