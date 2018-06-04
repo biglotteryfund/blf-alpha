@@ -3,7 +3,7 @@ import { storageAvailable } from '../helpers/storage';
 const { trackEvent } = require('../helpers/metrics');
 
 const CAN_STORE = storageAvailable('localStorage');
-const KEY_NAME = 'blfCookiesAllowed';
+const KEY_NAME = 'blf.cookie-consent';
 
 function init() {
     const $cookieWarning = $('#js-cookie-warning');
