@@ -162,7 +162,7 @@
         <li class="grid__item">
             {{ miniatureHero(
                 titleText = 'Example Miniature Hero',
-                imagePath = 'funding/tell-the-world.jpg',
+                imagePath = 'home/case-study-1-medium.jpg',
                 imageCaption = 'Three people working together on laptops',
                 linkUrl = '#',
                 accent = 'pink-mid'
@@ -171,7 +171,7 @@
         <li class="grid__item">
             {{ miniatureHero(
                 titleText = 'Example Miniature Hero',
-                imagePath = 'funding/local-press.jpg',
+                imagePath = 'home/case-study-2-medium.jpg',
                 imageCaption = 'Two cooks in chefs\' clothing with another man smiling',
                 linkUrl = '#',
                 accent = 'blue'
@@ -184,7 +184,7 @@
 
 
 {% set sgContent %}
-    {{ statsGrid(__('toplevel.data.data')) }}
+    {{ statsGrid(demoStats) }}
 {% endset %}
 {{ sgBlock('Stats Grid', sgContent) }}
 
@@ -242,7 +242,7 @@
 
 {% set sgContent %}
     <div class="content-box inner--wide-only accent--turquoise a--border-top">
-        {{ __('funding.guidance.getting-press-coverage.body') | safe }}
+        {{ __('funding.guidance.order-free-materials.body') | safe }}
     </div>
 {% endset %}
 {{ sgBlock('Content Box', sgContent) }}
