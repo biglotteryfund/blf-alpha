@@ -1,5 +1,5 @@
 'use strict';
-const { map } = require('lodash');
+const { includes, map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
 const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
@@ -131,9 +131,16 @@ function initProgrammeDetail({ router, routeConfig }) {
     router.get('/programmes/:slug', injectFundingProgramme, (req, res, next) => {
         const entry = res.locals.fundingProgramme;
         if (entry.contentSections.length > 0) {
+            // Limit to certain programme pages before we roll out more widely.
+            const showNextSectionLink =
+                includes(entry.path, 'young-start') ||
+                includes(entry.path, 'reaching-communities-england') ||
+                includes(entry.path, 'partnerships-england');
+
             res.render(routeConfig.template, {
                 title: entry.summary.title,
                 entry: res.locals.fundingProgramme,
+                showNextSectionLink: showNextSectionLink,
                 isBilingual: isBilingual(entry.availableLanguages),
                 heroImage: entry.hero || heroImages.fallbackHeroImage
             });
