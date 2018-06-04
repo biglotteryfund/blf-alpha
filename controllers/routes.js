@@ -121,16 +121,8 @@ sections.funding.addRoutes({
         queryStrings: ['location', 'amount', 'min', 'max']
     }),
     programmeDetail: customRoute({
-        path: '/programmes/*'
-    }),
-    programmeDetailAfaScotland: customRoute({
-        path: '/programmes/national-lottery-awards-for-all-scotland',
-        applyUrl: 'https://apply.biglotteryfund.org.uk/?cn=sc',
-        abTest: {
-            cookie: 'blf-ab-afa-v2',
-            percentage: 50,
-            experimentId: 'EcAwbF34R5mbCaWW-y_rFQ'
-        }
+        path: '/programmes/*',
+        template: 'pages/funding/programme-detail'
     }),
     buildingBetterOpportunities: cmsRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'

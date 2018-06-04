@@ -87,12 +87,6 @@ global:
         arni.
     genericQuestion: Sut gallem fod wedi gwneud y dudalen hon yn well?
     genericPrompt: Dywedwch wrthym sut y gallem wella'r dudalen hon...
-  abTests:
-    awardsForAllOnlineForm: '<p>Ar hyn o brif mae dwy ffordd i chi ymgeisio: ar ffurflen gais PDF neu drwy
-      ffurflen gais ar-lein.</p><h2>Ymgeisio trwy’r ffurflen ar-lein</h2><p>Rydym yn treialu proses ymgeisio
-      newydd sy’n galluogi chi i gyflwyno cais trwy ffurflen we, yn hytrach na lawrlwytho PDF.</p>
-      <p><a href="%s" class="btn">Ymgeisiwch Ar-lein</a></p>
-      <p>Treial yw’r ffurflen newydd hon, ac mae’n agored dim ond i nifer bach o ymgeiswyr. Mawr hoffem gael eich adborth ar eich profiad ohoni.</p><h2><strong>Ymgeisio trwy e-bost neu’r post</strong></h2>'
 toplevel:
   home:
     title: Hafan
