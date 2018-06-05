@@ -166,6 +166,7 @@ app.use(timings.start('global-middleware'));
  */
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
+app.use(previewMiddleware);
 app.use(cachedMiddleware);
 app.use(loggerMiddleware);
 app.use(defaultSecurityHeaders());
@@ -174,7 +175,6 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
-app.use(previewMiddleware);
 app.use(portalMiddleware);
 
 app.use(timings.end('global-middleware'));
