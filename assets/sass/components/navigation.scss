@@ -87,6 +87,30 @@
 }
 
 /* =========================================================================
+   Segment links (jump links for pages with multiple content segments)
+   ========================================================================= */
+
+.segment-links {
+    border-top: 1px solid palette('border');
+    padding-top: $spacingUnit;
+    margin-bottom: $spacingUnit;
+
+    li {
+        list-style: none;
+        margin-left: .5em;
+
+        &:before {
+            content: '—';
+            margin-right: .5em;
+        }
+    }
+
+    a {
+        font-weight: bold;
+    }
+}
+
+/* =========================================================================
    Split Nav (previous / next pagination)
    ========================================================================= */
 
@@ -118,15 +142,6 @@
 
     &::after {
         content: ' →';
-    }
-}
-@include mq('small') {
-    .split-nav__prev,
-    .split-nav__next {
-    }
-    .split-nav__prev {
-    }
-    .split-nav__next {
     }
 }
 

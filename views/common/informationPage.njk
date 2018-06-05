@@ -13,11 +13,13 @@
 
 {% macro segmentLinks(segments) %}
     {% if segments.length > 0 %}
-        <ul>
-            {% for segment in segments %}
-                <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
-            {% endfor %}
-        </ul>
+        <div class="segment-links">
+            <ul>
+                {% for segment in segments %}
+                    <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
 {% endmacro %}
 
@@ -34,13 +36,15 @@
 
     {% macro primaryContent() %}
         {{ selectionTrail(breadcrumbs) }}
+
         <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
             {% if not heroImage %}
             <h1>{{ content.title }}</h1>
             {% endif %}
             {{ content.introduction | safe }}
-            {{ segmentLinks(content.segments) }}
         </div>
+
+        {{ segmentLinks(content.segments) }}
     {% endmacro %}
 
     <main{% if heroImage %} class="nudge-up"{% endif %}>
