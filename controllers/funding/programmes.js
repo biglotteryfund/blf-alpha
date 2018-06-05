@@ -130,7 +130,8 @@ function initProgrammesList({ router, routeConfig }) {
 function initProgrammeDetail({ router, routeConfig }) {
     router.get('/programmes/:slug', injectFundingProgramme, (req, res, next) => {
         const entry = res.locals.fundingProgramme;
-        if (entry.contentSections.length > 0) {
+
+        if (entry && entry.contentSections.length > 0) {
             // Limit to certain programme pages before we roll out more widely.
             const showNextSectionLink =
                 includes(entry.path, 'young-start') ||
@@ -138,14 +139,14 @@ function initProgrammeDetail({ router, routeConfig }) {
                 includes(entry.path, 'partnerships-england');
 
             res.render(routeConfig.template, {
+                entry: entry,
                 title: entry.summary.title,
-                entry: res.locals.fundingProgramme,
-                showNextSectionLink: showNextSectionLink,
+                heroImage: entry.hero || heroImages.fallbackHeroImage,
                 isBilingual: isBilingual(entry.availableLanguages),
-                heroImage: entry.hero || heroImages.fallbackHeroImage
+                showNextSectionLink: showNextSectionLink
             });
         } else {
-            next(new Error('NoContent'));
+            next();
         }
     });
 }
