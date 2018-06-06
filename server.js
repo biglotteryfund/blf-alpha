@@ -218,7 +218,7 @@ forEach(routes.sections, (section, sectionId) => {
      * Middleware to add a section ID to requests with a known section
      * (eg. to mark a section as current in the nav)
      */
-    router.use(function(req, res, next) {
+    router.use(function (req, res, next) {
         res.locals.sectionId = sectionId;
         next();
     });
@@ -227,14 +227,12 @@ forEach(routes.sections, (section, sectionId) => {
      * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        /**
-         * Note: must use `router.get` here because `router.use` matches
-         * against URLs which *start with* the path given which is too broad.
-         */
-        router.get(page.path, sMaxAge(page.sMaxAge), injectHeroImage(page), (req, res, next) => {
-            res.locals.pageId = pageId;
-            next();
-        });
+        router.route(page.path)
+            .all(injectHeroImage(page.heroSlug), (req, res, next) => {
+                res.locals.pageId = pageId;
+                next();
+            })
+            .get(sMaxAge(page.sMaxAge));
     });
 
     /**

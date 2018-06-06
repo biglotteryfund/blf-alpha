@@ -14,31 +14,30 @@ function getPreviewStatus(entry) {
     };
 }
 
-function injectHeroImage(page) {
-    const heroSlug = get('heroSlug')(page);
+function injectHeroImage(heroSlug) {
     return async function(req, res, next) {
-        if (!heroSlug) {
-            return next();
-        }
+        if (heroSlug) {
+            // Set defaults
+            res.locals.heroImage = heroImages.fallbackHeroImage;
+            res.locals.socialImage = heroImages.fallbackHeroImage;
 
-        // Set defaults
-        res.locals.heroImage = heroImages.fallbackHeroImage;
-        res.locals.socialImage = heroImages.fallbackHeroImage;
+            res.locals.timings.start('inject-hero');
 
-        res.locals.timings.start('inject-hero');
+            try {
+                const heroImage = await contentApi.getHeroImage({
+                    locale: req.i18n.getLocale(),
+                    slug: heroSlug
+                });
 
-        try {
-            const heroImage = await contentApi.getHeroImage({
-                locale: req.i18n.getLocale(),
-                slug: heroSlug
-            });
-
-            res.locals.timings.end('inject-hero');
-            res.locals.heroImage = heroImage;
-            res.locals.socialImage = heroImage;
-            next();
-        } catch (error) {
-            Raven.captureException(error);
+                res.locals.timings.end('inject-hero');
+                res.locals.heroImage = heroImage;
+                res.locals.socialImage = heroImage;
+                next();
+            } catch (error) {
+                Raven.captureException(error);
+                next();
+            }
+        } else {
             next();
         }
     };
