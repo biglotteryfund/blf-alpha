@@ -1,7 +1,5 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-const chai = require('chai');
-const expect = chai.expect;
 
 const { makeOrderText, postcodeArea } = require('./materials-helpers');
 
@@ -42,11 +40,11 @@ describe('Materials utilities', () => {
         };
 
         const orderText = makeOrderText(items, details);
-        expect(orderText).to.contain('- x1 BLF-BR088 (item: Stainless steel plaque)');
-        expect(orderText).to.contain('- x1 BIG-BANNP (item: Vinyl banner (pink))');
-        expect(orderText).to.contain('Name: Ann Example');
-        expect(orderText).to.contain('Email address: ann@example.com');
-        expect(orderText).to.contain('Postcode: EC4A 1DE');
+        expect(orderText).toContain('- x1 BLF-BR088 (item: Stainless steel plaque)');
+        expect(orderText).toContain('- x1 BIG-BANNP (item: Vinyl banner (pink))');
+        expect(orderText).toContain('Name: Ann Example');
+        expect(orderText).toContain('Email address: ann@example.com');
+        expect(orderText).toContain('Postcode: EC4A 1DE');
     });
 
     it('should extract postcode outcode', () => {
@@ -150,7 +148,7 @@ describe('Materials utilities', () => {
         ];
 
         toTest.forEach(entry => {
-            expect(postcodeArea(entry.base)).to.equal(entry.expected);
+            expect(postcodeArea(entry.base)).toBe(entry.expected);
         });
     });
 });

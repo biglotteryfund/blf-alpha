@@ -1,8 +1,5 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-
-const chai = require('chai');
-const expect = chai.expect;
 
 const { createSection, staticRoute, customRoute, cmsRoute, legacyRoute } = require('./route-types');
 
@@ -19,9 +16,9 @@ describe('Route types', () => {
             })
         });
 
-        expect(section.path).to.equal('/example');
-        expect(section.find('exampleSection')).to.equal('/example/some/url');
-        expect(() => section.find('doesNotExist')).to.throw('No route found for doesNotExist');
+        expect(section.path).toBe('/example');
+        expect(section.find('exampleSection')).toBe('/example/some/url');
+        expect(() => section.find('doesNotExist')).toThrowError('No route found for doesNotExist');
     });
 
     it('should define a custom route schema', () => {
@@ -30,7 +27,7 @@ describe('Route types', () => {
                 path: '/some/url',
                 queryStrings: ['foo', 'bar']
             })
-        ).to.eql({
+        ).toEqual({
             path: '/some/url',
             isPostable: false,
             live: true,
@@ -43,7 +40,7 @@ describe('Route types', () => {
             staticRoute({
                 path: '/some/url'
             })
-        ).to.eql({
+        ).toEqual({
             path: '/some/url',
             isPostable: false,
             static: true,
@@ -56,7 +53,7 @@ describe('Route types', () => {
             cmsRoute({
                 path: '/some/url'
             })
-        ).to.eql({
+        ).toEqual({
             path: '/some/url',
             isPostable: false,
             useCmsContent: true,
@@ -69,7 +66,7 @@ describe('Route types', () => {
             legacyRoute({
                 path: '/some/url'
             })
-        ).to.eql({
+        ).toEqual({
             path: '/some/url',
             isPostable: true,
             allowAllQueryStrings: true,
