@@ -1,4 +1,14 @@
 describe('Common tests', function() {
+    it('should set core headers', () => {
+        cy.request('/').then(response => {
+            expect(response.headers['cache-control']).to.eq('max-age=30,s-maxage=300');
+        });
+
+        cy.request('/apply/your-idea/1').then(response => {
+            expect(response.headers['cache-control']).to.eq('no-store,no-cache,max-age=0');
+        });
+    });
+
     it('should render page in multiple languages', () => {
         cy.visit('/funding/programmes/national-lottery-awards-for-all-wales');
 

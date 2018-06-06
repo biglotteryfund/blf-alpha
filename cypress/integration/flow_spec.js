@@ -47,7 +47,7 @@ describe('Core funding flow', function() {
         });
     });
 
-    it.only('should allow feedback submissions', () => {
+    it('should allow feedback submissions', () => {
         cy.visit('/funding/past-grants');
         cy.get('#js-feedback').as('feedbackForm');
         cy
