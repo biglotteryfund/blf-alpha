@@ -1,7 +1,5 @@
+/* eslint-env jest */
 'use strict';
-/* eslint-env mocha */
-const chai = require('chai');
-const expect = chai.expect;
 
 const { splitPercentages } = require('./ab');
 
@@ -9,9 +7,9 @@ describe('A/B Test Utilities', () => {
     describe('#splitPercentages', () => {
         function assertValues(percentage, aVal, bVal) {
             const example = splitPercentages(percentage);
-            expect(example.A).to.equal(aVal);
-            expect(example.B).to.equal(bVal);
-            expect(example.A + example.B).to.equal(1);
+            expect(example.A).toBe(aVal);
+            expect(example.B).toBe(bVal);
+            expect(example.A + example.B).toBe(1);
         }
 
         it('should return split percentages from 0 to 1', () => {
@@ -25,9 +23,9 @@ describe('A/B Test Utilities', () => {
 
         it('should handle passing floats', () => {
             const floatExample = splitPercentages(33.33);
-            expect(floatExample.A).to.be.closeTo(0.667, 0.001);
-            expect(floatExample.B).to.be.closeTo(0.333, 0.001);
-            expect(floatExample.A + floatExample.B).to.equal(1);
+            expect(floatExample.A).toBeCloseTo(0.667, 0.001);
+            expect(floatExample.B).toBeCloseTo(0.333, 0.001);
+            expect(floatExample.A + floatExample.B).toBe(1);
         });
     });
 });

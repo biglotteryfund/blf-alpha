@@ -1,7 +1,5 @@
+/* eslint-env jest */
 'use strict';
-/* eslint-env mocha*/
-const chai = require('chai');
-const expect = chai.expect;
 
 const { getSecretFromRawParameters } = require('./secrets');
 
@@ -22,11 +20,11 @@ describe('Get secrets', () => {
     ];
 
     it('should get secret for a given property', () => {
-        expect(getSecretFromRawParameters(mockParameters, 'some.parameter')).to.equal('some-value');
+        expect(getSecretFromRawParameters(mockParameters, 'some.parameter')).toBe('some-value');
     });
 
     it('should throw an error for unknown properties', () => {
-        expect(() => getSecretFromRawParameters(mockParameters, 'does.not.exist')).to.throw(
+        expect(() => getSecretFromRawParameters(mockParameters, 'does.not.exist')).toThrowError(
             'Could not find property does.not.exist in secrets'
         );
     });
