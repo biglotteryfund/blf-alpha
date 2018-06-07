@@ -7,8 +7,8 @@ install:
 - npm install
 cache:
   directories:
-    - "$HOME/.cache/Cypress"
-    - "$HOME/.npm"
+    - ~/.npm
+    - ~/.cache
     - node_modules
 script:
 - npm run lint
