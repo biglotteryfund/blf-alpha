@@ -1,7 +1,5 @@
+/* eslint-env jest */
 'use strict';
-/* global describe, it */
-const chai = require('chai');
-const expect = chai.expect;
 
 const {
     getBaseUrl,
@@ -27,8 +25,8 @@ describe('URL Helpers', () => {
                     'X-Forwarded-Proto': 'https'
                 }
             });
-            expect(getCurrentUrl(req, 'en')).to.equal('/some/example/url');
-            expect(getCurrentUrl(req, 'cy')).to.equal('/welsh/some/example/url');
+            expect(getCurrentUrl(req, 'en')).toBe('/some/example/url');
+            expect(getCurrentUrl(req, 'cy')).toBe('/welsh/some/example/url');
         });
 
         it('should correct url if in cy locale', () => {
@@ -41,8 +39,8 @@ describe('URL Helpers', () => {
                 }
             });
 
-            expect(getCurrentUrl(req, 'en')).to.equal('/some/example/url');
-            expect(getCurrentUrl(req, 'cy')).to.equal('/welsh/some/example/url');
+            expect(getCurrentUrl(req, 'en')).toBe('/some/example/url');
+            expect(getCurrentUrl(req, 'cy')).toBe('/welsh/some/example/url');
         });
 
         it('should strip version and draft query parameters', () => {
@@ -56,11 +54,11 @@ describe('URL Helpers', () => {
                     }
                 });
             }
-            expect(getCurrentUrl(withQuery('version=123'))).to.equal('/some/example/url');
-            expect(getCurrentUrl(withQuery('draft=123'))).to.equal('/some/example/url');
-            expect(getCurrentUrl(withQuery('version=123&something=else'))).to.equal('/some/example/url?something=else');
-            expect(getCurrentUrl(withQuery('draft=2&something=else'))).to.equal('/some/example/url?something=else');
-            expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).to.equal(
+            expect(getCurrentUrl(withQuery('version=123'))).toBe('/some/example/url');
+            expect(getCurrentUrl(withQuery('draft=123'))).toBe('/some/example/url');
+            expect(getCurrentUrl(withQuery('version=123&something=else'))).toBe('/some/example/url?something=else');
+            expect(getCurrentUrl(withQuery('draft=2&something=else'))).toBe('/some/example/url?something=else');
+            expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).toBe(
                 '/some/example/url?something=else'
             );
         });
@@ -68,29 +66,29 @@ describe('URL Helpers', () => {
 
     describe('#isWelsh', () => {
         it('should determine if a given url path is welsh', () => {
-            expect(isWelsh('/welsh')).to.be.true;
-            expect(isWelsh('/welsh/about')).to.be.true;
-            expect(isWelsh('/about')).to.be.false;
-            expect(isWelsh('/welsh/funding/funding-finder')).to.be.true;
-            expect(isWelsh('/welsh/funding/programmes')).to.be.true;
-            expect(isWelsh('/funding/programmes')).to.be.false;
+            expect(isWelsh('/welsh')).toBe(true);
+            expect(isWelsh('/welsh/about')).toBe(true);
+            expect(isWelsh('/about')).toBe(false);
+            expect(isWelsh('/welsh/funding/funding-finder')).toBe(true);
+            expect(isWelsh('/welsh/funding/programmes')).toBe(true);
+            expect(isWelsh('/funding/programmes')).toBe(false);
         });
 
         it('should only be flagged as welsh url if starting with /welsh', () => {
-            expect(isWelsh('/some/path/with/welsh')).to.be.false;
-            expect(isWelsh('/funding/welsh/programmes')).to.be.false;
+            expect(isWelsh('/some/path/with/welsh')).toBe(false);
+            expect(isWelsh('/funding/welsh/programmes')).toBe(false);
         });
     });
 
     describe('#localify', () => {
         it('should return correct url for a given locale', () => {
-            expect(localify('en')('/funding/funding-finder')).to.equal('/funding/funding-finder');
+            expect(localify('en')('/funding/funding-finder')).toBe('/funding/funding-finder');
 
-            expect(localify('cy')('/funding/funding-finder')).to.equal('/welsh/funding/funding-finder');
+            expect(localify('cy')('/funding/funding-finder')).toBe('/welsh/funding/funding-finder');
 
-            expect(localify('en')('/welsh/funding/funding-finder')).to.equal('/funding/funding-finder');
+            expect(localify('en')('/welsh/funding/funding-finder')).toBe('/funding/funding-finder');
 
-            expect(localify('cy')('/welsh/funding/funding-finder')).to.equal('/welsh/funding/funding-finder');
+            expect(localify('cy')('/welsh/funding/funding-finder')).toBe('/welsh/funding/funding-finder');
         });
     });
 
@@ -106,7 +104,7 @@ describe('URL Helpers', () => {
                         }
                     })
                 )
-            ).to.equal('http://example.org.uk');
+            ).toBe('http://example.org.uk');
 
             expect(
                 getBaseUrl(
@@ -119,20 +117,20 @@ describe('URL Helpers', () => {
                         }
                     })
                 )
-            ).to.equal('https://example.org.uk');
+            ).toBe('https://example.org.uk');
         });
     });
 
     describe('#hasTrailingSlash', () => {
         it('should return boolean based on whether a urlPath has a trailing slash', () => {
-            expect(hasTrailingSlash('/foo/')).to.be.true;
-            expect(hasTrailingSlash('/welsh/')).to.be.true;
-            expect(hasTrailingSlash('/path/to/longer/url/')).to.be.true;
-            expect(hasTrailingSlash('/path/without/trailing/slash')).to.be.false;
+            expect(hasTrailingSlash('/foo/')).toBe(true);
+            expect(hasTrailingSlash('/welsh/')).toBe(true);
+            expect(hasTrailingSlash('/path/to/longer/url/')).toBe(true);
+            expect(hasTrailingSlash('/path/without/trailing/slash')).toBe(false);
         });
 
         it('should not consider homepage as having a trailing slash', () => {
-            expect(hasTrailingSlash('/')).to.be.false;
+            expect(hasTrailingSlash('/')).toBe(false);
         });
     });
 
@@ -141,16 +139,16 @@ describe('URL Helpers', () => {
             let pathWithSlash = '/foo/';
             let pathWithoutSlash = '/bar';
             let pathToHomepage = '/';
-            expect(stripTrailingSlashes(pathWithSlash)).to.equal('/foo');
-            expect(stripTrailingSlashes(pathWithoutSlash)).to.equal('/bar');
-            expect(stripTrailingSlashes(pathToHomepage)).to.equal('/');
+            expect(stripTrailingSlashes(pathWithSlash)).toBe('/foo');
+            expect(stripTrailingSlashes(pathWithoutSlash)).toBe('/bar');
+            expect(stripTrailingSlashes(pathToHomepage)).toBe('/');
         });
     });
 
     describe('#sanitiseUrlPath', () => {
         it('should sanitise url path', () => {
-            expect(sanitiseUrlPath('/about/')).to.equal('about');
-            expect(sanitiseUrlPath('/welsh/path/to/something/')).to.equal('path/to/something');
+            expect(sanitiseUrlPath('/about/')).toBe('about');
+            expect(sanitiseUrlPath('/welsh/path/to/something/')).toBe('path/to/something');
         });
     });
 
@@ -163,7 +161,7 @@ describe('URL Helpers', () => {
                     'amp;org': 'Voluntary or community organisation',
                     'amp;sc': '1'
                 })
-            ).to.eql({
+            ).toEqual({
                 area: 'England',
                 amount: '10001 - 50000',
                 org: 'Voluntary or community organisation',

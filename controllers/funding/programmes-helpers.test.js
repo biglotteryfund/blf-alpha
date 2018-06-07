@@ -1,7 +1,5 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-const chai = require('chai');
-const expect = chai.expect;
 
 const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
 
@@ -78,54 +76,54 @@ describe('Programme utilities', () => {
     describe('#programmeFilters', () => {
         describe('#getValidLocation', () => {
             it('should only return valid regions', () => {
-                expect(programmeFilters.getValidLocation(mockProgrammes, 'northernIreland')).to.equal(
-                    'northernIreland'
-                );
-                expect(programmeFilters.getValidLocation(mockProgrammes, 'england')).to.equal('england');
-                expect(programmeFilters.getValidLocation(mockProgrammes, 'nowhere')).to.be.undefined;
+                expect(programmeFilters.getValidLocation(mockProgrammes, 'northernIreland')).toBe('northernIreland');
+                expect(programmeFilters.getValidLocation(mockProgrammes, 'england')).toBe('england');
+                expect(programmeFilters.getValidLocation(mockProgrammes, 'nowhere')).toBeUndefined();
             });
         });
 
         describe('#filterByLocation', () => {
             it('should filter programmes by England', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('england'));
-                expect(res.map(item => item.content.title)).to.eql(['National Lottery Awards for All England']);
+                expect(res.map(item => item.content.title)).toEqual(['National Lottery Awards for All England']);
             });
 
             it('should filter programmes by Northern Ireland', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('northernIreland'));
-                expect(res.map(item => item.content.title)).to.eql(['Empowering Young People']);
+                expect(res.map(item => item.content.title)).toEqual(['Empowering Young People']);
             });
 
             it('should filter programmes by Wales', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('wales'));
-                expect(res.map(item => item.content.title)).to.eql(['People and Places: Large Grants']);
+                expect(res.map(item => item.content.title)).toEqual(['People and Places: Large Grants']);
             });
 
             it('should filter programmes by Scotland', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByLocation('scotland'));
-                expect(res.map(item => item.content.title)).to.eql(['Our Place']);
+                expect(res.map(item => item.content.title)).toEqual(['Our Place']);
             });
         });
 
         describe('#filterByMinAmount', () => {
             it('should filter programmes by min amount, including programmes with no range', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByMinAmount(10000));
-                expect(res.map(item => item.content.title)).to.have.members([
-                    'Empowering Young People',
-                    'People and Places: Large Grants',
-                    'Our Place',
-                    'Awards from the UK Portfolio'
-                ]);
+                expect(res.map(item => item.content.title)).toEqual(
+                    expect.arrayContaining([
+                        'Empowering Young People',
+                        'People and Places: Large Grants',
+                        'Our Place',
+                        'Awards from the UK Portfolio'
+                    ])
+                );
             });
         });
 
         describe('#filterByMaxAmount', () => {
             it('should filter programmes by maximum amount', () => {
                 const res = mockProgrammes.filter(programmeFilters.filterByMaxAmount(10000));
-                expect(res.map(item => item.content.title)).to.have.members([
-                    'National Lottery Awards for All England'
-                ]);
+                expect(res.map(item => item.content.title)).toEqual(
+                    expect.arrayContaining(['National Lottery Awards for All England'])
+                );
             });
         });
     });
@@ -138,7 +136,7 @@ describe('Programme utilities', () => {
                         originalAreaQuery: falseyValue,
                         originalAmountQuery: falseyValue
                     })
-                ).to.equal('');
+                ).toBe('');
             });
         });
 
@@ -148,28 +146,28 @@ describe('Programme utilities', () => {
                     originalAreaQuery: 'England',
                     originalAmountQuery: null
                 })
-            ).to.equal('location=england');
+            ).toBe('location=england');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Northern Ireland',
                     originalAmountQuery: null
                 })
-            ).to.equal('location=northernIreland');
+            ).toBe('location=northernIreland');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Scotland',
                     originalAmountQuery: null
                 })
-            ).to.equal('location=scotland');
+            ).toBe('location=scotland');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Wales',
                     originalAmountQuery: null
                 })
-            ).to.equal('location=wales');
+            ).toBe('location=wales');
         });
 
         it('should return an empty string for invalid regions', () => {
@@ -178,28 +176,28 @@ describe('Programme utilities', () => {
                     originalAreaQuery: 'Ireland',
                     originalAmountQuery: null
                 })
-            ).to.equal('');
+            ).toBe('');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Europe',
                     originalAmountQuery: null
                 })
-            ).to.equal('');
+            ).toBe('');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 5000,
                     originalAmountQuery: null
                 })
-            ).to.equal('');
+            ).toBe('');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'not a real place',
                     originalAmountQuery: null
                 })
-            ).to.equal('');
+            ).toBe('');
         });
 
         it('should return reformatted query string for amounts over 10k', () => {
@@ -208,28 +206,28 @@ describe('Programme utilities', () => {
                     originalAreaQuery: null,
                     originalAmountQuery: '10001 - 50000'
                 })
-            ).to.equal('min=10000');
+            ).toBe('min=10000');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: null,
                     originalAmountQuery: 'more than 1000000'
                 })
-            ).to.equal('min=10000');
+            ).toBe('min=10000');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: null,
                     originalAmountQuery: 'up to 10000'
                 })
-            ).to.equal('max=10000');
+            ).toBe('max=10000');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: null,
                     originalAmountQuery: 'an imaginary value'
                 })
-            ).to.equal('min=10000');
+            ).toBe('min=10000');
         });
 
         it('should return reformatted query string for a mix of area and amount', () => {
@@ -238,21 +236,21 @@ describe('Programme utilities', () => {
                     originalAreaQuery: 'England',
                     originalAmountQuery: 'up to 10000'
                 })
-            ).to.equal('location=england&max=10000');
+            ).toBe('location=england&max=10000');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Scotland',
                     originalAmountQuery: '10001 - 50000'
                 })
-            ).to.equal('location=scotland&min=10000');
+            ).toBe('location=scotland&min=10000');
 
             expect(
                 reformatQueryString({
                     originalAreaQuery: 'Wales',
                     originalAmountQuery: 'more than 1000000'
                 })
-            ).to.equal('location=wales&min=10000');
+            ).toBe('location=wales&min=10000');
         });
     });
 });

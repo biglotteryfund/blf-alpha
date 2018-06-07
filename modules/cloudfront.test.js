@@ -1,7 +1,5 @@
+/* eslint-env jest */
 'use strict';
-/* global describe, it */
-const chai = require('chai');
-const expect = chai.expect;
 
 const { defaultsDeep } = require('lodash');
 const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
@@ -44,25 +42,25 @@ describe('Cloudfront Helpers', () => {
     describe('#generateUrlList', () => {
         it('should filter out non-custom routes', done => {
             const urls = generateUrlList(testRoutes);
-            expect(urls.length).to.equal(2);
+            expect(urls.length).toBe(2);
             done();
         });
 
         it('should generate the correct section/page path', done => {
             const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).to.equal(1);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).toBe(1);
             done();
         });
 
         it('should generate welsh versions of canonical routes', done => {
             const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).to.equal(1);
+            expect(urls.filter(r => r.path === '/welsh/purple/monkey/dishwasher').length).toBe(1);
             done();
         });
 
         it('should store properties against routes', done => {
             const urls = generateUrlList(testRoutes);
-            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).to.equal(true);
+            expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).toBe(true);
             done();
         });
     });
@@ -110,7 +108,7 @@ describe('Cloudfront Helpers', () => {
                 cookiesInUse: ['example']
             });
 
-            expect(behaviour).to.eql(
+            expect(behaviour).toEqual(
                 withDefaults({
                     TargetOriginId: 'BLF_EXAMPLE',
                     ViewerProtocolPolicy: 'redirect-to-https',
@@ -148,7 +146,7 @@ describe('Cloudfront Helpers', () => {
                 headersToKeep: ['*']
             });
 
-            expect(behaviour).to.eql(
+            expect(behaviour).toEqual(
                 withDefaults({
                     TargetOriginId: 'BLF_LEGACY_EXAMPLE',
                     ViewerProtocolPolicy: 'allow-all',

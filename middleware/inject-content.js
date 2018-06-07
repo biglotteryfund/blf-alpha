@@ -191,7 +191,6 @@ async function injectBlogDetail(req, res, next) {
 
             next();
         }
-
     } catch (error) {
         next();
     }

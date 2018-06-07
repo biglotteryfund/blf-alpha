@@ -1,24 +1,23 @@
+/* eslint-env jest */
 'use strict';
-/* eslint-env mocha */
-const chai = require('chai');
-const expect = chai.expect;
+
 const httpMocks = require('node-mocks-http');
 const { cleanLinkNoise, redirectNonWww } = require('./redirects');
 
 describe('redirects', () => {
     describe('cleanLinkNoise', () => {
         it('should clean link noise from the URL', () => {
-            expect(cleanLinkNoise('/funding/programmes/reaching-communities-england')).to.equal(
+            expect(cleanLinkNoise('/funding/programmes/reaching-communities-england')).toBe(
                 '/funding/programmes/reaching-communities-england'
             );
 
-            expect(cleanLinkNoise('/~/link.aspx')).to.equal('/');
+            expect(cleanLinkNoise('/~/link.aspx')).toBe('/');
 
-            expect(
-                cleanLinkNoise('/research/health-and-well-being/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/link.aspx')
-            ).to.equal('/research/health-and-well-being/');
+            expect(cleanLinkNoise('/research/health-and-well-being/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/link.aspx')).toBe(
+                '/research/health-and-well-being/'
+            );
 
-            expect(cleanLinkNoise('/welsh/england/funding/funding-guidance/applying-for-funding/~/link.aspx')).to.equal(
+            expect(cleanLinkNoise('/welsh/england/funding/funding-guidance/applying-for-funding/~/link.aspx')).toBe(
                 '/welsh/england/funding/funding-guidance/applying-for-funding/'
             );
         });
@@ -33,7 +32,7 @@ describe('redirects', () => {
             });
             const res = httpMocks.createResponse();
             redirectNonWww(req, res, () => {});
-            expect(res.statusCode).to.equal(301);
+            expect(res.statusCode).toBe(301);
         });
 
         it('should not redirect on www production domain ', () => {
@@ -44,7 +43,7 @@ describe('redirects', () => {
             });
             const res = httpMocks.createResponse();
             redirectNonWww(req, res, () => {});
-            expect(res.statusCode).to.equal(200);
+            expect(res.statusCode).toBe(200);
         });
     });
 });

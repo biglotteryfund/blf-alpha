@@ -1,7 +1,6 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-const chai = require('chai');
-const expect = chai.expect;
+
 const httpMocks = require('node-mocks-http');
 
 const TEST_PREVIEW_DOMAIN = 'test.foo.com';
@@ -20,8 +19,8 @@ describe('preview middleware', () => {
         });
         const res = httpMocks.createResponse();
         preview(req, res, () => {});
-        expect(res.locals.PREVIEW_MODE.mode).to.equal('draft');
-        expect(res.locals.PREVIEW_MODE.id).to.equal(42);
+        expect(res.locals.PREVIEW_MODE.mode).toBe('draft');
+        expect(res.locals.PREVIEW_MODE.id).toBe(42);
     });
 
     it('should not add preview data to non-preview hosts', () => {
@@ -35,6 +34,6 @@ describe('preview middleware', () => {
         });
         const res = httpMocks.createResponse();
         preview(req, res, () => {});
-        expect(res.locals.PREVIEW_MODE).to.be.undefined;
+        expect(res.locals.PREVIEW_MODE).toBeUndefined();
     });
 });

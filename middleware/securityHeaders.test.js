@@ -1,7 +1,6 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-const chai = require('chai');
-const expect = chai.expect;
+
 const httpMocks = require('node-mocks-http');
 const { defaultSecurityHeaders } = require('./securityHeaders');
 
@@ -11,7 +10,7 @@ describe('securityHeaders', () => {
         const res = httpMocks.createResponse();
 
         defaultSecurityHeaders()(req, res, () => {});
-        expect(res.get('Content-Security-Policy')).to.contain("default-src 'self'");
-        expect(res.get('Content-Security-Policy')).to.exist;
+        expect(res.get('Content-Security-Policy')).toContain("default-src 'self'");
+        expect(res.get('Content-Security-Policy')).toBeDefined();
     });
 });

@@ -1,8 +1,7 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict';
-const chai = require('chai');
+
 const nock = require('nock');
-const expect = chai.expect;
 
 const contentApi = require('./content-api');
 const fixtureNews = require('./fixtures/promoted-news.json');
@@ -13,7 +12,7 @@ const fixtureListRoutes = require('./fixtures/list-routes.json');
 function mockEndpoint() {
     const mockApiUrl = 'https://content.example.com';
     contentApi.setApiUrl(mockApiUrl);
-    expect(contentApi.getApiUrl()).to.equal(mockApiUrl);
+    expect(contentApi.getApiUrl()).toBe(mockApiUrl);
     return nock(mockApiUrl);
 }
 
@@ -67,9 +66,9 @@ describe('Content API', () => {
         ];
 
         const mergedEn = contentApi.mergeWelshBy('slug')('en', enResults, cyResults);
-        expect(mergedEn).to.deep.members(enResults);
+        expect(mergedEn).toEqual(enResults);
         const mergedCy = contentApi.mergeWelshBy('slug')('cy', enResults, cyResults);
-        expect(mergedCy).to.deep.have.members(cyExpected);
+        expect(mergedCy).toEqual(cyExpected);
     });
 
     it('should fetch promoted news', () => {
@@ -78,8 +77,10 @@ describe('Content API', () => {
                 locale: 'en'
             })
             .then(news => {
-                expect(news.length).to.equal(3);
-                expect(news.map(_ => _.title)).to.have.members(['Test Article 1', 'Test Article 2', 'Test Article 3']);
+                expect(news.length).toBe(3);
+                expect(news.map(_ => _.title)).toEqual(
+                    expect.arrayContaining(['Test Article 1', 'Test Article 2', 'Test Article 3'])
+                );
             });
     });
 
@@ -94,8 +95,8 @@ describe('Content API', () => {
                 limit: 2
             })
             .then(news => {
-                expect(news.length).to.equal(2);
-                expect(news.map(_ => _.title)).to.have.members(['Test Article 1', 'Test Article 2']);
+                expect(news.length).toBe(2);
+                expect(news.map(_ => _.title)).toEqual(expect.arrayContaining(['Test Article 1', 'Test Article 2']));
             });
     });
 
@@ -105,14 +106,16 @@ describe('Content API', () => {
                 locale: 'en'
             })
             .then(programmes => {
-                expect(programmes.length).to.equal(5);
-                expect(programmes.map(_ => _.content.title)).to.have.members([
-                    'National Lottery Awards for All England',
-                    'National Lottery Awards for All Wales',
-                    'National Lottery Awards for All Scotland',
-                    'Awards for All Northern Ireland',
-                    'Reaching Communities England'
-                ]);
+                expect(programmes.length).toBe(5);
+                expect(programmes.map(_ => _.content.title)).toEqual(
+                    expect.arrayContaining([
+                        'National Lottery Awards for All England',
+                        'National Lottery Awards for All Wales',
+                        'National Lottery Awards for All Scotland',
+                        'Awards for All Northern Ireland',
+                        'Reaching Communities England'
+                    ])
+                );
             });
     });
 
@@ -122,25 +125,29 @@ describe('Content API', () => {
                 locale: 'cy'
             })
             .then(programmes => {
-                expect(programmes.length).to.equal(5);
-                expect(programmes.map(_ => _.content.title)).to.have.members([
-                    'National Lottery Awards for All England',
-                    'Arian i Bawb y Loteri Genedlaethol Cymru',
-                    'Arian i Bawb y Loteri Genedlaethol Yr Alban',
-                    'Arian i Bawb y Loteri Genedlaethol Gogledd Iwerddon',
-                    'Reaching Communities England'
-                ]);
+                expect(programmes.length).toBe(5);
+                expect(programmes.map(_ => _.content.title)).toEqual(
+                    expect.arrayContaining([
+                        'National Lottery Awards for All England',
+                        'Arian i Bawb y Loteri Genedlaethol Cymru',
+                        'Arian i Bawb y Loteri Genedlaethol Yr Alban',
+                        'Arian i Bawb y Loteri Genedlaethol Gogledd Iwerddon',
+                        'Reaching Communities England'
+                    ])
+                );
             });
     });
 
     it('should fetch all canonical urls from the cms', () => {
         return contentApi.getRoutes().then(cmsRoutes => {
-            expect(cmsRoutes.length).to.equal(3);
-            expect(cmsRoutes.map(_ => _.path)).to.have.members([
-                '/funding/information-checks',
-                '/funding/programmes/awards-for-all-northern-ireland',
-                '/funding/programmes/awards-from-the-uk-portfolio'
-            ]);
+            expect(cmsRoutes.length).toBe(3);
+            expect(cmsRoutes.map(_ => _.path)).toEqual(
+                expect.arrayContaining([
+                    '/funding/information-checks',
+                    '/funding/programmes/awards-for-all-northern-ireland',
+                    '/funding/programmes/awards-from-the-uk-portfolio'
+                ])
+            );
         });
     });
 });
