@@ -39,13 +39,6 @@ describe('Common tests', function() {
             });
     });
 
-    it('should redirect trailing slashes', () => {
-        cy.checkRedirect({
-            from: '/funding/',
-            to: '/funding'
-        });
-    });
-
     it('should handle aliases', () => {
         cy
             .request('/tools/seed/aliases-sample')
@@ -85,6 +78,15 @@ describe('Common tests', function() {
             to: 'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+something',
             isRelative: false,
             status: 302
+        });
+    });
+
+    it('should redirect archived pages to the national archives', () => {
+        const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+        cy.checkRedirect({
+            from: urlPath,
+            to: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`,
+            isRelative: false
         });
     });
 });
