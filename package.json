@@ -6,11 +6,9 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
-    "lint": "eslint .",
-    "test-unit": "jest --coverage",
+    "test": "eslint . && jest",
     "pretest-cypress": "cypress install && ./bin/start-test-server & wait-on http://localhost:8090",
     "test-cypress": "cypress run --browser chrome && fkill :8090",
-    "test": "npm run test-unit && npm run test-cypress",
     "build": "gulp build && webpack",
     "build-production": "export NODE_ENV=production && npm run build && gulp manifest",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
@@ -19,7 +17,7 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "precommit": "lint-staged",
-    "prepush": "npm run lint && npm run test-unit"
+    "prepush": "npm test"
   },
   "lint-staged": {
     "*.js": [
