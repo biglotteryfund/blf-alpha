@@ -8,7 +8,7 @@ function init({ router }) {
     router.get('/pages', async (req, res, next) => {
         try {
             const canonicalRoutes = await routeHelpers.getCanonicalRoutes({ includeDraft: appData.isNotProduction });
-            res.render('pages/tools/pagelist', {
+            res.render('tools/pagelist', {
                 canonicalRoutes,
                 totalCanonicalRoutes: countRoutes(canonicalRoutes)
             });

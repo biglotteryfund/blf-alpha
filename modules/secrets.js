@@ -46,6 +46,9 @@ const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.sec
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
 const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
+const TOOLS_CMS_ADMIN_URL = getSecret('tools.cms-admin-url');
+const TOOLS_ANALYTICS_DASHBOARD_URL = getSecret('tools.analytics-dashboard-url');
+const TOOLS_DATASTUDIO_URL = getSecret('tools.datastudio-url');
 
 const HUB_EMAILS = {
     northWest: getSecret('emails.hubs.northwest'),
@@ -70,5 +73,8 @@ module.exports = {
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     SENTRY_DSN,
-    SESSION_SECRET
+    SESSION_SECRET,
+    TOOLS_CMS_ADMIN_URL,
+    TOOLS_ANALYTICS_DASHBOARD_URL,
+    TOOLS_DATASTUDIO_URL
 };
