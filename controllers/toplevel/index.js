@@ -1,14 +1,13 @@
 'use strict';
-const config = require('config');
 const { body, validationResult } = require('express-validator/check');
+const config = require('config');
 const moment = require('moment');
-const Raven = require('raven');
-
-const surveyService = require('../../services/surveys');
-const contentApi = require('../../services/content-api');
 
 const { homepageHero } = require('../../modules/images');
 const { purifyUserInput } = require('../../modules/validators');
+const appData = require('../../modules/appData');
+const contentApi = require('../../services/content-api');
+const surveyService = require('../../services/surveys');
 
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
@@ -108,13 +107,17 @@ module.exports = ({ router, pages }) => {
 
                 res.send({
                     status: surveyToShow ? 'success' : 'error',
+                    lang: {
+                        success: req.i18n.__('global.surveys.response.success'),
+                        error: req.i18n.__('global.surveys.response.error'),
+                        submit: req.i18n.__('global.forms.submit'),
+                        genericQuestion: req.i18n.__('global.surveys.genericQuestion'),
+                        genericPrompt: req.i18n.__('global.surveys.genericPrompt')
+                    },
                     survey: surveyToShow
                 });
             })
-            .catch(err => {
-                Raven.captureMessage('Error retrieving surveys', {
-                    extra: err
-                });
+            .catch(() => {
                 res.send({
                     status: 'error'
                 });
@@ -193,7 +196,6 @@ module.exports = ({ router, pages }) => {
     feedbackRoute.init({ router });
 
     router.get('/styleguide', (req, res) => {
-
         const demoStats = [
             {
                 value: '42',
