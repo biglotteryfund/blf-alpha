@@ -180,6 +180,30 @@ $btnConf: (
     }
 }
 
+.icon-btn {
+    @include reset-button();
+    border-radius: 100%;
+    border: 1px solid white;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+
+    @include on-interact() {
+        $highlight: palette('soft-grey');
+        border-color: $highlight;
+
+        svg {
+            fill: $highlight;
+        }
+    }
+
+    svg {
+        fill: white;
+        height: 100%;
+        width: 100%;
+    }
+}
+
 /* =========================================================================
    Link Buttons
    ========================================================================= */

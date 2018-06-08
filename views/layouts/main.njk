@@ -20,7 +20,8 @@
         </div>
 
         {% include "includes/offscreenNav.njk" %}
-        {% include "includes/surveyPlaceholder.njk" %}
+        {# Show conditional prompt messages #}
+        <div id="js-active-prompt"></div>
         {% include "includes/metaFooterJS.njk" %}
     </body>
 </html>

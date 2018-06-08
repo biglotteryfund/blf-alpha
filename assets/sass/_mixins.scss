@@ -52,6 +52,13 @@
     padding: 0;
 }
 
+@mixin reset-button() {
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+}
+
 @mixin on-interact {
     &:active,
     &:focus,

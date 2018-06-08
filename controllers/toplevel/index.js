@@ -66,6 +66,26 @@ module.exports = ({ router, pages }) => {
         res.redirect(redirectUrl);
     });
 
+    router.get('/prompts', (req, res) => {
+        if (appData.isProduction) {
+            res.json({
+                prompt: null
+            });
+        } else {
+            res.json({
+                prompt: {
+                    id: 'treejack',
+                    weight: 0.2,
+                    message: 'We are working on improving the website.',
+                    link: {
+                        href: 'https://example.com/',
+                        label: 'Can you spare a few minutes to take a survey?'
+                    }
+                }
+            });
+        }
+    });
+
     // retrieve list of surveys
     router.get('/surveys', (req, res) => {
         res.cacheControl = { maxAge: 60 * 10 }; // 10 mins

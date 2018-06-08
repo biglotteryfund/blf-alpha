@@ -1,0 +1,63 @@
+/* =========================================================================
+   Prompts
+   ========================================================================= */
+
+.prompt {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    transition: transform 300ms ease-in-out;
+    transform: translateY(100%);
+
+    &.is-shown {
+        transform: translateY(0%);
+    }
+}
+.prompt__body {
+    color: white;
+    background-color: palette('pink');
+
+    a {
+        color: white;
+        font-weight: bold;
+    }
+
+    max-width: 720px;
+    margin: 0 auto $spacingUnit;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    padding: 12px 12px 15px;
+    position: relative;
+}
+.prompt__content {
+    font-size: 16px;
+    padding-right: 40px;
+}
+.prompt__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 1;
+}
+
+/* =========================================================================
+   Prompts: Micro-Surveys
+   ========================================================================= */
+
+.survey {
+    background-color: palette('off-white');
+    padding: $spacingUnit 0;
+    font-size: 18px;
+}
+.survey__choices {
+    display: flex;
+    align-items: center;
+}
+.survey__choice {
+    margin-left: $spacingUnit / 2;
+}
+.survey__response {
+    margin-bottom: 0;
+}
+
