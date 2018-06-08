@@ -3,17 +3,17 @@ import { includes } from 'lodash';
 import $ from 'jquery';
 import Vue from 'vue';
 
-const Prompt = {
+const PromptWrapper = {
     components: {
         'icon-close': IconClose
     },
     props: {
-        id: {
-            type: String,
+        prompt: {
+            type: Object,
             required: true
         },
         delay: {
-            default: 1000,
+            default: 8000,
             type: Number
         }
     },
@@ -23,7 +23,7 @@ const Prompt = {
         };
     },
     mounted: function() {
-        if (includes(this.getSeen(), this.id) === false) {
+        if (includes(this.getSeen(), this.prompt.id) === false) {
             setTimeout(() => (this.isShown = true), this.delay);
         }
     },
@@ -31,17 +31,17 @@ const Prompt = {
         getSeen() {
             let ids = [];
             try {
-                const seenIds = window.localStorage.getItem('prompts-seen');
+                const seenIds = window.localStorage.getItem('biglotteryfund:prompts-seen');
                 ids = seenIds ? JSON.parse(seenIds) || [] : [];
             } catch (e) {} // eslint-disable-line no-empty
             return ids;
         },
         setSeen() {
             const seenIds = this.getSeen();
-            if (includes(seenIds, this.id) === false) {
+            if (includes(seenIds, this.prompt.id) === false) {
                 try {
-                    seenIds.push(this.id);
-                    window.localStorage.setItem('prompts-seen', JSON.stringify(seenIds));
+                    seenIds.push(this.prompt.id);
+                    window.localStorage.setItem('biglotteryfund:prompts-seen', JSON.stringify(seenIds));
                 } catch (e) {} // eslint-disable-line no-empty
             }
         },
@@ -57,8 +57,11 @@ const Prompt = {
             <slot></slot>
         </div>
         <span class="prompt__close">
-            <button class="icon-btn" v-on:click="closePrompt()">
-                <icon-close id="prompt-close" description="Close prompt"/>
+            <button class="icon-btn" v-on:click="closePrompt()"
+                data-ga-on="click"
+                :data-ga-event-category="'Prompt: ' + this.prompt.id"
+                data-ga-event-action="Dismissed prompt">
+                <icon-close id="prompt-close" description="Dismiss prompt"/>
             </button>
         </span>
     </div>
@@ -70,7 +73,7 @@ function init() {
     new Vue({
         el: '#js-active-prompt',
         components: {
-            prompt: Prompt
+            'prompt-wrapper': PromptWrapper
         },
         data() {
             return { activePrompt: null };
@@ -82,12 +85,15 @@ function init() {
             });
         },
         template: `
-            <prompt id="prompt-message" v-if="activePrompt && Math.random() < activePrompt.weight">
+            <prompt-wrapper :prompt=this.activePrompt v-if="activePrompt && Math.random() < activePrompt.weight">
                 {{ activePrompt.message }}
-                <a :href="activePrompt.link.href">
+                <a :href="activePrompt.link.href"
+                    data-ga-on="click"
+                    :data-ga-event-category="'Prompt: ' + this.activePrompt.id"
+                    data-ga-event-action="Took action">
                     {{ activePrompt.link.label }}
                 </a>
-            </prompt>
+            </prompt-wrapper>
         `
     });
 }
