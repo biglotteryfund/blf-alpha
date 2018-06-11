@@ -36,14 +36,10 @@
     background-color: #333333;
     border-bottom: 1px solid #5f5f5f;
     font-size: 14px;
-
-    transition: all 1200ms ease-in-out;
-    overflow: hidden;
-    max-height: 0;
+    display: none;
 
     &.is-shown {
-        height: auto;
-        max-height: 300px;
+        display: block;
     }
 
     .cookie-consent__inner {
