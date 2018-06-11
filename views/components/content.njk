@@ -5,11 +5,11 @@
         {% set mediaAsideCounter = 0 %}
         {% for part in flexibleContent %}
             {% if part.type === 'contentArea' %}
-                <div class="s-prose s-prose--long u-constrained-content-wide accent-content--{{ accent }}">
+                <div class="s-prose u-constrained-content-wide accent-content--{{ accent }}">
                     {{ part.content | safe }}
                 </div>
             {% elseif  part.type === 'inlineFigure' %}
-                <div class="s-prose s-prose--long">
+                <div class="s-prose">
                     <figure>
                         <img src="{{ part.photo }}" alt="{{ part.caption }}">
                         <figcaption>{{ part.photoCaption }}</figcaption>

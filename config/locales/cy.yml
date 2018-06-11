@@ -299,9 +299,11 @@ toplevel:
     downloads:
       title: Dogfennau
       links:
-      - label: Buddsoddi yn ein rhaglenni – mwyafu effaith gwneud grantiau (PDF 425KB)
+      - label: Buddsoddi yn ein rhaglenni
+        caption: Mwyafu effaith gwneud grantiau (PDF 425KB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf
-      - label: Ateb cwestiynau mawr – effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
+      - label: Ateb cwestiynau mawr
+        caption: Effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   data:
     title: "Data allweddol am y Gronfa Loteri Fawr: blwyddyn ariannol 2016/17"

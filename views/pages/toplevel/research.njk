@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/links.njk" import sectionLinks %}
+{% from "components/links.njk" import linksList, sectionLinks %}
 
 {% extends "layouts/main.njk" %}
 
@@ -28,14 +28,8 @@
 
             {# Downloads #}
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose">
-                    <h2 class="t1">{{ copy.downloads.title }}</h2>
-                    <ul class="u-list-unstyled">
-                        {% for link in copy.downloads.links %}
-                            <li><a class="is-download-link" href="{{ link.href }}">{{ link.label }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                <h2 class="t2 t--underline">{{ copy.downloads.title }}</h2>
+                {{ linksList(copy.downloads.links, isDocumentsList = true) }}
             </section>
         </div>
     </main>

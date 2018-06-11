@@ -15,7 +15,7 @@
     <main role="main" class="nudge-up">
         <section class="content-box inner--wide-only accent--blue a--border-top">
             {{ selectionTrail(breadcrumbs) }}
-            <div class=" s-prose s-prose--long">
+            <div class=" s-prose">
                 {{ content.introduction | safe }}
             </div>
         </section>
@@ -41,7 +41,7 @@
 
         {% if content.outro %}
             <section class="content-box inner--wide-only accent--blue a--border-top">
-                <div class=" s-prose s-prose--long">
+                <div class=" s-prose">
                     {{ content.outro | safe }}
                 </div>
             </section>

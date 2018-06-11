@@ -2,7 +2,13 @@
    Layout Helpers
    ========================================================================= */
 
-$nudgeAmount: 25px;
+.u-constrained {
+    max-width: $constrained;
+}
+
+.u-constrained-wide {
+    max-width: $constrainedWide;
+}
 
 .u-flex-stretch {
     display: flex;
@@ -47,14 +53,10 @@ $nudgeAmount: 25px;
     }
 }
 
-.width-natural {
-    max-width: auto;
-}
-
 .nudge-up {
     @include mq('tablet') {
-        top: -$nudgeAmount;
-        margin-bottom: -$nudgeAmount;
+        top: -25px;
+        margin-bottom: -25px;
         position: relative;
         z-index: 10;
     }
@@ -98,6 +100,7 @@ $nudgeAmount: 25px;
     margin-top: $spacingUnit * 2;
 }
 
-.bordered {
+.u-outline {
     border: 1px solid palette('border');
+    padding: $spacingUnit;
 }

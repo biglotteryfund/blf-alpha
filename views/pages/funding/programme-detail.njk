@@ -64,7 +64,7 @@
 
                         {% set tabContent -%}
                             <div class="content-box content-box--frameless">
-                                <div class="s-prose s-prose--long u-constrained-content-wide
+                                <div class="s-prose u-constrained-content-wide
                                     accent-content--{{ pageAccent }} js-content">
                                     {{ section.body | safe }}
                                 </div>
@@ -90,7 +90,7 @@
                 {% else %}
                     {% set section = entry.contentSections[0] %}
                     <div class="content-box content-box--borderless">
-                        <div class="s-prose s-prose--long u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
                             <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
                             {{ section.body | safe }}
                         </div>

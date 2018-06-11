@@ -37,7 +37,7 @@
     {% macro primaryContent() %}
         {{ selectionTrail(breadcrumbs) }}
 
-        <div class="s-prose s-prose--long accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
+        <div class="s-prose accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
             {% if not heroImage %}
             <h1>{{ content.title }}</h1>
             {% endif %}
@@ -97,7 +97,7 @@
 
         {% if content.outro %}
             <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose s-prose--long accent-content--{{ pageAccent }}">
+                <div class="s-prose accent-content--{{ pageAccent }}">
                     {{ content.outro | safe }}
                 </div>
             </section>
