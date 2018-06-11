@@ -79,8 +79,7 @@ sections.toplevel.addRoutes({
     }),
     search: customRoute({
         path: '/search',
-        allowAllQueryStrings: true,
-        live: true
+        allowAllQueryStrings: true
     })
 });
 
