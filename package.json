@@ -90,7 +90,6 @@
     "express-validator": "^5.0.0",
     "fitvids": "^2.0.0",
     "fontfaceobserver": "^2.0.13",
-    "hammerjs": "^2.0.8",
     "helmet": "^3.8.1",
     "html-to-text": "^3.3.0",
     "i18n-2": "^0.7.2",
