@@ -76,7 +76,7 @@
 {% endmacro %}
 
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
-    <div class="u-outline">
+    <div class="u-padded u-bordered">
         {{ downloadBlock(logoId) }}
         {% set accentClass = '' %}
         {% if accent %}
@@ -104,7 +104,7 @@
 {% endmacro %}
 
 {% set logosMonolingual %}
-    <div class="padded">
+    <div class="u-padded">
         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
             <li class="grid__item">
                 <div class="grid__item__inner accent--turquoise">
@@ -152,7 +152,7 @@
 {# Wales #}
 
 {% set logosBilingual %}
-    <div class="padded">
+    <div class="u-padded">
         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
             <li class="grid__item">
                 <div class="grid__item__inner accent--turquoise">

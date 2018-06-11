@@ -54,17 +54,16 @@
     }
 }
 
-// @TODO: Rename all uses to u-padded
-.padded,
+.u-bordered {
+    border: 1px solid palette('border');
+}
+
 .u-padded {
     padding: $spacingUnit ($spacingUnit / 2);
 
     @include mq('medium') {
         padding: $spacingUnit;
     }
-}
-.u-padded-top {
-    padding-top: $spacingUnit;
 }
 
 .u-margin-bottom {
@@ -79,9 +78,4 @@
 
 .u-margin-top {
     margin-top: $spacingUnit;
-}
-
-.u-outline {
-    border: 1px solid palette('border');
-    padding: $spacingUnit;
 }
