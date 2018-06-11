@@ -51,7 +51,7 @@ const PromptWrapper = {
         }
     },
     template: `
-<div class="prompt" v-bind:class="{ 'is-shown': isShown }">
+<aside role="complementary" class="prompt" v-bind:class="{ 'is-shown': isShown }">
     <div class="prompt__body">
         <div class="prompt__content">
             <slot></slot>
@@ -60,12 +60,13 @@ const PromptWrapper = {
             <button class="icon-btn" v-on:click="closePrompt()"
                 data-ga-on="click"
                 :data-ga-event-category="'Prompt: ' + this.prompt.id"
-                data-ga-event-action="Dismissed prompt">
-                <icon-close id="prompt-close" description="Dismiss prompt"/>
+                data-ga-event-action="Dismissed prompt"
+                aria-label="Dismiss prompt">
+                <icon-close id="prompt-close" description="Dismiss prompt" />
             </button>
         </span>
     </div>
-</div>
+</aside>
 `
 };
 
