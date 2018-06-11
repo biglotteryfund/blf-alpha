@@ -2,6 +2,10 @@
    Prompts
    ========================================================================= */
 
+/* =========================================================================
+   Prompt: Message
+   ========================================================================= */
+
 .prompt {
     width: 100%;
     position: fixed;
@@ -42,7 +46,7 @@
 }
 
 /* =========================================================================
-   Prompts: Micro-Surveys
+   Prompt: Micro-Surveys
    ========================================================================= */
 
 .survey {
@@ -50,14 +54,28 @@
     padding: $spacingUnit 0;
     font-size: 18px;
 }
+.survey__choices-question {
+    margin-bottom: 3px;
+
+    @include mq('medium') {
+        margin-bottom: 0;
+        margin-right: $spacingUnit / 2;
+    }
+}
 .survey__choices {
-    display: flex;
-    align-items: center;
+    @include mq('medium') {
+        display: flex;
+        align-items: center;
+    }
 }
 .survey__choice {
-    margin-left: $spacingUnit / 2;
+    margin-right: 6px;
 }
 .survey__response {
     margin-bottom: 0;
 }
-
+.survey__form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
