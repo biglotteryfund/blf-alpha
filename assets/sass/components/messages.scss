@@ -2,6 +2,10 @@
    Messages
    ========================================================================= */
 
+/* =========================================================================
+   Messages: Preview Banner
+   ========================================================================= */
+
 .preview-banner {
     text-align: center;
     font-size: 15px;
@@ -20,5 +24,68 @@
     a {
         color: white;
         font-weight: bold;
+    }
+}
+
+/* =========================================================================
+   Messages: Cookie Consent
+   ========================================================================= */
+
+.cookie-consent {
+    color: white;
+    background-color: #333333;
+    border-bottom: 1px solid #5f5f5f;
+    font-size: 14px;
+    display: none;
+
+    &.is-shown {
+        display: block;
+    }
+
+    .cookie-consent__inner {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: $spacingUnit / 2;
+
+        @include mq('medium-minor') {
+            display: flex;
+        }
+    }
+
+    .cookie-consent__content {
+        margin-right: 2em;
+    }
+
+    .cookie-consent__actions .btn {
+        margin-bottom: 5px;
+        white-space: nowrap;
+    }
+
+    @include mq('medium-minor') {
+        .cookie-consent__content,
+        .cookie-consent__actions {
+            flex: 1 1 auto;
+        }
+        .cookie-consent__actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    .cookie-consent__title {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .cookie-consent__message p {
+        margin-bottom: 3px;
+    }
+
+    a {
+        color: palette('soft-grey');
+        @include on-interact {
+            color: lighten(palette('soft-grey'), 10%);
+        }
     }
 }
