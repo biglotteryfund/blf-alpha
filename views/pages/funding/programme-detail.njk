@@ -40,7 +40,7 @@
                 {% set zeroIndexed = loopIdx - 1 %}
                 {% set nextSection = entry.contentSections[zeroIndexed + 1] %}
                 {% set prevSection = entry.contentSections[zeroIndexed - 1] %}
-                {% if nextSection or prevSection and showNextSectionLink %}
+                {% if nextSection or prevSection %}
                     <nav class="split-nav">
                         {% if prevSection %}
                             <a class="split-nav__prev" href="#section-{{ loopIdx - 1 }}">

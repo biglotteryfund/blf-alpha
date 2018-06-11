@@ -132,18 +132,11 @@ function initProgrammeDetail({ router, routeConfig }) {
         const entry = res.locals.fundingProgramme;
 
         if (entry && entry.contentSections.length > 0) {
-            // Limit to certain programme pages before we roll out more widely.
-            const showNextSectionLink =
-                includes(entry.path, 'young-start') ||
-                includes(entry.path, 'reaching-communities-england') ||
-                includes(entry.path, 'partnerships-england');
-
             res.render(routeConfig.template, {
                 entry: entry,
                 title: entry.summary.title,
                 heroImage: entry.hero || heroImages.fallbackHeroImage,
-                isBilingual: isBilingual(entry.availableLanguages),
-                showNextSectionLink: showNextSectionLink
+                isBilingual: isBilingual(entry.availableLanguages)
             });
         } else {
             next();
