@@ -1,7 +1,5 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import { storageAvailable } from '../helpers/storage';
-const canStore = storageAvailable('localStorage');
 
 function init() {
     new Vue({
@@ -18,38 +16,17 @@ function init() {
             }
         },
         created: function() {
+            const localePrefix = window.AppConfig.localePrefix;
             // normalise URLs (eg. treat a Welsh URL the same as default)
             const uri = window.location.pathname.replace(/\/welsh(\/|$)/, '/');
-            const localePrefix = window.AppConfig.localePrefix;
             $.get(`${localePrefix}/surveys?path=${uri}`).then(response => {
-                if (response.status === 'success' && this.hasTakenSurvey(response.survey.id) === false) {
+                if (response.status === 'success') {
                     this.lang = response.lang;
                     this.survey = response.survey;
                 }
             });
         },
         methods: {
-            getSurveysTaken() {
-                let takenIds = [];
-                if (canStore) {
-                    const storageData = window.localStorage.getItem('surveys-taken');
-                    takenIds = storageData ? JSON.parse(storageData) || [] : [];
-                }
-                return takenIds;
-            },
-            hasTakenSurvey(surveyId) {
-                const surveysTaken = this.getSurveysTaken();
-                return surveysTaken.indexOf(surveyId) !== -1;
-            },
-            setSurveyTaken(surveyId) {
-                if (canStore) {
-                    if (this.hasTakenSurvey(surveyId) === false) {
-                        const surveysTaken = this.getSurveysTaken();
-                        surveysTaken.push(parseInt(surveyId));
-                        window.localStorage.setItem('surveys-taken', JSON.stringify(surveysTaken));
-                    }
-                }
-            },
             storeResponse(choiceId) {
                 this.response.choice = choiceId;
 
@@ -63,7 +40,6 @@ function init() {
                         this.status = 'ERROR';
                     } else {
                         this.status = 'SUCCESS';
-                        this.setSurveyTaken(this.survey.id);
                     }
                 }, () => (this.status = 'ERROR'));
             },
