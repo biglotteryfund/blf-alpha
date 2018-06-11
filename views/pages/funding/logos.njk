@@ -76,7 +76,7 @@
 {% endmacro %}
 
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
-    <div class="u-outline">
+    <div class="u-padded u-bordered">
         {{ downloadBlock(logoId) }}
         {% set accentClass = '' %}
         {% if accent %}
@@ -86,22 +86,25 @@
         {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim}}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
             <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
         {% if not onlyEps %}</a>{% endif %}
-        {% if not onlyEps %}
-            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
-                {{ makeLogoTitle(logoName, 'small') }}
+
+        <div class="o-button-group-block">
+            {% if not onlyEps %}
+                <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" class="{{ accentClass }} btn btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+                    {{ makeLogoTitle(logoName, 'small') }}
+                </a>
+                <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" class="{{ accentClass }} btn btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+                    {{ makeLogoTitle(logoName, 'large') }}
+                </a>
+            {% endif %}
+            <a href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" class="{{ accentClass }} btn btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+                {{ makeLogoTitle(logoName, 'eps') }}
             </a>
-            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
-                {{ makeLogoTitle(logoName, 'large') }}
-            </a>
-        {% endif %}
-        <a href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
-            {{ makeLogoTitle(logoName, 'eps') }}
-        </a>
+        </div>
     </div>
 {% endmacro %}
 
 {% set logosMonolingual %}
-    <div class="padded">
+    <div class="u-padded">
         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
             <li class="grid__item">
                 <div class="grid__item__inner accent--turquoise">
@@ -149,7 +152,7 @@
 {# Wales #}
 
 {% set logosBilingual %}
-    <div class="padded">
+    <div class="u-padded">
         <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
             <li class="grid__item">
                 <div class="grid__item__inner accent--turquoise">

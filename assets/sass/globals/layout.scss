@@ -45,14 +45,6 @@
     margin-right: $spacingUnit / 2;
 }
 
-// @TODO better name
-.central-gap {
-    @include mq('tablet') {
-        margin-left: 20%;
-        margin-right: 20%;
-    }
-}
-
 .nudge-up {
     @include mq('tablet') {
         top: -25px;
@@ -62,8 +54,10 @@
     }
 }
 
-// @TODO: Rename all uses to u-padded
-.padded,
+.u-bordered {
+    border: 1px solid palette('border');
+}
+
 .u-padded {
     padding: $spacingUnit ($spacingUnit / 2);
 
@@ -71,36 +65,17 @@
         padding: $spacingUnit;
     }
 }
-.u-padded-top {
-    padding-top: $spacingUnit;
-}
 
-// @TODO: Rename to u-margin-bottom-*
-.spaced {
+.u-margin-bottom {
     margin-bottom: $spacingUnit;
 }
-
-.spaced--s {
+.u-margin-bottom-s {
     margin-bottom: $spacingUnit / 2;
 }
-
-.spaced--l {
+.u-margin-bottom-l {
     margin-bottom: $spacingUnit * 2;
 }
 
-.spaced--x-l {
-    margin-bottom: $spacingUnit * 3;
-}
-
-.spaced--t {
+.u-margin-top {
     margin-top: $spacingUnit;
-}
-
-.spaced--t--l {
-    margin-top: $spacingUnit * 2;
-}
-
-.u-outline {
-    border: 1px solid palette('border');
-    padding: $spacingUnit;
 }

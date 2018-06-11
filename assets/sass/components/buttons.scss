@@ -363,3 +363,25 @@ $btnConf: (
         }
     }
 }
+
+.o-button-group-flex {
+    @include mq('medium') {
+        display: flex;
+        flex-flow: row wrap;
+        margin: -10px 0 $spacingUnit -10px;
+        justify-content: center;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: $spacingUnit;
+
+        @include mq('medium') {
+            width: auto;
+            flex: 1 1 auto;
+            margin: 10px 0 0 10px;
+            max-width: $constrained;
+        }
+    }
+}

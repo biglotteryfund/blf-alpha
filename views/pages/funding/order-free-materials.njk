@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="inner accent--{{ pageAccent }} a--border-top p" id="your-details">
-                    <div class="padded">
+                    <div class="u-padded">
                         <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 
                         <form class="form-materials" method="post">
@@ -194,7 +194,6 @@
                             {{ textField(formFields.yourProjectName) }}
 
                             <div class="grid grid--padded grid--top grid-row">
-
                                 <div class="grid__item grid-col-6 grid-col-3--m">
                                     {{ radios(
                                         fieldName = formFields.yourReason.name,
@@ -217,14 +216,17 @@
                                     ) }}
 
                                     <input type="submit"{% if orders.length == 0 %} disabled="disabled"{% endif %}
-                                           v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
-                                           value="{{ __('global.forms.submit') }}"
-                                           class="btn spaced--t--l"
-                                           id="js-submit-material-order">
+                                        v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
+                                        value="{{ __('global.forms.submit') }}"
+                                        class="btn u-margin-top"
+                                        id="js-submit-material-order">
                                 </div>
                             </div>
-                            <h4 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h4>
-                            <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
+
+                            <div class="s-prose u-margin-top">
+                                <h4>{{ copy.dataProtection.title }}</h4>
+                                <div class="t8">{{ copy.dataProtection.text | safe }}</div>
+                            </div>
                         </form>
                     </div>
                 </div>
