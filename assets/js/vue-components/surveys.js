@@ -55,7 +55,7 @@ function init() {
 <aside role="complementary" class="survey" v-if="survey">
     <div class="inner">
         <div class="survey__choices" v-if="status === 'NOT_SUBMITTED' && !showMessageBox">
-            <span class="survey__choices-question">{{ survey.question }}</span>
+            <p class="survey__choices-question">{{ survey.question }}</p>
             <div class="survey__choices-actions">
                 <button class="btn btn--small survey__choice" type="button"
                     v-for="choice in survey.choices"
