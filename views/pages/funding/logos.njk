@@ -5,30 +5,28 @@
 {% extends "common/informationPage.njk" %}
 
 {% macro howToUseLogo(bilingual = false) %}
-    <div class="padded">
+    <div class="s-prose u-padded">
         {% if locale == 'cy' or bilingual %}
             {% set logoExamplePath = 'logos/examples-cy.png' %}
         {% else %}
             {% set logoExamplePath = 'logos/examples.png' %}
         {% endif %}
 
-        <h3 class="t5">{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+        <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-        <h3 class="t5">{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+        <h3>{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-        <h3 class="t5">{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+        <h3>{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
 
-        <h3 class="t5">{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+        <h3>{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
-        <div class="central-gap">
-            <img src="{{ logoExamplePath | getImagePath }}"
-                 alt="Examples of our logo"
-                 class="width-natural" />
-        </div>
+        <figure>
+            <img src="{{ logoExamplePath | getImagePath }}" alt="Examples of our logo" />
+        </figure>
     </div>
 {% endmacro %}
 

@@ -53,10 +53,6 @@
     }
 }
 
-.width-natural {
-    max-width: auto;
-}
-
 .nudge-up {
     @include mq('tablet') {
         top: -25px;
