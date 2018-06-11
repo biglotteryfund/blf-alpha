@@ -13,7 +13,7 @@
     {% set pageAccent = 'pink' %}
 
    {% set availableFundingContent %}
-        <div class="s-prose s-prose--long u-constrained-content-wide">
+        <div class="s-prose u-constrained-content-wide">
             <p>{{ copy.sections.availableFunding.introduction | safe }}</p>
             {% for fundingProgramme in copy.sections.availableFunding.fundingProgrammes %}
                 {{ programmeOverview(fundingProgramme, pageAccent) }}
@@ -34,7 +34,7 @@
     {% endset %}
 
     {% set aboutIdeasContent %}
-        <div class="s-prose s-prose--long u-constrained-content-wide">
+        <div class="s-prose u-constrained-content-wide">
             <p>{{ copy.sections.aboutIdeas.introduction | safe }}</p>
             {% for contentPart in copy.sections.aboutIdeas.contentParts %}
                 <h3>{{ contentPart.title }}</h3>

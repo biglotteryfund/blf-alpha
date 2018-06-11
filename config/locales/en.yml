@@ -380,11 +380,11 @@ toplevel:
     downloads:
       title: Downloads
       links:
-      - label: Investing in our programmes - maximising the impact of grant-making
-          (PDF 425KB)
+      - label: Investing in our programmes
+        caption: Maximising the impact of grant-making (PDF 425KB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf
-      - label: Answering big questions - impacts and lessons learned from our evaluation
-          and research (PDF 1.8MB)
+      - label: Answering big questions
+        caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   data:
     title: "Key data about the Big Lottery Fund: financial year 2016/17"
@@ -421,18 +421,18 @@ about:
         title: Senior Management Team expenses
         documents:
           - label: Year ending 31 March 2015
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_14_15.xlsx
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_14_15.xlsx
           - label: Year ending 31 March 2014
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_13_14.xlsx
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_13_14.xlsx
           - label: Year ending 31 March 2013
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_12-13.xls
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_12-13.xls
           - label: Year ending 31 March 2012
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_11_12.xls
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_11_12.xls
           - label: Year ending 31 March 2011
             caption: Amended on 11/12/13 to correct accounting error
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_10_11.xls
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_10_11.xls
           - label: Year ending 31 March 2010
-            url: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_09_10.xls
+            href: https://media.biglotteryfund.org.uk/media/documents/smt_expenses_09_10.xls
     board:
       title: Our Board
 funding:

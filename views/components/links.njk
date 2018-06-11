@@ -1,3 +1,20 @@
+{% macro linksList(links, isDocumentsList = false) %}
+    <ul class="list-links{% if isDocumentsList %} list-links--documents{% endif %}">
+        {% for link in links %}
+            <li class="list-links__item">
+                <a class="list-links__link" href="{{ link.href }}">
+                    {{ link.label }}
+                </a>
+                {% if link.caption %}
+                    <span class="list-links__link-caption">
+                        {{ link.caption }}
+                    </span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
 {% macro sectionLinks(sectionLinks) %}
     <ul class="u-list-unstyled">
         {% for sectionLink in sectionLinks %}

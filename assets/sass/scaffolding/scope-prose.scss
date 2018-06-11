@@ -1,125 +1,9 @@
 /* =========================================================================
    Scoped Prose Styles
    ========================================================================= */
-
-$constrained: 35em;
-$constrainedWide: 42em;
-
-.u-constrained {
-    max-width: $constrained;
-}
-
-.u-constrained-wide {
-    max-width: $constrainedWide;
-}
-
-/*
-    Opt-in typography:
-    https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/
-    http://css-tricks.com/opt-in-typography/
-*/
-.u-constrained-content {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    ul,
-    ol {
-        max-width: $constrained;
-    }
-}
-
-.u-constrained-content-wide {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        max-width: 30em;
-    }
-
-    p,
-    ul,
-    ol {
-        max-width: $constrainedWide;
-    }
-}
+/* https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/#scope-namespaces-s- */
 
 .s-prose {
-    ul,
-    ol {
-        margin-bottom: $spacingUnit;
-    }
-
-    ul li,
-    ol li {
-        margin-left: $spacingUnit;
-        margin-bottom: 0.3em;
-        margin-top: 0;
-    }
-
-    ul li {
-        list-style-type: disc;
-    }
-
-    ol li {
-        list-style-type: decimal;
-    }
-
-    a {
-        font-weight: bold;
-    }
-
-    a[href^='mailto:'],
-    a[href^='tel:'] {
-        color: palette('green');
-        font-weight: bold;
-        word-break: break-all;
-    }
-
-    // fix word-break in IE when used in tables
-    td {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            display: table-cell;
-        }
-    }
-
-    a[href^='tel:'] {
-        text-decoration: none;
-    }
-
-    .contrast--high & {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            color: palette('blue') !important;
-        }
-    }
-
-    figure {
-        margin: 0 0 0.5em 0;
-    }
-
-    /**
-     * Download and external link styles
-     * Only applied if a class of `js-annotate-links` is added to the content area
-     */
-    a.is-download-link {
-        @include downloadIcon();
-    }
-    a.is-external-link {
-        @include linkIcon();
-    }
-}
-
-/**
- * Common styles for longer blocks of text
- */
-.s-prose--long {
     h1,
     h2,
     h3,
@@ -166,18 +50,63 @@ $constrainedWide: 42em;
     ol,
     ul {
         margin-bottom: 1em;
+    }
 
-        li {
-            margin-left: 1.5em;
+    ul li,
+    ol li {
+        margin-bottom: 0.3em;
+        margin-top: 0;
+        margin-left: 1.5em;
 
-            @include mq('medium') {
-                margin-left: 2.5em;
-            }
-
-            > p {
-                margin-bottom: 0;
-            }
+        @include mq('medium') {
+            margin-left: 2.5em;
         }
+
+        > p {
+            margin-bottom: 0;
+        }
+    }
+
+    ul li {
+        list-style-type: disc;
+    }
+
+    ol li {
+        list-style-type: decimal;
+    }
+
+    a {
+        font-weight: bold;
+    }
+
+    a[href^='mailto:'],
+    a[href^='tel:'] {
+        color: palette('green');
+        font-weight: bold;
+        word-break: break-all;
+    }
+
+    a[href^='tel:'] {
+        text-decoration: none;
+    }
+
+    .contrast--high & {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            color: palette('blue') !important;
+        }
+    }
+
+    // fix word-break in IE when used in tables
+    td {
+        a[href^='mailto:'],
+        a[href^='tel:'] {
+            display: table-cell;
+        }
+    }
+
+    figure {
+        margin: 0 0 0.5em 0;
     }
 
     table {
@@ -281,5 +210,40 @@ $constrainedWide: 42em;
         figcaption {
             @include text-caption();
         }
+    }
+}
+
+/* =========================================================================
+   Constrained Text
+   ========================================================================= */
+
+.u-constrained-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol {
+        max-width: $constrained;
+    }
+}
+
+.u-constrained-content-wide {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        max-width: 30em;
+    }
+
+    p,
+    ul,
+    ol {
+        max-width: $constrainedWide;
     }
 }

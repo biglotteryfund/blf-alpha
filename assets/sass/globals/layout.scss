@@ -2,7 +2,13 @@
    Layout Helpers
    ========================================================================= */
 
-$nudgeAmount: 25px;
+.u-constrained {
+    max-width: $constrained;
+}
+
+.u-constrained-wide {
+    max-width: $constrainedWide;
+}
 
 .u-flex-stretch {
     display: flex;
@@ -53,8 +59,8 @@ $nudgeAmount: 25px;
 
 .nudge-up {
     @include mq('tablet') {
-        top: -$nudgeAmount;
-        margin-bottom: -$nudgeAmount;
+        top: -25px;
+        margin-bottom: -25px;
         position: relative;
         z-index: 10;
     }
