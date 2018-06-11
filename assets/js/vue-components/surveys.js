@@ -89,7 +89,7 @@ function init() {
                 </div>
                 <div class="survey__form-actions">
                     <input type="submit" class="btn btn--small" :value="lang.submit" />
-                    <button type="reset" class="btn-link" v-on:click="resetChoice">Cancel</button>
+                    <button type="reset" class="btn-link" v-on:click="resetChoice">{{ lang.cancel }}</button>
                 </div>
             </form>
         </div>

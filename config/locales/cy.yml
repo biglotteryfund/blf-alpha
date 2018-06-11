@@ -60,6 +60,7 @@ global:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
     submit: Cyflwyno
+    cancel: Canslo
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:

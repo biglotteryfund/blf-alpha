@@ -104,6 +104,7 @@ module.exports = ({ router, pages }) => {
                         success: req.i18n.__('global.surveys.response.success'),
                         error: req.i18n.__('global.surveys.response.error'),
                         submit: req.i18n.__('global.forms.submit'),
+                        cancel: req.i18n.__('global.forms.cancel'),
                         genericQuestion: req.i18n.__('global.surveys.genericQuestion'),
                         genericPrompt: req.i18n.__('global.surveys.genericPrompt')
                     },
