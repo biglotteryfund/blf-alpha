@@ -32,7 +32,7 @@ const FeedbackForm = {
             <form v-if="!statusMessage" v-on:submit.prevent="handleSubmit">
                 <label class="ff-label" for="field-message">{{ fieldLabel }}</label>
                 <textarea
-                    class="ff-textarea spaced"
+                    class="ff-textarea u-margin-bottom"
                     id="field-message"
                     name="message"
                     v-model="feedback"

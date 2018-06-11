@@ -75,29 +75,18 @@
     padding-top: $spacingUnit;
 }
 
-// @TODO: Rename to u-margin-bottom-*
-.spaced {
+.u-margin-bottom {
     margin-bottom: $spacingUnit;
 }
-
-.spaced--s {
+.u-margin-bottom-s {
     margin-bottom: $spacingUnit / 2;
 }
-
-.spaced--l {
+.u-margin-bottom-l {
     margin-bottom: $spacingUnit * 2;
 }
 
-.spaced--x-l {
-    margin-bottom: $spacingUnit * 3;
-}
-
-.spaced--t {
+.u-margin-top {
     margin-top: $spacingUnit;
-}
-
-.spaced--t--l {
-    margin-top: $spacingUnit * 2;
 }
 
 .u-outline {

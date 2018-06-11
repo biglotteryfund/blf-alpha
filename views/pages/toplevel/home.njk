@@ -27,7 +27,7 @@
             {# case studies #}
             <div class="carousel js-carousel
                 swiper-container
-                accent--{{ pageAccent }} a--border-top spaced--l"
+                accent--{{ pageAccent }} a--border-top u-margin-bottom-l"
                 data-name="Case-studies carousel">
                 <div class="carousel__controls js-only">
                     <button class="btn--carousel btn--carousel--round btn--carousel--prev js-carousel-prev"
@@ -61,9 +61,9 @@
                 </ul>
             </div>
 
-            <div class="central-gap">
+            <div class="inner u-constrained u-margin-bottom">
                 <a href="{{ localify('/funding/past-grants') }}"
-                    class="btn btn--block accent--{{ pageAccent }} a--btn spaced">
+                    class="btn btn--block accent--{{ pageAccent }} a--btn">
                     {{ copy.browseFundedProjects }}
                 </a>
             </div>
@@ -96,7 +96,7 @@
         </section>
         {% endif %}
 
-        <section class="inner--wide-only spaced">
+        <section class="inner--wide-only u-margin-bottom">
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
                     {# Twitter Feed #}

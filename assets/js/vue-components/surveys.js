@@ -82,7 +82,7 @@ function init() {
             <form class="survey__form" v-on:submit.prevent="storeResponse(choice.id)">
                 <div class="survey__form-fields">
                     <label class="ff-label" for="survey-extra-msg">{{ lang.genericQuestion }}</label>
-                    <textarea class="ff-textarea spaced--s" id="survey-extra-msg"
+                    <textarea class="ff-textarea" id="survey-extra-msg"
                         :placeholder="lang.genericPrompt"
                         v-model="response.message"
                     ></textarea>
