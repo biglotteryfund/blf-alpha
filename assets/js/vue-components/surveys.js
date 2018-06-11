@@ -49,6 +49,9 @@ function init() {
                 } else {
                     this.storeResponse(choice.id);
                 }
+            },
+            resetChoice() {
+                this.showMessageBox = false;
             }
         },
         template: `
@@ -77,12 +80,17 @@ function init() {
             v-if="status === 'NOT_SUBMITTED' && choice.allowMessage && showMessageBox"
         >
             <form class="survey__form" v-on:submit.prevent="storeResponse(choice.id)">
-                <label class="ff-label" for="survey-extra-msg">{{ lang.genericQuestion }}</label>
-                <textarea class="ff-textarea spaced--s" id="survey-extra-msg"
-                    :placeholder="lang.genericPrompt"
-                    v-model="response.message"
-                ></textarea>
-                <input type="submit" class="btn btn--small" :value="lang.submit" />
+                <div class="survey__form-fields">
+                    <label class="ff-label" for="survey-extra-msg">{{ lang.genericQuestion }}</label>
+                    <textarea class="ff-textarea spaced--s" id="survey-extra-msg"
+                        :placeholder="lang.genericPrompt"
+                        v-model="response.message"
+                    ></textarea>
+                </div>
+                <div class="survey__form-actions">
+                    <input type="submit" class="btn btn--small" :value="lang.submit" />
+                    <button type="reset" class="btn-link" v-on:click="resetChoice">Cancel</button>
+                </div>
             </form>
         </div>
     </div>

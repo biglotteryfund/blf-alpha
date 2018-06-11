@@ -74,3 +74,8 @@
 .survey__response {
     margin-bottom: 0;
 }
+.survey__form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
