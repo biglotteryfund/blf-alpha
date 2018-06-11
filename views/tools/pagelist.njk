@@ -7,12 +7,8 @@
 {% block content %}
     <h1 class="border-bottom pb-2 mb-4">Page list</h1>
 
-    {% macro statusBadge(message, state) %}
-        <span class="badge badge-{{ state }}">{{ message }}</span>
-    {% endmacro %}
-
     <section>
-        <h2 class="mb-4">Canonical URLs (<strong>{{ totalCanonicalRoutes }}</strong> live URLs)</h2>
+        <h2 class="mb-4">Canonical URLs (<strong>{{ canonicalRoutes.length }}</strong> live URLs)</h2>
 
         <p><button class="btn btn-primary" id="js-open-links">Open all English canonical pages?</button></p>
         <ul class="list-unstyled">
@@ -21,11 +17,6 @@
                     <article class="border-top py-2">
                         <h3 class="h6">
                             <a href={{ route.path}} title="{{ route.title }}" class="js-link">{{ route.path }}</a>
-                            {% if route.live %}
-                                {{statusBadge('Live', 'success')}}
-                            {% else %}
-                                {{statusBadge('Draft', 'warning')}}
-                            {% endif %}
                         </h3>
                         <p>
                             <a href="{{ route.path }}">English</a> |
@@ -41,14 +32,14 @@
         let $btn = document.getElementById('js-open-links');
         let $links = document.querySelectorAll('.js-link');
         let origin = window.location.origin;
-            $btn.addEventListener('click', (e) => {
-                let proceed = confirm(`This will open ${$links.length} new tabs – are you sure? (You may need to disable pop-up blocking for this page, too)`);
-                if (proceed) {
-                    [].forEach.call($links, ($link) => {
-                        let url = origin + $link.getAttribute('href');
-                        window.open(url, '_blank');
-                    });
-                }
-            });
+        $btn.addEventListener('click', (e) => {
+            let proceed = confirm(`This will open ${$links.length} new tabs – are you sure? (You may need to disable pop-up blocking for this page, too)`);
+            if (proceed) {
+                [].forEach.call($links, ($link) => {
+                    let url = origin + $link.getAttribute('href');
+                    window.open(url, '_blank');
+                });
+            }
+        });
     </script>
 {% endblock %}
