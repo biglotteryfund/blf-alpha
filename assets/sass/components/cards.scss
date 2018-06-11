@@ -3,7 +3,7 @@
    ========================================================================= */
 
 .photo-card {
-    @include bordered();
+    border: 1px solid palette('border');
     height: 100%;
     background-color: palette('pale-grey');
 }
