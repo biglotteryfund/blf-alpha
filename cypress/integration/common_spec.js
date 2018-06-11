@@ -1,5 +1,5 @@
 describe('Common tests', function() {
-    it('should set core headers', () => {
+    it('should have common headers', () => {
         cy.request('/').then(response => {
             expect(response.headers['cache-control']).to.eq('max-age=30,s-maxage=300');
         });
@@ -7,36 +7,6 @@ describe('Common tests', function() {
         cy.request('/apply/your-idea/1').then(response => {
             expect(response.headers['cache-control']).to.eq('no-store,no-cache,max-age=0');
         });
-    });
-
-    it('should render page in multiple languages', () => {
-        cy.visit('/funding/programmes/national-lottery-awards-for-all-wales');
-
-        cy.get('.qa-global-nav .qa-lang-switcher').click();
-
-        cy.checkMetaTitles('Arian i Bawb y Loteri Genedlaethol Cymru | Cronfa Loteri Fawr');
-
-        cy
-            .get('.qa-global-nav .qa-nav-link a')
-            .first()
-            .should('have.text', 'Hafan');
-    });
-
-    it('should allow contrast preferences to be set', () => {
-        const redirectUrl = 'http://www.google.com/';
-        cy
-            .request({
-                url: `/contrast/high?url=${redirectUrl}`,
-                followRedirects: false
-            })
-            .then(response => {
-                expect(response.status).to.eq(302);
-                expect(response.redirectedToUrl).to.eq(redirectUrl);
-                cy.getCookies().then(cookies => {
-                    const contrastCookie = cookies.find(_ => _.name === 'contrastMode');
-                    expect(contrastCookie.value).to.eq('high');
-                });
-            });
     });
 
     it('should handle aliases', () => {
