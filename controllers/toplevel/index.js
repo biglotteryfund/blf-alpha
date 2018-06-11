@@ -4,8 +4,8 @@ const config = require('config');
 const moment = require('moment');
 
 const { homepageHero } = require('../../modules/images');
+const { sMaxAge } = require('../../middleware/cached');
 const { purifyUserInput } = require('../../modules/validators');
-const appData = require('../../modules/appData');
 const contentApi = require('../../services/content-api');
 const surveyService = require('../../services/surveys');
 
@@ -65,29 +65,22 @@ module.exports = ({ router, pages }) => {
         res.redirect(redirectUrl);
     });
 
-    router.get('/prompts', (req, res) => {
-        if (appData.isProduction) {
-            res.json({
-                prompt: null
-            });
-        } else {
-            res.json({
-                prompt: {
-                    id: 'treejack',
-                    weight: 0.3,
-                    message: 'We are working on improving the website.',
-                    link: {
-                        href: 'https://54kuc315.optimalworkshop.com/treejack/4cn0hn5o',
-                        label: 'Can you spare a few minutes to take a survey?'
-                    }
+    router.get('/prompts', sMaxAge('10m'), (req, res) => {
+        res.json({
+            prompt: {
+                id: 'treejack',
+                weight: 0.3,
+                message: 'We are working on improving the website.',
+                link: {
+                    href: 'https://54kuc315.optimalworkshop.com/treejack/4cn0hn5o',
+                    label: 'Can you spare a few minutes to take a survey?'
                 }
-            });
-        }
+            }
+        });
     });
 
     // retrieve list of surveys
-    router.get('/surveys', (req, res) => {
-        res.cacheControl = { maxAge: 60 * 10 }; // 10 mins
+    router.get('/surveys', sMaxAge('10m'), (req, res) => {
         let path = req.query.path;
         let surveyToShow = false;
 

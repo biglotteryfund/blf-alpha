@@ -8,7 +8,11 @@ import surveys from '../vue-components/surveys';
 
 export const init = () => {
     Raven.addPlugin(RavenVue, Vue);
-    prompts.init();
+
+    if (window.AppConfig.isNotProduction) {
+        prompts.init();
+    }
+
     surveys.init();
     feedback.init();
     materials.init();
