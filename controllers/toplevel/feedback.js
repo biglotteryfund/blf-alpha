@@ -19,8 +19,8 @@ function init({ router }) {
     router.post('/feedback', validators, (req, res) => {
         const formErrors = validationResult(req);
         const formData = matchedData(req);
-        const messageSuccess = req.i18n.__('global.surveys.response.success');
-        const messageError = req.i18n.__('global.surveys.response.error');
+        const messageSuccess = req.i18n.__('global.feedback.success');
+        const messageError = req.i18n.__('global.feedback.error');
 
         if (formErrors.isEmpty()) {
             feedbackService

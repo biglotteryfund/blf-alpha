@@ -50,7 +50,12 @@ if (DB_HOST) {
     // add models
     db.Users = sequelize.import('../models/user.js');
     db.Feedback = sequelize.import('./feedback');
+
+    db.SurveyAnswer = sequelize.import('./survey');
+
+    // @TODO: Remove me after migrating to new schema
     db.SurveyResponse = sequelize.import('../models/surveys/response.js');
+
     db.Order = sequelize.import('../models/materials/order.js');
     db.OrderItem = sequelize.import('../models/materials/orderItem.js');
 

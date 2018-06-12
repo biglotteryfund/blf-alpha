@@ -68,7 +68,7 @@ describe('authentication', function() {
             });
 
             cy.visit('/tools/survey-results');
-            cy.get('h1').should('contain', 'All survey results');
+            cy.get('h1').should('contain', 'Did you find what you were looking for?');
         });
     });
 });

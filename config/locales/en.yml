@@ -81,12 +81,18 @@ global:
       fundingSize: Funding size
       totalAvailable: Total available
       applicationDeadline: Application deadline
-  surveys:
-    response:
-      success: Thank you for sharing your feedback with us - we appreciate your time.
-      error: We're sorry, there was an error recording your response. Please try again.
-    genericQuestion: How could we have made this page better?
-    genericPrompt: Tell us how we could improve this page...
+  survey:
+    question: Did you find what you were looking for?
+    prompt: Tell us how we could improve this page…
+    yes: Yes
+    no: No
+    submit: Submit
+    cancel: Cancel
+    success: Thank you for sharing your feedback with us - we appreciate your time.
+    error: We're sorry, there was an error recording your response. Please try again.
+  feedback:
+    success: Thank you for sharing your feedback with us - we appreciate your time.
+    error: We're sorry, there was an error recording your response. Please try again.
 toplevel:
   home:
     title: Home
