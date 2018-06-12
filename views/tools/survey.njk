@@ -7,16 +7,24 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">
+    <h1 class="mb-5">
         Did you find what you were looking for?
-        <small class="badge badge-success">{{ survey.totals.percentageYes }}% said yes</small>
     </h1>
+    <h2 class="h3 mb-2">
+        Response summary
+        <small class="text-muted">{{ survey.totals.totalResponses }} total responses</small>
+        <small class="badge badge-success">{{ survey.totals.percentageYes }}% said yes</small>
+    </h2>
+    <p class="mb-4">
+        Yes <span class="badge badge-success">9 votes</span> •
+        No <span class="badge badge-danger">4 votes</span>
+    </p>
 
-    <div style="height: 450px" class="border mb-4">
+    <div style="height: 450px" class="border mb-5">
         <canvas id="js-chart" width="400" height="400"></canvas>
     </div>
 
-    <h2 class="mb-4">How can we improve this page?</h2>
+    <h2 class="h3 mb-3">How can we improve this page?</h2>
 
     <div class="border mb-5" style="max-height: 400px; overflow: auto">
         <div class="list-group">
