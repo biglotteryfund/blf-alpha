@@ -83,7 +83,7 @@ global:
       applicationDeadline: Terfyn amser ymgeisio
   survey:
     question: A ddaethoch o hyd i'r hyn yr oeddech yn chwilio amdano?
-    prompt: Dywedwch wrthym sut y gallem wella'r dudalen hon…
+    prompt: Sut gallem fod wedi gwneud y dudalen hon yn well?
     yes: Do
     no: Naddo
     submit: Cyflwyno
