@@ -20,8 +20,8 @@ export const init = () => {
     if (window.AppConfig.isNotProduction) {
         new Vue({
             el: '#js-active-prompt',
-            template: `<Prompt />`,
-            components: { Prompt }
+            components: { Prompt },
+            template: `<Prompt />`
         });
     }
 
@@ -30,8 +30,8 @@ export const init = () => {
      */
     new Vue({
         el: '#js-survey',
-        template: `<Survey />`,
-        components: { Survey }
+        components: { Survey },
+        template: `<Survey />`
     });
 
     /**

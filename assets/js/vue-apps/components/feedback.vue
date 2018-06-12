@@ -1,30 +1,30 @@
 <script>
-    import $ from 'jquery';
-    export default {
-        props: ['description', 'fieldLabel', 'submitLabel'],
-        data: function() {
-            return {
-                statusMessage: null,
-                feedback: null
-            };
-        },
-        methods: {
-            handleSubmit() {
-                $.ajax({
-                    url: '/feedback',
-                    type: 'POST',
-                    data: {
-                        description: this.description,
-                        message: this.feedback
-                    },
-                    dataType: 'json',
-                    success: response => {
-                        this.statusMessage = response.message;
-                    }
-                });
-            }
+import $ from 'jquery';
+export default {
+    props: ['description', 'fieldLabel', 'submitLabel'],
+    data: function() {
+        return {
+            statusMessage: null,
+            feedback: null
+        };
+    },
+    methods: {
+        handleSubmit() {
+            $.ajax({
+                url: '/feedback',
+                type: 'POST',
+                data: {
+                    description: this.description,
+                    message: this.feedback
+                },
+                dataType: 'json',
+                success: response => {
+                    this.statusMessage = response.message;
+                }
+            });
         }
-    };
+    }
+};
 </script>
 
 <template>

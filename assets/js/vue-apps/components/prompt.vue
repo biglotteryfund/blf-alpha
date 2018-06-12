@@ -1,44 +1,44 @@
 <script>
-    import $ from 'jquery';
-    import { includes } from 'lodash';
-    import IconClose from './icon-close.vue';
+import $ from 'jquery';
+import { includes } from 'lodash';
+import IconClose from './icon-close.vue';
 
-    export default {
-        components: { IconClose },
-        data() {
-            return { isShown: false, prompt: null };
+export default {
+    components: { IconClose },
+    data() {
+        return { isShown: false, prompt: null };
+    },
+    created() {
+        const localePrefix = window.AppConfig.localePrefix;
+        $.getJSON(`${localePrefix}/prompts`).then(response => {
+            this.prompt = response.prompt;
+            setTimeout(() => (this.isShown = true), 8000);
+        });
+    },
+    methods: {
+        getSeen() {
+            let ids = [];
+            try {
+                const seenIds = window.localStorage.getItem('biglotteryfund:prompts-seen');
+                ids = seenIds ? JSON.parse(seenIds) || [] : [];
+            } catch (e) {} // eslint-disable-line no-empty
+            return ids;
         },
-        created() {
-            const localePrefix = window.AppConfig.localePrefix;
-            $.getJSON(`${localePrefix}/prompts`).then(response => {
-                this.prompt = response.prompt;
-                setTimeout(() => (this.isShown = true), 8000);
-            });
-        },
-        methods: {
-            getSeen() {
-                let ids = [];
+        setSeen() {
+            const seenIds = this.getSeen();
+            if (includes(seenIds, this.prompt.id) === false) {
                 try {
-                    const seenIds = window.localStorage.getItem('biglotteryfund:prompts-seen');
-                    ids = seenIds ? JSON.parse(seenIds) || [] : [];
+                    seenIds.push(this.prompt.id);
+                    window.localStorage.setItem('biglotteryfund:prompts-seen', JSON.stringify(seenIds));
                 } catch (e) {} // eslint-disable-line no-empty
-                return ids;
-            },
-            setSeen() {
-                const seenIds = this.getSeen();
-                if (includes(seenIds, this.prompt.id) === false) {
-                    try {
-                        seenIds.push(this.prompt.id);
-                        window.localStorage.setItem('biglotteryfund:prompts-seen', JSON.stringify(seenIds));
-                    } catch (e) {} // eslint-disable-line no-empty
-                }
-            },
-            closePrompt() {
-                this.isShown = false;
-                this.setSeen();
             }
+        },
+        closePrompt() {
+            this.isShown = false;
+            this.setSeen();
         }
-    };
+    }
+};
 </script>
 
 <template>

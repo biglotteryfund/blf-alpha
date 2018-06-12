@@ -1,60 +1,60 @@
 <script>
-    import $ from 'jquery';
+import $ from 'jquery';
 
-    const statuses = {
-        NOT_ASKED: 'NOT_ASKED',
-        MESSAGE_BOX_SHOWN: 'MESSAGE_BOX_SHOWN',
-        SUBMISSION_SUCCESS: 'SUBMISSION_SUCCESS',
-        SUBMISSION_ERROR: 'SUBMISSION_ERROR'
-    };
+const statuses = {
+    NOT_ASKED: 'NOT_ASKED',
+    MESSAGE_BOX_SHOWN: 'MESSAGE_BOX_SHOWN',
+    SUBMISSION_SUCCESS: 'SUBMISSION_SUCCESS',
+    SUBMISSION_ERROR: 'SUBMISSION_ERROR'
+};
 
-    export default {
-        data() {
-            return {
-                statuses: statuses,
-                status: statuses.NOT_ASKED,
-                lang: null,
-                response: {
-                    choice: null,
-                    message: null,
-                    path: window.location.pathname
+export default {
+    data() {
+        return {
+            statuses: statuses,
+            status: statuses.NOT_ASKED,
+            lang: null,
+            response: {
+                choice: null,
+                message: null,
+                path: window.location.pathname
+            }
+        };
+    },
+    created: function() {
+        $.get(`${window.AppConfig.localePrefix}/survey`).then(response => {
+            this.lang = response;
+        });
+    },
+    methods: {
+        storeResponse(choice) {
+            this.response.choice = choice;
+
+            $.ajax({
+                url: `/survey`,
+                type: 'POST',
+                dataType: 'json',
+                data: this.response
+            }).then(response => {
+                if (response.status === 'success') {
+                    this.status = this.statuses.SUBMISSION_SUCCESS;
+                } else {
+                    this.status = this.statuses.SUBMISSION_ERROR;
                 }
+            }, () => (this.status = this.statuses.SUBMISSION_ERROR));
+        },
+        selectChoice(choice) {
+            if (choice === 'yes') {
+                this.storeResponse(choice);
+            } else if (choice === 'no') {
+                this.status = statuses.MESSAGE_BOX_SHOWN;
             }
         },
-        created: function() {
-            $.get(`${window.AppConfig.localePrefix}/survey`).then(response => {
-                this.lang = response;
-            });
-        },
-        methods: {
-            storeResponse(choice) {
-                this.response.choice = choice;
-
-                $.ajax({
-                    url: `/survey`,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: this.response
-                }).then(response => {
-                    if (response.status === 'success') {
-                        this.status = this.statuses.SUBMISSION_SUCCESS;
-                    } else {
-                        this.status = this.statuses.SUBMISSION_ERROR;
-                    }
-                }, () => (this.status = this.statuses.SUBMISSION_ERROR));
-            },
-            selectChoice(choice) {
-                if (choice === 'yes') {
-                    this.storeResponse(choice);
-                } else if (choice === 'no') {
-                    this.status = statuses.MESSAGE_BOX_SHOWN;
-                }
-            },
-            resetChoice() {
-                this.status = statuses.NOT_ASKED;
-            }
+        resetChoice() {
+            this.status = statuses.NOT_ASKED;
         }
     }
+};
 </script>
 
 <template>
