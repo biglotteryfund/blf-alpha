@@ -3,10 +3,9 @@ import common from './bootstraps/common';
 import { featureIsEnabled } from './helpers/features';
 
 raven.init();
-
 common.init();
 
-const vueSplit = () => import(/* webpackChunkName: "vue-components" */ './bootstraps/vue');
+const vueSplit = () => import(/* webpackChunkName: "vue-components" */ './vue-apps/index');
 vueSplit().then(vueComponents => {
     vueComponents.init();
 });
