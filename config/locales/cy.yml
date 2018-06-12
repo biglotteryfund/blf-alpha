@@ -81,13 +81,18 @@ global:
       fundingSize: Maint yr ariannu
       totalAvailable: Cyfanswm ar gael
       applicationDeadline: Terfyn amser ymgeisio
-  surveys:
-    response:
-      success: Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.
-      error: Mae'n flin gennym, cafwyd gwall wrth gofnodi'ch data. Rhowch gynnig arall
-        arni.
-    genericQuestion: Sut gallem fod wedi gwneud y dudalen hon yn well?
-    genericPrompt: Dywedwch wrthym sut y gallem wella'r dudalen hon...
+  survey:
+    question: A ddaethoch o hyd i'r hyn yr oeddech yn chwilio amdano?
+    prompt: Dywedwch wrthym sut y gallem wella'r dudalen hon…
+    yes: Do
+    no: Naddo
+    submit: Cyflwyno
+    cancel: Canslo
+    success: Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.
+    error: Mae'n flin gennym, cafwyd gwall wrth gofnodi'ch data. Rhowch gynnig arall arni.
+  feedback:
+    success: Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.
+    error: Mae'n flin gennym, cafwyd gwall wrth gofnodi'ch data. Rhowch gynnig arall arni.
 toplevel:
   home:
     title: Hafan

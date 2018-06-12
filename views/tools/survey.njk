@@ -1,0 +1,104 @@
+{% extends "layouts/tools.njk" %}
+
+{% block title %}Survey results{% endblock %}
+
+{% block extraHead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js" integrity="sha256-N4u5BjTLNwmGul6RgLoESPNqDFVUibVuOYhP4gJgrew=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">
+        Did you find what you were looking for?
+        <small class="badge badge-success">{{ survey.totals.percentageYes }}% said yes</small>
+    </h1>
+
+    <div style="height: 450px" class="border mb-4">
+        <canvas id="js-chart" width="400" height="400"></canvas>
+    </div>
+
+    <h2 class="mb-4">How can we improve this page?</h2>
+
+    <div class="border mb-5" style="max-height: 400px; overflow: auto">
+        <div class="list-group">
+            {% for response in survey.no.responses %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start"
+                    id="msg-{{ response.id }}">
+                <div class="d-flex w-100 justify-content-between">
+                    <a href="?path={{ response.path }}">{{ response.path }}</a>
+                    <a href="#msg-{{ response.id }}">
+                        <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
+                    </a>
+                </div>
+                <p class="mb-3">{{ response.message }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const survey = {{ survey | dump(2) | safe }};
+        const ctx = document.getElementById('js-chart');
+
+        const config = {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'yes',
+                    backgroundColor: '#41c27f',
+                    borderColor: '#2a7f53',
+                    fill: false,
+                    data: survey.yes.voteData,
+                }, {
+                    label: 'no',
+                    backgroundColor: '#de1d19',
+                    borderColor: '#8e1310',
+                    fill: false,
+                    data: survey.no.voteData,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: false,
+                    text: "Response distribution"
+                },
+                scales: {
+                    xAxes: [{
+                        type: "time",
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Date'
+                        },
+                        ticks: {
+                            major: {
+                                fontStyle: "bold",
+                                fontColor: "#FF0000"
+                            }
+                        },
+                        time: {
+                            round: 'day',
+                            unit: 'day'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Number of responses'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        };
+
+        let myChart = new Chart(ctx, config);
+
+    </script>
+
+{% endblock %}

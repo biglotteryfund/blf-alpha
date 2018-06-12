@@ -60,6 +60,17 @@ router.route('/feedback-results').get(async (req, res, next) => {
 
 router.route('/survey-results').get(async (req, res, next) => {
     try {
+        const survey = await surveysService.getAllResponses({
+            path: req.query.path
+        });
+        res.render('tools/survey', { survey });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.route('/survey-results-original').get(async (req, res, next) => {
+    try {
         const surveys = await surveysService.findAll();
         res.render('tools/surveys', { surveys });
     } catch (error) {

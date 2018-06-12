@@ -1,10 +1,48 @@
 'use strict';
-const { minBy, maxBy, sumBy } = require('lodash');
+const { Op } = require('sequelize');
+const { minBy, maxBy, partition, sumBy } = require('lodash');
 const moment = require('moment');
 
-const { SurveyResponse } = require('../models');
+const { SurveyResponse, SurveyAnswer } = require('../models');
+const { purifyUserInput } = require('../modules/validators');
 const contentApi = require('./content-api');
 
+function summariseVotes(responses) {
+    if (responses.length === 0) {
+        return [];
+    }
+
+    const normalisedDateFormat = 'YYYY-MM-DD';
+    const oldestVote = minBy(responses, 'createdAt');
+    const newestVote = maxBy(responses, 'createdAt');
+    const daysInRange = moment(newestVote.createdAt).diff(moment(oldestVote.createdAt), 'days');
+
+    // Group votes by day to aid in graphing
+    const counts = responses.reduce((acc, response) => {
+        let normalisedDate = moment(response.createdAt).format(normalisedDateFormat);
+        if (!acc[normalisedDate]) {
+            acc[normalisedDate] = 0;
+        }
+        acc[normalisedDate] = acc[normalisedDate] + 1;
+        return acc;
+    }, {});
+
+    // Fill in the gaps based on the complete range
+    const voteData = [];
+    let day = moment(oldestVote.createdAt);
+    for (let i = 0; i <= daysInRange; i++) {
+        let formatted = day.format(normalisedDateFormat);
+        voteData.push({
+            x: formatted,
+            y: counts[formatted] || 0
+        });
+        day = day.add(1, 'days');
+    }
+
+    return voteData;
+}
+
+// Legacy method
 function findAll() {
     // fetch all surveys (expired and live) from API
     const getSurveys = contentApi.getSurveys({
@@ -15,14 +53,11 @@ function findAll() {
     const getResponses = SurveyResponse.findAll({
         order: [['updatedAt', 'DESC']]
     });
-    const normalisedDateFormat = 'YYYY-MM-DD';
 
     // combine the votes with the choices
     return Promise.all([getSurveys, getResponses]).then(responses => {
         const [surveys, votes] = responses;
-
-        // merge the datasets
-        let mergedSurveys = surveys.map(survey => {
+        const mergedSurveys = surveys.map(survey => {
             // append responses to the relevant choice
             survey.choices = survey.choices.map(choice => {
                 let surveyVotes = votes.filter(v => v.survey_id === survey.id);
@@ -30,44 +65,13 @@ function findAll() {
                 // retrieve the votes for this survey's choices
                 choice.responses = surveyVotes.filter(v => v.choice_id === choice.id);
 
-                // fill in gaps for days without votes
-                let oldestVote = minBy(surveyVotes, 'createdAt');
-                let newestVote = maxBy(surveyVotes, 'createdAt');
-
-                // calculate votes per day (or substitute with zeroes)
-                if (newestVote && oldestVote) {
-                    let daysInRange = moment(newestVote.createdAt).diff(moment(oldestVote.createdAt), 'days');
-
-                    // group votes by day to aid in graphing
-                    let counts = choice.responses.reduce((acc, response) => {
-                        let normalisedDate = moment(response.createdAt).format(normalisedDateFormat);
-                        if (!acc[normalisedDate]) {
-                            acc[normalisedDate] = 0;
-                        }
-                        acc[normalisedDate] = acc[normalisedDate] + 1;
-                        return acc;
-                    }, {});
-
-                    // fill in the gaps based on the complete range
-                    let voteData = [];
-                    let day = moment(oldestVote.createdAt);
-                    for (let i = 0; i <= daysInRange; i++) {
-                        let formatted = day.format(normalisedDateFormat);
-                        voteData.push({
-                            x: formatted,
-                            y: counts[formatted] || 0
-                        });
-                        day = day.add(1, 'days');
-                    }
-                    // store data for chart output
-                    choice.voteData = voteData;
-                }
+                choice.voteData = summariseVotes(choice.responses);
 
                 return choice;
             });
 
             // work out the winning choice
-            let voteTotals = survey.choices.map(choice => {
+            const voteTotals = survey.choices.map(choice => {
                 return {
                     title: choice.title,
                     votes: choice.responses.length
@@ -75,9 +79,9 @@ function findAll() {
             });
 
             // find out the winner's percentage
-            let winner = maxBy(voteTotals, 'votes');
-            let totalResponses = sumBy(voteTotals, 'votes');
-            let winnerPercentage = Math.round(winner.votes / totalResponses * 100);
+            const winner = maxBy(voteTotals, 'votes');
+            const totalResponses = sumBy(voteTotals, 'votes');
+            const winnerPercentage = Math.round(winner.votes / totalResponses * 100);
 
             survey.winner = {
                 title: winner.title,
@@ -93,11 +97,50 @@ function findAll() {
     });
 }
 
+async function getAllResponses({ path = null }) {
+    try {
+        const query = { order: [['updatedAt', 'DESC']] };
+        if (path) {
+            query.where = { path: { [Op.eq]: purifyUserInput(path) } };
+        }
+
+        const responses = await SurveyAnswer.findAll(query);
+
+        const [yesResponses, noResponses] = partition(responses, ['choice', 'yes']);
+
+        const yes = {
+            responses: yesResponses,
+            voteData: summariseVotes(yesResponses)
+        };
+
+        const no = {
+            responses: noResponses,
+            voteData: summariseVotes(noResponses)
+        };
+
+        const toPercentage = count => Math.round(count / responses.length * 100);
+        const totals = {
+            totalResponses: responses.length,
+            percentageYes: toPercentage(yesResponses.length),
+            percentageNo: toPercentage(noResponses.length)
+        };
+
+        return {
+            totals,
+            yes,
+            no
+        };
+    } catch (error) {
+        return error;
+    }
+}
+
 function createResponse(response) {
-    return SurveyResponse.create(response);
+    return SurveyAnswer.create(response);
 }
 
 module.exports = {
     findAll,
+    getAllResponses,
     createResponse
 };
