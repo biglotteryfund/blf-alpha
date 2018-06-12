@@ -83,7 +83,7 @@ global:
       applicationDeadline: Application deadline
   survey:
     question: Did you find what you were looking for?
-    prompt: Tell us how we could improve this page…
+    prompt: How could we have made this page better?
     yes: Yes
     no: No
     submit: Submit
