@@ -1,0 +1,28 @@
+{% from "components/feedback.njk" import inlineFeedback with context %}
+
+{% extends "layouts/main.njk" %}
+{% block title %}Success | {{ form.title }} | {% endblock %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box inner inner--wide-only accent--pink a--border-top">
+            <div class="s-prose u-constrained">
+                <div class="form-message">
+                    <h1 class="t1 form-message__title">Thank you for submitting your idea</h1>
+                </div>
+
+                <h2 class="t2 t--underline accent--pink">What happens next?</h2>
+                <p>Thank you for submitting your idea. We have emailed you a copy of your submission and a local funding officer will contact you within fifteen working days.</p>
+            </div>
+
+            {% if appData.isNotProduction %}
+                {{ inlineFeedback(
+                    description = form.title,
+                    promptLabel = "Can you spare a minute to give us some feedback?",
+                    fieldLabel = "How was your experience of submitting an idea?"
+                )  }}
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
