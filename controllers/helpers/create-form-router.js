@@ -27,6 +27,7 @@ function createFormRouter({ router, formModel }) {
     router.get('/', function(req, res) {
         const stepConfig = formModel.getStartPage();
         res.render(stepConfig.template, {
+            title: formModel.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
             form: formModel

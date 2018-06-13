@@ -2,9 +2,9 @@
 const express = require('express');
 
 const { createFormRouter } = require('../helpers/create-form-router');
-const formModel = require('./reaching-communities-form');
+const reachingCommunitiesForm = require('./reaching-communities/form-model');
 
-function initYourIdea() {
+function initFormRouter(formModel) {
     const router = express.Router();
 
     router.use((req, res, next) => {
@@ -22,7 +22,7 @@ module.exports = ({ router }) => {
         res.redirect('/');
     });
 
-    router.use('/your-idea', initYourIdea());
+    router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     return router;
 };
