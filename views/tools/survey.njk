@@ -7,33 +7,52 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">
-        Did you find what you were looking for?
-        <small class="badge badge-success">{{ survey.totals.percentageYes }}% said yes</small>
-    </h1>
+    <header class="mb-5">
+        <h1>Did you find what you were looking for?</h1>
+        {% if pathQuery %}<p class="text-muted">Showing results for path: <code>{{ pathQuery }}</code></p>{% endif %}
+    </header>
 
-    <div style="height: 450px" class="border mb-4">
-        <canvas id="js-chart" width="400" height="400"></canvas>
-    </div>
+    <section>
+        <h2>
+            {{ survey.totals.totalResponses }} total responses
+            {% if survey.totals.percentageYes %}
+                <small class="badge badge-success">{{ survey.totals.percentageYes }}% said yes</small>
+            {% endif %}
+        </h2>
 
-    <h2 class="mb-4">How can we improve this page?</h2>
+        <p class="mb-4">
+            Yes <span class="badge badge-success">{{ survey.yes.responses.length }} votes</span> •
+            No <span class="badge badge-danger">{{ survey.no.responses.length }} votes</span>
+        </p>
 
-    <div class="border mb-5" style="max-height: 400px; overflow: auto">
-        <div class="list-group">
-            {% for response in survey.no.responses %}
-            <div class="list-group-item list-group-item-action flex-column align-items-start"
-                    id="msg-{{ response.id }}">
-                <div class="d-flex w-100 justify-content-between">
-                    <a href="?path={{ response.path }}">{{ response.path }}</a>
-                    <a href="#msg-{{ response.id }}">
-                        <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
-                    </a>
-                </div>
-                <p class="mb-3">{{ response.message }}</p>
-            </div>
-            {% endfor %}
+        <div class="border mb-5">
+            <canvas id="js-chart" height="400"></canvas>
         </div>
-    </div>
+    </section>
+
+    <section>
+        <h2>How can we improve this page?</h2>
+        {% if survey.no.responses.length > 0 %}
+            <div class="border mb-5" style="max-height: 400px; overflow: auto">
+                <div class="list-group">
+                    {% for response in survey.no.responses %}
+                    <div class="list-group-item list-group-item-action flex-column align-items-start"
+                            id="msg-{{ response.id }}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <a href="?path={{ response.path }}">{{ response.path }}</a>
+                            <a href="#msg-{{ response.id }}">
+                                <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
+                            </a>
+                        </div>
+                        <p class="mb-3">{{ response.message }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <p>No responses</p>
+        {% endif %}
+    </section>
 
     <script>
         const survey = {{ survey | dump(2) | safe }};

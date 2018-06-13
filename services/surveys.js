@@ -12,14 +12,9 @@ function summariseVotes(responses) {
         return [];
     }
 
-    const normalisedDateFormat = 'YYYY-MM-DD';
-    const oldestVote = minBy(responses, 'createdAt');
-    const newestVote = maxBy(responses, 'createdAt');
-    const daysInRange = moment(newestVote.createdAt).diff(moment(oldestVote.createdAt), 'days');
-
     // Group votes by day to aid in graphing
     const counts = responses.reduce((acc, response) => {
-        let normalisedDate = moment(response.createdAt).format(normalisedDateFormat);
+        let normalisedDate = moment(response.createdAt).format('YYYY-MM-DD');
         if (!acc[normalisedDate]) {
             acc[normalisedDate] = 0;
         }
@@ -27,11 +22,15 @@ function summariseVotes(responses) {
         return acc;
     }, {});
 
+    const oldestResponseDate = moment(minBy(responses, 'createdAt').createdAt);
+    const newestResponseDate = moment(maxBy(responses, 'createdAt').createdAt);
+    const daysInRange = newestResponseDate.startOf('day').diff(oldestResponseDate.startOf('day'), 'days');
+
     // Fill in the gaps based on the complete range
     const voteData = [];
-    let day = moment(oldestVote.createdAt);
+    let day = oldestResponseDate;
     for (let i = 0; i <= daysInRange; i++) {
-        let formatted = day.format(normalisedDateFormat);
+        let formatted = day.format('YYYY-MM-DD');
         voteData.push({
             x: formatted,
             y: counts[formatted] || 0

@@ -60,10 +60,11 @@ router.route('/feedback-results').get(async (req, res, next) => {
 
 router.route('/survey-results').get(async (req, res, next) => {
     try {
+        const pathQuery = req.query.path;
         const survey = await surveysService.getAllResponses({
-            path: req.query.path
+            path: pathQuery
         });
-        res.render('tools/survey', { survey });
+        res.render('tools/survey', { survey, pathQuery });
     } catch (error) {
         next(error);
     }
