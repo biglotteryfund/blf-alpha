@@ -87,7 +87,7 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         followRedirect: followRedirect,
         maxRedirects: 1,
         resolveWithFullResponse: true,
-        timeout: ms('30s')
+        timeout: ms('45s')
     }).then(response => {
         const contentType = response.headers['content-type'];
 
