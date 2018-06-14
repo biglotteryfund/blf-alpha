@@ -1,3 +1,4 @@
+const { trackEvent } = require('../helpers/metrics');
 import { IconClose } from './icons';
 import { includes } from 'lodash';
 import $ from 'jquery';
@@ -24,7 +25,10 @@ const PromptWrapper = {
     },
     mounted: function() {
         if (includes(this.getSeen(), this.prompt.id) === false) {
-            setTimeout(() => (this.isShown = true), this.delay);
+            setTimeout(() => {
+                this.isShown = true;
+                trackEvent(`Prompt: ${this.prompt.id}`, 'Shown prompt');
+            }, this.delay);
         }
     },
     methods: {
