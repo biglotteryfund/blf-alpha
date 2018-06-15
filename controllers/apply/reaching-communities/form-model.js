@@ -1,51 +1,9 @@
 'use strict';
-
-const { get, isArray } = require('lodash');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../helpers/create-form-model');
-const { HUB_EMAILS } = require('../../modules/secrets');
-const appData = require('../../modules/appData');
-const mail = require('../../modules/mail');
-
-const DEFAULT_EMAIL = HUB_EMAILS.england;
-
-const PROJECT_LOCATIONS = [
-    {
-        label: 'North East & Cumbria',
-        value: 'North East & Cumbria',
-        explanation: 'covering Newcastle, Cumbria and the north-east of England',
-        email: HUB_EMAILS.northEastCumbria
-    },
-    {
-        label: 'North West',
-        value: 'North West',
-        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside',
-        email: HUB_EMAILS.northWest
-    },
-    {
-        label: 'Yorkshire and the Humber',
-        value: 'Yorkshire and the Humber',
-        explanation: 'covering Yorkshire, north and north-east Lincolnshire',
-        email: HUB_EMAILS.yorksHumber
-    },
-    {
-        label: 'South West',
-        value: 'South West',
-        explanation: 'covering Exeter, Bristol and the south-west of England',
-        email: HUB_EMAILS.southWest
-    },
-    {
-        label: 'London, South East and East of England',
-        value: 'London and South East',
-        email: HUB_EMAILS.londonSouthEast
-    },
-    {
-        label: 'East and West Midlands',
-        value: 'Midlands',
-        email: HUB_EMAILS.midlands
-    }
-];
+const { createFormModel } = require('../../helpers/create-form-model');
+const { PROJECT_LOCATIONS } = require('./constants');
+const processor = require('./processor');
 
 const formModel = createFormModel({
     id: 'reaching-communities-idea',
@@ -54,7 +12,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'pages/apply/reaching-communities-startpage'
+    template: 'pages/apply/reaching-communities/startpage'
 });
 
 formModel.registerStep({
@@ -62,6 +20,19 @@ formModel.registerStep({
     fieldsets: [
         {
             legend: 'Find out how we can help you',
+            introduction: `
+                <p>
+                    Use the box below to tell us about your organisation, or your idea,
+                    and we will be in touch within fifteen working days to let you know if we can help.
+                    You don’t need to spend too much time on this – if it is something we can fund,
+                    this is just the start of the conversation.
+                </p>
+                <p>
+                    If you have already read our guidance, and feel you have all the information
+                    to tell us your idea, you are welcome to insert this below and it will go to
+                    one of our funding officers.
+                </p>
+            `,
             fields: [
                 {
                     type: 'textarea',
@@ -76,28 +47,21 @@ formModel.registerStep({
                             .isEmpty()
                             .withMessage('Please tell us your idea');
                     },
-                    helpText: {
-                        body: `
-<p>We support ideas that meet our three funding priorities.</p>
-<p>Show us how you plan to:</p>
-<ul>
-<li>bring people together and build strong relationships in and across communities
-<li>improve the places and spaces that matter to communities</li>
-<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
-</ul>
-
-<p>Through all of our funding in England we support ideas that:</p>
-<ul>
-<li>bring people together and build strong relationships in and across communities</li>
-<li>improve the places and spaces that matter to communities</li>
-<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
-</ul>
-`,
-                        introduction: `
-<p>Use the box below to tell us about your organisation, or your idea, and we will be in touch within fifteen working days to let you know if we can help. You don’t need to spend too much time on this – if it is something we can fund, this is just the start of the conversation.</p>
-<p>If you have already read our guidance, and feel you have all the information to tell us your idea, you are welcome to insert this below and it will go to one of our funding officers.</p>
-`
-                    }
+                    helpText: `
+                        <p>We support ideas that meet our three funding priorities.</p>
+                        <p>Show us how you plan to:</p>
+                        <ul>
+                            <li>bring people together and build strong relationships in and across communities
+                            <li>improve the places and spaces that matter to communities</li>
+                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+                        </ul>
+                        <p>Through all of our funding in England we support ideas that:</p>
+                        <ul>
+                            <li>bring people together and build strong relationships in and across communities</li>
+                            <li>improve the places and spaces that matter to communities</li>
+                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
+                        </ul>
+                    `
                 }
             ]
         }
@@ -258,72 +222,8 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    title: 'We have received your idea',
-    feedback: {
-        promptLabel: 'Can you spare a minute to give us some feedback?',
-        fieldLabel: 'How was your experience of submitting an idea?'
-    },
-    message: `
-<h2 class="t2 t--underline accent--pink">What happens next?</h2>
-<p>Thank you for submitting your idea. A local funding officer will contact you within fifteen working days.</p>
-`,
-    processor: function(formData) {
-        const flatData = formModel.getStepValuesFlattened(formData);
-        const summary = formModel.getStepsWithValues(formData);
-
-        /**
-         * Construct a primary address (i.e. customer email)
-         */
-        const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-        let organisationName = `${flatData['organisation-name']}`;
-        if (flatData['additional-organisations']) {
-            organisationName += ` (plus ${flatData['additional-organisations']})`;
-        }
-
-        /**
-         * Determine which internal address to send to:
-         * - If in test then send to primaryAddress
-         * - If multi-region, send to defailt/england-wide inbox
-         * - Otherwise send to the matching inbox for the selected region
-         */
-        const internalAddress = (function() {
-            if (appData.isNotProduction) {
-                return primaryAddress;
-            } else if (isArray(flatData.location)) {
-                return DEFAULT_EMAIL;
-            } else {
-                const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
-                return get(matchedLocation, 'email', DEFAULT_EMAIL);
-            }
-        })();
-
-        return mail.generateAndSend([
-            {
-                name: 'reaching_communities_customer',
-                sendTo: primaryAddress,
-                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-                templateName: 'emails/applicationSummary',
-                templateData: {
-                    summary: summary,
-                    form: formModel,
-                    data: flatData
-                }
-            },
-            {
-                name: 'reaching_communities_internal',
-                sendTo: internalAddress,
-                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: `New idea submission from website: ${organisationName}`,
-                templateName: 'emails/applicationSummaryInternal',
-                templateData: {
-                    summary: formModel.orderStepsForInternalUse(summary),
-                    form: formModel,
-                    data: flatData
-                }
-            }
-        ]);
-    }
+    template: 'pages/apply/reaching-communities/success',
+    processor: processor
 });
 
 formModel.registerErrorStep({

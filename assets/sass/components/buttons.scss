@@ -157,15 +157,6 @@ $btnConf: (
     margin-right: 5px;
 }
 
-.btn--start {
-    .icon--arrow-right {
-        fill: currentColor;
-        width: 14px;
-        height: 14px;
-        margin-left: 2px;
-    }
-}
-
 .btn--next {
     background-image: arrow-btn();
     background-size: contain;

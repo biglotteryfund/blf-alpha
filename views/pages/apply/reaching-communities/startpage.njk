@@ -1,22 +1,10 @@
-{% from "components/icons.njk" import iconArrowRight %}
+{% from "components/buttons.njk" import startButton %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ form.title }} | {% endblock %}
-
 {% set bodyClass = 'has-static-header' %}
-
-{% macro startButton(url, label = 'Start') %}
-    <a class="btn btn--start" href="{{ url }}">
-        {{ label }}
-        <span class="btn__icon">
-            {{ iconArrowRight() }}
-        </span>
-    </a>
-{% endmacro %}
+{% set pageAccent = 'pink' %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <h1 class="t1">

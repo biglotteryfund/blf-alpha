@@ -27,6 +27,7 @@ function createFormRouter({ router, formModel }) {
     router.get('/', function(req, res) {
         const stepConfig = formModel.getStartPage();
         res.render(stepConfig.template, {
+            title: formModel.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
             form: formModel
@@ -142,7 +143,7 @@ function createFormRouter({ router, formModel }) {
                 res.redirect(req.baseUrl);
             } else {
                 successStep
-                    .processor(formData)
+                    .processor(formModel, formData)
                     .then(() => {
                         res.redirect(`${req.baseUrl}/success`);
                     })
@@ -170,7 +171,7 @@ function createFormRouter({ router, formModel }) {
             // Clear the submission from the session on success
             unset(req.session, formModel.getSessionProp());
             req.session.save(() => {
-                res.render('pages/apply/success', {
+                res.render(successStep.template, {
                     form: formModel,
                     stepConfig: successStep
                 });

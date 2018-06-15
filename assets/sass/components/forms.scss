@@ -2,6 +2,17 @@
    Forms
    ========================================================================= */
 
+.start-button {
+    margin: $spacingUnit 0;
+
+    .btn .icon {
+        fill: currentColor;
+        width: 14px;
+        height: 14px;
+        margin-left: 2px;
+    }
+}
+
 .form-header {
     margin-bottom: $spacingUnit * 2;
 
@@ -61,22 +72,11 @@
         background-color: rgba(255, 255, 0, 0.5);
     }
 }
-.form-field__errors {
-    margin-top: $spacingUnit / 3;
-}
 .form-field__help {
     margin-top: $spacingUnit;
-
-    .form-field__help-summary {
-        margin-bottom: $spacingUnit / 3;
-    }
-    .form-field__help-body {
-        background-color: palette('pale-grey');
-        padding: $spacingUnit / 2;
-    }
 }
-.form-field__duplicate {
-    margin-top: $spacingUnit / 2;
+.form-field__errors {
+    margin-top: $spacingUnit / 3;
 }
 
 .form-field.has-errors {
@@ -104,6 +104,7 @@
         margin-left: 10px;
         font-size: smaller;
         color: palette('pink');
+        white-space: nowrap;
     }
 }
 
@@ -115,9 +116,9 @@
 }
 
 .ff-explanation {
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 10px;
-    color: palette('charcoal-note');
+    color: #666;
 }
 
 .ff-text,
@@ -183,6 +184,12 @@
         font-size: 16px;
         margin-bottom: 3px;
     }
+}
+
+.form-actions {
+    max-width: $constrainedWide;
+    border-top: 1px solid palette('border');
+    padding: 1em 0;
 }
 
 .review-list {
