@@ -1,0 +1,19 @@
+{% from "components/buttons.njk" import startButton %}
+
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+{% block title %}Success | {{ form.title }} | {% endblock %}
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose u-constrained">
+                <div class="form-message">
+                    <h1 class="t1 form-message__title">Thank you</h1>
+                </div>
+                <p>Thank you, all done.</p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

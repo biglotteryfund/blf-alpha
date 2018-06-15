@@ -3,6 +3,8 @@ const express = require('express');
 
 const { createFormRouter } = require('../helpers/create-form-router');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
+const buildingConnectionsForm = require('./building-connections/form-model');
+const appData = require('../../modules/appData');
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -23,6 +25,10 @@ module.exports = ({ router }) => {
     });
 
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
+
+    if (appData.isNotProduction) {
+        router.use('/building-connections', initFormRouter(buildingConnectionsForm));
+    }
 
     return router;
 };

@@ -1,13 +1,13 @@
-{% from "components/forms-new.njk" import errorList, formErrors, formField, formHeader %}
+{% from "components/forms-new.njk" import errorList, formErrors, formFieldset, formHeader %}
 
 {% extends "layouts/main.njk" %}
 
 {% block title %}Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }} | {{ form.title }} | {% endblock %}
 
 {% set bodyClass = 'has-static-header' %}
+{% set pageAccent = 'pink' %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
     <main role="main" id="content">
         <form action="" method="POST"
             class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -17,24 +17,16 @@
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
             {% for fieldset in step.fieldsets %}
-                <fieldset class="form-fieldset u-constrained-content">
-                    <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
-                        {{ fieldset.legend }}
-                    </legend>
-                    <div class="form-fieldset__fields">
-                        {% for field in fieldset.fields %}
-                            {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-                            {{ formField(field, fieldErrors) }}
-                        {% endfor %}
-                    </div>
-                </fieldset>
+                {{ formFieldset(fieldset) }}
             {% endfor %}
 
             {% if csrfToken %}
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {% endif %}
 
-            <input class="btn btn--next" type="submit" value="Next" />
+            <div class="form-actions">
+                <input class="btn btn--next" type="submit" value="Next" />
+            </div>
         </form>
     </main>
 {% endblock %}

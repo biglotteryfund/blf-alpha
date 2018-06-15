@@ -1,0 +1,55 @@
+{% from "components/buttons.njk" import startButton %}
+
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="u-constrained-content s-prose spaced--l accent-content--{{ pageAccent }}">
+                <h1>{{ form.title }}</h1>
+
+                <h2>Start your application</h2>
+                <p>Funding of between £30,000 and £100,000 to help individuals, communities and local services connect in a variety of ways. The Fund will do this by supporting promising projects that already are, or with additional support could, prevent or reduce loneliness.</p>
+
+                {{ startButton(startUrl) }}
+
+                <h2>What will we ask you?</h2>
+
+                <h3>We’ll ask</h3>
+                <ul>
+                    <li>what you want to do and why</li>
+                    <li>what difference you think your idea will make</li>
+                    <li>how people and communities are involved with your project</li>
+                    <li>the background to your organisation</li>
+                    <li>the length of your project budget and how much funding you’ll need from us</li>
+                    <li>how your idea fits in with other activities.</li>
+                </ul>
+
+                <h3>You'll need</h3>
+                <ul>
+                    <li>To know your legal organisation name</li>
+                    <li>Your registered charity or companies house number if you have one</li>
+                    <li>Your contact details</li>
+                </ul>
+
+                <p>
+                    This information will be reviewed by a team of Big Lottery Fund staff
+                    which will decide whether the idea is something we can fund.
+                    If your idea is accepted, we'll ask you to submit a full proposal.
+                </p>
+
+                <h2>Other ways to apply</h2>
+                <p>
+                    We’re available Monday–Friday from 9am to 5pm to answer questions about applying.
+                </p>
+                <ul>
+                    <li><strong>Telephone</strong>: 0345 4 10 20 30</li>
+                    <li><strong>Textphone</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)</li>
+                </ul>
+
+            </div>
+        </div>
+    </main>
+{% endblock %}

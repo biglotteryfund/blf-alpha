@@ -1,10 +1,12 @@
 {% from "components/icons.njk" import iconArrowRight %}
 
 {% macro startButton(url, label = 'Start') %}
-    <a class="btn btn--start" href="{{ url }}">
-        {{ label }}
-        <span class="btn__icon">
-            {{ iconArrowRight() }}
-        </span>
-    </a>
+    <div class="start-button">
+        <a class="btn" href="{{ url }}">
+            {{ label }}
+            <span class="btn__icon">
+                {{ iconArrowRight() }}
+            </span>
+        </a>
+    </div>
 {% endmacro %}

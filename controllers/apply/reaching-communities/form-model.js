@@ -20,6 +20,19 @@ formModel.registerStep({
     fieldsets: [
         {
             legend: 'Find out how we can help you',
+            introduction: `
+                <p>
+                    Use the box below to tell us about your organisation, or your idea,
+                    and we will be in touch within fifteen working days to let you know if we can help.
+                    You don’t need to spend too much time on this – if it is something we can fund,
+                    this is just the start of the conversation.
+                </p>
+                <p>
+                    If you have already read our guidance, and feel you have all the information
+                    to tell us your idea, you are welcome to insert this below and it will go to
+                    one of our funding officers.
+                </p>
+            `,
             fields: [
                 {
                     type: 'textarea',
@@ -34,28 +47,21 @@ formModel.registerStep({
                             .isEmpty()
                             .withMessage('Please tell us your idea');
                     },
-                    helpText: {
-                        body: `
-<p>We support ideas that meet our three funding priorities.</p>
-<p>Show us how you plan to:</p>
-<ul>
-<li>bring people together and build strong relationships in and across communities
-<li>improve the places and spaces that matter to communities</li>
-<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
-</ul>
-
-<p>Through all of our funding in England we support ideas that:</p>
-<ul>
-<li>bring people together and build strong relationships in and across communities</li>
-<li>improve the places and spaces that matter to communities</li>
-<li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
-</ul>
-`,
-                        introduction: `
-<p>Use the box below to tell us about your organisation, or your idea, and we will be in touch within fifteen working days to let you know if we can help. You don’t need to spend too much time on this – if it is something we can fund, this is just the start of the conversation.</p>
-<p>If you have already read our guidance, and feel you have all the information to tell us your idea, you are welcome to insert this below and it will go to one of our funding officers.</p>
-`
-                    }
+                    helpText: `
+                        <p>We support ideas that meet our three funding priorities.</p>
+                        <p>Show us how you plan to:</p>
+                        <ul>
+                            <li>bring people together and build strong relationships in and across communities
+                            <li>improve the places and spaces that matter to communities</li>
+                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+                        </ul>
+                        <p>Through all of our funding in England we support ideas that:</p>
+                        <ul>
+                            <li>bring people together and build strong relationships in and across communities</li>
+                            <li>improve the places and spaces that matter to communities</li>
+                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
+                        </ul>
+                    `
                 }
             ]
         }

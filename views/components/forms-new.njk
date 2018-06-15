@@ -45,7 +45,7 @@
 {% macro inputText(field, type="text") %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
     {% if field.explanation %}
-        <p class="ff-explanation">{{ field.explanation | safe }}</p>
+        <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
     {% endif %}
     <input
         class="ff-text"
@@ -55,18 +55,21 @@
         {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
         {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
         size="{% if field.size %}{{ field.size }}{% else %}40{% endif %}"
+        {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
         value="{% if field.value %}{{ field.value }}{% endif %}"
-        {% if field.isRequired %}required aria-required="true"{% endif %}
     />
 {% endmacro %}
 
 {% macro inputTextarea(field) %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    {% if field.explanation %}
+        <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
+    {% endif %}
     <textarea
         class="ff-textarea"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
-        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {# {% if field.isRequired %}required aria-required="true"{% endif %} #}
         rows="{{ field.rows }}"
     >{{ field.value }}</textarea>
 {% endmacro %}
@@ -131,11 +134,6 @@
         {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
         <div class="form-field__main">
             <div class="form-field__body">
-                {% if field.helpText %}
-                    {% if field.helpText.introduction %}
-                        {{ field.helpText.introduction | safe }}
-                    {% endif %}
-                {% endif %}
                 {% if field.type === 'text' or field.type === 'email' or field.type === 'search' %}
                     {{ inputText(field, field.type) }}
                 {% endif %}
@@ -156,18 +154,9 @@
             {% endif %}
         </div>
         {% if field.helpText %}
-            {% if field.helpText.summary %}
-                <details class="form-field__help">
-                    <summary class="form-field__help-summary">{{ field.helpText.summary }}</summary>
-                    <div class="form-field__help-body s-prose">
-                        {{ field.helpText.body | safe }}
-                    </div>
-                    </details>
-            {% else %}
-                <div class="form-field__help s-prose">
-                    {{ field.helpText.body | safe }}
-                </div>
-            {% endif %}
+            <div class="form-field__help s-prose">
+                {{ field.helpText | safe }}
+            </div>
         {% endif %}
     </div>
 {% endmacro %}
@@ -175,4 +164,21 @@
 {% macro renderFieldWithErrors(errors, field) %}
     {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
     {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+{% endmacro %}
+
+{% macro formFieldset(fieldset) %}
+    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+        <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+            {{ fieldset.legend }}
+        </legend>
+        {% if fieldset.introduction %}
+            <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
+        {% endif %}
+        <div class="form-fieldset__fields">
+            {% for field in fieldset.fields %}
+                {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+                {{ formField(field, fieldErrors) }}
+            {% endfor %}
+        </div>
+    </fieldset>
 {% endmacro %}
