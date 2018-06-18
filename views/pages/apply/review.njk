@@ -1,4 +1,5 @@
 {% from "components/forms-new.njk" import formHeader %}
+{% from "components/icons.njk" import iconArrowDown %}
 
 {% extends "layouts/main.njk" %}
 
@@ -12,43 +13,61 @@
         <form action="" method="POST"
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="u-constrained-content">
 
                 {{ formHeader(form.title, stepProgress) }}
 
-                <section class="s-prose accent-content--{{ pageAccent }} u-constrained-wide">
-                    <h2>{{ stepConfig.title }}</h2>
+                <h2>{{ stepConfig.title }}</h2>
 
-                    {% for step in summary %}
-                        <h3>
+                {% for step in summary %}
+                    <div class="review-step">
+                        <h3 class="review-step__title">
                             {{ step.name }}
-                            [<a href="{{ baseUrl }}/{{ loop.index }}/edit"
+                            <a class="review-step__edit" href="{{ baseUrl }}/{{ loop.index }}/edit"
                                 class="js-application-form-review-link"
                                 aria-label="Edit {{ step.name }}">
                                 Edit
-                            </a>]
+                            </a>
                         </h3>
                         {% for fieldset in step.fieldsets %}
-                        <dl class="review-list {% if fieldset.fields.length === 1 %}review-list--stacked{% endif %}">
+                        <dl class="review-step__list">
                             {% for field in fieldset.fields %}
                                 {% if field.value %}
-                                    <dt>{{ field.label }}</dt>
-                                    <dd data-hj-suppress>
-                                        {% if field.type === 'textarea' %}
-                                            {{ field.value | striptags(true) | escape | nl2br }}
-                                        {% elseif field.type === 'checkbox' %}
-                                            {{ field.value | joinIfArray(', ') }}
-                                        {% else %}
-                                            {{ field.value }}
-                                        {% endif %}
+                                    <dt class="review-step__item-label{% if field.type === 'textarea' %} is-stacked{% endif %}">
+                                        {{ field.label }}
+                                    </dt>
+                                    <dd class="review-step__item-value{% if field.type === 'textarea' %} is-stacked is-constrained{% endif %}">
+                                        <div class="s-prose" data-hj-suppress>
+                                            {% if field.type === 'textarea' %}
+                                                {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                                {% if cleanValue | wordcount > 50 %}
+                                                    <div class="review-step__answer-preview js-toggle-answer">
+                                                        {{ cleanValue }}
+                                                        <p class="review-step__answer-more">
+                                                            <button type="button" class="btn-link">
+                                                                <span class="js-toggle-answer-label" data-toggle-label="Show less">
+                                                                    Show more
+                                                                </span>
+                                                                {{ iconArrowDown() }}
+                                                            </button>
+                                                        </p>
+                                                    </div>
+                                                {% else %}
+                                                    {{ cleanValue }}
+                                                {% endif %}
+                                            {% elseif field.type === 'checkbox' %}
+                                                {{ field.value | joinIfArray(', ') }}
+                                            {% else %}
+                                                {{ field.value }}
+                                            {% endif %}
+                                        </div>
                                     </dd>
                                 {% endif %}
                             {% endfor %}
                         </dl>
                         {% endfor %}
-                    {% endfor %}
-                </section>
-            </div>
+                    </div>
+                {% endfor %}
+            </section>
 
             {% if csrfToken %}
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
