@@ -54,6 +54,24 @@
         {% endif %}
     </section>
 
+    {% if not pathQuery %}
+        <section>
+            <h2>Pages with feedback</h2>
+            <div class="border mb-5">
+                <div class="list-group">
+                    {% for path, count in survey.groupedPaths %}
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <a href="?path={{ path }}">{{ path }}</a>
+                                <span class="badge badge-light">{{ count }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
     <script>
         const survey = {{ survey | dump(2) | safe }};
         const ctx = document.getElementById('js-chart');
