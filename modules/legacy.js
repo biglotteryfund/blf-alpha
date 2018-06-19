@@ -3,6 +3,7 @@ const { get } = require('lodash');
 const absolution = require('absolution');
 const config = require('config');
 const jsdom = require('jsdom');
+const ms = require('ms');
 const request = require('request-promise-native');
 
 const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
@@ -59,10 +60,25 @@ function appendLanguageLink(dom, originalUrlPath) {
     }
 }
 
-function proxyLegacyPage({ req, res, domModifications, followRedirect = true }) {
-    res.cacheControl = { maxAge: 0 };
+function cleanDom(dom, originalUrlPath) {
+    appendLanguageLink(dom, originalUrlPath);
 
-    const originalUrlPath = req.baseUrl + req.path;
+    // rewrite main ASP.net form to point to this page
+    // (currently it's rewritten above to the external one)
+    const form = dom.window.document.getElementById('form1');
+    if (form) {
+        form.setAttribute('action', originalUrlPath);
+    }
+
+    // Remove live chat widget as document.write causes issue when proxying.
+    const liveChat = dom.window.document.getElementById('askLiveCall');
+    if (liveChat) {
+        liveChat.parentNode.removeChild(liveChat);
+    }
+}
+
+function proxyLegacyPage({ req, res, followRedirect = true }) {
+    res.cacheControl = { maxAge: 0 };
 
     return request({
         url: legacyUrl + req.originalUrl,
@@ -70,44 +86,33 @@ function proxyLegacyPage({ req, res, domModifications, followRedirect = true }) 
         jar: true,
         followRedirect: followRedirect,
         maxRedirects: 1,
-        resolveWithFullResponse: true
+        resolveWithFullResponse: true,
+        timeout: ms('45s')
     }).then(response => {
-        let body = cleanBody(response.body);
-        let dom = new JSDOM(body);
+        const contentType = response.headers['content-type'];
 
-        /**
-         * Always redirect to canonical link
-         * Sitecore serves the content of vanity URLs rather
-         * than redirecting, so to avoid duplicate content and make it
-         * easier to replace old URLs we attempt to look up the canonical URL
-         * from the page and redirect to that.
-         */
-        const canonicalUrl = getCanonicalUrl(dom);
-        if (canonicalUrl && canonicalUrl !== originalUrlPath) {
-            res.redirect(301, canonicalUrl);
+        if (/^text\/html/.test(contentType)) {
+            const originalUrlPath = req.baseUrl + req.path;
+            const body = cleanBody(response.body);
+            const dom = new JSDOM(body);
+
+            /**
+             * Always redirect to canonical link
+             * Sitecore serves the content of vanity URLs rather
+             * than redirecting, so to avoid duplicate content and make it
+             * easier to replace old URLs we attempt to look up the canonical URL
+             * from the page and redirect to that.
+             */
+            const canonicalUrl = getCanonicalUrl(dom);
+            if (canonicalUrl && canonicalUrl !== originalUrlPath) {
+                res.redirect(301, canonicalUrl);
+            } else {
+                cleanDom(dom, originalUrlPath);
+                res.set('X-BLF-Legacy', true);
+                res.send(dom.serialize());
+            }
         } else {
-            appendLanguageLink(dom, originalUrlPath);
-
-            // rewrite main ASP.net form to point to this page
-            // (currently it's rewritten above to the external one)
-            const form = dom.window.document.getElementById('form1');
-            if (form) {
-                form.setAttribute('action', originalUrlPath);
-            }
-
-            // Remove live chat widget as document.write causes issue when proxying.
-            const liveChat = dom.window.document.getElementById('askLiveCall');
-            if (liveChat) {
-                liveChat.parentNode.removeChild(liveChat);
-            }
-
-            // Allow custom overrides on a per-page basis
-            if (domModifications) {
-                dom = domModifications(dom);
-            }
-
-            res.set('X-BLF-Legacy', true);
-            res.send(dom.serialize());
+            res.send(response.body);
         }
     });
 }
