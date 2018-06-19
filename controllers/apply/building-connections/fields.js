@@ -92,7 +92,7 @@ const currentWork = [
                 type: 'textarea',
                 rows: 14,
                 isRequired: true,
-                label: 'How is your current work is committed to helping to prevent or reduce loneliness?',
+                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
                 explanation: `<ul>
                     <li>What impact has your work made to date. If you've not worked in this area before describe how you plan to do so.</li>
                     <li>If applying for <strong>over £50,000</strong> tell us about some of the challenges you've faced delivering your work.</li>
