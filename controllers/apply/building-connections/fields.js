@@ -256,12 +256,14 @@ const organisationDetails = [
             {
                 type: 'text',
                 name: 'organisation-charity-number',
-                label: 'Registered charity number'
+                label: 'Registered charity number',
+                explanation: `If you're unsure, you can <a href="http://beta.charitycommission.gov.uk" target="_blank">look it up here</a>.`
             },
             {
                 type: 'text',
                 name: 'organisation-company-number',
-                label: 'Companies House number'
+                label: 'Companies House number',
+                explanation: `If you're unsure, you can <a href="https://beta.companieshouse.gov.uk" target="_blank">look it up here</a>.`
             }
         ]
     }
