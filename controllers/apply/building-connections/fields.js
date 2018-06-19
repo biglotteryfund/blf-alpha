@@ -1,6 +1,29 @@
 'use strict';
 const { check } = require('express-validator/check');
 
+const LENGTH_HINTS = {
+    ONE_LINER: {
+        rows: 3,
+        text: 'A single sentence.'
+    },
+    FEW_LINES: {
+        rows: 6,
+        text: 'A couple of sentences, no more than a paragraph.'
+    },
+    FEW_PARAS: {
+        rows: 12,
+        text: 'A few paragraphs, no more than three.'
+    },
+    MANY_PARAS: {
+        rows: 14,
+        text: 'At least three paragraphs.'
+    },
+    TOLSTOY: {
+        rows: 15,
+        text: 'At least five paragraphs'
+    }
+};
+
 // @TODO: Are these the same as Reaching Communities? Can we share then
 const PROJECT_LOCATIONS = [
     {
@@ -46,7 +69,7 @@ const yourIdea = [
             {
                 name: 'project-idea',
                 type: 'textarea',
-                rows: 15,
+                lengthHint: LENGTH_HINTS.TOLSTOY,
                 isRequired: true,
                 label: 'What is the project you would like funding for?',
                 explanation: `<ul>
@@ -90,7 +113,7 @@ const currentWork = [
             {
                 name: 'current-work',
                 type: 'textarea',
-                rows: 14,
+                lengthHint: LENGTH_HINTS.MANY_PARAS,
                 isRequired: true,
                 label: 'How is your current work committed to helping to prevent or reduce loneliness?',
                 explanation: `<ul>
@@ -109,7 +132,7 @@ const increasingImpact = [
             {
                 name: 'increasing-impact',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'How will this funding support your project to increase your impact?',
                 explanation: `<p>How will your project meet our Fund aims and objectives of:</p>
@@ -122,7 +145,7 @@ const increasingImpact = [
             {
                 name: 'increasing-impact-partners',
                 type: 'textarea',
-                rows: 3,
+                lengthHint: LENGTH_HINTS.ONE_LINER,
                 label: 'Are you working with any other partner organisations?',
                 explanation: `<p>
                     If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.
@@ -139,7 +162,7 @@ const projectActivities = [
             {
                 name: 'project-activities',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: "What are your project's key activities, outcomes, and milestones?",
                 explanation: `<ul>
@@ -165,7 +188,7 @@ const projectBudget = [
             {
                 name: 'project-budget-breakdown',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'What you would like to spend the money on and when you will need it?',
                 explanation: `<p>Please provide grant request costs (per year). Projects can be shorter than 2 years.</p><ul>
@@ -177,7 +200,7 @@ const projectBudget = [
             {
                 name: 'project-budget-future',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 label: 'How do you aim to make the impact of the project last beyond the period of funding?',
                 explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             }
@@ -192,7 +215,7 @@ const projectEvaluation = [
             {
                 name: 'project-evaluation',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label:
                     'How will your project help you to improve your learning and help understand more about the impact you are making?',
@@ -204,7 +227,7 @@ const projectEvaluation = [
             {
                 name: 'project-evaluation-future',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 label: 'How will you monitor and report impact and learning?',
                 explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             }

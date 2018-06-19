@@ -70,7 +70,7 @@
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        rows="{{ field.rows }}"
+        {% if field.lengthHint %}rows="{{ field.lengthHint.rows }}"{% elseif field.rows %}rows="{{ field.rows }}"{% endif %}
     >{{ field.value }}</textarea>
 {% endmacro %}
 
@@ -139,6 +139,11 @@
                 {% endif %}
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
+                    {% if field.lengthHint %}
+                        <small class="ff-length-hint">
+                            <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
+                        </small>
+                    {% endif %}
                 {% endif %}
                 {% if field.type === 'radio' %}
                     {{ inputRadio(field) }}

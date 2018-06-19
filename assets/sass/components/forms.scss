@@ -119,6 +119,14 @@
     color: #666;
 }
 
+.ff-length-hint {
+    font-size: 16px;
+    margin-top: .5em;
+    display: block;
+    font-style: italic;
+    color: palette('charcoal-note');
+}
+
 .ff-text,
 .ff-textarea {
     display: block;
