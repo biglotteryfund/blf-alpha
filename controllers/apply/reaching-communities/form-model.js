@@ -35,27 +35,24 @@ formModel.registerStep({
             `,
             fields: [
                 {
-                    type: 'textarea',
                     name: 'your-idea',
-                    label: 'Briefly explain your idea and why it’ll make a difference',
+                    type: 'textarea',
                     isRequired: true,
                     rows: 12,
+                    label: 'Briefly explain your idea and why it’ll make a difference',
+                    helpText: `<p>We support ideas that meet our three funding priorities. Show us how you plan to:</p>
+                    <ul>
+                        <li>bring people together and build strong relationships in and across communities
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+                    </ul>`,
                     validator: function(field) {
                         return check(field.name)
                             .trim()
                             .not()
                             .isEmpty()
                             .withMessage('Please tell us your idea');
-                    },
-                    helpText: `
-                        <p>We support ideas that meet our three funding priorities.</p>
-                        <p>Show us how you plan to:</p>
-                        <ul>
-                            <li>bring people together and build strong relationships in and across communities
-                            <li>improve the places and spaces that matter to communities</li>
-                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
-                        </ul>
-                    `
+                    }
                 }
             ]
         }

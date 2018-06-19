@@ -95,7 +95,10 @@
 
 {% macro inputCheckbox(field) %}
     <fieldset class="ff-checkbox">
-        <legend class="ff-label">{{ field.label }}</legend>
+        <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
+        {% if field.explanation %}
+            <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
+        {% endif %}
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
