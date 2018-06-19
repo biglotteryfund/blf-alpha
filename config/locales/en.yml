@@ -89,10 +89,10 @@ global:
     submit: Submit
     cancel: Cancel
     success: Thank you for sharing your feedback with us - we appreciate your time.
-    error: We're sorry, there was an error recording your response. Please try again.
+    error: We’re sorry, there was an error recording your response. Please try again.
   feedback:
     success: Thank you for sharing your feedback with us - we appreciate your time.
-    error: We're sorry, there was an error recording your response. Please try again.
+    error: We’re sorry, there was an error recording your response. Please try again.
 toplevel:
   home:
     title: Home
