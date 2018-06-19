@@ -55,12 +55,6 @@ formModel.registerStep({
                             <li>improve the places and spaces that matter to communities</li>
                             <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
                         </ul>
-                        <p>Through all of our funding in England we support ideas that:</p>
-                        <ul>
-                            <li>bring people together and build strong relationships in and across communities</li>
-                            <li>improve the places and spaces that matter to communities</li>
-                            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
-                        </ul>
                     `
                 }
             ]
