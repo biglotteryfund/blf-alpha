@@ -248,7 +248,7 @@
     clear: both;
 }
 .review-step__item-label,
-.review-step__item-value, {
+.review-step__item-value {
     float: left;
     border-top: 1px solid palette('soft-grey');
     padding: $spacingUnit / 2;
@@ -268,7 +268,7 @@
     width: 60%;
 }
 .review-step__item-label.is-stacked,
-.review-step__item-value.is-stacked, {
+.review-step__item-value.is-stacked {
     width: 100%;
     float: none;
 }
@@ -327,7 +327,7 @@
 /* =========================================================================
    Custom Form: Ebulletin
    ========================================================================= */
-// @TODO: can we define this a general modifier? Slim? Tinted?
+// @TODO: can we define this a general modifier? Slim? Tinted? Slim Shady?
 
 .form-ebulletin {
     .form-field {

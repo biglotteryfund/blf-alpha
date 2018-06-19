@@ -14,21 +14,21 @@
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
 
-                {{ formHeader(form.title, stepProgress) }}
+            {{ formHeader(form.title, stepProgress) }}
 
-                <h2>{{ stepConfig.title }}</h2>
+            <h2>{{ stepConfig.title }}</h2>
 
-                {% for step in summary %}
-                    <div class="review-step">
-                        <h3 class="review-step__title">
-                            {{ step.name }}
-                            <a class="review-step__edit" href="{{ baseUrl }}/{{ loop.index }}/edit"
-                                class="js-application-form-review-link"
-                                aria-label="Edit {{ step.name }}">
-                                Edit
-                            </a>
-                        </h3>
-                        {% for fieldset in step.fieldsets %}
+            {% for step in summary %}
+                <div class="review-step">
+                    <h3 class="review-step__title">
+                        {{ step.name }}
+                        <a class="review-step__edit js-application-form-review-link"
+                           href="{{ baseUrl }}/{{ loop.index }}/edit"
+                           aria-label="Edit {{ step.name }}">
+                            Edit
+                        </a>
+                    </h3>
+                    {% for fieldset in step.fieldsets %}
                         <dl class="review-step__list">
                             {% for field in fieldset.fields %}
                                 {% if field.value %}
@@ -64,10 +64,9 @@
                                 {% endif %}
                             {% endfor %}
                         </dl>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </section>
+                    {% endfor %}
+                </div>
+            {% endfor %}
 
             {% if csrfToken %}
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">

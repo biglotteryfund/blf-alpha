@@ -21,7 +21,7 @@ module.exports = function processor(form, formData) {
     /**
      * Determine which internal address to send to:
      * - If in test then send to primaryAddress
-     * - If multi-region, send to defailt/england-wide inbox
+     * - If multi-region, send to default/england-wide inbox
      * - Otherwise send to the matching inbox for the selected region
      */
     const internalAddress = (function() {

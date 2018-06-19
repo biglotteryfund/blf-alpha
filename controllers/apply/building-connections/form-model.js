@@ -5,7 +5,7 @@ const fields = require('./fields');
 
 const formModel = createFormModel({
     id: 'building-connections-fund',
-    title: 'Building Connections Fund ',
+    title: 'Building Connections Fund',
     shortCode: 'BCF'
 });
 
