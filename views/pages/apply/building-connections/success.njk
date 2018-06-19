@@ -1,3 +1,4 @@
+{% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/buttons.njk" import startButton %}
 
 {% extends "layouts/main.njk" %}
@@ -11,6 +12,7 @@
             <div class="s-prose u-constrained">
                 <div class="form-message">
                     <h1 class="t1 form-message__title">Thank you for submitting an application</h1>
+                    <p class="spaced--t">Your unique application ID is: <code>{{ form.uuid }}</code></p>
                 </div>
 
                 <h2 class="t2 t--underline accent--pink">What happens next?</h2>

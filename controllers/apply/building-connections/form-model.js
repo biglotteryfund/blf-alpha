@@ -50,11 +50,13 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your organisation',
+    internalOrder: 1,
     fieldsets: fields.organisationDetails
 });
 
 formModel.registerStep({
     name: 'Main contact',
+    internalOrder: 2,
     fieldsets: fields.mainContact
 });
 
