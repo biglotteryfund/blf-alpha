@@ -46,14 +46,18 @@
                         {% for fieldset in step.fieldsets %}
                             <div class="step-preview__fieldset">
                                 {% if fieldset.introduction  %}
-                                    <div class="step-preview__fieldset-intro">{{ fieldset.introduction | safe }}</div>
+                                    <div class="step-preview__fieldset-intro">
+                                        {{ fieldset.introduction | safe }}
+                                    </div>
                                 {% endif %}
                                 {% for field in fieldset.fields %}
                                     <div class="step-preview__field">
-                                        <p class="step-preview__field-label">{{ field.label }}</p>
-                                        {% if field.explanation %}
+                                        <p class="step-preview__field-label">
+                                            {{ field.label }}
+                                        </p>
+                                        {% if field.helpText %}
                                             <div class="step-preview__field-guidance">
-                                                {{ field.explanation | safe }}
+                                                {{ field.helpText | safe }}
                                             </div>
                                         {% endif %}
                                     </div>

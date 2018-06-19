@@ -24,35 +24,24 @@ const LENGTH_HINTS = {
     }
 };
 
-// @TODO: Are these the same as Reaching Communities? Can we share then
-const PROJECT_LOCATIONS = [
+
+const currentWork = [
     {
-        label: 'North East & Cumbria',
-        value: 'North East & Cumbria',
-        explanation: 'covering Newcastle, Cumbria and the north-east of England'
-    },
-    {
-        label: 'North West',
-        value: 'North West',
-        explanation: 'covering Greater Manchester, Lancashire, Cheshire and Merseyside'
-    },
-    {
-        label: 'Yorkshire and the Humber',
-        value: 'Yorkshire and the Humber',
-        explanation: 'covering Yorkshire, north and north-east Lincolnshire'
-    },
-    {
-        label: 'South West',
-        value: 'South West',
-        explanation: 'covering Exeter, Bristol and the south-west of England'
-    },
-    {
-        label: 'London, South East and East of England',
-        value: 'London and South East'
-    },
-    {
-        label: 'East and West Midlands',
-        value: 'Midlands'
+        legend: 'Your current work',
+        fields: [
+            {
+                name: 'current-work',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.MANY_PARAS,
+                isRequired: true,
+                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
+                helpText: `<ul>
+                    <li>What impact has your work made to date on tackling loneliness</li>
+                    <li>Why you are working on loneliness</li>
+                    <li>If applying for <strong>over £50,000</strong> Include areas of strengths and weaknesses.</li>
+                </ul>`
+            }
+        ]
     }
 ];
 
@@ -72,10 +61,42 @@ const yourIdea = [
                 lengthHint: LENGTH_HINTS.TOLSTOY,
                 isRequired: true,
                 label: 'What is the project you would like funding for?',
-                explanation: `<ul>
-                    <li>Describe the project you would like funding for, how you think it can help to reduce or prevent loneliness, and why it is needed in your area</li>
-                    <li>If applying for <strong>over £50,000</strong> please also tell us who will deliver the project and the experience they have</li>
+                helpText: `<ul>
+                    <li>Describe the project you would like funding for</li>
+                    <li>Tell us why it is needed in your area</li>
+                    <li>Describe who will deliver the project and the experience they have</li>
                 </ul>`
+            }
+        ]
+    }
+];
+
+const projectActivities = [
+    {
+        legend: 'Project activities, outcomes, and milestones',
+        fields: [
+            {
+                name: 'project-activities-outline',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                isRequired: true,
+                label: 'Briefly outline what your project is aiming to achieve'
+            },
+            {
+                name: 'project-activities-first-quarter',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                isRequired: true,
+                label: 'What will be achieved in the first quarter Jan—March 2019?'
+            },
+            {
+                name: 'project-activities-first-year',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                isRequired: true,
+                label: 'What will be achieved in the financial year 2019/20?',
+                explanation:
+                    'If your project finishes before the end of the 2020 financial year include up until the end of your project.'
             }
         ]
     }
@@ -83,14 +104,24 @@ const yourIdea = [
 
 const projectLocation = [
     {
-        legend: 'Where will your project take place?',
+        legend: 'Project location',
         fields: [
             {
                 name: 'location',
                 type: 'checkbox',
-                options: PROJECT_LOCATIONS,
+                options: [
+                    'North East',
+                    'North West',
+                    'Yorkshire and the Humber',
+                    'East Midlands',
+                    'West Midlands',
+                    'East of England',
+                    'Greater London',
+                    'South East',
+                    'South West'
+                ].map(_ => ({ label: _, value: _ })),
                 isRequired: true,
-                label: 'Project region',
+                label: 'What regions will your project cover?',
                 explanation: 'Select all regions that apply'
             },
             {
@@ -98,28 +129,9 @@ const projectLocation = [
                 type: 'text',
                 size: 60,
                 isRequired: true,
-                label: 'Project location',
+                label: 'Where will your project take place?',
                 explanation:
                     'In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.'
-            }
-        ]
-    }
-];
-
-const currentWork = [
-    {
-        legend: 'Current work',
-        fields: [
-            {
-                name: 'current-work',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.MANY_PARAS,
-                isRequired: true,
-                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
-                explanation: `<ul>
-                    <li>What impact has your work made to date. If you've not worked in this area before describe how you plan to do so.</li>
-                    <li>If applying for <strong>over £50,000</strong> tell us about some of the challenges you've faced delivering your work.</li>
-                </ul>`
             }
         ]
     }
@@ -135,74 +147,11 @@ const increasingImpact = [
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'How will this funding support your project to increase your impact?',
-                explanation: `<p>How will your project meet our Fund aims and objectives of:</p>
+                helpText: `<p>Describe how your project will meet our aims and objectives by either:</p>
                 <ul>
                     <li>scaling up work you are already doing</li>
-                    <li>changing some of your activities to have a focus on reducing or preventing loneliness</li>
-                    <li>by joining up with others in partnership</li>
-                <ul>`
-            },
-            {
-                name: 'increasing-impact-partners',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.ONE_LINER,
-                label: 'Are you working with any other partner organisations?',
-                explanation: `<p>
-                    If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.
-                </p>`
-            }
-        ]
-    }
-];
-
-const projectActivities = [
-    {
-        legend: 'Project activities',
-        fields: [
-            {
-                name: 'project-activities',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_PARAS,
-                isRequired: true,
-                label: "What are your project's key activities, outcomes, and milestones?",
-                explanation: `<ul>
-                    <li>Please break these up by each quarter e.g., Jan–Mar, Apr–Jun, Jul–Sept, Oct–Dec (bullet points are fine)</li>
-                    <li>How will you make sure that you will keep to milestones?</li>
+                    <li><strong>or</strong> joining up with others in partnership</li>
                 </ul>`
-            }
-        ]
-    }
-];
-
-const projectBudget = [
-    {
-        legend: 'Project budget',
-        fields: [
-            {
-                name: 'project-budget-total',
-                type: 'text',
-                isRequired: true,
-                label: 'How much grant funding are you applying for in total?',
-                explanation: '<p>We are offering between £30,000–£100,000 of grant funding until December 2020.</p>'
-            },
-            {
-                name: 'project-budget-breakdown',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_PARAS,
-                isRequired: true,
-                label: 'What you would like to spend the money on and when you will need it?',
-                explanation: `<p>Please provide grant request costs (per year). Projects can be shorter than 2 years.</p><ul>
-                    <li>Between Oct 2018–March 2019</li>
-                    <li>Between April 19–March 2020</li>
-                    <li>Between April 2020–December 2020</li>
-                </ul>`
-            },
-            {
-                name: 'project-budget-future',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'How do you aim to make the impact of the project last beyond the period of funding?',
-                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             }
         ]
     }
@@ -219,9 +168,9 @@ const projectEvaluation = [
                 isRequired: true,
                 label:
                     'How will your project help you to improve your learning and help understand more about the impact you are making?',
-                explanation: `<p>Please tell us:</p><ul>
-                    <li>why you want to add to the evidence and learning</li>
-                    <li>how you plan to investigate that your project has helped make an impact on reducing or preventing loneliness?</li>
+                helpText: `<ul>
+                    <li>Describe why you want to add to the evidence and learning</li>
+                    <li>Describe how you plan to investigate that your project has helped make an impact on reducing or preventing loneliness</li>
                 </ul>`
             },
             {
@@ -230,6 +179,49 @@ const projectEvaluation = [
                 lengthHint: LENGTH_HINTS.FEW_LINES,
                 label: 'How will you monitor and report impact and learning?',
                 explanation: 'Only answer if applying for <strong>over £50,000</strong>'
+            }
+        ]
+    }
+];
+
+const projectBudget = [
+    {
+        legend: 'Funding total',
+        fields: [
+            {
+                name: 'project-budget-total',
+                type: 'text',
+                isRequired: true,
+                label: 'How much grant funding are you applying for in total?',
+            }
+        ]
+    },
+    {
+        legend: 'Project budget',
+        introduction: `<p>
+            If your project runs for less than the full two years only fill
+            out the fields for the period your project will run until.
+        </p>`,
+        fields: [
+            {
+                name: 'project-budget-a',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                isRequired: true,
+                label: 'What do you plan to spend the money on for the period until March 2019?'
+            },
+            {
+                name: 'project-budget-b',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                label: 'How will you monitor and report impact and learning?',
+                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
+            },
+            {
+                name: 'project-budget-c',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                label: 'What do you plan to spend the money on for the period until March 2021?'
             }
         ]
     }
@@ -249,9 +241,6 @@ const organisationDetails = [
     },
     {
         legend: 'Organisation numbers',
-        introduction: `<p>
-            What is your registered charity number and/or Companies House number?
-        </p>`,
         fields: [
             {
                 type: 'text',
@@ -314,13 +303,13 @@ const mainContact = [
 ];
 
 module.exports = {
-    yourIdea,
-    projectLocation,
     currentWork,
     increasingImpact,
+    mainContact,
+    organisationDetails,
     projectActivities,
     projectBudget,
     projectEvaluation,
-    organisationDetails,
-    mainContact
+    projectLocation,
+    yourIdea
 };

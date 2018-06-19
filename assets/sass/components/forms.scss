@@ -71,7 +71,9 @@
     }
 }
 .form-field__help {
-    margin-top: $spacingUnit;
+    margin-top: $spacingUnit / 2;
+    font-size: 18px;
+    color: #4a4a4a;
 }
 .form-field__errors {
     margin-top: $spacingUnit / 3;
@@ -116,7 +118,7 @@
 .ff-explanation {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #666;
+    color: #4a4a4a;
 }
 
 .ff-length-hint {

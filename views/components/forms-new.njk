@@ -95,7 +95,10 @@
 
 {% macro inputCheckbox(field) %}
     <fieldset class="ff-checkbox">
-        <legend class="ff-label">{{ field.label }}</legend>
+        <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
+        {% if field.explanation %}
+            <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
+        {% endif %}
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
@@ -139,11 +142,6 @@
                 {% endif %}
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
-                    {% if field.lengthHint %}
-                        <small class="ff-length-hint">
-                            <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
-                        </small>
-                    {% endif %}
                 {% endif %}
                 {% if field.type === 'radio' %}
                     {{ inputRadio(field) }}
@@ -162,6 +160,11 @@
             <div class="form-field__help s-prose">
                 {{ field.helpText | safe }}
             </div>
+        {% endif %}
+        {% if field.lengthHint %}
+            <small class="ff-length-hint">
+                <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
+            </small>
         {% endif %}
     </div>
 {% endmacro %}

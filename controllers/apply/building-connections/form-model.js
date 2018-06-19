@@ -14,7 +14,7 @@ formModel.registerStartPage({
 });
 
 formModel.registerStep({
-    name: 'Current work',
+    name: 'Your current work',
     fieldsets: fields.currentWork
 });
 
@@ -24,12 +24,12 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your project activities',
+    name: 'Project activities, outcomes, and milestones',
     fieldsets: fields.projectActivities
 });
 
 formModel.registerStep({
-    name: 'Your project location',
+    name: 'Project location',
     fieldsets: fields.projectLocation
 });
 
