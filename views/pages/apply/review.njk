@@ -72,6 +72,12 @@
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {% endif %}
 
+            {% if stepConfig.declaration %}
+                <aside class="review-step__declaration">
+                    <h5>Declaration</h5>
+                    <p>{{ stepConfig.declaration }}</p>
+                </aside>
+            {% endif %}
             <input class="btn btn--next" type="submit" value="{{ stepConfig.proceedLabel }}" />
         </form>
     </main>

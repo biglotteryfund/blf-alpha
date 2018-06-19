@@ -60,6 +60,7 @@ formModel.registerStep({
 
 formModel.registerReviewStep({
     title: 'Check this is right before submitting your idea',
+    declaration: 'By submitting this form, you confirm that all of the above details are accurate and up-to-date.',
     proceedLabel: 'Submit'
 });
 
