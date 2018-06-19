@@ -9,23 +9,22 @@ const statuses = {
 };
 
 function init() {
+    const el = document.getElementById('js-survey');
+    if (!el) {
+        return;
+    }
+
     new Vue({
-        el: '#js-survey',
+        el: el,
         data: {
             statuses: statuses,
             status: statuses.NOT_ASKED,
-            lang: null,
+            lang: JSON.parse(el.getAttribute('data-lang')),
             response: {
                 choice: null,
                 message: null,
                 path: window.location.pathname
             }
-        },
-        created: function() {
-            const localePrefix = window.AppConfig.localePrefix;
-            $.get(`${localePrefix}/survey`).then(response => {
-                this.lang = response;
-            });
         },
         methods: {
             storeResponse(choice) {
