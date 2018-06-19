@@ -190,6 +190,36 @@
     padding: 1em 0;
 }
 
+/* =========================================================================
+   Start pages
+   ========================================================================= */
+
+.step-preview {
+    border-bottom: 1px solid palette('border');
+    padding: 12px 0;
+
+    .step-preview__title {
+        margin-bottom: 1em;
+    }
+
+    .step-preview__fieldset {
+        font-size: 18px;
+    }
+
+    .step-preview__field {
+        margin-bottom: 3px;
+    }
+    .step-preview__field-label {
+        font-weight: bold;
+    }
+    .step-preview__field-guidance {
+        color: #556;
+    }
+}
+
+/* =========================================================================
+   Review screens
+   ========================================================================= */
 
 .review-step {
     overflow: auto;

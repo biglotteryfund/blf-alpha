@@ -14,23 +14,13 @@ formModel.registerStartPage({
 });
 
 formModel.registerStep({
-    name: 'Your project idea',
-    fieldsets: fields.yourIdea
-});
-
-formModel.registerStep({
-    name: 'Your project location',
-    fieldsets: fields.projectLocation
-});
-
-formModel.registerStep({
     name: 'Current work',
     fieldsets: fields.currentWork
 });
 
 formModel.registerStep({
-    name: 'Increasing Impact',
-    fieldsets: fields.increasingImpact
+    name: 'Your project idea',
+    fieldsets: fields.yourIdea
 });
 
 formModel.registerStep({
@@ -39,13 +29,23 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Your project budget',
-    fieldsets: fields.projectBudget
+    name: 'Your project location',
+    fieldsets: fields.projectLocation
+});
+
+formModel.registerStep({
+    name: 'Increasing impact',
+    fieldsets: fields.increasingImpact
 });
 
 formModel.registerStep({
     name: 'Evaluation and impact',
     fieldsets: fields.projectEvaulation
+});
+
+formModel.registerStep({
+    name: 'Your project budget',
+    fieldsets: fields.projectBudget
 });
 
 formModel.registerStep({

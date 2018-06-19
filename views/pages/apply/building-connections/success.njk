@@ -10,9 +10,24 @@
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose u-constrained">
                 <div class="form-message">
-                    <h1 class="t1 form-message__title">Thank you</h1>
+                    <h1 class="t1 form-message__title">Thank you for submitting an application</h1>
                 </div>
-                <p>Thank you, all done.</p>
+
+                <h2 class="t2 t--underline accent--pink">What happens next?</h2>
+
+                <p>
+                    This information will be reviewed by a team of Big Lottery Fund staff
+                    which will decide whether the idea is something we can fund.
+                    If your idea is accepted, we'll ask you to submit a full proposal.
+                </p>
+
+                {% if appData.isNotProduction %}
+                    {{ inlineFeedback(
+                        description = form.title,
+                        promptLabel = "Can you spare a minute to give us some feedback?",
+                        fieldLabel = "How was your experience of submitting an application?"
+                    )  }}
+                {% endif %}
             </div>
         </div>
     </main>
