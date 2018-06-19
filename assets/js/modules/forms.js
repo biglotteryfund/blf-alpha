@@ -77,6 +77,20 @@ function handleAbandonmentMessage(formEl) {
     });
 }
 
+function toggleReviewAnswers() {
+    $('.js-toggle-answer').each(function() {
+        const $el = $(this);
+        const $toggle = $el.find('button');
+        const $toggleLabel = $toggle.find('.js-toggle-answer-label');
+        $toggle.on('click', function() {
+            $el.toggleClass('is-active');
+            const originalText = $toggleLabel.text();
+            $toggleLabel.text($toggleLabel.data('toggleLabel'));
+            $toggleLabel.data('toggleLabel', originalText);
+        });
+    });
+}
+
 function initApplicationForms() {
     /**
      * Global application form logic
@@ -99,6 +113,7 @@ function initApplicationForms() {
     const formReviewEl = document.querySelector('.js-application-form-review');
     if (formReviewEl) {
         handleAbandonmentMessage(formReviewEl);
+        toggleReviewAnswers();
     }
 }
 

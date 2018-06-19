@@ -71,6 +71,14 @@ $btnConf: (
     &[disabled='disabled'] {
         @include disabledBtn();
     }
+
+    // icon inside the button
+    .btn__icon {
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 1;
+        margin-right: 5px;
+    }
 }
 
 /**
@@ -147,14 +155,6 @@ $btnConf: (
         border-color: darken(palette('blue'), 20%);
         color: darken(palette('blue'), 20%) !important;
     }
-}
-
-// icon inside the button
-.btn__icon {
-    vertical-align: middle;
-    display: inline-block;
-    line-height: 1;
-    margin-right: 5px;
 }
 
 .btn--next {
@@ -237,6 +237,25 @@ $btnConf: (
 .btn--block-full {
     display: block;
     width: 100%;
+}
+
+/* =========================================================================
+   Start Button
+   ========================================================================= */
+/* Button container for service start buttons */
+
+/**
+ * Service start button
+ */
+ .start-button {
+    margin: $spacingUnit 0;
+
+    .btn .icon {
+        fill: currentColor;
+        width: 14px;
+        height: 14px;
+        margin-left: 2px;
+    }
 }
 
 /* =========================================================================

@@ -28,10 +28,12 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.get('.survey').as('survey');
-        cy.get('@survey')
+        cy
+            .get('@survey')
             .find('button:first-child')
             .click();
-        cy.get('@survey')
+        cy
+            .get('@survey')
             .find('p')
             .should('contain', 'Thank you');
 
@@ -41,13 +43,16 @@ describe('e2e', function() {
 
         cy.visit('/funding/past-grants');
         cy.get('#js-feedback').as('feedbackForm');
-        cy.get('@feedbackForm')
+        cy
+            .get('@feedbackForm')
             .find('summary')
             .click();
-        cy.get('@feedbackForm')
+        cy
+            .get('@feedbackForm')
             .find('textarea')
             .type('Test feedback');
-        cy.get('@feedbackForm')
+        cy
+            .get('@feedbackForm')
             .find('form')
             .submit();
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
@@ -69,7 +74,8 @@ describe('e2e', function() {
         cy.get('.qa-global-nav .qa-lang-switcher').as('langSwitcher');
         cy.get('@langSwitcher').click();
         cy.checkMetaTitles('Hafan | Cronfa Loteri Fawr');
-        cy.get('.qa-global-nav .qa-nav-link a')
+        cy
+            .get('.qa-global-nav .qa-nav-link a')
             .first()
             .should('have.text', 'Hafan');
         cy.get('@langSwitcher').click();
@@ -92,7 +98,8 @@ describe('e2e', function() {
         // Step: Navigate to funding programme
         // ================================================ //
 
-        cy.get('.qa-programme-card')
+        cy
+            .get('.qa-programme-card')
             .contains('Reaching Communities')
             .click();
         cy.checkActiveSection('funding');
@@ -102,7 +109,8 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.get('.js-tabset .js-tab').each($el => {
-            cy.wrap($el)
+            cy
+                .wrap($el)
                 .click()
                 .should('have.class', 'tab--active');
 
@@ -114,7 +122,7 @@ describe('e2e', function() {
         });
     });
 
-    it('should submit a reachin communities application form', () => {
+    it('should submit a reaching communities application form', () => {
         const submitSelector = '.js-application-form input[type="submit"]';
         cy.visit('/apply/your-idea');
 
@@ -122,7 +130,17 @@ describe('e2e', function() {
         cy.get('.start-button .btn').click();
 
         // Step 1
-        cy.get('#field-your-idea').type('This is a test idea');
+        cy.get('#field-your-idea').type(
+            `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Itaque minus illum error consequatur? Ea in quas dolores,
+            nesciunt est doloribus voluptates adipisci ullam numquam
+            sequi rerum delectus quae voluptatibus soluta commodi cumque.
+            Voluptates magnam aliquid asperiores laudantium tenetur, nulla
+            ipsum sequi nobis illum eveniet nostrum delectus quisquam
+            inventore totam tempore voluptatem fugit mollitia itaque!`.replace(/\s{2,}/g, ' '),
+            { delay: 0 }
+        );
+
         cy.get(submitSelector).click();
 
         // Step 2
@@ -136,13 +154,24 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 4
-        cy.get('#field-first-name').type('Anne');
-        cy.get('#field-last-name').type('Example');
-        cy.get('#field-email').type('example@example.com');
-        cy.get('#field-phone-number').type('0123456789');
+        cy.get('#field-first-name').type('Anne', { delay: 0 });
+        cy.get('#field-last-name').type('Example', { delay: 0 });
+        cy.get('#field-email').type('example@example.com', { delay: 0 });
+        cy.get('#field-phone-number').type('0123456789', { delay: 0 });
         cy.get(submitSelector).click();
 
-        // Review
+        // Review, toggle answer
+        cy.get('.js-toggle-answer').as('toggleAnswer');
+        cy
+            .get('@toggleAnswer')
+            .find('button')
+            .click();
+        cy.get('@toggleAnswer').should('have.class', 'is-active');
+        cy
+            .get('@toggleAnswer')
+            .find('button')
+            .should('contain', 'Show less')
+            .click();
         cy.get(submitSelector).click();
 
         // Success
@@ -217,18 +246,22 @@ describe('e2e', function() {
         cy.get('#qa-material-monolingual-2').as('materialA');
         cy.get('#qa-material-monolingual-3').as('materialB');
 
-        cy.get('@materialA')
+        cy
+            .get('@materialA')
             .find('button[value="increase"]')
             .click();
-        cy.get('@materialA')
+        cy
+            .get('@materialA')
             .find('.step-control__quantity')
             .should('contain', 1);
 
-        cy.get('@materialB')
+        cy
+            .get('@materialB')
             .find('button[value="increase"]')
             .click()
             .click();
-        cy.get('@materialB')
+        cy
+            .get('@materialB')
             .find('.step-control__quantity')
             .should('contain', 2);
 
