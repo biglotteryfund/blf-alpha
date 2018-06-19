@@ -55,7 +55,7 @@ const PromptWrapper = {
         }
     },
     template: `
-<aside role="complementary" class="prompt" v-bind:class="{ 'is-shown': isShown }">
+<aside role="complementary" class="prompt u-dont-print" v-bind:class="{ 'is-shown': isShown }">
     <div class="prompt__body">
         <div class="prompt__content">
             <slot></slot>
