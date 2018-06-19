@@ -168,7 +168,7 @@ const projectBudget = [
                 rows: 12,
                 isRequired: true,
                 label: 'What you would like to spend the money on and when you will need it?',
-                explanation: `<p>Please provide grant request costs (per year). Projects can be shorter than 2 years.<p><ul>
+                explanation: `<p>Please provide grant request costs (per year). Projects can be shorter than 2 years.</p><ul>
                     <li>Between Oct 2018–March 2019</li>
                     <li>Between April 19–March 2020</li>
                     <li>Between April 2020–December 2020</li>
@@ -185,7 +185,7 @@ const projectBudget = [
     }
 ];
 
-const projectEvaulation = [
+const projectEvaluation = [
     {
         legend: 'Project evaluation',
         fields: [
@@ -196,7 +196,7 @@ const projectEvaulation = [
                 isRequired: true,
                 label:
                     'How will your project help you to improve your learning and help understand more about the impact you are making?',
-                explanation: `<p>Please tell us:<p><ul>
+                explanation: `<p>Please tell us:</p><ul>
                     <li>why you want to add to the evidence and learning</li>
                     <li>how you plan to investigate that your project has helped make an impact on reducing or preventing loneliness?</li>
                 </ul>`
@@ -295,7 +295,7 @@ module.exports = {
     increasingImpact,
     projectActivities,
     projectBudget,
-    projectEvaulation,
+    projectEvaluation,
     organisationDetails,
     mainContact
 };

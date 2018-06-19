@@ -40,7 +40,7 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Evaluation and impact',
-    fieldsets: fields.projectEvaulation
+    fieldsets: fields.projectEvaluation
 });
 
 formModel.registerStep({
