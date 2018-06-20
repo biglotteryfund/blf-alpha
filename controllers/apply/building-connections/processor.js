@@ -1,7 +1,9 @@
 'use strict';
 const { pick } = require('lodash/fp');
-const mail = require('../../../modules/mail');
+const shortid = require('shortid');
+
 const { Application } = require('../../../models');
+const mail = require('../../../modules/mail');
 
 function formatDataForStorage(stepsWithValues) {
     const picks = {
@@ -28,7 +30,7 @@ module.exports = async function processor(formModel, formData) {
     const dataToStore = formatDataForStorage(stepsWithValues);
 
     return Application.create({
-        reference_id: formData.referenceId,
+        reference_id: `${formModel.shortCode}-${shortid()}`,
         application_data: dataToStore
     }).then(record => {
         const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
