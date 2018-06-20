@@ -24,7 +24,6 @@ const LENGTH_HINTS = {
     }
 };
 
-
 const currentWork = [
     {
         legend: 'Your current work',
@@ -192,7 +191,7 @@ const projectBudget = [
                 name: 'project-budget-total',
                 type: 'text',
                 isRequired: true,
-                label: 'How much grant funding are you applying for in total?',
+                label: 'How much grant funding are you applying for in total?'
             }
         ]
     },
@@ -214,7 +213,7 @@ const projectBudget = [
                 name: 'project-budget-b',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'How will you monitor and report impact and learning?',
+                label: 'What do you plan to spend the money on for the period until March 2020?',
                 explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             },
             {
