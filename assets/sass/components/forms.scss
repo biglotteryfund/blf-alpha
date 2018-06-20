@@ -123,7 +123,6 @@
 
 .ff-length-hint {
     font-size: 16px;
-    margin-top: .5em;
     display: block;
     font-style: italic;
     color: palette('charcoal-note');
@@ -217,13 +216,15 @@
     }
 
     .step-preview__field {
-        margin-bottom: 3px;
+        margin-bottom: $spacingUnit;
     }
     .step-preview__field-label {
         font-weight: bold;
+        margin: 0;
     }
     .step-preview__field-guidance {
         color: #556;
+        margin-top: 3px;
     }
 }
 

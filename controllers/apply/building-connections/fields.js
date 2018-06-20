@@ -7,15 +7,15 @@ const LENGTH_HINTS = {
         text: 'A single sentence.'
     },
     FEW_LINES: {
-        rows: 6,
+        rows: 5,
         text: 'A couple of sentences, no more than a paragraph.'
     },
     FEW_PARAS: {
-        rows: 12,
+        rows: 10,
         text: 'A few paragraphs, no more than three.'
     },
     MANY_PARAS: {
-        rows: 14,
+        rows: 12,
         text: 'At least three paragraphs.'
     },
     TOLSTOY: {
@@ -23,7 +23,6 @@ const LENGTH_HINTS = {
         text: 'At least five paragraphs'
     }
 };
-
 
 const currentWork = [
     {
@@ -192,7 +191,7 @@ const projectBudget = [
                 name: 'project-budget-total',
                 type: 'text',
                 isRequired: true,
-                label: 'How much grant funding are you applying for in total?',
+                label: 'How much grant funding are you applying for in total?'
             }
         ]
     },
@@ -214,14 +213,13 @@ const projectBudget = [
                 name: 'project-budget-b',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'How will you monitor and report impact and learning?',
-                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
+                label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
                 name: 'project-budget-c',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'What do you plan to spend the money on for the period until March 2021?'
+                label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
             }
         ]
     }
