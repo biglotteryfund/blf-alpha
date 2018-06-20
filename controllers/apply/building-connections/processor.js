@@ -1,8 +1,6 @@
 'use strict';
 const { pick } = require('lodash/fp');
-const shortid = require('shortid');
-
-const { Application } = require('../../../models');
+const applicationService = require('../../../services/applications');
 const mail = require('../../../modules/mail');
 
 function formatDataForStorage(stepsWithValues) {
@@ -27,43 +25,41 @@ module.exports = async function processor(formModel, formData) {
     const flatData = formModel.getStepValuesFlattened(formData);
     const stepsWithValues = formModel.getStepsWithValues(formData);
 
-    const dataToStore = formatDataForStorage(stepsWithValues);
-
-    return Application.create({
-        reference_id: `${formModel.shortCode}-${shortid()}`,
-        application_data: dataToStore
-    }).then(record => {
-        const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-        // @TODO determine an internal email address to send to for production environments
-        const internalAddress = primaryAddress;
-
-        const mailConfig = [
-            {
-                name: 'building_connections_customer',
-                sendTo: primaryAddress,
-                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-                templateName: 'emails/applicationSummary',
-                templateData: {
-                    referenceId: record.reference_id,
-                    summary: stepsWithValues,
-                    form: formModel
-                }
-            },
-            {
-                name: 'building_connections_internal',
-                sendTo: internalAddress,
-                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-                subject: `New Building Connections Fund application: ${record.reference_id}`,
-                templateName: 'emails/applicationSummaryInternal',
-                templateData: {
-                    referenceId: record.reference_id,
-                    summary: formModel.orderStepsForInternalUse(stepsWithValues),
-                    form: formModel
-                }
-            }
-        ];
-
-        return mail.generateAndSend(mailConfig);
+    const record = await applicationService.storeApplication({
+        shortCode: formModel.shortCode,
+        applicationData: formatDataForStorage(stepsWithValues)
     });
+
+    const primaryAddress = flatData['email'];
+    // @TODO determine an internal email address to send to for production environments
+    const internalAddress = primaryAddress;
+
+    const mailConfig = [
+        {
+            name: 'building_connections_customer',
+            sendTo: primaryAddress,
+            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+            templateName: 'emails/applicationSummary',
+            templateData: {
+                referenceId: record.reference_id,
+                summary: stepsWithValues,
+                form: formModel
+            }
+        },
+        {
+            name: 'building_connections_internal',
+            sendTo: internalAddress,
+            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+            subject: `New Building Connections Fund application: ${record.reference_id}`,
+            templateName: 'emails/applicationSummaryInternal',
+            templateData: {
+                referenceId: record.reference_id,
+                summary: formModel.orderStepsForInternalUse(stepsWithValues),
+                form: formModel
+            }
+        }
+    ];
+
+    return mail.generateAndSend(mailConfig);
 };
