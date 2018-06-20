@@ -121,6 +121,14 @@
     color: #4a4a4a;
 }
 
+.ff-length-hint {
+    font-size: 16px;
+    margin-top: .5em;
+    display: block;
+    font-style: italic;
+    color: palette('charcoal-note');
+}
+
 .ff-text,
 .ff-textarea {
     display: block;
@@ -242,7 +250,7 @@
     clear: both;
 }
 .review-step__item-label,
-.review-step__item-value, {
+.review-step__item-value {
     float: left;
     border-top: 1px solid palette('soft-grey');
     padding: $spacingUnit / 2;
@@ -262,7 +270,7 @@
     width: 60%;
 }
 .review-step__item-label.is-stacked,
-.review-step__item-value.is-stacked, {
+.review-step__item-value.is-stacked {
     width: 100%;
     float: none;
 }
@@ -317,11 +325,19 @@
 .review-step__answer-preview.is-active {
     .review-step__answer-more button .icon { transform: rotate(180deg); }
 }
+.review-step__declaration {
+    margin: 1em 0;
+    padding: 10px;
+
+    p {
+        font-size: 16px;
+    }
+}
 
 /* =========================================================================
    Custom Form: Ebulletin
    ========================================================================= */
-// @TODO: can we define this a general modifier? Slim? Tinted?
+// @TODO: can we define this a general modifier? Slim? Tinted? Slim Shady?
 
 .form-ebulletin {
     .form-field {

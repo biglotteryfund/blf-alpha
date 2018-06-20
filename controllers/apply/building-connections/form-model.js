@@ -5,7 +5,7 @@ const fields = require('./fields');
 
 const formModel = createFormModel({
     id: 'building-connections-fund',
-    title: 'Building Connections Fund ',
+    title: 'Building Connections Fund',
     shortCode: 'BCF'
 });
 
@@ -50,16 +50,19 @@ formModel.registerStep({
 
 formModel.registerStep({
     name: 'Your organisation',
+    internalOrder: 1,
     fieldsets: fields.organisationDetails
 });
 
 formModel.registerStep({
     name: 'Main contact',
+    internalOrder: 2,
     fieldsets: fields.mainContact
 });
 
 formModel.registerReviewStep({
     title: 'Check this is right before submitting your idea',
+    declaration: 'By submitting this form, you confirm that all of the above details are accurate and up-to-date.',
     proceedLabel: 'Submit'
 });
 

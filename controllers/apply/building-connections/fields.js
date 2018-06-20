@@ -1,6 +1,30 @@
 'use strict';
 const { check } = require('express-validator/check');
 
+const LENGTH_HINTS = {
+    ONE_LINER: {
+        rows: 3,
+        text: 'A single sentence.'
+    },
+    FEW_LINES: {
+        rows: 6,
+        text: 'A couple of sentences, no more than a paragraph.'
+    },
+    FEW_PARAS: {
+        rows: 12,
+        text: 'A few paragraphs, no more than three.'
+    },
+    MANY_PARAS: {
+        rows: 14,
+        text: 'At least three paragraphs.'
+    },
+    TOLSTOY: {
+        rows: 15,
+        text: 'At least five paragraphs'
+    }
+};
+
+
 const currentWork = [
     {
         legend: 'Your current work',
@@ -8,7 +32,7 @@ const currentWork = [
             {
                 name: 'current-work',
                 type: 'textarea',
-                rows: 14,
+                lengthHint: LENGTH_HINTS.MANY_PARAS,
                 isRequired: true,
                 label: 'How is your current work committed to helping to prevent or reduce loneliness?',
                 helpText: `<ul>
@@ -34,7 +58,7 @@ const yourIdea = [
             {
                 name: 'project-idea',
                 type: 'textarea',
-                rows: 15,
+                lengthHint: LENGTH_HINTS.TOLSTOY,
                 isRequired: true,
                 label: 'What is the project you would like funding for?',
                 helpText: `<ul>
@@ -54,21 +78,21 @@ const projectActivities = [
             {
                 name: 'project-activities-outline',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 isRequired: true,
                 label: 'Briefly outline what your project is aiming to achieve'
             },
             {
                 name: 'project-activities-first-quarter',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 isRequired: true,
                 label: 'What will be achieved in the first quarter Jan—March 2019?'
             },
             {
                 name: 'project-activities-first-year',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 isRequired: true,
                 label: 'What will be achieved in the financial year 2019/20?',
                 explanation:
@@ -120,7 +144,7 @@ const increasingImpact = [
             {
                 name: 'increasing-impact',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'How will this funding support your project to increase your impact?',
                 helpText: `<p>Describe how your project will meet our aims and objectives by either:</p>
@@ -140,7 +164,7 @@ const projectEvaluation = [
             {
                 name: 'project-evaluation',
                 type: 'textarea',
-                rows: 12,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label:
                     'How will your project help you to improve your learning and help understand more about the impact you are making?',
@@ -152,7 +176,7 @@ const projectEvaluation = [
             {
                 name: 'project-evaluation-future',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 label: 'How will you monitor and report impact and learning?',
                 explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             }
@@ -169,7 +193,6 @@ const projectBudget = [
                 type: 'text',
                 isRequired: true,
                 label: 'How much grant funding are you applying for in total?',
-                explanation: '<p>We are offering between £30,000–£100,000 of grant funding.</p>'
             }
         ]
     },
@@ -183,20 +206,21 @@ const projectBudget = [
             {
                 name: 'project-budget-a',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?'
             },
             {
                 name: 'project-budget-b',
                 type: 'textarea',
-                rows: 6,
-                label: 'What do you plan to spend the money on for the period until March 2020?'
+                lengthHint: LENGTH_HINTS.FEW_LINES,
+                label: 'How will you monitor and report impact and learning?',
+                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             },
             {
                 name: 'project-budget-c',
                 type: 'textarea',
-                rows: 6,
+                lengthHint: LENGTH_HINTS.FEW_LINES,
                 label: 'What do you plan to spend the money on for the period until March 2021?'
             }
         ]
@@ -221,12 +245,14 @@ const organisationDetails = [
             {
                 type: 'text',
                 name: 'organisation-charity-number',
-                label: 'Registered charity number'
+                label: 'Registered charity number',
+                explanation: `If you're unsure, you can <a href="http://beta.charitycommission.gov.uk" target="_blank">look it up here</a>.`
             },
             {
                 type: 'text',
                 name: 'organisation-company-number',
-                label: 'Companies House number'
+                label: 'Companies House number',
+                explanation: `If you're unsure, you can <a href="https://beta.companieshouse.gov.uk" target="_blank">look it up here</a>.`
             }
         ]
     }
