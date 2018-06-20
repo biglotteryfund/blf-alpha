@@ -213,14 +213,13 @@ const projectBudget = [
                 name: 'project-budget-b',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'What do you plan to spend the money on for the period until March 2020?',
-                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
+                label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
                 name: 'project-budget-c',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'What do you plan to spend the money on for the period until March 2021?'
+                label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
             }
         ]
     }
