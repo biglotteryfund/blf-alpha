@@ -1,11 +1,19 @@
 'use strict';
 const { Op } = require('sequelize');
-const { minBy, maxBy, partition, sumBy, countBy, sortBy } = require('lodash');
+const { minBy, maxBy, partition, countBy, sortBy } = require('lodash');
 const moment = require('moment');
 
 const { SurveyResponse, SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
-const contentApi = require('./content-api');
+
+// Legacy method. @TODO: Migrate or move me
+function findAllLegacyRepsones() {
+    return SurveyResponse.findAll({
+        order: [['updatedAt', 'DESC']]
+    }).then(responses => {
+        return responses.filter(response => response.message !== null);
+    });
+}
 
 function summariseVotes(responses) {
     if (responses.length === 0) {
@@ -39,61 +47,6 @@ function summariseVotes(responses) {
     }
 
     return voteData;
-}
-
-// Legacy method
-function findAll() {
-    // fetch all surveys (expired and live) from API
-    const getSurveys = contentApi.getSurveys({
-        showAll: true
-    });
-
-    // get user responses from the database
-    const getResponses = SurveyResponse.findAll({
-        order: [['updatedAt', 'DESC']]
-    });
-
-    // combine the votes with the choices
-    return Promise.all([getSurveys, getResponses]).then(responses => {
-        const [surveys, votes] = responses;
-        const mergedSurveys = surveys.map(survey => {
-            // append responses to the relevant choice
-            survey.choices = survey.choices.map(choice => {
-                let surveyVotes = votes.filter(v => v.survey_id === survey.id);
-
-                // retrieve the votes for this survey's choices
-                choice.responses = surveyVotes.filter(v => v.choice_id === choice.id);
-
-                choice.voteData = summariseVotes(choice.responses);
-
-                return choice;
-            });
-
-            // work out the winning choice
-            const voteTotals = survey.choices.map(choice => {
-                return {
-                    title: choice.title,
-                    votes: choice.responses.length
-                };
-            });
-
-            // find out the winner's percentage
-            const winner = maxBy(voteTotals, 'votes');
-            const totalResponses = sumBy(voteTotals, 'votes');
-            const winnerPercentage = Math.round(winner.votes / totalResponses * 100);
-
-            survey.winner = {
-                title: winner.title,
-                percentage: winnerPercentage || 0
-            };
-
-            survey.totalResponses = totalResponses;
-
-            return survey;
-        });
-
-        return mergedSurveys.filter(s => s.totalResponses > 0);
-    });
 }
 
 async function getAllResponses({ path = null }) {
@@ -142,7 +95,7 @@ function createResponse(response) {
 }
 
 module.exports = {
-    findAll,
+    createResponse,
     getAllResponses,
-    createResponse
+    findAllLegacyRepsones
 };
