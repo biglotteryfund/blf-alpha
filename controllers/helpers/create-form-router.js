@@ -134,7 +134,7 @@ function createFormRouter({ router, formModel }) {
                 });
             }
         })
-        .post(function(req, res) {
+        .post(async function(req, res) {
             const formData = getFormSession(req);
             const successStep = formModel.getSuccessStep();
             const errorStep = formModel.getErrorStep();
@@ -142,19 +142,17 @@ function createFormRouter({ router, formModel }) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                successStep
-                    .processor(formModel, formData)
-                    .then(() => {
-                        res.redirect(`${req.baseUrl}/success`);
-                    })
-                    .catch(err => {
-                        Raven.captureException(err);
-                        res.render('pages/apply/error', {
-                            form: formModel,
-                            stepConfig: errorStep,
-                            returnUrl: `${req.baseUrl}/review`
-                        });
+                try {
+                    await successStep.processor(formModel, formData);
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    res.render('pages/apply/error', {
+                        form: formModel,
+                        stepConfig: errorStep,
+                        returnUrl: `${req.baseUrl}/review`
                     });
+                }
             }
         });
 

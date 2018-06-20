@@ -10,8 +10,8 @@
             <img src="https://{{ appData.config.get('siteDomain') }}{{ 'logos/logo.png' | getImagePath }}" alt="Big Lottery Fund logo" />
         </div>
 
-        <p>Dear {{ data['first-name'] }},</p>
         <p>Thank you for getting in touch with us.</p>
+
         <p>You will see a copy of the information you submitted below. This will be forwarded to one of our funding officers who will get in touch within fifteen working days to let you know if we can help.</p>
         <p>In the meantime, you can find out more about our funding and how we can support your community on our website: <a href="https://www.biglotteryfund.org.uk/england">www.biglotteryfund.org.uk/england</a></p>
         <p>Thanks,</p>
@@ -35,6 +35,10 @@
                 {% endfor %}
             {% endfor %}
         {% endfor %}
+
+        {% if referenceId %}
+            <p>Your reference ID is <strong>{{ referenceId }}<strong></p>
+        {% endif %}
 
         <h5 class="space-above">Data protection</h5>
         <small>The Big Lottery Fund is a public body with a duty to distribute National Lottery and other money in grants for good causes. We use the personal data you provide, such as contact details for individuals at your organisation, to help you apply for a grant and to assess your application.</small>

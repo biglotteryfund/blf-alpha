@@ -1,5 +1,4 @@
 'use strict';
-const shortid = require('shortid');
 const { find, flatMap, has, get, sortBy, groupBy } = require('lodash');
 const { check } = require('express-validator/check');
 
@@ -99,7 +98,7 @@ function createFormModel({ id, title, shortCode }) {
     return {
         id: id,
         title: title,
-        uuid: `${shortCode}-${shortid()}`,
+        shortCode: shortCode,
         getSessionProp: function(stepNo) {
             const baseProp = `form.${id}`;
             if (stepNo) {
