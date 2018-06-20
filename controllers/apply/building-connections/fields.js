@@ -7,15 +7,15 @@ const LENGTH_HINTS = {
         text: 'A single sentence.'
     },
     FEW_LINES: {
-        rows: 6,
+        rows: 5,
         text: 'A couple of sentences, no more than a paragraph.'
     },
     FEW_PARAS: {
-        rows: 12,
+        rows: 10,
         text: 'A few paragraphs, no more than three.'
     },
     MANY_PARAS: {
-        rows: 14,
+        rows: 12,
         text: 'At least three paragraphs.'
     },
     TOLSTOY: {
