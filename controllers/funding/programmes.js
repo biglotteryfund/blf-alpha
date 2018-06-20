@@ -1,5 +1,5 @@
 'use strict';
-const { includes, map } = require('lodash');
+const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
 const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
