@@ -45,8 +45,7 @@ module.exports = [
         output: {
             filename: '[name].js',
             chunkFilename: '[name].bundle.js',
-            path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts'),
-            publicPath: `${buildSummary.publicDir}/javascripts/`
+            path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts')
         },
         devtool: buildSummary.isProduction ? 'source-map' : 'eval-source-map',
         resolve: {

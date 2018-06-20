@@ -1,3 +1,11 @@
+const scripts = document.getElementsByTagName('script');
+const currentScript = scripts[scripts.length - 1];
+const scriptDomain = currentScript.src
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+__webpack_public_path__ = `${scriptDomain}/`; // eslint-disable-line
+
 import raven from './bootstraps/raven';
 import common from './bootstraps/common';
 import { featureIsEnabled } from './helpers/features';
