@@ -7,7 +7,7 @@ const { SurveyResponse, SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
 
 // Legacy method. @TODO: Migrate or move me
-function findAllLegacyRepsones() {
+function findAllLegacyResponses() {
     return SurveyResponse.findAll({
         order: [['updatedAt', 'DESC']]
     }).then(responses => {
@@ -97,5 +97,5 @@ function createResponse(response) {
 module.exports = {
     createResponse,
     getAllResponses,
-    findAllLegacyRepsones
+    findAllLegacyResponses
 };

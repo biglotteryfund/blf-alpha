@@ -66,7 +66,7 @@ router.route('/survey-results').get(async (req, res, next) => {
             path: pathQuery
         });
 
-        const legacyResponses = await surveysService.findAllLegacyRepsones();
+        const legacyResponses = await surveysService.findAllLegacyResponses();
 
         res.render('tools/survey', {
             survey,
