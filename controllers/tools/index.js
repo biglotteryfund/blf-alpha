@@ -61,19 +61,18 @@ router.route('/feedback-results').get(async (req, res, next) => {
 router.route('/survey-results').get(async (req, res, next) => {
     try {
         const pathQuery = req.query.path;
+
         const survey = await surveysService.getAllResponses({
             path: pathQuery
         });
-        res.render('tools/survey', { survey, pathQuery });
-    } catch (error) {
-        next(error);
-    }
-});
 
-router.route('/survey-results-original').get(async (req, res, next) => {
-    try {
-        const surveys = await surveysService.findAll();
-        res.render('tools/surveys', { surveys });
+        const legacyResponses = await surveysService.findAllLegacyResponses();
+
+        res.render('tools/survey', {
+            survey,
+            pathQuery,
+            legacyResponses
+        });
     } catch (error) {
         next(error);
     }

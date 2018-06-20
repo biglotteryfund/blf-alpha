@@ -192,21 +192,6 @@ function getProfiles({ locale, section }) {
     });
 }
 
-function getSurveys({ locale = 'en', showAll = false }) {
-    let params = {};
-    if (showAll) {
-        params.all = 'true';
-    }
-
-    return fetch(`/v1/${locale}/surveys`, { qs: params }).then(response => {
-        return response.data.map(item => {
-            let data = item.attributes;
-            data.id = parseInt(item.id);
-            return data;
-        });
-    });
-}
-
 function getStatBlocks(locale) {
     return fetch(`/v1/${locale}/stat-blocks`).then(mapAttrs);
 }
@@ -252,6 +237,5 @@ module.exports = {
     getPromotedNews,
     getRoutes,
     getStatBlocks,
-    getStatRegions,
-    getSurveys
+    getStatRegions
 };
