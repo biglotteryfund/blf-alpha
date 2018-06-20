@@ -1,5 +1,6 @@
 'use strict';
 const Raven = require('raven');
+const shortid = require('shortid');
 const { get, isEmpty, set, unset } = require('lodash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
@@ -134,7 +135,12 @@ function createFormRouter({ router, formModel }) {
                 });
             }
         })
-        .post(function(req, res) {
+        .post(async function(req, res) {
+            const sessionProp = formModel.getSessionProp();
+
+            // Create a reference ID for the submission
+            set(req.session, `${sessionProp}.referenceId`, `${formModel.shortCode}-${shortid()}`);
+
             const formData = getFormSession(req);
             const successStep = formModel.getSuccessStep();
             const errorStep = formModel.getErrorStep();
@@ -142,19 +148,17 @@ function createFormRouter({ router, formModel }) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                successStep
-                    .processor(formModel, formData)
-                    .then(() => {
-                        res.redirect(`${req.baseUrl}/success`);
-                    })
-                    .catch(err => {
-                        Raven.captureException(err);
-                        res.render('pages/apply/error', {
-                            form: formModel,
-                            stepConfig: errorStep,
-                            returnUrl: `${req.baseUrl}/review`
-                        });
+                try {
+                    await successStep.processor(formModel, formData);
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    res.render('pages/apply/error', {
+                        form: formModel,
+                        stepConfig: errorStep,
+                        returnUrl: `${req.baseUrl}/review`
                     });
+                }
             }
         });
 
@@ -163,6 +167,7 @@ function createFormRouter({ router, formModel }) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
+        const referenceId = formData.referenceId;
         const successStep = formModel.getSuccessStep();
 
         if (isEmpty(formData)) {
@@ -172,6 +177,7 @@ function createFormRouter({ router, formModel }) {
             unset(req.session, formModel.getSessionProp());
             req.session.save(() => {
                 res.render(successStep.template, {
+                    referenceId,
                     form: formModel,
                     stepConfig: successStep
                 });

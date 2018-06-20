@@ -1,45 +1,67 @@
 'use strict';
+const { pick } = require('lodash/fp');
 const mail = require('../../../modules/mail');
+const { Application } = require('../../../models');
 
-module.exports = function processor(formModel, formData) {
+function formatDataForStorage(stepsWithValues) {
+    const picks = {
+        step: pick(['name', 'fieldsets']),
+        fieldset: pick(['legend', 'fields']),
+        field: pick(['label', 'name', 'value'])
+    };
 
+    return stepsWithValues.map(originalStep => {
+        const step = picks.step(originalStep);
+        step.fieldsets = step.fieldsets.map(originalFieldset => {
+            const fieldset = picks.fieldset(originalFieldset);
+            fieldset.fields = fieldset.fields.map(picks.field);
+            return fieldset;
+        });
+        return step;
+    });
+}
+
+module.exports = async function processor(formModel, formData) {
     const flatData = formModel.getStepValuesFlattened(formData);
-    const summary = formModel.getStepsWithValues(formData);
+    const stepsWithValues = formModel.getStepsWithValues(formData);
 
-    /**
-     * Construct a primary address (i.e. customer email)
-     */
-    const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-    const organisationName = `${flatData['organisation-name']}`;
+    const dataToStore = formatDataForStorage(stepsWithValues);
 
-    // @TODO determine an internal email address to send to for production environments
+    return Application.create({
+        reference_id: formData.referenceId,
+        application_data: dataToStore
+    }).then(record => {
+        const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
+        // @TODO determine an internal email address to send to for production environments
+        const internalAddress = primaryAddress;
 
-    return mail.generateAndSend([
-        {
-            name: 'building_connections_customer',
-            sendTo: primaryAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            templateName: 'emails/applicationSummary',
-            templateData: {
-                summary: summary,
-                form: formModel,
-                data: flatData
+        const mailConfig = [
+            {
+                name: 'building_connections_customer',
+                sendTo: primaryAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                templateName: 'emails/applicationSummary',
+                templateData: {
+                    referenceId: record.reference_id,
+                    summary: stepsWithValues,
+                    form: formModel
+                }
+            },
+            {
+                name: 'building_connections_internal',
+                sendTo: internalAddress,
+                sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
+                subject: `New Building Connections Fund application: ${record.reference_id}`,
+                templateName: 'emails/applicationSummaryInternal',
+                templateData: {
+                    referenceId: record.reference_id,
+                    summary: formModel.orderStepsForInternalUse(stepsWithValues),
+                    form: formModel
+                }
             }
-        },
-        {
-            name: 'building_connections_internal',
-            sendTo: primaryAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-            subject: `New idea submission from website: ${organisationName}`,
-            templateName: 'emails/applicationSummaryInternal',
-            templateData: {
-                summary: formModel.orderStepsForInternalUse(summary),
-                form: formModel,
-                data: flatData
-            }
-        }
-    ]);
+        ];
 
-    // return Promise.resolve(formData);
+        return mail.generateAndSend(mailConfig);
+    });
 };
