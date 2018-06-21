@@ -1,47 +1,43 @@
 {% from "components/hero.njk" import hero %}
 
-{% extends "./layouts/main.njk" %}
-
-{% block title %}{{ errorTitle }} | Error {{ status }} | {% endblock %}
+{% extends "layouts/main.njk" %}
 
 {% set heroImage = heroImages.fallbackHeroImage %}
 {% set socialImage = heroImage %}
+{% set pageAccent = 'pink' %}
 
 {% block content %}
-
-    {% set pageAccent = 'pink' %}
-
-    {{
-        hero(
-            titleText = errorTitle,
+    <main role="main">
+        {{ hero(
+            titleText = title,
             image = heroImage,
             accent = pageAccent
-        )
-    }}
+        ) }}
 
-    <main class="nudge-up">
-        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="s-prose">
-                <h3 class="t2">Error {{ status }}</h3>
-                <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
-                <p>If you keep encountering problems accessing our pages, please <a href="mailto:webmaster@biglotteryfund.org.uk">let us know</a>.</p>
+        <div class="nudge-up">
+            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose">
+                    <h3 class="t2">Error {{ status }}</h3>
 
-                <h3 class="t2">Gwall {{ status }}</h3>
-                <p>Yn anffodus ni allwn ddangos y dudalen hon ar hyn o bryd. Gallwch <a href="/welsh">ddychwelyd i’r hafan</a> neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>. Os byddwch yn profi anhawster o hyd wrth gyrchu ein tudalennau, <a href="mailto:webmaster@biglotteryfund.org.uk">rhowch wybod i ni</a>.</p>
+                    <p>We're sorry, we are unable to show you this page at the moment. You can <a href="/">return to our homepage</a>, or visit us on <a href="https://www.facebook.com/BigLotteryFund">Facebook</a> or <a href="https://twitter.com/BigLotteryFund">Twitter</a>.</p>
+                    <p>If you keep encountering problems accessing our pages, please <a href="mailto:webmaster@biglotteryfund.org.uk">let us know</a>.</p>
 
-                {% if sentry %}
-                    <h4>Error ID:</h4>
-                    <p><code>{{ sentry }}</code></p>
-                {% endif %}
+                    <h3 class="t2">Gwall {{ status }}</h3>
+                    <p>Yn anffodus ni allwn ddangos y dudalen hon ar hyn o bryd. Gallwch <a href="/welsh">ddychwelyd i’r hafan</a> neu ymweld â ni ar <a href="http://facebook.com/biglotteryfundwales">Facebook</a> neu <a href="http://twitter.com/loterifawrcymru">Twitter</a>. Os byddwch yn profi anhawster o hyd wrth gyrchu ein tudalennau, <a href="mailto:webmaster@biglotteryfund.org.uk">rhowch wybod i ni</a>.</p>
 
-                {% if error and appData.isNotProduction %}
-                    <h4>Stack trace:</h4>
-                    <pre>{{ error.stack }}</pre>
-                    <h4>Raw error:</h4>
-                    <pre>{{ error | dump(2) }}</pre>
-                {% endif %}
+                    {% if sentry %}
+                        <h4>Error ID:</h4>
+                        <p><code>{{ sentry }}</code></p>
+                    {% endif %}
+
+                    {% if error and appData.isNotProduction %}
+                        <h4>Stack trace:</h4>
+                        <pre>{{ error.stack }}</pre>
+                        <h4>Raw error:</h4>
+                        <pre>{{ error | dump(2) }}</pre>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </main>
-
 {% endblock %}
