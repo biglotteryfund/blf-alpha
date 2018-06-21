@@ -13,8 +13,7 @@ function getRawParameters() {
 
 function parseSecrets(rawParameters) {
     const mapKeyedValues = flow(keyBy('Name'), mapValues('Value'));
-    const secrets = mapKeyedValues(rawParameters);
-    return secrets;
+    return mapKeyedValues(rawParameters);
 }
 
 function getSecretFromRawParameters(rawParameters, name) {

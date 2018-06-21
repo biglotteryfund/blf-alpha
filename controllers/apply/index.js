@@ -14,9 +14,7 @@ function initFormRouter(formModel) {
         next();
     });
 
-    const routerWithForm = createFormRouter({ router, formModel });
-
-    return routerWithForm;
+    return createFormRouter({ router, formModel });
 }
 
 module.exports = ({ router }) => {

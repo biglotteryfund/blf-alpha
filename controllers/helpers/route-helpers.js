@@ -35,8 +35,7 @@ async function getCanonicalRoutes({ includeDraft = false } = {}) {
     const cmsCanonicalUrls = await contentApi.getRoutes();
     const combined = concat(routerCanonicalUrls, cmsCanonicalUrls);
     const filtered = includeDraft === true ? combined : combined.filter(isLive);
-    const sorted = sortedUniqByPath(filtered);
-    return sorted;
+    return sortedUniqByPath(filtered);
 }
 
 function getSectionsForNavigation() {

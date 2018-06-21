@@ -2,8 +2,7 @@ const $ = require('jquery');
 
 function findSuccessBlock($el) {
     const logoId = $el.data('logo-id');
-    const successBlock = $('#js-download-block--' + logoId);
-    return successBlock;
+    return $('#js-download-block--' + logoId);
 }
 
 function init() {
