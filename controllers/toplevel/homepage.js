@@ -2,7 +2,6 @@
 const { get } = require('lodash');
 const Raven = require('raven');
 const { heroImages } = require('../../modules/images');
-const { injectCopy } = require('../../middleware/inject-content');
 const contentApi = require('../../services/content-api');
 
 async function injectHomepageContent(req, res, next) {
@@ -18,7 +17,7 @@ async function injectHomepageContent(req, res, next) {
 }
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, injectCopy(routeConfig), injectHomepageContent, (req, res) => {
+    router.get(routeConfig.path, injectHomepageContent, (req, res) => {
         res.render(routeConfig.template, {
             news: get(res.locals, 'newsArticles', []),
             heroImage: get(res.locals, 'heroImages', heroImages.fallbackSuperheroImage)

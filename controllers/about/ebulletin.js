@@ -9,7 +9,6 @@ const config = require('config');
 const { customEvent } = require('../../modules/analytics');
 const { FORM_STATES } = require('../../modules/forms');
 const { getSecret } = require('../../modules/secrets');
-const { injectCopy } = require('../../middleware/inject-content');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
 
@@ -94,7 +93,7 @@ function init({ router, routeConfig }) {
     router
         .route(routeConfig.path)
         .all(cached.noCache)
-        .get(injectCopy(routeConfig), (req, res) => {
+        .get((req, res) => {
             renderForm({ res });
         })
         .post(formValidators, (req, res) => {

@@ -3,7 +3,7 @@
 const { forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
-const { injectBreadcrumbs, injectCopy, injectListingContent } = require('../middleware/inject-content');
+const { injectBreadcrumbs, injectListingContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh } = require('../modules/urls');
 
@@ -64,9 +64,9 @@ function init({ router, pages }) {
     forEach(pages, page => {
         if (shouldServe(page)) {
             if (page.static) {
-                router.get(page.path, injectCopy(page), injectBreadcrumbs, handleStaticPage(page));
+                router.get(page.path, injectBreadcrumbs, handleStaticPage(page));
             } else if (page.useCmsContent) {
-                router.get(page.path, injectCopy(page), injectListingContent, injectBreadcrumbs, handleCmsPage(page));
+                router.get(page.path, injectListingContent, injectBreadcrumbs, handleCmsPage(page));
             }
         }
     });
