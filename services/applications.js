@@ -1,15 +1,19 @@
 'use strict';
-
-const shortid = require('shortid');
+const Hashids = require('hashids');
 const { Application } = require('../models');
 
-function storeApplication({ shortCode, applicationData }) {
+function getReferenceId(prefix, id) {
+    var hashids = new Hashids('', 6);
+    return `${prefix}-${hashids.encode(id).toUpperCase()}`;
+}
+
+function storeApplication(applicationData) {
     return Application.create({
-        reference_id: `${shortCode}-${shortid()}`,
         application_data: applicationData
     });
 }
 
 module.exports = {
+    getReferenceId,
     storeApplication
 };

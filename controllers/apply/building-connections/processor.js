@@ -21,14 +21,14 @@ function formatDataForStorage(stepsWithValues) {
     });
 }
 
+
 module.exports = async function processor(formModel, formData) {
     const flatData = formModel.getStepValuesFlattened(formData);
     const stepsWithValues = formModel.getStepsWithValues(formData);
 
-    const record = await applicationService.storeApplication({
-        shortCode: formModel.shortCode,
-        applicationData: formatDataForStorage(stepsWithValues)
-    });
+    const dataToStore = formatDataForStorage(stepsWithValues);
+    const record = await applicationService.storeApplication(dataToStore);
+    const referenceId = applicationService.getReferenceId(formModel.shortCode, record.id);
 
     const primaryAddress = flatData['email'];
     // @TODO determine an internal email address to send to for production environments
@@ -42,7 +42,7 @@ module.exports = async function processor(formModel, formData) {
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
             templateName: 'emails/applicationSummary',
             templateData: {
-                referenceId: record.reference_id,
+                referenceId: referenceId,
                 summary: stepsWithValues,
                 form: formModel
             }
@@ -51,10 +51,10 @@ module.exports = async function processor(formModel, formData) {
             name: 'building_connections_internal',
             sendTo: internalAddress,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
-            subject: `New Building Connections Fund application: ${record.reference_id}`,
+            subject: `New Building Connections Fund application: ${referenceId}`,
             templateName: 'emails/applicationSummaryInternal',
             templateData: {
-                referenceId: record.reference_id,
+                referenceId: referenceId,
                 summary: formModel.orderStepsForInternalUse(stepsWithValues),
                 form: formModel
             }
