@@ -363,7 +363,7 @@ if (argv.s) {
     }
 } else if (argv.p) {
     if (!argv.u) {
-        // traverse scaped directory to parse HTML
+        // traverse scraped directory to parse HTML
         loadJsonFiles();
     } else {
         // load a URL

@@ -44,7 +44,7 @@ function inlineCss(html) {
 }
 
 /**
- * genarateHtmlEmail
+ * generateHtmlEmail
  *
  * Given an email schema generate full email HTML
  * - Render template through express / template engine
@@ -53,13 +53,13 @@ function inlineCss(html) {
  * @param {Object} emailsToGenerate
  * e.g. {
  *   name: 'example,
- *   templateName: 'emails/someTempalte',
+ *   templateName: 'emails/someTemplate',
  *   templateData: { … }
  *   sendTo: 'example@example.com',
  *   subject: 'The greatest email ever'
  * ]
  */
-function genarateHtmlEmail(emailData) {
+function generateHtmlEmail(emailData) {
     const appRender = util.promisify(app.render.bind(app));
     return appRender(emailData.templateName, emailData.templateData).then(html => {
         return inlineCss(html).then(inlinedHtml => ({
@@ -160,14 +160,14 @@ function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) 
  * @param {Array<Object>} emails
  * e.g. [{
  *   name: 'example',
- *   templateName: 'emails/someTempalte',
+ *   templateName: 'emails/someTemplate',
  *   templateData: { … }
  *   sendTo: 'example@example.com',
  *   subject: 'The greatest email ever'
  * ]]
  */
 function generateAndSend(schemas) {
-    const promises = schemas.map(schema => genarateHtmlEmail(schema));
+    const promises = schemas.map(schema => generateHtmlEmail(schema));
     return Promise.all(promises).then(emails => {
         const mailPromises = emails.map(email => {
             return send({
@@ -184,7 +184,7 @@ function generateAndSend(schemas) {
 }
 
 module.exports = {
-    genarateHtmlEmail,
+    generateHtmlEmail,
     generateAndSend,
     inlineCss,
     send,

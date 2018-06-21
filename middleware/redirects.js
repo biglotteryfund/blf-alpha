@@ -9,7 +9,7 @@ const contentApi = require('../services/content-api');
 
 /**
  * Clean link noise
- * Strips trailing /~/~/~/link.apsx noise from old Sitecore genrated URLs
+ * Strips trailing /~/~/~/link.apsx noise from old Sitecore generated URLs
  */
 function cleanLinkNoise(originalUrl) {
     const re = /(~\/)*link.aspx$/;

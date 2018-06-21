@@ -115,7 +115,7 @@ function initAppLocals() {
     /**
      * Is this page bilingual?
      * i.e. do we have a Welsh translation
-     * Default to true unless overriden by a route
+     * Default to true unless overridden by a route
      */
     app.locals.isBilingual = true;
 
@@ -198,7 +198,7 @@ routes.aliases.forEach(redirect => {
 
 /**
  * Archived Routes
- * Redirect to the National Archvies
+ * Redirect to the National Archives
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
     app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);

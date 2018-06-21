@@ -28,7 +28,7 @@ function getCanonicalUrl(dom) {
 
 /**
  * Append language link
- * Alwas append a language link if there isn't one on the page.
+ * Always append a language link if there isn't one on the page.
  */
 function appendLanguageLink(dom, originalUrlPath) {
     const pageIsWelsh = isWelsh(originalUrlPath);

@@ -258,7 +258,7 @@ function initForm({ router, routeConfig }) {
                     let formAnchor = '#your-details';
                     let langParam = '?lang=';
 
-                    // add their langage choice (if valid)
+                    // add their language choice (if valid)
                     let langChoice = req.body.languageChoice;
                     if (
                         langChoice &&

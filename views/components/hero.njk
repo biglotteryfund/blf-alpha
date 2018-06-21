@@ -99,7 +99,7 @@
         <div class="miniature-hero__inner">
             {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
 
-            <div class="minature-hero__image">
+            <div class="miniature-hero__image">
                 {% if imagePathMobile %}
                     <picture>
                         <source srcset="{{ imagePath }}" media="(min-width: 760px)">
@@ -112,7 +112,7 @@
 
             {% if linkUrl %}</a>{% endif %}
 
-            <div class="minature-hero__content">
+            <div class="miniature-hero__content">
                 {{ headers.overlayText(
                     tag = 'h3',
                     text = titleText,
