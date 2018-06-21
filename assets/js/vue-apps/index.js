@@ -3,14 +3,11 @@ import RavenVue from 'raven-js/plugins/vue';
 import Vue from 'vue';
 import Feedback from './components/feedback.vue';
 import Prompt from './components/prompt.vue';
+import Survey from './components/survey.vue';
 import materials from './materials';
-import surveys from './surveys';
 
 export const init = () => {
     Raven.addPlugin(RavenVue, Vue);
-
-    surveys.init();
-    materials.init();
 
     /**
      * Prompts
@@ -22,6 +19,24 @@ export const init = () => {
     });
 
     /**
+     * Did you find what you are looking for?
+     */
+    const surveyEl = document.getElementById('js-survey');
+    if (surveyEl) {
+        new Vue({
+            el: surveyEl,
+            components: { Survey },
+            data() {
+                return { lang: null };
+            },
+            created() {
+                this.lang = JSON.parse(surveyEl.getAttribute('data-lang'));
+            },
+            template: `<Survey :lang=lang />`
+        });
+    }
+
+    /**
      * Inline feedback
      */
     const feedbackEl = document.getElementById('js-feedback');
@@ -31,4 +46,9 @@ export const init = () => {
             components: { 'feedback-form': Feedback }
         });
     }
+
+    /**
+     * Order free materials
+     */
+    materials.init();
 };
