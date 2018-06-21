@@ -258,14 +258,10 @@ sections.apply.addRoutes({
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    customRoute({ path: '/robots.txt' }),
     customRoute({ path: '/assets/*' }),
     customRoute({ path: '/error' }),
-    customRoute({ path: '/styleguide' }),
     sessionRoute({ path: '/tools/*', isPostable: true }),
     customRoute({ path: '/contrast/*', queryStrings: ['url'] }),
-    customRoute({ path: '/surveys', queryStrings: ['path'] }),
-    customRoute({ path: '/survey/*', isPostable: true }),
     sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
     legacyRoute({ path: '*~/link.aspx' })
 ];

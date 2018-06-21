@@ -1122,66 +1122,6 @@
         "AllowedMethods": {
           "Items": [
             "HEAD",
-            "GET"
-          ],
-          "Quantity": 2,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version",
-              "path"
-            ],
-            "Quantity": 3
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode"
-              ],
-              "Quantity": 1
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/surveys"
-      },
-      {
-        "TargetOriginId": "ELB-TEST",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
             "DELETE",
             "POST",
             "GET",
@@ -1743,6 +1683,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 28
+    "Quantity": 27
   }
 }
