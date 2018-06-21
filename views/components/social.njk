@@ -3,17 +3,17 @@
 {% macro socialLinks(labels) %}
     <div class="o-button-group-block u-gutter-half">
         <a class="btn btn--small btn--outline accent--blue"
-            href="{{ appData.config.get('social.instagram') }}">
+            href="{{ __('global.brand.instagram') }}">
             <span class="btn__icon">{{ iconInstagram() }}</span>
             {{ labels.followUsOn }} {{ labels.instagram }}
         </a>
         <a class="btn btn--small btn--outline accent--blue"
-            href="{{ appData.config.get('social.facebookAccounts.' + locale) }}">
+            href="{{ __('global.brand.facebook') }}">
             <span class="btn__icon">{{ iconFacebook() }}</span>
             {{ labels.followUsOn }} {{ labels.facebook }}
         </a>
         <a class="btn btn--small btn--outline accent--blue"
-            href="https://www.twitter.com/{{ appData.config.get('social.twitterAccounts.' + locale) }}" >
+            href="https://www.twitter.com/{{ __('global.brand.twitter') }}" >
             <span class="btn__icon">{{ iconTwitter() }}</span>
             {{ labels.followUsOn }} {{ labels.twitter }}
         </a>

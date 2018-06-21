@@ -44,17 +44,6 @@
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-  "social": {
-    "instagram": "https://www.instagram.com/big_lottery_fund",
-    "twitterAccounts": {
-      "en": "BigLotteryFund",
-      "cy": "LoteriFawrCymru"
-    },
-    "facebookAccounts": {
-      "en": "http://www.facebook.com/BigLotteryFund",
-      "cy": "https://www.facebook.com/biglotteryfundwales"
-    }
-  },
   "database": "website-dev",
   "database-test": "website-test",
   "emailSender": "noreply@biglotteryfund.org.uk"

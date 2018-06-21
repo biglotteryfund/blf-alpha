@@ -15,7 +15,7 @@
 <meta property="og:url" content="{{ getCurrentUrl() }}">
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@{{ appData.config.get('social.twitterAccounts.' + locale) }}" />
+<meta name="twitter:site" content="@{{ __('global.brand.twitter') }}" />
 
 {% if socialImage %}
 <meta property="twitter:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
