@@ -245,6 +245,10 @@ sections.apply.addRoutes({
     yourIdea: sessionRoute({
         path: '/your-idea/*',
         isPostable: true
+    }),
+    buildingConnectionsFund: sessionRoute({
+        path: '/building-connections/*',
+        isPostable: true
     })
 });
 
