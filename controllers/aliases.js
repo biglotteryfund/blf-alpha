@@ -70,6 +70,7 @@ const aliases = {
     '/global-content/programmes/scotland/community-assets': '/funding/programmes/community-assets',
     '/global-content/programmes/scotland/grants-for-community-led-activity': '/funding/programmes/grants-for-community-led-activity',
     '/global-content/programmes/scotland/grants-for-improving-lives': '/funding/programmes/grants-for-improving-lives',
+    '/global-content/programmes/scotland/our-place': '/funding/programmes/our-place',
     '/global-content/programmes/scotland/scottish-land-fund': '/funding/programmes/scottish-land-fund',
     '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
     '/global-content/programmes/uk-wide/forces-in-mind': '/funding/programmes/forces-in-mind',
