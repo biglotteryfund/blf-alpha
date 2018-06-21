@@ -54,7 +54,7 @@ function handleAbandonmentMessage(formEl) {
         // Message cannot be customised in Chrome 51+
         // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
         trackEvent('Apply', 'Review step abandonment check', 'message shown');
-        var confirmationMessage = 'Are you sure you want to leave this page?';
+        const confirmationMessage = 'Are you sure you want to leave this page?';
         e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
         return confirmationMessage; // Gecko, WebKit, Chrome <34
     }

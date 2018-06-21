@@ -6,8 +6,7 @@ Cypress.Commands.add('getCsrf', () => {
         .its('body')
         .then(body => {
             const $html = Cypress.$(body);
-            const csrf = $html.find('input[name=_csrf]').val();
-            return csrf;
+            return $html.find('input[name=_csrf]').val();
         });
 });
 

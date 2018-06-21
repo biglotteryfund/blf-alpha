@@ -149,10 +149,9 @@ async function injectFundingProgramme(req, res, next) {
 async function injectFundingProgrammes(req, res, next) {
     try {
         res.locals.timings.start('inject-funding-programmes');
-        const fundingProgrammes = await contentApi.getFundingProgrammes({
+        res.locals.fundingProgrammes = await contentApi.getFundingProgrammes({
             locale: req.i18n.getLocale()
         });
-        res.locals.fundingProgrammes = fundingProgrammes;
         res.locals.timings.end('inject-funding-programmes');
         next();
     } catch (error) {
@@ -162,12 +161,10 @@ async function injectFundingProgrammes(req, res, next) {
 
 async function injectBlogPosts(req, res, next) {
     try {
-        const result = await contentApi.getBlogPosts({
+        res.locals.blogPosts = await contentApi.getBlogPosts({
             locale: req.i18n.getLocale(),
             page: req.query.page || 1
         });
-
-        res.locals.blogPosts = result;
         next();
     } catch (error) {
         next();
@@ -199,12 +196,10 @@ async function injectBlogDetail(req, res, next) {
 function injectProfiles(section) {
     return async function(req, res, next) {
         try {
-            const profiles = await contentApi.getProfiles({
+            res.locals.profiles = await contentApi.getProfiles({
                 locale: req.i18n.getLocale(),
                 section: section
             });
-
-            res.locals.profiles = profiles;
             next();
         } catch (error) {
             Raven.captureException(error);

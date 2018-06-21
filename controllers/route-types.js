@@ -35,7 +35,7 @@ function createSection({ path, controllerPath, langTitlePath, showInNavigation =
     };
 
     /**
-     * Find the cannonical path for a given page key
+     * Find the canonical path for a given page key
      */
     newSection.find = function(pageId) {
         const pagePath = get(newSection.pages, `${pageId}.path`);

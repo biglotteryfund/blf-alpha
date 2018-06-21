@@ -59,8 +59,7 @@ function cymreigio(urlPath) {
 function getBaseUrl(req) {
     const headerProtocol = req.get('X-Forwarded-Proto');
     const protocol = headerProtocol ? headerProtocol : req.protocol;
-    const baseUrl = `${protocol}://${req.get('host')}`;
-    return baseUrl;
+    return `${protocol}://${req.get('host')}`;
 }
 
 function getFullUrl(req) {
@@ -163,9 +162,7 @@ function getCurrentUrl(req, requestedLocale) {
 
     // Reconstruct clean URL
     const newCleanQuery = querystring.stringify(originalQuery);
-    const newCleanUrl = newCleanQuery.length > 0 ? `${parsedPathname}?${newCleanQuery}` : parsedPathname;
-
-    return newCleanUrl;
+    return newCleanQuery.length > 0 ? `${parsedPathname}?${newCleanQuery}` : parsedPathname;
 }
 
 module.exports = {

@@ -49,7 +49,7 @@ module.exports = {
         res.locals.getMetaTitle = getMetaTitle;
 
         /**
-         * Abosolute URL helper
+         * Absolute URL helper
          */
         res.locals.getAbsoluteUrl = function(urlPath) {
             return getAbsoluteUrl(req, urlPath);

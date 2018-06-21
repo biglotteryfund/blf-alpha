@@ -14,8 +14,7 @@ function init({ router, routeConfig }) {
             if (programmes) {
                 const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
                 const programmeSlugs = get(copy, 'recentProgrammes', []);
-                const latestProgrammes = programmeSlugs.map(findBySlug);
-                return latestProgrammes;
+                return programmeSlugs.map(findBySlug);
             } else {
                 return [];
             }

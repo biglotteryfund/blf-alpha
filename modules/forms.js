@@ -19,8 +19,7 @@ const FORM_STATES = {
  */
 function withFieldValue(field, data) {
     if (data) {
-        const match = find(data, (val, key) => key === field.name);
-        field.value = match;
+        field.value = find(data, (val, key) => key === field.name);
     }
 
     return field;

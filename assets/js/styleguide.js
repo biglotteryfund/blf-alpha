@@ -36,7 +36,7 @@
         bodyEl.appendChild(div);
     }
 
-    function initSectionNavigtion() {
+    function initSectionNavigation() {
         var select = document.getElementById('sg-section-switcher');
         if (select) {
             select.addEventListener('change', function() {
@@ -49,5 +49,5 @@
     }
 
     renderSectionNavigation();
-    initSectionNavigtion();
+    initSectionNavigation();
 })();

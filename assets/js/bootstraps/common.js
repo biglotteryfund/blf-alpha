@@ -1,5 +1,5 @@
 /**
- * Common modules that are run accross the site.
+ * Common modules that are run across the site.
  * (Non-Vue components)
  */
 const global = require('../modules/global');
