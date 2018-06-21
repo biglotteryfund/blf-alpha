@@ -1,10 +1,9 @@
 'use strict';
 const Raven = require('raven');
 const contentApi = require('../../services/content-api');
-const { injectCopy } = require('../../middleware/inject-content');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, injectCopy(routeConfig), (req, res, next) => {
+    router.get(routeConfig.path, (req, res, next) => {
         const locale = req.i18n.getLocale();
         return Promise.all([contentApi.getStatBlocks(locale), contentApi.getStatRegions(locale)])
             .then(responses => {

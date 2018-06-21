@@ -1,6 +1,6 @@
 'use strict';
 const contentApi = require('../../services/content-api');
-const { injectBreadcrumbs, injectCopy } = require('../../middleware/inject-content');
+const { injectBreadcrumbs } = require('../../middleware/inject-content');
 
 function injectCaseStudies(caseStudySlugs) {
     return async function(req, res, next) {
@@ -13,15 +13,9 @@ function injectCaseStudies(caseStudySlugs) {
 }
 
 function init10k({ router, routeConfig, caseStudySlugs }) {
-    router.get(
-        routeConfig.path,
-        injectCopy(routeConfig),
-        injectBreadcrumbs,
-        injectCaseStudies(caseStudySlugs),
-        (req, res) => {
-            res.render(routeConfig.template);
-        }
-    );
+    router.get(routeConfig.path, injectBreadcrumbs, injectCaseStudies(caseStudySlugs), (req, res) => {
+        res.render(routeConfig.template);
+    });
 }
 
 function init({ router, routeConfigs }) {

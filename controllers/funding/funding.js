@@ -1,9 +1,9 @@
 'use strict';
 const { find, get } = require('lodash');
-const { injectCopy, injectFundingProgrammes } = require('../../middleware/inject-content');
+const { injectFundingProgrammes } = require('../../middleware/inject-content');
 
 function init({ router, routeConfig }) {
-    router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res) => {
+    router.get(routeConfig.path, injectFundingProgrammes, (req, res) => {
         const { copy, fundingProgrammes } = res.locals;
 
         /**
