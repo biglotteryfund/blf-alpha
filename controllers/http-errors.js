@@ -10,15 +10,14 @@ function renderUnauthorised(req, res) {
 function renderNotFound(req, res, err = null) {
     res.cacheControl = { noStore: true };
 
-    // Set locals, only providing error in development
+    res.locals.isBilingual = false;
     res.locals.status = 404;
     res.locals.error = err;
-    res.locals.errorTitle = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
+    res.locals.title = "Sorry, we couldn't find that page / Ni allwn ddod o hyd i'r dudalen hon";
     res.locals.sentry = res.sentry;
 
-    // Render the notfound page
     res.status(res.locals.status);
-    res.render('notfound');
+    res.render('error');
 }
 
 function renderNotFoundWithError(req, res, err) {
@@ -27,14 +26,13 @@ function renderNotFoundWithError(req, res, err) {
 }
 
 function renderError(err, req, res) {
-    // Set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = appData.isDev ? err : null;
+    res.locals.isBilingual = false;
     res.locals.status = err.status || 500;
-    res.locals.errorTitle = err.friendlyText ? err.friendlyText : 'Error';
+    res.locals.error = appData.isDev ? err : null;
+    res.locals.message = err.message;
+    res.locals.title = err.friendlyText ? err.friendlyText : 'Error';
     res.locals.sentry = res.sentry;
 
-    // Render the error page
     res.status(res.locals.status);
     res.render('error');
 }
