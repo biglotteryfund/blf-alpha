@@ -1,9 +1,9 @@
 /* eslint-env node */
 'use strict';
-
-const webpack = require('webpack');
-
 const path = require('path');
+const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 const pkg = require('./package.json');
 const { getBuildSummary } = require('./build-helpers');
 
@@ -19,9 +19,11 @@ const commonConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
+                loader: 'babel-loader'
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             }
         ]
     }
@@ -54,6 +56,7 @@ module.exports = [
             }
         },
         plugins: [
+            new VueLoaderPlugin(),
             new webpack.BannerPlugin({
                 banner: `${pkg.description} - ${buildSummary.commitHash}`
             })
