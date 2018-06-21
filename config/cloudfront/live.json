@@ -296,6 +296,71 @@
           "Items": [],
           "Quantity": 0
         },
+        "PathPattern": "/apply/building-connections/*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
         "PathPattern": "/apply/your-idea/*"
       },
       {
@@ -1057,66 +1122,6 @@
         "AllowedMethods": {
           "Items": [
             "HEAD",
-            "GET"
-          ],
-          "Quantity": 2,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version",
-              "path"
-            ],
-            "Quantity": 3
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode"
-              ],
-              "Quantity": 1
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/surveys"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
             "DELETE",
             "POST",
             "GET",
@@ -1236,6 +1241,71 @@
           "Quantity": 0
         },
         "PathPattern": "/user/*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
+          ],
+          "Quantity": 7,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version"
+            ],
+            "Quantity": 2
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-alpha-session"
+              ],
+              "Quantity": 2
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/welsh/apply/building-connections/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1613,6 +1683,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 26
+    "Quantity": 27
   }
 }
