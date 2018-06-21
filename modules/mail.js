@@ -50,7 +50,7 @@ function inlineCss(html) {
  * - Render template through express / template engine
  * - Generate full email HTML and return alongside the original schema
  *
- * @param {Object} emailsToGenerate
+ * @param {Object} emailData
  * e.g. {
  *   name: 'example,
  *   templateName: 'emails/someTemplate',

@@ -218,7 +218,7 @@ forEach(routes.sections, (section, sectionId) => {
      * Middleware to add a section ID to requests with a known section
      * (eg. to mark a section as current in the nav)
      */
-    router.use(function (req, res, next) {
+    router.use(function(req, res, next) {
         res.locals.sectionId = sectionId;
         next();
     });
@@ -227,7 +227,8 @@ forEach(routes.sections, (section, sectionId) => {
      * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        router.route(page.path)
+        router
+            .route(page.path)
             .all(injectHeroImage(page.heroSlug), (req, res, next) => {
                 res.locals.pageId = pageId;
                 next();
