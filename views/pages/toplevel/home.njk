@@ -100,7 +100,7 @@
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
                     {# Twitter Feed #}
-                    {% set twitterAccount = appData.config.get('social.twitterAccounts.' + locale)  %}
+                    {% set twitterAccount = __('global.brand.twitter')  %}
                     <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
                         href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
                     >

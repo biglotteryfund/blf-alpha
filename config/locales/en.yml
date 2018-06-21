@@ -4,6 +4,9 @@ global:
     title: Big Lottery Fund
     description: The Big Lottery Fund gives grants to organisations in the UK to help
       improve their communities. The money awarded comes from the UK National Lottery.
+    facebook: http://www.facebook.com/BigLotteryFund
+    instagram: https://www.instagram.com/big_lottery_fund
+    twitter: BigLotteryFund
   regions:
     england: England
     wales: Wales
