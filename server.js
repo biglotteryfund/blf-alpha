@@ -33,7 +33,7 @@ const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
-const { injectHeroImage } = require('./middleware/inject-content');
+const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const i18nMiddleware = require('./middleware/i18n');
@@ -229,7 +229,7 @@ forEach(routes.sections, (section, sectionId) => {
     forEach(section.pages, (page, pageId) => {
         router
             .route(page.path)
-            .all(injectHeroImage(page.heroSlug), (req, res, next) => {
+            .all(injectCopy(page), injectHeroImage(page.heroSlug), (req, res, next) => {
                 res.locals.pageId = pageId;
                 next();
             })

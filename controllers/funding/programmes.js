@@ -2,7 +2,7 @@
 const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
-const { injectCopy, injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
+const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
@@ -47,7 +47,7 @@ function initLegacyFundingFinder({ router, routeConfig }) {
  * Route: Programmes Listing
  */
 function initProgrammesList({ router, routeConfig }) {
-    router.get(routeConfig.path, injectCopy(routeConfig), injectFundingProgrammes, (req, res, next) => {
+    router.get(routeConfig.path, injectFundingProgrammes, (req, res, next) => {
         const { copy, fundingProgrammes } = res.locals;
         const globalCopy = req.i18n.__('global');
 

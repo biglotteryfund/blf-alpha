@@ -1,10 +1,10 @@
 'use strict';
-const { injectCopy, injectProfiles } = require('../../middleware/inject-content');
+const { injectProfiles } = require('../../middleware/inject-content');
 const { shouldServe } = require('../../modules/pageLogic');
 
 function serveProfiles({ router, routeConfig, profilesSection }) {
     if (shouldServe(routeConfig)) {
-        router.get(routeConfig.path, injectCopy(routeConfig), injectProfiles(profilesSection), (req, res) => {
+        router.get(routeConfig.path, injectProfiles(profilesSection), (req, res) => {
             const profiles = res.locals.profiles;
             if (profiles.length > 0) {
                 res.render(routeConfig.template, { profiles });

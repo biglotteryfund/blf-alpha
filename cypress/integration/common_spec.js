@@ -31,7 +31,7 @@ describe('Common tests', function() {
             })
             .then(response => {
                 expect(response.status).to.eq(404);
-                expect(response.body).to.include('Error 404 | Big Lottery Fund');
+                expect(response.body).to.include("Sorry, we couldn't find that page");
             });
     });
 
