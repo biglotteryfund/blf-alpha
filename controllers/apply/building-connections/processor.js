@@ -25,16 +25,14 @@ module.exports = async function processor(formModel, formData) {
     const flatData = formModel.getStepValuesFlattened(formData);
     const stepsWithValues = formModel.getStepsWithValues(formData);
 
-    const record = await applicationService.storeApplication({
-        shortCode: formModel.shortCode,
-        applicationData: formatDataForStorage(stepsWithValues)
-    });
+    const dataToStore = formatDataForStorage(stepsWithValues);
+    const record = await applicationService.storeApplication(formModel.shortCode, dataToStore);
 
     const primaryAddress = flatData['email'];
     // @TODO determine an internal email address to send to for production environments
     const internalAddress = primaryAddress;
 
-    const mailConfig = [
+    await mail.generateAndSend([
         {
             name: 'building_connections_customer',
             sendTo: primaryAddress,
@@ -59,7 +57,7 @@ module.exports = async function processor(formModel, formData) {
                 form: formModel
             }
         }
-    ];
+    ]);
 
-    return mail.generateAndSend(mailConfig);
+    return Promise.resolve(record);
 };
