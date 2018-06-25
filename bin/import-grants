@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+mongoimport -d grants -c blf --type csv --file $1 --headerline
