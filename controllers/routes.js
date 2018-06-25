@@ -34,6 +34,11 @@ const sections = {
         path: '/apply',
         controllerPath: path.resolve(__dirname, './apply'),
         showInNavigation: false
+    }),
+    grants: createSection({
+        path: '/grants',
+        controllerPath: path.resolve(__dirname, './grants'),
+        showInNavigation: false
     })
 };
 
@@ -249,6 +254,19 @@ sections.apply.addRoutes({
     buildingConnectionsFund: sessionRoute({
         path: '/building-connections/*',
         isPostable: true
+    })
+});
+
+/**
+ * Grant routes
+ */
+sections.grants.addRoutes({
+    root: customRoute({
+        path: '/',
+        live: false,
+        template: 'pages/grants/search',
+        isPostable: true,
+        queryStrings: ['q', 'programme']
     })
 });
 

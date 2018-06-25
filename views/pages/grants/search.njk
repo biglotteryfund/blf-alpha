@@ -1,0 +1,42 @@
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main">
+
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose">
+
+                <h2>Search</h2>
+                <form method="get">
+                    <label>Funding programme</label>
+                    <select name="programme">
+                        <option selected value>--Select a funding programme--</option>
+                        {% for p in programmes %}
+                            <option value="{{ p.code }}"{% if p.code === filters.programme %} selected="selected"{% endif %}>{{ p._id }} ({{ p.numGrants }} grants)</option>
+                        {% endfor %}
+                    </select><br/>
+
+                    <label>Search by grant name</label>
+                    <input type="search" name="q"{% if filters.title %} value="{{ filters.title }}"{% endif %} /><br/>
+
+                    <input type="submit" class="btn spaced" value="Search">
+                </form>
+
+                <h2>Grants ({{ grants.length }} found)</h2>
+                <ul>
+                    {% for g in grants %}
+                        {% if loop.index < 100 %}
+                            <li>{{ g.Title }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
+        </section>
+    </main>
+{% endblock %}
