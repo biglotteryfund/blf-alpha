@@ -1,26 +1,30 @@
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
 import Vue from 'vue';
+import CookieConsent from './components/cookie-consent.vue';
 import Feedback from './components/feedback.vue';
 import Prompt from './components/prompt.vue';
 import Survey from './components/survey.vue';
 import materials from './materials';
 
-export const init = () => {
-    Raven.addPlugin(RavenVue, Vue);
+function initCookieConsent() {
+    const cookieEl = document.getElementById('js-cookie-consent');
+    if (cookieEl) {
+        new Vue({
+            el: cookieEl,
+            components: { CookieConsent },
+            data() {
+                return { lang: null };
+            },
+            created() {
+                this.lang = JSON.parse(cookieEl.getAttribute('data-lang'));
+            },
+            template: `<CookieConsent :lang=lang />`
+        });
+    }
+}
 
-    /**
-     * Prompts
-     */
-    new Vue({
-        el: '#js-active-prompt',
-        components: { Prompt },
-        template: `<Prompt />`
-    });
-
-    /**
-     * Did you find what you are looking for?
-     */
+function initSurvey() {
     const surveyEl = document.getElementById('js-survey');
     if (surveyEl) {
         new Vue({
@@ -35,10 +39,17 @@ export const init = () => {
             template: `<Survey :lang=lang />`
         });
     }
+}
 
-    /**
-     * Inline feedback
-     */
+function initPrompts() {
+    new Vue({
+        el: '#js-active-prompt',
+        components: { Prompt },
+        template: `<Prompt />`
+    });
+}
+
+function initInlineFeedback() {
     const feedbackEl = document.getElementById('js-feedback');
     if (feedbackEl) {
         new Vue({
@@ -46,9 +57,15 @@ export const init = () => {
             components: { 'feedback-form': Feedback }
         });
     }
+}
 
-    /**
-     * Order free materials
-     */
+export const init = () => {
+    Raven.addPlugin(RavenVue, Vue);
+
+    initCookieConsent();
+    initSurvey();
+    initPrompts();
+    initInlineFeedback();
+
     materials.init();
 };

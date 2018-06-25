@@ -59,6 +59,13 @@ global:
       description: Our commitment to accessibility and inclusion
     previousItem: Previous item
     nextItem: Next item
+  cookieConsent:
+    title: Cookies on this website
+    message: <p>This site uses cookies. An explanation of their purpose can be found within our
+      <a href="/about/customer-service/cookies">Cookies Policy</a>.</p>
+      <p>Please confirm your consent to their use by clicking continue.
+        After consenting you will not see this message again.</p>
+    action: Accept cookies
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address

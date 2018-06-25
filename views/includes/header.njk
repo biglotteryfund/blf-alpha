@@ -1,6 +1,10 @@
 {% from "components/icons.njk" import iconHamburger %}
 {% from "components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
 
+{% if appData.isNotProduction %}
+    <div id="js-cookie-consent" data-lang='{{ __('global.cookieConsent') | dump | safe }}'></div>
+{% endif %}
+
 <header class="global-header" role="banner">
     <div class="global-header__inner inner">
         <div class="global-header__content">
