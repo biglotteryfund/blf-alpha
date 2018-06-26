@@ -2,7 +2,7 @@
 const { check } = require('express-validator/check');
 
 const LENGTH_HINTS = {
-    ONE_LINER: {
+    HEMINGWAY: {
         rows: 3,
         text: 'A single sentence.'
     },
@@ -12,7 +12,7 @@ const LENGTH_HINTS = {
     },
     FEW_PARAS: {
         rows: 10,
-        text: 'A few paragraphs, no more than three.'
+        text: 'A couple of paragraphs.'
     },
     MANY_PARAS: {
         rows: 12,
@@ -35,8 +35,9 @@ const currentWork = [
                 isRequired: true,
                 label: 'How is your current work committed to helping to prevent or reduce loneliness?',
                 helpText: `<ul>
-                    <li>What impact has your work made to date on tackling loneliness</li>
-                    <li>Why you are working on loneliness</li>
+                    <li>Describe why you are working on loneliness</li>
+                    <li>Describe what impact your work has made on tackling loneliness so far, e.g. evidence of the difference it is making and the impact on beneficiaries</li>
+                    <li>Tell us about the effectiveness of your approach and skills of your staff</li>
                 </ul>`
             }
         ]
@@ -45,49 +46,69 @@ const currentWork = [
 
 const yourIdea = [
     {
-        legend: 'Your project idea',
+        legend: 'Your idea',
         fields: [
             {
                 name: 'project-idea',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.TOLSTOY,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'What is the project you would like funding for?',
+                label: 'What is the project you would like funding for, and why it is needed in your area?'
+            },
+            {
+                name: 'project-impact',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
+                isRequired: true,
+                label: 'How will you scale up work you are already doing and/or join up in collaboration with others?'
+            },
+            {
+                name: 'project-activities',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
+                isRequired: true,
+                label: 'Provide a brief outline of your delivery plan'
+            }
+        ]
+    }
+];
+
+const socialConnections = [
+    {
+        legend: 'Building social connections',
+        fields: [
+            {
+                name: 'social-connections',
+                type: 'textarea',
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
+                isRequired: true,
+                label: 'How will the project help to build social connections and relationships between individuals and communities?',
                 helpText: `<ul>
-                    <li>Describe the project you would like funding for</li>
-                    <li>Tell us why it is needed in your area and how you will encourage collaboration [QUERY: What kind of collaboration?]</li>
+                    <li>Describe how the project will increase social connections, sense of community and/or belonging</li>
+                    <li>Describe how are people and communities involved in the project</li>
+                    <li>Describe your plans for supporting connections in the future after the funding stops</li>
                 </ul>`
             }
         ]
     }
 ];
 
-const projectActivities = [
+const projectEvaluation = [
     {
-        legend: 'Project activities, outcomes, and milestones',
+        legend: 'Project evaluation',
         fields: [
             {
-                name: 'project-activities-outline',
+                name: 'project-evaluation',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'Briefly outline what your project is aiming to achieve'
-            },
-            {
-                name: 'project-activities-first-quarter',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
-                isRequired: true,
-                label: 'What will be achieved in the first quarter Jan—March 2019?'
-            },
-            {
-                name: 'project-activities-first-year',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
-                isRequired: true,
-                label: 'What will be achieved in the financial year 2019/20?',
-                explanation:
-                    'If your project finishes before the end of the 2020 financial year include up until the end of your project.'
+                label:
+                    'How will your project help you improve your learning and understand more about the impact you are making?',
+                helpText: `<ul>
+                    <li>Describe how your project will help add to the evidence and learning</li>
+                    <li>Describe the types of evidence you are going to collect towards reducing or preventing loneliness</li>
+                    <li>Describe how previous learning has informed this approach</li>
+                </ul>`
             }
         ]
     }
@@ -123,47 +144,6 @@ const projectLocation = [
                 label: 'Where will your project take place?',
                 explanation:
                     'In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.'
-            }
-        ]
-    }
-];
-
-const increasingImpact = [
-    {
-        legend: 'Increasing impact',
-        fields: [
-            {
-                name: 'increasing-impact',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_PARAS,
-                isRequired: true,
-                label: 'How will this funding support your project to increase your impact?',
-                helpText: `<p>Describe how your project will meet our aims and objectives by either:</p>
-                <ul>
-                    <li>scaling up work you are already doing</li>
-                    <li><strong>and/or</strong> joining up with others in partnership</li>
-                </ul>`
-            }
-        ]
-    }
-];
-
-const projectEvaluation = [
-    {
-        legend: 'Project evaluation',
-        fields: [
-            {
-                name: 'project-evaluation',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_PARAS,
-                isRequired: true,
-                label:
-                    'How will your project help you to improve your learning and help understand more about the impact you are making?',
-                helpText: `<ul>
-                    <li>Describe why you want to add to the evidence and learning</li>
-                    <li>Describe how you plan to investigate that your project has helped make an impact on reducing or preventing loneliness</li>
-                    <li>How will you monitor and report impact and learning? [QUERY: Is this point needed?]</li>
-                </ul>`
             }
         ]
     }
@@ -288,12 +268,11 @@ const mainContact = [
 
 module.exports = {
     currentWork,
-    increasingImpact,
     mainContact,
     organisationDetails,
-    projectActivities,
     projectBudget,
     projectEvaluation,
     projectLocation,
+    socialConnections,
     yourIdea
 };
