@@ -8,31 +8,53 @@
 
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose">
+                {# <pre>{{ collection | dump(2) }}</pre> #}
+                <pre>{{ queryParams | dump(2) }}</pre>
 
-                <h2>Search</h2>
                 <form method="get">
-                    <label>Funding programme</label>
-                    <select name="programme">
-                        <option selected value>--Select a funding programme--</option>
-                        {% for p in programmes %}
-                            <option value="{{ p.code }}"{% if p.code === filters.programme %} selected="selected"{% endif %}>{{ p._id }} ({{ p.numGrants }} grants)</option>
-                        {% endfor %}
-                    </select><br/>
+                    <div class="form-field">
+                        <label class="ff-label" for="field-q">Search</label>
+                        <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
+                    </div>
 
-                    <label>Search by grant name</label>
-                    <input type="search" name="q"{% if filters.title %} value="{{ filters.title }}"{% endif %} /><br/>
+                    {% for key, facet in collection.facetResults | first %}
+                        <fieldset>
+                            <legend>{{ key }}</legend>
+                            <ul>
+                                {% for item in facet %}
+                                    <li><label>
+                                        <input type="checkbox" id="{{ key }}-{{ loop.index }}" name="{{ key }}[]" value="{{ item._id }}" />
+                                        {{ item._id }} <small>({{ item.count }})</small>
+                                    </label></li>
+                                {% endfor %}
+                            </ul>
+                        </fieldset>
+                    {% endfor %}
 
-                    <input type="submit" class="btn spaced" value="Search">
+                    <div class="form-actions">
+                        <input type="submit" value="Filter" class="btn">
+                    </div>
                 </form>
 
-                <h2>Grants ({{ grants.length }} found)</h2>
-                <ul>
-                    {% for g in grants %}
-                        {% if loop.index < 100 %}
-                            <li>{{ g.Title }}</li>
-                        {% endif %}
+                <section>
+                    <h2>Grants <small>({{ collection.results.length }} found)</small></h2>
+                    {% for grant in collection.results %}
+                        <article>
+                            <h3>{{ grant['Title'] }}</h3>
+                            <dl class="o-definition-list o-definition-list--compact">
+                                <dt>Recipient</dt>
+                                <dd>{{ grant['Recipient Org:Name'] }}</dd>
+                                <dt>Grant Programme</dt>
+                                <dd>{{ grant['Grant Programme:Title'] }}</dd>
+                                <dt>Amount awarded</dt>
+                                <dd>£{{ grant['Amount Awarded'] }}</dd>
+                            </dl>
+
+                            <small>{{ grant['Description'] }}</small>
+                            <hr />
+                        </article>
                     {% endfor %}
-                </ul>
+                </section>
 
             </div>
         </div>

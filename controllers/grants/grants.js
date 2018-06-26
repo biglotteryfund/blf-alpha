@@ -1,4 +1,5 @@
 'use strict';
+const { concat } = require('lodash');
 const MongoClient = require('mongodb').MongoClient;
 
 const url = 'mongodb://localhost:27017';
@@ -15,67 +16,106 @@ async function connectToMongo() {
     }
 }
 
-async function findGrants(db, searchParams) {
-    return await db.collection(collectionName).find(searchParams).toArray();
-}
-async function getFundingProgrammes(db) {
-    try {
-        return await db.collection(collectionName).aggregate([
-            {
-                $group: {
-                    _id: "$Grant Programme:Title",
-                    code: {
-                        "$first": "$Grant Programme:Code"
-                    },
-                    numGrants: {
-                        $sum: 1
-                    }
-                }
-            },
-            {
-                $sort: {
-                    "_id": 1
-                }
-            }
-        ], {
-            cursor: {}
-        }).toArray();
-    } catch (err) {
-        console.log(err);
-        return false;
-    }
+function aggregate(db, pipeline) {
+    return db
+        .collection(collectionName)
+        .aggregate(pipeline);
+        // .limit(200);
 }
 
+function getFacetsPipeline() {
+    return [
+        {
+            $facet: {
+                organisationType: [
+                    {
+                        $group: {
+                            _id: '$BIGField_Organisation_Type',
+                            count: { $sum: 1 }
+                        }
+                    }
+                ],
+                amount: [
+                    {
+                        $bucket: {
+                            groupBy: '$Amount Awarded',
+                            boundaries: [
+                                0,
+                                500,
+                                1000,
+                                2000,
+                                5000,
+                                10000,
+                                20000,
+                                50000,
+                                100000,
+                                200000,
+                                500000,
+                                1000000
+                            ],
+                            default: 1000000,
+                            output: {
+                                count: { $sum: 1 }
+                            }
+                        }
+                    }
+                ],
+                grantProgramme: [
+                    {
+                        $group: {
+                            _id: '$Grant Programme:Title',
+                            count: { $sum: 1 }
+                        }
+                    }
+                ]
+            }
+        }
+    ];
+}
+
+function getCorePipeline(queryParams) {
+    const match = {};
+    const addFields = {
+        cleanOrganisationType: {
+            $arrayElemAt: [{ $split: ['$BIGField_Organisation_Type', ' : '] }, 0]
+        }
+    };
+
+    if (queryParams.q) {
+        match.$text = { $search: queryParams.q };
+        addFields.score = { $meta: 'textScore' };
+    }
+
+    if (queryParams.organisationType) {
+        match['BIGField_Organisation_Type'] = { $all: queryParams.organisationType };
+    }
+
+    // if (queryParams.amount) {
+    //     match['Amount Awarded'] = { $all: queryParams.amount };
+    // }
+
+    return [{ $match: match }, { $addFields: addFields }];
+}
+
+async function query(db, queryParams) {
+    try {
+        const corePipeline = getCorePipeline(queryParams);
+        const facetResults = await aggregate(db, concat(corePipeline, getFacetsPipeline())).toArray();
+        const results = await aggregate(db, corePipeline).toArray();
+        return { facetResults, results };
+    } catch (error) {
+        console.log(error);
+        return { facetResults: [], results: [] };
+    }
+}
 
 async function init({ router, routeConfig }) {
     const db = await connectToMongo();
 
     router.get(routeConfig.path, async (req, res) => {
-
-        const searchParams = {};
-        const filters = {};
-        const searchTerm = req.query.q;
-        const programme = req.query.programme;
-
-        if (searchTerm) {
-            searchParams['Title'] = new RegExp(searchTerm, "i");
-            filters.title = searchTerm;
-        }
-
-        if (programme) {
-            searchParams['Grant Programme:Code'] = {
-                '$eq': programme
-            };
-            filters.programme = programme;
-        }
-
-        const programmes = await getFundingProgrammes(db);
-        const grants = await findGrants(db, searchParams);
         res.render(routeConfig.template, {
-            grants: grants,
-            programmes: programmes,
-            title: "Search Past Grants",
-            filters: filters
+            queryParams: req.query,
+            collection: await query(db, req.query)
         });
     });
 }
