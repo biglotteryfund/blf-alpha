@@ -22,17 +22,21 @@
                             <legend>{{ key }}</legend>
                             <ul>
                                 {% for item in facet %}
-                                    <li><label>
-                                        <input type="checkbox" id="{{ key }}-{{ loop.index }}" name="{{ key }}[]" value="{{ item._id }}" />
-                                        {{ item._id }} <small>({{ item.count }})</small>
-                                    </label></li>
+                                    {% if item._id %}
+                                        <li><label>
+                                            <input type="checkbox" id="{{ key }}-{{ loop.index }}" name="{{ key }}[]" value="{{ item._id }}"
+                                            {% if queryParams[key] | includes(item._id) %} checked{% endif %}/>
+                                            {{ item._id }} <small>({{ item.count }})</small>
+                                        </label></li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </fieldset>
                     {% endfor %}
 
-                    <div class="form-actions">
-                        <input type="submit" value="Filter" class="btn">
+                    <div class="form-actions o-button-group">
+                        <input type="submit" value="Filter" class="btn btn--medium">
+                        <input type="reset" value="Reset" class="btn btn--medium btn--reversed">
                     </div>
                 </form>
 

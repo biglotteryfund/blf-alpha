@@ -34,40 +34,40 @@ function getFacetsPipeline() {
                             count: { $sum: 1 }
                         }
                     }
-                ],
-                amount: [
-                    {
-                        $bucket: {
-                            groupBy: '$Amount Awarded',
-                            boundaries: [
-                                0,
-                                500,
-                                1000,
-                                2000,
-                                5000,
-                                10000,
-                                20000,
-                                50000,
-                                100000,
-                                200000,
-                                500000,
-                                1000000
-                            ],
-                            default: 1000000,
-                            output: {
-                                count: { $sum: 1 }
-                            }
-                        }
-                    }
-                ],
-                grantProgramme: [
-                    {
-                        $group: {
-                            _id: '$Grant Programme:Title',
-                            count: { $sum: 1 }
-                        }
-                    }
                 ]
+                // amount: [
+                //     {
+                //         $bucket: {
+                //             groupBy: '$Amount Awarded',
+                //             boundaries: [
+                //                 0,
+                //                 500,
+                //                 1000,
+                //                 2000,
+                //                 5000,
+                //                 10000,
+                //                 20000,
+                //                 50000,
+                //                 100000,
+                //                 200000,
+                //                 500000,
+                //                 1000000
+                //             ],
+                //             default: 1000000,
+                //             output: {
+                //                 count: { $sum: 1 }
+                //             }
+                //         }
+                //     }
+                // ],
+                // grantProgramme: [
+                //     {
+                //         $group: {
+                //             _id: '$Grant Programme:Title',
+                //             count: { $sum: 1 }
+                //         }
+                //     }
+                // ]
             }
         }
     ];
