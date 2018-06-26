@@ -37,7 +37,6 @@ const currentWork = [
                 helpText: `<ul>
                     <li>What impact has your work made to date on tackling loneliness</li>
                     <li>Why you are working on loneliness</li>
-                    <li>If applying for <strong>over £50,000</strong> Include areas of strengths and weaknesses.</li>
                 </ul>`
             }
         ]
@@ -49,12 +48,6 @@ const yourIdea = [
         legend: 'Your project idea',
         fields: [
             {
-                type: 'text',
-                name: 'project-name',
-                label: 'What is the name of your project?',
-                isRequired: true
-            },
-            {
                 name: 'project-idea',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.TOLSTOY,
@@ -62,8 +55,7 @@ const yourIdea = [
                 label: 'What is the project you would like funding for?',
                 helpText: `<ul>
                     <li>Describe the project you would like funding for</li>
-                    <li>Tell us why it is needed in your area</li>
-                    <li>Describe who will deliver the project and the experience they have</li>
+                    <li>Tell us why it is needed in your area and how you will encourage collaboration [QUERY: What kind of collaboration?]</li>
                 </ul>`
             }
         ]
@@ -149,7 +141,7 @@ const increasingImpact = [
                 helpText: `<p>Describe how your project will meet our aims and objectives by either:</p>
                 <ul>
                     <li>scaling up work you are already doing</li>
-                    <li><strong>or</strong> joining up with others in partnership</li>
+                    <li><strong>and/or</strong> joining up with others in partnership</li>
                 </ul>`
             }
         ]
@@ -170,14 +162,8 @@ const projectEvaluation = [
                 helpText: `<ul>
                     <li>Describe why you want to add to the evidence and learning</li>
                     <li>Describe how you plan to investigate that your project has helped make an impact on reducing or preventing loneliness</li>
+                    <li>How will you monitor and report impact and learning? [QUERY: Is this point needed?]</li>
                 </ul>`
-            },
-            {
-                name: 'project-evaluation-future',
-                type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
-                label: 'How will you monitor and report impact and learning?',
-                explanation: 'Only answer if applying for <strong>over £50,000</strong>'
             }
         ]
     }
