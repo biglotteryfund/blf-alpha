@@ -66,10 +66,10 @@ module.exports = ({ router, pages }) => {
         res.json({
             prompt: {
                 id: 'treejack',
-                weight: 0.3,
+                weight: 0.6,
                 message: 'We are working on improving the website.',
                 link: {
-                    href: 'https://54kuc315.optimalworkshop.com/treejack/4cn0hn5o',
+                    href: 'https://54kuc315.optimalworkshop.com/treejack/4cn0hn5o-0',
                     label: 'Can you spare a few minutes to take a survey?'
                 }
             }
