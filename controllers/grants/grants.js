@@ -99,9 +99,23 @@ function getCorePipeline(queryParams) {
 
 async function query(db, queryParams) {
     try {
+
         const corePipeline = getCorePipeline(queryParams);
         const facetResults = await aggregate(db, concat(corePipeline, getFacetsPipeline())).toArray();
-        const results = await aggregate(db, corePipeline).toArray();
+
+        const perPageCount = 100;
+        const currentPage = parseInt(queryParams.page) > 1 ? parseInt(queryParams.page) : 1;
+        const skipCount = perPageCount * (currentPage -1);
+        console.log({ currentPage, perPageCount, skipCount });
+
+        // const totalResults = await aggregate(db, concat(corePipeline, [{
+        //     $count: "total_results"
+        // }]));
+
+        const results = await aggregate(db, corePipeline)
+            .skip(skipCount)
+            .limit(perPageCount).toArray();
+
         return { facetResults, results };
     } catch (error) {
         console.log(error);

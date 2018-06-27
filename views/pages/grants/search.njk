@@ -9,7 +9,7 @@
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose">
                 {# <pre>{{ collection | dump(2) }}</pre> #}
-                <pre>{{ queryParams | dump(2) }}</pre>
+                {# <pre>{{ queryParams | dump(2) }}</pre> #}
 
                 <form method="get">
                     <div class="form-field">
@@ -17,7 +17,7 @@
                         <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
                     </div>
 
-                    {% for key, facet in collection.facetResults | first %}
+                    {# {% for key, facet in collection.facetResults | first %}
                         <fieldset>
                             <legend>{{ key }}</legend>
                             <ul>
@@ -32,7 +32,7 @@
                                 {% endfor %}
                             </ul>
                         </fieldset>
-                    {% endfor %}
+                    {% endfor %} #}
 
                     <div class="form-actions o-button-group">
                         <input type="submit" value="Filter" class="btn btn--medium">
@@ -40,8 +40,10 @@
                     </div>
                 </form>
 
+                <pre>{{ collection | dump(1) }}</pre>
+
                 <section>
-                    <h2>Grants <small>({{ collection.results.length }} found)</small></h2>
+                    <h2>Grants</h2>
                     {% for grant in collection.results %}
                         <article>
                             <h3>{{ grant['Title'] }}</h3>
