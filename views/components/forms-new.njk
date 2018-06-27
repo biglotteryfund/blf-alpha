@@ -42,11 +42,23 @@
     {% endif %}
 {% endmacro %}
 
+{% macro fieldHelpText(field) %}
+    {% if field.lengthHint %}
+        <small class="ff-length-hint">
+            <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
+        </small>
+    {% endif %}
+    {% if field.explanation %}
+        <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
+    {% endif %}
+    {% if field.helpText %}
+        <div class="ff-help s-prose">{{ field.helpText | safe }}</div>
+    {% endif %}
+{% endmacro %}
+
 {% macro inputText(field, type="text") %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    {% if field.explanation %}
-        <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
-    {% endif %}
+    {{ fieldHelpText(field) }}
     <input
         class="ff-text"
         type="{{ type }}"
@@ -62,9 +74,7 @@
 
 {% macro inputTextarea(field) %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    {% if field.explanation %}
-        <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
-    {% endif %}
+    {{ fieldHelpText(field) }}
     <textarea
         class="ff-textarea"
         id="field-{{ field.name }}"
@@ -156,16 +166,6 @@
                 </div>
             {% endif %}
         </div>
-        {% if field.helpText %}
-            <div class="form-field__help s-prose">
-                {{ field.helpText | safe }}
-            </div>
-        {% endif %}
-        {% if field.lengthHint %}
-            <small class="ff-length-hint">
-                <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
-            </small>
-        {% endif %}
     </div>
 {% endmacro %}
 
