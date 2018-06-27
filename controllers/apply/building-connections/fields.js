@@ -82,10 +82,11 @@ const socialConnections = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'How will the project help to build social connections and relationships between individuals and communities?',
+                label:
+                    'How will the project help to build social connections and relationships between individuals and communities?',
                 helpText: `<ul>
                     <li>Describe how the project will increase social connections, sense of community and/or belonging</li>
-                    <li>Describe how are people and communities involved in the project</li>
+                    <li>Describe how people and communities are involved in the project</li>
                     <li>Describe your plans for supporting connections in the future after the funding stops</li>
                 </ul>`
             }
