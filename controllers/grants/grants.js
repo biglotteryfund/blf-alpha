@@ -1,135 +1,46 @@
 'use strict';
-const { concat } = require('lodash');
-const MongoClient = require('mongodb').MongoClient;
+const request = require('request-promise-native');
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'grants';
-const collectionName = 'blf';
+function buildPagination(paginationMeta) {
+    if (paginationMeta && paginationMeta.totalPages > 1) {
+        const currentPage = paginationMeta.currentPage;
+        const totalPages = paginationMeta.totalPages;
+        const prevLink = `?page=${currentPage - 1}`;
+        const nextLink = `?page=${currentPage + 1}`;
 
-async function connectToMongo() {
-    try {
-        let client = await MongoClient.connect(url);
-        return client.db(dbName);
-    } catch (err) {
-        console.log(err.stack);
-        return err;
-    }
-}
-
-function aggregate(db, pipeline) {
-    return db
-        .collection(collectionName)
-        .aggregate(pipeline);
-        // .limit(200);
-}
-
-function getFacetsPipeline() {
-    return [
-        {
-            $facet: {
-                organisationType: [
-                    {
-                        $group: {
-                            _id: '$BIGField_Organisation_Type',
-                            count: { $sum: 1 }
-                        }
-                    }
-                ]
-                // amount: [
-                //     {
-                //         $bucket: {
-                //             groupBy: '$Amount Awarded',
-                //             boundaries: [
-                //                 0,
-                //                 500,
-                //                 1000,
-                //                 2000,
-                //                 5000,
-                //                 10000,
-                //                 20000,
-                //                 50000,
-                //                 100000,
-                //                 200000,
-                //                 500000,
-                //                 1000000
-                //             ],
-                //             default: 1000000,
-                //             output: {
-                //                 count: { $sum: 1 }
-                //             }
-                //         }
-                //     }
-                // ],
-                // grantProgramme: [
-                //     {
-                //         $group: {
-                //             _id: '$Grant Programme:Title',
-                //             count: { $sum: 1 }
-                //         }
-                //     }
-                // ]
-            }
-        }
-    ];
-}
-
-function getCorePipeline(queryParams) {
-    const match = {};
-    const addFields = {
-        cleanOrganisationType: {
-            $arrayElemAt: [{ $split: ['$BIGField_Organisation_Type', ' : '] }, 0]
-        }
-    };
-
-    if (queryParams.q) {
-        match.$text = { $search: queryParams.q };
-        addFields.score = { $meta: 'textScore' };
-    }
-
-    if (queryParams.organisationType) {
-        match['BIGField_Organisation_Type'] = { $all: queryParams.organisationType };
-    }
-
-    // if (queryParams.amount) {
-    //     match['Amount Awarded'] = { $all: queryParams.amount };
-    // }
-
-    return [{ $match: match }, { $addFields: addFields }];
-}
-
-async function query(db, queryParams) {
-    try {
-
-        const corePipeline = getCorePipeline(queryParams);
-        const facetResults = await aggregate(db, concat(corePipeline, getFacetsPipeline())).toArray();
-
-        const perPageCount = 100;
-        const currentPage = parseInt(queryParams.page) > 1 ? parseInt(queryParams.page) : 1;
-        const skipCount = perPageCount * (currentPage -1);
-        console.log({ currentPage, perPageCount, skipCount });
-
-        // const totalResults = await aggregate(db, concat(corePipeline, [{
-        //     $count: "total_results"
-        // }]));
-
-        const results = await aggregate(db, corePipeline)
-            .skip(skipCount)
-            .limit(perPageCount).toArray();
-
-        return { facetResults, results };
-    } catch (error) {
-        console.log(error);
-        return { facetResults: [], results: [] };
+        return {
+            currentPage: currentPage,
+            totalPages: totalPages,
+            prevLink: currentPage > 1 ? prevLink : null,
+            nextLink: currentPage < totalPages ? nextLink : null
+        };
+    } else {
+        return;
     }
 }
 
 async function init({ router, routeConfig }) {
-    const db = await connectToMongo();
-
     router.get(routeConfig.path, async (req, res) => {
+        const query = {
+            page: req.query.page || 1
+        };
+
+        if (req.query.q) {
+            query.q = req.query.q;
+        }
+
+        const data = await request({
+            url: `http://localhost:8888`,
+            json: true,
+            qs: query
+        });
+
         res.render(routeConfig.template, {
             queryParams: req.query,
-            collection: await query(db, req.query)
+            grants: data.results,
+            facets: data.facets,
+            meta: data.meta,
+            pagination: buildPagination(data.meta.pagination)
         });
     });
 }

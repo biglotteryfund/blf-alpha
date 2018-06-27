@@ -1,70 +1,48 @@
-{% set bodyClass = 'has-static-header' %}
+{% from "components/nav.njk" import splitNav with context %}
+
 {% extends "layouts/main.njk" %}
 
+{% set bodyClass = 'has-static-header' %}
+{% set pageAccent = 'cyan' %}
+
 {% block content %}
-    {% set pageAccent = 'cyan' %}
-
     <main role="main">
-
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="s-prose">
-                {# <pre>{{ collection | dump(2) }}</pre> #}
-                {# <pre>{{ queryParams | dump(2) }}</pre> #}
+            <h1>Search past grants</h1>
 
-                <form method="get">
-                    <div class="form-field">
-                        <label class="ff-label" for="field-q">Search</label>
-                        <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
-                    </div>
+            <form method="get">
+                <div class="form-field">
+                    <label class="ff-label" for="field-q">Search</label>
+                    <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
+                </div>
 
-                    {# {% for key, facet in collection.facetResults | first %}
-                        <fieldset>
-                            <legend>{{ key }}</legend>
-                            <ul>
-                                {% for item in facet %}
-                                    {% if item._id %}
-                                        <li><label>
-                                            <input type="checkbox" id="{{ key }}-{{ loop.index }}" name="{{ key }}[]" value="{{ item._id }}"
-                                            {% if queryParams[key] | includes(item._id) %} checked{% endif %}/>
-                                            {{ item._id }} <small>({{ item.count }})</small>
-                                        </label></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </fieldset>
-                    {% endfor %} #}
+                <div class="form-actions o-button-group">
+                    <input type="submit" value="Filter" class="btn btn--medium">
+                </div>
+            </form>
 
-                    <div class="form-actions o-button-group">
-                        <input type="submit" value="Filter" class="btn btn--medium">
-                        <input type="reset" value="Reset" class="btn btn--medium btn--reversed">
-                    </div>
-                </form>
+            <section>
+                <h2>
+                    Showing <em>{{ meta.totalResults }}</em> results
+                    {% if queryParams.q %}for "{{ queryParams.q }}"{% endif %}
+                </h2>
+                {% for grant in grants %}
+                    <article class="s-prose">
+                        <h3 class="t2">{{ grant.recipientName }}</h3>
+                        <p>{{ grant.title }}</p>
+                        <p><small>{{ grant.description }}</small></p>
+                        <dl class="o-definition-list o-definition-list--compact">
+                            <dt>Amount awarded</dt>
+                            <dd>£{{ grant.amountAwarded }}</dd>
+                            <dt>Grant programme</dt>
+                            <dd>{{ grant.grantProgrammeTitle }}</dd>
+                        </dl>
+                        <hr />
+                    </article>
+                {% endfor %}
 
-                <pre>{{ collection | dump(1) }}</pre>
-
-                <section>
-                    <h2>Grants</h2>
-                    {% for grant in collection.results %}
-                        <article>
-                            <h3>{{ grant['Title'] }}</h3>
-                            <dl class="o-definition-list o-definition-list--compact">
-                                <dt>Recipient</dt>
-                                <dd>{{ grant['Recipient Org:Name'] }}</dd>
-                                <dt>Grant Programme</dt>
-                                <dd>{{ grant['Grant Programme:Title'] }}</dd>
-                                <dt>Amount awarded</dt>
-                                <dd>£{{ grant['Amount Awarded'] }}</dd>
-                            </dl>
-
-                            <small>{{ grant['Description'] }}</small>
-                            <hr />
-                        </article>
-                    {% endfor %}
-                </section>
-
-            </div>
+                {{ splitNav(pagination) }}
+            </section>
         </div>
-
-        </section>
     </main>
 {% endblock %}
