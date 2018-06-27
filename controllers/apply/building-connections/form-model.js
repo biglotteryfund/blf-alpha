@@ -24,23 +24,18 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Project activities, outcomes, and milestones',
-    fieldsets: fields.projectActivities
-});
-
-formModel.registerStep({
-    name: 'Project location',
-    fieldsets: fields.projectLocation
-});
-
-formModel.registerStep({
-    name: 'Increasing impact',
-    fieldsets: fields.increasingImpact
+    name: 'Building social connections',
+    fieldsets: fields.socialConnections
 });
 
 formModel.registerStep({
     name: 'Evaluation and impact',
     fieldsets: fields.projectEvaluation
+});
+
+formModel.registerStep({
+    name: 'Project location',
+    fieldsets: fields.projectLocation
 });
 
 formModel.registerStep({
