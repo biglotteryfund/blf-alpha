@@ -35,6 +35,9 @@
     font-weight: bold;
     margin-bottom: $spacingUnit;
 }
+.form-fieldset__intro {
+    margin-bottom: 1.5em;
+}
 .form-fieldset__fields {
     margin-bottom: $spacingUnit;
 }
@@ -70,11 +73,7 @@
         background-color: rgba(255, 255, 0, 0.5);
     }
 }
-.form-field__help {
-    margin-top: $spacingUnit / 2;
-    font-size: 18px;
-    color: #4a4a4a;
-}
+
 .form-field__errors {
     margin-top: $spacingUnit / 3;
 }
@@ -115,6 +114,7 @@
     }
 }
 
+.ff-help,
 .ff-explanation {
     font-size: 18px;
     margin-bottom: 10px;
@@ -126,6 +126,7 @@
     display: block;
     font-style: italic;
     color: palette('charcoal-note');
+    margin-bottom: 10px;
 }
 
 .ff-text,
