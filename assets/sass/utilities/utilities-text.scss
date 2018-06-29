@@ -2,13 +2,6 @@
    Utilities: Text
    ========================================================================= */
 
-.unstyled,
-.unstyled li,
-.u-list-unstyled,
-.u-list-unstyled li {
-    list-style-type: none !important;
-}
-
 .u-align-center {
     text-align: center !important;
 }
@@ -31,6 +24,27 @@
 
 .u-link-minimal {
     text-decoration: none;
+}
+
+.u-caption {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px 6px;
+}
+
+.u-credit {
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.unstyled,
+.unstyled li,
+.u-list-unstyled,
+.u-list-unstyled li {
+    list-style-type: none !important;
 }
 
 .u-link-unstyled {
@@ -71,11 +85,4 @@
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"></path></svg>'
         );
     }
-}
-
-.u-caption {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 4px 6px;
 }

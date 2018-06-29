@@ -100,6 +100,11 @@
     margin-top: $spacingUnit * 2;
 }
 
+.u-no-margin {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .u-outline {
     border: 1px solid palette('border');
     padding: $spacingUnit;
