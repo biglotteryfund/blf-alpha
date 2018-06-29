@@ -3,7 +3,6 @@ const hash = require('object-hash');
 const { Op } = require('sequelize');
 
 const { Application } = require('../models');
-const { purifyUserInput } = require('../modules/validators');
 
 function getReferenceId(prefix, applicationData) {
     return `${prefix}-${hash
@@ -35,7 +34,7 @@ function getApplicationsById(applicationId) {
     return Application.findOne({
         where: {
             reference_id: {
-                [Op.eq]: purifyUserInput(applicationId)
+                [Op.eq]: applicationId
             }
         }
     });

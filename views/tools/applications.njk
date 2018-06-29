@@ -1,20 +1,30 @@
 {% from "components/applicationSummary.njk" import readOnlySummary %}
 
 {% extends "layouts/tools.njk" %}
-{% block title %}Application{% endblock %}
+{% block title %}{% if applicationData %}Application {{ applicationData.reference_id }} | {{ formTitle }}{% else %}{{ formTitle }} | All applications{% endif %}{% endblock %}
 
 {% block content %}
-    <h1 class="display-4 mb-4">
-        {% if applicationData %}<a href="/tools/applications/{{ form.id }}">{% endif %}
-        {{ form.title }}
-        {% if applicationData %}</a>{% endif %}
-    </h1>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% if applicationData %}
+                <li class="breadcrumb-item"><a href="../">Applications</a></li>
+                <li class="breadcrumb-item"><a href="../{{ formId }}">{{ formTitle }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ applicationData.reference_id }}</li>
+            {% else %}
+                <li class="breadcrumb-item"><a href="./">Applications</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ formTitle }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <h1 class="display-4 mb-4">{{ formTitle }}</h1>
     {% if applicationData %}
         <h2><strong>Application reference</strong>: {{ applicationData.reference_id }}</h2>
-        <h3>
+        <h5>
             {{ formatDate(applicationData.createdAt, DATE_FORMATS.fullTimestamp) }}
             <small title="{{ applicationData.createdAt }}">{{ timeFromNow(applicationData.createdAt) }}</small>
-        </h3>
+        </h5>
         <div class="card">
             <div class="card-body">
                 {{ readOnlySummary(applicationData.application_data) }}
@@ -27,7 +37,7 @@
             <div class="list-group">
                 {% for application in applications %}
                     <a class="list-group-item list-group-item-action flex-column align-items-start"
-                       href="/tools/applications/{{ form.id }}/{{ application.reference_id }}">
+                       href="./{{ formId }}/{{ application.reference_id }}">
                         <div class="d-flex w-100 justify-content-between">
                             <h3 class="h6">
                                 {{ formatDate(application.createdAt, DATE_FORMATS.fullTimestamp) }}
