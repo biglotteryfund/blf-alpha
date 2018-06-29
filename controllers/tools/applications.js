@@ -12,12 +12,14 @@ function init({ router }) {
                 return next();
             }
             // via https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript#comment85199999_46959528
-            const titleCase = (str) => str.replace(/\b\S/g, t => t.toUpperCase());
+            const titleCase = str => str.replace(/\b\S/g, t => t.toUpperCase());
             let formTitle = titleCase(applications[0].form_id.replace(/-/g, ' '));
 
             let applicationData;
             if (req.params.applicationId) {
-                applicationData = await applicationService.getApplicationsById(purifyUserInput(req.params.applicationId));
+                applicationData = await applicationService.getApplicationsById(
+                    purifyUserInput(req.params.applicationId)
+                );
                 if (!applicationData) {
                     return next();
                 }
@@ -40,8 +42,3 @@ function init({ router }) {
 module.exports = {
     init
 };
-
-
-
-
-
