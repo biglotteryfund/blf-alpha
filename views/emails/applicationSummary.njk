@@ -19,7 +19,9 @@
         <p><strong>The Big Lottery Fund</strong></p>
 
         <h2 class="space-above">Your information</h2>
-        {{ readOnlySummary(summary) }}
+        <div class="summary">
+            {{ readOnlySummary(summary) }}
+        </div>
 
         {% if referenceId %}
             <p>Your reference ID is <strong>{{ referenceId }}</strong></p>

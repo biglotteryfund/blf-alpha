@@ -1,10 +1,10 @@
 {% macro readOnlySummary(summary) %}
     {% for step in summary %}
-        <h4 class="data__step">{{ step.name }}</h4>
+        <h4>{{ step.name }}</h4>
         {% for fieldset in step.fieldsets %}
             {% for field in fieldset.fields %}
                 {% if field.value %}
-                    <h5 class="data__label">{{ field.label }}</h5>
+                    <h5>{{ field.label }}</h5>
                     {% if field.type === 'textarea' %}
                         <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
                     {% elseif field.type === 'checkbox' %}
