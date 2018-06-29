@@ -2,7 +2,7 @@
 import $ from 'jquery';
 
 export default {
-    props: ['description', 'fieldLabel', 'submitLabel'],
+    props: ['description', 'fieldLabel', 'helpText', 'submitLabel'],
     data: function() {
         return {
             statusMessage: null,
@@ -33,6 +33,7 @@ export default {
         <template v-if="statusMessage"><p>{{ statusMessage }}</p></template>
         <form v-if="!statusMessage" v-on:submit.prevent="handleSubmit">
             <label class="ff-label" for="field-message">{{ fieldLabel }}</label>
+            <p class="ff-help" v-if="helpText">{{ helpText }}</p>
             <textarea
                 class="ff-textarea spaced"
                 id="field-message"
