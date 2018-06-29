@@ -1,3 +1,4 @@
+{% from "components/applicationSummary.njk" import readOnlySummary %}
 <!doctype html>
 <html>
     <head>
@@ -11,23 +12,7 @@
         <p>The details they provided are included below:</p>
 
         <h2 class="space-above">Customer information</h2>
-        {% for step in summary %}
-            <h4 class="data__step">{{ step.name }}</h4>
-            {% for fieldset in step.fieldsets %}
-                {% for field in fieldset.fields %}
-                    {% if field.value %}
-                        <h5 class="data__label">{{ field.label }}</h5>
-                        {% if field.type === 'textarea' %}
-                            <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
-                        {% elseif field.type === 'checkbox' %}
-                            <p>{{ field.value | joinIfArray(', ') }}</p>
-                        {% else %}
-                            <p>{{ field.value }}</p>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% endfor %}
+        {{ readOnlySummary(summary) }}
 
     </body>
 </html>

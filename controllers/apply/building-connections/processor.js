@@ -26,7 +26,7 @@ module.exports = async function processor(formModel, formData) {
     const stepsWithValues = formModel.getStepsWithValues(formData);
 
     const dataToStore = formatDataForStorage(stepsWithValues);
-    const record = await applicationService.storeApplication(formModel.shortCode, dataToStore);
+    const record = await applicationService.storeApplication(formModel.id, formModel.shortCode, dataToStore);
 
     const primaryAddress = flatData['email'];
     // @TODO determine an internal email address to send to for production environments

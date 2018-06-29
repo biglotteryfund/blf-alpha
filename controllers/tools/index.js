@@ -7,11 +7,17 @@ const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const feedbackService = require('../../services/feedback');
+const applicationService = require('../../services/applications');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
 
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
+
+const availableApplicationModels = [
+    require('../apply/building-connections/form-model'),
+    require('../apply/reaching-communities/form-model')
+];
 
 const router = express.Router();
 
@@ -97,6 +103,32 @@ router.route('/order-stats').get(injectMerchandise({ locale: 'en', showAll: true
         res.render('tools/orders', {
             data: orderData,
             materials: materials
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.route('/applications/:formId/:applicationId?').get(async (req, res, next) => {
+    try {
+        const form = availableApplicationModels.find(_ => _.id === req.params.formId);
+        if (!form) {
+            return next();
+        }
+        const applications = await applicationService.getApplicationsByForm(form.id);
+        let applicationData;
+
+        if (req.params.applicationId) {
+            applicationData = await applicationService.getApplicationsById(req.params.applicationId);
+            if (!applicationData) {
+                return next();
+            }
+        }
+
+        res.render('tools/applications', {
+            applications,
+            form,
+            applicationData
         });
     } catch (error) {
         next(error);
