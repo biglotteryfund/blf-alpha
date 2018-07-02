@@ -3,20 +3,29 @@ const applicationService = require('../../services/applications');
 const { purifyUserInput } = require('../../modules/validators');
 
 function init({ router }) {
-    router.route('/applications/:formId/:applicationId?').get(async (req, res, next) => {
+
+    // domain must be www.biglotteryfund.org.uk or test.blf.digital (eg. CF-protected)
+    // and then WAF rules can protect us
+    router.route('/applications/:formId?/:applicationId?').get(async (req, res, next) => {
         try {
+            let forms, applications, formTitle, applicationData;
             const formId = purifyUserInput(req.params.formId);
 
-            const applications = await applicationService.getApplicationsByForm(formId);
-            if (!applications) {
-                return next();
+            if (!formId) {
+                // fetch all forms instead for a list
+                formTitle = 'All online forms';
+                forms = await applicationService.getAvailableForms();
+            } else {
+                // get applications for a given form
+                applications = await applicationService.getApplicationsByForm(formId);
+                if (!applications) {
+                    return next();
+                }
+                formTitle = applications[0].formTitle;
             }
-            // via https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript#comment85199999_46959528
-            const titleCase = str => str.replace(/\b\S/g, t => t.toUpperCase());
-            let formTitle = titleCase(applications[0].form_id.replace(/-/g, ' '));
 
-            let applicationData;
             if (req.params.applicationId) {
+                // look up a specific application
                 applicationData = await applicationService.getApplicationsById(
                     purifyUserInput(req.params.applicationId)
                 );
@@ -29,7 +38,8 @@ function init({ router }) {
                 formTitle,
                 applications,
                 formId,
-                applicationData
+                applicationData,
+                forms
             });
         } catch (error) {
             next(error);

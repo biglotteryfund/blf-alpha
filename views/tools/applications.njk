@@ -11,6 +11,8 @@
                 <li class="breadcrumb-item"><a href="../">Applications</a></li>
                 <li class="breadcrumb-item"><a href="../{{ formId }}">{{ formTitle }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ applicationData.reference_id }}</li>
+            {% elseif forms %}
+                <li class="breadcrumb-item active" aria-current="page">Applications</li>
             {% else %}
                 <li class="breadcrumb-item"><a href="./">Applications</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ formTitle }}</li>
@@ -30,6 +32,20 @@
                 {{ readOnlySummary(applicationData.application_data) }}
             </div>
         </div>
+    {% elseif forms %}
+        <p>Click a form to view all its applications.</p>
+        <div class="list-group">
+            {% for form in forms %}
+                <a class="list-group-item list-group-item-action flex-column align-items-start"
+                   href="./applications/{{ form.form_id}}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h3 class="h6">{{ form.formTitle }}</h3>
+                        <span class="badge badge-light">{{ form.toJSON().count}}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
     {% else %}
         <h2>All applications ({{ applications.length }})</h2>
         <p>Click an application below to view all its data.</p>

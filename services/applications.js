@@ -1,6 +1,6 @@
 'use strict';
 const hash = require('object-hash');
-const { Op } = require('sequelize');
+const { Op, fn } = require('sequelize');
 
 const { Application } = require('../models');
 
@@ -16,6 +16,14 @@ function storeApplication(formId, prefix, applicationData) {
         form_id: formId,
         reference_id: getReferenceId(prefix, applicationData),
         application_data: applicationData
+    });
+}
+
+function getAvailableForms() {
+    return Application.findAll({
+        order: [['form_id', 'ASC']],
+        group: ['form_id'],
+        attributes: ['form_id', [fn('COUNT', 'id'), 'count']]
     });
 }
 
@@ -44,5 +52,6 @@ module.exports = {
     getReferenceId,
     storeApplication,
     getApplicationsByForm,
-    getApplicationsById
+    getApplicationsById,
+    getAvailableForms
 };
