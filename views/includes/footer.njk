@@ -1,5 +1,7 @@
 {# Did you find what you were looking for? #}
-<div id="js-survey" data-lang='{{ __('global.survey') | dump | safe }}'></div>
+{% if not suppressSurvey %}
+    <div id="js-survey" data-lang='{{ __('global.survey') | dump | safe }}'></div>
+{% endif %}
 
 <footer role="contentinfo" class="footer">
     <div class="footer__inner inner">

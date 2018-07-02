@@ -1,16 +1,28 @@
 {% from "components/icons.njk" import iconArrowDown, iconClose %}
 
-{% macro inlineFeedback(description, promptLabel, fieldLabel) %}
-    <details class="inline-feedback u-dont-print js-only" id="js-feedback">
-        <summary
-            data-ga-on="click"
-            data-ga-event-category="{{ description }}"
-            data-ga-event-action="Toggle survey"
-        >{{ promptLabel }}</summary>
+{% macro inlineFeedback(description, promptLabel, fieldLabel, helpText, isToggleable = true) %}
+    {% set form %}
         <feedback-form
             description="{{ description }}"
             field-label="{{ fieldLabel }}"
+            help-text="{{ helpText }}"
             submit-label=" {{ __('global.forms.submit') }}"
         />
-    </details>
+    {% endset %}
+
+    <div class="inline-feedback u-dont-print js-only" id="js-feedback">
+        {% if isToggleable %}
+            <details>
+                <summary
+                    data-ga-on="click"
+                    data-ga-event-category="{{ description }}"
+                    data-ga-event-action="Toggle survey"
+                >{{ promptLabel }}</summary>
+                {{ form | safe }}
+            </details>
+        {% else %}
+            <h2 class="t2 t--underline">{{ promptLabel }}</h2>
+            {{ form | safe }}
+        {% endif %}
+    </div>
 {% endmacro %}
