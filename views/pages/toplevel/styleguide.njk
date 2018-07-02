@@ -65,6 +65,14 @@
 {% endset %}
 {{ sgBlock('Prose Text', sgContent, sgNotes) }}
 
+{{ sgSectionHeader('Typography Helpers') }}
+
+{% set sgContent -%}
+    <p class="u-note">Use this helper for small credit or note text</p>
+{%- endset %}
+{% set sgNotes %}<code>{{ sgContent | trim }}</code>{% endset %}
+{{ sgBlock('Credit', sgContent, sgNotes) }}
+
 {# ================================ #}
 {# Buttons                          #}
 {# ================================ #}

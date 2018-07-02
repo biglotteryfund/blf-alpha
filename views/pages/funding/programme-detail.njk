@@ -33,6 +33,12 @@
                         fields = entry.summary,
                         isCompact = true
                     ) }}
+                    {% if entry.heroCredit %}
+                        <p class="u-note u-no-margin">
+                            <strong>{{ __('global.misc.imageCredit') }}:</strong>
+                            {{ entry.heroCredit }}
+                        </p>
+                    {% endif %}
                 </div>
             </section>
 
