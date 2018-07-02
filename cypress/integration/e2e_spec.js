@@ -1,7 +1,22 @@
 describe('e2e', function() {
     const lorem = `
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Itaque minus illum error consequatur?
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Praesentium quidem nihil, similique voluptatibus tempore quasi,
+        cumque laborum officia voluptatem laboriosam tempora.
+    `.replace(/\s{2,}/g, ' ');
+
+    const loremLong = `
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Praesentium quidem nihil, similique voluptatibus tempore quasi,
+        cumque laborum officia voluptatem laboriosam tempora.
+
+        Repudiandae doloremque necessitatibus earum molestias error
+        enim quisquam eligendi impedit quidem nulla rerum dolor aut
+        veniam facilis recusandae, laudantium repellendus,
+        soluta neque consequatur tenetur maiores nostrum asperiores.
+
+        Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem,
+        minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
     `.replace(/\s{2,}/g, ' ');
 
     it('should perform  common interactions', () => {
@@ -127,7 +142,7 @@ describe('e2e', function() {
         cy.get('.start-button .btn').click();
 
         // Step 1
-        cy.get('#field-your-idea').type(lorem, { delay: 0 });
+        cy.get('#field-your-idea').type(loremLong, { delay: 0 });
 
         cy.get(submitSelector).click();
 
