@@ -10,6 +10,7 @@ const feedbackService = require('../../services/feedback');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
 
+const applicationRouter = require('./applications');
 const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
 
@@ -34,6 +35,10 @@ seedRouter.init({
  **************************************/
 
 router.use(auth.requireAuthedLevel(5));
+
+applicationRouter.init({
+    router
+});
 
 router.route('/').get((req, res) => {
     const links = [
