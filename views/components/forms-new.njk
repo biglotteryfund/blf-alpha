@@ -174,7 +174,7 @@
     {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
 {% endmacro %}
 
-{% macro formFieldset(fieldset) %}
+{% macro formFieldset(fieldset, errors) %}
     <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
         <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
             {{ fieldset.legend }}
