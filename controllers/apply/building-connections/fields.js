@@ -33,11 +33,14 @@ const currentWork = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.MANY_PARAS,
                 isRequired: true,
-                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
+                label: 'How is your current work committed to helping to prevent or reduce lonelines?',
                 helpText: `<ul>
                     <li>Describe why you are working on loneliness</li>
-                    <li>Describe what impact your work has made on tackling loneliness so far, e.g. evidence of the difference it is making and the impact on beneficiaries</li>
-                    <li>Tell us about the effectiveness of your approach and skills of your staff</li>
+                    <li>Describe what impact your work has made on tackling loneliness so far,
+                        e.g. evidence of the difference it is making, the impact on people and
+                        communities and how many people are currently benefiting</li>
+                    <li>Tell us about the effectiveness of your approach and your
+                        organisation’s experience and expertise in of working with loneliness.</li>
                 </ul>`
             }
         ]
@@ -53,15 +56,28 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'What is the project you would like funding for, and why it is needed in your area?'
+                label: 'What is the project you would like funding for, and why is it needed in your area?'
             },
             {
                 name: 'project-impact',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'How will you scale up work you are already doing and/or join up in collaboration with others?'
-            },
+                label: 'How will you scale up work you are already doing and/or join up in collaboration with others?',
+                helpText: `<p>Please describe the additional support you will be able to offer</p>`
+            }
+        ]
+    }
+];
+
+const projectActivities = [
+    {
+        legend: 'Project activities',
+        introduction: `<p>
+            Provide a brief outline of your delivery plan,
+            including the main activities and milestones that will demonstrate your achievements
+        </p>`,
+        fields: [
             {
                 name: 'project-activities',
                 type: 'textarea',
@@ -174,7 +190,12 @@ const projectBudget = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_LINES,
                 isRequired: true,
-                label: 'What do you plan to spend the money on for the period until March 2019?'
+                label: 'What do you plan to spend the money on for the period until March 2019?',
+                helpText: `<p>
+                    We need a breakdown of how you plan to use our funding,
+                    so please tell us about full details of all the costs involved,
+                    including the salary and hours of key delivery staff.
+                </p>`
             },
             {
                 name: 'project-budget-b',
@@ -201,6 +222,48 @@ const organisationDetails = [
                 name: 'organisation-name',
                 label: 'Organisation legal name',
                 isRequired: true
+            }
+        ]
+    },
+    {
+        legend: 'Organsiation address',
+        fields: [
+            {
+                type: 'text',
+                name: 'address-building-street',
+                label: 'Building and street',
+                isRequired: true,
+                size: 50
+            },
+            {
+                type: 'text',
+                name: 'address-town-city',
+                label: 'Town or city',
+                isRequired: true,
+                size: 25
+            },
+            {
+                type: 'text',
+                name: 'address-county',
+                label: 'County',
+                isRequired: true,
+                size: 25
+            },
+            {
+                type: 'text',
+                name: 'address-postcode',
+                label: 'Postcode',
+                size: 10,
+                isRequired: true,
+                validator(field) {
+                    return check(field.name)
+                        .trim()
+                        .not()
+                        .isEmpty()
+                        .withMessage('Postcode must be provided')
+                        .isPostalCode('GB')
+                        .withMessage('Invalid postcode');
+                }
             }
         ]
     },
@@ -271,6 +334,7 @@ module.exports = {
     currentWork,
     mainContact,
     organisationDetails,
+    projectActivities,
     projectBudget,
     projectEvaluation,
     projectLocation,

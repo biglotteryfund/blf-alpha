@@ -24,6 +24,11 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
+    name: 'Project activities',
+    fieldsets: fields.projectActivities
+});
+
+formModel.registerStep({
     name: 'Building social connections',
     fieldsets: fields.socialConnections
 });
