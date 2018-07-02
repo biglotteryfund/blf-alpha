@@ -223,8 +223,10 @@
                                            id="js-submit-material-order">
                                 </div>
                             </div>
-                            <h4 class="spaced--t spaced--s">{{ copy.dataProtection.title }}</h4>
-                            <aside class="t8">{{ copy.dataProtection.text | safe }}</aside>
+                            <div class="s-prose spaced--t">
+                                <h4>{{ copy.dataProtection.title }}</h4>
+                                <div class="u-note">{{ copy.dataProtection.text | safe }}</div>
+                            </div>
                         </form>
                     </div>
                 </div>
