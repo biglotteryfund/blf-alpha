@@ -85,7 +85,9 @@
 {% endmacro %}
 
 {% macro inputRadio(field) %}
-    <div class="ff-radio">
+    <fieldset class="ff-radio">
+        <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
+        {{ fieldHelpText(field) }}
         <ul class="ff-radio__list">
             {% for option in field.options %}
                 <li class="ff-radio__option">
@@ -100,15 +102,13 @@
                 </li>
             {% endfor %}
         </ul>
-    </div>
+    </fieldset>
 {% endmacro %}
 
 {% macro inputCheckbox(field) %}
     <fieldset class="ff-checkbox">
         <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
-        {% if field.explanation %}
-            <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
-        {% endif %}
+        {{ fieldHelpText(field) }}
         <ul class="ff-checkbox__list">
             {% for option in field.options %}
                 <li class="ff-checkbox__option">
