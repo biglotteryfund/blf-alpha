@@ -84,47 +84,36 @@
     >{{ field.value }}</textarea>
 {% endmacro %}
 
-{% macro inputRadio(field) %}
-    <div class="ff-radio">
-        <ul class="ff-radio__list">
-            {% for option in field.options %}
-                <li class="ff-radio__option">
-                    <input
-                        type="radio"
-                        id="field-{{ field.name }}-{{ loop.index }}"
-                        name="{{ field.name }}"
-                        value="{{ option.value }}"
-                        {% if field.value === option.value %}checked{% endif %}
-                    />
-                    <label for="field-{{ field.name }}-{{ loop.index }}">{{ option.label }}</label>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endmacro %}
-
-{% macro inputCheckbox(field) %}
-    <fieldset class="ff-checkbox">
+{% macro inputChoice(field) %}
+    <fieldset class="ff-choice">
         <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
-        {% if field.explanation %}
-            <div class="ff-explanation s-prose">{{ field.explanation | safe }}</div>
-        {% endif %}
-        <ul class="ff-checkbox__list">
+        {{ fieldHelpText(field) }}
+        <ul class="ff-choice__list">
             {% for option in field.options %}
-                <li class="ff-checkbox__option">
-                    <div class="ff-checkbox__input">
-                        <input
-                            type="checkbox"
-                            id="field-{{ field.name }}-{{ loop.index }}"
-                            name="{{ field.name }}"
-                            value="{{ option.value }}"
-                            {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                        />
+                <li class="ff-choice__option">
+                    <div class="ff-choice__input">
+                        {% if field.type === 'checkbox' %}
+                            <input
+                                type="checkbox"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                            />
+                        {% else %}
+                            <input
+                                type="radio"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value === option.value %}checked{% endif %}
+                            />
+                        {% endif %}
                     </div>
-                    <label class="ff-checkbox__label" for="field-{{ field.name }}-{{ loop.index }}">
+                    <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
                         {{ option.label }}
                         {% if option.explanation %}
-                            <small class="ff-checkbox__caption">{{ option.explanation }}</small>
+                            <small class="ff-choice__caption">{{ option.explanation }}</small>
                         {% endif %}
                     </label>
                 </li>
@@ -147,17 +136,14 @@
         {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
         <div class="form-field__main">
             <div class="form-field__body">
-                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' %}
-                    {{ inputText(field, field.type) }}
-                {% endif %}
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
                 {% endif %}
-                {% if field.type === 'radio' %}
-                    {{ inputRadio(field) }}
+                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' %}
+                    {{ inputText(field, field.type) }}
                 {% endif %}
-                {% if field.type === 'checkbox' %}
-                    {{ inputCheckbox(field) }}
+                {% if field.type === 'checkbox' or field.type === 'radio' %}
+                    {{ inputChoice(field) }}
                 {% endif %}
             </div>
             {% if fieldErrors | length > 0 %}
@@ -174,7 +160,7 @@
     {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
 {% endmacro %}
 
-{% macro formFieldset(fieldset) %}
+{% macro formFieldset(fieldset, errors) %}
     <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
         <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
             {{ fieldset.legend }}

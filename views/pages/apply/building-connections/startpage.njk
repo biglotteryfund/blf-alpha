@@ -46,11 +46,24 @@
                         <h3 class="step-preview__title">{{ loop.index }}. {{ step.name }}</h3>
                         {% for fieldset in step.fieldsets %}
                             <div class="step-preview__fieldset">
+                                <div class="step-preview__fieldset-legend">{{ fieldset.introduction | safe  }}</div>
                                 {% for field in fieldset.fields %}
                                     <div class="step-preview__field">
                                         <p class="step-preview__field-label">
                                             {{ field.label }}
                                         </p>
+                                        {% if field.type === 'checkbox' %}
+                                            Choose all that apply:
+                                            {% for option in field.options -%}
+                                                {{ option.label }}{% if not loop.last %}, {% endif %}
+                                            {%- endfor %}
+                                        {% endif %}
+                                        {% if field.type === 'radio' %}
+                                            Choose one of:
+                                            {% for option in field.options -%}
+                                                {{ option.label }}{% if not loop.last %}, {% endif %}
+                                            {%- endfor %}
+                                        {% endif %}
                                         {% if field.helpText %}
                                             <div class="step-preview__field-guidance">
                                                 {{ field.helpText | safe }}
