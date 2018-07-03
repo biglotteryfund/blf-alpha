@@ -1,9 +1,12 @@
 'use strict';
+const XLSX = require('xlsx');
+
 const applicationService = require('../../services/applications');
 const { purifyUserInput } = require('../../modules/validators');
+const { getFullUrl } = require('../../modules/urls');
 
 function init({ router }) {
-
+    // @TODO
     // domain must be www.biglotteryfund.org.uk or test.blf.digital (eg. CF-protected)
     // and then WAF rules can protect us
     router.route('/applications/:formId?/:applicationId?').get(async (req, res, next) => {
@@ -21,7 +24,36 @@ function init({ router }) {
                 if (!applications) {
                     return next();
                 }
+
                 formTitle = applications[0].formTitle;
+
+                if (req.query.download) {
+
+                    // build a link to the application page
+                    let urlBase = getFullUrl(req);
+                    urlBase = urlBase.split('?')[0]; // remove querystring
+
+                    let cells = applications.map(app => {
+                        let data = app;
+                        return {
+                            form: data.form_id,
+                            reference_id: data.reference_id,
+                            link: `${urlBase}/${data.reference_id}`
+                        };
+                    });
+
+                    // turn the applications into a spreadsheet
+                    let worksheet = XLSX.utils.json_to_sheet(cells);
+                    let workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'SheetJS');
+                    const buffer = XLSX.write(workbook, {
+                        type: 'buffer',
+                        bookType: 'xlsx'
+                    });
+                    // send the file
+                    res.setHeader('Content-Disposition', `attachment; filename=${formId}.xlsx`);
+                    return res.status(200).send(buffer);
+                }
             }
 
             if (req.params.applicationId) {

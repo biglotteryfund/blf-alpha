@@ -49,6 +49,7 @@
     {% else %}
         <h2>All applications ({{ applications.length }})</h2>
         <p>Click an application below to view all its data.</p>
+        <a class="btn btn-primary mb-3" href="?download=1">Download as Excel file</a>
         <div class="border mb-5">
             <div class="list-group">
                 {% for application in applications %}
