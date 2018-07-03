@@ -139,7 +139,7 @@ initAppLocals();
  * 3. Add custom view globals
  */
 function initViewEngine() {
-    const templateEnv = nunjucks.configure('views', {
+    const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
         noCache: appData.isDev,
