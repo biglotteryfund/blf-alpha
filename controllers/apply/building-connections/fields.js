@@ -33,14 +33,14 @@ const currentWork = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.MANY_PARAS,
                 isRequired: true,
-                label: 'How is your current work committed to helping to prevent or reduce lonelines?',
+                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
                 helpText: `<ul>
                     <li>Describe the work you are currently delivering and how it helps prevent or reduce loneliness</li>
                     <li>Describe what impact your work has made on tackling loneliness so far,
                         e.g. evidence of the difference it is making, the impact on people and
                         communities and how many people are currently benefiting</li>
                     <li>Tell us about the effectiveness of your approach and your
-                        organisation’s experience and expertise in of working with loneliness.</li>
+                        organisation’s experience and expertise of working with loneliness.</li>
                 </ul>`
             }
         ]
@@ -274,7 +274,7 @@ const organisationDetails = [
     },
     {
         legend: 'Registered organisation address',
-        introduction: `If your application is succesful we will use this address to send out a conditional offer letter.`,
+        introduction: `If your application is successful we will use this address to send out a conditional offer letter.`,
         fields: [
             {
                 type: 'text',
