@@ -44,6 +44,11 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
+    name: 'Project theme',
+    fieldsets: fields.projectTheme
+});
+
+formModel.registerStep({
     name: 'Your project budget',
     fieldsets: fields.projectBudget
 });
