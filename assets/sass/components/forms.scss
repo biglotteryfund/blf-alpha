@@ -148,26 +148,18 @@
     box-sizing: border-box;
 }
 
-.ff-radio {
+/**
+ * Form field: Choice
+ * i.e. radio or checkboxes
+ */
+.ff-choice {
     margin-bottom: 3px;
 }
-.ff-radio__option {
-    margin-bottom: 3px;
-
-    input[type='radio'] {
-        position: relative;
-        top: -2px;
-        margin: 0 5px 0 0;
-    }
-}
-
-.ff-checkbox {
-    margin-bottom: 3px;
-}
-.ff-checkbox__option {
+.ff-choice__option {
     display: table;
     margin-bottom: 5px;
 
+    input[type='radio'],
     input[type='checkbox'] {
         margin: 0 .5em 0 0;
 
@@ -178,11 +170,11 @@
         }
     }
 }
-.ff-checkbox__input,
-.ff-checkbox__label {
+.ff-choice__input,
+.ff-choice__label {
     display: table-cell;
 }
-.ff-checkbox__caption {
+.ff-choice__caption {
     font-size: 14px;
     color: palette('charcoal-note');
     display: block;
@@ -193,6 +185,9 @@
     }
 }
 
+/**
+ * Form actions
+ */
 .form-actions {
     max-width: $constrainedWide;
     border-top: 1px solid palette('border');
