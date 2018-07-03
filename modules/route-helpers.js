@@ -5,7 +5,10 @@ const { compose, concat, filter, flatMap, map, omitBy, sortBy, uniqBy } = requir
 const contentApi = require('../services/content-api');
 const routes = require('../controllers/routes');
 
-const sortedUniqByPath = compose(sortBy('path'), uniqBy('path'));
+const sortedUniqByPath = compose(
+    sortBy('path'),
+    uniqBy('path')
+);
 const isLive = route => route.live === true;
 
 /**
@@ -23,7 +26,10 @@ async function getCanonicalRoutes({ includeDraft = false } = {}) {
             };
         });
 
-        return compose(mapSummary, withoutWildcards)(section.pages);
+        return compose(
+            mapSummary,
+            withoutWildcards
+        )(section.pages);
     })(routes.sections);
 
     const cmsCanonicalUrls = await contentApi.getRoutes();

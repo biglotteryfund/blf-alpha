@@ -1,11 +1,23 @@
 'use strict';
-const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
-const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-const cached = require('../../middleware/cached');
+const { validationResult } = require('express-validator/check');
+const express = require('express');
+const Raven = require('raven');
 
-function createFormRouter({ router, formModel }) {
+const appData = require('../modules/appData');
+const buildingConnectionsForm = require('./building-connections/form-model');
+const cached = require('../middleware/cached');
+const reachingCommunitiesForm = require('./reaching-communities/form-model');
+
+function createFormRouter(formModel) {
+    const router = express.Router();
+
+    router.use((req, res, next) => {
+        res.locals.isBilingual = false;
+        next();
+    });
+
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
@@ -42,7 +54,7 @@ function createFormRouter({ router, formModel }) {
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
-            res.render('pages/apply/form', {
+            res.render('apply/form', {
                 csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
@@ -124,7 +136,7 @@ function createFormRouter({ router, formModel }) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                res.render('pages/apply/review', {
+                res.render('apply/review', {
                     csrfToken: req.csrfToken(),
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
@@ -147,7 +159,7 @@ function createFormRouter({ router, formModel }) {
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
-                    res.render('pages/apply/error', {
+                    res.render('apply/error', {
                         form: formModel,
                         stepConfig: errorStep,
                         returnUrl: `${req.baseUrl}/review`
@@ -180,6 +192,16 @@ function createFormRouter({ router, formModel }) {
     return router;
 }
 
-module.exports = {
-    createFormRouter
+module.exports = ({ router }) => {
+    router.get('/', (req, res) => {
+        res.redirect('/');
+    });
+
+    router.use('/your-idea', createFormRouter(reachingCommunitiesForm));
+
+    if (appData.isNotProduction) {
+        router.use('/building-connections', createFormRouter(buildingConnectionsForm));
+    }
+
+    return router;
 };

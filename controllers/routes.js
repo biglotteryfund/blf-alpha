@@ -32,7 +32,7 @@ const sections = {
     }),
     apply: createSection({
         path: '/apply',
-        controllerPath: path.resolve(__dirname, './apply'),
+        controllerPath: path.resolve(__dirname, '../apply'),
         showInNavigation: false
     })
 };

@@ -1,7 +1,7 @@
 'use strict';
 const { pick } = require('lodash/fp');
-const applicationService = require('../../../services/applications');
-const mail = require('../../../modules/mail');
+const applicationService = require('../../services/applications');
+const mail = require('../../modules/mail');
 
 function formatDataForStorage(stepsWithValues) {
     const picks = {

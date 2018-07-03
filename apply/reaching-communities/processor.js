@@ -1,8 +1,8 @@
 'use strict';
 const { get, isArray } = require('lodash');
 
-const appData = require('../../../modules/appData');
-const mail = require('../../../modules/mail');
+const appData = require('../../modules/appData');
+const mail = require('../../modules/mail');
 const { PROJECT_LOCATIONS, DEFAULT_EMAIL } = require('./constants');
 
 module.exports = function processor(form, formData) {

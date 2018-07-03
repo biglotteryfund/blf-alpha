@@ -1,6 +1,6 @@
 'use strict';
 
-const { HUB_EMAILS } = require('../../../modules/secrets');
+const { HUB_EMAILS } = require('../../modules/secrets');
 
 const PROJECT_LOCATIONS = [
     {
