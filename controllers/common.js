@@ -1,14 +1,15 @@
 'use strict';
 
-const { forEach, isEmpty } = require('lodash');
+const { filter, forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
-const { injectBreadcrumbs, injectListingContent } = require('../middleware/inject-content');
+const { CONTENT_TYPES } = require('./route-types');
+const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh } = require('../modules/urls');
 
-function handleStaticPage(page) {
-    return function(req, res, next) {
+function handleStaticPage(router, page) {
+    router.get(page.path, injectBreadcrumbs, function(req, res, next) {
         const copy = res.locals.copy;
         const isBilingualOverride = getOr(true, 'isBilingual')(page);
         const shouldRedirectLang = (!isBilingualOverride || isEmpty(copy)) && isWelsh(req.originalUrl);
@@ -24,11 +25,11 @@ function handleStaticPage(page) {
                 isBilingual: isBilingualOverride
             });
         }
-    };
+    });
 }
 
-function handleCmsPage(page) {
-    return (req, res, next) => {
+function handleBasicContentPage(router, page) {
+    router.get(page.path, injectListingContent, injectBreadcrumbs, (req, res, next) => {
         const content = res.locals.content;
         if (content) {
             const viewData = {
@@ -53,7 +54,25 @@ function handleCmsPage(page) {
         } else {
             next();
         }
-    };
+    });
+}
+
+function handleFlexibleContentPage(router, page) {
+    router.get(page.path, injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
+        const { entry, breadcrumbs } = res.locals;
+        if (entry) {
+            const template = page.template || 'common/flexibleContent';
+            res.render(template, {
+                content: entry,
+                title: entry.title,
+                heroImage: entry.hero,
+                breadcrumbs: breadcrumbs,
+                isBilingual: isBilingual(entry.availableLanguages)
+            });
+        } else {
+            next();
+        }
+    });
 }
 
 /**
@@ -61,13 +80,19 @@ function handleCmsPage(page) {
  * Set up path routing for a list of (static) pages
  */
 function init({ router, pages }) {
-    forEach(pages, page => {
-        if (shouldServe(page)) {
-            if (page.static) {
-                router.get(page.path, injectBreadcrumbs, handleStaticPage(page));
-            } else if (page.useCmsContent) {
-                router.get(page.path, injectListingContent, injectBreadcrumbs, handleCmsPage(page));
-            }
+    forEach(filter(pages, shouldServe), page => {
+        switch (page.contentType) {
+            case CONTENT_TYPES.STATIC:
+                handleStaticPage(router, page);
+                break;
+            case CONTENT_TYPES.CMS_BASIC:
+                handleBasicContentPage(router, page);
+                break;
+            case CONTENT_TYPES.CMS_FLEXIBLE_CONTENT:
+                handleFlexibleContentPage(router, page);
+                break;
+            default:
+                break;
         }
     });
 

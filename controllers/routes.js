@@ -2,7 +2,15 @@
 
 const path = require('path');
 const aliases = require('./aliases');
-const { cmsRoute, createSection, customRoute, legacyRoute, sessionRoute, staticRoute } = require('./route-types');
+const {
+    createSection,
+    customRoute,
+    sessionRoute,
+    staticContentRoute,
+    basicContentRoute,
+    flexibleContentRoute,
+    legacyRoute
+} = require('./route-types');
 
 const sections = {
     toplevel: createSection({
@@ -47,7 +55,7 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.home',
         isPostable: true
     }),
-    northernIreland: staticRoute({
+    northernIreland: staticContentRoute({
         path: '/northern-ireland',
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
@@ -55,14 +63,14 @@ sections.toplevel.addRoutes({
         isBilingual: false,
         heroSlug: 'down-right-brilliant'
     }),
-    wales: staticRoute({
+    wales: staticContentRoute({
         path: '/wales',
         sMaxAge: '30m',
         template: 'pages/toplevel/region',
         lang: 'toplevel.wales',
         heroSlug: 'grassroots-wales'
     }),
-    contact: cmsRoute({
+    contact: basicContentRoute({
         path: '/contact'
     }),
     data: customRoute({
@@ -71,10 +79,10 @@ sections.toplevel.addRoutes({
         lang: 'toplevel.data',
         heroSlug: 'young-shoulders-programme'
     }),
-    jobs: cmsRoute({
+    jobs: basicContentRoute({
         path: '/jobs'
     }),
-    jobsBenefits: cmsRoute({
+    jobsBenefits: basicContentRoute({
         path: '/jobs/benefits'
     }),
     search: customRoute({
@@ -106,7 +114,7 @@ sections.funding.addRoutes({
         lang: 'funding.over10k',
         heroSlug: 'passion-4-fusion-3'
     }),
-    pastGrants: staticRoute({
+    pastGrants: staticContentRoute({
         path: '/past-grants',
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
@@ -123,13 +131,13 @@ sections.funding.addRoutes({
         path: '/programmes/*',
         template: 'pages/funding/programme-detail'
     }),
-    buildingBetterOpportunities: cmsRoute({
+    buildingBetterOpportunities: basicContentRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'
     }),
-    buildingBetterOpportunitiesResources: cmsRoute({
+    buildingBetterOpportunitiesResources: basicContentRoute({
         path: '/programmes/building-better-opportunities/building-better-opportunities-resources'
     }),
-    fundingGuidanceLogos: cmsRoute({
+    fundingGuidanceLogos: basicContentRoute({
         path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
         template: 'pages/funding/logos',
         lang: 'funding.guidance.logos'
@@ -144,7 +152,7 @@ sections.funding.addRoutes({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
         isPostable: true
     }),
-    fundingGuidance: cmsRoute({
+    fundingGuidance: basicContentRoute({
         path: '/funding-guidance/*'
     }),
     fundingFinderLegacy: legacyRoute({
@@ -156,7 +164,7 @@ sections.funding.addRoutes({
  * Research Routes
  */
 sections.research.addRoutes({
-    root: staticRoute({
+    root: staticContentRoute({
         path: '/',
         sMaxAge: '30m',
         template: 'pages/toplevel/research',
@@ -169,9 +177,8 @@ sections.research.addRoutes({
  * About Routes
  */
 sections.about.addRoutes({
-    root: customRoute({
-        path: '/',
-        template: 'pages/toplevel/about'
+    root: flexibleContentRoute({
+        path: '/'
     }),
     seniorManagement: customRoute({
         path: '/our-people/senior-management-team',
@@ -185,28 +192,28 @@ sections.about.addRoutes({
         lang: 'about.ourPeople.board',
         live: false
     }),
-    freedomOfInformation: cmsRoute({
+    freedomOfInformation: basicContentRoute({
         path: '/customer-service/freedom-of-information'
     }),
-    dataProtection: cmsRoute({
+    dataProtection: basicContentRoute({
         path: '/customer-service/data-protection'
     }),
-    privacyPolicy: cmsRoute({
+    privacyPolicy: basicContentRoute({
         path: '/customer-service/privacy-policy'
     }),
-    termsOfUse: cmsRoute({
+    termsOfUse: basicContentRoute({
         path: '/customer-service/terms-of-use'
     }),
-    cookies: cmsRoute({
+    cookies: basicContentRoute({
         path: '/customer-service/cookies'
     }),
-    customerFeedback: cmsRoute({
+    customerFeedback: basicContentRoute({
         path: '/customer-service/customer-feedback'
     }),
-    bogusLotteryEmails: cmsRoute({
+    bogusLotteryEmails: basicContentRoute({
         path: '/customer-service/bogus-lottery-emails'
     }),
-    welshLanguageScheme: cmsRoute({
+    welshLanguageScheme: basicContentRoute({
         path: '/customer-service/welsh-language-scheme'
     }),
     ebulletin: customRoute({
@@ -216,7 +223,7 @@ sections.about.addRoutes({
         heroSlug: 'street-dreams',
         isPostable: true
     }),
-    content: cmsRoute({
+    content: basicContentRoute({
         path: '/*'
     })
 });

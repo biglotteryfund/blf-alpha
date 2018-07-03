@@ -28,7 +28,6 @@ function init({ router }) {
                 formTitle = applications[0].formTitle;
 
                 if (req.query.download) {
-
                     // build a link to the application page
                     let urlBase = getFullUrl(req);
                     urlBase = urlBase.split('?')[0]; // remove querystring
