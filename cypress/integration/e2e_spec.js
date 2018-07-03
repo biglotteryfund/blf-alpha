@@ -142,18 +142,20 @@ describe('e2e', function() {
         cy.get('.start-button .btn').click();
 
         // Step 1
-        cy.get('#field-your-idea').type(loremLong, { delay: 0 });
+        cy.get('#field-your-idea')
+            .invoke('val', loremLong)
+            .trigger('change');
 
         cy.get(submitSelector).click();
 
         // Step 2
         cy.get('#field-location-1').check();
         cy.get('#field-location-3').check();
-        cy.get('#field-project-location').type('Example');
+        cy.get('#field-project-location').type('Example', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Step 3
-        cy.get('#field-organisation-name').type('Test Organisation');
+        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Step 4
@@ -191,44 +193,69 @@ describe('e2e', function() {
             .click();
 
         // Step 1
-        cy.get('#field-current-work').type(lorem, { delay: 0 });
+        cy.get('#field-current-work')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 2
-        cy.get('#field-project-idea').type(lorem, { delay: 0 });
-        cy.get('#field-project-impact').type(lorem, { delay: 0 });
-        cy.get('#field-project-activities').type(lorem, { delay: 0 });
+        cy.get('#field-project-idea')
+            .invoke('val', lorem)
+            .trigger('change');
+        cy.get('#field-project-impact')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 3
-        cy.get('#field-social-connections').type(lorem, { delay: 0 });
+        cy.get('#field-project-activities-a')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 4
-        cy.get('#field-project-evaluation').type(lorem, { delay: 0 });
+        cy.get('#field-social-connections')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 5
-        cy.get('#field-location-1').check();
-        cy.get('#field-location-3').check();
-        cy.get('#field-project-location').type('Example');
+        cy.get('#field-project-evaluation')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 6
-        cy.get('#field-project-budget-total').type('£75,000');
-        cy.get('#field-project-budget-a').type(lorem, { delay: 0 });
+        cy.get('#field-location-1').check();
+        cy.get('#field-location-3').check();
+        cy.get('#field-project-location').type('Example', { delay: 0 });
+        cy.get(submitSelector).click();
+
+        // Step 7
+        cy.get('#field-primary-theme-3').check();
+        cy.get(submitSelector).click();
+
+        // Step 7
+        cy.get('#field-project-budget-total').type('£75,000', { delay: 0 });
+        cy.get('#field-project-budget-a')
+            .invoke('val', lorem)
+            .trigger('change');
         cy.get(submitSelector).click();
 
         // Step 8
-        cy.get('#field-organisation-name').type('Test organisation');
-        cy.get('#field-organisation-charity-number').type('123456789');
+        cy.get('#field-organisation-name').type('Test organisation', { delay: 0 });
+        cy.get('#field-organisation-charity-number').type('123456789', { delay: 0 });
+        cy.get('#field-address-building-street').type('1 Plough Place', { delay: 0 });
+        cy.get('#field-address-town-city').type('London', { delay: 0 });
+        cy.get('#field-address-county').type('Greater London', { delay: 0 });
+        cy.get('#field-address-postcode').type('EC4A 1DE', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Step 9
-        cy.get('#field-first-name').type('Anne');
-        cy.get('#field-last-name').type('Example');
-        cy.get('#field-email').type('example@example.com');
-        cy.get('#field-phone-number').type('0123456789');
+        cy.get('#field-first-name').type('Anne', { delay: 0 });
+        cy.get('#field-last-name').type('Example', { delay: 0 });
+        cy.get('#field-email').type('example@example.com', { delay: 0 });
+        cy.get('#field-phone-number').type('0123456789', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Review
@@ -263,12 +290,12 @@ describe('e2e', function() {
             .should('contain', 2);
 
         // Fill in form
-        cy.get('#ff-yourName').type('Example');
-        cy.get('#ff-yourEmail').type('example@example.com');
-        cy.get('#ff-yourAddress1').type('1 Example Street');
-        cy.get('#ff-yourTown').type('Fake town');
-        cy.get('#ff-yourCountry').type('England');
-        cy.get('#ff-yourPostcode').type('EC4A 1DE');
+        cy.get('#ff-yourName').type('Example', { delay: 0 });
+        cy.get('#ff-yourEmail').type('example@example.com', { delay: 0 });
+        cy.get('#ff-yourAddress1').type('1 Example Street', { delay: 0 });
+        cy.get('#ff-yourTown').type('Fake town', { delay: 0 });
+        cy.get('#ff-yourCountry').type('England', { delay: 0 });
+        cy.get('#ff-yourPostcode').type('EC4A 1DE', { delay: 0 });
         cy.get('#ff-radio-yourReason-projectOpening').check();
         cy.get('#js-submit-material-order').click();
 
