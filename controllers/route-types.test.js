@@ -1,7 +1,16 @@
 /* eslint-env jest */
 'use strict';
-
-const { createSection, staticRoute, customRoute, cmsRoute, legacyRoute } = require('./route-types');
+const config = require('config');
+const {
+    CONTENT_TYPES,
+    createSection,
+    customRoute,
+    sessionRoute,
+    staticContentRoute,
+    basicContentRoute,
+    flexibleContentRoute,
+    legacyRoute
+} = require('./route-types');
 
 describe('Route types', () => {
     it('should create a new section', () => {
@@ -11,7 +20,7 @@ describe('Route types', () => {
         });
 
         section.addRoutes({
-            exampleSection: staticRoute({
+            exampleSection: customRoute({
                 path: '/some/url'
             })
         });
@@ -22,12 +31,8 @@ describe('Route types', () => {
     });
 
     it('should define a custom route schema', () => {
-        expect(
-            customRoute({
-                path: '/some/url',
-                queryStrings: ['foo', 'bar']
-            })
-        ).toEqual({
+        const route = customRoute({ path: '/some/url', queryStrings: ['foo', 'bar'] });
+        expect(route).toEqual({
             path: '/some/url',
             isPostable: false,
             live: true,
@@ -35,38 +40,49 @@ describe('Route types', () => {
         });
     });
 
-    it('should define a static route schema', () => {
-        expect(
-            staticRoute({
-                path: '/some/url'
-            })
-        ).toEqual({
+    it('should define a session route schema', () => {
+        const route = sessionRoute({ path: '/some/url' });
+        expect(route).toEqual({
             path: '/some/url',
-            isPostable: false,
-            static: true,
+            isPostable: true,
+            cookies: [config.get('cookies.session')],
             live: true
         });
     });
 
-    it('should define a cmsRoute schema', () => {
-        expect(
-            cmsRoute({
-                path: '/some/url'
-            })
-        ).toEqual({
-            path: '/some/url',
+    it('should define a static content route schema', () => {
+        const route = staticContentRoute({ path: '/some/url' });
+        expect(route).toEqual({
+            contentType: CONTENT_TYPES.STATIC,
             isPostable: false,
-            useCmsContent: true,
+            path: '/some/url',
+            live: true
+        });
+    });
+
+    it('should define a basic content route schema', () => {
+        const route = basicContentRoute({ path: '/some/url' });
+        expect(route).toEqual({
+            contentType: CONTENT_TYPES.CMS_BASIC,
+            isPostable: false,
+            path: '/some/url',
+            live: true
+        });
+    });
+
+    it('should define a flexible content route schema', () => {
+        const route = flexibleContentRoute({ path: '/some/url' });
+        expect(route).toEqual({
+            contentType: CONTENT_TYPES.CMS_FLEXIBLE_CONTENT,
+            isPostable: false,
+            path: '/some/url',
             live: true
         });
     });
 
     it('should define a legacy schema', () => {
-        expect(
-            legacyRoute({
-                path: '/some/url'
-            })
-        ).toEqual({
+        const route = legacyRoute({ path: '/some/url' });
+        expect(route).toEqual({
             path: '/some/url',
             isPostable: true,
             allowAllQueryStrings: true,
