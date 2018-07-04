@@ -56,7 +56,10 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'What is the project you would like funding for, and why is it needed in your area?'
+                label: 'What is the project you would like funding for, and why is it needed in your area?',
+                helpText: `<ul>
+                    <li>Tell us how many people approximately will benefit from this project</li>
+                </ul>`
             },
             {
                 name: 'project-impact',
@@ -64,7 +67,10 @@ const yourIdea = [
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'How will you scale up work you are already doing and/or join up in collaboration with others?',
-                helpText: `<p>Please describe the additional support you will be able to offer</p>`
+                helpText: `<ul>
+                    <li>Describe the additional support you will be able to offer</li>
+                    <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
+                </ul>`
             }
         ]
     }
@@ -78,7 +84,7 @@ const projectActivities = [
             including the main activities and milestones that will demonstrate your achievements
             </p>
             <p>
-            If your project runs for less than the full two years only
+            If your project ends before March 2021 only
             fill out the fields for the period your project will run until.
             </p>
         `,
@@ -227,9 +233,20 @@ const projectBudget = [
     },
     {
         legend: 'Project budget',
-        introduction: `<p>
-            If your project runs for less than the full two years only fill
-            out the fields for the period your project will run until.
+        introduction: `
+        <p>
+            We need a breakdown of how you plan to use our funding,
+            so please tell us about full details of all the costs involved,
+            including the salary and hours of key delivery staff,
+            and any other funding that will be used for this project,
+            where it’s from and if it has been secured.
+        </p><p>
+            Projects do not have to be a set length of time but must be
+            finished by March 2021 and start by January 2019.
+        </p>
+        <p>
+            If your project ends before March 2021 only
+            fill out the fields for the period your project will run until.
         </p>`,
         fields: [
             {
@@ -239,9 +256,8 @@ const projectBudget = [
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?',
                 helpText: `<p>
-                    We need a breakdown of how you plan to use our funding,
-                    so please tell us about full details of all the costs involved,
-                    including the salary and hours of key delivery staff.
+                    We are keen for projects to spend part of the grant in the first
+                    quarter of the project and suggest around 20% of your budget be spent in this time.
                 </p>`
             },
             {
