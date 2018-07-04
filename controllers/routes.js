@@ -185,30 +185,6 @@ sections.about.addRoutes({
         lang: 'about.ourPeople.board',
         live: false
     }),
-    freedomOfInformation: cmsRoute({
-        path: '/customer-service/freedom-of-information'
-    }),
-    dataProtection: cmsRoute({
-        path: '/customer-service/data-protection'
-    }),
-    privacyPolicy: cmsRoute({
-        path: '/customer-service/privacy-policy'
-    }),
-    termsOfUse: cmsRoute({
-        path: '/customer-service/terms-of-use'
-    }),
-    cookies: cmsRoute({
-        path: '/customer-service/cookies'
-    }),
-    customerFeedback: cmsRoute({
-        path: '/customer-service/customer-feedback'
-    }),
-    bogusLotteryEmails: cmsRoute({
-        path: '/customer-service/bogus-lottery-emails'
-    }),
-    welshLanguageScheme: cmsRoute({
-        path: '/customer-service/welsh-language-scheme'
-    }),
     ebulletin: customRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
