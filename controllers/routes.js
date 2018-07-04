@@ -192,30 +192,6 @@ sections.about.addRoutes({
         lang: 'about.ourPeople.board',
         live: false
     }),
-    freedomOfInformation: basicContentRoute({
-        path: '/customer-service/freedom-of-information'
-    }),
-    dataProtection: basicContentRoute({
-        path: '/customer-service/data-protection'
-    }),
-    privacyPolicy: basicContentRoute({
-        path: '/customer-service/privacy-policy'
-    }),
-    termsOfUse: basicContentRoute({
-        path: '/customer-service/terms-of-use'
-    }),
-    cookies: basicContentRoute({
-        path: '/customer-service/cookies'
-    }),
-    customerFeedback: basicContentRoute({
-        path: '/customer-service/customer-feedback'
-    }),
-    bogusLotteryEmails: basicContentRoute({
-        path: '/customer-service/bogus-lottery-emails'
-    }),
-    welshLanguageScheme: basicContentRoute({
-        path: '/customer-service/welsh-language-scheme'
-    }),
     ebulletin: customRoute({
         path: '/ebulletin',
         template: 'pages/about/ebulletin',
