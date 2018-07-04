@@ -1,5 +1,5 @@
 'use strict';
-const routeHelpers = require('../helpers/route-helpers');
+const routeHelpers = require('../../modules/route-helpers');
 
 function init({ router }) {
     router.get('/pages', async (req, res, next) => {

@@ -1,5 +1,5 @@
 'use strict';
-const { createFormModel } = require('../../helpers/create-form-model');
+const { createFormModel } = require('../create-form-model');
 const processor = require('./processor');
 const fields = require('./fields');
 
@@ -10,7 +10,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'pages/apply/building-connections/startpage'
+    template: 'controllers/apply/building-connections/startpage'
 });
 
 formModel.registerStep({
@@ -72,7 +72,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'pages/apply/building-connections/success',
+    template: 'controllers/apply/building-connections/success',
     processor: processor
 });
 

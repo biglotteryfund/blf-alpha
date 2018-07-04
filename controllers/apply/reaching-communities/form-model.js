@@ -1,7 +1,7 @@
 'use strict';
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../../helpers/create-form-model');
+const { createFormModel } = require('../create-form-model');
 const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
 
@@ -12,7 +12,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'pages/apply/reaching-communities/startpage'
+    template: 'controllers/apply/reaching-communities/startpage'
 });
 
 formModel.registerStep({
@@ -213,7 +213,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'pages/apply/reaching-communities/success',
+    template: 'controllers/apply/reaching-communities/success',
     processor: processor
 });
 

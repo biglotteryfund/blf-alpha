@@ -20,7 +20,7 @@ if (appData.isDev) {
 }
 
 const { cymreigio } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./controllers/helpers/route-helpers');
+const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
@@ -139,7 +139,7 @@ initAppLocals();
  * 3. Add custom view globals
  */
 function initViewEngine() {
-    const templateEnv = nunjucks.configure('views', {
+    const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
         noCache: appData.isDev,
@@ -287,8 +287,7 @@ app.get('/error-unauthorised', (req, res) => {
  * Attempt to proxy pages from the legacy site,
  * if unsuccessful pass through to the 404 handler.
  */
-app
-    .route('*')
+app.route('*')
     .all(stripCSPHeader)
     .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
