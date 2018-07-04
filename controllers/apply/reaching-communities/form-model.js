@@ -12,7 +12,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'apply/reaching-communities/startpage'
+    template: 'controllers/apply/reaching-communities/startpage'
 });
 
 formModel.registerStep({
@@ -213,7 +213,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'apply/reaching-communities/success',
+    template: 'controllers/apply/reaching-communities/success',
     processor: processor
 });
 

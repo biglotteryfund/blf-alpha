@@ -4,10 +4,11 @@ const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
 const Raven = require('raven');
+const path = require('path');
 
-const appData = require('../modules/appData');
+const appData = require('../../modules/appData');
+const cached = require('../../middleware/cached');
 const buildingConnectionsForm = require('./building-connections/form-model');
-const cached = require('../middleware/cached');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 
 function createFormRouter(formModel) {
@@ -54,7 +55,7 @@ function createFormRouter(formModel) {
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
-            res.render('apply/form', {
+            res.render(path.resolve(__dirname, './form'), {
                 csrfToken: req.csrfToken(),
                 form: formModel,
                 step: step.withValues(stepData),
@@ -136,7 +137,7 @@ function createFormRouter(formModel) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                res.render('apply/review', {
+                res.render(path.resolve(__dirname, './review'), {
                     csrfToken: req.csrfToken(),
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
@@ -159,7 +160,7 @@ function createFormRouter(formModel) {
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
-                    res.render('apply/error', {
+                    res.render(path.resolve(__dirname, './error'), {
                         form: formModel,
                         stepConfig: errorStep,
                         returnUrl: `${req.baseUrl}/review`

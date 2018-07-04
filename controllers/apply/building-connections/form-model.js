@@ -10,7 +10,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'apply/building-connections/startpage'
+    template: 'controllers/apply/building-connections/startpage'
 });
 
 formModel.registerStep({
@@ -72,7 +72,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'apply/building-connections/success',
+    template: 'controllers/apply/building-connections/success',
     processor: processor
 });
 
