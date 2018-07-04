@@ -1,15 +1,32 @@
 'use strict';
 const XLSX = require('xlsx');
+const config = require('config');
 
 const applicationService = require('../../services/applications');
 const { purifyUserInput } = require('../../modules/validators');
 const { getFullUrl } = require('../../modules/urls');
+const appData = require('../../modules/appData');
+const { getSecret } = require('../../modules/secrets');
+
+const TEST_DOMAIN = process.env.TEST_DOMAIN || getSecret('test.domain');
+
+const restrictAccess = (req, res, next) => {
+    // these endpoints should only be available either in DEV,
+    // or on Cloudfront-hosted environments (eg. TEST/LIVE domains)
+    // which have WAF-protected status (eg. IP whitelisting)
+    const cloudfrontDomains = [config.get('siteDomain'), TEST_DOMAIN];
+    const isCloudfront = cloudfrontDomains.indexOf(req.get('host')) !== -1;
+    const shouldServe = appData.isDev || isCloudfront;
+
+    if (!shouldServe) {
+        return res.redirect('/error-unauthorised');
+    } else {
+        return next();
+    }
+};
 
 function init({ router }) {
-    // @TODO
-    // domain must be www.biglotteryfund.org.uk or test.blf.digital (eg. CF-protected)
-    // and then WAF rules can protect us
-    router.route('/applications/:formId?/:applicationId?').get(async (req, res, next) => {
+    router.route('/applications/:formId?/:applicationId?').get(restrictAccess, async (req, res, next) => {
         try {
             let forms, applications, formTitle, applicationData;
             const formId = purifyUserInput(req.params.formId);
@@ -28,7 +45,6 @@ function init({ router }) {
                 formTitle = applications[0].formTitle;
 
                 if (req.query.download) {
-
                     // build a link to the application page
                     let urlBase = getFullUrl(req);
                     urlBase = urlBase.split('?')[0]; // remove querystring
