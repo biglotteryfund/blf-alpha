@@ -22,15 +22,23 @@ formModel.registerStep({
             legend: 'Find out how we can help you',
             introduction: `
                 <p>
-                    Use the box below to tell us about your organisation, or your idea,
-                    and we will be in touch within fifteen working days to let you know if we can help.
-                    You don’t need to spend too much time on this – if it is something we can fund,
-                    this is just the start of the conversation.
+                    If you have already read our guidance about telling us your idea for either 
+                    <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or 
+                    <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box 
+                    below to share it with us, and details about your organisation. Remember, you don’t have to have 
+                    all the details, but try to include:
                 </p>
+                <ul>
+                    <li>what you want to do and why</li>
+                    <li>what difference you think your idea will make</li>
+                    <li>how people and communities are involved with your project</li>
+                    <li>the background to your organisation</li>
+                    <li>the length of your project budget and how much funding you’ll need from us</li>
+                    <li>how your idea fits in with other activities</li>                
+                </ul>
                 <p>
-                    If you have already read our guidance, and feel you have all the information
-                    to tell us your idea, you are welcome to insert this below and it will go to
-                    one of our funding officers.
+                    This information will go to one of our funding officers who will get in touch within fifteen working 
+                    days to find out more. If it is something we could fund, this is just the start of the conversation.
                 </p>
             `,
             fields: [
