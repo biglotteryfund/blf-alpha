@@ -245,7 +245,6 @@ const projectBudget = [
                 name: 'project-budget-b-amount',
                 type: 'text',
                 size: 20,
-                isRequired: true,
                 label: 'How much do you plan to spend for the period until April 2019–March 2020?'
             },
             {
@@ -258,7 +257,6 @@ const projectBudget = [
                 name: 'project-budget-c-amount',
                 type: 'text',
                 size: 20,
-                isRequired: true,
                 label: 'How much do you plan to spend for the period until April 2020–March 2021?'
             },
             {
@@ -333,13 +331,21 @@ const organisationDetails = [
                 type: 'text',
                 name: 'organisation-charity-number',
                 label: 'Registered charity number',
-                explanation: `If you're unsure, you can <a href="http://beta.charitycommission.gov.uk" target="_blank">look it up here</a>.`
+                explanation: `
+                    If you're unsure, you can
+                    <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
+                        look it up on the Charity Commission website
+                    </a>`
             },
             {
                 type: 'text',
                 name: 'organisation-company-number',
                 label: 'Companies House number',
-                explanation: `If you're unsure, you can <a href="https://beta.companieshouse.gov.uk" target="_blank">look it up here</a>.`
+                explanation: `
+                    If you're unsure, you can
+                    <a href="https://beta.companieshouse.gov.uk" target="_blank" rel="noopener">
+                        look it up on the Companies House website
+                    </a>`
             }
         ]
     }
