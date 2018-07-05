@@ -199,6 +199,7 @@ const projectBudget = [
             {
                 name: 'project-budget-total',
                 type: 'text',
+                size: 20,
                 isRequired: true,
                 label: 'How much grant funding are you applying for in total?'
             }
@@ -207,23 +208,30 @@ const projectBudget = [
     {
         legend: 'Project budget',
         introduction: `
-        <p>
-            We need a breakdown of how you plan to use our funding,
-            so please tell us about full details of all the costs involved,
-            including the salary and hours of key delivery staff,
-            and any other funding that will be used for this project,
-            where it’s from and if it has been secured.
-        </p><p>
-            Projects do not have to be a set length of time but must be
-            finished by March 2021 and start by January 2019.
-        </p>
-        <p>
-            If your project ends before March 2021 only
-            fill out the fields for the period your project will run until.
-        </p>`,
+        <ul>
+            <li>
+                We need a breakdown of how you plan to use our funding,
+                so please tell us about full details of all the costs involved,
+                including the salary and hours of key delivery staff,
+                and any other funding that will be used for this project,
+                where it’s from and if it has been secured.
+            </li>
+            <li>Projects do not have to be a set length of time but must be
+            finished by <strong>March 2021</strong> and start by <strong>January 2019</strong>.</li>
+            <li>If your project ends <strong>before March 2021</strong> only
+            fill out the fields for the period your project will run until.</li>
+        </ul>
+        `,
         fields: [
             {
-                name: 'project-budget-a',
+                name: 'project-budget-a-amount',
+                type: 'text',
+                size: 20,
+                isRequired: true,
+                label: 'How much do you plan to spend for the period until March 2019?'
+            },
+            {
+                name: 'project-budget-a-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
@@ -234,13 +242,27 @@ const projectBudget = [
                 </p>`
             },
             {
-                name: 'project-budget-b',
+                name: 'project-budget-b-amount',
+                type: 'text',
+                size: 20,
+                isRequired: true,
+                label: 'How much do you plan to spend for the period until April 2019–March 2020?'
+            },
+            {
+                name: 'project-budget-b-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
-                name: 'project-budget-c',
+                name: 'project-budget-c-amount',
+                type: 'text',
+                size: 20,
+                isRequired: true,
+                label: 'How much do you plan to spend for the period until April 2020–March 2021?'
+            },
+            {
+                name: 'project-budget-c-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
