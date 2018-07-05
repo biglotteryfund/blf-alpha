@@ -44,11 +44,6 @@ formModel.registerStep({
 });
 
 formModel.registerStep({
-    name: 'Project theme',
-    fieldsets: fields.projectTheme
-});
-
-formModel.registerStep({
     name: 'Your project budget',
     fieldsets: fields.projectBudget
 });
@@ -67,7 +62,13 @@ formModel.registerStep({
 
 formModel.registerReviewStep({
     title: 'Check this is right before submitting your idea',
-    declaration: 'By submitting this form, you confirm that all of the above details are accurate and up-to-date.',
+    declaration: `<p>
+        By submitting this form you confirm that all of the above details are accurate and up-to-date,
+        you understand that we will use any personal information you have provided for the purposes
+        described under the <a href="/about/customer-service/data-protection" target="_blank" rel="noopener">Data Protection Statement</a>
+        and if information about this application is requested under the Freedom of Information Act, we will release
+        it in line with our <a href="/about/customer-service/freedom-of-information" target="_blank" rel="noopener">Freedom of Information policy</a>.
+    </p>`,
     proceedLabel: 'Submit'
 });
 

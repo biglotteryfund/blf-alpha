@@ -56,7 +56,10 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'What is the project you would like funding for, and why is it needed in your area?'
+                label: 'What is the project you would like funding for, and why is it needed in your area?',
+                helpText: `<ul>
+                    <li>Tell us how many people approximately will benefit from this project</li>
+                </ul>`
             },
             {
                 name: 'project-impact',
@@ -64,7 +67,10 @@ const yourIdea = [
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'How will you scale up work you are already doing and/or join up in collaboration with others?',
-                helpText: `<p>Please describe the additional support you will be able to offer</p>`
+                helpText: `<ul>
+                    <li>Describe the additional support you will be able to offer</li>
+                    <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
+                </ul>`
             }
         ]
     }
@@ -78,7 +84,7 @@ const projectActivities = [
             including the main activities and milestones that will demonstrate your achievements
             </p>
             <p>
-            If your project runs for less than the full two years only
+            If your project ends before March 2021 only
             fill out the fields for the period your project will run until.
             </p>
         `,
@@ -186,33 +192,6 @@ const projectLocation = [
     }
 ];
 
-const projectTheme = [
-    {
-        legend: 'Project theme',
-        introduction: `<p>This question is purely indicative and will not impact on your chances of success.</p>`,
-        fields: [
-            {
-                isRequired: true,
-                name: 'primary-theme',
-                type: 'radio',
-                options: [
-                    'Rural',
-                    'Digital',
-                    'Employment',
-                    'Sport',
-                    'Volunteering',
-                    'Education',
-                    'Arts and culture',
-                    'Community assets',
-                    'Environment'
-                ].map(_ => ({ label: _, value: _ })),
-                label: 'What is the primary theme for your project?',
-                explanation: 'Please select one of the following as your primary theme'
-            }
-        ]
-    }
-];
-
 const projectBudget = [
     {
         legend: 'Funding total',
@@ -220,6 +199,7 @@ const projectBudget = [
             {
                 name: 'project-budget-total',
                 type: 'text',
+                size: 20,
                 isRequired: true,
                 label: 'How much grant funding are you applying for in total?'
             }
@@ -227,31 +207,60 @@ const projectBudget = [
     },
     {
         legend: 'Project budget',
-        introduction: `<p>
-            If your project runs for less than the full two years only fill
-            out the fields for the period your project will run until.
-        </p>`,
+        introduction: `
+        <ul>
+            <li>
+                We need a breakdown of how you plan to use our funding,
+                so please tell us about full details of all the costs involved,
+                including the salary and hours of key delivery staff,
+                and any other funding that will be used for this project,
+                where it’s from and if it has been secured.
+            </li>
+            <li>Projects do not have to be a set length of time but must be
+            finished by <strong>March 2021</strong> and start by <strong>January 2019</strong>.</li>
+            <li>If your project ends <strong>before March 2021</strong> only
+            fill out the fields for the period your project will run until.</li>
+        </ul>
+        `,
         fields: [
             {
-                name: 'project-budget-a',
+                name: 'project-budget-a-amount',
+                type: 'text',
+                size: 20,
+                isRequired: true,
+                label: 'How much do you plan to spend for the period until March 2019?'
+            },
+            {
+                name: 'project-budget-a-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?',
                 helpText: `<p>
-                    We need a breakdown of how you plan to use our funding,
-                    so please tell us about full details of all the costs involved,
-                    including the salary and hours of key delivery staff.
+                    We are keen for projects to spend part of the grant in the first
+                    quarter of the project and suggest around 20% of your budget be spent in this time.
                 </p>`
             },
             {
-                name: 'project-budget-b',
+                name: 'project-budget-b-amount',
+                type: 'text',
+                size: 20,
+                label: 'How much do you plan to spend for the period until April 2019–March 2020?'
+            },
+            {
+                name: 'project-budget-b-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
-                name: 'project-budget-c',
+                name: 'project-budget-c-amount',
+                type: 'text',
+                size: 20,
+                label: 'How much do you plan to spend for the period until April 2020–March 2021?'
+            },
+            {
+                name: 'project-budget-c-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
@@ -322,13 +331,21 @@ const organisationDetails = [
                 type: 'text',
                 name: 'organisation-charity-number',
                 label: 'Registered charity number',
-                explanation: `If you're unsure, you can <a href="http://beta.charitycommission.gov.uk" target="_blank">look it up here</a>.`
+                explanation: `
+                    If you're unsure, you can
+                    <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
+                        look it up on the Charity Commission website
+                    </a>`
             },
             {
                 type: 'text',
                 name: 'organisation-company-number',
                 label: 'Companies House number',
-                explanation: `If you're unsure, you can <a href="https://beta.companieshouse.gov.uk" target="_blank">look it up here</a>.`
+                explanation: `
+                    If you're unsure, you can
+                    <a href="https://beta.companieshouse.gov.uk" target="_blank" rel="noopener">
+                        look it up on the Companies House website
+                    </a>`
             }
         ]
     }
@@ -386,7 +403,6 @@ module.exports = {
     projectBudget,
     projectEvaluation,
     projectLocation,
-    projectTheme,
     socialConnections,
     yourIdea
 };

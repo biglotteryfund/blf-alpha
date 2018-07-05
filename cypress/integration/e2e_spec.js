@@ -232,12 +232,9 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 7
-        cy.get('#field-primary-theme-3').check();
-        cy.get(submitSelector).click();
-
-        // Step 7
         cy.get('#field-project-budget-total').type('£75,000', { delay: 0 });
-        cy.get('#field-project-budget-a')
+        cy.get('#field-project-budget-a-amount').type('£20,000', { delay: 0 });
+        cy.get('#field-project-budget-a-description')
             .invoke('val', lorem)
             .trigger('change');
         cy.get(submitSelector).click();
