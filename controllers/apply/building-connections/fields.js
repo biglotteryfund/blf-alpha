@@ -192,33 +192,6 @@ const projectLocation = [
     }
 ];
 
-const projectTheme = [
-    {
-        legend: 'Project theme',
-        introduction: `<p>This question is purely indicative and will not impact on your chances of success.</p>`,
-        fields: [
-            {
-                isRequired: true,
-                name: 'primary-theme',
-                type: 'radio',
-                options: [
-                    'Rural',
-                    'Digital',
-                    'Employment',
-                    'Sport',
-                    'Volunteering',
-                    'Education',
-                    'Arts and culture',
-                    'Community assets',
-                    'Environment'
-                ].map(_ => ({ label: _, value: _ })),
-                label: 'What is the primary theme for your project?',
-                explanation: 'Please select one of the following as your primary theme'
-            }
-        ]
-    }
-];
-
 const projectBudget = [
     {
         legend: 'Funding total',
@@ -402,7 +375,6 @@ module.exports = {
     projectBudget,
     projectEvaluation,
     projectLocation,
-    projectTheme,
     socialConnections,
     yourIdea
 };
