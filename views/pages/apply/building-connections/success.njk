@@ -23,13 +23,13 @@
                     which will decide whether the idea is something we can fund.
                 </p>
 
-                {% if appData.isNotProduction %}
-                    {{ inlineFeedback(
-                        description = form.title,
-                        promptLabel = "Can you spare a minute to give us some feedback?",
-                        fieldLabel = "How was your experience of submitting an application?"
-                    )  }}
-                {% endif %}
+                {{ inlineFeedback(
+                    description = form.title,
+                    promptLabel = "Can you spare a minute to give us some feedback?",
+                    fieldLabel = "How was your experience of submitting an application?",
+                    helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your application, just tell us how you found the experience.",
+                    isToggleable = false
+                )  }}
             </div>
         </div>
     </main>
