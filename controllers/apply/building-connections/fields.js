@@ -33,7 +33,7 @@ const currentWork = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.MANY_PARAS,
                 isRequired: true,
-                label: 'How is your current work committed to helping to prevent or reduce loneliness?',
+                label: 'How is your current work helping to prevent or reduce loneliness?',
                 helpText: `<ul>
                     <li>Describe the work you are currently delivering and how it helps prevent or reduce loneliness</li>
                     <li>Describe what impact your work has made on tackling loneliness so far,
@@ -58,6 +58,7 @@ const yourIdea = [
                 isRequired: true,
                 label: 'What is the project you would like funding for, and why is it needed in your area?',
                 helpText: `<ul>
+                    <li>Describe your project idea and why is it needed in your area</li>
                     <li>Tell us how many people approximately will benefit from this project</li>
                 </ul>`
             },
