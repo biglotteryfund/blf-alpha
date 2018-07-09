@@ -29,7 +29,7 @@
                             titleText = page.trailText | default(page.title, true),
                             imagePath = page.photo,
                             imageCaption = page.title,
-                            linkUrl = localify('/' + page.path),
+                            linkUrl = page.link,
                             accent = page.themeColour,
                             useRemoteImages = true
                         )}}
