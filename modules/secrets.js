@@ -12,7 +12,10 @@ function getRawParameters() {
 }
 
 function parseSecrets(rawParameters) {
-    const mapKeyedValues = flow(keyBy('Name'), mapValues('Value'));
+    const mapKeyedValues = flow(
+        keyBy('Name'),
+        mapValues('Value')
+    );
     return mapKeyedValues(rawParameters);
 }
 
@@ -36,6 +39,8 @@ function getSecret(name) {
     }
 }
 
+const APPLICATIONS_SERVICE_ENDPOINT =
+    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint');
 const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
 const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
 const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
@@ -63,6 +68,7 @@ module.exports = {
     getRawParameters,
     getSecretFromRawParameters,
     getSecret,
+    APPLICATIONS_SERVICE_ENDPOINT,
     CONTENT_API_URL,
     DB_HOST,
     DB_NAME,
