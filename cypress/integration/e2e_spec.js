@@ -251,7 +251,7 @@ describe('e2e', function() {
         // Step 9
         cy.get('#field-first-name').type('Anne', { delay: 0 });
         cy.get('#field-last-name').type('Example', { delay: 0 });
-        cy.get('#field-email').type('example@example.com', { delay: 0 });
+        cy.get('#field-email').type(`example-${new Date().getTime()}@example.com`, { delay: 0 });
         cy.get('#field-phone-number').type('0123456789', { delay: 0 });
         cy.get(submitSelector).click();
 
