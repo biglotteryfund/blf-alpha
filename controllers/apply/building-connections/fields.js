@@ -39,8 +39,8 @@ const currentWork = [
                     <li>Describe what impact your work has made on tackling loneliness so far,
                         e.g. evidence of the difference it is making, the impact on people and
                         communities and how many people are currently benefiting</li>
-                    <li>Tell us about the effectiveness of your approach and your
-                        organisation’s experience and expertise of working with loneliness.</li>
+                    <li>Tell us about the effectiveness of your approach, your organisation’s 
+                        experience and the skills of your staff.</li>
                 </ul>`
             }
         ]
@@ -60,6 +60,7 @@ const yourIdea = [
                 helpText: `<ul>
                     <li>Describe your project idea and why is it needed in your area</li>
                     <li>Tell us how many people approximately will benefit from this project</li>
+                    <li>Tell us about how you will reach all sections of the community and make your project inclusive to all</li>
                 </ul>`
             },
             {
@@ -67,10 +68,11 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'How will you scale up work you are already doing and/or join up in collaboration with others?',
+                label: 'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
                 helpText: `<ul>
                     <li>Describe the additional support you will be able to offer</li>
                     <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
+                    <li>Tell us about how you will ensure that the impact is sustained after this funding finishes</li>
                 </ul>`
             }
         ]
@@ -93,20 +95,20 @@ const projectActivities = [
             {
                 name: 'project-activities-a',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label: 'What do you hope to achieve for the period until March 2019?'
             },
             {
                 name: 'project-activities-b',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you hope to achieve for the period from April 2019–March 2020?'
             },
             {
                 name: 'project-activities-c',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_LINES,
+                lengthHint: LENGTH_HINTS.FEW_PARAS,
                 label: 'What do you hope to achieve for the period April 2020–March 2021?'
             }
         ]
@@ -238,8 +240,8 @@ const projectBudget = [
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?',
                 helpText: `<p>
-                    We are keen for projects to spend part of the grant in the first
-                    quarter of the project and suggest around 20% of your budget be spent in this time.
+                    Please note that we require you to spend a minimum of 20% of your whole budget in 
+                    the first quarter of the project. We will ask you to evidence this in April 2019.
                 </p>`
             },
             {
@@ -335,8 +337,8 @@ const organisationDetails = [
                 explanation: `
                     If you're unsure, you can
                     <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
-                        look it up on the Charity Commission website
-                    </a>`
+                        look it up on the Charity Commission website</a>. <br>
+                    If you don't have one, you can provide a Companies House number below instead.`
             },
             {
                 type: 'text',
