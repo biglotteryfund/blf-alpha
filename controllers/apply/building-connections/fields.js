@@ -35,11 +35,11 @@ const currentWork = [
                 isRequired: true,
                 label: 'How is your current work helping to prevent or reduce loneliness?',
                 helpText: `<ul>
-                    <li>Describe the work you are currently delivering and how it helps prevent or reduce loneliness</li>
+                    <li>Describe the work you are currently delivering and how it helps to build connections to prevent or reduce loneliness</li>
                     <li>Describe what impact your work has made on tackling loneliness so far,
                         e.g. evidence of the difference it is making, the impact on people and
                         communities and how many people are currently benefiting</li>
-                    <li>Tell us about the effectiveness of your approach, your organisation’s 
+                    <li>Tell us how you know your approach is working, about your organisation’s 
                         experience and the skills of your staff.</li>
                 </ul>`
             }
@@ -59,8 +59,8 @@ const yourIdea = [
                 label: 'What is the project you would like funding for, and why is it needed in your area?',
                 helpText: `<ul>
                     <li>Describe your project idea and why is it needed in your area</li>
-                    <li>Tell us how many people approximately will benefit from this project</li>
-                    <li>Tell us about how you will reach all sections of the community and make your project inclusive to all</li>
+                    <li>Tell us how many people approximately will benefit from this project and who they might be</li>
+                    <li>Tell us about how you will reach people in the community and make your project inclusive</li>
                 </ul>`
             },
             {
@@ -70,7 +70,7 @@ const yourIdea = [
                 isRequired: true,
                 label: 'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
                 helpText: `<ul>
-                    <li>Describe the additional support you will be able to offer</li>
+                    <li>Describe the additional support you will be able to offer with the funding</li>
                     <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
                     <li>Tell us about how you will ensure that the impact is sustained after this funding finishes</li>
                 </ul>`
@@ -125,7 +125,7 @@ const socialConnections = [
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
                 label:
-                    'How will the project help to build social connections and relationships between individuals and communities?',
+                    'How will the project help to build or increase social connections and relationships between individuals and communities?',
                 helpText: `<ul>
                     <li>Describe how the project will increase social connections, sense of community and/or belonging</li>
                     <li>Describe how people and communities are involved in the project</li>
@@ -152,7 +152,7 @@ const projectEvaluation = [
                         Describe how your project will help add to collective evidence and learning
                         about what works in preventing or reducing loneliness
                     </li>
-                    <li>Describe the types of evidence you are going to collect</li>
+                    <li>Describe the types of information you are going to collect</li>
                     <li>Describe how your approach will build on previous learning</li>
                 </ul>`
             }
@@ -286,7 +286,7 @@ const organisationDetails = [
     },
     {
         legend: 'Registered organisation address',
-        introduction: `If your application is successful we will use this address to send out a conditional offer letter.`,
+        introduction: `If your application is successful we will use this address to send out a conditional offer letter and it will also be used for checks.`,
         fields: [
             {
                 type: 'text',
