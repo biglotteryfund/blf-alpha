@@ -142,6 +142,7 @@
             position: absolute;
             top: 0;
             right: $spacingUnit;
+            color: #ffffff;
 
             @include mq(tablet) {
                 right: $spacingUnit * 2;
