@@ -23,10 +23,7 @@ module.exports = ({ router }) => {
     });
 
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
-
-    if (appData.isNotProduction) {
-        router.use('/building-connections', initFormRouter(buildingConnectionsForm));
-    }
+    router.use('/building-connections', initFormRouter(buildingConnectionsForm));
 
     return router;
 };
