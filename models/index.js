@@ -49,7 +49,6 @@ if (DB_HOST) {
 
     // add models
     db.Users = sequelize.import('../models/user.js');
-    db.Application = sequelize.import('./application');
     db.Feedback = sequelize.import('./feedback');
 
     db.SurveyAnswer = sequelize.import('./survey');
