@@ -34,6 +34,7 @@ const aliases = {
     '/about-big/our-approach/accessibility': '/about/customer-service/accessibility',
     '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
     '/about-big/strategic-framework': '/about/strategic-framework',
+    '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
     '/awardsforall': '/funding/under10k',
     '/cymru': '/welsh/wales',
     '/data-protection': '/about/customer-service/data-protection',
