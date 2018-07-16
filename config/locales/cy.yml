@@ -26,10 +26,10 @@ global:
   footerLinks:
     title: Dolenni gwib
     links:
+    - label: Cyfleoedd tendro
+      href: "/welsh/about/customer-service/supplier-zone"
     - label: Rhyddid Gwybodaeth
       href: "/welsh/about/customer-service/freedom-of-information"
-    - label: Cyfleoedd tendro
-      href: "/welsh/about-big/tender-opportunities"
     - label: Dogfennau corfforaethol
       href: "/welsh/about-big/publications/corporate-documents"
     - label: Polisi Preifatrwydd

@@ -26,10 +26,10 @@ global:
   footerLinks:
     title: Quick links
     links:
+    - label: Tender and Contract Opportunities
+      href: "/about/customer-service/supplier-zone"
     - label: Freedom of Information
       href: "/about/customer-service/freedom-of-information"
-    - label: Tender opportunities
-      href: "/about-big/tender-opportunities"
     - label: Corporate documents
       href: "/about-big/publications/corporate-documents"
     - label: Privacy Policy
