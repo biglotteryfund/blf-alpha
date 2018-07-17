@@ -4,12 +4,6 @@
 const filters = require('./filters');
 
 describe('Filters', () => {
-    it('should join as a string with delimiter if an array', () => {
-        expect(filters.joinIfArray('not an array')).toBe('not an array');
-        expect(filters.joinIfArray(['a', 'list', 'of', 'words'], ', ')).toBe('a, list, of, words');
-        expect(filters.joinIfArray(['something', 'else'], '*')).toBe('something*else');
-    });
-
     it('should create a tel link', () => {
         expect(filters.makePhoneLink('0121 555 5555')).toBe(
             '<a href="tel:01215555555" class="is-phone-link">0121 555 5555</a>'

@@ -7,8 +7,8 @@
                     <h5>{{ field.label }}</h5>
                     {% if field.type === 'textarea' %}
                         <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
-                    {% elseif field.type === 'checkbox' %}
-                        <p>{{ field.value | joinIfArray(', ') }}</p>
+                    {% elseif (field.value | isArray) %}
+                        <p>{{ field.value | join(', ') }}</p>
                     {% else %}
                         <p>{{ field.value }}</p>
                     {% endif %}

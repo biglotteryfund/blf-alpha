@@ -24,12 +24,8 @@ function slugify(str) {
     return slug(str, { lower: true });
 }
 
-function joinIfArray(xs, delimiter) {
-    if (Array.isArray(xs)) {
-        return xs.join(delimiter);
-    } else {
-        return xs;
-    }
+function isArray(xs) {
+    return Array.isArray(xs);
 }
 
 function makePhoneLink(str) {
@@ -69,7 +65,7 @@ module.exports = {
     getCachebustedPath,
     getCachebustedRealPath,
     getImagePath,
-    joinIfArray,
+    isArray,
     mailto,
     makePhoneLink,
     numberWithCommas,
