@@ -121,7 +121,7 @@ function initProgrammesList({ router, routeConfig }) {
 
         templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
-        res.render(path.resolve(__dirname, './views/programmes'), templateData);
+        res.render(path.resolve(__dirname, './views/programmes-list'), templateData);
     });
 }
 
@@ -133,7 +133,7 @@ function initProgrammeDetail(router) {
         const entry = res.locals.fundingProgramme;
 
         if (entry && entry.contentSections.length > 0) {
-            res.render(path.resolve(__dirname, './views/programme-detail'), {
+            res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 title: entry.summary.title,
                 heroImage: entry.hero || heroImages.fallbackHeroImage,
@@ -142,6 +142,20 @@ function initProgrammeDetail(router) {
         } else {
             next();
         }
+    });
+}
+
+/**
+ * Route Strategic Programme Detail
+ */
+function initStrategicProgrammeDetail(router) {
+    router.get('/strategic/headstart', function(req, res) {
+        res.render(path.resolve(__dirname, './views/strategic-programme'), {
+            entry: null,
+            title: 'Head start',
+            heroImage: heroImages.fallbackHeroImage,
+            isBilingual: false
+        });
     });
 }
 
@@ -157,6 +171,10 @@ function init({ router, routeConfigs }) {
         router: router,
         routeConfig: routeConfigs.fundingFinderLegacy
     });
+
+    if (process.env.NODE_ENV !== 'production') {
+        initStrategicProgrammeDetail(router);
+    }
 }
 
 module.exports = {

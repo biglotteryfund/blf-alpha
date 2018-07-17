@@ -3,9 +3,9 @@
 {% from "components/nav.njk" import selectionTrail %}
 
 {% extends "layouts/main.njk" %}
+{% set pageAccent = 'pink' %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
     <main role="main">
         {{ hero(
             titleText = title,
@@ -13,18 +13,12 @@
             accent = pageAccent
         ) }}
 
-        <section class="content-box inner--wide-only
-            accent--{{ pageAccent }} a--border-top nudge-up">
+        <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top nudge-up">
             {{ selectionTrail(trail = activeBreadcrumbs) }}
-
             <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
 
             {% if programmes | length > 0 %}
-                {{ programmeList(
-                    accent = pageAccent,
-                    labels = copy.details,
-                    programmes = programmes
-                ) }}
+                {{ programmeList(programmes, accent = pageAccent) }}
             {% else %}
                 <p>No results</p>
             {% endif %}

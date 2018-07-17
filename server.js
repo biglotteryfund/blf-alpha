@@ -287,8 +287,7 @@ app.get('/error-unauthorised', (req, res) => {
  * Attempt to proxy pages from the legacy site,
  * if unsuccessful pass through to the 404 handler.
  */
-app
-    .route('*')
+app.route('*')
     .all(stripCSPHeader)
     .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);

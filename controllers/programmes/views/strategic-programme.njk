@@ -1,0 +1,72 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/tabs.njk" import tabs %}
+{% from "components/programmes.njk" import programmeStats with context %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+<main role="main">
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
+
+    <div class="nudge-up">
+        <section class="content-box content-box--tinted inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose u-constrained-content-wide">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt sapiente similique beatae asperiores nulla minima quos dolores fugiat placeat eos eaque voluptatem ut, doloribus fugit? Atque laborum quod itaque facilis.</p>
+            </div>
+        </section>
+
+        <div class="inner--wide-only">
+            {% set tabContentAims -%}
+                <div class="content-box content-box--frameless">
+                    <div class="s-prose u-constrained-content-wide
+                        accent-content--{{ pageAccent }} js-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, porro?</p>
+                    </div>
+                </div>
+            {%- endset %}
+
+            {% set tabContentImpact -%}
+                <div class="content-box content-box--frameless">
+                    <div class="s-prose u-constrained-content-wide
+                        accent-content--{{ pageAccent }} js-content">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
+                    </div>
+                </div>
+            {%- endset %}
+
+            {% set tabContentPartnerships -%}
+                <div class="content-box content-box--frameless">
+                    <div class="s-prose u-constrained-content-wide
+                        accent-content--{{ pageAccent }} js-content">
+                        <p>Partnerships</p>
+                    </div>
+                </div>
+            {%- endset %}
+
+            {% set tabItems = [{
+                "id": "section-1",
+                "title": "Aims & approach",
+                "content": tabContentAims,
+                "active": true
+            }, {
+                "id": "section-2",
+                "title": "Impact & learnings",
+                "content": tabContentImpact
+            }, {
+                "id": "section-3",
+                "title": "Partnerships",
+                "content": tabContentPartnerships
+            }] %}
+
+            {{ tabs(id = 'test', content = tabItems, showPagination = true) }}
+        </div>
+    </div>
+</main>
+{% endblock %}
