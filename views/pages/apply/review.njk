@@ -54,8 +54,8 @@
                                                 {% else %}
                                                     {{ cleanValue }}
                                                 {% endif %}
-                                            {% elseif field.type === 'checkbox' %}
-                                                {{ field.value | joinIfArray(', ') }}
+                                            {% elseif (field.value | isArray) %}
+                                                {{ field.value | join(', ') }}
                                             {% else %}
                                                 {{ field.value }}
                                             {% endif %}
