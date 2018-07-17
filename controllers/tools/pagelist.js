@@ -1,10 +1,10 @@
 'use strict';
-const routeHelpers = require('../helpers/route-helpers');
+const { getCanonicalRoutes } = require('../../modules/route-helpers');
 
 function init({ router }) {
     router.get('/pages', async (req, res, next) => {
         try {
-            const canonicalRoutes = await routeHelpers.getCanonicalRoutes();
+            const canonicalRoutes = await getCanonicalRoutes();
             res.render('tools/pagelist', {
                 canonicalRoutes
             });
