@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
+const { programmeFilters, reformatQueryString } = require('../helpers');
 
 const mockProgrammes = [
     {

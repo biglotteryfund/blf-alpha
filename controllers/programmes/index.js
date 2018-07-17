@@ -1,11 +1,12 @@
 'use strict';
+const path = require('path');
 const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
 const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
-const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
+const { programmeFilters, reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { redirectWithError } = require('../http-errors');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
@@ -120,19 +121,19 @@ function initProgrammesList({ router, routeConfig }) {
 
         templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
-        res.render(routeConfig.template, templateData);
+        res.render(path.resolve(__dirname, './views/programmes'), templateData);
     });
 }
 
 /**
  * Route: Programme Detail
  */
-function initProgrammeDetail({ router, routeConfig }) {
+function initProgrammeDetail(router) {
     router.get('/programmes/:slug', injectFundingProgramme, (req, res, next) => {
         const entry = res.locals.fundingProgramme;
 
         if (entry && entry.contentSections.length > 0) {
-            res.render(routeConfig.template, {
+            res.render(path.resolve(__dirname, './views/programme-detail'), {
                 entry: entry,
                 title: entry.summary.title,
                 heroImage: entry.hero || heroImages.fallbackHeroImage,
@@ -150,10 +151,7 @@ function init({ router, routeConfigs }) {
         routeConfig: routeConfigs.programmes
     });
 
-    initProgrammeDetail({
-        router: router,
-        routeConfig: routeConfigs.programmeDetail
-    });
+    initProgrammeDetail(router);
 
     initLegacyFundingFinder({
         router: router,
