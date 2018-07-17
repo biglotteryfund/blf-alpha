@@ -2,7 +2,7 @@
 'use strict';
 
 const httpMocks = require('node-mocks-http');
-const { cleanLinkNoise, redirectNonWww } = require('./redirects');
+const { cleanLinkNoise, redirectNonWww } = require('../redirects');
 
 describe('redirects', () => {
     describe('cleanLinkNoise', () => {

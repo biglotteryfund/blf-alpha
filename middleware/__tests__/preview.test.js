@@ -5,7 +5,7 @@ const httpMocks = require('node-mocks-http');
 
 const TEST_PREVIEW_DOMAIN = 'test.foo.com';
 process.env.PREVIEW_DOMAIN = TEST_PREVIEW_DOMAIN;
-const preview = require('./preview');
+const preview = require('../preview');
 
 describe('preview middleware', () => {
     it('should store preview data in a local variable on valid preview endpoints', () => {

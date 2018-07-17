@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const filters = require('./filters');
+const filters = require('../filters');
 
 describe('Filters', () => {
     it('should create a tel link', () => {

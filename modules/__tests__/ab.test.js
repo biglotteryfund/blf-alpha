@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { splitPercentages } = require('./ab');
+const { splitPercentages } = require('../ab');
 
 describe('A/B Test Utilities', () => {
     describe('#splitPercentages', () => {

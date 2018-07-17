@@ -161,7 +161,6 @@
     "jest": "^23.2.0",
     "lint-staged": "^7.2.0",
     "livereload": "^0.7.0",
-    "nock": "^9.3.3",
     "node-mocks-http": "^1.7.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.17.5",
