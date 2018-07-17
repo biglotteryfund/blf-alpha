@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { getMetaTitle } = require('./locals');
+const { getMetaTitle } = require('../locals');
 
 describe('locals middleware', () => {
     it('should return meta title for page', () => {

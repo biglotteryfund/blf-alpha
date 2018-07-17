@@ -2,7 +2,7 @@
 'use strict';
 
 const httpMocks = require('node-mocks-http');
-const { defaultSecurityHeaders } = require('./securityHeaders');
+const { defaultSecurityHeaders } = require('../securityHeaders');
 
 describe('securityHeaders', () => {
     it('should add Content-Security-Policy header', () => {

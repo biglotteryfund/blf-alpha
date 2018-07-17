@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { getCachebustedPath, getCachebustedRealPath, getImagePath } = require('./assets');
+const { getCachebustedPath, getCachebustedRealPath, getImagePath } = require('../assets');
 
 describe('assets', () => {
     it('should get cachebusted url path for an asset', () => {

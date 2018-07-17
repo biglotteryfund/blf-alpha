@@ -10,7 +10,7 @@ const {
     normaliseQuery,
     sanitiseUrlPath,
     stripTrailingSlashes
-} = require('./urls');
+} = require('../urls');
 
 const httpMocks = require('node-mocks-http');
 

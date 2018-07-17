@@ -2,7 +2,7 @@
 'use strict';
 
 const { defaultsDeep } = require('lodash');
-const { generateUrlList, makeBehaviourItem } = require('./cloudfront');
+const { generateUrlList, makeBehaviourItem } = require('../cloudfront');
 
 describe('Cloudfront Helpers', () => {
     const testRoutes = {

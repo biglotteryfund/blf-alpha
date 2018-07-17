@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { getCurrentSection } = require('./viewGlobals');
+const { getCurrentSection } = require('../viewGlobals');
 
 describe('View Globals', () => {
     describe('#getCurrentSection', () => {
