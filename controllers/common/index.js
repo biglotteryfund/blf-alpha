@@ -1,12 +1,13 @@
 'use strict';
 
+const path = require('path');
 const { filter, forEach, isEmpty } = require('lodash');
 const { getOr } = require('lodash/fp');
 
-const { CONTENT_TYPES } = require('./route-types');
-const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../middleware/inject-content');
-const { isBilingual, shouldServe } = require('../modules/pageLogic');
-const { isWelsh } = require('../modules/urls');
+const { CONTENT_TYPES } = require('../route-types');
+const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../../middleware/inject-content');
+const { isBilingual, shouldServe } = require('../../modules/pageLogic');
+const { isWelsh } = require('../../modules/urls');
 
 function handleStaticPage(router, page) {
     router.get(page.path, injectBreadcrumbs, function(req, res, next) {
@@ -44,9 +45,9 @@ function handleBasicContentPage(router, page) {
                 if (page.template) {
                     return page.template;
                 } else if (content.children) {
-                    return 'common/listingPage';
+                    return path.resolve(__dirname, './views/listingPage');
                 } else {
-                    return 'common/informationPage';
+                    return path.resolve(__dirname, './views/informationPage');
                 }
             })();
 
@@ -61,7 +62,7 @@ function handleFlexibleContentPage(router, page) {
     router.get(page.path, injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
         const { entry, breadcrumbs } = res.locals;
         if (entry) {
-            const template = page.template || 'common/flexibleContent';
+            const template = page.template || path.resolve(__dirname, './views/flexibleContent');
             res.render(template, {
                 content: entry,
                 title: entry.title,

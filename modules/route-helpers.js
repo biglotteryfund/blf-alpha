@@ -2,13 +2,14 @@
 
 const { compose, concat, filter, flatMap, map, omitBy, sortBy, uniqBy } = require('lodash/fp');
 
-const contentApi = require('../../services/content-api');
-const routes = require('../routes');
+const contentApi = require('../services/content-api');
+const routes = require('../controllers/routes');
 
 const sortedUniqByPath = compose(
     sortBy('path'),
     uniqBy('path')
 );
+
 const isLive = route => route.live === true;
 
 /**
