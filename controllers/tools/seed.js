@@ -1,12 +1,12 @@
 'use strict';
-const { sampleSize } = require('lodash');
+const { sampleSize, startsWith } = require('lodash');
 const uuidv4 = require('uuid/v4');
 const userService = require('../../services/user');
-const appData = require('../../modules/appData');
 const aliases = require('../../controllers/aliases');
+const { DB_CONNECTION_URI } = require('../../modules/secrets');
 
 function shouldMount() {
-    return appData.isNotProduction && process.env.USE_LOCAL_DATABASE;
+    return process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqlite://');
 }
 
 function init({ router }) {
