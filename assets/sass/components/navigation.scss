@@ -116,8 +116,8 @@
 
 .split-nav {
     @include clearfix();
-    padding-top: .5em;
-    margin: 1.5em 0 $spacingUnit;
+    padding: .5em;
+    margin-bottom: $spacingUnit;
     border-top: 1px solid palette('border');
 }
 .split-nav__prev,

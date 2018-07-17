@@ -150,11 +150,91 @@ function initProgrammeDetail(router) {
  */
 function initStrategicProgrammeDetail(router) {
     router.get('/strategic/headstart', function(req, res) {
+        // Mock entry
+        const entry = {
+            availableLanguages: ['en', 'cy'],
+            status: 'live',
+            title: 'HeadStart',
+            intro: `<p>
+                Improving the mental health and wellbeing of young people
+            </p>
+            <p>
+                Working in six diverse communities across England, it aims to explore
+                and test ways to improve young people’s mental health and wellbeing
+            </p>
+            `,
+            aims: `<p>
+                <strong>HeadStart is a five-year National Lottery funded programme set up by the
+                Big Lottery Fund, the largest funder of community activity in the UK.</strong>
+            </p>
+            <p>
+                Working in six diverse communities across England, it aims to explore and test ways to improve young
+                people’s mental health and wellbeing.
+            </p>
+            <p>
+                It is one of five major programmes set up by the Big Lottery Fund to trial new approaches to service
+                design, which aim to make people’s lives healthier and happier, from babies and very young children
+                through to those in later life.
+            </p>
+            <p>
+                Big Lottery Fund believes that strong communities are built by those who live in them, and that people
+                with first-hand experience of living with an issue are best-placed to identify and shape potential
+                solutions. Young people, who identified mental health as a key issue in their lives, were at the heart of
+                designing HeadStart.
+            </p>
+            <p>
+                From 2016 to 2021, six local authority led HeadStart partnerships will be working in Blackpool,
+                Cornwall, Hull, Kent, Newham and Wolverhampton.
+
+            </p>`,
+            impact: {},
+            partnerships: [
+                {
+                    title: 'Our programme partners',
+                    intro: `<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>`,
+                    partners: [
+                        {
+                            title: 'HeadStart Blackpool',
+                            subtitle: '£18.4 million',
+                            description:
+                                'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+                        },
+                        {
+                            title: 'HeadStart Blackpool',
+                            subtitle: '£18.4 million',
+                            description: 'Lorem ipsum dolor sit amet consectetur.'
+                        },
+                        {
+                            title: 'HeadStart Blackpool',
+                            subtitle: '£18.4 million',
+                            description:
+                                'Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const activeBreadcrumbs = [
+            {
+                label: req.i18n.__('global.nav.funding'),
+                url: req.baseUrl
+            },
+            {
+                label: 'Strategic programmes',
+                url: req.baseUrl + '/strategic'
+            },
+            {
+                label: entry.title
+            }
+        ];
+
         res.render(path.resolve(__dirname, './views/strategic-programme'), {
-            entry: null,
-            title: 'Head start',
-            heroImage: heroImages.fallbackHeroImage,
-            isBilingual: false
+            entry: entry,
+            title: entry.title,
+            heroImage: entry.hero || heroImages.fallbackHeroImage,
+            isBilingual: isBilingual(entry.availableLanguages),
+            activeBreadcrumbs
         });
     });
 }

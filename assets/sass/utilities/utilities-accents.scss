@@ -3,13 +3,9 @@
    ========================================================================= */
 // Utility classes to help with colour accent theming
 
+// @TODO Replace with .u-accent-border-top-$name class
 .a--border-top {
-    border-top-width: $accentBorderWidth !important;
-    border-top-style: solid;
-}
-
-.a--border-top--large {
-    border-top-width: ($accentBorderWidth * 1.5) !important;
+    border-top-width: 4px !important;
     border-top-style: solid;
 }
 
@@ -20,6 +16,10 @@
  */
 @each $name in $themes {
     $colour: palette($name);
+
+    .u-accent-border-top-#{$name} {
+        border-top: 4px solid $colour !important;
+    }
 
     .accent--#{$name} {
         // text color
@@ -40,8 +40,7 @@
         }
 
         // border on top of elements
-        &.a--border-top,
-        &.a--border-top--large {
+        &.a--border-top {
             border-top-color: $colour;
         }
 

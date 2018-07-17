@@ -2,6 +2,7 @@
 {% from "components/tabs.njk" import tabs %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/nav.njk" import selectionTrail with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -17,17 +18,17 @@
 
     <div class="nudge-up">
         <section class="content-box content-box--tinted inner--wide-only accent--{{ pageAccent }} a--border-top">
+            {{ selectionTrail(activeBreadcrumbs) }}
             <div class="s-prose u-constrained-content-wide">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt sapiente similique beatae asperiores nulla minima quos dolores fugiat placeat eos eaque voluptatem ut, doloribus fugit? Atque laborum quod itaque facilis.</p>
+                {{ entry.intro | safe }}
             </div>
         </section>
 
         <div class="inner--wide-only">
             {% set tabContentAims -%}
                 <div class="content-box content-box--frameless">
-                    <div class="s-prose u-constrained-content-wide
-                        accent-content--{{ pageAccent }} js-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, porro?</p>
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        {{ entry.aims | safe }}
                     </div>
                 </div>
             {%- endset %}
@@ -35,7 +36,7 @@
             {% set tabContentImpact -%}
                 <div class="content-box content-box--frameless">
                     <div class="s-prose u-constrained-content-wide
-                        accent-content--{{ pageAccent }} js-content">
+                        accent-content--{{ pageAccent }}">
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
                     </div>
                 </div>
@@ -43,10 +44,34 @@
 
             {% set tabContentPartnerships -%}
                 <div class="content-box content-box--frameless">
-                    <div class="s-prose u-constrained-content-wide
-                        accent-content--{{ pageAccent }} js-content">
-                        <p>Partnerships</p>
-                    </div>
+                    {% for partnership in entry.partnerships %}
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                            <h3>{{ partnership.title }}</h3>
+                            {{ partnership.intro | safe }}
+                        </div>
+
+                        <ul class="flex-grid">
+                            {% for partner in partnership.partners %}
+                            <li class="flex-grid__item">
+
+                                <div class="partner-card u-accent-border-top-{{ pageAccent }}">
+                                    <div class="partner-card__inner">
+                                        <div class="partner-card__media">
+                                            <img src="https://placekitten.com/100/100" alt="">
+                                        </div>
+                                        <div class="partner-card__body">
+                                            <h4 class="partner-card__title">{{ partner.title }}</h4>
+                                            <p class="partner-card__subtitle">{{ partner.subtitle }}</p>
+                                            <div class="partner-card__description">
+                                                {{ partner.description | safe  }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
                 </div>
             {%- endset %}
 
