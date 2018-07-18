@@ -30,6 +30,7 @@
     }
   },
   "features": {
+    "enablePrompts": false,
     "enableAbTests": true,
     "useHotjar": true,
     "useRemoteAssets": true
