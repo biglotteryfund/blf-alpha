@@ -1,23 +1,20 @@
+const { oneLine, stripIndents } = require('common-tags');
 describe('e2e', function() {
-    const lorem = `
+    const lorem = oneLine`
         Lorem, ipsum dolor sit amet consectetur adipisicing elit.
         Praesentium quidem nihil, similique voluptatibus tempore quasi,
         cumque laborum officia voluptatem laboriosam tempora.
-    `.replace(/\s{2,}/g, ' ');
+    `;
 
-    const loremLong = `
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-        Praesentium quidem nihil, similique voluptatibus tempore quasi,
-        cumque laborum officia voluptatem laboriosam tempora.
+    const loremLong = stripIndents`
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
 
-        Repudiandae doloremque necessitatibus earum molestias error
-        enim quisquam eligendi impedit quidem nulla rerum dolor aut
-        veniam facilis recusandae, laudantium repellendus,
-        soluta neque consequatur tenetur maiores nostrum asperiores.
+        - Repudiandae doloremque necessitatibus
+        - Laudantium repellendus
+        - Soluta neque consequatur tenetur maiores.
 
-        Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem,
-        minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
-    `.replace(/\s{2,}/g, ' ');
+        Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
+    `;
 
     it('should perform  common interactions', () => {
         cy.visit('/');
@@ -196,33 +193,39 @@ describe('e2e', function() {
         cy.get('#field-current-work')
             .invoke('val', lorem)
             .trigger('change');
+
         cy.get(submitSelector).click();
 
         // Step 2
         cy.get('#field-project-idea')
-            .invoke('val', lorem)
+            .invoke('val', loremLong)
             .trigger('change');
+
         cy.get('#field-project-impact')
             .invoke('val', lorem)
             .trigger('change');
+
         cy.get(submitSelector).click();
 
         // Step 3
         cy.get('#field-project-activities-a')
             .invoke('val', lorem)
             .trigger('change');
+
         cy.get(submitSelector).click();
 
         // Step 4
         cy.get('#field-social-connections')
             .invoke('val', lorem)
             .trigger('change');
+
         cy.get(submitSelector).click();
 
         // Step 5
         cy.get('#field-project-evaluation')
             .invoke('val', lorem)
             .trigger('change');
+
         cy.get(submitSelector).click();
 
         // Step 6
