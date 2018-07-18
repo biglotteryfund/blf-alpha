@@ -115,7 +115,6 @@ const postToSlack = (title, fields, severity) => {
     };
 
     return new Promise((resolve, reject) => {
-
         const req = https.request(options, function(res) {
             res.setEncoding('utf8');
             res.on('data', function() {
@@ -133,26 +132,24 @@ const postToSlack = (title, fields, severity) => {
 };
 
 const postToMicrosoftTeams = (title, fields, severity) => {
-
     const path = `/webhook/${process.env.MS_TEAMS_WEBHOOK}`;
 
     // severity string : hex colour
     const messageColours = {
-        'good': '37b787',
-        'danger': 'c82736',
-        'warning': 'd99f43'
+        good: '37b787',
+        danger: 'c82736',
+        warning: 'd99f43'
     };
 
-
     const cardData = {
-        "@type": "MessageCard",
-        "@context": "http://schema.org/extensions",
-        "summary": "Deployment update",
-        "themeColor": messageColours[severity] || messageColours.good,
-        "title": title,
-        "sections": [
+        '@type': 'MessageCard',
+        '@context': 'http://schema.org/extensions',
+        summary: 'Deployment update',
+        themeColor: messageColours[severity] || messageColours.good,
+        title: title,
+        sections: [
             {
-                "facts": fields.map(f => {
+                facts: fields.map(f => {
                     return {
                         name: f.title,
                         value: f.value
@@ -195,7 +192,6 @@ const postToMicrosoftTeams = (title, fields, severity) => {
 };
 
 exports.handler = function(event, context) {
-
     let fields = formatFields(event.Records[0].Sns.Message);
     let message = event.Records[0].Sns.Message;
     let title = event.Records[0].Sns.Subject;
@@ -249,10 +245,7 @@ exports.handler = function(event, context) {
     }
 
     // post to Slack and Teams
-    const notifications = [
-        postToSlack(title, fields, severity),
-        postToMicrosoftTeams(title, fields, severity)
-    ];
+    const notifications = [postToSlack(title, fields, severity), postToMicrosoftTeams(title, fields, severity)];
 
     Promise.all(notifications).then(() => {
         context.done(null);
