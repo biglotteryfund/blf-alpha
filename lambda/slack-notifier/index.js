@@ -1,11 +1,9 @@
 'use strict';
-let services = '/services/' + process.env.SLACK_SERVICE_KEY;
-let channel = '#builds';
 
-let https = require('https');
-let util = require('util');
+const https = require('https');
+const util = require('util');
 
-let formatFields = function(string) {
+const formatFields = function(string) {
     let message = JSON.parse(string),
         fields = [],
         deploymentOverview;
@@ -91,16 +89,116 @@ let formatFields = function(string) {
     return fields;
 };
 
-exports.handler = function(event, context) {
+const postToSlack = (title, fields, severity) => {
+    const services = '/services/' + process.env.SLACK_SERVICE_KEY;
+    const channel = '#builds';
+
     let postData = {
         channel: channel,
         username: 'AWS SNS via Lambda :: CodeDeploy Status',
-        text: '*' + event.Records[0].Sns.Subject + '*',
+        text: `*${title}*`,
         icon_emoji: ':aws:'
     };
 
+    postData.attachments = [
+        {
+            color: severity,
+            fields: fields
+        }
+    ];
+
+    const options = {
+        method: 'POST',
+        hostname: 'hooks.slack.com',
+        port: 443,
+        path: services // Defined above
+    };
+
+    return new Promise((resolve, reject) => {
+
+        const req = https.request(options, function(res) {
+            res.setEncoding('utf8');
+            res.on('data', function() {
+                resolve('ok');
+            });
+        });
+
+        req.on('error', function(e) {
+            reject('Problem with request: ' + e.message);
+        });
+
+        req.write(util.format('%j', postData));
+        req.end();
+    });
+};
+
+const postToMicrosoftTeams = (title, fields, severity) => {
+
+    const path = `/webhook/${process.env.MS_TEAMS_WEBHOOK}`;
+
+    // severity string : hex colour
+    const messageColours = {
+        'good': '37b787',
+        'danger': 'c82736',
+        'warning': 'd99f43'
+    };
+
+
+    const cardData = {
+        "@type": "MessageCard",
+        "@context": "http://schema.org/extensions",
+        "summary": "Deployment update",
+        "themeColor": messageColours[severity] || messageColours.good,
+        "title": title,
+        "sections": [
+            {
+                "facts": fields.map(f => {
+                    return {
+                        name: f.title,
+                        value: f.value
+                    };
+                })
+            }
+        ]
+    };
+
+    const json = JSON.stringify(cardData);
+
+    const options = {
+        method: 'POST',
+        hostname: 'outlook.office.com',
+        port: 443,
+        path: path,
+        headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Content-Length': json.length
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        let req = https.request(options, function(res) {
+            res.setEncoding('utf8');
+            res.on('end', function() {
+                resolve('ok');
+            });
+        });
+
+        req.on('error', function(e) {
+            console.log('error', e.message);
+            reject('Problem with request: ' + e.message);
+        });
+
+        req.write(json);
+        req.end();
+    });
+};
+
+exports.handler = function(event, context) {
+
     let fields = formatFields(event.Records[0].Sns.Message);
     let message = event.Records[0].Sns.Message;
+    let title = event.Records[0].Sns.Subject;
     let severity = 'good';
 
     let dangerMessages = [
@@ -150,31 +248,13 @@ exports.handler = function(event, context) {
         }
     }
 
-    postData.attachments = [
-        {
-            color: severity,
-            fields: fields
-        }
+    // post to Slack and Teams
+    const notifications = [
+        postToSlack(title, fields, severity),
+        postToMicrosoftTeams(title, fields, severity)
     ];
 
-    let options = {
-        method: 'POST',
-        hostname: 'hooks.slack.com',
-        port: 443,
-        path: services // Defined above
-    };
-
-    let req = https.request(options, function(res) {
-        res.setEncoding('utf8');
-        res.on('data', function() {
-            context.done(null);
-        });
+    Promise.all(notifications).then(() => {
+        context.done(null);
     });
-
-    req.on('error', function(e) {
-        console.log('problem with request: ' + e.message);
-    });
-
-    req.write(util.format('%j', postData));
-    req.end();
 };
