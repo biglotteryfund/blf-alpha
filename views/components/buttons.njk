@@ -12,7 +12,12 @@
 {% endmacro %}
 
 {% macro printButton(label) %}
-    <button class="btn btn--medium btn--outline" onclick="window.print();">
+    <button class="btn btn--medium btn--outline"
+        onclick="window.print();"
+        data-ga-on="click"
+        data-ga-event-category="Print"
+        data-ga-event-action="{{ label }}"
+        >
         <span class="btn__icon">{{ iconPrint('small') }}</span>
         {{ label }}
     </button>
