@@ -1,7 +1,22 @@
 /* =========================================================================
-   Accents
+   Utilities: Tones & Accents
    ========================================================================= */
 // Utility classes to help with colour accent theming
+
+/* =========================================================================
+   Tones
+   ========================================================================= */
+
+.u-tone-background-tint {
+    background-color: palette('pale-grey');
+}
+.u-tone-background-dark {
+    background-color: palette('charcoal');
+}
+
+/* =========================================================================
+   Accents
+   ========================================================================= */
 
 // @TODO Replace with .u-accent-border-top-$name class
 .a--border-top {

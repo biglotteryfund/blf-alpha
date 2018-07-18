@@ -187,7 +187,30 @@ function initStrategicProgrammeDetail(router) {
                 Cornwall, Hull, Kent, Newham and Wolverhampton.
 
             </p>`,
-            impact: {},
+            // @TODO: Is this the same as flexible content
+            impact: [
+                {
+                    content: `
+                        <h3>Impact</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
+                    `
+                },
+                {
+                    content: `
+                        <h3>Impact</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
+                    `,
+                    inlinePromo: {
+                        kicker: 'Featured research',
+                        title: 'Peer support',
+                        subtitle: 'January 2018',
+                        description:
+                            '<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt</p>'
+                    }
+                }
+            ],
             partnerships: [
                 {
                     title: 'Our programme partners',
@@ -197,7 +220,12 @@ function initStrategicProgrammeDetail(router) {
                             title: 'HeadStart Blackpool',
                             subtitle: '£18.4 million',
                             description:
-                                'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+                                'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.',
+                            image: {
+                                url: 'https://via.placeholder.com/100x100?text=Logo',
+                                alt: 'Logo for HeadStart Blackpool'
+                            },
+                            url: 'https://google.com'
                         },
                         {
                             title: 'HeadStart Blackpool',
@@ -214,6 +242,25 @@ function initStrategicProgrammeDetail(router) {
                 }
             ]
         };
+
+        const relatedResearch = [
+            {
+                title: 'Peer support',
+                datePublished: 'July 2018',
+                description:
+                    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+            },
+            {
+                title: 'People in the lead in mental health',
+                datePublished: 'March 2018',
+                description: 'Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+            },
+            {
+                title: 'Improving resilience in 10–15 year olds',
+                datePublished: 'March 2018',
+                description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.'
+            }
+        ];
 
         const activeBreadcrumbs = [
             {
@@ -234,6 +281,7 @@ function initStrategicProgrammeDetail(router) {
             title: entry.title,
             heroImage: entry.hero || heroImages.fallbackHeroImage,
             isBilingual: isBilingual(entry.availableLanguages),
+            relatedResearch,
             activeBreadcrumbs
         });
     });

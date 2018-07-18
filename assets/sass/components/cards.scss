@@ -1,4 +1,45 @@
 /* =========================================================================
+   Cards
+   ========================================================================= */
+
+/* =========================================================================
+   Media Object Card
+   ========================================================================= */
+
+.media-card {
+    padding: 12px 12px 16px;
+    box-shadow: 0 0 1px 1px palette('border');
+
+    .media-card__inner {
+        display: flex;
+    }
+
+    .media-card__media {
+        flex: 0 0 80px;
+        margin-right: 12px;
+    }
+
+    .media-card__body {
+        // Optically align with image
+        margin-top: -2px;
+    }
+
+    .media-card__title {
+        margin-bottom: 3px;
+    }
+
+    .media-card__subtitle {
+        font-size: 18px;
+        color: palette('charcoal-note');
+        margin-bottom: .5em;
+    }
+
+    .media-card__description {
+        font-size: 18px;
+    }
+}
+
+/* =========================================================================
    Photo Card
    ========================================================================= */
 
@@ -38,38 +79,50 @@
 }
 
 /* =========================================================================
-   Partner Card
+   Promo Card
    ========================================================================= */
+// @TODO: Can this be combined more generally with promo-card?
 
-.partner-card {
-    padding: 12px 12px 16px;
+.promo-card {
     box-shadow: 0 0 1px 1px palette('border');
 
-    .partner-card__inner {
+    .promo-card__inner {
+        padding: 12px 12px 16px;
         display: flex;
+        height: 100%;
+        flex-direction: column;
     }
 
-    .partner-card__media {
-        flex: 0 0 80px;
-        margin-right: 12px;
+    .promo-card__body {
+        flex: 1;
     }
 
-    .partner-card__body {
-        // Optically align with image
-        margin-top: -2px;
+    .promo-card__media {
+        position: relative;
+    }
+    .promo-card__kicker {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
     }
 
-    .partner-card__title {
+    .promo-card__subtitle,
+    .promo-card__description,
+    .promo-card__meta {
+        font-size: 16px;
+    }
+
+    .promo-card__title {
         margin-bottom: 3px;
     }
 
-    .partner-card__subtitle {
-        font-size: 18px;
+    .promo-card__subtitle {
+        font-size: 16px;
         color: palette('charcoal-note');
         margin-bottom: .5em;
     }
 
-    .partner-card__description {
-        font-size: 18px;
+    .promo-card__meta {
+        margin-top: $spacingUnit;
     }
 }

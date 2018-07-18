@@ -256,3 +256,8 @@ $num_columns_mobile: 3;
         }
     }
 }
+.flex-grid--3up .flex-grid__item {
+    @include mq(medium-minor) {
+        flex: 0 0 33.3%;
+    }
+}

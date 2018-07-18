@@ -3,6 +3,8 @@
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/nav.njk" import selectionTrail with context %}
+{% from "components/cards/media-object-card.njk" import mediaObjectCard with context %}
+{% from "components/cards/promo-card.njk" import promoCard with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -24,7 +26,7 @@
             </div>
         </section>
 
-        <div class="inner--wide-only">
+        <section class="inner--wide-only">
             {% set tabContentAims -%}
                 <div class="content-box content-box--frameless">
                     <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
@@ -35,10 +37,19 @@
 
             {% set tabContentImpact -%}
                 <div class="content-box content-box--frameless">
-                    <div class="s-prose u-constrained-content-wide
-                        accent-content--{{ pageAccent }}">
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>
-                    </div>
+                    {% for part in entry.impact  %}
+                        <div style="display: flex">
+                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}"
+                                style="flex: 1 1 auto; padding-right: 20px;">
+                            {{ part.content | safe }}
+                            </div>
+                            {% if part.inlinePromo %}
+                                <div style="flex: 1 1 auto; min-width: 40%; max-width: 320px;">
+                                    {{ promoCard(part.inlinePromo) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
             {%- endset %}
 
@@ -52,23 +63,9 @@
 
                         <ul class="flex-grid">
                             {% for partner in partnership.partners %}
-                            <li class="flex-grid__item">
-
-                                <div class="partner-card u-accent-border-top-{{ pageAccent }}">
-                                    <div class="partner-card__inner">
-                                        <div class="partner-card__media">
-                                            <img src="https://placekitten.com/100/100" alt="">
-                                        </div>
-                                        <div class="partner-card__body">
-                                            <h4 class="partner-card__title">{{ partner.title }}</h4>
-                                            <p class="partner-card__subtitle">{{ partner.subtitle }}</p>
-                                            <div class="partner-card__description">
-                                                {{ partner.description | safe  }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                <li class="flex-grid__item">
+                                    {{ mediaObjectCard(partner) }}
+                                </li>
                             {% endfor %}
                         </ul>
                     {% endfor %}
@@ -91,7 +88,46 @@
             }] %}
 
             {{ tabs(id = 'test', content = tabItems, showPagination = true) }}
-        </div>
+        </section>
+
+        {# @TODO: Generalise this #}
+        {% macro linkList(label, links) %}
+            <strong>{{ label }}:</strong>
+            {% for link in links -%}
+                {{ link.label }}
+            {%- endfor %}
+        {% endmacro %}
+
+        <section class="u-tone-background-tint padded">
+            <div class="inner">
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">
+                    Research and insights from {{ entry.title }}
+                </h2>
+            </div>
+            <div class="inner--wide-only">
+                <ul class="flex-grid flex-grid--3up">
+                    {% for research in relatedResearch  %}
+                        <li class="flex-grid__item">
+                            {% call promoCard({
+                                "title": research.title,
+                                "subtitle": research.datePublished,
+                                "description": research.description
+                            }) %}
+                                {# @TODO: linkList macro? #}
+                                {{ linkList(
+                                    label = 'Documents',
+                                    links = [{
+                                        "label": "Report (PDF 4.9MB)",
+                                        "url": "https://example.com/"
+                                    }]
+                                )}}
+                            {%- endcall %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
     </div>
 </main>
 {% endblock %}

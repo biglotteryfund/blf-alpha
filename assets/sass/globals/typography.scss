@@ -57,7 +57,7 @@ h6,
 }
 
 /**
- * Modifier class which adds a border below the text
+ * Adds a border below text
  */
 .t--underline:after {
     @include underlined();
