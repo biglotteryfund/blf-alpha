@@ -232,6 +232,10 @@ sections.apply.addRoutes({
     buildingConnectionsFund: sessionRoute({
         path: '/building-connections/*',
         isPostable: true
+    }),
+    digitalFundingDemo: sessionRoute({
+        path: '/digital-funding-demo/*',
+        isPostable: true
     })
 });
 
