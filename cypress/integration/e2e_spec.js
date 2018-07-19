@@ -235,8 +235,8 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 7
-        cy.get('#field-project-budget-total').type('£75,000', { delay: 0 });
-        cy.get('#field-project-budget-a-amount').type('£20,000', { delay: 0 });
+        cy.get('#field-project-budget-total').type('100000', { delay: 0 });
+        cy.get('#field-project-budget-a-amount').type('50000', { delay: 0 });
         cy.get('#field-project-budget-a-description')
             .invoke('val', lorem)
             .trigger('change');

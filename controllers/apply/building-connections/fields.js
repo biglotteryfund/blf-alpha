@@ -1,6 +1,11 @@
 'use strict';
 const { check } = require('express-validator/check');
 
+const FUND_SIZE = {
+    min: 30000,
+    max: 100000
+};
+
 const LENGTH_HINTS = {
     HEMINGWAY: {
         rows: 3,
@@ -68,7 +73,8 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
+                label:
+                    'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
                 helpText: `<ul>
                     <li>Describe the additional support you will be able to offer with the funding</li>
                     <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
@@ -201,10 +207,15 @@ const projectBudget = [
         fields: [
             {
                 name: 'project-budget-total',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 isRequired: true,
-                label: 'How much grant funding are you applying for in total?'
+                label: 'How much grant funding are you applying for in total?',
+                helpText:
+                    '<p>The minimum grant size is <strong>£30,000</strong> and the maximum available is <strong>£100,000</strong>.</p>'
             }
         ]
     },
@@ -228,7 +239,10 @@ const projectBudget = [
         fields: [
             {
                 name: 'project-budget-a-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 isRequired: true,
                 label: 'How much do you plan to spend for the period until March 2019?'
@@ -246,7 +260,10 @@ const projectBudget = [
             },
             {
                 name: 'project-budget-b-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2019–March 2020?'
             },
@@ -258,7 +275,10 @@ const projectBudget = [
             },
             {
                 name: 'project-budget-c-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2020–March 2021?'
             },

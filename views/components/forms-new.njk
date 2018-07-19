@@ -59,8 +59,11 @@
 {% macro inputText(field, type="text") %}
     <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
     {{ fieldHelpText(field) }}
+    {% if field.isCurrency %}
+        <div class="ff-field-prepend">£</div>
+    {% endif %}
     <input
-        class="ff-text"
+        class="ff-text{% if field.isCurrency %} ff-text--currency{% endif %}"
         type="{{ type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
@@ -68,8 +71,13 @@
         {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
         size="{% if field.size %}{{ field.size }}{% else %}40{% endif %}"
         value="{% if field.value %}{{ field.value }}{% endif %}"
+        {% if field.min %}min="{{ field.min }}"{% endif %}
+        {% if field.max %}max="{{ field.max }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
     />
+    {% if field.isCurrency %}
+        <div class="ff-field-append">Type a number</div>
+    {% endif %}
 {% endmacro %}
 
 {% macro inputTextarea(field) %}
@@ -139,7 +147,7 @@
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
                 {% endif %}
-                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' %}
+                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' or field.type === 'number' %}
                     {{ inputText(field, field.type) }}
                 {% endif %}
                 {% if field.type === 'checkbox' or field.type === 'radio' %}
