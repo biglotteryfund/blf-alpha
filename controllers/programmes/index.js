@@ -206,7 +206,8 @@ function initStrategicProgrammeDetail(router) {
                         kicker: 'Featured research',
                         title: 'Peer support',
                         subtitle: 'January 2018',
-                        description:
+                        image: { url: 'https://via.placeholder.com/320x140', alt: '' },
+                        trailText:
                             '<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt</p>'
                     }
                 }
@@ -247,18 +248,27 @@ function initStrategicProgrammeDetail(router) {
             {
                 title: 'Peer support',
                 datePublished: 'July 2018',
-                description:
-                    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+                trailText:
+                    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.',
+                imageUrl: 'https://via.placeholder.com/320x140',
+                documents: [
+                    {
+                        label: 'Report (PDF 4.9MB)',
+                        url: 'https://example.com/'
+                    }
+                ]
             },
             {
                 title: 'People in the lead in mental health',
                 datePublished: 'March 2018',
-                description: 'Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.'
+                trailText: 'Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.',
+                imageUrl: 'https://via.placeholder.com/320x140'
             },
             {
                 title: 'Improving resilience in 10–15 year olds',
                 datePublished: 'March 2018',
-                description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.'
+                trailText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+                imageUrl: 'https://via.placeholder.com/320x140'
             }
         ];
 

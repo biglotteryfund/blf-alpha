@@ -6,10 +6,10 @@ props: {Object}
 - subtitle {String}
 - description {Html}
 - image {Object} { url: {String}, alt: {String} }
-- url {String}
+- link {Object} { url: {String}, label: {String} }
 accent: {String}
 #}
-{% macro mediaObjectCard(props, accent = 'pink') %}
+{% macro mediaObject(props, accent = 'pink') %}
     <div class="media-card u-accent-border-top-{{ accent }}">
         <div class="media-card__inner">
             {% if props.image %}
@@ -20,10 +20,10 @@ accent: {String}
             <div class="media-card__body">
                 <h4 class="media-card__title">{{ props.title }}</h4>
                 <p class="media-card__subtitle">{{ props.subtitle }}</p>
-                <div class="media-card__description s-prose">
-                    {{ props.description | safe  }}
-                    {% if props.url %}
-                        <a href="{{ props.url }}">{{ __('global.misc.readMore') }}</a>
+                <div class="media-card__trail-text s-prose">
+                    {{ props.trailText | safe  }}
+                    {% if props.link %}
+                        <a href="{{ props.link.url }}">{{ props.link.label }}</a>
                     {% endif %}
                 </div>
             </div>

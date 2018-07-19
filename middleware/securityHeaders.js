@@ -61,7 +61,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com'],
-        imgSrc: ['stats.g.doubleclick.net', config.get('imgix.mediaDomain')],
+        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', config.get('imgix.mediaDomain')],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],
@@ -92,7 +92,7 @@ function defaultSecurityHeaders() {
     }
 
     if (appData.isDev) {
-        directives.imgSrc = directives.imgSrc.concat(['localhost', '127.0.0.1:*', 'via.placeholder.com']);
+        directives.imgSrc = directives.imgSrc.concat(['localhost', '127.0.0.1:*']);
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 

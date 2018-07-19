@@ -5,13 +5,18 @@
 /* =========================================================================
    Media Object Card
    ========================================================================= */
-
+/**
+ * Basic media object card
+ * https://philipwalton.github.io/solved-by-flexbox/demos/media-object/
+ * @see components/cards/media-object-card.njk
+ */
 .media-card {
     padding: 12px 12px 16px;
     box-shadow: 0 0 1px 1px palette('border');
 
     .media-card__inner {
         display: flex;
+        align-items: flex-start;
     }
 
     .media-card__media {
@@ -20,71 +25,34 @@
     }
 
     .media-card__body {
-        // Optically align with image
-        margin-top: -2px;
+        margin-top: -2px; // Optically align with image
     }
 
     .media-card__title {
         margin-bottom: 3px;
     }
 
+    .media-card__subtitle,
+    .media-card__trail-text {
+        font-size: 16px;
+    }
+
     .media-card__subtitle {
-        font-size: 18px;
         color: palette('charcoal-note');
         margin-bottom: .5em;
-    }
-
-    .media-card__description {
-        font-size: 18px;
-    }
-}
-
-/* =========================================================================
-   Photo Card
-   ========================================================================= */
-
-.photo-card {
-    border: 1px solid palette('border');
-    height: 100%;
-    background-color: palette('pale-grey');
-}
-.photo-card__image {
-    display: block;
-}
-.photo-card__header,
-.photo-card__subheader {
-    margin-bottom: $spacingUnit / 3;
-}
-.photo-card__subheader {
-    font-weight: bold;
-}
-.photo-card__body {
-    padding: $spacingUnit / 2;
-    padding-bottom: $spacingUnit;
-}
-.photo-card__description {
-    margin-bottom: 0;
-}
-
-@media screen and (min-width: 480px) and (max-width: 760px) {
-    .photo-card {
-        display: flex;
-    }
-    .photo-card__media {
-        flex: 0 0 200px;
-    }
-    .photo-card__body {
-        padding: $spacingUnit / 2;
     }
 }
 
 /* =========================================================================
    Promo Card
    ========================================================================= */
-// @TODO: Can this be combined more generally with promo-card?
 
 .promo-card {
     box-shadow: 0 0 1px 1px palette('border');
+
+    @include mq(medium) {
+        max-width: 25em;
+    }
 
     .promo-card__inner {
         padding: 12px 12px 16px;
@@ -107,9 +75,9 @@
     }
 
     .promo-card__subtitle,
-    .promo-card__description,
+    .promo-card__trail-text,
     .promo-card__meta {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .promo-card__title {
@@ -117,7 +85,6 @@
     }
 
     .promo-card__subtitle {
-        font-size: 16px;
         color: palette('charcoal-note');
         margin-bottom: .5em;
     }

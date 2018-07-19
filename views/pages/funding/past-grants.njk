@@ -1,16 +1,11 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-{% from "components/forms-new.njk" import formErrors, formField %}
 {% from "components/hero.njk" import hero %}
-{% from "components/icons.njk" import iconSearch %}
 {% from "components/nav.njk" import selectionTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 
-
+{% set pageAccent = 'pink' %}
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
-
     <main role="main">
         {{ hero(
             titleText = copy.title,
