@@ -33,11 +33,16 @@
     </section>
 {% endmacro %}
 
-{% macro sgBlockCall(title) %}
+{% macro sgComponent(slug, showDetailLink = true) %}
     <section class="sg-block">
         <header class="sg-block__header inner">
             <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
-                id="sg-pattern-{{ title | slugify }}">{{ title }}</h3>
+                id="sg-pattern-{{ slug }}">
+                {{ slug }}
+            </h3>
+            {% if showDetailLink %}
+                <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
+            {% endif %}
         </header>
         <div class="sg-block__body inner">
             <div class="sg-block__content">

@@ -1,6 +1,6 @@
-{% extends "layouts/styleguide.njk" %}
+{% extends "./layout.njk" %}
 
-{% from "components/styleguide.njk" import sgSectionHeader, sgBlock, sgBlockCall %}
+{% from "components/styleguide.njk" import sgSectionHeader, sgBlock, sgComponent %}
 
 {% from "components/data.njk" import statsGrid %}
 {% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero with context %}
@@ -12,137 +12,13 @@
 
 {% block content %}
 
-{# ================================ #}
-{# Typography                       #}
-{# ================================ #}
-
-{{ sgSectionHeader('Typography') }}
-
-{% set sgContent %}
-    {% for n in range(1, 9) %}
-        <h2 class="t{{ n }}">T{{ n }} Typographic Style</h2>
-    {% endfor %}
-{% endset %}
-{{ sgBlock('Typographic Scale', sgContent) }}
-
-
-{% set sgContent %}
-    <h2 class="t2 t--underline accent--pink a--text">Title with underline</h2>
-{% endset %}
-{{ sgBlock('Typography: Modifiers', sgContent) }}
-
-
-{% set sgContent %}
-    <h2 class="t2 accent--cyan overlay-text">
-        <span>T2 typographic style with overlay text</span>
-    </h2>
-    <br />{# TODO: Should overlay-text have some default margin? #}
-    <h2 class="t6 accent--cyan overlay-text">
-        <span>T6 typographic style with overlay text</span>
-    </h2>
-{% endset %}
-{{ sgBlock('Overlay text', sgContent) }}
-
-{% set sgContent %}
-    <div class="s-prose u-constrained-content-wide">
-        <p>When you have a project idea you want to put to us please give us a call to talk it through. We’ll be able to tell you if it’s something that we’d fund.</p>
-
-        <h3 class="t4">Before you get in touch, make sure you have:</h3>
-
-        <ul>
-            <li>checked your <a href="#check-eligibility">eligibility</a></li>
-            <li>read our guidance on <a href="#how-to-succeed">how to succeed</a></li>
-            <li>thought through what you want to tell us - this chat will be part of the way we assess your project</li>
-        </ul>
-
-        <p>You can reach us by phoning <a href="tel:03001230735">0300 123 0735</a> or e-mailing <a href="mailto:wales@biglotteryfund.org.uk">wales@biglotteryfund.org.uk</a> Monday to Friday, 9.00am to 5.00pm (not including public holidays) to book an appointment to speak to one of our team, who will call you back within three working days.</p>
-    </div>
-{% endset %}
-{% set sgNotes %}
-    <p>
-        Prose styles. Adds additional typographic treatment to long blocks of text: emboldens links, formats telephone and email links, indents and adds bullets to lists.
-    </p>
-{% endset %}
-{{ sgBlock('Prose Text', sgContent, sgNotes) }}
-
-{{ sgSectionHeader('Typography Helpers') }}
-
-{% set sgContent -%}
-    <p class="u-note">Use this helper for small credit or note text</p>
-{%- endset %}
-{% set sgNotes %}<code>{{ sgContent | trim }}</code>{% endset %}
-{{ sgBlock('Credit', sgContent, sgNotes) }}
-
-{# ================================ #}
-{# Buttons                          #}
-{# ================================ #}
-
-{{ sgSectionHeader('Buttons') }}
-
-{% set sgContent %}
-    <p><button class="btn" type="button">Default Button</button></p>
-    <p><button class="btn accent--pink a--btn" type="button">Default Button</button></p>
-    <p><button class="btn accent--cyan a--btn" type="button">Default Button</button></p>
-{% endset %}
-{% set sgNotes %}
-    <p>
-        Default buttons.
-        Buttons can be themed by adding an accent class to the button, e.g. <code>accent--pink a--btn</code>.
-    </p>
-{% endset %}
-{{ sgBlock('Default Button', sgContent, sgNotes) }}
-
-{% set sgContent %}
-    <p><button class="btn btn--outline" type="button">Outline Button</button></p>
-    <p><button class="btn btn--outline accent--pink a--btn" type="button">Default Button</button></p>
-    <p><button class="btn btn--outline accent--cyan a--btn" type="button">Default Button</button></p>
-{% endset %}
-{% set sgNotes %}
-    <p>
-        Outline buttons.
-        Like default buttons, outline buttons can be themed by adding an accent class to the button.
-    </p>
-{% endset %}
-{{ sgBlock('Outline Buttons', sgContent, sgNotes) }}
-
-{% set sgContent %}
-    <p><button class="btn btn--medium" type="button">Medium Button</button></p>
-{% endset %}
-{{ sgBlock('Medium Buttons', sgContent) }}
-
-{% set sgContent %}
-    <p><button class="btn btn--small" type="button">Small Button</button></p>
-{% endset %}
-{{ sgBlock('Small Buttons', sgContent) }}
-
-
-{% set sgContent %}
-    <div class="o-button-group">
-        <button class="btn btn--medium" type="button">Button One</button>
-        <button class="btn btn--medium" type="button">Button Two</button>
-    </div>
-{% endset %}
-{% set sgNotes %}
-    <p>
-        Group a set of buttons together.
-        On small screens buttons within a group will be displayed stacked and full-width.
-        On wider screens buttons are evenly horizontally spaced.
-    </p>
-{% endset %}
-{{ sgBlock('Button Groups', sgContent, sgNotes) }}
-
-
-{# ================================ #}
-{# Components                       #}
-{# ================================ #}
-
 {{ sgSectionHeader('Components') }}
 
-{% call sgBlockCall('Media Object') %}
+{% call sgComponent('media-object') %}
     {% include "components/media-object/examples.njk" %}
 {% endcall %}
 
-{% call sgBlockCall('Promo Card') %}
+{% call sgComponent('promo-card') %}
     {% include "components/promo-card/examples.njk" %}
 {% endcall %}
 
@@ -200,7 +76,29 @@
 
 
 {% set sgContent %}
-    {{ statsGrid(demoStats) }}
+    {{ statsGrid([
+        {
+            value: '42',
+            title: 'The meaning of life, the universe, and everything',
+            prefix: '',
+            suffix: '',
+            showNumberBeforeTitle: true
+        },
+        {
+            value: '9m',
+            title: 'in Beijing',
+            prefix: 'There are',
+            suffix: 'bicycles',
+            showNumberBeforeTitle: true
+        },
+        {
+            value: '500 miles',
+            title: 'I would walk',
+            prefix: '',
+            suffix: '',
+            showNumberBeforeTitle: false
+        }
+    ]) }}
 {% endset %}
 {{ sgBlock('Stats Grid', sgContent) }}
 

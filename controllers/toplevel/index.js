@@ -2,7 +2,6 @@
 const config = require('config');
 const moment = require('moment');
 
-const { homepageHero } = require('../../modules/images');
 const { sMaxAge } = require('../../middleware/cached');
 
 const dataRoute = require('./data');
@@ -11,6 +10,7 @@ const homepageRoute = require('./homepage');
 const robotRoutes = require('./robots');
 const searchRoute = require('./search');
 const surveyRoute = require('./survey');
+const patternLibrary = require('../pattern-library');
 
 module.exports = ({ router, pages }) => {
     /**
@@ -86,38 +86,7 @@ module.exports = ({ router, pages }) => {
      */
     feedbackRoute.init({ router });
 
-    router.get('/styleguide', (req, res) => {
-        const demoStats = [
-            {
-                value: '42',
-                title: 'The meaning of life, the universe, and everything',
-                prefix: '',
-                suffix: '',
-                showNumberBeforeTitle: true
-            },
-            {
-                value: '9m',
-                title: 'in Beijing',
-                prefix: 'There are',
-                suffix: 'bicycles',
-                showNumberBeforeTitle: true
-            },
-            {
-                value: '500 miles',
-                title: 'I would walk',
-                prefix: '',
-                suffix: '',
-                showNumberBeforeTitle: false
-            }
-        ];
-
-        res.render('pages/toplevel/styleguide', {
-            title: 'Styleguide',
-            description: 'Styleguide',
-            superHeroImages: homepageHero,
-            demoStats: demoStats
-        });
-    });
+    router.use('/patterns', patternLibrary);
 
     return router;
 };
