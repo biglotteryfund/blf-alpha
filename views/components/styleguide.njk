@@ -32,3 +32,37 @@
         {% endif %}
     </section>
 {% endmacro %}
+
+{% macro sgBlockCall(title) %}
+    <section class="sg-block">
+        <header class="sg-block__header inner">
+            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                id="sg-pattern-{{ title | slugify }}">{{ title }}</h3>
+        </header>
+        <div class="sg-block__body inner">
+            <div class="sg-block__content">
+                {{ caller() }}
+            </div>
+        </div>
+    </section>
+{% endmacro %}
+
+{% macro sgExample(description) %}
+    <div class="sg-example">
+        <h4 class="sg-example__description">
+            {{ description }}
+        </h4>
+        <div class="sg-example__body">
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro sgUsage() %}
+    <div class="sg-usage-notes">
+        <h4 class="sg-usage-notes__title">Usage Notes</h4>
+        <div class="sg-usage-notes__content">
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}
