@@ -1,0 +1,128 @@
+{% from "components/media-object/macro.njk" import mediaObject with context %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
+{% from "components/hero.njk" import hero %}
+{% from "components/nav.njk" import selectionTrail with context %}
+{% from "components/tabs.njk" import tabs %}
+
+{% extends "layouts/main.njk" %}
+
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+<main role="main">
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
+
+    <div class="nudge-up">
+        <section class="content-box content-box--tinted inner--wide-only accent--{{ pageAccent }} a--border-top">
+            {{ selectionTrail(activeBreadcrumbs) }}
+            <div class="s-prose u-constrained-content-wide">
+                {{ entry.intro | safe }}
+            </div>
+        </section>
+
+        <section class="inner--wide-only">
+            {% set tabContentAims -%}
+                <div class="content-box content-box--frameless">
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        {{ entry.aims | safe }}
+                    </div>
+                </div>
+            {%- endset %}
+
+            {% set tabContentImpact -%}
+                <div class="content-box content-box--frameless">
+                    {% for part in entry.impact  %}
+                        <div style="display: flex">
+                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}"
+                                style="flex: 1 1 auto; padding-right: 20px;">
+                            {{ part.content | safe }}
+                            </div>
+                            {% if part.inlinePromo %}
+                                <div style="flex: 1 1 auto; min-width: 40%; max-width: 320px;">
+                                    {{ promoCard(part.inlinePromo) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {%- endset %}
+
+            {% set tabContentPartnerships -%}
+                <div class="content-box content-box--frameless">
+                    {% for partnership in entry.partnerships %}
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                            <h3>{{ partnership.title }}</h3>
+                            {{ partnership.intro | safe }}
+                        </div>
+
+                        <ul class="flex-grid">
+                            {% for partner in partnership.partners %}
+                                <li class="flex-grid__item">
+                                    {{ mediaObject(partner) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            {%- endset %}
+
+            {{ tabs(
+                id = 'test',
+                content = [{
+                    "id": "section-1",
+                    "title": "Aims & approach",
+                    "content": tabContentAims,
+                    "active": true
+                }, {
+                    "id": "section-2",
+                    "title": "Impact & learnings",
+                    "content": tabContentImpact
+                }, {
+                    "id": "section-3",
+                    "title": "Partnerships",
+                    "content": tabContentPartnerships
+                }],
+                showPagination = true
+            ) }}
+        </section>
+
+        <section class="u-tone-background-tint padded">
+            <div class="inner">
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">
+                    Research and insights from {{ entry.title }}
+                </h2>
+            </div>
+            <div class="inner--wide-only">
+                <ul class="flex-grid flex-grid--3up">
+                    {% for research in relatedResearch  %}
+                        <li class="flex-grid__item">
+                            {% call promoCard({
+                                "title": research.title,
+                                "subtitle": research.datePublished,
+                                "trailText": research.trailText,
+                                "image": {
+                                    "url": research.imageUrl,
+                                    "alt": research.title
+                                }
+                            }) %}
+                                {# @TODO: linkList macro? #}
+                                {% if research.documents %}
+                                    <strong>Documents:</strong>
+                                    {% for link in research.documents -%}
+                                        <a href="{{ link.url }}">{{ link.label }}</a>
+                                    {%- endfor %}
+                                {% endif %}
+                            {%- endcall %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

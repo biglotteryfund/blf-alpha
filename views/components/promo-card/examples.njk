@@ -1,0 +1,24 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import promoCard with context %}
+
+{% call sgExample("All props") %}
+    {% call promoCard({
+        "kicker": "Kicker text",
+        "title": "Promo card",
+        "subtitle": "Subtitle text",
+        "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt",
+        "image": { "url": "https://via.placeholder.com/640x280?text=Placeholder", "alt": "" },
+        "link": { "url": "https://example.com/", "label": "Read more" }
+    }) %}
+        Custom meta content
+    {% endcall %}
+{% endcall %}
+
+{% call sgExample("Tinted") %}
+    {{ promoCard({
+        "title": "Promo card",
+        "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt",
+        "image": { "url": "https://via.placeholder.com/640x280?text=Placeholder", "alt": "" },
+        "link": { "url": "https://example.com/", "label": "Read more" }
+    }, tint = true) }}
+{% endcall %}

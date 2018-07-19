@@ -32,3 +32,40 @@
         {% endif %}
     </section>
 {% endmacro %}
+
+{% macro sgBlockCall(title, usageNotes) %}
+    <section class="sg-block">
+        <header class="sg-block__header inner">
+            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                id="sg-pattern-{{ title | slugify }}">{{ title }}</h3>
+        </header>
+        <div class="sg-block__body inner">
+            <div class="sg-block__content">
+                {{ caller() }}
+            </div>
+        </div>
+        {% if notes %}
+        <div class="sg-block__extra inner">
+            <div class="sg-block__notes">
+                <div class="sg-usage-notes">
+                    <h4 class="sg-usage-notes__title">Usage Notes</h4>
+                    <div class="sg-usage-notes__content">
+                        {{ notes | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+{% endmacro %}
+
+{% macro sgExample(description) %}
+    <div class="sg-example">
+        <h4 class="sg-example__description">
+            {{ description }}
+        </h4>
+        <div class="sg-example__body">
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}

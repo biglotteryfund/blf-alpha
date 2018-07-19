@@ -1,3 +1,5 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
 {% macro caseStudyFeature(
     quoteText,
     quoteName,
@@ -37,74 +39,41 @@
     </div>
 {% endmacro %}
 
-{% macro caseStudyCard(
-    title,
-    grantAmount,
-    linkUrl,
-    trailText,
-    trailTextMore,
-    imageUrl,
-    accent
-) %}
-    <div class="photo-card {% if accent %}accent--{{ accent }} a--border-top{% endif %}">
-        <div class="photo-card__media">
-            {% set imageUrlToUse = imageUrl | getImagePath %}
-            {% if linkUrl %}<a href="{{ linkUrl }}">{% endif %}
-                <img
-                    class="photo-card__image"
-                    src="{{ imageUrlToUse }}"
-                    alt="{{ trailText }}"
-                />
-            {% if linkUrl %}</a>{% endif %}
-        </div>
-        <div class="photo-card__body">
-            <h3 class="photo-card__header t5">{{ title }}</h3>
-            {% if grantAmount %}
-                <p class="photo-card__subheader t7">
-                    Grant: {{ grantAmount }}
-                </p>
-            {% endif %}
-            <p class="photo-card__description t7">
-                {{ trailText }}
-                {% if linkUrl %}
-                    <a href="{{ linkUrl }}"
-                        class="{% if accent %}accent--{{ accent }} a--text {% endif %}u-weight-heavy"
-                        aria-label="{{ __('global.misc.readMoreAbout', title) }}">
-                        {{ trailTextMore }}
-                    </a>
-                {% endif %}
-            </p>
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro caseStudyCollection(caseStudies, customSectionTitle = false, accent) %}
     {% if caseStudies.length > 0 %}
-    <section id="case-studies" class="inner">
-        <h2 class="t1">
-            {%- if customSectionTitle -%}
-                {{ customSectionTitle }}
-            {%- else -%}
-                {{ __('global.misc.caseStudies') }}
-            {%- endif -%}
-        </h2>
-        <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
-            {%- for caseStudy in caseStudies -%}
-                <li class="grid__item">
-                    {{
-                        caseStudyCard(
-                            title = caseStudy.title,
-                            grantAmount = caseStudy.grantAmount,
-                            linkUrl = caseStudy.linkUrl,
-                            trailText = caseStudy.trailText,
-                            trailTextMore = caseStudy.trailTextMore,
-                            imageUrl = caseStudy.thumbnailUrl,
-                            accent = accent
-                        )
-                    }}
-                </li>
-            {%- endfor -%}
-        </ul>
-    </section>
+        <section id="case-studies">
+            <div class="inner">
+                <h2 class="t1">
+                    {%- if customSectionTitle -%}
+                        {{ customSectionTitle }}
+                    {%- else -%}
+                        {{ __('global.misc.caseStudies') }}
+                    {%- endif -%}
+                </h2>
+            </div>
+            <div class="inner--wide-only">
+                <ul class="flex-grid flex-grid--3up">
+                    {% for caseStudy in caseStudies  %}
+                        <li class="flex-grid__item">
+                            {% set props = {
+                                "title": caseStudy.title,
+                                "subtitle": caseStudy.grantAmount,
+                                "trailText": caseStudy.trailText,
+                                "image": {
+                                    "url": caseStudy.thumbnailUrl,
+                                    "alt": caseStudy.title
+                                },
+                                "link": {
+                                    "label": __('global.misc.readMore'),
+                                    "labelAria": __('global.misc.readMoreAbout', caseStudy.title),
+                                    "url": caseStudy.linkUrl
+                                }
+                            } %}
+                            {{ promoCard(props, tint = true) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
     {% endif %}
 {% endmacro %}

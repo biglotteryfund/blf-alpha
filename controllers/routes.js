@@ -122,14 +122,12 @@ sections.funding.addRoutes({
     }),
     programmes: customRoute({
         path: '/programmes',
-        template: 'pages/funding/programmes',
         lang: 'funding.programmes',
         heroSlug: 'the-young-foundation',
         queryStrings: ['location', 'amount', 'min', 'max']
     }),
     programmeDetail: customRoute({
-        path: '/programmes/*',
-        template: 'pages/funding/programme-detail'
+        path: '/programmes/*'
     }),
     buildingBetterOpportunities: basicContentRoute({
         path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'

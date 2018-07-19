@@ -1,6 +1,6 @@
 {% extends "layouts/styleguide.njk" %}
 
-{% from "components/styleguide.njk" import sgSectionHeader, sgBlock %}
+{% from "components/styleguide.njk" import sgSectionHeader, sgBlock, sgBlockCall %}
 
 {% from "components/data.njk" import statsGrid %}
 {% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero with context %}
@@ -137,6 +137,14 @@
 {# ================================ #}
 
 {{ sgSectionHeader('Components') }}
+
+{% call sgBlockCall('Media Object') %}
+    {% include "components/media-object/examples.njk" %}
+{% endcall %}
+
+{% call sgBlockCall('Promo Card') %}
+    {% include "components/promo-card/examples.njk" %}
+{% endcall %}
 
 {% set sgContent %}
     {{ hero(

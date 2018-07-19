@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/tabs.njk" import tabs, pane %}
+{% from "components/tabs.njk" import tabs, paneSet with context %}
 {% from "components/icons.njk" import iconClose %}
 
 {% extends "common/informationPage.njk" %}
@@ -215,18 +215,17 @@
             </ul>
         </div>
 
-        <div class="js-paneset" id="paneset-regions">
-            {{ pane(
-                paneId = 'region1',
-                content = contentMonolingual,
-                accordion = false
-            ) }}
-
-            {{ pane(
-                paneId = 'region2',
-                content = contentBilingual,
-                accordion = false
-            ) }}
-        </div>
+        {{ paneSet(
+            id = "paneset-regions",
+            panes = [{
+                paneId: 'region1',
+                content: contentMonolingual,
+                accordion: false
+            }, {
+                paneId: 'region2',
+                content: contentBilingual,
+                accordion: false
+            }]
+        ) }}
     </div>
 {% endblock %}

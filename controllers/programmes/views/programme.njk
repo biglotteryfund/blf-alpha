@@ -5,15 +5,12 @@
 
 {% extends "layouts/main.njk" %}
 
+{% set pageAccent = 'pink' %}
 {% if entry.summary.area.value === 'wales' %}
     {% set bodyClass = "has-welsh-logo" %}
 {% endif %}
-{% set socialImage = heroImage %}
-
-{% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
 
     <main role="main">
         {{ hero(
@@ -42,25 +39,7 @@
                 </div>
             </section>
 
-            {% macro nextPrevNav(entry, loopIdx) %}
-                {% set zeroIndexed = loopIdx - 1 %}
-                {% set nextSection = entry.contentSections[zeroIndexed + 1] %}
-                {% set prevSection = entry.contentSections[zeroIndexed - 1] %}
-                {% if nextSection or prevSection %}
-                    <nav class="split-nav">
-                        {% if prevSection %}
-                            <a class="split-nav__prev" href="#section-{{ loopIdx - 1 }}">
-                                {{ prevSection.title }}
-                            </a>
-                        {% endif %}
-                        {% if nextSection %}
-                            <a class="split-nav__next" href="#section-{{ loopIdx + 1 }}">
-                                {{ nextSection.title }}
-                            </a>
-                        {% endif %}
-                    </nav>
-                {% endif %}
-            {% endmacro %}
+
 
             <div class="inner--wide-only">
                 {% if entry.contentSections.length > 1 %}
@@ -70,12 +49,9 @@
 
                         {% set tabContent -%}
                             <div class="content-box content-box--frameless">
-                                <div class="s-prose u-constrained-content-wide
-                                    accent-content--{{ pageAccent }} js-content">
+                                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
                                     {{ section.body | safe }}
                                 </div>
-
-                                {{ nextPrevNav(entry, loop.index) }}
                             </div>
                         {%- endset %}
 
@@ -90,7 +66,8 @@
                     {{
                         tabs(
                             id = entry.title | slugify,
-                            content = tabItems
+                            content = tabItems,
+                            showPagination = true
                         )
                     }}
                 {% else %}

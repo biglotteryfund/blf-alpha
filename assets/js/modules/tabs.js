@@ -1,5 +1,4 @@
-const $ = require('jquery');
-const { trackEvent, setPageView } = require('../helpers/metrics');
+import $ from 'jquery';
 
 let activeClasses = {
     tab: 'tab--active',
@@ -10,19 +9,6 @@ let pageHasLoaded = false;
 
 function scrollIntoView(el) {
     el.get(0).scrollIntoView(true);
-}
-
-function trackTabClick(label, trackTabClicksAsPageviews) {
-    trackEvent('Tab', 'Click', label);
-
-    // optionally set a new URL and pageview
-    // this enables us to treat each tab as a unique page
-    // so we can measure bounce rate, time on page etc on a per-tab basis
-    // calling `set` first means all subsequent events will be marked against this "page"
-    // also, isn't it really satisfying how each new line in this block is longer than the one before?
-    if (trackTabClicksAsPageviews) {
-        setPageView(window.location.pathname + window.location.hash);
-    }
 }
 
 // toggle panes/tabs (if valid)
@@ -81,10 +67,6 @@ function addTabBehaviour($tabs) {
         if (tabData) {
             // stop browser scroll by default
             e.preventDefault();
-
-            // track this click
-            let trackTabClicksAsPageviews = !tabData.tabset.data('do-not-track-pageviews');
-            trackTabClick(tabData.paneId, trackTabClicksAsPageviews);
 
             // if we're on mobile (eg. accordion) we should scroll the pane into view
             // we delay this because the visibility check returns false as the page loads
@@ -196,6 +178,6 @@ function init() {
     openTabOnHashchange();
 }
 
-module.exports = {
-    init: init
+export default {
+    init
 };

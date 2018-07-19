@@ -224,3 +224,40 @@ $num_columns_mobile: 3;
         }
     }
 }
+
+/* =========================================================================
+   Flex Grid
+   ========================================================================= */
+
+.flex-grid {
+    @include reset-list();
+
+    @include mq(medium-minor) {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 (-($spacingUnit / 2));
+    }
+
+    .flex-grid__item {
+        padding-bottom: $spacingUnit;
+
+        @include mq(medium-minor) {
+            flex: 0 0 50%;
+
+            > * {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                height: 100%;
+
+                margin-left: $spacingUnit / 2;
+                margin-right: $spacingUnit / 2;
+            }
+        }
+    }
+}
+.flex-grid--3up .flex-grid__item {
+    @include mq(medium-minor) {
+        flex: 0 0 33.3%;
+    }
+}
