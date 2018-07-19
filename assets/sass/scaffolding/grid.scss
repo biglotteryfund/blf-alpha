@@ -224,3 +224,41 @@ $num_columns_mobile: 3;
         }
     }
 }
+
+/* =========================================================================
+   Flex Grid
+   ========================================================================= */
+/**
+ * Simple 2up and 3up flexible grid which stacks on small screens
+ * @TODO: Review existing .grid styles to work out how to share approaches
+ */
+ $flexGridSpacing: $spacingUnit / 2;
+.flex-grid {
+    @include reset-list();
+
+    @include mq(medium-minor) {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: (-$flexGridSpacing) 0 0 (-$flexGridSpacing);
+    }
+
+    > .flex-grid__item {
+        max-width: 100%;
+        margin-bottom: $flexGridSpacing;
+
+        @include mq(medium-minor) {
+            display: flex;
+            flex: 1 1 0%;
+
+            > * {
+                margin: $flexGridSpacing 0 0 $flexGridSpacing;
+            }
+        }
+    }
+}
+.flex-grid--3up .flex-grid__item {
+    @include mq(medium-minor) {
+        flex: 0 0 33.3%;
+    }
+}

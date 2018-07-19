@@ -10,14 +10,14 @@
 </head>
 <body>
     <header class="sg-header" role="banner">
-        <h1 class="sg-header__title">Big Lottery Fund Alpha Style Guide</h1>
+        <h1 class="sg-header__title"><a href="/patterns">Big Lottery Fund Alpha Style Guide</a></h1>
     </header>
 
     <main class="sg-main" id="content">
         {% block content %}{% endblock %}
     </main>
 
-    {% include "../includes/metaFooterJS.njk" %}
+    {% include "includes/metaFooterJS.njk" %}
     <script src="{{ 'javascripts/styleguide.js' | getCachebustedPath }}"></script>
 </body>
 </html>

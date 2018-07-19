@@ -37,6 +37,9 @@
     font-weight: normal;
     margin-bottom: 0;
 }
+.sg-header__title a {
+    color: white;
+}
 .sg-main {
     margin-bottom: 30px;
 }
@@ -73,4 +76,13 @@
 }
 .sg-usage-notes__content {
     font-size: 14px;
+}
+
+.sg-example {
+    margin-bottom: 30px;
+}
+.sg-example__description {
+    font-weight: normal;
+    font-size: 15px;
+    margin-bottom: .5em;
 }

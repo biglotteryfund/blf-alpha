@@ -1,0 +1,29 @@
+{% from "components/styleguide.njk" import sgExample, sgUsage %}
+{% from "./macro.njk" import promoCard %}
+
+{% call sgExample("Default") %}
+    {% call promoCard({
+        "title": "Promo card",
+        "subtitle": "Subtitle text",
+        "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt",
+        "image": { "url": "https://via.placeholder.com/640x280?text=Placeholder", "alt": "" },
+        "link": { "url": "https://example.com/", "label": "Read more" }
+    }) %}
+        Custom meta content
+    {% endcall %}
+{% endcall %}
+
+{% call sgExample("Featured with kicker") %}
+    {{ promoCard({
+        "kicker": "Kicker text",
+        "title": "Promo card",
+        "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt",
+        "image": { "url": "https://via.placeholder.com/640x280?text=Placeholder", "alt": "" },
+        "link": { "url": "https://example.com/", "label": "Read more" }
+    }, featured = true) }}
+{% endcall %}
+
+{% call sgUsage() %}
+    Common promo card component, can be passed custom content to be shown in the footer of the card.
+    Used for showing related content like research and case studies.
+{% endcall %}
