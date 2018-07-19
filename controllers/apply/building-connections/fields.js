@@ -1,6 +1,11 @@
 'use strict';
 const { check } = require('express-validator/check');
 
+const FUND_SIZE = {
+    min: 30000,
+    max: 100000,
+};
+
 const LENGTH_HINTS = {
     HEMINGWAY: {
         rows: 3,
@@ -201,10 +206,14 @@ const projectBudget = [
         fields: [
             {
                 name: 'project-budget-total',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 isRequired: true,
-                label: 'How much grant funding are you applying for in total?'
+                label: 'How much grant funding are you applying for in total?',
+                helpText: '<p>The minimum grant size is <strong>£30,000</strong> and the maximum available is <strong>£100,000</strong>.</p>'
             }
         ]
     },
@@ -228,7 +237,10 @@ const projectBudget = [
         fields: [
             {
                 name: 'project-budget-a-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 isRequired: true,
                 label: 'How much do you plan to spend for the period until March 2019?'
@@ -246,7 +258,10 @@ const projectBudget = [
             },
             {
                 name: 'project-budget-b-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2019–March 2020?'
             },
@@ -258,7 +273,10 @@ const projectBudget = [
             },
             {
                 name: 'project-budget-c-amount',
-                type: 'text',
+                type: 'number',
+                min: FUND_SIZE.min,
+                max: FUND_SIZE.max,
+                isCurrency: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2020–March 2021?'
             },
