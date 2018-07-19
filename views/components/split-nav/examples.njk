@@ -1,0 +1,33 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import splitNav %}
+
+{% call sgExample("Previous link") %}
+    {{ splitNav(
+        prevLink = {
+            "label": "Previous page",
+            "url": "#"
+        }
+    ) }}
+{% endcall %}
+
+{% call sgExample("Next link") %}
+    {{ splitNav(
+        nextLink = {
+            "label": "Next page",
+            "url": "#"
+        }
+    ) }}
+{% endcall %}
+
+{% call sgExample("Both links") %}
+    {{ splitNav(
+        prevLink = {
+            "label": "Previous page",
+            "url": "#"
+        },
+        nextLink = {
+            "label": "Next page",
+            "url": "#"
+        }
+    ) }}
+{% endcall %}

@@ -46,7 +46,8 @@
         </header>
         <div class="sg-block__body inner">
             <div class="sg-block__content">
-                {{ caller() }}
+                {# Include examples file for a given component slug #}
+                {% include "components/" + slug + "/examples.njk" ignore missing %}
             </div>
         </div>
     </section>

@@ -1,11 +1,8 @@
 'use strict';
-const util = require('util');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-
-const { homepageHero } = require('../../modules/images');
 
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/index'), {
@@ -40,8 +37,7 @@ router.get('/components', (req, res, next) => {
     } else {
         res.render(path.resolve(__dirname, './views/components'), {
             title: 'Styleguide',
-            description: 'Components',
-            superHeroImages: homepageHero
+            description: 'Components'
         });
     }
 });
