@@ -5,52 +5,52 @@ const processor = require('./processor');
 
 const PROJECT_LOCATIONS = [
     {
-        "label": "East Midlands",
-        "value": "East Midlands"
+        label: 'East Midlands',
+        value: 'East Midlands'
     },
     {
-        "label": "East of England",
-        "value": "East of England"
+        label: 'East of England',
+        value: 'East of England'
     },
     {
-        "label": "London",
-        "value": "London"
+        label: 'London',
+        value: 'London'
     },
     {
-        "label": "North East",
-        "value": "North East"
+        label: 'North East',
+        value: 'North East'
     },
     {
-        "label": "North West",
-        "value": "North West"
+        label: 'North West',
+        value: 'North West'
     },
     {
-        "label": "Northern Ireland",
-        "value": "Northern Ireland"
+        label: 'Northern Ireland',
+        value: 'Northern Ireland'
     },
     {
-        "label": "Scotland",
-        "value": "Scotland"
+        label: 'Scotland',
+        value: 'Scotland'
     },
     {
-        "label": "South East",
-        "value": "South East"
+        label: 'South East',
+        value: 'South East'
     },
     {
-        "label": "South West",
-        "value": "South West"
+        label: 'South West',
+        value: 'South West'
     },
     {
-        "label": "Wales",
-        "value": "Wales"
+        label: 'Wales',
+        value: 'Wales'
     },
     {
-        "label": "West Midlands",
-        "value": "West Midlands"
+        label: 'West Midlands',
+        value: 'West Midlands'
     },
     {
-        "label": "Yorkshire and the Humber",
-        "value": "Yorkshire and the Humber"
+        label: 'Yorkshire and the Humber',
+        value: 'Yorkshire and the Humber'
     }
 ];
 
