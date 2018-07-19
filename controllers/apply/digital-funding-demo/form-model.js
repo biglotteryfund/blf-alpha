@@ -1,8 +1,58 @@
 'use strict';
 const { check } = require('express-validator/check');
-const { PROJECT_LOCATIONS } = require('../reaching-communities/constants');
 const { createFormModel } = require('../../helpers/create-form-model');
 const processor = require('./processor');
+
+const PROJECT_LOCATIONS = [
+    {
+        "label": "East Midlands",
+        "value": "East Midlands"
+    },
+    {
+        "label": "East of England",
+        "value": "East of England"
+    },
+    {
+        "label": "London",
+        "value": "London"
+    },
+    {
+        "label": "North East",
+        "value": "North East"
+    },
+    {
+        "label": "North West",
+        "value": "North West"
+    },
+    {
+        "label": "Northern Ireland",
+        "value": "Northern Ireland"
+    },
+    {
+        "label": "Scotland",
+        "value": "Scotland"
+    },
+    {
+        "label": "South East",
+        "value": "South East"
+    },
+    {
+        "label": "South West",
+        "value": "South West"
+    },
+    {
+        "label": "Wales",
+        "value": "Wales"
+    },
+    {
+        "label": "West Midlands",
+        "value": "West Midlands"
+    },
+    {
+        "label": "Yorkshire and the Humber",
+        "value": "Yorkshire and the Humber"
+    }
+];
 
 const formModel = createFormModel({
     id: 'digital-funding-demo',
@@ -11,7 +61,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'pages/apply/reaching-communities/startpage'
+    template: 'pages/apply/digital-funding-demo/startpage'
 });
 
 formModel.registerStep({
@@ -219,7 +269,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'pages/apply/reaching-communities/success',
+    template: 'pages/apply/digital-funding-demo/success',
     processor: processor
 });
 
