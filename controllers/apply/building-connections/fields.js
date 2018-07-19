@@ -3,7 +3,7 @@ const { check } = require('express-validator/check');
 
 const FUND_SIZE = {
     min: 30000,
-    max: 100000,
+    max: 100000
 };
 
 const LENGTH_HINTS = {
@@ -73,7 +73,8 @@ const yourIdea = [
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
                 isRequired: true,
-                label: 'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
+                label:
+                    'How will you increase your impact by reaching more people and/or joining up in collaboration with others?',
                 helpText: `<ul>
                     <li>Describe the additional support you will be able to offer with the funding</li>
                     <li>Describe the groups, organisations, and stakeholders you work with within your area that ensure you are fully connected in tackling loneliness</li>
@@ -213,7 +214,8 @@ const projectBudget = [
                 size: 20,
                 isRequired: true,
                 label: 'How much grant funding are you applying for in total?',
-                helpText: '<p>The minimum grant size is <strong>£30,000</strong> and the maximum available is <strong>£100,000</strong>.</p>'
+                helpText:
+                    '<p>The minimum grant size is <strong>£30,000</strong> and the maximum available is <strong>£100,000</strong>.</p>'
             }
         ]
     },
