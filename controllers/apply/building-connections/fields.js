@@ -57,6 +57,13 @@ const yourIdea = [
         legend: 'Your idea',
         fields: [
             {
+                name: 'project-name',
+                type: 'text',
+                size: 180,
+                isRequired: true,
+                label: 'What is the name of your project?'
+            },
+            {
                 name: 'project-idea',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
