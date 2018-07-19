@@ -197,6 +197,10 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 2
+        cy.get('#field-project-name')
+            .invoke('val', lorem)
+            .trigger('change');
+
         cy.get('#field-project-idea')
             .invoke('val', loremLong)
             .trigger('change');
