@@ -10,21 +10,19 @@ accent: {String}
 #}
 {% macro mediaObject(props, accent = 'pink') %}
     <div class="media-card u-accent-border-top-{{ accent }}">
-        <div class="media-card__inner">
-            {% if props.image %}
-                <div class="media-card__media">
-                    <img src="{{ props.image.url }}" alt="{{ props.image.alt }}">
-                </div>
-            {% endif %}
-            <div class="media-card__body">
-                <h4 class="media-card__title">{{ props.title }}</h4>
-                <p class="media-card__subtitle">{{ props.subtitle }}</p>
-                <div class="media-card__trail-text s-prose">
-                    {{ props.trailText | safe  }}
-                    {% if props.link %}
-                        <a href="{{ props.link.url }}">{{ props.link.label }}</a>
-                    {% endif %}
-                </div>
+        {% if props.image %}
+            <div class="media-card__media">
+                <img src="{{ props.image.url }}" alt="{{ props.image.alt }}">
+            </div>
+        {% endif %}
+        <div class="media-card__body">
+            <h4 class="media-card__title">{{ props.title }}</h4>
+            <p class="media-card__subtitle">{{ props.subtitle }}</p>
+            <div class="media-card__trail-text s-prose">
+                {{ props.trailText | safe  }}
+                {% if props.link %}
+                    <a href="{{ props.link.url }}">{{ props.link.label }}</a>
+                {% endif %}
             </div>
         </div>
     </div>

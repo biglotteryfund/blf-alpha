@@ -62,6 +62,15 @@
     }
 }
 
+.u-outline {
+    border: 1px solid palette('border');
+    padding: $spacingUnit;
+}
+
+/* =========================================================================
+   Padding
+   ========================================================================= */
+
 // @TODO: Rename all uses to u-padded
 .padded,
 .u-padded {
@@ -71,9 +80,30 @@
         padding: $spacingUnit;
     }
 }
+.u-padded-vertical {
+    padding-top: $spacingUnit;
+    padding-bottom: $spacingUnit;
+}
+.u-padded-vertical-l {
+    padding-top: $spacingUnit * 1.5;
+    padding-bottom: $spacingUnit * 1.5;
+}
 .u-padded-top {
     padding-top: $spacingUnit;
 }
+.u-padded-top-l {
+    padding-top: $spacingUnit * 1.5;
+}
+.u-padded-bottom {
+    padding-bottom: $spacingUnit;
+}
+.u-padded-bottom-l {
+    padding-bottom: $spacingUnit * 1.5;
+}
+
+/* =========================================================================
+   Margin
+   ========================================================================= */
 
 // @TODO: Rename to u-margin-bottom-*
 .spaced {
@@ -103,9 +133,4 @@
 .u-no-margin {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-}
-
-.u-outline {
-    border: 1px solid palette('border');
-    padding: $spacingUnit;
 }

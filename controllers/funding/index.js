@@ -2,7 +2,7 @@
 
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
-const programmesRoute = require('./programmes');
+const programmesRoute = require('../programmes');
 const tenKRoutes = require('./10k');
 
 module.exports = ({ router, pages }) => {

@@ -236,7 +236,7 @@ $num_columns_mobile: 3;
 .flex-grid {
     @include reset-list();
 
-    @include mq(medium-minor) {
+    @include mq('small') {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -247,9 +247,9 @@ $num_columns_mobile: 3;
         max-width: 100%;
         margin-bottom: $flexGridSpacing;
 
-        @include mq(medium-minor) {
+        @include mq('small') {
             display: flex;
-            flex: 1 1 0%;
+            flex: 0 0 50%;
 
             > * {
                 margin: $flexGridSpacing 0 0 $flexGridSpacing;
@@ -257,8 +257,10 @@ $num_columns_mobile: 3;
         }
     }
 }
-.flex-grid--3up .flex-grid__item {
-    @include mq(medium-minor) {
-        flex: 0 0 33.3%;
+.flex-grid.flex-grid--3up {
+    > .flex-grid__item {
+        @include mq('small') {
+            flex: 0 0 33.3%;
+        }
     }
 }
