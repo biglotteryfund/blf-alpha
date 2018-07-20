@@ -41,7 +41,9 @@
                     {{ pane.content | safe }}
 
                     {% if showPagination %}
-                        {{ nextPrevNav(panes, loop.index) }}
+                        <div class="tab__pane-pagination">
+                            {{ nextPrevNav(panes, loop.index) }}
+                        </div>
                     {% endif %}
                 </article>
             </section>
