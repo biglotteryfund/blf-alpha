@@ -96,17 +96,3 @@
         </ul>
     </nav>
 {% endmacro %}
-
-
-{% macro splitNav(pagination) %}
-    {% if pagination %}
-        <nav class="split-nav">
-            {% if pagination.prevLink %}
-                <a class="split-nav__prev" href="{{ pagination.prevLink }}" rel="prev">Previous page</a>
-            {% endif %}
-            {% if pagination.nextLink %}
-                <a class="split-nav__next" href="{{ pagination.nextLink }}" rel="next">Next page</a>
-            {% endif %}
-        </nav>
-    {% endif %}
-{% endmacro %}

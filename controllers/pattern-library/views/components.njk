@@ -3,8 +3,7 @@
 {% from "components/styleguide.njk" import sgSectionHeader, sgBlock, sgComponent %}
 
 {% from "components/data.njk" import statsGrid %}
-{% from "components/hero.njk" import homepageSuperHero, hero, miniatureHero with context %}
-{% from "components/news.njk" import articleTeaser with context %}
+{% from "components/hero.njk" import miniatureHero with context %}
 {% from "components/programmes.njk" import programmeCard with context %}
 {% from "components/nav.njk" import selectionTrail %}
 {% from "components/segment.njk" import segment %}
@@ -14,40 +13,9 @@
 
 {{ sgSectionHeader('Components') }}
 
-{% call sgComponent('media-object') %}
-    {% include "components/media-object/examples.njk" %}
-{% endcall %}
-
-{% call sgComponent('promo-card') %}
-    {% include "components/promo-card/examples.njk" %}
-{% endcall %}
-
-{% set sgContent %}
-    {{ hero(
-        titleText = 'Hero title text',
-        image = heroImages.fallbackHeroImage,
-        accent = 'green'
-    ) }}
-{% endset %}
-{% set sgNotes %}
-    <p>
-        Hero feature used in the header of most pages.
-        Consists of an image, title, and caption.
-    </p>
-{% endset %}
-{{ sgBlock('Hero', sgContent, sgNotes, fullWidth=true) }}
-
-
-{% set sgContent %}
-    {{
-        articleTeaser({
-            title: 'Young people big winners in latest round of National Lottery funding',
-            summary: 'A total of £40 million of funding goes to almost 1,400 local and grassroots projects across England, including many supporting young people.',
-            link: '#'
-        })
-    }}
-{% endset %}
-{{ sgBlock('Article Teaser', sgContent) }}
+{% for slug in componentSlugs  %}
+    {{ sgComponent(slug) }}
+{% endfor %}
 
 {% set sgContent %}
     <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
@@ -72,8 +40,6 @@
     </ul>
 {% endset %}
 {{ sgBlock('Miniature Heroes', sgContent) }}
-
-
 
 {% set sgContent %}
     {{ statsGrid([
@@ -230,6 +196,5 @@
     <p>Generic tabbed content component. On small screens tabs are displayed in an accordion pattern.</p>
 {% endset %}
 {{ sgBlock('Tabs', sgContent, sgNotes) }}
-
 
 {% endblock %}

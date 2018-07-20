@@ -1,0 +1,12 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import sectionLinks %}
+
+{% call sgExample() %}
+    {{ sectionLinks([{
+        "label": "Section link",
+        "href": "#"
+    }, {
+        "label": "Another section link",
+        "href": "#"
+    }]) }}
+{% endcall %}

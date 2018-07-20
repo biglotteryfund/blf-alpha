@@ -14,15 +14,3 @@
         {% endfor %}
     </ul>
 {% endmacro %}
-
-{% macro sectionLinks(sectionLinks) %}
-    <ul class="u-list-unstyled">
-        {% for sectionLink in sectionLinks %}
-            <li>
-                <a class="u-link-section" href="{{ sectionLink.href }}">
-                    {{ sectionLink.label }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-{% endmacro %}
