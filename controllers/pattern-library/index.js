@@ -3,22 +3,19 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
+const globby = require('globby');
 
 router.get('/', (req, res) => {
-    res.render(path.resolve(__dirname, './views/index'), {
-        title: 'Styleguide',
-        description: 'Styleguide'
-    });
+    res.render(path.resolve(__dirname, './views/index'));
 });
 
 router.get('/typography', (req, res) => {
     res.render(path.resolve(__dirname, './views/typography'), {
-        title: 'Styleguide',
-        description: 'Typography'
+        title: 'Typography'
     });
 });
 
-router.get('/components', (req, res, next) => {
+router.get('/components', async (req, res, next) => {
     const { component } = req.query;
     if (component) {
         // Check if the file is readable.
@@ -28,17 +25,26 @@ router.get('/components', (req, res, next) => {
                 next();
             } else {
                 res.render(path.resolve(__dirname, './views/component-detail'), {
-                    title: 'Styleguide',
-                    description: 'Components: ' + component,
+                    title: 'Components: ' + component,
                     slug: component
                 });
             }
         });
     } else {
-        res.render(path.resolve(__dirname, './views/components'), {
-            title: 'Styleguide',
-            description: 'Components'
-        });
+        try {
+            const matches = await globby(path.resolve(__dirname, '../../views/components') + '/**/examples.njk');
+            if (matches.length > 0) {
+                const componentSlugs = matches.map(match => path.basename(path.dirname(match)));
+                res.render(path.resolve(__dirname, './views/components'), {
+                    title: 'Components',
+                    componentSlugs
+                });
+            } else {
+                next(new Error('No components fount'));
+            }
+        } catch (error) {
+            next(error);
+        }
     }
 });
 
