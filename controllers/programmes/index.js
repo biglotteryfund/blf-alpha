@@ -3,7 +3,11 @@ const path = require('path');
 const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
-const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
+const {
+    injectBreadcrumbs,
+    injectFundingProgramme,
+    injectFundingProgrammes
+} = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./helpers');
@@ -146,10 +150,29 @@ function initProgrammeDetail(router) {
 }
 
 /**
- * Route Strategic Programme Detail
+ * Strategic Programmes
  */
+const { entry, relatedResearch, allProgrammes } = require('./strategic-mock.json');
+
+function initStrategicProgrammesList(router) {
+    router.get(
+        '/strategic',
+        function(req, res, next) {
+            res.locals.title = 'Strategic investments in England';
+            next();
+        },
+        injectBreadcrumbs,
+        function(req, res) {
+            res.render(path.resolve(__dirname, './views/strategic-programmes-list'), {
+                allProgrammes,
+                heroImage: heroImages.fallbackHeroImage,
+                isBilingual: false
+            });
+        }
+    );
+}
+
 function initStrategicProgrammeDetail(router) {
-    const { entry, relatedResearch } = require('./strategic-mock.json');
     router.get('/strategic/headstart', function(req, res) {
         const activeBreadcrumbs = [
             {
@@ -190,6 +213,7 @@ function init({ router, routeConfigs }) {
     });
 
     if (process.env.NODE_ENV !== 'production') {
+        initStrategicProgrammesList(router);
         initStrategicProgrammeDetail(router);
     }
 }

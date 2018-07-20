@@ -58,8 +58,7 @@ function injectCopy(page) {
 
 function injectBreadcrumbs(req, res, next) {
     const locale = req.i18n.getLocale();
-    const copy = res.locals.copy;
-    const content = res.locals.content;
+    const { title, copy, content } = res.locals;
 
     const cleanedSection = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
     const sectionSlug = cleanedSection === '' ? 'home' : cleanedSection;
@@ -80,7 +79,7 @@ function injectBreadcrumbs(req, res, next) {
 
         const getTitle = get('title');
         const currentCrumb = {
-            label: getTitle(content) || getTitle(copy)
+            label: title || getTitle(content) || getTitle(copy)
         };
 
         res.locals.breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs, currentCrumb]);
