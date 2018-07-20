@@ -247,7 +247,7 @@ const projectBudget = [
             {
                 name: 'project-budget-a-amount',
                 type: 'number',
-                min: FUND_SIZE.min,
+                min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
                 size: 20,
@@ -268,7 +268,7 @@ const projectBudget = [
             {
                 name: 'project-budget-b-amount',
                 type: 'number',
-                min: FUND_SIZE.min,
+                min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
                 size: 20,
@@ -283,7 +283,7 @@ const projectBudget = [
             {
                 name: 'project-budget-c-amount',
                 type: 'number',
-                min: FUND_SIZE.min,
+                min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
                 size: 20,
