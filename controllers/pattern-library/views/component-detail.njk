@@ -4,9 +4,6 @@
 
 {% block content %}
     <div class="spaced--t">
-        {% call sgComponent(slug, showDetailLink = false) %}
-            {% set componentTemplate = "components/" + slug + "/examples.njk" %}
-            {% include componentTemplate ignore missing %}
-        {% endcall %}
+        {{ sgComponent(slug, showDetailLink = false) }}
     </div>
 {% endblock %}

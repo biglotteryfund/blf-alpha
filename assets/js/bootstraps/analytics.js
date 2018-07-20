@@ -4,7 +4,7 @@ const { isDownloadLink } = require('../helpers/urls');
 const { trackEvent } = require('../helpers/metrics');
 
 function trackDocumentDownloads() {
-    const links = document.querySelectorAll('.js-content a[href]');
+    const links = document.querySelectorAll('.content-box a[href]');
     [].forEach.call(links, function(link) {
         if (isDownloadLink(link.href)) {
             link.addEventListener('click', () => {

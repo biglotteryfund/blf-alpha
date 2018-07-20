@@ -46,7 +46,8 @@
         </header>
         <div class="sg-block__body inner">
             <div class="sg-block__content">
-                {{ caller() }}
+                {# Include examples file for a given component slug #}
+                {% include "components/" + slug + "/examples.njk" ignore missing %}
             </div>
         </div>
     </section>
@@ -54,9 +55,11 @@
 
 {% macro sgExample(description) %}
     <div class="sg-example">
-        <h4 class="sg-example__description">
-            {{ description }}
-        </h4>
+        {% if description %}
+            <h4 class="sg-example__description">
+                {{ description }}
+            </h4>
+        {% endif %}
         <div class="sg-example__body">
             {{ caller() }}
         </div>

@@ -3,7 +3,7 @@
  * (Non-Vue components)
  */
 const global = require('../modules/global');
-const tabs = require('../modules/tabs');
+import tabs from '../modules/tabs';
 import heroImages from '../modules/heroImages';
 const logos = require('../modules/logos');
 import forms from '../modules/forms';

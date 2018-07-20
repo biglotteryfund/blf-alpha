@@ -1,4 +1,5 @@
-{% from "components/nav.njk" import selectionTrail, splitNav with context %}
+{% from "components/nav.njk" import selectionTrail with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/news.njk" import blogTeaser with context %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -36,7 +37,16 @@
                     {% endfor %}
                 </ol>
 
-                {{ splitNav(pagination) }}
+                {{ splitNav(
+                    prevLink = {
+                        "label": "Previous page",
+                        "url": pagination.prevLink
+                    },
+                    nextLink = {
+                        "label": "Next page",
+                        "url": pagination.nextLink
+                    }
+                ) }}
             </div>
 
         </section>

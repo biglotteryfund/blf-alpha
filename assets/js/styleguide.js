@@ -1,6 +1,10 @@
 (function() {
     function renderSectionNavigation() {
         var patternTitleEls = document.querySelectorAll('.js-sg-pattern-title');
+        if (patternTitleEls.length < 1) {
+            return;
+        }
+
         var patternTitles = [].map.call(patternTitleEls, function(el) {
             return {
                 label: el.textContent,
