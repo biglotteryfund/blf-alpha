@@ -75,6 +75,13 @@
         list-style-type: decimal;
     }
 
+    hr {
+        border: none;
+        border-bottom: 1px solid palette('border');
+        padding-bottom: $spacingUnit;
+        margin: 0 0 ($spacingUnit * 1.5) 0;
+    }
+
     a {
         font-weight: bold;
     }
@@ -103,10 +110,6 @@
         a[href^='tel:'] {
             display: table-cell;
         }
-    }
-
-    figure {
-        margin: 0 0 0.5em 0;
     }
 
     table {

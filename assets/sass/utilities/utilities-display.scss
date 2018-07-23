@@ -3,25 +3,25 @@
    ========================================================================== */
 /* Low level utility classes and display helpers */
 
-@include mq('desktop', 'max') {
+@include mq('large', 'max') {
     .u-wide-only {
         display: none !important;
     }
 }
 
-@include mq('desktop') {
+@include mq('large') {
     .u-not-wide {
         display: none !important;
     }
 }
 
-@include mq('tablet', 'max') {
+@include mq('medium', 'max') {
     .u-desktop-only {
         display: none !important;
     }
 }
 
-@include mq('tablet') {
+@include mq('medium') {
     .u-mobile-only {
         display: none !important;
     }

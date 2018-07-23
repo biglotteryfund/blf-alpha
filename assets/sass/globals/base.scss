@@ -153,6 +153,10 @@ img:not([width]) {
     width: 100%;
 }
 
+figure {
+    margin: 0 0 1em 0;
+}
+
 iframe {
     border: none;
 }

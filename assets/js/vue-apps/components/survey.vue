@@ -54,7 +54,7 @@ export default {
 
 <template>
     <aside role="complementary" class="survey u-dont-print" v-if="lang">
-        <div class="inner">
+        <div class="u-inner">
             <div class="survey__choices" v-if="status === statuses.NOT_ASKED">
                 <p class="survey__choices-question">{{ lang.question }}</p>
                 <div class="survey__choices-actions">

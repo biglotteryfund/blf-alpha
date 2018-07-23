@@ -1,10 +1,6 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-{% from "components/forms-new.njk" import formErrors, formField %}
 {% from "components/hero.njk" import hero %}
-{% from "components/icons.njk" import iconSearch %}
 {% from "components/nav.njk" import selectionTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-
 
 {% extends "layouts/main.njk" %}
 
@@ -19,23 +15,24 @@
         ) }}
 
         <div class="nudge-up">
-            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ selectionTrail(breadcrumbs) }}
 
-                <section class="u-separator s-prose u-constrained-content-wide">
+                <section class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
                     {{ inlineFeedback(
                         description = "Past Grants",
                         promptLabel = copy.survey.prompt,
                         fieldLabel = copy.survey.label
                     )  }}
+
+                    <hr />
+                    <p>{{ copy.optionsIntro }}</p>
                 </section>
 
-                <p>{{ copy.optionsIntro }}</p>
-
-                <ul class="grid grid--2-up grid--padded grid--equal grid--wide-only">
-                    <li class="grid__item">
-                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                <ul class="flex-grid">
+                    <li class="flex-grid__item">
+                        <div class="content-box content-box--flex u-accent-border-top-{{ pageAccent }}">
                             <h2>{{ copy.grantnav.title }}</h2>
                             <p><a
                                 data-ga-on="click"
@@ -46,10 +43,10 @@
                                 {{ copy.grantnav.linkText }}
                             </a></p>
                             <p class="u-note">{{ copy.grantnav.subtitle }}</p>
-                        </section>
+                        </div>
                     </li>
-                    <li class="grid__item">
-                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                    <li class="flex-grid__item">
+                        <div class="content-box content-box--flex u-accent-border-top-{{ pageAccent }}">
                             <h2>{{ copy.legacy.title }}</h2>
                             <p><a
                                 data-ga-on="click"
@@ -59,7 +56,7 @@
                                 href="{{ localify('/funding/search-past-grants') }}">
                                 {{ copy.legacy.linkText }}
                             </a></p>
-                        </section>
+                        </div>
                     </li>
                 </ul>
             </div>

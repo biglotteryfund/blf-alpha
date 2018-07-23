@@ -18,7 +18,7 @@
 
     // forced linebreaks (eg. <br>)
     // should only appear on tablet upwards
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         br {
             display: none;
         }

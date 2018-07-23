@@ -26,7 +26,7 @@
     }
 
     &.list-bullets--mob-friendly {
-        @include mq('tablet', 'max') {
+        @include mq('medium', 'max') {
             li {
                 margin-bottom: $spacingUnit * 1.5;
             }
@@ -71,6 +71,32 @@ ol.list-bullets li {
 }
 
 /* =========================================================================
+   Lists: Image List
+   ========================================================================= */
+
+.o-image-list {
+    @include reset-list();
+
+    li {
+        margin: 60px 40px;
+    }
+
+    @include mq(medium) {
+        display: flex;
+
+        li {
+            margin: 20px;
+            padding: 0 20px;
+        }
+
+        img {
+            width: auto;
+        }
+    }
+
+}
+
+/* =========================================================================
    Lists: Link List
    ========================================================================= */
 
@@ -108,24 +134,5 @@ ol.list-bullets li {
         background-image: svg-url(
             '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M27.414 19.414l-10 10a2 2 0 0 1-2.828 0l-10-10a2 2 0 1 1 2.828-2.828L14 23.172V4a2 2 0 1 1 4 0v19.172l6.586-6.586c.39-.39.902-.586 1.414-.586s1.024.195 1.414.586a2 2 0 0 1 0 2.828z" fill="#1a44a1"></path></svg>'
         );
-    }
-}
-
-.list-logos {
-
-    li {
-        margin: 60px 40px !important;
-    }
-
-    @media only screen and (min-width: 600px) {
-        display: flex;
-
-        li {
-            margin: 20px !important;
-            padding: 0 20px;
-            img {
-                width: auto;
-            }
-        }
     }
 }

@@ -2,38 +2,38 @@
    Layout Helpers
    ========================================================================= */
 
+/**
+ * Inner/constrained layout classes
+ * .u-inner defines a constrained layout at all breakpoints
+ * .u-inner-wide-only defines a constrained layout at wider breakpoints only
+ */
+.u-inner {
+    margin-left: $spacingUnit / 2;
+    margin-right: $spacingUnit / 2;
+    width: calc(100% - #{$spacingUnit});
+}
+
+.u-inner,
+.u-inner-wide-only {
+    @include mq(medium) {
+        margin-left: $spacingUnit;
+        margin-right: $spacingUnit;
+        width: calc(100% - #{$spacingUnit * 2});
+    }
+
+    @media screen and (min-width: $widestScreen) {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 .u-constrained {
     max-width: $constrained;
 }
 
 .u-constrained-wide {
     max-width: $constrainedWide;
-}
-
-.u-flex-stretch {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.u-separator {
-    padding-bottom: $spacingUnit;
-    border-bottom: 1px solid palette('border');
-    margin-bottom: $spacingUnit * 1.5;
-}
-
-// @TODO: Rename all uses
-.u-inner,
-.inner {
-    @include responsiveGutter();
-}
-
-// @TODO: Rename all uses
-.u-inner-wide-only,
-.inner--wide-only {
-    @include mq('tablet') {
-        @include responsiveGutter();
-    }
 }
 
 .u-gutter {
@@ -47,14 +47,14 @@
 
 // @TODO better name
 .central-gap {
-    @include mq('tablet') {
+    @include mq('medium') {
         margin-left: 20%;
         margin-right: 20%;
     }
 }
 
 .nudge-up {
-    @include mq('tablet') {
+    @include mq('medium') {
         top: -25px;
         margin-bottom: -25px;
         position: relative;
@@ -62,14 +62,9 @@
     }
 }
 
-.u-outline {
-    border: 1px solid palette('border');
-    padding: $spacingUnit;
-}
-
 /* =========================================================================
-   Padding
-   ========================================================================= */
+    Padding
+    ========================================================================= */
 
 // @TODO: Rename all uses to u-padded
 .padded,
@@ -102,8 +97,8 @@
 }
 
 /* =========================================================================
-   Margin
-   ========================================================================= */
+    Margin
+    ========================================================================= */
 
 // @TODO: Rename to u-margin-bottom-*
 .spaced {
