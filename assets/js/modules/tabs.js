@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
 const SELECTORS = {
+    container: '.js-tab-container',
     tabset: '.js-tabset',
     paneset: '.js-paneset',
     tab: '.js-tab',
@@ -8,7 +9,6 @@ const SELECTORS = {
 };
 
 const ACTIVE_CLASS = 'is-active';
-
 
 let pageHasLoaded = false;
 
@@ -170,9 +170,11 @@ function openTabOnHashchange() {
 }
 
 function init() {
+    const $container = $(SELECTORS.container);
     const $tabs = $(SELECTORS.tab);
+    const matchCriteria = $container.attr('data-breakpoint');
 
-    if ($tabs.length < 1) {
+    if ($tabs.length < 1 || (matchCriteria && window.matchMedia(matchCriteria).matches === false)) {
         return;
     }
 
