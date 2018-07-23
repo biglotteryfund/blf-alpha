@@ -236,22 +236,22 @@ $num_columns_mobile: 3;
 .flex-grid {
     @include reset-list();
 
-    @include mq('small') {
+    @include mq('medium-minor') {
         display: flex;
         flex-wrap: wrap;
-        margin: (-$flexGridSpacing) 0 0 (-$flexGridSpacing);
+        margin-left: -$flexGridSpacing;
     }
 
     > .flex-grid__item {
         max-width: 100%;
         margin-bottom: $flexGridSpacing;
 
-        @include mq('small') {
+        @include mq('medium-minor') {
             display: flex;
             flex: 0 0 50%;
 
             > * {
-                margin: $flexGridSpacing 0 0 $flexGridSpacing;
+                margin-left: $flexGridSpacing;
             }
         }
     }
@@ -262,7 +262,7 @@ $num_columns_mobile: 3;
      * Default to 3up where there is space
      */
     > .flex-grid__item {
-        @include mq('small') {
+        @include mq('medium-minor') {
             flex: 0 0 33.3%;
         }
     }
