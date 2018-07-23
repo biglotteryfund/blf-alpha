@@ -1,0 +1,50 @@
+{% from "components/split-nav/macro.njk" import splitNav %}
+
+{% macro contentTabs(id, tabs) %}
+    {# data-breakpoint must match breakpoint used for styles #}
+    <div class="js-tab-container" data-breakpoint="(min-width: 620px)">
+        <ul role="tablist" class="js-tabset content-tabset">
+            {% for tab in tabs %}
+                <li class="content-tabset__item">
+                    <a role="tab" class="js-tab content-tabset__tab{% if loop.first %} is-active{% endif %}"
+                        href="#{{ tab.id }}">
+                        {{ tab.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div id="{{ paneSetId }}" class="js-paneset">
+            {% for tab in tabs %}
+                <section id="{{ tab.id }}" class="js-tab-pane content-tab-pane{% if loop.first %} is-active{% endif %}">
+                    <article class="content-tab-pane__content">
+                        <div class="content-box content-box--frameless">
+                            <a class="content-tab-pane__title t1" href="#{{ tab.id }}">{{ tab.title }}</a>
+                            {{ tab.content | safe }}
+                        </div>
+
+                        {% if tabs.length > 1 %}
+                            <div class="content-tab-pane__pagination">
+                                {% set zeroIndexed = loop.index - 1 %}
+                                {% set nextSection = tabs[zeroIndexed + 1] %}
+                                {% set prevSection = tabs[zeroIndexed - 1] %}
+
+                                {% set prevLink = {
+                                    "url": "#" + prevSection.id if prevSection,
+                                    "label": prevSection.title if prevSection
+                                } %}
+
+                                {% set nextLink = {
+                                    "url": "#" + nextSection.id if nextSection,
+                                    "label": nextSection.title if nextSection
+                                } %}
+
+                                {{ splitNav(prevLink, nextLink) }}
+                            </div>
+                        {% endif %}
+                    </article>
+                </section>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

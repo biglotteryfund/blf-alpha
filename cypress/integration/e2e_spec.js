@@ -121,10 +121,10 @@ describe('e2e', function() {
         cy.get('.js-tabset .js-tab').each($el => {
             cy.wrap($el)
                 .click()
-                .should('have.class', 'tab--active');
+                .should('have.class', 'is-active');
 
             // Check there is only one tab active
-            cy.get('.js-tabset .tab--active').should('have.length', 1);
+            cy.get('.js-tabset .is-active').should('have.length', 1);
 
             // Check tab content is visible
             cy.get($el.attr('href')).should('be.visible');

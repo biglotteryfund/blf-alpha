@@ -156,11 +156,6 @@
                 }
             }
         }
-
-        // duplicates .btn CSS
-        &.tab--active.btn {
-            background-color: darken($colour, 15%) !important;
-        }
     }
 
     .accent-content--#{$name} {

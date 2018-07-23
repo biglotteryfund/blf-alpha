@@ -1,0 +1,34 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import contentTabs %}
+
+{% call sgExample() %}
+    {% set tab1 %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae minima beatae, nihil autem assumenda explicabo enim voluptate itaque dolorum non veniam aliquam, vitae repellendus, illo temporibus reprehenderit nam et! Atque quis quia corrupti non vitae placeat suscipit distinctio reprehenderit in aliquam blanditiis ullam rerum modi expedita deserunt, obcaecati autem, aut libero cumque animi veritatis corporis, beatae adipisci nobis.</p>
+    {% endset %}
+
+    {% set tab2 %}
+        <p>Natus nobis nisi aliquam animi fugiat. Ut adipisci tempore, repellendus, dolores quo corporis cum sint nulla labore esse, quaerat ducimus soluta blanditiis accusantium similique dolorem sed! Laudantium accusamus eum voluptatibus mollitia quidem, error voluptate culpa amet dignissimos doloribus debitis, voluptas animi nam exercitationem! Culpa repudiandae, eos neque ipsa dignissimos sequi placeat, assumenda quod aspernatur, molestiae nostrum possimus nulla earum eaque dicta ullam incidunt facilis.</p>
+    {% endset %}
+
+    {% set tab3 %}
+        <p>Alias praesentium pariatur voluptatum autem consequatur voluptatem quidem asperiores molestias ea ab quibusdam aliquam illum cumque hic qui in facere distinctio odio sed dicta eius fugit, corrupti corporis beatae! Ex assumenda tempora ducimus accusantium similique dicta officiis adipisci animi quae, eligendi incidunt eius fugiat reiciendis vitae alias a? Culpa, nisi beatae, vero molestias totam recusandae amet excepturi incidunt, quaerat hic repellendus at reprehenderit labore ab in aut modi magni non. Modi corporis autem sed delectus et dolorum nesciunt?</p>
+    {% endset %}
+
+    {{ contentTabs(
+        id = 'example',
+        tabs = [{
+            "id": "section-1",
+            "title": "Tab 1",
+            "content": tab1
+        }, {
+            "id": "section-2",
+            "title": "Tab 2",
+            "content": tab2
+        }, {
+            "id": "section-3",
+            "title": "Tab 3",
+            "content": tab3
+        }]
+    ) }}
+{% endcall %}
+

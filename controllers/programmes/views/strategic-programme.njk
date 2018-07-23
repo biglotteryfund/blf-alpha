@@ -1,8 +1,8 @@
-{% from "components/media-object/macro.njk" import mediaObject with context %}
-{% from "components/promo-card/macro.njk" import promoCard with context %}
 {% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import selectionTrail with context %}
-{% from "components/tabs.njk" import tabs %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/media-object/macro.njk" import mediaObject with context %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -26,16 +26,13 @@
 
         <section class="u-inner-wide-only">
             {% set tabContentAims -%}
-                <div class="content-box content-box--frameless">
-                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                        {{ entry.aims | safe }}
-                    </div>
+                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    {{ entry.aims | safe }}
                 </div>
             {%- endset %}
 
             {% set tabContentImpact -%}
-                <div class="content-box content-box--frameless">
-                    {% for part in entry.impact  %}
+                {% for part in entry.impact  %}
                     <div class="content-slice">
                         <div class="content-slice__primary">
                             <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
@@ -48,36 +45,32 @@
                             </div>
                         {% endif %}
                     </div>
-                    {% endfor %}
-                </div>
+                {% endfor %}
             {%- endset %}
 
             {% set tabContentPartnerships -%}
-                <div class="content-box content-box--frameless">
-                    {% for partnership in entry.partnerships %}
-                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                            <h3>{{ partnership.title }}</h3>
-                            {{ partnership.intro | safe }}
-                        </div>
+                {% for partnership in entry.partnerships %}
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        <h3>{{ partnership.title }}</h3>
+                        {{ partnership.intro | safe }}
+                    </div>
 
-                        <ul class="flex-grid">
-                            {% for partner in partnership.partners %}
-                                <li class="flex-grid__item">
-                                    {{ mediaObject(partner) }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
-                </div>
+                    <ul class="flex-grid">
+                        {% for partner in partnership.partners %}
+                            <li class="flex-grid__item">
+                                {{ mediaObject(partner) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
             {%- endset %}
 
-            {{ tabs(
+            {{ contentTabs(
                 id = 'test',
-                content = [{
+                tabs = [{
                     "id": "section-1",
                     "title": "Aims & approach",
-                    "content": tabContentAims,
-                    "active": true
+                    "content": tabContentAims
                 }, {
                     "id": "section-2",
                     "title": "Impact & learnings",
@@ -86,9 +79,7 @@
                     "id": "section-3",
                     "title": "Partnerships",
                     "content": tabContentPartnerships
-                }],
-                stackable = true,
-                showPagination = true
+                }]
             ) }}
         </section>
 
