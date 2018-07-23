@@ -20,12 +20,6 @@
 @import 'globals/typography';
 
 // =========================================================================
-// Third-party / Vendor styles
-// ========================================================================= //
-
-@import '../../node_modules/swiper/dist/css/swiper';
-
-// =========================================================================
 // Scaffolding
 // ========================================================================= //
 // Low-level, generic scaffolding styles
@@ -54,8 +48,6 @@
 @import 'components/materials';
 @import 'components/overlay-text';
 @import 'components/segment';
-@import 'components/case-studies';
-@import 'components/carousels';
 @import 'components/heroes';
 @import 'components/prompts';
 @import 'components/news';

@@ -1,15 +1,10 @@
-{% from "components/caseStudies.njk" import caseStudyFeature with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/ebulletin.njk" import ebulletinForm with context %}
 {% from "components/hero.njk" import homepageSuperHero with context %}
-{% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/social.njk" import socialLinks with context %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set socialImage = heroImage.default %}
 
 {% block content %}
     {% set pageAccent = "blue" %}
@@ -23,47 +18,35 @@
             )
         }}
 
+        {# Case studies #}
         <section class="u-inner">
-            {# case studies #}
-            <div class="carousel js-carousel
-                swiper-container
-                accent--{{ pageAccent }} a--border-top spaced--l"
-                data-name="Case-studies carousel">
-                <div class="carousel__controls js-only">
-                    <button class="carousel__control carousel__control--prev js-carousel-prev"
-                        aria-label="When clicked this shows content from the previous slide">
-                        {{ iconArrowLeft() }}
-                        <span class="u-visually-hidden">{{ __('global.accessibility.previousItem') }}</span>
-                    </button>
-                    <button class="carousel__control carousel__control--next js-carousel-next"
-                        aria-label="When clicked this shows content from the next slide">
-                        {{ iconArrowRight() }}
-                        <span class="u-visually-hidden">{{ __('global.accessibility.nextItem') }}</span>
-                    </button>
-                </div>
+            <h2 class="t2 t--underline">
+                {{ __('global.misc.projectExamples') }}
+            </h2>
+            <ul class="flex-grid flex-grid--3up">
+                {% for caseStudy in copy.caseStudies %}
+                    <li class="flex-grid__item">
+                        {% call promoCard({
+                            "title": caseStudy.projectName,
+                            "trailText": caseStudy.quoteText,
+                            "image": { "url": caseStudy.imageUrl | getImagePath, "alt": caseStudy.quoteName }
+                        }) %}
+                            <p class="t6 u-no-margin">{{ caseStudy.quoteName }}</p>
+                            {% if caseStudy.quoteNameCaption %}
+                                <p class="t8 u-weight-normal u-no-margin">{{ caseStudy.quoteNameCaption }}</p>
+                            {% endif %}
+                            {% if caseStudy.link %}<a class="t8 u-weight-normal" href="{{ localify(caseStudy.link) }}"
+                                aria-label="{{ __('global.misc.readMoreAbout', caseStudy.projectName) }}">{% endif %}
+                                {{ caseStudy.projectName }}
+                            {% if caseStudy.link %}</a>{% endif %}
+                        {% endcall %}
+                    </li>
+                {% endfor %}
+            </ul>
 
-                <ul class="swiper-wrapper unstyled">
-                    {% for c in copy.caseStudies %}
-                        <li class="swiper-slide">
-                            {{
-                                caseStudyFeature(
-                                    quoteText = c.quoteText,
-                                    quoteName = c.quoteName,
-                                    quoteNameCaption = c.quoteNameCaption,
-                                    projectName = c.projectName,
-                                    imageUrl = c.imageUrl,
-                                    imageSmallUrl = c.imageSmallUrl,
-                                    link = c.link
-                                )
-                            }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="central-gap">
+            <div class="padded u-align-center">
                 <a href="{{ localify('/funding/past-grants') }}"
-                    class="btn btn--block accent--{{ pageAccent }} a--btn spaced">
+                    class="btn accent--{{ pageAccent }} a--btn spaced">
                     {{ copy.browseFundedProjects }}
                 </a>
             </div>

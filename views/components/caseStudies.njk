@@ -1,44 +1,5 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 
-{% macro caseStudyFeature(
-    quoteText,
-    quoteName,
-    quoteNameCaption,
-    projectName,
-    imageUrl,
-    imageSmallUrl,
-    link = false
-) %}
-    <div class="case-study">
-        <div class="case-study__image">
-            <picture>
-                <source srcset="{{ imageUrl | getImagePath }}" media="(min-width: 600px)">
-                <source srcset="{{ imageSmallUrl | getImagePath }}">
-                <img src="{{ imageSmallUrl | getImagePath }}" alt="{{ quoteName }} {{ projectName }}" />
-            </picture>
-        </div>
-        <div class="case-study__content">
-                <blockquote class="pullquote">
-                    <div class="pullquote__text">
-                        <p>{{ quoteText }}</p>
-                    </div>
-                    <div class="pullquote__meta">
-                        <cite class="pullquote__citation t2">{{ quoteName }}</cite>
-                        <div class="pullquote__aside">
-                            {% if quoteNameCaption %}
-                                <p class="t8 u-weight-normal">{{ quoteNameCaption }}</p>
-                            {% endif %}
-                            {% if link %}<a href="{{ localify(link) }}"
-                                aria-label="{{ __('global.misc.readMoreAbout', projectName) }}">{% endif %}
-                                <p class="t8 u-weight-normal">{{ projectName | safe }}</p>
-                            {% if link %}</a>{% endif %}
-                        </div>
-                    </div>
-                </blockquote>
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro caseStudyCollection(caseStudies, customSectionTitle = false, accent) %}
     {% if caseStudies.length > 0 %}
         <section id="section-case-studies" class="padded">
