@@ -36,7 +36,7 @@
         border-left: none;
     }
 
-    .tab.tab--active {
+    .tab.is-active {
         border-top-color: palette('pink');
         border-bottom-color: transparent;
         background-color: white;
@@ -81,7 +81,7 @@
         display: none;
     }
 
-    &.pane--active {
+    &.is-active {
         > .tab__pane-content {
             display: block;
         }
@@ -161,7 +161,7 @@
         }
     }
 
-    &.pane--active {
+    &.is-active {
         > .tab__pane--accordion {
             a {
                 background-color: #9e9e9e;

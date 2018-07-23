@@ -2,7 +2,7 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% macro tab(title, paneId, tabClasses = false, setActive = false, id = false) %}
-    <a role="tab" class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} tab--active{% endif %}"
+    <a role="tab" class="js-tab{% if tabClasses %} {{ tabClasses }}{% else %} tab{% endif %}{% if setActive %} is-active{% endif %}"
         href="#{{ paneId }}" {% if id %} id="{{ id }}"{% endif %}>
         {{ title }}
     </a>
@@ -22,7 +22,7 @@
     <div id="{{ paneSetId }}" class="js-paneset">
         {% for pane in panes %}
             <section id="{{ pane.paneId }}"
-                class="tab__pane{% if pane.accordion %} tab__pane--accordion{% endif %}{% if pane.setActive %} pane--active{% endif %}">
+                class="js-tab-pane tab__pane{% if pane.accordion %} tab__pane--accordion{% endif %}{% if pane.setActive %} is-active{% endif %}">
 
                 {% if pane.accordion and pane.title %}
                     <header class="tab__pane-header">
