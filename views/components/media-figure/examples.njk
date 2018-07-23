@@ -1,0 +1,11 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import mediaFigure %}
+
+{% call sgExample() %}
+    <div class="u-constrained">
+        {{ mediaFigure(
+            imageUrl = "https://via.placeholder.com/640x380?text=Figure+image",
+            caption = "Caption for the image"
+        ) }}
+    </div>
+{% endcall %}
