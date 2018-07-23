@@ -2,6 +2,7 @@
 const path = require('path');
 const { map } = require('lodash');
 
+const appData = require('../../modules/appData');
 const { heroImages } = require('../../modules/images');
 const {
     injectBreadcrumbs,
@@ -212,7 +213,7 @@ function init({ router, routeConfigs }) {
         routeConfig: routeConfigs.fundingFinderLegacy
     });
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (appData.isNotProduction) {
         initStrategicProgrammesList(router);
         initStrategicProgrammeDetail(router);
     }
