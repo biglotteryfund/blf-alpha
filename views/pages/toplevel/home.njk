@@ -27,15 +27,14 @@
                 {% for caseStudy in copy.caseStudies %}
                     <li class="flex-grid__item">
                         {% call promoCard({
-                            "title": caseStudy.projectName,
-                            "trailText": caseStudy.quoteText,
+                            "title": caseStudy.quoteText,
                             "image": { "url": caseStudy.imageUrl | getImagePath, "alt": caseStudy.quoteName }
                         }) %}
-                            <p class="t6 u-no-margin">{{ caseStudy.quoteName }}</p>
+                            <p class="u-no-margin"><strong>{{ caseStudy.quoteName }}</strong></p>
                             {% if caseStudy.quoteNameCaption %}
-                                <p class="t8 u-weight-normal u-no-margin">{{ caseStudy.quoteNameCaption }}</p>
+                                <p class="u-no-margin">{{ caseStudy.quoteNameCaption }}</p>
                             {% endif %}
-                            {% if caseStudy.link %}<a class="t8 u-weight-normal" href="{{ localify(caseStudy.link) }}"
+                            {% if caseStudy.link %}<a href="{{ localify(caseStudy.link) }}"
                                 aria-label="{{ __('global.misc.readMoreAbout', caseStudy.projectName) }}">{% endif %}
                                 {{ caseStudy.projectName }}
                             {% if caseStudy.link %}</a>{% endif %}
