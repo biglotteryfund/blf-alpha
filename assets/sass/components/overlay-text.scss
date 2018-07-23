@@ -1,63 +1,57 @@
 /* =========================================================================
    Overlay Text
    ========================================================================= */
-// blocked-out colourised background
+// Blocked-out colourised background
 
 .overlay-text {
-    width: 60%;
-    line-height: 1.4;
+    @include poppins();
+    font-weight: 600;
+    line-height: 1.5;
     margin: 0;
 
-    &.is-opaque {
-        line-height: 1.7;
-    }
-
-    &.overlay-text--wide {
-        width: 80%;
-    }
-
-    // forced linebreaks (eg. <br>)
-    // should only appear on tablet upwards
-    @include mq('medium', 'max') {
-        br {
-            display: none;
-        }
-    }
-
-    span {
-        color: #ffffff;
+    .overlay-text__inner {
+        color: white;
         display: inline;
-        padding: 2px 5px;
+        padding: .2em .3em;
         // allows multi-line wrapped text to work
         box-decoration-break: clone;
     }
 
-    // some t1 blocks are *wholly* links
-    // so no underlines for them
-    a {
-        color: #ffffff;
+    .overlay-text__link,
+    .overlay-text__link:hover {
+        color: inherit;
         text-decoration: none;
     }
 
-    // some t1 blocks *contain* links
-    // so demarcate them properly
-    &.overlay-text--has-links {
-        a {
-            text-decoration: underline;
-        }
-    }
+    &.overlay-text--transluscent {
+        line-height: 1.7;
 
-    .icon--arrow-right {
-        width: 18px;
-        height: 18px;
-        vertical-align: middle;
+        .overlay-text__inner {
+            padding: 2px 6px;
+        }
     }
 }
 
-.overlay-text--deep {
-    line-height: 1.7;
+@each $name in $themes {
+    $colour: palette($name);
 
-    > span {
-        padding: 5px;
+    .overlay-text--accent-#{$name} {
+        .overlay-text__inner {
+            background-color: $colour;
+        }
+
+        .overlay-text__link {
+            @include on-interact {
+                .overlay-text__inner {
+                    background-color: darken($colour, 10%);
+                }
+            }
+        }
+
+        &.overlay-text--transluscent {
+            .overlay-text__inner {
+                background-color: rgba($colour, 0.8);
+            }
+        }
     }
 }

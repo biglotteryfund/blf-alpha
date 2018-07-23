@@ -203,7 +203,11 @@
 .miniature-hero {
     position: relative;
 
-    .miniature-hero__content {
+    .miniature-hero__title {
+        font-size: 18px;
+        margin-bottom: 0;
+        width: 80%;
+
         position: absolute;
         bottom: $spacingUnit / 2;
         left: $spacingUnit / 2;
@@ -218,5 +222,10 @@
             padding: 0;
             margin-bottom: 10px;
         }
+    }
+
+    .miniature-hero__link,
+    .miniature-hero__link:hover {
+        text-decoration: none;
     }
 }

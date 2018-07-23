@@ -41,6 +41,7 @@
 }
 .segment__title {
     @include mq('medium') {
+        width: 60%;
         position: absolute;
         top: 1em;
         left: 1em;

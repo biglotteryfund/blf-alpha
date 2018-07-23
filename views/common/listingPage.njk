@@ -1,6 +1,6 @@
-{% from "components/hero.njk" import hero, miniatureHero %}
+{% from "components/hero.njk" import hero %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/nav.njk" import selectionTrail %}
-{% from "components/segment.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
 
@@ -26,12 +26,11 @@
                 {% for page in content.children %}
                     <li class="grid__item">
                         {{ miniatureHero(
-                            titleText = page.trailText | default(page.title, true),
+                            title = page.trailText | default(page.title, true),
                             imagePath = page.photo,
                             imageCaption = page.title,
                             linkUrl = page.link,
-                            accent = page.themeColour,
-                            useRemoteImages = true
+                            accent = page.themeColour
                         )}}
                     </li>
                 {% endfor %}

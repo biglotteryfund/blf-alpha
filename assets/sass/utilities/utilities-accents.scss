@@ -59,36 +59,6 @@
             border-top-color: $colour;
         }
 
-        // block-colour heading background
-        &.overlay-text,
-        .overlay-text {
-            span {
-                background-color: $colour;
-            }
-        }
-
-        // hover state for overlay text
-        &.overlay-text,
-        .overlay-text {
-            a {
-                @include on-interact {
-                    color: darken(#ffffff, 10%);
-                    span {
-                        background-color: darken($colour, 10%);
-                    }
-                }
-            }
-        }
-
-        // semi-opaque text used for some pages
-        $opacityFactor: 0.8;
-        &.is-opaque,
-        .is-opaque {
-            span {
-                background-color: rgba($colour, $opacityFactor);
-            }
-        }
-
         /**
          * Modifier class which adds a border below the text
          * (see typography.scss)
