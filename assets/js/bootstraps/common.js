@@ -7,7 +7,6 @@ import tabs from '../modules/tabs';
 import heroImages from '../modules/heroImages';
 const logos = require('../modules/logos');
 import forms from '../modules/forms';
-import carousel from '../modules/carousel';
 
 function init() {
     global.init();
@@ -15,7 +14,6 @@ function init() {
     heroImages.init();
     logos.init();
     forms.init();
-    carousel.init();
 }
 
 export default {
