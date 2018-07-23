@@ -1,13 +1,9 @@
 {% from "components/data.njk" import factRiver %}
 {% from "components/hero.njk" import hero %}
 {% from "components/programmes.njk" import programmeOverview with context %}
-{% from "components/tabs.njk" import tabs %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set socialImage = heroImage %}
 
 {% block content %}
     {% set pageAccent = 'pink' %}
@@ -65,10 +61,8 @@
             </section>
 
             {% macro tabContent(title, content) %}
-                <div class="content-box content-box--frameless">
-                    <h2 class="u-visually-hidden">{{ title }}</h2>
-                    {{ content | safe }}
-                </div>
+                <h2 class="u-visually-hidden">{{ title }}</h2>
+                {{ content | safe }}
             {% endmacro %}
 
             {% set tabItems = [{
@@ -96,7 +90,7 @@
             }] %}
 
             <div class="u-inner-wide-only">
-                {{ tabs(id = 'tabs', content = tabItems) }}
+                {{ contentTabs(id = 'tabs', tabs = tabItems) }}
             </div>
         </div>
     </main>
