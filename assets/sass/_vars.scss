@@ -14,22 +14,15 @@ $breakpoints: (
     'medium-major': 840px,
     'large': 980px,
     'xlarge': 1200px,
+    // @TODO: Find-and replace these
     'tablet': 760px,
     'desktop': 980px
 );
 
-// the main content area will have these width gutters
-// at the specified breakpoints
-$gutters: (
-    'default': 10px,
-    'tablet': 20px,
-    'desktop': 40px
-);
+// At this resolution, the content area will be limited in width
+$widestScreen: map-get($breakpoints, 'xlarge');
 
-// at this resolution, the content area will be limited in width
-$widestScreen: 1200px;
-
-// this is used as a utility measure around the site
+// This is used as a utility measure around the site
 $spacingUnit: 20px;
 
 // Max-width values for running content
