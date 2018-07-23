@@ -1,0 +1,13 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import documentList %}
+
+{% call sgExample() %}
+    {{ documentList([{
+        "label": "Document label",
+        "href": "#"
+    }, {
+        "label": "Document label",
+        "href": "#",
+        "caption": "Optional caption for the document (PDF)"
+    }]) }}
+{% endcall %}

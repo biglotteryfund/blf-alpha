@@ -1,6 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
-{% from "components/links.njk" import linksList %}
+{% from "components/document-list/macro.njk" import documentList %}
 
 {% extends "layouts/main.njk" %}
 
@@ -30,7 +30,7 @@
             {# Downloads #}
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t2 t--underline">{{ copy.downloads.title }}</h2>
-                {{ linksList(copy.downloads.links, isDocumentsList = true) }}
+                {{ documentList(copy.downloads.links) }}
             </section>
         </div>
     </main>
