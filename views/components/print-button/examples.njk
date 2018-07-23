@@ -1,0 +1,6 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import printButton %}
+
+{% call sgExample() %}
+    {{ printButton('Print this page') }}
+{% endcall %}
