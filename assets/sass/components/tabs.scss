@@ -70,6 +70,12 @@
    ========================================================================= */
 // The tab content areas
 
+.tab__pane-pagination {
+    @include mq('medium', 'max') {
+        display: none;
+    }
+}
+
 .js-on .tab__pane {
     .tab__pane-content {
         display: none;

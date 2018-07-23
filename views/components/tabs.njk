@@ -30,9 +30,8 @@
                             title = pane.title,
                             paneId = pane.paneId,
                             tabSetId = pane.tabSetId,
-                            setActive = pane.setActive,
-                            id = "accordion-" + tabId)
-                        }}
+                            setActive = pane.setActive
+                        ) }}
                         <span class="tab__arrow u-dont-print">{{ iconArrowDown() }}</span>
                     </header>
                 {% endif %}
@@ -41,7 +40,9 @@
                     {{ pane.content | safe }}
 
                     {% if showPagination %}
-                        {{ nextPrevNav(panes, loop.index) }}
+                        <div class="tab__pane-pagination">
+                            {{ nextPrevNav(panes, loop.index) }}
+                        </div>
                     {% endif %}
                 </article>
             </section>

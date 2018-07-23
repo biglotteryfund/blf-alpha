@@ -1,0 +1,112 @@
+{
+  "allProgrammes": [
+    {
+      "title": "A Better Start",
+      "description": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciun.</p>"
+    },
+    {
+      "title": "HeadStart",
+      "description": "<p>Giving young people support and skills to cope with adversity and do well at school and in life.</p>",
+      "linkUrl": "/funding/strategic/headstart"
+    },
+    {
+      "title": "Talent Match",
+      "description": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciun.</p>"
+    },
+    {
+      "title": "Supporting people with multiple needs",
+      "description": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciun.</p>"
+    },
+    {
+      "title": "Ageing better",
+      "description": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciun.</p>"
+    }
+  ],
+  "entry": {
+    "availableLanguages": [
+      "en",
+      "cy"
+    ],
+    "status": "live",
+    "title": "HeadStart",
+    "intro": "<p>Improving the mental health and wellbeing of young people</p>\n<p>\nWorking in six diverse communities across England, it aims to explore\n                and test ways to improve young people’s mental health and wellbeing\n            </p>\n            ",
+    "aims": "<p>\n                <strong>HeadStart is a five-year National Lottery funded programme set up by the\n                Big Lottery Fund, the largest funder of community activity in the UK.</strong>\n            </p>\n            <p>\n                Working in six diverse communities across England, it aims to explore and test ways to improve young\n                people’s mental health and wellbeing.\n            </p>\n            <p>\n                It is one of five major programmes set up by the Big Lottery Fund to trial new approaches to service\n                design, which aim to make people’s lives healthier and happier, from babies and very young children\n                through to those in later life.\n            </p>\n            <p>\n                Big Lottery Fund believes that strong communities are built by those who live in them, and that people\n                with first-hand experience of living with an issue are best-placed to identify and shape potential\n                solutions. Young people, who identified mental health as a key issue in their lives, were at the heart of\n                designing HeadStart.\n            </p>\n            <p>\n                From 2016 to 2021, six local authority led HeadStart partnerships will be working in Blackpool,\n                Cornwall, Hull, Kent, Newham and Wolverhampton.\n\n            </p>",
+    "impact": [
+      {
+        "content": "\n                        <h3>Impact</h3>\n                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>\n                    "
+      },
+      {
+        "content": "\n                        <h3>Impact</h3>\n                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>\n                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>\n                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>\n                    ",
+        "inlinePromo": {
+          "kicker": "Featured research",
+          "title": "Peer support",
+          "subtitle": "January 2018",
+          "image": {
+            "url": "https://via.placeholder.com/320x140",
+            "alt": ""
+          },
+          "trailText": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt</p>"
+        }
+      }
+    ],
+    "partnerships": [
+      {
+        "title": "Our programme partners",
+        "intro": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt et nihil temporibus!</p>",
+        "partners": [
+          {
+            "title": "HeadStart Blackpool",
+            "subtitle": "£18.4 million",
+            "trailText": "Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.",
+            "image": {
+              "url": "https://via.placeholder.com/100x100?text=Logo",
+              "alt": "Logo for HeadStart Blackpool"
+            },
+            "url": "https://google.com"
+          },
+          {
+            "title": "HeadStart Blackpool",
+            "subtitle": "£18.4 million",
+            "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus."
+          },
+          {
+            "title": "HeadStart Blackpool",
+            "subtitle": "£18.4 million",
+            "trailText": "Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus."
+          },
+          {
+            "title": "HeadStart Blackpool",
+            "subtitle": "£18.4 million",
+            "trailText": "Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus."
+          }
+        ]
+      }
+    ]
+  },
+  "relatedResearch": [
+    {
+      "title": "Peer support",
+      "datePublished": "July 2018",
+      "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.",
+      "imageUrl": "https://via.placeholder.com/320x140",
+      "documents": [
+        {
+          "label": "Report (PDF 4.9MB)",
+          "url": "https://example.com/"
+        }
+      ]
+    },
+    {
+      "title": "People in the lead in mental health",
+      "datePublished": "March 2018",
+      "trailText": "Ab, ratione accusamus, wnim minima tempora in ipsum nesciunt et nihil temporibus.",
+      "imageUrl": "https://via.placeholder.com/320x140"
+    },
+    {
+      "title": "Improving resilience in 10–15 year olds",
+      "datePublished": "March 2018",
+      "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+      "imageUrl": "https://via.placeholder.com/320x140"
+    }
+  ]
+}

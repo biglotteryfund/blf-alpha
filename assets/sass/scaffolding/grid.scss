@@ -236,29 +236,50 @@ $num_columns_mobile: 3;
 .flex-grid {
     @include reset-list();
 
-    @include mq(medium-minor) {
+    @include mq('medium-minor') {
         display: flex;
-        justify-content: space-between;
         flex-wrap: wrap;
-        margin: (-$flexGridSpacing) 0 0 (-$flexGridSpacing);
+        margin-left: -$flexGridSpacing;
     }
 
     > .flex-grid__item {
         max-width: 100%;
         margin-bottom: $flexGridSpacing;
 
-        @include mq(medium-minor) {
+        @include mq('medium-minor') {
             display: flex;
-            flex: 1 1 0%;
+            flex: 0 0 50%;
 
             > * {
-                margin: $flexGridSpacing 0 0 $flexGridSpacing;
+                margin-left: $flexGridSpacing;
             }
         }
     }
 }
-.flex-grid--3up .flex-grid__item {
-    @include mq(medium-minor) {
-        flex: 0 0 33.3%;
+
+.flex-grid.flex-grid--3up {
+    /**
+     * Default to 3up where there is space
+     */
+    > .flex-grid__item {
+        @include mq('medium-minor') {
+            flex: 0 0 33.3%;
+        }
+    }
+
+    /**
+     * If there are more than three items in the grid then
+     * allow 3up on wide screens > 2up on medium > 1up on small
+     * http://quantityqueries.com/
+     */
+    > .flex-grid__item:nth-last-child(n+4),
+    > .flex-grid__item:nth-last-child(n+4) ~ .flex-grid__item {
+        @include mq('small') {
+            flex: 0 0 50%;
+        }
+
+        @include mq('medium') {
+            flex: 0 0 33.3%;
+        }
     }
 }

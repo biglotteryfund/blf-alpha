@@ -5,15 +5,12 @@
 
 {% extends "layouts/main.njk" %}
 
+{% set pageAccent = 'pink' %}
 {% if entry.summary.area.value === 'wales' %}
     {% set bodyClass = "has-welsh-logo" %}
 {% endif %}
-{% set socialImage = heroImage %}
-
-{% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
 
     <main role="main">
         {{ hero(
@@ -42,14 +39,17 @@
                 </div>
             </section>
 
+
+
             <div class="inner--wide-only">
                 {% if entry.contentSections.length > 1 %}
+
                     {% set tabItems = [] %}
                     {% for section in entry.contentSections -%}
+
                         {% set tabContent -%}
                             <div class="content-box content-box--frameless">
-                                <div class="s-prose u-constrained-content-wide
-                                    accent-content--{{ pageAccent }} js-content">
+                                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
                                     {{ section.body | safe }}
                                 </div>
                             </div>
@@ -63,11 +63,13 @@
                         }), tabItems) %}
                     {%- endfor %}
 
-                    {{ tabs(
-                        id = entry.title | slugify,
-                        content = tabItems,
-                        showPagination = true
-                    ) }}
+                    {{
+                        tabs(
+                            id = entry.title | slugify,
+                            content = tabItems,
+                            showPagination = true
+                        )
+                    }}
                 {% else %}
                     {% set section = entry.contentSections[0] %}
                     <div class="content-box content-box--borderless">

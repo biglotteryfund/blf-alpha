@@ -1,11 +1,17 @@
 'use strict';
+const path = require('path');
 const { map } = require('lodash');
 
+const appData = require('../../modules/appData');
 const { heroImages } = require('../../modules/images');
-const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
+const {
+    injectBreadcrumbs,
+    injectFundingProgramme,
+    injectFundingProgrammes
+} = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
-const { programmeFilters, reformatQueryString } = require('./programmes-helpers');
+const { programmeFilters, reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { redirectWithError } = require('../http-errors');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
@@ -120,19 +126,19 @@ function initProgrammesList({ router, routeConfig }) {
 
         templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
 
-        res.render(routeConfig.template, templateData);
+        res.render(path.resolve(__dirname, './views/programmes-list'), templateData);
     });
 }
 
 /**
  * Route: Programme Detail
  */
-function initProgrammeDetail({ router, routeConfig }) {
+function initProgrammeDetail(router) {
     router.get('/programmes/:slug', injectFundingProgramme, (req, res, next) => {
         const entry = res.locals.fundingProgramme;
 
         if (entry && entry.contentSections.length > 0) {
-            res.render(routeConfig.template, {
+            res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 title: entry.summary.title,
                 heroImage: entry.hero || heroImages.fallbackHeroImage,
@@ -144,21 +150,73 @@ function initProgrammeDetail({ router, routeConfig }) {
     });
 }
 
+/**
+ * Strategic Programmes
+ */
+const { entry, relatedResearch, allProgrammes } = require('./strategic-mock.json');
+
+function initStrategicProgrammesList(router) {
+    router.get(
+        '/strategic',
+        function(req, res, next) {
+            res.locals.title = 'Strategic investments in England';
+            next();
+        },
+        injectBreadcrumbs,
+        function(req, res) {
+            res.render(path.resolve(__dirname, './views/strategic-programmes-list'), {
+                allProgrammes,
+                heroImage: heroImages.fallbackHeroImage,
+                isBilingual: false
+            });
+        }
+    );
+}
+
+function initStrategicProgrammeDetail(router) {
+    router.get('/strategic/headstart', function(req, res) {
+        const activeBreadcrumbs = [
+            {
+                label: req.i18n.__('global.nav.funding'),
+                url: req.baseUrl
+            },
+            {
+                label: 'Strategic programmes',
+                url: req.baseUrl + '/strategic'
+            },
+            {
+                label: entry.title
+            }
+        ];
+
+        res.render(path.resolve(__dirname, './views/strategic-programme'), {
+            entry: entry,
+            title: entry.title,
+            heroImage: entry.hero || heroImages.fallbackHeroImage,
+            isBilingual: isBilingual(entry.availableLanguages),
+            relatedResearch,
+            activeBreadcrumbs
+        });
+    });
+}
+
 function init({ router, routeConfigs }) {
     initProgrammesList({
         router: router,
         routeConfig: routeConfigs.programmes
     });
 
-    initProgrammeDetail({
-        router: router,
-        routeConfig: routeConfigs.programmeDetail
-    });
+    initProgrammeDetail(router);
 
     initLegacyFundingFinder({
         router: router,
         routeConfig: routeConfigs.fundingFinderLegacy
     });
+
+    if (appData.isNotProduction) {
+        initStrategicProgrammesList(router);
+        initStrategicProgrammeDetail(router);
+    }
 }
 
 module.exports = {

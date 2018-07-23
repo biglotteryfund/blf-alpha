@@ -82,3 +82,30 @@
         border-left: none;
     }
 }
+
+/* =========================================================================
+   Content Slice
+   ========================================================================= */
+/* An individual slice of content typically within a content area */
+
+.content-slice {
+    @include mq('medium') {
+        display: flex;
+    }
+}
+.content-slice__primary,
+.content-slice__secondary {
+    @include mq('medium') {
+        flex: 1 1 0%;
+    }
+}
+.content-slice__primary {
+    margin-bottom: .5em;
+}
+.content-slice__secondary {
+    @include mq('medium') {
+        min-width: 40%;
+        max-width: 320px;
+        padding-left: 30px
+    }
+}

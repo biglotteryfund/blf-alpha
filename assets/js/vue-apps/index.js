@@ -42,11 +42,14 @@ function initSurvey() {
 }
 
 function initPrompts() {
-    new Vue({
-        el: '#js-active-prompt',
-        components: { Prompt },
-        template: `<Prompt />`
-    });
+    const el = document.getElementById('js-active-prompt');
+    if (el) {
+        new Vue({
+            el: el,
+            components: { Prompt },
+            template: `<Prompt />`
+        });
+    }
 }
 
 function initInlineFeedback() {
