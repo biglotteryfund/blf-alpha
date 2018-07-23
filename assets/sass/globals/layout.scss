@@ -6,18 +6,14 @@
  * Inner/constrained layout classes
  * .u-inner defines a constrained layout at all breakpoints
  * .u-inner-wide-only defines a constrained layout at wider breakpoints only
- * @TODO: Rename all uses of .inner* to u-inner*
  */
-.inner,
 .u-inner {
     margin-left: $spacingUnit / 2;
     margin-right: $spacingUnit / 2;
     width: calc(100% - #{$spacingUnit});
 }
 
-.inner,
 .u-inner,
-.inner--wide-only,
 .u-inner-wide-only {
     @include mq(medium) {
         margin-left: $spacingUnit;
