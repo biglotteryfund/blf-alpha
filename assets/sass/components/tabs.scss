@@ -55,7 +55,7 @@
     }
 
     // also hide tabset on mobile
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         display: none !important;
     }
 
@@ -98,7 +98,7 @@
  * Accordion behaviour for small screens
  */
 .tab__pane--accordion {
-    @include mq('tablet') {
+    @include mq('medium') {
         .tab__pane-header {
             display: none;
         }
@@ -117,7 +117,7 @@
             margin-bottom: 2px;
             padding: $spacingUnit;
 
-            @include mq(tablet) {
+            @include mq('medium') {
                 padding-left: $spacingUnit * 2;
                 padding-right: $spacingUnit * 2;
             }
@@ -150,7 +150,7 @@
             right: $spacingUnit;
             color: #ffffff;
 
-            @include mq(tablet) {
+            @include mq('medium') {
                 right: $spacingUnit * 2;
             }
 

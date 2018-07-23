@@ -26,7 +26,7 @@
     }
 
     &.list-bullets--mob-friendly {
-        @include mq('tablet', 'max') {
+        @include mq('medium', 'max') {
             li {
                 margin-bottom: $spacingUnit * 1.5;
             }
