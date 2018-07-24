@@ -29,6 +29,10 @@ async function init({ router, routeConfig }) {
             query.q = req.query.q;
         }
 
+        if (req.query.postcode) {
+            query.postcode = req.query.postcode;
+        }
+
         const data = await request({
             url: `http://localhost:8888`,
             json: true,

@@ -16,6 +16,11 @@
                     <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
                 </div>
 
+                <div class="form-field">
+                    <label class="ff-label" for="field-postcode">Postcode</label>
+                    <input class="ff-text" type="text" name="postcode" id="field-postcode" value="{{ queryParams.postcode }}" />
+                </div>
+
                 <div class="form-actions o-button-group">
                     <input type="submit" value="Filter" class="btn btn--medium">
                 </div>
@@ -23,19 +28,27 @@
 
             <section>
                 <h2>
-                    Showing <em>{{ meta.totalResults }}</em> results
-                    {% if queryParams.q %}for "{{ queryParams.q }}"{% endif %}
+                    Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} for:{% endif %}
                 </h2>
+                {% if queryParams %}
+                    <ul class="list-bullets">
+                        {% if queryParams.q %}<li>Search term: "{{ queryParams.q }}"</li>{% endif %}
+                        {% if queryParams.postcode %}<li>Postcode: "{{ queryParams.postcode }}"</li>{% endif %}
+                    </ul>
+                {% endif %}
                 {% for grant in grants %}
                     <article class="s-prose">
-                        <h3 class="t2">{{ grant.recipientName }}</h3>
-                        <p>{{ grant.title }}</p>
-                        <p><small>{{ grant.description }}</small></p>
+                        <h3 class="t2">
+                            {{ grant['Recipient Org:Name'] }}
+                            <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
+                        </h3>
+                        <p>{{ grant['Title'] }}</p>
+                        <p><small>{{ grant['Description'] }}</small></p>
                         <dl class="o-definition-list o-definition-list--compact">
                             <dt>Amount awarded</dt>
-                            <dd>£{{ grant.amountAwarded }}</dd>
+                            <dd>£{{ grant['Amount Awarded'] }}</dd>
                             <dt>Grant programme</dt>
-                            <dd>{{ grant.grantProgrammeTitle }}</dd>
+                            <dd>{{ grant['Grant Programme:Title'] }}</dd>
                         </dl>
                         <hr />
                     </article>
