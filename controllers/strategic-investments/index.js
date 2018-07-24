@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-
+const { concat } = require('lodash');
 const appData = require('../../modules/appData');
 const {
     injectBreadcrumbs,
@@ -22,20 +22,15 @@ function initStrategicProgrammeDetail(router) {
     router.get('/strategic-investments/:slug', injectStrategicProgramme, function(req, res, next) {
         const { strategicProgramme } = res.locals;
         if (strategicProgramme) {
-            // @TODO: Return these from the content api response
-            const breadcrumbs = [
-                {
-                    label: req.i18n.__('global.nav.funding'),
-                    url: req.baseUrl
-                },
-                {
-                    label: 'Strategic investments in England',
-                    url: req.baseUrl + '/strategic'
-                },
-                {
-                    label: strategicProgramme.title
-                }
-            ];
+            const breadcrumbs = concat(
+                [
+                    {
+                        label: req.i18n.__('global.nav.funding'),
+                        url: req.baseUrl
+                    }
+                ],
+                strategicProgramme.sectionBreadcrumbs
+            );
 
             res.render(path.resolve(__dirname, './views/strategic-programme'), {
                 breadcrumbs
