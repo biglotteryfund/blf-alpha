@@ -1,14 +1,12 @@
 {% macro sgSectionHeader(title) %}
     <div class="sg-section-header">
-        <div class="sg-section-header__inner u-inner">
-            <h2 class="sg-section-header__title t1"
-                id="sg-section-{{ title | slugify }}">{{ title }}</h2>
-        </div>
+        <h2 class="sg-section-header__title t1"
+            id="sg-section-{{ title | slugify }}">{{ title }}</h2>
     </div>
 {% endmacro %}
 
 {% macro sgComponent(slug, showDetailLink = true) %}
-    <section class="sg-block u-inner">
+    <section class="sg-block">
         <header class="sg-block__header">
             <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
                 id="sg-pattern-{{ slug }}">

@@ -249,7 +249,6 @@ $num_columns_mobile: 3;
         @include mq('medium-minor') {
             display: flex;
             flex: 0 0 50%;
-            margin-bottom: 0;
 
             > * {
                 margin-left: $flexGridSpacing;
