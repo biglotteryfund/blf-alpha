@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/promo-card/macro.njk" import promoCard with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% extends "views/common/informationPage.njk" %}
 
@@ -9,7 +9,6 @@
         <ul class="flex-grid flex-grid--3up">
             {% for programme in strategicProgrammes %}
                 <li class="flex-grid__item">
-                    {# <pre>{{ programme | dump(2) }}</pre> #}
                     {{ promoCard({
                         "title": programme.title,
                         "trailText": programme.trailText,

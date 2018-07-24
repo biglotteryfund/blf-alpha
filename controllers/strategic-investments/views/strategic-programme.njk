@@ -40,11 +40,6 @@
                                 {{ part.content | safe }}
                             </div>
                         </div>
-                        {% if part.inlinePromo %}
-                            <div class="content-slice__secondary">
-                                {{ promoCard(part.inlinePromo, featured = true) }}
-                            </div>
-                        {% endif %}
                     </div>
                 {% endfor %}
             {%- endset %}
