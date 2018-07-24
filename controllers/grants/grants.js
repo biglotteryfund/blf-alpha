@@ -1,12 +1,25 @@
 'use strict';
 const request = require('request-promise-native');
+const querystring = require('querystring');
 
-function buildPagination(paginationMeta) {
+function buildPagination(paginationMeta, currentQuerystring = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
         const currentPage = paginationMeta.currentPage;
         const totalPages = paginationMeta.totalPages;
-        const prevLink = `?page=${currentPage - 1}`;
-        const nextLink = `?page=${currentPage + 1}`;
+
+        // combine a ?page param with existing querystrings for grant search
+        const makePageLink = pageNum => {
+            return '?' + querystring.stringify(Object.assign(
+                {},
+                currentQuerystring,
+                {
+                    page: pageNum
+                }
+            ));
+        };
+
+        const prevLink = makePageLink(currentPage - 1);
+        const nextLink = makePageLink(currentPage + 1);
 
         return {
             currentPage: currentPage,
@@ -44,7 +57,7 @@ async function init({ router, routeConfig }) {
             grants: data.results,
             facets: data.facets,
             meta: data.meta,
-            pagination: buildPagination(data.meta.pagination)
+            pagination: buildPagination(data.meta.pagination, req.query)
         });
     });
 }
