@@ -5,6 +5,7 @@
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
 const slug = require('slugify');
+const querystring = require('querystring');
 const { includes } = require('lodash');
 
 const assets = require('./assets');
@@ -56,5 +57,10 @@ module.exports = {
     },
     includes(arr, value) {
         return includes(arr, value);
+    },
+    removeQueryParam(queryParams, paramToRemove) {
+        let newParams = Object.assign({}, queryParams);
+        delete newParams[paramToRemove];
+        return querystring.stringify(newParams);
     }
 };

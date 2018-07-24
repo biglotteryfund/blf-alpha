@@ -28,12 +28,22 @@
 
             <section>
                 <h2>
-                    Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} for:{% endif %}
+                    Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} filtered by:{% endif %}
                 </h2>
                 {% if queryParams %}
                     <ul class="list-bullets">
-                        {% if queryParams.q %}<li>Search term: "{{ queryParams.q }}"</li>{% endif %}
-                        {% if queryParams.postcode %}<li>Postcode: "{{ queryParams.postcode }}"</li>{% endif %}
+                        {% if queryParams.q %}
+                            <li>
+                                <strong>Search term:</strong> "{{ queryParams.q }}"
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('q') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+                        {% if queryParams.postcode %}
+                            <li>
+                                <strong>Postcode:</strong> "{{ queryParams.postcode }}"
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('postcode') }}">Remove?</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endif %}
                 {% for grant in grants %}
