@@ -23,7 +23,7 @@
         text-decoration: none;
     }
 
-    &.overlay-text--transluscent {
+    &.overlay-text--translucent {
         line-height: 1.7;
 
         .overlay-text__inner {
@@ -48,7 +48,7 @@
             }
         }
 
-        &.overlay-text--transluscent {
+        &.overlay-text--translucent {
             .overlay-text__inner {
                 background-color: rgba($colour, 0.8);
             }
