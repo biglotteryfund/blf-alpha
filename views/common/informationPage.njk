@@ -12,7 +12,7 @@
 {% endif %}
 
 {% macro segmentLinks(segments) %}
-    {% if segments.length > 0 %}
+    {% if segments.length > 1 %}
         <div class="segment-links">
             <ul>
                 {% for segment in segments %}
@@ -87,6 +87,9 @@
                 </div>
             {% endif %}
         {% endblock %}
+
+        {# Custom content #}
+        {% block customContent %}{% endblock %}
 
         {# Case Studies #}
         {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}

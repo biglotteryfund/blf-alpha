@@ -1,0 +1,127 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/nav.njk" import selectionTrail with context %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/media-object/macro.njk" import mediaObject with context %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+<main role="main">
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
+
+    <div class="nudge-up">
+        <section class="content-box content-box--tinted u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+            {{ selectionTrail(breadcrumbs) }}
+            <div class="s-prose u-constrained-content-wide">
+                {{ strategicProgramme.intro | safe }}
+            </div>
+        </section>
+
+        <section class="u-inner-wide-only">
+            {% set tabContentAims -%}
+                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    {{ strategicProgramme.aims | safe }}
+                </div>
+            {%- endset %}
+
+            {% set tabContentImpact -%}
+                {% for part in strategicProgramme.impact  %}
+                    <div class="content-slice">
+                        <div class="content-slice__primary">
+                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                                <h2>{{ part.title }}</h2>
+                                {{ part.content | safe }}
+                            </div>
+                        </div>
+                        {% if part.inlinePromo %}
+                            <div class="content-slice__secondary">
+                                {{ promoCard(part.inlinePromo, featured = true) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {%- endset %}
+
+            {% set tabContentPartnerships -%}
+                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    {{ strategicProgramme.programmePartners.intro | safe }}
+                </div>
+                <div class="u-margin-bottom">
+                    <ul class="flex-grid">
+                        {% for partner in strategicProgramme.programmePartners.partners %}
+                            <li class="flex-grid__item">
+                                {{ mediaObject({
+                                    "title": partner.title,
+                                    "subtitle": partner.subtitle,
+                                    "trailText": partner.description,
+                                    "link": { "url": partner.link, "label": "Visit website" }
+                                }) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if strategicProgramme.researchPartners.intro %}
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        {{ strategicProgramme.researchPartners.intro | safe }}
+                    </div>
+                {% endif %}
+            {%- endset %}
+
+            {{ contentTabs([{
+                "id": "section-1",
+                "title": "Aims & approach",
+                "content": tabContentAims
+            }, {
+                "id": "section-2",
+                "title": "Impact & learnings",
+                "content": tabContentImpact
+            }, {
+                "id": "section-3",
+                "title": "Partnerships",
+                "content": tabContentPartnerships
+            }]) }}
+        </section>
+
+        {% if relatedResearch and relatedResearch.length > 2 %}
+            <section class="u-tone-background-tint u-padded-vertical-l">
+                <div class="u-inner">
+                    <h2 class="t2 t--underline accent--{{ pageAccent }}">
+                        Research and insights from {{ entry.title }}
+                    </h2>
+                </div>
+                <div class="u-inner-wide-only">
+                    <ul class="flex-grid flex-grid--3up">
+                        {% for research in relatedResearch %}
+                            <li class="flex-grid__item">
+                                {% call promoCard({
+                                    "title": research.title,
+                                    "subtitle": research.datePublished,
+                                    "trailText": research.trailText,
+                                    "image": {
+                                        "url": research.imageUrl,
+                                        "alt": research.title
+                                    }
+                                }) %}
+                                    {% if research.documents %}
+                                        <strong>{{ __('global.misc.documents') | title }}:</strong>
+                                        {% for link in research.documents -%}
+                                            <a href="{{ link.url }}">{{ link.label }}</a>
+                                        {%- endfor %}
+                                    {% endif %}
+                                {%- endcall %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

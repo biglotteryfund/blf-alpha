@@ -1,0 +1,26 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
+
+{% extends "views/common/informationPage.njk" %}
+
+{% block customContent %}
+    <section class="u-inner-wide-only spaced">
+        <h2 class="t2 t--underline">Our strategic programmes</h2>
+        <ul class="flex-grid flex-grid--3up">
+            {% for programme in strategicProgrammes %}
+                <li class="flex-grid__item">
+                    {# <pre>{{ programme | dump(2) }}</pre> #}
+                    {{ promoCard({
+                        "title": programme.title,
+                        "trailText": programme.trailText,
+                        "image": {
+                            "url": programme.thumbnail,
+                            "alt": programme.title
+                        },
+                        "link": { "url": programme.path, "label": "Learn more" }
+                    }) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

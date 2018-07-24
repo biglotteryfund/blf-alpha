@@ -15,18 +15,20 @@ tint: {Boolean} - Use tinted style for body
 #}
 {% macro promoCard(props, accent = 'pink', featured = false) %}
     <div class="promo-card{% if featured %} promo-card--featured{% endif %} u-accent-border-top-{{ accent }}">
-        <div class="promo-card__media">
-            {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
-            <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
-            {% if props.link.url %}</a>{% endif %}
-            {% if props.kicker %}
-                <span class="promo-card__kicker t6">
-                    {% call overlayText(accent = accent) %}
-                        {{ props.kicker }}
-                    {% endcall %}
-                </span>
-            {% endif %}
-        </div>
+        {% if props.image.url %}
+            <div class="promo-card__media">
+                {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
+                <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
+                {% if props.link.url %}</a>{% endif %}
+                {% if props.kicker %}
+                    <span class="promo-card__kicker t6">
+                        {% call overlayText(accent = accent) %}
+                            {{ props.kicker }}
+                        {% endcall %}
+                    </span>
+                {% endif %}
+            </div>
+        {% endif %}
         <div class="promo-card__body">
             <h3 class="promo-card__title t5">{{ props.title }}</h3>
             <p class="promo-card__subtitle">{{ props.subtitle }}</p>

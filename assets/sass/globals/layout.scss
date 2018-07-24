@@ -99,22 +99,16 @@
 /* =========================================================================
     Margin
     ========================================================================= */
-
 // @TODO: Rename to u-margin-bottom-*
-.spaced {
+
+.spaced,
+.u-margin-bottom {
     margin-bottom: $spacingUnit;
 }
 
-.spaced--s {
-    margin-bottom: $spacingUnit / 2;
-}
-
-.spaced--l {
+.spaced--l,
+.u-margin-bottom-l {
     margin-bottom: $spacingUnit * 2;
-}
-
-.spaced--x-l {
-    margin-bottom: $spacingUnit * 3;
 }
 
 .spaced--t {

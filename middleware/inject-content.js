@@ -172,6 +172,36 @@ async function injectFundingProgrammes(req, res, next) {
     }
 }
 
+async function injectStrategicProgramme(req, res, next) {
+    try {
+        // Assumes a paramater of :slug in the request
+        const { slug } = req.params;
+        if (slug) {
+            const strategicProgramme = await contentApi.getStrategicProgrammes({
+                locale: req.i18n.getLocale(),
+                slug: slug
+            });
+
+            res.locals.strategicProgramme = strategicProgramme;
+            setCommonLocals(res, strategicProgramme);
+        }
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectStrategicProgrammes(req, res, next) {
+    try {
+        res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes({
+            locale: req.i18n.getLocale()
+        });
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 async function injectBlogPosts(req, res, next) {
     try {
         res.locals.blogPosts = await contentApi.getBlogPosts({
@@ -230,6 +260,8 @@ module.exports = {
     injectFlexibleContent,
     injectFundingProgramme,
     injectFundingProgrammes,
+    injectStrategicProgramme,
+    injectStrategicProgrammes,
     injectHeroImage,
     injectListingContent,
     injectProfiles

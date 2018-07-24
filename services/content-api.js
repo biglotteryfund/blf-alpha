@@ -154,6 +154,19 @@ function getFundingProgramme({ locale, slug, previewMode }) {
     });
 }
 
+function getStrategicProgrammes({ locale, slug, previewMode }) {
+    if (slug) {
+        return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
+            qs: addPreviewParams(previewMode)
+        }).then(response => get('data.attributes')(response));
+    } else {
+        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/strategic-programmes`).then(responses => {
+            const [enResults, cyResults] = responses.map(mapAttrs);
+            return mergeWelshBy('urlPath')(locale, enResults, cyResults);
+        });
+    }
+}
+
 function getListingPage({ locale, path, previewMode }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
@@ -225,6 +238,7 @@ module.exports = {
     getFlexibleContent,
     getFundingProgramme,
     getFundingProgrammes,
+    getStrategicProgrammes,
     getHeroImage,
     getHomepage,
     getListingPage,
