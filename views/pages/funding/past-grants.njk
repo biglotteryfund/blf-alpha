@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/nav.njk" import selectionTrail %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 
 {% extends "layouts/main.njk" %}
@@ -16,7 +16,7 @@
 
         <div class="nudge-up">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ selectionTrail(breadcrumbs) }}
+                {{ breadcrumbTrail(breadcrumbs) }}
 
                 <section class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>

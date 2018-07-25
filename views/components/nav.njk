@@ -63,19 +63,6 @@
     </nav>
 {% endmacro %}
 
-{% macro selectionTrail(trail) %}
-    {% if trail | length > 0 %}
-    <ol class="selection-trail">
-        {% for crumb in trail %}
-        <li class="selection-trail__item">
-            {% set showUrl = crumb.url %}
-            {% if showUrl %}<a class="selection-trail__link" href="{{ crumb.url }}">{% endif %}{{ crumb.label }}{% if crumb.count %} ({{ crumb.count }}){% endif %}{% if showUrl %}</a>{% endif %}
-        </li>
-        {% endfor %}
-    </ol>
-    {% endif %}
-{% endmacro %}
-
 {% macro quickLinks(links, isSticky = false) %}
     <nav class="quicklinks quicklinks--sticky">
         <ul class="quicklinks__list">

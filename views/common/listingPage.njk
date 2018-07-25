@@ -1,6 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
-{% from "components/nav.njk" import selectionTrail %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -14,7 +14,7 @@
 
     <main role="main" class="nudge-up">
         <section class="content-box u-inner-wide-only accent--blue a--border-top">
-            {{ selectionTrail(breadcrumbs) }}
+            {{ breadcrumbTrail(breadcrumbs) }}
             <div class=" s-prose">
                 {{ content.introduction | safe }}
             </div>

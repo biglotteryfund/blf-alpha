@@ -1,6 +1,6 @@
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 {% from "components/hero.njk" import hero %}
-{% from "components/nav.njk" import selectionTrail %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -16,7 +16,7 @@
 
         <div class="nudge-up">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ selectionTrail(breadcrumbs) }}
+                {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose accent-content--{{ pageAccent }}">
                     <p>{{ copy.intro }}</p>
