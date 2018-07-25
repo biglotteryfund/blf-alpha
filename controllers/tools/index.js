@@ -2,7 +2,6 @@
 const express = require('express');
 
 const { injectMerchandise } = require('../../controllers/funding/materials-helpers');
-const { TOOLS_CMS_ADMIN_URL, TOOLS_ANALYTICS_DASHBOARD_URL, TOOLS_DATASTUDIO_URL } = require('../../modules/secrets');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
@@ -40,10 +39,7 @@ router.route('/').get((req, res) => {
         { label: 'View a list of all published pages', href: '/tools/pages' },
         { label: 'View micro-survey results', href: '/tools/survey-results' },
         { label: 'View feedback results', href: '/tools/feedback-results' },
-        { label: 'View recent materials order stats', href: '/tools/order-stats' },
-        { label: 'View the Reaching Communities & Partnerships data dashboard', href: TOOLS_DATASTUDIO_URL },
-        { label: 'Access Google Analytics dashboard', href: TOOLS_ANALYTICS_DASHBOARD_URL },
-        { label: 'Log in to the CMS', href: TOOLS_CMS_ADMIN_URL }
+        { label: 'View recent materials order stats', href: '/tools/order-stats' }
     ];
 
     res.render('tools/index', { links });
