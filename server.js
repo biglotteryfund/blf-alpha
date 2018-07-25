@@ -143,7 +143,9 @@ function initViewEngine() {
         autoescape: true,
         express: app,
         noCache: appData.isDev,
-        watch: appData.isDev
+        // only watch files if we explicitly request
+        // (eg. for CI, which tries to watch node_modules)
+        watch: process.env.WATCH_TEMPLATES === true
     });
 
     forEach(viewFilters, (filterFn, filterName) => {
