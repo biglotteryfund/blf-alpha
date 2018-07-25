@@ -1,6 +1,6 @@
-{% from "components/nav.njk" import selectionTrail with context %}
-{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/news.njk" import blogTeaser with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
@@ -10,7 +10,7 @@
 
     <main role="main" id="content">
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            {{ selectionTrail(activeBreadcrumbs) }}
+            {{ breadcrumbTrail(activeBreadcrumbs) }}
 
             <div class="u-constrained-wide">
                 {% if entriesMeta %}

@@ -44,46 +44,57 @@
 
 
 /* =========================================================================
-   Selection Trail
+   Breadcrumb Trail
    ========================================================================= */
 
-.selection-trail {
+.breadcrumb-trail {
     font-size: 16px;
     color: #6a6a6b;
     background-color: rgba(0,0,0,0.03);
+    padding: 1em ($spacingUnit / 2);
 
+    @include mq('medium') {
+        padding: 1em $spacingUnit;
+    }
+
+    .breadcrumb-trail__item {
+        display: inline-block;
+
+        &::after {
+            content: '›';
+            font-weight: normal;
+            color: #6a6a6b;
+            margin: 0 4px;
+        }
+
+        &:last-child::after {
+            content: '';
+            display: none;
+        }
+    }
+    .breadcrumb-trail__item,
+    .breadcrumb-trail__link {
+        color: inherit;
+    }
+    .breadcrumb-trail__link {
+        font-weight: bold;
+    }
+}
+
+.breadcrumb-trail--flush {
     margin: -($spacingUnit / 2);
     margin-top: -$spacingUnit;
     margin-bottom: $spacingUnit;
-    padding: 1em ($spacingUnit / 2);
 
     @include mq('medium') {
         margin: -$spacingUnit;
         margin-bottom: $spacingUnit;
-        padding: 1em $spacingUnit;
     }
 }
-.selection-trail__item {
-    display: inline-block;
 
-    &::after {
-        content: '›';
-        font-weight: normal;
-        color: #6a6a6b;
-        margin: 0 4px;
-    }
-
-    &:last-child::after {
-        content: '';
-        display: none;
-    }
-}
-.selection-trail__item,
-.selection-trail__link {
-    color: inherit;
-}
-.selection-trail__link {
-    font-weight: bold;
+.breadcrumb-trail--tinted {
+    color: #B20062;
+    background-color: #FFD8E8;
 }
 
 /* =========================================================================

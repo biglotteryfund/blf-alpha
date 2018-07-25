@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/nav.njk" import selectionTrail with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/media-object/macro.njk" import mediaObject with context %}
 {% from "components/promo-card/macro.njk" import promoCard with context %}
@@ -18,7 +18,7 @@
 
     <div class="nudge-up">
         <section class="content-box content-box--tinted u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
-            {{ selectionTrail(breadcrumbs) }}
+            {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
             <div class="s-prose u-constrained-content-wide">
                 {{ strategicProgramme.intro | safe }}
             </div>

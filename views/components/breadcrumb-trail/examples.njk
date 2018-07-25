@@ -1,0 +1,20 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import breadcrumbTrail %}
+
+{% set trail = [{
+    "label": "Top-level",
+    "url": "#"
+}, {
+    "label": "Second-level",
+    "url": "#"
+}, {
+    "label": "Current"
+}] %}
+
+{% call sgExample('Defaults') %}
+    {{ breadcrumbTrail(trail, isFlush = false) }}
+{% endcall %}
+
+{% call sgExample('Tinted') %}
+    {{ breadcrumbTrail(trail, isFlush = false, isTinted = true) }}
+{% endcall %}

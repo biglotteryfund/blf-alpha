@@ -1,4 +1,4 @@
-{% from "components/nav.njk" import selectionTrail %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content.njk" import flexibleContent %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -41,7 +41,7 @@
 
     <main role="main">
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            {{ selectionTrail(activeBreadcrumbs) }}
+            {{ breadcrumbTrail(activeBreadcrumbs) }}
 
             <article class="article">
                 <header class="article__header">
