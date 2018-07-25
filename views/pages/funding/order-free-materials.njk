@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="u-inner accent--{{ pageAccent }} a--border-top p" id="your-details">
-                    <div class="padded">
+                    <div class="u-padded">
                         <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 
                         <form class="form-materials" method="post">
@@ -219,11 +219,11 @@
                                     <input type="submit"{% if orders.length == 0 %} disabled="disabled"{% endif %}
                                            v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
                                            value="{{ __('global.forms.submit') }}"
-                                           class="btn spaced--t--l"
+                                           class="btn u-margin-top-l"
                                            id="js-submit-material-order">
                                 </div>
                             </div>
-                            <div class="s-prose spaced--t">
+                            <div class="s-prose u-margin-top">
                                 <h4>{{ copy.dataProtection.title }}</h4>
                                 <div class="u-note">{{ copy.dataProtection.text | safe }}</div>
                             </div>
