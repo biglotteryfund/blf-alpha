@@ -17,7 +17,7 @@ cache:
     - ~/.npm
     - ~/.cache
 script:
-- npm test
+#- npm test
 - npm run build-production
 - npm run test-cypress
 after_success:
