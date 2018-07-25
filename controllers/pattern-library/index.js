@@ -37,7 +37,7 @@ router.get('/components', async (req, res, next) => {
                 const componentSlugs = matches.map(match => path.basename(path.dirname(match)));
                 res.render(path.resolve(__dirname, './views/components'), {
                     title: 'Components',
-                    componentSlugs
+                    componentSlugs: componentSlugs.sort()
                 });
             } else {
                 next(new Error('No components fount'));

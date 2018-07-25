@@ -1,0 +1,24 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import segment %}
+
+{% call sgExample('All props') %}
+    {% call segment(
+        id = 'segment-example',
+        title = 'Segment title text',
+        imagePath = "https://via.placeholder.com/320x200?text=placeholder",
+        accent = 'pink'
+    ) %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam reiciendis ut saepe eius aliquam!</p>
+        </p>Consectetur necessitatibus facere blanditiis earum pariatur quisquam eaque debitis sapiente, unde, culpa repellat et dicta aliquam excepturi neque dignissimos? Soluta quo perspiciatis esse a eaque blanditiis minima dignissimos quia laboriosam ullam exercitationem qui, voluptatibus eum modi.</p>
+    {% endcall %}
+{% endcall %}
+
+{% call sgExample('No image') %}
+    {% call segment(
+        id = 'segment-example',
+        title = 'Segment title text'
+    ) %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam reiciendis ut saepe eius aliquam!</p>
+        </p>Consectetur necessitatibus facere blanditiis earum pariatur quisquam eaque debitis sapiente, unde, culpa repellat et dicta aliquam excepturi neque dignissimos? Soluta quo perspiciatis esse a eaque blanditiis minima dignissimos quia laboriosam ullam exercitationem qui, voluptatibus eum modi.</p>
+    {% endcall %}
+{% endcall %}

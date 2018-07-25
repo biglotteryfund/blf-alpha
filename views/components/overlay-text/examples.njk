@@ -1,0 +1,8 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import overlayText %}
+
+{% call sgExample() %}
+    {% call overlayText() %}
+        Overlay text
+    {% endcall %}
+{% endcall %}

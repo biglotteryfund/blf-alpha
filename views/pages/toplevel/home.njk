@@ -1,6 +1,6 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/ebulletin.njk" import ebulletinForm with context %}
-{% from "components/hero.njk" import homepageSuperHero with context %}
+{% from "components/hero.njk" import superHero with context %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/social.njk" import socialLinks with context %}
 
@@ -10,13 +10,30 @@
     {% set pageAccent = "blue" %}
 
     <main role="main">
-        {{
-            homepageSuperHero(
-                copy = copy.hero,
-                imageDefault = heroImage.default,
-                imageCandidates = heroImage.candidates
-            )
-        }}
+        {% call superHero(
+            title = copy.hero.intro,
+            imageDefault = heroImage.default,
+            imageCandidates = heroImage.candidates
+        ) %}
+            <div class="o-button-group">
+                <a class="btn btn--reversed btn--medium"
+                    href="{{ localify('/funding/under10k') }}"
+                    id="qa-button-under10k">
+                    <span class="accent--pink a--text">
+                        <span class="u-wide-only">{{ copy.hero.under10k.long }}</span>
+                        <span class="u-not-wide">{{ copy.hero.under10k.short }}</span>
+                    </span>
+                </a>
+                <a class="btn btn--reversed btn--medium"
+                    href="{{ localify('/funding/over10k') }}"
+                    id="qa-button-over10k">
+                    <span class="accent--blue a--text">
+                        <span class="u-wide-only">{{ copy.hero.over10k.long }}</span>
+                        <span class="u-not-wide">{{ copy.hero.over10k.short }}</span>
+                    </span>
+                </a>
+            </div>
+        {% endcall %}
 
         {# Case studies #}
         <section class="u-inner">

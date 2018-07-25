@@ -1,10 +1,10 @@
-{% from "components/links.njk" import linksList %}
+{% from "components/document-list/macro.njk" import documentList %}
 
 {% extends "layouts/profiles.njk" %}
 
 {% block extraPrimaryContent %}
     <section class="content-box accent--{{ pageAccent }} a--border-top">
         <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
-        {{ linksList(copy.expenses.documents, isDocumentsList = true) }}
+        {{ documentList(copy.expenses.documents) }}
     </section>
 {% endblock %}

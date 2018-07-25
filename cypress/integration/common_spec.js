@@ -10,8 +10,7 @@ describe('Common tests', function() {
     });
 
     it('should handle aliases', () => {
-        cy
-            .request('/tools/seed/aliases-sample')
+        cy.request('/tools/seed/aliases-sample')
             .its('body')
             .then(aliases => {
                 aliases.forEach(alias => {
@@ -24,15 +23,13 @@ describe('Common tests', function() {
     });
 
     it('should 404 unknown routes', () => {
-        cy
-            .request({
-                url: '/not-a-page',
-                failOnStatusCode: false
-            })
-            .then(response => {
-                expect(response.status).to.eq(404);
-                expect(response.body).to.include("Sorry, we couldn't find that page");
-            });
+        cy.request({
+            url: '/not-a-page',
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(404);
+            expect(response.body).to.include('Error 404');
+        });
     });
 
     it('should redirect search queries to a google site search', () => {

@@ -1,3 +1,5 @@
+{% from "components/overlay-text/macro.njk" import overlayText %}
+
 {#
 Promo card
 
@@ -18,7 +20,11 @@ tint: {Boolean} - Use tinted style for body
             <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
             {% if props.link.url %}</a>{% endif %}
             {% if props.kicker %}
-                <span class="promo-card__kicker t6 overlay-text accent--{{ accent }}"><span>{{ props.kicker }}</span></span>
+                <span class="promo-card__kicker t6">
+                    {% call overlayText(accent = accent) %}
+                        {{ props.kicker }}
+                    {% endcall %}
+                </span>
             {% endif %}
         </div>
         <div class="promo-card__body">

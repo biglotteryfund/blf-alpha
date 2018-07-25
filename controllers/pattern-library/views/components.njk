@@ -4,20 +4,20 @@
 
 {% block content %}
 
-{{ sgSectionHeader('Components') }}
-
-<div class="u-inner u-margin-bottom-l">
-    <div class="segment-links">
+<div class="sg-components-list">
+    <div class="sg-components-list__nav">
         <ul>
             {% for slug in componentSlugs  %}
                 <li><a href="#sg-pattern-{{ slug }}">{{ slug }}</a></li>
             {% endfor %}
         </ul>
     </div>
+    <div class="sg-components-list__content">
+        {{ sgSectionHeader('Components') }}
+        {% for slug in componentSlugs  %}
+            {{ sgComponent(slug) }}
+        {% endfor %}
+    </div>
 </div>
-
-{% for slug in componentSlugs  %}
-    {{ sgComponent(slug) }}
-{% endfor %}
 
 {% endblock %}

@@ -1,7 +1,7 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import selectionTrail %}
-{% from "components/segment.njk" import segment with context %}
+{% from "components/segment/macro.njk" import segment %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -75,18 +75,14 @@
                 <div class="u-inner-wide-only u-constrained-content-wide">
                     {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
                     {% for contentSegment in content.segments %}
-                        {% set image = false %}
-                        {% if contentSegment.photo %}
-                            {% set image = contentSegment.photo %}
-                        {% endif %}
-                        {{ segment(
-                            title = contentSegment.title,
-                            text = contentSegment.content,
-                            color = themes.next(),
-                            imagePath = image,
+                        {% call segment(
                             id = 'segment-' + loop.index,
-                            imageIsAbsolute = true
-                        ) }}
+                            title = contentSegment.title,
+                            imagePath = contentSegment.photo,
+                            accent = themes.next()
+                        ) %}
+                            {{ contentSegment.content | safe }}
+                        {% endcall %}
                     {% endfor %}
                 </div>
             {% endif %}

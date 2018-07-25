@@ -1,0 +1,17 @@
+{% from "components/media-figure/macro.njk" import mediaFigure %}
+
+{% macro mediaAside(quoteText, link, image, accent = 'pink', isReversed = false) %}
+    <aside class="media-aside{% if isReversed %} media-aside--reversed{% endif %}">
+        <div class="media-aside__figure">
+            {{ mediaFigure(image.url, image.caption, accent) }}
+        </div>
+        <div class="media-aside__body">
+            <div class="media-aside__body-content">
+                <p class="media-aside__text">{{ quoteText }}</p>
+                {% if link.url %}
+                    <p class="media-aside__link"><a href="{{ link.url }}">{{ link.label }}</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+{% endmacro %}

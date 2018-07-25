@@ -1,4 +1,4 @@
-{% import "components/headers.njk" as headers %}
+{% from "components/overlay-text/macro.njk" import overlayText %}
 
 {% macro hero(titleText, image, accent = 'blue') %}
     <section class="hero">
@@ -13,11 +13,11 @@
         <div class="hero__content">
             <div class="hero__header u-inner" id="content">
                 <div class="hero__header__inner">
-                    {{ headers.overlayText(
-                        tag = 'h1',
-                        text = titleText,
-                        additionalClasses = 'hero__title overlay-text--deep t4 accent--' + accent)
-                    }}
+                    <h1 class="hero__title t4">
+                        {% call overlayText(accent = accent) %}
+                            {{ titleText }}
+                        {% endcall %}
+                    </h1>
                 </div>
             </div>
             {% if image.caption %}
@@ -29,7 +29,7 @@
     </section>
 {% endmacro %}
 
-{% macro superHero(title, content, imageDefault, imageCandidates) %}
+{% macro superHero(title, imageDefault, imageCandidates) %}
     <section class="super-hero{% if imageCandidates.length > 0 %} super-hero--has-candidates{% endif %} js-random-hero" data-image-candidates='{{ imageCandidates | dump | safe }}'>
         <div class="super-hero__image js-random-hero__image">
             <picture>
@@ -43,7 +43,7 @@
         <div class="super-hero__content">
             <div class="super-hero__header u-inner" id="content">
                 <h1 class="super-hero__title">{{ title | safe }}</h1>
-                {{ content | safe }}
+                {{ caller() }}
             </div>
             {% if imageDefault.caption %}
                 <div class="super-hero__caption u-desktop-only">
@@ -56,71 +56,3 @@
     </section>
 {% endmacro %}
 
-
-{% macro homepageSuperHero(copy, imageDefault, imageCandidates) %}
-    {% set heroContent %}
-        <div class="o-button-group">
-            <a class="btn btn--reversed btn--medium"
-                href="{{ localify('/funding/under10k') }}"
-                id="qa-button-under10k">
-                <span class="accent--pink a--text">
-                    <span class="u-wide-only">{{ copy.under10k.long }}</span>
-                    <span class="u-not-wide">{{ copy.under10k.short }}</span>
-                </span>
-            </a>
-            <a class="btn btn--reversed btn--medium"
-                href="{{ localify('/funding/over10k') }}"
-                id="qa-button-over10k">
-                <span class="accent--blue a--text">
-                    <span class="u-wide-only">{{ copy.over10k.long }}</span>
-                    <span class="u-not-wide">{{ copy.over10k.short }}</span>
-                </span>
-            </a>
-        </div>
-    {% endset %}
-
-    {{
-        superHero(
-            title = copy.intro,
-            content = heroContent,
-            imageDefault = imageDefault,
-            imageCandidates = imageCandidates
-        )
-    }}
-{% endmacro %}
-
-
-{% macro miniatureHero(titleText, imagePath, imagePathMobile = false, imageCaption = false, linkUrl = false, accent) %}
-    {% set imagePath = imagePath | getImagePath %}
-    {% if not imagePathMobile %}
-        {% set imagePathMobile = imagePath %}
-    {% endif %}
-    <div class="miniature-hero accent--{{ accent }} a--border-top">
-        <div class="miniature-hero__inner">
-            {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
-
-            <div class="miniature-hero__image">
-                {% if imagePathMobile %}
-                    <picture>
-                        <source srcset="{{ imagePath }}" media="(min-width: 760px)">
-                        <img src="{{ imagePathMobile }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
-                    </picture>
-                {% else %}
-                    <img src="{{ imagePath }}"{% if imageCaption %} alt="{{ imageCaption }}{% endif %}" />
-                {% endif %}
-            </div>
-
-            {% if linkUrl %}</a>{% endif %}
-
-            <div class="miniature-hero__content">
-                {{ headers.overlayText(
-                    tag = 'h3',
-                    text = titleText,
-                    additionalClasses = 't4 overlay-text--wide is-opaque',
-                    link = linkUrl,
-                    showArrow = true
-                )}}
-            </div>
-        </div>
-    </div>
-{% endmacro %}
