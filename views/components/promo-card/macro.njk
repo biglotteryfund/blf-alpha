@@ -11,7 +11,7 @@ props: {Object}
 - image {Object} { url: {String}, alt: {String} }
 - link {Object} { url: {String}, label: {String} }
 accent: {String} - Accent colour to use
-tint: {Boolean} - Use tinted style for body
+featured: {Boolean} - Use featured style for promo card
 #}
 {% macro promoCard(props, accent = 'pink', featured = false) %}
     <div class="promo-card{% if featured %} promo-card--featured{% endif %} u-accent-border-top-{{ accent }}">
