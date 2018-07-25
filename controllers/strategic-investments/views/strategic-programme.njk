@@ -45,23 +45,25 @@
             {%- endset %}
 
             {% set tabContentPartnerships -%}
-                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                    {{ strategicProgramme.programmePartners.intro | safe }}
-                </div>
-                <div class="u-margin-bottom">
-                    <ul class="flex-grid">
-                        {% for partner in strategicProgramme.programmePartners.partners %}
-                            <li class="flex-grid__item">
-                                {{ mediaObject({
-                                    "title": partner.title,
-                                    "subtitle": partner.subtitle,
-                                    "trailText": partner.description,
-                                    "link": { "url": partner.link, "label": "Visit website" }
-                                }) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                {% if strategicProgramme.programmePartners.partners.length > 0 %}
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        {{ strategicProgramme.programmePartners.intro | safe }}
+                    </div>
+                    <div class="u-margin-bottom">
+                        <ul class="flex-grid">
+                            {% for partner in strategicProgramme.programmePartners.partners %}
+                                <li class="flex-grid__item">
+                                    {{ mediaObject({
+                                        "title": partner.title,
+                                        "subtitle": partner.subtitle,
+                                        "trailText": partner.description,
+                                        "link": { "url": partner.link, "label": "Visit website" }
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
                 {% if strategicProgramme.researchPartners.intro %}
                     <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
                         {{ strategicProgramme.researchPartners.intro | safe }}
