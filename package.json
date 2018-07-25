@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
     "test": "eslint . && jest",
-    "pretest-cypress": "./bin/start-test-server",
+    "pretest-cypress": "echo FOO",
     "test-cypress": "echo LOL",
     "build": "gulp build && webpack",
     "build-production": "export NODE_ENV=production && npm run build && gulp manifest",
