@@ -8,7 +8,7 @@
     "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
     "test": "eslint . && jest",
     "pretest-cypress": "cypress install && ./bin/start-test-server & wait-on http://localhost:8090",
-    "test-cypress": "cypress run --config watchForFileChanges=false && fkill :8090",
+    "test-cypress": "echo LOL",
     "build": "gulp build && webpack",
     "build-production": "export NODE_ENV=production && npm run build && gulp manifest",
     "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
