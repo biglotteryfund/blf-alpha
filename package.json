@@ -20,6 +20,9 @@
     "prepush": "npm test"
   },
   "lint-staged": {
+    "*.scss": [
+      "prettier --write"
+    ],
     "*.js": [
       "prettier --write",
       "eslint"
@@ -167,7 +170,7 @@
     "nodemon": "^1.14.11",
     "p-settle": "^2.0.0",
     "postcss-fout-with-a-class": "^1.1.0",
-    "prettier": "^1.13.6",
+    "prettier": "^1.13.7",
     "pretty": "^2.0.0",
     "prompt": "^1.0.0",
     "run-sequence": "^2.2.1",

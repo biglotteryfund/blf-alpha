@@ -1,0 +1,120 @@
+/* =========================================================================
+   Link Components
+   ========================================================================= */
+
+/* =========================================================================
+   Section Links
+   ========================================================================= */
+
+.section-links {
+    @include reset-list();
+}
+.section-links__link {
+    $linkPadding: 12px;
+    $iconSize: 20px;
+    display: block;
+    padding: $linkPadding;
+    margin: 0 - ($linkPadding / 2);
+    @include poppins();
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 140ms ease-in;
+    max-width: 23.5em;
+
+    background-repeat: no-repeat;
+    background-position: calc(100% - #{$linkPadding}) center;
+    background-size: $iconSize;
+    padding-right: $iconSize + $linkPadding;
+    background-image: svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#174c9f" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"></path></svg>'
+    );
+
+    &:hover,
+    &:active {
+        text-decoration: none;
+        background-color: palette('blue-bg');
+        background-image: svg-url(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"></path></svg>'
+        );
+    }
+}
+
+/* =========================================================================
+   Inline Links
+   ========================================================================= */
+/**
+ * Component to show a list of links in a single line with a prefix.
+ * e.g. a list of tags, or downloads
+ */
+
+.inline-links {
+    border-top: 1px solid palette('border');
+    padding-top: $spacingUnit / 2;
+}
+.inline-links__prefix,
+.inline-links__list {
+    font-size: 18px;
+    display: inline-block;
+}
+.inline-links__prefix {
+    font-weight: bold;
+    margin-right: 3px;
+}
+.inline-links__list {
+    @include reset-list();
+
+    li {
+        display: inline-block;
+        margin-right: 5px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &::after {
+            content: ', ';
+            margin-left: 0.1em;
+        }
+
+        &:last-child::after {
+            content: '';
+        }
+    }
+}
+
+/* =========================================================================
+   Document List
+   ========================================================================= */
+
+.document-list {
+    margin-bottom: $spacingUnit / 2;
+}
+.document-list__item {
+    font-size: 18px;
+    padding-left: 20px;
+    margin-bottom: $spacingUnit;
+    margin-left: 2px;
+    background-repeat: no-repeat;
+    background-position: left 6px;
+    background-size: 14px;
+    background-image: svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M27.414 19.414l-10 10a2 2 0 0 1-2.828 0l-10-10a2 2 0 1 1 2.828-2.828L14 23.172V4a2 2 0 1 1 4 0v19.172l6.586-6.586c.39-.39.902-.586 1.414-.586s1.024.195 1.414.586a2 2 0 0 1 0 2.828z" fill="#1a44a1"></path></svg>'
+    );
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+.document-list__link {
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+        text-decoration: underline;
+    }
+}
+.document-list__link-caption {
+    display: block;
+    font-weight: normal;
+}
