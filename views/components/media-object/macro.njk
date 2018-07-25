@@ -10,7 +10,7 @@ accent: {String}
 #}
 {% macro mediaObject(props, accent = 'pink') %}
     <div class="media-card u-accent-border-top-{{ accent }}">
-        {% if props.image %}
+        {% if props.image.url %}
             <div class="media-card__media">
                 <img src="{{ props.image.url }}" alt="{{ props.image.alt }}">
             </div>
