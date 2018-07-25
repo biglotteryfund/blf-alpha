@@ -5,11 +5,152 @@ ignore:
   'npm:content-type-parser:20170905':
     - jsdom > content-type-parser:
         reason: None given
-        expires: '2018-03-10T12:22:43.705Z'
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - lint-staged > jest-validate > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest > jest-cli > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest > jest-cli > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest > jest-cli > jest-runner > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest > jest-cli > jest-runner > jest-runtime > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest > jest-cli > jest-runtime > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
   'npm:superagent:20170807':
     - chai-http > superagent:
         reason: None given
         expires: '2018-03-10T12:22:43.705Z'
+  'npm:atob:20180429':
+    - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > braces > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > extglob > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > extglob > expand-brackets > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > nanomatch > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+  'npm:braces:20180219':
+    - expect > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-environment-node > jest-util > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-util > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-jasmine2 > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-jasmine2 > expect > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-jasmine2 > jest-util > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+    - jest-config > jest-environment-jsdom > jest-util > jest-message-util > micromatch > braces:
+        reason: None given
+        expires: '2018-08-24T10:12:18.241Z'
+  'npm:cryptiles:20180710':
+    - jest-config > jest-environment-jsdom > jsdom > request > hawk > cryptiles:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > hawk > cryptiles:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > hawk > cryptiles:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > cryptiles:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:deep-extend:20180409':
+    - sqlite3 > node-pre-gyp > rc > deep-extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - deep-extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > rc > deep-extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:diff:20180305':
+    - expect > jest-diff > diff:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - mocha > diff:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-jasmine2 > jest-diff > diff:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-jasmine2 > jest-snapshot > jest-diff > diff:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-jasmine2 > expect > jest-diff > diff:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:extend:20180424':
+    - jest-config > jest-environment-jsdom > jsdom > request > extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > extend:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:lodash:20180130':
+    - absolution > lodash:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - cypress > lodash:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:sshpk:20180409':
+    - jest-config > jest-environment-jsdom > jsdom > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+  'npm:underscore.string:20170908':
+    - html-to-text > underscore.string:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
+    - html-to-text > underscore.string:
+        reason: None given
+        expires: '2018-08-24T10:12:18.242Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:qs:20170213':
@@ -23,9 +164,64 @@ patch:
   'npm:debug:20170905':
     - mocha > debug:
         patched: '2017-09-27T03:46:09.042Z'
+      nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2018-07-25T10:10:30.405Z'
     - helmet > connect > debug:
         patched: '2017-09-27T03:46:09.042Z'
     - helmet > connect > finalhandler > debug:
         patched: '2017-09-27T03:46:09.042Z'
     - phantomjs-prebuilt > extract-zip > debug:
         patched: '2017-09-27T03:46:09.042Z'
+  'npm:hoek:20180212':
+    - jest-config > jest-environment-jsdom > jsdom > request > hawk > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request > hawk > sntp > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > hawk > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > hawk > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > hawk > sntp > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > hawk > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > hawk > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > hawk > sntp > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request > hawk > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-07-25T10:10:30.405Z'
+  'npm:stringstream:20180511':
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request > stringstream:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > request > stringstream:
+        patched: '2018-07-25T10:10:30.405Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > stringstream:
+        patched: '2018-07-25T10:10:30.405Z'
+    - jest-config > jest-environment-jsdom > jsdom > request > stringstream:
+        patched: '2018-07-25T10:10:30.405Z'
+  'npm:tough-cookie:20170905':
+    - nodemon > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2018-07-25T10:10:30.405Z'

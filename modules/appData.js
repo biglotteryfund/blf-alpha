@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const { get } = require('lodash');
+const debug = require('debug')('blf-alpha:appData');
 
 /**
  * Extract deploy ID from AWS (where provided)
@@ -18,6 +19,7 @@ function getDeploymentData() {
 
 const deploymentData = getDeploymentData();
 const environment = config.util.getEnv('NODE_ENV'); // Defaults to 'development'
+debug(`App environment is ${environment}`);
 
 const appData = {
     config: config,
