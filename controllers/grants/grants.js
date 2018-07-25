@@ -9,13 +9,14 @@ function buildPagination(paginationMeta, currentQuerystring = {}) {
 
         // combine a ?page param with existing querystrings for grant search
         const makePageLink = pageNum => {
-            return '?' + querystring.stringify(Object.assign(
-                {},
-                currentQuerystring,
-                {
-                    page: pageNum
-                }
-            ));
+            return (
+                '?' +
+                querystring.stringify(
+                    Object.assign({}, currentQuerystring, {
+                        page: pageNum
+                    })
+                )
+            );
         };
 
         const prevLink = makePageLink(currentPage - 1);
