@@ -19,7 +19,7 @@ cache:
 script:
 #- npm test
 - npm run build-production
-- npm run test-cypress
+#- npm run test-cypress
 after_success:
 - npm prune --production > /dev/null 2>&1
 - sh deploy/store_deploy_info.sh
