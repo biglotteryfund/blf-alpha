@@ -1,0 +1,10 @@
+{% macro inlineLinks(prefix, links) %}
+    <div class="inline-links">
+        <span class="inline-links__prefix"><strong>{{ prefix }}:</strong></span>
+        <ol class="inline-links__list">
+            {% for link in links -%}
+                <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+            {%- endfor %}
+        </ol>
+    </div>
+{% endmacro %}

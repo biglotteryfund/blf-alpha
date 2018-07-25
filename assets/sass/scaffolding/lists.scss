@@ -1,42 +1,6 @@
 /* =========================================================================
-   Lists (Common List Objects)
+   Lists
    ========================================================================= */
-
-.o-list-inline {
-    @include reset-list();
-
-    li {
-        display: inline-block;
-        margin-right: 5px;
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-}
-
-.list-bullets {
-    margin-bottom: 20px;
-
-    li {
-        list-style-type: disc;
-        margin-left: $spacingUnit;
-        margin-bottom: 10px;
-        margin-top: 0;
-    }
-
-    &.list-bullets--mob-friendly {
-        @include mq('medium', 'max') {
-            li {
-                margin-bottom: $spacingUnit * 1.5;
-            }
-        }
-    }
-}
-
-ol.list-bullets li {
-    list-style-type: decimal;
-}
 
 .o-definition-list {
     dt {
@@ -130,4 +94,48 @@ ol.list-bullets li {
 .document-list__link-caption {
     display: block;
     font-weight: normal;
+}
+
+
+/* =========================================================================
+   Inline Links
+   ========================================================================= */
+/**
+ * Component to show a list of links in a single line with a prefix.
+ * e.g. a list of tags, or downloads
+ */
+
+.inline-links {
+    border-top: 1px solid palette('border');
+    padding-top: $spacingUnit / 2;
+}
+.inline-links__prefix,
+.inline-links__list {
+    font-size: 18px;
+    display: inline-block;
+}
+.inline-links__prefix {
+    font-weight: bold;
+    margin-right: 3px;
+}
+.inline-links__list {
+    @include reset-list();
+
+    li {
+        display: inline-block;
+        margin-right: 5px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &::after {
+            content: ', ';
+            margin-left: .1em;
+        }
+
+        &:last-child::after {
+            content: '';
+        }
+    }
 }
