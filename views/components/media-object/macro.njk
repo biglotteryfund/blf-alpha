@@ -20,7 +20,7 @@ accent: {String}
             <p class="media-card__subtitle">{{ props.subtitle }}</p>
             <div class="media-card__trail-text s-prose">
                 {{ props.trailText | safe  }}
-                {% if props.link %}
+                {% if props.link.url %}
                     <a href="{{ props.link.url }}">{{ props.link.label }}</a>
                 {% endif %}
             </div>

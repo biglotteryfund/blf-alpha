@@ -2,13 +2,8 @@
 const path = require('path');
 const { map } = require('lodash');
 
-const appData = require('../../modules/appData');
 const { heroImages } = require('../../modules/images');
-const {
-    injectBreadcrumbs,
-    injectFundingProgramme,
-    injectFundingProgrammes
-} = require('../../middleware/inject-content');
+const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./helpers');
@@ -150,56 +145,6 @@ function initProgrammeDetail(router) {
     });
 }
 
-/**
- * Strategic Programmes
- */
-const { entry, relatedResearch, allProgrammes } = require('./strategic-mock.json');
-
-function initStrategicProgrammesList(router) {
-    router.get(
-        '/strategic',
-        function(req, res, next) {
-            res.locals.title = 'Strategic investments in England';
-            next();
-        },
-        injectBreadcrumbs,
-        function(req, res) {
-            res.render(path.resolve(__dirname, './views/strategic-programmes-list'), {
-                allProgrammes,
-                heroImage: heroImages.fallbackHeroImage,
-                isBilingual: false
-            });
-        }
-    );
-}
-
-function initStrategicProgrammeDetail(router) {
-    router.get('/strategic/headstart', function(req, res) {
-        const activeBreadcrumbs = [
-            {
-                label: req.i18n.__('global.nav.funding'),
-                url: req.baseUrl
-            },
-            {
-                label: 'Strategic programmes',
-                url: req.baseUrl + '/strategic'
-            },
-            {
-                label: entry.title
-            }
-        ];
-
-        res.render(path.resolve(__dirname, './views/strategic-programme'), {
-            entry: entry,
-            title: entry.title,
-            heroImage: entry.hero || heroImages.fallbackHeroImage,
-            isBilingual: isBilingual(entry.availableLanguages),
-            relatedResearch,
-            activeBreadcrumbs
-        });
-    });
-}
-
 function init({ router, routeConfigs }) {
     initProgrammesList({
         router: router,
@@ -212,11 +157,6 @@ function init({ router, routeConfigs }) {
         router: router,
         routeConfig: routeConfigs.fundingFinderLegacy
     });
-
-    if (appData.isNotProduction) {
-        initStrategicProgrammesList(router);
-        initStrategicProgrammeDetail(router);
-    }
 }
 
 module.exports = {

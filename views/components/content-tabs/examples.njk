@@ -14,21 +14,18 @@
         <p>Alias praesentium pariatur voluptatum autem consequatur voluptatem quidem asperiores molestias ea ab quibusdam aliquam illum cumque hic qui in facere distinctio odio sed dicta eius fugit, corrupti corporis beatae! Ex assumenda tempora ducimus accusantium similique dicta officiis adipisci animi quae, eligendi incidunt eius fugiat reiciendis vitae alias a? Culpa, nisi beatae, vero molestias totam recusandae amet excepturi incidunt, quaerat hic repellendus at reprehenderit labore ab in aut modi magni non. Modi corporis autem sed delectus et dolorum nesciunt?</p>
     {% endset %}
 
-    {{ contentTabs(
-        id = 'example',
-        tabs = [{
-            "id": "section-1",
-            "title": "Tab 1",
-            "content": tab1
-        }, {
-            "id": "section-2",
-            "title": "Tab 2",
-            "content": tab2
-        }, {
-            "id": "section-3",
-            "title": "Tab 3",
-            "content": tab3
-        }]
-    ) }}
+    {{ contentTabs([{
+        "id": "section-1",
+        "title": "Tab 1",
+        "content": tab1
+    }, {
+        "id": "section-2",
+        "title": "Tab 2",
+        "content": tab2
+    }, {
+        "id": "section-3",
+        "title": "Tab 3",
+        "content": tab3
+    }]) }}
 {% endcall %}
 

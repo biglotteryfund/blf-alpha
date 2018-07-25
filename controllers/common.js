@@ -10,7 +10,7 @@ const { isWelsh } = require('../modules/urls');
 
 function handleStaticPage(router, page) {
     router.get(page.path, injectBreadcrumbs, function(req, res, next) {
-        const copy = res.locals.copy;
+        const { copy, heroImage } = res.locals;
         const isBilingualOverride = getOr(true, 'isBilingual')(page);
         const shouldRedirectLang = (!isBilingualOverride || isEmpty(copy)) && isWelsh(req.originalUrl);
 
@@ -21,7 +21,7 @@ function handleStaticPage(router, page) {
                 copy: copy,
                 title: copy.title,
                 description: copy.description || false,
-                heroImage: res.locals.heroImage || null,
+                heroImage: heroImage || null,
                 isBilingual: isBilingualOverride
             });
         }
@@ -30,16 +30,8 @@ function handleStaticPage(router, page) {
 
 function handleBasicContentPage(router, page) {
     router.get(page.path, injectListingContent, injectBreadcrumbs, (req, res, next) => {
-        const content = res.locals.content;
+        const { content, breadcrumbs } = res.locals;
         if (content) {
-            const viewData = {
-                content: content,
-                title: content.displayTitle || content.title,
-                heroImage: content.hero,
-                breadcrumbs: res.locals.breadcrumbs,
-                isBilingual: isBilingual(content.availableLanguages)
-            };
-
             const template = (() => {
                 if (page.template) {
                     return page.template;
@@ -50,7 +42,7 @@ function handleBasicContentPage(router, page) {
                 }
             })();
 
-            res.render(template, viewData);
+            res.render(template, { breadcrumbs });
         } else {
             next();
         }

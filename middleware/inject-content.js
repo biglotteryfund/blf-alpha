@@ -5,6 +5,7 @@ const Raven = require('raven');
 
 const { heroImages } = require('../modules/images');
 const { localify, removeWelsh } = require('../modules/urls');
+const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
 
 function getPreviewStatus(entry) {
@@ -12,6 +13,19 @@ function getPreviewStatus(entry) {
         isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
         lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
     };
+}
+
+/**
+ * Sets locals that are common to many enries.
+ * - heroImage (with fallback)
+ * - title based on content
+ * - isBilingual based on availableLanguages property
+ */
+function setCommonLocals(res, entry) {
+    res.locals.title = entry.displayTitle || entry.title;
+    res.locals.heroImage = entry.hero;
+    res.locals.isBilingual = isBilingual(entry.availableLanguages);
+    res.locals.previewStatus = getPreviewStatus(entry);
 }
 
 function injectHeroImage(heroSlug) {
@@ -100,7 +114,7 @@ async function injectListingContent(req, res, next) {
 
         if (content) {
             res.locals.content = content;
-            res.locals.previewStatus = getPreviewStatus(content);
+            setCommonLocals(res, content);
         }
 
         res.locals.timings.end('inject-content');
@@ -152,6 +166,36 @@ async function injectFundingProgrammes(req, res, next) {
             locale: req.i18n.getLocale()
         });
         res.locals.timings.end('inject-funding-programmes');
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectStrategicProgramme(req, res, next) {
+    try {
+        // Assumes a paramater of :slug in the request
+        const { slug } = req.params;
+        if (slug) {
+            const strategicProgramme = await contentApi.getStrategicProgrammes({
+                locale: req.i18n.getLocale(),
+                slug: slug
+            });
+
+            res.locals.strategicProgramme = strategicProgramme;
+            setCommonLocals(res, strategicProgramme);
+        }
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectStrategicProgrammes(req, res, next) {
+    try {
+        res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes({
+            locale: req.i18n.getLocale()
+        });
         next();
     } catch (error) {
         next();
@@ -216,6 +260,8 @@ module.exports = {
     injectFlexibleContent,
     injectFundingProgramme,
     injectFundingProgrammes,
+    injectStrategicProgramme,
+    injectStrategicProgrammes,
     injectHeroImage,
     injectListingContent,
     injectProfiles

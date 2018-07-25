@@ -85,6 +85,7 @@ global:
     or: or
     topics: topics
     imageCredit: Image credit
+    documents: documents
   programmes:
     programmeLabels:
       area: Area

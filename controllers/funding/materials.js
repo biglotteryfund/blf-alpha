@@ -160,9 +160,6 @@ function initForm({ router, routeConfig }) {
 
         res.render(routeConfig.template, {
             copy: lang,
-            content: content,
-            title: content.title,
-            heroImage: content.hero,
             csrfToken: req.csrfToken(),
             materials: availableItems,
             formFields: materialFields,
