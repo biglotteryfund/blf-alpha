@@ -1,0 +1,22 @@
+{% from "components/overlay-text/macro.njk" import overlayText %}
+
+{% macro segment(id, title, imagePath, accent = 'pink') %}
+    <div class="segment accent--{{ accent }} a--border-top accent-content--{{ accent }}">
+        {% if imagePath %}
+            <div class="segment__media">
+                <img src="{{ imagePath | getImagePath }}" alt="{{ title }}" />
+                <h2 class="segment__title t5" id="{{ id }}">
+                    {% call overlayText(accent = accent) %}
+                        {{ title }}
+                    {% endcall %}
+                </h2>
+            </div>
+        {% endif %}
+        <div class="segment__aside s-prose">
+            {% if not imagePath %}
+                <h2 class="t1" id="{{ id }}">{{ title }}</h2>
+            {% endif %}
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}

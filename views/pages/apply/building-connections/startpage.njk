@@ -1,4 +1,5 @@
-{% from "components/buttons.njk" import startButton, printButton %}
+{% from "components/buttons.njk" import startButton %}
+{% from "components/print-button/macro.njk" import printButton %}
 
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
@@ -11,45 +12,64 @@
 
             <div class="s-prose accent-content--{{ pageAccent }} u-constrained-wide">
                 <p>
-                    Funding of between £30,000 and £100,000 to help individuals,
-                    communities and local services connect in a variety of ways.
-                    The Fund will do this by supporting promising projects that already are,
-                    or with additional support could, prevent or reduce loneliness.
+                    Funding of between £30,000 and £100,000 is available to support
+                    projects that prevent or reduce loneliness and help people,
+                    communities and local services connect in a variety of different ways.
                 </p>
 
                 {{ startButton(startUrl, label="Start your application") }}
 
-                <p><a href="#questions">Preview the questions you'll be asked</a></p>
-
-                <div class="u-tone-background-tint padded">
-                    <h2>Other ways to apply</h2>
-                    <p>
-                        We’re available Monday–Friday from 9am to 5pm to answer questions about applying.
-                    </p>
-                    <ul>
-                        <li><strong>Telephone</strong>: 0345 4 10 20 30</li>
-                        <li><strong>Textphone</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)</li>
-                    </ul>
+                <div class="message">
+                    <strong>Note</strong>: Once you've started your application you must complete it in one go, so take your time to
+                    <a href="#questions">read the questions you'll be asked</a> before you start.
                 </div>
+
+                <h2>Other ways to apply</h2>
+                <p>
+                    We’re available Monday–Friday from 9am to 5pm to answer questions about applying, or if you need the application materials in an alternative format.
+                </p>
+                <ul>
+                    <li><strong>Telephone</strong>: 0345 4 10 20 30</li>
+                    <li><strong>Textphone</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)</li>
+                </ul>
+
             </div>
+
+            <ul class="o-image-list spaced--t--l">
+                <li><img src="{{ 'logos/partners/blf.png' | getImagePath }}" alt="Big Lottery Fund logo" width="157" /></li>
+                <li><img src="{{ 'logos/partners/hm-gov.png' | getImagePath }}" alt="HM Government logo" width="375" /></li>
+            </ul>
         </div>
 
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="questions">
-            <div class="u-constrained-content s-prose spaced--l accent-content--{{ pageAccent }}">
+            <div class="s-prose u-constrained-wide u-margin-bottom-l accent-content--{{ pageAccent }}">
                 <h2>Questions you'll be asked</h2>
 
-                <p>{{ printButton('Print these questions') }}</p>
+                <p>{{ printButton('Print these questions', metrics = true) }}</p>
 
                 {% for step in form.getSteps() %}
-                    <div class="step-preview accent-content--{{ pageAccent }} s-prose u-constrained-wide">
+                    <div class="step-preview accent-content--{{ pageAccent }}">
                         <h3 class="step-preview__title">{{ loop.index }}. {{ step.name }}</h3>
                         {% for fieldset in step.fieldsets %}
                             <div class="step-preview__fieldset">
+                                <div class="step-preview__fieldset-legend">{{ fieldset.introduction | safe  }}</div>
                                 {% for field in fieldset.fields %}
                                     <div class="step-preview__field">
                                         <p class="step-preview__field-label">
                                             {{ field.label }}
                                         </p>
+                                        {% if field.type === 'checkbox' %}
+                                            Choose all that apply:
+                                            {% for option in field.options -%}
+                                                {{ option.label }}{% if not loop.last %}, {% endif %}
+                                            {%- endfor %}
+                                        {% endif %}
+                                        {% if field.type === 'radio' %}
+                                            Choose one of:
+                                            {% for option in field.options -%}
+                                                {{ option.label }}{% if not loop.last %}, {% endif %}
+                                            {%- endfor %}
+                                        {% endif %}
                                         {% if field.helpText %}
                                             <div class="step-preview__field-guidance">
                                                 {{ field.helpText | safe }}
@@ -71,9 +91,9 @@
 
                 <h2>After your application is submitted</h2>
                 <p>
+                    You will be sent a copy of your submission via email.
                     This information will be reviewed by a team of Big Lottery Fund staff
                     which will decide whether the idea is something we can fund.
-                    If your idea is accepted, we'll ask you to submit a full proposal.
                 </p>
             </div>
         </div>

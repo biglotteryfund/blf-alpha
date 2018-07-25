@@ -1,34 +1,48 @@
 {% macro sgSectionHeader(title) %}
     <div class="sg-section-header">
-        <div class="sg-section-header__inner inner">
-            <h2 class="sg-section-header__title t1"
-                id="sg-section-{{ title | slugify }}">{{ title }}</h2>
+        <h2 class="sg-section-header__title t1"
+            id="sg-section-{{ title | slugify }}">{{ title }}</h2>
+    </div>
+{% endmacro %}
+
+{% macro sgComponent(slug, showDetailLink = true) %}
+    <section class="sg-block">
+        <header class="sg-block__header">
+            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                id="sg-pattern-{{ slug }}">
+                {{ slug }}
+            </h3>
+            {% if showDetailLink %}
+                <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
+            {% endif %}
+        </header>
+        <div class="sg-block__body">
+            <div class="sg-block__content">
+                {# Include examples file for a given component slug #}
+                {% include "components/" + slug + "/examples.njk" ignore missing %}
+            </div>
+        </div>
+    </section>
+{% endmacro %}
+
+{% macro sgExample(description) %}
+    <div class="sg-example">
+        {% if description %}
+            <h4 class="sg-example__description">
+                {{ description }}
+            </h4>
+        {% endif %}
+        <div class="sg-example__body">
+            {{ caller() }}
         </div>
     </div>
 {% endmacro %}
 
-{% macro sgBlock(title, content, notes, fullWidth = false) %}
-    <section class="sg-block">
-        <header class="sg-block__header inner">
-            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
-                id="sg-pattern-{{ title | slugify }}">{{ title }}</h3>
-        </header>
-        <div class="sg-block__body{% if not fullWidth %} inner{% endif %}">
-            <div class="sg-block__content">
-                {{ content | safe }}
-            </div>
+{% macro sgUsage() %}
+    <div class="sg-usage-notes">
+        <h4 class="sg-usage-notes__title">Usage Notes</h4>
+        <div class="sg-usage-notes__content">
+            {{ caller() }}
         </div>
-        {% if notes %}
-        <div class="sg-block__extra inner">
-            <div class="sg-block__notes">
-                <div class="sg-usage-notes">
-                    <h4 class="sg-usage-notes__title">Usage Notes</h4>
-                    <div class="sg-usage-notes__content">
-                        {{ notes | safe }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    </section>
+    </div>
 {% endmacro %}

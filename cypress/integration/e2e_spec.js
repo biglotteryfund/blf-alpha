@@ -1,4 +1,21 @@
+const { oneLine, stripIndents } = require('common-tags');
 describe('e2e', function() {
+    const lorem = oneLine`
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Praesentium quidem nihil, similique voluptatibus tempore quasi,
+        cumque laborum officia voluptatem laboriosam tempora.
+    `;
+
+    const loremLong = stripIndents`
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
+
+        - Repudiandae doloremque necessitatibus
+        - Laudantium repellendus
+        - Soluta neque consequatur tenetur maiores.
+
+        Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
+    `;
+
     it('should perform  common interactions', () => {
         cy.visit('/');
 
@@ -28,12 +45,10 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.get('.survey').as('survey');
-        cy
-            .get('@survey')
+        cy.get('@survey')
             .find('button:first-child')
             .click();
-        cy
-            .get('@survey')
+        cy.get('@survey')
             .find('p')
             .should('contain', 'Thank you');
 
@@ -43,16 +58,13 @@ describe('e2e', function() {
 
         cy.visit('/funding/past-grants');
         cy.get('#js-feedback').as('feedbackForm');
-        cy
-            .get('@feedbackForm')
+        cy.get('@feedbackForm')
             .find('summary')
             .click();
-        cy
-            .get('@feedbackForm')
+        cy.get('@feedbackForm')
             .find('textarea')
             .type('Test feedback');
-        cy
-            .get('@feedbackForm')
+        cy.get('@feedbackForm')
             .find('form')
             .submit();
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
@@ -74,8 +86,7 @@ describe('e2e', function() {
         cy.get('.qa-global-nav .qa-lang-switcher').as('langSwitcher');
         cy.get('@langSwitcher').click();
         cy.checkMetaTitles('Hafan | Cronfa Loteri Fawr');
-        cy
-            .get('.qa-global-nav .qa-nav-link a')
+        cy.get('.qa-global-nav .qa-nav-link a')
             .first()
             .should('have.text', 'Hafan');
         cy.get('@langSwitcher').click();
@@ -98,8 +109,7 @@ describe('e2e', function() {
         // Step: Navigate to funding programme
         // ================================================ //
 
-        cy
-            .get('.qa-programme-card')
+        cy.get('.qa-programme-card')
             .contains('Reaching Communities')
             .click();
         cy.checkActiveSection('funding');
@@ -109,13 +119,12 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.get('.js-tabset .js-tab').each($el => {
-            cy
-                .wrap($el)
+            cy.wrap($el)
                 .click()
-                .should('have.class', 'tab--active');
+                .should('have.class', 'is-active');
 
             // Check there is only one tab active
-            cy.get('.js-tabset .tab--active').should('have.length', 1);
+            cy.get('.js-tabset .is-active').should('have.length', 1);
 
             // Check tab content is visible
             cy.get($el.attr('href')).should('be.visible');
@@ -130,27 +139,20 @@ describe('e2e', function() {
         cy.get('.start-button .btn').click();
 
         // Step 1
-        cy.get('#field-your-idea').type(
-            `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Itaque minus illum error consequatur? Ea in quas dolores,
-            nesciunt est doloribus voluptates adipisci ullam numquam
-            sequi rerum delectus quae voluptatibus soluta commodi cumque.
-            Voluptates magnam aliquid asperiores laudantium tenetur, nulla
-            ipsum sequi nobis illum eveniet nostrum delectus quisquam
-            inventore totam tempore voluptatem fugit mollitia itaque!`.replace(/\s{2,}/g, ' '),
-            { delay: 0 }
-        );
+        cy.get('#field-your-idea')
+            .invoke('val', loremLong)
+            .trigger('change');
 
         cy.get(submitSelector).click();
 
         // Step 2
         cy.get('#field-location-1').check();
         cy.get('#field-location-3').check();
-        cy.get('#field-project-location').type('Example');
+        cy.get('#field-project-location').type('Example', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Step 3
-        cy.get('#field-organisation-name').type('Test Organisation');
+        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
         cy.get(submitSelector).click();
 
         // Step 4
@@ -162,13 +164,12 @@ describe('e2e', function() {
 
         // Review, toggle answer
         cy.get('.js-toggle-answer').as('toggleAnswer');
-        cy
-            .get('@toggleAnswer')
+        cy.get('@toggleAnswer')
             .find('button')
             .click();
+
         cy.get('@toggleAnswer').should('have.class', 'is-active');
-        cy
-            .get('@toggleAnswer')
+        cy.get('@toggleAnswer')
             .find('button')
             .should('contain', 'Show less')
             .click();
@@ -179,65 +180,95 @@ describe('e2e', function() {
         cy.get('.form-message').should('contain', 'Thank you for submitting your idea');
     });
 
-    // it.only('should submit a building connections application form', () => {
-    //     const submitSelector = '.js-application-form input[type="submit"]';
-    //     cy.visit('/apply/building-connections');
+    it('should submit a building connections application form', () => {
+        const submitSelector = '.js-application-form input[type="submit"]';
+        cy.visit('/apply/building-connections');
 
-    //     // Start page
-    //     cy.get('.start-button .btn').first().click();
+        // Start page
+        cy.get('.start-button .btn')
+            .first()
+            .click();
 
-    //     // Step 1
-    //     cy.get('#field-current-work').type('Current work');
-    //     cy.get(submitSelector).click();
+        // Step 1
+        cy.get('#field-current-work')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     cy.get('#field-project-name').type('Project name');
-    //     cy.get('#field-project-idea').type('This is a test idea');
-    //     cy.get(submitSelector).click();
+        cy.get(submitSelector).click();
 
-    //     // Step 2
-    //     cy.get('#field-location-1').check();
-    //     cy.get('#field-location-3').check();
-    //     cy.get('#field-project-location').type('Example');
-    //     cy.get(submitSelector).click();
+        // Step 2
+        cy.get('#field-project-name')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     // Step 3
+        cy.get('#field-project-idea')
+            .invoke('val', loremLong)
+            .trigger('change');
 
-    //     // Step 4
-    //     cy.get('#field-increasing-impact').type('Increasing impact');
-    //     cy.get(submitSelector).click();
+        cy.get('#field-project-impact')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     // Step 5
-    //     cy.get('#field-project-activities').type('Project activities');
-    //     cy.get(submitSelector).click();
+        cy.get(submitSelector).click();
 
-    //     // Step 6
-    //     cy.get('#field-project-budget-total').type('£75,000');
-    //     cy.get('#field-project-budget-breakdown').type('Budget breakdown');
-    //     cy.get(submitSelector).click();
+        // Step 3
+        cy.get('#field-project-activities-a')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     // Step 7
-    //     cy.get('#field-project-evaluation').type('Project evaluation');
-    //     cy.get(submitSelector).click();
+        cy.get(submitSelector).click();
 
-    //     // Step 8
-    //     cy.get('#field-organisation-name').type('Test organisation');
-    //     cy.get('#field-organisation-charity-number').type('123456789');
-    //     cy.get(submitSelector).click();
+        // Step 4
+        cy.get('#field-social-connections')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     // Step 9
-    //     cy.get('#field-first-name').type('Anne');
-    //     cy.get('#field-last-name').type('Example');
-    //     cy.get('#field-email').type('example@example.com');
-    //     cy.get('#field-phone-number').type('0123456789');
-    //     cy.get(submitSelector).click();
+        cy.get(submitSelector).click();
 
-    //     // Review
-    //     cy.get(submitSelector).click();
+        // Step 5
+        cy.get('#field-project-evaluation')
+            .invoke('val', lorem)
+            .trigger('change');
 
-    //     // Success
-    //     cy.url().should('include', '/apply/building-connections/success');
-    //     cy.get('.form-message').should('contain', 'Thank you');
-    // });
+        cy.get(submitSelector).click();
+
+        // Step 6
+        cy.get('#field-location-1').check();
+        cy.get('#field-location-3').check();
+        cy.get('#field-project-location').type('Example', { delay: 0 });
+        cy.get(submitSelector).click();
+
+        // Step 7
+        cy.get('#field-project-budget-total').type('100000', { delay: 0 });
+        cy.get('#field-project-budget-a-amount').type('50000', { delay: 0 });
+        cy.get('#field-project-budget-a-description')
+            .invoke('val', lorem)
+            .trigger('change');
+        cy.get(submitSelector).click();
+
+        // Step 8
+        cy.get('#field-organisation-name').type('Test organisation', { delay: 0 });
+        cy.get('#field-organisation-charity-number').type('123456789', { delay: 0 });
+        cy.get('#field-address-building-street').type('1 Plough Place', { delay: 0 });
+        cy.get('#field-address-town-city').type('London', { delay: 0 });
+        cy.get('#field-address-county').type('Greater London', { delay: 0 });
+        cy.get('#field-address-postcode').type('EC4A 1DE', { delay: 0 });
+        cy.get(submitSelector).click();
+
+        // Step 9
+        cy.get('#field-first-name').type('Anne', { delay: 0 });
+        cy.get('#field-last-name').type('Example', { delay: 0 });
+        cy.get('#field-email').type(`example-${new Date().getTime()}@example.com`, { delay: 0 });
+        cy.get('#field-phone-number').type('0123456789', { delay: 0 });
+        cy.get(submitSelector).click();
+
+        // Review
+        cy.get(submitSelector).click();
+
+        // Success
+        cy.url().should('include', '/apply/building-connections/success');
+        cy.get('.form-message').should('contain', 'Thank you');
+    });
 
     it('should submit materials order', () => {
         cy.visit('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
@@ -247,32 +278,28 @@ describe('e2e', function() {
         cy.get('#qa-material-monolingual-2').as('materialA');
         cy.get('#qa-material-monolingual-3').as('materialB');
 
-        cy
-            .get('@materialA')
+        cy.get('@materialA')
             .find('button[value="increase"]')
             .click();
-        cy
-            .get('@materialA')
+        cy.get('@materialA')
             .find('.step-control__quantity')
             .should('contain', 1);
 
-        cy
-            .get('@materialB')
+        cy.get('@materialB')
             .find('button[value="increase"]')
             .click()
             .click();
-        cy
-            .get('@materialB')
+        cy.get('@materialB')
             .find('.step-control__quantity')
             .should('contain', 2);
 
         // Fill in form
-        cy.get('#ff-yourName').type('Example');
-        cy.get('#ff-yourEmail').type('example@example.com');
-        cy.get('#ff-yourAddress1').type('1 Example Street');
-        cy.get('#ff-yourTown').type('Fake town');
-        cy.get('#ff-yourCountry').type('England');
-        cy.get('#ff-yourPostcode').type('EC4A 1DE');
+        cy.get('#ff-yourName').type('Example', { delay: 0 });
+        cy.get('#ff-yourEmail').type('example@example.com', { delay: 0 });
+        cy.get('#ff-yourAddress1').type('1 Example Street', { delay: 0 });
+        cy.get('#ff-yourTown').type('Fake town', { delay: 0 });
+        cy.get('#ff-yourCountry').type('England', { delay: 0 });
+        cy.get('#ff-yourPostcode').type('EC4A 1DE', { delay: 0 });
         cy.get('#ff-radio-yourReason-projectOpening').check();
         cy.get('#js-submit-material-order').click();
 

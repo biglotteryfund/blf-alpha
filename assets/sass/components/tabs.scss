@@ -3,6 +3,121 @@
    ========================================================================= */
 
 /* =========================================================================
+   Tabs: Content Tabs
+   ========================================================================= */
+
+.content-tabset {
+    @include poppins();
+
+    @include mq('medium-minor', 'max') {
+        margin-bottom: $spacingUnit;
+
+        .content-tabset__item {
+            list-style: none;
+            margin-left: .5em;
+
+            &:before {
+                content: '—';
+                margin-right: .5em;
+            }
+        }
+
+        .content-tabset__tab {
+            font-weight: bold;
+        }
+    }
+
+    @include mq('medium-minor') {
+        background-color: palette('pale-grey');
+        display: flex;
+        flex-wrap: wrap;
+
+        .content-tabset__item {
+            font-size: 16px;
+            margin: 0;
+            display: inline-block;
+            flex: 1 1 auto;
+
+
+            &:first-child .tab {
+                border-left: none;
+            }
+        }
+
+        .content-tabset__tab {
+            color: palette('blue-text');
+            display: block;
+            font-weight: bold;
+            padding: 12px 12px 14px;
+            text-decoration: none;
+            border: solid palette('border');
+            border-width: 4px 0 1px 1px;
+            border-top-color: transparent;
+            white-space: nowrap;
+            text-align: center;
+
+            &.is-active {
+                border-top-color: palette('pink');
+                border-bottom-color: transparent;
+                background-color: white;
+                color: palette('pink');
+            }
+        }
+    }
+}
+
+.content-tab-pane {
+    .content-tab-pane__pagination {
+        @include mq('medium-minor', 'max') {
+            display: none;
+        }
+    }
+
+    .content-tab-pane__title {
+        text-decoration: none;
+        display: block;
+        margin-bottom: $spacingUnit;
+    }
+
+    @include mq('medium-minor', 'max') {
+        &:nth-child(even) .content-tab-pane__content {
+            background-color: palette('tint');
+        }
+    }
+
+    .js-on & {
+        @include mq('medium-minor') {
+            .content-tab-pane__title {
+                display: none;
+            }
+        }
+
+        @include mq('medium-minor') {
+            .content-tab-pane__content {
+                display: none;
+            }
+
+            &.is-active {
+                > .content-tab-pane__content {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    @media print {
+        .content-tab-pane__title,
+        .content-tab-pane__content {
+            display: block !important;
+        }
+    }
+}
+
+/* =========================================================================
+   Tabs: Original Styles
+   ========================================================================= */
+
+/* =========================================================================
    Tabs: Tabsets
    ========================================================================= */
 // The tabs themselves (eq. square, blocky elements)
@@ -36,7 +151,7 @@
         border-left: none;
     }
 
-    .tab.tab--active {
+    .tab.is-active {
         border-top-color: palette('pink');
         border-bottom-color: transparent;
         background-color: white;
@@ -55,7 +170,7 @@
     }
 
     // also hide tabset on mobile
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         display: none !important;
     }
 
@@ -70,12 +185,18 @@
    ========================================================================= */
 // The tab content areas
 
+.tab__pane-pagination {
+    @include mq('medium', 'max') {
+        display: none;
+    }
+}
+
 .js-on .tab__pane {
     .tab__pane-content {
         display: none;
     }
 
-    &.pane--active {
+    &.is-active {
         > .tab__pane-content {
             display: block;
         }
@@ -92,7 +213,7 @@
  * Accordion behaviour for small screens
  */
 .tab__pane--accordion {
-    @include mq('tablet') {
+    @include mq('medium') {
         .tab__pane-header {
             display: none;
         }
@@ -111,7 +232,7 @@
             margin-bottom: 2px;
             padding: $spacingUnit;
 
-            @include mq(tablet) {
+            @include mq('medium') {
                 padding-left: $spacingUnit * 2;
                 padding-right: $spacingUnit * 2;
             }
@@ -142,8 +263,9 @@
             position: absolute;
             top: 0;
             right: $spacingUnit;
+            color: #ffffff;
 
-            @include mq(tablet) {
+            @include mq('medium') {
                 right: $spacingUnit * 2;
             }
 
@@ -154,7 +276,7 @@
         }
     }
 
-    &.pane--active {
+    &.is-active {
         > .tab__pane--accordion {
             a {
                 background-color: #9e9e9e;

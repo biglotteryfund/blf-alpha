@@ -1,13 +1,9 @@
 {% from "components/data.njk" import factRiver %}
 {% from "components/hero.njk" import hero %}
 {% from "components/programmes.njk" import programmeOverview with context %}
-{% from "components/tabs.njk" import tabs %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
 
 {% extends "layouts/main.njk" %}
-
-{% block title %}{{ title }} | {% endblock %}
-
-{% set socialImage = heroImage %}
 
 {% block content %}
     {% set pageAccent = 'pink' %}
@@ -58,17 +54,15 @@
 
         <div class="nudge-up">
             <section class="content-box content-box--tinted
-                inner--wide-only accent--{{ pageAccent }} a--border-top">
+                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.introduction }}</p>
                 </div>
             </section>
 
             {% macro tabContent(title, content) %}
-                <div class="content-box content-box--frameless">
-                    <h2 class="u-visually-hidden">{{ title }}</h2>
-                    {{ content | safe }}
-                </div>
+                <h2 class="u-visually-hidden">{{ title }}</h2>
+                {{ content | safe }}
             {% endmacro %}
 
             {% set tabItems = [{
@@ -95,8 +89,8 @@
                 )
             }] %}
 
-            <div class="inner--wide-only">
-                {{ tabs(id = 'tabs', content = tabItems) }}
+            <div class="u-inner-wide-only">
+                {{ contentTabs(tabItems) }}
             </div>
         </div>
     </main>

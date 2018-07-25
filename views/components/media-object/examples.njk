@@ -1,0 +1,12 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import mediaObject with context %}
+
+{% call sgExample("All props") %}
+    {{ mediaObject({
+        "title": "Media object",
+        "subtitle": "Subtitle text",
+        "trailText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab, ratione accusamus? Enim minima tempora in ipsum nesciunt",
+        "image": { "url": "https://via.placeholder.com/100x100?text=Placeholder", "alt": "" },
+        "link": { "url": "https://example.com/", "label": "Read more" }
+    }) }}
+{% endcall %}

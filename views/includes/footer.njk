@@ -1,8 +1,10 @@
 {# Did you find what you were looking for? #}
-<div id="js-survey" data-lang='{{ __('global.survey') | dump | safe }}'></div>
+{% if not suppressSurvey %}
+    <div id="js-survey" data-lang='{{ __('global.survey') | dump | safe }}'></div>
+{% endif %}
 
 <footer role="contentinfo" class="footer">
-    <div class="footer__inner inner">
+    <div class="footer__inner u-inner">
         <ul class="grid grid--top grid--wide-only">
             <li class="grid__item u-desktop-only">
                 <p class="t6 u-uppercase">{{ __("global.brand.title") | safe }}</p>

@@ -42,7 +42,7 @@ $btnConf: (
     padding-left: $spacingUnit;
     padding-right: $spacingUnit;
 
-    @include mq('desktop') {
+    @include mq('large') {
         padding-right: $spacingUnit * 1.5;
         padding-left: $spacingUnit * 1.5;
     }
@@ -94,7 +94,7 @@ $btnConf: (
         font-size: map-deep-get($btnConf, 'small', 'fontSize');
     }
 
-    @include mq('tablet') {
+    @include mq('medium') {
         @include getBtnVertPadding(map-get($btnConf, 'medium'));
         font-size: map-deep-get($btnConf, 'medium', 'fontSize');
     }

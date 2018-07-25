@@ -35,6 +35,9 @@
     font-weight: bold;
     margin-bottom: $spacingUnit;
 }
+.form-fieldset__intro {
+    margin-bottom: 1.5em;
+}
 .form-fieldset__fields {
     margin-bottom: $spacingUnit;
 }
@@ -70,11 +73,7 @@
         background-color: rgba(255, 255, 0, 0.5);
     }
 }
-.form-field__help {
-    margin-top: $spacingUnit / 2;
-    font-size: 18px;
-    color: #4a4a4a;
-}
+
 .form-field__errors {
     margin-top: $spacingUnit / 3;
 }
@@ -115,7 +114,7 @@
     }
 }
 
-.ff-explanation {
+.ff-help {
     font-size: 18px;
     margin-bottom: 10px;
     color: #4a4a4a;
@@ -126,13 +125,18 @@
     display: block;
     font-style: italic;
     color: palette('charcoal-note');
+    margin-bottom: 10px;
+}
+
+@mixin formFieldBox {
+    padding: 6px 12px;
+    border: 2px solid palette('charcoal');
 }
 
 .ff-text,
 .ff-textarea {
+    @include formFieldBox();
     display: block;
-    padding: 6px 12px;
-    border: 2px solid palette('charcoal');
     // prevent elements with size attributes overflowing on mobile
     max-width: 100%;
 
@@ -140,6 +144,26 @@
         outline: 3px solid lighten(palette('turquoise'), 25%);
         outline-offset: 0;
     }
+
+    &.ff-text--currency {
+        display: inline-block;
+        border-left: none;
+        margin: 0;
+    }
+}
+
+.ff-field-prepend {
+    @include formFieldBox();
+    background-color: palette('off-white');
+    float: left;
+    border-right: none;
+}
+
+.ff-field-append {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+    font-style: italic;
 }
 
 .ff-textarea {
@@ -148,26 +172,18 @@
     box-sizing: border-box;
 }
 
-.ff-radio {
+/**
+ * Form field: Choice
+ * i.e. radio or checkboxes
+ */
+.ff-choice {
     margin-bottom: 3px;
 }
-.ff-radio__option {
-    margin-bottom: 3px;
-
-    input[type='radio'] {
-        position: relative;
-        top: -2px;
-        margin: 0 5px 0 0;
-    }
-}
-
-.ff-checkbox {
-    margin-bottom: 3px;
-}
-.ff-checkbox__option {
+.ff-choice__option {
     display: table;
     margin-bottom: 5px;
 
+    input[type='radio'],
     input[type='checkbox'] {
         margin: 0 .5em 0 0;
 
@@ -178,11 +194,11 @@
         }
     }
 }
-.ff-checkbox__input,
-.ff-checkbox__label {
+.ff-choice__input,
+.ff-choice__label {
     display: table-cell;
 }
-.ff-checkbox__caption {
+.ff-choice__caption {
     font-size: 14px;
     color: palette('charcoal-note');
     display: block;
@@ -193,6 +209,9 @@
     }
 }
 
+/**
+ * Form actions
+ */
 .form-actions {
     max-width: $constrainedWide;
     border-top: 1px solid palette('border');

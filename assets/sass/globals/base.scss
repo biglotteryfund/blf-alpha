@@ -120,10 +120,10 @@ pre {
     white-space: pre-wrap;
     font-family: Hack, Consolas, monospace;
     font-size: 14px;
-    padding: 10px;
     border-radius: 2px;
     color: palette('pale');
     background-color: palette('charcoal');
+    padding: 3px 6px;
 }
 
 pre {
@@ -151,6 +151,10 @@ video {
 /* Fluid images if you omit the `width` attribute. */
 img:not([width]) {
     width: 100%;
+}
+
+figure {
+    margin: 0 0 1em 0;
 }
 
 iframe {

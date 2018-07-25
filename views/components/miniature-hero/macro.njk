@@ -1,0 +1,19 @@
+{% from "components/overlay-text/macro.njk" import overlayText %}
+{% from "components/icons.njk" import iconArrowRight %}
+
+{% macro miniatureHero(title, imagePath, imageCaption = false, linkUrl = false, accent = 'pink') %}
+    <div class="miniature-hero accent--{{ accent }} a--border-top">
+        <div class="miniature-hero__inner">
+            {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
+            <div class="miniature-hero__image">
+                <img src="{{ imagePath }}"alt="{% if imageCaption %}{{ imageCaption }}{% else %}{{ title }}{% endif %}" />
+            </div>
+            {% if linkUrl %}</a>{% endif %}
+            <h3 class="miniature-hero__title">
+                {% call overlayText(linkUrl = linkUrl, accent = accent, isTranslucent = true) %}
+                    {{ title }} {{ iconArrowRight() }}
+                {% endcall %}
+            </h3>
+        </div>
+    </div>
+{% endmacro %}

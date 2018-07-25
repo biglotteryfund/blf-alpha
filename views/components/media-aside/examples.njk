@@ -1,0 +1,27 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import mediaAside %}
+
+{% call sgExample('All props') %}
+    {{ mediaAside(
+        quoteText = "We reached nearly 10 million people with our funding last year",
+        link = {
+            "url": "#",
+            "label": "Discover our strategic framework: People in the Lead"
+        },
+        image = {
+            "url": "https://biglotteryfund-assets.imgix.net/media/media-asides/dawn_180522_095906.jpg?auto=compress%2Cformat&crop=entropy&fit=crop&h=280&w=460&s=3f5db24ad7cf3cc80d1a3974aa5e5562",
+            "caption": "Caption for the image"
+        }
+    ) }}
+{% endcall %}
+
+{% call sgExample('Reversed') %}
+    {{ mediaAside(
+        quoteText = "In 2016/17 we awarded over £700 million, including 10,000 grants under £10,000",
+        image = {
+            "url": "https://biglotteryfund-assets.imgix.net/media/media-asides/pennine-lancashire_180522_095832.jpg?auto=compress%2Cformat&crop=entropy&fit=crop&h=280&w=460&s=0875cc1a7693c97e354a66e5bdcb24ff",
+            "caption": "Caption for the image"
+        },
+        isReversed = true
+    ) }}
+{% endcall %}

@@ -24,7 +24,7 @@
 .footer__inner {
     padding: 0;
 
-    @include mq('tablet') {
+    @include mq('medium') {
         padding: 60px 0;
     }
 }

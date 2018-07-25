@@ -34,28 +34,24 @@
             title = __('toplevel.ebulletin.responses.error.title')
         ) }}
 
-        <fieldset class="form-fieldset form-fieldset--location">
-            <legend class="form-fieldset__legend u-visually-hidden">{{ __('toplevel.ebulletin.location')  }}</legend>
-            <div class="form-fieldset__fields">
-                {{ renderField({
-                    name: 'location',
-                    type: 'radio',
-                    options: [{
-                        label: __('toplevel.ebulletin.locations.england'),
-                        value: 'ENGLAND_MAIL'
-                    }, {
-                        label: __('toplevel.ebulletin.locations.wales'),
-                        value: 'WALES_MAIL'
-                    }, {
-                        label: __('toplevel.ebulletin.locations.scotland'),
-                        value: 'SCOTLAND_MAIL'
-                    }, {
-                        label: __('toplevel.ebulletin.locations.northernIreland'),
-                        value: 'NI_MAIL'
-                    }]
-                }) }}
-            </div>
-        </fieldset>
+        {{ renderField({
+            name: 'location',
+            type: 'radio',
+            label: __('toplevel.ebulletin.location'),
+            options: [{
+                label: __('toplevel.ebulletin.locations.england'),
+                value: 'ENGLAND_MAIL'
+            }, {
+                label: __('toplevel.ebulletin.locations.wales'),
+                value: 'WALES_MAIL'
+            }, {
+                label: __('toplevel.ebulletin.locations.scotland'),
+                value: 'SCOTLAND_MAIL'
+            }, {
+                label: __('toplevel.ebulletin.locations.northernIreland'),
+                value: 'NI_MAIL'
+            }]
+        }) }}
 
         <fieldset class="form-fieldset form-fieldset--details">
             <legend class="form-fieldset__legend u-visually-hidden">

@@ -12,7 +12,10 @@ function getRawParameters() {
 }
 
 function parseSecrets(rawParameters) {
-    const mapKeyedValues = flow(keyBy('Name'), mapValues('Value'));
+    const mapKeyedValues = flow(
+        keyBy('Name'),
+        mapValues('Value')
+    );
     return mapKeyedValues(rawParameters);
 }
 
@@ -36,11 +39,19 @@ function getSecret(name) {
     }
 }
 
+const APPLICATIONS_SERVICE_ENDPOINT =
+    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint');
+
 const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
+
 const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
 const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
 const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
 const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
+
+// @TODO: Update parameter store to always pass connection URI
+const DB_CONNECTION_URI = process.env.DB_CONNECTION_URI || `mysql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}`;
+
 const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
@@ -63,11 +74,9 @@ module.exports = {
     getRawParameters,
     getSecretFromRawParameters,
     getSecret,
+    APPLICATIONS_SERVICE_ENDPOINT,
     CONTENT_API_URL,
-    DB_HOST,
-    DB_NAME,
-    DB_PASS,
-    DB_USER,
+    DB_CONNECTION_URI,
     HUB_EMAILS,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,

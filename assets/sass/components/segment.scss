@@ -4,11 +4,11 @@
 .segment {
     margin-bottom: 40px;
 
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         background-color: palette('pale');
     }
 
-    @include mq('tablet') {
+    @include mq('medium') {
         display: flex;
     }
 }
@@ -24,7 +24,7 @@
         }
     }
 
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         padding: $spacingUnit;
         padding-bottom: 0;
 
@@ -33,14 +33,15 @@
         }
     }
 
-    @include mq('tablet') {
+    @include mq('medium') {
         width: 300px;
         margin-right: 12px;
         flex-shrink: 0;
     }
 }
 .segment__title {
-    @include mq('tablet') {
+    @include mq('medium') {
+        width: 60%;
         position: absolute;
         top: 1em;
         left: 1em;
@@ -51,7 +52,7 @@
     padding: $spacingUnit;
     margin-top: 0;
 
-    @include mq('tablet') {
+    @include mq('medium') {
         @include bordered();
         background-color: palette('pale');
     }

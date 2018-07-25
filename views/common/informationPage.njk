@@ -1,7 +1,7 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/hero.njk" import hero %}
-{% from "components/nav.njk" import selectionTrail %}
-{% from "components/segment.njk" import segment with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/segment/macro.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
 
@@ -12,7 +12,7 @@
 {% endif %}
 
 {% macro segmentLinks(segments) %}
-    {% if segments.length > 0 %}
+    {% if segments.length > 1 %}
         <div class="segment-links">
             <ul>
                 {% for segment in segments %}
@@ -35,7 +35,7 @@
     {% endif %}
 
     {% macro primaryContent() %}
-        {{ selectionTrail(breadcrumbs) }}
+        {{ breadcrumbTrail(breadcrumbs) }}
 
         <div class="s-prose accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
             {% if not heroImage %}
@@ -50,7 +50,7 @@
     <main{% if heroImage %} class="nudge-up"{% endif %}>
         {% block contentPrimary %}
             {% if content.relatedContent %}
-                <section class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
+                <section class="page-section u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                     <div class="page-section__content accent--{{ pageAccent }} a--border-top">
                         <article class="content-box">
                             {{ primaryContent() }}
@@ -64,7 +64,7 @@
                 </section>
             {% else %}
                 {% if content.introduction %}
-                    <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+                    <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                         {{ primaryContent() }}
                     </section>
                 {% endif %}
@@ -72,31 +72,30 @@
 
             {# Content segments #}
             {% if content.segments.length > 0 %}
-                <div class="inner--wide-only u-constrained-content-wide">
+                <div class="u-inner-wide-only u-constrained-content-wide">
                     {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
                     {% for contentSegment in content.segments %}
-                        {% set image = false %}
-                        {% if contentSegment.photo %}
-                            {% set image = contentSegment.photo %}
-                        {% endif %}
-                        {{ segment(
-                            title = contentSegment.title,
-                            text = contentSegment.content,
-                            color = themes.next(),
-                            imagePath = image,
+                        {% call segment(
                             id = 'segment-' + loop.index,
-                            imageIsAbsolute = true
-                        ) }}
+                            title = contentSegment.title,
+                            imagePath = contentSegment.photo,
+                            accent = themes.next()
+                        ) %}
+                            {{ contentSegment.content | safe }}
+                        {% endcall %}
                     {% endfor %}
                 </div>
             {% endif %}
         {% endblock %}
 
+        {# Custom content #}
+        {% block customContent %}{% endblock %}
+
         {# Case Studies #}
         {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
 
         {% if content.outro %}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose accent-content--{{ pageAccent }}">
                     {{ content.outro | safe }}
                 </div>

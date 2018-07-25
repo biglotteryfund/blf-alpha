@@ -1,0 +1,22 @@
+{#
+Split nav
+
+prevLink {Object} { url: {String}, label: {String} }
+nextLink {Object} { url: {String}, label: {String} }
+#}
+{% macro splitNav(prevLink, nextLink) %}
+    {% if prevLink or nextLink %}
+        <nav class="split-nav">
+            {% if prevLink.url %}
+                <a class="split-nav__prev" href="{{ prevLink.url }}" rel="prev">
+                    {{ prevLink.label }}
+                </a>
+            {% endif %}
+            {% if nextLink.url %}
+                <a class="split-nav__next" href="{{ nextLink.url }}" rel="next">
+                    {{ nextLink.label }}
+                </a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endmacro %}

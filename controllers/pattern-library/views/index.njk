@@ -1,0 +1,23 @@
+{% from "components/styleguide.njk" import sgSectionHeader %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
+
+{% extends "./layout.njk" %}
+
+{% block content %}
+    <main role="main" class="u-inner spaced--t">
+        <div class="s-prose u-constrained-wide accent-content--pink">
+            <h2>Big Lottery Fund: Design Patterns</h2>
+            <p>
+                The following pages contain documentation of common design patterns
+                and components used on the Big Lottery Fund website.
+            </p>
+        </div>
+        {{ sectionLinks([{
+            "label": "Typography",
+            "href": "/patterns/typography"
+        }, {
+            "label": "Components",
+            "href": "/patterns/components"
+        }]) }}
+    </main>
+{% endblock %}

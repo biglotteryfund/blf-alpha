@@ -13,7 +13,7 @@ $logoOffset: $navLinkPadding - 5px;
     width: 100%;
     color: palette('blue-text');
 
-    @include mq('tablet') {
+    @include mq('medium') {
         margin-bottom: $spacingUnit;
     }
 
@@ -25,13 +25,13 @@ $logoOffset: $navLinkPadding - 5px;
             padding: 15px 0;
         }
 
-        @include mq('tablet') {
+        @include mq('medium') {
             padding: 0;
         }
     }
 
     .global-header__content {
-        @include mq('tablet') {
+        @include mq('medium') {
             display: flex;
             align-items: flex-start;
         }
@@ -48,7 +48,7 @@ $logoOffset: $navLinkPadding - 5px;
         height: 80px;
         width: 100px;
 
-        @include mq('tablet') {
+        @include mq('medium') {
             height: 105px;
             width: 130px;
             margin-top: $logoOffset;
@@ -68,7 +68,7 @@ $logoOffset: $navLinkPadding - 5px;
             width: 110px;
             height: 105px;
 
-            @include mq('tablet') {
+            @include mq('medium') {
                 width: 140px;
                 height: 133px;
             }
@@ -82,7 +82,7 @@ $logoOffset: $navLinkPadding - 5px;
     }
 
     .global-header__nav {
-        @include mq('tablet') {
+        @include mq('medium') {
             flex-grow: 1;
             flex-shrink: 0;
             flex-basis: 0;
@@ -135,7 +135,7 @@ $logoOffset: $navLinkPadding - 5px;
         vertical-align: middle;
         margin: 0 ($spacingUnit / 3);
 
-        @include mq('desktop') {
+        @include mq('large') {
             margin: 0 26px;
         }
     }
@@ -233,7 +233,7 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     margin: 0;
     position: relative;
 
-    @include mq('tablet') {
+    @include mq('medium') {
         max-width: 180px;
     }
 }
@@ -319,7 +319,7 @@ $offscreenNavWidth: 65%;
 }
 
 // Handle animation of offscreen nav for mobile
-@include mq('tablet', 'max') {
+@include mq('medium', 'max') {
     .global-container {
         transition: all 0.3s ease-in-out;
     }

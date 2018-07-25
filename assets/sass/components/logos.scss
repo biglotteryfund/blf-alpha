@@ -1,0 +1,12 @@
+/* =========================================================================
+   Logos
+   ========================================================================= */
+
+.logo-block {
+    border: 1px solid palette('border');
+    padding: $spacingUnit;
+
+    .logo-block__link {
+        margin-bottom: $spacingUnit / 2;
+    }
+}

@@ -17,7 +17,7 @@
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
             {% for fieldset in step.fieldsets %}
-                {{ formFieldset(fieldset) }}
+                {{ formFieldset(fieldset, errors) }}
             {% endfor %}
 
             {% if csrfToken %}

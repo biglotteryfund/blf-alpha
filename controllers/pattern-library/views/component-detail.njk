@@ -1,0 +1,9 @@
+{% from "components/styleguide.njk" import sgComponent %}
+
+{% extends "./layout.njk" %}
+
+{% block content %}
+    <div class="spaced--t">
+        {{ sgComponent(slug, showDetailLink = false) }}
+    </div>
+{% endblock %}

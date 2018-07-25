@@ -1,6 +1,5 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import nestedMenu, quickLinks %}
-{% from "components/profiles.njk" import profileSummary %}
 
 {% extends "layouts/main.njk" %}
 
@@ -13,18 +12,30 @@
     ) }}
 
     <main class="nudge-up">
-        <div class="page-section inner--wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="page-section__content accent--{{ pageAccent }} a--border-top">
+        <div class="page-section u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+            <div class="page-section__content u-accent-border-top-{{ pageAccent }}">
                 {% for profile in profiles %}
-                    <section id="profile-{{ profile.title | slugify }}"
-                        class="content-box {% if loop.index > 1 %} accent--{{ pageAccent }} a--border-top{% endif %}">
-                        {{ profileSummary(profile) }}
-                    </section>
+                    <article id="profile-{{ profile.title | slugify }}"
+                        class="content-box {% if loop.index > 1 %} u-accent-border-top-{{ pageAccent }}{% endif %}">
+                        {% if profile.image %}
+                            <figure>
+                                <img src="{{ profile.image }}" alt="{{ profile.title }}">
+                            </figure>
+                        {% endif %}
+
+                        <div class="s-prose accent-content--{{ pageAccent }}">
+                            <h2>
+                                {{ profile.title }}{% if profile.role %}&thinsp;&mdash;&thinsp;{{ profile.role }}{% endif %}
+                            </h2>
+                            {{ profile.bio | safe }}
+                        </div>
+
+                    </article>
                 {% endfor %}
 
                 {% block extraPrimaryContent %}{% endblock %}
             </div>
-            <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
+            <div class="page-section__supplementary u-accent-border-top-{{ pageAccent }}">
                 {% set navigation = __('about.ourPeople.navigation') %}
                 <aside class="content-box">
                     {{ nestedMenu(navigation, getCurrentUrl()) }}

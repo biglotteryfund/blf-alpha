@@ -18,7 +18,7 @@
 
 // .pullquote { }
 .pullquote__text {
-    @include mq('tablet') {
+    @include mq('medium') {
         margin-bottom: $spacingUnit / 2;
     }
 
@@ -27,11 +27,11 @@
         color: palette('blue');
         @include font-and-leading(16px, 22px);
 
-        @include mq('tablet') {
+        @include mq('medium') {
             @include font-and-leading(20px, 27px);
         }
 
-        @include mq('desktop') {
+        @include mq('large') {
             @include font-and-leading(24px, 30px);
         }
 
@@ -51,7 +51,7 @@
     }
 }
 .pullquote__meta {
-    @include mq('tablet', 'max') {
+    @include mq('medium', 'max') {
         margin-bottom: $spacingUnit / 2;
         margin-top: -15px;
     }

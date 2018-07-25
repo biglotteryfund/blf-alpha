@@ -1,0 +1,27 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/programmes.njk" import programmeList with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top nudge-up">
+            {{ breadcrumbTrail(trail = activeBreadcrumbs) }}
+            <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
+
+            {% if programmes | length > 0 %}
+                {{ programmeList(programmes, accent = pageAccent) }}
+            {% else %}
+                <p>No results</p>
+            {% endif %}
+        </section>
+    </main>
+{% endblock %}

@@ -1,38 +1,96 @@
 /* =========================================================================
-   Photo Card
+   Cards
    ========================================================================= */
 
-.photo-card {
-    border: 1px solid palette('border');
-    height: 100%;
-    background-color: palette('pale-grey');
-}
-.photo-card__image {
-    display: block;
-}
-.photo-card__header,
-.photo-card__subheader {
-    margin-bottom: $spacingUnit / 3;
-}
-.photo-card__subheader {
-    font-weight: bold;
-}
-.photo-card__body {
-    padding: $spacingUnit / 2;
-    padding-bottom: $spacingUnit;
-}
-.photo-card__description {
-    margin-bottom: 0;
+/* =========================================================================
+   Media Object Card
+   ========================================================================= */
+/**
+ * Media object card
+ * https://philipwalton.github.io/solved-by-flexbox/demos/media-object/
+ * @see components/cards/media-object-card.njk
+ */
+.media-card {
+    padding: 12px 12px 16px;
+    box-shadow: 0 0 1px 1px palette('border');
+
+    display: flex;
+    align-items: flex-start;
+    flex: 1 1 0%;
+
+    .media-card__media {
+        flex: 0 0 80px;
+        margin-right: 12px;
+    }
+
+    .media-card__body {
+        margin-top: -2px; // Optically align with image
+    }
+
+    .media-card__title {
+        margin-bottom: 3px;
+    }
+
+    .media-card__subtitle,
+    .media-card__trail-text {
+        font-size: 16px;
+    }
+
+    .media-card__subtitle {
+        color: palette('charcoal-note');
+        margin-bottom: 0.5em;
+    }
 }
 
-@media screen and (min-width: 480px) and (max-width: 760px) {
-    .photo-card {
-        display: flex;
+/* =========================================================================
+   Promo Card
+   ========================================================================= */
+
+.promo-card {
+    background-color: palette('pale-grey');
+    box-shadow: 0 0 0 1px palette('border');
+    max-width: 30em;
+
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 0%;
+
+    .promo-card__media {
+        position: relative;
+        flex: none;
     }
-    .photo-card__media {
-        flex: 0 0 200px;
+    .promo-card__kicker {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
     }
-    .photo-card__body {
-        padding: $spacingUnit / 2;
+
+    .promo-card__body {
+        padding: 12px 12px 16px;
     }
+
+    .promo-card__meta {
+        padding: 0 12px 16px;
+        margin-top: auto;
+    }
+
+    .promo-card__subtitle,
+    .promo-card__trail-text,
+    .promo-card__meta {
+        font-size: 15px;
+    }
+
+    .promo-card__title {
+        margin-bottom: 3px;
+    }
+
+    .promo-card__subtitle {
+        color: palette('charcoal-note');
+        margin-bottom: 0.5em;
+    }
+}
+
+.promo-card--featured {
+    background-color: white;
+    box-shadow: 0 0 1px 1px palette('border');
 }

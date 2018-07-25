@@ -1,5 +1,5 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/tabs.njk" import tabs, pane %}
+{% from "components/tabs.njk" import tabs, paneSet with context %}
 {% from "components/icons.njk" import iconClose %}
 
 {% extends "common/informationPage.njk" %}
@@ -31,7 +31,7 @@
 {% endmacro %}
 
 {% macro logoTabBar(logoTitle, localeId) %}
-    <ul class="js-tabs tabs tabs--carousel unstyled" data-no-initial-selection="true">
+    <ul class="js-tabs tabs unstyled" data-no-initial-selection="true">
         <li><a class="js-tab-item" href="#logos-{{ localeId }}">{{ logoTitle }}</a></li>
         <li><a class="js-tab-item" href="#howto-{{ localeId }}">{{ copy.howToUseLogo.title }}</a></li>
     </ul>
@@ -76,7 +76,7 @@
 {% endmacro %}
 
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
-    <div class="u-outline">
+    <div class="logo-block">
         {{ downloadBlock(logoId) }}
         {% set accentClass = '' %}
         {% if accent %}
@@ -86,17 +86,23 @@
         {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim}}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
             <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
         {% if not onlyEps %}</a>{% endif %}
-        {% if not onlyEps %}
-            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
-                {{ makeLogoTitle(logoName, 'small') }}
+
+        <div class="logo-block__links">
+            {% if not onlyEps %}
+                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+                    {{ makeLogoTitle(logoName, 'small') }}
+                </a>
+                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+                    {{ makeLogoTitle(logoName, 'large') }}
+                </a>
+            {% endif %}
+            <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+                {{ makeLogoTitle(logoName, 'eps') }}
             </a>
-            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
-                {{ makeLogoTitle(logoName, 'large') }}
-            </a>
-        {% endif %}
-        <a href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" class="{{ accentClass }}spaced--s btn btn--block btn--small js-logo-trigger" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
-            {{ makeLogoTitle(logoName, 'eps') }}
-        </a>
+        </div>
     </div>
 {% endmacro %}
 
@@ -195,7 +201,7 @@
 {% block contentPrimary %}
     {% set pageAccent = content.themeColour %}
     {{ super() }}
-    <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top accent-content--{{ pageAccent }}">
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top accent-content--{{ pageAccent }}">
         <div class="s-prose">
             <h2>{{ copy.locationPrompt }}</h2>
         </div>
@@ -215,18 +221,17 @@
             </ul>
         </div>
 
-        <div class="js-paneset" id="paneset-regions">
-            {{ pane(
-                paneId = 'region1',
-                content = contentMonolingual,
-                accordion = false
-            ) }}
-
-            {{ pane(
-                paneId = 'region2',
-                content = contentBilingual,
-                accordion = false
-            ) }}
-        </div>
+        {{ paneSet(
+            id = "paneset-regions",
+            panes = [{
+                paneId: 'region1',
+                content: contentMonolingual,
+                accordion: false
+            }, {
+                paneId: 'region2',
+                content: contentBilingual,
+                accordion: false
+            }]
+        ) }}
     </div>
 {% endblock %}

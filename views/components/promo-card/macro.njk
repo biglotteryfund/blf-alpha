@@ -1,0 +1,51 @@
+{% from "components/overlay-text/macro.njk" import overlayText %}
+
+{#
+Promo card
+
+props: {Object}
+- kicker {String} - Kicker / tag overlaid on the image
+- title {String} - Title
+- subtitle {String} - Subtitle
+- trailText {Html} - Trail text HTML
+- image {Object} { url: {String}, alt: {String} }
+- link {Object} { url: {String}, label: {String} }
+accent: {String} - Accent colour to use
+featured: {Boolean} - Use featured style for promo card
+#}
+{% macro promoCard(props, accent = 'pink', featured = false) %}
+    <div class="promo-card{% if featured %} promo-card--featured{% endif %} u-accent-border-top-{{ accent }}">
+        {% if props.image.url %}
+            <div class="promo-card__media">
+                {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
+                <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
+                {% if props.link.url %}</a>{% endif %}
+                {% if props.kicker %}
+                    <span class="promo-card__kicker t6">
+                        {% call overlayText(accent = accent) %}
+                            {{ props.kicker }}
+                        {% endcall %}
+                    </span>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="promo-card__body">
+            <h3 class="promo-card__title t5">{{ props.title }}</h3>
+            <p class="promo-card__subtitle">{{ props.subtitle }}</p>
+            <div class="promo-card__trail-text s-prose">
+                {{ props.trailText | safe  }}
+                {% if props.link.url %}
+                    <a href="{{ props.link.url }}" {% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}{% endif %}">
+                        {{ props.link.label }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {# Allow for custom meta content using https://mozilla.github.io/nunjucks/templating.html#call #}
+        {% if caller %}
+            <div class="promo-card__meta">
+                {{ caller() }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}

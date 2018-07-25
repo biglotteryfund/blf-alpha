@@ -26,10 +26,10 @@ global:
   footerLinks:
     title: Quick links
     links:
+    - label: Tender and Contract Opportunities
+      href: "/about/customer-service/supplier-zone"
     - label: Freedom of Information
       href: "/about/customer-service/freedom-of-information"
-    - label: Tender opportunities
-      href: "/about-big/tender-opportunities"
     - label: Corporate documents
       href: "/about-big/publications/corporate-documents"
     - label: Privacy Policy
@@ -59,6 +59,13 @@ global:
       description: Our commitment to accessibility and inclusion
     previousItem: Previous item
     nextItem: Next item
+  cookieConsent:
+    title: Cookies on this website
+    message: <p>This site uses cookies, an explanation of their purpose and how to manage them can be found within our
+      <a href="/about/customer-service/cookies">Cookies Policy</a>.</p>
+      <p>Please confirm your consent to their use by clicking continue.
+        After consenting you will not see this message again.</p>
+    action: Accept cookies
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
@@ -77,6 +84,8 @@ global:
     readMoreAbout: "Read more about %s"
     or: or
     topics: topics
+    imageCredit: Image credit
+    documents: documents
   programmes:
     programmeLabels:
       area: Area
@@ -100,7 +109,7 @@ toplevel:
   home:
     title: Home
     hero:
-      intro: The Big Lottery Fund distributes <a href="/data">over £600m</a> a year
+      intro: The Big Lottery Fund distributes <a href="/data">over £500m</a> a year
         to communities across the UK, raised by players of <a href="https://www.national-lottery.co.uk/">The National
         Lottery</a>
       under10k:
@@ -110,38 +119,27 @@ toplevel:
         short: Apply for funding over £10,000
         long: Learn how to apply for funding over £10,000
     caseStudies:
-    - quoteText: I am helping make sure that young people get the opportunities they
-        want in terms of education.
+    - quoteText: "“I am helping make sure that young people get the opportunities they
+        want in terms of education”"
       quoteName: Jonathan Ssentamu
       quoteNameCaption: Youth Development Worker
       projectName: Passion4Fusion
-      imageUrl: home/case-study-4-medium.jpg
-      imageSmallUrl: home/case-study-4-small.jpg
+      imageUrl: home/case-study-passion4fusion.jpg
       link: funding/big-stories/passion4fusion
-    - quoteText: I want young people in care to know that they are just as capable
-        of reaching their goals as everyone else.
+    - quoteText: "“I want young people in care to know that they are just as capable
+        of reaching their goals as everyone else”"
       quoteName: Andrea Glenn
       quoteNameCaption:
       projectName: Voice of Young People in Care
-      imageUrl: home/case-study-1-medium.jpg
-      imageSmallUrl: home/case-study-1-small.jpg
+      imageUrl: home/case-study-ypic.jpg
       link: funding/big-stories/voice-of-young-people-in-care
-    - quoteText: We meet people when they're in a really poor, isolated predicament
-        and we bring them together.
+    - quoteText: "“We meet people when they're in a really poor, isolated predicament
+        and we bring them together”"
       quoteName: Candy Worf
       quoteNameCaption:
       projectName: Mental Health Foundation
-      imageUrl: home/case-study-2-medium.jpg
-      imageSmallUrl: home/case-study-2-small.jpg
+      imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    - quoteText: My motivation in wanting to do youth work comes from knowing the
-        impact that Bytes had and continues to have on me.
-      quoteName: Anthony Turkington
-      quoteNameCaption: Beneficiary
-      projectName: Bytes
-      imageUrl: home/case-study-3-medium.jpg
-      imageSmallUrl: home/case-study-3-small.jpg
-      link: funding/big-stories/bytes
     browseFundedProjects: Search for all funded projects
     social:
       followUsOn: Follow us on

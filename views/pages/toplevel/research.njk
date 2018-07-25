@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/links.njk" import linksList, sectionLinks %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
+{% from "components/document-list/macro.njk" import documentList %}
 
 {% extends "layouts/main.njk" %}
 
@@ -21,15 +22,15 @@
 
         <div class="nudge-up">
             {# Section Links #}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <p>{{ copy.intro }}</p>
                 {{ sectionLinks(copy.sectionLinks) }}
             </section>
 
             {# Downloads #}
-            <section class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t2 t--underline">{{ copy.downloads.title }}</h2>
-                {{ linksList(copy.downloads.links, isDocumentsList = true) }}
+                {{ documentList(copy.downloads.links) }}
             </section>
         </div>
     </main>

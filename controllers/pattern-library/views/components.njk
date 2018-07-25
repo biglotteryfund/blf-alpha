@@ -1,0 +1,23 @@
+{% extends "./layout.njk" %}
+
+{% from "components/styleguide.njk" import sgSectionHeader, sgComponent %}
+
+{% block content %}
+
+<div class="sg-components-list">
+    <div class="sg-components-list__nav">
+        <ul>
+            {% for slug in componentSlugs  %}
+                <li><a href="#sg-pattern-{{ slug }}">{{ slug }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sg-components-list__content">
+        {{ sgSectionHeader('Components') }}
+        {% for slug in componentSlugs  %}
+            {{ sgComponent(slug) }}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -2,7 +2,8 @@
 
 const landingPageRoute = require('./funding');
 const materialsRoute = require('./materials');
-const programmesRoute = require('./programmes');
+const programmesRoute = require('../programmes');
+const strategicInvestmentsRoute = require('../strategic-investments');
 const tenKRoutes = require('./10k');
 
 module.exports = ({ router, pages }) => {
@@ -37,6 +38,11 @@ module.exports = ({ router, pages }) => {
         router: router,
         routeConfigs: pages
     });
+
+    /**
+     * Strategic investments
+     */
+    strategicInvestmentsRoute.init({ router });
 
     return router;
 };

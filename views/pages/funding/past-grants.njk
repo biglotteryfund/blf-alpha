@@ -1,10 +1,6 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-{% from "components/forms-new.njk" import formErrors, formField %}
 {% from "components/hero.njk" import hero %}
-{% from "components/icons.njk" import iconSearch %}
-{% from "components/nav.njk" import selectionTrail %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-
 
 {% extends "layouts/main.njk" %}
 
@@ -19,23 +15,24 @@
         ) }}
 
         <div class="nudge-up">
-            <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
-                {{ selectionTrail(breadcrumbs) }}
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
 
-                <section class="u-separator s-prose u-constrained-content-wide">
+                <section class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
                     {{ inlineFeedback(
                         description = "Past Grants",
                         promptLabel = copy.survey.prompt,
                         fieldLabel = copy.survey.label
                     )  }}
+
+                    <hr />
+                    <p>{{ copy.optionsIntro }}</p>
                 </section>
 
-                <p>{{ copy.optionsIntro }}</p>
-
-                <ul class="grid grid--2-up grid--padded grid--equal grid--wide-only">
-                    <li class="grid__item">
-                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                <ul class="flex-grid">
+                    <li class="flex-grid__item">
+                        <div class="content-box content-box--flex u-accent-border-top-{{ pageAccent }}">
                             <h2>{{ copy.grantnav.title }}</h2>
                             <p><a
                                 data-ga-on="click"
@@ -45,11 +42,11 @@
                                 href="http://grantnav.threesixtygiving.org/search?json_query=%7B%22query%22%3A+%7B%22bool%22%3A+%7B%22filter%22%3A+%5B%7B%22bool%22%3A+%7B%22should%22%3A+%5B%7B%22term%22%3A+%7B%22fundingOrganization.id_and_name%22%3A+%22%5B%5C%22The+Big+Lottery+Fund%5C%22%2C+%5C%22360G-blf%5C%22%5D%22%7D%7D%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%7B%22range%22%3A+%7B%22amountAwarded%22%3A+%7B%7D%7D%7D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%5D%2C+%22must%22%3A+%7B%22query_string%22%3A+%7B%22default_field%22%3A+%22_all%22%2C+%22query%22%3A+%22%2A%22%7D%7D%7D%7D%2C+%22sort%22%3A+%7B%22_score%22%3A+%7B%22order%22%3A+%22desc%22%7D%7D%2C+%22aggs%22%3A+%7B%22recipientDistrictName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientDistrictName%22%7D%7D%2C+%22currency%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22currency%22%7D%7D%2C+%22recipientOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientOrganization.id_and_name%22%7D%7D%2C+%22fundingOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22fundingOrganization.id_and_name%22%7D%7D%2C+%22recipientRegionName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientRegionName%22%7D%7D%7D%2C+%22extra_context%22%3A+%7B%22awardYear_facet_size%22%3A+3%2C+%22amountAwardedFixed_facet_size%22%3A+3%7D%7D">
                                 {{ copy.grantnav.linkText }}
                             </a></p>
-                            <p class="t-caption">{{ copy.grantnav.subtitle }}</p>
-                        </section>
+                            <p class="u-note">{{ copy.grantnav.subtitle }}</p>
+                        </div>
                     </li>
-                    <li class="grid__item">
-                        <section class="content-box accent--{{ pageAccent }} a--border-top u-flex-stretch">
+                    <li class="flex-grid__item">
+                        <div class="content-box content-box--flex u-accent-border-top-{{ pageAccent }}">
                             <h2>{{ copy.legacy.title }}</h2>
                             <p><a
                                 data-ga-on="click"
@@ -59,7 +56,7 @@
                                 href="{{ localify('/funding/search-past-grants') }}">
                                 {{ copy.legacy.linkText }}
                             </a></p>
-                        </section>
+                        </div>
                     </li>
                 </ul>
             </div>

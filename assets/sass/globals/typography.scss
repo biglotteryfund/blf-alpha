@@ -63,14 +63,3 @@ h6,
     @include underlined();
 }
 
-/**
- * Caption within headings
- */
-.t-caption {
-    @include roboto();
-    font-size: 18px;
-    font-weight: normal;
-    color: palette('charcoal-note');
-    display: block;
-    margin-top: 4px;
-}

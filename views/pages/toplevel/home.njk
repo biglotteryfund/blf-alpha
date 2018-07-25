@@ -1,69 +1,68 @@
-{% from "components/caseStudies.njk" import caseStudyFeature with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/ebulletin.njk" import ebulletinForm with context %}
-{% from "components/hero.njk" import homepageSuperHero with context %}
-{% from "components/icons.njk" import iconArrowLeft, iconArrowRight %}
+{% from "components/hero.njk" import superHero with context %}
 {% from "components/news.njk" import articleTeaser with context %}
 {% from "components/social.njk" import socialLinks with context %}
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ title }} | {% endblock %}
-
-{% set socialImage = heroImage.default %}
-
 {% block content %}
     {% set pageAccent = "blue" %}
 
     <main role="main">
-        {{
-            homepageSuperHero(
-                copy = copy.hero,
-                imageDefault = heroImage.default,
-                imageCandidates = heroImage.candidates
-            )
-        }}
-
-        <section class="inner">
-            {# case studies #}
-            <div class="carousel js-carousel
-                swiper-container
-                accent--{{ pageAccent }} a--border-top spaced--l"
-                data-name="Case-studies carousel">
-                <div class="carousel__controls js-only">
-                    <button class="carousel__control carousel__control--prev js-carousel-prev"
-                        aria-label="When clicked this shows content from the previous slide">
-                        {{ iconArrowLeft() }}
-                        <span class="u-visually-hidden">{{ __('global.accessibility.previousItem') }}</span>
-                    </button>
-                    <button class="carousel__control carousel__control--next js-carousel-next"
-                        aria-label="When clicked this shows content from the next slide">
-                        {{ iconArrowRight() }}
-                        <span class="u-visually-hidden">{{ __('global.accessibility.nextItem') }}</span>
-                    </button>
-                </div>
-
-                <ul class="swiper-wrapper unstyled">
-                    {% for c in copy.caseStudies %}
-                        <li class="swiper-slide">
-                            {{
-                                caseStudyFeature(
-                                    quoteText = c.quoteText,
-                                    quoteName = c.quoteName,
-                                    quoteNameCaption = c.quoteNameCaption,
-                                    projectName = c.projectName,
-                                    imageUrl = c.imageUrl,
-                                    imageSmallUrl = c.imageSmallUrl,
-                                    link = c.link
-                                )
-                            }}
-                        </li>
-                    {% endfor %}
-                </ul>
+        {% call superHero(
+            title = copy.hero.intro,
+            imageDefault = heroImage.default,
+            imageCandidates = heroImage.candidates
+        ) %}
+            <div class="o-button-group">
+                <a class="btn btn--reversed btn--medium"
+                    href="{{ localify('/funding/under10k') }}"
+                    id="qa-button-under10k">
+                    <span class="accent--pink a--text">
+                        <span class="u-wide-only">{{ copy.hero.under10k.long }}</span>
+                        <span class="u-not-wide">{{ copy.hero.under10k.short }}</span>
+                    </span>
+                </a>
+                <a class="btn btn--reversed btn--medium"
+                    href="{{ localify('/funding/over10k') }}"
+                    id="qa-button-over10k">
+                    <span class="accent--blue a--text">
+                        <span class="u-wide-only">{{ copy.hero.over10k.long }}</span>
+                        <span class="u-not-wide">{{ copy.hero.over10k.short }}</span>
+                    </span>
+                </a>
             </div>
+        {% endcall %}
 
-            <div class="central-gap">
+        {# Case studies #}
+        <section class="u-inner">
+            <h2 class="t2 t--underline">
+                {{ __('global.misc.projectExamples') }}
+            </h2>
+            <ul class="flex-grid flex-grid--3up">
+                {% for caseStudy in copy.caseStudies %}
+                    <li class="flex-grid__item">
+                        {% call promoCard({
+                            "title": caseStudy.quoteText,
+                            "image": { "url": caseStudy.imageUrl | getImagePath, "alt": caseStudy.quoteName }
+                        }) %}
+                            <p class="u-no-margin"><strong>{{ caseStudy.quoteName }}</strong></p>
+                            {% if caseStudy.quoteNameCaption %}
+                                <p class="u-no-margin">{{ caseStudy.quoteNameCaption }}</p>
+                            {% endif %}
+                            {% if caseStudy.link %}<a href="{{ localify(caseStudy.link) }}"
+                                aria-label="{{ __('global.misc.readMoreAbout', caseStudy.projectName) }}">{% endif %}
+                                {{ caseStudy.projectName }}
+                            {% if caseStudy.link %}</a>{% endif %}
+                        {% endcall %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="padded u-align-center">
                 <a href="{{ localify('/funding/past-grants') }}"
-                    class="btn btn--block accent--{{ pageAccent }} a--btn spaced">
+                    class="btn accent--{{ pageAccent }} a--btn spaced">
                     {{ copy.browseFundedProjects }}
                 </a>
             </div>
@@ -71,7 +70,7 @@
 
         {# Latest News #}
         {% if news.length %}
-        <section class="latest-news accent--{{ pageAccent }} a--border-top inner">
+        <section class="latest-news accent--{{ pageAccent }} a--border-top u-inner">
             <header class="latest-news__header">
                 <h2 class="t1 t--underline a--text accent--blue">
                     <a class="u-link-minimal" href="{{ localify("/uk-wide/news-and-events") }}">
@@ -96,7 +95,7 @@
         </section>
         {% endif %}
 
-        <section class="inner--wide-only spaced">
+        <section class="u-inner-wide-only spaced">
             <ul class="unstyled grid grid--wide-only grid--equal">
                 <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
                     {# Twitter Feed #}

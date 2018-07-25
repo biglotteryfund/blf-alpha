@@ -3,6 +3,17 @@
    ========================================================================= */
 
 /* =========================================================================
+   Message
+   ========================================================================= */
+
+.message {
+    padding: .75em $spacingUnit;
+    border-left: 5px solid palette('border');
+    background-color: palette('pale-grey');
+    margin-bottom: $spacingUnit;
+}
+
+/* =========================================================================
    Messages: Preview Banner
    ========================================================================= */
 
@@ -54,16 +65,17 @@
 
     .cookie-consent__content {
         margin-right: 2em;
+        margin-bottom: 5px;
     }
 
     .cookie-consent__actions .btn {
-        margin-bottom: 5px;
         white-space: nowrap;
     }
 
     @include mq('medium-minor') {
         .cookie-consent__content,
         .cookie-consent__actions {
+            margin: 0;
             flex: 1 1 auto;
         }
         .cookie-consent__actions {

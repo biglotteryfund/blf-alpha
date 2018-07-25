@@ -20,9 +20,10 @@
         </div>
 
         {% include "includes/offscreenNav.njk" %}
-        {% include "includes/cookie-consent.njk" %}
-        {# Show conditional prompt messages #}
-        <div id="js-active-prompt"></div>
+        {%- if appData.config.get('features.enablePrompts') -%}
+            {# Show conditional prompt messages #}
+            <div id="js-active-prompt"></div>
+        {%- endif -%}
         {% include "includes/metaFooterJS.njk" %}
     </body>
 </html>

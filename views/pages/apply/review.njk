@@ -54,8 +54,8 @@
                                                 {% else %}
                                                     {{ cleanValue }}
                                                 {% endif %}
-                                            {% elseif field.type === 'checkbox' %}
-                                                {{ field.value | joinIfArray(', ') }}
+                                            {% elseif (field.value | isArray) %}
+                                                {{ field.value | join(', ') }}
                                             {% else %}
                                                 {{ field.value }}
                                             {% endif %}
@@ -75,7 +75,7 @@
             {% if stepConfig.declaration %}
                 <aside class="review-step__declaration">
                     <h5>Declaration</h5>
-                    <p>{{ stepConfig.declaration }}</p>
+                    {{ stepConfig.declaration | safe }}
                 </aside>
             {% endif %}
             <input class="btn btn--next" type="submit" value="{{ stepConfig.proceedLabel }}" />

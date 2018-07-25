@@ -7,7 +7,7 @@ const { getCanonicalRoutes } = require('../helpers/route-helpers');
 
 function initRobots(router) {
     router.get('/robots.txt', noCache, (req, res) => {
-        const blacklist = ['/sitecore/', '/internalcontent/', '/tools/', '/styleguide', '/surveys/', '/user/'];
+        const blacklist = ['/sitecore/', '/internalcontent/', '/tools/', '/patterns', '/surveys/', '/user/'];
 
         // Block blacklisted urls in production, otherwise block all
         const pathsToBlock = req.get('host') === config.get('siteDomain') ? blacklist : ['/'];

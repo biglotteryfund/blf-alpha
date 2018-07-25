@@ -1,15 +1,26 @@
 /* =========================================================================
-   Accents
+   Utilities: Tones & Accents
    ========================================================================= */
 // Utility classes to help with colour accent theming
 
-.a--border-top {
-    border-top-width: $accentBorderWidth !important;
-    border-top-style: solid;
+/* =========================================================================
+   Tones
+   ========================================================================= */
+
+.u-tone-background-tint {
+    background-color: palette('tint');
+}
+.u-tone-background-dark {
+    background-color: palette('charcoal');
 }
 
-.a--border-top--large {
-    border-top-width: ($accentBorderWidth * 1.5) !important;
+/* =========================================================================
+   Accents
+   ========================================================================= */
+
+// @TODO Replace with .u-accent-border-top-$name class
+.a--border-top {
+    border-top-width: 4px !important;
     border-top-style: solid;
 }
 
@@ -20,6 +31,10 @@
  */
 @each $name in $themes {
     $colour: palette($name);
+
+    .u-accent-border-top-#{$name} {
+        border-top: 4px solid $colour !important;
+    }
 
     .accent--#{$name} {
         // text color
@@ -40,39 +55,8 @@
         }
 
         // border on top of elements
-        &.a--border-top,
-        &.a--border-top--large {
+        &.a--border-top {
             border-top-color: $colour;
-        }
-
-        // block-colour heading background
-        &.overlay-text,
-        .overlay-text {
-            span {
-                background-color: $colour;
-            }
-        }
-
-        // hover state for overlay text
-        &.overlay-text,
-        .overlay-text {
-            a {
-                @include on-interact {
-                    color: darken(#ffffff, 10%);
-                    span {
-                        background-color: darken($colour, 10%);
-                    }
-                }
-            }
-        }
-
-        // semi-opaque text used for some pages
-        $opacityFactor: 0.8;
-        &.is-opaque,
-        .is-opaque {
-            span {
-                background-color: rgba($colour, $opacityFactor);
-            }
         }
 
         /**
@@ -141,11 +125,6 @@
                     }
                 }
             }
-        }
-
-        // duplicates .btn CSS
-        &.tab--active.btn {
-            background-color: darken($colour, 15%) !important;
         }
     }
 

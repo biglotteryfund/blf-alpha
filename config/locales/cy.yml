@@ -26,10 +26,10 @@ global:
   footerLinks:
     title: Dolenni gwib
     links:
+    - label: Cyfleoedd tendro
+      href: "/welsh/about/customer-service/supplier-zone"
     - label: Rhyddid Gwybodaeth
       href: "/welsh/about/customer-service/freedom-of-information"
-    - label: Cyfleoedd tendro
-      href: "/welsh/about-big/tender-opportunities"
     - label: Dogfennau corfforaethol
       href: "/welsh/about-big/publications/corporate-documents"
     - label: Polisi Preifatrwydd
@@ -77,6 +77,8 @@ global:
     readMoreAbout: Darllenwch fwy am
     or: neu
     topics: pynciau
+    imageCredit: Cydnabyddiaeth i’r llun
+    documents: dogfennau
   programmes:
     programmeLabels:
       area: Ardal
@@ -100,7 +102,7 @@ toplevel:
   home:
     title: Hafan
     hero:
-      intro: Mae'r Gronfa Loteri Fawr yn dosbarthu <a href="/welsh/data">dros £600m</a>
+      intro: Mae'r Gronfa Loteri Fawr yn dosbarthu <a href="/welsh/data">dros £500m</a>
         y flwyddyn, a godir gan chwaraewyr y <a href="https://www.national-lottery.co.uk/">Loteri
         Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig
       under10k:
@@ -110,38 +112,27 @@ toplevel:
         short: Cael gwybod sut i ymgeisio am grant dros £10,000
         long: Cael gwybod sut i ymgeisio am grant dros £10,000
     caseStudies:
-    - quoteText: Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu
-        heisiau o ran addysg.
+    - quoteText: "“Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu
+        heisiau o ran addysg”"
       quoteName: Jonathan Ssentamu
       quoteNameCaption: Gweithiwr Datblygu Pobl Ifainc
       projectName: Passion4Fusion
-      imageUrl: home/case-study-4-medium.jpg
-      imageSmallUrl: home/case-study-4-small.jpg
+      imageUrl: home/case-study-passion4fusion.jpg
       link: funding/big-stories/passion4fusion
-    - quoteText: Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau
-        sy'n bwysig iddynt yn yr un modd yn union â phawb arall.
+    - quoteText: "“Rwyf eisiau i bobl ifainc mewn gofal wybod y gallant gyflawni'r pethau
+        sy'n bwysig iddynt yn yr un modd yn union â phawb arall”"
       quoteName: Andrea Glenn
       quoteNameCaption:
       projectName: Lleisiau Pobl Ifainc mewn Gofal
-      imageUrl: home/case-study-1-medium.jpg
-      imageSmallUrl: home/case-study-1-small.jpg
+      imageUrl: home/case-study-ypic.jpg
       link: funding/big-stories/voice-of-young-people-in-care
-    - quoteText: Rydym yn cwrdd â phobl pan fyddant mewn sefyllfa wael ac unig, ac
-        yn ceisio dod â nhw ynghyd.
+    - quoteText: "“Rydym yn cwrdd â phobl pan fyddant mewn sefyllfa wael ac unig, ac
+        yn ceisio dod â nhw ynghyd”"
       quoteName: Candy Worf
       quoteNameCaption:
       projectName: Y Sefydliad Iechyd Meddwl
-      imageUrl: home/case-study-2-medium.jpg
-      imageSmallUrl: home/case-study-2-small.jpg
+      imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    - quoteText: Mae fy nghymhelliad i wneud gwaith gyda phobl ifainc yn dod o wybod
-        yr effaith y mae Bytes wedi'i chael ac yn parhau i gael arnaf.
-      quoteName: Anthony Turkington
-      quoteNameCaption: Buddiolwr
-      projectName: Bytes
-      imageUrl: home/case-study-3-medium.jpg
-      imageSmallUrl: home/case-study-3-small.jpg
-      link: funding/big-stories/bytes
     browseFundedProjects: Pori'r holl brosiectau a ariannwyd
     social:
       followUsOn: Dilynwch ni ar

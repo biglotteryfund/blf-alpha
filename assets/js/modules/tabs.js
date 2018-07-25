@@ -1,28 +1,19 @@
-const $ = require('jquery');
-const { trackEvent, setPageView } = require('../helpers/metrics');
+import $ from 'jquery';
 
-let activeClasses = {
-    tab: 'tab--active',
-    pane: 'pane--active'
+const SELECTORS = {
+    container: '.js-tab-container',
+    tabset: '.js-tabset',
+    paneset: '.js-paneset',
+    tab: '.js-tab',
+    tabpane: '.js-tab-pane'
 };
+
+const ACTIVE_CLASS = 'is-active';
 
 let pageHasLoaded = false;
 
 function scrollIntoView(el) {
     el.get(0).scrollIntoView(true);
-}
-
-function trackTabClick(label, trackTabClicksAsPageviews) {
-    trackEvent('Tab', 'Click', label);
-
-    // optionally set a new URL and pageview
-    // this enables us to treat each tab as a unique page
-    // so we can measure bounce rate, time on page etc on a per-tab basis
-    // calling `set` first means all subsequent events will be marked against this "page"
-    // also, isn't it really satisfying how each new line in this block is longer than the one before?
-    if (trackTabClicksAsPageviews) {
-        setPageView(window.location.pathname + window.location.hash);
-    }
 }
 
 // toggle panes/tabs (if valid)
@@ -34,24 +25,24 @@ function showNewTabPane($tabClicked) {
     let $paneToShow = $(paneId);
 
     // find the tabset of the clicked tab
-    const $tabset = $tabClicked.parents('.js-tabset').first();
+    const $tabset = $tabClicked.parents(SELECTORS.tabset).first();
 
     // if we have a pane, let's show it
     if ($paneToShow.length > 0) {
         // we need the "paneset" - the container of available panes
         // (this allows multiple sets of tabs/panes)
-        let $paneSet = $paneToShow.parents('.js-paneset').first();
+        let $paneSet = $paneToShow.parents(SELECTORS.paneset).first();
 
         if ($paneSet.length > 0) {
             // toggle the active pane in this set
-            let $oldActivePane = $paneSet.find(`> .${activeClasses.pane}`);
-            $oldActivePane.removeClass(activeClasses.pane).attr('aria-hidden', 'true');
-            $paneToShow.addClass(activeClasses.pane).attr('aria-hidden', 'false');
+            let $oldActivePane = $paneSet.find(`> .${ACTIVE_CLASS}`);
+            $oldActivePane.removeClass(ACTIVE_CLASS).attr('aria-hidden', 'true');
+            $paneToShow.addClass(ACTIVE_CLASS).attr('aria-hidden', 'false');
 
             // toggle the active tab in this set
-            let $oldActiveTab = $tabset.find(`.${activeClasses.tab}`);
-            $oldActiveTab.removeClass(activeClasses.tab).attr('aria-selected', 'false');
-            $tabClicked.addClass(activeClasses.tab).attr('aria-selected', 'true');
+            let $oldActiveTab = $tabset.find(`.${ACTIVE_CLASS}`);
+            $oldActiveTab.removeClass(ACTIVE_CLASS).attr('aria-selected', 'false');
+            $tabClicked.addClass(ACTIVE_CLASS).attr('aria-selected', 'true');
 
             // pass this data back to the click handler
             tabData = {
@@ -81,10 +72,6 @@ function addTabBehaviour($tabs) {
         if (tabData) {
             // stop browser scroll by default
             e.preventDefault();
-
-            // track this click
-            let trackTabClicksAsPageviews = !tabData.tabset.data('do-not-track-pageviews');
-            trackTabClick(tabData.paneId, trackTabClicksAsPageviews);
 
             // if we're on mobile (eg. accordion) we should scroll the pane into view
             // we delay this because the visibility check returns false as the page loads
@@ -120,11 +107,11 @@ function addTabBehaviour($tabs) {
  * @TODO: Should this be triggered on dynamic tab changes?
  */
 function addAriaStates($tabs) {
-    $('.tab__pane')
-        .not(`.${activeClasses.pane}`)
+    $(SELECTORS.tabpane)
+        .not(`.${ACTIVE_CLASS}`)
         .attr('aria-hidden', 'true');
 
-    $tabs.not(`.${activeClasses.tab}`).attr('aria-selected', 'false');
+    $tabs.not(`.${ACTIVE_CLASS}`).attr('aria-selected', 'false');
     $tabs.parents('li').attr('role', 'presentation');
 
     // match the panes with the tabs for ARIA labels
@@ -166,13 +153,13 @@ function openTabOnHashchange() {
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
 
-        const linkEl = $(`.js-tab[href="${hash}"]`).first();
+        const linkEl = $(`${SELECTORS.tab}[href="${hash}"]`).first();
         if (linkEl.length > 0) {
             showNewTabPane(linkEl);
             scrollIntoView(linkEl);
         } else {
             const idEl = $(hash).first();
-            const parentTabLinkEl = idEl.closest('.tab__pane').find('.js-tab');
+            const parentTabLinkEl = idEl.closest(SELECTORS.tabpane).find(SELECTORS.tab);
 
             if (idEl.length > 0 && parentTabLinkEl.length > 0) {
                 showNewTabPane(parentTabLinkEl);
@@ -183,9 +170,11 @@ function openTabOnHashchange() {
 }
 
 function init() {
-    const $tabs = $('.js-tab');
+    const $container = $(SELECTORS.container);
+    const $tabs = $(SELECTORS.tab);
+    const matchCriteria = $container.attr('data-breakpoint');
 
-    if ($tabs.length < 1) {
+    if ($tabs.length < 1 || (matchCriteria && window.matchMedia(matchCriteria).matches === false)) {
         return;
     }
 
@@ -196,6 +185,6 @@ function init() {
     openTabOnHashchange();
 }
 
-module.exports = {
-    init: init
+export default {
+    init
 };

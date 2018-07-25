@@ -1,6 +1,6 @@
-{% from "components/hero.njk" import hero, miniatureHero %}
-{% from "components/nav.njk" import selectionTrail %}
-{% from "components/segment.njk" import segment %}
+{% from "components/hero.njk" import hero %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -13,25 +13,24 @@
     ) }}
 
     <main role="main" class="nudge-up">
-        <section class="content-box inner--wide-only accent--blue a--border-top">
-            {{ selectionTrail(breadcrumbs) }}
+        <section class="content-box u-inner-wide-only accent--blue a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
             <div class=" s-prose">
                 {{ content.introduction | safe }}
             </div>
         </section>
 
         {% if content.children.length > 0 %}
-            <div class="inner">
+            <div class="u-inner">
                 <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
                 {% for page in content.children %}
                     <li class="grid__item">
                         {{ miniatureHero(
-                            titleText = page.trailText | default(page.title, true),
+                            title = page.trailText | default(page.title, true),
                             imagePath = page.photo,
                             imageCaption = page.title,
-                            linkUrl = localify('/' + page.path),
-                            accent = page.themeColour,
-                            useRemoteImages = true
+                            linkUrl = page.link,
+                            accent = page.themeColour
                         )}}
                     </li>
                 {% endfor %}
@@ -40,7 +39,7 @@
         {% endif %}
 
         {% if content.outro %}
-            <section class="content-box inner--wide-only accent--blue a--border-top">
+            <section class="content-box u-inner-wide-only accent--blue a--border-top">
                 <div class=" s-prose">
                     {{ content.outro | safe }}
                 </div>

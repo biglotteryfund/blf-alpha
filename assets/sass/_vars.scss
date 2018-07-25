@@ -13,31 +13,18 @@ $breakpoints: (
     'medium': 760px,
     'medium-major': 840px,
     'large': 980px,
-    'xlarge': 1200px,
-    'tablet': 760px,
-    'desktop': 980px
+    'xlarge': 1200px
 );
 
-// the main content area will have these width gutters
-// at the specified breakpoints
-$gutters: (
-    'default': 10px,
-    'tablet': 20px,
-    'desktop': 40px
-);
+// At this resolution, the content area will be limited in width
+$widestScreen: map-get($breakpoints, 'xlarge');
 
-// at this resolution, the content area will be limited in width
-$widestScreen: 1200px;
-
-// this is used as a utility measure around the site
+// This is used as a utility measure around the site
 $spacingUnit: 20px;
 
-// Common border width used for theme accents
-$accentBorderWidth: 4px;
-
 // Max-width values for running content
-$constrained: 35em;
-$constrainedWide: 42em;
+$constrained: 700px;
+$constrainedWide: 840px;
 
 /* =========================================================================
    Global Variables: Font Stacks
@@ -85,6 +72,7 @@ $palette: (
     'pale-green': #f5fafb,
     'pale-grey': #f5f6fa,
     'pale-pink': #feebf3,
+    'tint': #fafafa,
     'border': rgba(202, 202, 202, 0.5),
     'error': #b00
 );

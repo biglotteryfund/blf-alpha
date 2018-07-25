@@ -13,7 +13,7 @@
 .stats__icon {
     padding: $spacingUnit * 2;
 
-    @include mq('tablet') {
+    @include mq('medium') {
         padding: 0;
         margin: 0;
         text-align: left;
@@ -22,7 +22,7 @@
     }
 
     .stats__icon__detail {
-        @include mq('tablet') {
+        @include mq('medium') {
             position: absolute;
             width: 100%;
             top: 50%;
@@ -65,11 +65,11 @@
         margin: 5px 0;
         font-size: 40px;
 
-        @include mq('tablet') {
+        @include mq('medium') {
             font-size: 35px;
         }
 
-        @include mq('desktop') {
+        @include mq('large') {
             font-size: 40px;
         }
 
@@ -87,7 +87,7 @@
         text-transform: uppercase;
         font-size: 20px;
 
-        @include mq('tablet') {
+        @include mq('medium') {
             font-size: 14px;
         }
     }
@@ -178,7 +178,7 @@
         height: 500px;
     }
 
-    @include mq('tablet') {
+    @include mq('medium') {
         width: 50%;
     }
 
@@ -202,7 +202,7 @@
 
     .js-on & {
         display: none;
-        @include mq('tablet') {
+        @include mq('medium') {
             width: 160px;
             position: absolute;
             z-index: 10;
@@ -210,7 +210,7 @@
             top: 20px;
         }
 
-        @include mq('desktop') {
+        @include mq('large') {
             width: 250px;
             top: $spacingUnit * 4;
         }
@@ -230,7 +230,7 @@
     }
 }
 
-.js-on .pane--active .map-info {
+.js-on .map-panes .is-active .map-info {
     display: block;
 }
 

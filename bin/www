@@ -91,7 +91,7 @@ function onError(error) {
 function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    debug(`App now running on port ${bind}`);
+    debug(`App now running on ${bind}`);
 }
 
 module.exports = server;

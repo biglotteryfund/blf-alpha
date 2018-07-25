@@ -1,0 +1,92 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/tabs.njk" import tabs %}
+{% from "components/programmes.njk" import programmeStats with context %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% set pageAccent = 'pink' %}
+{% if entry.summary.area.value === 'wales' %}
+    {% set bodyClass = "has-welsh-logo" %}
+{% endif %}
+
+{% block content %}
+
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box content-box--tinted
+                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose u-constrained-content-wide">
+                    {% if entry.intro %}
+                        {{ entry.intro | safe }}
+                    {% endif %}
+                    {{ programmeStats(
+                        fields = entry.summary,
+                        isCompact = true
+                    ) }}
+                    {% if entry.heroCredit %}
+                        <p class="u-note u-no-margin">
+                            <strong>{{ __('global.misc.imageCredit') }}:</strong>
+                            {{ entry.heroCredit }}
+                        </p>
+                    {% endif %}
+                </div>
+            </section>
+
+
+
+            <div class="u-inner-wide-only">
+                {% if entry.contentSections.length > 1 %}
+
+                    {% set tabItems = [] %}
+                    {% for section in entry.contentSections -%}
+
+                        {% set tabContent -%}
+                            <div class="content-box content-box--frameless">
+                                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                                    {{ section.body | safe }}
+                                </div>
+                            </div>
+                        {%- endset %}
+
+                        {% set tabItems = (tabItems.push({
+                            "id": "section-" + loop.index,
+                            "title": section.title,
+                            "content": tabContent,
+                            "active": loop.index === 1
+                        }), tabItems) %}
+                    {%- endfor %}
+
+                    {{
+                        tabs(
+                            id = entry.title | slugify,
+                            content = tabItems,
+                            showPagination = true
+                        )
+                    }}
+                {% else %}
+                    {% set section = entry.contentSections[0] %}
+                    <div class="content-box content-box--borderless">
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                            <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
+                            {{ section.body | safe }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Case Studies #}
+            {{ caseStudyCollection(
+                caseStudies = entry.caseStudies,
+                customSectionTitle = __('global.misc.projectExamples'),
+                accent = pageAccent
+            ) }}
+        </div>
+    </main>
+{% endblock %}
