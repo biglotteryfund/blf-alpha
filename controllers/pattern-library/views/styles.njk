@@ -1,0 +1,105 @@
+{% extends "./layout.njk" %}
+{% from "components/styleguide.njk" import sgSectionHeader, sgExample %}
+{% import "components/icons.njk" as allIcons %}
+
+{% set colours %}
+    {{ sgSectionHeader('Colours') }}
+    {# Keep in sync with vars.scss #}
+    {% set themes = [
+        'soft-grey',
+        'pink',
+        'pink-mid',
+        'pink-dark',
+        'blue',
+        'turquoise',
+        'green',
+        'orange',
+        'cyan',
+        'green-dark',
+        'brown',
+        'white'
+    ] %}
+    <div class="sg-preview-grid">
+        {% for theme in themes %}
+            <div class="sg-preview-grid__item">
+                <div class="o-colour-swatch o-colour-swatch--{{ theme }}">
+                    {{ theme }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endset %}
+
+{% set icons %}
+    {{ sgSectionHeader('Icons') }}
+    <div class="sg-preview-grid">
+        {% for name, macro in allIcons %}
+            {% if name !== 'icon' %}
+                <div class="sg-preview-grid__item">
+                    {{ macro() }}
+                    <span class="sg-preview-grid__description">{{ name }}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endset %}
+
+{% set typography %}
+    {{ sgSectionHeader('Typography') }}
+
+    {% call sgExample('Typographic Scale') %}
+        {% for n in range(1, 9) %}
+            <h2 class="t{{ n }}">T{{ n }} Typographic Style</h2>
+        {% endfor %}
+    {% endcall %}
+
+    {% call sgExample('Title with underline') %}
+        <h2 class="t2 t--underline accent--pink a--text">Title with underline</h2>
+    {% endcall %}
+{% endset %}
+
+{% set sections = [{
+    "slug": "colours",
+    "content": colours
+}, {
+    "slug": "icons",
+    "content": icons
+}, {
+    "slug": "typography",
+    "content": typography
+}] %}
+
+{% block content %}
+
+<div class="sg-components-list">
+    <div class="sg-components-list__nav">
+        <ul>
+            {% for section in sections  %}
+                <li>
+                    <a href="#section-{{ section.slug }}">
+                        {{ section.slug | replace('-', ' ') | capitalize }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sg-components-list__content">
+        <h1>Styles</h1>
+
+        <div class="s-prose u-constrained-wide">
+            <p>
+                This section documents common styles that form the foundations
+                e.g. typography, icons, colour palettes.
+            </p>
+        </div>
+
+        {% for section in sections %}
+            <section id="section-{{ section.slug }}" class="u-margin-bottom-l">
+                {{ section.content | safe }}
+            </section>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -136,3 +136,32 @@
         }
     }
 }
+
+/* =========================================================================
+   Colour Swatches
+   ========================================================================= */
+
+.o-colour-swatch {
+    padding: 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+@each $name in $themes {
+    $colour: palette($name);
+
+    .o-colour-swatch--#{$name} {
+        @if (lightness($colour) > 50) {
+            color: black;
+        } @else {
+            color: white;
+        }
+        background-color: $colour;
+
+        &::after {
+            content: " #{$colour}"
+        }
+    }
+}

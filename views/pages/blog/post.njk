@@ -1,5 +1,6 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content.njk" import flexibleContent %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
@@ -20,19 +21,6 @@
                 {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
             </time>
         </p>
-    </div>
-{% endmacro %}
-
-{% macro topicsList(topics) %}
-    <div class="topics-list">
-        <h3 class="topics-list__title">{{ __('global.misc.topics') | title }}:</h3>
-        <ol class="topics-list__items o-list-inline">
-            {% for topic in topics -%}
-            <li class="topics-list__item">
-                <a href="{{ topic.link }}">{{ topic.title }}</a>
-            </li>
-            {%- endfor %}
-        </ol>
     </div>
 {% endmacro %}
 
@@ -63,7 +51,11 @@
                 </div>
                 {% if entry.tags.length > 0 %}
                     <aside class="article__topics" role="aside">
-                        {{ topicsList(entry.tags) }}
+                        {% set links = [] %}
+                        {% for tag in entry.tags %}
+                            {% set links = (links.push({ "label": tag.title, "url": tag.link }), links) %}
+                        {% endfor %}
+                        {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
                     </aside>
                 {% endif %}
             </article>

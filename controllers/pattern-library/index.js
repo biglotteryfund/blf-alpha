@@ -9,9 +9,9 @@ router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/index'));
 });
 
-router.get('/typography', (req, res) => {
-    res.render(path.resolve(__dirname, './views/typography'), {
-        title: 'Typography'
+router.get('/styles', (req, res) => {
+    res.render(path.resolve(__dirname, './views/styles'), {
+        title: 'Styles'
     });
 });
 

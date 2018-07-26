@@ -1,3 +1,4 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 <!doctype html>
 <html lang="{{ locale }}" class="no-js">
 <head>
@@ -85,6 +86,25 @@
             margin-bottom: .5em;
         }
 
+        .sg-preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .sg-preview-grid__item {
+            flex: 0 0 20%;
+            padding: 10px;
+        }
+        .sg-preview-grid__item .icon {
+            width: 26px;
+            height: 26px;
+        }
+        .sg-preview-grid__description {
+            font-size: 16px;
+            padding-right: 20px;
+            display: block;
+        }
+
         .sg-components-list {
             padding: 10px;
         }
@@ -133,9 +153,18 @@
     </style>
 </head>
 <body>
-    <header class="sg-header" role="banner">
-        <h1 class="sg-header__title"><a href="/patterns">Big Lottery Fund — Design Patterns</a></h1>
-    </header>
+    {% set trail = [{
+        "label": "Design system",
+        "url": "/patterns"
+    }] %}
+
+    {% if title %}
+        {% set trail = (trail.push({
+            "label": title
+        }), trail) %}
+    {% endif %}
+
+    {{ breadcrumbTrail(trail, isFlush = false)}}
 
     {% block content %}{% endblock %}
     {% include "includes/metaFooterJS.njk" %}

@@ -1,6 +1,6 @@
 {% macro sgSectionHeader(title) %}
     <div class="sg-section-header">
-        <h2 class="sg-section-header__title t1"
+        <h2 class="sg-section-header__title t2"
             id="sg-section-{{ title | slugify }}">{{ title }}</h2>
     </div>
 {% endmacro %}
@@ -10,7 +10,7 @@
         <header class="sg-block__header">
             <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
                 id="sg-pattern-{{ slug }}">
-                {{ slug }}
+                {{ slug | replace('-', ' ') | capitalize }}
             </h3>
             {% if showDetailLink %}
                 <p><small><a href="?component={{ slug }}">View standalone</a></small></p>

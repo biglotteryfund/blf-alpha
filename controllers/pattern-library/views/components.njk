@@ -8,7 +8,7 @@
     <div class="sg-components-list__nav">
         <ul>
             {% for slug in componentSlugs  %}
-                <li><a href="#sg-pattern-{{ slug }}">{{ slug }}</a></li>
+                <li><a href="#sg-pattern-{{ slug }}">{{ slug | replace('-', ' ') | capitalize }}</a></li>
             {% endfor %}
         </ul>
     </div>

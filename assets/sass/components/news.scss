@@ -130,31 +130,3 @@
 .article-meta__pubdate {
     margin-bottom: 4px;
 }
-
-/* =========================================================================
-   Topics
-   ========================================================================= */
-
-.topics-list {
-    border-top: 1px solid palette('border');
-    padding-top: $spacingUnit / 2;
-}
-.topics-list__title,
-.topics-list__items {
-    font-size: 18px;
-    display: inline-block;
-}
-.topics-list__title {
-    font-weight: bold;
-    margin-right: 3px;
-}
-.topics-list__items li {
-    &:after {
-        content: ' / ';
-        color: palette('border');
-    }
-
-    &:last-child:after {
-        content: '';
-    }
-}

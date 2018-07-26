@@ -1,8 +1,9 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
-{% from "components/media-object/macro.njk" import mediaObject with context %}
-{% from "components/promo-card/macro.njk" import promoCard with context %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
+{% from "components/media-object/macro.njk" import mediaObject %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% extends "layouts/main.njk" %}
 
@@ -108,10 +109,10 @@
                                     }
                                 }) %}
                                     {% if research.documents %}
-                                        <strong>{{ __('global.misc.documents') | title }}:</strong>
-                                        {% for link in research.documents -%}
-                                            <a href="{{ link.url }}">{{ link.label }}</a>
-                                        {%- endfor %}
+                                        {{ inlineLinks(
+                                            prefix = __('global.misc.documents') | title,
+                                            links = research.documents
+                                        ) }}
                                     {% endif %}
                                 {%- endcall %}
                             </li>
