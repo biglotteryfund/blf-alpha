@@ -10,7 +10,7 @@
         <header class="sg-block__header">
             <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
                 id="sg-pattern-{{ slug }}">
-                {{ slug }}
+                {{ slug | replace('-', ' ') | capitalize }}
             </h3>
             {% if showDetailLink %}
                 <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
