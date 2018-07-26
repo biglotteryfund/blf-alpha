@@ -23,9 +23,13 @@ describe('Get secrets', () => {
         expect(getSecretFromRawParameters(mockParameters, 'some.parameter')).toBe('some-value');
     });
 
-    it('should throw an error for unknown properties', () => {
-        expect(() => getSecretFromRawParameters(mockParameters, 'does.not.exist')).toThrowError(
-            'Could not find property does.not.exist in secrets'
+    it('should return undefined for unknown values', () => {
+        expect(getSecretFromRawParameters(mockParameters, 'does.not.exist')).toBe(undefined);
+    });
+
+    it('should throw an error for unknown properties when shouldThrowIfMissing is true', () => {
+        expect(() => getSecretFromRawParameters(mockParameters, 'does.not.exist', true)).toThrowError(
+            'Secret missing: does.not.exist'
         );
     });
 });

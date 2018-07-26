@@ -1,6 +1,5 @@
 'use strict';
-const { getSecret } = require('../modules/secrets');
-const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
+const { PREVIEW_DOMAIN } = require('../modules/secrets');
 
 /**
  * Adds a PREVIEW_MODE object to locals if this request came from a preview domain

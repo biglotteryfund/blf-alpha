@@ -45,7 +45,5 @@
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-  "database": "website-dev",
-  "database-test": "website-test",
   "emailSender": "noreply@biglotteryfund.org.uk"
 }
