@@ -20,7 +20,11 @@
 
     .media-card__media {
         flex: 0 0 80px;
-        margin-right: 12px;
+        margin-right: 1em;
+    }
+
+    .media-card__media img {
+        border: 1px solid palette('border');
     }
 
     .media-card__body {
