@@ -232,7 +232,7 @@ $num_columns_mobile: 3;
  * Simple 2up and 3up flexible grid which stacks on small screens
  * @TODO: Review existing .grid styles to work out how to share approaches
  */
- $flexGridSpacing: $spacingUnit / 2;
+ $flexGridSpacing: $spacingUnit;
 .flex-grid {
     @include reset-list();
 
