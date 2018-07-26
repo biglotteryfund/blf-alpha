@@ -1,6 +1,17 @@
 {# Did you find what you were looking for? #}
 {% if not suppressSurvey %}
-    <div id="js-survey" data-lang='{{ __('global.survey') | dump | safe }}'></div>
+    <div id="js-survey">
+        <survey
+            question="{{ __('global.survey.question') }}"
+            prompt="{{ __('global.survey.prompt') }}"
+            yes="{{ __('global.survey.yes') }}"
+            no="{{ __('global.survey.no') }}"
+            submit="{{ __('global.survey.submit') }}"
+            cancel="{{ __('global.survey.cancel') }}"
+            success="{{ __('global.survey.success') }}"
+            error="{{ __('global.survey.error') }}"
+        />
+    </div>
 {% endif %}
 
 <footer role="contentinfo" class="footer">

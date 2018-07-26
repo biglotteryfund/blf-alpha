@@ -29,14 +29,7 @@ function initSurvey() {
     if (surveyEl) {
         new Vue({
             el: surveyEl,
-            components: { Survey },
-            data() {
-                return { lang: null };
-            },
-            created() {
-                this.lang = JSON.parse(surveyEl.getAttribute('data-lang'));
-            },
-            template: `<Survey :lang=lang />`
+            components: { survey: Survey }
         });
     }
 }

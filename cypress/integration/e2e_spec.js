@@ -16,8 +16,14 @@ describe('e2e', function() {
         Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
     `;
 
-    it('should perform  common interactions', () => {
+    it('should navigate from homepage to funding page', () => {
+        // ================================================
+        // Step: Homepage
+        // ================================================ //
+
         cy.visit('/');
+        cy.checkMetaTitles('Home | Big Lottery Fund');
+        cy.checkActiveSection('toplevel');
 
         // ================================================
         // Step: Cookie consent
@@ -53,33 +59,6 @@ describe('e2e', function() {
             .should('contain', 'Thank you');
 
         // ================================================
-        // Step: Inline feedback
-        // ================================================ //
-
-        cy.visit('/funding/past-grants');
-        cy.get('#js-feedback').as('feedbackForm');
-        cy.get('@feedbackForm')
-            .find('summary')
-            .click();
-        cy.get('@feedbackForm')
-            .find('textarea')
-            .type('Test feedback');
-        cy.get('@feedbackForm')
-            .find('form')
-            .submit();
-        cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
-    });
-
-    it('should navigate from homepage to funding page', () => {
-        // ================================================
-        // Step: Homepage
-        // ================================================ //
-
-        cy.visit('/');
-        cy.checkMetaTitles('Home | Big Lottery Fund');
-        cy.checkActiveSection('toplevel');
-
-        // ================================================
         // Step: Test language switcher
         // ================================================ //
 
@@ -89,12 +68,24 @@ describe('e2e', function() {
         cy.get('.qa-global-nav .qa-nav-link a')
             .first()
             .should('have.text', 'Hafan');
-        cy.get('@langSwitcher').click();
+
+        // ================================================
+        // Step: Micro-surveys (Welsh)
+        // ================================================ //
+
+        cy.get('.survey').as('survey');
+        cy.get('@survey')
+            .find('button:first-child')
+            .click();
+        cy.get('@survey')
+            .find('p')
+            .should('contain', 'Diolch am');
 
         // ================================================
         // Step:  Navigate to over 10k page
         // ================================================ //
 
+        cy.get('@langSwitcher').click();
         cy.get('#qa-button-over10k').click();
         cy.checkActiveSection('funding');
 
@@ -178,6 +169,19 @@ describe('e2e', function() {
         // Success
         cy.url().should('include', '/apply/your-idea/success');
         cy.get('.form-message').should('contain', 'Thank you for submitting your idea');
+
+        // ================================================
+        // Step: Inline feedback
+        // ================================================ //
+
+        cy.get('#js-feedback').as('feedbackForm');
+        cy.get('@feedbackForm')
+            .find('textarea')
+            .type('Test feedback');
+        cy.get('@feedbackForm')
+            .find('form')
+            .submit();
+        cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
     });
 
     it('should submit a building connections application form', () => {
