@@ -29,7 +29,7 @@ function initSurvey() {
     if (surveyEl) {
         new Vue({
             el: surveyEl,
-            components: { 'survey': Survey }
+            components: { survey: Survey }
         });
     }
 }
