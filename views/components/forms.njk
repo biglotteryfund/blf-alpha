@@ -24,7 +24,7 @@
                placeholder="{{ placeholderText }}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>
     {% endif %}
     {% if showErrorsBelowFields %}
-        <p class="spaced--t error t6">
+        <p class="u-margin-top error t6">
             {% if error %}{{ error.msg }}{% else %}&nbsp;{% endif %}
         </p>
     {% endif %}
@@ -95,7 +95,7 @@
                     hasOther = true
                 ) }}
             {% endif %}
-            {% if error %}<p class="error t6 spaced--t">{{ error.msg }}</p>{% endif %}
+            {% if error %}<p class="error t6 u-margin-top">{{ error.msg }}</p>{% endif %}
         </div>
     </fieldset>
 
@@ -103,6 +103,6 @@
         <label for="{{ otherId }}" class="u-visually-hidden">{{ __('global.forms.other') }}</label>
         <input type="text" name="{{ fieldName }}Other" id="{{ otherId }}" placeholder="{{ __('global.forms.other') }}" />
     {% endif %}
-    {% if error %}<p class="error t6 spaced--t">{{ error.msg }}</p>{% endif %}
+    {% if error %}<p class="error t6 u-margin-top">{{ error.msg }}</p>{% endif %}
     {% if allowOther %}</div>{% endif %}
 {% endmacro %}

@@ -30,7 +30,7 @@
                     <div id="js-map-panes" class="map-panes js-paneset">
                         {% for region in statRegions %}
                             <section id="region-{{ region.slug }}" class="js-tab-pane tab__pane{% if loop.first %} is-active{% endif %}">
-                                <article class="map-info accent--{{ pageAccent }} a--border-top padded region--{{ region.slug }}--b-t">
+                                <article class="map-info accent--{{ pageAccent }} a--border-top u-padded region--{{ region.slug }}--b-t">
                                     <h3 class="t2 t--underline region--{{ region.slug }}--b-b">{{ region.title }}</h3>
 
                                     <p class="map-info__stat">
