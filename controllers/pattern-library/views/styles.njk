@@ -34,10 +34,12 @@
     {{ sgSectionHeader('Icons') }}
     <div class="sg-preview-grid">
         {% for name, macro in allIcons %}
-            <div class="sg-preview-grid__item">
-                {{ macro() }}
-                <span class="sg-preview-grid__description">{{ name }}</span>
-            </div>
+            {% if name !== 'icon' %}
+                <div class="sg-preview-grid__item">
+                    {{ macro() }}
+                    <span class="sg-preview-grid__description">{{ name }}</span>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endset %}

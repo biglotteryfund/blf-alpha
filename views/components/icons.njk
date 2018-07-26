@@ -1,68 +1,45 @@
-{% macro iconArrowLeft() %}
+{% macro icon(slug, title, viewbox) %}
     {% set id = shortid() %}
     <svg
         role="img"
-        class="icon icon--arrow-left"
+        class="icon icon--{{ slug }}"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512" width="10"
-        aria-labelledby="aria-arrow-left-title-{{ id }}"
+        viewBox="{{ viewbox }}" width="32" height="32"
+        aria-labelledby="aria-{{ slug }}-title-{{ id }}"
     >
-        <title id="aria-arrow-left-title-{{ id }}">Arrow pointing left</title>
-        <path d="M327.3 98.9l-2.1 1.8-156.5 136c-5.3 4.6-8.6 11.5-8.6 19.2 0 7.7 3.4 14.6 8.6 19.2L324.9 411l2.6 2.3c2.5 1.7 5.5 2.7 8.7 2.7 8.7 0 15.8-7.4 15.8-16.6V112.6c0-9.2-7.1-16.6-15.8-16.6-3.3 0-6.4 1.1-8.9 2.9z"></path>
+        <title id="aria-{{ slug }}-title-{{ id }}">{{ title }}</title>
+        {{ caller() }}
     </svg>
+{% endmacro %}
+
+{% macro iconArrowLeft() %}
+    {% call icon('arrow-left', 'Arrow pointing left', viewbox="0 0 512 512") %}
+        <path d="M327.3 98.9l-2.1 1.8-156.5 136c-5.3 4.6-8.6 11.5-8.6 19.2 0 7.7 3.4 14.6 8.6 19.2L324.9 411l2.6 2.3c2.5 1.7 5.5 2.7 8.7 2.7 8.7 0 15.8-7.4 15.8-16.6V112.6c0-9.2-7.1-16.6-15.8-16.6-3.3 0-6.4 1.1-8.9 2.9z"></path>
+    {% endcall %}
 {% endmacro %}
 
 {% macro iconArrowRight() %}
-    {% set id = shortid() %}
-    <svg
-        role="img"
-        class="icon icon--arrow-right"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512" width="10"
-        aria-labelledby="aria-arrow-right-title-{{ id }}"
-    >
-        <title id="aria-arrow-right-title-{{ id }}">Arrow pointing right</title>
+    {% call icon('arrow-right', 'Arrow pointing right', viewbox="0 0 512 512") %}
         <path d="M184.7 413.1l2.1-1.8 156.5-136c5.3-4.6 8.6-11.5 8.6-19.2 0-7.7-3.4-14.6-8.6-19.2L187.1 101l-2.6-2.3C182 97 179 96 175.8 96c-8.7 0-15.8 7.4-15.8 16.6v286.8c0 9.2 7.1 16.6 15.8 16.6 3.3 0 6.4-1.1 8.9-2.9z"></path>
-    </svg>
+    {% endcall %}
 {% endmacro %}
 
 {% macro iconArrowDown() %}
-    {% set id = shortid() %}
-    <svg
-        role="img"
-        class="icon icon--arrow-down"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512" width="10"
-        aria-labelledby="aria-arrow-down-title-{{ id }}"
-    >
-        <title id="aria-arrow-down-title-{{ id }}">Arrow pointing down</title>
+    {% call icon('arrow-down', 'Arrow pointing down', viewbox="0 0 512 512") %}
         <path d="M396.6 160l19.4 20.7L256 352 96 180.7l19.3-20.7L256 310.5"></path>
-    </svg>
+    {% endcall %}
 {% endmacro %}
 
 {% macro iconSearch() %}
-    <svg
-        class="icon icon--search"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512" width="15"
-    >
+    {% call icon('search', 'Search', viewbox="0 0 512 512") %}
         <path d="M445 386.7l-84.8-85.9c13.8-24.1 21-50.9 21-77.9C381.2 135.3 310 64 222.6 64 135.2 64 64 135.3 64 222.9c0 87.6 71.2 158.9 158.6 158.9 27.9 0 55.5-7.7 80.1-22.4l84.4 85.6c1.9 1.9 4.6 3.1 7.3 3.1s5.4-1.1 7.3-3.1l43.3-43.8c4-4.1 4-10.5 0-14.5zM222.6 125.9c53.4 0 96.8 43.5 96.8 97s-43.4 97-96.8 97-96.8-43.5-96.8-97 43.4-97 96.8-97z"></path>
-    </svg>
+    {% endcall %}
 {% endmacro %}
 
 {% macro iconClose() %}
-    {% set id = shortid() %}
-    <svg
-        role="img"
-        class="icon icon--close"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512" width="46"
-        aria-labelledby="aria-close-title-{{ id }}"
-        aria-describedby="aria-close-desc-{{ id }}">
-        <title id="aria-close-title-{{ id }}">A close button</title>
-        <desc id="aria-close-desc-{{ id }}">Closes an overlaid panel when clicked</desc>
+    {% call icon('close', 'A close button', viewbox="0 0 512 512") %}
         <path d="M340.2 160l-84.4 84.3-84-83.9-11.8 11.8 84 83.8-84 83.9 11.8 11.7 84-83.8 84.4 84.2 11.8-11.7-84.4-84.3 84.4-84.2z"></path>
-    </svg>
+    {% endcall %}
 {% endmacro %}
 
 {% macro iconHamburger() %}
