@@ -151,7 +151,6 @@ function storeOrderSummary({ orderItems, orderDetails }) {
  */
 function initForm({ router, routeConfig }) {
     function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
-        const content = res.locals.content;
         const lang = req.i18n.__(routeConfig.lang);
         const availableItems = res.locals.availableItems;
         const orders = req.session[sessionOrderKey] || [];
