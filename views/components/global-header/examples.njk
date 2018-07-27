@@ -1,0 +1,6 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import globalHeader with context %}
+
+{% call sgExample() %}
+    {{ globalHeader(title = __("global.brand.title")) }}
+{% endcall %}

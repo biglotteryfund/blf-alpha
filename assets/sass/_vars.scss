@@ -18,6 +18,7 @@ $breakpoints: (
 
 // At this resolution, the content area will be limited in width
 $widestScreen: map-get($breakpoints, 'xlarge');
+$maxWidth: 1000px;
 
 // This is used as a utility measure around the site
 $spacingUnit: 20px;

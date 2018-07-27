@@ -1,3 +1,4 @@
+{% from "components/global-header/macro.njk" import globalHeader with context %}
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
@@ -10,20 +11,29 @@
         {% include "includes/metaHead.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+        {% set useNewHeader = appData.isNotProduction and queryFeature('use-new-header') %}
         {{ accessibilityNav() }}
         {{ previewBanner(previewStatus) }}
 
         <div class="global-container">
-            {% include "includes/header.njk" %}
+            {% if useNewHeader %}
+                {{ globalHeader() }}
+            {% else %}
+                {% include "includes/header.njk" %}
+            {% endif %}
             {% block content %}{% endblock %}
             {% include "includes/footer.njk" %}
         </div>
 
-        {% include "includes/offscreenNav.njk" %}
+        {% if not useNewHeader %}
+            {% include "includes/offscreenNav.njk" %}
+        {% endif %}
+
         {%- if appData.config.get('features.enablePrompts') -%}
             {# Show conditional prompt messages #}
             <div id="js-active-prompt"></div>
         {%- endif -%}
+
         {% include "includes/metaFooterJS.njk" %}
     </body>
 </html>

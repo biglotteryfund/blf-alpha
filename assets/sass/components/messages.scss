@@ -7,7 +7,7 @@
    ========================================================================= */
 
 .message {
-    padding: .75em $spacingUnit;
+    padding: 0.75em $spacingUnit;
     border-left: 5px solid palette('border');
     background-color: palette('pale-grey');
     margin-bottom: $spacingUnit;
@@ -54,7 +54,7 @@
     }
 
     .cookie-consent__inner {
-        max-width: 1000px;
+        max-width: $maxWidth;
         margin: 0 auto;
         padding: $spacingUnit / 2;
 

@@ -1,0 +1,219 @@
+/* =========================================================================
+   Global Header
+   ========================================================================= */
+
+.global-header-next {
+    background: white;
+    position: relative;
+    @include poppins();
+
+    .global-header-next__navigation-primary {
+        font-size: 16px;
+
+        > ul > li > a {
+            font-weight: bold;
+            text-decoration: none;
+            color: palette('charcoal');
+        }
+
+        > ul > li > ul {
+            display: none;
+        }
+    }
+
+    .global-header-next__navigation-secondary {
+        display: none;
+    }
+
+    @include mq('medium', 'max') {
+        .global-header-next__primary {
+            padding: 10px 20px;
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .global-header-next__navigation,
+        .global-header-next__search {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .global-header-next__navigation {
+            display: none;
+
+            html.has-toggled-navigation & {
+                display: block;
+            }
+        }
+
+        .global-header-next__search {
+            padding: $spacingUnit;
+            display: none;
+
+            html.has-toggled-search & {
+                display: block;
+            }
+        }
+
+        .global-header-next__nav-toggle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+        .global-header-next__nav-toggle-label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .global-header-next__navigation-primary {
+            > ul > li {
+                border-bottom: 1px solid #e6e6e6;
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+            > ul > li > a {
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                color: palette('charcoal');
+                display: block;
+                padding: 10px;
+            }
+
+            > ul > li > ul {
+                display: none;
+            }
+        }
+
+        .global-header-next__actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > .global-header-next__nav-toggle {
+                margin-left: $spacingUnit;
+
+                .icon {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+    }
+
+    @include mq('medium') {
+        .global-header-next__inner {
+            display: flex;
+            align-items: flex-end;
+            max-width: $maxWidth;
+            margin: 0 auto;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .global-header-next__primary {
+            flex: 0 0 auto;
+            margin-right: $spacingUnit;
+        }
+
+        .global-header-next__secondary {
+            flex: 1 1 0%;
+            margin-bottom: $spacingUnit;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .global-header-next__navigation {
+            flex: 1 1 auto;
+        }
+        .global-header-next__search {
+            flex: 0 0 auto;
+            margin-left: $spacingUnit * 2;
+        }
+
+        .global-header-next__navigation-primary {
+            margin: 0 $spacingUnit;
+            > ul {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        .global-header-next__navigation-secondary {
+            position: absolute;
+            right: 0;
+            top: $spacingUnit;
+            display: flex;
+            flex-direction: row;
+            color: palette('charcoal-note');
+            text-transform: uppercase;
+            font-size: 13px;
+
+            > li {
+                margin-right: $spacingUnit * 2;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            > li > a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+
+        .global-header-next__actions {
+            display: none;
+        }
+    }
+}
+
+.brand-logo {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../../../images/logos/logo.png);
+    background-size: auto 100%;
+    margin: 0;
+
+    height: 80px;
+    width: 100px;
+
+    @include mq('medium') {
+        height: 105px;
+        width: 130px;
+    }
+
+    /**
+     * Is this a welsh language page or
+     * are we explicitly showing the welsh logo?
+     */
+    .locale--cy &,
+    .has-welsh-logo & {
+        background-image: url(../../../images/logos/logo-welsh.png);
+        width: 110px;
+        height: 105px;
+
+        @include mq('medium') {
+            width: 140px;
+            height: 133px;
+        }
+    }
+
+    @media print {
+        width: 100%;
+        height: auto;
+        background: none;
+    }
+}

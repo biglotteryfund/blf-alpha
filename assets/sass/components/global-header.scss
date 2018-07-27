@@ -232,6 +232,7 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
 .global-search {
     margin: 0;
     position: relative;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 
     @include mq('medium') {
         max-width: 180px;
@@ -274,7 +275,7 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
  * Gives search form contrast against light hero images and pages with no image.
  */
 .global-search--offset {
-    box-shadow: 0 0 2px 1px rgba(0,0,0,0.2);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 /* =========================================================================
@@ -324,7 +325,7 @@ $offscreenNavWidth: 65%;
         transition: all 0.3s ease-in-out;
     }
 
-    .show-off-canvas {
+    html.show-off-canvas {
         overflow: hidden;
 
         .offscreen-navigation {
