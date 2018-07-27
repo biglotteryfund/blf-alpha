@@ -1,5 +1,5 @@
 {% macro icon(slug, title, viewbox) %}
-    {% set id = shortid() %}
+    {% set id = uuid() %}
     <svg
         role="img"
         class="icon icon--{{ slug }}"

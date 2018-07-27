@@ -1,5 +1,5 @@
 'use strict';
-const shortid = require('shortid');
+const uuid = require('uuid/v4');
 
 const formHelpers = require('./forms');
 
@@ -17,7 +17,7 @@ function init(app) {
         app.get('engineEnv').addGlobal(name, value);
     };
 
-    setViewGlobal('shortid', () => shortid());
+    setViewGlobal('uuid', () => uuid());
 
     setViewGlobal('getCurrentSection', getCurrentSection);
 

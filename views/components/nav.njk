@@ -20,7 +20,7 @@
 {% endmacro %}
 
 {% macro navSearchForm(isOffset = false) %}
-    {% set id = shortid() %}
+    {% set id = uuid() %}
     <form class="global-search{% if isOffset %} global-search--offset{% endif %}" role="search" action="/search">
         <input type="hidden" name="lang" value="en-GB">
         <input type="hidden" name="type" value="All">
