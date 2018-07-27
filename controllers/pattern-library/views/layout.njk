@@ -153,18 +153,11 @@
     </style>
 </head>
 <body>
-    {% set trail = [{
-        "label": "Design system",
-        "url": "/patterns"
-    }] %}
-
-    {% if title %}
-        {% set trail = (trail.push({
-            "label": title
-        }), trail) %}
-    {% endif %}
-
-    {{ breadcrumbTrail(trail, isFlush = false)}}
+    {% block breadcrumbs %}
+        {% if breadcrumbs.length %}
+            {{ breadcrumbTrail(breadcrumbs, isFlush = false)}}
+        {% endif %}
+    {% endblock %}
 
     {% block content %}{% endblock %}
     {% include "includes/metaFooterJS.njk" %}
