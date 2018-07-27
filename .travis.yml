@@ -19,6 +19,7 @@ cache:
 script:
 - npm test
 - npm run build-production
+- npm run start-test-server
 - npm run test-cypress
 after_success:
 - npm prune --production > /dev/null 2>&1
