@@ -127,8 +127,8 @@ describe('Cloudfront Helpers', () => {
                         },
                         QueryString: true,
                         QueryStringCacheKeys: {
-                            Items: ['draft', 'version'],
-                            Quantity: 2
+                            Items: ['draft', 'version', 'enable-feature', 'disable-feature'],
+                            Quantity: 4
                         }
                     }
                 })
