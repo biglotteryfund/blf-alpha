@@ -3,10 +3,22 @@
    ========================================================================= */
 
 $btnConf: (
-    'default': ('fontSize': 18px, 'desiredHeight': 59px),
-    'medium': ('fontSize': 16px, 'desiredHeight': 42px),
-    'small': ('fontSize': 16px, 'desiredHeight': 36px),
-    'mini': ('fontSize': 13px, 'desiredHeight': 30px)
+    'default': (
+        'fontSize': 18px,
+        'desiredHeight': 59px
+    ),
+    'medium': (
+        'fontSize': 16px,
+        'desiredHeight': 42px
+    ),
+    'small': (
+        'fontSize': 16px,
+        'desiredHeight': 36px
+    ),
+    'mini': (
+        'fontSize': 13px,
+        'desiredHeight': 30px
+    )
 );
 
 @mixin getBtnVertPadding($conf) {
@@ -77,7 +89,7 @@ $btnConf: (
         vertical-align: middle;
         display: inline-block;
         line-height: 1;
-        margin-right: .5em;
+        margin-right: 0.5em;
     }
 }
 
@@ -247,7 +259,7 @@ $btnConf: (
 /**
  * Service start button
  */
- .start-button {
+.start-button {
     margin: 1.5em 0;
 
     .btn .icon {
