@@ -1,4 +1,3 @@
-{% from "components/global-header/macro.njk" import globalHeader with context %}
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
@@ -17,7 +16,7 @@
 
         <div class="global-container">
             {% if useNewHeader %}
-                {{ globalHeader() }}
+                {% include "includes/global-header-next.njk" %}
             {% else %}
                 {% include "includes/header.njk" %}
             {% endif %}

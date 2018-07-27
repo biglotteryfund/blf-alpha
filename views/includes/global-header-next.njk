@@ -1,0 +1,93 @@
+{% from "components/icons.njk" import iconHamburger, iconSearch %}
+{% from "components/nav.njk" import navSearchForm, navLangLink with context %}
+
+{% macro _navigation() %}
+    {% set navigation = [{
+        "label": "Funding",
+        "url": "/funding",
+        "children": [{
+            "label": "Thing",
+            "url": "/funding/blah"
+        }]
+    }, {
+        "label": "In your area",
+        "url": "/local",
+        "children": []
+    }, {
+        "label": "News",
+        "url": "/news",
+        "children": []
+    }, {
+        "label": "Research",
+        "url": "/research",
+        "children": []
+    }, {
+        "label": "Talk to us",
+        "url": "/contact",
+        "children": []
+    }] %}
+
+    <ul>
+        {% for item in navigation %}
+            <li>
+                <a href="{{ item.url }}">{{ item.label }}</a>
+                {% if item.children %}
+                    <ul>
+                        {% for child in item.children %}
+                            <li>
+                                <a href="{{ child.url }}">{{ child.label }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+<header class="global-header-next js-global-header" role="banner">
+    <div class="global-header-next__inner">
+        <div class="global-header-next__primary">
+            <a href="/" class="global-header-next__logo brand-logo">
+                <span class="u-visually-hidden">
+                    {{ __("global.brand.title") }}
+                </span>
+            </a>
+            <div class="global-header-next__actions">
+                <a href="#global-nav"
+                    class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
+                    {{ iconSearch() }}
+                    <span class="global-header-next__toggle-label">
+                        Search
+                    </span>
+                </a>
+
+                <a href="#global-search"
+                    class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
+                    {{ iconHamburger() }}
+                    <span class="global-header-next__toggle-label">
+                        Menu
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="global-header-next__secondary">
+            <div class="global-header-next__navigation" id="global-nav">
+                <nav class="global-header-next__navigation-primary">
+                    {{ _navigation() }}
+                </nav>
+                <ul class="global-header-next__navigation-secondary">
+                    <li><a href="{{ localify('/') }}">Home</a></li>
+                    <li><a href="{{ localify('/about') }}">About us</a></li>
+                    <li>{{ navLangLink() }}</li>
+                    <li>Advice Line: 0345 4 10 20 30</li>
+                </ul>
+            </div>
+
+            <div class="global-header-next__search">
+                {{ navSearchForm() }}
+            </div>
+        </div>
+    </div>
+</header>

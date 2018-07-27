@@ -25,7 +25,7 @@
         display: none;
     }
 
-    @include mq('medium', 'max') {
+    @media only screen and (max-width: 800px) {
         .global-header-next__primary {
             padding: 10px 20px;
             display: flex;
@@ -61,18 +61,31 @@
             }
         }
 
-        .global-header-next__nav-toggle {
+        .global-header-next__toggle {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
+
+            .global-header-next__toggle-label {
+                display: block;
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: bold;
+                margin-top: 6px;
+            }
         }
-        .global-header-next__nav-toggle-label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-top: 6px;
+
+        .global-header-next__toggle-nav {
+            html.has-toggled-navigation & {
+                color: palette('pink');
+            }
+        }
+
+        .global-header-next__toggle-search {
+            html.has-toggled-search & {
+                color: palette('pink');
+            }
         }
 
         .global-header-next__navigation-primary {
@@ -101,7 +114,7 @@
             justify-content: space-between;
             align-items: center;
 
-            > .global-header-next__nav-toggle {
+            > .global-header-next__toggle {
                 margin-left: $spacingUnit;
 
                 .icon {
@@ -112,19 +125,17 @@
         }
     }
 
-    @include mq('medium') {
+    @media only screen and (min-width: 800px) {
         .global-header-next__inner {
             display: flex;
             align-items: flex-end;
             max-width: $maxWidth;
-            margin: 0 auto;
-            padding: 10px 0;
+            margin: 10px 12px;
             position: relative;
         }
 
         .global-header-next__primary {
             flex: 0 0 auto;
-            margin-right: $spacingUnit;
         }
 
         .global-header-next__secondary {
@@ -139,14 +150,19 @@
         }
         .global-header-next__search {
             flex: 0 0 auto;
-            margin-left: $spacingUnit * 2;
         }
 
         .global-header-next__navigation-primary {
             margin: 0 $spacingUnit;
+            max-width: 540px;
+
             > ul {
                 display: flex;
                 justify-content: space-between;
+            }
+
+            > ul > li {
+                padding-right: 0.5em;
             }
         }
 
@@ -175,6 +191,13 @@
 
         .global-header-next__actions {
             display: none;
+        }
+    }
+
+    @media only screen and (min-width: $maxWidth + 10px) {
+        .global-header-next__inner {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }
