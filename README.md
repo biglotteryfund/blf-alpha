@@ -96,9 +96,9 @@ npm test
 A set of integration tests written using `cypress` can be run locally with:
 
 ```
-npm run start-test-server
+./bin/start-test-server
 // In new terminal
-npm run test-cypress
+npx cypress run
 ```
 
 ### Security tests
