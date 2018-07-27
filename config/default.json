@@ -40,6 +40,7 @@
   },
   "cookies": {
     "contrast": "contrastMode",
+    "features": "blf-features",
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
