@@ -121,7 +121,6 @@
     "response-time": "^2.3.2",
     "sequelize": "^4.27.0",
     "serve-favicon": "^2.5.0",
-    "server-timings": "^2.0.1",
     "sitemap": "^1.13.0",
     "slugify": "^1.2.1",
     "snyk": "^1.83.0",
