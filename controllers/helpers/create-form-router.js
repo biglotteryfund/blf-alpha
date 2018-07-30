@@ -10,7 +10,6 @@ const cached = require('../../middleware/cached');
 const EXTENDED_SESSION_DURATION = config.get('extendedCookieDurationInDays');
 
 function createFormRouter({ router, formModel }) {
-
     // init flash messaging
     router.use(flash());
 
@@ -70,7 +69,9 @@ function createFormRouter({ router, formModel }) {
         // for users submitting a step, increase their session expiry
         // so they can save progress beyond a browser session
         function extendSessionDuration(req) {
-            req.session.cookie.maxAge = moment().add(EXTENDED_SESSION_DURATION, 'days').toDate();
+            req.session.cookie.maxAge = moment()
+                .add(EXTENDED_SESSION_DURATION, 'days')
+                .toDate();
         }
 
         function handleSubmitStep({ isEditing = false } = {}) {
