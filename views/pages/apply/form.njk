@@ -18,9 +18,15 @@
 
             {% set progressSaved = getFlash(request, 'progressSaved') %}
             {% if progressSaved %}
-                <div class="form-message form-message--info">
-                    <h1 class="t1 form-message__title">Information saved</h1>
-                    <p>Your application so far has been automatically saved <strong>on this computer</strong> for the next {{ progressSaved.duration }} {{ progressSaved.unit }}.</p>
+                <div class="u-constrained-wide u-constrained-content">
+                    <div class="message message--info">
+                        <h1 class="t2 icon--tick">Application progress saved</h1>
+                        <p>Your application so far has been automatically saved <strong>on this computer</strong> for the next {{ progressSaved.duration }} {{ progressSaved.unit }}.</p>
+                        <details>
+                            <summary>Tell me more</summary>
+                            We automatically save your progress at key points during this application form. You must use your current internet browser and computer to return to your application. You may clear your application to <a href="#">start again</a> at any time.
+                        </details>
+                    </div>
                 </div>
             {% endif %}
 

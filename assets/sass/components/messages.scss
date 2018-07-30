@@ -11,6 +11,11 @@
     border-left: 5px solid palette('border');
     background-color: palette('pale-grey');
     margin-bottom: $spacingUnit;
+
+    &.message--info {
+        background-color: palette('green-bg');
+        border-left-color: palette('green');
+    }
 }
 
 /* =========================================================================
