@@ -16,6 +16,29 @@ describe('e2e', function() {
         Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
     `;
 
+    it('should enable and disable in-progress features with a query string', () => {
+        // Default state
+        cy.visit('/');
+        cy.get('.global-header').should('be.visible');
+
+        // Enable feature
+        cy.visit('/?enable-feature=use-new-header');
+        cy.get('.global-header-next').should('be.visible');
+
+        // Confirm cookie maintains state
+        cy.visit('/about');
+        cy.get('.global-header-next').should('be.visible');
+        cy.getCookie('blf-features').should('have.property', 'value', 'use-new-header');
+
+        // Disable feature
+        cy.visit('/?disable-feature=use-new-header');
+        cy.get('.global-header').should('be.visible');
+        cy.getCookie('blf-features').should('not.exist');
+        cy.get('.global-header').should('be.visible');
+        cy.visit('/');
+        cy.get('.global-header').should('be.visible');
+    });
+
     it('should navigate from homepage to funding page', () => {
         // ================================================
         // Step: Homepage

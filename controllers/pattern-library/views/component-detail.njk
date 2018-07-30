@@ -1,9 +1,8 @@
+{% extends "./layout.njk" %}
 {% from "components/styleguide.njk" import sgComponent %}
 
-{% extends "./layout.njk" %}
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-    <div class="u-margin-top">
-        {{ sgComponent(slug, showDetailLink = false) }}
-    </div>
+    {% include "components/" + slug + "/examples.njk" ignore missing %}
 {% endblock %}

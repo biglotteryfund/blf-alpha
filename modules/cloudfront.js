@@ -85,7 +85,7 @@ const makeBehaviourItem = ({
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
 
-    const globalQuerystrings = ['draft', 'version'];
+    const globalQuerystrings = ['draft', 'version', 'enable-feature', 'disable-feature'];
     const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
 
     const behaviour = {
@@ -172,7 +172,7 @@ const makeBehaviourItem = ({
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
 
-    const defaultCookies = [config.get('cookies.contrast')];
+    const defaultCookies = [config.get('cookies.contrast'), config.get('cookies.features')];
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,

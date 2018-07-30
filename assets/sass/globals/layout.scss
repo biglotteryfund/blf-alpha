@@ -22,7 +22,7 @@
     }
 
     @media screen and (min-width: $widestScreen) {
-        max-width: 1000px;
+        max-width: $maxWidth;
         margin-left: auto;
         margin-right: auto;
     }
