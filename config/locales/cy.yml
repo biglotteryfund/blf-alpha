@@ -79,6 +79,7 @@ global:
     topics: pynciau
     imageCredit: Cydnabyddiaeth i’r llun
     documents: dogfennau
+    download: lawrlwytho'r
   programmes:
     programmeLabels:
       area: Ardal

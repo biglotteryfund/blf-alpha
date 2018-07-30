@@ -2,6 +2,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/callout/macro.njk" import callout %}
+{% from "components/documents-card/macro.njk" import documentsCard with context %}
 {% from "components/print-button/macro.njk" import printButton %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 
@@ -31,7 +32,7 @@
                         </div>
 
                         {{ segmentLinks(
-                            prefix = "Lessons for policy and programme design",
+                            prefix = copy.sectionsPrefix,
                             segments = copy.sections
                         ) }}
 
@@ -47,25 +48,11 @@
                         {% endif %}
                     </div>
                     <div class="research-section__secondary">
-                        <div class="card u-accent-border-top-{{ pageAccent }}">
-                            <h3 class="card__title">Contents</h3>
-                            <div class="card__body">
-                                <div class="download-summary">
-                                    <a class="download-summary__link" href="#">Full report (PDF)</a>
-                                    <ul class="download-summary__list">
-                                        <li>Executive Summary</li>
-                                        <li>Introduction</li>
-                                        <li>Prevention – what works?</li>
-                                        <li>Early intervention – what works?</li>
-                                        <li>Partnership-based approaches – what works?</li>
-                                        <li>Sources</li>
-                                    </ul>
-                                </div>
-
-                                <a href="#" class="btn btn--medium btn--block">Download</a>
-                            </div>
-                        </div>
-
+                        {{ documentsCard(
+                            title = copy.documents.title,
+                            documents = copy.documents.documents,
+                            accent = pageAccent
+                        ) }}
 
                     </div>
                 </div>
@@ -74,12 +61,12 @@
             {# Content #}
             {% for section in copy.sections %}
                 <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}" id="segment-{{ loop.index }}">
-                    <p class="u-prefix">Lessons for policy and programme design</p>
+                    <p class="u-prefix">{{ copy.sectionsPrefix }}</p>
                     <h2 class="t--underline">{{ section.title }}</h2>
 
                     {% for part in section.contentParts %}
                         <div class="research-section accent-content--{{ pageAccent }}">
-                            <div class="research-section__primary s-prose s-prose--condensed">
+                            <div class="research-section__primary s-prose">
                                 <p><strong>{{ part.title }}</strong></p>
                                 <ul>
                                     {% for point in part.points %}
@@ -101,10 +88,16 @@
 
 
                     <div class="content-meta u-constrained">
-                        <p><strong>The full report contains more learnings and more detailed recommendations for implementation.</strong></p>
+                        <p><strong>{{ copy.documents.trailText }}</strong></p>
+                        {% for document in copy.documents.documents %}
+                            <p><a class="btn btn--medium btn--outline" href="{{ document.url }}">
+                                {{ document.title }}
+                                {% if document.filetype or document.filesize %}
+                                    <small>({{ document.filetype }} {{ document.filesize }})</small>
+                                {% endif %}
+                            </a></p>
 
-                        <p><a href="#" class="btn btn--medium btn--outline">Full report <small>(PDF 900KB)</small></a></p>
-
+                        {% endfor %}
                         <p><a href="#content">↑ Back to the top</a>
                     </div>
 

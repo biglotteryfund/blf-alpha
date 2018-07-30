@@ -86,6 +86,7 @@ global:
     topics: topics
     imageCredit: Image credit
     documents: documents
+    download: download
   programmes:
     programmeLabels:
       area: Area
@@ -643,6 +644,22 @@ research:
         content: July 2019
       - label: Contact
         content: <a href="mailto:knowledge@biglotteryfund.org.uk">knowledge@biglotteryfund.org.uk</a>
+    documents:
+      title: Documents
+      trailText: The full report contains more learnings and more detailed recommendations for implementation.
+      documents:
+        - title: Full report
+          filetype: PDF
+          filesize: 900KB
+          url: #
+          contents:
+            - Executive Summary
+            - Introduction
+            - Prevention – what works?
+            - Early intervention – what works?
+            - Partnership-based approaches – what works?
+            - Sources
+    sectionsPrefix: Lessons for policy and programme design
     sections:
       - title: Prevention
         contentParts:
