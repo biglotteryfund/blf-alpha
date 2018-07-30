@@ -35,7 +35,7 @@ function createFormRouter({ router, formModel }) {
         const stepConfig = formModel.getStartPage();
 
         const sessionProp = formModel.getSessionProp();
-        const hasBegunForm = !!(get(req.session, sessionProp, false));
+        const hasBegunForm = !!get(req.session, sessionProp, false);
 
         res.render(stepConfig.template, {
             title: formModel.title,
