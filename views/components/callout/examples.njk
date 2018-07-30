@@ -1,0 +1,14 @@
+{% from "components/styleguide.njk" import sgExample, sgUsage %}
+{% from "./macro.njk" import callout %}
+
+{% call sgExample('Default') %}
+    {{ callout('Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo amet rem esse voluptate similique, aliquid nulla. Non inventore numquam deserunt, dignissimos delectus magnam laboriosam iure!') }}
+{% endcall %}
+
+{% call sgExample('Quote') %}
+    {{ callout('Temporibus sapiente placeat dolor laudantium magni sunt expedita ipsa ducimus accusamus dolorum cupiditate doloremque tempore commodi animi, nam praesentium.', isQuote = true) }}
+{% endcall %}
+
+{% call sgUsage() %}
+    Callout text often used along side running text. Accepts an optional parameter to mark the callout as a quote.
+{% endcall %}

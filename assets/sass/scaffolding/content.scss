@@ -107,12 +107,23 @@
     }
 }
 .content-slice__primary {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 .content-slice__secondary {
     @include mq('medium') {
         min-width: 40%;
         max-width: 320px;
-        padding-left: 30px
+        padding-left: 30px;
     }
+}
+
+/* =========================================================================
+   Content Meta
+   ========================================================================= */
+
+.content-meta {
+    font-size: 18px;
+    padding-top: $spacingUnit;
+    border-top: 1px solid palette('border');
+    margin-top: $spacingUnit * 2;
 }

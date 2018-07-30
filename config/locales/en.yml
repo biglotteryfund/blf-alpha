@@ -634,3 +634,46 @@ funding:
     under10k: Awards under £10,000
     over10k: Awards over £10,000
     breadcrumbAll: All Programmes
+research:
+  youthviolence:
+    title: "Youth serious violence"
+    intro: "<p><strong>Learnings from the voluntary and community sector on what works in preventing serious youth violence</strong></p><p>We highlight examples of both proven and promising practices from charities across the country and share our experiences as a funder about the principles that have worked for us in planning, designing and implementing funding programmes in this field.</p>"
+    metadata:
+      - label: Date published
+        content: July 2019
+      - label: Contact
+        content: <a href="mailto:knowledge@biglotteryfund.org.uk">knowledge@biglotteryfund.org.uk</a>
+    sections:
+      - title: Prevention
+        contentParts:
+          - title: Working together to prevent childhood adversity
+            points:
+              - Shift culture and spending towards prevention-focused support and services.
+              - Take a Public Health approach to violence prevention, including working together to reduce risk factors and promote protective factors.
+              - Ensure effective partnership-working so that support and services are less bureaucratic and more joined-up.
+            callout:
+              isQuote: false
+              content: People who experience four or more adverse childhood experiences are eight times more likely to end up in prison
+          - title: Improving outcomes for all children
+            points:
+              - Support children to develop social and emotional skills so they can develop positive relationships and cope with difficult situations.
+              - Invest in universal services, such as more supportive, responsive and integrated early years, education and youth services.
+              - Provide early, targeted services for schools and groups at particular risk.
+              - Give parents and communities the skills and understanding they need to prevent and manage risk factors.
+          - title: Take a long-term view
+            points:
+              - Recognise the level of chaos, trauma and disenfranchisement in many young people’s lives.
+              - Give charities and front-line staff the time and space they need to support their beneficiaries.
+              - Be ‘patient’ with new programmes and projects; giving them the time and space to adapt and change as they learn from delivery.
+          - title: Identify and supporting at-risk children and young people in a timely manner
+            points:
+              - Joint working between statutory agencies and voluntary and community (VCS) groups needs to extend from collecting data, to sharing and making use of it to identify and support at-risk youth at the earliest opportunity.
+              - Train professionals and the wider community to recognise and understand risk factors and behaviours through trauma-informed approaches.
+              - Take into consideration that young people at risk are particularly good at identifying other young people at risk
+              - Ensure additional support is available for young people going through transitions (e.g. from primary to secondary school, going in to care, moving between youth and adult prison, etc.).
+            callout:
+              isQuote: true
+              content: …risks during infancy increase the chances of anti-social behaviour during childhood, which in turn amplifies the likelihood of convictions during adolescence…
+              citation: Chief Medical Officer, 2012
+      - title: Early Intervention
+      - title: Partnership based approaches

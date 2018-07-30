@@ -1,27 +1,13 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
 
-{% extends "layouts/main.njk" %}
-
-{% if heroImage %}
-    {% set socialImage = heroImage %}
-{% else %}
+{% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
-
-{% macro segmentLinks(segments) %}
-    {% if segments.length > 1 %}
-        <div class="segment-links">
-            <ul>
-                {% for segment in segments %}
-                    <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-{% endmacro %}
 
 {% block content %}
     {% set pageAccent = content.themeColour | default('pink') %}
