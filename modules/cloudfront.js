@@ -94,6 +94,7 @@ const makeBehaviourItem = ({
         MinTTL: 0,
         MaxTTL: 31536000,
         DefaultTTL: 86400,
+        FieldLevelEncryptionId: '',
         Compress: true,
         SmoothStreaming: false,
         AllowedMethods: {

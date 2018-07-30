@@ -71,6 +71,7 @@ describe('Cloudfront Helpers', () => {
                 MinTTL: 0,
                 MaxTTL: 31536000,
                 DefaultTTL: 86400,
+                FieldLevelEncryptionId: '',
                 SmoothStreaming: false,
                 Compress: true,
                 AllowedMethods: {
