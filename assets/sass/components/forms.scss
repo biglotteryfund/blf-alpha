@@ -23,6 +23,9 @@
     background-color: palette('pale-pink');
     margin-bottom: $spacingUnit;
     padding: $spacingUnit / 2;
+    &.form-message--info {
+        background-color: palette('green-bg');
+    }
 }
 .form-message__title {
     margin-bottom: 3px;

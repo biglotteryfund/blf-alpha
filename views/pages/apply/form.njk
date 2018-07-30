@@ -16,6 +16,14 @@
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
+            {% set progressSaved = getFlash(request, 'progressSaved') %}
+            {% if progressSaved %}
+                <div class="form-message form-message--info">
+                    <h1 class="t1 form-message__title">Information saved</h1>
+                    <p>Your application so far has been automatically saved <strong>on this computer</strong> for the next {{ progressSaved.duration }} {{ progressSaved.unit }}.</p>
+                </div>
+            {% endif %}
+
             {% for fieldset in step.fieldsets %}
                 {{ formFieldset(fieldset, errors) }}
             {% endfor %}
