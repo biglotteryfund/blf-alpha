@@ -15,10 +15,9 @@ stages:
 
 # Defaults
 language: node_js
-node_js: '8'
+node_js: '10'
 
 # Install latest npm & dependencies
-before_install: npm i -g npm@6
 install: npm ci --quiet --prefer-offline
 
 # Cache locations
