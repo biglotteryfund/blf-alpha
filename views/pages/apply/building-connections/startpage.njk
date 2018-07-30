@@ -5,6 +5,8 @@
 {% set bodyClass = 'has-static-header' %}
 {% set pageAccent = 'pink' %}
 
+{% set startLabel = "Continue your application" if hasBegunForm else "Start your application" %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -17,7 +19,7 @@
                     communities and local services connect in a variety of different ways.
                 </p>
 
-                {{ startButton(startUrl, label="Start your application") }}
+                {{ startButton(startUrl, label=startLabel) }}
 
                 <div class="message">
                     <strong>Note</strong>: Once you've started your application you must complete it in one go, so take your time to
@@ -87,7 +89,7 @@
                     </div>
                 {% endfor %}
 
-                {{ startButton(startUrl, label="Start your application") }}
+                {{ startButton(startUrl, label=startLabel) }}
 
                 <h2>After your application is submitted</h2>
                 <p>

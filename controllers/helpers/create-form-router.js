@@ -33,11 +33,16 @@ function createFormRouter({ router, formModel }) {
      */
     router.get('/', function(req, res) {
         const stepConfig = formModel.getStartPage();
+
+        const sessionProp = formModel.getSessionProp();
+        const hasBegunForm = !!(get(req.session, sessionProp, false));
+
         res.render(stepConfig.template, {
             title: formModel.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
-            form: formModel
+            form: formModel,
+            hasBegunForm: hasBegunForm
         });
     });
 
