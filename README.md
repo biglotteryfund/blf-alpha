@@ -98,7 +98,7 @@ A set of integration tests written using `cypress` can be run locally with:
 ```
 ./bin/start-test-server
 // In new terminal
-npx cypress run
+npm run test-cypress
 ```
 
 ### Security tests
