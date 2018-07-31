@@ -175,7 +175,8 @@ sections.research.addRoutes({
         path: '/youth-serious-violence',
         template: 'controllers/research/views/research-detail',
         lang: 'research.youthviolence',
-        heroSlug: 'grassroots-project'
+        heroSlug: 'stranaer-water-sports-association',
+        live: false
     })
 });
 
