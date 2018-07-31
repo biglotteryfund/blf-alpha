@@ -47,11 +47,14 @@
     }
 
     .document-summary__link {
+        font-size: 18px;
         font-weight: bold;
         display: inline-block;
-        margin-bottom: 5px;
+        margin-bottom: 0.3em;
     }
+
     .document-summary__contents {
+        font-size: 16px;
         margin-bottom: 0;
 
         > li {

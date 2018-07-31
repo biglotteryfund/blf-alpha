@@ -1,7 +1,7 @@
 {% macro documentList(links) %}
     <ul class="document-list">
         {% for link in links %}
-            <li class="document-list__item">
+            <li class="document-list__item u-document-link">
                 <a class="document-list__link" href="{{ link.href }}">
                     {{ link.label }}
                 </a>
