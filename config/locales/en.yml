@@ -714,6 +714,9 @@ research:
             points:
               - Many young people in this target group have a deep mistrust of statutory agencies and therefore voluntary groups which have access to and the trust of the community are in an ideal position to provide mentoring and build bridges and trust.
               - Relationship-building shouldn’t be rushed and it should start with young people’s interests, wishes and strengths.
+            callout:
+              isQuote: false
+              content: Mentoring may be effective in violence reduction but the evidence is mixed on the impact of mentoring on arrests and reconvictions
           - title: Extend support to places and spaces where young people feel comfortable
             points:
               - Support needs to extend from schools and statutory services into the community – and build on what is already working well locally.
@@ -725,12 +728,18 @@ research:
               - Professionals and volunteers should be trained to be sensitive to potential mental health issues.
               - A whole family approach may be needed, especially if the whole family has been through significant adversity and there are wider family issues behind a young person’s involvement in violence.
               - Mental health services should be provided in a variety of different settings.
+            callout:
+              isQuote: false
+              content: It has been estimated that up to one in three young people who offend have an unmet mental health need at the time of the offence
           - title: Sport and the arts promote positive values and are a great hook for engagement
             points:
               - They can provide the right environment and influences to promote positive values, including taking on responsibility and learning how to resolve conflicts constructively
               - Sport and art projects need to be long-term in nature and when possible included within a wider developmental programme of education and support.
               - The role and skills of the coaches and trainers are critical therefore staff in arts and sports projects need to be trained and supported.
               - Sport and art projects need to be well targeted in terms of both their location and the engagement of young people.
+            callout:
+                isQuote: false
+                content: The appeal of sport and the arts can act as a ‘hook’ for engagement and generate a sense of excitement, “similar to feelings experienced as part of a gang.”
           - title: Timing matters for engagement and support
             points:
               - Successful engagement isn’t just linked to a place but also to the timing of the intervention. Support needs to be given at the right time in the young person’s life.
@@ -752,6 +761,9 @@ research:
               - Partnerships should bring together smaller organisations, including grassroots groups, to produce ideas that are rooted in the experience of communities, with the reach and size of larger organisations.
               - Understand the challenges faced by small grassroots organisations which focus on frontline delivery – their capacity to get involved at a strategic level is limited and should be supported.
               - Value the expertise of partners – many groups have cutting-edge expertise and years/decades of experience, including lived experience of the challenges faced by those who they are supporting.
+            callout:
+              isQuote: false
+              content: Smaller groups may find it difficult to collaborate in a climate of competition for short-term, project-based funding opportunities
           - title: Generous leaders and shared vision are some of the ‘key ingredients’ of successful partnerships
             points:
               - A willingness to share responsibility and influence to achieve the common good is important, coupled with a drive to build strong alliances with individuals, groups and communities who can achieve shared objectives together.
@@ -764,3 +776,6 @@ research:
               - Create a movement to recognise serious youth violence as a public health issue that requires a whole community response and a non-judgemental approach.
               - Trust the relationships, expertise and experience of VCS groups in supporting young people involved in serious violence.
               - Systems change involves focusing on the root causes of social issues and working to create systems that act early to prevent problems.
+            callout:
+              isQuote: false
+              content: As one young person moves away from organised crime, others such as friends and siblings may follow
