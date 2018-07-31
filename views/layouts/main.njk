@@ -1,3 +1,4 @@
+{% set useNewHeader = appData.isNotProduction and queryFeature('use-new-header') %}
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
@@ -10,17 +11,25 @@
         {% include "includes/metaHead.njk" %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        {% set useNewHeader = appData.isNotProduction and queryFeature('use-new-header') %}
         {{ accessibilityNav() }}
-        {{ previewBanner(previewStatus) }}
 
         <div class="global-container">
+            {{ previewBanner(previewStatus) }}
+
+            {# Cookie consent #}
+            {% if appData.isNotProduction %}
+                <div id="js-cookie-consent"
+                    data-lang='{{ __('global.cookieConsent') | dump | safe }}'></div>
+            {% endif %}
+
             {% if useNewHeader %}
                 {% include "includes/global-header-next.njk" %}
             {% else %}
                 {% include "includes/header.njk" %}
             {% endif %}
+
             {% block content %}{% endblock %}
+
             {% include "includes/footer.njk" %}
         </div>
 
