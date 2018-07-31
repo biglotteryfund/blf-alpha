@@ -18,9 +18,9 @@ h2,
 
 h3,
 .t3 {
-    @include roboto();
+    @include poppins();
     @include font-and-leading(20px, 26px);
-    font-weight: 400;
+    font-weight: 600;
 }
 
 h4,
@@ -62,4 +62,3 @@ h6,
 .t--underline:after {
     @include underlined();
 }
-

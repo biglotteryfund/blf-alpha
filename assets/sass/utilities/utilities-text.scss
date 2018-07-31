@@ -26,6 +26,13 @@
     text-decoration: none;
 }
 
+.u-prefix {
+    font-size: 16px;
+    font-style: italic;
+    color: palette('charcoal-note');
+    margin-bottom: 0;
+}
+
 .u-caption {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);

@@ -94,14 +94,6 @@ blockquote {
     margin: 0 0 $spacingUnit 0;
     font-style: italic;
 
-    &:last-child {
-        margin-bottom: 0;
-    }
-
-    footer {
-        display: inline-block;
-    }
-
     cite {
         font-style: normal;
     }
@@ -111,7 +103,7 @@ summary {
     text-decoration: underline;
 }
 details[open] summary {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 code,
@@ -129,7 +121,7 @@ pre {
 pre {
     padding: 1em;
     max-height: 25em;
-    box-shadow: inset 0 0 30px rgba(0,0,0,1);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 1);
 }
 
 /*  =========================================================================
@@ -194,8 +186,8 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-	-webkit-appearance: button;
-	appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
 }
 
 /* Allow only vertical resizing of textareas. */

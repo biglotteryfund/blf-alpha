@@ -1,0 +1,22 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import documentsCard with context %}
+
+{% call sgExample() %}
+    {{ documentsCard(
+        title = "Documents",
+        documents = [{
+            "title": "Full report",
+            "filetype": "PDF",
+            "filesize": "900KB",
+            "url": "#",
+            "contents": [
+                "Executive Summary",
+                "Introduction",
+                "Prevention – what works?",
+                "Early intervention – what works?",
+                "Partnership-based approaches – what works?",
+                "Sources"
+            ]
+        }]
+    ) }}
+{% endcall %}

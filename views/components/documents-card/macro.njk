@@ -1,0 +1,33 @@
+{% macro documentsCard(title, documents, accent = 'pink') %}
+    <aside class="card u-accent-border-top-{{ accent }}">
+        <header class="card__header">
+            <h3 class="card__title">{{ title }}</h3>
+        </header>
+        <div class="card__body">
+            {% for document in documents %}
+                <div class="document-summary">
+                    <a class="document-summary__link u-document-link" href="{{ document.url }}">
+                        {{ document.title }}
+                        {% if document.filetype or document.filesize %}
+                            <small>({{ document.filetype }} {{ document.filesize }})</small>
+                        {% endif %}
+                    </a>
+                    {% if document.contents %}
+                        <ul class="document-summary__contents">
+                            {% for item in document.contents %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {# @TODO: Support "Download All" link #}
+        {% if documents.length === 1 %}
+            {% set firstDocument = documents | first %}
+            <footer class="card__meta u-align-center">
+                <a href="{{ firstDocument }}" class="btn btn--medium">{{ __('global.misc.download') | title }}</a>
+            </footer>
+        {% endif %}
+    </aside>
+{% endmacro %}

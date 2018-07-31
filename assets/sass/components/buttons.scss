@@ -84,12 +84,12 @@ $btnConf: (
         @include disabledBtn();
     }
 
-    // icon inside the button
     .btn__icon {
         vertical-align: middle;
         display: inline-block;
         line-height: 1;
         margin-right: 0.5em;
+        margin-left: -5px; // Optically align
     }
 }
 
@@ -156,11 +156,6 @@ $btnConf: (
     background-color: #ffffff !important;
     color: palette('blue') !important;
     border: 3px solid palette('blue');
-
-    &.btn--small {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
 
     @include on-interact {
         background-color: #ffffff;

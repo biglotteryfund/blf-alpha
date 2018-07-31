@@ -170,6 +170,12 @@ sections.research.addRoutes({
         template: 'pages/toplevel/research',
         lang: 'toplevel.research',
         heroSlug: 'grassroots-project'
+    }),
+    youthViolence: staticContentRoute({
+        path: '/youth-serious-violence',
+        template: 'controllers/research/views/research-detail',
+        lang: 'research.youthviolence',
+        heroSlug: 'grassroots-project'
     })
 });
 

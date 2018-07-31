@@ -1,7 +1,7 @@
 {% from "components/icons.njk" import iconPrint %}
 
 {% macro printButton(label, metrics = false) %}
-    <button class="btn btn--medium btn--outline"
+    <button class="btn btn--small btn--outline"
         onclick="window.print();"
         {%- if metrics -%}
         data-ga-on="click"
