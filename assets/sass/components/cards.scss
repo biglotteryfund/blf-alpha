@@ -16,6 +16,10 @@
     flex-flow: column nowrap;
     flex: 1 1 0%;
 
+    @include mq('medium') {
+        padding: 1em;
+    }
+
     .card__title,
     .card__body {
         font-size: 18px;

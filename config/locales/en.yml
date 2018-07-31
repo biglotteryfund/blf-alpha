@@ -652,7 +652,7 @@ research:
         - title: Full report
           filetype: PDF
           filesize: 900KB
-          url: #
+          url: https://media.biglotteryfund.org.uk/media/documents/BLF_KL18-12_SeriousViolence.pdf
           contents:
             - Executive Summary
             - Introduction
@@ -660,6 +660,11 @@ research:
             - Early intervention – what works?
             - Partnership-based approaches – what works?
             - Sources
+    relatedProgrammes:
+      - title: HeadStart
+        url: https://www.biglotteryfund.org.uk/global-content/programmes/england/fulfilling-lives-headstart
+      - title: Talent Match
+        url: https://www.biglotteryfund.org.uk/global-content/programmes/england/talent-match
     sectionsPrefix: Lessons for policy and programme design
     sections:
       - title: Prevention

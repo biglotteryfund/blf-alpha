@@ -102,3 +102,28 @@
 .programme-overview__title {
     margin-bottom: 0
 }
+
+/* =========================================================================
+   Related Programme
+   ========================================================================= */
+
+.related-programme {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: palette('pink');
+    margin-bottom: $spacingUnit / 2;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .related-programme__media {
+        flex: 0 0 50px;
+        margin-right: $spacingUnit;
+    }
+    .related-programme__label {
+        flex: 1 1 0%;
+    }
+}

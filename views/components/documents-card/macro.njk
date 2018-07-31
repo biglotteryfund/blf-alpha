@@ -1,6 +1,8 @@
 {% macro documentsCard(title, documents, accent = 'pink') %}
-    <div class="card u-accent-border-top-{{ accent }}">
-        <h3 class="card__title">{{ title }}</h3>
+    <aside class="card u-accent-border-top-{{ accent }}">
+        <header class="card__header">
+            <h3 class="card__title">{{ title }}</h3>
+        </header>
         <div class="card__body">
             {% for document in documents %}
                 <div class="document-summary">
@@ -23,10 +25,9 @@
         {# @TODO: Support "Download All" link #}
         {% if documents.length === 1 %}
             {% set firstDocument = documents | first %}
-            <div class="card__meta u-align-center">
+            <footer class="card__meta u-align-center">
                 <a href="{{ firstDocument }}" class="btn btn--medium">{{ __('global.misc.download') | title }}</a>
-            </div>
+            </footer>
         {% endif %}
-    </div>
-
+    </aside>
 {% endmacro %}

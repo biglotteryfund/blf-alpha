@@ -54,6 +54,22 @@
                             accent = pageAccent
                         ) }}
 
+                        <aside class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">Related programmes</h3>
+                                <div class="card__body">
+                                    {% for relatedProgramme in copy.relatedProgrammes %}
+                                        <a href="{{ relatedProgramme.url }}" class="related-programme">
+                                            <span class="related-programme__media">
+                                                <img src="https://via.placeholder.com/100x100&text=Placeholder"
+                                                    alt="{{ relatedProgramme.title }}" />
+                                            </span>
+                                            <span class="related-programme__label">{{ relatedProgramme.title }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </header>
+                        </aside>
                     </div>
                 </div>
             </section>
