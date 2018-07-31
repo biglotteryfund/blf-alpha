@@ -1,5 +1,5 @@
-{% from "components/styleguide.njk" import sgExample with context %}
-{% from "./macro.njk" import documentsCard %}
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import documentsCard with context %}
 
 {% call sgExample() %}
     {{ documentsCard(
