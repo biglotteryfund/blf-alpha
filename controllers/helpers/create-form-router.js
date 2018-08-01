@@ -77,6 +77,10 @@ function createFormRouter({ router, formModel }) {
             req.session.cookie.maxAge = moment()
                 .add(EXTENDED_SESSION_DURATION, 'days')
                 .toDate();
+            req.flash('progressSaved', {
+                duration: EXTENDED_SESSION_DURATION,
+                unit: 'days'
+            });
         }
 
         function handleSubmitStep({ isEditing = false } = {}) {
@@ -85,10 +89,6 @@ function createFormRouter({ router, formModel }) {
                 function(req, res) {
                     // Save valid fields and merge with any existing data (if we are editing the step);
                     extendSessionDuration(req);
-                    req.flash('progressSaved', {
-                        duration: EXTENDED_SESSION_DURATION,
-                        unit: 'days'
-                    });
                     const sessionProp = formModel.getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
                     const bodyData = matchedData(req, { locations: ['body'] });
