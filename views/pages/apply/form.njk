@@ -1,4 +1,5 @@
 {% from "components/forms-new.njk" import errorList, formErrors, formFieldset, formHeader %}
+{% from "components/icons.njk" import iconTick %}
 
 {% extends "layouts/main.njk" %}
 
@@ -20,7 +21,7 @@
             {% if progressSaved %}
                 <div class="u-constrained-wide u-constrained-content">
                     <div class="message message--info">
-                        <h1 class="t2 icon--tick">Application progress saved</h1>
+                        <h3 class="t2">Application progress saved {{ iconTick() }}</h3>
                         <p>Your application so far has been automatically saved <strong>on this computer</strong> for the next {{ progressSaved.duration }} {{ progressSaved.unit }}.</p>
                         <details>
                             <summary>Tell me more</summary>

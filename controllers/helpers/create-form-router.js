@@ -7,7 +7,9 @@ const flash = require('req-flash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../middleware/cached');
-const EXTENDED_SESSION_DURATION = config.get('extendedCookieDurationInDays');
+
+// How many days to extend the user's session by
+const EXTENDED_SESSION_DURATION_IN_DAYS = 7;
 
 function createFormRouter({ router, formModel }) {
     // init flash messaging

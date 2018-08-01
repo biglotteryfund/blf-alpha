@@ -57,19 +57,3 @@
     }
 }
 
-.icon--tick {
-    &:after {
-        display: inline-block;
-        content: '';
-        height: 20px;
-        width: 20px;
-        margin-left: 7px;
-        vertical-align: top;
-        background-position: center center;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-image: svg-url(
-            '<svg width="100" height="96" xmlns="http://www.w3.org/2000/svg"><title>tick by mikicon from the Noun Project</title><path d="M50 6.6C26 6.6 6.6 26 6.6 50S26 93.4 50 93.4 93.4 74 93.4 50 74 6.6 50 6.6zM71 41L45.3 66.6c-.8.8-1.8 1.2-2.8 1.2s-2.1-.4-2.8-1.2L27 54c-1.6-1.6-1.6-4.1 0-5.7 1.6-1.6 4.1-1.6 5.7 0l9.8 9.8 22.8-22.8c1.6-1.6 4.1-1.6 5.7 0 1.5 1.6 1.5 4.2 0 5.7z"/></svg>'
-        );
-    }
-}
