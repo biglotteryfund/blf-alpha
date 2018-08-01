@@ -63,18 +63,14 @@ Cypress.Commands.add('checkActiveSection', activeSection => {
 });
 
 Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
-    cy.request({
-        url: from,
-        followRedirects: false
-    }).then(response => {
-        const expected = isRelative ? `http://localhost:8090${to}` : to;
-        expect(response.status).to.eq(status);
-        expect(response.redirectedToUrl).to.eq(expected);
-    });
-});
-
-Cypress.Commands.add('uiRegisterUser', (username, password) => {
-    cy.get('#username').type(username);
-    cy.get('#password').type(password);
-    cy.get('input[type="submit"]').click();
+    cy
+        .request({
+            url: from,
+            followRedirects: false
+        })
+        .then(response => {
+            const expected = isRelative ? `http://localhost:8090${to}` : to;
+            expect(response.status).to.eq(status);
+            expect(response.redirectedToUrl).to.eq(expected);
+        });
 });

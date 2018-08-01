@@ -1,204 +1,21 @@
 const { oneLine, stripIndents } = require('common-tags');
-const lorem = oneLine`
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-    Praesentium quidem nihil, similique voluptatibus tempore quasi,
-    cumque laborum officia voluptatem laboriosam tempora.
-`;
-
-const loremLong = stripIndents`
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
-
-    - Repudiandae doloremque necessitatibus
-    - Laudantium repellendus
-    - Soluta neque consequatur tenetur maiores.
-
-    Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
-`;
-
-describe('common', function() {
-    it('should have common headers', () => {
-        cy.request('/').then(response => {
-            expect(response.headers['cache-control']).to.eq('max-age=30,s-maxage=300');
-        });
-
-        cy.request('/apply/your-idea/1').then(response => {
-            expect(response.headers['cache-control']).to.eq('no-store,no-cache,max-age=0');
-        });
-    });
-
-    it('should handle aliases', () => {
-        cy.request('/tools/seed/aliases-sample')
-            .its('body')
-            .then(aliases => {
-                aliases.forEach(alias => {
-                    cy.checkRedirect({
-                        from: alias.from,
-                        to: alias.to
-                    });
-                });
-            });
-    });
-
-    it('should 404 unknown routes', () => {
-        cy.request({
-            url: '/not-a-page',
-            failOnStatusCode: false
-        }).then(response => {
-            expect(response.status).to.eq(404);
-            expect(response.body).to.include('Error 404');
-        });
-    });
-
-    it('should redirect search queries to a google site search', () => {
-        cy.checkRedirect({
-            from: '/search?q=This is my search query',
-            to: 'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+This%20is%20my%20search%20query',
-            isRelative: false,
-            status: 302
-        });
-
-        cy.checkRedirect({
-            from: '/search?lang=en-GB&amp;q=something&amp;type=All&amp;order=r',
-            to: 'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk+something',
-            isRelative: false,
-            status: 302
-        });
-    });
-
-    it('should redirect archived pages to the national archives', () => {
-        const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
-        cy.checkRedirect({
-            from: urlPath,
-            to: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`,
-            isRelative: false
-        });
-    });
-
-    it('should pass unknown routes to the legacy site', () => {
-        cy.request('/funding/funding-guidance/managing-your-funding/about-equalities/evidence-collection-tools').then(
-            response => {
-                expect(response.headers['x-blf-legacy']).to.eq('true');
-                expect(response.headers['content-security-policy']).to.not.exist;
-                expect(response.body).to.include('Evidence collection tools: Funding - Big Lottery Fund');
-            }
-        );
-    });
-
-    it('should redirect old funding finder', () => {
-        const pages = [
-            {
-                originalPath: '/funding/funding-finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/Home/Funding/Funding Finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=northern+ireland',
-                redirectedPath: '/funding/programmes?location=northernIreland'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
-                redirectedPath: '/funding/programmes?location=england&max=10000'
-            }
-        ];
-
-        pages.forEach(page => {
-            cy.checkRedirect({
-                from: page.originalPath,
-                to: page.redirectedPath
-            });
-        });
-    });
-
-    it('should proxy old funding finder if requesting closed programmes', () => {
-        cy.request('/funding/funding-finder?area=England&amp;amount=500001 - 1000000&amp;sc=1').then(response => {
-            expect(response.headers['x-blf-legacy']).to.eq('true');
-            expect(response.headers['content-security-policy']).to.not.exist;
-            expect(response.body).to.include('This is a list of our funding programmes');
-            expect(response.body).to.include('Show closed programmes');
-        });
-    });
-
-    it('should follow redirects on the legacy site', () => {
-        cy.checkRedirect({
-            from: '/welshlanguage',
-            to: '/about-big/customer-service/welsh-language-scheme'
-        });
-    });
-
-    it('should serve welsh versions of legacy pages', () => {
-        cy.request('/welsh/research/communities-and-places').then(response => {
-            expect(response.body).to.include('Cymunedau a lleoedd');
-        });
-    });
-
-    it('should allow users to register', () => {
-        cy.visit('/user/register');
-        const now = Date.now();
-        const username = `${now}@example.com`;
-        cy.uiRegisterUser(username, now);
-    });
-
-    it('should not allow unknown users to login', () => {
-        cy.visit('/user/login');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.alert').contains('Your username and password combination is invalid');
-    });
-
-    it('should prevent registrations with invalid passwords', () => {
-        cy.visit('/user/register');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.alert').contains('Please provide a password that contains at least one number');
-    });
-
-    it('should email valid users with a token', () => {
-        const now = Date.now();
-        const username = `${now}@example.com`;
-        cy.registerUser({
-            username: username,
-            password: `password${now}`,
-            returnToken: true
-        }).then(res => {
-            // via https://github.com/auth0/node-jsonwebtoken/issues/162
-            expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-            expect(res.body.email.sendTo).to.equal(username);
-            expect(res.body.email.subject).to.equal('Activate your Big Lottery Fund website account');
-        });
-    });
-
-    it('should block access to staff-only tools', () => {
-        cy.checkRedirect({
-            from: '/tools/survey-results',
-            to: '/user/login',
-            status: 302
-        });
-    });
-
-    it('should not allow unauthorised access to staff-only tools', () => {
-        cy.loginUser({
-            username: 'bad@example.com',
-            password: 'notarealpassword'
-        }).then(res => {
-            expect(res.body).to.contain('Your username and password combination is invalid');
-        });
-    });
-
-    it('should allow authorised access to staff-only tools', () => {
-        cy.seedUser().then(currentUser => {
-            cy.loginUser({
-                username: currentUser.username,
-                password: currentUser.password
-            });
-
-            cy.visit('/tools/survey-results');
-            cy.get('h1').should('contain', 'Did you find what you were looking for?');
-        });
-    });
-});
-
 describe('e2e', function() {
+    const lorem = oneLine`
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Praesentium quidem nihil, similique voluptatibus tempore quasi,
+        cumque laborum officia voluptatem laboriosam tempora.
+    `;
+
+    const loremLong = stripIndents`
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
+
+        - Repudiandae doloremque necessitatibus
+        - Laudantium repellendus
+        - Soluta neque consequatur tenetur maiores.
+
+        Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
+    `;
+
     it('should enable and disable in-progress features with a query string', () => {
         // Default state
         cy.visit('/');
@@ -211,9 +28,12 @@ describe('e2e', function() {
         // Confirm cookie maintains state
         cy.visit('/about');
         cy.get('.global-header-next').should('be.visible');
+        cy.getCookie('blf-features').should('have.property', 'value', 'use-new-header');
 
         // Disable feature
         cy.visit('/?disable-feature=use-new-header');
+        cy.get('.global-header').should('be.visible');
+        cy.getCookie('blf-features').should('not.exist');
         cy.get('.global-header').should('be.visible');
         cy.visit('/');
         cy.get('.global-header').should('be.visible');
