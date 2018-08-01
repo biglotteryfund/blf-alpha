@@ -26,7 +26,7 @@
         {% if documents.length === 1 %}
             {% set firstDocument = documents | first %}
             <footer class="card__meta u-align-center">
-                <a href="{{ firstDocument }}" class="btn btn--medium">{{ __('global.misc.download') | title }}</a>
+                <a href="{{ firstDocument.url }}" class="btn btn--medium">{{ __('global.misc.download') | title }}</a>
             </footer>
         {% endif %}
     </aside>
