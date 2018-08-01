@@ -10,20 +10,24 @@
     @include mq('medium-major') {
         display: flex;
     }
+
     .research-section__primary {
         font-size: 18px;
         max-width: $constrained;
         margin-bottom: $spacingUnit;
 
         @include mq('medium-major') {
+            flex: 0 0 68%;
             padding-right: $spacingUnit;
         }
     }
+
     .research-section__secondary {
         @include mq('medium-major') {
             flex: 0 0 32%;
         }
     }
+
     .research-section__prefix {
         font-size: 16px;
         font-style: italic;
@@ -37,13 +41,10 @@
    ========================================================================= */
 
 .document-summary {
-    border-bottom: 1px solid palette('border');
-    padding-bottom: $spacingUnit;
-    margin-bottom: $spacingUnit;
-
-    &:last-of-type {
-        border: none;
-        margin-bottom: 0;
+    &:not(:last-of-type) {
+        border-bottom: 1px solid palette('border');
+        padding-bottom: $spacingUnit;
+        margin-bottom: $spacingUnit;
     }
 
     .document-summary__link {
@@ -55,7 +56,7 @@
 
     .document-summary__contents {
         font-size: 16px;
-        margin-bottom: 0;
+        margin-bottom: 1em;
 
         > li {
             margin: 0 0 0 1.5em;

@@ -60,10 +60,12 @@
                                 <div class="card__body">
                                     {% for relatedProgramme in copy.relatedProgrammes %}
                                         <a href="{{ relatedProgramme.url }}" class="related-programme">
-                                            <span class="related-programme__media">
-                                                <img src="https://via.placeholder.com/100x100&text=Placeholder"
-                                                    alt="{{ relatedProgramme.title }}" />
-                                            </span>
+                                            {% if relatedProgramme.thumbnail %}
+                                                <span class="related-programme__media">
+                                                    <img src="{{ relatedProgramme.thumbnail }}"
+                                                        alt="{{ relatedProgramme.title }}" />
+                                                </span>
+                                            {% endif %}
                                             <span class="related-programme__label">{{ relatedProgramme.title }}</span>
                                         </a>
                                     {% endfor %}
