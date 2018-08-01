@@ -1,20 +1,3 @@
-const { oneLine, stripIndents } = require('common-tags');
-const lorem = oneLine`
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-    Praesentium quidem nihil, similique voluptatibus tempore quasi,
-    cumque laborum officia voluptatem laboriosam tempora.
-`;
-
-const loremLong = stripIndents`
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
-
-    - Repudiandae doloremque necessitatibus
-    - Laudantium repellendus
-    - Soluta neque consequatur tenetur maiores.
-
-    Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.
-`;
-
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
@@ -197,6 +180,17 @@ describe('common', function() {
         });
     });
 });
+
+const lorem =
+    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.';
+
+const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
+
+- Repudiandae doloremque necessitatibus
+- Laudantium repellendus
+- Soluta neque consequatur tenetur maiores.
+
+Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
 describe('e2e', function() {
     it('should enable and disable in-progress features with a query string', () => {

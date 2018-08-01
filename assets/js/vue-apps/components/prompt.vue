@@ -1,7 +1,7 @@
 <script>
 const { trackEvent } = require('../../helpers/metrics');
 import $ from 'jquery';
-import { includes } from 'lodash';
+import includes from 'lodash/includes';
 import IconClose from './icon-close.vue';
 
 export default {
