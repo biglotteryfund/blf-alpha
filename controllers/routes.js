@@ -175,7 +175,7 @@ sections.research.addRoutes({
         path: '/youth-serious-violence',
         template: 'controllers/research/views/research-detail',
         lang: 'research.youthviolence',
-        heroSlug: 'stranaer-water-sports-association',
+        heroSlug: 'paws-for-progress',
         live: false
     })
 });
