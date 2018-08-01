@@ -1,7 +1,8 @@
 stages:
   - test
+  # https://github.com/travis-ci/travis-ci/issues/9614#issuecomment-388798396
   - name: build
-    if: branch = master AND env(TRAVIS_PULL_REQUEST) = false
+    if: (NOT type IN (pull_request)) AND (branch = master)
 
 # Defaults
 language: node_js
