@@ -1,7 +1,7 @@
 stages:
   - test
   - name: build
-    if: head_branch = master
+    if: branch = master AND env(TRAVIS_PULL_REQUEST) = false
 
 # Defaults
 language: node_js
