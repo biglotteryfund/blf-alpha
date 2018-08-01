@@ -10,20 +10,24 @@
     @include mq('medium-major') {
         display: flex;
     }
+
     .research-section__primary {
         font-size: 18px;
         max-width: $constrained;
         margin-bottom: $spacingUnit;
 
         @include mq('medium-major') {
+            flex: 0 0 68%;
             padding-right: $spacingUnit;
         }
     }
+
     .research-section__secondary {
         @include mq('medium-major') {
             flex: 0 0 32%;
         }
     }
+
     .research-section__prefix {
         font-size: 16px;
         font-style: italic;
