@@ -242,10 +242,10 @@ describe('e2e', function() {
         cy.get('#js-mobile-nav-toggle').as('navToggle');
         cy.get('#qa-offscreen-navigation').as('nav');
 
-        cy.get('@navToggle').click({ force: true });
+        cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
 
-        cy.get('@navToggle').click({ force: true });
+        cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
         cy.viewport(1024, 768);
 

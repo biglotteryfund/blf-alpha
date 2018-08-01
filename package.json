@@ -145,7 +145,7 @@
     "common-tags": "^1.8.0",
     "concurrently": "3.6.1",
     "cssnano": "^3.10.0",
-    "cypress": "3.0.3",
+    "cypress": "3.0.2",
     "del": "^3.0.0",
     "dotenv": "6.0.0",
     "eslint": "^4.19.0",
