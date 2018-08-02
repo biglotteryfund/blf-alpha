@@ -166,7 +166,7 @@ $btnConf: (
 
 .btn--next {
     background-image: arrow-btn();
-    background-size: contain;
+    background-size: 100% auto; // allow longer text
     background-repeat: no-repeat;
     background-position: center left;
     min-width: 158px;

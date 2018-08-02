@@ -1,4 +1,5 @@
 {% from "components/forms-new.njk" import errorList, formErrors, formFieldset, formHeader %}
+{% from "components/icons.njk" import iconTick %}
 
 {% extends "layouts/main.njk" %}
 
@@ -16,6 +17,20 @@
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
+            {% set progressSaved = getFlash(request, 'progressSaved') %}
+            {% if progressSaved %}
+                <div class="u-constrained-wide u-constrained-content">
+                    <div class="message message--info">
+                        <h3 class="t2">Application progress saved {{ iconTick() }}</h3>
+                        <p>Your application so far has been automatically saved <strong>on this computer</strong> for the next {{ progressSaved.duration }} {{ progressSaved.unit }}.</p>
+                        <details>
+                            <summary>Tell me more</summary>
+                            We automatically save your progress at key points during this application form. You must use your current web browser and computer to return to your application.
+                        </details>
+                    </div>
+                </div>
+            {% endif %}
+
             {% for fieldset in step.fieldsets %}
                 {{ formFieldset(fieldset, errors) }}
             {% endfor %}
@@ -25,7 +40,7 @@
             {% endif %}
 
             <div class="form-actions">
-                <input class="btn btn--next" type="submit" value="Next" />
+                <input class="btn btn--next" type="submit" value="Save and continue" />
             </div>
         </form>
     </main>
