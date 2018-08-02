@@ -32,7 +32,7 @@ function createFormRouter({ router, formModel }) {
     /**
      * Route: Start page
      */
-    router.get('/', function(req, res) {
+    router.get('/', cached.noCache, function(req, res) {
         const stepConfig = formModel.getStartPage();
 
         const sessionProp = formModel.getSessionProp();
