@@ -1,0 +1,14 @@
+{% macro languageSwitcher(currentLocale = 'en') %}
+    {% for item in [{ "id": "en", "label": "English" }, { "id": "cy", "label": "Cymraeg" }] %}
+        {% if item.id === currentLocale %}
+            <span class="language-control is-current">
+                ✔ {{ item.label }}
+            </span>
+        {% else %}
+            <a href="{{ getCurrentUrl(item.id) }}"
+                class="language-control">
+                {{ item.label }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
