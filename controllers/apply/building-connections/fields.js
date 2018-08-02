@@ -35,6 +35,7 @@ const LENGTH_HINTS = {
 // but also as a string for the HTML pattern attribute
 const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
 const POSTCODE_REGEX = new RegExp(POSTCODE_PATTERN, 'i');
+const isValidPostcode = input => POSTCODE_REGEX.test(input);
 
 const currentWork = [
     {
@@ -356,7 +357,7 @@ const organisationDetails = [
                         .not()
                         .isEmpty()
                         .withMessage('Postcode must be provided')
-                        .custom(value => POSTCODE_REGEX.test(value))
+                        .custom(value => isValidPostcode(value))
                         .withMessage('Please provide a valid UK postcode');
                 }
             }
@@ -442,5 +443,6 @@ module.exports = {
     projectEvaluation,
     projectLocation,
     socialConnections,
-    yourIdea
+    yourIdea,
+    isValidPostcode
 };
