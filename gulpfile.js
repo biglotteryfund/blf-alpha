@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
@@ -20,10 +19,7 @@ gulp.task('clean', function() {
     return del([buildSummary.buildDirBase + '/**/*', buildSummary.manifestDir]);
 });
 
-/**
- * Compile Sass
- */
-gulp.task('styles', function() {
+gulp.task('css', function() {
     return gulp
         .src(buildSummary.cssInDir + '/*.scss')
         .pipe(sourcemaps.init())
@@ -47,20 +43,8 @@ gulp.task('manifest', function(done) {
     fs.writeFile(buildSummary.manifestDir, JSON.stringify(manifestData, null, 4), done);
 });
 
-/**
- * Watchers
- */
 gulp.task('watch', function() {
     const server = livereload.createServer();
     server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
-    gulp.watch(buildSummary.cssInDir + '/**/*.scss', ['styles']);
+    gulp.watch(buildSummary.cssInDir + '/**/*.scss', ['css']);
 });
-
-/**
- * Primary task aliases
- */
-gulp.task('build', function(done) {
-    runSequence('clean', 'styles', done);
-});
-
-gulp.task('default', ['build']);
