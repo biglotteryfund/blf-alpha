@@ -12,7 +12,7 @@
     "test-ci": "./bin/start-test-server & concurrently --success --raw 'npm test' 'npm run test-cypress'",
     "build": "gulp build && webpack",
     "build-production": "export NODE_ENV=production && npm run build && gulp manifest",
-    "build-autotrack": "autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
+    "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
     "prewatch": "npm run build",
     "watch": "concurrently --kill-others 'webpack --watch' 'gulp watch'",
     "snyk-protect": "snyk protect",
@@ -133,7 +133,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",
-    "autotrack": "^2.4.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.5",
     "babel-loader": "^7.1.4",
