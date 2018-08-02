@@ -1,7 +1,6 @@
 'use strict';
 const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
-const config = require('config');
 const moment = require('moment');
 const flash = require('req-flash');
 const { validationResult } = require('express-validator/check');
@@ -75,22 +74,22 @@ function createFormRouter({ router, formModel }) {
 
         // for users submitting a step, increase their session expiry
         // so they can save progress beyond a browser session
-        function extendSessionDuration(req) {
+        function extendSessionDuration(req, res, next) {
             req.session.cookie.maxAge = moment()
-                .add(EXTENDED_SESSION_DURATION, 'days')
+                .add(EXTENDED_SESSION_DURATION_IN_DAYS, 'days')
                 .toDate();
             req.flash('progressSaved', {
-                duration: EXTENDED_SESSION_DURATION,
+                duration: EXTENDED_SESSION_DURATION_IN_DAYS,
                 unit: 'days'
             });
+            next();
         }
 
         function handleSubmitStep({ isEditing = false } = {}) {
             return [
                 step.getValidators(),
+                extendSessionDuration,
                 function(req, res) {
-                    // Save valid fields and merge with any existing data (if we are editing the step);
-                    extendSessionDuration(req);
                     const sessionProp = formModel.getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
                     const bodyData = matchedData(req, { locations: ['body'] });
