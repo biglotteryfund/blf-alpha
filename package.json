@@ -37,8 +37,6 @@
   },
   "babel": {
     "plugins": [
-      "lodash",
-      "transform-object-assign",
       "syntax-dynamic-import"
     ],
     "presets": [
@@ -136,10 +134,8 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.5",
     "babel-loader": "^7.1.4",
-    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.7.0",
     "common-tags": "^1.8.0",
     "concurrently": "3.6.1",
