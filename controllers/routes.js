@@ -232,16 +232,8 @@ sections.apply.addRoutes({
     root: customRoute({
         path: '/'
     }),
-    yourIdea: sessionRoute({
-        path: '/your-idea/*',
-        isPostable: true
-    }),
-    buildingConnectionsFund: sessionRoute({
-        path: '/building-connections/*',
-        isPostable: true
-    }),
-    digitalFundingDemo: sessionRoute({
-        path: '/digital-funding-demo/*',
+    applicationForms: sessionRoute({
+        path: '/*',
         isPostable: true
     })
 });
