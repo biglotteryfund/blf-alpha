@@ -8,6 +8,7 @@
 
 .section-links {
     @include reset-list();
+    margin-bottom: $spacingUnit;
 }
 .section-links__link {
     $linkPadding: 12px;
