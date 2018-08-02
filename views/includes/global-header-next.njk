@@ -1,8 +1,13 @@
 {% from "components/icons.njk" import iconHamburger, iconSearch %}
 {% from "components/nav.njk" import navSearchForm, navLangLink with context %}
+{% from "components/language-switcher/macro.njk" import languageSwitcher with context %}
 
 {% macro _navigation() %}
     {% set navigation = [{
+        "label": "Home",
+        "url": "/",
+        "mobileOnly": true
+    }, {
         "label": "Funding",
         "url": "/funding",
         "children": [{
@@ -25,11 +30,15 @@
         "label": "Talk to us",
         "url": "/contact",
         "children": []
+    }, {
+        "label": "About us",
+        "url": "/about",
+        "mobileOnly": true
     }] %}
 
     <ul>
         {% for item in navigation %}
-            <li>
+            <li {% if item.mobileOnly %}class="u-mobile-only"{% endif %}>
                 <a href="{{ item.url }}">{{ item.label }}</a>
                 {% if item.children %}
                     <ul>
@@ -83,6 +92,14 @@
                     <li>{{ navLangLink() }}</li>
                     <li>Advice Line: 0345 4 10 20 30</li>
                 </ul>
+                <div class="global-header-next__language">
+                    <div class="global-header-next__language-prefix">
+                        Mae'r dudalen hon hefyd ar gael yn Cymraeg
+                    </div>
+                    <div class="global-header-next__language-controls">
+                        {{ languageSwitcher(locale) }}
+                    </div>
+                </div>
             </div>
 
             <div class="global-header-next__search">
