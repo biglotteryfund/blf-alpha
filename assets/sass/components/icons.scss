@@ -19,9 +19,19 @@
     width: 32px;
     height: 32px;
 }
-.icon--top {
-    vertical-align: top;
+
+.u-icon-inline-left,
+.u-icon-inline-right {
+    display: inline-block;
+    vertical-align: middle;
 }
-.icon--bottom {
-    vertical-align: bottom;
+.u-icon-inline-left {
+    // Optically align
+    margin-right: 0.5em;
+    margin-left: -5px;
+}
+.u-icon-inline-right {
+    // Optically align
+    margin-left: 3px;
+    margin-right: -3px;
 }

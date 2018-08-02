@@ -83,14 +83,6 @@ $btnConf: (
     &[disabled='disabled'] {
         @include disabledBtn();
     }
-
-    .btn__icon {
-        vertical-align: middle;
-        display: inline-block;
-        line-height: 1;
-        margin-right: 0.5em;
-        margin-left: -5px; // Optically align
-    }
 }
 
 /**

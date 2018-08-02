@@ -87,16 +87,9 @@
             border-color: $colour;
             color: $colour !important;
 
-            .btn__icon {
-                fill: $colour !important;
-            }
-
             @include on-interact {
                 border-color: $activeState !important;
                 color: $activeState !important;
-                .btn__icon {
-                    fill: $activeState !important;
-                }
             }
         }
 
@@ -129,7 +122,12 @@
     }
 
     .accent-content--#{$name} {
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             &::after {
                 border-color: $colour;
             }
@@ -161,7 +159,7 @@
         background-color: $colour;
 
         &::after {
-            content: " #{$colour}"
+            content: ' #{$colour}';
         }
     }
 }

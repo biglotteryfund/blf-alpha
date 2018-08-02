@@ -1,8 +1,8 @@
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/ebulletin.njk" import ebulletinForm with context %}
 {% from "components/hero.njk" import superHero with context %}
+{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
+{% from "components/ebulletin.njk" import ebulletinForm with context %}
 {% from "components/news.njk" import articleTeaser with context %}
-{% from "components/social.njk" import socialLinks with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% extends "layouts/main.njk" %}
 
@@ -113,8 +113,24 @@
                         {{ ebulletinForm() }}
                     </div>
 
-                    {# social buttons #}
-                    {{ socialLinks(copy.social) }}
+                    {# Social Links #}
+                    <div class="o-button-group-block u-inner">
+                        <a class="btn btn--small btn--outline accent--blue"
+                            href="{{ __('global.brand.instagram') }}">
+                            <span class="u-icon-inline-left">{{ iconInstagram() }}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.instagram }}
+                        </a>
+                        <a class="btn btn--small btn--outline accent--blue"
+                            href="{{ __('global.brand.facebook') }}">
+                            <span class="u-icon-inline-left">{{ iconFacebook() }}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.facebook }}
+                        </a>
+                        <a class="btn btn--small btn--outline accent--blue"
+                            href="https://www.twitter.com/{{ __('global.brand.twitter') }}" >
+                            <span class="u-icon-inline-left">{{ iconTwitter() }}</span>
+                            {{ copy.social.followUsOn }} {{ copy.social.twitter }}
+                        </a>
+                    </div>
                 </li>
             </ul>
         </section>
