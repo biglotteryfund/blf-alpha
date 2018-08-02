@@ -252,9 +252,20 @@ $btnConf: (
     color: currentColor;
     background-color: transparent;
     border: 2px solid currentColor;
-    padding: 10px 20px;
+    padding: 8px 20px 9px;
 
     margin-right: 0.5em;
+
+    .icon--tick {
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+        margin-right: 2px;
+        // Optical alignment
+        margin-left: -2px;
+        position: relative;
+        top: -1px;
+    }
 
     &.is-current {
         pointer-events: none;
