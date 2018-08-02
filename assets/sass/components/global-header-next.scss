@@ -25,6 +25,16 @@
         display: none;
     }
 
+    .global-header-next__language {
+        text-align: center;
+        padding: 12px 0;
+        background-color: #eaeaea;
+    }
+    .global-header-next__language-prefix {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
     @media only screen and (max-width: 800px) {
         .global-header-next__primary {
             padding: 10px 20px;
@@ -189,6 +199,7 @@
             }
         }
 
+        .global-header-next__language,
         .global-header-next__actions {
             display: none;
         }
