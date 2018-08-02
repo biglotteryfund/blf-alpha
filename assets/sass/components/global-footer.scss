@@ -2,7 +2,7 @@
    Global Footer
    ========================================================================== */
 
-.footer {
+.global-footer {
     font-size: 14px;
     color: palette('off-white');
     background-color: palette('charcoal');
@@ -20,35 +20,84 @@
             text-decoration: underline;
         }
     }
-}
-.footer__inner {
-    padding: 0;
 
-    @include mq('medium') {
-        padding: 60px 0;
-    }
-}
-
-.footer-links {
-    @include mq('small') {
-        columns: 2;
-    }
-
-    li {
-        margin: 0;
+    .global-footer__inner {
         padding: 0;
-        border-bottom: 1px solid lighten(palette('charcoal'), 10%);
 
-        @include mq('medium') {
-            border-bottom: none;
-            margin-bottom: $spacingUnit / 1.5;
+        @include mq('medium-minor') {
+            width: calc(100% - #{$spacingUnit});
+            max-width: $maxWidth;
+            margin: 0 auto;
+            padding: 60px 0;
+            display: flex;
         }
     }
 
-    a {
-        @include mq('medium', 'max') {
-            padding: $spacingUnit ($spacingUnit / 2);
+    .global-footer__section-title {
+        @include poppins();
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 0.75em;
+    }
+
+    .global-footer__address,
+    .global-footer__language {
+        margin-bottom: $spacingUnit;
+    }
+
+    .global-footer__meta,
+    .global-footer__quicklinks {
+        padding: $spacingUnit / 2;
+        padding-bottom: $spacingUnit;
+
+        @include mq('medium-minor') {
+            padding: 0;
+            flex: 1 1 auto;
+        }
+    }
+
+    .global-footer__meta {
+        @include mq('medium-minor', 'max') {
+            background-color: darken(palette('charcoal'), 3%);
+        }
+    }
+
+    .global-footer__quicklinks {
+        @include mq('medium-minor') {
+            order: 1;
+        }
+    }
+
+    .global-footer__quicklinks-list {
+        li {
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid lighten(palette('charcoal'), 10%);
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        a {
             display: block;
+            padding: 1em 0;
+        }
+
+        @include mq('medium-minor') {
+            li {
+                border-bottom: none;
+            }
+
+            a {
+                display: inline-block;
+                padding: 0 0 0.5em 0;
+            }
+        }
+
+        @include mq('medium-major') {
+            columns: 2;
         }
     }
 }
