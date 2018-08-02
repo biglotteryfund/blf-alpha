@@ -46,8 +46,9 @@
           "modules": false,
           "targets": {
             "browsers": [
-              "last 2 versions",
-              "ie >= 10"
+              ">0.25% in GB",
+              "ie >= 10",
+              "not op_mini all"
             ]
           }
         }
@@ -62,8 +63,9 @@
     }
   },
   "browserslist": [
-    "last 2 versions",
-    "ie >= 10"
+    ">0.25% in GB",
+    "ie >= 10",
+    "not op_mini all"
   ],
   "nodemonConfig": {
     "verbose": true,
