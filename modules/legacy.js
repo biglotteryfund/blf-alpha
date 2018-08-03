@@ -87,7 +87,7 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         followRedirect: followRedirect,
         maxRedirects: 1,
         resolveWithFullResponse: true,
-        timeout: ms('45s')
+        timeout: ms('60s')
     }).then(response => {
         const contentType = response.headers['content-type'];
 
@@ -162,7 +162,7 @@ function postToLegacyForm(req, res, next) {
         })
         .catch(err => {
             const proxyResponse = err.response;
-            if (proxyResponse.statusCode === 302) {
+            if (proxyResponse && proxyResponse.statusCode === 302) {
                 res.redirect(302, proxyResponse.headers.location);
             } else {
                 next();
