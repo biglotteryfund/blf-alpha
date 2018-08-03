@@ -150,3 +150,60 @@
         </div>
     </div>
 </header>
+
+<script>
+/**
+ * Initialise event listeners on header navigation early
+ * (e.g. search and menu toggle)
+ *
+ * We do this early so that users can interact
+ * with the navigation before the main script bundle has loaded
+ * increasing time-to-interactive
+ */
+(function() {
+    const elSelector = '.js-global-header';
+    var stateClassNames = {
+        nav: 'has-toggled-navigation',
+        search: 'has-toggled-search'
+    };
+
+    var body = document.querySelector('body');
+    var html = document.querySelector('html');
+    var el = document.querySelector(elSelector);
+    var searchInput = el.querySelector('input[type=search]');
+
+    if (!el) {
+        return;
+    }
+
+    var toggleNav = el.querySelector('.js-toggle-nav');
+    var toggleSearch = el.querySelector('.js-toggle-search');
+
+    toggleNav.addEventListener('click', function(e) {
+        e.preventDefault();
+        html.classList.remove(stateClassNames.search);
+        html.classList.toggle(stateClassNames.nav);
+    });
+
+    toggleSearch.addEventListener('click', function(e) {
+        e.preventDefault();
+        html.classList.remove(stateClassNames.nav);
+        html.classList.toggle(stateClassNames.search);
+
+        if (searchInput) {
+            searchInput.focus();
+        }
+    });
+
+    body.addEventListener('click', function(e) {
+        var isOutsideClick = e.target.closest(elSelector) === null;
+        if (
+            isOutsideClick &&
+            (html.classList.contains(stateClassNames.search) || html.classList.contains(stateClassNames.nav))
+        ) {
+            html.classList.remove(stateClassNames.search);
+            html.classList.remove(stateClassNames.nav);
+        }
+    });
+}());
+</script>
