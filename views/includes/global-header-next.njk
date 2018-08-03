@@ -1,5 +1,4 @@
-{% from "components/icons.njk" import iconHamburger, iconSearch %}
-{% from "components/nav.njk" import navSearchForm, navLangLink with context %}
+{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
 {% from "components/language-switcher/macro.njk" import languageSwitcher with context %}
 
 {% macro _navigation() %}
@@ -11,8 +10,17 @@
         "label": "Funding",
         "url": "/funding",
         "children": [{
-            "label": "Thing",
-            "url": "/funding/blah"
+            "label": "Thinking of applying",
+            "url": "/funding/under10k"
+        }, {
+            "label": "Funding programmes",
+            "url": "/funding/programmes"
+        }, {
+            "label": "What we’ve funded",
+            "url": "/funding/past-grants"
+        }, {
+            "label": "Continue your application",
+            "url": "https://apply.biglotteryfund.org.uk/Login.aspx"
         }]
     }, {
         "label": "In your area",
@@ -38,9 +46,12 @@
 
     <ul>
         {% for item in navigation %}
-            <li {% if item.mobileOnly %}class="u-mobile-only"{% endif %}>
-                <a href="{{ item.url }}">{{ item.label }}</a>
-                {% if item.children %}
+            {% set hasChildren = item.children.length > 0 %}
+            <li class="{% if hasChildren %}has-children{% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}">
+                <a href="{{ item.url }}">
+                    {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
+                </a>
+                {% if hasChildren %}
                     <ul>
                         {% for child in item.children %}
                             <li>
@@ -52,6 +63,28 @@
             </li>
         {% endfor %}
     </ul>
+{% endmacro %}
+
+{% macro globalSearch() %}
+    <form class="global-search-next" role="search" action="/search">
+        <input type="hidden" name="lang" value="en-GB">
+        <input type="hidden" name="type" value="All">
+        <input type="hidden" name="order" value="r">
+        <label class="u-visually-hidden" for="global-search-input">
+            {{ __("global.misc.search") }}
+        </label>
+        <input
+            class="global-search-next__input ff-text"
+            id="global-search-input"
+            name="q"
+            type="search"
+            placeholder="{{ __("global.misc.search") }}"
+        >
+        <button class="global-search-next__submit" type="submit">
+            {{ iconSearch() }}
+            <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
+        </button>
+    </form>
 {% endmacro %}
 
 <header class="global-header-next js-global-header" role="banner">
@@ -89,7 +122,15 @@
                 <ul class="global-header-next__navigation-secondary">
                     <li><a href="{{ localify('/') }}">Home</a></li>
                     <li><a href="{{ localify('/about') }}">About us</a></li>
-                    <li>{{ navLangLink() }}</li>
+                    <li>
+                        {% if isBilingual %}
+                            {% if locale == 'en' %}
+                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+                            {% else %}
+                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
+                            {% endif %}
+                        {% endif %}
+                    </li>
                     <li>Advice Line: 0345 4 10 20 30</li>
                 </ul>
                 <div class="global-header-next__language">
@@ -103,7 +144,7 @@
             </div>
 
             <div class="global-header-next__search">
-                {{ navSearchForm() }}
+                {{ globalSearch() }}
             </div>
         </div>
     </div>

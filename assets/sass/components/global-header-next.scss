@@ -44,8 +44,7 @@
             align-items: center;
         }
 
-        .global-header-next__navigation,
-        .global-header-next__search {
+        .global-header-next__navigation {
             position: absolute;
             top: 100%;
             width: 100%;
@@ -58,15 +57,6 @@
             display: none;
 
             html.has-toggled-navigation & {
-                display: block;
-            }
-        }
-
-        .global-header-next__search {
-            padding: $spacingUnit;
-            display: none;
-
-            html.has-toggled-search & {
                 display: block;
             }
         }
@@ -92,19 +82,18 @@
             }
         }
 
-        .global-header-next__toggle-search {
-            html.has-toggled-search & {
-                color: palette('pink');
-            }
-        }
-
         .global-header-next__navigation-primary {
             > ul > li {
                 border-bottom: 1px solid #e6e6e6;
                 &:last-child {
                     border-bottom: none;
                 }
+
+                .icon {
+                    display: none;
+                }
             }
+
             > ul > li > a {
                 text-align: center;
                 text-decoration: none;
@@ -135,6 +124,47 @@
         }
     }
 
+    @media only screen and (max-width: 600px) {
+        .global-header-next__search {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .global-header-next__search {
+            padding: $spacingUnit;
+            display: none;
+
+            html.has-toggled-search & {
+                display: block;
+            }
+        }
+
+        .global-header-next__toggle-search {
+            html.has-toggled-search & {
+                color: palette('pink');
+            }
+        }
+    }
+
+    @media only screen and (min-width: 600px) and (max-width: 800px) {
+        .global-header-next__search {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-left: $spacingUnit; // Optically align
+            width: 50%;
+        }
+
+        .global-header-next__toggle-search {
+            display: none;
+        }
+    }
+
     @media only screen and (min-width: 800px) {
         .global-header-next__inner {
             display: flex;
@@ -150,41 +180,99 @@
 
         .global-header-next__secondary {
             flex: 1 1 0%;
-            margin-bottom: $spacingUnit;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: $spacingUnit / 2;
+
+            @include mq('large') {
+                margin-bottom: $spacingUnit;
+            }
         }
         .global-header-next__navigation {
             flex: 1 1 auto;
         }
         .global-header-next__search {
-            flex: 0 0 auto;
+            flex: 0 0 25%;
         }
 
         .global-header-next__navigation-primary {
-            margin: 0 $spacingUnit;
+            margin: 0;
             max-width: 540px;
 
             > ul {
                 display: flex;
                 justify-content: space-between;
-            }
 
-            > ul > li {
-                padding-right: 0.5em;
+                > li {
+                    flex: 1 1 auto;
+                    position: relative;
+                }
+
+                > li > a {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 6px 10px;
+
+                    .icon {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-right: -3px;
+                        margin-left: 3px;
+                    }
+
+                    &:hover {
+                        color: palette('pink');
+                    }
+                }
+
+                > li.has-children:hover {
+                    > a {
+                        color: white;
+                        background-color: rgba(226, 0, 135, 0.95);
+                    }
+
+                    ul {
+                        display: block;
+                        position: absolute;
+                        z-index: 100;
+                        left: 0;
+                        top: 100%;
+                        color: white;
+                        background-color: rgba(226, 0, 135, 0.95);
+                        box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.1);
+
+                        a {
+                            display: block;
+                            color: inherit;
+                            text-decoration: none;
+                            white-space: nowrap;
+                            font-size: 14px;
+                            padding: 10px 12px;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
             }
         }
 
         .global-header-next__navigation-secondary {
             position: absolute;
             right: 0;
-            top: $spacingUnit;
+            top: $spacingUnit / 2;
             display: flex;
             flex-direction: row;
             color: palette('charcoal-note');
             text-transform: uppercase;
             font-size: 13px;
+
+            @include mq('large') {
+                top: $spacingUnit;
+            }
 
             > li {
                 margin-right: $spacingUnit * 2;
@@ -196,6 +284,10 @@
             > li > a {
                 color: inherit;
                 text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
 
@@ -213,18 +305,68 @@
     }
 }
 
+/* =========================================================================
+   Global Search Form
+   ========================================================================= */
+
+.global-search-next {
+    margin: 0;
+    position: relative;
+    outline: 2px solid palette('border');
+
+    .global-search-next__input {
+        @include poppins();
+        font-size: 16px;
+        font-weight: normal;
+        border: none;
+        width: 100%;
+        margin-top: 0;
+        padding: 6px 32px 6px 12px;
+    }
+
+    .global-search-next__submit {
+        border: 0;
+        outline: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        height: 100%;
+        background-color: #ededed;
+
+        .icon {
+            width: 21px;
+            height: 21px;
+            fill: palette('charcoal');
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        @include on-interact {
+            .icon {
+                fill: palette('charcoal');
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Brand Logo
+   ========================================================================= */
+
 .brand-logo {
     display: inline-block;
     background-repeat: no-repeat;
     background-position: left center;
     background-image: url(../../../images/logos/logo.png);
     background-size: auto 100%;
-    margin: 0;
+    margin: 0 5px 0 0;
 
     height: 80px;
     width: 100px;
 
-    @include mq('medium') {
+    @include mq('large') {
         height: 105px;
         width: 130px;
     }
@@ -239,7 +381,7 @@
         width: 110px;
         height: 105px;
 
-        @include mq('medium') {
+        @include mq('large') {
             width: 140px;
             height: 133px;
         }
