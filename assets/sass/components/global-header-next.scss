@@ -2,6 +2,9 @@
    Global Header
    ========================================================================= */
 
+$breakpointSmall: 540px;
+$breakpointLarge: 840px;
+
 .global-header-next {
     background: white;
     position: relative;
@@ -35,7 +38,7 @@
         margin-bottom: 6px;
     }
 
-    @media only screen and (max-width: 800px) {
+    @media only screen and (max-width: $breakpointLarge) {
         .global-header-next__primary {
             padding: 10px 20px;
             display: flex;
@@ -124,7 +127,7 @@
         }
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: $breakpointSmall) {
         .global-header-next__search {
             position: absolute;
             top: 100%;
@@ -150,7 +153,7 @@
         }
     }
 
-    @media only screen and (min-width: 600px) and (max-width: 800px) {
+    @media only screen and (min-width: $breakpointSmall + 1px) and (max-width: $breakpointLarge) {
         .global-header-next__search {
             position: absolute;
             top: 50%;
@@ -165,7 +168,7 @@
         }
     }
 
-    @media only screen and (min-width: 800px) {
+    @media only screen and (min-width: $breakpointLarge) {
         .global-header-next__inner {
             display: flex;
             align-items: flex-end;
@@ -221,10 +224,11 @@
                         margin-right: -3px;
                         margin-left: 3px;
                     }
+                }
 
-                    &:hover {
-                        color: palette('pink');
-                    }
+                > li:hover > a,
+                > li.is-current > a {
+                    color: palette('pink');
                 }
 
                 > li.has-children:hover {
@@ -270,10 +274,6 @@
             text-transform: uppercase;
             font-size: 13px;
 
-            @include mq('large') {
-                top: $spacingUnit;
-            }
-
             > li {
                 margin-right: $spacingUnit * 2;
                 &:last-child {
@@ -312,7 +312,6 @@
 .global-search-next {
     margin: 0;
     position: relative;
-    outline: 2px solid palette('border');
 
     .global-search-next__input {
         @include poppins();
@@ -320,32 +319,59 @@
         font-weight: normal;
         border: none;
         width: 100%;
-        margin-top: 0;
-        padding: 6px 32px 6px 12px;
+        margin: 0;
+        margin-bottom: $spacingUnit / 2;
     }
 
-    .global-search-next__submit {
-        border: 0;
-        outline: none;
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-        height: 100%;
-        background-color: #ededed;
-
-        .icon {
-            width: 21px;
-            height: 21px;
-            fill: palette('charcoal');
-            vertical-align: middle;
-            position: relative;
-            top: -2px;
+    @media only screen and (max-width: $breakpointSmall) {
+        .global-search-next__input {
+            padding: 0.75em 1em;
         }
 
-        @include on-interact {
+        .global-search-next__submit {
+            @include poppins();
+            color: white;
+            background-color: palette('pink');
+            display: block;
+            width: 100%;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 12px;
+        }
+        .global-search-next__icon {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: $breakpointSmall) {
+        outline: 2px solid palette('border');
+
+        .global-search-next__input {
+            margin: 0;
+            padding: 6px 32px 6px 12px;
+        }
+
+        .global-search-next__submit {
+            border: 0;
+            outline: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            height: 100%;
+            background-color: #ededed;
+
             .icon {
+                width: 21px;
+                height: 21px;
                 fill: palette('charcoal');
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+
+            .global-search-next__label {
+                @include visually-hidden();
             }
         }
     }
@@ -361,14 +387,15 @@
     background-position: left center;
     background-image: url(../../../images/logos/logo.png);
     background-size: auto 100%;
-    margin: 0 5px 0 0;
+    margin: 0;
+    margin-right: $spacingUnit / 2;
 
     height: 80px;
     width: 100px;
 
     @include mq('large') {
-        height: 105px;
-        width: 130px;
+        height: 96px;
+        width: 120px;
     }
 
     /**
@@ -380,11 +407,6 @@
         background-image: url(../../../images/logos/logo-welsh.png);
         width: 110px;
         height: 105px;
-
-        @include mq('large') {
-            width: 140px;
-            height: 133px;
-        }
     }
 
     @media print {

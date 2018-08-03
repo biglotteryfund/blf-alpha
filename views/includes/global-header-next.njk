@@ -28,7 +28,7 @@
         "children": []
     }, {
         "label": "News",
-        "url": "/news",
+        "url": "/blog",
         "children": []
     }, {
         "label": "Research",
@@ -47,7 +47,8 @@
     <ul>
         {% for item in navigation %}
             {% set hasChildren = item.children.length > 0 %}
-            <li class="{% if hasChildren %}has-children{% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}">
+            {% set pathname = request.baseUrl + request.path | replace(r/\/$/, '') %}
+            <li class="{% if hasChildren %}has-children{% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}{% if pathname === item.url %} is-current{% endif %}">
                 <a href="{{ item.url }}">
                     {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
                 </a>
@@ -81,8 +82,8 @@
             placeholder="{{ __("global.misc.search") }}"
         >
         <button class="global-search-next__submit" type="submit">
-            {{ iconSearch() }}
-            <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
+            <span class="global-search-next__icon">{{ iconSearch() }}</span>
+            <span class="global-search-next__label">{{ __("global.misc.search") }}</span>
         </button>
     </form>
 {% endmacro %}
