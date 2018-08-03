@@ -1,5 +1,5 @@
 'use strict';
-const { forEach } = require('lodash');
+const { forEach, omitBy } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -19,7 +19,6 @@ if (appData.isDev) {
 }
 
 const { cymreigio } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./controllers/helpers/route-helpers');
 const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
@@ -117,12 +116,17 @@ function initAppLocals() {
     /**
      * Navigation sections for top-level nav
      */
-    app.locals.navigationSections = getSectionsForNavigation();
+    app.locals.navigationSections = omitBy(routes.sections, section => section.showInNavigation === false);
 
     /**
      * Common hero images
      */
     app.locals.heroImages = heroImages;
+
+    /**
+     * Set a default page accent
+     */
+    app.locals.pageAccent = 'pink';
 }
 
 initAppLocals();

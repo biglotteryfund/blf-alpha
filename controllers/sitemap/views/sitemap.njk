@@ -1,0 +1,20 @@
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+{% block content %}
+    <main role="main">
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose accent-content--{{ pageAccent }}">
+                <h2>{{ title }}</h2>
+                <ul>
+                    {% for route in sitemap %}
+                        <li>
+                            <a href="{{ localify(route.path) }}">
+                                {{ route.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </main>
+{% endblock %}

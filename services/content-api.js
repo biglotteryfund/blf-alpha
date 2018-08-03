@@ -221,8 +221,8 @@ function getMerchandise(locale, showAll = false) {
     return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
 }
 
-function getRoutes() {
-    return fetch('/v1/list-routes').then(mapAttrs);
+function getRoutes(locale) {
+    return fetch(`/v1/${locale}/list-routes`).then(mapAttrs);
 }
 
 module.exports = {
