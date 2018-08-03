@@ -68,9 +68,6 @@
 
 {% macro globalSearch() %}
     <form class="global-search-next" role="search" action="/search">
-        <input type="hidden" name="lang" value="en-GB">
-        <input type="hidden" name="type" value="All">
-        <input type="hidden" name="order" value="r">
         <label class="u-visually-hidden" for="global-search-input">
             {{ __("global.misc.search") }}
         </label>
@@ -162,6 +159,12 @@
  */
 (function() {
     const elSelector = '.js-global-header';
+    var el = document.querySelector(elSelector);
+
+    if (!el) {
+        return;
+    }
+
     var stateClassNames = {
         nav: 'has-toggled-navigation',
         search: 'has-toggled-search'
@@ -169,12 +172,7 @@
 
     var body = document.querySelector('body');
     var html = document.querySelector('html');
-    var el = document.querySelector(elSelector);
     var searchInput = el.querySelector('input[type=search]');
-
-    if (!el) {
-        return;
-    }
 
     var toggleNav = el.querySelector('.js-toggle-nav');
     var toggleSearch = el.querySelector('.js-toggle-search');
