@@ -19,7 +19,7 @@ GzipEnabled="gzip_types"
 sed -i "s|$GzipDisabled|$GzipEnabled|g" /etc/nginx/nginx.conf
 
 # install node
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 apt-get install -y nodejs
 
 # install aws cli (to fetch secrets from parameterstore)
