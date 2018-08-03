@@ -52,25 +52,6 @@
         {% else %}
             <p>No responses</p>
         {% endif %}
-
-        {% if legacyResponses.length > 0 %}
-            <details>
-                <summary>Show legacy feedback</summary>
-                <div class="mt-3 mb-2" style="max-height: 350px; overflow: auto">
-                    <div class="list-group">
-                        {% for response in legacyResponses %}
-                        <div class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <a href="?path={{ response.path }}">{{ response.path }}</a>
-                                <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
-                            </div>
-                            <p class="mb-3">{{ response.message }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </details>
-        {% endif %}
     </section>
 
     {% if not pathQuery %}
@@ -78,7 +59,7 @@
             <h2>Pages with feedback</h2>
             <div class="mb-5" style="max-height: 350px; overflow: auto">
                 <div class="list-group">
-                    {% for path, count in survey.groupedPaths %}
+                    {% for path, count in survey.groupedPaths | dictsort %}
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
                             <a href="?path={{ path }}">{{ path }}</a>

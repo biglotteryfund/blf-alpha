@@ -3,17 +3,8 @@ const { Op } = require('sequelize');
 const { minBy, maxBy, partition, countBy, sortBy } = require('lodash');
 const moment = require('moment');
 
-const { SurveyResponse, SurveyAnswer } = require('../models');
+const { SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
-
-// Legacy method. @TODO: Migrate or move me
-function findAllLegacyResponses() {
-    return SurveyResponse.findAll({
-        order: [['updatedAt', 'DESC']]
-    }).then(responses => {
-        return responses.filter(response => response.message !== null);
-    });
-}
 
 function summariseVotes(responses) {
     if (responses.length === 0) {
@@ -70,7 +61,7 @@ async function getAllResponses({ path = null }) {
             voteData: summariseVotes(noResponses)
         };
 
-        const toPercentage = count => Math.round(count / responses.length * 100);
+        const toPercentage = count => Math.round((count / responses.length) * 100);
         const totals = {
             totalResponses: responses.length,
             percentageYes: toPercentage(yesResponses.length),
@@ -96,6 +87,5 @@ function createResponse(response) {
 
 module.exports = {
     createResponse,
-    getAllResponses,
-    findAllLegacyResponses
+    getAllResponses
 };
