@@ -29,6 +29,14 @@ const LENGTH_HINTS = {
     }
 };
 
+// Allows us to share postcode validation on server and client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here to output it as a native RegExp
+// but also as a string for the HTML pattern attribute
+const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+const POSTCODE_REGEX = new RegExp(POSTCODE_PATTERN, 'i');
+const isValidPostcode = input => POSTCODE_REGEX.test(input);
+
 const currentWork = [
     {
         legend: 'Your current work',
@@ -342,14 +350,15 @@ const organisationDetails = [
                 label: 'Postcode',
                 size: 10,
                 isRequired: true,
+                customRegex: POSTCODE_PATTERN,
                 validator(field) {
                     return check(field.name)
                         .trim()
                         .not()
                         .isEmpty()
                         .withMessage('Postcode must be provided')
-                        .isPostalCode('GB')
-                        .withMessage('Invalid postcode');
+                        .custom(value => isValidPostcode(value))
+                        .withMessage('Please provide a valid UK postcode');
                 }
             }
         ]
@@ -434,5 +443,6 @@ module.exports = {
     projectEvaluation,
     projectLocation,
     socialConnections,
-    yourIdea
+    yourIdea,
+    isValidPostcode
 };
