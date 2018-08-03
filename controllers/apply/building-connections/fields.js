@@ -261,8 +261,8 @@ const projectBudget = [
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?',
                 helpText: `<p>
-                    Please note that we require you to spend a minimum of 20% of your whole budget in 
-                    the first quarter of the project. We will ask you to evidence this in April 2019.
+                    Please note that we require you to spend a minimum of 20% of your whole budget 
+                    in the first three months of the project. We will ask you to evidence this in April 2019.
                 </p>`
             },
             {
