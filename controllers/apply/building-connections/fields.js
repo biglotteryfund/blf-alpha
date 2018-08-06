@@ -377,8 +377,7 @@ const organisationDetails = [
                 explanation: `
                     If you're unsure, you can
                     <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
-                        look it up on the Charity Commission website</a>. <br>
-                    If you don't have one, you can provide a Companies House number below instead.`
+                        look it up on the Charity Commission website</a>.`
             },
             {
                 type: 'text',
@@ -388,7 +387,7 @@ const organisationDetails = [
                     If you're unsure, you can
                     <a href="https://beta.companieshouse.gov.uk" target="_blank" rel="noopener">
                         look it up on the Companies House website
-                    </a>`
+                    </a>.`
             }
         ]
     }
