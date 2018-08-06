@@ -43,7 +43,8 @@ function createFormRouter({ router, formModel }) {
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
             form: formModel,
-            hasBegunForm: hasBegunForm
+            hasBegunForm: hasBegunForm,
+            sessionDurationInDays: EXTENDED_SESSION_DURATION_IN_DAYS
         });
     });
 
