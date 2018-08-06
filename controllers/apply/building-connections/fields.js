@@ -279,6 +279,7 @@ const projectBudget = [
                 min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
+                silentlyOptional: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2019–March 2020?'
             },
@@ -286,6 +287,7 @@ const projectBudget = [
                 name: 'project-budget-b-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
+                silentlyOptional: true,
                 label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
@@ -294,6 +296,7 @@ const projectBudget = [
                 min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
+                silentlyOptional: true,
                 size: 20,
                 label: 'How much do you plan to spend for the period until April 2020–March 2021?'
             },
@@ -301,6 +304,7 @@ const projectBudget = [
                 name: 'project-budget-c-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
+                silentlyOptional: true,
                 label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
             }
         ]
@@ -373,8 +377,7 @@ const organisationDetails = [
                 explanation: `
                     If you're unsure, you can
                     <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
-                        look it up on the Charity Commission website</a>. <br>
-                    If you don't have one, you can provide a Companies House number below instead.`
+                        look it up on the Charity Commission website</a>.`
             },
             {
                 type: 'text',
@@ -384,7 +387,7 @@ const organisationDetails = [
                     If you're unsure, you can
                     <a href="https://beta.companieshouse.gov.uk" target="_blank" rel="noopener">
                         look it up on the Companies House website
-                    </a>`
+                    </a>.`
             }
         ]
     }

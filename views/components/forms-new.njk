@@ -1,4 +1,4 @@
-{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% else %} ff-label--optional{% endif %}{% endmacro %}
+{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
 
 {% macro formHeader(title, stepProgress) %}
     <div class="form-header">
