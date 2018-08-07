@@ -35,31 +35,61 @@ ignore:
     - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > braces > snapdragon > source-map-resolve > atob:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      '@gulp-sourcemaps/identity-map > css > source-map-resolve > atob':
+        reason: None given
+        expires: '2018-09-06T07:59:46.710Z'
     - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > extglob > snapdragon > source-map-resolve > atob:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      mem-fs-editor > globby > fast-glob > micromatch > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-09-06T07:59:46.710Z'
     - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > extglob > expand-brackets > snapdragon > source-map-resolve > atob:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      mem-fs-editor > globby > fast-glob > micromatch > braces > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > snapdragon > source-map-resolve > atob:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      mem-fs-editor > globby > fast-glob > micromatch > extglob > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - babel-jest > babel-plugin-istanbul > test-exclude > micromatch > nanomatch > snapdragon > source-map-resolve > atob:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      mem-fs-editor > globby > fast-glob > micromatch > nanomatch > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - mem-fs-editor > globby > fast-glob > micromatch > extglob > expand-brackets > snapdragon > source-map-resolve > atob:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
   'npm:braces:20180219':
     - expect > jest-message-util > micromatch > braces:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      jscodeshift > micromatch > braces:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - jest-config > jest-environment-node > jest-util > jest-message-util > micromatch > braces:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      webpack-cli > jscodeshift > micromatch > braces:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - jest-config > jest-util > jest-message-util > micromatch > braces:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      webpack-addons > jscodeshift > micromatch > braces:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - jest-config > jest-jasmine2 > jest-message-util > micromatch > braces:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
+      webpack-cli > webpack-addons > jscodeshift > micromatch > braces:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
     - jest-config > jest-jasmine2 > expect > jest-message-util > micromatch > braces:
         reason: None given
         expires: '2018-08-24T10:12:18.241Z'
@@ -151,6 +181,32 @@ ignore:
     - html-to-text > underscore.string:
         reason: None given
         expires: '2018-08-24T10:12:18.242Z'
+  'npm:chownr:20180731':
+    - sqlite3 > node-pre-gyp > tar > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - babel-loader > webpack > uglifyjs-webpack-plugin > cacache > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - webpack-cli > webpack > uglifyjs-webpack-plugin > cacache > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - nunjucks > chokidar > fsevents > node-pre-gyp > tar > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - babel-loader > webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - webpack-cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar > chownr:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+  'npm:shelljs:20140723':
+    - shelljs:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
+    - webpack-cli > yeoman-generator > shelljs:
+        reason: None given
+        expires: '2018-09-06T07:59:46.711Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:qs:20170213':
@@ -164,14 +220,14 @@ patch:
   'npm:debug:20170905':
     - mocha > debug:
         patched: '2017-09-27T03:46:09.042Z'
-      nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
-        patched: '2018-07-25T10:10:30.405Z'
     - helmet > connect > debug:
         patched: '2017-09-27T03:46:09.042Z'
     - helmet > connect > finalhandler > debug:
         patched: '2017-09-27T03:46:09.042Z'
     - phantomjs-prebuilt > extract-zip > debug:
         patched: '2017-09-27T03:46:09.042Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2018-07-25T10:10:30.405Z'
   'npm:hoek:20180212':
     - jest-config > jest-environment-jsdom > jsdom > request > hawk > hoek:
         patched: '2018-07-25T10:10:30.405Z'
