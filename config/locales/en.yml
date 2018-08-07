@@ -359,6 +359,8 @@ toplevel:
     title: Research
     intro: Find out more about what we’re learning from the projects we fund.
     sectionLinks:
+    - label: "New report: youth serious violence"
+      href: "/research/youth-serious-violence"
     - label: Communities and places
       href: "/research/communities-and-places"
     - label: Older people

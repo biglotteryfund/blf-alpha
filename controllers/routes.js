@@ -176,7 +176,7 @@ sections.research.addRoutes({
         template: 'controllers/research/views/research-detail',
         lang: 'research.youthviolence',
         heroSlug: 'paws-for-progress',
-        live: false
+        isBilingual: false
     })
 });
 
