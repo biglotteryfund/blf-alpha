@@ -76,7 +76,10 @@ function createFormRouter({ router, formModel }) {
         // for users submitting a step, increase their session expiry
         // so they can save progress beyond a browser session
         function extendSessionDuration(req, res, next) {
-            req.session.cookie.maxAge = moment()
+            // belt and braces: https://stackoverflow.com/a/46631171
+            const maxAge = EXTENDED_SESSION_DURATION_IN_DAYS * 24 * 3600 * 1000;
+            req.session.cookie.maxAge = maxAge;
+            req.session.cookie.expires = moment()
                 .add(EXTENDED_SESSION_DURATION_IN_DAYS, 'days')
                 .toDate();
             req.flash('progressSaved', {

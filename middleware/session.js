@@ -30,7 +30,8 @@ module.exports = function(app) {
             sameSite: true,
             secure: !appData.isDev
         },
-        store: store
+        store: store,
+        rolling: true
     };
 
     return [cookieParser(SESSION_SECRET), session(sessionConfig)];
