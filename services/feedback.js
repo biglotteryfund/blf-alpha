@@ -6,7 +6,10 @@ const { Feedback } = require('../models');
 
 function findAll() {
     return Feedback.findAll({
-        order: [['updatedAt', 'DESC']]
+        order: [
+            ['description', 'ASC'],
+            ['updatedAt', 'DESC']
+        ]
     }).then(results => {
         return groupBy(result => result.description.toLowerCase())(results);
     });
