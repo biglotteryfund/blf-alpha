@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="u-margin-bottom">
-                            {{ printButton(label = "Print this page") }}
+                            {{ printButton(label = __('global.misc.printThisPage')) }}
                         </div>
 
                         {{ segmentLinks(
@@ -56,9 +56,9 @@
 
                         <aside class="card">
                             <header class="card__header">
-                                <h3 class="card__title">Related programmes</h3>
+                                <h3 class="card__title">{{ copy.relatedProgrammes.title }}</h3>
                                 <div class="card__body">
-                                    {% for relatedProgramme in copy.relatedProgrammes %}
+                                    {% for relatedProgramme in copy.relatedProgrammes.items %}
                                         <a href="{{ relatedProgramme.url }}" class="related-programme">
                                             {% if relatedProgramme.thumbnail %}
                                                 <span class="related-programme__media">
@@ -116,7 +116,7 @@
                             </a></p>
 
                         {% endfor %}
-                        <p><a href="#content">↑ Back to the top</a>
+                        <p><a href="#content">↑ {{ __('global.misc.backToTop') }}</a>
                     </div>
 
                 </section>

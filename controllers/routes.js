@@ -175,8 +175,7 @@ sections.research.addRoutes({
         path: '/youth-serious-violence',
         template: 'controllers/research/views/research-detail',
         lang: 'research.youthviolence',
-        heroSlug: 'paws-for-progress',
-        isBilingual: false
+        heroSlug: 'paws-for-progress'
     })
 });
 
