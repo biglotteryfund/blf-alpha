@@ -163,7 +163,7 @@ async function injectFundingProgrammes(req, res, next) {
 
 async function injectStrategicProgramme(req, res, next) {
     try {
-        // Assumes a paramater of :slug in the request
+        // Assumes a parameter of :slug in the request
         const { slug } = req.params;
         if (slug) {
             const strategicProgramme = await contentApi.getStrategicProgrammes({

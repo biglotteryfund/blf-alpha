@@ -9,6 +9,21 @@
 
 {% set pageAccent = 'pink' %}
 
+{% macro renderContentBlocks(contentBlocks) %}
+    {% for part in contentBlocks  %}
+        <div class="content-slice">
+            <div class="content-slice__primary">
+                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    {% if part.title %}
+                        <h2>{{ part.title }}</h2>
+                    {% endif %}
+                    {{ part.content | safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
 {% block content %}
 <main role="main">
     {{ hero(
@@ -33,16 +48,7 @@
             {%- endset %}
 
             {% set tabContentImpact -%}
-                {% for part in strategicProgramme.impact  %}
-                    <div class="content-slice">
-                        <div class="content-slice__primary">
-                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                                <h2>{{ part.title }}</h2>
-                                {{ part.content | safe }}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                {{ renderContentBlocks(strategicProgramme.impact) }}
             {%- endset %}
 
             {% set tabContentPartnerships -%}
@@ -73,6 +79,10 @@
                 {% endif %}
             {%- endset %}
 
+            {% set tabContentResources -%}
+                {{ renderContentBlocks(strategicProgramme.resources) }}
+            {%- endset %}
+
             {{ contentTabs([{
                 "id": "section-1",
                 "title": "Aims & approach",
@@ -85,6 +95,10 @@
                 "id": "section-3",
                 "title": "Partnerships",
                 "content": tabContentPartnerships
+            }, {
+                "id": "section-4",
+                "title": "Resources",
+                "content": tabContentResources
             }]) }}
         </section>
 
