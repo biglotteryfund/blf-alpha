@@ -148,7 +148,9 @@ function initViewEngine() {
     });
 
     app.set('view engine', 'njk').set('engineEnv', templateEnv);
-
+    // attempt to fix session sharing bug
+    // see https://stackoverflow.com/questions/32307933/passportjs-session-mixed-up
+    app.disable('view cache');
     viewGlobalsService.init(app);
 }
 
