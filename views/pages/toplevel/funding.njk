@@ -29,9 +29,9 @@
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t1">{{ copy.latestProgrammes }}</h2>
 
-                <ul class="grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                <ul class="flex-grid flex-grid--3up">
                     {% for programme in latestProgrammes %}
-                        <li class="grid__item">
+                        <li class="flex-grid__item">
                             {{ programmeCard(
                                 isMinimal = true,
                                 accent = 'pink',
