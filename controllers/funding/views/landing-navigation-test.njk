@@ -14,13 +14,26 @@
         ) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box content-box--borderless
+                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose">
                     <p>National lottery funding can help make a difference in your community.</p>
 
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis unde, voluptatum voluptatibus aperiam ipsum eos, necessitatibus. <a href="#">Help me find the right funding</a><p>
                     <p>quisquam eaque quas tempora praesentium! Architecto eligendi consequuntur maxime repellendus dignissimos autem inventore non.</p>
                 </div>
+
+                {{ statsGrid([{
+                    "title": "Total number of grants awarded",
+                    "value": "13,814"
+                }, {
+                    "title": "Total number of expected beneficiaries",
+                    "value": "9,377,362",
+                    "showNumberBeforeTitle": true
+                }, {
+                    "title": "Total value of funding awarded",
+                    "value": "£712.7m"
+                }]) }}
             </section>
 
             {% set childPages = [{
