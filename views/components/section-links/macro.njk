@@ -2,7 +2,8 @@
     <ul class="section-links">
         {% for sectionLink in sectionLinks %}
             <li class="section-links__item">
-                <a class="section-links__link" href="{{ sectionLink.href }}">
+                <a class="section-links__link" href="{{ sectionLink.href }}"
+                    {% if sectionLink.id %}id="{{ sectionLink.id }}"{% endif %}>
                     {{ sectionLink.label }}
                 </a>
             </li>

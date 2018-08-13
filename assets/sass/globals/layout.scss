@@ -45,14 +45,6 @@
     margin-right: $spacingUnit / 2;
 }
 
-// @TODO better name
-.central-gap {
-    @include mq('medium') {
-        margin-left: 20%;
-        margin-right: 20%;
-    }
-}
-
 .nudge-up {
     @include mq('medium') {
         top: -25px;
