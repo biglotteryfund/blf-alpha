@@ -2,7 +2,6 @@
 const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
 const moment = require('moment');
-const flash = require('req-flash');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../middleware/cached');
@@ -11,8 +10,6 @@ const cached = require('../../middleware/cached');
 const EXTENDED_SESSION_DURATION_IN_DAYS = 7;
 
 function createFormRouter({ router, formModel }) {
-    // init flash messaging
-    router.use(flash());
 
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
@@ -82,10 +79,6 @@ function createFormRouter({ router, formModel }) {
             req.session.cookie.expires = moment()
                 .add(EXTENDED_SESSION_DURATION_IN_DAYS, 'days')
                 .toDate();
-            req.flash('progressSaved', {
-                duration: EXTENDED_SESSION_DURATION_IN_DAYS,
-                unit: 'days'
-            });
             next();
         }
 
