@@ -9,7 +9,6 @@ const feedbackService = require('../../services/feedback');
 const orderService = require('../../services/orders');
 const surveysService = require('../../services/surveys');
 
-const pagelistRouter = require('./pagelist');
 const seedRouter = require('./seed');
 
 const router = express.Router();
@@ -19,10 +18,6 @@ router.use(cached.noCache, toolsSecurityHeaders());
 /**************************************
  * Public / Unauthed Tools
  **************************************/
-
-pagelistRouter.init({
-    router
-});
 
 seedRouter.init({
     router
@@ -36,7 +31,6 @@ router.use(auth.requireAuthedLevel(5));
 
 router.route('/').get((req, res) => {
     const links = [
-        { label: 'View a list of all published pages', href: '/tools/pages' },
         { label: 'View micro-survey results', href: '/tools/survey-results' },
         { label: 'View feedback results', href: '/tools/feedback-results' },
         { label: 'View recent materials order stats', href: '/tools/order-stats' }

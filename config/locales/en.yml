@@ -74,6 +74,7 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    sitemap: Site map
     search: Search
     latestNews: Latest news
     viewAllNews: View all news articles
