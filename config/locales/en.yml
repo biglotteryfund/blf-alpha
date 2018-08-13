@@ -517,6 +517,9 @@ funding:
       languageOptions:
         monolingual: in English
         bilingual: in Welsh & English
+      validationError:
+        title: We’re sorry, there was an error recording your response.
+        link: Please try again.
       orderSubmitted:
         success:
           title: Thank you for your order.
