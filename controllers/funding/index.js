@@ -24,14 +24,6 @@ module.exports = ({ router, pages }) => {
     });
 
     /**
-     * Free materials
-     */
-    materialsRoute.init({
-        router: router,
-        routeConfig: pages.fundingGuidanceMaterials
-    });
-
-    /**
      * Funding programmes
      */
     programmesRoute.init({
@@ -43,6 +35,14 @@ module.exports = ({ router, pages }) => {
      * Strategic investments
      */
     strategicInvestmentsRoute.init({ router });
+
+    /**
+     * Free materials
+     */
+    materialsRoute.init({
+        router: router,
+        routeConfig: pages.fundingGuidanceMaterials
+    });
 
     return router;
 };
