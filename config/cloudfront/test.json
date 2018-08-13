@@ -50,9 +50,10 @@
         "WhitelistedNames": {
           "Items": [
             "contrastMode",
-            "blf-features"
+            "blf-features",
+            "blf-alpha-session"
           ],
-          "Quantity": 2
+          "Quantity": 3
         }
       }
     },
@@ -114,9 +115,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -357,9 +359,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -530,9 +533,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -735,9 +739,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1068,9 +1073,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1339,9 +1345,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1544,9 +1551,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1602,9 +1610,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features"
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },

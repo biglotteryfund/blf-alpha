@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { assign, compact, concat, flatten, get, has, sortBy } = require('lodash');
+const { assign, compact, concat, flatten, get, has, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 const appData = require('./appData');
@@ -173,7 +173,11 @@ const makeBehaviourItem = ({
 function generateBehaviours({ routesConfig, origins }) {
     const urlsToSupport = generateUrlList(routesConfig);
 
-    const defaultCookies = [config.get('cookies.contrast'), config.get('cookies.features')];
+    const defaultCookies = [
+        config.get('cookies.contrast'),
+        config.get('cookies.features'),
+        config.get('cookies.session')
+    ];
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
@@ -206,15 +210,17 @@ function generateBehaviours({ routesConfig, origins }) {
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = urlsToSupport.map(url => {
-        const cookiesInUse = compact(
-            flatten([
-                // Global cookies
-                defaultCookies,
-                // Route specific a/b test cookie
-                get(url, 'abTest.cookie'),
-                // Custom route specific cookies
-                get(url, 'cookies', [])
-            ])
+        const cookiesInUse = uniq(
+            compact(
+                flatten([
+                    // Global cookies
+                    defaultCookies,
+                    // Route specific a/b test cookie
+                    get(url, 'abTest.cookie'),
+                    // Custom route specific cookies
+                    get(url, 'cookies', [])
+                ])
+            )
         );
 
         return makeBehaviourItem({
