@@ -79,9 +79,9 @@
                 </h2>
             </header>
             <div class="latest-news__content">
-                <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                <ul class="flex-grid flex-grid--3up">
                     {% for article in news %}
-                        <li class="grid__item">
+                        <li class="flex-grid__item">
                             {{ articleTeaser(article) }}
                         </li>
                     {% endfor %}
