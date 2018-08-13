@@ -125,7 +125,20 @@
             <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
         </div>
     {% else %}
+
+        {# Warn about validation errors and link to anchor #}
+        {% if orderStatus == formHelpers.FORM_STATES.VALIDATION_ERROR %}
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <h2 class="t2 accent--pink a--text">{{ copy.validationError.title }}</h2>
+                <h3 class="t2 accent--{{ pageAccent }} a--text">
+                    <a href="#{{ formAnchorName }}">{{ copy.validationError.link }}</a>
+                </h3>
+            </div>
+        {% endif %}
+
+        {# CMS content #}
         {{ super() }}
+
         <div id="js-vue" class="no-vue" data-orders="{{ orders | dump }}">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2>{{ copy.locationPrompt }}</h2>
@@ -163,7 +176,7 @@
 
                 </div>
 
-                <div class="u-inner accent--{{ pageAccent }} a--border-top p" id="your-details">
+                <div class="u-inner accent--{{ pageAccent }} a--border-top p" id="{{ formAnchorName }}">
                     <div class="u-padded">
                         <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 

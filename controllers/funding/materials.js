@@ -3,7 +3,6 @@ const { validationResult } = require('express-validator/check');
 const { map, reduce, some } = require('lodash');
 const { purify } = require('../../modules/validators');
 const { sanitizeBody } = require('express-validator/filter');
-const flash = require('req-flash');
 const moment = require('moment');
 const Raven = require('raven');
 
@@ -164,7 +163,8 @@ function initForm({ router, routeConfig }) {
             formFields: materialFields,
             orders: orders,
             orderStatus: status,
-            formActionBase: formActionBase
+            formActionBase: formActionBase,
+            formAnchorName: 'your-details'
         });
     }
 
@@ -244,33 +244,10 @@ function initForm({ router, routeConfig }) {
                         renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
                     });
             } else {
-                req.flash('formErrors', errors.array());
-                req.flash('formValues', req.body);
-
-                req.session.save(() => {
-                    // build a redirect URL based on the route, the language of items,
-                    // and the form anchor, so the user sees the form again via JS
-                    let redirectUrl = req.baseUrl + routeConfig.path;
-                    let formAnchor = '#your-details';
-                    let langParam = '?lang=';
-
-                    // add their language choice (if valid)
-                    let langChoice = req.body.languageChoice;
-                    if (
-                        langChoice &&
-                        redirectUrl.indexOf(langParam) === -1 &&
-                        ['monolingual', 'bilingual'].indexOf(langChoice) !== -1
-                    ) {
-                        redirectUrl += langParam + langChoice;
-                    }
-
-                    // add the form anchor (if not present)
-                    if (redirectUrl.indexOf(formAnchor) === -1) {
-                        redirectUrl += formAnchor;
-                    }
-
-                    res.redirect(redirectUrl);
-                });
+                // The form has failed validation
+                res.locals.formErrors = errors.array();
+                res.locals.formValues = req.body;
+                renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
             }
         });
 
@@ -278,7 +255,6 @@ function initForm({ router, routeConfig }) {
 }
 
 function init({ router, routeConfig }) {
-    router.use(flash());
 
     initAddRemove({
         router,

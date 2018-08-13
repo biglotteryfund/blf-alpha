@@ -427,6 +427,9 @@ funding:
       languageOptions:
         monolingual: yn Saesneg
         bilingual: yn Gymraeg a Saesneg
+      validationError:
+        title: Mae'n flin gennym, cafwyd gwall wrth gofnodi'ch data.
+        link: Rhowch gynnig arall arni.
       orderSubmitted:
         success:
           title: Diolch am eich archeb.
