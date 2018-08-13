@@ -123,6 +123,11 @@ function initAppLocals() {
      * Common hero images
      */
     app.locals.heroImages = heroImages;
+
+    /**
+     * Default pageAccent colour
+     */
+    app.locals.pageAccent = 'pink';
 }
 
 initAppLocals();
