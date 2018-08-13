@@ -28,19 +28,6 @@ function init(app) {
         }
     });
 
-    // utility to get flash messages in templates (this can cause race conditions otherwise)
-    setViewGlobal('getFlash', (req, key, innerKey) => {
-        if (req && req.flash) {
-            if (req.flash(key)) {
-                if (!innerKey) {
-                    return req.flash(key);
-                } else if (req.flash(key)[innerKey]) {
-                    return req.flash(key)[innerKey];
-                }
-            }
-        }
-    });
-
     setViewGlobal('formHelpers', formHelpers);
 }
 

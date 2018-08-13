@@ -15,6 +15,13 @@ const userEndpoints = {
     resetpassword: '/reset-password'
 };
 
+const STATUSES = {
+    ACTIVATION_SENT: 'activationSent',
+    PASSWORD_RESET_REQUESTED: 'passwordResetRequest',
+    PASSWORD_UPDATED: 'passwordUpdated',
+    LOGGED_OUT: 'loggedOut'
+};
+
 const makeUserLink = page => userBasePath + userEndpoints[page];
 
 // convert a single error string into a list
@@ -71,5 +78,6 @@ module.exports = {
     makeErrorList,
     emailPasswordValidations,
     formValidations,
-    trackError: trackError
+    trackError,
+    STATUSES
 };

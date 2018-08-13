@@ -7,7 +7,7 @@ const mail = require('../../modules/mail');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 
-const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError, STATUSES } = require('./utils');
 const login = require('./login');
 const dashboard = require('./dashboard');
 
@@ -65,11 +65,9 @@ const createUser = (req, res, next) => {
     if (!errors.isEmpty()) {
         // failed validation
         // return the user to the form to correct errors
-        req.flash('formValues', data);
         res.locals.errors = errors.array();
-        req.session.save(() => {
-            return registrationForm(req, res);
-        });
+        res.locals.formValues = data;
+        return registrationForm(req, res);
     } else {
         const { username, password } = req.body;
         // check if this email address already exists
@@ -93,7 +91,7 @@ const createUser = (req, res, next) => {
                                 // used for tests to verify activation works
                                 res.send(activationData);
                             } else {
-                                req.flash('activationSent', true);
+                                res.locals.newStatus = STATUSES.ACTIVATION_SENT;
                                 login.attemptAuth(req, res, next);
                             }
                         })
@@ -127,10 +125,11 @@ const activateUser = (req, res) => {
 
     if (!token) {
         // no token, so send them an activation email
-        req.flash('activationSent', true);
+        // @TODO async/await
         sendActivationEmail(req.user, req);
         req.session.save(() => {
-            res.redirect(userBasePath + userEndpoints.dashboard);
+            const statusParam = `?s=${STATUSES.ACTIVATION_SENT}`;
+            res.redirect(userBasePath + userEndpoints.dashboard + statusParam);
         });
     } else {
         // validate the token

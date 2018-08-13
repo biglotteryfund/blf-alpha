@@ -7,22 +7,22 @@
 
     {{ listErrors() }}
 
-    {% set justLoggedOut = getFlash(request, 'justLoggedOut') %}
+    {% set justLoggedOut = status === STATUSES.LOGGED_OUT %}
+    {% set passwordUpdated = status === STATUSES.PASSWORD_UPDATED %}
+    {% set passwordResetRequested = status === STATUSES.PASSWORD_RESET_REQUESTED %}
+
     {% if justLoggedOut %}
         <div class="alert alert-success" role="alert">
             <p>You were successfully logged out.</p>
         </div>
     {% endif %}
 
-    {% set passwordUpdated = getFlash(request, 'passwordUpdated') %}
-    {% set passwordRequestSent = getFlash(request, 'passwordRequestSent') %}
-
-    {% if passwordUpdated or passwordRequestSent %}
+    {% if passwordUpdated or passwordResetRequested %}
         <div class="alert alert-warning" role="alert">
             {% if passwordUpdated %}
                 <p>Your password was successfully updated! Please log in below.</p>
             {% endif %}
-            {% if passwordRequestSent %}
+            {% if passwordResetRequested %}
                 <p>Your password reset request was sent to your registered email address.</p>
             {% endif %}
         </div>
@@ -43,7 +43,7 @@
                    name="username"
                    required
                    aria-required="true"
-                   value="{{ getFlash(request, 'formValues', 'username') }}">
+                   value="{{ formValues['username'] }}">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
