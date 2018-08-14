@@ -446,3 +446,39 @@
         }
     }
 }
+
+/* =========================================================================
+   Location Search
+   ========================================================================= */
+
+.location-search {
+    padding: $spacingUnit;
+    margin-bottom: $spacingUnit * 2;
+    background: palette('pale-grey');
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .location-search__label,
+    .location-search__submit {
+        flex: 0 0 auto;
+    }
+
+    .location-search__field {
+        flex: 1 1 0%;
+        border: none;
+        font-size: 18px;
+        padding: 0.5em 1em;
+    }
+
+    .location-search__label {
+        @include poppins();
+        font-size: 18px;
+        font-weight: bold;
+        padding-right: $spacingUnit;
+    }
+
+    .location-search__submit {
+        padding-left: $spacingUnit;
+    }
+}

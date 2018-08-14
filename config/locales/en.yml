@@ -16,8 +16,9 @@ global:
   nav:
     home: Home
     funding: Funding
-    about: About
+    local: In your area
     research: Research
+    about: About
     blog: Blog
   contact:
     city: London
@@ -357,6 +358,8 @@ toplevel:
     - "reaching-communities-england"
     - "national-lottery-awards-for-all-england"
     - "empowering-young-people"
+  local:
+    title: In your area
   research:
     title: Research
     intro: Find out more about what we’re learning from the projects we fund.

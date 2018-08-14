@@ -23,6 +23,11 @@ const sections = {
         langTitlePath: 'global.nav.funding',
         controllerPath: path.resolve(__dirname, './funding')
     }),
+    local: createSection({
+        path: '/local',
+        langTitlePath: 'global.nav.local',
+        showInNavigation: false
+    }),
     research: createSection({
         path: '/research',
         langTitlePath: 'global.nav.research'
@@ -88,6 +93,20 @@ sections.toplevel.addRoutes({
     search: customRoute({
         path: '/search',
         allowAllQueryStrings: true
+    })
+});
+
+/**
+ * Local Routes
+ */
+sections.local.addRoutes({
+    root: staticContentRoute({
+        path: '/',
+        template: 'pages/toplevel/local',
+        isBilingual: false,
+        lang: 'toplevel.local',
+        heroSlug: 'arkwright-meadows',
+        live: false
     })
 });
 
