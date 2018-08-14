@@ -1,0 +1,72 @@
+{% from "components/hero.njk" import hero %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+                <div class="s-prose accent-content--{{ pageAccent }}">
+                    <p>Discover the difference that National Lottery funding is making near you</p>
+
+                    <p>We have recently reorganised our work across England to improve our local reach and ensure our funding is focussed on people and communities most in need. We have reshaped our regional outreach to create a new local presence, with staff based across England</p>
+                </div>
+            </div>
+
+            <div class="u-inner-wide-only">
+                <form class="location-search" action="">
+                    <label class="location-search__label" for="location-search-query">
+                        Where are you?
+                    </label>
+                    <input class="location-search__field" type="text" id="location-search-query"
+                        placeholder="Enter a place, town, or postcode">
+                    <div class="location-search__submit">
+                        <input class="btn btn--medium" type="submit" value="Search" />
+                    </div>
+                </form>
+            </div>
+
+            {# This is a bit of a hack for the purposes of prototyping #}
+            {# @TODO: Refactor this if we choose to develop this further #}
+            <section class="map-holder accent--{{ pageAccent }} a--border-top">
+                <div class="map-holder__inner u-inner-wide-only u-padded">
+                    <h2 class="t3 t--underline accent--{{ pageAccent }}">Choose a region</h2>
+
+                    <div class="map-wrapper" role="tablist">
+                        {% include "includes/uk-svg.njk" %}
+                    </div>
+
+                    <div class="map-panes">
+                        <div class="is-active">
+                            <article class="map-info accent--turquoise a--border-top u-padded">
+                                <h3 class="t4 t--underline">West Midlands</h3>
+                                <div class="s-prose" style="font-size: 80%;">
+                                    <p><a href="#">All West Midlands</a></p>
+                                    <p>Choose an area:</p>
+                                    <p>
+                                        <a href="#">Birmingham</a><br/>
+                                        <a href="#">Black country</a><br/>
+                                        <a href="#">Coventry</a><br/>
+                                        <a href="#">Herefordshire</a><br/>
+                                        <a href="#">Staffordshire</a><br/>
+                                        <a href="#">Shropshire</a><br/>
+                                        <a href="#">Warwickshire</a><br/>
+                                        <a href="#">Wolverhampton</a><br/>
+                                        <a href="#">Worcestershire</a>
+                                    </p>
+                                </div>
+
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

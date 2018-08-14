@@ -1,9 +1,6 @@
 'use strict';
 
-const appData = require('../../modules/appData');
-
 const landingPageRoute = require('./funding');
-const landingPageNewRoute = require('./funding-new');
 const materialsRoute = require('./materials');
 const programmesRoute = require('../programmes');
 const strategicInvestmentsRoute = require('../strategic-investments');
@@ -17,13 +14,6 @@ module.exports = ({ router, pages }) => {
         router: router,
         routeConfig: pages.root
     });
-
-    /**
-     * Navigation Test: Funding landing page
-     */
-    if (appData.isNotProduction) {
-        router.use('/landing-navigation-test', landingPageNewRoute);
-    }
 
     /**
      * 10k pages

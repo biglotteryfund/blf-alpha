@@ -23,6 +23,11 @@ const sections = {
         langTitlePath: 'global.nav.funding',
         controllerPath: path.resolve(__dirname, './funding')
     }),
+    local: createSection({
+        path: '/local',
+        langTitlePath: 'global.nav.local',
+        showInNavigation: false
+    }),
     research: createSection({
         path: '/research',
         langTitlePath: 'global.nav.research'
@@ -92,6 +97,20 @@ sections.toplevel.addRoutes({
 });
 
 /**
+ * Local Routes
+ */
+sections.local.addRoutes({
+    root: staticContentRoute({
+        path: '/',
+        template: 'pages/toplevel/local',
+        isBilingual: false,
+        lang: 'toplevel.local',
+        heroSlug: 'arkwright-meadows',
+        live: false
+    })
+});
+
+/**
  * Funding Routes
  */
 sections.funding.addRoutes({
@@ -101,6 +120,13 @@ sections.funding.addRoutes({
         template: 'pages/toplevel/funding',
         lang: 'toplevel.funding',
         heroSlug: 'active-plus-communities'
+    }),
+    rootTest: staticContentRoute({
+        path: '/landing-navigation-test',
+        template: 'pages/toplevel/funding-prototype',
+        lang: 'toplevel.funding',
+        heroSlug: 'arkwright-meadows',
+        live: false
     }),
     under10k: customRoute({
         path: '/under10k',
