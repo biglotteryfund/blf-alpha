@@ -1,18 +1,13 @@
 /* eslint-env node */
 'use strict';
 const path = require('path');
-const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-
-const pkg = require('./package.json');
-const { getBuildSummary } = require('./build-helpers');
-
-const buildSummary = getBuildSummary();
+const isProduction = process.env.NODE_ENV === 'production';
 
 const commonConfig = {
-    mode: buildSummary.isProduction ? 'production' : 'development',
+    mode: isProduction ? 'production' : 'development',
     performance: {
-        hints: buildSummary.isProduction ? 'error' : false
+        hints: isProduction ? 'error' : false
     },
     module: {
         rules: [
@@ -47,19 +42,14 @@ module.exports = [
         output: {
             filename: '[name].js',
             chunkFilename: '[name].bundle.js',
-            path: path.resolve(__dirname, buildSummary.buildDir, 'javascripts')
+            path: path.resolve(__dirname, 'public/build/latest/javascripts')
         },
-        devtool: buildSummary.isProduction ? 'source-map' : 'eval-source-map',
+        devtool: isProduction ? 'source-map' : 'eval-source-map',
         resolve: {
             alias: {
                 vue$: 'vue/dist/vue.esm.js'
             }
         },
-        plugins: [
-            new VueLoaderPlugin(),
-            new webpack.BannerPlugin({
-                banner: `${pkg.description} - ${buildSummary.commitHash}`
-            })
-        ]
+        plugins: [new VueLoaderPlugin()]
     })
 ];

@@ -14,7 +14,7 @@
     "build-css": "gulp css",
     "build-js": "webpack",
     "build": "npm run clean && npm run build-css && npm run build-js",
-    "build-production": "export NODE_ENV=production && npm run build && gulp manifest",
+    "build-production": "export NODE_ENV=production && npm run build && ./bin/hash-rev",
     "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
     "watch-livereload": "livereload public/build/latest/stylesheets/style.css",
     "watch-css": "watch 'npm run build-css' assets/sass",
