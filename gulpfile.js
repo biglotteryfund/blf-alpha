@@ -7,7 +7,6 @@ const autoprefixer = require('autoprefixer');
 const foutWithAClass = require('postcss-fout-with-a-class').default;
 const cssnano = require('cssnano');
 const sourcemaps = require('gulp-sourcemaps');
-const livereload = require('livereload');
 const fs = require('fs');
 
 const { getBuildSummary } = require('./build-helpers');
@@ -36,10 +35,4 @@ gulp.task('manifest', function(done) {
     };
 
     fs.writeFile(buildSummary.manifestDir, JSON.stringify(manifestData, null, 4), done);
-});
-
-gulp.task('watch', function() {
-    const server = livereload.createServer();
-    server.watch(buildSummary.buildDirBase + '/**/*.{css,js}');
-    gulp.watch(buildSummary.cssInDir + '/**/*.scss', ['css']);
 });
