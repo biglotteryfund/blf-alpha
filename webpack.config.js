@@ -3,6 +3,7 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const isProduction = process.env.NODE_ENV === 'production';
+const pkgConfig = require('./package.json').config;
 
 const commonConfig = {
     mode: isProduction ? 'production' : 'development',
@@ -42,7 +43,7 @@ module.exports = [
         output: {
             filename: '[name].js',
             chunkFilename: '[name].bundle.js',
-            path: path.resolve(__dirname, 'public/build/latest/javascripts')
+            path: path.resolve(__dirname, pkgConfig.dist.js)
         },
         devtool: isProduction ? 'source-map' : 'eval-source-map',
         resolve: {
