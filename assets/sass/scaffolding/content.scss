@@ -126,3 +126,22 @@
     padding-top: $spacingUnit;
     border-top: 1px solid palette('border');
 }
+
+/* =========================================================================
+   Social Content
+   ========================================================================= */
+/* Twitter feed, ebulletin, and social links on the homepage */
+
+.social-content {
+    @include mq('medium') {
+        display: flex;
+
+        .social-content__primary {
+            flex: 1 1 0%;
+        }
+
+        .social-content__secondary {
+            flex: 0 0 33.3%;
+        }
+    }
+}
