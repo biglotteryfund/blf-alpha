@@ -129,7 +129,12 @@
     }
 
     .accent-content--#{$name} {
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             &::after {
                 border-color: $colour;
             }
@@ -161,7 +166,7 @@
         background-color: $colour;
 
         &::after {
-            content: " #{$colour}"
+            content: ' #{$colour}';
         }
     }
 }

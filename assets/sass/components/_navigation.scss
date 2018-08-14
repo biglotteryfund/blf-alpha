@@ -42,7 +42,6 @@
     }
 }
 
-
 /* =========================================================================
    Breadcrumb Trail
    ========================================================================= */
@@ -50,7 +49,7 @@
 .breadcrumb-trail {
     font-size: 16px;
     color: #6a6a6b;
-    background-color: rgba(0,0,0,0.03);
+    background-color: rgba(0, 0, 0, 0.03);
     padding: 1em ($spacingUnit / 2);
 
     @include mq('medium') {
@@ -93,8 +92,8 @@
 }
 
 .breadcrumb-trail--tinted {
-    color: #B20062;
-    background-color: #FFD8E8;
+    color: #b20062;
+    background-color: #ffd8e8;
 }
 
 /* =========================================================================
@@ -108,11 +107,11 @@
 
     li {
         list-style: none;
-        margin-left: .5em;
+        margin-left: 0.5em;
 
         &:before {
             content: '—';
-            margin-right: .5em;
+            margin-right: 0.5em;
         }
     }
 
