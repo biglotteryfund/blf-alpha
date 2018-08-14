@@ -8,16 +8,11 @@ const foutWithAClass = require('postcss-fout-with-a-class').default;
 const cssnano = require('cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const livereload = require('livereload');
-const del = require('del');
 const fs = require('fs');
 
 const { getBuildSummary } = require('./build-helpers');
 
 const buildSummary = getBuildSummary();
-
-gulp.task('clean', function() {
-    return del([buildSummary.buildDirBase + '/**/*', buildSummary.manifestDir]);
-});
 
 gulp.task('css', function() {
     return gulp
