@@ -9,10 +9,6 @@ $paddedGridGutterLarge: 30px;
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 0;
-
-        &.grid__item--half {
-            max-width: 50%;
-        }
     }
 
     > .grid__item--large {
@@ -21,10 +17,6 @@ $paddedGridGutterLarge: 30px;
 
     &.grid--equal {
         align-items: stretch;
-    }
-
-    &.grid--top {
-        align-items: flex-start;
     }
 
     &.grid--wide-only {
@@ -107,10 +99,6 @@ $paddedGridGutterLarge: 30px;
     padding: $spacingUnit * 2;
 }
 
-.grid__item__inner--flex {
-    height: auto;
-}
-
 @media print {
     .grid {
         display: block !important;
@@ -124,54 +112,19 @@ $paddedGridGutterLarge: 30px;
     }
 }
 
-$num_columns: 12;
-$num_columns_mobile: 3;
-
-@mixin generate-column($className, $width) {
-    #{$className} {
-        flex-basis: $width;
-        flex-grow: 0;
-
-        .grid--padded & {
-            flex-basis: calc(#{$width} - #{$paddedGridGutter});
-        }
-
-        .grid--padded--large & {
-            flex-basis: calc(#{$width} - #{$paddedGridGutterLarge});
-        }
-    }
-}
-
-.grid-row {
-    flex-wrap: wrap;
-}
-
-@include mq('medium', 'max') {
-    @for $i from 1 through $num_columns_mobile {
-        $width: $i / $num_columns_mobile * 100%;
-        .grid__item {
-            @include generate-column('&.grid-col-#{$i}--m', $width);
-        }
-    }
-}
-
-@include mq('medium') {
-    @for $i from 1 through $num_columns {
-        $width: $i / $num_columns * 100%;
-        .grid__item {
-            @include generate-column('&.grid-col-#{$i}', $width);
-        }
-    }
-}
-
 /* =========================================================================
    Flex Grid
    ========================================================================= */
 /**
  * Simple 2up and 3up flexible grid which stacks on small screens
- * @TODO: Review existing .grid styles to work out how to share approaches
+ * For anything else write custom rules as a component.
  */
+
 $flexGridSpacing: $spacingUnit;
+
+/**
+ * Common 2up flexbox based grid
+ */
 .flex-grid {
     @include reset-list();
 
@@ -196,6 +149,9 @@ $flexGridSpacing: $spacingUnit;
     }
 }
 
+/*
+ * Common 3up variant of a flexbox based grid
+ */
 .flex-grid.flex-grid--3up {
     /**
      * Default to 3up where there is space

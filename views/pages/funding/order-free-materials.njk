@@ -101,9 +101,9 @@
 {% endmacro %}
 
 {% macro listProducts(languageToShow) %}
-    <ul class="grid grid--wide-only grid--equal grid--3-up grid--padded">
+    <ul class="flex-grid flex-grid--3up">
         {% for material in materials %}
-            <li class="grid__item">
+            <li class="flex-grid__item">
                 {{ materialCard(material, languageToShow, loop.index) }}
             </li>
         {% endfor %}
@@ -142,22 +142,19 @@
         <div id="js-vue" class="no-vue" data-orders="{{ orders | dump }}">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2>{{ copy.locationPrompt }}</h2>
-                <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
-                    <li class="grid__item">
-                        <a href="#monolingual"
-                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                           v-on:click.prevent="toggleItemLanguage('monolingual')">
-                            {{ copy.locations.monolingual }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="#bilingual"
-                           class="btn btn--block btn--small accent--{{ pageAccent }} a--btn"
-                           v-on:click.prevent="toggleItemLanguage('bilingual')">
-                            {{ copy.locations.bilingual }}
-                        </a>
-                    </li>
-                </ul>
+
+                <div class="o-button-group-flex">
+                    <a href="#monolingual"
+                        class="btn btn--small accent--{{ pageAccent }} a--btn"
+                        v-on:click.prevent="toggleItemLanguage('monolingual')">
+                        {{ copy.locations.monolingual }}
+                    </a>
+                    <a href="#bilingual"
+                        class="btn btn--small accent--{{ pageAccent }} a--btn"
+                        v-on:click.prevent="toggleItemLanguage('bilingual')">
+                        {{ copy.locations.bilingual }}
+                    </a>
+                </div>
             </div>
 
             <div v-show="itemLanguage !== null">
@@ -184,31 +181,21 @@
                             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                             <input type="hidden" name="languageChoice" value="" id="js-language-choice">
 
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourName) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourEmail) }}</div>
-                            </div>
-
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress1) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourAddress2) }}</div>
-                            </div>
-
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCounty) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourTown) }}</div>
-                            </div>
-
-                            <div class="grid grid--padded grid-row">
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourCountry) }}</div>
-                                <div class="grid__item grid-col-6 grid-col-3--m">{{ textField(formFields.yourPostcode) }}</div>
+                            <div class="form-materials__field-group">
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourName) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourEmail) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourAddress1) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourAddress2) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourCounty) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourTown) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourCountry) }}</div>
+                                <div class="form-materials__field-group-item">{{ textField(formFields.yourPostcode) }}</div>
                             </div>
 
                             {{ textField(formFields.yourProjectName) }}
 
-                            <div class="grid grid--padded grid--top grid-row">
-
-                                <div class="grid__item grid-col-6 grid-col-3--m">
+                            <div class="form-materials__field-group">
+                                <div class="form-materials__field-group-item">
                                     {{ radios(
                                         fieldName = formFields.yourReason.name,
                                         label = __(formFields.yourReason.label),
@@ -218,8 +205,7 @@
                                         required = formFields.yourReason.required
                                     ) }}
                                 </div>
-
-                                <div class="grid__item grid-col-6 grid-col-3--m">
+                                <div class="form-materials__field-group-item">
                                     {{ radios(
                                         fieldName = formFields.yourGrantAmount.name,
                                         label = __(formFields.yourGrantAmount.label),
@@ -230,12 +216,13 @@
                                     ) }}
 
                                     <input type="submit"{% if orders.length == 0 %} disabled="disabled"{% endif %}
-                                           v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
-                                           value="{{ __('global.forms.submit') }}"
-                                           class="btn u-margin-top-l"
-                                           id="js-submit-material-order">
+                                        v-bind:disabled="isEmpty() && {{ orders.length }} === 0"
+                                        value="{{ __('global.forms.submit') }}"
+                                        class="btn u-margin-top-l"
+                                        id="js-submit-material-order">
                                 </div>
                             </div>
+
                             <div class="s-prose u-margin-top">
                                 <h4>{{ copy.dataProtection.title }}</h4>
                                 <div class="u-note">{{ copy.dataProtection.text | safe }}</div>
