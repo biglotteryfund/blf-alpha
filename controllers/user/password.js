@@ -6,7 +6,7 @@ const mail = require('../../modules/mail');
 const { purifyUserInput } = require('../../modules/validators');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
-const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError } = require('./utils');
+const { userBasePath, userEndpoints, makeUserLink, makeErrorList, trackError, STATUSES } = require('./utils');
 
 const requestResetForm = (req, res) => {
     res.render('user/resetpassword', {
@@ -83,11 +83,9 @@ const sendResetEmail = (req, res) => {
 
     if (!errors.isEmpty()) {
         // failed validation
-        req.flash('formValues', req.body);
         res.locals.errors = errors.array();
-        req.session.save(() => {
-            return requestResetForm(req, res);
-        });
+        res.locals.formValues = req.body;
+        return requestResetForm(req, res);
     } else {
         const email = purifyUserInput(req.body.username);
         userService
@@ -135,10 +133,8 @@ const sendResetEmail = (req, res) => {
                             id: user.id
                         })
                         .then(() => {
-                            req.flash('passwordRequestSent', true);
-                            req.session.save(() => {
-                                res.redirect(userBasePath + userEndpoints.login);
-                            });
+                            const statusParam = `?s=${STATUSES.PASSWORD_RESET_REQUESTED}`;
+                            res.redirect(userBasePath + userEndpoints.login + statusParam);
                         })
                         .catch(() => {
                             trackError('Error marking user as in password reset mode');
@@ -168,8 +164,8 @@ const updatePassword = (req, res) => {
 
         if (!errors.isEmpty()) {
             // failed validation
-            req.flash('formValues', req.body);
             res.locals.errors = errors.array();
+            res.locals.formValues = req.body;
             return changePasswordForm(req, res);
         } else {
             // check the token again
@@ -191,10 +187,8 @@ const updatePassword = (req, res) => {
                                         newPassword: newPassword
                                     })
                                     .then(() => {
-                                        req.flash('passwordUpdated', true);
-                                        req.session.save(() => {
-                                            res.redirect(userBasePath + userEndpoints.login);
-                                        });
+                                        const statusParam = `?s=${STATUSES.PASSWORD_UPDATED}`;
+                                        res.redirect(userBasePath + userEndpoints.login + statusParam);
                                     })
                                     .catch(() => {
                                         trackError('Error updating a user password');

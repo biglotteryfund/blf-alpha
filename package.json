@@ -116,7 +116,6 @@
     "query-string": "^5.0.1",
     "raven": "2.6.3",
     "raven-js": "3.26.4",
-    "req-flash": "0.0.3",
     "request": "^2.84.0",
     "request-promise-native": "^1.0.5",
     "response-time": "^2.3.2",

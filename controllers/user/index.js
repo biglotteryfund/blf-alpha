@@ -1,9 +1,8 @@
 'use strict';
 const express = require('express');
-const flash = require('req-flash');
 
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
-const { userBasePath, userEndpoints, emailPasswordValidations, formValidations } = require('./utils');
+const { userBasePath, userEndpoints, emailPasswordValidations, formValidations, STATUSES } = require('./utils');
 const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
@@ -14,7 +13,7 @@ const register = require('./register');
 
 const router = express.Router();
 
-router.use(toolsSecurityHeaders(), flash());
+router.use(toolsSecurityHeaders());
 
 // serve a logged-in user's dashboard
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
@@ -37,9 +36,10 @@ router
 // logout users
 router.get(userEndpoints.logout, cached.noCache, (req, res) => {
     req.logout();
-    req.flash('justLoggedOut', true);
+    // Wait for the session to record the logout
     req.session.save(() => {
-        res.redirect(userBasePath + userEndpoints.login);
+        const statusParam = `?s=${STATUSES.LOGGED_OUT}`;
+        res.redirect(userBasePath + userEndpoints.login + statusParam);
     });
 });
 
