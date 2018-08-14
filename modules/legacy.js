@@ -1,25 +1,15 @@
 'use strict';
 const { get } = require('lodash');
-const absolution = require('absolution');
 const config = require('config');
 const jsdom = require('jsdom');
 const ms = require('ms');
 const request = require('request-promise-native');
 
+const appData = require('./appData');
 const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
 
 const { JSDOM } = jsdom;
 const legacyUrl = config.get('legacyDomain');
-
-/**
- * 1. Convert all links in the document to be absolute
- *    (only really useful on non-prod envs)
- * 2. Fix meta tags in HTML which use the wrong CNAME
- */
-function cleanBody(body) {
-    const prodDomain = 'https://www.biglotteryfund.org.uk';
-    return absolution(body, prodDomain).replace(/wwwlegacy/g, 'www');
-}
 
 function getCanonicalUrl(dom) {
     const metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
@@ -61,6 +51,15 @@ function appendLanguageLink(dom, originalUrlPath) {
 }
 
 function cleanDom(dom, originalUrlPath) {
+    // Inject a <base> with the production url in non-production environments
+    // Prevents legacy resources being loaded from dev/urls
+    if (appData.isNotProduction) {
+        const head = dom.window.document.getElementsByTagName('head')[0];
+        const base = dom.window.document.createElement('base');
+        base.href = 'https://www.biglotteryfund.org.uk';
+        head.insertBefore(base, head.firstChild);
+    }
+
     appendLanguageLink(dom, originalUrlPath);
 
     // rewrite main ASP.net form to point to this page
@@ -93,7 +92,8 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
 
         if (/^text\/html/.test(contentType)) {
             const originalUrlPath = req.baseUrl + req.path;
-            const body = cleanBody(response.body);
+            // Fix meta tags in HTML which use the wrong CNAME
+            const body = response.body.replace(/wwwlegacy/g, 'www');
             const dom = new JSDOM(body);
 
             /**

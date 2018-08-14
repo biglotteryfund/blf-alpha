@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+'use strict';
+const fs = require('fs');
+const util = require('util');
+const { execSync } = require('child_process');
+const writeFile = util.promisify(fs.writeFile);
+
+const commitHash = execSync('git rev-parse --short=12 HEAD')
+    .toString()
+    .trim();
+
+(async () => {
+    try {
+        execSync(`cp -r ./public/build/latest ./public/build/${commitHash}`);
+
+        await writeFile(
+            './config/assets.json',
+            JSON.stringify(
+                {
+                    version: commitHash
+                },
+                null,
+                4
+            )
+        );
+
+        console.log('✔ Assets hash revved');
+    } catch (error) {
+        console.error('Error hash revving asset files', error);
+    }
+})();
