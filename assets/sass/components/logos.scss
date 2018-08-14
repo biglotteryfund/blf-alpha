@@ -5,8 +5,46 @@
 .logo-block {
     border: 1px solid palette('border');
     padding: $spacingUnit;
+    position: relative;
 
     .logo-block__link {
         margin-bottom: $spacingUnit / 2;
+    }
+
+    .logo-block__overlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #ffffff;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        padding: $spacingUnit * 2;
+    }
+
+    .logo-block__close {
+        display: inline-block;
+        color: white;
+        border: 2px solid white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        line-height: 32px;
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &.logo-block--reversed {
+        color: white;
+        background-color: palette('charcoal');
     }
 }
