@@ -88,18 +88,18 @@
             <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
         {% if not onlyEps %}</a>{% endif %}
 
-        <div class="logo-block__links">
+        <div class="o-button-group-block">
             {% if not onlyEps %}
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                     href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
                     {{ makeLogoTitle(logoName, 'small') }}
                 </a>
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                     href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
                     {{ makeLogoTitle(logoName, 'large') }}
                 </a>
             {% endif %}
-            <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+            <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                 href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
                 {{ makeLogoTitle(logoName, 'eps') }}
             </a>
