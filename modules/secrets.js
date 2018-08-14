@@ -49,7 +49,7 @@ const APPLICATIONS_SERVICE_ENDPOINT =
     process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint', true);
 
 /**
- * Additional: Without these the app will start but some funcitonality will be unavailable
+ * Additional: Without these the app will start but some functionality will be unavailable
  */
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
