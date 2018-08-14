@@ -55,17 +55,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro downloadBlock(logoId) %}
-    <div class="grid__item__overlay" id="js-download-block--{{ logoId }}">
-        <div class="overlay__close js-success--close" data-logo-id="{{ logoId }}">
-            {{ iconClose() }}
-        </div>
-        {{ successMessage('digital') }}
-        {{ successMessage('print') }}
-        {{ successMessage('vector') }}
-    </div>
-{% endmacro %}
-
 {% macro logoPath(locale, filename, extension, suffix = false) %}
     {% set l = 'logos/' + locale + '/' + filename %}
     {% if suffix %}
@@ -75,9 +64,21 @@
     {{ l | getImagePath }}
 {% endmacro %}
 
-{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
-    <div class="logo-block">
-        {{ downloadBlock(logoId) }}
+{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false, isReversed = false) %}
+    {% if isReversed %}
+        {% set accent = 'white' %}
+    {% endif %}
+
+    <div class="logo-block {% if isReversed %}logo-block--reversed{% endif %}">
+        <div class="logo-block__overlay" id="js-download-block--{{ logoId }}">
+            <div class="logo-block__close js-success--close" data-logo-id="{{ logoId }}">
+                {{ iconClose() }}
+            </div>
+            {{ successMessage('digital') }}
+            {{ successMessage('print') }}
+            {{ successMessage('vector') }}
+        </div>
+
         {% set accentClass = '' %}
         {% if accent %}
             {% set accentClass = ' accent--' + accent + ' a--btn ' %}
@@ -87,18 +88,18 @@
             <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
         {% if not onlyEps %}</a>{% endif %}
 
-        <div class="logo-block__links">
+        <div class="o-button-group-block">
             {% if not onlyEps %}
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                     href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
                     {{ makeLogoTitle(logoName, 'small') }}
                 </a>
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                     href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
                     {{ makeLogoTitle(logoName, 'large') }}
                 </a>
             {% endif %}
-            <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
+            <a class="btn btn--small {{ accentClass }} js-logo-trigger"
                 href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
                 {{ makeLogoTitle(logoName, 'eps') }}
             </a>
@@ -108,26 +109,18 @@
 
 {% set logosMonolingual %}
     <div class="u-padded">
-        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
-            <li class="grid__item">
-                <div class="grid__item__inner accent--turquoise">
-                    {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
-                </div>
+        <ul class="flex-grid">
+            <li class="flex-grid__item">
+                {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner accent--pink">
-                    {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, accent = 'white') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, isReversed = true) }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, accent = 'white') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, isReversed = true) }}
             </li>
         </ul>
     </div>
@@ -156,26 +149,18 @@
 
 {% set logosBilingual %}
     <div class="u-padded">
-        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
-            <li class="grid__item">
-                <div class="grid__item__inner accent--turquoise">
-                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
-                </div>
+        <ul class="flex-grid">
+            <li class="flex-grid__item">
+                {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner accent--pink">
-                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
             </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
-                </div>
+            <li class="flex-grid__item">
+                {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
             </li>
         </ul>
     </div>
@@ -207,18 +192,14 @@
         </div>
 
         <div class="js-tabset" data-paneset="paneset-regions">
-            <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
-                <li class="grid__item">
-                    <a href="#region1" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
-                        {{ copy.locations.monolingual }}
-                    </a>
-                </li>
-                <li class="grid__item">
-                    <a href="#region2" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
-                        {{ copy.locations.bilingual }}
-                    </a>
-                </li>
-            </ul>
+            <div class="o-button-group-flex">
+                <a href="#region1" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.monolingual }}
+                </a>
+                <a href="#region2" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.bilingual }}
+                </a>
+            </div>
         </div>
 
         {{ paneSet(

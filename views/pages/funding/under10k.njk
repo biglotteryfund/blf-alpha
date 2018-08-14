@@ -1,12 +1,10 @@
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
-
     <main role="main">
         {{ hero(
             titleText = copy.title,
@@ -28,34 +26,36 @@
                     </ul>
 
                     <h2>{{ copy.callToAction }}</h2>
+                </div>
 
-                    <ul class="u-list-unstyled grid grid--padded grid--equal grid--4-up grid--wide-only">
-                    <li class="grid__item">
-                        <a href="{{ localify('/funding/programmes/national-lottery-awards-for-all-england') }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                            {{ copy.locations.england }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="{{ localify('/funding/programmes/national-lottery-awards-for-all-scotland') }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                            {{ copy.locations.scotland }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="{{ localify('/funding/programmes/national-lottery-awards-for-all-wales') }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                            {{ copy.locations.wales }}
-                        </a>
-                    </li>
-                    <li class="grid__item">
-                        <a href="{{ localify('/funding/programmes/awards-for-all-northern-ireland') }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--block btn--small">
-                            {{ copy.locations.northernIreland }}
-                        </a>
-                    </li>
-                    </ul>
+                {% set links = [{
+                    "id": "england",
+                    "label": copy.locations.england,
+                    "url": localify('/funding/programmes/national-lottery-awards-for-all-england')
+                }, {
+                    "id": "scotland",
+                    "label": copy.locations.scotland,
+                    "url": localify('/funding/programmes/national-lottery-awards-for-all-scotland')
+                }, {
+                    "id": "wales",
+                    "label": copy.locations.wales,
+                    "url": localify('/funding/programmes/national-lottery-awards-for-all-wales')
+                }, {
+                    "id": "northernIreland",
+                    "label": copy.locations.northernIreland,
+                    "url": localify('/funding/programmes/awards-for-all-northern-ireland')
+                }] %}
 
+                <div class="o-button-group-flex">
+                    {% for link in links %}
+                        <a href="{{ link.url }}"
+                            class="btn accent--{{ pageAccent }} a--btn btn--small"
+                            id="qa-button-{{ link.id }}">
+                            {{ link.label }}
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="s-prose">
                     <p>{{ copy.ukWideInfo | safe }}</p>
                 </div>
             </div>
@@ -67,10 +67,10 @@
                 accent = pageAccent
             ) }}
 
-            <div class="u-inner">
-                <div class="central-gap u-margin-bottom">
-                    <a href="{{ localify('/funding/past-grants') }}" class="btn btn--outline accent--{{ pageAccent }} btn--block btn--small">{{ copy.browseFundedProjects }}</a>
-                </div>
+            <div class="u-inner u-align-center u-margin-bottom-l">
+                <a href="{{ localify('/funding/past-grants') }}" class="btn btn--outline accent--{{ pageAccent }} btn--a btn--small">
+                    {{ copy.browseFundedProjects }}
+                </a>
             </div>
         </div>
     </main>

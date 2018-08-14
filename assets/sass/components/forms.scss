@@ -409,12 +409,6 @@
         border: none;
     }
 
-    input[type='submit'] {
-        display: block;
-        width: 100%;
-        border-bottom: none;
-    }
-
     input[type='radio'] {
         width: auto;
         display: inline-block;
@@ -430,6 +424,25 @@
     &:invalid {
         input[type='submit'] {
             @include disabledBtn();
+        }
+    }
+
+    .form-materials__field-group {
+        @include mq('medium-minor') {
+            display: flex;
+            flex-wrap: wrap;
+
+            .form-materials__field-group-item {
+                flex: 0 0 50%;
+
+                &:nth-of-type(odd) {
+                    padding-right: $spacingUnit / 2;
+                }
+
+                &:nth-of-type(even) {
+                    padding-left: $spacingUnit / 2;
+                }
+            }
         }
     }
 }

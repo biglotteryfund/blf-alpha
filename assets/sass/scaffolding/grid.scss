@@ -1,177 +1,16 @@
-$paddedGridGutter: 10px;
-$paddedGridGutterLarge: 30px;
-
-.grid {
-    display: flex;
-    align-items: center;
-
-    > .grid__item {
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 0;
-
-        &.grid__item--half {
-            max-width: 50%;
-        }
-    }
-
-    > .grid__item--large {
-        flex-grow: 2;
-    }
-
-    &.grid--equal {
-        align-items: stretch;
-    }
-
-    &.grid--top {
-        align-items: flex-start;
-    }
-
-    &.grid--wide-only {
-        @include mq('medium', 'max') {
-            display: block;
-            margin-left: 0 !important;
-
-            > .grid__item {
-                max-width: 100% !important;
-                margin-left: 0 !important;
-                overflow: hidden;
-                width: auto !important;
-            }
-        }
-    }
-
-    &.grid--padded {
-        margin-left: -$paddedGridGutter;
-
-        > .grid__item {
-            margin-left: $paddedGridGutter;
-            margin-bottom: $spacingUnit;
-        }
-    }
-
-    &.grid--padded--large {
-        margin-left: -$paddedGridGutterLarge;
-
-        > .grid__item {
-            margin-left: $paddedGridGutterLarge;
-            margin-bottom: $paddedGridGutterLarge;
-        }
-    }
-
-    // output grid cols for 2-up, 3-up etc
-    @for $i from 2 through 4 {
-        // we round this number down to fix IE11 bugs in the grid
-        $colWidth: decimal-round(100% / $i, 0, floor);
-
-        &.grid--#{$i}-up {
-            flex-wrap: wrap;
-
-            > .grid__item {
-                flex-basis: $colWidth;
-                width: $colWidth;
-            }
-
-            &.grid--padded {
-                > .grid__item {
-                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutter});
-                    max-width: calc(#{$colWidth} - #{$paddedGridGutter});
-                }
-            }
-
-            &.grid--padded--large {
-                > .grid__item {
-                    flex-basis: calc(#{$colWidth} - #{$paddedGridGutterLarge});
-                    max-width: calc(#{$colWidth} - #{$paddedGridGutterLarge});
-                }
-            }
-        }
-    }
-}
-
-.grid__item__inner {
-    position: relative;
-    height: 100%;
-}
-
-.grid__item__overlay {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #ffffff;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    padding: $spacingUnit * 2;
-}
-
-.grid__item__inner--flex {
-    height: auto;
-}
-
-@media print {
-    .grid {
-        display: block !important;
-        margin: 0 !important;
-    }
-    .grid__item {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-    }
-}
-
-$num_columns: 12;
-$num_columns_mobile: 3;
-
-@mixin generate-column($className, $width) {
-    #{$className} {
-        flex-basis: $width;
-        flex-grow: 0;
-
-        .grid--padded & {
-            flex-basis: calc(#{$width} - #{$paddedGridGutter});
-        }
-
-        .grid--padded--large & {
-            flex-basis: calc(#{$width} - #{$paddedGridGutterLarge});
-        }
-    }
-}
-
-.grid-row {
-    flex-wrap: wrap;
-}
-
-@include mq('medium', 'max') {
-    @for $i from 1 through $num_columns_mobile {
-        $width: $i / $num_columns_mobile * 100%;
-        .grid__item {
-            @include generate-column('&.grid-col-#{$i}--m', $width);
-        }
-    }
-}
-
-@include mq('medium') {
-    @for $i from 1 through $num_columns {
-        $width: $i / $num_columns * 100%;
-        .grid__item {
-            @include generate-column('&.grid-col-#{$i}', $width);
-        }
-    }
-}
-
 /* =========================================================================
    Flex Grid
    ========================================================================= */
 /**
  * Simple 2up and 3up flexible grid which stacks on small screens
- * @TODO: Review existing .grid styles to work out how to share approaches
+ * For anything else write custom rules as a component.
  */
+
 $flexGridSpacing: $spacingUnit;
+
+/**
+ * Common 2up flexbox based grid
+ */
 .flex-grid {
     @include reset-list();
 
@@ -196,6 +35,9 @@ $flexGridSpacing: $spacingUnit;
     }
 }
 
+/*
+ * Common 3up variant of a flexbox based grid
+ */
 .flex-grid.flex-grid--3up {
     /**
      * Default to 3up where there is space

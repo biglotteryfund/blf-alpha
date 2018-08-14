@@ -299,24 +299,14 @@ $btnConf: (
 }
 
 /* =========================================================================
-   Button Utilities
-   ========================================================================= */
-
-// forces full-width
-.btn--block {
-    display: block;
-}
-
-.btn--block-full {
-    display: block;
-    width: 100%;
-}
-
-/* =========================================================================
    Button Group
    ========================================================================= */
 /* Group together a set of buttons with consistent spacing */
 
+/**
+ * Button group
+ * Groups together a set of inline buttons with horizontal spacing
+ */
 .o-button-group {
     .btn {
         margin-bottom: ($spacingUnit / 2);
@@ -340,6 +330,10 @@ $btnConf: (
     }
 }
 
+/**
+ * Button group block
+ * Groups together a set of block buttons with vertical spacing
+ */
 .o-button-group-block {
     .btn {
         display: block;
@@ -348,6 +342,35 @@ $btnConf: (
 
         &:last-of-type {
             margin-bottom: 0;
+        }
+    }
+}
+
+/**
+ * Button group flex
+ * Groups together a set of buttons which flex to fit available space
+ */
+.o-button-group-flex {
+    @include mq('medium') {
+        display: flex;
+        flex-flow: row wrap;
+        margin: -10px 0 $spacingUnit -10px;
+        justify-content: center;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: $spacingUnit;
+
+        @include mq('medium') {
+            width: auto;
+            flex: 1 1 0;
+            margin: 10px 0 0 10px;
+            // Setting whitespace & max-width values
+            // allow long buttons to wrap but not over-stretch.
+            max-width: 35em;
+            white-space: nowrap;
         }
     }
 }
