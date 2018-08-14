@@ -85,67 +85,6 @@ $paddedGridGutterLarge: 30px;
                     max-width: calc(#{$colWidth} - #{$paddedGridGutterLarge});
                 }
             }
-
-            &.grid--bordered {
-                $borderColour: #94aee5;
-
-                @include mq('medium', 'max') {
-                    > .grid__item {
-                        border-bottom: 4px solid $borderColour;
-                    }
-                }
-                @include mq('medium') {
-                    > .grid__item {
-                        border-top: 1px solid $borderColour;
-                        border-right: 1px solid $borderColour;
-
-                        // some magic to alternate border colours
-                        &:nth-child(odd) {
-                            &:after {
-                                border-left-color: palette('blue');
-                            }
-                        }
-                        &:nth-child(even) {
-                            &:after {
-                                border-left-color: palette('pink');
-                            }
-                        }
-
-                        &:nth-child(-n + #{$i}) {
-                            border-top: none;
-                        }
-
-                        &:nth-child(#{$i}n) {
-                            border-right: none;
-                        }
-
-                        // internal border
-                        &:nth-child(#{$i}n + 1) {
-                            $desiredHeight: 50%;
-                            $desiredWidth: 4px;
-                            &:after {
-                                position: relative;
-                                display: block;
-                                content: '';
-                                left: 0;
-                                height: $desiredHeight;
-                                top: #{ (100% - $desiredHeight) / 2};
-                                border-left-style: solid;
-                                border-left-width: $desiredWidth;
-                                width: $desiredWidth;
-                            }
-
-                            // when used inside a content box,
-                            // the border should be 15px outside
-                            .content-box & {
-                                &:after {
-                                    left: -#{ $spacingUnit + 15px};
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -232,7 +171,7 @@ $num_columns_mobile: 3;
  * Simple 2up and 3up flexible grid which stacks on small screens
  * @TODO: Review existing .grid styles to work out how to share approaches
  */
- $flexGridSpacing: $spacingUnit;
+$flexGridSpacing: $spacingUnit;
 .flex-grid {
     @include reset-list();
 
@@ -272,8 +211,8 @@ $num_columns_mobile: 3;
      * allow 3up on wide screens > 2up on medium > 1up on small
      * http://quantityqueries.com/
      */
-    > .flex-grid__item:nth-last-child(n+4),
-    > .flex-grid__item:nth-last-child(n+4) ~ .flex-grid__item {
+    > .flex-grid__item:nth-last-child(n + 4),
+    > .flex-grid__item:nth-last-child(n + 4) ~ .flex-grid__item {
         @include mq('small') {
             flex: 0 0 50%;
         }

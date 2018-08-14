@@ -6,90 +6,113 @@
    Stats
    ========================================================================= */
 
-.stats-holder {
-    position: relative;
-}
+.stats-grid {
+    $borderColour: #94aee5;
+    @include reset-list();
 
-.stats__icon {
-    padding: $spacingUnit * 2;
-
-    @include mq('medium') {
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        min-height: 200px;
-        position: relative;
+    @include mq('medium-minor') {
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    .stats__icon__detail {
-        @include mq('medium') {
-            position: absolute;
-            width: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: $spacingUnit;
+    > .stats-grid__item {
+        max-width: 100%;
+        padding: $spacingUnit 0;
+
+        @include mq('medium-minor', 'max') {
+            border-bottom: 4px solid $borderColour;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @include mq('medium-minor') {
+            display: flex;
+            flex: 0 0 33.3%;
+            border-top: 1px solid $borderColour;
+            border-right: 1px solid $borderColour;
+            padding: $spacingUnit * 2 $spacingUnit;
+
+            &:nth-child(-n + 3) {
+                border-top: none;
+            }
+
+            &:nth-child(3n) {
+                border-right: none;
+            }
+
+            &:nth-child(3n + 1) {
+                position: relative;
+                &:after {
+                    position: absolute;
+                    display: block;
+                    content: '';
+                    left: -$spacingUnit;
+                    bottom: $spacingUnit;
+                    top: $spacingUnit;
+                    border-left-style: solid;
+                    border-left-width: 4px;
+                }
+            }
+
+            // Alternate border colours
+            &:nth-child(odd) {
+                &:after {
+                    border-left-color: palette('blue');
+                }
+            }
+
+            &:nth-child(even) {
+                &:after {
+                    border-left-color: palette('pink');
+                }
+            }
         }
     }
 }
 
-.stats {
-    div {
-        margin-top: 0;
-    }
+/* =========================================================================
+   Stat Block
+   ========================================================================= */
+.stat-block {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 0%;
 
-    li {
-        margin: 0;
-    }
-
-    dl {
-        margin-top: 0;
-    }
-
-    dt,
-    dd {
-        margin: 0;
-    }
-
-    li:nth-child(odd) {
-        .number {
-            color: palette('blue');
-        }
-    }
-
-    .number {
-        color: palette('pink');
+    .stat-block__number {
+        color: palette('blue');
         display: inline-block;
-        font-family: 'Poppins', arial, sans-serif;
-        line-height: 1;
-        font-weight: 600;
         margin: 5px 0;
-        font-size: 40px;
 
-        @include mq('medium') {
-            font-size: 35px;
-        }
+        @include poppins();
+        font-weight: 600;
+        line-height: 1;
+        font-size: 28px;
 
         @include mq('large') {
-            font-size: 40px;
-        }
-
-        &.number--suffix {
-            font-size: 20px;
+            font-size: 35px;
         }
     }
 
-    .caption {
+    .stat-block__number.stat-block__number--suffix {
+        font-size: 80%;
+    }
+
+    .stat-block__caption {
         margin-top: 0;
         display: block;
         color: palette('charcoal');
         font-family: 'Poppins', arial, sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        font-size: 20px;
+        font-size: 14px;
+    }
+}
 
-        @include mq('medium') {
-            font-size: 14px;
-        }
+.stat-block--alternate {
+    .stat-block__number {
+        color: palette('pink');
     }
 }
 

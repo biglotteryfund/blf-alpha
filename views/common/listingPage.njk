@@ -21,21 +21,22 @@
         </section>
 
         {% if content.children.length > 0 %}
-            <div class="u-inner">
-                <ul class="unstyled grid grid--2-up grid--padded grid--equal grid--wide-only">
-                {% for page in content.children %}
-                    <li class="grid__item">
-                        {{ miniatureHero(
-                            title = page.trailText | default(page.title, true),
-                            imagePath = page.photo,
-                            imageCaption = page.title,
-                            linkUrl = page.link,
-                            accent = page.themeColour
-                        )}}
-                    </li>
-                {% endfor %}
+            <section class="u-inner">
+                <ul class="flex-grid">
+                    {% for page in content.children %}
+                        <li class="flex-grid__item">
+                            {{ miniatureHero(
+                                title = page.trailText | default(page.title, true),
+                                imagePath = page.photo,
+                                imageCaption = page.title,
+                                linkUrl = page.link,
+                                accent = page.themeColour,
+                                isLarge = true
+                            )}}
+                        </li>
+                    {% endfor %}
                 </ul>
-            </div>
+            </section>
         {% endif %}
 
         {% if content.outro %}
