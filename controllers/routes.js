@@ -121,6 +121,13 @@ sections.funding.addRoutes({
         lang: 'toplevel.funding',
         heroSlug: 'active-plus-communities'
     }),
+    rootTest: staticContentRoute({
+        path: '/landing-navigation-test',
+        template: 'pages/toplevel/funding-prototype',
+        lang: 'toplevel.funding',
+        heroSlug: 'arkwright-meadows',
+        live: false
+    }),
     under10k: customRoute({
         path: '/under10k',
         template: 'pages/funding/under10k',
