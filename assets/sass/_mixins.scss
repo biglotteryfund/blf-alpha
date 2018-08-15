@@ -52,13 +52,6 @@
     padding: 0;
 }
 
-@mixin reset-button() {
-    padding: 0;
-    border: 0;
-    outline: none;
-    background: transparent;
-}
-
 @mixin on-interact {
     &:active,
     &:focus,
@@ -67,19 +60,9 @@
     }
 }
 
-@mixin font-and-leading($fontSize, $leading) {
-    font-size: $fontSize;
-    line-height: relative-line-height($fontSize, $leading);
-}
-
 // @TODO: Replace with function
 @mixin poppins() {
     font-family: font-stack('display');
-}
-
-// @TODO: Replace with function
-@mixin roboto() {
-    font-family: font-stack('body');
 }
 
 @mixin disabledBtn() {
