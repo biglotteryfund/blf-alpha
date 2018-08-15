@@ -68,8 +68,8 @@
 @import 'utilities/utilities-text';
 
 // =========================================================================
-// Print Styles
+// Print
 // ========================================================================= //
 // Global print styles. Component specific styles inlined in component files
 
-@import '_print.common';
+@import 'globals/print';

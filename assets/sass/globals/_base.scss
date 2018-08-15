@@ -33,10 +33,11 @@ input,
 textarea,
 button,
 blockquote {
-    font-family: font-stack('body');
-    @include font-and-leading(20px, 27px);
-    font-weight: 400;
     color: palette('charcoal');
+    font-family: font-stack('body');
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.35;
 }
 
 h1,
@@ -89,7 +90,6 @@ a {
 }
 
 blockquote {
-    @include font-and-leading(20px, 27px);
     margin: 0 0 $spacingUnit 0;
     font-style: italic;
 
@@ -110,16 +110,20 @@ pre {
     overflow-x: auto;
     white-space: pre-wrap;
     font-family: Hack, Consolas, monospace;
-    font-size: 14px;
     border-radius: 2px;
-    color: palette('pale');
-    background-color: palette('charcoal');
-    padding: 3px 6px;
+}
+
+code {
+    padding: 0 6px;
+    background-color: #eee;
 }
 
 pre {
     padding: 1em;
+    font-size: 14px;
     max-height: 25em;
+    color: palette('pale');
+    background-color: palette('charcoal');
     box-shadow: inset 0 0 30px rgba(0, 0, 0, 1);
 }
 

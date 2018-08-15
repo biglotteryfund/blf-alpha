@@ -160,7 +160,7 @@
    ========================================================================= */
 
 .nested-menu {
-    @include poppins();
+    font-family: font-stack('display');
 }
 .nested-menu__section {
     margin-bottom: $spacingUnit / 2;

@@ -15,7 +15,7 @@
     display: block;
     padding: $linkPadding;
     margin: 0 - ($linkPadding / 2);
-    @include poppins();
+    font-family: font-stack('display');
     font-weight: bold;
     text-decoration: none;
     transition: background-color 140ms ease-in;

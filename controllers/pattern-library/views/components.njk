@@ -1,7 +1,5 @@
 {% extends "./layout.njk" %}
 
-{% from "components/styleguide.njk" import sgSectionHeader, sgComponent %}
-
 {% block content %}
 
 <div class="sg-components-list">
@@ -13,14 +11,14 @@
         </ul>
     </div>
     <div class="sg-components-list__content">
-        {{ sgSectionHeader('Components') }}
+        <h1 class="t2">Components</h1>
         {% for slug in componentSlugs  %}
             <section class="sg-block">
                 <header class="sg-block__header">
-                    <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                    <h2 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
                         id="sg-pattern-{{ slug }}">
                         {{ slug | replace('-', ' ') | capitalize }}
-                    </h3>
+                    </h2>
                     <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
                 </header>
                 <div class="sg-block__body">

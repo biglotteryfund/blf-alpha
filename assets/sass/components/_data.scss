@@ -85,7 +85,7 @@
         display: inline-block;
         margin: 5px 0;
 
-        @include poppins();
+        font-family: font-stack('display');
         font-weight: 600;
         line-height: 1;
         font-size: 28px;
@@ -137,7 +137,7 @@
 
     @include mq('medium') {
         font-size: 26px;
-        @include poppins();
+        font-family: font-stack('display');
         float: left;
         clear: left;
         max-width: 60%;
@@ -250,6 +250,10 @@
     .map-info__stat-data,
     .map-info__stat-caption {
         display: block;
+    }
+
+    .map-info__stat-caption {
+        font-size: 13px;
     }
 }
 

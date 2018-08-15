@@ -1,0 +1,39 @@
+{% from "components/styleguide.njk" import sgExample, sgUsage %}
+
+{% call sgExample('Button styles') %}
+    <p><a href="#" class="btn">Default button</a></p>
+    <p><a href="#" class="btn btn--medium">Medium button</a></p>
+    <p><a href="#" class="btn btn--small">Small button</a></p>
+    <p><a href="#" class="btn btn--medium btn--outline">Outline button</a></p>
+{% endcall %}
+
+{% call sgUsage() %}
+    <p>Buttons can be grouped together with even spacing by wrapping them in a class of <code>o-button-group</code>, <code>o-button-group-block</code>, or <code>o-button-group-flex</code> depending on the type of grouping needed</p>
+{% endcall %}
+
+{% call sgExample('Button group') %}
+    <div class="o-button-group">
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+    </div>
+{% endcall %}
+
+{% call sgExample('Button group: Block') %}
+    <div class="o-button-group-block">
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+    </div>
+{% endcall %}
+
+{% call sgExample('Button group: Flex') %}
+    <div class="o-button-group-flex">
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button text</a>
+        <a href="#" class="btn btn--medium">Button with long text which wraps</a>
+    </div>
+{% endcall %}
+

@@ -4,7 +4,7 @@
 // Blocked-out colourised background
 
 .overlay-text {
-    @include poppins();
+    font-family: font-stack('display');
     font-weight: 600;
     line-height: 1.5;
     margin: 0;

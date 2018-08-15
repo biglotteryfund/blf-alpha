@@ -145,7 +145,7 @@ $logoOffset: $navLinkPadding - 5px;
 
     .global-nav__link,
     .global-nav__lang {
-        @include poppins();
+        font-family: font-stack('display');
         font-weight: 600;
         font-size: 16px;
 
@@ -239,7 +239,7 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     }
 }
 .global-search__input {
-    @include poppins();
+    font-family: font-stack('display');
     font-size: 16px;
     font-weight: normal;
     border: none;

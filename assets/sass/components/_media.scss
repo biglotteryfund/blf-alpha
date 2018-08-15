@@ -44,7 +44,7 @@
     }
 }
 .media-aside__body {
-    @include poppins();
+    font-family: font-stack('display');
 
     @include mq('medium-minor') {
         flex: 1 1 60%;
