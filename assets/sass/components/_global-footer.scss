@@ -34,7 +34,7 @@
     }
 
     .global-footer__section-title {
-        @include poppins();
+        font-family: font-stack('display');
         font-size: 14px;
         font-weight: bold;
         text-transform: uppercase;

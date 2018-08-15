@@ -472,7 +472,7 @@
     }
 
     .location-search__label {
-        @include poppins();
+        font-family: font-stack('display');
         font-size: 18px;
         font-weight: bold;
         padding-right: $spacingUnit;

@@ -60,11 +60,6 @@
     }
 }
 
-// @TODO: Replace with function
-@mixin poppins() {
-    font-family: font-stack('display');
-}
-
 @mixin disabledBtn() {
     background-color: grey !important;
     @include on-interact {

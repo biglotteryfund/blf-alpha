@@ -7,7 +7,7 @@
    ========================================================================= */
 
 .callout {
-    @include poppins();
+    font-family: font-stack('display');
     font-style: normal;
     color: palette('pink');
     display: block;
