@@ -260,7 +260,7 @@ const projectBudget = [
                 isCurrency: true,
                 size: 20,
                 isRequired: true,
-                label: 'How much do you plan to spend for the period until March 2019?'
+                label: 'How much of the requested amount do you plan to spend for the period until March 2019?'
             },
             {
                 name: 'project-budget-a-description',
@@ -281,7 +281,7 @@ const projectBudget = [
                 isCurrency: true,
                 silentlyOptional: true,
                 size: 20,
-                label: 'How much do you plan to spend for the period until April 2019–March 2020?'
+                label: 'How much of the requested amount do you plan to spend for the period until April 2019–March 2020?'
             },
             {
                 name: 'project-budget-b-description',
@@ -298,7 +298,7 @@ const projectBudget = [
                 isCurrency: true,
                 silentlyOptional: true,
                 size: 20,
-                label: 'How much do you plan to spend for the period until April 2020–March 2021?'
+                label: 'How much of the requested amount do you plan to spend for the period until April 2020–March 2021?'
             },
             {
                 name: 'project-budget-c-description',
