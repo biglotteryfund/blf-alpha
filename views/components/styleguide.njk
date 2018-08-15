@@ -1,30 +1,3 @@
-{% macro sgSectionHeader(title) %}
-    <div class="sg-section-header">
-        <h2 class="sg-section-header__title t2"
-            id="sg-section-{{ title | slugify }}">{{ title }}</h2>
-    </div>
-{% endmacro %}
-
-{% macro sgComponent(slug, showDetailLink = true) %}
-    <section class="sg-block">
-        <header class="sg-block__header">
-            <h3 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
-                id="sg-pattern-{{ slug }}">
-                {{ slug | replace('-', ' ') | capitalize }}
-            </h3>
-            {% if showDetailLink %}
-                <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
-            {% endif %}
-        </header>
-        <div class="sg-block__body">
-            <div class="sg-block__content">
-                {# Include examples file for a given component slug #}
-                {% include "components/" + slug + "/examples.njk" ignore missing %}
-            </div>
-        </div>
-    </section>
-{% endmacro %}
-
 {% macro sgExample(description) %}
     <div class="sg-example">
         {% if description %}

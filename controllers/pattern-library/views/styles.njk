@@ -1,9 +1,9 @@
 {% extends "./layout.njk" %}
-{% from "components/styleguide.njk" import sgSectionHeader, sgExample %}
+{% from "components/styleguide.njk" import sgExample %}
 {% import "components/icons.njk" as allIcons %}
 
 {% set colours %}
-    {{ sgSectionHeader('Colours') }}
+    <h2>Colours</h2>
     {# Keep in sync with vars.scss #}
     {% set themes = [
         'soft-grey',
@@ -31,7 +31,7 @@
 {% endset %}
 
 {% set icons %}
-    {{ sgSectionHeader('Icons') }}
+    <h2>Icons</h2>
     <div class="sg-preview-grid">
         {% for name, macro in allIcons %}
             {% if name !== 'icon' %}
@@ -45,7 +45,7 @@
 {% endset %}
 
 {% set typography %}
-    {{ sgSectionHeader('Typography') }}
+    <h2>Typography</h2>
 
     {% call sgExample('Typographic Scale') %}
         {% for n in range(1, 9) %}
