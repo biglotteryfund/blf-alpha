@@ -1,11 +1,12 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
 
 {% extends "layouts/main.njk" %}
+{% set pageAccent = content.themeColour | default('pink') %}
 
 {% block content %}
-    {% set pageAccent = content.themeColour %}
     {{ hero(
         titleText = title,
         image = heroImage,
@@ -15,7 +16,7 @@
     <main role="main" class="nudge-up">
         <section class="content-box u-inner-wide-only accent--blue a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
-            <div class=" s-prose">
+            <div class="s-prose">
                 {{ content.introduction | safe }}
             </div>
         </section>
@@ -40,11 +41,9 @@
         {% endif %}
 
         {% if content.outro %}
-            <section class="content-box u-inner-wide-only accent--blue a--border-top">
-                <div class=" s-prose">
-                    {{ content.outro | safe }}
-                </div>
-            </section>
+            {% call contentBox(pageAccent) %}
+                {{ content.outro | safe }}
+            {% endcall %}
         {% endif %}
     </main>
 

@@ -1,0 +1,7 @@
+{% macro contentBox(accent = 'pink') %}
+    <section class="content-box u-inner-wide-only accent--{{ accent }} a--border-top">
+        <div class="s-prose u-constrained-content-wide">
+            {{ caller() }}
+        </div>
+    </section>
+{% endmacro %}
