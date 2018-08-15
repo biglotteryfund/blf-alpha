@@ -117,15 +117,22 @@ sections.funding.addRoutes({
     root: customRoute({
         path: '/',
         sMaxAge: '30m',
-        template: 'pages/toplevel/funding',
+        template: 'pages/funding/index',
         lang: 'toplevel.funding',
         heroSlug: 'active-plus-communities'
     }),
     rootTest: staticContentRoute({
-        path: '/landing-navigation-test',
-        template: 'pages/toplevel/funding-prototype',
+        path: '/test',
+        template: 'pages/funding/index-test',
         lang: 'toplevel.funding',
-        heroSlug: 'arkwright-meadows',
+        heroSlug: 'ragroof-players',
+        live: false
+    }),
+    thinkingOfApplying: staticContentRoute({
+        path: '/thinking-of-applying',
+        template: 'pages/funding/thinking-of-applying',
+        lang: 'funding.thinkingOfApplying',
+        heroSlug: 'building-bridges',
         live: false
     }),
     under10k: customRoute({

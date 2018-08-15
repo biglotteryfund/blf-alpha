@@ -1,9 +1,9 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/data.njk" import statsGrid %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/content-box/macro.njk" import contentBox %}
 
 {% extends "layouts/main.njk" %}
-{% set title = 'Funding' %}
 
 {% block content %}
     <main role="main">
@@ -36,42 +36,34 @@
                 }]) }}
             </section>
 
-            {% set childPages = [{
-                "title": "Thinking of applying",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-1.jpg"
-            }, {
-                "title": "What to expect if you apply",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-2.jpg"
-            }, {
-                "title": "Is the Big Lottery Fund right for you?",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-3.jpg"
-            }, {
-                "title": "What we’ve funded",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-4.jpg"
-            }, {
-                "title": "Find the right funding",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-5.jpg"
-            }, {
-                "title": "Continue applying to National Lottery Awards for All",
-                "linkUrl": "#",
-                "imageUrl": "placeholders/placeholder-6.jpg"
-            }] %}
-
             <section class="u-inner">
                 <ul class="flex-grid flex-grid--3up">
                     {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
-                    {% for page in childPages %}
+                    {% for page in [{
+                        "title": "Thinking of applying",
+                        "imageUrl": "placeholders/placeholder-1.jpg"
+                    }, {
+                        "title": "What to expect if you apply",
+                        "imageUrl": "placeholders/placeholder-2.jpg"
+                    }, {
+                        "title": "Is the Big Lottery Fund right for you?",
+                        "imageUrl": "placeholders/placeholder-3.jpg"
+                    }, {
+                        "title": "What we’ve funded",
+                        "imageUrl": "placeholders/placeholder-4.jpg"
+                    }, {
+                        "title": "Find the right funding",
+                        "imageUrl": "placeholders/placeholder-5.jpg"
+                    }, {
+                        "title": "Continue applying to National Lottery Awards for All",
+                        "imageUrl": "placeholders/placeholder-6.jpg"
+                    }] %}
                         <li class="flex-grid__item">
                             {{ miniatureHero(
                                 title = page.title,
                                 imagePath = page.imageUrl | getImagePath,
                                 imageCaption = page.title,
-                                linkUrl = page.linkUrl,
+                                linkUrl = "#",
                                 accent = themes.next()
                             )}}
                         </li>
@@ -79,14 +71,12 @@
                 </ul>
             </section>
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose accent-content--{{ pageAccent }}">
-                    <h2>Managing your grant</h2>
-                    <p>Culpa deserunt odio repellendus reprehenderit iusto cupiditate qui recusandae fugit, tempore expedita assumenda incidunt sit eos labore est et aliquid! Modi id vitae molestiae, nam fuga voluptatem aliquid libero rerum cum consequuntur nobis. Accusamus, cumque unde quia ratione tenetur rerum.</p>
+            {% call contentBox(pageAccent) %}
+                <h2>Managing your grant</h2>
+                <p>Culpa deserunt odio repellendus reprehenderit iusto cupiditate qui recusandae fugit, tempore expedita assumenda incidunt sit eos labore est et aliquid! Modi id vitae molestiae, nam fuga voluptatem aliquid libero rerum cum consequuntur nobis. Accusamus, cumque unde quia ratione tenetur rerum.</p>
 
-                    <p><a href="/funding/funding-guidance/managing-your-funding" class="btn btn--medium btn--outline">Managing your funding</a></p>
-                </div>
-            </section>
+                <p><a href="/funding/funding-guidance/managing-your-funding" class="btn btn--medium btn--outline">Managing your funding</a></p>
+            {% endcall %}
         </div>
     </main>
 {% endblock %}

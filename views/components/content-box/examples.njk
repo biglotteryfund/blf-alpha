@@ -1,0 +1,20 @@
+{% from "components/styleguide.njk" import sgExample, sgUsage %}
+{% from "./macro.njk" import contentBox %}
+
+{% call sgExample() %}
+    {% call contentBox() %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, provident quam ipsa quaerat animi dicta dolores modi praesentium unde. Officiis fugiat quam architecto et explicabo fugit nisi rem non mollitia possimus. Id repellat suscipit, recusandae officia natus eaque doloremque sequi debitis perferendis accusantium unde nisi corporis.</p>
+
+        <ul>
+            <li>Lorem ipsum dolor sit amet.</li>
+            <li>Consectetur eos minima quam repellendus?</li>
+            <li>Quam libero qui nemo sed.</li>
+        </ul>
+
+        <p>Deleniti, deserunt tenetur libero, quis distinctio quod rem in maxime nulla, ipsum minima assumenda a! Ut porro nihil eum ducimus dolor, velit quo sequi sed, assumenda amet possimus necessitatibus, fugit ipsam commodi accusamus nulla reprehenderit reiciendis nesciunt quasi.</p>
+    {% endcall %}
+{% endcall %}
+
+{% call sgUsage() %}
+    The <code>contentBox</code> macro covers the most common use case of a content box with some running copy in it. For anything more complex use the <code>content-box</code> classes directly.
+{% endcall %}
