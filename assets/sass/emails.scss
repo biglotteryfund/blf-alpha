@@ -8,11 +8,13 @@ body {
     margin: auto;
 }
 
-body, p {
-    font-family: arial;
-    @include font-and-leading(20px, 27px);
-    font-weight: 400;
+body,
+p {
     color: palette('charcoal');
+    font-family: arial;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.35;
 }
 
 h1,
@@ -27,18 +29,28 @@ h6 {
     color: palette('pink');
 }
 
-h1 { font-size: 26px; }
-h2 { font-size: 22px; }
-h3 { font-size: 18px; }
-h4 { font-size: 16px; }
-h5 { font-size: 14px; }
-h6 { font-size: 12px; }
-
+h1 {
+    font-size: 26px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 12px;
+}
 
 a {
     color: palette('blue-text');
 }
-
 
 blockquote {
     color: palette('blue-text');

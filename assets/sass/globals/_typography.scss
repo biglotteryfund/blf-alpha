@@ -2,59 +2,60 @@
    Typographic Scale
    ========================================================================== */
 
+/* =========================================================================
+    Display Type Styles
+    ========================================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.t1,
+.t2,
+.t3,
+.t4,
+.t5,
+.t6 {
+    font-family: font-stack('display');
+    font-weight: 600;
+    line-height: 1.25;
+}
+
 h1,
 .t1 {
-    @include poppins();
-    @include font-and-leading(22px, 28px);
-    font-weight: 600;
+    font-size: 23px;
 }
 
 h2,
 .t2 {
-    @include poppins();
-    font-weight: 600;
-    @include font-and-leading(20px, 26px);
+    font-size: 21px;
 }
 
 h3,
 .t3 {
-    @include poppins();
-    @include font-and-leading(20px, 26px);
-    font-weight: 600;
+    font-size: 20px;
 }
 
 h4,
 .t4 {
-    @include poppins();
-    @include font-and-leading(18px, 26px);
-    font-weight: 600;
+    font-size: 18px;
 }
 
 h5,
 .t5 {
-    @include poppins();
-    font-weight: 600;
-    @include font-and-leading(16px, 22px);
+    font-size: 16px;
 }
 
 h6,
 .t6 {
-    @include poppins();
-    font-weight: 600;
-    @include font-and-leading(14px, 22px);
+    font-size: 14px;
 }
 
-.t7 {
-    @include roboto();
-    font-weight: 400;
-    @include font-and-leading(14px, 20px);
-}
-
-.t8 {
-    @include roboto();
-    font-weight: 400;
-    @include font-and-leading(13px, 20px);
-}
+/* =========================================================================
+   Modifiers
+   ========================================================================= */
 
 /**
  * Modifier class which adds a border below the text
