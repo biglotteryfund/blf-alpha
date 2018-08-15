@@ -1,17 +1,15 @@
-{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
 
-{% if not heroImage %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
+{% extends "layouts/main.njk" %}
+{% if not heroImage %}{% set bodyClass = 'has-static-header' %}{% endif %}
+{% set pageAccent = content.themeColour | default('pink') %}
 
 {% block content %}
-    {% set pageAccent = content.themeColour | default('pink') %}
-
     {% if heroImage %}
         {{ hero(
             titleText = title,
@@ -81,11 +79,9 @@
         {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
 
         {% if content.outro %}
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose accent-content--{{ pageAccent }}">
-                    {{ content.outro | safe }}
-                </div>
-            </section>
+            {% call contentBox(pageAccent) %}
+                {{ content.outro | safe }}
+            {% endcall %}
         {% endif %}
     </main>
 
