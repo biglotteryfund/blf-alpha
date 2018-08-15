@@ -1,4 +1,5 @@
 {% from "components/hero.njk" import hero %}
+{% from "components/content-box/macro.njk" import contentBox %}
 
 {% extends "layouts/main.njk" %}
 
@@ -11,13 +12,11 @@
         ) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
-                <div class="s-prose accent-content--{{ pageAccent }}">
-                    <p>Discover the difference that National Lottery funding is making near you</p>
+            {% call contentBox(pageAccent) %}
+                <p>Discover the difference that National Lottery funding is making near you</p>
 
-                    <p>We have recently reorganised our work across England to improve our local reach and ensure our funding is focussed on people and communities most in need. We have reshaped our regional outreach to create a new local presence, with staff based across England</p>
-                </div>
-            </div>
+                <p>We have recently reorganised our work across England to improve our local reach and ensure our funding is focussed on people and communities most in need. We have reshaped our regional outreach to create a new local presence, with staff based across England</p>
+            {% endcall %}
 
             <div class="u-inner-wide-only">
                 <form class="location-search" action="">
