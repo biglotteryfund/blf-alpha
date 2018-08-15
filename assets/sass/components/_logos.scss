@@ -20,23 +20,14 @@
         padding: $spacingUnit * 2;
     }
 
+    .logo-block__message {
+        font-size: 16px;
+    }
+
     .logo-block__close {
-        display: inline-block;
-        color: white;
-        border: 2px solid white;
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
-        text-align: center;
         position: absolute;
         right: 20px;
         top: 20px;
-        line-height: 32px;
-
-        .icon {
-            width: 20px;
-            height: 20px;
-        }
     }
 
     &.logo-block--reversed {

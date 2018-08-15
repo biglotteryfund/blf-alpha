@@ -179,7 +179,10 @@ $btnConf: (
 }
 
 .icon-btn {
-    @include reset-button();
+    padding: 0;
+    outline: none;
+    background: transparent;
+
     border-radius: 100%;
     border: 1px solid white;
     height: 25px;
@@ -286,9 +289,6 @@ $btnConf: (
    ========================================================================= */
 /* Button container for service start buttons */
 
-/**
- * Service start button
- */
 .start-button {
     margin: 1.5em 0;
 

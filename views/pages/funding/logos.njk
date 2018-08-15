@@ -49,8 +49,8 @@
     {% if copy.successMessages[type] %}
         <div class="u-hidden js-success js-success--{{ type }}">
             <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t5">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t8">{{ copy.successMessages[type].body }}</h4>
+            <p><strong>{{ copy.successMessages[type].title }}</strong></p>
+            <p>{{ copy.successMessages[type].body }}</p>
         </div>
     {% endif %}
 {% endmacro %}
@@ -71,12 +71,16 @@
 
     <div class="logo-block {% if isReversed %}logo-block--reversed{% endif %}">
         <div class="logo-block__overlay" id="js-download-block--{{ logoId }}">
-            <div class="logo-block__close js-success--close" data-logo-id="{{ logoId }}">
-                {{ iconClose() }}
+            <div class="logo-block__close">
+                <button type="button" class="icon-btn js-success--close" data-logo-id="{{ logoId }}">
+                    {{ iconClose() }}
+                </button>
             </div>
-            {{ successMessage('digital') }}
-            {{ successMessage('print') }}
-            {{ successMessage('vector') }}
+            <div class="logo-block__message">
+                {{ successMessage('digital') }}
+                {{ successMessage('print') }}
+                {{ successMessage('vector') }}
+            </div>
         </div>
 
         {% set accentClass = '' %}
