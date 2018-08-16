@@ -39,8 +39,7 @@ function initPrompts() {
     if (el) {
         new Vue({
             el: el,
-            components: { Prompt },
-            template: `<Prompt />`
+            components: { prompt: Prompt }
         });
     }
 }
