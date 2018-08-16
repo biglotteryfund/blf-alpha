@@ -64,14 +64,14 @@ jobs:
         on:
           repo: biglotteryfund/blf-alpha
       - provider: codedeploy
-        region: eu-west-1
+        region: eu-west-2
         access_key_id: $AWS_ACCESS_KEY_ID
         secret_access_key: $AWS_SECRET_ACCESS_KEY
         bucket: blf-travis-test
         key: build-$TRAVIS_BUILD_NUMBER.zip
         bundle_type: zip
-        application: BLF_Test
-        deployment_group: BLF_Test_Fleet
+        application: BLF_WWW
+        deployment_group: Test_Fleet
         on:
           tags: false
 

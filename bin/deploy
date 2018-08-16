@@ -26,12 +26,12 @@ let customBuildNumber = argv.build;
 
 const codeDeployEnvs = {
     test: {
-        applicationName: 'BLF_Test',
-        deploymentGroupName: 'BLF_Test_Fleet'
+        applicationName: 'BLF_WWW',
+        deploymentGroupName: 'Test_Fleet'
     },
     live: {
-        applicationName: 'BLF_Live',
-        deploymentGroupName: 'BLF_Live_Fleet'
+        applicationName: 'BLF_WWW',
+        deploymentGroupName: 'Live_Fleet'
     }
 };
 
@@ -45,7 +45,7 @@ const CONF = {
 
 // create AWS SDK instance
 const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
-AWS.config.update({ region: 'eu-west-1' });
+AWS.config.update({ region: 'eu-west-2' });
 AWS.config.credentials = credentials;
 const codedeploy = new AWS.CodeDeploy();
 
