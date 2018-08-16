@@ -36,7 +36,7 @@ const codeDeployEnvs = {
 };
 
 const CONF = {
-    s3Bucket: 'blf-travis-test',
+    s3Bucket: 'blf-deployments',
     filenamePattern: /build-(\d+).zip/,
     codedeploy: argv.l ? codeDeployEnvs.live : codeDeployEnvs.test,
     githubAccount: 'biglotteryfund',
