@@ -55,8 +55,8 @@ jobs:
         cache_control: "max-age=31536000"
         skip_cleanup: true
       - provider: s3
-        region: eu-west-1
-        bucket: blf-travis-test
+        region: eu-west-2
+        bucket: blf-deployments
         access_key_id: $AWS_ACCESS_KEY_ID
         secret_access_key: $AWS_SECRET_ACCESS_KEY
         local_dir: dpl_cd_upload
@@ -67,7 +67,7 @@ jobs:
         region: eu-west-2
         access_key_id: $AWS_ACCESS_KEY_ID
         secret_access_key: $AWS_SECRET_ACCESS_KEY
-        bucket: blf-travis-test
+        bucket: blf-deployments
         key: build-$TRAVIS_BUILD_NUMBER.zip
         bundle_type: zip
         application: BLF_WWW
