@@ -1,13 +1,12 @@
 {% macro icon(slug, title, viewbox, variant = 'small') %}
-    {% set id = uuid() %}
     <svg
         role="img"
         class="icon icon--{{ variant }} icon--{{ slug }}"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="{{ viewbox }}" width="32" height="32"
-        aria-labelledby="aria-{{ slug }}-title-{{ id }}"
+        aria-labelledby="{{ 'aria-' + slug + '-title-' | appendUuid }}"
     >
-        <title id="aria-{{ slug }}-title-{{ id }}">{{ title }}</title>
+        <title>{{ title }}</title>
         {{ caller() }}
     </svg>
 {% endmacro %}

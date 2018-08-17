@@ -1,6 +1,4 @@
 'use strict';
-const uuid = require('uuid/v4');
-
 const formHelpers = require('./forms');
 
 function getCurrentSection(sectionId, pageId) {
@@ -16,8 +14,6 @@ function init(app) {
     const setViewGlobal = (name, value) => {
         app.get('engineEnv').addGlobal(name, value);
     };
-
-    setViewGlobal('uuid', () => uuid());
 
     setViewGlobal('getCurrentSection', getCurrentSection);
 
