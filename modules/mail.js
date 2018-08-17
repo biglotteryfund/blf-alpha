@@ -9,19 +9,17 @@ const path = require('path');
 const Raven = require('raven');
 const util = require('util');
 
-const appData = require('./appData');
 const app = require('../server');
-
-const AWS_REGION = config.get('aws.region');
 
 const SES = new AWS.SES({
     apiVersion: '2010-12-01',
-    region: AWS_REGION
+    // @TODO: Migrate SES to eu-west-2?
+    region: 'eu-west-1'
 });
 
 const CloudWatch = new AWS.CloudWatch({
     apiVersion: '2010-08-01',
-    region: AWS_REGION
+    region: config.get('aws.region')
 });
 
 /**
