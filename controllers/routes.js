@@ -177,7 +177,6 @@ sections.funding.addRoutes({
     }),
     fundingGuidanceMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-        template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
         isPostable: true
     }),

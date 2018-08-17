@@ -33,23 +33,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro checkboxes(fieldName, options) %}
-    {% set error = getFormErrorForField(formErrors, fieldName) %}
-    {% if error %}<p class="error t6">{{ error.msg }}</p>{% endif %}
-
-    {% for o in options %}
-        <label class="{% if error %} is-error{% endif %}"{% if error %} aria-invalid{% endif %}
-               for="ff-checkbox-{{ o[2] }}-{{ o[1] }}">
-            {{ o[0] }}
-            <input type="checkbox"
-                   id="ff-checkbox-{{ o[2] }}-{{ o[1] }}"
-                   name="{{ o[2] }}"
-                   value="yes" />
-        </label>
-    {% endfor %}
-
-{% endmacro %}
-
 {% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, translateOptionLabels = false, hasOther = false) %}
     {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
     {% set error = getFormErrorForField(formErrors, fieldName) %}

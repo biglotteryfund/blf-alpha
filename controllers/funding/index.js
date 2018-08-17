@@ -1,10 +1,10 @@
 'use strict';
 
 const landingPageRoute = require('./funding');
-const materialsRoute = require('./materials');
 const programmesRoute = require('../programmes');
 const strategicInvestmentsRoute = require('../strategic-investments');
 const tenKRoutes = require('./10k');
+const materials = require('../materials');
 
 module.exports = ({ router, pages }) => {
     /**
@@ -39,10 +39,7 @@ module.exports = ({ router, pages }) => {
     /**
      * Free materials
      */
-    materialsRoute.init({
-        router: router,
-        routeConfig: pages.fundingGuidanceMaterials
-    });
+    router.use(pages.fundingGuidanceMaterials.path, materials(pages.fundingGuidanceMaterials));
 
     return router;
 };

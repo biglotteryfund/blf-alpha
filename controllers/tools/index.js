@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 
-const { injectMerchandise } = require('../../controllers/funding/materials-helpers');
+const { injectMerchandise } = require('../../middleware/inject-content');
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
