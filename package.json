@@ -87,7 +87,7 @@
     "ext": "js,json,yml"
   },
   "dependencies": {
-    "aws-sdk": "^2.259.1",
+    "aws-sdk": "2.295.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "config": "^1.26.2",
