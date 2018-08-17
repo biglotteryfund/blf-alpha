@@ -156,6 +156,14 @@ function initForm({ router, routeConfig }) {
 
         const formActionBase = req.baseUrl + routeConfig.path;
 
+        // @TODO: Remove this if/when migrating materials form fields to use new shared fields
+        // Function for finding errors from a form array
+        res.locals.getFormErrorForField = function(errorList, fieldName) {
+            if (errorList && errorList.length > 0) {
+                return errorList.find(e => e.param === fieldName);
+            }
+        };
+
         res.render(routeConfig.template, {
             copy: lang,
             csrfToken: req.csrfToken(),
