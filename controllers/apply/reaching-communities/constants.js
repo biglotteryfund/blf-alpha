@@ -1,6 +1,14 @@
 'use strict';
 
-const { HUB_EMAILS } = require('../../../modules/secrets');
+const HUB_EMAILS = {
+    england: 'englandteam@biglotteryfund.org.uk',
+    londonSouthEast: 'londonandsoutheastteam@biglotteryfund.org.uk',
+    midlands: 'midlandsteam@biglotteryfund.org.uk',
+    northEastCumbria: 'neandcumbriateam@biglotteryfund.org.uk',
+    northWest: 'northwestteam@biglotteryfund.org.uk',
+    southWest: 'southwestteam@biglotteryfund.org.uk',
+    yorksHumber: 'yorksandhumberteam@biglotteryfund.org.uk'
+};
 
 const PROJECT_LOCATIONS = [
     {

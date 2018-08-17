@@ -1,6 +1,6 @@
 {
-  "name": "blf-alpha",
-  "description": "Big Lottery Fund Alpha",
+  "name": "biglotteryfund",
+  "description": "Big Lottery Fund",
   "version": "1.0.0",
   "private": true,
   "config": {
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "startDev": "export DEBUG=blf-alpha:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
+    "startDev": "export DEBUG=biglotteryfund:*,express-session,connect:session-sequelize; nodemon --inspect ./bin/www",
     "test": "npm audit && eslint . && jest --env=node --maxWorkers=4",
     "test-cypress": "wait-on http://localhost:8090 && cypress run",
     "pretest-ci": "npm run build",
@@ -87,7 +87,7 @@
     "ext": "js,json,yml"
   },
   "dependencies": {
-    "aws-sdk": "^2.259.1",
+    "aws-sdk": "2.295.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "config": "^1.26.2",
@@ -172,6 +172,5 @@
     "watch": "1.0.2",
     "webpack": "4.16.3",
     "webpack-cli": "3.1.0"
-  },
-  "snyk": true
+  }
 }

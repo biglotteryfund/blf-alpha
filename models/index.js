@@ -1,7 +1,7 @@
 'use strict';
 const { startsWith } = require('lodash');
 const Sequelize = require('sequelize');
-const debug = require('debug')('blf-alpha:models');
+const debug = require('debug')('biglotteryfund:models');
 
 const { DB_CONNECTION_URI } = require('../modules/secrets');
 
