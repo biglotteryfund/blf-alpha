@@ -263,7 +263,6 @@ function initForm({ router, routeConfig }) {
 }
 
 function init({ router, routeConfig }) {
-
     initAddRemove({
         router,
         routeConfig
