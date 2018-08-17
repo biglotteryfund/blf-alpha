@@ -28,7 +28,6 @@ const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
-const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
@@ -156,7 +155,6 @@ function initViewEngine() {
     // attempt to fix session sharing bug
     // see https://stackoverflow.com/questions/32307933/passportjs-session-mixed-up
     app.disable('view cache');
-    viewGlobalsService.init(app);
 }
 
 initViewEngine();
