@@ -33,7 +33,8 @@
     "enablePrompt": true,
     "enableAbTests": true,
     "useHotjar": true,
-    "useRemoteAssets": true
+    "useRemoteAssets": true,
+    "enableTimingMetrics": false
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"

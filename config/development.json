@@ -1,6 +1,5 @@
 {
   "features": {
-    "enableAbTests": true,
     "useRemoteAssets": false
   }
 }
