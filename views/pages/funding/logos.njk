@@ -90,9 +90,21 @@
     {{ super() }}
 
     <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+        <p><strong>{{ copy.locationPrompt }}</strong></p>
+        <div class="o-button-group-flex">
+                <a href="#region1" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.monolingual }}
+                </a>
+                <a href="#region2" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.bilingual }}
+                </a>
+            </div>
+    </div>
+
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
         <h2 class="t--underline">{{ copy.downloadsTitle }} </h2>
 
-        <h3>{{ copy.locations.monolingual }}</h3>
+        <h3 id="region1">{{ copy.locations.monolingual }}</h3>
 
         <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">
@@ -109,7 +121,7 @@
             </li>
         </ul>
 
-        <h3>{{ copy.locations.bilingual }}</h3>
+        <h3 id="region2">{{ copy.locations.bilingual }}</h3>
 
         <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">

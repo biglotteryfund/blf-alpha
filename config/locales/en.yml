@@ -580,6 +580,8 @@ funding:
           any other relevant legislation that comes into force, such as the General
           Data Protection Regulation (EU) 2016/679.</p>"
     logos:
+      locationPrompt: 'To make sure you get the correct logo please tell us where
+          your project is based:'
       downloadsTitle: Logo downloads
       locations:
         monolingual: England, Scotland or Northern Ireland

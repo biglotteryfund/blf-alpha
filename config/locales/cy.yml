@@ -485,6 +485,8 @@ funding:
           ddeddfwriaeth berthnasol arall a ddaw i rym, megis y Rheoliad Diogelu Data
           Cyffredinol (UE) 2016/679.</p>"
     logos:
+      locationPrompt: 'I sicrhau eich bod yn cael y logo cywir, dywedwch wrthym ble
+        mae''ch prosiect wedi''i leoli:'
       downloadsTitle: Logos uniaith
       locations:
         monolingual: Lloegr, Yr Alban neu Ogledd Iwerddon
