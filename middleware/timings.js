@@ -2,7 +2,7 @@
 const AWS = require('aws-sdk');
 const config = require('config');
 const responseTime = require('response-time');
-const debug = require('debug')('blf-alpha:timings');
+const debug = require('debug')('biglotteryfund:timings');
 
 const CloudWatch = new AWS.CloudWatch({
     apiVersion: '2010-08-01',

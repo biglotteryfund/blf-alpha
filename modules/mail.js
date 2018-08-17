@@ -1,7 +1,7 @@
 'use strict';
 const AWS = require('aws-sdk');
 const config = require('config');
-const debug = require('debug')('blf-alpha:mailer');
+const debug = require('debug')('biglotteryfund:mailer');
 const htmlToText = require('html-to-text');
 const juice = require('juice');
 const nodemailer = require('nodemailer');
