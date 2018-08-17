@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const { get } = require('lodash');
-const debug = require('debug')('blf-alpha:appData');
+const debug = require('debug')('biglotteryfund:appData');
 
 /**
  * Extract deploy ID from AWS (where provided)

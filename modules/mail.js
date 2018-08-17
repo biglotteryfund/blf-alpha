@@ -1,7 +1,7 @@
 'use strict';
 const AWS = require('aws-sdk');
 const config = require('config');
-const debug = require('debug')('blf-alpha:mailer');
+const debug = require('debug')('biglotteryfund:mailer');
 const htmlToText = require('html-to-text');
 const juice = require('juice');
 const nodemailer = require('nodemailer');
@@ -9,19 +9,17 @@ const path = require('path');
 const Raven = require('raven');
 const util = require('util');
 
-const appData = require('./appData');
 const app = require('../server');
-
-const AWS_REGION = config.get('aws.region');
 
 const SES = new AWS.SES({
     apiVersion: '2010-12-01',
-    region: AWS_REGION
+    // @TODO: Migrate SES to eu-west-2?
+    region: 'eu-west-1'
 });
 
 const CloudWatch = new AWS.CloudWatch({
     apiVersion: '2010-08-01',
-    region: AWS_REGION
+    region: config.get('aws.region')
 });
 
 /**
@@ -73,6 +71,27 @@ function shouldSend() {
     return !process.env.DONT_SEND_EMAIL;
 }
 
+function recordSendMetric(name) {
+    const currentEnv = config.util.getEnv('NODE_ENV').toUpperCase();
+    const mailName = name.toUpperCase();
+    return CloudWatch.putMetricData({
+        Namespace: 'SITE/MAIL',
+        MetricData: [
+            {
+                MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
+                Dimensions: [
+                    {
+                        Name: 'MAIL_SENT',
+                        Value: 'SEND_COUNT'
+                    }
+                ],
+                Unit: 'Count',
+                Value: 1.0
+            }
+        ]
+    }).send();
+}
+
 function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
     if (!name) {
         throw new Error('Must pass a name');
@@ -114,30 +133,10 @@ function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) 
 
     if (shouldSend()) {
         debug(`sending mail`);
-
-        const currentEnv = appData.environment.toUpperCase();
-        const mailName = name.toUpperCase();
-
         return transport
             .sendMail(mailOptions)
             .then(response => {
-                CloudWatch.putMetricData({
-                    MetricData: [
-                        {
-                            MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
-                            Dimensions: [
-                                {
-                                    Name: 'MAIL_SENT',
-                                    Value: 'SEND_COUNT'
-                                }
-                            ],
-                            Unit: 'Count',
-                            Value: 1.0
-                        }
-                    ],
-                    Namespace: 'SITE/MAIL'
-                }).send();
-
+                recordSendMetric(name);
                 return response;
             })
             .catch(error => {
