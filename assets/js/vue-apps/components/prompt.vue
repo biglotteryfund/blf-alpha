@@ -11,8 +11,9 @@ export default {
         return { isShown: false };
     },
     created() {
+        const seenIds = this.getSeen();
         const promptWeight = parseFloat(this.weight || 1);
-        if (Math.random() < promptWeight) {
+        if (includes(seenIds, this.id) === false && Math.random() < promptWeight) {
             setTimeout(() => {
                 this.isShown = true;
                 trackEvent(`Prompt: ${this.id}`, 'Shown prompt');
