@@ -581,7 +581,8 @@ funding:
           Data Protection Regulation (EU) 2016/679.</p>"
     logos:
       locationPrompt: 'To make sure you get the correct logo please tell us where
-        your project is based:'
+          your project is based:'
+      downloadsTitle: Logo downloads
       locations:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
@@ -598,11 +599,8 @@ funding:
           pink: pink
           white: white
         download: Download
-      logoDownloads:
-        monolingual: English logo downloads
-        bilingual: Bilingual English/Welsh logo downloads
       howToUseLogo:
-        title: "\LHow to use our logo\L"
+        title: How to use our logo
         sections:
           freeKit:
             title: Free branded kit

@@ -28,7 +28,7 @@
             {{ content.introduction | safe }}
         </div>
 
-        {{ segmentLinks(content.segments) }}
+        {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
     <main{% if heroImage %} class="nudge-up"{% endif %}>

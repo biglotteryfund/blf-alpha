@@ -1,41 +1,10 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/tabs.njk" import tabs, paneSet with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/icons.njk" import iconClose %}
 
 {% extends "common/informationPage.njk" %}
-
-{% macro howToUseLogo(bilingual = false) %}
-    <div class="s-prose u-padded">
-        {% if locale == 'cy' or bilingual %}
-            {% set logoExamplePath = 'logos/examples-cy.png' %}
-        {% else %}
-            {% set logoExamplePath = 'logos/examples.png' %}
-        {% endif %}
-
-        <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
-
-        <h3>{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
-
-        <h3>{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
-
-        <h3>{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
-
-        <figure>
-            <img src="{{ logoExamplePath | getImagePath }}" alt="Examples of our logo" />
-        </figure>
-    </div>
-{% endmacro %}
-
-{% macro logoTabBar(logoTitle, localeId) %}
-    <ul class="js-tabs tabs unstyled" data-no-initial-selection="true">
-        <li><a class="js-tab-item" href="#logos-{{ localeId }}">{{ logoTitle }}</a></li>
-        <li><a class="js-tab-item" href="#howto-{{ localeId }}">{{ copy.howToUseLogo.title }}</a></li>
-    </ul>
-{% endmacro %}
+{% set pageAccent = content.themeColour %}
 
 {% macro makeLogoTitle(logoName, logoSize) %}
     {{ copy.downloads.download }}
@@ -111,9 +80,33 @@
     </div>
 {% endmacro %}
 
-{% set logosMonolingual %}
-    <div class="u-padded">
-        <ul class="flex-grid">
+{% set customSegmentLinks = [{
+    "title": copy.downloadsTitle
+}, {
+    "title": copy.howToUseLogo.title
+}] %}
+
+{% block contentPrimary %}
+    {{ super() }}
+
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+        <p><strong>{{ copy.locationPrompt }}</strong></p>
+        <div class="o-button-group-flex">
+                <a href="#region1" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.monolingual }}
+                </a>
+                <a href="#region2" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.bilingual }}
+                </a>
+            </div>
+    </div>
+
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+        <h2 class="t--underline">{{ copy.downloadsTitle }} </h2>
+
+        <h3 id="region1">{{ copy.locations.monolingual }}</h3>
+
+        <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">
                 {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
             </li>
@@ -127,33 +120,10 @@
                 {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, isReversed = true) }}
             </li>
         </ul>
-    </div>
-{% endset %}
 
-{# england, scotland and NI #}
-{% set contentMonolingual %}
-    {{ tabs(
-        id = 'logo-monolingual',
-        content = [
-            {
-                title: copy.logoDownloads.monolingual,
-                content: logosMonolingual,
-                active: true
-            },
-            {
-                title: copy.howToUseLogo.title,
-                content: howToUseLogo(bilingual = false)
-            }
-        ]
-    )}}
-{% endset %}
+        <h3 id="region2">{{ copy.locations.bilingual }}</h3>
 
-
-{# Wales #}
-
-{% set logosBilingual %}
-    <div class="u-padded">
-        <ul class="flex-grid">
+        <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">
                 {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
             </li>
@@ -168,55 +138,25 @@
             </li>
         </ul>
     </div>
-{% endset %}
 
-{% set contentBilingual %}
-    {{ tabs(
-        id = 'logo-bilingual',
-        content = [
-            {
-                title: copy.logoDownloads.bilingual,
-                content: logosBilingual,
-                active: true
-            },
-            {
-                title: copy.howToUseLogo.title,
-                content: howToUseLogo(bilingual = true)
-            }
-        ]
-    )}}
-{% endset %}
+    {% call contentBox(pageAccent, id = "segment-2") %}
+        <h2>{{ copy.howToUseLogo.title }}</h2>
 
-{% block contentPrimary %}
-    {% set pageAccent = content.themeColour %}
-    {{ super() }}
-    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top accent-content--{{ pageAccent }}">
-        <div class="s-prose">
-            <h2>{{ copy.locationPrompt }}</h2>
-        </div>
+        <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
 
-        <div class="js-tabset" data-paneset="paneset-regions">
-            <div class="o-button-group-flex">
-                <a href="#region1" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
-                    {{ copy.locations.monolingual }}
-                </a>
-                <a href="#region2" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
-                    {{ copy.locations.bilingual }}
-                </a>
-            </div>
-        </div>
+        <h3>{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-        {{ paneSet(
-            id = "paneset-regions",
-            panes = [{
-                paneId: 'region1',
-                content: contentMonolingual,
-                accordion: false
-            }, {
-                paneId: 'region2',
-                content: contentBilingual,
-                accordion: false
-            }]
-        ) }}
-    </div>
+        <h3>{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
+
+        <h3>{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
+
+        <figure>
+            <img src="{{ "logos/examples.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
+            <img src="{{ "logos/examples-cy.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
+        </figure>
+    {% endcall %}
 {% endblock %}
