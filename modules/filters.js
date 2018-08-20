@@ -5,8 +5,13 @@
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
 const slug = require('slugify');
+const uuid = require('uuid/v4');
 
 const assets = require('./assets');
+
+function appendUuid(str) {
+    return str + uuid();
+}
 
 function getCachebustedPath(str) {
     return assets.getCachebustedPath(str);
@@ -60,6 +65,7 @@ function find(arr, key, value) {
 }
 
 module.exports = {
+    appendUuid,
     filter,
     find,
     getCachebustedPath,

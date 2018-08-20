@@ -225,6 +225,18 @@ async function injectBlogDetail(req, res, next) {
     }
 }
 
+function injectMerchandise({ locale = false, showAll = false }) {
+    return async (req, res, next) => {
+        try {
+            const localeToUse = locale ? locale : req.i18n.getLocale();
+            res.locals.availableItems = await contentApi.getMerchandise(localeToUse, showAll);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
 function injectProfiles(section) {
     return async function(req, res, next) {
         try {
@@ -253,5 +265,6 @@ module.exports = {
     injectStrategicProgrammes,
     injectHeroImage,
     injectListingContent,
+    injectMerchandise,
     injectProfiles
 };

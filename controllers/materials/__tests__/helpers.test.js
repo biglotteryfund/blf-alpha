@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { makeOrderText, postcodeArea } = require('./materials-helpers');
+const { makeOrderText, postcodeArea } = require('../helpers');
 
 describe('Materials utilities', () => {
     it('should make order text for email', () => {
