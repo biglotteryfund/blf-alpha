@@ -82,7 +82,20 @@ async function getAllResponses({ path = null }) {
 }
 
 function createResponse(response) {
+    cleanupOldData();
     return SurveyAnswer.create(response);
+}
+
+function cleanupOldData() {
+    return SurveyAnswer.destroy({
+        where: {
+            createdAt: {
+                [Op.lte]: moment()
+                    .subtract(3, 'months')
+                    .toDate()
+            }
+        }
+    });
 }
 
 module.exports = {
