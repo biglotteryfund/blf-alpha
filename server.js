@@ -22,7 +22,7 @@ const { cymreigio } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./controllers/helpers/route-helpers');
 const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
-const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
+const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
@@ -268,17 +268,13 @@ forEach(routes.sections, (section, sectionId) => {
  * Error route
  * Alias for error pages for old site -> new
  */
-app.get('/error', (req, res) => {
-    renderNotFound(req, res);
-});
+app.get('/error', renderNotFound);
 
 /**
  * Plain text error route
  * Used for more high-level errors
  */
-app.get('/error-unauthorised', (req, res) => {
-    renderUnauthorised(req, res);
-});
+app.get('/error-unauthorised', renderUnauthorised);
 
 /**
  * Final wildcard request handled
@@ -294,9 +290,7 @@ app.route('*')
  * 404 Handler
  * Catch 404s render not found page
  */
-app.use((req, res) => {
-    renderNotFound(req, res);
-});
+app.use(renderNotFound);
 
 /**
  * Global error handler

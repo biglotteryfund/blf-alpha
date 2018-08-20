@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const Raven = require('raven');
 const { map } = require('lodash');
 
 const { heroImages } = require('../../modules/images');
@@ -8,7 +9,6 @@ const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
-const { redirectWithError } = require('../http-errors');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
 
 /**
@@ -27,7 +27,8 @@ function initLegacyFundingFinder({ router, routeConfig }) {
             if (showClosed) {
                 // Proxy legacy funding finder for closed programmes
                 proxyLegacyPage({ req, res }).catch(error => {
-                    redirectWithError(res, error, programmesUrl);
+                    Raven.captureException(error);
+                    res.redirect(programmesUrl);
                 });
             } else {
                 // Redirect from funding finder to new programmes page
