@@ -33,6 +33,10 @@
     {{ l | getImagePath }}
 {% endmacro %}
 
+{% macro buildLogoTitle(logoName, logoSize, logoLocale) %}{{ copy.downloads.colours[logoName] | capitalize }} logo ({{ copy.downloads.sizes[logoSize] }}) - {% if logoLocale === 'bilingual' %}Bilingual{% else %}Monolingual{% endif %}{% endmacro %}
+
+{% macro analyticParams(logoName, logoSize, logoLocale) %}data-ga-on="click" data-ga-event-category="Download logo" data-ga-event-action="{{ buildLogoTitle(logoName, logoSize, logoLocale) }}"{% endmacro %}
+
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false, isReversed = false) %}
     {% if isReversed %}
         {% set accent = 'white' %}
@@ -57,23 +61,45 @@
             {% set accentClass = ' accent--' + accent + ' a--btn ' %}
         {% endif %}
 
-        {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim}}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
-            <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
-        {% if not onlyEps %}</a>{% endif %}
+        {% if not onlyEps %}
+            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
+               target="_blank"
+               class="js-logo-trigger"
+               data-logo-type="print"
+               data-logo-id="{{ logoId }}"
+               {{ analyticParams(logoName, 'large', logoLocale) }}>
+        {% endif %}
+            <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}"
+                 alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
+        {% if not onlyEps %}
+            </a>
+        {% endif %}
 
         <div class="o-button-group-block">
             {% if not onlyEps %}
                 <a class="btn btn--small {{ accentClass }} js-logo-trigger"
-                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
+                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}"
+                   target="_blank"
+                   data-logo-type="digital"
+                   data-logo-id="{{ logoId }}"
+                   {{ analyticParams(logoName, 'small', logoLocale) }}>
                     {{ makeLogoTitle(logoName, 'small') }}
                 </a>
                 <a class="btn btn--small {{ accentClass }} js-logo-trigger"
-                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
+                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
+                   target="_blank"
+                   data-logo-type="print"
+                   data-logo-id="{{ logoId }}"
+                   {{ analyticParams(logoName, 'large', logoLocale) }}>
                     {{ makeLogoTitle(logoName, 'large') }}
                 </a>
             {% endif %}
             <a class="btn btn--small {{ accentClass }} js-logo-trigger"
-                href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
+               href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}"
+               target="_blank"
+               data-logo-type="vector"
+               data-logo-id="{{ logoId }}"
+               {{ analyticParams(logoName, 'eps', logoLocale) }}>
                 {{ makeLogoTitle(logoName, 'eps') }}
             </a>
         </div>
