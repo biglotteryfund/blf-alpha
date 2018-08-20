@@ -1,5 +1,5 @@
 'use strict';
-
+const path = require('path');
 const { get, isEmpty } = require('lodash');
 const { isBilingual, shouldServe } = require('../../modules/pageLogic');
 const { injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
@@ -45,7 +45,7 @@ function buildBreadcrumbs(req, activeItem) {
 }
 
 function renderPost({ req, res, entry }) {
-    res.render('pages/blog/post', {
+    res.render(path.resolve(__dirname, './views/post'), {
         entry: entry,
         title: entry.title,
         isBilingual: isBilingual(entry.availableLanguages),
@@ -58,7 +58,7 @@ function renderPost({ req, res, entry }) {
 
 function renderListing({ res, title, entries = [], entriesMeta = null, activeBreadcrumbs = [] }) {
     const pagination = buildPagination(entriesMeta.pagination);
-    res.render('pages/blog/listing', {
+    res.render(path.resolve(__dirname, './views/listing'), {
         title,
         entries,
         entriesMeta,
