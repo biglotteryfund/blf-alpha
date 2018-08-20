@@ -363,9 +363,8 @@ toplevel:
   research:
     title: Research
     intro: Find out more about what we’re learning from the projects we fund.
+    newReport: New report
     sectionLinks:
-    - label: "New report: youth serious violence"
-      href: "/research/youth-serious-violence"
     - label: Communities and places
       href: "/research/communities-and-places"
     - label: Older people
@@ -646,150 +645,9 @@ funding:
     over10k: Awards over £10,000
     breadcrumbAll: All Programmes
 research:
-  youthviolence:
-    title: 'Youth serious violence'
-    intro:
-      '<p><strong>Learnings from the voluntary and community sector on what works in preventing serious youth violence</strong></p><p>We highlight examples of both proven and promising practices from charities across the country and share our experiences as a funder about the principles that have worked for us in planning, designing and implementing funding programmes in this field.</p>'
-    sectionsPrefix: Lessons for policy and programme design
-    sections:
-    - title: Prevention
-      contentParts:
-      - title: Working together to prevent childhood adversity
-        points:
-        - Shift culture and spending towards prevention-focused support and services.
-        - Take a Public Health approach to violence prevention, including working together to reduce risk factors and promote protective factors.
-        - Ensure effective partnership-working so that support and services are less bureaucratic and more joined-up.
-        callout:
-          isQuote: false
-          content:
-            People who experience four or more adverse childhood experiences are eight times more likely to end up in prison
-      - title: Improving outcomes for all children
-        points:
-        - Support children to develop social and emotional skills so they can develop positive relationships and cope with difficult situations.
-        - Invest in universal services, such as more supportive, responsive and integrated early years, education and youth services.
-        - Provide early, targeted services for schools and groups at particular risk.
-        - Give parents and communities the skills and understanding they need to prevent and manage risk factors.
-      - title: Take a long-term view
-        points:
-        - Recognise the level of chaos, trauma and disenfranchisement in many young people’s lives.
-        - Give charities and front-line staff the time and space they need to support their beneficiaries.
-        - Be ‘patient’ with new programmes and projects; giving them the time and space to adapt and change as they learn from delivery.
-      - title: Identify and supporting at-risk children and young people in a timely manner
-        points:
-        - Joint working between statutory agencies and voluntary and community (VCS) groups needs to extend from collecting data, to sharing and making use of it to identify and support at-risk youth at the earliest opportunity.
-        - Train professionals and the wider community to recognise and understand risk factors and behaviours through trauma-informed approaches.
-        - Take into consideration that young people at risk are particularly good at identifying other young people at risk
-        - Ensure additional support is available for young people going through transitions (e.g. from primary to secondary school, going in to care, moving between youth and adult prison, etc.).
-        callout:
-          isQuote: true
-          content:
-            …risks during infancy increase the chances of anti-social behaviour during childhood, which in turn amplifies the likelihood of convictions during adolescence…
-          citation: Chief Medical Officer, 2012
-    - title: Early Intervention
-      contentParts:
-      - title: Give young people the competences and confidence to manage conflict and cope with peer pressure
-        points:
-        - Give young people an opportunity to practice techniques to avoid and resolve conflicts, manage anger, communicate more effectively, and show empathy.
-        - Help young people to understand the causes and consequences of conflict, including changing the way young people think about violence and reinforcing reasons for being non-violent.
-        - Where possible, work with friendship groups and young people involved in group offending (or gang activity) rather than just individuals.
-        - Empower young people to make the right choices on the basis of knowledge and support rather than ‘scare tactics’.
-        - Ensure that services take into consideration the specific circumstances, needs and wishes of young men and women who are - directly or indirectly - involved in violent lifestyles.
-        - Address the use of social media platforms to glamorise, display and incite violence.
-      - title: Building trusting, supportive relationships underpins the work of most charities
-        points:
-        - Many young people in this target group have a deep mistrust of statutory agencies and therefore voluntary groups which have access to and the trust of the community are in an ideal position to provide mentoring and build bridges and trust.
-        - Relationship-building shouldn’t be rushed and it should start with young people’s interests, wishes and strengths.
-        callout:
-          isQuote: false
-          content: Mentoring may be effective in violence reduction but the evidence is mixed on the impact of mentoring on arrests and reconvictions
-      - title: Extend support to places and spaces where young people feel comfortable
-        points:
-        - Support needs to extend from schools and statutory services into the community – and build on what is already working well locally.
-        - A flexible location is particularly important in the context of postcode gangs, as it may be dangerous for some young people to leave their neighbourhoods. Many young people involved in antisocial behaviour in out-of-centre estates affected by poverty rarely, or never, leave their estate to access opportunities.
-      - title: Incorporate, or link with, specialist mental health support
-        points:
-        - It is important to tackle stigma and make it easier for young people to come forward to talk about mental health. In turn, mental health services should be non-stigmatizing and relevant.
-        - Quick fixes for mental health problems don’t work.
-        - Professionals and volunteers should be trained to be sensitive to potential mental health issues.
-        - A whole family approach may be needed, especially if the whole family has been through significant adversity and there are wider family issues behind a young person’s involvement in violence.
-        - Mental health services should be provided in a variety of different settings.
-        callout:
-          isQuote: false
-          content: It has been estimated that up to one in three young people who offend have an unmet mental health need at the time of the offence
-      - title: Sport and the arts promote positive values and are a great hook for engagement
-        points:
-        - They can provide the right environment and influences to promote positive values, including taking on responsibility and learning how to resolve conflicts constructively
-        - Sport and art projects need to be long-term in nature and when possible included within a wider developmental programme of education and support.
-        - The role and skills of the coaches and trainers are critical therefore staff in arts and sports projects need to be trained and supported.
-        - Sport and art projects need to be well targeted in terms of both their location and the engagement of young people.
-        callout:
-          isQuote: false
-          content: The appeal of sport and the arts can act as a ‘hook’ for engagement and generate a sense of excitement, “similar to feelings experienced as part of a gang.”
-      - title: Timing matters for engagement and support
-        points:
-        - Successful engagement isn’t just linked to a place but also to the timing of the intervention. Support needs to be given at the right time in the young person’s life.
-      - title: We can learn from young people's expertise and experience
-        points:
-        - Young people who have been involved in gangs and crime help to drive the work of many charities that are successfully diverting young people away from violent lifestyles.
-        - Genuine co-production takes time and resource to set up and run.
-        - Involve young people at a level that they feel is appropriate to them at the time.
-        - Make young people feel welcome, encourage them to challenge existing ways of working; respect their contributions. Ensure participation is voluntary and they need to be able to change their mind.
-        - If young people take part in board or partnership meetings, ensure the meetings are run and written information is provided in jargon-free, Plain English and in an age-friendly format that is easily understandable
-        - Make sure the young people understand how they can benefit from getting involved.
-        - Make sure you celebrate their work and ensure staff, partner organisations and young people know what has changed as a result of their contributions.
-        - Think how to gather the views of people from different backgrounds and with different experiences.
-    - title: Partnership based approaches
-      contentParts:
-      - title: Involving the VCS isn’t just desirable but essential
-        points:
-        - Voluntary and community groups can add significant value to the work of statutory services in the field of youth violence. This is because they are able to represent and support young people who are ‘hidden’ or disengaged from other services.
-        - Partnerships should bring together smaller organisations, including grassroots groups, to produce ideas that are rooted in the experience of communities, with the reach and size of larger organisations.
-        - Understand the challenges faced by small grassroots organisations which focus on frontline delivery – their capacity to get involved at a strategic level is limited and should be supported.
-        - Value the expertise of partners – many groups have cutting-edge expertise and years/decades of experience, including lived experience of the challenges faced by those who they are supporting.
-        callout:
-          isQuote: false
-          content: Smaller groups may find it difficult to collaborate in a climate of competition for short-term, project-based funding opportunities
-      - title: Generous leaders and shared vision are some of the ‘key ingredients’ of successful partnerships
-        points:
-        - A willingness to share responsibility and influence to achieve the common good is important, coupled with a drive to build strong alliances with individuals, groups and communities who can achieve shared objectives together.
-        - Partners should be driven by a shared set of goals and values. These should start with the wider ecosystem, rather than each partner's individual priorities.
-        - Don't only consider what different partners can bring to the table, but also consider the consequences of leaving them out.
-        - Find ways to work with faith leaders and employers, including big companies and their supply chains as well as SMEs. They can provide placements and employment opportunities, which is particularly important for those who have dependents.
-        - Set boundaries on accountability, information sharing and targets. Regular communication and visible senior commitment are important.
-      - title: Build a whole system approach
-        points:
-        - Create a movement to recognise serious youth violence as a public health issue that requires a whole community response and a non-judgemental approach.
-        - Trust the relationships, expertise and experience of VCS groups in supporting young people involved in serious violence.
-        - Systems change involves focusing on the root causes of social issues and working to create systems that act early to prevent problems.
-        callout:
-          isQuote: false
-          content: As one young person moves away from organised crime, others such as friends and siblings may follow
-    metadata:
-      - label: Date published
-        content: July 2018
-      - label: Contact
-        content: <a href="mailto:knowledge@biglotteryfund.org.uk">knowledge@biglotteryfund.org.uk</a>
-    documents:
-      title: Documents
-      trailText: The full report contains more learnings and more detailed recommendations for implementation.
-      documents:
-        - title: Full report
-          filetype: PDF
-          filesize: 900KB
-          url: https://media.biglotteryfund.org.uk/media/documents/youth-serious-violence-full-report.pdf
-          contents:
-            - Executive Summary
-            - Introduction
-            - Prevention – what works?
-            - Early intervention – what works?
-            - Partnership-based approaches – what works?
-            - Sources
-    relatedProgrammes:
-      title: Related programmes
-      items:
-        - title: A Better Start
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/fulfilling-lives-a-better-start
-        - title: HeadStart
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/fulfilling-lives-headstart
-        - title: Talent Match
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/talent-match
+  detail:
+    documents: Documents
+    relatedProgrammes: Related programmes
+    datePublished: Date published
+    researchPartners: Research partners
+    contact: Contact

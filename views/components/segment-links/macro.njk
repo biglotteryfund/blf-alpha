@@ -1,7 +1,7 @@
 {% macro segmentLinks(segments, prefix = null) %}
     {% if segments.length > 1 %}
         <div class="segment-links">
-            {% if prefix %}<p class="u-margin-bottom-s">{{ prefix }}:</p>{% endif %}
+            {% if prefix %}<p class="u-margin-bottom-s">{{ prefix }}</p>{% endif %}
             <ul>
                 {% for segment in segments %}
                     <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>

@@ -9,7 +9,7 @@
                     <a class="document-summary__link u-document-link" href="{{ document.url }}">
                         {{ document.title }}
                         {% if document.filetype or document.filesize %}
-                            <small>({{ document.filetype }} {{ document.filesize }})</small>
+                            <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
                         {% endif %}
                     </a>
                     {% if document.contents %}

@@ -191,6 +191,33 @@ async function injectStrategicProgrammes(req, res, next) {
     }
 }
 
+async function injectResearch(req, res, next) {
+    try {
+        res.locals.researchEntries = await contentApi.getResearch({
+            locale: req.i18n.getLocale()
+        });
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectResearchEntry(req, res, next) {
+    try {
+        const entry = await contentApi.getResearch({
+            slug: last(req.path.split('/')),
+            locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false
+        });
+
+        res.locals.title = entry.title;
+        res.locals.researchEntry = entry;
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 async function injectBlogPosts(req, res, next) {
     try {
         res.locals.blogPosts = await contentApi.getBlogPosts({
@@ -263,6 +290,8 @@ module.exports = {
     injectFundingProgrammes,
     injectStrategicProgramme,
     injectStrategicProgrammes,
+    injectResearch,
+    injectResearchEntry,
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
