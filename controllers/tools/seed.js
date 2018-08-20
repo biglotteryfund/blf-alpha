@@ -1,24 +1,24 @@
 'use strict';
 const { sampleSize, startsWith } = require('lodash');
+const express = require('express');
 const uuidv4 = require('uuid/v4');
-const userService = require('../../services/user');
-const aliases = require('../../controllers/aliases');
+
 const { DB_CONNECTION_URI } = require('../../modules/secrets');
+const aliases = require('../../controllers/aliases');
+const userService = require('../../services/user');
+
+const router = express.Router();
 
 function shouldMount() {
     return process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqlite://');
 }
 
-function init({ router }) {
-    if (!shouldMount()) {
-        return;
-    }
-
-    router.get('/seed/aliases-sample', (req, res) => {
+if (shouldMount()) {
+    router.get('/aliases-sample', (req, res) => {
         res.json(sampleSize(aliases, 6));
     });
 
-    router.post('/seed/user', (req, res) => {
+    router.post('/user', (req, res) => {
         const uuid = uuidv4();
         const newUser = {
             username: `${uuid}@example.com`,
@@ -30,10 +30,6 @@ function init({ router }) {
             res.json(newUser);
         });
     });
-
-    return router;
 }
 
-module.exports = {
-    init
-};
+module.exports = router;

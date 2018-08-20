@@ -1,21 +1,18 @@
 'use strict';
+const path = require('path');
+const express = require('express');
+const router = express.Router();
 const routeHelpers = require('../helpers/route-helpers');
 
-function init({ router }) {
-    router.get('/pages', async (req, res, next) => {
-        try {
-            const canonicalRoutes = await routeHelpers.getCanonicalRoutes();
-            res.render('tools/pagelist', {
-                canonicalRoutes
-            });
-        } catch (err) {
-            next(err);
-        }
-    });
+router.get('/', async (req, res, next) => {
+    try {
+        const canonicalRoutes = await routeHelpers.getCanonicalRoutes();
+        res.render(path.resolve(__dirname, './views/pagelist'), {
+            canonicalRoutes
+        });
+    } catch (err) {
+        next(err);
+    }
+});
 
-    return router;
-}
-
-module.exports = {
-    init
-};
+module.exports = router;
