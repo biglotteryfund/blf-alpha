@@ -55,6 +55,7 @@ const DOTMAILER_API = { user: getSecret('dotmailer.api.user'), password: getSecr
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
+const DIGITAL_FUND_DEMO_EMAIL = process.env.DIGITAL_FUND_DEMO_EMAIL || getSecret('emails.digitalfund.demo');
 
 module.exports = {
     getRawParameters,
@@ -68,5 +69,6 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PREVIEW_DOMAIN,
     SENTRY_DSN,
-    SESSION_SECRET
+    SESSION_SECRET,
+    DIGITAL_FUND_DEMO_EMAIL
 };
