@@ -53,22 +53,50 @@
                                 &mdash; <a href="?{{ queryParams | removeQueryParam('programme') }}">Remove?</a>
                             </li>
                         {% endif %}
+
+                        {% if queryParams.orgType %}
+                            <li>
+                                <strong>Organisation Type:</strong> {{ queryParams.orgType }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('orgType') }}">Remove?</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endif %}
 
                 <div class="page-section u-accent-border-top-{{ pageAccent }}">
 
-                    <div class="page-section__supplementary u-padded">
-                        <h2>Filters</h2>
-                        {% if facets %}
-                            <h5>Funding Programme</h5>
-                            <ul class="u-margin-bottom-l">
-                                {% for programme in facets[0].grantProgramme | sortBy ('_id') %}
-                                    <li><a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a> ({{ programme.count }})</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
+                    {% if facets and facets.length > 0 %}
+                        <div class="page-section__supplementary u-padded">
+                            <h2>Filters</h2>
+
+                            {% if facets[0].grantProgramme.length > 1 %}
+                                <h5>Funding Programme</h5>
+                                <ul class="u-margin-bottom-l">
+                                    {% for programme in facets[0].grantProgramme | sortBy ('_id') %}
+                                        <li><a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a> ({{ programme.count }})</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+                            {% if facets[0].orgType %}
+                                <h5>Organisation type</h5>
+                                <ul class="u-margin-bottom-l">
+                                    {% for parent, orgs in facets[0].orgType %}
+                                        <li>
+                                            <a href="?{{ queryParams | addQueryParam('orgType', parent) }}">{{ parent}}</a> ({{ orgs.length }})
+                                            <ul>
+                                                {% for o in orgs %}
+                                                    <li><a href="?{{ queryParams | addQueryParam('orgType', o._id) }}">{{ o.title }}</a> ({{ o.count }})</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+
+                        </div>
+                    {% endif %}
 
                     <div class="page-section__content u-padded-top">
                         <h2>Results</h2>

@@ -57,11 +57,27 @@ async function init({ router, routeConfig }) {
             query.programme = req.query.programme;
         }
 
+        if (req.query.orgType) {
+            query.orgType = req.query.orgType;
+        }
+
         const data = await request({
             url: `http://localhost:8888`,
             json: true,
             qs: query
         });
+
+        // regroup organisation type data into tree structure
+        // @TODO replace this with properly-filtered data so we can do this natively
+        if (data.facets && data.facets[0].orgType) {
+            data.facets[0].orgType = groupBy(data.facets[0].orgType, o => o._id.split(' : ')[0]);
+            for (let type in data.facets[0].orgType) {
+                data.facets[0].orgType[type] = data.facets[0].orgType[type].map(o => {
+                    o.title = o._id.split(' : ')[1];
+                    return o;
+                });
+            }
+        }
 
         res.render(routeConfig.template, {
             queryParams: req.query,
