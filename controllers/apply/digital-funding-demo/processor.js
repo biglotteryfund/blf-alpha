@@ -28,7 +28,7 @@ module.exports = function processor(form, formData) {
         },
         {
             name: 'digital_funding_demo_internal',
-            sendTo: (appData.isDev) ? primaryAddress : DIGITAL_FUND_DEMO_EMAIL,
+            sendTo: appData.isDev ? primaryAddress : DIGITAL_FUND_DEMO_EMAIL,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: `New Digital Fund idea submission from website: ${organisationName}`,
             templateName: 'emails/applicationSummaryInternal',

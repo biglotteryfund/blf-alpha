@@ -10,7 +10,6 @@ const cached = require('../../middleware/cached');
 const EXTENDED_SESSION_DURATION_IN_DAYS = 7;
 
 function createFormRouter({ router, formModel }) {
-
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 

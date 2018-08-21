@@ -9,7 +9,6 @@ function initNavToggle() {
     });
 }
 
-
 function init() {
     initNavToggle();
     fitvids('.video-container');
