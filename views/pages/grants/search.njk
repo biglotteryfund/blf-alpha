@@ -41,15 +41,17 @@
                                 &mdash; <a href="?{{ queryParams | removeQueryParam('q') }}">Remove?</a>
                             </li>
                         {% endif %}
+
                         {% if queryParams.postcode %}
                             <li>
-                                <strong>Postcode:</strong> "{{ queryParams.postcode }}"
+                                <strong>Postcode:</strong> {{ queryParams.postcode }}
                                 &mdash; <a href="?{{ queryParams | removeQueryParam('postcode') }}">Remove?</a>
                             </li>
                         {% endif %}
+
                         {% if queryParams.programme %}
                             <li>
-                                <strong>Funding Programme:</strong> "{{ queryParams.programme }}"
+                                <strong>Funding Programme:</strong> {{ queryParams.programme }}
                                 &mdash; <a href="?{{ queryParams | removeQueryParam('programme') }}">Remove?</a>
                             </li>
                         {% endif %}
@@ -110,9 +112,9 @@
                                 <p><small>{{ grant['Description'] }}</small></p>
                                 <dl class="o-definition-list o-definition-list--compact">
                                     <dt>Amount awarded</dt>
-                                    <dd>£{{ grant['Amount Awarded'] }}</dd>
+                                    <dd>£{{ grant['Amount Awarded'] | numberWithCommas}}</dd>
                                     <dt>Grant programme</dt>
-                                    <dd>{{ grant['Grant Programme:Title'] }}</dd>
+                                    <dd><a href="?programme={{ grant['Grant Programme:Title'] }}">{{ grant['Grant Programme:Title'] }}</a></dd>
                                 </dl>
                                 <hr />
                             </article>

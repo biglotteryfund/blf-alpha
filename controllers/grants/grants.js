@@ -1,6 +1,7 @@
 'use strict';
 const request = require('request-promise-native');
 const querystring = require('querystring');
+const { groupBy } = require('lodash');
 
 function buildPagination(paginationMeta, currentQuerystring = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
@@ -25,14 +26,20 @@ function buildPagination(paginationMeta, currentQuerystring = {}) {
         return {
             currentPage: currentPage,
             totalPages: totalPages,
-            prevLink: currentPage > 1 ? {
-                url: prevLink,
-                label: 'prev'
-            } : null,
-            nextLink: currentPage < totalPages ? {
-                url: nextLink,
-                label: 'next'
-            } : null
+            prevLink:
+                currentPage > 1
+                    ? {
+                          url: prevLink,
+                          label: 'prev'
+                      }
+                    : null,
+            nextLink:
+                currentPage < totalPages
+                    ? {
+                          url: nextLink,
+                          label: 'next'
+                      }
+                    : null
         };
     } else {
         return;
