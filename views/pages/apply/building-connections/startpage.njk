@@ -5,6 +5,8 @@
 {% set bodyClass = 'has-static-header' %}
 {% set pageAccent = 'pink' %}
 
+{% set startLabel = "Continue your application" if hasBegunForm else "Start your application" %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -17,16 +19,18 @@
                     communities and local services connect in a variety of different ways.
                 </p>
 
-                {{ startButton(startUrl, label="Start your application") }}
+                {{ startButton(startUrl, label=startLabel) }}
 
                 <div class="message">
-                    <strong>Note</strong>: Once you've started your application you must complete it in one go, so take your time to
-                    <a href="#questions">read the questions you'll be asked</a> before you start.
+                    <strong>Note</strong>: Once you've started your application you must complete it
+                    in one go, so take your time to <a href="#questions">read the questions you'll
+                    be asked</a> before you start and write these answers offline rather than typing
+                    them into this form directly.
                 </div>
 
                 <h2>Other ways to apply</h2>
                 <p>
-                    We’re available Monday–Friday from 9am to 5pm to answer questions about applying, or if you need the application materials in an alternative format.
+                    We’re available Monday–Friday from 9am to 4pm to answer questions about applying, or if you need the application materials in an alternative format.
                 </p>
                 <ul>
                     <li><strong>Telephone</strong>: 0345 4 10 20 30</li>
@@ -35,7 +39,7 @@
 
             </div>
 
-            <ul class="o-image-list spaced--t--l">
+            <ul class="o-image-list u-margin-top-l">
                 <li><img src="{{ 'logos/partners/blf.png' | getImagePath }}" alt="Big Lottery Fund logo" width="157" /></li>
                 <li><img src="{{ 'logos/partners/hm-gov.png' | getImagePath }}" alt="HM Government logo" width="375" /></li>
             </ul>
@@ -87,7 +91,7 @@
                     </div>
                 {% endfor %}
 
-                {{ startButton(startUrl, label="Start your application") }}
+                {{ startButton(startUrl, label=startLabel) }}
 
                 <h2>After your application is submitted</h2>
                 <p>

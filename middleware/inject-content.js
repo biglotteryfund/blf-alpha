@@ -35,15 +35,12 @@ function injectHeroImage(heroSlug) {
             res.locals.heroImage = heroImages.fallbackHeroImage;
             res.locals.socialImage = heroImages.fallbackHeroImage;
 
-            res.locals.timings.start('inject-hero');
-
             try {
                 const heroImage = await contentApi.getHeroImage({
                     locale: req.i18n.getLocale(),
                     slug: heroSlug
                 });
 
-                res.locals.timings.end('inject-hero');
                 res.locals.heroImage = heroImage;
                 res.locals.socialImage = heroImage;
                 next();
@@ -104,8 +101,6 @@ function injectBreadcrumbs(req, res, next) {
 
 async function injectListingContent(req, res, next) {
     try {
-        res.locals.timings.start('inject-content');
-
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
@@ -117,7 +112,6 @@ async function injectListingContent(req, res, next) {
             setCommonLocals(res, content);
         }
 
-        res.locals.timings.end('inject-content');
         next();
     } catch (error) {
         next(error);
@@ -142,8 +136,6 @@ async function injectFlexibleContent(req, res, next) {
 
 async function injectFundingProgramme(req, res, next) {
     try {
-        res.locals.timings.start('fetch-funding-programme');
-
         const entry = await contentApi.getFundingProgramme({
             slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
             locale: req.i18n.getLocale(),
@@ -152,7 +144,6 @@ async function injectFundingProgramme(req, res, next) {
 
         res.locals.fundingProgramme = entry;
         res.locals.previewStatus = getPreviewStatus(entry);
-        res.locals.timings.end('fetch-funding-programme');
         next();
     } catch (error) {
         next();
@@ -161,11 +152,9 @@ async function injectFundingProgramme(req, res, next) {
 
 async function injectFundingProgrammes(req, res, next) {
     try {
-        res.locals.timings.start('inject-funding-programmes');
         res.locals.fundingProgrammes = await contentApi.getFundingProgrammes({
             locale: req.i18n.getLocale()
         });
-        res.locals.timings.end('inject-funding-programmes');
         next();
     } catch (error) {
         next();
@@ -174,7 +163,7 @@ async function injectFundingProgrammes(req, res, next) {
 
 async function injectStrategicProgramme(req, res, next) {
     try {
-        // Assumes a paramater of :slug in the request
+        // Assumes a parameter of :slug in the request
         const { slug } = req.params;
         if (slug) {
             const strategicProgramme = await contentApi.getStrategicProgrammes({
@@ -236,6 +225,18 @@ async function injectBlogDetail(req, res, next) {
     }
 }
 
+function injectMerchandise({ locale = false, showAll = false }) {
+    return async (req, res, next) => {
+        try {
+            const localeToUse = locale ? locale : req.i18n.getLocale();
+            res.locals.availableItems = await contentApi.getMerchandise(localeToUse, showAll);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
 function injectProfiles(section) {
     return async function(req, res, next) {
         try {
@@ -264,5 +265,6 @@ module.exports = {
     injectStrategicProgrammes,
     injectHeroImage,
     injectListingContent,
+    injectMerchandise,
     injectProfiles
 };

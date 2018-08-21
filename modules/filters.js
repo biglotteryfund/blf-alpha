@@ -7,8 +7,13 @@
 const slug = require('slugify');
 const querystring = require('querystring');
 const { includes } = require('lodash');
+const uuid = require('uuid/v4');
 
 const assets = require('./assets');
+
+function appendUuid(str) {
+    return str + uuid();
+}
 
 function getCachebustedPath(str) {
     return assets.getCachebustedPath(str);
@@ -68,6 +73,7 @@ function removeQueryParam(queryParams, paramToRemove) {
 }
 
 module.exports = {
+    appendUuid,
     filter,
     find,
     getCachebustedPath,

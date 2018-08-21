@@ -5,6 +5,7 @@
     "MinTTL": 0,
     "MaxTTL": 31536000,
     "DefaultTTL": 86400,
+    "FieldLevelEncryptionId": "",
     "Compress": true,
     "SmoothStreaming": false,
     "AllowedMethods": {
@@ -37,18 +38,22 @@
       "QueryStringCacheKeys": {
         "Items": [
           "draft",
-          "version"
+          "version",
+          "enable-feature",
+          "disable-feature"
         ],
-        "Quantity": 2
+        "Quantity": 4
       },
       "QueryString": true,
       "Cookies": {
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode"
+            "contrastMode",
+            "blf-features",
+            "blf-alpha-session"
           ],
-          "Quantity": 1
+          "Quantity": 3
         }
       }
     },
@@ -70,6 +75,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -108,9 +114,11 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -131,6 +139,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -185,6 +194,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -239,6 +249,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -271,9 +282,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -281,9 +294,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -296,7 +310,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/apply/building-connections/*"
+        "PathPattern": "/apply/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -304,71 +318,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version"
-            ],
-            "Quantity": 2
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-alpha-session"
-              ],
-              "Quantity": 2
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/apply/your-idea/*"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -397,18 +347,22 @@
             "Items": [
               "draft",
               "version",
+              "enable-feature",
+              "disable-feature",
               "url"
             ],
-            "Quantity": 3
+            "Quantity": 5
           },
           "QueryString": true,
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -429,6 +383,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -483,6 +438,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -537,6 +493,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -575,9 +532,11 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -598,6 +557,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -630,9 +590,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -640,9 +602,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -663,6 +626,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -695,9 +659,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -705,9 +671,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -728,6 +695,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -756,21 +724,25 @@
             "Items": [
               "draft",
               "version",
+              "enable-feature",
+              "disable-feature",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 6
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -791,6 +763,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -845,6 +818,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -899,6 +873,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -953,6 +928,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1007,6 +983,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1061,6 +1038,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1094,9 +1072,11 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -1117,6 +1097,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1149,9 +1130,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -1159,9 +1142,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1182,6 +1166,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1215,9 +1200,11 @@
             "Items": [
               "draft",
               "version",
+              "enable-feature",
+              "disable-feature",
               "token"
             ],
-            "Quantity": 3
+            "Quantity": 5
           },
           "QueryString": true,
           "Cookies": {
@@ -1225,9 +1212,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1248,6 +1236,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1280,9 +1269,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -1290,9 +1281,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1305,7 +1297,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/welsh/apply/building-connections/*"
+        "PathPattern": "/welsh/apply/*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1313,71 +1305,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version"
-            ],
-            "Quantity": 2
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-alpha-session"
-              ],
-              "Quantity": 2
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/welsh/apply/your-idea/*"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1416,9 +1344,11 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -1439,6 +1369,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1471,9 +1402,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -1481,9 +1414,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1504,6 +1438,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1536,9 +1471,11 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "enable-feature",
+              "disable-feature"
             ],
-            "Quantity": 2
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -1546,9 +1483,10 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
+                "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 3
             }
           }
         },
@@ -1569,6 +1507,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1597,21 +1536,25 @@
             "Items": [
               "draft",
               "version",
+              "enable-feature",
+              "disable-feature",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 6
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -1632,6 +1575,7 @@
         "MinTTL": 0,
         "MaxTTL": 31536000,
         "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
@@ -1665,9 +1609,11 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode"
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session"
               ],
-              "Quantity": 1
+              "Quantity": 3
             }
           }
         },
@@ -1683,6 +1629,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 27
+    "Quantity": 25
   }
 }

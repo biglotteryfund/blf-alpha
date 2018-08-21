@@ -1,31 +1,15 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
-
-{% if heroImage %}
-    {% set socialImage = heroImage %}
-{% else %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
-
-{% macro segmentLinks(segments) %}
-    {% if segments.length > 1 %}
-        <div class="segment-links">
-            <ul>
-                {% for segment in segments %}
-                    <li><a href="#segment-{{ loop.index }}">{{ segment.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-{% endmacro %}
+{% if not heroImage %}{% set bodyClass = 'has-static-header' %}{% endif %}
+{% set pageAccent = content.themeColour | default('pink') %}
 
 {% block content %}
-    {% set pageAccent = content.themeColour | default('pink') %}
-
     {% if heroImage %}
         {{ hero(
             titleText = title,
@@ -44,7 +28,7 @@
             {{ content.introduction | safe }}
         </div>
 
-        {{ segmentLinks(content.segments) }}
+        {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
     <main{% if heroImage %} class="nudge-up"{% endif %}>
@@ -95,11 +79,9 @@
         {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
 
         {% if content.outro %}
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose accent-content--{{ pageAccent }}">
-                    {{ content.outro | safe }}
-                </div>
-            </section>
+            {% call contentBox(pageAccent) %}
+                {{ content.outro | safe }}
+            {% endcall %}
         {% endif %}
     </main>
 

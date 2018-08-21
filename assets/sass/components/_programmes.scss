@@ -1,0 +1,129 @@
+/* =========================================================================
+   Programmes
+   ========================================================================= */
+
+/* =========================================================================
+   Programmes List
+   ========================================================================= */
+
+.programmes-list {
+    @include mq(medium-minor) {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 (-($spacingUnit / 2));
+    }
+}
+.programmes-list__item {
+    padding-bottom: $spacingUnit;
+
+    @include mq(medium-minor) {
+        flex: 0 0 50%;
+
+        > .programme-card {
+            margin-left: $spacingUnit / 2;
+            margin-right: $spacingUnit / 2;
+        }
+    }
+}
+
+/* =========================================================================
+   Programme Card
+   ========================================================================= */
+
+.programme-card {
+    background-color: palette('pale-grey');
+    padding: $spacingUnit / 2;
+
+    @include mq(medium-minor) {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        height: 100%;
+    }
+
+    @include mq(large) {
+        padding: $spacingUnit;
+    }
+}
+.programme-card__header {
+    display: flex;
+    margin-bottom: $spacingUnit / 2;
+
+    .programme-card__media {
+        order: 1;
+        flex: 0 0 50px;
+        margin-right: $spacingUnit / 2;
+
+        @include mq(medium) {
+            flex: 0 0 80px;
+            margin-right: $spacingUnit;
+        }
+    }
+
+    .programme-card__title {
+        order: 2;
+        flex: 1 1 auto;
+        margin-bottom: $spacingUnit / 2;
+
+        @include mq(medium) {
+            margin-top: 2px;
+        }
+    }
+}
+.programme-card__description {
+    margin-bottom: $spacingUnit / 2;
+}
+
+.programme-card.programme-card--minimal {
+    background-color: transparent;
+    padding: 0;
+
+    @include mq(large) {
+        padding: 0;
+    }
+
+    .programme-card__title,
+    .programme-card__body {
+        font-size: 18px;
+    }
+    .programme-card__title {
+        line-height: 1.25;
+    }
+}
+
+/* =========================================================================
+   Programme Summary
+   ========================================================================= */
+/* Used on region pages (e.g. /wales) */
+
+.programme-overview {
+    margin-bottom: $spacingUnit * 2;
+}
+.programme-overview__title {
+    margin-bottom: 0;
+}
+
+/* =========================================================================
+   Related Programme
+   ========================================================================= */
+
+.related-programme {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: palette('pink');
+    margin-bottom: $spacingUnit / 2;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .related-programme__media {
+        flex: 0 0 50px;
+        margin-right: $spacingUnit;
+    }
+    .related-programme__label {
+        flex: 1 1 0%;
+    }
+}

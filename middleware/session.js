@@ -2,6 +2,7 @@
 const config = require('config');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const moment = require('moment');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const { SESSION_SECRET } = require('../modules/secrets');
@@ -28,10 +29,20 @@ module.exports = function(app) {
         saveUninitialized: false,
         cookie: {
             sameSite: true,
-            secure: !appData.isDev
+            secure: !appData.isDev,
+            // A test to see if we can stop expiring even extended sessions
+            expires: moment()
+                .add(7, 'days')
+                .toDate()
         },
-        store: store
+        store: store,
+        rolling: true
     };
+
+    if (!appData.isDev) {
+        // trust the reverse proxy when securing cookies
+        sessionConfig.proxy = true;
+    }
 
     return [cookieParser(SESSION_SECRET), session(sessionConfig)];
 };

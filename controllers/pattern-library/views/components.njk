@@ -1,21 +1,33 @@
 {% extends "./layout.njk" %}
 
-{% from "components/styleguide.njk" import sgSectionHeader, sgComponent %}
-
 {% block content %}
 
 <div class="sg-components-list">
     <div class="sg-components-list__nav">
         <ul>
             {% for slug in componentSlugs  %}
-                <li><a href="#sg-pattern-{{ slug }}">{{ slug }}</a></li>
+                <li><a href="#sg-pattern-{{ slug }}">{{ slug | replace('-', ' ') | capitalize }}</a></li>
             {% endfor %}
         </ul>
     </div>
     <div class="sg-components-list__content">
-        {{ sgSectionHeader('Components') }}
+        <h1 class="t2">Components</h1>
         {% for slug in componentSlugs  %}
-            {{ sgComponent(slug) }}
+            <section class="sg-block">
+                <header class="sg-block__header">
+                    <h2 class="sg-block__title accent--soft-grey t4 t--underline js-sg-pattern-title"
+                        id="sg-pattern-{{ slug }}">
+                        {{ slug | replace('-', ' ') | capitalize }}
+                    </h2>
+                    <p><small><a href="?component={{ slug }}">View standalone</a></small></p>
+                </header>
+                <div class="sg-block__body">
+                    <div class="sg-block__content">
+                        {# Include examples file for a given component slug #}
+                        {% include "components/" + slug + "/examples.njk" ignore missing %}
+                    </div>
+                </div>
+            </section>
         {% endfor %}
     </div>
 </div>

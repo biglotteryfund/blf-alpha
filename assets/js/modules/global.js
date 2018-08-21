@@ -1,14 +1,17 @@
 const $ = require('jquery');
 const fitvids = require('fitvids');
 
-function init() {
+function initNavToggle() {
     // Mobile navigation toggle
     $('#js-mobile-nav-toggle').on('click', function(e) {
         e.preventDefault();
         $('html').toggleClass('show-off-canvas');
     });
+}
 
-    // Fitvids
+
+function init() {
+    initNavToggle();
     fitvids('.video-container');
 }
 

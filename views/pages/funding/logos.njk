@@ -1,16 +1,172 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/tabs.njk" import tabs, paneSet with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/icons.njk" import iconClose %}
 
 {% extends "common/informationPage.njk" %}
+{% set pageAccent = content.themeColour %}
 
-{% macro howToUseLogo(bilingual = false) %}
-    <div class="s-prose u-padded">
-        {% if locale == 'cy' or bilingual %}
-            {% set logoExamplePath = 'logos/examples-cy.png' %}
-        {% else %}
-            {% set logoExamplePath = 'logos/examples.png' %}
+{% macro makeLogoTitle(logoName, logoSize) %}
+    {{ copy.downloads.download }}
+    {% if locale == 'cy' %}logo{% endif %}
+    {{ copy.downloads.colours[logoName] }}
+    {% if locale == 'en' %}logo{% endif %}
+    <span class="u-weight-light">({{ copy.downloads.sizes[logoSize] }})</span>
+{% endmacro %}
+
+{% macro successMessage(type) %}
+    {% if copy.successMessages[type] %}
+        <div class="u-hidden js-success js-success--{{ type }}">
+            <h3>{{ copy.successMessages.success }}</h3>
+            <p><strong>{{ copy.successMessages[type].title }}</strong></p>
+            <p>{{ copy.successMessages[type].body }}</p>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro logoPath(locale, filename, extension, suffix = false) %}
+    {% set l = 'logos/' + locale + '/' + filename %}
+    {% if suffix %}
+        {% set l = l + suffix %}
+    {% endif %}
+    {% set l = l + '.' + extension %}
+    {{ l | getImagePath }}
+{% endmacro %}
+
+{% macro buildLogoTitle(logoName, logoSize, logoLocale) %}{{ copy.downloads.colours[logoName] | capitalize }} logo ({{ copy.downloads.sizes[logoSize] }}) - {% if logoLocale === 'bilingual' %}Bilingual{% else %}Monolingual{% endif %}{% endmacro %}
+
+{% macro analyticParams(logoName, logoSize, logoLocale) %}data-ga-on="click" data-ga-event-category="Download logo" data-ga-event-action="{{ buildLogoTitle(logoName, logoSize, logoLocale) }}"{% endmacro %}
+
+{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false, isReversed = false) %}
+    {% if isReversed %}
+        {% set accent = 'white' %}
+    {% endif %}
+
+    <div class="logo-block {% if isReversed %}logo-block--reversed{% endif %}">
+        <div class="logo-block__overlay" id="js-download-block--{{ logoId }}">
+            <div class="logo-block__close">
+                <button type="button" class="icon-btn js-success--close" data-logo-id="{{ logoId }}">
+                    {{ iconClose() }}
+                </button>
+            </div>
+            <div class="logo-block__message">
+                {{ successMessage('digital') }}
+                {{ successMessage('print') }}
+                {{ successMessage('vector') }}
+            </div>
+        </div>
+
+        {% set accentClass = '' %}
+        {% if accent %}
+            {% set accentClass = ' accent--' + accent + ' a--btn ' %}
         {% endif %}
+
+        {% if not onlyEps %}
+            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
+               target="_blank"
+               class="js-logo-trigger"
+               data-logo-type="print"
+               data-logo-id="{{ logoId }}"
+               {{ analyticParams(logoName, 'large', logoLocale) }}>
+        {% endif %}
+            <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}"
+                 alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
+        {% if not onlyEps %}
+            </a>
+        {% endif %}
+
+        <div class="o-button-group-block">
+            {% if not onlyEps %}
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}"
+                   target="_blank"
+                   data-logo-type="digital"
+                   data-logo-id="{{ logoId }}"
+                   {{ analyticParams(logoName, 'small', logoLocale) }}>
+                    {{ makeLogoTitle(logoName, 'small') }}
+                </a>
+                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
+                   target="_blank"
+                   data-logo-type="print"
+                   data-logo-id="{{ logoId }}"
+                   {{ analyticParams(logoName, 'large', logoLocale) }}>
+                    {{ makeLogoTitle(logoName, 'large') }}
+                </a>
+            {% endif %}
+            <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+               href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}"
+               target="_blank"
+               data-logo-type="vector"
+               data-logo-id="{{ logoId }}"
+               {{ analyticParams(logoName, 'eps', logoLocale) }}>
+                {{ makeLogoTitle(logoName, 'eps') }}
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% set customSegmentLinks = [{
+    "title": copy.downloadsTitle
+}, {
+    "title": copy.howToUseLogo.title
+}] %}
+
+{% block contentPrimary %}
+    {{ super() }}
+
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+        <p><strong>{{ copy.locationPrompt }}</strong></p>
+        <div class="o-button-group-flex">
+                <a href="#region1" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.monolingual }}
+                </a>
+                <a href="#region2" class="btn btn--small accent--{{ pageAccent }} a--btn js-tab">
+                    {{ copy.locations.bilingual }}
+                </a>
+            </div>
+    </div>
+
+    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+        <h2 class="t--underline">{{ copy.downloadsTitle }} </h2>
+
+        <h3 id="region1">{{ copy.locations.monolingual }}</h3>
+
+        <ul class="flex-grid u-margin-bottom-l">
+            <li class="flex-grid__item">
+                {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, isReversed = true) }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, isReversed = true) }}
+            </li>
+        </ul>
+
+        <h3 id="region2">{{ copy.locations.bilingual }}</h3>
+
+        <ul class="flex-grid u-margin-bottom-l">
+            <li class="flex-grid__item">
+                {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
+            </li>
+            <li class="flex-grid__item">
+                {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
+            </li>
+        </ul>
+    </div>
+
+    {% call contentBox(pageAccent, id = "segment-2") %}
+        <h2>{{ copy.howToUseLogo.title }}</h2>
 
         <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
@@ -25,213 +181,8 @@
         <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
 
         <figure>
-            <img src="{{ logoExamplePath | getImagePath }}" alt="Examples of our logo" />
+            <img src="{{ "logos/examples.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
+            <img src="{{ "logos/examples-cy.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
         </figure>
-    </div>
-{% endmacro %}
-
-{% macro logoTabBar(logoTitle, localeId) %}
-    <ul class="js-tabs tabs unstyled" data-no-initial-selection="true">
-        <li><a class="js-tab-item" href="#logos-{{ localeId }}">{{ logoTitle }}</a></li>
-        <li><a class="js-tab-item" href="#howto-{{ localeId }}">{{ copy.howToUseLogo.title }}</a></li>
-    </ul>
-{% endmacro %}
-
-{% macro makeLogoTitle(logoName, logoSize) %}
-    {{ copy.downloads.download }}
-    {% if locale == 'cy' %}logo{% endif %}
-    {{ copy.downloads.colours[logoName] }}
-    {% if locale == 'en' %}logo{% endif %}
-    <span class="u-weight-light">({{ copy.downloads.sizes[logoSize] }})</span>
-{% endmacro %}
-
-{% macro successMessage(type) %}
-    {% if copy.successMessages[type] %}
-        <div class="u-hidden js-success js-success--{{ type }}">
-            <h3>{{ copy.successMessages.success }}</h3>
-            <h4 class="t5">{{ copy.successMessages[type].title }}</h4>
-            <h4 class="t8">{{ copy.successMessages[type].body }}</h4>
-        </div>
-    {% endif %}
-{% endmacro %}
-
-{% macro downloadBlock(logoId) %}
-    <div class="grid__item__overlay" id="js-download-block--{{ logoId }}">
-        <div class="overlay__close js-success--close" data-logo-id="{{ logoId }}">
-            {{ iconClose() }}
-        </div>
-        {{ successMessage('digital') }}
-        {{ successMessage('print') }}
-        {{ successMessage('vector') }}
-    </div>
-{% endmacro %}
-
-{% macro logoPath(locale, filename, extension, suffix = false) %}
-    {% set l = 'logos/' + locale + '/' + filename %}
-    {% if suffix %}
-        {% set l = l + suffix %}
-    {% endif %}
-    {% set l = l + '.' + extension %}
-    {{ l | getImagePath }}
-{% endmacro %}
-
-{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false) %}
-    <div class="logo-block">
-        {{ downloadBlock(logoId) }}
-        {% set accentClass = '' %}
-        {% if accent %}
-            {% set accentClass = ' accent--' + accent + ' a--btn ' %}
-        {% endif %}
-
-        {% if not onlyEps %}<a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim}}" target="_blank" class="js-logo-trigger" data-logo-type="print" data-logo-id="{{ logoId }}">{% endif %}
-            <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}" alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
-        {% if not onlyEps %}</a>{% endif %}
-
-        <div class="logo-block__links">
-            {% if not onlyEps %}
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
-                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}" target="_blank" data-logo-type="digital" data-logo-id="{{ logoId }}">
-                    {{ makeLogoTitle(logoName, 'small') }}
-                </a>
-                <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
-                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}" target="_blank" data-logo-type="print" data-logo-id="{{ logoId }}">
-                    {{ makeLogoTitle(logoName, 'large') }}
-                </a>
-            {% endif %}
-            <a class="logo-block__link btn btn--block btn--small {{ accentClass }} js-logo-trigger"
-                href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}" target="_blank" data-logo-type="vector" data-logo-id="{{ logoId }}">
-                {{ makeLogoTitle(logoName, 'eps') }}
-            </a>
-        </div>
-    </div>
-{% endmacro %}
-
-{% set logosMonolingual %}
-    <div class="padded">
-        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
-            <li class="grid__item">
-                <div class="grid__item__inner accent--turquoise">
-                    {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner accent--pink">
-                    {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, accent = 'white') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, accent = 'white') }}
-                </div>
-            </li>
-        </ul>
-    </div>
-{% endset %}
-
-{# england, scotland and NI #}
-{% set contentMonolingual %}
-    {{ tabs(
-        id = 'logo-monolingual',
-        content = [
-            {
-                title: copy.logoDownloads.monolingual,
-                content: logosMonolingual,
-                active: true
-            },
-            {
-                title: copy.howToUseLogo.title,
-                content: howToUseLogo(bilingual = false)
-            }
-        ]
-    )}}
-{% endset %}
-
-
-{# Wales #}
-
-{% set logosBilingual %}
-    <div class="padded">
-        <ul class="unstyled grid grid--wide-only grid--equal grid--2-up grid--padded">
-            <li class="grid__item">
-                <div class="grid__item__inner accent--turquoise">
-                    {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner accent--pink">
-                    {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
-                </div>
-            </li>
-            <li class="grid__item">
-                <div class="grid__item__inner u-tone-background-dark">
-                    {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, accent = 'white') }}
-                </div>
-            </li>
-        </ul>
-    </div>
-{% endset %}
-
-{% set contentBilingual %}
-    {{ tabs(
-        id = 'logo-bilingual',
-        content = [
-            {
-                title: copy.logoDownloads.bilingual,
-                content: logosBilingual,
-                active: true
-            },
-            {
-                title: copy.howToUseLogo.title,
-                content: howToUseLogo(bilingual = true)
-            }
-        ]
-    )}}
-{% endset %}
-
-{% block contentPrimary %}
-    {% set pageAccent = content.themeColour %}
-    {{ super() }}
-    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top accent-content--{{ pageAccent }}">
-        <div class="s-prose">
-            <h2>{{ copy.locationPrompt }}</h2>
-        </div>
-
-        <div class="js-tabset" data-paneset="paneset-regions">
-            <ul class="unstyled grid grid--padded grid--equal grid--2-up grid--wide-only">
-                <li class="grid__item">
-                    <a href="#region1" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
-                        {{ copy.locations.monolingual }}
-                    </a>
-                </li>
-                <li class="grid__item">
-                    <a href="#region2" class="btn btn--block btn--small accent--{{ pageAccent }} a--btn js-tab">
-                        {{ copy.locations.bilingual }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        {{ paneSet(
-            id = "paneset-regions",
-            panes = [{
-                paneId: 'region1',
-                content: contentMonolingual,
-                accordion: false
-            }, {
-                paneId: 'region2',
-                content: contentBilingual,
-                accordion: false
-            }]
-        ) }}
-    </div>
+    {% endcall %}
 {% endblock %}

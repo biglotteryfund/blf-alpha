@@ -93,18 +93,12 @@ npm test
 
 ### Integration tests
 
-A set of integration tests written using `cypress` can be run with:
+A set of integration tests written using `cypress` can be run locally with:
 
 ```
+./bin/start-test-server
+// In new terminal
 npm run test-cypress
-```
-
-### Security tests
-
-We have [Snyk](https://snyk.io/) configured to check for outdated dependencies with known security vulnerabilities. You can run these checks manually using:
-
-```
-npx snyk text
 ```
 
 ## Deployment

@@ -1,17 +1,38 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const { capitalize, concat } = require('lodash');
 const express = require('express');
 const router = express.Router();
 const globby = require('globby');
 
+function buildBreadcrumbs(req, trail = []) {
+    const core = [
+        {
+            label: 'Design system',
+            url: req.baseUrl
+        }
+    ];
+
+    return concat(core, trail);
+}
+
 router.get('/', (req, res) => {
-    res.render(path.resolve(__dirname, './views/index'));
+    const breadcrumbs = buildBreadcrumbs(req);
+    res.render(path.resolve(__dirname, './views/index'), { breadcrumbs });
 });
 
-router.get('/typography', (req, res) => {
-    res.render(path.resolve(__dirname, './views/typography'), {
-        title: 'Typography'
+router.get('/styles', (req, res) => {
+    const title = 'Styles';
+    const breadcrumbs = buildBreadcrumbs(req, [
+        {
+            label: title
+        }
+    ]);
+
+    res.render(path.resolve(__dirname, './views/styles'), {
+        title,
+        breadcrumbs
     });
 });
 
@@ -24,8 +45,20 @@ router.get('/components', async (req, res, next) => {
             if (err) {
                 next();
             } else {
+                const title = capitalize(component.replace('-', ' '));
+                const breadcrumbs = buildBreadcrumbs(req, [
+                    {
+                        label: 'Components',
+                        url: req.baseUrl + req.path
+                    },
+                    {
+                        label: title
+                    }
+                ]);
+
                 res.render(path.resolve(__dirname, './views/component-detail'), {
-                    title: 'Components: ' + component,
+                    title,
+                    breadcrumbs,
                     slug: component
                 });
             }
@@ -34,10 +67,17 @@ router.get('/components', async (req, res, next) => {
         try {
             const matches = await globby(path.resolve(__dirname, '../../views/components') + '/**/examples.njk');
             if (matches.length > 0) {
-                const componentSlugs = matches.map(match => path.basename(path.dirname(match)));
+                const title = 'Components';
+                const breadcrumbs = buildBreadcrumbs(req, [
+                    {
+                        label: title
+                    }
+                ]);
+                const componentSlugs = matches.map(match => path.basename(path.dirname(match))).sort();
                 res.render(path.resolve(__dirname, './views/components'), {
-                    title: 'Components',
-                    componentSlugs: componentSlugs.sort()
+                    title,
+                    breadcrumbs,
+                    componentSlugs: componentSlugs
                 });
             } else {
                 next(new Error('No components fount'));

@@ -1,0 +1,55 @@
+/* =========================================================================
+   Layout Helpers
+   ========================================================================= */
+
+/**
+ * Inner/constrained layout classes
+ * .u-inner defines a constrained layout at all breakpoints
+ * .u-inner-wide-only defines a constrained layout at wider breakpoints only
+ */
+.u-inner {
+    margin-left: $spacingUnit / 2;
+    margin-right: $spacingUnit / 2;
+    width: calc(100% - #{$spacingUnit});
+}
+
+.u-inner,
+.u-inner-wide-only {
+    @include mq(medium) {
+        margin-left: $spacingUnit;
+        margin-right: $spacingUnit;
+        width: calc(100% - #{$spacingUnit * 2});
+    }
+
+    @media screen and (min-width: $widestScreen) {
+        max-width: $maxWidth;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.u-constrained {
+    max-width: $constrained;
+}
+
+.u-constrained-wide {
+    max-width: $constrainedWide;
+}
+
+.u-gutter {
+    margin-left: $spacingUnit;
+    margin-right: $spacingUnit;
+}
+.u-gutter-half {
+    margin-left: $spacingUnit / 2;
+    margin-right: $spacingUnit / 2;
+}
+
+.nudge-up {
+    @include mq('medium') {
+        top: -25px;
+        margin-bottom: -25px;
+        position: relative;
+        z-index: 10;
+    }
+}

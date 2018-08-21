@@ -1,0 +1,15 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import inlineLinks %}
+
+{% call sgExample() %}
+    {{ inlineLinks(
+        prefix = 'Tags',
+        links = [{
+            "label": "Tag A",
+            "url": "#"
+        }, {
+            "label": "Tag A",
+            "url": "#"
+        }]
+    ) }}
+{% endcall %}

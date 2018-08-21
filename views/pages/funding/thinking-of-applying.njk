@@ -1,0 +1,73 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+                <div class="s-prose u-constrained-content-wide">
+                    <p>Negotiating the world of funding can feel daunting, but we're here to help.</p>
+
+                    <p>Libero voluptatem placeat excepturi error praesentium, cupiditate quis eius hic repellendus, vitae odit eaque magni saepe natus. Temporibus veritatis nisi incidunt quas qui dolorum velit, maiores, quam numquam voluptatibus recusandae nesciunt laudantium omnis molestias dolore totam magni vel distinctio.<p>
+                </div>
+            </section>
+
+            <section class="u-inner">
+                <ul class="flex-grid flex-grid--3up">
+                    {% set themes = cycler('blue', 'pink-dark', 'orange') %}
+                    {% for page in [{
+                        "title": "Is the Big Lottery Fund right for you?",
+                        "imageUrl": "placeholders/placeholder-3.jpg"
+                    }, {
+                        "title": "Find the right funding",
+                        "imageUrl": "placeholders/placeholder-5.jpg"
+                    }, {
+                        "title": "Funding application tips and guidance",
+                        "imageUrl": "placeholders/placeholder-7.jpg"
+                    }] %}
+                        <li class="flex-grid__item">
+                            {{ miniatureHero(
+                                title = page.title,
+                                imagePath = page.imageUrl | getImagePath,
+                                imageCaption = page.title,
+                                linkUrl = "#",
+                                accent = themes.next()
+                            )}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            {% call contentBox(pageAccent) %}
+                <h2>What to expect if you apply</h2>
+                <p>The Big Lottery Fund works to provide a friendly, simple, and supportive service to our applicants and grantholders. We enjoy building a relationship with local communities and organisations that make a difference within them.</p>
+
+                <p>Nulla aspernatur error velit quidem nisi porro laboriosam deleniti commodi possimus totam quisquam fuga sint architecto non tenetur itaque, facere doloremque iste reprehenderit aliquam saepe et sapiente repudiandae. Enim consequuntur illum modi, consectetur in sint.</p>
+
+                <p>Magni, quas quasi nisi esse eligendi asperiores quisquam sapiente, culpa animi deleniti soluta perferendis ratione cumque consequatur ullam, odit quo.</p>
+
+                <ul>
+                    <li><a href="/funding/under10k">Awards under £10,000</a></li>
+                    <li><a href="/funding/over10k">Awards over £10,000</a></li>
+                </ul>
+            {% endcall %}
+
+            {% call contentBox(pageAccent) %}
+                <h2>Talk to us</h2>
+                <p>If if you have a question that isn't answered here or need advice please contact us at <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a> or call our advice team on <a href="tel:0345 4 10 20 30">0345 4 10 20 30</a>.</p>
+                <p>Text relay users, please use 18001 plus 0345 4 10 20 30.</p>
+            {% endcall %}
+        </div>
+    </main>
+{% endblock %}

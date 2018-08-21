@@ -1,4 +1,4 @@
-{% extends "../layouts/tools.njk" %}
+{% extends "controllers/tools/views/layout.njk" %}
 {% from "./user-helpers.njk" import listErrors with context %}
 
 {% block title %}Your account{% endblock %}
@@ -8,11 +8,11 @@
     {{ listErrors() }}
 
     {% if not user.is_active %}
-        {% set activationSent = getFlash(request, 'activationSent') %}
+        {% set activationSent = status === STATUSES.ACTIVATION_SENT %}
         <div class="alert alert-warning" role="alert">
             <p><strong>Warning:</strong> You haven't activated your account yet!</p>
             {% if activationSent %}
-                <p>We just sent an email to {{ user.username }} with a link to activate your account.</p>
+                <p><strong>We just sent an email to {{ user.username }} with a link to activate your account.</strong></p>
             {% endif %}
             <p>Would you like to <a href="{{ makeUserLink('activate') }}">re-send your activation link</a>?</p>
         </div>

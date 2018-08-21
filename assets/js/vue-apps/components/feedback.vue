@@ -35,7 +35,7 @@ export default {
             <label class="ff-label" for="field-message">{{ fieldLabel }}</label>
             <p class="ff-help" v-if="helpText">{{ helpText }}</p>
             <textarea
-                class="ff-textarea spaced"
+                class="ff-textarea u-margin-bottom"
                 id="field-message"
                 name="message"
                 v-model="feedback"

@@ -1,0 +1,66 @@
+/* =========================================================================
+   Flex Grid
+   ========================================================================= */
+/**
+ * Simple 2up and 3up flexible grid which stacks on small screens
+ * For anything else write custom rules as a component.
+ */
+
+$flexGridSpacing: $spacingUnit;
+
+/**
+ * Common 2up flexbox based grid
+ */
+.flex-grid {
+    @include reset-list();
+
+    @include mq('medium-minor') {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -$flexGridSpacing;
+    }
+
+    > .flex-grid__item {
+        max-width: 100%;
+        margin-bottom: $flexGridSpacing;
+
+        @include mq('medium-minor') {
+            display: flex;
+            flex: 0 0 50%;
+
+            > * {
+                margin-left: $flexGridSpacing;
+            }
+        }
+    }
+}
+
+/*
+ * Common 3up variant of a flexbox based grid
+ */
+.flex-grid.flex-grid--3up {
+    /**
+     * Default to 3up where there is space
+     */
+    > .flex-grid__item {
+        @include mq('medium-minor') {
+            flex: 0 0 33.3%;
+        }
+    }
+
+    /**
+     * If there are more than three items in the grid then
+     * allow 3up on wide screens > 2up on medium > 1up on small
+     * http://quantityqueries.com/
+     */
+    > .flex-grid__item:nth-last-child(n + 4),
+    > .flex-grid__item:nth-last-child(n + 4) ~ .flex-grid__item {
+        @include mq('small') {
+            flex: 0 0 50%;
+        }
+
+        @include mq('medium') {
+            flex: 0 0 33.3%;
+        }
+    }
+}

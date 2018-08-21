@@ -1,0 +1,207 @@
+{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
+{% from "components/language-switcher/macro.njk" import languageSwitcher with context %}
+
+{% macro _navigation() %}
+    {% set navigation = [{
+        "label": "Home",
+        "url": "/",
+        "mobileOnly": true
+    }, {
+        "label": "Funding",
+        "url": "/funding/test",
+        "children": [{
+            "label": "Thinking of applying",
+            "url": "/funding/thinking-of-applying"
+        }, {
+            "label": "Funding programmes",
+            "url": "/funding/programmes"
+        }, {
+            "label": "What we’ve funded",
+            "url": "/funding/past-grants"
+        }, {
+            "label": "Continue your application",
+            "url": "https://apply.biglotteryfund.org.uk/Login.aspx"
+        }]
+    }, {
+        "label": "In your area",
+        "url": "/local",
+        "children": []
+    }, {
+        "label": "News",
+        "url": "/blog",
+        "children": []
+    }, {
+        "label": "Research",
+        "url": "/research",
+        "children": []
+    }, {
+        "label": "Talk to us",
+        "url": "/contact",
+        "children": []
+    }, {
+        "label": "About us",
+        "url": "/about",
+        "mobileOnly": true
+    }] %}
+
+    <ul>
+        {% for item in navigation %}
+            {% set hasChildren = item.children.length > 0 %}
+            {% set pathname = request.baseUrl + request.path | replace(r/\/$/, '') %}
+            <li class="{% if hasChildren %}has-children{% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}{% if pathname === item.url %} is-current{% endif %}">
+                <a href="{{ item.url }}">
+                    {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
+                </a>
+                {% if hasChildren %}
+                    <ul>
+                        {% for child in item.children %}
+                            <li>
+                                <a href="{{ child.url }}">{{ child.label }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro globalSearch() %}
+    <form class="global-search-next" role="search" action="/search">
+        <label class="u-visually-hidden" for="global-search-input">
+            {{ __("global.misc.search") }}
+        </label>
+        <input
+            class="global-search-next__input ff-text"
+            id="global-search-input"
+            name="q"
+            type="search"
+            placeholder="{{ __("global.misc.search") }}"
+        >
+        <button class="global-search-next__submit" type="submit">
+            <span class="global-search-next__icon">{{ iconSearch() }}</span>
+            <span class="global-search-next__label">{{ __("global.misc.search") }}</span>
+        </button>
+    </form>
+{% endmacro %}
+
+<header class="global-header-next js-global-header" role="banner">
+    <div class="global-header-next__inner">
+        <div class="global-header-next__primary">
+            <a href="/" class="global-header-next__logo brand-logo">
+                <span class="u-visually-hidden">
+                    {{ __("global.brand.title") }}
+                </span>
+            </a>
+            <div class="global-header-next__actions">
+                <a href="#global-nav"
+                    class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
+                    {{ iconSearch() }}
+                    <span class="global-header-next__toggle-label">
+                        Search
+                    </span>
+                </a>
+
+                <a href="#global-search"
+                    class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
+                    {{ iconHamburger() }}
+                    <span class="global-header-next__toggle-label">
+                        Menu
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="global-header-next__secondary">
+            <div class="global-header-next__navigation" id="global-nav">
+                <nav class="global-header-next__navigation-primary">
+                    {{ _navigation() }}
+                </nav>
+                <ul class="global-header-next__navigation-secondary">
+                    <li><a href="{{ localify('/') }}">Home</a></li>
+                    <li><a href="{{ localify('/about') }}">About us</a></li>
+                    <li>
+                        {% if isBilingual %}
+                            {% if locale == 'en' %}
+                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+                            {% else %}
+                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                    <li>Advice Line: 0345 4 10 20 30</li>
+                </ul>
+                <div class="global-header-next__language">
+                    <div class="global-header-next__language-prefix">
+                        Mae'r dudalen hon hefyd ar gael yn Cymraeg
+                    </div>
+                    <div class="global-header-next__language-controls">
+                        {{ languageSwitcher(locale) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="global-header-next__search">
+                {{ globalSearch() }}
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+/**
+ * Initialise event listeners on header navigation early
+ * (e.g. search and menu toggle)
+ *
+ * We do this early so that users can interact
+ * with the navigation before the main script bundle has loaded
+ * increasing time-to-interactive
+ */
+(function() {
+    const elSelector = '.js-global-header';
+    var el = document.querySelector(elSelector);
+
+    if (!el) {
+        return;
+    }
+
+    var stateClassNames = {
+        nav: 'has-toggled-navigation',
+        search: 'has-toggled-search'
+    };
+
+    var body = document.querySelector('body');
+    var html = document.querySelector('html');
+    var searchInput = el.querySelector('input[type=search]');
+
+    var toggleNav = el.querySelector('.js-toggle-nav');
+    var toggleSearch = el.querySelector('.js-toggle-search');
+
+    toggleNav.addEventListener('click', function(e) {
+        e.preventDefault();
+        html.classList.remove(stateClassNames.search);
+        html.classList.toggle(stateClassNames.nav);
+    });
+
+    toggleSearch.addEventListener('click', function(e) {
+        e.preventDefault();
+        html.classList.remove(stateClassNames.nav);
+        html.classList.toggle(stateClassNames.search);
+
+        if (searchInput) {
+            searchInput.focus();
+        }
+    });
+
+    body.addEventListener('click', function(e) {
+        var isOutsideClick = e.target.closest(elSelector) === null;
+        if (
+            isOutsideClick &&
+            (html.classList.contains(stateClassNames.search) || html.classList.contains(stateClassNames.nav))
+        ) {
+            html.classList.remove(stateClassNames.search);
+            html.classList.remove(stateClassNames.nav);
+        }
+    });
+}());
+</script>

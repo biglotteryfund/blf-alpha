@@ -8,7 +8,7 @@ const config = require('config');
 
 const { customEvent } = require('../../modules/analytics');
 const { FORM_STATES } = require('../../modules/forms');
-const { getSecret } = require('../../modules/secrets');
+const { DOTMAILER_API } = require('../../modules/secrets');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
 
@@ -47,8 +47,8 @@ function subscribeToNewsletter(formData) {
         uri: ENDPOINT,
         method: 'POST',
         auth: {
-            user: getSecret('dotmailer.api.user'),
-            pass: getSecret('dotmailer.api.password'),
+            user: DOTMAILER_API.user,
+            pass: DOTMAILER_API.password,
             sendImmediately: true
         },
         json: true,

@@ -1,12 +1,28 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
-{% from "components/media-object/macro.njk" import mediaObject with context %}
-{% from "components/promo-card/macro.njk" import promoCard with context %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
+{% from "components/media-object/macro.njk" import mediaObject %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% extends "layouts/main.njk" %}
 
 {% set pageAccent = 'pink' %}
+
+{% macro renderContentBlocks(contentBlocks) %}
+    {% for part in contentBlocks  %}
+        <div class="content-slice">
+            <div class="content-slice__primary">
+                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    {% if part.title %}
+                        <h2>{{ part.title }}</h2>
+                    {% endif %}
+                    {{ part.content | safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endmacro %}
 
 {% block content %}
 <main role="main">
@@ -32,16 +48,7 @@
             {%- endset %}
 
             {% set tabContentImpact -%}
-                {% for part in strategicProgramme.impact  %}
-                    <div class="content-slice">
-                        <div class="content-slice__primary">
-                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                                <h2>{{ part.title }}</h2>
-                                {{ part.content | safe }}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                {{ renderContentBlocks(strategicProgramme.impact) }}
             {%- endset %}
 
             {% set tabContentPartnerships -%}
@@ -72,18 +79,26 @@
                 {% endif %}
             {%- endset %}
 
+            {% set tabContentResources -%}
+                {{ renderContentBlocks(strategicProgramme.resources) }}
+            {%- endset %}
+
             {{ contentTabs([{
                 "id": "section-1",
                 "title": "Aims & approach",
                 "content": tabContentAims
             }, {
                 "id": "section-2",
-                "title": "Impact & learnings",
+                "title": "Learning",
                 "content": tabContentImpact
             }, {
                 "id": "section-3",
                 "title": "Partnerships",
                 "content": tabContentPartnerships
+            }, {
+                "id": "section-4",
+                "title": "Resources",
+                "content": tabContentResources
             }]) }}
         </section>
 
@@ -108,10 +123,10 @@
                                     }
                                 }) %}
                                     {% if research.documents %}
-                                        <strong>{{ __('global.misc.documents') | title }}:</strong>
-                                        {% for link in research.documents -%}
-                                            <a href="{{ link.url }}">{{ link.label }}</a>
-                                        {%- endfor %}
+                                        {{ inlineLinks(
+                                            prefix = __('global.misc.documents') | title,
+                                            links = research.documents
+                                        ) }}
                                     {% endif %}
                                 {%- endcall %}
                             </li>

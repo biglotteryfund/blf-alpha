@@ -1,0 +1,55 @@
+/* =========================================================================
+   Lists
+   ========================================================================= */
+
+.o-definition-list {
+    dt {
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    dd {
+        margin-bottom: 10px;
+    }
+}
+
+.o-definition-list--compact {
+    overflow: auto;
+    margin-bottom: 0.5em;
+
+    dt {
+        display: block;
+        float: left;
+        clear: left;
+        margin-right: 5px;
+    }
+
+    dt:after {
+        content: ': ';
+    }
+}
+
+/* =========================================================================
+   Lists: Image List
+   ========================================================================= */
+
+.o-image-list {
+    @include reset-list();
+
+    li {
+        margin: 60px 40px;
+    }
+
+    @include mq(medium) {
+        display: flex;
+
+        li {
+            margin: 20px;
+            padding: 0 20px;
+        }
+
+        img {
+            width: auto;
+        }
+    }
+}

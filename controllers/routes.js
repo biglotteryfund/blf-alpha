@@ -23,6 +23,11 @@ const sections = {
         langTitlePath: 'global.nav.funding',
         controllerPath: path.resolve(__dirname, './funding')
     }),
+    local: createSection({
+        path: '/local',
+        langTitlePath: 'global.nav.local',
+        showInNavigation: false
+    }),
     research: createSection({
         path: '/research',
         langTitlePath: 'global.nav.research'
@@ -97,15 +102,43 @@ sections.toplevel.addRoutes({
 });
 
 /**
+ * Local Routes
+ */
+sections.local.addRoutes({
+    root: staticContentRoute({
+        path: '/',
+        template: 'pages/toplevel/local',
+        isBilingual: false,
+        lang: 'toplevel.local',
+        heroSlug: 'arkwright-meadows',
+        live: false
+    })
+});
+
+/**
  * Funding Routes
  */
 sections.funding.addRoutes({
     root: customRoute({
         path: '/',
         sMaxAge: '30m',
-        template: 'pages/toplevel/funding',
+        template: 'pages/funding/index',
         lang: 'toplevel.funding',
         heroSlug: 'active-plus-communities'
+    }),
+    rootTest: staticContentRoute({
+        path: '/test',
+        template: 'pages/funding/index-test',
+        lang: 'toplevel.funding',
+        heroSlug: 'ragroof-players',
+        live: false
+    }),
+    thinkingOfApplying: staticContentRoute({
+        path: '/thinking-of-applying',
+        template: 'pages/funding/thinking-of-applying',
+        lang: 'funding.thinkingOfApplying',
+        heroSlug: 'building-bridges',
+        live: false
     }),
     under10k: customRoute({
         path: '/under10k',
@@ -149,7 +182,6 @@ sections.funding.addRoutes({
     }),
     fundingGuidanceMaterials: sessionRoute({
         path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-        template: 'pages/funding/order-free-materials',
         lang: 'funding.guidance.order-free-materials',
         isPostable: true
     }),
@@ -175,6 +207,12 @@ sections.research.addRoutes({
         template: 'pages/toplevel/research',
         lang: 'toplevel.research',
         heroSlug: 'grassroots-project'
+    }),
+    youthViolence: staticContentRoute({
+        path: '/youth-serious-violence',
+        template: 'controllers/research/views/research-detail',
+        lang: 'research.youthviolence',
+        heroSlug: 'paws-for-progress'
     })
 });
 
@@ -230,16 +268,8 @@ sections.apply.addRoutes({
     root: customRoute({
         path: '/'
     }),
-    yourIdea: sessionRoute({
-        path: '/your-idea/*',
-        isPostable: true
-    }),
-    buildingConnectionsFund: sessionRoute({
-        path: '/building-connections/*',
-        isPostable: true
-    }),
-    digitalFundingDemo: sessionRoute({
-        path: '/digital-funding-demo/*',
+    applicationForms: sessionRoute({
+        path: '/*',
         isPostable: true
     })
 });

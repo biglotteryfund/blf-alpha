@@ -1,0 +1,310 @@
+/* =========================================================================
+   Data
+   ========================================================================= */
+
+/* =========================================================================
+   Stats
+   ========================================================================= */
+
+.stats-grid {
+    $borderColour: #94aee5;
+    @include reset-list();
+
+    @include mq('medium-minor') {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    > .stats-grid__item {
+        max-width: 100%;
+        padding: $spacingUnit 0;
+
+        @include mq('medium-minor', 'max') {
+            border-bottom: 4px solid $borderColour;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @include mq('medium-minor') {
+            display: flex;
+            flex: 0 0 33.3%;
+            border-top: 1px solid $borderColour;
+            border-right: 1px solid $borderColour;
+            padding: $spacingUnit * 2 $spacingUnit;
+
+            &:nth-child(-n + 3) {
+                border-top: none;
+            }
+
+            &:nth-child(3n) {
+                border-right: none;
+            }
+
+            &:nth-child(3n + 1) {
+                position: relative;
+                &:after {
+                    position: absolute;
+                    display: block;
+                    content: '';
+                    left: -$spacingUnit;
+                    bottom: $spacingUnit;
+                    top: $spacingUnit;
+                    border-left-style: solid;
+                    border-left-width: 4px;
+                }
+            }
+
+            // Alternate border colours
+            &:nth-child(odd) {
+                &:after {
+                    border-left-color: palette('blue');
+                }
+            }
+
+            &:nth-child(even) {
+                &:after {
+                    border-left-color: palette('pink');
+                }
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Stat Block
+   ========================================================================= */
+.stat-block {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 0%;
+
+    .stat-block__number {
+        color: palette('blue');
+        display: inline-block;
+        margin: 5px 0;
+
+        font-family: font-stack('display');
+        font-weight: 600;
+        line-height: 1;
+        font-size: 28px;
+
+        @include mq('large') {
+            font-size: 35px;
+        }
+    }
+
+    .stat-block__number.stat-block__number--suffix {
+        font-size: 80%;
+    }
+
+    .stat-block__caption {
+        margin-top: 0;
+        display: block;
+        color: palette('charcoal');
+        font-family: 'Poppins', arial, sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+}
+
+.stat-block--alternate {
+    .stat-block__number {
+        color: palette('pink');
+    }
+}
+
+/* =========================================================================
+   Fact River
+   ========================================================================= */
+/* @see /wales, /northern-ireland */
+
+.fact-river {
+    @include clearfix();
+    clear: both;
+    list-style: none;
+    margin-bottom: 1em;
+}
+.fact-river__item {
+    margin-bottom: 1em;
+    font-weight: bold;
+
+    strong {
+        color: palette('pink');
+    }
+
+    @include mq('medium') {
+        font-size: 26px;
+        font-family: font-stack('display');
+        float: left;
+        clear: left;
+        max-width: 60%;
+        margin: 0 0 1em 2em;
+
+        &:nth-child(even) {
+            float: right;
+            clear: right;
+            margin: 0 2em ($spacingUnit * 2) 0;
+        }
+    }
+}
+
+.fact-item {
+    display: flex;
+    align-items: center;
+}
+.fact-item__image {
+    flex: 0 0 auto;
+    flex-basis: 80px;
+    margin: 0 0 0 5px;
+    order: 2;
+
+    @include mq('medium') {
+        flex-basis: 120px;
+    }
+}
+
+.fact-item--reversed {
+    .fact-item__image {
+        margin: 0 $spacingUnit 0 0;
+        order: unset;
+    }
+}
+
+/* =========================================================================
+   Grant List
+   ========================================================================= */
+
+.grant-list {
+    margin: $spacingUnit 0;
+
+    li {
+        margin: 0 0 $spacingUnit 0;
+        text-align: left;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: $spacingUnit;
+    }
+}
+
+/* =========================================================================
+   Data Map
+   ========================================================================= */
+
+.map-wrapper {
+    margin: auto;
+    width: 90%;
+    height: 100%;
+
+    .is-ie & {
+        height: 500px;
+    }
+
+    @include mq('medium') {
+        width: 50%;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.map-holder {
+    position: relative;
+    background-color: #f0f4ff;
+}
+
+.map-info {
+    background-color: #ffffff;
+
+    .map-info__item {
+        margin-bottom: $spacingUnit;
+    }
+
+    .js-on & {
+        display: none;
+        @include mq('medium') {
+            width: 160px;
+            position: absolute;
+            z-index: 10;
+            right: 0;
+            top: 20px;
+        }
+
+        @include mq('large') {
+            width: 250px;
+            top: $spacingUnit * 4;
+        }
+
+        @media only screen and (min-width: $widestScreen) {
+            right: -$spacingUnit * 4;
+        }
+    }
+
+    .map-info__stat {
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    .map-info__stat-data,
+    .map-info__stat-caption {
+        display: block;
+    }
+
+    .map-info__stat-caption {
+        font-size: 13px;
+    }
+}
+
+.js-on .map-panes .is-active .map-info {
+    display: block;
+}
+
+.map-holder__inner {
+    position: relative;
+}
+
+// this mirrors the accents concept, but we keep it separate
+// as adding it there would produce a bunch of superfluous classes
+$mapRegions: (
+    'default': #e4e3e1,
+    'east-midlands': #86bd3f,
+    'east-of-england': #c84548,
+    'london': #6f9cca,
+    'north-east': #faca36,
+    'north-west': #518a34,
+    'northern-ireland': #80e1b0,
+    'scotland': #73579e,
+    'south-east': #da559a,
+    'south-west': #3585b5,
+    'wales': #4eace1,
+    'west-midlands': #f7b534,
+    'yorkshire-and-the-humber': #ef7a70
+);
+
+.region {
+    fill: map-get($mapRegions, 'default');
+}
+
+@each $region, $colour in $mapRegions {
+    @if ($region != 'default') {
+        .region--#{$region} {
+            fill: $colour;
+
+            @include on-interact {
+                fill: palette('pink');
+            }
+        }
+
+        .region--#{$region}--b-t {
+            border-top-color: $colour !important;
+        }
+
+        .region--#{$region}--b-b {
+            &:after {
+                border-bottom-color: $colour !important;
+            }
+        }
+    }
+}

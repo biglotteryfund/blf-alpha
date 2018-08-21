@@ -1,0 +1,187 @@
+{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
+
+{% macro formHeader(title, stepProgress) %}
+    <div class="form-header">
+        {% if stepProgress.prevStepUrl %}
+            <div class="form-header__actions">
+                <a href="{{ stepProgress.prevStepUrl }}"
+                    class="js-application-form-review-link">← Back</a>
+            </div>
+        {% endif %}
+        <p class="form-header__prefix">
+            Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }}
+        </p>
+        <h1 class="form-header__title">{{ title }}</h1>
+    </div>
+{% endmacro %}
+
+{% macro errorList(errors, shouldBeLinked)  %}
+    {% if errors | length > 0 %}
+        <ol class="error-list">
+            {% for error in errors %}
+            <li>
+                {% if shouldBeLinked %}<a href="#form-field-{{ error.param }}">{% endif %}
+                {{ error.msg }}
+                {% if shouldBeLinked %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endmacro %}
+
+{% macro formErrors(errors, title) %}
+    {% if errors | length > 0 %}
+        <div class="form-errors">
+            {% if title %}
+                <h3 class="form-errors__title">{{ title }}</h3>
+            {% endif %}
+            <div class="form-errors__body">
+                {{ errorList(errors, shouldBeLinked = true) }}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro fieldHelpText(field) %}
+    {% if field.lengthHint %}
+        <small class="ff-length-hint">
+            <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
+        </small>
+    {% endif %}
+    {% if field.explanation %}
+        <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
+    {% endif %}
+    {% if field.helpText %}
+        <div class="ff-help s-prose">{{ field.helpText | safe }}</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro inputText(field, type="text") %}
+    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    {{ fieldHelpText(field) }}
+    {% if field.isCurrency %}
+        <div class="ff-field-prepend">£</div>
+    {% endif %}
+    <input
+        class="ff-text{% if field.isCurrency %} ff-text--currency{% endif %}"
+        type="{{ type }}"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
+        {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
+        size="{% if field.size %}{{ field.size }}{% else %}40{% endif %}"
+        value="{% if field.value %}{{ field.value }}{% endif %}"
+        {% if field.min %}min="{{ field.min }}"{% endif %}
+        {% if field.max %}max="{{ field.max }}"{% endif %}
+        {% if field.customRegex %}pattern="{{ field.customRegex }}"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+    />
+    {% if field.isCurrency %}
+        <div class="ff-field-append">Type a number</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro inputTextarea(field) %}
+    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    {{ fieldHelpText(field) }}
+    <textarea
+        class="ff-textarea"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.lengthHint %}rows="{{ field.lengthHint.rows }}"{% elseif field.rows %}rows="{{ field.rows }}"{% endif %}
+    >{{ field.value }}</textarea>
+{% endmacro %}
+
+{% macro inputChoice(field) %}
+    <fieldset class="ff-choice">
+        <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
+        {{ fieldHelpText(field) }}
+        <ul class="ff-choice__list">
+            {% for option in field.options %}
+                <li class="ff-choice__option">
+                    <div class="ff-choice__input">
+                        {% if field.type === 'checkbox' %}
+                            <input
+                                type="checkbox"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                            />
+                        {% else %}
+                            <input
+                                type="radio"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value === option.value %}checked{% endif %}
+                            />
+                        {% endif %}
+                    </div>
+                    <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                        {{ option.label }}
+                        {% if option.explanation %}
+                            <small class="ff-choice__caption">{{ option.explanation }}</small>
+                        {% endif %}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+{% endmacro %}
+
+{% macro formField(field, fieldErrors) %}
+    <div
+        id="form-field-{{ field.name }}"
+        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}
+        {% if fieldErrors | length > 0 %}has-errors{% endif %}
+        {% if field.isConditionalOn %}is-conditional{% endif %}
+        {% if field.isConditionalFor %}js-conditional-for{% endif %}"
+        {% if field.isConditionalFor %}
+            data-conditional-type="{{ field.type }}"
+            data-conditional-fields='{{ field.conditionalFor | dump | safe }}'
+        {% endif %}
+        {% if field.isConditionalOn and fieldErrors | length < 1 %}data-conditional-field="{{ field.name }}" hidden{% endif %}>
+        <div class="form-field__main">
+            <div class="form-field__body">
+                {% if field.type === 'textarea' %}
+                    {{ inputTextarea(field) }}
+                {% endif %}
+                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' or field.type === 'number' %}
+                    {{ inputText(field, field.type) }}
+                {% endif %}
+                {% if field.type === 'checkbox' or field.type === 'radio' %}
+                    {{ inputChoice(field) }}
+                {% endif %}
+            </div>
+            {% if fieldErrors | length > 0 %}
+                <div class="form-field__errors">
+                    {{ errorList(fieldErrors) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro renderFieldWithErrors(errors, field) %}
+    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+{% endmacro %}
+
+{% macro formFieldset(fieldset, errors) %}
+    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+        <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+            {{ fieldset.legend }}
+        </legend>
+        {% if fieldset.introduction %}
+            <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
+        {% endif %}
+        <div class="form-fieldset__fields">
+            {% for field in fieldset.fields %}
+                {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+                {{ formField(field, fieldErrors) }}
+            {% endfor %}
+        </div>
+    </fieldset>
+{% endmacro %}

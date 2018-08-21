@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 require('dotenv').config();
+const config = require('config');
 
 const has = require('lodash/has');
 
@@ -26,17 +27,17 @@ let customBuildNumber = argv.build;
 
 const codeDeployEnvs = {
     test: {
-        applicationName: 'BLF_Test',
-        deploymentGroupName: 'BLF_Test_Fleet'
+        applicationName: 'BLF_WWW',
+        deploymentGroupName: 'Test_Fleet'
     },
     live: {
-        applicationName: 'BLF_Live',
-        deploymentGroupName: 'BLF_Live_Fleet'
+        applicationName: 'BLF_WWW',
+        deploymentGroupName: 'Live_Fleet'
     }
 };
 
 const CONF = {
-    s3Bucket: 'blf-travis-test',
+    s3Bucket: 'blf-deployments',
     filenamePattern: /build-(\d+).zip/,
     codedeploy: argv.l ? codeDeployEnvs.live : codeDeployEnvs.test,
     githubAccount: 'biglotteryfund',
@@ -45,7 +46,7 @@ const CONF = {
 
 // create AWS SDK instance
 const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
-AWS.config.update({ region: 'eu-west-1' });
+AWS.config.update({ region: config.get('aws.region') });
 AWS.config.credentials = credentials;
 const codedeploy = new AWS.CodeDeploy();
 

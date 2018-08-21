@@ -71,6 +71,7 @@ describe('Cloudfront Helpers', () => {
                 MinTTL: 0,
                 MaxTTL: 31536000,
                 DefaultTTL: 86400,
+                FieldLevelEncryptionId: '',
                 SmoothStreaming: false,
                 Compress: true,
                 AllowedMethods: {
@@ -127,8 +128,8 @@ describe('Cloudfront Helpers', () => {
                         },
                         QueryString: true,
                         QueryStringCacheKeys: {
-                            Items: ['draft', 'version'],
-                            Quantity: 2
+                            Items: ['draft', 'version', 'enable-feature', 'disable-feature'],
+                            Quantity: 4
                         }
                     }
                 })

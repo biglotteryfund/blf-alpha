@@ -1,0 +1,10 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import segmentLinks %}
+
+{% call sgExample() %}
+    {{ segmentLinks([{
+        "title": "Segment 1"
+    }, {
+        "title": "Segment 2"
+    }]) }}
+{% endcall %}

@@ -1,6 +1,6 @@
 {
   "aws": {
-    "region": "eu-west-1",
+    "region": "eu-west-2",
     "cloudfrontDistributions": {
       "test": {
         "distributionId": "E3D5QJTWAG3GDP",
@@ -30,22 +30,22 @@
     }
   },
   "features": {
-    "enablePrompts": false,
+    "enablePrompt": true,
     "enableAbTests": true,
     "useHotjar": true,
-    "useRemoteAssets": true
+    "useRemoteAssets": true,
+    "enableTimingMetrics": false
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"
   },
   "cookies": {
     "contrast": "contrastMode",
+    "features": "blf-features",
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-  "database": "website-dev",
-  "database-test": "website-test",
   "emailSender": "noreply@biglotteryfund.org.uk"
 }

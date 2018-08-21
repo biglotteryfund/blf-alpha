@@ -15,7 +15,7 @@ const CONTENT_TYPES = {
  * controllerPath - path to controller file
  * langTitlePath - locale property for translated page title
  */
-function createSection({ path, controllerPath, langTitlePath, showInNavigation = true }) {
+function createSection({ path, controllerPath = null, langTitlePath = null, showInNavigation = true }) {
     const newSection = {
         path: path,
         pages: null,

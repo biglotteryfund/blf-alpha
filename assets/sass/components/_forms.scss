@@ -1,0 +1,484 @@
+/* =========================================================================
+   Forms
+   ========================================================================= */
+
+.form-header {
+    margin-bottom: $spacingUnit * 2;
+
+    .form-header__actions {
+        margin-bottom: $spacingUnit / 2;
+    }
+    .form-header__prefix,
+    .form-header__title {
+        margin-bottom: 3px;
+    }
+    .form-header__prefix {
+        font-size: 16px;
+        font-weight: normal;
+        color: palette('charcoal-note');
+    }
+}
+
+.form-message {
+    background-color: palette('pale-pink');
+    margin-bottom: $spacingUnit;
+    padding: $spacingUnit / 2;
+}
+.form-message__title {
+    margin-bottom: 3px;
+}
+
+.form-fieldset {
+    margin: 0;
+}
+.form-fieldset__legend {
+    font-weight: bold;
+    margin-bottom: $spacingUnit;
+}
+.form-fieldset__intro {
+    margin-bottom: 1.5em;
+}
+.form-fieldset__fields {
+    margin-bottom: $spacingUnit;
+}
+
+.form-errors {
+    border: 3px solid palette('error');
+    margin-bottom: $spacingUnit;
+}
+.form-errors__title {
+    color: white;
+    background-color: palette('error');
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: $spacingUnit / 2;
+    padding: $spacingUnit / 3;
+}
+.form-errors__body {
+    padding: $spacingUnit / 2;
+}
+
+.error-list {
+    &,
+    a {
+        color: palette('error');
+        font-weight: bold;
+    }
+}
+
+.form-field {
+    margin-bottom: 1.5em;
+
+    &:target {
+        background-color: rgba(255, 255, 0, 0.5);
+    }
+}
+
+.form-field__errors {
+    margin-top: $spacingUnit / 3;
+}
+
+.form-field.has-errors {
+    .form-field__main {
+        border-left: 3px solid palette('error');
+        padding-left: $spacingUnit / 2;
+    }
+}
+
+.no-js .form-field[hidden] {
+    display: block;
+}
+
+.ff-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ff-label--required,
+.ff-label--optional {
+    &:after {
+        content: '* Required field';
+        font-weight: normal;
+        margin-left: 10px;
+        font-size: smaller;
+        color: palette('pink');
+        white-space: nowrap;
+    }
+}
+
+.ff-label--optional {
+    &:after {
+        content: 'Optional';
+        color: palette('charcoal-note');
+    }
+}
+
+.ff-help {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+}
+
+.ff-length-hint {
+    font-size: 16px;
+    display: block;
+    font-style: italic;
+    color: palette('charcoal-note');
+    margin-bottom: 10px;
+}
+
+@mixin formFieldBox {
+    padding: 6px 12px;
+    border: 2px solid palette('charcoal');
+}
+
+.ff-text,
+.ff-textarea {
+    @include formFieldBox();
+    display: block;
+    // prevent elements with size attributes overflowing on mobile
+    max-width: 100%;
+
+    &:focus {
+        outline: 3px solid lighten(palette('turquoise'), 25%);
+        outline-offset: 0;
+    }
+
+    &.ff-text--currency {
+        display: inline-block;
+        border-left: none;
+        margin: 0;
+    }
+}
+
+.ff-field-prepend {
+    @include formFieldBox();
+    background-color: palette('off-white');
+    float: left;
+    border-right: none;
+}
+
+.ff-field-append {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.ff-textarea {
+    width: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+}
+
+/**
+ * Form field: Choice
+ * i.e. radio or checkboxes
+ */
+.ff-choice {
+    margin-bottom: 3px;
+}
+.ff-choice__option {
+    display: table;
+    margin-bottom: 5px;
+
+    input[type='radio'],
+    input[type='checkbox'] {
+        margin: 0 0.5em 0 0;
+
+        @include mq('medium-minor') {
+            margin-right: 0.75em;
+            position: relative;
+            top: -2px;
+        }
+    }
+}
+.ff-choice__input,
+.ff-choice__label {
+    display: table-cell;
+}
+.ff-choice__caption {
+    font-size: 14px;
+    color: palette('charcoal-note');
+    display: block;
+
+    @include mq('medium-minor') {
+        font-size: 16px;
+        margin-bottom: 3px;
+    }
+}
+
+/**
+ * Form actions
+ */
+.form-actions {
+    max-width: $constrainedWide;
+    border-top: 1px solid palette('border');
+    padding: 1em 0;
+}
+
+/* =========================================================================
+   Start pages
+   ========================================================================= */
+
+.step-preview {
+    border-bottom: 1px solid palette('border');
+    padding: 12px 0;
+
+    .step-preview__title {
+        margin-bottom: 1em;
+    }
+
+    .step-preview__fieldset {
+        font-size: 18px;
+    }
+
+    .step-preview__field {
+        margin-bottom: $spacingUnit;
+    }
+    .step-preview__field-label {
+        font-weight: bold;
+        margin: 0;
+    }
+    .step-preview__field-guidance {
+        color: #556;
+        margin-top: 3px;
+    }
+}
+
+/* =========================================================================
+   Review screens
+   ========================================================================= */
+
+.review-step {
+    overflow: auto;
+    margin-bottom: $spacingUnit;
+}
+.review-step__title {
+    clear: both;
+    background-color: palette('pale-grey');
+    font-weight: bold;
+    padding: $spacingUnit / 2;
+    margin: 0;
+}
+.review-step__edit {
+    margin-left: 0.5em;
+    font-weight: normal;
+}
+.review-step__list {
+    clear: both;
+}
+.review-step__item-label,
+.review-step__item-value {
+    float: left;
+    border-top: 1px solid palette('soft-grey');
+    padding: $spacingUnit / 2;
+    margin-bottom: 0.5em;
+
+    &:first-of-type {
+        border-top: none;
+    }
+}
+.review-step__item-label {
+    font-weight: bold;
+    width: 40%;
+    padding-right: 1em;
+    clear: left;
+}
+.review-step__item-value {
+    width: 60%;
+}
+.review-step__item-label.is-stacked,
+.review-step__item-value.is-stacked {
+    width: 100%;
+    float: none;
+}
+.review-step__item-label.is-stacked {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.review-step__item-value.is-stacked {
+    border-top: none;
+}
+.review-step__answer-more {
+    padding: 0.5em 0;
+
+    button {
+        font-weight: bold;
+        font-size: 18px;
+        display: block;
+        width: 100%;
+
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+.review-step__answer-preview:not(.is-active) {
+    max-height: 5em;
+    overflow: hidden;
+    position: relative;
+
+    .review-step__answer-more {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: left;
+        margin: 0;
+        padding-top: 5em;
+        padding-bottom: 10px;
+
+        background-image: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 1) 25%,
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+}
+.review-step__answer-preview.is-active {
+    .review-step__answer-more button .icon {
+        transform: rotate(180deg);
+    }
+}
+.review-step__declaration {
+    margin: 1em 0;
+    padding: 10px;
+
+    p {
+        font-size: 16px;
+    }
+}
+
+/* =========================================================================
+   Custom Form: Ebulletin
+   ========================================================================= */
+// @TODO: can we define this a general modifier? Slim? Tinted? Slim Shady?
+
+.form-ebulletin {
+    .form-field {
+        margin-bottom: 0.5em;
+    }
+
+    &,
+    .ff-label {
+        font-size: 18px;
+    }
+
+    .ff-text,
+    .ff-textarea {
+        display: block;
+        width: 100%;
+        padding: 0.35em;
+        font-size: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* =========================================================================
+   Custom Form: Free Materials
+   ========================================================================= */
+
+.form-materials {
+    input[type='text'],
+    input[type='email'] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid #666666;
+        font-size: 16px;
+        color: #333333;
+
+        &.is-error {
+            border-bottom-color: #c6183d;
+        }
+    }
+
+    input[type='submit'] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+    }
+
+    input[type='radio'] {
+        width: auto;
+        display: inline-block;
+    }
+
+    .label-radio,
+    .label-radio__item {
+        font-size: 16px;
+        display: block;
+        margin-bottom: $spacingUnit;
+    }
+
+    &:invalid {
+        input[type='submit'] {
+            @include disabledBtn();
+        }
+    }
+
+    .form-materials__field-group {
+        @include mq('medium-minor') {
+            display: flex;
+            flex-wrap: wrap;
+
+            .form-materials__field-group-item {
+                flex: 0 0 50%;
+
+                &:nth-of-type(odd) {
+                    padding-right: $spacingUnit / 2;
+                }
+
+                &:nth-of-type(even) {
+                    padding-left: $spacingUnit / 2;
+                }
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Location Search
+   ========================================================================= */
+
+.location-search {
+    padding: $spacingUnit;
+    margin-bottom: $spacingUnit * 2;
+    background: palette('pale-grey');
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .location-search__label,
+    .location-search__submit {
+        flex: 0 0 auto;
+    }
+
+    .location-search__field {
+        flex: 1 1 0%;
+        border: none;
+        font-size: 18px;
+        padding: 0.5em 1em;
+    }
+
+    .location-search__label {
+        font-family: font-stack('display');
+        font-size: 18px;
+        font-weight: bold;
+        padding-right: $spacingUnit;
+    }
+
+    .location-search__submit {
+        padding-left: $spacingUnit;
+    }
+}

@@ -1,0 +1,126 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/callout/macro.njk" import callout %}
+{% from "components/documents-card/macro.njk" import documentsCard with context %}
+{% from "components/print-button/macro.njk" import printButton %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
+
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            {# Intro #}
+            <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="research-section">
+                    <div class="research-section__primary">
+                        <div class="s-prose">
+                            {{ copy.intro | safe }}
+                        </div>
+
+                        <div class="u-margin-bottom">
+                            {{ printButton(label = __('global.misc.printThisPage')) }}
+                        </div>
+
+                        {{ segmentLinks(
+                            prefix = copy.sectionsPrefix,
+                            segments = copy.sections
+                        ) }}
+
+                        {% if copy.metadata %}
+                            <div class="content-meta">
+                                <dl class="o-definition-list o-definition-list--compact">
+                                    {% for item in copy.metadata %}
+                                        <dt>{{ item.label }}</dt>
+                                        <dd>{{ item.content | safe }}</dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="research-section__secondary">
+                        {{ documentsCard(
+                            title = copy.documents.title,
+                            documents = copy.documents.documents,
+                            accent = pageAccent
+                        ) }}
+
+                        <aside class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">{{ copy.relatedProgrammes.title }}</h3>
+                                <div class="card__body">
+                                    {% for relatedProgramme in copy.relatedProgrammes.items %}
+                                        <a href="{{ relatedProgramme.url }}" class="related-programme">
+                                            {% if relatedProgramme.thumbnail %}
+                                                <span class="related-programme__media">
+                                                    <img src="{{ relatedProgramme.thumbnail }}"
+                                                        alt="{{ relatedProgramme.title }}" />
+                                                </span>
+                                            {% endif %}
+                                            <span class="related-programme__label">{{ relatedProgramme.title }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </header>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            {# Content #}
+            {% for section in copy.sections %}
+                <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}" id="segment-{{ loop.index }}">
+                    <p class="u-prefix">{{ copy.sectionsPrefix }}</p>
+                    <h2 class="t--underline">{{ section.title }}</h2>
+
+                    {% for part in section.contentParts %}
+                        <div class="research-section accent-content--{{ pageAccent }}">
+                            <div class="research-section__primary s-prose">
+                                <p><strong>{{ part.title }}</strong></p>
+                                <ul>
+                                    {% for point in part.points %}
+                                        <li>{{ point }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% if part.callout %}
+                                <div class="research-section__secondary">
+                                    {{ callout(
+                                        content = part.callout.content,
+                                        citation = part.callout.citation,
+                                        isQuote = part.callout.isQuote
+                                    ) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+
+                    <div class="content-meta u-constrained">
+                        <p><strong>{{ copy.documents.trailText }}</strong></p>
+                        {% for document in copy.documents.documents %}
+                            <p><a class="btn btn--medium btn--outline" href="{{ document.url }}">
+                                {{ document.title }}
+                                {% if document.filetype or document.filesize %}
+                                    <small>({{ document.filetype }} {{ document.filesize }})</small>
+                                {% endif %}
+                            </a></p>
+
+                        {% endfor %}
+                        <p><a href="#content">↑ {{ __('global.misc.backToTop') }}</a>
+                    </div>
+
+                </section>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

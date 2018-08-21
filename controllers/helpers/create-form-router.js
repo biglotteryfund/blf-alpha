@@ -1,11 +1,16 @@
 'use strict';
 const Raven = require('raven');
 const { get, isEmpty, set, unset } = require('lodash');
+const moment = require('moment');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 const cached = require('../../middleware/cached');
 
+// How many days to extend the user's session by
+const EXTENDED_SESSION_DURATION_IN_DAYS = 7;
+
 function createFormRouter({ router, formModel }) {
+
     const formSteps = formModel.getSteps();
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
@@ -24,13 +29,19 @@ function createFormRouter({ router, formModel }) {
     /**
      * Route: Start page
      */
-    router.get('/', function(req, res) {
+    router.get('/', cached.noCache, function(req, res) {
         const stepConfig = formModel.getStartPage();
+
+        const sessionProp = formModel.getSessionProp();
+        const hasBegunForm = !!get(req.session, sessionProp, false);
+
         res.render(stepConfig.template, {
             title: formModel.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
-            form: formModel
+            form: formModel,
+            hasBegunForm: hasBegunForm,
+            sessionDurationInDays: EXTENDED_SESSION_DURATION_IN_DAYS
         });
     });
 
@@ -59,11 +70,23 @@ function createFormRouter({ router, formModel }) {
             }
         }
 
+        // for users submitting a step, increase their session expiry
+        // so they can save progress beyond a browser session
+        function extendSessionDuration(req, res, next) {
+            // belt and braces: https://stackoverflow.com/a/46631171
+            const maxAge = EXTENDED_SESSION_DURATION_IN_DAYS * 24 * 3600 * 1000;
+            req.session.cookie.maxAge = maxAge;
+            req.session.cookie.expires = moment()
+                .add(EXTENDED_SESSION_DURATION_IN_DAYS, 'days')
+                .toDate();
+            next();
+        }
+
         function handleSubmitStep({ isEditing = false } = {}) {
             return [
                 step.getValidators(),
+                extendSessionDuration,
                 function(req, res) {
-                    // Save valid fields and merge with any existing data (if we are editing the step);
                     const sessionProp = formModel.getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
                     const bodyData = matchedData(req, { locations: ['body'] });

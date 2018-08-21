@@ -1,50 +1,44 @@
-{% macro makeNumber(number, numberSuffix = false) %}
-    <span class="number">{{ number }}</span>
-    {% if numberSuffix %}<span class="number number--suffix">{{ numberSuffix }}</span>{% endif %}
-{% endmacro %}
+{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, isAlternate = false) %}
+    <div class="stat-block{% if isAlternate %} stat-block--alternate{% endif %}">
+        <div class="stat-block__detail">
+            {% if numberPrefix %}
+                <span class="stat-block__caption">
+                    {{ numberPrefix }}
+                </span>
+            {% endif %}
 
-{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, extraClass = false) %}
-    <li class="grid__item stats__icon">
-        <div class="stats__icon__detail {% if extraClass %} {{ extraClass }}{% endif %}">
-            {% if numberPrefix %}<span class="caption">{{ numberPrefix }}</span>{% endif %}
+            {% set number %}
+                <span class="stat-block__number">{{ number }}</span>
+                {% if numberSuffix %}
+                    <span class="stat-block__number stat-block__number--suffix">
+                        {{ numberSuffix }}
+                    </span>
+                {% endif %}
+            {% endset %}
+
             {% if numberFirst %}
-                {{ makeNumber(number, numberSuffix) }}
-                <span class="caption">{{ caption }}</span>
+                {{ number | safe }}
+                <span class="stat-block__caption">{{ caption }}</span>
             {% else %}
-                <span class="caption">{{ caption }}</span>
-                {{ makeNumber(number, numberSuffix) }}
+                <span class="stat-block__caption">{{ caption }}</span>
+                {{ number | safe }}
             {% endif %}
         </div>
-    </li>
+    </div>
 {% endmacro %}
 
 {% macro statsGrid(stats) %}
-    <ul class="unstyled grid grid--3-up grid--bordered grid--equal grid--wide-only stats">
+    <ul class="stats-grid">
         {% for stat in stats %}
-            {{ statBlock(
-                number = stat.value,
-                caption = stat.title,
-                numberPrefix = stat.prefix,
-                numberSuffix = stat.suffix,
-                numberFirst = stat.showNumberBeforeTitle
-            ) }}
-        {% endfor %}
-    </ul>
-{% endmacro %}
-
-{% macro factRiver(facts) %}
-    <ul class="fact-river">
-        {% for fact in facts %}
-            <li class="fact-river__item">
-                <div class="fact-item{% if (loop.index % 2 === 0) %} fact-item--reversed{% endif %}">
-                    {% if fact.image %}
-                        <div class="fact-item__image">
-                            {% set imageUrl = "illustrations/" + fact.image  %}
-                            <img src="{{ imageUrl | getImagePath }} " alt="">
-                        </div>
-                    {% endif %}
-                    <div class="fact-item__text">{{ fact.text | safe }}</div>
-                </div>
+            <li class="stats-grid__item">
+                {{ statBlock(
+                    number = stat.value,
+                    caption = stat.title,
+                    numberPrefix = stat.prefix,
+                    numberSuffix = stat.suffix,
+                    numberFirst = stat.showNumberBeforeTitle,
+                    isAlternate = loop.index % 2 == 0
+                ) }}
             </li>
         {% endfor %}
     </ul>

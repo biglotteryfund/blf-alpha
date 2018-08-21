@@ -7,7 +7,6 @@ const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
-const timings = require('server-timings');
 const yaml = require('js-yaml');
 
 const app = express();
@@ -23,13 +22,13 @@ const { cymreigio } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./controllers/helpers/route-helpers');
 const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
-const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/http-errors');
+const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
+const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
-const viewGlobalsService = require('./modules/viewGlobals');
 
 const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
@@ -66,10 +65,6 @@ Raven.config(SENTRY_DSN, {
 }).install();
 
 app.use(Raven.requestHandler());
-
-app.use(timings);
-
-app.use(timings.start('setup'));
 
 /**
  * Set up internationalisation
@@ -128,6 +123,16 @@ function initAppLocals() {
      * Common hero images
      */
     app.locals.heroImages = heroImages;
+
+    /**
+     * Default pageAccent colour
+     */
+    app.locals.pageAccent = 'pink';
+
+    /**
+     * Form helpers
+     */
+    app.locals.formHelpers = formHelpers;
 }
 
 initAppLocals();
@@ -153,15 +158,12 @@ function initViewEngine() {
     });
 
     app.set('view engine', 'njk').set('engineEnv', templateEnv);
-
-    viewGlobalsService.init(app);
+    // attempt to fix session sharing bug
+    // see https://stackoverflow.com/questions/32307933/passportjs-session-mixed-up
+    app.disable('view cache');
 }
 
 initViewEngine();
-
-app.use(timings.end('setup'));
-
-app.use(timings.start('global-middleware'));
 
 /**
  * Register global middlewares
@@ -178,10 +180,6 @@ app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(portalMiddleware);
-
-app.use(timings.end('global-middleware'));
-
-app.use(timings.start('routing'));
 
 // Mount tools controller
 app.use('/tools', require('./controllers/tools'));
@@ -266,23 +264,17 @@ forEach(routes.sections, (section, sectionId) => {
     });
 });
 
-app.use(timings.end('routing'));
-
 /**
  * Error route
  * Alias for error pages for old site -> new
  */
-app.get('/error', (req, res) => {
-    renderNotFound(req, res);
-});
+app.get('/error', renderNotFound);
 
 /**
  * Plain text error route
  * Used for more high-level errors
  */
-app.get('/error-unauthorised', (req, res) => {
-    renderUnauthorised(req, res);
-});
+app.get('/error-unauthorised', renderUnauthorised);
 
 /**
  * Final wildcard request handled
@@ -298,9 +290,7 @@ app.route('*')
  * 404 Handler
  * Catch 404s render not found page
  */
-app.use((req, res) => {
-    renderNotFound(req, res);
-});
+app.use(renderNotFound);
 
 /**
  * Global error handler

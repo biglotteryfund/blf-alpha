@@ -1,0 +1,12 @@
+{% macro callout(content, citation, isQuote = false) %}
+    <blockquote class="callout{% if isQuote %} callout--quote{% endif %} ">
+        <div class="callout__inner">
+            <div class="callout__text">
+                {{ content }}
+            </div>
+            {% if citation %}
+                <cite class="callout__citation">{{ citation }}</cite>
+            {% endif %}
+        </div>
+    </blockquote>
+{% endmacro %}

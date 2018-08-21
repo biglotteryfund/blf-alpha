@@ -1,0 +1,82 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/data.njk" import statsGrid %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box content-box--borderless
+                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose">
+                    <p>National lottery funding can help make a difference in your community.</p>
+
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis unde, voluptatum voluptatibus aperiam ipsum eos, necessitatibus. <a href="#">Help me find the right funding</a><p>
+                    <p>quisquam eaque quas tempora praesentium! Architecto eligendi consequuntur maxime repellendus dignissimos autem inventore non.</p>
+                </div>
+
+                {{ statsGrid([{
+                    "title": "Total number of grants awarded",
+                    "value": "13,814"
+                }, {
+                    "title": "Total number of expected beneficiaries",
+                    "value": "9,377,362",
+                    "showNumberBeforeTitle": true
+                }, {
+                    "title": "Total value of funding awarded",
+                    "value": "£712.7m"
+                }]) }}
+            </section>
+
+            <section class="u-inner">
+                <ul class="flex-grid flex-grid--3up">
+                    {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
+                    {% for page in [{
+                        "title": "Thinking of applying",
+                        "imageUrl": "placeholders/placeholder-1.jpg"
+                    }, {
+                        "title": "What to expect if you apply",
+                        "imageUrl": "placeholders/placeholder-2.jpg"
+                    }, {
+                        "title": "Is the Big Lottery Fund right for you?",
+                        "imageUrl": "placeholders/placeholder-3.jpg"
+                    }, {
+                        "title": "What we’ve funded",
+                        "imageUrl": "placeholders/placeholder-4.jpg"
+                    }, {
+                        "title": "Find the right funding",
+                        "imageUrl": "placeholders/placeholder-5.jpg"
+                    }, {
+                        "title": "Continue applying to National Lottery Awards for All",
+                        "imageUrl": "placeholders/placeholder-6.jpg"
+                    }] %}
+                        <li class="flex-grid__item">
+                            {{ miniatureHero(
+                                title = page.title,
+                                imagePath = page.imageUrl | getImagePath,
+                                imageCaption = page.title,
+                                linkUrl = "#",
+                                accent = themes.next()
+                            )}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            {% call contentBox(pageAccent) %}
+                <h2>Managing your grant</h2>
+                <p>Culpa deserunt odio repellendus <a href="#">reporting on progress</a> reprehenderit iusto cupiditate qui recusandae fugit, tempore expedita assumenda incidunt sit eos labore est et aliquid.</p>
+
+                <p><a href="/funding/funding-guidance/managing-your-funding" class="btn btn--medium btn--outline">Managing your funding</a></p>
+            {% endcall %}
+        </div>
+    </main>
+{% endblock %}

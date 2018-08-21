@@ -1,0 +1,172 @@
+/* =========================================================================
+   Utilities: Tones & Accents
+   ========================================================================= */
+// Utility classes to help with colour accent theming
+
+/* =========================================================================
+   Tones
+   ========================================================================= */
+
+.u-tone-background-tint {
+    background-color: palette('tint');
+}
+.u-tone-background-dark {
+    background-color: palette('charcoal');
+}
+
+/* =========================================================================
+   Accents
+   ========================================================================= */
+
+// @TODO Replace with .u-accent-border-top-$name class
+.a--border-top {
+    border-top-width: 4px !important;
+    border-top-style: solid;
+}
+
+/**
+ * Generate theme classes
+ * Each theme listed in palette.scss will generate classes for use below
+ * e.g <div class="accent--pink a--border-top"> will give a pink border
+ */
+@each $name in $themes {
+    $colour: palette($name);
+
+    .u-accent-border-top-#{$name} {
+        border-top: 4px solid $colour !important;
+    }
+
+    .accent--#{$name} {
+        // text color
+        &.a--text {
+            color: $colour;
+
+            // sass magic: get a.accent--$foo.a--text
+            @at-root a#{&} {
+                color: $colour;
+                @include on-interact {
+                    color: darken($colour, 10%);
+                }
+            }
+        }
+
+        &.a--border-color {
+            border-color: $colour;
+        }
+
+        // border on top of elements
+        &.a--border-top {
+            border-top-color: $colour;
+        }
+
+        /**
+         * Modifier class which adds a border below the text
+         * (see typography.scss)
+         */
+        .t--underline:after,
+        &.t--underline:after {
+            border-bottom-color: $colour;
+        }
+
+        // call-to-action buttons
+        &.a--btn {
+            color: #ffffff;
+            background-color: $colour;
+            @include on-interact {
+                background-color: darken($colour, 15%);
+            }
+
+            // Handle white buttons with otherwise unreadable text
+            @if $colour == #ffffff {
+                color: #000000;
+            }
+        }
+
+        &.btn--outline {
+            $activeState: darken($colour, 20%);
+            border-color: $colour;
+            color: $colour !important;
+
+            .btn__icon {
+                fill: $colour !important;
+            }
+
+            @include on-interact {
+                border-color: $activeState !important;
+                color: $activeState !important;
+                .btn__icon {
+                    fill: $activeState !important;
+                }
+            }
+        }
+
+        // high contrast mode styles
+        .contrast--high & {
+            // overlay (block) text
+            .overlay-text {
+                span {
+                    background-color: palette('high-contrast-bg') !important;
+                }
+            }
+
+            // call-to-action buttons
+            &.a--btn {
+                background-color: palette('high-contrast-bg') !important;
+
+                .a--text {
+                    color: white !important;
+                }
+
+                @include on-interact {
+                    background-color: darken(palette('high-contrast-bg'), 10%) !important;
+
+                    .a--text {
+                        color: white !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .accent-content--#{$name} {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            &::after {
+                border-color: $colour;
+            }
+        }
+    }
+}
+
+/* =========================================================================
+   Colour Swatches
+   ========================================================================= */
+
+.o-colour-swatch {
+    padding: 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+@each $name in $themes {
+    $colour: palette($name);
+
+    .o-colour-swatch--#{$name} {
+        @if (lightness($colour) > 50) {
+            color: black;
+        } @else {
+            color: white;
+        }
+        background-color: $colour;
+
+        &::after {
+            content: ' #{$colour}';
+        }
+    }
+}

@@ -36,6 +36,7 @@
 
 @import 'components/icons';
 @import 'components/buttons';
+@import 'components/links';
 @import 'components/forms';
 @import 'components/navigation';
 @import 'components/messages';
@@ -45,6 +46,7 @@
 @import 'components/data';
 @import 'components/media';
 @import 'components/programmes';
+@import 'components/research';
 @import 'components/materials';
 @import 'components/overlay-text';
 @import 'components/segment';
@@ -53,6 +55,7 @@
 @import 'components/news';
 @import 'components/logos';
 @import 'components/global-header';
+@import 'components/global-header-next';
 @import 'components/global-footer';
 
 // =========================================================================
@@ -65,8 +68,8 @@
 @import 'utilities/utilities-text';
 
 // =========================================================================
-// Print Styles
+// Print
 // ========================================================================= //
 // Global print styles. Component specific styles inlined in component files
 
-@import '_print.common';
+@import 'globals/print';

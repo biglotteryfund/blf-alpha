@@ -16,8 +16,6 @@ function getAllOrders() {
         ]
     }).then(orders => {
         const normalisedDateFormat = 'YYYY-MM-DD';
-        // the date we added dropdown grant size options rather than free text
-        const LAUNCH_DATE = '2018-02-01';
 
         const items = flatMap(orders, order => order.items);
 
@@ -41,8 +39,6 @@ function getAllOrders() {
             return acc;
         }, {});
 
-        // @TODO this can be removed after July 1st when all order records will have the correct options
-        const filterIsRecentOrder = filter(_ => moment(_.createdAt).isAfter(LAUNCH_DATE));
         const filterHasCode = filter(_ => _.code !== '' && _.code !== 'null');
 
         // order items by total ordered
@@ -50,8 +46,7 @@ function getAllOrders() {
         let mostPopularItems = take(orderByCount(countBy(items, 'code')), 10);
 
         const orderReasons = filterHasCode(orderByCount(countBy(orders, 'orderReason')));
-        const ordersAfterLaunch = filterIsRecentOrder(orders);
-        const grantAmounts = filterHasCode(orderByCount(countBy(ordersAfterLaunch, 'grantAmount')));
+        const grantAmounts = filterHasCode(orderByCount(countBy(orders, 'grantAmount')));
         let ordersByPostcodes = orderByCount(countBy(orders, 'postcodeArea'));
 
         let ordersByDay = orders.reduce((acc, order) => {

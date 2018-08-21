@@ -1,8 +1,8 @@
 {% macro sectionLinks(sectionLinks) %}
-    <ul class="u-list-unstyled">
+    <ul class="section-links">
         {% for sectionLink in sectionLinks %}
-            <li>
-                <a class="u-link-section" href="{{ sectionLink.href }}">
+            <li class="section-links__item">
+                <a class="section-links__link" href="{{ sectionLink.href }}">
                     {{ sectionLink.label }}
                 </a>
             </li>

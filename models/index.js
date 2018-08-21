@@ -1,7 +1,7 @@
 'use strict';
 const { startsWith } = require('lodash');
 const Sequelize = require('sequelize');
-const debug = require('debug')('blf-alpha:models');
+const debug = require('debug')('biglotteryfund:models');
 
 const { DB_CONNECTION_URI } = require('../modules/secrets');
 
@@ -44,8 +44,6 @@ db.Users = sequelize.import('../models/user.js');
 db.Feedback = sequelize.import('./feedback');
 
 db.SurveyAnswer = sequelize.import('./survey');
-// @TODO: Remove me after migrating to new schema
-db.SurveyResponse = sequelize.import('./survey-legacy');
 
 db.Order = sequelize.import('../models/materials/order.js');
 db.OrderItem = sequelize.import('../models/materials/orderItem.js');

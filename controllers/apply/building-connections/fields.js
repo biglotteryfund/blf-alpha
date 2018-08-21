@@ -29,6 +29,14 @@ const LENGTH_HINTS = {
     }
 };
 
+// Allows us to share postcode validation on server and client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here to output it as a native RegExp
+// but also as a string for the HTML pattern attribute
+const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+const POSTCODE_REGEX = new RegExp(POSTCODE_PATTERN, 'i');
+const isValidPostcode = input => POSTCODE_REGEX.test(input);
+
 const currentWork = [
     {
         legend: 'Your current work',
@@ -252,7 +260,7 @@ const projectBudget = [
                 isCurrency: true,
                 size: 20,
                 isRequired: true,
-                label: 'How much do you plan to spend for the period until March 2019?'
+                label: 'How much of the requested amount do you plan to spend for the period until March 2019?'
             },
             {
                 name: 'project-budget-a-description',
@@ -261,8 +269,8 @@ const projectBudget = [
                 isRequired: true,
                 label: 'What do you plan to spend the money on for the period until March 2019?',
                 helpText: `<p>
-                    Please note that we require you to spend a minimum of 20% of your whole budget in 
-                    the first quarter of the project. We will ask you to evidence this in April 2019.
+                    Please note that we require you to spend a minimum of 20% of your whole budget 
+                    in the first three months of the project. We will ask you to evidence this in April 2019.
                 </p>`
             },
             {
@@ -271,13 +279,15 @@ const projectBudget = [
                 min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
+                silentlyOptional: true,
                 size: 20,
-                label: 'How much do you plan to spend for the period until April 2019–March 2020?'
+                label: 'How much of the requested amount do you plan to spend for the period until April 2019–March 2020?'
             },
             {
                 name: 'project-budget-b-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
+                silentlyOptional: true,
                 label: 'What do you plan to spend the money on for the period from April 2019–March 2020?'
             },
             {
@@ -286,13 +296,15 @@ const projectBudget = [
                 min: 0,
                 max: FUND_SIZE.max,
                 isCurrency: true,
+                silentlyOptional: true,
                 size: 20,
-                label: 'How much do you plan to spend for the period until April 2020–March 2021?'
+                label: 'How much of the requested amount do you plan to spend for the period until April 2020–March 2021?'
             },
             {
                 name: 'project-budget-c-description',
                 type: 'textarea',
                 lengthHint: LENGTH_HINTS.FEW_PARAS,
+                silentlyOptional: true,
                 label: 'What do you plan to spend the money on for the period April 2020–March 2021?'
             }
         ]
@@ -342,14 +354,15 @@ const organisationDetails = [
                 label: 'Postcode',
                 size: 10,
                 isRequired: true,
+                customRegex: POSTCODE_PATTERN,
                 validator(field) {
                     return check(field.name)
                         .trim()
                         .not()
                         .isEmpty()
                         .withMessage('Postcode must be provided')
-                        .isPostalCode('GB')
-                        .withMessage('Invalid postcode');
+                        .custom(value => isValidPostcode(value))
+                        .withMessage('Please provide a valid UK postcode');
                 }
             }
         ]
@@ -364,8 +377,7 @@ const organisationDetails = [
                 explanation: `
                     If you're unsure, you can
                     <a href="http://beta.charitycommission.gov.uk" target="_blank" rel="noopener">
-                        look it up on the Charity Commission website</a>. <br>
-                    If you don't have one, you can provide a Companies House number below instead.`
+                        look it up on the Charity Commission website</a>.`
             },
             {
                 type: 'text',
@@ -375,7 +387,7 @@ const organisationDetails = [
                     If you're unsure, you can
                     <a href="https://beta.companieshouse.gov.uk" target="_blank" rel="noopener">
                         look it up on the Companies House website
-                    </a>`
+                    </a>.`
             }
         ]
     }
@@ -434,5 +446,6 @@ module.exports = {
     projectEvaluation,
     projectLocation,
     socialConnections,
-    yourIdea
+    yourIdea,
+    isValidPostcode
 };

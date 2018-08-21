@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/tabs.njk" import tabs %}
+{% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
@@ -63,13 +64,20 @@
                         }), tabItems) %}
                     {%- endfor %}
 
-                    {{
-                        tabs(
+                    {#
+                        Test new content tabs macro on a single programme
+                        If everything looks OK then switch over to new tabs
+                    #}
+                    {% if entry.path === "funding/programmes/awards-from-the-uk-portfolio" %}
+                        {{ contentTabs(tabItems) }}
+                    {% else %}
+                        {{ tabs(
                             id = entry.title | slugify,
                             content = tabItems,
                             showPagination = true
-                        )
-                    }}
+                        ) }}
+                    {% endif %}
+
                 {% else %}
                     {% set section = entry.contentSections[0] %}
                     <div class="content-box content-box--borderless">

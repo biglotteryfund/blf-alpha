@@ -1,0 +1,68 @@
+/* =========================================================================
+   Quotes
+   ========================================================================= */
+
+/* =========================================================================
+   Callout
+   ========================================================================= */
+
+.callout {
+    font-family: font-stack('display');
+    font-style: normal;
+    color: palette('pink');
+    display: block;
+    margin-bottom: $spacingUnit;
+    max-width: 30em;
+
+    .callout__inner {
+        padding: $spacingUnit;
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        height: 4px;
+        background-color: currentColor;
+        width: 100%;
+    }
+
+    &::before {
+        width: 60%;
+    }
+
+    .callout__text {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .callout__citation {
+        display: block;
+        font-size: 16px;
+        margin-top: 0.5em;
+    }
+}
+.callout--quote {
+    .callout__text {
+        position: relative;
+
+        &::before,
+        &::after {
+            color: palette('blue');
+            display: inline-block;
+            vertical-align: top;
+            height: 20px;
+            line-height: 44px;
+            font-size: 36px;
+        }
+
+        &::before {
+            content: '\201C';
+            margin-left: -17px;
+        }
+
+        &::after {
+            content: '\201D';
+        }
+    }
+}

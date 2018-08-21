@@ -1,7 +1,6 @@
 'use strict';
 const fs = require('fs');
-const { flow, get, isEmpty, keyBy, mapValues } = require('lodash/fp');
-const config = require('config');
+const { flow, get, keyBy, mapValues } = require('lodash/fp');
 
 function getRawParameters() {
     let rawParameters;
@@ -19,56 +18,44 @@ function parseSecrets(rawParameters) {
     return mapKeyedValues(rawParameters);
 }
 
-function getSecretFromRawParameters(rawParameters, name) {
+function getSecretFromRawParameters(rawParameters, name, shouldThrowIfMissing = false) {
     const secrets = parseSecrets(rawParameters);
     const secret = get(name)(secrets);
-    if (secret) {
+
+    if (shouldThrowIfMissing === true && typeof secret === 'undefined') {
+        throw new Error(`Secret missing: ${name}`);
+    } else {
         return secret;
-    } else {
-        throw new Error(`Could not find property ${name} in secrets`);
     }
 }
 
-function getSecret(name) {
+function getSecret(name, shouldThrowIfMissing = false) {
     const rawParameters = getRawParameters();
-    if (process.env.CI === true || isEmpty(rawParameters)) {
-        console.warn(`Secret "${name}" not found: are you in CI or DEVELOPMENT mode?`);
-        return;
-    } else {
-        return getSecretFromRawParameters(rawParameters, name);
-    }
+    return getSecretFromRawParameters(rawParameters, name, shouldThrowIfMissing);
 }
 
+/* =========================================================================
+   Secret Constants
+   ========================================================================= */
+
+/**
+ * Required: Without these the app won't start
+ */
 const APPLICATIONS_SERVICE_ENDPOINT =
-    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint');
+    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint', true);
+const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url', true);
+const DB_CONNECTION_URI = process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
+const JWT_SIGNING_TOKEN = process.env.JWT_SIGNING_TOKEN || getSecret('user.jwt.secret', true);
+const SESSION_SECRET = process.env.SESSION_SECRET || getSecret('session.secret', true);
 
-const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url');
-
-const DB_HOST = process.env.mysqlHost || getSecret('mysql.host');
-const DB_NAME = process.env.CUSTOM_DB ? process.env.CUSTOM_DB : config.get('database');
-const DB_PASS = process.env.mysqlPassword || getSecret('mysql.password');
-const DB_USER = process.env.mysqlUser || getSecret('mysql.user');
-
-// @TODO: Update parameter store to always pass connection URI
-const DB_CONNECTION_URI = process.env.DB_CONNECTION_URI || `mysql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}`;
-
-const JWT_SIGNING_TOKEN = process.env.jwtSigningToken || getSecret('user.jwt.secret');
+/**
+ * Additional: Without these the app will start but some functionality will be unavailable
+ */
+const DOTMAILER_API = { user: getSecret('dotmailer.api.user'), password: getSecret('dotmailer.api.password') };
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
+const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
-const SESSION_SECRET = process.env.sessionSecret || getSecret('session.secret');
-const TOOLS_CMS_ADMIN_URL = getSecret('tools.cms-admin-url');
-const TOOLS_ANALYTICS_DASHBOARD_URL = getSecret('tools.analytics-dashboard-url');
-const TOOLS_DATASTUDIO_URL = getSecret('tools.datastudio-url');
-
-const HUB_EMAILS = {
-    northWest: getSecret('emails.hubs.northwest'),
-    northEastCumbria: getSecret('emails.hubs.northeastcumbria'),
-    midlands: getSecret('emails.hubs.midlands'),
-    southWest: getSecret('emails.hubs.southwest'),
-    londonSouthEast: getSecret('emails.hubs.londonsoutheast'),
-    yorksHumber: getSecret('emails.hubs.yorkshumber'),
-    england: getSecret('emails.hubs.england')
-};
+const DIGITAL_FUND_DEMO_EMAIL = process.env.DIGITAL_FUND_DEMO_EMAIL || getSecret('emails.digitalfund.demo');
 
 module.exports = {
     getRawParameters,
@@ -77,12 +64,11 @@ module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
     CONTENT_API_URL,
     DB_CONNECTION_URI,
-    HUB_EMAILS,
+    DOTMAILER_API,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
+    PREVIEW_DOMAIN,
     SENTRY_DSN,
     SESSION_SECRET,
-    TOOLS_CMS_ADMIN_URL,
-    TOOLS_ANALYTICS_DASHBOARD_URL,
-    TOOLS_DATASTUDIO_URL
+    DIGITAL_FUND_DEMO_EMAIL
 };

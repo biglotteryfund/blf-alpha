@@ -5,10 +5,9 @@
 {% from "components/social.njk" import socialLinks with context %}
 
 {% extends "layouts/main.njk" %}
+{% set pageAccent = "blue" %}
 
 {% block content %}
-    {% set pageAccent = "blue" %}
-
     <main role="main">
         {% call superHero(
             title = copy.hero.intro,
@@ -60,9 +59,9 @@
                 {% endfor %}
             </ul>
 
-            <div class="padded u-align-center">
+            <div class="u-padded u-align-center">
                 <a href="{{ localify('/funding/past-grants') }}"
-                    class="btn accent--{{ pageAccent }} a--btn spaced">
+                    class="btn accent--{{ pageAccent }} a--btn u-margin-bottom">
                     {{ copy.browseFundedProjects }}
                 </a>
             </div>
@@ -79,9 +78,9 @@
                 </h2>
             </header>
             <div class="latest-news__content">
-                <ul class="unstyled grid grid--3-up grid--padded--large grid--equal grid--wide-only">
+                <ul class="flex-grid flex-grid--3up">
                     {% for article in news %}
-                        <li class="grid__item">
+                        <li class="flex-grid__item">
                             {{ articleTeaser(article) }}
                         </li>
                     {% endfor %}
@@ -95,10 +94,11 @@
         </section>
         {% endif %}
 
-        <section class="u-inner-wide-only spaced">
-            <ul class="unstyled grid grid--wide-only grid--equal">
-                <li class="grid__item grid__item--large accent--{{ pageAccent }} a--border-top padded">
-                    {# Twitter Feed #}
+        {# Social Content #}
+        <section class="social-content u-inner-wide-only u-margin-bottom">
+            <div class="social-content__primary u-accent-border-top-blue">
+                {# Twitter Feed #}
+                <div class="u-padded">
                     {% set twitterAccount = __('global.brand.twitter')  %}
                     <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
                         href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
@@ -106,17 +106,17 @@
                         Tweets by {{ twitterAccount }}
                     </a>
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </li>
-                <li class="grid__item accent--pink a--border-top">
-                    {# Ebulletin #}
-                    <div class="content-box content-box--tinted">
-                        {{ ebulletinForm() }}
-                    </div>
+                </div>
+            </div>
+            <div class="social-content__secondary u-accent-border-top-pink">
+                {# Ebulletin #}
+                <div class="content-box content-box--tinted">
+                    {{ ebulletinForm() }}
+                </div>
 
-                    {# social buttons #}
-                    {{ socialLinks(copy.social) }}
-                </li>
-            </ul>
+                {# Social links #}
+                {{ socialLinks(copy.social) }}
+            </div>
         </section>
     </main>
 {% endblock %}

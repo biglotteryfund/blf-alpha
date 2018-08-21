@@ -2,8 +2,6 @@
 const config = require('config');
 const moment = require('moment');
 
-const { sMaxAge } = require('../../middleware/cached');
-
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
 const homepageRoute = require('./homepage');
@@ -60,20 +58,6 @@ module.exports = ({ router, pages }) => {
             res.clearCookie(cookieName);
         }
         res.redirect(redirectUrl);
-    });
-
-    router.get('/prompts', sMaxAge('10m'), (req, res) => {
-        res.json({
-            prompt: {
-                id: 'treejack',
-                weight: 0.6,
-                message: 'We are working on improving the website.',
-                link: {
-                    href: 'https://54kuc315.optimalworkshop.com/treejack/4cn0hn5o-0',
-                    label: 'Can you spare a few minutes to take a survey?'
-                }
-            }
-        });
     });
 
     /**

@@ -1,6 +1,8 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
+const { includes } = require('lodash');
+const appData = require('../modules/appData');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 
@@ -12,11 +14,27 @@ function getMetaTitle(base, pageTitle) {
 }
 
 /**
+ * Get current navigation section
+ */
+function getCurrentSection(sectionId, pageId) {
+    const isHomepage = sectionId === 'toplevel' && pageId === 'home';
+    if (isHomepage) {
+        return 'toplevel';
+    } else if (sectionId !== 'toplevel') {
+        return sectionId;
+    }
+}
+
+/**
  * Set request locals
  * - Local properties that depend on the request
  * - Local methods for use in views that depend on the request
  */
 module.exports = {
+    // Export for tests
+    getCurrentSection,
+    getMetaTitle,
+    // Export middleware
     middleware: function(req, res, next) {
         const locale = req.i18n.getLocale();
 
@@ -47,6 +65,7 @@ module.exports = {
          ***********************************************/
 
         res.locals.getMetaTitle = getMetaTitle;
+        res.locals.getCurrentSection = getCurrentSection;
 
         /**
          * Absolute URL helper
@@ -91,7 +110,49 @@ module.exports = {
                 .fromNow();
         };
 
+        /**
+         * Allows feature flags to be passed through as query strings
+         * e.g. ?feature=use-new-header
+         * Useful for testing new features
+         */
+        res.locals.queryFeature = function(name) {
+            const featureNames = ['use-new-header'];
+            const enableFeatures = req.query['enable-feature'] ? req.query['enable-feature'].split(',') : [];
+            const disableFeatures = req.query['disable-feature'] ? req.query['disable-feature'].split(',') : [];
+
+            const cookieName = config.get('cookies.features');
+            const featuresCookie = req.cookies[cookieName];
+            const featuresCookieList = featuresCookie ? featuresCookie.split(',') : [];
+            const isInCookieList = includes(featuresCookieList, name) && includes(featureNames, name);
+            const enableWithQuery = includes(featureNames, name) && includes(enableFeatures, name);
+            const disableWithQuery = includes(featureNames, name) && includes(disableFeatures, name);
+
+            const setFeatureCookie = features => {
+                if (features.length > 0) {
+                    res.cookie(cookieName, features.join(','), {
+                        httpOnly: true,
+                        secure: !appData.isDev
+                    });
+                } else {
+                    res.clearCookie(cookieName);
+                }
+            };
+
+            if (disableWithQuery) {
+                const newFeaturesCookieList = featuresCookieList.filter(val => val !== name);
+                setFeatureCookie(newFeaturesCookieList);
+                return false;
+            } else if (isInCookieList) {
+                return true;
+            } else if (enableWithQuery) {
+                featuresCookieList.push(name);
+                setFeatureCookie(featuresCookieList);
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         next();
-    },
-    getMetaTitle
+    }
 };
