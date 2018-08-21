@@ -25,8 +25,14 @@ function buildPagination(paginationMeta, currentQuerystring = {}) {
         return {
             currentPage: currentPage,
             totalPages: totalPages,
-            prevLink: currentPage > 1 ? prevLink : null,
-            nextLink: currentPage < totalPages ? nextLink : null
+            prevLink: currentPage > 1 ? {
+                url: prevLink,
+                label: 'prev'
+            } : null,
+            nextLink: currentPage < totalPages ? {
+                url: nextLink,
+                label: 'next'
+            } : null
         };
     } else {
         return;
