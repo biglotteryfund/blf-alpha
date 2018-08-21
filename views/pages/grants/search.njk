@@ -5,6 +5,8 @@
 {% set bodyClass = 'has-static-header' %}
 {% set pageAccent = 'cyan' %}
 
+{% block title %}Past Grants Search | Results | {% endblock %}
+
 {% block content %}
     <main role="main">
         <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
@@ -26,12 +28,13 @@
                 </div>
             </form>
 
-            <section>
+            <section class="s-prose">
                 <h2>
                     Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} filtered by:{% endif %}
                 </h2>
+
                 {% if queryParams %}
-                    <ul class="list-bullets">
+                    <ul class="u-margin-bottom-l">
                         {% if queryParams.q %}
                             <li>
                                 <strong>Search term:</strong> "{{ queryParams.q }}"
@@ -44,26 +47,52 @@
                                 &mdash; <a href="?{{ queryParams | removeQueryParam('postcode') }}">Remove?</a>
                             </li>
                         {% endif %}
+                        {% if queryParams.programme %}
+                            <li>
+                                <strong>Funding Programme:</strong> "{{ queryParams.programme }}"
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('programme') }}">Remove?</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endif %}
-                {% for grant in grants %}
-                    <article class="s-prose">
-                        <h3 class="t2">
-                            {{ grant['Recipient Org:Name'] }}
-                            <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
-                        </h3>
-                        <p>{{ grant['Title'] }}</p>
-                        <p><small>{{ grant['Description'] }}</small></p>
-                        <dl class="o-definition-list o-definition-list--compact">
-                            <dt>Amount awarded</dt>
-                            <dd>£{{ grant['Amount Awarded'] }}</dd>
-                            <dt>Grant programme</dt>
-                            <dd>{{ grant['Grant Programme:Title'] }}</dd>
-                        </dl>
-                        <hr />
-                    </article>
-                {% endfor %}
 
+                <div class="page-section u-accent-border-top-{{ pageAccent }}">
+
+                    <div class="page-section__supplementary u-padded">
+                        <h2>Filters</h2>
+                        {% if facets %}
+                            <h5>Funding Programme</h5>
+                            <ul class="u-margin-bottom-l">
+                                {% for programme in facets[0].grantProgramme | sortBy ('_id') %}
+                                    <li><a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a> ({{ programme.count }})</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="page-section__content u-padded-top">
+                        <h2>Results</h2>
+                        {% for grant in grants %}
+                            <article class="s-prose">
+                                <h3 class="t2">
+                                    {{ grant['Recipient Org:Name'] }}
+                                    <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
+                                </h3>
+                                <p>{{ grant['Title'] }}</p>
+                                <p><small>{{ grant['Description'] }}</small></p>
+                                <dl class="o-definition-list o-definition-list--compact">
+                                    <dt>Amount awarded</dt>
+                                    <dd>£{{ grant['Amount Awarded'] }}</dd>
+                                    <dt>Grant programme</dt>
+                                    <dd>{{ grant['Grant Programme:Title'] }}</dd>
+                                </dl>
+                                <hr />
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {# @TODO make this work again #}
                 {{ splitNav(pagination) }}
             </section>
         </div>

@@ -6,7 +6,7 @@
  */
 const slug = require('slugify');
 const querystring = require('querystring');
-const { includes } = require('lodash');
+const { sortBy } = require('lodash');
 const uuid = require('uuid/v4');
 
 const assets = require('./assets');
@@ -72,6 +72,16 @@ function removeQueryParam(queryParams, paramToRemove) {
     return querystring.stringify(newParams);
 }
 
+function addQueryParam(queryParams, paramToAdd, paramValue) {
+    let newParams = Object.assign({}, queryParams);
+    newParams[paramToAdd] = paramValue;
+    return querystring.stringify(newParams);
+}
+
+function sortArrayBy(arr, key) {
+    return sortBy(arr, key);
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -85,5 +95,7 @@ module.exports = {
     numberWithCommas,
     pluralise,
     slugify,
-    removeQueryParam
+    removeQueryParam,
+    addQueryParam,
+    sortBy: sortArrayBy
 };
