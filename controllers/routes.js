@@ -201,6 +201,12 @@ sections.research.addRoutes({
         path: '/',
         lang: 'toplevel.research',
         heroSlug: 'grassroots-project'
+    }),
+    rootNew: customRoute({
+        path: '/landing-new',
+        lang: 'toplevel.research',
+        heroSlug: 'grassroots-project',
+        live: false
     })
 });
 

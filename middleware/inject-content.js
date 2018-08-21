@@ -194,7 +194,8 @@ async function injectStrategicProgrammes(req, res, next) {
 async function injectResearch(req, res, next) {
     try {
         res.locals.researchEntries = await contentApi.getResearch({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
+            searchQuery: req.query.q
         });
         next();
     } catch (error) {
@@ -204,14 +205,18 @@ async function injectResearch(req, res, next) {
 
 async function injectResearchEntry(req, res, next) {
     try {
-        const entry = await contentApi.getResearch({
-            slug: last(req.path.split('/')),
-            locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false
-        });
+        // Assumes a parameter of :slug in the request
+        const { slug } = req.params;
+        if (slug) {
+            const entry = await contentApi.getResearch({
+                slug: slug,
+                locale: req.i18n.getLocale(),
+                previewMode: res.locals.PREVIEW_MODE || false
+            });
 
-        res.locals.title = entry.title;
-        res.locals.researchEntry = entry;
+            res.locals.researchEntry = entry;
+            setCommonLocals(res, entry);
+        }
         next();
     } catch (error) {
         next();

@@ -1,0 +1,22 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+{% macro researchCard(research) %}
+    {% call promoCard({
+        "title": research.title,
+        "subtitle": formatDate(research.dateCreated.date, DATE_FORMATS.month),
+        "trailText": research.trailText,
+        "image": { "url": research.thumbnail, "alt": research.title },
+        "link": { "url": research.linkUrl, "label": __('global.misc.readMore') }
+    }) %}
+        {% if research.documents %}
+            <div class="inline-links">
+                <span class="inline-links__prefix"><strong>{{ __('global.misc.documents') | title }}:</strong></span>
+                <ol class="inline-links__list">
+                    {% for document in research.documents -%}
+                        <li><a href="{{ document.url }}">{{ document.title }} ({{ document.filetype | upper }} {{ document.filesize }})</a></li>
+                    {%- endfor %}
+                </ol>
+            </div>
+        {% endif %}
+    {%- endcall %}
+{% endmacro %}

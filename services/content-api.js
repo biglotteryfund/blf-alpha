@@ -154,13 +154,16 @@ function getFundingProgramme({ locale, slug, previewMode }) {
     });
 }
 
-function getResearch({ locale, slug, previewMode }) {
+function getResearch({ locale, slug, searchQuery = false, previewMode }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
             qs: addPreviewParams(previewMode)
         }).then(response => get('data.attributes')(response));
     } else {
-        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/research`).then(responses => {
+        return fetchAllLocales(reqLocale => {
+            const url = `/v1/${reqLocale}/research`;
+            return searchQuery ? `${url}?q=${searchQuery}` : url;
+        }).then(responses => {
             const [enResults, cyResults] = responses.map(mapAttrs);
             return mergeWelshBy('urlPath')(locale, enResults, cyResults);
         });
