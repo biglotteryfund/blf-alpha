@@ -30,7 +30,8 @@ const sections = {
     }),
     research: createSection({
         path: '/research',
-        langTitlePath: 'global.nav.research'
+        langTitlePath: 'global.nav.research',
+        controllerPath: path.resolve(__dirname, './research')
     }),
     about: createSection({
         path: '/about',
@@ -196,18 +197,10 @@ sections.funding.addRoutes({
  * Research Routes
  */
 sections.research.addRoutes({
-    root: staticContentRoute({
+    root: customRoute({
         path: '/',
-        sMaxAge: '30m',
-        template: 'pages/toplevel/research',
         lang: 'toplevel.research',
         heroSlug: 'grassroots-project'
-    }),
-    youthViolence: staticContentRoute({
-        path: '/youth-serious-violence',
-        template: 'controllers/research/views/research-detail',
-        lang: 'research.youthviolence',
-        heroSlug: 'paws-for-progress'
     })
 });
 
