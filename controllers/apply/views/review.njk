@@ -1,0 +1,84 @@
+{% from "components/icons.njk" import iconArrowDown %}
+{% from "components/form-fields.njk" import formHeader with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}{{ stepConfig.title }} | {{ form.title }} | {% endblock %}
+
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    {% set pageAccent = 'pink' %}
+    <main role="main" id="content">
+        <form action="" method="POST"
+            class="js-application-form js-application-form-review
+            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+
+            {{ formHeader(form.title, stepProgress) }}
+
+            <h2>{{ stepConfig.title }}</h2>
+
+            {% for step in summary %}
+                <div class="review-step">
+                    <h3 class="review-step__title">
+                        {{ step.name }}
+                        <a class="review-step__edit js-application-form-review-link"
+                           href="{{ baseUrl }}/{{ loop.index }}/edit"
+                           aria-label="Edit {{ step.name }}">
+                            Edit
+                        </a>
+                    </h3>
+                    {% for fieldset in step.fieldsets %}
+                        <dl class="review-step__list">
+                            {% for field in fieldset.fields %}
+                                {% if field.value %}
+                                    <dt class="review-step__item-label{% if field.type === 'textarea' %} is-stacked{% endif %}">
+                                        {{ field.label }}
+                                    </dt>
+                                    <dd class="review-step__item-value{% if field.type === 'textarea' %} is-stacked is-constrained{% endif %}">
+                                        <div class="s-prose" data-hj-suppress>
+                                            {% if field.type === 'textarea' %}
+                                                {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                                {% if cleanValue | wordcount > 50 %}
+                                                    <div class="review-step__answer-preview js-toggle-answer">
+                                                        {{ cleanValue }}
+                                                        <p class="review-step__answer-more">
+                                                            <button type="button" class="btn-link">
+                                                                <span class="js-toggle-answer-label" data-toggle-label="Show less">
+                                                                    Show more
+                                                                </span>
+                                                                {{ iconArrowDown() }}
+                                                            </button>
+                                                        </p>
+                                                    </div>
+                                                {% else %}
+                                                    {{ cleanValue }}
+                                                {% endif %}
+                                            {% elseif (field.value | isArray) %}
+                                                {{ field.value | join(', ') }}
+                                            {% else %}
+                                                {{ field.value }}
+                                            {% endif %}
+                                        </div>
+                                    </dd>
+                                {% endif %}
+                            {% endfor %}
+                        </dl>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% if csrfToken %}
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            {% endif %}
+
+            {% if stepConfig.declaration %}
+                <aside class="review-step__declaration">
+                    <h5>Declaration</h5>
+                    {{ stepConfig.declaration | safe }}
+                </aside>
+            {% endif %}
+            <input class="btn btn--next" type="submit" value="{{ stepConfig.proceedLabel }}" />
+        </form>
+    </main>
+{% endblock %}

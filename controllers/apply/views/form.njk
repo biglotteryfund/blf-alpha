@@ -1,0 +1,33 @@
+{% from "components/icons.njk" import iconTick %}
+{% from "components/form-fields.njk" import errorList, formErrors, formFieldset, formHeader with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block title %}Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }} | {{ form.title }} | {% endblock %}
+
+{% set bodyClass = 'has-static-header' %}
+{% set pageAccent = 'pink' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <form action="" method="POST"
+            class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+
+            {{ formHeader(form.title, stepProgress) }}
+
+            {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+
+            {% for fieldset in step.fieldsets %}
+                {{ formFieldset(fieldset, errors) }}
+            {% endfor %}
+
+            {% if csrfToken %}
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            {% endif %}
+
+            <div class="form-actions">
+                <input class="btn btn--next" type="submit" value="Next" />
+            </div>
+        </form>
+    </main>
+{% endblock %}
