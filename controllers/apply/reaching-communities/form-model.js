@@ -1,7 +1,8 @@
 'use strict';
+const path = require('path');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../../helpers/create-form-model');
+const { createFormModel } = require('../create-form-model');
 const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
 
@@ -12,7 +13,7 @@ const formModel = createFormModel({
 });
 
 formModel.registerStartPage({
-    template: 'pages/apply/reaching-communities/startpage'
+    template: path.resolve(__dirname, './startpage')
 });
 
 formModel.registerStep({
@@ -22,10 +23,10 @@ formModel.registerStep({
             legend: 'Find out how we can help you',
             introduction: `
                 <p>
-                    If you have already read our guidance about telling us your idea for either 
-                    <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or 
-                    <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box 
-                    below to share it with us, and details about your organisation. Remember, you don’t have to have 
+                    If you have already read our guidance about telling us your idea for either
+                    <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or
+                    <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box
+                    below to share it with us, and details about your organisation. Remember, you don’t have to have
                     all the details, but try to include:
                 </p>
                 <ul>
@@ -34,10 +35,10 @@ formModel.registerStep({
                     <li>how people and communities are involved with your project</li>
                     <li>the background to your organisation</li>
                     <li>the length of your project budget and how much funding you’ll need from us</li>
-                    <li>how your idea fits in with other activities</li>                
+                    <li>how your idea fits in with other activities</li>
                 </ul>
                 <p>
-                    This information will go to one of our funding officers who will get in touch within fifteen working 
+                    This information will go to one of our funding officers who will get in touch within fifteen working
                     days to find out more. If it is something we could fund, this is just the start of the conversation.
                 </p>
             `,
@@ -221,7 +222,7 @@ formModel.registerReviewStep({
 });
 
 formModel.registerSuccessStep({
-    template: 'pages/apply/reaching-communities/success',
+    template: path.resolve(__dirname, './success'),
     processor: processor
 });
 
