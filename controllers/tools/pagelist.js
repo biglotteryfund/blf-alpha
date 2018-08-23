@@ -2,7 +2,7 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const routeHelpers = require('../helpers/route-helpers');
+const routeHelpers = require('../../modules/route-helpers');
 
 router.get('/', async (req, res, next) => {
     try {
