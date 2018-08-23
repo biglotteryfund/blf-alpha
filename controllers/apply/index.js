@@ -24,16 +24,6 @@ module.exports = ({ router }) => {
 
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
-    router.get('/building-connections', (req, res) => {
-        res.render('pages/apply/building-connections/startpage-closed', {
-            title: 'Building Connections Fund'
-        });
-    });
-
-    router.all('/building-connections/*', (req, res) => {
-        res.redirect(`${req.baseUrl}/building-connections`);
-    });
-
     if (appData.isNotProduction) {
         router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
     }
