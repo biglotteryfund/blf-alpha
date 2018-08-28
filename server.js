@@ -147,7 +147,7 @@ function initViewEngine() {
     const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
-        noCache: appData.isDev,
+        noCache: true, // Disable nunjucks memory cache
         // only watch files if we explicitly request
         // (eg. for CI, which tries to watch node_modules)
         watch: process.env.WATCH_TEMPLATES === true
@@ -158,8 +158,8 @@ function initViewEngine() {
     });
 
     app.set('view engine', 'njk').set('engineEnv', templateEnv);
-    // attempt to fix session sharing bug
-    // see https://stackoverflow.com/questions/32307933/passportjs-session-mixed-up
+
+    // Disable express  view cache
     app.disable('view cache');
 }
 
