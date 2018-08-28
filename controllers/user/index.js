@@ -19,11 +19,7 @@ router.use(toolsSecurityHeaders());
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
 
 // register users
-if (appData.isDev) {
-    router.get(userEndpoints.register, auth.requireUnauthed, cached.csrfProtection, register.registrationForm);
-} else {
-    router.get(userEndpoints.register, auth.requireUnauthed, (req, res) => res.send('Temporarily removed.'));
-}
+router.get(userEndpoints.register, auth.requireUnauthed, cached.csrfProtection, register.registrationForm);
 router.post(userEndpoints.register, emailPasswordValidations, cached.csrfProtection, register.createUser);
 
 // login users
