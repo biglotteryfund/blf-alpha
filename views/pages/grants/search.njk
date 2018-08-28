@@ -71,11 +71,14 @@
                         <div class="page-section__supplementary u-padded">
                             <h2>Filters</h2>
 
-                            {% if facets[0].grantProgramme.length > 1 %}
+                            {% if facets[0].grantProgramme %}
                                 <h5>Funding Programme</h5>
                                 <ul class="u-margin-bottom-l">
                                     {% for programme in facets[0].grantProgramme | sortBy ('_id') %}
-                                        <li><a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a> ({{ programme.count }})</li>
+                                        <li>
+                                            <a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a>
+                                            ({{ programme.count }})
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
