@@ -3,7 +3,6 @@ const { get, isEmpty, set, unset } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
-const moment = require('moment');
 const path = require('path');
 const Raven = require('raven');
 
@@ -12,9 +11,6 @@ const cached = require('../../middleware/cached');
 
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
-
-// How many days to extend the user's session by
-const EXTENDED_SESSION_DURATION_IN_DAYS = 7;
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -53,8 +49,7 @@ function initFormRouter(formModel) {
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
             form: formModel,
-            hasBegunForm: hasBegunForm,
-            sessionDurationInDays: EXTENDED_SESSION_DURATION_IN_DAYS
+            hasBegunForm: hasBegunForm
         });
     });
 
@@ -83,22 +78,9 @@ function initFormRouter(formModel) {
             }
         }
 
-        // for users submitting a step, increase their session expiry
-        // so they can save progress beyond a browser session
-        function extendSessionDuration(req, res, next) {
-            // belt and braces: https://stackoverflow.com/a/46631171
-            const maxAge = EXTENDED_SESSION_DURATION_IN_DAYS * 24 * 3600 * 1000;
-            req.session.cookie.maxAge = maxAge;
-            req.session.cookie.expires = moment()
-                .add(EXTENDED_SESSION_DURATION_IN_DAYS, 'days')
-                .toDate();
-            next();
-        }
-
         function handleSubmitStep({ isEditing = false } = {}) {
             return [
                 step.getValidators(),
-                extendSessionDuration,
                 function(req, res) {
                     const sessionProp = formModel.getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
