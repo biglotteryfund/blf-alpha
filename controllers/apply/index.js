@@ -40,16 +40,11 @@ function initFormRouter(formModel) {
      */
     router.get('/', cached.noCache, function(req, res) {
         const stepConfig = formModel.getStartPage();
-
-        const sessionProp = formModel.getSessionProp();
-        const hasBegunForm = !!get(req.session, sessionProp, false);
-
         res.render(stepConfig.template, {
             title: formModel.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
-            form: formModel,
-            hasBegunForm: hasBegunForm
+            form: formModel
         });
     });
 
