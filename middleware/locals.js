@@ -45,6 +45,12 @@ module.exports = {
         res.locals.isHighContrast = contrastPref && contrastPref === 'high';
 
         /**
+         * Features
+         */
+        res.locals.enablePrompt = config.get('features.enablePrompt');
+        res.locals.enableSurvey = config.get('features.enableSurvey');
+
+        /**
          * Add the request object as a local variable
          * for URL rewriting in templates
          * (eg. locale versions, high-contrast redirect etc)

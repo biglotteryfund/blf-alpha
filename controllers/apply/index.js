@@ -48,6 +48,9 @@ function initFormRouter(form) {
     }
 
     router.use((req, res, next) => {
+        // Disable prompts on apply pages
+        res.locals.enablePrompt = false;
+        // @TODO: Allow translations for apply forms
         res.locals.isBilingual = false;
         next();
     });
@@ -222,6 +225,9 @@ function initFormRouter(form) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
+            // Disable global survey on success pages
+            res.locals.enableSurvey = false;
+
             // Clear the submission from the session on success
             unset(req.session, getSessionProp());
             req.session.save(() => {
