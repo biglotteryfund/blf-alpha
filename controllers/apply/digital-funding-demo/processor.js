@@ -1,4 +1,6 @@
 'use strict';
+const path = require('path');
+
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
 const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
@@ -16,7 +18,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             sendTo: primaryAddress,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            templateName: 'emails/applicationSummary',
+            template: path.resolve(__dirname, './customer-email'),
             templateData: {
                 data: data,
                 summary: stepsWithValues
@@ -27,7 +29,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             sendTo: appData.isDev ? primaryAddress : DIGITAL_FUND_DEMO_EMAIL,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: `New Digital Fund idea submission from website: ${organisationName}`,
-            templateName: 'emails/applicationSummaryInternal',
+            template: path.resolve(__dirname, './internal-email'),
             templateData: {
                 title: form.title,
                 data: data,

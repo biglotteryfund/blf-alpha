@@ -1,0 +1,20 @@
+{% from "components/applicationSummary.njk" import readOnlySummary %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedRealPath }}">
+        <link href="//fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+
+        <p>A customer has submitted an idea from the {{ title }} web form.</p>
+        <p>The details they provided are included below:</p>
+
+        <h2 class="space-above">Customer information</h2>
+        <div class="summary">
+            {{ readOnlySummary(summary) }}
+        </div>
+
+    </body>
+</html>

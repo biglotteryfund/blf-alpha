@@ -1,5 +1,6 @@
 'use strict';
 const { get, groupBy, sortBy, isArray } = require('lodash');
+const path = require('path');
 
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
@@ -45,7 +46,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             sendTo: primaryAddress,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            templateName: 'emails/applicationSummary',
+            template: path.resolve(__dirname, './customer-email'),
             templateData: {
                 data: data,
                 summary: stepsWithValues
@@ -56,7 +57,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             sendTo: internalAddress,
             sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: `New idea submission from website: ${organisationName}`,
-            templateName: 'emails/applicationSummaryInternal',
+            template: path.resolve(__dirname, './internal-email'),
             templateData: {
                 title: form.title,
                 data: data,
