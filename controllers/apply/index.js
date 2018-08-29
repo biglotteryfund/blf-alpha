@@ -1,7 +1,7 @@
 'use strict';
-const { get, isEmpty, set, unset } = require('lodash');
+const { flatMap, get, isEmpty, set, unset } = require('lodash');
 const { matchedData } = require('express-validator/filter');
-const { validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -12,6 +12,28 @@ const cached = require('../../middleware/cached');
 const { withValues } = require('./create-form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
+
+/**
+ * Collect all validators associated with each field for express-validator
+ */
+function getValidators(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return fields.map(field => {
+        if (field.validator) {
+            return field.validator(field);
+        } else if (field.isRequired === true) {
+            return check(field.name)
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(field.errorMessage || `“${field.label}” must be provided`);
+        } else {
+            return check(field.name)
+                .trim()
+                .optional();
+        }
+    });
+}
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -76,7 +98,7 @@ function initFormRouter(formModel) {
 
         function handleSubmitStep({ isEditing = false } = {}) {
             return [
-                step.getValidators(),
+                getValidators(step),
                 function(req, res) {
                     const sessionProp = formModel.getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});

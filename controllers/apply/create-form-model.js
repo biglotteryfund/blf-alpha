@@ -1,6 +1,5 @@
 'use strict';
 const { cloneDeep, find, flatMap, has, get, sortBy, groupBy } = require('lodash');
-const { check } = require('express-validator/check');
 
 /**
  * For a given field attach some additional computed properties
@@ -65,25 +64,7 @@ function withValues(step, values) {
 function createStep(step) {
     const getFields = getFieldsForFieldsets(step.fieldsets);
     return Object.assign(step, {
-        getFields: getFields,
-        // Collect all validators associated with each field for express-validator
-        getValidators: function() {
-            return getFields().map(field => {
-                if (field.validator) {
-                    return field.validator(field);
-                } else if (field.isRequired === true) {
-                    return check(field.name)
-                        .trim()
-                        .not()
-                        .isEmpty()
-                        .withMessage(field.errorMessage || `“${field.label}” must be provided`);
-                } else {
-                    return check(field.name)
-                        .trim()
-                        .optional();
-                }
-            });
-        }
+        getFields: getFields
     });
 }
 
