@@ -4,7 +4,7 @@
 const { head } = require('lodash');
 const { createStep, withValues } = require('../create-form-model');
 
-describe.only('createStep', () => {
+describe('createStep', () => {
     it('should not mutate step with values', () => {
         const fields = [
             {
