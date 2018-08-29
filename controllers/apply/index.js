@@ -38,6 +38,15 @@ function getValidators(step) {
 function initFormRouter(formModel) {
     const router = express.Router();
 
+    function getSessionProp(stepNo) {
+        const baseProp = `form.${formModel.id}`;
+        if (stepNo) {
+            return `${baseProp}.step-${stepNo}`;
+        }
+
+        return baseProp;
+    }
+
     router.use((req, res, next) => {
         res.locals.isBilingual = false;
         next();
@@ -47,7 +56,7 @@ function initFormRouter(formModel) {
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
     function getFormSession(req, step) {
-        return get(req.session, formModel.getSessionProp(step), {});
+        return get(req.session, getSessionProp(step), {});
     }
 
     function getStepProgress({ baseUrl, currentStepNumber }) {
@@ -100,7 +109,7 @@ function initFormRouter(formModel) {
             return [
                 getValidators(step),
                 function(req, res) {
-                    const sessionProp = formModel.getSessionProp(currentStepNumber);
+                    const sessionProp = getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
                     const bodyData = matchedData(req, { locations: ['body'] });
                     set(req.session, sessionProp, Object.assign(stepData, bodyData));
@@ -203,7 +212,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, formModel.getSessionProp());
+            unset(req.session, getSessionProp());
             req.session.save(() => {
                 res.render(successStep.template, {
                     form: formModel,
