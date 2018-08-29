@@ -32,6 +32,7 @@
   },
   "features": {
     "enablePrompt": true,
+    "enableSurvey": true,
     "enableAbTests": true,
     "useHotjar": true,
     "useRemoteAssets": true,

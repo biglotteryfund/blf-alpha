@@ -2,21 +2,10 @@
 const path = require('path');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../create-form-model');
-const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
+const { PROJECT_LOCATIONS } = require('./constants');
 
-const formModel = createFormModel({
-    id: 'reaching-communities-idea',
-    title: 'Reaching Communities & Partnerships',
-    shortCode: 'RC'
-});
-
-formModel.registerStartPage({
-    template: path.resolve(__dirname, './startpage')
-});
-
-formModel.registerStep({
+const stepIdea = {
     name: 'Your idea',
     fieldsets: [
         {
@@ -66,9 +55,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepLocation = {
     name: 'Project location',
     internalOrder: 3,
     fieldsets: [
@@ -107,9 +96,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepOrganisation = {
     name: 'Your organisation',
     internalOrder: 2,
     fieldsets: [
@@ -144,9 +133,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepDetails = {
     name: 'Your details',
     internalOrder: 1,
     fieldsets: [
@@ -214,24 +203,29 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerReviewStep({
-    title: 'Check this is right before submitting your idea',
-    proceedLabel: 'Submit'
-});
-
-formModel.registerSuccessStep({
-    template: path.resolve(__dirname, './success'),
-    processor: processor
-});
-
-formModel.registerErrorStep({
-    title: 'There was an problem submitting your idea',
-    message: `
-<p>There was a problem submitting your idea, we have been notified of the problem.</p>
-<p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
-`
-});
-
-module.exports = formModel;
+module.exports = {
+    id: 'reaching-communities-idea',
+    title: 'Reaching Communities & Partnerships',
+    shortCode: 'RC',
+    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
+    processor: processor,
+    startPage: {
+        template: path.resolve(__dirname, './startpage')
+    },
+    reviewStep: {
+        title: 'Check this is right before submitting your idea',
+        proceedLabel: 'Submit'
+    },
+    successStep: {
+        template: path.resolve(__dirname, './success')
+    },
+    errorStep: {
+        title: 'There was an problem submitting your idea',
+        message: `
+            <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+        `
+    }
+};

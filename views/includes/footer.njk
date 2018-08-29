@@ -1,7 +1,7 @@
 {% from "components/language-switcher/macro.njk" import languageSwitcher with context %}
 
 {# Did you find what you were looking for? #}
-{% if not suppressSurvey %}
+{% if enableSurvey %}
     <div id="js-survey">
         <survey
             question="{{ __('global.survey.question') }}"

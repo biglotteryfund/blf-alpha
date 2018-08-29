@@ -37,7 +37,7 @@
             {% include "includes/offscreenNav.njk" %}
         {% endif %}
 
-        {%- if appData.config.get('features.enablePrompt') -%}
+        {%- if enablePrompt -%}
             <div id="js-active-prompt">
                 <prompt
                     id='chalkmark'

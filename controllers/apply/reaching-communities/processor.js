@@ -1,10 +1,16 @@
 'use strict';
-const { get, isArray } = require('lodash');
+const { get, groupBy, sortBy, isArray } = require('lodash');
 
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
 
 const { PROJECT_LOCATIONS, DEFAULT_EMAIL } = require('./constants');
+
+function orderStepsForInternalUse(stepData) {
+    // rank steps by their internal order (if provided), falling back to original (source) order
+    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
+    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
+}
 
 module.exports = function processor({ form, data, stepsWithValues }) {
     /**
@@ -54,7 +60,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             templateData: {
                 title: form.title,
                 data: data,
-                summary: form.orderStepsForInternalUse(stepsWithValues)
+                summary: orderStepsForInternalUse(stepsWithValues)
             }
         }
     ]);

@@ -1,71 +1,10 @@
 'use strict';
 const path = require('path');
 const { check } = require('express-validator/check');
-const { createFormModel } = require('../create-form-model');
+
 const processor = require('./processor');
 
-const PROJECT_LOCATIONS = [
-    {
-        label: 'East Midlands',
-        value: 'East Midlands'
-    },
-    {
-        label: 'East of England',
-        value: 'East of England'
-    },
-    {
-        label: 'London',
-        value: 'London'
-    },
-    {
-        label: 'North East',
-        value: 'North East'
-    },
-    {
-        label: 'North West',
-        value: 'North West'
-    },
-    {
-        label: 'Northern Ireland',
-        value: 'Northern Ireland'
-    },
-    {
-        label: 'Scotland',
-        value: 'Scotland'
-    },
-    {
-        label: 'South East',
-        value: 'South East'
-    },
-    {
-        label: 'South West',
-        value: 'South West'
-    },
-    {
-        label: 'Wales',
-        value: 'Wales'
-    },
-    {
-        label: 'West Midlands',
-        value: 'West Midlands'
-    },
-    {
-        label: 'Yorkshire and the Humber',
-        value: 'Yorkshire and the Humber'
-    }
-];
-
-const formModel = createFormModel({
-    id: 'digital-funding-demo',
-    title: 'Digital Funding (Demo)',
-    shortCode: 'DF-ALPHA'
-});
-
-formModel.registerStartPage({
-    template: path.resolve(__dirname, './startpage')
-});
-
-formModel.registerStep({
+const stepIdea = {
     name: 'Your idea',
     fieldsets: [
         {
@@ -114,9 +53,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepLocation = {
     name: 'Project location',
     internalOrder: 3,
     fieldsets: [
@@ -126,7 +65,56 @@ formModel.registerStep({
                 {
                     label: 'Select all regions that apply',
                     type: 'checkbox',
-                    options: PROJECT_LOCATIONS,
+                    options: [
+                        {
+                            label: 'East Midlands',
+                            value: 'East Midlands'
+                        },
+                        {
+                            label: 'East of England',
+                            value: 'East of England'
+                        },
+                        {
+                            label: 'London',
+                            value: 'London'
+                        },
+                        {
+                            label: 'North East',
+                            value: 'North East'
+                        },
+                        {
+                            label: 'North West',
+                            value: 'North West'
+                        },
+                        {
+                            label: 'Northern Ireland',
+                            value: 'Northern Ireland'
+                        },
+                        {
+                            label: 'Scotland',
+                            value: 'Scotland'
+                        },
+                        {
+                            label: 'South East',
+                            value: 'South East'
+                        },
+                        {
+                            label: 'South West',
+                            value: 'South West'
+                        },
+                        {
+                            label: 'Wales',
+                            value: 'Wales'
+                        },
+                        {
+                            label: 'West Midlands',
+                            value: 'West Midlands'
+                        },
+                        {
+                            label: 'Yorkshire and the Humber',
+                            value: 'Yorkshire and the Humber'
+                        }
+                    ],
                     isRequired: true,
                     name: 'location',
                     validator: function(field) {
@@ -155,9 +143,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepOrganisation = {
     name: 'Your organisation',
     internalOrder: 2,
     fieldsets: [
@@ -192,9 +180,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepDetails = {
     name: 'Your details',
     internalOrder: 1,
     fieldsets: [
@@ -262,24 +250,29 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerReviewStep({
-    title: 'Check this is right before submitting your idea',
-    proceedLabel: 'Submit'
-});
-
-formModel.registerSuccessStep({
-    template: path.resolve(__dirname, './success'),
-    processor: processor
-});
-
-formModel.registerErrorStep({
-    title: 'There was an problem submitting your idea',
-    message: `
-<p>There was a problem submitting your idea, we have been notified of the problem.</p>
-<p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
-`
-});
-
-module.exports = formModel;
+module.exports = {
+    id: 'digital-funding-demo',
+    title: 'Digital Funding (Demo)',
+    shortCode: 'DF-ALPHA',
+    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
+    processor: processor,
+    startPage: {
+        template: path.resolve(__dirname, './startpage')
+    },
+    reviewStep: {
+        title: 'Check this is right before submitting your idea',
+        proceedLabel: 'Submit'
+    },
+    successStep: {
+        template: path.resolve(__dirname, './success')
+    },
+    errorStep: {
+        title: 'There was an problem submitting your idea',
+        message: `
+            <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+        `
+    }
+};
