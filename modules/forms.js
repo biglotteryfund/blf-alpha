@@ -1,6 +1,6 @@
 'use strict';
 
-const { find } = require('lodash');
+const { find, flatMap } = require('lodash');
 
 /**
  * Enum of form submission states
@@ -11,6 +11,13 @@ const FORM_STATES = {
     SUBMISSION_ERROR: 'SUBMISSION_ERROR',
     SUBMISSION_SUCCESS: 'SUBMISSION_SUCCESS'
 };
+
+/**
+ * Flatten form data object down into a single level of keys/values
+ */
+function flattenFormData(formData) {
+    return Object.assign({}, ...flatMap(formData));
+}
 
 /**
  * Take a form field model and form submission data
@@ -36,6 +43,7 @@ function errorsForField(field, errors) {
 
 module.exports = {
     FORM_STATES,
+    flattenFormData,
     withFieldValue,
     errorsForField
 };

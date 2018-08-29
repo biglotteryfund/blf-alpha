@@ -1,10 +1,12 @@
 'use strict';
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
+const { flattenFormData } = require('../../../modules/forms');
+
 const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
 
 module.exports = function processor(form, formData) {
-    const flatData = form.getStepValuesFlattened(formData);
+    const flatData = flattenFormData(formData);
     const summary = form.getStepsWithValues(formData);
 
     /**

@@ -105,15 +105,6 @@ function createFormModel({ id, title, shortCode }) {
                 return withValues(step, dataForStep);
             });
         },
-        getStepValuesFlattened: function(data) {
-            let obj = {};
-            for (let d in data) {
-                for (let key in data[d]) {
-                    obj[key] = data[d][key];
-                }
-            }
-            return obj;
-        },
         orderStepsForInternalUse: function(stepData) {
             // rank steps by their internal order (if provided), falling back to original (source) order
             const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
