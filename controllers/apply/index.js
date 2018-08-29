@@ -9,6 +9,7 @@ const Raven = require('raven');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 
+const { withValues } = require('./create-form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
 
@@ -59,7 +60,7 @@ function initFormRouter(formModel) {
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: formModel,
-                step: step.withValues(stepData),
+                step: withValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
             });

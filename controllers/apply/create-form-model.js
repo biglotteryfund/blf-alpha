@@ -1,5 +1,5 @@
 'use strict';
-const { find, flatMap, has, get, sortBy, groupBy } = require('lodash');
+const { cloneDeep, find, flatMap, has, get, sortBy, groupBy } = require('lodash');
 const { check } = require('express-validator/check');
 
 /**
@@ -37,27 +37,36 @@ function getFieldsForFieldsets(fieldsets) {
     };
 }
 
+function withValues(step, values) {
+    const clonedStep = cloneDeep(step);
+    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
+        fieldset.fields = fieldset.fields.map(field => {
+            const match = find(values, (value, name) => {
+                return name === field.name;
+            });
+
+            if (match) {
+                field.value = match;
+            }
+
+            return field;
+        });
+        return fieldset;
+    });
+
+    return clonedStep;
+}
+
 /**
  * Create a step based on a schema.
  * Allows us to pass a relatively concise schema for the step,
  * this function then adds some additional computed methods on top.
- * - withValues allows the current form data for a step to be passed in and the values attached to each field
- * - getValidators collects all validators associated with each field for express-validator
  */
 function createStep(step) {
     const getFields = getFieldsForFieldsets(step.fieldsets);
     return Object.assign(step, {
         getFields: getFields,
-        withValues: function(values) {
-            getFields().map(field => {
-                field.value = find(values, (value, name) => {
-                    return name === field.name;
-                });
-
-                return field;
-            });
-            return step;
-        },
+        // Collect all validators associated with each field for express-validator
         getValidators: function() {
             return getFields().map(field => {
                 if (field.validator) {
@@ -110,7 +119,10 @@ function createFormModel({ id, title, shortCode }) {
             return steps;
         },
         getStepsWithValues: function(data) {
-            return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
+            return steps.map((step, idx) => {
+                const dataForStep = data[`step-${idx + 1}`];
+                return withValues(step, dataForStep);
+            });
         },
         getStepValuesFlattened: function(data) {
             let obj = {};
@@ -177,5 +189,6 @@ function createFormModel({ id, title, shortCode }) {
 
 module.exports = {
     createFormModel,
-    createStep
+    createStep,
+    withValues
 };

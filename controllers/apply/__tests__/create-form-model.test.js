@@ -2,7 +2,7 @@
 'use strict';
 
 const { head } = require('lodash');
-const { createStep } = require('../create-form-model');
+const { createStep, withValues } = require('../create-form-model');
 
 describe.only('createStep', () => {
     it('should not mutate step with values', () => {
@@ -33,7 +33,7 @@ describe.only('createStep', () => {
             })
         );
 
-        const stepWithValues = step.withValues({
+        const stepWithValues = withValues(step, {
             'your-idea': 'Some value'
         });
 
@@ -59,5 +59,6 @@ describe.only('createStep', () => {
 
         // Should not mutate original step object
         expect(head(step.getFields())).not.toHaveProperty('value', 'Some value');
+        expect(head(stepWithValues.getFields())).not.toHaveProperty('value', 'Some value');
     });
 });
