@@ -6,17 +6,7 @@ const { createFormModel } = require('../create-form-model');
 const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
 
-const formModel = createFormModel({
-    id: 'reaching-communities-idea',
-    title: 'Reaching Communities & Partnerships',
-    shortCode: 'RC'
-});
-
-formModel.registerStartPage({
-    template: path.resolve(__dirname, './startpage')
-});
-
-formModel.registerStep({
+const stepIdea = {
     name: 'Your idea',
     fieldsets: [
         {
@@ -66,9 +56,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepLocation = {
     name: 'Project location',
     internalOrder: 3,
     fieldsets: [
@@ -107,9 +97,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepOrganisation = {
     name: 'Your organisation',
     internalOrder: 2,
     fieldsets: [
@@ -144,9 +134,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepDetails = {
     name: 'Your details',
     internalOrder: 1,
     fieldsets: [
@@ -214,6 +204,17 @@ formModel.registerStep({
             ]
         }
     ]
+};
+
+const formModel = createFormModel({
+    id: 'reaching-communities-idea',
+    title: 'Reaching Communities & Partnerships',
+    shortCode: 'RC',
+    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails]
+});
+
+formModel.registerStartPage({
+    template: path.resolve(__dirname, './startpage')
 });
 
 formModel.registerReviewStep({

@@ -11,7 +11,7 @@ const cached = require('../../middleware/cached');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./create-form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
-const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
+// const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
 
 /**
  * Collect all validators associated with each field for express-validator
@@ -35,11 +35,11 @@ function getValidators(step) {
     });
 }
 
-function initFormRouter(formModel) {
+function initFormRouter(form) {
     const router = express.Router();
 
     function getSessionProp(stepNo) {
-        const baseProp = `form.${formModel.id}`;
+        const baseProp = `form.${form.id}`;
         if (stepNo) {
             return `${baseProp}.step-${stepNo}`;
         }
@@ -52,8 +52,7 @@ function initFormRouter(formModel) {
         next();
     });
 
-    const formSteps = formModel.getSteps();
-    const totalSteps = formSteps.length + 1; // allow for the review 'step"
+    const totalSteps = form.steps.length + 1; // allow for the review 'step'
 
     function getFormSession(req, step) {
         return get(req.session, getSessionProp(step), {});
@@ -71,26 +70,26 @@ function initFormRouter(formModel) {
      * Route: Start page
      */
     router.get('/', cached.noCache, function(req, res) {
-        const stepConfig = formModel.getStartPage();
+        const stepConfig = form.getStartPage();
         res.render(stepConfig.template, {
-            title: formModel.title,
+            title: form.title,
             startUrl: `${req.baseUrl}/1`,
             stepConfig: stepConfig,
-            form: formModel
+            form: form
         });
     });
 
     /**
      * Route: Form steps
      */
-    formSteps.forEach((step, idx) => {
+    form.steps.forEach((step, idx) => {
         const currentStepNumber = idx + 1;
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
-                form: formModel,
+                form: form,
                 step: stepWithValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
@@ -117,7 +116,7 @@ function initFormRouter(formModel) {
                     req.session.save(() => {
                         const errors = validationResult(req);
                         if (errors.isEmpty()) {
-                            if (isEditing === true || currentStepNumber === formSteps.length) {
+                            if (isEditing === true || currentStepNumber === form.steps.length) {
                                 res.redirect(`${req.baseUrl}/review`);
                             } else {
                                 res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
@@ -171,34 +170,34 @@ function initFormRouter(formModel) {
             } else {
                 res.render(path.resolve(__dirname, './views/review'), {
                     csrfToken: req.csrfToken(),
-                    form: formModel,
-                    stepConfig: formModel.getReviewStep(),
+                    form: form,
+                    stepConfig: form.getReviewStep(),
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
-                    summary: stepsWithValues(formModel.getSteps(), formData),
+                    summary: stepsWithValues(form.steps, formData),
                     baseUrl: req.baseUrl
                 });
             }
         })
         .post(async function(req, res) {
             const formData = getFormSession(req);
-            const successStep = formModel.getSuccessStep();
-            const errorStep = formModel.getErrorStep();
+            const successStep = form.getSuccessStep();
+            const errorStep = form.getErrorStep();
 
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
                 try {
                     await successStep.processor({
-                        form: formModel,
+                        form: form,
                         data: flattenFormData(formData),
-                        stepsWithValues: stepsWithValues(formModel.getSteps(), formData)
+                        stepsWithValues: stepsWithValues(form.steps, formData)
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
                     res.render(path.resolve(__dirname, './views/error'), {
                         error: error,
-                        form: formModel,
+                        form: form,
                         stepConfig: errorStep,
                         returnUrl: `${req.baseUrl}/review`
                     });
@@ -211,7 +210,7 @@ function initFormRouter(formModel) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
-        const successStep = formModel.getSuccessStep();
+        const successStep = form.getSuccessStep();
 
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
@@ -220,7 +219,7 @@ function initFormRouter(formModel) {
             unset(req.session, getSessionProp());
             req.session.save(() => {
                 res.render(successStep.template, {
-                    form: formModel,
+                    form: form,
                     stepConfig: successStep
                 });
             });
@@ -237,9 +236,9 @@ module.exports = ({ router }) => {
 
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
-    if (appData.isNotProduction) {
-        router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
-    }
+    // if (appData.isNotProduction) {
+    //     router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
+    // }
 
     return router;
 };

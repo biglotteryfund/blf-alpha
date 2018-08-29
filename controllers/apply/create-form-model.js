@@ -38,8 +38,7 @@ function stepsWithValues(steps, data) {
  * - formModel({ id: 'example', title: 'Example', shortCode: 'FOO' }).registerStep({});
  * Each step equates to a single page in a multi-page form.
  */
-function createFormModel({ id, title, shortCode }) {
-    let steps = [];
+function createFormModel({ id, title, shortCode, steps }) {
     let reviewStep;
     let successStep;
     let errorStep;
@@ -49,17 +48,7 @@ function createFormModel({ id, title, shortCode }) {
         id: id,
         title: title,
         shortCode: shortCode,
-        registerStep: function(step) {
-            steps.push(step);
-        },
-        getSteps: function() {
-            return steps;
-        },
-        orderStepsForInternalUse: function(stepData) {
-            // rank steps by their internal order (if provided), falling back to original (source) order
-            const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
-            return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
-        },
+        steps: steps,
         registerStartPage: function(config) {
             startPage = config;
         },
