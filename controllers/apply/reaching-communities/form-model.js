@@ -213,12 +213,11 @@ const formModel = createFormModel({
     steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
     startPage: {
         template: path.resolve(__dirname, './startpage')
+    },
+    reviewStep: {
+        title: 'Check this is right before submitting your idea',
+        proceedLabel: 'Submit'
     }
-});
-
-formModel.registerReviewStep({
-    title: 'Check this is right before submitting your idea',
-    proceedLabel: 'Submit'
 });
 
 formModel.registerSuccessStep({

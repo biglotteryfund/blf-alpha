@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, sortBy, groupBy } = require('lodash');
+const { cloneDeep, find, flatMap } = require('lodash');
 
 function flattenFormData(formData) {
     return Object.assign({}, ...flatMap(formData));
@@ -38,8 +38,7 @@ function stepsWithValues(steps, data) {
  * - formModel({ id: 'example', title: 'Example', shortCode: 'FOO' }).registerStep({});
  * Each step equates to a single page in a multi-page form.
  */
-function createFormModel({ id, title, shortCode, steps, startPage }) {
-    let reviewStep;
+function createFormModel({ id, title, shortCode, steps, startPage, reviewStep }) {
     let successStep;
     let errorStep;
 
@@ -49,16 +48,7 @@ function createFormModel({ id, title, shortCode, steps, startPage }) {
         shortCode: shortCode,
         steps: steps,
         startPage: startPage,
-        registerReviewStep: function(config) {
-            reviewStep = config;
-        },
-        getReviewStep: function() {
-            if (!reviewStep) {
-                throw new Error('Must register review step');
-            }
-
-            return reviewStep;
-        },
+        reviewStep: reviewStep,
         registerSuccessStep: function(config) {
             if (!config.processor) {
                 throw new Error(

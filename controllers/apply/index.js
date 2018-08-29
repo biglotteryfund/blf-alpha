@@ -172,10 +172,15 @@ function initFormRouter(form) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
+                const { reviewStep } = form;
+                if (!reviewStep) {
+                    throw new Error('No review step provided');
+                }
+
                 res.render(path.resolve(__dirname, './views/review'), {
                     csrfToken: req.csrfToken(),
                     form: form,
-                    stepConfig: form.getReviewStep(),
+                    stepConfig: reviewStep,
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
                     summary: stepsWithValues(form.steps, formData),
                     baseUrl: req.baseUrl
