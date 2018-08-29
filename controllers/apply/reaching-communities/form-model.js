@@ -2,9 +2,8 @@
 const path = require('path');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../create-form-model');
-const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
+const { PROJECT_LOCATIONS } = require('./constants');
 
 const stepIdea = {
     name: 'Your idea',
@@ -206,31 +205,27 @@ const stepDetails = {
     ]
 };
 
-const formModel = createFormModel({
+module.exports = {
     id: 'reaching-communities-idea',
     title: 'Reaching Communities & Partnerships',
     shortCode: 'RC',
     steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
+    processor: processor,
     startPage: {
         template: path.resolve(__dirname, './startpage')
     },
     reviewStep: {
         title: 'Check this is right before submitting your idea',
         proceedLabel: 'Submit'
+    },
+    successStep: {
+        template: path.resolve(__dirname, './success')
+    },
+    errorStep: {
+        title: 'There was an problem submitting your idea',
+        message: `
+            <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+        `
     }
-});
-
-formModel.registerSuccessStep({
-    template: path.resolve(__dirname, './success'),
-    processor: processor
-});
-
-formModel.registerErrorStep({
-    title: 'There was an problem submitting your idea',
-    message: `
-<p>There was a problem submitting your idea, we have been notified of the problem.</p>
-<p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
-`
-});
-
-module.exports = formModel;
+};

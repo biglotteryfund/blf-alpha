@@ -1,15 +1,7 @@
 'use strict';
-const { groupBy, sortBy } = require('lodash');
-
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
 const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
-
-function orderStepsForInternalUse(stepData) {
-    // rank steps by their internal order (if provided), falling back to original (source) order
-    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
-    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
-}
 
 module.exports = function processor({ form, data, stepsWithValues }) {
     /**
@@ -39,7 +31,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             templateData: {
                 title: form.title,
                 data: data,
-                summary: orderStepsForInternalUse(stepsWithValues)
+                summary: stepsWithValues
             }
         }
     ]);

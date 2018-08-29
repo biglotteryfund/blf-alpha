@@ -9,9 +9,9 @@ const Raven = require('raven');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 
-const { flattenFormData, stepWithValues, stepsWithValues } = require('./create-form-model');
+const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
-// const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
+const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
 
 /**
  * Collect all validators associated with each field for express-validator
@@ -144,7 +144,6 @@ function initFormRouter(form) {
 
         /**
          * Step edit router
-         *
          */
         router
             .route(`/${currentStepNumber}/edit`)
@@ -188,15 +187,14 @@ function initFormRouter(form) {
             }
         })
         .post(async function(req, res) {
+            const { errorStep } = form;
             const formData = getFormSession(req);
-            const successStep = form.getSuccessStep();
-            const errorStep = form.getErrorStep();
 
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
                 try {
-                    await successStep.processor({
+                    await form.processor({
                         form: form,
                         data: flattenFormData(formData),
                         stepsWithValues: stepsWithValues(form.steps, formData)
@@ -219,7 +217,7 @@ function initFormRouter(form) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
-        const successStep = form.getSuccessStep();
+        const { successStep } = form;
 
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
@@ -245,9 +243,9 @@ module.exports = ({ router }) => {
 
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
-    // if (appData.isNotProduction) {
-    //     router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
-    // }
+    if (appData.isNotProduction) {
+        router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
+    }
 
     return router;
 };

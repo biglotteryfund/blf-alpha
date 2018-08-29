@@ -2,11 +2,11 @@
 'use strict';
 
 const { flatMap, head } = require('lodash');
-const { flattenFormData, stepWithValues } = require('../create-form-model');
+const { flattenFormData, stepWithValues } = require('../helpers');
 
 const getFields = step => flatMap(step.fieldsets, 'fields');
 
-describe('create-form-model', () => {
+describe('apply helpers', () => {
     it('should flatten form data', () => {
         const formData = {
             'step-1': {
