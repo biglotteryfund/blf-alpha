@@ -9,7 +9,7 @@ const Raven = require('raven');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 
-const { withValues } = require('./create-form-model');
+const { flattenFormData, stepWithValues, stepsWithValues } = require('./create-form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
 
@@ -91,7 +91,7 @@ function initFormRouter(formModel) {
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: formModel,
-                step: withValues(step, stepData),
+                step: stepWithValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
             });
@@ -174,7 +174,7 @@ function initFormRouter(formModel) {
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
-                    summary: formModel.getStepsWithValues(formData),
+                    summary: stepsWithValues(formModel.getSteps(), formData),
                     baseUrl: req.baseUrl
                 });
             }
@@ -188,11 +188,16 @@ function initFormRouter(formModel) {
                 res.redirect(req.baseUrl);
             } else {
                 try {
-                    await successStep.processor(formModel, formData);
+                    await successStep.processor({
+                        form: formModel,
+                        data: flattenFormData(formData),
+                        stepsWithValues: stepsWithValues(formModel.getSteps(), formData)
+                    });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
                     res.render(path.resolve(__dirname, './views/error'), {
+                        error: error,
                         form: formModel,
                         stepConfig: errorStep,
                         returnUrl: `${req.baseUrl}/review`

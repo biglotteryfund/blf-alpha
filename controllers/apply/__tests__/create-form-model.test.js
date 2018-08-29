@@ -1,11 +1,54 @@
 /* eslint-env jest */
 'use strict';
 
-const { head } = require('lodash');
-const { createStep, withValues } = require('../create-form-model');
+const { flatMap, head } = require('lodash');
+const { flattenFormData, stepWithValues } = require('../create-form-model');
 
-describe('createStep', () => {
-    it('should not mutate step with values', () => {
+const getFields = step => flatMap(step.fieldsets, 'fields');
+
+describe('create-form-model', () => {
+    it('should flatten form data', () => {
+        const formData = {
+            'step-1': {
+                'your-idea': 'Example'
+            },
+            'step-2': {
+                location: 'North East & Cumbria',
+                'project-location': 'London'
+            },
+            'step-3': {
+                'organisation-name': 'Test Organisation',
+                'additional-organisations': ''
+            },
+            'step-4': {
+                'first-name': 'Example',
+                'last-name': 'Name',
+                email: 'example@example.com',
+                'phone-number': '03454102030'
+            }
+        };
+
+        const flattenedExpectation = {
+            'your-idea': 'Example',
+            location: 'North East & Cumbria',
+            'project-location': 'London',
+            'organisation-name': 'Test Organisation',
+            'additional-organisations': '',
+            'first-name': 'Example',
+            'last-name': 'Name',
+            email: 'example@example.com',
+            'phone-number': '03454102030'
+        };
+
+        const flattened = flattenFormData(formData);
+
+        // Should flatten data as expected
+        expect(flattened).toMatchObject(flattenedExpectation);
+        // Should not mutate original value
+        expect(formData).not.toMatchObject(flattenedExpectation);
+    });
+
+    it('should not mutate data using stepWithValues', () => {
         const fields = [
             {
                 name: 'your-idea',
@@ -15,16 +58,14 @@ describe('createStep', () => {
             }
         ];
 
-        const schema = {
+        const step = {
             name: 'Your idea',
             fieldsets: [{ fields }]
         };
 
-        const step = createStep(schema);
+        expect(step).toMatchObject(step);
 
-        expect(step).toMatchObject(schema);
-
-        expect(step.getFields()).toContainEqual(
+        expect(getFields(step)).toContainEqual(
             expect.objectContaining({
                 name: expect.any(String),
                 type: expect.any(String),
@@ -33,11 +74,11 @@ describe('createStep', () => {
             })
         );
 
-        const stepWithValues = withValues(step, {
+        const result = stepWithValues(step, {
             'your-idea': 'Some value'
         });
 
-        expect(stepWithValues).toMatchObject({
+        expect(result).toMatchObject({
             name: 'Your idea',
             fieldsets: [
                 {
@@ -47,9 +88,6 @@ describe('createStep', () => {
                             type: 'textarea',
                             isRequired: true,
                             label: 'Idea',
-                            isConditionalOn: false,
-                            isConditionalFor: false,
-                            conditionalFor: [],
                             value: 'Some value'
                         }
                     ]
@@ -58,7 +96,6 @@ describe('createStep', () => {
         });
 
         // Should not mutate original step object
-        expect(head(step.getFields())).not.toHaveProperty('value', 'Some value');
-        expect(head(stepWithValues.getFields())).not.toHaveProperty('value', 'Some value');
+        expect(head(getFields(step))).not.toHaveProperty('value', 'Some value');
     });
 });
