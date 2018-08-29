@@ -1,7 +1,6 @@
 'use strict';
 const mail = require('../../../modules/mail');
 const appData = require('../../../modules/appData');
-
 const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
 
 module.exports = function processor({ form, data, stepsWithValues }) {
@@ -32,7 +31,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
             templateData: {
                 title: form.title,
                 data: data,
-                summary: form.orderStepsForInternalUse(stepsWithValues)
+                summary: stepsWithValues
             }
         }
     ]);
