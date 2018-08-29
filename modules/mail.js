@@ -51,7 +51,7 @@ function inlineCss(html) {
  * @param {Object} emailData
  * e.g. {
  *   name: 'example,
- *   templateName: 'emails/someTemplate',
+ *   template: 'path/to/template',
  *   templateData: { … }
  *   sendTo: 'example@example.com',
  *   subject: 'The greatest email ever'
@@ -59,7 +59,7 @@ function inlineCss(html) {
  */
 function generateHtmlEmail(emailData) {
     const appRender = util.promisify(app.render.bind(app));
-    return appRender(emailData.templateName, emailData.templateData).then(html => {
+    return appRender(emailData.template, emailData.templateData).then(html => {
         return inlineCss(html).then(inlinedHtml => ({
             data: emailData,
             html: inlinedHtml
