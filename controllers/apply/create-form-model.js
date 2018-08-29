@@ -38,27 +38,17 @@ function stepsWithValues(steps, data) {
  * - formModel({ id: 'example', title: 'Example', shortCode: 'FOO' }).registerStep({});
  * Each step equates to a single page in a multi-page form.
  */
-function createFormModel({ id, title, shortCode, steps }) {
+function createFormModel({ id, title, shortCode, steps, startPage }) {
     let reviewStep;
     let successStep;
     let errorStep;
-    let startPage;
 
     return {
         id: id,
         title: title,
         shortCode: shortCode,
         steps: steps,
-        registerStartPage: function(config) {
-            startPage = config;
-        },
-        getStartPage: function() {
-            if (!startPage) {
-                throw new Error('Must register start page');
-            }
-
-            return startPage;
-        },
+        startPage: startPage,
         registerReviewStep: function(config) {
             reviewStep = config;
         },

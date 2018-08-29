@@ -210,11 +210,10 @@ const formModel = createFormModel({
     id: 'reaching-communities-idea',
     title: 'Reaching Communities & Partnerships',
     shortCode: 'RC',
-    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails]
-});
-
-formModel.registerStartPage({
-    template: path.resolve(__dirname, './startpage')
+    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
+    startPage: {
+        template: path.resolve(__dirname, './startpage')
+    }
 });
 
 formModel.registerReviewStep({

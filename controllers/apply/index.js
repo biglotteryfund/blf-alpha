@@ -70,11 +70,15 @@ function initFormRouter(form) {
      * Route: Start page
      */
     router.get('/', cached.noCache, function(req, res) {
-        const stepConfig = form.getStartPage();
-        res.render(stepConfig.template, {
+        const { startPage } = form;
+        if (!startPage) {
+            throw new Error('No startpage found');
+        }
+
+        res.render(startPage.template, {
             title: form.title,
             startUrl: `${req.baseUrl}/1`,
-            stepConfig: stepConfig,
+            stepConfig: startPage,
             form: form
         });
     });
