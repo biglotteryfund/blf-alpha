@@ -1,80 +1,34 @@
 'use strict';
-const { find, flatMap, has, get, sortBy, groupBy } = require('lodash');
-const { check } = require('express-validator/check');
+const { cloneDeep, find, flatMap, sortBy, groupBy } = require('lodash');
 
-/**
- * For a given field attach some additional computed properties
- * - isConditionalOr flags if this field is a conditional field, i.e. has a dependency on another field (child field).
- * - isConditionalFor flags if a field could trigger any conditional fields (parent field).
- * - conditionalFor attaches information about any conditional fields associated with a parent field (names of the conditional fields and the value to check for)
- */
-function enhanceField(field, associatedConditionalFields) {
-    const conditionalFor = associatedConditionalFields.map(_ => {
-        return {
-            triggerField: _.name,
-            triggerOnValue: _.conditionalOn.value
-        };
-    });
-
-    return Object.assign(field, {
-        isConditionalOn: has(field, 'conditionalOn'),
-        isConditionalFor: conditionalFor.length > 0,
-        conditionalFor: conditionalFor
-    });
+function flattenFormData(formData) {
+    return Object.assign({}, ...flatMap(formData));
 }
 
-function getFieldsForFieldsets(fieldsets) {
-    return function() {
-        const allFields = flatMap(fieldsets, fieldset => fieldset.fields);
-        const conditionalFields = allFields.filter(field => has(field, 'conditionalOn'));
-        return allFields.map(field => {
-            const associatedConditionalFields = conditionalFields.filter(_ => {
-                const conditionalOn = get(_, 'conditionalOn', {});
-                return field.name === conditionalOn.name;
+function stepWithValues(step, values) {
+    const clonedStep = cloneDeep(step);
+    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
+        fieldset.fields = fieldset.fields.map(field => {
+            const match = find(values, (value, name) => {
+                return name === field.name;
             });
-            return enhanceField(field, associatedConditionalFields);
+
+            if (match) {
+                field.value = match;
+            }
+
+            return field;
         });
-    };
+        return fieldset;
+    });
+
+    return clonedStep;
 }
 
-/**
- * Create a step based on a schema.
- * Allows us to pass a relatively concise schema for the step,
- * this function then adds some additional computed methods on top.
- * - withValues allows the current form data for a step to be passed in and the values attached to each field
- * - getValidators collects all validators associated with each field for express-validator
- */
-function createStep(step) {
-    const getFields = getFieldsForFieldsets(step.fieldsets);
-    return Object.assign(step, {
-        getFields: getFields,
-        withValues: function(values) {
-            getFields().map(field => {
-                field.value = find(values, (value, name) => {
-                    return name === field.name;
-                });
-
-                return field;
-            });
-            return step;
-        },
-        getValidators: function() {
-            return getFields().map(field => {
-                if (field.validator) {
-                    return field.validator(field);
-                } else if (field.isRequired === true) {
-                    return check(field.name)
-                        .trim()
-                        .not()
-                        .isEmpty()
-                        .withMessage(field.errorMessage || `“${field.label}” must be provided`);
-                } else {
-                    return check(field.name)
-                        .trim()
-                        .optional();
-                }
-            });
-        }
+function stepsWithValues(steps, data) {
+    return steps.map((step, idx) => {
+        const dataForStep = data[`step-${idx + 1}`];
+        return stepWithValues(step, dataForStep);
     });
 }
 
@@ -95,31 +49,11 @@ function createFormModel({ id, title, shortCode }) {
         id: id,
         title: title,
         shortCode: shortCode,
-        getSessionProp: function(stepNo) {
-            const baseProp = `form.${id}`;
-            if (stepNo) {
-                return `${baseProp}.step-${stepNo}`;
-            }
-
-            return baseProp;
-        },
         registerStep: function(step) {
-            steps.push(createStep(step));
+            steps.push(step);
         },
         getSteps: function() {
             return steps;
-        },
-        getStepsWithValues: function(data) {
-            return steps.map((step, idx) => step.withValues(data[`step-${idx + 1}`]));
-        },
-        getStepValuesFlattened: function(data) {
-            let obj = {};
-            for (let d in data) {
-                for (let key in data[d]) {
-                    obj[key] = data[d][key];
-                }
-            }
-            return obj;
         },
         orderStepsForInternalUse: function(stepData) {
             // rank steps by their internal order (if provided), falling back to original (source) order
@@ -177,5 +111,7 @@ function createFormModel({ id, title, shortCode }) {
 
 module.exports = {
     createFormModel,
-    createStep
+    stepWithValues,
+    stepsWithValues,
+    flattenFormData
 };

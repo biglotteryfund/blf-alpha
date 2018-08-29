@@ -1,7 +1,7 @@
 'use strict';
-const { get, isEmpty, set, unset } = require('lodash');
+const { flatMap, get, isEmpty, set, unset } = require('lodash');
 const { matchedData } = require('express-validator/filter');
-const { validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -9,11 +9,43 @@ const Raven = require('raven');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 
+const { flattenFormData, stepWithValues, stepsWithValues } = require('./create-form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingDemoForm = require('./digital-funding-demo/form-model');
 
+/**
+ * Collect all validators associated with each field for express-validator
+ */
+function getValidators(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return fields.map(field => {
+        if (field.validator) {
+            return field.validator(field);
+        } else if (field.isRequired === true) {
+            return check(field.name)
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(field.errorMessage || `“${field.label}” must be provided`);
+        } else {
+            return check(field.name)
+                .trim()
+                .optional();
+        }
+    });
+}
+
 function initFormRouter(formModel) {
     const router = express.Router();
+
+    function getSessionProp(stepNo) {
+        const baseProp = `form.${formModel.id}`;
+        if (stepNo) {
+            return `${baseProp}.step-${stepNo}`;
+        }
+
+        return baseProp;
+    }
 
     router.use((req, res, next) => {
         res.locals.isBilingual = false;
@@ -24,7 +56,7 @@ function initFormRouter(formModel) {
     const totalSteps = formSteps.length + 1; // allow for the review 'step"
 
     function getFormSession(req, step) {
-        return get(req.session, formModel.getSessionProp(step), {});
+        return get(req.session, getSessionProp(step), {});
     }
 
     function getStepProgress({ baseUrl, currentStepNumber }) {
@@ -59,7 +91,7 @@ function initFormRouter(formModel) {
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: formModel,
-                step: step.withValues(stepData),
+                step: stepWithValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
             });
@@ -75,9 +107,9 @@ function initFormRouter(formModel) {
 
         function handleSubmitStep({ isEditing = false } = {}) {
             return [
-                step.getValidators(),
+                getValidators(step),
                 function(req, res) {
-                    const sessionProp = formModel.getSessionProp(currentStepNumber);
+                    const sessionProp = getSessionProp(currentStepNumber);
                     const stepData = get(req.session, sessionProp, {});
                     const bodyData = matchedData(req, { locations: ['body'] });
                     set(req.session, sessionProp, Object.assign(stepData, bodyData));
@@ -142,7 +174,7 @@ function initFormRouter(formModel) {
                     form: formModel,
                     stepConfig: formModel.getReviewStep(),
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
-                    summary: formModel.getStepsWithValues(formData),
+                    summary: stepsWithValues(formModel.getSteps(), formData),
                     baseUrl: req.baseUrl
                 });
             }
@@ -156,11 +188,16 @@ function initFormRouter(formModel) {
                 res.redirect(req.baseUrl);
             } else {
                 try {
-                    await successStep.processor(formModel, formData);
+                    await successStep.processor({
+                        form: formModel,
+                        data: flattenFormData(formData),
+                        stepsWithValues: stepsWithValues(formModel.getSteps(), formData)
+                    });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
                     res.render(path.resolve(__dirname, './views/error'), {
+                        error: error,
                         form: formModel,
                         stepConfig: errorStep,
                         returnUrl: `${req.baseUrl}/review`
@@ -180,7 +217,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, formModel.getSessionProp());
+            unset(req.session, getSessionProp());
             req.session.save(() => {
                 res.render(successStep.template, {
                     form: formModel,
