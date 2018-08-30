@@ -10,6 +10,7 @@ const Raven = require('raven');
 const util = require('util');
 
 const app = require('../server');
+const { getSendAddress } = require('./mail-helpers');
 
 const SES = new AWS.SES({
     apiVersion: '2010-12-01',
@@ -92,7 +93,7 @@ function recordSendMetric(name) {
     }).send();
 }
 
-function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) {
+function send({ name, subject, sendMode = 'to', sendTo, customSendFrom = false, text, html }) {
     if (!name) {
         throw new Error('Must pass a name');
     }
@@ -105,8 +106,10 @@ function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) 
         throw new Error('Must pass a sendTo address');
     }
 
+    const sendFrom = customSendFrom ? customSendFrom : getSendAddress(sendTo);
+
     const mailOptions = {
-        from: `Big Lottery Fund <${config.get('emailSender')}>`,
+        from: `Big Lottery Fund <${sendFrom}>`,
         subject: subject
     };
 
@@ -123,10 +126,6 @@ function send({ name, subject, sendMode = 'to', sendTo, sendFrom, text, html }) 
         }
 
         mailOptions.text = text;
-    }
-
-    if (sendFrom) {
-        mailOptions.from = sendFrom;
     }
 
     mailOptions[sendMode] = sendTo;
