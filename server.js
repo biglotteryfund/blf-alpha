@@ -8,6 +8,7 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
 const yaml = require('js-yaml');
+const debug = require('debug')('biglotteryfund:server');
 
 const app = express();
 module.exports = app;
@@ -144,13 +145,20 @@ initAppLocals();
  * 3. Add custom view globals
  */
 function initViewEngine() {
+    /**
+     * Only watch files if we explicitly request
+     * (eg. for CI, which tries to watch node_modules)
+     */
+    const shouldWatchTemplates = !!process.env.WATCH_TEMPLATES === true;
+    if (shouldWatchTemplates) {
+        debug('Watching templates for changes');
+    }
+
     const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
         noCache: true, // Disable nunjucks memory cache
-        // only watch files if we explicitly request
-        // (eg. for CI, which tries to watch node_modules)
-        watch: process.env.WATCH_TEMPLATES === true
+        watch: shouldWatchTemplates
     });
 
     forEach(viewFilters, (filterFn, filterName) => {
