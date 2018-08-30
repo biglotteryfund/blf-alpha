@@ -8,6 +8,7 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
 const yaml = require('js-yaml');
+const debug = require('debug')('biglotteryfund:server');
 
 const app = express();
 module.exports = app;
@@ -30,11 +31,10 @@ const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
 
-const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
-const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
+const cached = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
@@ -144,13 +144,20 @@ initAppLocals();
  * 3. Add custom view globals
  */
 function initViewEngine() {
+    /**
+     * Only watch files if we explicitly request
+     * (eg. for CI, which tries to watch node_modules)
+     */
+    const shouldWatchTemplates = !!process.env.WATCH_TEMPLATES === true;
+    if (shouldWatchTemplates) {
+        debug('Watching templates for changes');
+    }
+
     const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
         noCache: true, // Disable nunjucks memory cache
-        // only watch files if we explicitly request
-        // (eg. for CI, which tries to watch node_modules)
-        watch: process.env.WATCH_TEMPLATES === true
+        watch: shouldWatchTemplates
     });
 
     forEach(viewFilters, (filterFn, filterName) => {
@@ -171,7 +178,8 @@ initViewEngine();
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
 app.use(previewMiddleware);
-app.use(cachedMiddleware);
+app.use(cached.defaultVary);
+app.use(cached.defaultCacheControl);
 app.use(loggerMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
@@ -201,7 +209,7 @@ routes.aliases.forEach(redirect => {
  * Redirect to the National Archives
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
+    app.get(cymreigio(route.path), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
@@ -233,7 +241,7 @@ forEach(routes.sections, (section, sectionId) => {
                 res.locals.pageId = pageId;
                 next();
             })
-            .get(sMaxAge(page.sMaxAge));
+            .get(cached.sMaxAge(page.sMaxAge));
     });
 
     /**
