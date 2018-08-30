@@ -48,6 +48,5 @@
   },
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
-  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-  "emailSender": "noreply@biglotteryfund.org.uk"
+  "ebulletinApiEndpoint": "https://apiconnector.com/v2"
 }

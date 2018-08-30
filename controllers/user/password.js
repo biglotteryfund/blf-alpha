@@ -117,8 +117,7 @@ const sendResetEmail = (req, res) => {
                         name: 'user_password_reset',
                         subject: 'Reset the password for your Big Lottery Fund website account',
                         text: `Please click the following link to reset your password: ${resetUrl}`,
-                        sendTo: email,
-                        sendFrom: 'Big Lottery Fund <noreply@blf.digital>'
+                        sendTo: email
                     });
 
                     sendEmail.catch(() => {
