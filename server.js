@@ -31,11 +31,10 @@ const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
 
-const { defaults: cachedMiddleware, sMaxAge } = require('./middleware/cached');
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
-const { noCache } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
+const cached = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
@@ -179,7 +178,8 @@ initViewEngine();
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
 app.use(previewMiddleware);
-app.use(cachedMiddleware);
+app.use(cached.defaultVary);
+app.use(cached.defaultCacheControl);
 app.use(loggerMiddleware);
 app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
@@ -209,7 +209,7 @@ routes.aliases.forEach(redirect => {
  * Redirect to the National Archives
  */
 routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), noCache, redirectsMiddleware.redirectArchived);
+    app.get(cymreigio(route.path), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
@@ -241,7 +241,7 @@ forEach(routes.sections, (section, sectionId) => {
                 res.locals.pageId = pageId;
                 next();
             })
-            .get(sMaxAge(page.sMaxAge));
+            .get(cached.sMaxAge(page.sMaxAge));
     });
 
     /**
