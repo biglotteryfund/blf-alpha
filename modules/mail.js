@@ -171,7 +171,6 @@ function generateAndSend(schemas) {
             return send({
                 name: email.data.name,
                 sendTo: email.data.sendTo,
-                sendFrom: email.data.sendFrom,
                 subject: email.data.subject,
                 html: email.html
             });

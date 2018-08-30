@@ -44,7 +44,6 @@ module.exports = function processor({ form, data, stepsWithValues }) {
         {
             name: 'reaching_communities_customer',
             sendTo: primaryAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
             template: path.resolve(__dirname, './customer-email'),
             templateData: {
@@ -55,7 +54,6 @@ module.exports = function processor({ form, data, stepsWithValues }) {
         {
             name: 'reaching_communities_internal',
             sendTo: internalAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: `New idea submission from website: ${organisationName}`,
             template: path.resolve(__dirname, './internal-email'),
             templateData: {
