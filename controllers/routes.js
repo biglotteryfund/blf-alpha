@@ -275,7 +275,6 @@ sections.apply.addRoutes({
     })
 });
 
-
 /**
  * Other Routes
  * These are other paths that should be routed to this app via Cloudfront
