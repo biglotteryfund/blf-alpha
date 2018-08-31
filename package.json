@@ -162,6 +162,7 @@
     "node-mocks-http": "^1.7.0",
     "node-sass": "4.9.3",
     "nodemon": "1.18.3",
+    "passport-azure-ad": "4.0.0",
     "postcss-cli": "6.0.0",
     "postcss-fout-with-a-class": "1.1.0",
     "prettier": "1.14.0",

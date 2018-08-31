@@ -1,4 +1,6 @@
 'use strict';
+const passport = require('passport');
+
 const { makeUserLink } = require('../controllers/user/utils');
 
 const checkAuthStatus = (req, res, next, minimumLevel) => {
@@ -34,8 +36,25 @@ const requireUnauthed = (req, res, next) => {
     }
 };
 
+function staffAuthMiddleware(req, res, next) {
+    passport.authenticate('azuread-openidconnect', {
+        response: res,
+        failureRedirect: '/user/error'
+    })(req, res, next);
+}
+
+function staffAuthMiddlewareLogin(req, res, next) {
+    passport.authenticate('azuread-openidconnect', {
+        response: res,
+        resourceURL: 'https://graph.windows.net',
+        failureRedirect: '/user/error'
+    })(req, res, next);
+}
+
 module.exports = {
     requireAuthed,
     requireUnauthed,
-    requireAuthedLevel
+    requireAuthedLevel,
+    staffAuthMiddleware,
+    staffAuthMiddlewareLogin
 };

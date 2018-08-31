@@ -57,6 +57,22 @@ const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain')
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
 const DIGITAL_FUND_DEMO_EMAIL = process.env.DIGITAL_FUND_DEMO_EMAIL || getSecret('emails.digitalfund.demo');
 
+/**
+ * Azure authentication secrets (optional, used for tools sign-in)
+ */
+const MS_IDENTITY_URL = process.env.MS_IDENTITY_URL || getSecret('ms.auth.identityUrl');
+const MS_CLIENT_ID = process.env.MS_CLIENT_ID || getSecret('ms.auth.clientId');
+const MS_REDIRECT_URL = process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl');
+const MS_ALLOW_HTTP = !!process.env.MS_ALLOW_HTTP || getSecret('ms.auth.allowHttpForRedirectUrl');
+const MS_CLIENT_SECRET = process.env.MS_CLIENT_SECRET || getSecret('ms.auth.clientSecret');
+const MS_LOGOUT_URL = process.env.MS_LOGOUT_URL ||  getSecret('ms.auth.logoutUrl');
+const MS_DESTROY_URL = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${MS_LOGOUT_URL}`;
+
+const MS_COOKIE_ENC_KEY_1 = process.env.MS_COOKIE_ENC_KEY_1 || getSecret('ms.auth.cookie1.key');
+const MS_COOKIE_ENC_IV_1 = process.env.MS_COOKIE_ENC_IV_1 || getSecret('ms.auth.cookie1.iv');
+const MS_COOKIE_ENC_KEY_2 = process.env.MS_COOKIE_ENC_KEY_2 || getSecret('ms.auth.cookie2.key');
+const MS_COOKIE_ENC_IV_2 = process.env.MS_COOKIE_ENC_IV_2 || getSecret('ms.auth.cookie2.iv');
+
 module.exports = {
     getRawParameters,
     getSecretFromRawParameters,
@@ -70,5 +86,23 @@ module.exports = {
     PREVIEW_DOMAIN,
     SENTRY_DSN,
     SESSION_SECRET,
-    DIGITAL_FUND_DEMO_EMAIL
+    DIGITAL_FUND_DEMO_EMAIL,
+    AZURE_AUTH: {
+        MS_IDENTITY_URL,
+        MS_CLIENT_ID,
+        MS_REDIRECT_URL,
+        MS_ALLOW_HTTP,
+        MS_CLIENT_SECRET,
+        MS_DESTROY_URL,
+        COOKIES: {
+            ONE: {
+                KEY: MS_COOKIE_ENC_KEY_1,
+                IV: MS_COOKIE_ENC_IV_1,
+            },
+            TWO: {
+                KEY: MS_COOKIE_ENC_KEY_2,
+                IV: MS_COOKIE_ENC_IV_2,
+            },
+        }
+    }
 };

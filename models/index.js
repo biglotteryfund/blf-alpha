@@ -41,6 +41,7 @@ sequelize
  */
 const db = {};
 db.Users = sequelize.import('../models/user.js');
+db.Staff = sequelize.import('../models/staff.js');
 db.Feedback = sequelize.import('./feedback');
 
 db.SurveyAnswer = sequelize.import('./survey');

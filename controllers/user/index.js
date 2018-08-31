@@ -3,13 +3,13 @@ const express = require('express');
 
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const { userBasePath, userEndpoints, emailPasswordValidations, formValidations, STATUSES } = require('./utils');
-const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const dashboard = require('./dashboard');
 const login = require('./login');
 const password = require('./password');
 const register = require('./register');
+const staffRoutes = require('./staff');
 
 const router = express.Router();
 
@@ -53,5 +53,8 @@ router
     .route(userEndpoints.resetpassword)
     .get(auth.requireUnauthed, cached.noCache, password.changePasswordForm)
     .post(auth.requireUnauthed, formValidations.password, password.updatePassword);
+
+
+router.use('/staff', staffRoutes);
 
 module.exports = router;
