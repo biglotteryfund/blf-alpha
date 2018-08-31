@@ -2,6 +2,7 @@
 const request = require('request-promise-native');
 const querystring = require('querystring');
 const { groupBy } = require('lodash');
+const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 
 function buildPagination(paginationMeta, currentQuerystring = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
@@ -69,7 +70,7 @@ async function init({ router, routeConfig }) {
         }
 
         const data = await request({
-            url: `http://localhost:8888`,
+            url: PAST_GRANTS_API_URI,
             json: true,
             qs: query
         });

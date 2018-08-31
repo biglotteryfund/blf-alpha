@@ -48,11 +48,6 @@ const sections = {
         path: '/apply',
         controllerPath: path.resolve(__dirname, './apply'),
         showInNavigation: false
-    }),
-    grants: createSection({
-        path: '/grants',
-        controllerPath: path.resolve(__dirname, './grants'),
-        showInNavigation: false
     })
 };
 
@@ -158,6 +153,13 @@ sections.funding.addRoutes({
         template: 'pages/funding/past-grants',
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
+    }),
+    pastGrantsAlpha: customRoute({
+        path: '/search-past-grants-alpha',
+        live: false,
+        template: 'pages/grants/search',
+        isPostable: true,
+        allowAllQueryStrings: true
     }),
     programmes: customRoute({
         path: '/programmes',
@@ -273,18 +275,6 @@ sections.apply.addRoutes({
     })
 });
 
-/**
- * Grant routes
- */
-sections.grants.addRoutes({
-    root: customRoute({
-        path: '/',
-        live: false,
-        template: 'pages/grants/search',
-        isPostable: true,
-        queryStrings: ['q', 'programme']
-    })
-});
 
 /**
  * Other Routes
