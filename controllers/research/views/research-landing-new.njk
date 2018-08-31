@@ -1,0 +1,38 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/research-card/macro.njk" import researchCard with context %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            {% call contentBox(pageAccent) %}
+                <p>At the Big Lottery Fund we're committed to openness and transparency. To support this, we publish our grant data as well as datasets and related information used in our research.</p>
+
+                <p>Animi nulla dignissimos eum provident repellendus delectus consequatur ratione nihil explicabo, dolorum rem eligendi culpa amet saepe sint exercitationem cupiditate doloremque debitis hic ipsa ad? In quaerat voluptatibus maiores assumenda? Find out more about our <a href="{{ localify('/research/open-data') }}">Open Data policy</a></p>
+            {% endcall %}
+
+            {% if researchEntries.length > 0 %}
+                <section class="u-inner-wide-only u-margin-bottom">
+                    <ul class="flex-grid flex-grid--3up">
+                        {% for research in researchEntries %}
+                            <li class="flex-grid__item">
+                                {{ researchCard(research) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+
+            <section class="u-align-center u-margin-bottom-l">
+                <a class="btn btn--medium" href="{{ localify('/research') }}">View more research and insights</a>
+            </section>
+        </div>
+    </main>
+{% endblock %}

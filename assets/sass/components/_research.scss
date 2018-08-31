@@ -3,15 +3,15 @@
    ========================================================================= */
 
 /* =========================================================================
-   Research Section
-   ========================================================================= */
+    Research Intro
+    ========================================================================= */
 
-.research-section {
+.research-intro {
     @include mq('medium-major') {
         display: flex;
     }
 
-    .research-section__primary {
+    .research-intro__primary {
         font-size: 18px;
         max-width: $constrained;
         margin-bottom: $spacingUnit;
@@ -22,17 +22,47 @@
         }
     }
 
-    .research-section__secondary {
+    .research-intro__secondary {
         @include mq('medium-major') {
             flex: 0 0 32%;
         }
     }
 
-    .research-section__prefix {
+    .research-intro__prefix {
         font-size: 16px;
         font-style: italic;
         color: palette('charcoal-note');
         margin-bottom: 0;
+    }
+}
+
+/* =========================================================================
+   Research Sections
+   ========================================================================= */
+
+.research-sections {
+    .research-sections__content {
+        font-size: 18px;
+        max-width: $constrained;
+        margin-bottom: $spacingUnit;
+
+        @include mq('medium-major') {
+            float: left;
+            width: 68%;
+            padding-right: $spacingUnit;
+            clear: left;
+        }
+    }
+
+    .research-sections__callout {
+        @include mq('medium-major') {
+            float: right;
+            width: 32%;
+        }
+    }
+
+    .research-sections__meta {
+        clear: both;
     }
 }
 

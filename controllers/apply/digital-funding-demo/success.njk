@@ -3,7 +3,6 @@
 {% extends "layouts/main.njk" %}
 {% block title %}Success | {{ form.title }} | {% endblock %}
 {% set bodyClass = 'has-static-header' %}
-{% set suppressSurvey = true %}
 
 {% block content %}
     <main role="main" id="content">
@@ -16,15 +15,13 @@
                 <h2 class="t2 t--underline accent--pink">What happens next?</h2>
                 <p>Thank you for submitting your idea. We have emailed you a copy of your submission and a local funding officer will contact you within fifteen working days.</p>
 
-                {% if appData.isNotProduction %}
-                    {{ inlineFeedback(
-                        description = form.title,
-                        promptLabel = "Can you spare a minute to give us some feedback?",
-                        fieldLabel = "How was your experience of submitting an idea?",
-                        helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
-                        isToggleable = false
-                    )  }}
-                {% endif %}
+                {{ inlineFeedback(
+                    description = form.title,
+                    promptLabel = "Can you spare a minute to give us some feedback?",
+                    fieldLabel = "How was your experience of submitting an idea?",
+                    helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
+                    isToggleable = false
+                )  }}
             </div>
 
         </div>

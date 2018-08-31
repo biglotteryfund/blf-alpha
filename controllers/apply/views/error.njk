@@ -12,6 +12,13 @@
             {{ stepConfig.message | safe }}
 
             <p><a class="btn" href="{{returnUrl}}">Back</a></p>
+
+            {% if error and appData.isNotProduction %}
+                <h4>Stack trace:</h4>
+                <pre>{{ error.stack }}</pre>
+                <h4>Raw error:</h4>
+                <pre>{{ error | dump(2) }}</pre>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

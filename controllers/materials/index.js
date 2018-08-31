@@ -184,7 +184,7 @@ module.exports = function(routeConfig) {
                                     name: 'material_customer',
                                     sendTo: customerSendTo,
                                     subject: 'Thank you for your Big Lottery Fund order',
-                                    templateName: 'emails/newMaterialOrder',
+                                    template: path.resolve(__dirname, './views/order-email'),
                                     templateData: {
                                         // @TODO work out why string-rendered templates don't inherit globals
                                         locale: req.i18n.getLocale()

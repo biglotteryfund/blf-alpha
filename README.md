@@ -1,4 +1,4 @@
-# Big Lottery Fund Alpha
+# Big Lottery Fund
 
 [![Build Status](https://travis-ci.org/biglotteryfund/blf-alpha.svg?branch=master)](https://travis-ci.org/biglotteryfund/blf-alpha)
 

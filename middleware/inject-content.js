@@ -191,6 +191,38 @@ async function injectStrategicProgrammes(req, res, next) {
     }
 }
 
+async function injectResearch(req, res, next) {
+    try {
+        res.locals.researchEntries = await contentApi.getResearch({
+            locale: req.i18n.getLocale(),
+            searchQuery: req.query.q
+        });
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
+async function injectResearchEntry(req, res, next) {
+    try {
+        // Assumes a parameter of :slug in the request
+        const { slug } = req.params;
+        if (slug) {
+            const entry = await contentApi.getResearch({
+                slug: slug,
+                locale: req.i18n.getLocale(),
+                previewMode: res.locals.PREVIEW_MODE || false
+            });
+
+            res.locals.researchEntry = entry;
+            setCommonLocals(res, entry);
+        }
+        next();
+    } catch (error) {
+        next();
+    }
+}
+
 async function injectBlogPosts(req, res, next) {
     try {
         res.locals.blogPosts = await contentApi.getBlogPosts({
@@ -263,6 +295,8 @@ module.exports = {
     injectFundingProgrammes,
     injectStrategicProgramme,
     injectStrategicProgrammes,
+    injectResearch,
+    injectResearchEntry,
     injectHeroImage,
     injectListingContent,
     injectMerchandise,

@@ -30,7 +30,6 @@ module.exports = function(app) {
         cookie: {
             sameSite: true,
             secure: !appData.isDev,
-            // A test to see if we can stop expiring even extended sessions
             expires: moment()
                 .add(7, 'days')
                 .toDate()

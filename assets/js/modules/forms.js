@@ -29,20 +29,6 @@ function initLegacyForms() {
     });
 }
 
-function conditionalRadios($el) {
-    const $radios = $el.find('input[type="radio"]');
-    const conditionalFields = $el.data('conditionalFields');
-    $radios.on('change', function() {
-        const selectedValue = $(this).val();
-        conditionalFields.forEach(field => {
-            const $triggerField = $(`[data-conditional-field="${field.triggerField}"]`);
-            $triggerField.attr('hidden', function() {
-                return selectedValue !== field.triggerOnValue;
-            });
-        });
-    });
-}
-
 function handleAbandonmentMessage(formEl) {
     if (!featureIsEnabled('review-abandonment-message')) {
         return;
@@ -92,21 +78,6 @@ function toggleReviewAnswers() {
 }
 
 function initApplicationForms() {
-    /**
-     * Global application form logic
-     */
-    const formEl = $('.js-application-form');
-    if (formEl.length > 0) {
-        const conditionalFields = $('.js-conditional-for');
-        conditionalFields.each(function() {
-            const $el = $(this);
-            const conditionalType = $el.data('conditionalType');
-            if (conditionalType === 'radio') {
-                conditionalRadios($el);
-            }
-        });
-    }
-
     /**
      * Review–step–specific logic
      */

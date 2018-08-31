@@ -271,6 +271,7 @@ toplevel:
   research:
     title: Ymchwil
     intro: Cael gwybod mwy am beth rydym yn ei ddysgu o’r prosiectau a ariannwn.
+    newReport: Adroddiad newydd
     sectionLinks:
     - label: Cymunedau a lleoedd
       href: "/welsh/research/communities-and-places"
@@ -551,150 +552,10 @@ funding:
     over10k: Grantiau dros £10,000
     breadcrumbAll: Pob Rhaglenni
 research:
-  youthviolence:
-    title: 'Trais difrifol ymysg pobl ifainc'
-    intro:
-      <p><strong>Dysgu o'r sector gwirfoddol a chymunedol ynghylch beth sy'n gweithio wrth atal trais difrifol ymysg pobl ifainc</strong></p><p>Yma, rydym yn amlygu enghreifftiau o arfer addawol ac sydd wedi profi ei werth o elusennau ar draws y wlad ac yn rhannu ein profiadau fel ariannwr ynglŷn â'r egwyddorion sydd wedi gweithio i ni wrth gynllunio, dylunio a gweithredu rhaglenni ariannu yn y maes hwn.</p>
-    sectionsPrefix: Gwersi ar gyfer dylunio polisi a rhaglenni
-    sections:
-    - title: Atal
-      contentParts:
-      - title: Cydweithio i atal niwed yn ystod plentyndod
-        points:
-        - Symudwch y diwylliant a gwariant tuag at gefnogaeth a gwasanaethau sy'n ffocysu ar atal.
-        - Mabwysiadwch ddull Iechyd Cyhoeddus o atal trais, gan gynnwys cydweithio i leihau ffactorau risg a hyrwyddo ffactorau diogelu
-        - Sicrhewch waith partneriaeth effeithiol fel bod cefnogaeth a gwasanaethau'n llai biwrocratig ac yn fwy cydlynol.
-        callout:
-          isQuote: false
-          content:
-            Mae pobl sy'n cael profiadau niweidiol yn ystod plentyndod wyth waith yn fwy tebygol o gael dedfryd carchar
-      - title: Gwella deilliannau ar gyfer yr holl blant
-        points:
-        - Cefnogwch blant i ddatblygu sgiliau cymdeithasol ac emosiynol fel y gallant ddatblygu perthnasoedd cadarnhaol ac ymdopi â sefyllfaoedd anodd.
-        - Buddsoddwch mewn gwasanaethau cyffredinol, fel gwasanaethau blynyddoedd cynnar, addysg a phobl ifainc sy'n fwy cefnogol ac ymatebol.
-        - Darparwch wasanaethau cynnar, wedi'u targedu ar gyfer ysgolion a grwpiau sy'n wynebu risgiau penodol.
-        - Darparwch y sgiliau a dealltwriaeth y mae eu hangen ar rieni a chymunedau i atal a rheoli ffactorau risg.
-      - title: Edrych dros yr hir dymor
-        points:
-        - Cydnabyddwch lefelau anhrefn, trawma a dadfreinio ym mywydau llawer o bobl ifainc.
-        - Darparwch yr amser a lle y mae eu hangen ar elusennau a staff rheng flaen i gefnogi eu buddiolwyr.
-        - Byddwch yn ‘amyneddgar’ gyda rhaglenni a phrosiectau newydd; gan roi amser a lle iddynt addasu a newid wrth iddynt ddysgu yn sgil darparu.
-      - title: Adnabod a chefnogi plant a phobl ifainc sy'n wynebu risg yn brydlon
-        points:
-        - Mae angen i waith ar y cyd rhwng asiantaethau statudol a grwpiau gwirfoddol a chymunedol (SGCh) ymestyn o gywain data i'w rannu a'i ddefnyddio i adnabod pobl ifainc sy'n wynebu risg mor gynnar â phosib.
-        - Hyfforddwch weithwyr proffesiynol a'r gymuned ehangach i adnabod a deall ffactorau risg ac ymddygiadau sy'n peri risg trwy ddulliau wedi'u llywio gan drawma.
-        - Cymerwch i ystyriaeth fod pobl ifainc sy'n wynebu risg yn arbennig o dda wrth adnabod pobl ifainc eraill sy'n wynebu risg
-        - Sicrhewch fod cefnogaeth ychwanegol ar gael ar gyfer pobl ifainc sy'n profi newidiadau (e.e. o'r ysgol gynradd i'r ysgol uwchradd, mynd i mewn i ofal, symud rhwng carchar pobl ifainc a charchar i oedolion, etc.).
-        callout:
-          isQuote: true
-          content:
-            …mae risgiau yn ystod babandod yn cynyddu'r cyfle o ymddygiad gwrthgymdeithasol yn ystod plentyndod, sydd yn ei dro'n cynyddu'r tebygolrwydd o droseddu yn ystod glasoed…
-          citation: Prif Swyddog Meddygol, 2012
-    - title: Ymyrraeth Gynnar
-      contentParts:
-      - title: Rhoi'r cymwyseddau a hyder i bobl ifainc reoli gwrthdaro ac ymdopi â phwysau gan gymheiriaid
-        points:
-        - Rhowch gyfle i bobl ifainc ymarfer technegau i osgoi a datrys gwrthdaro, rheoli dicter, cyfathrebu'n fwy effeithiol a dangos uniaethu.
-        - Helpwch bobl ifainc i ddeall achosion a chanlyniadau gwrthdaro, gan gynnwys newid y ffordd y mae pobl ifainc yn meddwl am drais ac atgyfnerthu rhesymau dros beidio â bod yn dreisgar.
-        - Pan fo'n bosib, cydweithiwch â grwpiau cyfeillgarwch a phobl ifainc sy'n ymwneud â throseddu fel grŵp (neu weithgarwch gangiau) yn hytrach nag unigolion yn unig.
-        - Grymuswch bobl ifainc i wneud y dewisiadau iawn ar sail gwybodaeth a chefnogaeth yn hytrach na 'dull brawychu'.
-        - Sicrhewch fod gwasanaethau'n cymryd amgylchiadau, anghenion a dymuniadau penodol dynion a menywod ifainc sy'n ymwneud - yn uniongyrchol neu'n anuniongyrchol - â ffyrdd o fyw treisgar i ystyriaeth.
-        - Ymdriniwch â'r defnydd o gyfryngau cymdeithasol i gyfareddu, dangos a symbylu trais.
-      - title: Mae adeiladu perthnasoedd cefnogol a ffyddlon yn sail i waith y mwyafrif o elusennau
-        points:
-        - Mae gan lawer o bobl ifainc yn y grŵp targed hwn ddiffyg ffydd mewn asiantaethau statudol ac felly mae grwpiau gwirfoddol y mae gan y gymuned ffydd ynddynt a mynediad atynt mewn sefyllfa ddelfrydol i ddarparu mentora a chreu cysylltiadau a ffydd.
-        - Ni ddylid rhuthro adeiladu perthnasoedd a dylid dechrau gyda diddordebau, dymuniadau a chryfderau pobl ifainc.
-        callout:
-          isQuote: false
-          content: Gall mentora fod yn effeithiol wrth leihau trais ond ceir tystiolaeth gymysg ynghylch effaith mentora ar arestiadau ac aildroseddu
-      - title: Estyn cefnogaeth i leoedd a gofodau y mae pobl ifainc yn teimlo'n gyfforddus ynddynt
-        points:
-        - Mae angen i gefnogaeth ymestyn o ysgolion a gwasanaethau statudol i'r gymuned - ac adeiladu ar yr hyn sydd eisoes yn gweithio'n dda'n lleol.
-        - Mae lleoliad hyblyg yn arbennig o bwysig yng nghyd-destun gangiau côd post, gan y gall fod yn beryglus i rai pobl ifainc adael eu cymdogaethau. Mae llawer o bobl ifainc sy'n ymwneud ag ymddygiad gwrthgymdeithasol mewn ystadau y tu allan i ganol dinasoedd a threfi sydd wedi'u heffeithio gan dlodi'n gadael eu hystâd yn anaml, neu ddim o gwbl, i gyrchu cyfleoedd.
-      - title: Ymgorffori, neu gysylltu â, chefnogaeth iechyd meddwl arbenigol
-        points:
-        - Mae'n bwysig taclo stigma a'i wneud yn haws i bobl ifainc gamu i fyny i siarad am iechyd meddwl. Yn ei dro, dylai gwasanaethau iechyd meddwl beidio â stigmateiddio a bod yn berthnasol.
-        - Nid yw atebion cyflym i broblemau iechyd meddwl yn gweithio.
-        - Dylid hyfforddi gweithwyr proffesiynol a gwirfoddolwyr i fod yn sensitif i broblemau iechyd meddwl posib.
-        - Gallai fod angen dull teulu cyfan, yn enwedig os yw'r teulu cyfan wedi profi trallod arwyddocaol ac mae problemau teuluol ehangach fel cefndir i berson ifainc sy'n ymwneud â thrais.
-        - Dylid darparu gwasanaethau iechyd meddwl mewn amrywiaeth o leoliadau gwahanol.
-        callout:
-          isQuote: false
-          content: Amcangyfrifir bod gan un o bob tri o bobl ifainc sy'n troseddu angen iechyd meddwl  heb ei ddiwallu ar adeg y drosedd
-      - title: Mae chwaraeon a'r celfyddydau'n hyrwyddo gwerthoedd cadarnhaol ac yn ddull da o fachu cyfranogiad
-        points:
-        - Gallant ddarparu'r amgylchedd a dylanwadau iawn i hyrwyddo gwerthoedd cadarnhaol, gan gynnwys ymgymryd â chyfrifoldeb a dysgu sut i ddatrys gwrthdaro mewn ffordd gadarnhaol
-        - Mae angen i brosiectau chwaraeon a chelfyddydau fod yn hir dymor eu natur ac wedi'u cynnwys, lle bo'n bosib, o fewn rhaglen addysg a chefnogaeth ddatblygiadol ehangach.
-        - Mae rôl a sgiliau'r hyfforddwyr yn hollbwysig felly mae angen i staff prosiectau celfyddydau a chwaraeon gael eu hyfforddi a'u cefnogi.
-        - Mae angen i brosiectau chwaraeon a chelfyddydau gael eu targedu'n dda o ran eu lleoliad ac ennyn diddordeb pobl ifainc.
-        callout:
-          isQuote: false
-          content: Gall apêl chwaraeon a'r celfyddydau weithredu fel ‘bach’ ennyn diddordeb a chreu ymdeimlad o gyffro, “yn debyg i'r teimladau a brofir fel rhan o gang.”
-      - title: Mae amseru'n bwysig o ran ennyn diddordeb a chefnogaeth
-        points:
-        - Mae ennyn diddordeb llwyddiannus yn gysylltiedig nid yn unig â lle ond hefyd ag amseru'r ymyrraeth. Mae angen rhoi cefnogaeth ar yr amser iawn ym mywyd y person ifanc.
-      - title: Gallwn ddysgu o arbenigedd a phrofiad pobl ifainc
-        points:
-        - Mae pobl ifainc sydd wedi ymwneud â gangiau a throseddu'n helpu symbylu gwaith llawer o elusennau sy'n llwyddo i ddargyfeirio pobl ifainc i ffwrdd o ffyrdd o fyw treisgar.
-        - Mae cyd-gynhyrchu go iawn yn cymryd amser i'w sefydlu a'i redeg.
-        - Dylid cynnwys pobl ifainc ar lefel y maent yn teimlo sy'n briodol iddynt ar y pryd.
-        - Croesewch bobl ifainc, anogwch nhw i herio dulliau gweithio sydd eisoes yn bodoli; parchwch eu cyfraniadau. Sicrhewch fod cyfranogiad yn wirfoddol a bod angen iddynt fedru newid eu meddwl.
-        - Os bydd pobl ifainc yn cymryd rhan mewn cyfarfodydd bwrdd neu bartneriaeth, gwnewch yn siŵr fod yr wybodaeth wedi'i darparu mewn iaith glir, heb jargon ac mewn fformat sy'n addas i'r oedran y gellir ei ddeall yn hawdd
-        - Gwnewch yn siŵr fod y bobl ifainc yn deall sut y gallant elwa o gymryd rhan.
-        - Gwnewch yn siŵr eich bod yn dathlu eu gwaith ac yn sicrhau bod staff, mudiadau partner a phobl ifainc yn gwybod beth sydd wedi newid o ganlyniad i'w cyfraniadau.
-        - Meddyliwch am sut i gywain barn pobl o gefndiroedd gwahanol a gyda phrofiadau gwahanol.
-    - title: Dulliau partneriaeth
-      contentParts:
-      - title: Mae cynnwys y SGCh yn fwy na dymunol - mae'n hanfodol
-        points:
-        - Gall grwpiau gwirfoddol a chymunedol ychwanegu gwerth sylweddol at waith gwasanaethau statudol ym maes trais ymysg pobl ifainc. Mae hyn oherwydd y gallant gynrychioli a chefnogi pobl ifainc sydd wedi'u cuddio neu'n ddatgysylltiedig rhag gwasanaethau eraill.
-        - Dylai partneriaethau ddod â mudiadau llai, gan gynnwys grwpiau llawr gwlad, ynghyd i gynhyrchu syniadau sydd wedi'u hymwreiddio ym mhrofiad cymunedau, gydag ymgyrhaeddiad a maint mudiadau mwy.
-        - Deallwch yr heriau a wynebir gan fudiadau llawr gwlad bach sy'n canolbwyntio ar ddarpariaeth rheng flaen - mae eu gallu i gymryd rhan ar lefel strategol yn gyfyngedig a dylid ei gefnogi.
-        - Gwerthfawrogwch arbenigedd partneriaid – mae gan lawer o grwpiau arbenigedd arloesol a blynyddoedd/degawdau o brofiad, gan gynnwys profiad byw o'r heriau a wynebir gan y rhai y maent yn eu cefnogi.
-        callout:
-          isQuote: false
-          content: Gallai grwpiau llai ei chael hi'n anodd cydweithio mewn hinsawdd o gystadlu dros gyfleoedd ariannu tymor byr sy'n seiliedig ar brosiectau
-      - title: Mae arweinwyr hael a gweledigaeth a rennir yn rhai o 'gynhwysion allweddol' partneriaethau llwyddiannus
-        points:
-        - Mae parodrwydd i rannu cyfrifoldeb a dylanwad i gyflawni budd cyffredin yn bwysig, ynghyd â chymhelliant i adeiladu cynghreiriau cryfion gydag unigolion, grwpiau a chymunedau a all gyflawni amcanion a rennir gyda'i gilydd.
-        - Dylai partneriaid gael eu cymell gan set o nodau a gwerthoedd a rennir. Mae'r rhain yn dechrau gyda'r ecosystem ehangach, yn hytrach na blaenoriaethau unigol pob partner.
-        - Peidiwch ag ystyried dim ond yr hyn y gall partneriaid gwahanol ddod ag ef at y bwrdd, ystyriwch ganlyniadau hepgor nhw hefyd.
-        - Dewch o hyd i ddulliau cydweithio ag arweinwyr ffydd a chyflogwyr, gan gynnwys cwmnïau mawr a'u cadwynau cyflenwi yn ogystal â busnesau bach a chanolig. Gallant ddarparu cyfleoedd lleoliad gwaith a chyflogaeth, sy'n arbennig o bwysig ar gyfer y rhai sydd â dibynyddion.
-        - Pennwch derfynau ar gyfer atebolrwydd, rhannu gwybodaeth a thargedau. Mae cyfathrebu rheolaidd ac ymrwymiad gweladwy gan staff uwch yn bwysig.
-      - title: Adeiladu dull system gyfan
-        points:
-        - Crëwch ymgyrch i gydnabod trais difrifol ymysg pobl ifainc fel mater iechyd cyhoeddus y mae angen ymateb cymuned gyfan a dull sy'n peidio â barnu i ymdrin ag ef.
-        - Ymddiriedwch mewn perthnasoedd, arbenigedd a phrofiad grwpiau SGCh i gefnogi pobl ifainc sy'n ymwneud â thrais difrifol.
-        - Mae newid systemau'n golygu canolbwyntio ar achosion craidd materion cymdeithasol a gweithio i greu systemau sy'n gweithredu'n gynnar i atal problemau.
-        callout:
-          isQuote: false
-          content: Wrth i un person ifanc symud i ffwrdd o droseddu cyfundrefnol mae'n bosib y bydd eraill, fel teulu a ffrindiau, yn dilyn
-    metadata:
-    - label: Dyddiad cyhoeddi
-      content: Gorffennaf 2018
-    - label: Manylion cyswllt
-      content: <a href="mailto:knowledge@biglotteryfund.org.uk">knowledge@biglotteryfund.org.uk</a>
-    documents:
-      title: Dogfennau
-      trailText: Mae'r adroddiad llawn yn cynnwys mwy o'r hyn a ddysgwyd ac argymhellion gweithredu manylach.
-      documents:
-      - title: Adroddiad llawn
-        filetype: PDF
-        filesize: 900KB
-        url: https://media.biglotteryfund.org.uk/media/documents/BLF_KL18-12_SeriousViolence.pdf
-        contents:
-        - Crynodeb Gweithredol
-        - Cyflwyniad
-        - Atal - beth sy'n gweithio?
-        - Ymyrraeth gynnar - beth sy'n gweithio?
-        - Dulliau partneriaeth – beth sy'n gweithio?
-        - Ffynonellau
-    relatedProgrammes:
-      title: Rhaglenni cysylltiedig
-      items:
-        - title: A Better Start
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/fulfilling-lives-a-better-start
-        - title: HeadStart
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/fulfilling-lives-headstart
-        - title: Talent Match
-          url: https://www.biglotteryfund.org.uk/global-content/programmes/england/talent-match
+  detail:
+    documents: Dogfennau
+    relatedProgrammes: Rhaglenni cysylltiedig
+    datePublished: Dyddiad cyhoeddi
+    # @TODO: Translate me!
+    researchPartners: Research partners
+    contact: Manylion cyswllt

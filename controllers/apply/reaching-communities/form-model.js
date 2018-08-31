@@ -1,31 +1,21 @@
 'use strict';
+const path = require('path');
 const { check } = require('express-validator/check');
 
-const { createFormModel } = require('../../helpers/create-form-model');
-const { PROJECT_LOCATIONS } = require('./constants');
 const processor = require('./processor');
+const { PROJECT_LOCATIONS } = require('./constants');
 
-const formModel = createFormModel({
-    id: 'reaching-communities-idea',
-    title: 'Reaching Communities & Partnerships',
-    shortCode: 'RC'
-});
-
-formModel.registerStartPage({
-    template: 'pages/apply/reaching-communities/startpage'
-});
-
-formModel.registerStep({
+const stepIdea = {
     name: 'Your idea',
     fieldsets: [
         {
             legend: 'Find out how we can help you',
             introduction: `
                 <p>
-                    If you have already read our guidance about telling us your idea for either 
-                    <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or 
-                    <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box 
-                    below to share it with us, and details about your organisation. Remember, you don’t have to have 
+                    If you have already read our guidance about telling us your idea for either
+                    <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or
+                    <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box
+                    below to share it with us, and details about your organisation. Remember, you don’t have to have
                     all the details, but try to include:
                 </p>
                 <ul>
@@ -34,10 +24,10 @@ formModel.registerStep({
                     <li>how people and communities are involved with your project</li>
                     <li>the background to your organisation</li>
                     <li>the length of your project budget and how much funding you’ll need from us</li>
-                    <li>how your idea fits in with other activities</li>                
+                    <li>how your idea fits in with other activities</li>
                 </ul>
                 <p>
-                    This information will go to one of our funding officers who will get in touch within fifteen working 
+                    This information will go to one of our funding officers who will get in touch within fifteen working
                     days to find out more. If it is something we could fund, this is just the start of the conversation.
                 </p>
             `,
@@ -65,9 +55,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepLocation = {
     name: 'Project location',
     internalOrder: 3,
     fieldsets: [
@@ -106,9 +96,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepOrganisation = {
     name: 'Your organisation',
     internalOrder: 2,
     fieldsets: [
@@ -143,9 +133,9 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerStep({
+const stepDetails = {
     name: 'Your details',
     internalOrder: 1,
     fieldsets: [
@@ -213,24 +203,29 @@ formModel.registerStep({
             ]
         }
     ]
-});
+};
 
-formModel.registerReviewStep({
-    title: 'Check this is right before submitting your idea',
-    proceedLabel: 'Submit'
-});
-
-formModel.registerSuccessStep({
-    template: 'pages/apply/reaching-communities/success',
-    processor: processor
-});
-
-formModel.registerErrorStep({
-    title: 'There was an problem submitting your idea',
-    message: `
-<p>There was a problem submitting your idea, we have been notified of the problem.</p>
-<p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
-`
-});
-
-module.exports = formModel;
+module.exports = {
+    id: 'reaching-communities-idea',
+    title: 'Reaching Communities & Partnerships',
+    shortCode: 'RC',
+    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
+    processor: processor,
+    startPage: {
+        template: path.resolve(__dirname, './startpage')
+    },
+    reviewStep: {
+        title: 'Check this is right before submitting your idea',
+        proceedLabel: 'Submit'
+    },
+    successStep: {
+        template: path.resolve(__dirname, './success')
+    },
+    errorStep: {
+        title: 'There was an problem submitting your idea',
+        message: `
+            <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+        `
+    }
+};

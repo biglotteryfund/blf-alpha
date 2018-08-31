@@ -74,7 +74,9 @@ function updateActivateUser({ id }) {
         },
         {
             where: {
-                [Op.eq]: id
+                id: {
+                    [Op.eq]: id
+                }
             }
         }
     );

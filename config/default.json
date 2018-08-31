@@ -20,6 +20,7 @@
   },
   "siteDomain": "www.biglotteryfund.org.uk",
   "dateFormats": {
+    "month": "MMMM YYYY",
     "short": "D MMMM, YYYY",
     "full": "dddd D MMMM YYYY",
     "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
@@ -31,6 +32,7 @@
   },
   "features": {
     "enablePrompt": true,
+    "enableSurvey": true,
     "enableAbTests": true,
     "useHotjar": true,
     "useRemoteAssets": true,
@@ -46,6 +48,5 @@
   },
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
-  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
-  "emailSender": "noreply@biglotteryfund.org.uk"
+  "ebulletinApiEndpoint": "https://apiconnector.com/v2"
 }

@@ -1,21 +1,26 @@
 'use strict';
-const { get, isArray } = require('lodash');
+const { get, groupBy, sortBy, isArray } = require('lodash');
+const path = require('path');
 
-const appData = require('../../../modules/appData');
 const mail = require('../../../modules/mail');
+const appData = require('../../../modules/appData');
+
 const { PROJECT_LOCATIONS, DEFAULT_EMAIL } = require('./constants');
 
-module.exports = function processor(form, formData) {
-    const flatData = form.getStepValuesFlattened(formData);
-    const summary = form.getStepsWithValues(formData);
+function orderStepsForInternalUse(stepData) {
+    // rank steps by their internal order (if provided), falling back to original (source) order
+    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
+    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
+}
 
+module.exports = function processor({ form, data, stepsWithValues }) {
     /**
      * Construct a primary address (i.e. customer email)
      */
-    const primaryAddress = `${flatData['first-name']} ${flatData['last-name']} <${flatData['email']}>`;
-    let organisationName = `${flatData['organisation-name']}`;
-    if (flatData['additional-organisations']) {
-        organisationName += ` (plus ${flatData['additional-organisations']})`;
+    const primaryAddress = `${data['first-name']} ${data['last-name']} <${data['email']}>`;
+    let organisationName = `${data['organisation-name']}`;
+    if (data['additional-organisations']) {
+        organisationName += ` (plus ${data['additional-organisations']})`;
     }
 
     /**
@@ -27,10 +32,10 @@ module.exports = function processor(form, formData) {
     const internalAddress = (function() {
         if (appData.isNotProduction) {
             return primaryAddress;
-        } else if (isArray(flatData.location)) {
+        } else if (isArray(data.location)) {
             return DEFAULT_EMAIL;
         } else {
-            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === flatData.location);
+            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === data.location);
             return get(matchedLocation, 'email', DEFAULT_EMAIL);
         }
     })();
@@ -39,25 +44,22 @@ module.exports = function processor(form, formData) {
         {
             name: 'reaching_communities_customer',
             sendTo: primaryAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            templateName: 'emails/applicationSummary',
+            template: path.resolve(__dirname, './customer-email'),
             templateData: {
-                summary: summary,
-                form: form,
-                data: flatData
+                data: data,
+                summary: stepsWithValues
             }
         },
         {
             name: 'reaching_communities_internal',
             sendTo: internalAddress,
-            sendFrom: 'Big Lottery Fund <noreply@blf.digital>',
             subject: `New idea submission from website: ${organisationName}`,
-            templateName: 'emails/applicationSummaryInternal',
+            template: path.resolve(__dirname, './internal-email'),
             templateData: {
-                summary: form.orderStepsForInternalUse(summary),
-                form: form,
-                data: flatData
+                title: form.title,
+                data: data,
+                summary: orderStepsForInternalUse(stepsWithValues)
             }
         }
     ]);
