@@ -5,6 +5,8 @@
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
 const slug = require('slugify');
+const querystring = require('querystring');
+const { sortBy } = require('lodash');
 const uuid = require('uuid/v4');
 
 const assets = require('./assets');
@@ -64,6 +66,22 @@ function find(arr, key, value) {
     return arr.find(a => a[key] === value);
 }
 
+function removeQueryParam(queryParams, paramToRemove) {
+    let newParams = Object.assign({}, queryParams);
+    delete newParams[paramToRemove];
+    return querystring.stringify(newParams);
+}
+
+function addQueryParam(queryParams, paramToAdd, paramValue) {
+    let newParams = Object.assign({}, queryParams);
+    newParams[paramToAdd] = paramValue;
+    return querystring.stringify(newParams);
+}
+
+function sortArrayBy(arr, key) {
+    return sortBy(arr, key);
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -76,5 +94,8 @@ module.exports = {
     makePhoneLink,
     numberWithCommas,
     pluralise,
-    slugify
+    slugify,
+    removeQueryParam,
+    addQueryParam,
+    sortBy: sortArrayBy
 };

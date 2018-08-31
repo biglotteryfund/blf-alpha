@@ -1,0 +1,132 @@
+{% from "components/split-nav/macro.njk" import splitNav with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% set bodyClass = 'has-static-header' %}
+{% set pageAccent = 'cyan' %}
+
+{% block title %}Past Grants Search | Results | {% endblock %}
+
+{% block content %}
+    <main role="main">
+        <div class="content-box inner--wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>Search past grants</h1>
+
+            <form method="get">
+                <div class="form-field">
+                    <label class="ff-label" for="field-q">Search</label>
+                    <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
+                </div>
+
+                <div class="form-field">
+                    <label class="ff-label" for="field-postcode">Postcode</label>
+                    <input class="ff-text" type="text" name="postcode" id="field-postcode" value="{{ queryParams.postcode }}" />
+                </div>
+
+                <div class="form-actions o-button-group">
+                    <input type="submit" value="Filter" class="btn btn--medium">
+                </div>
+            </form>
+
+            <section class="s-prose">
+                <h2>
+                    Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} filtered by:{% endif %}
+                </h2>
+
+                {% if queryParams %}
+                    <ul class="u-margin-bottom-l">
+                        {% if queryParams.q %}
+                            <li>
+                                <strong>Search term:</strong> "{{ queryParams.q }}"
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('q') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.postcode %}
+                            <li>
+                                <strong>Postcode:</strong> {{ queryParams.postcode }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('postcode') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.programme %}
+                            <li>
+                                <strong>Funding Programme:</strong> {{ queryParams.programme }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('programme') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.orgType %}
+                            <li>
+                                <strong>Organisation Type:</strong> {{ queryParams.orgType }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('orgType') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+                <div class="page-section u-accent-border-top-{{ pageAccent }}">
+
+                    {% if facets and facets.length > 0 %}
+                        <div class="page-section__supplementary u-padded">
+                            <h2>Filters</h2>
+
+                            {% if facets[0].grantProgramme %}
+                                <h5>Funding Programme</h5>
+                                <ul class="u-margin-bottom-l">
+                                    {% for programme in facets[0].grantProgramme | sortBy ('_id') %}
+                                        <li>
+                                            <a href="?{{ queryParams | addQueryParam('programme', programme._id) }}">{{ programme._id }}</a>
+                                            ({{ programme.count }})
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+                            {% if facets[0].orgType %}
+                                <h5>Organisation type</h5>
+                                <ul class="u-margin-bottom-l">
+                                    {% for parent, orgs in facets[0].orgType %}
+                                        <li>
+                                            <a href="?{{ queryParams | addQueryParam('orgType', parent) }}">{{ parent}}</a> ({{ orgs.length }})
+                                            <ul>
+                                                {% for o in orgs %}
+                                                    <li><a href="?{{ queryParams | addQueryParam('orgType', o._id) }}">{{ o.title }}</a> ({{ o.count }})</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+
+                        </div>
+                    {% endif %}
+
+                    <div class="page-section__content u-padded-top">
+                        <h2>Results</h2>
+                        {% for grant in grants %}
+                            <article class="s-prose">
+                                <h3 class="t2">
+                                    {{ grant['Recipient Org:Name'] }}
+                                    <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
+                                </h3>
+                                <p>{{ grant['Title'] }}</p>
+                                <p><small>{{ grant['Description'] }}</small></p>
+                                <dl class="o-definition-list o-definition-list--compact">
+                                    <dt>Amount awarded</dt>
+                                    <dd>£{{ grant['Amount Awarded'] | numberWithCommas}}</dd>
+                                    <dt>Grant programme</dt>
+                                    <dd><a href="?programme={{ grant['Grant Programme:Title'] }}">{{ grant['Grant Programme:Title'] }}</a></dd>
+                                </dl>
+                                <hr />
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+            </section>
+        </div>
+    </main>
+{% endblock %}

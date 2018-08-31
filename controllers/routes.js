@@ -154,6 +154,13 @@ sections.funding.addRoutes({
         lang: 'funding.pastGrants',
         heroSlug: 'active-plus-communities'
     }),
+    pastGrantsAlpha: customRoute({
+        path: '/search-past-grants-alpha',
+        live: false,
+        template: 'pages/grants/search',
+        isPostable: true,
+        allowAllQueryStrings: true
+    }),
     programmes: customRoute({
         path: '/programmes',
         template: 'pages/funding/programmes',
