@@ -21,9 +21,22 @@ describe('getSendAddress', () => {
     });
 });
 
-function mockTransport(mailOptions) {
-    const transport = nodemailer.createTransport({ jsonTransport: true });
-    return transport.sendMail(mailOptions);
+async function mockEmail(mailOptions) {
+    const transport = nodemailer.createTransport({
+        streamTransport: true,
+        newline: 'unix',
+        buffer: true
+    });
+
+    const info = await transport.sendMail(mailOptions);
+    // Remove generated properties from message
+    info.message = info.message
+        .toString()
+        .replace(/Message-ID: .*\n/, '')
+        .replace(/Date: .*\n/, '')
+        .replace(/ boundary=.*\n/, '')
+        .replace(/----.*\n/gm, '');
+    return info;
 }
 
 describe('buildMailOptions', () => {
@@ -34,22 +47,10 @@ describe('buildMailOptions', () => {
             content: 'This is a test'
         });
 
-        const expectedOptions = {
-            from: 'Big Lottery Fund <noreply@biglotteryfund.org.uk>',
-            subject: 'Test',
-            text: 'This is a test',
-            to: { address: 'example@example.com' }
-        };
-
-        expect(mailOptions).toEqual(expectedOptions);
-
-        const info = await mockTransport(mailOptions);
-        const message = JSON.parse(info.message);
-
-        expect(message.text).toBe(expectedOptions.text);
-        expect(message.to).toEqual([{ address: 'example@example.com', name: '' }]);
-        expect(info.envelope.from).toBe('noreply@biglotteryfund.org.uk');
-        expect(info.envelope.to).toEqual(['example@example.com']);
+        expect(mailOptions).toMatchSnapshot();
+        const info = await mockEmail(mailOptions);
+        expect(info.envelope).toMatchSnapshot();
+        expect(info.message).toMatchSnapshot();
     });
 
     it('should build mail options for a text email with a name', async () => {
@@ -59,22 +60,10 @@ describe('buildMailOptions', () => {
             content: 'This is a test'
         });
 
-        const expectedOptions = {
-            from: 'Big Lottery Fund <noreply@biglotteryfund.org.uk>',
-            subject: 'Test',
-            text: 'This is a test',
-            to: { name: 'Example Person', address: 'example@example.com' }
-        };
-
-        expect(mailOptions).toEqual(expectedOptions);
-
-        const info = await mockTransport(mailOptions);
-        const message = JSON.parse(info.message);
-
-        expect(message.text).toBe(expectedOptions.text);
-        expect(message.to).toEqual([{ address: 'example@example.com', name: 'Example Person' }]);
-        expect(info.envelope.from).toBe('noreply@biglotteryfund.org.uk');
-        expect(info.envelope.to).toEqual(['example@example.com']);
+        expect(mailOptions).toMatchSnapshot();
+        const info = await mockEmail(mailOptions);
+        expect(info.envelope).toMatchSnapshot();
+        expect(info.message).toMatchSnapshot();
     });
 
     it('should build mail options for a html email', async () => {
@@ -85,23 +74,10 @@ describe('buildMailOptions', () => {
             content: '<p>This is a test</p>'
         });
 
-        const expectedOptions = {
-            from: 'Big Lottery Fund <noreply@biglotteryfund.org.uk>',
-            subject: 'Test',
-            html: '<p>This is a test</p>',
-            text: 'This is a test',
-            to: { address: 'example@example.com' }
-        };
-
-        expect(mailOptions).toEqual(expectedOptions);
-
-        const info = await mockTransport(mailOptions);
-        const message = JSON.parse(info.message);
-
-        expect(message.text).toBe(expectedOptions.text);
-        expect(message.to).toEqual([{ address: 'example@example.com', name: '' }]);
-        expect(info.envelope.from).toBe('noreply@biglotteryfund.org.uk');
-        expect(info.envelope.to).toEqual(['example@example.com']);
+        expect(mailOptions).toMatchSnapshot();
+        const info = await mockEmail(mailOptions);
+        expect(info.envelope).toMatchSnapshot();
+        expect(info.message).toMatchSnapshot();
     });
 
     it('should build mail options for an internal html email', async () => {
@@ -112,22 +88,9 @@ describe('buildMailOptions', () => {
             content: '<p>This is a test</p>'
         });
 
-        const expectedOptions = {
-            from: 'Big Lottery Fund <noreply@blf.digital>',
-            subject: 'Test',
-            html: '<p>This is a test</p>',
-            text: 'This is a test',
-            to: { address: 'example@biglotteryfund.org.uk' }
-        };
-
-        expect(mailOptions).toEqual(expectedOptions);
-
-        const info = await mockTransport(mailOptions);
-        const message = JSON.parse(info.message);
-
-        expect(message.text).toBe(expectedOptions.text);
-        expect(message.to).toEqual([{ address: 'example@biglotteryfund.org.uk', name: '' }]);
-        expect(info.envelope.from).toBe('noreply@blf.digital');
-        expect(info.envelope.to).toEqual(['example@biglotteryfund.org.uk']);
+        expect(mailOptions).toMatchSnapshot();
+        const info = await mockEmail(mailOptions);
+        expect(info.envelope).toMatchSnapshot();
+        expect(info.message).toMatchSnapshot();
     });
 });
