@@ -63,8 +63,8 @@ function recordSendMetric(name) {
  * @param {string} name
  * @param {MailConfig} mailConfig
  */
-function send(name, mailConfig) {
-    const transport = nodemailer.createTransport({ SES });
+function send(name, mailConfig, customTransport = null) {
+    const transport = customTransport ? customTransport : nodemailer.createTransport({ SES });
 
     if (!name) {
         throw new Error('Must pass a name');
@@ -138,12 +138,16 @@ function generateHtmlEmail(template, templateData) {
  */
 async function generateAndSend(schema, customTransport = null) {
     const html = await generateHtmlEmail(schema.template, schema.templateData);
-    return send(schema.name, {
-        sendTo: schema.sendTo,
-        subject: schema.subject,
-        type: 'html',
-        content: html
-    }, customTransport);
+    return send(
+        schema.name,
+        {
+            sendTo: schema.sendTo,
+            subject: schema.subject,
+            type: 'html',
+            content: html
+        },
+        customTransport
+    );
 }
 
 module.exports = {
