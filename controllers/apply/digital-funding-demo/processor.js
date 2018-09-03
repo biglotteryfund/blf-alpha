@@ -11,8 +11,8 @@ module.exports = function processor({ form, data, stepsWithValues }) {
         address: data['email']
     };
 
-    return mail.generateAndSend([
-        {
+    return Promise.all([
+        mail.generateAndSend({
             name: 'digital_funding_demo_customer',
             sendTo: customerSendTo,
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
@@ -21,8 +21,8 @@ module.exports = function processor({ form, data, stepsWithValues }) {
                 data: data,
                 summary: stepsWithValues
             }
-        },
-        {
+        }),
+        mail.generateAndSend({
             name: 'digital_funding_demo_internal',
             sendTo: appData.isDev ? customerSendTo : { address: DIGITAL_FUND_DEMO_EMAIL },
             subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
@@ -32,6 +32,6 @@ module.exports = function processor({ form, data, stepsWithValues }) {
                 data: data,
                 summary: stepsWithValues
             }
-        }
+        })
     ]);
 };

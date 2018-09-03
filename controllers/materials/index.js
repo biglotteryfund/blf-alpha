@@ -179,18 +179,16 @@ module.exports = function(routeConfig) {
                             const customerSendTo = details.yourEmail;
                             const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const customerEmail = mail.generateAndSend([
-                                {
-                                    name: 'material_customer',
-                                    sendTo: { address: customerSendTo },
-                                    subject: 'Thank you for your Big Lottery Fund order',
-                                    template: path.resolve(__dirname, './views/order-email'),
-                                    templateData: {
-                                        // @TODO work out why string-rendered templates don't inherit globals
-                                        locale: req.i18n.getLocale()
-                                    }
+                            const customerEmail = mail.generateAndSend({
+                                name: 'material_customer',
+                                sendTo: { address: customerSendTo },
+                                subject: 'Thank you for your Big Lottery Fund order',
+                                template: path.resolve(__dirname, './views/order-email'),
+                                templateData: {
+                                    // @TODO work out why string-rendered templates don't inherit globals
+                                    locale: req.i18n.getLocale()
                                 }
-                            ]);
+                            });
 
                             const supplierEmail = mail.send('material_supplier', {
                                 sendTo: { address: supplierSendTo },
