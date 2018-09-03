@@ -146,7 +146,7 @@ describe('common', function() {
         }).then(res => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
             expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-            expect(res.body.email.sendTo).to.equal(username);
+            expect(res.body.email.sendTo.address).to.equal(username);
             expect(res.body.email.subject).to.equal('Activate your Big Lottery Fund website account');
         });
     });

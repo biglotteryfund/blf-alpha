@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`buildMailOptions should build mail options for a html email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "html": "<p>This is a test</p>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Object {
+    "address": "example@example.com",
+  },
+}
+`;
+
+exports[`buildMailOptions should build mail options for a html email 2`] = `
+Object {
+  "from": "noreply@biglotteryfund.org.uk",
+  "to": Array [
+    "example@example.com",
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for a html email 3`] = `
+"Content-Type: multipart/alternative;
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: example@example.com
+Subject: Test
+MIME-Version: 1.0
+
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+This is a test
+Content-Type: text/html
+Content-Transfer-Encoding: 7bit
+
+<p>This is a test</p>
+"
+`;
+
+exports[`buildMailOptions should build mail options for a text email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Object {
+    "address": "example@example.com",
+  },
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email 2`] = `
+Object {
+  "from": "noreply@biglotteryfund.org.uk",
+  "to": Array [
+    "example@example.com",
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email 3`] = `
+"Content-Type: text/plain
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: example@example.com
+Subject: Test
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+This is a test
+"
+`;
+
+exports[`buildMailOptions should build mail options for a text email with a name 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Object {
+    "address": "example@example.com",
+    "name": "Example Person",
+  },
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email with a name 2`] = `
+Object {
+  "from": "noreply@biglotteryfund.org.uk",
+  "to": Array [
+    "example@example.com",
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email with a name 3`] = `
+"Content-Type: text/plain
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: Example Person <example@example.com>
+Subject: Test
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+This is a test
+"
+`;
+
+exports[`buildMailOptions should build mail options for an internal html email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@blf.digital>",
+  "html": "<p>This is a test</p>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Object {
+    "address": "example@biglotteryfund.org.uk",
+  },
+}
+`;
+
+exports[`buildMailOptions should build mail options for an internal html email 2`] = `
+Object {
+  "from": "noreply@blf.digital",
+  "to": Array [
+    "example@biglotteryfund.org.uk",
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for an internal html email 3`] = `
+"Content-Type: multipart/alternative;
+From: Big Lottery Fund <noreply@blf.digital>
+To: example@biglotteryfund.org.uk
+Subject: Test
+MIME-Version: 1.0
+
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+This is a test
+Content-Type: text/html
+Content-Transfer-Encoding: 7bit
+
+<p>This is a test</p>
+"
+`;

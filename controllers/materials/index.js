@@ -16,7 +16,7 @@ const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const mail = require('../../modules/mail');
+const mail = require('../../services/mail');
 const ordersService = require('../../services/orders');
 
 const sessionOrderKey = 'materialOrders';
@@ -182,7 +182,7 @@ module.exports = function(routeConfig) {
                             const customerEmail = mail.generateAndSend([
                                 {
                                     name: 'material_customer',
-                                    sendTo: customerSendTo,
+                                    sendTo: { address: customerSendTo },
                                     subject: 'Thank you for your Big Lottery Fund order',
                                     template: path.resolve(__dirname, './views/order-email'),
                                     templateData: {
@@ -192,14 +192,14 @@ module.exports = function(routeConfig) {
                                 }
                             ]);
 
-                            const supplierEmail = mail.send({
-                                name: 'material_supplier',
+                            const supplierEmail = mail.send('material_supplier', {
+                                sendTo: { address: supplierSendTo },
+                                sendMode: 'bcc',
                                 subject: `Order from Big Lottery Fund website - ${moment().format(
                                     'dddd, MMMM Do YYYY, h:mm:ss a'
                                 )}`,
-                                text: orderText,
-                                sendTo: supplierSendTo,
-                                sendMode: 'bcc'
+                                type: 'text',
+                                content: orderText
                             });
 
                             return Promise.all([customerEmail, supplierEmail]).then(() => {
