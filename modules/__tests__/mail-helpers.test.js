@@ -7,7 +7,7 @@ describe('getSendAddress', () => {
     const expectedDefault = `noreply@biglotteryfund.org.uk`;
     const expectedInternal = `noreply@blf.digital`;
 
-    it('it should return default send from address for external send to addresses', () => {
+    it('should return default send from address for external send to addresses', () => {
         expect(getSendAddress('example@example.com')).toBe(expectedDefault);
         expect(getSendAddress('example@gmail.com')).toBe(expectedDefault);
     });
