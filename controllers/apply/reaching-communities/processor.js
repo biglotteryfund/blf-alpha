@@ -17,7 +17,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
     /**
      * Construct a primary address (i.e. customer email)
      */
-    const primaryAddress = `${data['first-name']} ${data['last-name']} <${data['email']}>`;
+    const primaryAddress = data['email'];
     let organisationName = `${data['organisation-name']}`;
     if (data['additional-organisations']) {
         organisationName += ` (plus ${data['additional-organisations']})`;
