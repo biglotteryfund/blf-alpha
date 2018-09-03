@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
         });
     } else {
         // @TODO
-        res.send('login?');
+        res.send('<a href="/user/staff/login">login?</a>');
     }
 });
 

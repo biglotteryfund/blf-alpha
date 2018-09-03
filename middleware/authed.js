@@ -7,7 +7,7 @@ const checkAuthStatus = (req, res, next, minimumLevel) => {
     if (!minimumLevel) {
         minimumLevel = 0;
     }
-    if (req.user && req.user.level >= minimumLevel) {
+    if ((!minimumLevel && req.user) || req.user && req.user.level >= minimumLevel) {
         return next();
     } else {
         // we use req.originalUrl not req.path to preserve querystring

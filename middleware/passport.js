@@ -7,7 +7,6 @@ const userService = require('../services/user');
 const { AZURE_AUTH } = require('../modules/secrets');
 
 module.exports = function() {
-
     // Configure standard user sign-in (eg. members of the public)
     passport.use(
         new LocalStrategy((username, password, done) => {
@@ -41,13 +40,13 @@ module.exports = function() {
                 clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
                 cookieEncryptionKeys: [
                     {
-                        'key': AZURE_AUTH.COOKIES.ONE.KEY,
-                        'iv': AZURE_AUTH.COOKIES.ONE.IV,
+                        key: AZURE_AUTH.COOKIES.ONE.KEY,
+                        iv: AZURE_AUTH.COOKIES.ONE.IV
                     },
                     {
-                        'key': AZURE_AUTH.COOKIES.TWO.KEY,
-                        'iv': AZURE_AUTH.COOKIES.TWO.IV
-                    },
+                        key: AZURE_AUTH.COOKIES.TWO.KEY,
+                        iv: AZURE_AUTH.COOKIES.TWO.IV
+                    }
                 ],
                 responseType: 'code id_token',
                 responseMode: 'form_post',
@@ -90,24 +89,31 @@ module.exports = function() {
     );
 
     passport.serializeUser((user, cb) => {
-        cb(null, user.id);
+        cb(null, {
+            userType: user.constructor.name,
+            userData: user
+        });
     });
 
-    passport.deserializeUser((id, cb) => {
-        userService
-            .findById(id)
-            .then(user => {
-                if(user){
-                    cb(null, user);
-                } else {
-                    // @TODO lookup staff instead
-                    cb(null, user);
-                    console.log('### no user found');
-                }
-            })
-            .catch(err => {
-                return cb(err);
-            });
+    passport.deserializeUser((user, cb) => {
+        if (user.userType === 'user') {
+            userService
+                .findById(user.userData.id)
+                .then(userObj => {
+                    cb(null, userObj);
+                })
+                .catch(err => {
+                    return cb(err);
+                });
+        } else if (user.userType === 'staff') {
+            userService.findStaffUserById(user.userData.id)
+                .then(staffUser => {
+                    cb(null, staffUser);
+                })
+                .catch(err => {
+                    return cb(err);
+                });
+        }
     });
 
     return [passport.initialize(), passport.session()];

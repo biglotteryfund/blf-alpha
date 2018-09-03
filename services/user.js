@@ -97,7 +97,7 @@ function __destroyAll() {
 }
 
 // Staff-specific user functions
-const createStaffUser = (user) => {
+const createStaffUser = user => {
     return Staff.create({
         oid: user.oid,
         email: user.upn,
@@ -113,14 +113,26 @@ const findStaffUser = (oid, cb) => {
                 [Op.eq]: oid
             }
         }
-    }).then(user => {
-        // update last login date
-        user.changed('updatedAt', true);
-        return user.save().then(() => {
-            return cb(null, user);
+    })
+        .then(user => {
+            // update last login date
+            user.changed('updatedAt', true);
+            return user.save().then(() => {
+                return cb(null, user);
+            });
+        })
+        .catch(() => {
+            return cb(null, null);
         });
-    }).catch(() => {
-        return cb(null, null);
+};
+
+const findStaffUserById = (id, cb) => {
+    return Staff.findOne({
+        where: {
+            id: {
+                [Op.eq]: id
+            }
+        }
     });
 };
 
@@ -134,5 +146,6 @@ module.exports = {
     createUser,
     createStaffUser,
     findStaffUser,
+    findStaffUserById,
     __destroyAll
 };

@@ -65,7 +65,7 @@ const MS_CLIENT_ID = process.env.MS_CLIENT_ID || getSecret('ms.auth.clientId');
 const MS_REDIRECT_URL = process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl');
 const MS_ALLOW_HTTP = !!process.env.MS_ALLOW_HTTP || getSecret('ms.auth.allowHttpForRedirectUrl');
 const MS_CLIENT_SECRET = process.env.MS_CLIENT_SECRET || getSecret('ms.auth.clientSecret');
-const MS_LOGOUT_URL = process.env.MS_LOGOUT_URL ||  getSecret('ms.auth.logoutUrl');
+const MS_LOGOUT_URL = process.env.MS_LOGOUT_URL || getSecret('ms.auth.logoutUrl');
 const MS_DESTROY_URL = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${MS_LOGOUT_URL}`;
 
 const MS_COOKIE_ENC_KEY_1 = process.env.MS_COOKIE_ENC_KEY_1 || getSecret('ms.auth.cookie1.key');
@@ -97,12 +97,12 @@ module.exports = {
         COOKIES: {
             ONE: {
                 KEY: MS_COOKIE_ENC_KEY_1,
-                IV: MS_COOKIE_ENC_IV_1,
+                IV: MS_COOKIE_ENC_IV_1
             },
             TWO: {
                 KEY: MS_COOKIE_ENC_KEY_2,
-                IV: MS_COOKIE_ENC_IV_2,
-            },
+                IV: MS_COOKIE_ENC_IV_2
+            }
         }
     }
 };
