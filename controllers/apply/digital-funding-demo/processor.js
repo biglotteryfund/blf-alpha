@@ -9,7 +9,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
     /**
      * Construct a primary address (i.e. customer email)
      */
-    const primaryAddress = `${data['first-name']} ${data['last-name']} <${data['email']}>`;
+    const primaryAddress = data['email'];
     const organisationName = `${data['organisation-name']}`;
 
     return mail.generateAndSend([
