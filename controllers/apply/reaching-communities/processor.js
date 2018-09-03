@@ -17,8 +17,8 @@ module.exports = function processor({ form, data, stepsWithValues }) {
         organisationName += ` (plus ${data['additional-organisations']})`;
     }
 
-    return mail.generateAndSend([
-        {
+    return Promise.all([
+        mail.generateAndSend({
             name: 'reaching_communities_customer',
             sendTo: customerSendTo,
             subject: 'Thank you for getting in touch with the Big Lottery Fund!',
@@ -27,8 +27,8 @@ module.exports = function processor({ form, data, stepsWithValues }) {
                 data: data,
                 summary: stepsWithValues
             }
-        },
-        {
+        }),
+        mail.generateAndSend({
             name: 'reaching_communities_internal',
             sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
             subject: `New idea submission from website: ${organisationName}`,
@@ -38,6 +38,6 @@ module.exports = function processor({ form, data, stepsWithValues }) {
                 data: data,
                 summary: orderStepsForInternalUse(stepsWithValues)
             }
-        }
+        })
     ]);
 };

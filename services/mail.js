@@ -23,24 +23,26 @@ const CloudWatch = new AWS.CloudWatch({
 });
 
 function recordSendMetric(name) {
-    const currentEnv = config.util.getEnv('NODE_ENV').toUpperCase();
-    const mailName = name.toUpperCase();
-    return CloudWatch.putMetricData({
-        Namespace: 'SITE/MAIL',
-        MetricData: [
-            {
-                MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
-                Dimensions: [
-                    {
-                        Name: 'MAIL_SENT',
-                        Value: 'SEND_COUNT'
-                    }
-                ],
-                Unit: 'Count',
-                Value: 1.0
-            }
-        ]
-    }).send();
+    if (config.get('features.enableMailSendMetrics')) {
+        const currentEnv = config.util.getEnv('NODE_ENV').toUpperCase();
+        const mailName = name.toUpperCase();
+        return CloudWatch.putMetricData({
+            Namespace: 'SITE/MAIL',
+            MetricData: [
+                {
+                    MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
+                    Dimensions: [
+                        {
+                            Name: 'MAIL_SENT',
+                            Value: 'SEND_COUNT'
+                        }
+                    ],
+                    Unit: 'Count',
+                    Value: 1.0
+                }
+            ]
+        }).send();
+    }
 }
 
 // Sync with modules/mail-helpers.js
@@ -132,33 +134,20 @@ function generateHtmlEmail(template, templateData) {
 
 /**
  * generateAndSend
- * @param {Array<HtmlEmailSchema>} schemas
+ * @param {HtmlEmailSchema} schema
  */
-function generateAndSend(schemas) {
-    const promises = schemas.map(schema => {
-        return generateHtmlEmail(schema.template, schema.templateData).then(html => {
-            return {
-                html: html,
-                schema: schema
-            };
-        });
-    });
-
-    return Promise.all(promises).then(generated => {
-        const mailPromises = generated.map(item => {
-            return send(item.schema.name, {
-                sendTo: item.schema.sendTo,
-                subject: item.schema.subject,
-                type: 'html',
-                content: item.html
-            });
-        });
-
-        return Promise.all(mailPromises);
-    });
+async function generateAndSend(schema, customTransport = null) {
+    const html = await generateHtmlEmail(schema.template, schema.templateData);
+    return send(schema.name, {
+        sendTo: schema.sendTo,
+        subject: schema.subject,
+        type: 'html',
+        content: html
+    }, customTransport);
 }
 
 module.exports = {
+    generateHtmlEmail,
     generateAndSend,
     send
 };
