@@ -1,2 +1,5 @@
 {
+  "features": {
+    "azureAuthEnabled": false
+  }
 }

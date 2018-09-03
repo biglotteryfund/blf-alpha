@@ -1,5 +1,6 @@
 'use strict';
 const passport = require('passport');
+const config = require('config');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
@@ -29,64 +30,66 @@ module.exports = function() {
         })
     );
 
-    // Configure staff user sign-in (eg. internal authentication)
-    passport.use(
-        new OIDCStrategy(
-            {
-                identityMetadata: AZURE_AUTH.MS_IDENTITY_URL,
-                clientID: AZURE_AUTH.MS_CLIENT_ID,
-                allowHttpForRedirectUrl: AZURE_AUTH.MS_ALLOW_HTTP,
-                redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
-                clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
-                cookieEncryptionKeys: [
-                    {
-                        key: AZURE_AUTH.COOKIES.ONE.KEY,
-                        iv: AZURE_AUTH.COOKIES.ONE.IV
-                    },
-                    {
-                        key: AZURE_AUTH.COOKIES.TWO.KEY,
-                        iv: AZURE_AUTH.COOKIES.TWO.IV
+    if (config.get('features.azureAuthEnabled')) {
+        // Configure staff user sign-in (eg. internal authentication)
+        passport.use(
+            new OIDCStrategy(
+                {
+                    identityMetadata: AZURE_AUTH.MS_IDENTITY_URL,
+                    clientID: AZURE_AUTH.MS_CLIENT_ID,
+                    allowHttpForRedirectUrl: AZURE_AUTH.MS_ALLOW_HTTP,
+                    redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
+                    clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
+                    cookieEncryptionKeys: [
+                        {
+                            key: AZURE_AUTH.COOKIES.ONE.KEY,
+                            iv: AZURE_AUTH.COOKIES.ONE.IV
+                        },
+                        {
+                            key: AZURE_AUTH.COOKIES.TWO.KEY,
+                            iv: AZURE_AUTH.COOKIES.TWO.IV
+                        }
+                    ],
+                    responseType: 'code id_token',
+                    responseMode: 'form_post',
+                    validateIssuer: true,
+                    isB2C: false,
+                    issuer: null,
+                    passReqToCallback: false,
+                    scope: null,
+                    loggingLevel: 'info',
+                    nonceLifetime: null,
+                    nonceMaxAmount: 5,
+                    useCookieInsteadOfSession: true,
+                    clockSkew: null
+                },
+                (iss, sub, profile, accessToken, refreshToken, done) => {
+                    if (!profile.oid) {
+                        return done(new Error('No oid found'), null);
                     }
-                ],
-                responseType: 'code id_token',
-                responseMode: 'form_post',
-                validateIssuer: true,
-                isB2C: false,
-                issuer: null,
-                passReqToCallback: false,
-                scope: null,
-                loggingLevel: 'info',
-                nonceLifetime: null,
-                nonceMaxAmount: 5,
-                useCookieInsteadOfSession: true,
-                clockSkew: null
-            },
-            (iss, sub, profile, accessToken, refreshToken, done) => {
-                if (!profile.oid) {
-                    return done(new Error('No oid found'), null);
-                }
-                // asynchronous verification, for effect...
-                process.nextTick(() => {
-                    userService.findStaffUser(profile.oid, (err, user) => {
-                        if (err) {
-                            return done(err);
-                        }
-                        if (!user) {
-                            userService
-                                .createStaffUser(profile)
-                                .then(() => {
-                                    return done(null, profile);
-                                })
-                                .catch(() => {
-                                    return done(null, user);
-                                });
-                        }
-                        return done(null, user);
+                    // asynchronous verification, for effect...
+                    process.nextTick(() => {
+                        userService.findStaffUser(profile.oid, (err, user) => {
+                            if (err) {
+                                return done(err);
+                            }
+                            if (!user) {
+                                userService
+                                    .createStaffUser(profile)
+                                    .then(() => {
+                                        return done(null, profile);
+                                    })
+                                    .catch(() => {
+                                        return done(null, user);
+                                    });
+                            }
+                            return done(null, user);
+                        });
                     });
-                });
-            }
-        )
-    );
+                }
+            )
+        );
+    }
 
     passport.serializeUser((user, cb) => {
         cb(null, {
@@ -106,7 +109,8 @@ module.exports = function() {
                     return cb(err);
                 });
         } else if (user.userType === 'staff') {
-            userService.findStaffUserById(user.userData.id)
+            userService
+                .findStaffUserById(user.userData.id)
                 .then(staffUser => {
                     cb(null, staffUser);
                 })

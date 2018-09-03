@@ -36,7 +36,8 @@
     "enableAbTests": true,
     "useHotjar": true,
     "useRemoteAssets": true,
-    "enableTimingMetrics": false
+    "enableTimingMetrics": false,
+    "azureAuthEnabled": true
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"
