@@ -1,0 +1,87 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/icons.njk" import iconTick %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+                <div class="s-prose u-constrained-content-wide">
+                    <p><strong>Do you work or volunteer for a voluntary sector organisation that just wants to be able to use apps and websites to help make life easier and make your work more effective? Are you looking to build your basic digital skills?</strong></p>
+
+                    <p>The Big Lottery Fund will soon be commissioning digital experts to offer free assistance to hundreds of voluntary sector organisations in this position. Because of this offering, the Digital Funding programme will not be making grants that are focused on basic skills.</p>
+
+                    <p>Details are still to be completed, but if you’d like us to email you when the offer of free assistance is available, please enter your email address here.</p>
+
+                    <form class="email-signup u-constrained js-email-signup">
+                        <div class="pre-submit">
+                            <label for="email" class="ff-label">
+                                Email address
+                            </label>
+                            <p class="ff-length-hint">
+                                We’ll only use this to send you information about free digital assistance
+                            </p>
+                            <input id="email"
+                                    type="email"
+                                    name="email"
+                                    class="ff-text ff-text--inline"
+                                    size="30"/>
+                            <input type="submit"
+                                   value="Submit"
+                                   class="btn btn--small accent--blue a--btn js-email-signup-trigger" />
+                        </div>
+                        <div class="post-submit">
+                            <div class="post-submit__text">
+                                <p class="u-no-margin"><strong>Thanks for signing up</strong></p>
+                                <p class="u-no-margin">We'll be in touch soon</p>
+                            </div>
+                            <div class="post-submit__icon">
+                                {{ iconTick() }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose u-constrained-content-wide">
+                    <h2>Help &amp; Support</h2>
+                    <p>There’s lots of useful advice on the internet about how get started on digital.</p>
+                    <p>Here’s just three places to try:</p>
+                    <ul>
+                        <li><a href="https://betterdigital.services/principles/">Digital Design Principles for Charities</a></li>
+                        <li><a href="https://knowhownonprofit.org/tools-resources/building-a-digital-workforce">Building a Digital Workforce</a></li>
+                        <li><a href="https://digitalmaturity.co.uk/">Voluntary Sector Digital Maturity Matrix</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose u-constrained-content-wide">
+                    <h2>More funding programmes</h2>
+                    <p>Big Lottery Fund’s other funding programmes, which represent the vast majority of our grant making, regularly support digitally powered projects. If you can’t find eligible funding for your digital ambitions through the Digital Funding Programme, please consider:</p>
+
+                    <div class="o-button-group">
+                        <a href="/funding/under10k" class="btn btn--small btn--outline accent--pink a--btn">
+                            Apply for funding under £10,000
+                        </a>
+
+                        <a href="/funding/over10k" class="btn btn--small btn--outline accent--pink a--btn">
+                            Apply for funding over £10,000
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

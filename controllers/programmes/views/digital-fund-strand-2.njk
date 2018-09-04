@@ -1,0 +1,106 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'cyan' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="s-prose u-constrained-content-wide">
+                    <p><strong>Big Lottery Fund offers grants of up to £500,000 for digital-native social impact organisations that have already launched promising services.</strong></p>
+
+                    <p>Organisations that apply successfully will:</p>
+                    <ul>
+                        <li>Have been founded since the year 2000, by a team which really understand digital</li>
+                        <li>Be able to show evidence on both the use and impact of services</li>
+                        <li>Use digital technology to enable impact that would not otherwise be possible</li>
+                        <li>Be dedicated primarily to public good, not private gain</li>
+                    </ul>
+
+                    <p><a href="#eligibility">The full detailed eligibility criteria can be seen here</a></p>
+                </div>
+            </section>
+
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="content-sidebar">
+                    <div class="content-sidebar__primary">
+                        <div class="s-prose">
+                            <h2>How the process works</h2>
+                            <p>Intro sentence or two to the conversational approach this fund will take and how it’s designed to help the customer experience.</p>
+                        </div>
+
+                        {{ stepProgress([{
+                            "title": "Book in a call",
+                            "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time"
+                        }, {
+                            "title": "Talk to us",
+                            "description": "We call you and ask a few questions"
+                        }, {
+                            "title": "Submit a full proposal",
+                            "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
+                        }, {
+                            "title": "Submit a detailed plan",
+                            "description": "If you are successful, we ask you to submit a more detailed plan which is then judged by our panel"
+                        }])}}
+                    </div>
+
+                    <div class="content-sidebar__secondary">
+                        <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
+                            <header class="card__header">
+                                <h3 class="card__title">Get started</h3>
+                                <div class="card__body">
+                                    <p>We’re really interested in hearing your ideas. Please talk to us, even if you’re still at an early stage</p>
+
+                                    <a href="/funding/programmes/digital-funding-demo/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                                        Book in a call
+                                    </a>
+                                </div>
+                            </header>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            {% call contentBox(pageAccent, id='eligibility') %}
+                <h2>Full eligibility details</h2>
+                <p>We are looking to fund smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale.</p>
+
+                <h3>Eligibility</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+                <h3>Success factors</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+                <h3>Support offered</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+                <p>It’s also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities policy and your environmental policy if we’re interested in your idea.</p>
+
+                <ul>
+                    <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
+                    <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
+                </ul>
+
+                <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
+
+                <a href="/funding/programmes/digital-funding-demo/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                    Book in a call
+                </a>
+            {% endcall %}
+        </div>
+
+        {% include "./digital-fund-example-projects.njk" %}
+    </main>
+{% endblock %}

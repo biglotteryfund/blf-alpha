@@ -88,9 +88,21 @@ function initApplicationForms() {
     }
 }
 
+function initMockEmailSignup() {
+    const mockFormEl = document.querySelector('.js-email-signup');
+    if (mockFormEl) {
+        const mockFormSubmit = mockFormEl.querySelector('.js-email-signup-trigger');
+        mockFormSubmit.addEventListener('click', function(e) {
+            e.preventDefault();
+            mockFormEl.classList.toggle('is-submitted');
+        });
+    }
+}
+
 function init() {
     initLegacyForms();
     initApplicationForms();
+    initMockEmailSignup();
 }
 
 export default {

@@ -1,0 +1,40 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+<section class="u-tone-background-tint u-padded-vertical-l">
+    <div class="u-inner">
+        <h2 class="t2 t--underline accent--{{ pageAccent }}">
+            Digital Funding Projects
+        </h2>
+    </div>
+    <div class="u-inner-wide-only">
+        <ul class="flex-grid flex-grid--3up">
+            <li class="flex-grid__item">
+                {% call promoCard({
+                    "title": "Project 1",
+                    "subtitle": "£329,000",
+                    "trailText": "Sed in mi vel erat blandit cursus. Nunc sodales diam in odio vehicula, at fermentum turpis congue. Vivamus rhoncus, eros eu iaculis euismod, nisi enim pretium enim, a maximus mauris magna sed urna. Aenean nec lacinia arcu, quis maximus lorem.",
+                    "image": { "url": "placeholders/placeholder-1.jpg" | getImagePath, "alt": "" }
+                }, accent = "blue") %}
+                {% endcall %}
+            </li>
+            <li class="flex-grid__item">
+                {% call promoCard({
+                    "title": "Project 2",
+                    "subtitle": "£110,059",
+                    "trailText": "Donec efficitur bibendum arcu elementum iaculis. Nam ac commodo diam. Aliquam nibh augue, convallis a eros consequat, ultrices egestas est. Pellentesque aliquet tortor leo, eget auctor neque malesuada in.",
+                    "image": { "url": "placeholders/placeholder-2.jpg" | getImagePath, "alt": "" }
+                }, accent = "pink") %}
+                {% endcall %}
+            </li>
+            <li class="flex-grid__item">
+                {% call promoCard({
+                    "title": "Project 3",
+                    "subtitle": "£489,990",
+                    "trailText": "Duis non turpis et mi euismod euismod eget nec enim. Vestibulum at ipsum lorem. Mauris nec dapibus tellus. Proin molestie diam in dui aliquam, id venenatis est luctus. Praesent ornare odio vel fermentum imperdiet.",
+                    "image": { "url": "placeholders/placeholder-3.jpg" | getImagePath, "alt": "" }
+                }, accent = "cyan") %}
+                {% endcall %}
+            </li>
+        </ul>
+    </div>
+</section>

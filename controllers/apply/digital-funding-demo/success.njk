@@ -1,12 +1,29 @@
+{% from "components/hero.njk" import hero %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% extends "layouts/main.njk" %}
+
 {% block title %}Success | {{ form.title }} | {% endblock %}
-{% set bodyClass = 'has-static-header' %}
+
+{# We always use pink here regardless of form settings to match accents below #}
+{% set pageAccent = 'pink' %}
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--pink a--border-top">
+
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top{% if heroImage %} nudge-up{% endif %}">
             <div class="s-prose u-constrained-wide">
                 <div class="form-message">
                     <h1 class="t1 form-message__title">Thank you for submitting your idea</h1>
@@ -23,7 +40,29 @@
                     isToggleable = false
                 )  }}
             </div>
-
         </div>
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top{% if heroImage %} nudge-up{% endif %}">
+            <div class="s-prose u-constrained-wide">
+                <h2>What happens next?</h2>
+
+                {{ stepProgress([{
+                    "title": "Book in a call",
+                    "description": "The information you have submitted will be reviewed by Big Lottery Fund staff. A Funding Officer will be in touch as quickly as we can, to arrange a call. You’ll need x, y and z handy. We’ll talk about a and b. We’ll work on c together.",
+                    "isCompleted": true
+                }, {
+                    "title": "Talk to us",
+                    "description": "We call you and ask a few questions"
+                }, {
+                    "title": "Submit a full proposal",
+                    "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
+                }, {
+                    "title": "Submit a detailed plan",
+                    "description": "If you are successful, we ask you to submit a more detailed plan which is then judged by our panel"
+                }])}}
+            </div>
+        </div>
+
+        {% include "controllers/programmes/views/digital-fund-example-projects.njk" %}
     </main>
 {% endblock %}

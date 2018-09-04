@@ -8,6 +8,7 @@ const Raven = require('raven');
 
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
+const { injectHeroImage } = require('../../middleware/inject-content');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
@@ -55,6 +56,8 @@ function initFormRouter(form) {
         next();
     });
 
+    router.use(injectHeroImage(form.heroSlug));
+
     const totalSteps = form.steps.length + 1; // allow for the review 'step'
 
     function getFormSession(req, step) {
@@ -78,12 +81,19 @@ function initFormRouter(form) {
             throw new Error('No startpage found');
         }
 
-        res.render(startPage.template, {
-            title: form.title,
-            startUrl: `${req.baseUrl}/1`,
-            stepConfig: startPage,
-            form: form
-        });
+        if (startPage.template) {
+            res.render(startPage.template, {
+                title: form.title,
+                startUrl: `${req.baseUrl}/1`,
+                stepConfig: startPage,
+                form: form
+            });
+        } else if (startPage.path) {
+            res.redirect(startPage.path);
+        } else {
+            throw new Error('No valid startpage types found');
+        }
+
     });
 
     /**
@@ -250,7 +260,8 @@ module.exports = ({ router }) => {
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     if (appData.isNotProduction) {
-        router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
+        router.use('/digital-funding-demo-1', initFormRouter(digitalFundingDemoForm(1)));
+        router.use('/digital-funding-demo-2', initFormRouter(digitalFundingDemoForm(2)));
     }
 
     return router;

@@ -16,6 +16,13 @@
         font-size: 16px;
         font-weight: normal;
         color: palette('charcoal-note');
+        margin-bottom: 10px;
+    }
+
+    .form-header__subtitle {
+        font-size: 20px;
+        margin-top: 10px;
+        font-weight: lighter;
     }
 }
 
@@ -149,6 +156,11 @@
         display: inline-block;
         border-left: none;
         margin: 0;
+    }
+
+    &.ff-text--inline {
+        display: inline-block;
+        margin-right: $spacingUnit;
     }
 }
 
@@ -480,5 +492,45 @@
 
     .location-search__submit {
         padding-left: $spacingUnit;
+    }
+}
+
+.email-signup {
+    background-color: palette('pale-grey');
+    padding: $spacingUnit;
+
+    input[type='submit'] {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .post-submit {
+        display: none;
+    }
+
+    &.is-submitted {
+        .pre-submit {
+            display: none;
+        }
+        .post-submit {
+            display: block;
+        }
+    }
+
+    .post-submit__text {
+        font-size: 16px;
+    }
+
+    .post-submit__text,
+    .post-submit__icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .post-submit__icon svg {
+        margin-left: $spacingUnit * 2;
+        $iconDimension: 50px;
+        width: $iconDimension;
+        height: $iconDimension;
     }
 }
