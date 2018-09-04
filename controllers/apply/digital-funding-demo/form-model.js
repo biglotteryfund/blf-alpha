@@ -6,7 +6,7 @@ const { cloneDeep } = require('lodash');
 const processor = require('./processor');
 
 const stepDetails = {
-    name: 'Your contact details',
+    name: 'Your details',
     fieldsets: [
         {
             legend: 'Your contact details',
@@ -17,14 +17,7 @@ const stepDetails = {
                     name: 'name',
                     autocompleteName: 'name',
                     label: 'Name',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Name must be provided');
-                    }
+                    isRequired: true
                 },
                 {
                     type: 'email',
@@ -46,32 +39,25 @@ const stepDetails = {
                     type: 'text',
                     name: 'organisation-name',
                     label: 'Organisation name',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Organisation must be provided');
-                    }
-                },
+                    isRequired: true
+                }
+            ]
+        },
+        {
+            legend: 'Your organisation',
+            introduction: 'Please tell us a little about your project and organisation so that we can get in touch',
+            fields: [
                 {
                     name: 'about-your-organisation',
                     type: 'textarea',
                     isRequired: true,
                     rows: 12,
-                    label: 'Briefly tell us:',
-                    helpText: `<ul>
-                        <li>What your organisation does</li>
-                        <li>What sort of significant changes you've been thinking about</li>
-                    </ul>`,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Please tell us about your organisation');
-                    }
+                    label: 'About your organisation',
+                    helpText: `<p>Briefly tell us:</p>
+                        <ul>
+                            <li>What your organisation does</li>
+                            <li>What sort of significant changes you've been thinking about</li>
+                        </ul>`
                 }
             ]
         }
@@ -80,7 +66,7 @@ const stepDetails = {
 
 // make a copy of the above step and add a question (for alternate strand)
 let stepDetailsAdditional = cloneDeep(stepDetails);
-stepDetailsAdditional.fieldsets[0].fields.push({
+stepDetailsAdditional.fieldsets[1].fields.push({
     name: 'how-technology-helps-scale',
     type: 'textarea',
     isRequired: true,
