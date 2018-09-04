@@ -25,7 +25,7 @@ module.exports = function processor({ form, data, stepsWithValues }) {
         {
             name: 'digital_funding_demo_internal',
             sendTo: appData.isDev ? customerSendTo : { address: DIGITAL_FUND_DEMO_EMAIL },
-            subject: `New Digital Fund idea submission from website: ${data['organisation-name']}`,
+            subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
             template: path.resolve(__dirname, './internal-email'),
             templateData: {
                 title: form.title,

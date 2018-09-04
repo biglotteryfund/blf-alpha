@@ -8,7 +8,7 @@ const router = express.Router();
 function mockBreadcrumbs(req, currentTitle) {
     const firstCrumb = { label: 'Funding', url: '/funding' };
     const secondCrumb = { label: 'Programmes', url: '/funding/programmes' };
-    const thirdCrumb = { label: 'Digital Fund' };
+    const thirdCrumb = { label: 'Digital Funding' };
 
     if (currentTitle) {
         thirdCrumb.url = req.baseUrl;
@@ -39,7 +39,7 @@ router.get('/getting-started', (req, res) => {
 
 router.get('/strand-1', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1'), {
-        title: 'Digital Fund: Strand 1',
+        title: 'Digital Funding: Strand 1',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 1')
     });
@@ -47,7 +47,7 @@ router.get('/strand-1', (req, res) => {
 
 router.get('/strand-1/eligibility', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1-eligibility'), {
-        title: 'Digital Fund: Strand 1 Eligibility',
+        title: 'Digital Funding: Strand 1 Eligibility',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 1 Eligibility')
     });
@@ -55,7 +55,7 @@ router.get('/strand-1/eligibility', (req, res) => {
 
 router.get('/strand-1/eligibility/no', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1-no'), {
-        title: 'Digital Fund: Strand 1 Eligibility',
+        title: 'Digital Funding: Strand 1 Eligibility',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 1 Eligibility')
     });
@@ -63,7 +63,7 @@ router.get('/strand-1/eligibility/no', (req, res) => {
 
 router.get('/strand-2', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2'), {
-        title: 'Digital Fund: Strand 2',
+        title: 'Digital Funding: Strand 2',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 2')
     });
@@ -71,7 +71,7 @@ router.get('/strand-2', (req, res) => {
 
 router.get('/strand-2/eligibility', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2-eligibility'), {
-        title: 'Digital Fund: Strand 2 Eligibility',
+        title: 'Digital Funding: Strand 2 Eligibility',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 2 Eligibility')
     });
@@ -79,7 +79,7 @@ router.get('/strand-2/eligibility', (req, res) => {
 
 router.get('/strand-2/eligibility/no', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2-no'), {
-        title: 'Digital Fund: Strand 2 Eligibility',
+        title: 'Digital Funding: Strand 2 Eligibility',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 2 Eligibility')
     });
