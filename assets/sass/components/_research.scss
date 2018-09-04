@@ -3,40 +3,6 @@
    ========================================================================= */
 
 /* =========================================================================
-    Research Intro
-    ========================================================================= */
-
-.research-intro {
-    @include mq('medium-major') {
-        display: flex;
-    }
-
-    .research-intro__primary {
-        font-size: 18px;
-        max-width: $constrained;
-        margin-bottom: $spacingUnit;
-
-        @include mq('medium-major') {
-            flex: 0 0 68%;
-            padding-right: $spacingUnit;
-        }
-    }
-
-    .research-intro__secondary {
-        @include mq('medium-major') {
-            flex: 0 0 32%;
-        }
-    }
-
-    .research-intro__prefix {
-        font-size: 16px;
-        font-style: italic;
-        color: palette('charcoal-note');
-        margin-bottom: 0;
-    }
-}
-
-/* =========================================================================
    Research Sections
    ========================================================================= */
 

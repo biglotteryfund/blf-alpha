@@ -19,8 +19,8 @@
             <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <div class="research-intro">
-                    <div class="research-intro__primary">
+                <div class="content-sidebar">
+                    <div class="content-sidebar__primary">
                         <div class="s-prose">
                             {{ entry.introduction | safe }}
                         </div>
@@ -49,7 +49,7 @@
                             </dl>
                         </div>
                     </div>
-                    <div class="research-intro__secondary">
+                    <div class="content-sidebar__secondary">
                         {% if entry.documents %}
                             {{ documentsCard(
                                 title = __('research.detail.documents'),
