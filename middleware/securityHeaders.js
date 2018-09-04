@@ -92,8 +92,9 @@ function defaultSecurityHeaders() {
     }
 
     if (appData.isNotProduction) {
-        directives.imgSrc = directives.imgSrc.concat(['localhost', '127.0.0.1:*']);
+        directives.imgSrc = directives.imgSrc.concat(['http://localhost', 'http://127.0.0.1:*']);
     }
+
     if (appData.isDev) {
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
