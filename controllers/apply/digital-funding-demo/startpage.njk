@@ -1,14 +1,26 @@
+{% from "components/hero.njk" import hero %}
 {% from "components/buttons.njk" import startButton %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 
-
 {% extends "layouts/main.njk" %}
-{% set bodyClass = 'has-static-header' %}
+
 {% set pageAccent = 'pink' %}
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
             <h1 class="t1">
                 {{ form.title }} &ndash;
                 Apply for a grant over £10,000

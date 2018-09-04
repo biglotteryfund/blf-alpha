@@ -92,19 +92,19 @@ stepDetailsAdditional.fieldsets[0].fields.push({
             .not()
             .isEmpty()
             .withMessage('Please tell us about your organisation');
-        }
+    }
 });
 
-
 const strandSteps = {
-    'strand1': [stepDetails],
-    'strand2': [stepDetailsAdditional],
+    strand1: [stepDetails],
+    strand2: [stepDetailsAdditional]
 };
 
-module.exports = (strandNumber) => {
+module.exports = strandNumber => {
     return {
         id: `digital-funding-strand-${strandNumber}`,
         title: `Digital Funding Strand ${strandNumber} (Demo)`,
+        heroSlug: 'whizz-kidz',
         shortCode: `DF${strandNumber}-ALPHA`,
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,

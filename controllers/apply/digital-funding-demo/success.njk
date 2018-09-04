@@ -1,12 +1,26 @@
+{% from "components/hero.njk" import hero %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 
 {% extends "layouts/main.njk" %}
+
 {% block title %}Success | {{ form.title }} | {% endblock %}
-{% set bodyClass = 'has-static-header' %}
+
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--pink a--border-top">
+
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top{% if heroImage %} nudge-up{% endif %}">
             <div class="s-prose u-constrained-wide">
                 <div class="form-message">
                     <h1 class="t1 form-message__title">Thank you for submitting your idea</h1>

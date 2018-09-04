@@ -8,6 +8,7 @@ const Raven = require('raven');
 
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
+const { injectHeroImage } = require('../../middleware/inject-content');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
@@ -72,7 +73,7 @@ function initFormRouter(form) {
     /**
      * Route: Start page
      */
-    router.get('/', cached.noCache, function(req, res) {
+    router.get('/', cached.noCache, injectHeroImage(form.heroSlug), function(req, res) {
         const { startPage } = form;
         if (!startPage) {
             throw new Error('No startpage found');
@@ -142,7 +143,7 @@ function initFormRouter(form) {
         router
             .route(`/${currentStepNumber}`)
             .all(cached.csrfProtection)
-            .get(renderStepIfAllowed)
+            .get(injectHeroImage(form.heroSlug), renderStepIfAllowed)
             .post(handleSubmitStep());
 
         /**
@@ -151,7 +152,7 @@ function initFormRouter(form) {
         router
             .route(`/${currentStepNumber}/edit`)
             .all(cached.csrfProtection)
-            .get(function(req, res) {
+            .get(injectHeroImage(form.heroSlug), function(req, res) {
                 const formSession = getFormSession(req);
                 const completedSteps = Object.keys(formSession).filter(key => /^step-/.test(key)).length;
                 if (completedSteps < totalSteps - 1) {
@@ -169,7 +170,7 @@ function initFormRouter(form) {
     router
         .route('/review')
         .all(cached.csrfProtection)
-        .get(function(req, res) {
+        .get(injectHeroImage(form.heroSlug), function(req, res) {
             const formData = getFormSession(req);
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
@@ -218,7 +219,7 @@ function initFormRouter(form) {
     /**
      * Route: Success
      */
-    router.get('/success', cached.noCache, function(req, res) {
+    router.get('/success', cached.noCache, injectHeroImage(form.heroSlug), function(req, res) {
         const formData = getFormSession(req);
         const { successStep } = form;
 
