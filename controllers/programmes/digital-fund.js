@@ -14,7 +14,7 @@ const router = express.Router();
 function mockBreadcrumbs(req, extraCrumbs = []) {
     const section = { label: 'Funding', url: '#' };
     const programmes = { label: 'Programmes', url: '#' };
-    const fund = { label: 'Digital Fund' };
+    const fund = { label: 'Digital Funding' };
 
     if (extraCrumbs.length > 0) {
         fund.url = req.baseUrl;
