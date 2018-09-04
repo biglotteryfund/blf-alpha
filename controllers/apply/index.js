@@ -88,12 +88,11 @@ function initFormRouter(form) {
                 stepConfig: startPage,
                 form: form
             });
-        } else if (startPage.path) {
-            res.redirect(startPage.path);
+        } else if (startPage.urlPath) {
+            res.redirect(startPage.urlPath);
         } else {
             throw new Error('No valid startpage types found');
         }
-
     });
 
     /**
