@@ -48,6 +48,33 @@
 }
 
 /* =========================================================================
+   Content with sidebar
+   ========================================================================= */
+
+.content-sidebar {
+    @include mq('medium-major') {
+        display: flex;
+    }
+
+    .content-sidebar__primary {
+        font-size: 18px;
+        max-width: $constrained;
+        margin-bottom: $spacingUnit;
+
+        @include mq('medium-major') {
+            flex: 0 0 68%;
+            padding-right: $spacingUnit;
+        }
+    }
+
+    .content-sidebar__secondary {
+        @include mq('medium-major') {
+            flex: 0 0 32%;
+        }
+    }
+}
+
+/* =========================================================================
    Content Box
    ========================================================================= */
 
