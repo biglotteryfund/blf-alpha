@@ -14,6 +14,10 @@
             </p>
         {% endif %}
         <h1 class="form-header__title">{{ form.title }}</h1>
+        {% if form.subtitle %}
+            <p class="form-header__subtitle">{{ form.subtitle | safe }}</p>
+        {% endif %}
+
     </div>
 {% endmacro %}
 
