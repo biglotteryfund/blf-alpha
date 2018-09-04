@@ -91,8 +91,10 @@ function defaultSecurityHeaders() {
         directives.fontSrc = directives.fontSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
     }
 
-    if (appData.isDev) {
+    if (appData.isNotProduction) {
         directives.imgSrc = directives.imgSrc.concat(['localhost', '127.0.0.1:*']);
+    }
+    if (appData.isDev) {
         directives.connectSrc = directives.connectSrc.concat(['ws://127.0.0.1:35729/livereload']);
     }
 
