@@ -128,7 +128,6 @@
     }
 }
 
-// Digital Funding Prototype
 /* =========================================================================
    Step Progress
    ========================================================================= */
@@ -140,6 +139,7 @@
     padding-left: $spacingUnit;
     margin-left: $counterSize / 2;
     border-left: 4px solid palette('border');
+    max-width: $constrained;
     counter-reset: step-counter;
 
     .step-progress__item {
