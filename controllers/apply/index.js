@@ -79,12 +79,19 @@ function initFormRouter(form) {
             throw new Error('No startpage found');
         }
 
-        res.render(startPage.template, {
-            title: form.title,
-            startUrl: `${req.baseUrl}/1`,
-            stepConfig: startPage,
-            form: form
-        });
+        if (startPage.template) {
+            res.render(startPage.template, {
+                title: form.title,
+                startUrl: `${req.baseUrl}/1`,
+                stepConfig: startPage,
+                form: form
+            });
+        } else if (startPage.path) {
+            res.redirect(startPage.path);
+        } else {
+            throw new Error('No valid startpage types found');
+        }
+
     });
 
     /**

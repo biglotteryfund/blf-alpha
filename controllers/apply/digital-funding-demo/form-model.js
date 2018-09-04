@@ -106,12 +106,11 @@ module.exports = strandNumber => {
         title: `Digital Funding Strand ${strandNumber} (Demo)`,
         pageAccent: 'blue',
         heroSlug: 'whizz-kidz',
-        hidePagination: true,
         shortCode: `DF${strandNumber}-ALPHA`,
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,
         startPage: {
-            template: path.resolve(__dirname, './startpage')
+            path: `/funding/programmes/digital-funding-demo/strand-${strandNumber}`
         },
         reviewStep: {
             title: 'Check this is right before submitting your information',
