@@ -250,7 +250,8 @@ module.exports = ({ router }) => {
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     if (appData.isNotProduction) {
-        router.use('/digital-funding-demo', initFormRouter(digitalFundingDemoForm));
+        router.use('/digital-funding-demo-1', initFormRouter(digitalFundingDemoForm(1)));
+        router.use('/digital-funding-demo-2', initFormRouter(digitalFundingDemoForm(2)));
     }
 
     return router;
