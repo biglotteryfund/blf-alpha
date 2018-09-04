@@ -98,7 +98,7 @@ module.exports = strandNumber => {
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,
         startPage: {
-            path: `/funding/programmes/digital-funding-demo/strand-${strandNumber}`
+            urlPath: `/funding/programmes/digital-funding-demo/strand-${strandNumber}`
         },
         reviewStep: {
             title: 'Check this is right before submitting your information',
