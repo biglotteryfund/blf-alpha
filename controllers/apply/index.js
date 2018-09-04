@@ -56,6 +56,8 @@ function initFormRouter(form) {
         next();
     });
 
+    router.use(injectHeroImage(form.heroSlug));
+
     const totalSteps = form.steps.length + 1; // allow for the review 'step'
 
     function getFormSession(req, step) {
@@ -73,7 +75,7 @@ function initFormRouter(form) {
     /**
      * Route: Start page
      */
-    router.get('/', cached.noCache, injectHeroImage(form.heroSlug), function(req, res) {
+    router.get('/', cached.noCache, function(req, res) {
         const { startPage } = form;
         if (!startPage) {
             throw new Error('No startpage found');
@@ -149,7 +151,7 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}`)
-            .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+            .all(cached.csrfProtection)
             .get(renderStepIfAllowed)
             .post(handleSubmitStep());
 
@@ -158,7 +160,7 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}/edit`)
-            .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+            .all(cached.csrfProtection)
             .get(function(req, res) {
                 const formSession = getFormSession(req);
                 const completedSteps = Object.keys(formSession).filter(key => /^step-/.test(key)).length;
@@ -176,7 +178,7 @@ function initFormRouter(form) {
      */
     router
         .route('/review')
-        .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+        .all(cached.csrfProtection)
         .get(function(req, res) {
             const formData = getFormSession(req);
             if (isEmpty(formData)) {
@@ -226,7 +228,7 @@ function initFormRouter(form) {
     /**
      * Route: Success
      */
-    router.get('/success', cached.noCache, injectHeroImage(form.heroSlug), function(req, res) {
+    router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
         const { successStep } = form;
 
