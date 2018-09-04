@@ -10,6 +10,7 @@ const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
+const appData = require('../../modules/appData');
 
 /**
  * Route: Legacy funding finder
@@ -151,6 +152,10 @@ function init({ router, routeConfigs }) {
         router: router,
         routeConfig: routeConfigs.programmes
     });
+
+    if (appData.isNotProduction) {
+        router.use('/programmes/digital-funding-demo', require('./digital-fund'));
+    }
 
     initProgrammeDetail(router);
 
