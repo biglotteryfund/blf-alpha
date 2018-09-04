@@ -3,6 +3,8 @@
 
 {% extends "layouts/main.njk" %}
 
+{% set pageAccent = 'pink' %}
+
 {% block content %}
     <main role="main">
         {{ hero(
@@ -91,12 +93,12 @@
                     <p>If you think this fund might be right for you, choose one of the two options below to get started.</p>
 
                     <p>
-                        <a href="#" class="btn btn--outline accent--blue a--btn">
+                        <a href="/funding/programmes/digital-funding-demo/strand-1" class="btn btn--outline accent--blue a--btn">
                             We want to use digital to change our core business
                         </a>
                     </p>
                     <p>
-                        <a href="#" class="btn btn--outline accent--cyan a--btn">
+                        <a href="/funding/programmes/digital-funding-demo/strand-2" class="btn btn--outline accent--cyan a--btn">
                             We are already highly digital, and want to scale our impact
                         </a>
                     </p>
