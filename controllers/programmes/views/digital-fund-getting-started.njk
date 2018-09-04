@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -13,6 +14,7 @@
 
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p><strong>Do you work or volunteer for a voluntary sector organisation that just wants to be able to use apps and websites to help make life easier and make your work more effective? Are you looking to build your basic digital skills?</strong></p>
 

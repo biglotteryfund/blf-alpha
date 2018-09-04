@@ -24,14 +24,16 @@ router.use(injectHeroImage('whizz-kidz'));
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-landing'), {
         heroImage: res.locals.heroImage,
-        title: 'Digital Funding'
+        title: 'Digital Funding',
+        breadcrumbs: mockBreadcrumbs(req)
     });
 });
 
 router.get('/getting-started', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-getting-started'), {
         heroImage: res.locals.heroImage,
-        title: 'Getting started'
+        title: 'Getting started',
+        breadcrumbs: mockBreadcrumbs(req, 'Getting Started')
     });
 });
 
