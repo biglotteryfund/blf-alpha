@@ -5,6 +5,8 @@
 
 {% block title %}Success | {{ form.title }} | {% endblock %}
 
+{# We always use pink here regardless of form settings to match accents below #}
+{% set pageAccent = 'pink' %}
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}

@@ -1,24 +1,42 @@
+{% from "components/hero.njk" import hero %}
 {% extends "layouts/main.njk" %}
+
 {% block title %}Error | {{ form.title }} | {% endblock %}
-{% set bodyClass = 'has-static-header' %}
+
+{% set pageAccent = form.pageAccent if form.pageAccent else 'pink' %}
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
-    <div class="content-box u-inner-wide-only accent--pink a--border-top">
-        <div class="u-constrained-content s-prose u-margin-bottom">
-            <div class="form-message">
-                <h1 class="t1 form-message__title">{{ stepConfig.title }}</h1>
+
+    <main role="main" id="content">
+
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+            <div class="u-constrained-content s-prose u-margin-bottom">
+                <div class="form-message">
+                    <h1 class="t1 form-message__title">{{ stepConfig.title }}</h1>
+                </div>
+
+                {{ stepConfig.message | safe }}
+
+                <p><a class="btn" href="{{returnUrl}}">Back</a></p>
+
+                {% if error and appData.isNotProduction %}
+                    <h4>Stack trace:</h4>
+                    <pre>{{ error.stack }}</pre>
+                    <h4>Raw error:</h4>
+                    <pre>{{ error | dump(2) }}</pre>
+                {% endif %}
             </div>
-
-            {{ stepConfig.message | safe }}
-
-            <p><a class="btn" href="{{returnUrl}}">Back</a></p>
-
-            {% if error and appData.isNotProduction %}
-                <h4>Stack trace:</h4>
-                <pre>{{ error.stack }}</pre>
-                <h4>Raw error:</h4>
-                <pre>{{ error | dump(2) }}</pre>
-            {% endif %}
         </div>
-    </div>
+    </main>
 {% endblock %}

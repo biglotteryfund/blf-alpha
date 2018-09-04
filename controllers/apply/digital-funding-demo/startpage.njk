@@ -4,7 +4,7 @@
 
 {% extends "layouts/main.njk" %}
 
-{% set pageAccent = 'pink' %}
+{% set pageAccent = form.pageAccent if form.pageAccent else 'pink' %}
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}

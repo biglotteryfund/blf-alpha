@@ -104,6 +104,7 @@ module.exports = strandNumber => {
     return {
         id: `digital-funding-strand-${strandNumber}`,
         title: `Digital Funding Strand ${strandNumber} (Demo)`,
+        pageAccent: 'blue',
         heroSlug: 'whizz-kidz',
         hidePagination: true,
         shortCode: `DF${strandNumber}-ALPHA`,
