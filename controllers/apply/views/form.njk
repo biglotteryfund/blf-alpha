@@ -25,7 +25,7 @@
         <form action="" method="POST"
             class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
 
-            {{ formHeader(form.title, stepProgress) }}
+            {{ formHeader(form, stepProgress) }}
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 

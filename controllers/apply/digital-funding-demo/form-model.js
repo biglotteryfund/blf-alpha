@@ -105,6 +105,7 @@ module.exports = strandNumber => {
         id: `digital-funding-strand-${strandNumber}`,
         title: `Digital Funding Strand ${strandNumber} (Demo)`,
         heroSlug: 'whizz-kidz',
+        hidePagination: true,
         shortCode: `DF${strandNumber}-ALPHA`,
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,
