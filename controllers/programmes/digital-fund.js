@@ -10,7 +10,7 @@ router.use(injectHeroImage('whizz-kidz'));
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-landing'), {
         heroImage: res.locals.heroImage,
-        title: 'Digital Fund'
+        title: 'Digital Funding'
     });
 });
 
