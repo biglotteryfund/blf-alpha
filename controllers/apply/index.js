@@ -142,8 +142,8 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}`)
-            .all(cached.csrfProtection)
-            .get(injectHeroImage(form.heroSlug), renderStepIfAllowed)
+            .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+            .get(renderStepIfAllowed)
             .post(handleSubmitStep());
 
         /**
@@ -151,8 +151,8 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}/edit`)
-            .all(cached.csrfProtection)
-            .get(injectHeroImage(form.heroSlug), function(req, res) {
+            .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+            .get(function(req, res) {
                 const formSession = getFormSession(req);
                 const completedSteps = Object.keys(formSession).filter(key => /^step-/.test(key)).length;
                 if (completedSteps < totalSteps - 1) {
@@ -169,8 +169,8 @@ function initFormRouter(form) {
      */
     router
         .route('/review')
-        .all(cached.csrfProtection)
-        .get(injectHeroImage(form.heroSlug), function(req, res) {
+        .all(injectHeroImage(form.heroSlug), cached.csrfProtection)
+        .get(function(req, res) {
             const formData = getFormSession(req);
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
