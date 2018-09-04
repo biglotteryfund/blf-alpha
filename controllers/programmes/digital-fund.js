@@ -21,11 +21,6 @@ function mockBreadcrumbs(req, currentTitle) {
 
 router.use(injectHeroImage('whizz-kidz'));
 
-router.use((req, res, next) => {
-    res.locals.pageAccent = 'blue';
-    next();
-});
-
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-landing'), {
         heroImage: res.locals.heroImage,
@@ -48,11 +43,43 @@ router.get('/strand-1', (req, res) => {
     });
 });
 
+router.get('/strand-1/eligibility', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-strand-1-eligibility'), {
+        title: 'Digital Fund: Strand 1 Eligibility',
+        heroImage: res.locals.heroImage,
+        breadcrumbs: mockBreadcrumbs(req, 'Strand 1 Eligibility')
+    });
+});
+
+router.get('/strand-1/eligibility/no', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-strand-1-no'), {
+        title: 'Digital Fund: Strand 1 Eligibility',
+        heroImage: res.locals.heroImage,
+        breadcrumbs: mockBreadcrumbs(req, 'Strand 1 Eligibility')
+    });
+});
+
 router.get('/strand-2', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2'), {
         title: 'Digital Fund: Strand 2',
         heroImage: res.locals.heroImage,
         breadcrumbs: mockBreadcrumbs(req, 'Strand 2')
+    });
+});
+
+router.get('/strand-2/eligibility', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-strand-2-eligibility'), {
+        title: 'Digital Fund: Strand 2 Eligibility',
+        heroImage: res.locals.heroImage,
+        breadcrumbs: mockBreadcrumbs(req, 'Strand 2 Eligibility')
+    });
+});
+
+router.get('/strand-2/eligibility/no', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-strand-2-no'), {
+        title: 'Digital Fund: Strand 2 Eligibility',
+        heroImage: res.locals.heroImage,
+        breadcrumbs: mockBreadcrumbs(req, 'Strand 2 Eligibility')
     });
 });
 
