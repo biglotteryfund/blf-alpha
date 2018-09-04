@@ -1,5 +1,4 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
@@ -15,7 +14,7 @@
         <div class="nudge-up">
             <section class="content-box content-box--tinted
                 u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+                {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p>Digital tools and working practices can help civil society organisations to serve people better than ever before.</p>
                     <p>The Digital Funding programme makes grants of <strong>£100,000 to £500,000</strong> to help civil society organisations to become more successful and more impactful.</p>
@@ -53,31 +52,23 @@
                     <p>The full eligibility criteria for the Digital Funding are listed below.</p>
                     <p>We can also provide guidance <a href="#how-to-apply">tailored to your needs</a>.</p>
 
-                    <p>The Digital Funding Programme is currently planning to make awards to just two kind of organisation:</p>
+                    <p>The Digital Funding Programme is currently planning to make awards to just two kind of organisation. These two kinds of organisations must demonstrate they can meet different criteria in order for their application to be successful:</p>
 
-                    <p>These two kinds of organisations must demonstrate they can meet different criteria in order for their application to be successful.</p>
-
+                    <p><strong>1. Long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens</strong></p>
                     <ul>
-                        <li class="u-padded-bottom">
-                            <p><strong>Long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens</strong></p>
-                            <ul>
-                                <li>Eligibility</li>
-                                <li>Success factors</li>
-                                <li>Nature of support offered</li>
-                            </ul>
-                            <p><a href="/funding/programmes/digital-funding-demo/strand-1">Get in touch to apply for this funding</a></p>
-                        </li>
-
-                        <li class="u-padded-bottom">
-                            <p><strong>Smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale</strong></p>
-                            <ul>
-                                <li>Eligibility</li>
-                                <li>Success factors</li>
-                                <li>Nature of support offered</li>
-                            </ul>
-                            <p><a href="/funding/programmes/digital-funding-demo/strand-2">Get in touch to apply for this funding</a></p>
-                        </li>
+                        <li>Eligibility</li>
+                        <li>Success factors</li>
+                        <li>Nature of support offered</li>
                     </ul>
+                    <p><a href="#">Get in touch to apply for this funding</a></p>
+
+                    <p><strong>2. Smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale</strong></p>
+                    <ul>
+                        <li>Eligibility</li>
+                        <li>Success factors</li>
+                        <li>Nature of support offered</li>
+                    </ul>
+                    <p><a href="#">Get in touch to apply for this funding</a></p>
 
                     <p>It’s also important to us that you are <strong>committed to equalities and the environment</strong>.</p>
 
@@ -90,54 +81,20 @@
 
                     <p>If you think this fund might be right for you, choose one of the two options below to get started.</p>
 
-                    <p>
-                        <a href="/funding/programmes/digital-funding-demo/strand-1" class="btn btn--outline accent--blue a--btn">
+                    <div class="o-button-group-block u-margin-bottom u-constrained">
+                        <a class="btn btn--medium btn--outline accent--blue a--btn"
+                            href="/funding/programmes/digital-funding-demo/strand-1">
                             We want to use digital to change our core business
                         </a>
-                    </p>
-                    <p>
-                        <a href="/funding/programmes/digital-funding-demo/strand-2" class="btn btn--outline accent--cyan a--btn">
+                        <a class="btn btn--medium btn--outline accent--cyan a--btn"
+                            href="/funding/programmes/digital-funding-demo/strand-2">
                             We are already highly digital, and want to scale our impact
                         </a>
-                    </p>
+                    </div>
                 </div>
             </section>
 
-            <section class="u-padded-top-l u-inner">
-                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                    <h2>Digital Funding Projects</h2>
-                </div>
-                <ul class="flex-grid flex-grid--3up">
-                    <li class="flex-grid__item">
-                        {% call promoCard({
-                            "title": "Project 1",
-                            "subtitle": "£329,000",
-                            "trailText": "Sed in mi vel erat blandit cursus. Nunc sodales diam in odio vehicula, at fermentum turpis congue. Vivamus rhoncus, eros eu iaculis euismod, nisi enim pretium enim, a maximus mauris magna sed urna. Aenean nec lacinia arcu, quis maximus lorem.",
-                            "image": { "url": "placeholders/placeholder-1.jpg" | getImagePath, "alt": "" }
-                        }, accent = "blue") %}
-                        {% endcall %}
-                    </li>
-                    <li class="flex-grid__item">
-                        {% call promoCard({
-                            "title": "Project 2",
-                            "subtitle": "£110,059",
-                            "trailText": "Donec efficitur bibendum arcu elementum iaculis. Nam ac commodo diam. Aliquam nibh augue, convallis a eros consequat, ultrices egestas est. Pellentesque aliquet tortor leo, eget auctor neque malesuada in.",
-                            "image": { "url": "placeholders/placeholder-2.jpg" | getImagePath, "alt": "" }
-                        }, accent = "pink") %}
-                        {% endcall %}
-                    </li>
-                    <li class="flex-grid__item">
-                        {% call promoCard({
-                            "title": "Project 3",
-                            "subtitle": "£489,990",
-                            "trailText": "Duis non turpis et mi euismod euismod eget nec enim. Vestibulum at ipsum lorem. Mauris nec dapibus tellus. Proin molestie diam in dui aliquam, id venenatis est luctus. Praesent ornare odio vel fermentum imperdiet.",
-                            "image": { "url": "placeholders/placeholder-3.jpg" | getImagePath, "alt": "" }
-                        }, accent = "cyan") %}
-                        {% endcall %}
-                    </li>
-                </ul>
-            </section>
-
+            {% include "./digital-fund-example-projects.njk" %}
         </div>
     </main>
 {% endblock %}
