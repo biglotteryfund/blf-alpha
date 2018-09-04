@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% extends "layouts/main.njk" %}
 
@@ -36,24 +37,27 @@
                     <div class="content-sidebar__primary">
 
                         <div class="s-prose">
-                            <h1>How the process works</h1>
+                            <h2>How the process works</h2>
 
                             <p>
                                 Intro sentence or two to the conversational approach this fund will take and how it’s designed to help the customer experience.
                             </p>
-
-                            <h2>1. Book in a call</h2>
-                            <p>Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time</p>
-
-                            <h2>2. Talk to us</h2>
-                            <p>We call you and ask a few questions</p>
-
-                            <h2>3. Submit a full proposal</h2>
-                            <p>If we feel this fund could work for you, we’ll ask you to submit a full proposal</p>
-
-                            <h2>4. Submit a detailed plan</h2>
-                            <p>If you are successful, we ask you to submit a more detailed plan which is then judged by our panel</p>
                         </div>
+
+                        {{ stepProgress([{
+                            "title": "Book in a call",
+                            "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time",
+                            "isCompleted": true
+                        }, {
+                            "title": "Talk to us",
+                            "description": "We call you and ask a few questions"
+                        }, {
+                            "title": "Submit a full proposal",
+                            "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
+                        }, {
+                            "title": "Submit a detailed plan",
+                            "description": "If you are successful, we ask you to submit a more detailed plan which is then judged by our panel"
+                        }])}}
                     </div>
 
                     <div class="content-sidebar__secondary">
