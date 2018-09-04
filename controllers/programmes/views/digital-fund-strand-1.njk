@@ -1,4 +1,5 @@
 {% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -11,10 +12,15 @@
         ) }}
 
         <div class="nudge-up">
-            <section class="content-box content-box--tinted
-                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
                 <div class="s-prose u-constrained-content-wide">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore, cupiditate.</p>
+                    <p><strong>Big Lottery Fund offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</strong></p>
+
+                    <p>Organisations that apply successfully will:
+• Already be in the midst of serious internal debates about new ways of delivering core services
+• Have been founded before the Internet became really pervasive (i.e will have been founded more than 10-15 years ago). • Be registered charities with more than 25 staff</p>
                 </div>
             </section>
         </div>
