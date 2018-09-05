@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const aliases = require('./aliases');
 const {
     createSection,
@@ -16,12 +15,16 @@ const sections = {
     toplevel: createSection({
         path: '',
         langTitlePath: 'global.nav.home',
-        controllerPath: path.resolve(__dirname, './toplevel')
+        controller: function(options) {
+            return require('./toplevel')(options);
+        }
     }),
     funding: createSection({
         path: '/funding',
         langTitlePath: 'global.nav.funding',
-        controllerPath: path.resolve(__dirname, './funding')
+        controller: function(options) {
+            return require('./funding')(options);
+        }
     }),
     local: createSection({
         path: '/local',
@@ -31,23 +34,31 @@ const sections = {
     research: createSection({
         path: '/research',
         langTitlePath: 'global.nav.research',
-        controllerPath: path.resolve(__dirname, './research')
+        controller: function(options) {
+            return require('./research')(options);
+        }
     }),
     about: createSection({
         path: '/about',
         langTitlePath: 'global.nav.about',
-        controllerPath: path.resolve(__dirname, './about')
+        controller: function(options) {
+            return require('./about')(options);
+        }
     }),
     blog: createSection({
         path: '/blog',
+        showInNavigation: false,
         langTitlePath: 'global.nav.blog',
-        controllerPath: path.resolve(__dirname, './blog'),
-        showInNavigation: false
+        controller: function(options) {
+            return require('./blog')(options);
+        }
     }),
     apply: createSection({
         path: '/apply',
-        controllerPath: path.resolve(__dirname, './apply'),
-        showInNavigation: false
+        showInNavigation: false,
+        controller: function(options) {
+            return require('./apply')(options);
+        }
     })
 };
 

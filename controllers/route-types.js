@@ -15,23 +15,14 @@ const CONTENT_TYPES = {
  * controllerPath - path to controller file
  * langTitlePath - locale property for translated page title
  */
-function createSection({ path, controllerPath = null, langTitlePath = null, showInNavigation = true }) {
+function createSection({ path, controller = null, langTitlePath = null, showInNavigation = true }) {
     const newSection = {
         path: path,
         pages: null,
-        controller: null,
+        controller: controller,
         langTitlePath: langTitlePath,
         showInNavigation: showInNavigation
     };
-
-    /**
-     * Controller loader function, allows us to auto-init routes
-     */
-    if (controllerPath) {
-        newSection.controller = function(options) {
-            return require(controllerPath)(options);
-        };
-    }
 
     /**
      * Setter for route pages
