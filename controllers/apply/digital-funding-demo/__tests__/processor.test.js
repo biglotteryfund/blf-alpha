@@ -7,10 +7,12 @@ const form = require('../form-model');
 const { flattenFormData, stepsWithValues } = require('../../helpers');
 
 const mockFormData = {
-    name: 'Example Person',
-    email: 'example@example.com',
-    'organisation-name': 'Test Organisation',
-    'about-your-organisation': 'Test'
+    'step-1': {
+        name: 'Example Person',
+        email: 'example@example.com',
+        'organisation-name': 'Test Organisation',
+        'about-your-organisation': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, inventore.'
+    }
 };
 
 function cleanMailForSnaphot(info) {
@@ -38,9 +40,7 @@ describe('processor', () => {
             mailTransport: mockTransport
         });
 
-        const [customerEmail, internalEmail] = results.map(cleanMailForSnaphot);
-
+        const [customerEmail] = results.map(cleanMailForSnaphot);
         expect(customerEmail.message).toMatchSnapshot();
-        expect(internalEmail.message).toMatchSnapshot();
     });
 });

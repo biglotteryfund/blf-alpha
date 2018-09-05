@@ -68,7 +68,6 @@ function getSendAddress(recipient) {
  * @property {string} [type]
  * @property {string} content
  * @property {string} [sendMode]
- * @property {string} [customSendFrom]
  */
 
 /**
@@ -77,8 +76,8 @@ function getSendAddress(recipient) {
  * @param {MailConfig} mailConfig
  * @return {nodemailer.SendMailOptions}
  */
-function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to', customSendFrom = null }) {
-    const sendFrom = customSendFrom ? customSendFrom : getSendAddress(sendTo.address);
+function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to' }) {
+    const sendFrom = getSendAddress(sendTo.address);
 
     const mailOptions = {
         from: `Big Lottery Fund <${sendFrom}>`,

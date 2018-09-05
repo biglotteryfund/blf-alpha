@@ -7,7 +7,7 @@ const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
 
 module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
     const customerSendTo = {
-        name: `${data['first-name']} ${data['last-name']}`,
+        name: `${data['name']}`,
         address: data['email']
     };
 

@@ -113,7 +113,6 @@ const sendResetEmail = (req, res) => {
                     let resetPath = makeUserLink('resetpassword');
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
-
                     sendEmail({
                         name: 'user_password_reset',
                         mailConfig: {
