@@ -1,51 +1,64 @@
 'use strict';
-const AWS = require('aws-sdk');
+const path = require('path');
 const config = require('config');
+const AWS = require('aws-sdk');
+const nunjucks = require('nunjucks');
+const nodemailer = require('nodemailer');
+const juice = require('juice');
+const htmlToText = require('html-to-text');
 const debug = require('debug')('biglotteryfund:mail');
 
-const juice = require('juice');
-const nodemailer = require('nodemailer');
-const path = require('path');
-const Raven = require('raven');
-const util = require('util');
+const { countEvent } = require('../modules/metrics');
 
-const app = require('../server');
-const { buildMailOptions } = require('../modules/mail-helpers');
+/**
+ * Given an email schema generate full email HTML
+ *
+ * We use Nunjucks Simple API remotely to avoid initialising a full environment
+ * either by attempting to share the express app view engine, or creating a new one.
+ * The limitations are that no filters or global helpers are available.
+ *
+ * @param {object} options
+ * @param {string} options.template
+ * @param {object} options.templateData
+ * @return {Promise<string>}
+ */
+function generateHtmlEmail({ template, templateData }) {
+    return new Promise((resolve, reject) => {
+        nunjucks.render(template, templateData, function(renderErr, html) {
+            if (renderErr) {
+                reject(renderErr);
+            } else {
+                const publicRoot = path.resolve(__dirname, '../public');
+                juice.juiceResources(html, { webResources: { relativeTo: publicRoot } }, function(juceErr, newHtml) {
+                    /* istanbul ignore if  */
+                    if (juceErr) {
+                        reject(juceErr);
+                    } else {
+                        resolve(newHtml);
+                    }
+                });
+            }
+        });
+    });
+}
 
-const SES = new AWS.SES({
-    apiVersion: '2010-12-01',
-    region: 'eu-west-1' // SES only available for EU in eu-west-1
-});
-
-const CloudWatch = new AWS.CloudWatch({
-    apiVersion: '2010-08-01',
-    region: config.get('aws.region')
-});
-
-function recordSendMetric(name) {
-    if (config.get('features.enableMailSendMetrics')) {
-        const currentEnv = config.util.getEnv('NODE_ENV').toUpperCase();
-        const mailName = name.toUpperCase();
-        return CloudWatch.putMetricData({
-            Namespace: 'SITE/MAIL',
-            MetricData: [
-                {
-                    MetricName: `MAIL_SENT_${currentEnv}_${mailName}`,
-                    Dimensions: [
-                        {
-                            Name: 'MAIL_SENT',
-                            Value: 'SEND_COUNT'
-                        }
-                    ],
-                    Unit: 'Count',
-                    Value: 1.0
-                }
-            ]
-        }).send();
+/**
+ * Get send from address
+ *
+ * If we are sending to a biglotteryfund domain use the blf.digital,
+ * otherwise use the default send from address.
+ *
+ * @param {string} recipient
+ * @return {string}
+ */
+function getSendAddress(recipient) {
+    if (/@biglotteryfund.org.uk$/.test(recipient)) {
+        return 'noreply@blf.digital';
+    } else {
+        return 'noreply@biglotteryfund.org.uk';
     }
 }
 
-// Sync with modules/mail-helpers.js
 /**
  * @typedef {object} MailConfig
  * @property {object} sendTo
@@ -59,99 +72,86 @@ function recordSendMetric(name) {
  */
 
 /**
+ * Build a nodemailer mail options object
  *
+ * @param {MailConfig} mailConfig
+ * @return {nodemailer.SendMailOptions}
+ */
+function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to', customSendFrom = null }) {
+    const sendFrom = customSendFrom ? customSendFrom : getSendAddress(sendTo.address);
+
+    const mailOptions = {
+        from: `Big Lottery Fund <${sendFrom}>`,
+        subject: subject
+    };
+
+    if (type === 'html') {
+        mailOptions.html = content;
+        mailOptions.text = htmlToText.fromString(content, {
+            wordwrap: 130,
+            hideLinkHrefIfSameAsText: true,
+            ignoreImage: true
+        });
+    } else if (type === 'text') {
+        mailOptions.text = content;
+    } else {
+        throw new Error('Invalid type');
+    }
+
+    mailOptions[sendMode] = sendTo;
+
+    return mailOptions;
+}
+
+/**
+ * Create an instance of the default SES transport
+ *
+ * @return {nodemailer.Transporter}
+ */
+function createSesTransport() {
+    const SES = new AWS.SES({
+        apiVersion: '2010-12-01',
+        region: 'eu-west-1' // SES only available for EU in eu-west-1
+    });
+
+    return nodemailer.createTransport({ SES });
+}
+
+/**
+ * Send an email using the given transport and config
+ *
+ * @param {nodemailer.Transporter} transport
  * @param {string} name
  * @param {MailConfig} mailConfig
+ * @return {Promise<nodemailer.SentMessageInfo>}
  */
-function send(name, mailConfig, customTransport = null) {
-    const transport = customTransport ? customTransport : nodemailer.createTransport({ SES });
-
-    if (!name) {
-        throw new Error('Must pass a name');
-    }
-
+function sendEmail(transport, name, mailConfig) {
     if (!!process.env.DONT_SEND_EMAIL === true) {
-        debug(`[skipped] sending mail`);
-        return Promise.resolve(null);
+        const reason = `skipped sending mail ${name}`;
+        debug(reason);
+        return Promise.resolve(reason);
     } else {
-        debug(`sending mail for ${name}`);
-
         const mailOptions = buildMailOptions(mailConfig);
-
-        return transport
-            .sendMail(mailOptions)
-            .then(response => {
-                recordSendMetric(name);
-                return response;
-            })
-            .catch(error => {
-                Raven.captureMessage('Error sending email via SES', {
-                    extra: error,
-                    tags: {
-                        feature: 'email'
-                    }
+        return transport.sendMail(mailOptions).then(response => {
+            /* istanbul ignore if */
+            if (config.get('features.enableMailSendMetrics')) {
+                const environment = config.util.getEnv('NODE_ENV').toUpperCase();
+                countEvent({
+                    namespace: 'SITE/MAIL',
+                    metric: `MAIL_SENT_${environment}_${name.toUpperCase()}`,
+                    name: 'MAIL_SENT',
+                    value: 'SEND_COUNT'
                 });
-                return Promise.reject(error);
-            });
+            }
+            return response;
+        });
     }
-}
-
-/**
- * Wrapper around juice, inline external CSS into provided HTML
- * @param {String} html
- */
-function inlineCss(html) {
-    const juiceResources = util.promisify(juice.juiceResources);
-    return juiceResources(html, {
-        webResources: {
-            relativeTo: path.resolve(__dirname, '../public')
-        }
-    });
-}
-
-/**
- * Given an email schema generate full email HTML
- * @param {string} template
- * @param {object} templateData
- */
-function generateHtmlEmail(template, templateData) {
-    const appRender = util.promisify(app.render.bind(app));
-    return appRender(template, templateData).then(html => {
-        return inlineCss(html);
-    });
-}
-
-/**
- * @typedef {object} HtmlEmailSchema
- * @property {string} name
- * @property {object} sendTo
- * @property {string} [sendTo.name]
- * @property {string} sendTo.address
- * @property {string} subject
- * @property {string} template
- * @property {object} templateData
- */
-
-/**
- * generateAndSend
- * @param {HtmlEmailSchema} schema
- */
-async function generateAndSend(schema, customTransport = null) {
-    const html = await generateHtmlEmail(schema.template, schema.templateData);
-    return send(
-        schema.name,
-        {
-            sendTo: schema.sendTo,
-            subject: schema.subject,
-            type: 'html',
-            content: html
-        },
-        customTransport
-    );
 }
 
 module.exports = {
+    buildMailOptions,
+    createSesTransport,
     generateHtmlEmail,
-    generateAndSend,
-    send
+    getSendAddress,
+    sendEmail
 };
