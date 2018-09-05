@@ -39,13 +39,13 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/getting-started', (req, res) => {
-    res.render(path.resolve(__dirname, './views/digital-fund-getting-started'), {
+router.get('/alternative-funding', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-alternative-funding'), {
         heroImage: res.locals.heroImage,
-        title: 'Getting started',
+        title: 'Alternative funding',
         breadcrumbs: mockBreadcrumbs(req, [
             {
-                label: 'Getting started'
+                label: 'Alternative funding'
             }
         ])
     });
