@@ -4,27 +4,34 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const slug = require('slugify');
+const config = require('config');
+const fs = require('fs');
+const path = require('path');
 const querystring = require('querystring');
-const { sortBy } = require('lodash');
+const slug = require('slugify');
 const uuid = require('uuid/v4');
 
-const assets = require('./assets');
+let assets = {};
+try {
+    assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
+} catch (e) {} // eslint-disable-line no-empty
+
+function getCachebustedPath(urlPath, useRemoteAssets = config.get('features.useRemoteAssets')) {
+    const version = assets.version || 'latest';
+    const baseUrl = useRemoteAssets ? 'https://media.biglotteryfund.org.uk/assets' : `/assets`;
+    return `${baseUrl}/build/${version}/${urlPath}`;
+}
 
 function appendUuid(str) {
     return str + uuid();
 }
 
-function getCachebustedPath(str) {
-    return assets.getCachebustedPath(str);
-}
-
-function getCachebustedRealPath(str) {
-    return assets.getCachebustedRealPath(str);
-}
-
-function getImagePath(str) {
-    return assets.getImagePath(str);
+function getImagePath(urlPath) {
+    if (/^http(s?):\/\//.test(urlPath)) {
+        return urlPath;
+    } else {
+        return `/assets/images/${urlPath}`;
+    }
 }
 
 function slugify(str) {
@@ -56,12 +63,16 @@ function pluralise(number, singular, plural) {
     }
 }
 
+// @TODO: Specific to materials code?
 // allow filtering of a list as nunjucks' selectattr
 // only supports boolean (eg. valueless) filtering
+/* istanbul ignore next */
 function filter(arr, key, value) {
     return arr.filter(a => a[key] === value);
 }
 
+// @TODO: Specific to materials code?
+/* istanbul ignore next */
 function find(arr, key, value) {
     return arr.find(a => a[key] === value);
 }
@@ -78,16 +89,11 @@ function addQueryParam(queryParams, paramToAdd, paramValue) {
     return querystring.stringify(newParams);
 }
 
-function sortArrayBy(arr, key) {
-    return sortBy(arr, key);
-}
-
 module.exports = {
     appendUuid,
     filter,
     find,
     getCachebustedPath,
-    getCachebustedRealPath,
     getImagePath,
     isArray,
     mailto,
@@ -96,6 +102,5 @@ module.exports = {
     pluralise,
     slugify,
     removeQueryParam,
-    addQueryParam,
-    sortBy: sortArrayBy
+    addQueryParam
 };
