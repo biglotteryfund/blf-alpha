@@ -15,23 +15,14 @@ const CONTENT_TYPES = {
  * controllerPath - path to controller file
  * langTitlePath - locale property for translated page title
  */
-function createSection({ path, controller = null, langTitlePath = null, showInNavigation = true }) {
-    const newSection = {
+function createSection({ path, pages = null, controller = null, langTitlePath = null, showInNavigation = true }) {
+    return {
         path: path,
-        pages: null,
+        pages: pages,
         controller: controller,
         langTitlePath: langTitlePath,
         showInNavigation: showInNavigation
     };
-
-    /**
-     * Setter for route pages
-     */
-    newSection.addRoutes = function(sectionRoutes) {
-        newSection.pages = sectionRoutes;
-    };
-
-    return newSection;
 }
 
 /**
