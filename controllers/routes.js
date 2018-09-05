@@ -23,7 +23,7 @@ const {
  * Home and top-level routes
  * @type {Section}
  */
-const sectionToplevel = {
+const toplevel = {
     path: '',
     showInNavigation: true,
     langTitlePath: 'global.nav.home',
@@ -78,7 +78,7 @@ const sectionToplevel = {
  * Funding section
  * @type {Section}
  */
-const sectionFunding = {
+const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
@@ -176,7 +176,7 @@ const sectionFunding = {
  * Local section
  * @type {Section}
  */
-const sectionLocal = {
+const local = {
     path: '/local',
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
@@ -196,7 +196,7 @@ const sectionLocal = {
  * Research section
  * @type {Section}
  */
-const sectionResearch = {
+const research = {
     path: '/research',
     showInNavigation: true,
     langTitlePath: 'global.nav.research',
@@ -222,7 +222,7 @@ const sectionResearch = {
  * About section
  * @type {Section}
  */
-const sectionAbout = {
+const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
@@ -262,7 +262,7 @@ const sectionAbout = {
  * Blog section
  * @type {Section}
  */
-const sectionBlog = {
+const blog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
@@ -285,7 +285,7 @@ const sectionBlog = {
  * Apply section
  * @type {Section}
  */
-const sectionApply = {
+const apply = {
     path: '/apply',
     showInNavigation: false,
     controller: function(options) {
@@ -307,13 +307,13 @@ const sectionApply = {
  * The order here defines the order of the navigation
  */
 const sections = {
-    sectionToplevel,
-    sectionFunding,
-    sectionLocal,
-    sectionResearch,
-    sectionAbout,
-    sectionBlog,
-    sectionApply
+    toplevel: toplevel,
+    funding: funding,
+    local: local,
+    research: research,
+    about: about,
+    blog: blog,
+    apply: apply
 };
 
 /**
