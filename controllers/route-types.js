@@ -1,29 +1,11 @@
 'use strict';
 const config = require('config');
-const { get } = require('lodash');
 
 const CONTENT_TYPES = {
     STATIC: 'STATIC', // A page with no content from the cms and a static template
     CMS_BASIC: 'CMS_BASIC', // Page using the basic cms content type
     CMS_FLEXIBLE_CONTENT: 'CMS_FLEXIBLE_CONTENT' // Page using the cms flexible content type
 };
-
-/**
- * Create a top-level section
- *
- * path - top-level URL path, e.g. /funding
- * controllerPath - path to controller file
- * langTitlePath - locale property for translated page title
- */
-function createSection({ path, pages = null, controller = null, langTitlePath = null, showInNavigation = true }) {
-    return {
-        path: path,
-        pages: pages,
-        controller: controller,
-        langTitlePath: langTitlePath,
-        showInNavigation: showInNavigation
-    };
-}
 
 /**
  * Default parameters for cloudfront routes
@@ -91,7 +73,6 @@ function legacyRoute(props) {
 
 module.exports = {
     CONTENT_TYPES,
-    createSection,
     customRoute,
     sessionRoute,
     staticContentRoute,

@@ -3,7 +3,6 @@
 const config = require('config');
 const {
     CONTENT_TYPES,
-    createSection,
     customRoute,
     sessionRoute,
     staticContentRoute,
@@ -13,21 +12,6 @@ const {
 } = require('../route-types');
 
 describe('Route types', () => {
-    it('should create a new section', () => {
-        const section = createSection({
-            path: '/example',
-            langTitlePath: 'global.nav.about'
-        });
-
-        section.addRoutes({
-            exampleSection: customRoute({
-                path: '/some/url'
-            })
-        });
-
-        expect(section.path).toBe('/example');
-    });
-
     it('should define a custom route schema', () => {
         const route = customRoute({ path: '/some/url', queryStrings: ['foo', 'bar'] });
         expect(route).toEqual({

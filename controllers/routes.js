@@ -2,7 +2,6 @@
 
 const aliases = require('./aliases');
 const {
-    createSection,
     customRoute,
     sessionRoute,
     staticContentRoute,
@@ -11,8 +10,22 @@ const {
     legacyRoute
 } = require('./route-types');
 
-const sectionToplevel = createSection({
+/**
+ * @typedef {object} Section
+ * @property {string} path
+ * @property {boolean} showInNavigation
+ * @property {object} pages
+ * @property {function} [controller]
+ * @property {string} [langTitlePath]
+ */
+
+/**
+ * Home and top-level routes
+ * @type {Section}
+ */
+const sectionToplevel = {
     path: '',
+    showInNavigation: true,
     langTitlePath: 'global.nav.home',
     controller: function(options) {
         return require('./toplevel')(options);
@@ -59,10 +72,15 @@ const sectionToplevel = createSection({
             allowAllQueryStrings: true
         })
     }
-});
+};
 
-const sectionFunding = createSection({
+/**
+ * Funding section
+ * @type {Section}
+ */
+const sectionFunding = {
     path: '/funding',
+    showInNavigation: true,
     langTitlePath: 'global.nav.funding',
     controller: function(options) {
         return require('./funding')(options);
@@ -152,9 +170,13 @@ const sectionFunding = createSection({
             path: '/funding-finder'
         })
     }
-});
+};
 
-const sectionLocal = createSection({
+/**
+ * Local section
+ * @type {Section}
+ */
+const sectionLocal = {
     path: '/local',
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
@@ -168,10 +190,15 @@ const sectionLocal = createSection({
             live: false
         })
     }
-});
+};
 
-const sectionResearch = createSection({
+/**
+ * Research section
+ * @type {Section}
+ */
+const sectionResearch = {
     path: '/research',
+    showInNavigation: true,
     langTitlePath: 'global.nav.research',
     controller: function(options) {
         return require('./research')(options);
@@ -189,10 +216,15 @@ const sectionResearch = createSection({
             live: false
         })
     }
-});
+};
 
-const sectionAbout = createSection({
+/**
+ * About section
+ * @type {Section}
+ */
+const sectionAbout = {
     path: '/about',
+    showInNavigation: true,
     langTitlePath: 'global.nav.about',
     controller: function(options) {
         return require('./about')(options);
@@ -224,9 +256,13 @@ const sectionAbout = createSection({
             path: '/*'
         })
     }
-});
+};
 
-const sectionBlog = createSection({
+/**
+ * Blog section
+ * @type {Section}
+ */
+const sectionBlog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
@@ -243,9 +279,13 @@ const sectionBlog = createSection({
             live: false
         })
     }
-});
+};
 
-const sectionApply = createSection({
+/**
+ * Apply section
+ * @type {Section}
+ */
+const sectionApply = {
     path: '/apply',
     showInNavigation: false,
     controller: function(options) {
@@ -260,7 +300,7 @@ const sectionApply = createSection({
             isPostable: true
         })
     }
-});
+};
 
 /**
  * Sections
