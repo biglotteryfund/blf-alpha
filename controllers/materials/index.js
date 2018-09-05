@@ -16,7 +16,7 @@ const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const { createSesTransport, generateHtmlEmail, sendEmail } = require('../../services/mail');
+const { generateHtmlEmail, sendEmail } = require('../../services/mail');
 const ordersService = require('../../services/orders');
 
 const sessionOrderKey = 'materialOrders';
@@ -179,28 +179,32 @@ module.exports = function(routeConfig) {
                             const customerSendTo = details.yourEmail;
                             const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const mailTransport = createSesTransport();
-
                             const customerHtml = await generateHtmlEmail({
                                 template: path.resolve(__dirname, './views/order-email.njk'),
                                 templateData: { locale: req.i18n.getLocale() }
                             });
 
-                            const customerEmail = sendEmail(mailTransport, 'material_customer', {
-                                sendTo: { address: customerSendTo },
-                                subject: 'Thank you for your Big Lottery Fund order',
-                                type: 'html',
-                                content: customerHtml
+                            const customerEmail = sendEmail({
+                                name: 'material_customer',
+                                mailConfig: {
+                                    sendTo: { address: customerSendTo },
+                                    subject: 'Thank you for your Big Lottery Fund order',
+                                    type: 'html',
+                                    content: customerHtml
+                                }
                             });
 
-                            const supplierEmail = sendEmail(mailTransport, 'material_supplier', {
-                                sendTo: { address: supplierSendTo },
-                                sendMode: 'bcc',
-                                subject: `Order from Big Lottery Fund website - ${moment().format(
-                                    'dddd, MMMM Do YYYY, h:mm:ss a'
-                                )}`,
-                                type: 'text',
-                                content: orderText
+                            const supplierEmail = sendEmail({
+                                name: 'material_supplier',
+                                mailConfig: {
+                                    sendTo: { address: supplierSendTo },
+                                    sendMode: 'bcc',
+                                    subject: `Order from Big Lottery Fund website - ${moment().format(
+                                        'dddd, MMMM Do YYYY, h:mm:ss a'
+                                    )}`,
+                                    type: 'text',
+                                    content: orderText
+                                }
                             });
 
                             return Promise.all([customerEmail, supplierEmail]).then(() => {

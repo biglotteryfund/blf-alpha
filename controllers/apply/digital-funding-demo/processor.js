@@ -5,7 +5,7 @@ const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
 
-module.exports = async function processor({ form, data, stepsWithValues, mailTransport }) {
+module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
     const customerSendTo = {
         name: `${data['first-name']} ${data['last-name']}`,
         address: data['email']
@@ -31,17 +31,25 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
     });
 
     return Promise.all([
-        sendEmail(mailTransport, 'digital_funding_demo_customer', {
-            sendTo: customerSendTo,
-            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            type: 'html',
-            content: customerHtml
+        sendEmail({
+            name: 'digital_funding_demo_customer',
+            mailConfig: {
+                sendTo: customerSendTo,
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                type: 'html',
+                content: customerHtml
+            },
+            mailTransport: mailTransport
         }),
-        sendEmail(mailTransport, 'digital_funding_demo_internal', {
-            sendTo: appData.isDev ? customerSendTo : { address: DIGITAL_FUND_DEMO_EMAIL },
-            subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
-            type: 'html',
-            content: internalHtml
+        sendEmail({
+            name: 'digital_funding_demo_internal',
+            mailConfig: {
+                sendTo: appData.isDev ? customerSendTo : { address: DIGITAL_FUND_DEMO_EMAIL },
+                subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
+                type: 'html',
+                content: internalHtml
+            },
+            mailTransport: mailTransport
         })
     ]);
 };

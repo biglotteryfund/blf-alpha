@@ -5,14 +5,16 @@ const nodemailer = require('nodemailer');
 
 const { buildMailOptions, createSesTransport, generateHtmlEmail, getSendAddress, sendEmail } = require('../mail');
 
-async function sendMockEmail(mailOptions) {
-    const transport = nodemailer.createTransport({
-        streamTransport: true,
-        newline: 'unix',
-        buffer: true
+async function sendMockEmail(mailConfig) {
+    const info = await sendEmail({
+        name: 'mock_email',
+        mailConfig: mailConfig,
+        mailTransport: nodemailer.createTransport({
+            streamTransport: true,
+            newline: 'unix',
+            buffer: true
+        })
     });
-
-    const info = await sendEmail(transport, 'mock_email', mailOptions);
 
     // Remove generated properties from message
     info.message = info.message
@@ -155,15 +157,17 @@ describe('sendEmail', () => {
     it('should skip emails with DONT_SEND_EMAIL', async () => {
         process.env.DONT_SEND_EMAIL = 'true';
 
-        const transport = nodemailer.createTransport({
-            jsonTransport: true
-        });
-
-        const info = await sendEmail(transport, 'skipped_email', {
-            subject: 'Mock email',
-            sendTo: { address: 'example@example.com' },
-            type: 'text',
-            content: 'Some content'
+        const info = await sendEmail({
+            name: 'skipped_email',
+            mailConfig: {
+                subject: 'Mock email',
+                sendTo: { address: 'example@example.com' },
+                type: 'text',
+                content: 'Some content'
+            },
+            mailTransport: nodemailer.createTransport({
+                jsonTransport: true
+            })
         });
 
         expect(info).toBe('skipped sending mail skipped_email');
