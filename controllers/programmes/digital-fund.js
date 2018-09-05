@@ -26,6 +26,11 @@ function mockBreadcrumbs(req, extraCrumbs = []) {
 
 router.use(injectHeroImage('whizz-kidz'));
 
+router.use((req, res, next) => {
+    res.locals.isBilingual = false;
+    next();
+});
+
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-landing'), {
         heroImage: res.locals.heroImage,
