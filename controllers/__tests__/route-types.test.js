@@ -10,7 +10,7 @@ const {
     basicContentRoute,
     flexibleContentRoute,
     legacyRoute
-} = require('./route-types');
+} = require('../route-types');
 
 describe('Route types', () => {
     it('should create a new section', () => {
