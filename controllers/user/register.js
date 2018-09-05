@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const mail = require('../../services/mail');
+const { createSesTransport, sendEmail } = require('../../services/mail');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 
@@ -41,7 +41,8 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         };
 
         // @TODO should we alert users to errors here?
-        mail.send('user_activate_account', mailConfig);
+        const mailTransport = createSesTransport();
+        sendEmail(mailTransport, 'user_activate_account', mailConfig);
 
         return {
             email: mailConfig,

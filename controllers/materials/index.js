@@ -16,7 +16,7 @@ const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const mail = require('../../services/mail');
+const { createSesTransport, generateHtmlEmail, sendEmail } = require('../../services/mail');
 const ordersService = require('../../services/orders');
 
 const sessionOrderKey = 'materialOrders';
@@ -179,21 +179,21 @@ module.exports = function(routeConfig) {
                             const customerSendTo = details.yourEmail;
                             const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const mailTransport = mail.createSesTransport();
+                            const mailTransport = createSesTransport();
 
-                            const customerHtml = await mail.generateHtmlEmail({
-                                template: path.resolve(__dirname, './views/order-email'),
+                            const customerHtml = await generateHtmlEmail({
+                                template: path.resolve(__dirname, './views/order-email.njk'),
                                 templateData: { locale: req.i18n.getLocale() }
                             });
 
-                            const customerEmail = mail.sendEmail(mailTransport, 'material_customer', {
+                            const customerEmail = sendEmail(mailTransport, 'material_customer', {
                                 sendTo: { address: customerSendTo },
                                 subject: 'Thank you for your Big Lottery Fund order',
                                 type: 'html',
                                 content: customerHtml
                             });
 
-                            const supplierEmail = mail.send(mailTransport, 'material_supplier', {
+                            const supplierEmail = sendEmail(mailTransport, 'material_supplier', {
                                 sendTo: { address: supplierSendTo },
                                 sendMode: 'bcc',
                                 subject: `Order from Big Lottery Fund website - ${moment().format(
