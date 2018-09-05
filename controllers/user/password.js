@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 
-const { createSesTransport, sendEmail } = require('../../services/mail');
+const { sendEmail } = require('../../services/mail');
 const { purifyUserInput } = require('../../modules/validators');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
@@ -113,13 +113,15 @@ const sendResetEmail = (req, res) => {
                     let resetPath = makeUserLink('resetpassword');
                     let resetUrl = `${req.protocol}://${req.headers.host}${resetPath}?token=${token}`;
 
-                    const mailTransport = createSesTransport();
 
-                    sendEmail(mailTransport, 'user_password_reset', {
-                        sendTo: { address: email },
-                        subject: 'Reset the password for your Big Lottery Fund website account',
-                        content: `Please click the following link to reset your password: ${resetUrl}`,
-                        type: 'text'
+                    sendEmail({
+                        name: 'user_password_reset',
+                        mailConfig: {
+                            sendTo: { address: email },
+                            subject: 'Reset the password for your Big Lottery Fund website account',
+                            content: `Please click the following link to reset your password: ${resetUrl}`,
+                            type: 'text'
+                        }
                     }).catch(() => {
                         trackError('Error emailing user with password reset link');
                         res.locals.errors = makeErrorList('There was an error sending your password reset link');

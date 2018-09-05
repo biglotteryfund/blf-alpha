@@ -6,7 +6,7 @@ const appData = require('../../../modules/appData');
 
 const { determineInternalSendTo, orderStepsForInternalUse } = require('./helpers');
 
-module.exports = async function processor({ form, data, stepsWithValues, mailTransport }) {
+module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
     const customerSendTo = {
         name: `${data['first-name']} ${data['last-name']}`,
         address: data['email']
@@ -37,17 +37,25 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
     });
 
     return Promise.all([
-        sendEmail(mailTransport, 'reaching_communities_customer', {
-            sendTo: customerSendTo,
-            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            type: 'html',
-            content: customerHtml
+        sendEmail({
+            name: 'reaching_communities_customer',
+            mailConfig: {
+                sendTo: customerSendTo,
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                type: 'html',
+                content: customerHtml
+            },
+            mailTransport: mailTransport
         }),
-        sendEmail(mailTransport, 'reaching_communities_internal', {
-            sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
-            subject: `New idea submission from website: ${organisationName}`,
-            type: 'html',
-            content: internalHtml
+        sendEmail({
+            name: 'reaching_communities_internal',
+            mailConfig: {
+                sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
+                subject: `New idea submission from website: ${organisationName}`,
+                type: 'html',
+                content: internalHtml
+            },
+            mailTransport: mailTransport
         })
     ]);
 };

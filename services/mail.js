@@ -120,20 +120,32 @@ function createSesTransport() {
 /**
  * Send an email using the given transport and config
  *
- * @param {nodemailer.Transporter} transport
- * @param {string} name
- * @param {MailConfig} mailConfig
+ * @param options
+ * @property {string} options.name
+ * @property {MailConfig} options.mailConfig
+ * @property {nodemailer.Transporter} options.mailTransport
  * @return {Promise<nodemailer.SentMessageInfo>}
  */
-function sendEmail(transport, name, mailConfig) {
+function sendEmail({ name, mailConfig, mailTransport = null }) {
+    /**
+     * Skip sending mail in test environments
+     */
     if (!!process.env.DONT_SEND_EMAIL === true) {
         const reason = `skipped sending mail ${name}`;
         debug(reason);
         return Promise.resolve(reason);
     } else {
-        const mailOptions = buildMailOptions(mailConfig);
-        return transport.sendMail(mailOptions).then(response => {
-            /* istanbul ignore if */
+        /**
+         * Use the provided mail transport if we have one,
+         * otherwise use the default ses transport.
+         */
+        const transport = mailTransport ? mailTransport : createSesTransport();
+
+        return transport.sendMail(buildMailOptions(mailConfig)).then(info => {
+            /**
+             * Record a send count as a CloudWatch event if enabled
+             * istanbul ignore if
+             */
             if (config.get('features.enableMailSendMetrics')) {
                 const environment = config.util.getEnv('NODE_ENV').toUpperCase();
                 countEvent({
@@ -143,7 +155,8 @@ function sendEmail(transport, name, mailConfig) {
                     value: 'SEND_COUNT'
                 });
             }
-            return response;
+
+            return info;
         });
     }
 }
