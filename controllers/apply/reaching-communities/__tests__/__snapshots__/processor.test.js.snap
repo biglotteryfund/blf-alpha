@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`processor should work 1`] = `
+exports[`processor should create success emails 1`] = `
 "Content-Type: multipart/alternative;
 From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
@@ -77,36 +77,35 @@ time.
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-
 <!doctype html>
 <html>
     <head>
+        <meta charset=3D\\"UTF-8\\">
        =20
         <style>
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 300;
-  src: local('Poppins Light'), local('Poppins-Light'), url(https://fonts.=
-gstatic.com/s/poppins/v5/pxiByp8kv8JHgFVrLDz8Z1xlEA.ttf) =
-format('truetype');}
+  src: local('Poppins Light'), =
+local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v5/pxiByp8k=
+v8JHgFVrLDz8Z1xlEA.ttf) format('truetype');}
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
-  src: local('Poppins Medium'), =
-local('Poppins-Medium'), url(https://fonts.gstatic.com/s/poppins/v5/pxiByp8=
-kv8JHgFVrLGT9Z1xlEA.ttf) format('truetype');}
+  src: local('Poppins Medium'), local('Poppins-Medium'), url(https://fonts.=
+gstatic.com/s/poppins/v5/pxiByp8kv8JHgFVrLGT9Z1xlEA.ttf) =
+format('truetype');}
 </style>
-        <meta charset=3D\\"UTF-8\\">
     </head>
-    <body style=3D\\"margin: =
-auto; max-width: 75%; padding: 20px; color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">
-        <div class=3D\\"logo\\" style=3D\\"display: block; margin-bottom: 20px; =
-text-align: right;\\">
-            <img src=3D\\"https://www.biglotteryfund.org=
-.uk/assets/images/logos/logo.png\\" alt=3D\\"Big Lottery Fund logo\\" =
+    <body style=3D\\"margin: auto; =
+max-width: 75%; padding: 20px; color: #333; font-family: arial; font-size: =
+20px; font-weight: 400; line-height: 1.35;\\">
+        <div class=3D\\"logo\\" =
+style=3D\\"display: block; margin-bottom: 20px; text-align: right;\\">
+            <img src=3D\\"https://www.biglotteryfund.org.=
+uk/assets/images/logos/logo.png\\" alt=3D\\"Big Lottery Fund logo\\" =
 style=3D\\"width: 150px;\\" width=3D\\"150\\">
         </div>
 
@@ -134,155 +133,159 @@ Fund</strong></p>
         <h2 class=3D\\"space-above\\" style=3D\\"color: =
 #e20087; font-weight: 500; margin: 0 0 20px; font-size: 22px; margin-top: =
 50px;\\">Your information</h2>
+
         <div class=3D\\"summary\\">
            =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: =
+                <h4 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: =
+3px; font-weight: 700;\\">Your idea</h4>
+               =20
+                   =20
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Briefly explain your idea and why it=E2=80=99ll make a =
+difference</h5>
+                           =20
+                            =
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Test idea</p>
+                           =20
+                       =20
+                   =20
+               =20
+           =20
+                <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: =
 16px; border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Your idea</h4>
-       =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Briefly explain your idea and why =
-it=E2=80=99ll make a difference</h5>
-                   =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test idea</p>
-                   =20
-               =20
-           =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
 700;\\">Project location</h4>
-       =20
+               =20
+                   =20
+                       =20
+                            <h5 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Select all =
+regions that apply</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">South =
+West</p>
+                           =20
+                       =20
+                   =20
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Project location</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">London</p>
+                           =20
+                       =20
+                   =20
+               =20
            =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Select all regions that apply</h5>
-                   =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
-35;\\">South West</p>
-                   =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Project =
-location</h5>
-                   =20
-                        <p =
-style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
-400; line-height: 1.35;\\">London</p>
-                   =20
-               =20
-           =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
+                <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: =
+16px; border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
 700;\\">Your organisation</h4>
-       =20
-           =20
                =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Legal name</h5>
                    =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test =
-Organisation</p>
+                       =20
+                            <h5 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Legal =
+name</h5>
+                           =20
+                                <p=
+ style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Test Organisation</p>
+                           =
+=20
+                       =20
                    =20
-               =20
-           =20
-               =20
-           =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Your details</h4>
-       =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">First name</h5>
-                   =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example</p>
+                       =20
                    =20
                =20
            =20
+                <h4 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: =
+3px; font-weight: 700;\\">Your details</h4>
                =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Last name</h5>
                    =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Person</p>
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">First name</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example</p>
+                           =20
+                       =20
                    =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Email address</h5>
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Last name</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Person</p>
+                           =20
+                       =20
                    =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Email address</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.=
 35;\\">example@example.com</p>
+                           =20
+                       =20
                    =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Phone =
-number</h5>
-                   =20
-                        <p =
+                       =
+=20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 14px; font-weight: 700;\\">Phone number</h5>
+                           =20
+                                <p =
 style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
 400; line-height: 1.35;\\">03454102030</p>
+                           =20
+                       =20
                    =20
                =20
            =20
-       =20
-   =20
-
         </div>
 
-       =20
+        <h5 class=3D\\"space-above\\" =
+style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; font-size: =
+14px; margin-top: 50px;\\">Data protection</h5>
 
-        <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; =
-font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
-50px;\\">Data protection</h5>
-        <small style=3D\\"color: #666; display: =
-block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
-public body with a duty to distribute National Lottery and other money in =
-grants for good causes. We use the personal data you provide, such as =
-contact details for individuals at your organisation, to help you apply for=
- a grant and to assess your application.</small>
         <small =
 style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
-10px;\\">We may share your personal data with organisations which help us =
-with our grant making activities or others which have a legitimate interest=
- in our work or have funded your grant. We will only share personal data =
-which they need to carry out their work and subject to appropriate safety =
-measures.</small>
-        <small style=3D\\"color: #666; display: block; =
-font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
-Notice gives more information about how we store and use personal data and =
-the lawful basis for this. Please read the full Notice which is published =
-on our website at www.biglotteryfund.org.uk/data-protection or contact us =
-to request a hard copy. The Notice may be updated from time to time.=
+10px;\\">The Big Lottery Fund is a public body with a duty to distribute =
+National Lottery and other money in grants for good causes. We use the =
+personal data you provide, such as contact details for individuals at your =
+organisation, to help you apply for a grant and to assess your application.=
 </small>
-
+        <small style=3D\\"color: #666; display: block; font-size: =
+11px; margin-bottom: 10px;\\">We may share your personal data with =
+organisations which help us with our grant making activities or others =
+which have a legitimate interest in our work or have funded your grant. We =
+will only share personal data which they need to carry out their work and =
+subject to appropriate safety measures.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">Our Data Protection and Privacy Notice gives more information about =
+how we store and use personal data and the lawful basis for this. Please =
+read the full Notice which is published on our website at www.=
+biglotteryfund.org.uk/data-protection or contact us to request a hard copy.=
+ The Notice may be updated from time to time.</small>
     </body>
 </html>
 
 "
 `;
 
-exports[`processor should work 2`] = `
+exports[`processor should create success emails 2`] = `
 "Content-Type: multipart/alternative;
 From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
@@ -328,7 +331,6 @@ Test idea
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-
 <!doctype html>
 <html>
     <head>
@@ -354,7 +356,6 @@ kv8JHgFVrLGT9Z1xlEA.ttf) format('truetype');}
     <body style=3D\\"margin: =
 auto; max-width: 75%; padding: 20px; color: #333; font-family: arial; =
 font-size: 20px; font-weight: 400; line-height: 1.35;\\">
-
         <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
 font-weight: 400; line-height: 1.35;\\">A customer has submitted an idea from=
  the Reaching Communities &amp; Partnerships web form.</p>
@@ -365,124 +366,126 @@ included below:</p>
         <h2 class=3D\\"space-above\\" style=3D\\"color: =
 #e20087; font-weight: 500; margin: 0 0 20px; font-size: 22px; margin-top: =
 50px;\\">Customer information</h2>
+
         <div class=3D\\"summary\\">
            =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 =
+                <h4 style=3D\\"color: #e20087; margin: 0 0 =
 20px; font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: =
 3px; font-weight: 700;\\">Your details</h4>
-       =20
-           =20
                =20
-                    <h5 style=3D\\"color: #e20087; margin:=
- 0 0 20px; font-size: 14px; font-weight: 700;\\">First name</h5>
                    =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
-35;\\">Example</p>
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">First name</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example</p>
+                           =20
+                       =20
                    =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin:=
- 0 0 20px; font-size: 14px; font-weight: 700;\\">Last name</h5>
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Last name</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Person</p>
+                           =20
+                       =20
                    =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
-35;\\">Person</p>
-                   =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin:=
- 0 0 20px; font-size: 14px; font-weight: 700;\\">Email address</h5>
-                   =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Email address</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.=
 35;\\">example@example.com</p>
+                           =20
+                       =20
                    =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Phone =
-number</h5>
-                   =20
-                        <p =
+                       =
+=20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 14px; font-weight: 700;\\">Phone number</h5>
+                           =20
+                                <p =
 style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
 400; line-height: 1.35;\\">03454102030</p>
+                           =20
+                       =20
                    =20
                =20
            =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Your organisation</h4>
-       =20
-           =20
+                <h4 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: =
+3px; font-weight: 700;\\">Your organisation</h4>
                =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Legal name</h5>
                    =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test =
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Legal name</h5>
+                           =20
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test =
 Organisation</p>
+                           =20
+                       =20
+                   =20
+                       =20
                    =20
                =20
            =20
+                <h4 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid =
+#e20087; padding-bottom: 3px; font-weight: 700;\\">Project location</h4>
                =20
-           =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Project location</h4>
-       =20
-           =20
-               =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+                   =20
+                       =20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
 font-size: 14px; font-weight: 700;\\">Select all regions that apply</h5>
+                           =20
+                                <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">South West</p>
+                           =20
+                       =20
                    =20
-                        <p style=3D\\"color: #333; =
-font-family: arial; font-size: 20px; font-weight: 400; line-height: 1.=
-35;\\">South West</p>
-                   =20
-               =20
-           =20
-               =20
-                    <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Project =
-location</h5>
-                   =20
-                        <p =
+                       =
+=20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 14px; font-weight: 700;\\">Project location</h5>
+                           =20
+                                <p =
 style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
 400; line-height: 1.35;\\">London</p>
+                           =20
+                       =20
                    =20
                =20
            =20
-       =20
-   =20
-        <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px; =
-border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Your idea</h4>
-       =20
-           =20
+                <h4 style=3D\\"color: #e20087; margin: 0 0 =
+20px; font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: =
+3px; font-weight: 700;\\">Your idea</h4>
                =20
-                    <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">Briefly explain your idea and why =
-it=E2=80=99ll make a difference</h5>
                    =20
-                        <p style=3D\\"color: #333; font-family: arial; =
-font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test idea</p>
+                       =20
+                         =
+   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
+font-weight: 700;\\">Briefly explain your idea and why it=E2=80=99ll make a =
+difference</h5>
+                           =20
+                            =
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Test idea</p>
+                           =20
+                       =20
                    =20
                =20
            =20
-       =20
-   =20
-
         </div>
-
     </body>
 </html>
 

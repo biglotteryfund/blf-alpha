@@ -175,22 +175,25 @@ module.exports = function(routeConfig) {
                         orderItems: itemsToEmail,
                         orderDetails: details
                     })
-                        .then(() => {
+                        .then(async () => {
                             const customerSendTo = details.yourEmail;
                             const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
-                            const customerEmail = mail.generateAndSend({
-                                name: 'material_customer',
-                                sendTo: { address: customerSendTo },
-                                subject: 'Thank you for your Big Lottery Fund order',
+                            const mailTransport = mail.createSesTransport();
+
+                            const customerHtml = await mail.generateHtmlEmail({
                                 template: path.resolve(__dirname, './views/order-email'),
-                                templateData: {
-                                    // @TODO work out why string-rendered templates don't inherit globals
-                                    locale: req.i18n.getLocale()
-                                }
+                                templateData: { locale: req.i18n.getLocale() }
                             });
 
-                            const supplierEmail = mail.send('material_supplier', {
+                            const customerEmail = mail.sendEmail(mailTransport, 'material_customer', {
+                                sendTo: { address: customerSendTo },
+                                subject: 'Thank you for your Big Lottery Fund order',
+                                type: 'html',
+                                content: customerHtml
+                            });
+
+                            const supplierEmail = mail.send(mailTransport, 'material_supplier', {
                                 sendTo: { address: supplierSendTo },
                                 sendMode: 'bcc',
                                 subject: `Order from Big Lottery Fund website - ${moment().format(
