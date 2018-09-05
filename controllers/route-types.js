@@ -40,18 +40,6 @@ function createSection({ path, controllerPath = null, langTitlePath = null, show
         newSection.pages = sectionRoutes;
     };
 
-    /**
-     * Find the canonical path for a given page key
-     */
-    newSection.find = function(pageId) {
-        const pagePath = get(newSection.pages, `${pageId}.path`);
-        if (pagePath) {
-            return `${path}${pagePath}`;
-        } else {
-            throw new Error(`No route found for ${pageId}`);
-        }
-    };
-
     return newSection;
 }
 

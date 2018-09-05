@@ -26,8 +26,6 @@ describe('Route types', () => {
         });
 
         expect(section.path).toBe('/example');
-        expect(section.find('exampleSection')).toBe('/example/some/url');
-        expect(() => section.find('doesNotExist')).toThrowError('No route found for doesNotExist');
     });
 
     it('should define a custom route schema', () => {
