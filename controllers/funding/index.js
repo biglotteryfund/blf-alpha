@@ -40,7 +40,6 @@ module.exports = ({ router, pages }) => {
         routeConfig: pages.pastGrantsAlpha
     });
 
-
     /**
      * Strategic investments
      */
