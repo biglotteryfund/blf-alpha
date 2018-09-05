@@ -7,6 +7,7 @@ const path = require('path');
 const Raven = require('raven');
 
 const appData = require('../../modules/appData');
+const { createSesTransport } = require('../../services/mail');
 const cached = require('../../middleware/cached');
 const { injectHeroImage } = require('../../middleware/inject-content');
 
@@ -209,7 +210,8 @@ function initFormRouter(form) {
                     await form.processor({
                         form: form,
                         data: flattenFormData(formData),
-                        stepsWithValues: stepsWithValues(form.steps, formData)
+                        stepsWithValues: stepsWithValues(form.steps, formData),
+                        mailTransport: createSesTransport()
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {

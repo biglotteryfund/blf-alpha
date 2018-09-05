@@ -7,23 +7,10 @@ const form = require('../form-model');
 const { flattenFormData, stepsWithValues } = require('../../helpers');
 
 const mockFormData = {
-    'step-1': {
-        'your-idea': 'Test idea'
-    },
-    'step-2': {
-        location: 'South West',
-        'project-location': 'London'
-    },
-    'step-3': {
-        'organisation-name': 'Test Organisation',
-        'additional-organisations': ''
-    },
-    'step-4': {
-        'first-name': 'Example',
-        'last-name': 'Person',
-        email: 'example@example.com',
-        'phone-number': '03454102030'
-    }
+    name: 'Example Person',
+    email: 'example@example.com',
+    'organisation-name': 'Test Organisation',
+    'about-your-organisation': 'Test'
 };
 
 function cleanMailForSnaphot(info) {
@@ -47,7 +34,7 @@ describe('processor', () => {
         const results = await processor({
             form: form,
             data: flattenFormData(mockFormData),
-            stepsWithValues: stepsWithValues(form.steps, mockFormData),
+            stepsWithValues: stepsWithValues(form(1).steps, mockFormData),
             mailTransport: mockTransport
         });
 
