@@ -3,7 +3,6 @@ const path = require('path');
 const Raven = require('raven');
 const { map } = require('lodash');
 
-const { heroImages } = require('../../modules/images');
 const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
@@ -138,7 +137,7 @@ function initProgrammeDetail(router) {
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 title: entry.summary.title,
-                heroImage: entry.hero || heroImages.fallbackHeroImage,
+                heroImage: entry.hero || res.locals.fallbackHeroImage,
                 isBilingual: isBilingual(entry.availableLanguages)
             });
         } else {

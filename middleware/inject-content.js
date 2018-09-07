@@ -3,7 +3,6 @@ const { flatten, get, getOr, last } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { heroImages } = require('../modules/images');
 const { localify, removeWelsh } = require('../modules/urls');
 const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
@@ -31,9 +30,11 @@ function setCommonLocals(res, entry) {
 function injectHeroImage(heroSlug) {
     return async function(req, res, next) {
         if (heroSlug) {
+            const { fallbackHeroImage } = res.locals;
+
             // Set defaults
-            res.locals.heroImage = heroImages.fallbackHeroImage;
-            res.locals.socialImage = heroImages.fallbackHeroImage;
+            res.locals.heroImage = fallbackHeroImage;
+            res.locals.socialImage = fallbackHeroImage;
 
             try {
                 const heroImage = await contentApi.getHeroImage({

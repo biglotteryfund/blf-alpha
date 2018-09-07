@@ -31,7 +31,7 @@
     }
   },
   "features": {
-    "enablePrompt": true,
+    "enablePrompt": false,
     "enableSurvey": true,
     "enableAbTests": true,
     "useHotjar": true,

@@ -83,6 +83,10 @@
     flex-flow: column nowrap;
     flex: 1 1 0%;
 
+    @include mq('medium') {
+        min-height: 10em;
+    }
+
     .promo-card__media {
         position: relative;
         flex: none;

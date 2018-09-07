@@ -350,6 +350,8 @@ toplevel:
       href: "/funding/programmes"
     - label: View all closed funding programmes
       href: "/funding/funding-finder?sc=1"
+    - label: Strategic investments in England
+      href: "/funding/strategic-investments"
     - label: Search funded projects
       href: "/funding/past-grants"
     - label: Help with managing your grant
