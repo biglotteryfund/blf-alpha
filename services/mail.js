@@ -11,6 +11,21 @@ const debug = require('debug')('biglotteryfund:mail');
 const { countEvent } = require('../modules/metrics');
 
 /**
+ * @typedef {object} MailAddress
+ * @property {string} [name]
+ * @property {string} address
+ */
+
+/**
+ * @typedef {object} MailConfig
+ * @property {Array<MailAddress>} sendTo
+ * @property {string} subject
+ * @property {string} [type]
+ * @property {string} content
+ * @property {string} [sendMode]
+ */
+
+/**
  * Given an email schema generate full email HTML
  *
  * We use Nunjucks Simple API remotely to avoid initialising a full environment
@@ -48,11 +63,12 @@ function generateHtmlEmail({ template, templateData }) {
  * If we are sending to a biglotteryfund domain use the blf.digital,
  * otherwise use the default send from address.
  *
- * @param {string} recipient
+ * @param {Array<MailAddress>} recipients
  * @return {string}
  */
-function getSendAddress(recipient) {
-    if (/@biglotteryfund.org.uk$/.test(recipient)) {
+function getSendAddress(recipients) {
+    const addressess = recipients.map(recipient => recipient.address);
+    if (addressess.some(address => /@biglotteryfund.org.uk$/.test(address))) {
         return 'noreply@blf.digital';
     } else {
         return 'noreply@biglotteryfund.org.uk';
@@ -60,24 +76,13 @@ function getSendAddress(recipient) {
 }
 
 /**
- * @typedef {object} MailConfig
- * @property {object} sendTo
- * @property {string} [sendTo.name]
- * @property {string} sendTo.address
- * @property {string} subject
- * @property {string} [type]
- * @property {string} content
- * @property {string} [sendMode]
- */
-
-/**
  * Build a nodemailer mail options object
  *
  * @param {MailConfig} mailConfig
  * @return {nodemailer.SendMailOptions}
  */
-function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to' }) {
-    const sendFrom = getSendAddress(sendTo.address);
+function buildMailOptions({ subject, type = 'text', content, sendTo = [], sendMode = 'to' }) {
+    const sendFrom = getSendAddress(sendTo);
 
     const mailOptions = {
         from: `Big Lottery Fund <${sendFrom}>`,

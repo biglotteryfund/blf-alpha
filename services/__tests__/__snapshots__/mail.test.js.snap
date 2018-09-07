@@ -6,9 +6,11 @@ Object {
   "html": "<p>This is a test</p>",
   "subject": "Test",
   "text": "This is a test",
-  "to": Object {
-    "address": "example@example.com",
-  },
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+    },
+  ],
 }
 `;
 
@@ -17,9 +19,11 @@ Object {
   "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
   "subject": "Test",
   "text": "This is a test",
-  "to": Object {
-    "address": "example@example.com",
-  },
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+    },
+  ],
 }
 `;
 
@@ -28,10 +32,12 @@ Object {
   "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
   "subject": "Test",
   "text": "This is a test",
-  "to": Object {
-    "address": "example@example.com",
-    "name": "Example Person",
-  },
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+      "name": "Example Person",
+    },
+  ],
 }
 `;
 
@@ -41,9 +47,27 @@ Object {
   "html": "<p>This is a test</p>",
   "subject": "Test",
   "text": "This is a test",
-  "to": Object {
-    "address": "example@biglotteryfund.org.uk",
-  },
+  "to": Array [
+    Object {
+      "address": "example@biglotteryfund.org.uk",
+    },
+  ],
+}
+`;
+
+exports[`buildMailOptions should handle multiple send to addresses 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@blf.digital>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@biglotteryfund.org.uk",
+    },
+    Object {
+      "address": "example@blah.com",
+    },
+  ],
 }
 `;
 

@@ -37,7 +37,7 @@ describe('buildMailOptions', () => {
     it('should build mail options for a text email', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: { address: 'example@example.com' },
+            sendTo: [{ address: 'example@example.com' }],
             content: 'This is a test'
         });
 
@@ -47,7 +47,17 @@ describe('buildMailOptions', () => {
     it('should build mail options for a text email with a name', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: { name: 'Example Person', address: 'example@example.com' },
+            sendTo: [{ name: 'Example Person', address: 'example@example.com' }],
+            content: 'This is a test'
+        });
+
+        expect(mailOptions).toMatchSnapshot();
+    });
+
+    it('should handle multiple send to addresses', () => {
+        const mailOptions = buildMailOptions({
+            subject: 'Test',
+            sendTo: [{ address: 'example@biglotteryfund.org.uk' }, { address: 'example@blah.com' }],
             content: 'This is a test'
         });
 
@@ -57,7 +67,7 @@ describe('buildMailOptions', () => {
     it('should build mail options for a html email', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: { address: 'example@example.com' },
+            sendTo: [{ address: 'example@example.com' }],
             type: 'html',
             content: '<p>This is a test</p>'
         });
@@ -68,7 +78,7 @@ describe('buildMailOptions', () => {
     it('should build mail options for an internal html email', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: { address: 'example@biglotteryfund.org.uk' },
+            sendTo: [{ address: 'example@biglotteryfund.org.uk' }],
             type: 'html',
             content: '<p>This is a test</p>'
         });
@@ -80,7 +90,7 @@ describe('buildMailOptions', () => {
         expect(() => {
             buildMailOptions({
                 subject: 'Test',
-                sendTo: { address: 'example@biglotteryfund.org.uk' },
+                sendTo: [{ address: 'example@biglotteryfund.org.uk' }],
                 type: 'not_a_thing',
                 content: '<p>This is a test</p>'
             });
@@ -114,16 +124,52 @@ describe('getSendAddress', () => {
     const expectedInternal = `noreply@blf.digital`;
 
     it('should return default send from address for external send to addresses', () => {
-        expect(getSendAddress('example@example.com')).toBe(expectedDefault);
-        expect(getSendAddress('example@gmail.com')).toBe(expectedDefault);
+        expect(
+            getSendAddress([
+                {
+                    address: 'example@example.com'
+                }
+            ])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([
+                {
+                    address: 'example@gmail.com'
+                }
+            ])
+        ).toBe(expectedDefault);
     });
 
     it('should return internal send from address for internal send to addresses', () => {
-        expect(getSendAddress('example@biglotteryfund.org.uk')).toBe(expectedInternal);
+        expect(
+            getSendAddress([
+                {
+                    address: 'example@biglotteryfund.org.uk'
+                }
+            ])
+        ).toBe(expectedInternal);
         // Assert against similar looking but incorrect emails to test for false positives
-        expect(getSendAddress('example@biggerlotteryfund.org.uk')).toBe(expectedDefault);
-        expect(getSendAddress('example@biggestlotteryfund.org.uk')).toBe(expectedDefault);
-        expect(getSendAddress('biglotteryfund.org.uk@example.com')).toBe(expectedDefault);
+        expect(
+            getSendAddress([
+                {
+                    address: 'example@biggerlotteryfund.org.uk'
+                }
+            ])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([
+                {
+                    address: 'example@biggestlotteryfund.org.uk'
+                }
+            ])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([
+                {
+                    address: 'biglotteryfund.org.uk@example.com'
+                }
+            ])
+        ).toBe(expectedDefault);
     });
 });
 
@@ -131,7 +177,7 @@ describe('sendEmail', () => {
     it('should create a text email response to be sent', async () => {
         const info = await sendMockEmail({
             subject: 'Mock email',
-            sendTo: { address: 'example@example.com' },
+            sendTo: [{ address: 'example@example.com' }],
             type: 'text',
             content: 'This is a test email'
         });
@@ -145,31 +191,12 @@ describe('sendEmail', () => {
 
         const info = await sendMockEmail({
             subject: 'Mock email',
-            sendTo: { address: 'example@example.com' },
+            sendTo: [{ address: 'example@example.com' }],
             type: 'html',
             content: html
         });
 
         expect(info.envelope).toMatchSnapshot();
         expect(info.message).toMatchSnapshot();
-    });
-
-    it('should skip emails with DONT_SEND_EMAIL', async () => {
-        process.env.DONT_SEND_EMAIL = 'true';
-
-        const info = await sendEmail({
-            name: 'skipped_email',
-            mailConfig: {
-                subject: 'Mock email',
-                sendTo: { address: 'example@example.com' },
-                type: 'text',
-                content: 'Some content'
-            },
-            mailTransport: nodemailer.createTransport({
-                jsonTransport: true
-            })
-        });
-
-        expect(info).toBe('skipped sending mail skipped_email');
     });
 });

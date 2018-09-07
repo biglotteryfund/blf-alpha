@@ -40,7 +40,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         sendEmail({
             name: 'reaching_communities_customer',
             mailConfig: {
-                sendTo: customerSendTo,
+                sendTo: [customerSendTo],
                 subject: 'Thank you for getting in touch with the Big Lottery Fund!',
                 type: 'html',
                 content: customerHtml
@@ -50,7 +50,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         sendEmail({
             name: 'reaching_communities_internal',
             mailConfig: {
-                sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
+                sendTo: appData.isNotProduction ? [customerSendTo] : determineInternalSendTo(data.location),
                 subject: `New idea submission from website: ${organisationName}`,
                 type: 'html',
                 content: internalHtml
