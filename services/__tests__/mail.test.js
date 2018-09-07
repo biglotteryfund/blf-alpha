@@ -3,7 +3,14 @@
 const path = require('path');
 const nodemailer = require('nodemailer');
 
-const { buildMailOptions, createSesTransport, generateHtmlEmail, getSendAddress, sendEmail } = require('../mail');
+const {
+    buildMailOptions,
+    createSesTransport,
+    expandAddresses,
+    generateHtmlEmail,
+    getSendAddress,
+    sendEmail
+} = require('../mail');
 
 async function sendMockEmail(mailConfig) {
     const info = await sendEmail({
@@ -170,6 +177,19 @@ describe('getSendAddress', () => {
                 }
             ])
         ).toBe(expectedDefault);
+    });
+});
+
+describe('expandAddresses', () => {
+    it('should handle a single address', () => {
+        expect(expandAddresses('example@example.com')).toEqual([{ address: 'example@example.com' }]);
+    });
+
+    it('should handle multiple addresses', () => {
+        expect(expandAddresses('example@example.com,another@example.com')).toEqual([
+            { address: 'example@example.com' },
+            { address: 'another@example.com' }
+        ]);
     });
 });
 

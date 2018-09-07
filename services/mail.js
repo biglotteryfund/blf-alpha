@@ -76,6 +76,18 @@ function getSendAddress(recipients) {
 }
 
 /**
+ * Takes a string of one or more addresses,
+ * e.g. 'example@example.com,another@example.com'
+ * and converts it into an address object for nodemailer
+ * @param {string} addressString
+ * @return {Array<MailAddress>}
+ */
+function expandAddresses(addressString) {
+    const addresses = addressString.split(',');
+    return addresses.map(address => ({ address }));
+}
+
+/**
  * Build a nodemailer mail options object
  *
  * @param {MailConfig} mailConfig
@@ -168,6 +180,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
 module.exports = {
     buildMailOptions,
     createSesTransport,
+    expandAddresses,
     generateHtmlEmail,
     getSendAddress,
     sendEmail

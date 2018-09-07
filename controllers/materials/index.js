@@ -16,7 +16,7 @@ const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const { generateHtmlEmail, sendEmail } = require('../../services/mail');
+const { expandAddresses, generateHtmlEmail, sendEmail } = require('../../services/mail');
 const ordersService = require('../../services/orders');
 
 const sessionOrderKey = 'materialOrders';
@@ -187,7 +187,7 @@ module.exports = function(routeConfig) {
                             const customerEmail = sendEmail({
                                 name: 'material_customer',
                                 mailConfig: {
-                                    sendTo: { address: customerSendTo },
+                                    sendTo: expandAddresses(customerSendTo),
                                     subject: 'Thank you for your Big Lottery Fund order',
                                     type: 'html',
                                     content: customerHtml
@@ -197,7 +197,7 @@ module.exports = function(routeConfig) {
                             const supplierEmail = sendEmail({
                                 name: 'material_supplier',
                                 mailConfig: {
-                                    sendTo: { address: supplierSendTo },
+                                    sendTo: expandAddresses(supplierSendTo),
                                     sendMode: 'bcc',
                                     subject: `Order from Big Lottery Fund website - ${moment().format(
                                         'dddd, MMMM Do YYYY, h:mm:ss a'
