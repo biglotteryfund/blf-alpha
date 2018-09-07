@@ -1,5 +1,4 @@
 'use strict';
-const { get, groupBy, sortBy, isArray } = require('lodash');
 
 const HUB_EMAILS = {
     england: 'englandteam@biglotteryfund.org.uk',
@@ -50,31 +49,7 @@ const PROJECT_LOCATIONS = [
 
 const DEFAULT_EMAIL = HUB_EMAILS.england;
 
-/**
- * Determine which internal address to send to:
- * - If multi-region, send to default/england-wide inbox
- * - Otherwise send to the matching inbox for the selected region
- */
-function determineInternalSendTo(location) {
-    if (isArray(location)) {
-        return { address: DEFAULT_EMAIL };
-    } else {
-        const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === location);
-        return { address: get(matchedLocation, 'email', DEFAULT_EMAIL) };
-    }
-}
-
-/**
- * Rank steps by their internal order (if provided), falling back to original (source) order
- */
-function orderStepsForInternalUse(stepData) {
-    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
-    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
-}
-
 module.exports = {
-    DEFAULT_EMAIL,
     PROJECT_LOCATIONS,
-    determineInternalSendTo,
-    orderStepsForInternalUse
+    DEFAULT_EMAIL
 };
