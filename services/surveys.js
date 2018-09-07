@@ -40,7 +40,7 @@ function summariseVotes(responses) {
     return voteData;
 }
 
-async function getAllResponses({ path = null }) {
+async function getAllResponses({ path = null } = {}) {
     try {
         const query = { order: [['updatedAt', 'DESC']] };
         if (path) {
