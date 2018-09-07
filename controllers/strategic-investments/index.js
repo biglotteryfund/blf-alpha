@@ -1,53 +1,43 @@
 'use strict';
 const path = require('path');
+const express = require('express');
 const { concat } = require('lodash');
-const appData = require('../../modules/appData');
+
 const {
-    injectBreadcrumbs,
     injectListingContent,
     injectStrategicProgramme,
     injectStrategicProgrammes
 } = require('../../middleware/inject-content');
 
-function initStrategicInvestmentsLanding(router) {
-    router.get('/strategic-investments', injectListingContent, injectBreadcrumbs, injectStrategicProgrammes, function(
-        req,
-        res
-    ) {
-        res.render(path.resolve(__dirname, './views/strategic-investments'));
-    });
-}
+const router = express.Router();
 
-function initStrategicProgrammeDetail(router) {
-    router.get('/strategic-investments/:slug', injectStrategicProgramme, function(req, res, next) {
-        const { strategicProgramme } = res.locals;
-        if (strategicProgramme) {
-            const breadcrumbs = concat(
-                [
-                    {
-                        label: req.i18n.__('global.nav.funding'),
-                        url: req.baseUrl
-                    }
-                ],
-                strategicProgramme.sectionBreadcrumbs
-            );
-
-            res.render(path.resolve(__dirname, './views/strategic-programme'), {
-                breadcrumbs
-            });
-        } else {
-            next();
+// @TODO: How to get breadcrumbs more reliably;
+function commonBreadcrumbs(req) {
+    return [
+        {
+            label: req.i18n.__('global.nav.funding'),
+            url: req.baseUrl
         }
+    ];
+}
+
+router.get('/', injectListingContent, injectStrategicProgrammes, function(req, res) {
+    const breadcrumbs = concat(commonBreadcrumbs(req), [{ label: res.locals.title, url: null }]);
+    res.render(path.resolve(__dirname, './views/strategic-investments'), {
+        breadcrumbs
     });
-}
+});
 
-function init({ router }) {
-    if (appData.isNotProduction) {
-        initStrategicInvestmentsLanding(router);
-        initStrategicProgrammeDetail(router);
+router.get('/:slug', injectStrategicProgramme, function(req, res, next) {
+    const { strategicProgramme } = res.locals;
+    if (strategicProgramme) {
+        const breadcrumbs = concat(commonBreadcrumbs(req), strategicProgramme.sectionBreadcrumbs);
+        res.render(path.resolve(__dirname, './views/strategic-programme'), {
+            breadcrumbs
+        });
+    } else {
+        next();
     }
-}
+});
 
-module.exports = {
-    init
-};
+module.exports = router;
