@@ -2,22 +2,15 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ title }} | {% endblock %}
-
 {% set heroImage = heroImages.fallbackHeroImage %}
 {% set socialImage = heroImage %}
 
 {% block content %}
-
-    {% set pageAccent = 'pink' %}
-
-    {{
-        hero(
-            titleText = title,
-            image = heroImage,
-            accent = pageAccent
-        )
-    }}
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
 
     <main class="nudge-up">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
