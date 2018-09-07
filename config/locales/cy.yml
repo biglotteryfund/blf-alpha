@@ -309,13 +309,14 @@ toplevel:
         caption: Effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   data:
-    title: "Data allweddol am y Gronfa Loteri Fawr: blwyddyn ariannol 2016/17"
+    title: "Data allweddol am y Gronfa Loteri Fawr: blwyddyn ariannol 2017/18"
     keyStats: Ystadegau allweddol
     map:
       title: Ein blwyddyn mewn Rhifau
       population: Poblogaeth
       totalAwarded: Cyfanswm a ddyfarnwyd
       totalBeneficiaries: Cyfanswm buddiolwyr
+      totalGrants: Cyfanswm grantiau
 about:
   ourPeople:
     navigation:

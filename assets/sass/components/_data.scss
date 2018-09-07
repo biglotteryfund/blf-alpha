@@ -265,46 +265,20 @@
     position: relative;
 }
 
-// this mirrors the accents concept, but we keep it separate
-// as adding it there would produce a bunch of superfluous classes
-$mapRegions: (
-    'default': #e4e3e1,
-    'east-midlands': #86bd3f,
-    'east-of-england': #c84548,
-    'london': #6f9cca,
-    'north-east': #faca36,
-    'north-west': #518a34,
-    'northern-ireland': #80e1b0,
-    'scotland': #73579e,
-    'south-east': #da559a,
-    'south-west': #3585b5,
-    'wales': #4eace1,
-    'west-midlands': #f7b534,
-    'yorkshire-and-the-humber': #ef7a70
-);
-
-.region {
-    fill: map-get($mapRegions, 'default');
+.region--default {
+    fill: #c2d0ef;
 }
 
-@each $region, $colour in $mapRegions {
-    @if ($region != 'default') {
-        .region--#{$region} {
-            fill: $colour;
+$activeRegionColour: palette('pink');
 
-            @include on-interact {
-                fill: palette('pink');
-            }
-        }
+.region--clickable{
+    fill: palette('blue');
 
-        .region--#{$region}--b-t {
-            border-top-color: $colour !important;
-        }
+    &.is-active {
+        fill: $activeRegionColour;
+    }
 
-        .region--#{$region}--b-b {
-            &:after {
-                border-bottom-color: $colour !important;
-            }
-        }
+    @include on-interact {
+        fill: $activeRegionColour;
     }
 }
