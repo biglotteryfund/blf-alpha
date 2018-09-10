@@ -16,8 +16,8 @@ const testRoutes = {
                     path: '/monkey/dishwasher',
                     live: true,
                     isPostable: true,
-                    aliases: ['/green/orangutan/fridge'],
-                    queryStrings: ['foo', 'bar']
+                    allowAllQueryStrings: true,
+                    aliases: ['/green/orangutan/fridge']
                 }
             }
         }
@@ -26,6 +26,7 @@ const testRoutes = {
         {
             path: '/unicorns',
             isPostable: true,
+            queryStrings: ['foo', 'bar'],
             live: true
         },
         {
@@ -38,13 +39,13 @@ const testRoutes = {
 describe('#generateUrlList', () => {
     it('should filter out non-custom routes', done => {
         const urls = generateUrlList(testRoutes);
-        expect(urls.length).toBe(2);
+        expect(urls.length).toBe(4);
         done();
     });
 
     it('should generate the correct section/page path', done => {
         const urls = generateUrlList(testRoutes);
-        expect(urls.filter(r => r.path === '/purple/monkey/dishwasher').length).toBe(1);
+        expect(urls.filter(r => r.path === '/unicorns').length).toBe(1);
         done();
     });
 
@@ -56,7 +57,7 @@ describe('#generateUrlList', () => {
 
     it('should store properties against routes', done => {
         const urls = generateUrlList(testRoutes);
-        expect(urls.filter(r => r.path === '/purple/monkey/dishwasher')[0].isPostable).toBe(true);
+        expect(urls.filter(r => r.path === '/unicorns')[0].isPostable).toBe(true);
         done();
     });
 });

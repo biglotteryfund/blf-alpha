@@ -22,7 +22,6 @@ function hasSpecialRequirements(route) {
     return (
         // Any route specific query strings?
         route.allowAllQueryStrings ||
-        (route.queryStrings && route.queryStrings.length > 0) ||
         // Any route specific cookies?
         has(route, 'cookies')
     );
@@ -59,7 +58,7 @@ function generateUrlList(routes) {
     }
 
     // Cloudfront rules
-    routes.cloudfrontRules.filter(pageNeedsCustomRouting).forEach(routeConfig => {
+    routes.cloudfrontRules.forEach(routeConfig => {
         urls.push(makeUrlObject(routeConfig, routeConfig.path));
 
         if (routeConfig.isBilingual) {
