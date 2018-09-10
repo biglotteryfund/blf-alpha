@@ -6,7 +6,13 @@ const { sortBy } = require('lodash');
 function init({ router, routeConfig }) {
     router.get(routeConfig.path, (req, res, next) => {
         const locale = req.i18n.getLocale();
-        return Promise.all([contentApi.getStatRegions(locale), contentApi.getDataStats(locale)])
+        return Promise.all([
+            contentApi.getStatRegions(locale),
+            contentApi.getDataStats({
+                locale: locale,
+                previewMode: res.locals.PREVIEW_MODE || false
+            })
+        ])
             .then(responses => {
                 const [statRegions, statPage] = responses;
                 res.render(routeConfig.template, {
