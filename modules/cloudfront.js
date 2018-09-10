@@ -105,18 +105,6 @@ const makeBehaviourItem = ({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours({ cloudfrontRules, origins }) {
-    const urlsToSupport = flatMap(cloudfrontRules, routeConfig => {
-        if (routeConfig.isBilingual) {
-            const welshRouteConfig = assign({}, routeConfig, {
-                path: makeWelsh(routeConfig.path)
-            });
-
-            return [routeConfig, welshRouteConfig];
-        } else {
-            return routeConfig;
-        }
-    });
-
     const defaultCookies = [
         config.get('cookies.contrast'),
         config.get('cookies.features'),
@@ -153,28 +141,33 @@ function generateBehaviours({ cloudfrontRules, origins }) {
     );
 
     // direct all custom routes (eg. with non-standard config) to Express
-    const primaryBehaviours = urlsToSupport.map(url => {
-        const cookiesInUse = uniq(
-            compact(
-                flatten([
-                    // Global cookies
-                    defaultCookies,
-                    // Route specific a/b test cookie
-                    get(url, 'abTest.cookie'),
-                    // Custom route specific cookies
-                    get(url, 'cookies', [])
-                ])
-            )
-        );
+    const primaryBehaviours = flatMap(cloudfrontRules, rule => {
+        // Merge default cookies with rule specific cookie
+        const cookiesInUse = uniq(compact(flatten([defaultCookies, get(rule, 'cookies', [])])));
 
-        return makeBehaviourItem({
+        const behaviour = makeBehaviourItem({
             originId: origins.newSite,
-            pathPattern: url.path,
-            isPostable: url.isPostable,
-            queryStringWhitelist: url.queryStrings,
-            allowAllQueryStrings: url.allowAllQueryStrings,
+            pathPattern: rule.path,
+            isPostable: rule.isPostable,
+            queryStringWhitelist: rule.queryStrings,
+            allowAllQueryStrings: rule.allowAllQueryStrings,
             cookiesInUse: cookiesInUse
         });
+
+        if (rule.isBilingual) {
+            const welshBehaviour = makeBehaviourItem({
+                originId: origins.newSite,
+                pathPattern: makeWelsh(rule.path),
+                isPostable: rule.isPostable,
+                queryStringWhitelist: rule.queryStrings,
+                allowAllQueryStrings: rule.allowAllQueryStrings,
+                cookiesInUse: cookiesInUse
+            });
+
+            return [behaviour, welshBehaviour];
+        } else {
+            return [behaviour];
+        }
     });
 
     const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
