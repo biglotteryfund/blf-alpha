@@ -200,8 +200,8 @@ function getProfiles({ locale, section }) {
     });
 }
 
-function getStatBlocks(locale) {
-    return fetch(`/v1/${locale}/stat-blocks`).then(mapAttrs);
+function getDataStats(locale) {
+    return fetch(`/v1/${locale}/data`).then(response => response.data.attributes);
 }
 
 function getStatRegions(locale) {
@@ -244,6 +244,6 @@ module.exports = {
     getProfiles,
     getPromotedNews,
     getRoutes,
-    getStatBlocks,
-    getStatRegions
+    getStatRegions,
+    getDataStats
 };
