@@ -4,6 +4,7 @@ const express = require('express');
 const { concat } = require('lodash');
 
 const {
+    injectBreadcrumbs,
     injectListingContent,
     injectStrategicProgramme,
     injectStrategicProgrammes
@@ -11,27 +12,14 @@ const {
 
 const router = express.Router();
 
-// @TODO: How to get breadcrumbs more reliably;
-function commonBreadcrumbs(req) {
-    return [
-        {
-            label: req.i18n.__('global.nav.funding'),
-            url: req.baseUrl
-        }
-    ];
-}
-
-router.get('/', injectListingContent, injectStrategicProgrammes, function(req, res) {
-    const breadcrumbs = concat(commonBreadcrumbs(req), [{ label: res.locals.title, url: null }]);
-    res.render(path.resolve(__dirname, './views/strategic-investments'), {
-        breadcrumbs
-    });
+router.get('/', injectListingContent, injectBreadcrumbs, injectStrategicProgrammes, function(req, res) {
+    res.render(path.resolve(__dirname, './views/strategic-investments'));
 });
 
-router.get('/:slug', injectStrategicProgramme, function(req, res, next) {
+router.get('/:slug', injectBreadcrumbs, injectStrategicProgramme, function(req, res, next) {
     const { strategicProgramme } = res.locals;
     if (strategicProgramme) {
-        const breadcrumbs = concat(commonBreadcrumbs(req), strategicProgramme.sectionBreadcrumbs);
+        const breadcrumbs = concat(res.locals.breadcrumbs, strategicProgramme.sectionBreadcrumbs);
         res.render(path.resolve(__dirname, './views/strategic-programme'), {
             breadcrumbs
         });

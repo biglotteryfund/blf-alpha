@@ -19,7 +19,7 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { cymreigio } = require('./modules/urls');
+const { cymreigio, localify } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
@@ -217,11 +217,14 @@ forEach(routes.sections, (section, sectionId) => {
     let router = express.Router();
 
     /**
-     * Middleware to add a section ID to requests with a known section
-     * (eg. to mark a section as current in the nav)
+     * Add section locals
+     * Used for determining top-level section for navigation and breadcrumbs
      */
     router.use(function(req, res, next) {
+        const locale = req.i18n.getLocale();
         res.locals.sectionId = sectionId;
+        res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
+        res.locals.sectionUrl = localify(locale)(req.baseUrl);
         next();
     });
 
