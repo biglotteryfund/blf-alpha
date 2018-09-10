@@ -1,7 +1,7 @@
 'use strict';
 
 const aliases = require('./aliases');
-const { customRoute, sessionRoute, legacyRoute } = require('./route-types');
+const { sessionRoute, legacyRoute } = require('./route-types');
 
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
@@ -26,12 +26,12 @@ const toplevel = {
         return require('./toplevel')(options);
     },
     pages: {
-        home: customRoute({
+        home: {
             path: '/',
             template: 'pages/toplevel/home',
             lang: 'toplevel.home',
             isPostable: true
-        }),
+        },
         northernIreland: {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
@@ -53,20 +53,20 @@ const toplevel = {
             path: '/contact',
             router: basicContent()
         },
-        data: customRoute({
+        data: {
             path: '/data',
             template: 'pages/toplevel/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme'
-        }),
+        },
         jobs: {
             path: '/jobs*',
             router: basicContent()
         },
-        search: customRoute({
+        search: {
             path: '/search',
             allowAllQueryStrings: true
-        }),
+        },
         patterns: {
             path: '/patterns',
             router: require('./pattern-library')
@@ -86,13 +86,13 @@ const funding = {
         return require('./funding')(options);
     },
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
             sMaxAge: '30m',
             template: 'pages/funding/index',
             lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities'
-        }),
+        },
         rootTest: {
             path: '/test',
             lang: 'toplevel.funding',
@@ -111,18 +111,18 @@ const funding = {
                 template: 'pages/funding/thinking-of-applying'
             })
         },
-        under10k: customRoute({
+        under10k: {
             path: '/under10k',
             template: 'pages/funding/under10k',
             lang: 'funding.under10k',
             heroSlug: 'friends-of-greenwich'
-        }),
-        over10k: customRoute({
+        },
+        over10k: {
             path: '/over10k',
             template: 'pages/funding/over10k',
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3'
-        }),
+        },
         pastGrants: {
             path: '/past-grants',
             lang: 'funding.pastGrants',
@@ -131,24 +131,24 @@ const funding = {
                 template: 'pages/funding/past-grants'
             })
         },
-        pastGrantsAlpha: customRoute({
+        pastGrantsAlpha: {
             path: '/search-past-grants-alpha',
             isDraft: true,
             template: 'pages/grants/search',
             isPostable: true,
             allowAllQueryStrings: true
-        }),
-        programmes: customRoute({
+        },
+        programmes: {
             path: '/programmes',
             template: 'pages/funding/programmes',
             lang: 'funding.programmes',
             heroSlug: 'the-young-foundation',
             queryStrings: ['location', 'amount', 'min', 'max']
-        }),
-        programmeDetail: customRoute({
+        },
+        programmeDetail: {
             path: '/programmes/*',
             template: 'pages/funding/programme-detail'
-        }),
+        },
         buildingBetterOpportunities: {
             path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
             router: basicContent()
@@ -215,17 +215,17 @@ const research = {
         return require('./research')(options);
     },
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
             lang: 'toplevel.research',
             heroSlug: 'grassroots-project'
-        }),
-        rootNew: customRoute({
+        },
+        rootNew: {
             path: '/landing-new',
             lang: 'toplevel.research',
             heroSlug: 'grassroots-project',
             isDraft: true
-        })
+        }
     }
 };
 
@@ -245,25 +245,25 @@ const about = {
             path: '/',
             router: flexibleContent()
         },
-        seniorManagement: customRoute({
+        seniorManagement: {
             path: '/our-people/senior-management-team',
             template: 'pages/about/senior-management-team',
             lang: 'about.ourPeople.seniorManagement',
             heroSlug: 'mental-health-foundation'
-        }),
-        board: customRoute({
+        },
+        board: {
             path: '/our-people/board',
             template: 'pages/about/board',
             lang: 'about.ourPeople.board',
             isDraft: true
-        }),
-        ebulletin: customRoute({
+        },
+        ebulletin: {
             path: '/ebulletin',
             template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
             heroSlug: 'street-dreams',
             isPostable: true
-        }),
+        },
         content: {
             path: '/*',
             router: basicContent()
@@ -280,11 +280,11 @@ const blog = {
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
             router: require('./blog'),
             isDraft: true
-        })
+        }
     }
 };
 
@@ -299,9 +299,9 @@ const apply = {
         return require('./apply')(options);
     },
     pages: {
-        root: customRoute({
+        root: {
             path: '/'
-        }),
+        },
         applicationForms: sessionRoute({
             path: '/*',
             isPostable: true
@@ -329,10 +329,8 @@ const sections = {
  * but aren't explicit page routes (eg. static files, custom pages etc)
  */
 const otherUrls = [
-    customRoute({ path: '/assets/*' }),
-    customRoute({ path: '/error' }),
     sessionRoute({ path: '/tools/*', isPostable: true }),
-    customRoute({ path: '/contrast/*', queryStrings: ['url'] }),
+    { path: '/contrast/*', queryStrings: ['url'] },
     sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
     legacyRoute({ path: '*~/link.aspx' })
 ];
@@ -342,8 +340,8 @@ const otherUrls = [
  * Paths in this array will be redirected to the National Archives
  */
 const archivedRoutes = [
-    customRoute({ path: '/funding/funding-guidance/applying-for-funding/*' }),
-    customRoute({ path: '/about-big/10-big-lottery-fund-facts' })
+    { path: '/funding/funding-guidance/applying-for-funding/*' },
+    { path: '/about-big/10-big-lottery-fund-facts' }
 ];
 
 module.exports = {

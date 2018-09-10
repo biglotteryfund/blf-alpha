@@ -3,7 +3,7 @@ const { flatten, get, getOr, last } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { localify, removeWelsh } = require('../modules/urls');
+const { localify } = require('../modules/urls');
 const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
 

@@ -3,7 +3,6 @@ const config = require('config');
 const { assign, compact, concat, flatten, get, has, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-const appData = require('./appData');
 
 /**
  * makeUrlObject
