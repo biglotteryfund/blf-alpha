@@ -3,7 +3,6 @@ const config = require('config');
 const { assign, compact, concat, flatten, get, has, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-const appData = require('./appData');
 
 /**
  * makeUrlObject
@@ -18,47 +17,11 @@ function makeUrlObject(page, customPath) {
     });
 }
 
-function hasSpecialRequirements(route) {
-    return (
-        // Any route specific query strings?
-        route.allowAllQueryStrings ||
-        // Any route specific cookies?
-        has(route, 'cookies')
-    );
-}
-
-function isLive(route) {
-    return appData.isNotProduction || route.live === true;
-}
-
-function pageNeedsCustomRouting(page) {
-    return isLive(page) && hasSpecialRequirements(page);
-}
-
 // take the routes.js configuration and output locale-friendly URLs
 // with support for POST, querystrings and redirects for Cloudfront
-function generateUrlList(routes) {
+function generateUrlList(cloudfrontRules) {
     const urls = [];
-
-    // add auto URLs from route config
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        let pages = section.pages;
-
-        for (let p in pages) {
-            let page = pages[p];
-            let url = section.path + page.path;
-
-            if (pageNeedsCustomRouting(page)) {
-                // create route mapping for canonical URLs
-                urls.push(makeUrlObject(page, url));
-                urls.push(makeUrlObject(page, makeWelsh(url)));
-            }
-        }
-    }
-
-    // Cloudfront rules
-    routes.cloudfrontRules.forEach(routeConfig => {
+    cloudfrontRules.forEach(routeConfig => {
         urls.push(makeUrlObject(routeConfig, routeConfig.path));
 
         if (routeConfig.isBilingual) {
@@ -169,8 +132,8 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours({ routesConfig, origins }) {
-    const urlsToSupport = generateUrlList(routesConfig);
+function generateBehaviours({ cloudfrontRules, origins }) {
+    const urlsToSupport = generateUrlList(cloudfrontRules);
 
     const defaultCookies = [
         config.get('cookies.contrast'),
