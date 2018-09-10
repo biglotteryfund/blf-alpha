@@ -57,10 +57,10 @@ const DEFAULT_EMAIL = HUB_EMAILS.england;
  */
 function determineInternalSendTo(location) {
     if (isArray(location)) {
-        return { address: DEFAULT_EMAIL };
+        return DEFAULT_EMAIL;
     } else {
         const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === location);
-        return { address: get(matchedLocation, 'email', DEFAULT_EMAIL) };
+        return get(matchedLocation, 'email', DEFAULT_EMAIL);
     }
 }
 

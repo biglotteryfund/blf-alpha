@@ -1,14 +1,14 @@
-{% from "components/applicationSummary.njk" import readOnlySummary %}
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedRealPath }}">
-        <link href="//fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
     </head>
     <body>
         <div class="logo">
-            <img src="https://{{ appData.config.get('siteDomain') }}{{ 'logos/logo.png' | getImagePath }}" alt="Big Lottery Fund logo" />
+            <img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png"
+                alt="Big Lottery Fund logo" />
         </div>
 
         <p>Thank you for getting in touch with us.</p>
@@ -19,18 +19,28 @@
         <p><strong>The Big Lottery Fund</strong></p>
 
         <h2 class="space-above">Your information</h2>
-        <div class="summary">
-            {{ readOnlySummary(summary) }}
-        </div>
 
-        {% if referenceId %}
-            <p>Your reference ID is <strong>{{ referenceId }}</strong></p>
-        {% endif %}
+        <div class="summary">
+            {% for step in summary %}
+                <h4>{{ step.name }}</h4>
+                {% for fieldset in step.fieldsets %}
+                    {% for field in fieldset.fields %}
+                        {% if field.value %}
+                            <h5>{{ field.label }}</h5>
+                            {% if field.type === 'textarea' %}
+                                <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
+                            {% else %}
+                                <p>{{ field.value }}</p>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </div>
 
         <h5 class="space-above">Data protection</h5>
         <small>The Big Lottery Fund is a public body with a duty to distribute National Lottery and other money in grants for good causes. We use the personal data you provide, such as contact details for individuals at your organisation, to help you apply for a grant and to assess your application.</small>
         <small>We may share your personal data with organisations which help us with our grant making activities or others which have a legitimate interest in our work or have funded your grant. We will only share personal data which they need to carry out their work and subject to appropriate safety measures.</small>
         <small>Our Data Protection and Privacy Notice gives more information about how we store and use personal data and the lawful basis for this. Please read the full Notice which is published on our website at www.biglotteryfund.org.uk/data-protection or contact us to request a hard copy. The Notice may be updated from time to time.</small>
-
     </body>
 </html>

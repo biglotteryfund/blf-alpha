@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const mail = require('../../services/mail');
+const { sendEmail } = require('../../services/mail');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 
@@ -32,16 +32,18 @@ const sendActivationEmail = (user, req, isBrandNewUser) => {
         let email = user.username;
         let activatePath = makeUserLink('activate');
         let activateUrl = `${req.protocol}://${req.headers.host}${activatePath}?token=${token}`;
-
-        const mailConfig = {
-            sendTo: { address: email },
+        let mailConfig = {
+            name: 'user_activate_account',
             subject: 'Activate your Big Lottery Fund website account',
-            content: `Please click the following link to activate your account: ${activateUrl}`,
-            type: 'text'
+            text: `Please click the following link to activate your account: ${activateUrl}`,
+            sendTo: email
         };
 
         // @TODO should we alert users to errors here?
-        mail.send('user_activate_account', mailConfig);
+        sendEmail({
+            name: 'user_activate_account',
+            mailConfig: mailConfig
+        });
 
         return {
             email: mailConfig,

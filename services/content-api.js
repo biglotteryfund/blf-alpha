@@ -2,32 +2,15 @@
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
+const debug = require('debug')('biglotteryfund:content-api');
 
 const mapAttrs = response => map('attributes')(response.data);
 
 const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
-if (!CONTENT_API_URL) {
-    console.log('Error: CONTENT_API_URL endpoint must be defined');
-    process.exit(1);
-}
-
-/**
- * Setter method exposed to aid with tests
- */
-function setApiUrl(customApiUrl) {
-    CONTENT_API_URL = customApiUrl;
-}
-
-/**
- * Getter method exposed to aid with tests
- */
-function getApiUrl() {
-    return CONTENT_API_URL;
-}
-
 function fetch(urlPath, options) {
+    debug(`Fetching ${urlPath}`);
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
         json: true
@@ -242,8 +225,6 @@ function getRoutes() {
 }
 
 module.exports = {
-    setApiUrl,
-    getApiUrl,
     mapAttrs,
     mergeWelshBy,
     // API methods

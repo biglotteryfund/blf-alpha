@@ -30,7 +30,11 @@ featured: {Boolean} - Use featured style for promo card
             </div>
         {% endif %}
         <div class="promo-card__body">
-            <h3 class="promo-card__title t5">{{ props.title }}</h3>
+            <h3 class="promo-card__title t5">
+                {% if props.link.url %}<a class="u-link-minimal" href="{{ props.link.url }}">{% endif %}
+                {{ props.title }}
+                {% if props.link.url %}</a>{% endif %}
+            </h3>
             <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             <div class="promo-card__trail-text s-prose">
                 {{ props.trailText | safe  }}

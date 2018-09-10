@@ -66,6 +66,18 @@ module.exports = {
             description: req.i18n.__('global.brand.description')
         };
 
+        /**
+         * Fallback hero image
+         * Allows pages to fallback to a hero image where an image is hard requirement for the layout
+         */
+        res.locals.fallbackHeroImage = {
+            small: '/assets/images/hero/hero-fallback-small.jpg',
+            medium: '/assets/images/hero/hero-fallback-medium.jpg',
+            large: '/assets/images/hero/hero-fallback-large.jpg',
+            default: '/assets/images/hero/hero-fallback-medium.jpg',
+            caption: 'Rathlin Island Development and Community Association'
+        };
+
         /***********************************************
          * Global view methods
          ***********************************************/

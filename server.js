@@ -21,7 +21,6 @@ if (appData.isDev) {
 
 const { cymreigio } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./modules/route-helpers');
-const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
@@ -118,11 +117,6 @@ function initAppLocals() {
      * Navigation sections for top-level nav
      */
     app.locals.navigationSections = getSectionsForNavigation();
-
-    /**
-     * Common hero images
-     */
-    app.locals.heroImages = heroImages;
 
     /**
      * Default pageAccent colour
