@@ -1196,75 +1196,6 @@
               "draft",
               "version",
               "enable-feature",
-              "disable-feature"
-            ],
-            "Quantity": 4
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features",
-                "blf-alpha-session"
-              ],
-              "Quantity": 3
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/tools/*"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version",
-              "enable-feature",
               "disable-feature",
               "token"
             ],
@@ -1757,6 +1688,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 27
+    "Quantity": 26
   }
 }

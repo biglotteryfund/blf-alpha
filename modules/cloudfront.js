@@ -72,8 +72,8 @@ function generateUrlList(routes) {
 
 const makeBehaviourItem = ({
     originId,
-    pathPattern,
-    isPostable,
+    pathPattern = null,
+    isPostable = false,
     cookiesInUse = [],
     allowAllCookies = false,
     queryStringWhitelist = [],
