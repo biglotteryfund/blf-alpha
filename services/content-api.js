@@ -200,8 +200,10 @@ function getProfiles({ locale, section }) {
     });
 }
 
-function getDataStats(locale) {
-    return fetch(`/v1/${locale}/data`).then(response => response.data.attributes);
+function getDataStats({ locale, previewMode }) {
+    return fetch(`/v1/${locale}/data`, {
+        qs: addPreviewParams(previewMode)
+    }).then(response => response.data.attributes);
 }
 
 function getStatRegions(locale) {
