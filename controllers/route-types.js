@@ -1,59 +1,11 @@
 'use strict';
 const config = require('config');
-const { get } = require('lodash');
 
 const CONTENT_TYPES = {
     STATIC: 'STATIC', // A page with no content from the cms and a static template
     CMS_BASIC: 'CMS_BASIC', // Page using the basic cms content type
     CMS_FLEXIBLE_CONTENT: 'CMS_FLEXIBLE_CONTENT' // Page using the cms flexible content type
 };
-
-/**
- * Create a top-level section
- *
- * path - top-level URL path, e.g. /funding
- * controllerPath - path to controller file
- * langTitlePath - locale property for translated page title
- */
-function createSection({ path, controllerPath = null, langTitlePath = null, showInNavigation = true }) {
-    const newSection = {
-        path: path,
-        pages: null,
-        controller: null,
-        langTitlePath: langTitlePath,
-        showInNavigation: showInNavigation
-    };
-
-    /**
-     * Controller loader function, allows us to auto-init routes
-     */
-    if (controllerPath) {
-        newSection.controller = function(options) {
-            return require(controllerPath)(options);
-        };
-    }
-
-    /**
-     * Setter for route pages
-     */
-    newSection.addRoutes = function(sectionRoutes) {
-        newSection.pages = sectionRoutes;
-    };
-
-    /**
-     * Find the canonical path for a given page key
-     */
-    newSection.find = function(pageId) {
-        const pagePath = get(newSection.pages, `${pageId}.path`);
-        if (pagePath) {
-            return `${path}${pagePath}`;
-        } else {
-            throw new Error(`No route found for ${pageId}`);
-        }
-    };
-
-    return newSection;
-}
 
 /**
  * Default parameters for cloudfront routes
@@ -121,7 +73,6 @@ function legacyRoute(props) {
 
 module.exports = {
     CONTENT_TYPES,
-    createSection,
     customRoute,
     sessionRoute,
     staticContentRoute,
