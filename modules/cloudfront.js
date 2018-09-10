@@ -65,7 +65,7 @@ function generateUrlList(routes) {
     }
 
     // Other Routes
-    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+    routes.cloudfrontRules.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
 
     return urls;
 }

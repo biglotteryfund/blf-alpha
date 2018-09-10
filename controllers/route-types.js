@@ -61,22 +61,11 @@ function flexibleContentRoute(props) {
     return { ...defaults, ...cmsDefaults, ...props };
 }
 
-/**
- * Legacy route
- * Permissive defaults, POST and query-strings allowed
- * Used on proxied legacy pages, e.g. funding finder
- */
-function legacyRoute(props) {
-    const legacyDefaults = { isPostable: true, allowAllQueryStrings: true };
-    return { ...defaults, ...legacyDefaults, ...props };
-}
-
 module.exports = {
     CONTENT_TYPES,
     customRoute,
     sessionRoute,
     staticContentRoute,
     basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
+    flexibleContentRoute
 };

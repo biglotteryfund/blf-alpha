@@ -22,7 +22,7 @@ const testRoutes = {
             }
         }
     },
-    otherUrls: [
+    cloudfrontRules: [
         {
             path: '/unicorns',
             isPostable: true,

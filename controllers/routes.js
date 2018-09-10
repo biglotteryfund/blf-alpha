@@ -6,8 +6,7 @@ const {
     sessionRoute,
     staticContentRoute,
     basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
+    flexibleContentRoute
 } = require('./route-types');
 
 /**
@@ -34,8 +33,7 @@ const toplevel = {
         home: customRoute({
             path: '/',
             template: 'pages/toplevel/home',
-            lang: 'toplevel.home',
-            isPostable: true
+            lang: 'toplevel.home'
         }),
         northernIreland: staticContentRoute({
             path: '/northern-ireland',
@@ -128,9 +126,7 @@ const funding = {
         pastGrantsAlpha: customRoute({
             path: '/search-past-grants-alpha',
             live: false,
-            template: 'pages/grants/search',
-            isPostable: true,
-            allowAllQueryStrings: true
+            template: 'pages/grants/search'
         }),
         programmes: customRoute({
             path: '/programmes',
@@ -156,8 +152,7 @@ const funding = {
         }),
         fundingGuidanceMaterials: sessionRoute({
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials',
-            isPostable: true
+            lang: 'funding.guidance.order-free-materials'
         }),
         fundingGuidanceMaterialsActions: sessionRoute({
             path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
@@ -165,9 +160,6 @@ const funding = {
         }),
         fundingGuidance: basicContentRoute({
             path: '/funding-guidance/*'
-        }),
-        fundingFinderLegacy: legacyRoute({
-            path: '/funding-finder'
         })
     }
 };
@@ -249,8 +241,7 @@ const about = {
             path: '/ebulletin',
             template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams',
-            isPostable: true
+            heroSlug: 'street-dreams'
         }),
         content: basicContentRoute({
             path: '/*'
@@ -317,18 +308,22 @@ const sections = {
 };
 
 /**
- * Other Routes
- * These are other paths that should be routed to this app via Cloudfront
- * but aren't explicit page routes (eg. static files, custom pages etc)
+ * Custom cloudfront rules
+ * If any cached url paths need custom cloudfront rules like query strings
+ * or custom cookies to be whitelisted you must define those rules here.
  */
-const otherUrls = [
-    customRoute({ path: '/contrast/*', queryStrings: ['url'] }),
-    sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
-    legacyRoute({ path: '*~/link.aspx' })
+const cloudfrontRules = [
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true },
+    { path: '/welsh/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true },
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true },
+    { path: '/welsh/funding/funding-finder', isPostable: true, allowAllQueryStrings: true },
+    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+    { path: '/contrast/*', queryStrings: ['url'] },
+    { path: '/user/*', isPostable: true, queryStrings: ['token'] }
 ];
 
 module.exports = {
     aliases,
-    otherUrls,
+    cloudfrontRules,
     sections
 };

@@ -7,8 +7,7 @@ const {
     sessionRoute,
     staticContentRoute,
     basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
+    flexibleContentRoute
 } = require('../route-types');
 
 describe('Route types', () => {
@@ -58,16 +57,6 @@ describe('Route types', () => {
             contentType: CONTENT_TYPES.CMS_FLEXIBLE_CONTENT,
             isPostable: false,
             path: '/some/url',
-            live: true
-        });
-    });
-
-    it('should define a legacy schema', () => {
-        const route = legacyRoute({ path: '/some/url' });
-        expect(route).toEqual({
-            path: '/some/url',
-            isPostable: true,
-            allowAllQueryStrings: true,
             live: true
         });
     });
