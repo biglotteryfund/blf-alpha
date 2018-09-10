@@ -2,7 +2,7 @@
 const appData = require('./appData');
 
 function shouldServe(page) {
-    return appData.isNotProduction ? true : page.live === true;
+    return appData.isNotProduction ? true : !page.isDraft;
 }
 
 function isBilingual(availableLanguages) {

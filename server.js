@@ -25,7 +25,6 @@ const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const { shouldServe } = require('./modules/pageLogic');
-const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
@@ -259,14 +258,6 @@ forEach(routes.sections, (section, sectionId) => {
             sectionId: sectionId
         });
     }
-
-    /**
-     * Add common routing (for static/fully-CMS powered pages)
-     */
-    router = routeCommon.init({
-        router: router,
-        pages: section.pages
-    });
 
     /**
      * Mount section router

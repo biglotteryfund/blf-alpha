@@ -1,11 +1,9 @@
 'use strict';
-
-const { filter, forEach, isEmpty } = require('lodash');
 const express = require('express');
+const { isEmpty } = require('lodash');
 
-const { CONTENT_TYPES } = require('./route-types');
 const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../middleware/inject-content');
-const { isBilingual, shouldServe } = require('../modules/pageLogic');
+const { isBilingual } = require('../modules/pageLogic');
 const { isWelsh } = require('../modules/urls');
 
 function staticPage({ disableLanguageLink = false, template = null } = {}) {
@@ -30,13 +28,15 @@ function staticPage({ disableLanguageLink = false, template = null } = {}) {
     return router;
 }
 
-function handleBasicContentPage(router, page) {
-    router.get(page.path, injectListingContent, injectBreadcrumbs, (req, res, next) => {
+function basicContent({ customTemplate = null } = {}) {
+    const router = express.Router();
+
+    router.get('/', injectListingContent, injectBreadcrumbs, (req, res, next) => {
         const { content, breadcrumbs } = res.locals;
         if (content) {
             const template = (() => {
-                if (page.template) {
-                    return page.template;
+                if (customTemplate) {
+                    return customTemplate;
                 } else if (content.children) {
                     return 'common/listingPage';
                 } else {
@@ -49,13 +49,17 @@ function handleBasicContentPage(router, page) {
             next();
         }
     });
+
+    return router;
 }
 
-function handleFlexibleContentPage(router, page) {
-    router.get(page.path, injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
+function flexibleContent(customTemplate) {
+    const router = express.Router();
+
+    router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
         const { entry, breadcrumbs } = res.locals;
         if (entry) {
-            const template = page.template || 'common/flexibleContent';
+            const template = customTemplate || 'common/flexibleContent';
             res.render(template, {
                 content: entry,
                 title: entry.title,
@@ -67,30 +71,12 @@ function handleFlexibleContentPage(router, page) {
             next();
         }
     });
-}
-
-/**
- * Init routing
- * Set up path routing for a list of (static) pages
- */
-function init({ router, pages }) {
-    forEach(filter(pages, shouldServe), page => {
-        switch (page.contentType) {
-            case CONTENT_TYPES.CMS_BASIC:
-                handleBasicContentPage(router, page);
-                break;
-            case CONTENT_TYPES.CMS_FLEXIBLE_CONTENT:
-                handleFlexibleContentPage(router, page);
-                break;
-            default:
-                break;
-        }
-    });
 
     return router;
 }
 
 module.exports = {
-    staticPage,
-    init
+    basicContent,
+    flexibleContent,
+    staticPage
 };

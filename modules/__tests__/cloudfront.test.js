@@ -14,7 +14,6 @@ const testRoutes = {
             pages: {
                 monkey: {
                     path: '/monkey/dishwasher',
-                    live: true,
                     isPostable: true,
                     aliases: ['/green/orangutan/fridge'],
                     queryStrings: ['foo', 'bar']
@@ -24,19 +23,17 @@ const testRoutes = {
     },
     archivedRoutes: [
         {
-            path: '/some/archived/path/*',
-            live: true
+            path: '/some/archived/path/*'
         }
     ],
     otherUrls: [
         {
             path: '/unicorns',
-            isPostable: true,
-            live: true
+            isPostable: true
         },
         {
             path: '/draft',
-            live: false
+            isDraft: true
         }
     ]
 };

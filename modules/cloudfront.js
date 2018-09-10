@@ -30,12 +30,8 @@ function hasSpecialRequirements(route) {
     );
 }
 
-function isLive(route) {
-    return appData.isNotProduction || route.live === true;
-}
-
 function pageNeedsCustomRouting(page) {
-    return isLive(page) && hasSpecialRequirements(page);
+    return hasSpecialRequirements(page);
 }
 
 // take the routes.js configuration and output locale-friendly URLs

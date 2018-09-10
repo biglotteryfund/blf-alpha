@@ -1,15 +1,9 @@
 'use strict';
 
 const aliases = require('./aliases');
-const {
-    customRoute,
-    sessionRoute,
-    basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
-} = require('./route-types');
+const { customRoute, sessionRoute, legacyRoute } = require('./route-types');
 
-const { staticPage } = require('./common');
+const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
  * @typedef {object} Section
@@ -55,21 +49,20 @@ const toplevel = {
                 template: 'pages/toplevel/region'
             })
         },
-        contact: basicContentRoute({
-            path: '/contact'
-        }),
+        contact: {
+            path: '/contact',
+            router: basicContent()
+        },
         data: customRoute({
             path: '/data',
             template: 'pages/toplevel/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme'
         }),
-        jobs: basicContentRoute({
-            path: '/jobs'
-        }),
-        jobsBenefits: basicContentRoute({
-            path: '/jobs/benefits'
-        }),
+        jobs: {
+            path: '/jobs*',
+            router: basicContent()
+        },
         search: customRoute({
             path: '/search',
             allowAllQueryStrings: true
@@ -100,7 +93,7 @@ const funding = {
             path: '/test',
             lang: 'toplevel.funding',
             heroSlug: 'ragroof-players',
-            live: false,
+            isDraft: true,
             router: staticPage({
                 template: 'pages/funding/index-test'
             })
@@ -109,7 +102,7 @@ const funding = {
             path: '/thinking-of-applying',
             lang: 'funding.thinkingOfApplying',
             heroSlug: 'building-bridges',
-            live: false,
+            isDraft: true,
             router: staticPage({
                 template: 'pages/funding/thinking-of-applying'
             })
@@ -136,7 +129,7 @@ const funding = {
         },
         pastGrantsAlpha: customRoute({
             path: '/search-past-grants-alpha',
-            live: false,
+            isDraft: true,
             template: 'pages/grants/search',
             isPostable: true,
             allowAllQueryStrings: true
@@ -152,17 +145,19 @@ const funding = {
             path: '/programmes/*',
             template: 'pages/funding/programme-detail'
         }),
-        buildingBetterOpportunities: basicContentRoute({
-            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'
-        }),
-        buildingBetterOpportunitiesResources: basicContentRoute({
-            path: '/programmes/building-better-opportunities/building-better-opportunities-resources'
-        }),
-        fundingGuidanceLogos: basicContentRoute({
+        buildingBetterOpportunities: {
+            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
+            router: basicContent()
+        },
+        buildingBetterOpportunitiesResources: {
+            path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
+            router: basicContent()
+        },
+        fundingGuidanceLogos: {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            template: 'pages/funding/logos',
-            lang: 'funding.guidance.logos'
-        }),
+            lang: 'funding.guidance.logos',
+            router: basicContent({ customTemplate: 'pages/funding/logos' })
+        },
         fundingGuidanceMaterials: sessionRoute({
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
             lang: 'funding.guidance.order-free-materials',
@@ -172,9 +167,10 @@ const funding = {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
             isPostable: true
         }),
-        fundingGuidance: basicContentRoute({
-            path: '/funding-guidance/*'
-        }),
+        fundingGuidance: {
+            path: '/funding-guidance/*',
+            router: basicContent()
+        },
         fundingFinderLegacy: legacyRoute({
             path: '/funding-finder'
         })
@@ -194,7 +190,7 @@ const local = {
             path: '/',
             lang: 'toplevel.local',
             heroSlug: 'arkwright-meadows',
-            live: false,
+            isDraft: true,
             router: staticPage({
                 disableLanguageLink: true,
                 template: 'pages/toplevel/local'
@@ -224,7 +220,7 @@ const research = {
             path: '/landing-new',
             lang: 'toplevel.research',
             heroSlug: 'grassroots-project',
-            live: false
+            isDraft: true
         })
     }
 };
@@ -241,9 +237,10 @@ const about = {
         return require('./about')(options);
     },
     pages: {
-        root: flexibleContentRoute({
-            path: '/'
-        }),
+        root: {
+            path: '/',
+            router: flexibleContent()
+        },
         seniorManagement: customRoute({
             path: '/our-people/senior-management-team',
             template: 'pages/about/senior-management-team',
@@ -254,7 +251,7 @@ const about = {
             path: '/our-people/board',
             template: 'pages/about/board',
             lang: 'about.ourPeople.board',
-            live: false
+            isDraft: true
         }),
         ebulletin: customRoute({
             path: '/ebulletin',
@@ -263,9 +260,10 @@ const about = {
             heroSlug: 'street-dreams',
             isPostable: true
         }),
-        content: basicContentRoute({
-            path: '/*'
-        })
+        content: {
+            path: '/*',
+            router: basicContent()
+        }
     }
 };
 
@@ -283,11 +281,11 @@ const blog = {
     pages: {
         root: customRoute({
             path: '/',
-            live: false
+            isDraft: true
         }),
         articles: customRoute({
             path: '/*',
-            live: false
+            isDraft: true
         })
     }
 };
