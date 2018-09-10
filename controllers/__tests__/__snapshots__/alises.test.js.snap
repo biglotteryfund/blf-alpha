@@ -2043,6 +2043,46 @@ Array [
     "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
   },
   Object {
+    "from": "/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
     "from": "/global-content/programmes/england/place-based-social-action",
     "to": "/funding/programmes/place-based-social-action",
   },
@@ -2961,46 +3001,6 @@ Array [
   Object {
     "from": "/welsh/wales/guidancetrackingprogress",
     "to": "/welsh/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress",
-  },
-  Object {
-    "from": "/headstart",
-    "to": "/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/welsh/headstart",
-    "to": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/england/headstart",
-    "to": "/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/welsh/england/headstart",
-    "to": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/scotland/headstart",
-    "to": "/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/welsh/scotland/headstart",
-    "to": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/northernireland/headstart",
-    "to": "/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/welsh/northernireland/headstart",
-    "to": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/wales/headstart",
-    "to": "/global-content/programmes/england/fulfilling-lives-headstart",
-  },
-  Object {
-    "from": "/welsh/wales/headstart",
-    "to": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
   },
   Object {
     "from": "/help-and-support",
