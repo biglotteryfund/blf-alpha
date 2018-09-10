@@ -4,7 +4,6 @@ const moment = require('moment');
 
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
-const homepageRoute = require('./homepage');
 const robotRoutes = require('./robots');
 const searchRoute = require('./search');
 const surveyRoute = require('./survey');
@@ -15,14 +14,6 @@ module.exports = ({ router, pages }) => {
      */
     robotRoutes.init({
         router
-    });
-
-    /**
-     * Homepage
-     */
-    homepageRoute.init({
-        router: router,
-        routeConfig: pages.home
     });
 
     /**

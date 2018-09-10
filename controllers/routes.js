@@ -28,9 +28,8 @@ const toplevel = {
     pages: {
         home: {
             path: '/',
-            template: 'pages/toplevel/home',
             lang: 'toplevel.home',
-            isPostable: true
+            router: require('./home')
         },
         northernIreland: {
             path: '/northern-ireland',
