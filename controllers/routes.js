@@ -1,13 +1,7 @@
 'use strict';
 
 const aliases = require('./aliases');
-const {
-    customRoute,
-    sessionRoute,
-    staticContentRoute,
-    basicContentRoute,
-    flexibleContentRoute
-} = require('./route-types');
+const { customRoute, staticContentRoute, basicContentRoute, flexibleContentRoute } = require('./route-types');
 
 /**
  * @typedef {object} Section
@@ -145,13 +139,9 @@ const funding = {
             template: 'pages/funding/logos',
             lang: 'funding.guidance.logos'
         }),
-        fundingGuidanceMaterials: sessionRoute({
+        fundingGuidanceMaterials: customRoute({
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
             lang: 'funding.guidance.order-free-materials'
-        }),
-        fundingGuidanceMaterialsActions: sessionRoute({
-            path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-            isPostable: true
         }),
         fundingGuidance: basicContentRoute({
             path: '/funding-guidance/*'
@@ -280,10 +270,6 @@ const apply = {
     pages: {
         root: customRoute({
             path: '/'
-        }),
-        applicationForms: sessionRoute({
-            path: '/*',
-            isPostable: true
         })
     }
 };

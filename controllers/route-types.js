@@ -1,6 +1,4 @@
 'use strict';
-const config = require('config');
-
 const CONTENT_TYPES = {
     STATIC: 'STATIC', // A page with no content from the cms and a static template
     CMS_BASIC: 'CMS_BASIC', // Page using the basic cms content type
@@ -23,15 +21,6 @@ const defaults = {
  */
 function customRoute(props) {
     return { ...defaults, ...props };
-}
-
-/**
- * Session route
- * Route type where session is required
- */
-function sessionRoute(props) {
-    const sessionDefaults = { isPostable: true, cookies: [config.get('cookies.session')] };
-    return { ...defaults, ...sessionDefaults, ...props };
 }
 
 /**
@@ -64,7 +53,6 @@ function flexibleContentRoute(props) {
 module.exports = {
     CONTENT_TYPES,
     customRoute,
-    sessionRoute,
     staticContentRoute,
     basicContentRoute,
     flexibleContentRoute
