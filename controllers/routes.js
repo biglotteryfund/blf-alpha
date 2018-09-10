@@ -4,11 +4,12 @@ const aliases = require('./aliases');
 const {
     customRoute,
     sessionRoute,
-    staticContentRoute,
     basicContentRoute,
     flexibleContentRoute,
     legacyRoute
 } = require('./route-types');
+
+const { staticPage } = require('./common');
 
 /**
  * @typedef {object} Section
@@ -37,21 +38,23 @@ const toplevel = {
             lang: 'toplevel.home',
             isPostable: true
         }),
-        northernIreland: staticContentRoute({
+        northernIreland: {
             path: '/northern-ireland',
-            sMaxAge: '30m',
-            template: 'pages/toplevel/region',
             lang: 'toplevel.northernIreland',
-            isBilingual: false,
-            heroSlug: 'down-right-brilliant'
-        }),
-        wales: staticContentRoute({
+            heroSlug: 'down-right-brilliant',
+            router: staticPage({
+                disableLanguageLink: true,
+                template: 'pages/toplevel/region'
+            })
+        },
+        wales: {
             path: '/wales',
-            sMaxAge: '30m',
-            template: 'pages/toplevel/region',
             lang: 'toplevel.wales',
-            heroSlug: 'grassroots-wales'
-        }),
+            heroSlug: 'grassroots-wales',
+            router: staticPage({
+                template: 'pages/toplevel/region'
+            })
+        },
         contact: basicContentRoute({
             path: '/contact'
         }),
@@ -93,20 +96,24 @@ const funding = {
             lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities'
         }),
-        rootTest: staticContentRoute({
+        rootTest: {
             path: '/test',
-            template: 'pages/funding/index-test',
             lang: 'toplevel.funding',
             heroSlug: 'ragroof-players',
-            live: false
-        }),
-        thinkingOfApplying: staticContentRoute({
+            live: false,
+            router: staticPage({
+                template: 'pages/funding/index-test'
+            })
+        },
+        thinkingOfApplying: {
             path: '/thinking-of-applying',
-            template: 'pages/funding/thinking-of-applying',
             lang: 'funding.thinkingOfApplying',
             heroSlug: 'building-bridges',
-            live: false
-        }),
+            live: false,
+            router: staticPage({
+                template: 'pages/funding/thinking-of-applying'
+            })
+        },
         under10k: customRoute({
             path: '/under10k',
             template: 'pages/funding/under10k',
@@ -119,12 +126,14 @@ const funding = {
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3'
         }),
-        pastGrants: staticContentRoute({
+        pastGrants: {
             path: '/past-grants',
-            template: 'pages/funding/past-grants',
             lang: 'funding.pastGrants',
-            heroSlug: 'active-plus-communities'
-        }),
+            heroSlug: 'active-plus-communities',
+            router: staticPage({
+                template: 'pages/funding/past-grants'
+            })
+        },
         pastGrantsAlpha: customRoute({
             path: '/search-past-grants-alpha',
             live: false,
@@ -181,14 +190,16 @@ const local = {
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
     pages: {
-        root: staticContentRoute({
+        root: {
             path: '/',
-            template: 'pages/toplevel/local',
-            isBilingual: false,
             lang: 'toplevel.local',
             heroSlug: 'arkwright-meadows',
-            live: false
-        })
+            live: false,
+            router: staticPage({
+                disableLanguageLink: true,
+                template: 'pages/toplevel/local'
+            })
+        }
     }
 };
 

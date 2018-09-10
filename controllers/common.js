@@ -1,31 +1,33 @@
 'use strict';
 
 const { filter, forEach, isEmpty } = require('lodash');
-const { getOr } = require('lodash/fp');
+const express = require('express');
 
 const { CONTENT_TYPES } = require('./route-types');
 const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../middleware/inject-content');
 const { isBilingual, shouldServe } = require('../modules/pageLogic');
 const { isWelsh } = require('../modules/urls');
 
-function handleStaticPage(router, page) {
-    router.get(page.path, injectBreadcrumbs, function(req, res, next) {
-        const { copy, heroImage } = res.locals;
-        const isBilingualOverride = getOr(true, 'isBilingual')(page);
-        const shouldRedirectLang = (!isBilingualOverride || isEmpty(copy)) && isWelsh(req.originalUrl);
+function staticPage({ disableLanguageLink = false, template = null } = {}) {
+    const router = express.Router();
 
+    router.get('/', injectBreadcrumbs, function(req, res, next) {
+        const { copy, heroImage } = res.locals;
+        const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
         if (shouldRedirectLang) {
             next();
         } else {
-            res.render(page.template, {
+            res.render(template, {
                 copy: copy,
                 title: copy.title,
                 description: copy.description || false,
                 heroImage: heroImage || null,
-                isBilingual: isBilingualOverride
+                isBilingual: disableLanguageLink === false
             });
         }
     });
+
+    return router;
 }
 
 function handleBasicContentPage(router, page) {
@@ -74,9 +76,6 @@ function handleFlexibleContentPage(router, page) {
 function init({ router, pages }) {
     forEach(filter(pages, shouldServe), page => {
         switch (page.contentType) {
-            case CONTENT_TYPES.STATIC:
-                handleStaticPage(router, page);
-                break;
             case CONTENT_TYPES.CMS_BASIC:
                 handleBasicContentPage(router, page);
                 break;
@@ -92,5 +91,6 @@ function init({ router, pages }) {
 }
 
 module.exports = {
+    staticPage,
     init
 };

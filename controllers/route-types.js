@@ -2,7 +2,6 @@
 const config = require('config');
 
 const CONTENT_TYPES = {
-    STATIC: 'STATIC', // A page with no content from the cms and a static template
     CMS_BASIC: 'CMS_BASIC', // Page using the basic cms content type
     CMS_FLEXIBLE_CONTENT: 'CMS_FLEXIBLE_CONTENT' // Page using the cms flexible content type
 };
@@ -32,15 +31,6 @@ function customRoute(props) {
 function sessionRoute(props) {
     const sessionDefaults = { isPostable: true, cookies: [config.get('cookies.session')] };
     return { ...defaults, ...sessionDefaults, ...props };
-}
-
-/**
- * Static route
- * Triggers static handler in 'controllers/common.js'
- */
-function staticContentRoute(props) {
-    const staticDefaults = { contentType: CONTENT_TYPES.STATIC };
-    return { ...defaults, ...staticDefaults, ...props };
 }
 
 /**
@@ -75,7 +65,6 @@ module.exports = {
     CONTENT_TYPES,
     customRoute,
     sessionRoute,
-    staticContentRoute,
     basicContentRoute,
     flexibleContentRoute,
     legacyRoute

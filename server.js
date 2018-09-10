@@ -239,6 +239,13 @@ forEach(routes.sections, (section, sectionId) => {
                 next();
             })
             .get(cached.sMaxAge(page.sMaxAge));
+
+        /**
+         * Apply page/route level router if we have one.
+         */
+        if (shouldServe(page) && page.router) {
+            router.use(page.path, page.router);
+        }
     });
 
     /**

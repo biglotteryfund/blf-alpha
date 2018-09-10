@@ -5,7 +5,6 @@ const {
     CONTENT_TYPES,
     customRoute,
     sessionRoute,
-    staticContentRoute,
     basicContentRoute,
     flexibleContentRoute,
     legacyRoute
@@ -28,16 +27,6 @@ describe('Route types', () => {
             path: '/some/url',
             isPostable: true,
             cookies: [config.get('cookies.session')],
-            live: true
-        });
-    });
-
-    it('should define a static content route schema', () => {
-        const route = staticContentRoute({ path: '/some/url' });
-        expect(route).toEqual({
-            contentType: CONTENT_TYPES.STATIC,
-            isPostable: false,
-            path: '/some/url',
             live: true
         });
     });
