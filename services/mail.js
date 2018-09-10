@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
 const debug = require('debug')('biglotteryfund:mail');
+const { isString, isArray } = require('lodash');
 
 const { countEvent } = require('../modules/metrics');
 
@@ -18,7 +19,7 @@ const { countEvent } = require('../modules/metrics');
 
 /**
  * @typedef {object} MailConfig
- * @property {Array<MailAddress>} sendTo
+ * @property {string|MailAddress|Array<MailAddress>} sendTo
  * @property {string} subject
  * @property {string} [type]
  * @property {string} content
@@ -79,12 +80,18 @@ function getSendAddress(recipients) {
  * Takes a string of one or more addresses,
  * e.g. 'example@example.com,another@example.com'
  * and converts it into an address object for nodemailer
- * @param {string} addressString
+ * @param {any} sendTo
  * @return {Array<MailAddress>}
  */
-function expandAddresses(addressString) {
-    const addresses = addressString.split(',');
-    return addresses.map(address => ({ address }));
+function normaliseSendTo(sendTo) {
+    if (isString(sendTo) === true) {
+        const addresses = sendTo.split(',');
+        return addresses.map(address => ({ address }));
+    } else if (isArray(sendTo) === true) {
+        return sendTo;
+    } else {
+        return [sendTo];
+    }
 }
 
 /**
@@ -93,8 +100,9 @@ function expandAddresses(addressString) {
  * @param {MailConfig} mailConfig
  * @return {nodemailer.SendMailOptions}
  */
-function buildMailOptions({ subject, type = 'text', content, sendTo = [], sendMode = 'to' }) {
-    const sendFrom = getSendAddress(sendTo);
+function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to' }) {
+    const normalisedSendTo = normaliseSendTo(sendTo);
+    const sendFrom = getSendAddress(normalisedSendTo);
 
     const mailOptions = {
         from: `Big Lottery Fund <${sendFrom}>`,
@@ -114,7 +122,7 @@ function buildMailOptions({ subject, type = 'text', content, sendTo = [], sendMo
         throw new Error('Invalid type');
     }
 
-    mailOptions[sendMode] = sendTo;
+    mailOptions[sendMode] = normalisedSendTo;
 
     return mailOptions;
 }
@@ -180,8 +188,8 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
 module.exports = {
     buildMailOptions,
     createSesTransport,
-    expandAddresses,
     generateHtmlEmail,
     getSendAddress,
+    normaliseSendTo,
     sendEmail
 };

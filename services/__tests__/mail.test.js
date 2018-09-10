@@ -6,9 +6,9 @@ const nodemailer = require('nodemailer');
 const {
     buildMailOptions,
     createSesTransport,
-    expandAddresses,
     generateHtmlEmail,
     getSendAddress,
+    normaliseSendTo,
     sendEmail
 } = require('../mail');
 
@@ -44,7 +44,7 @@ describe('buildMailOptions', () => {
     it('should build mail options for a text email', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: [{ address: 'example@example.com' }],
+            sendTo: 'example@example.com',
             content: 'This is a test'
         });
 
@@ -54,7 +54,7 @@ describe('buildMailOptions', () => {
     it('should build mail options for a text email with a name', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: [{ name: 'Example Person', address: 'example@example.com' }],
+            sendTo: { name: 'Example Person', address: 'example@example.com' },
             content: 'This is a test'
         });
 
@@ -180,15 +180,37 @@ describe('getSendAddress', () => {
     });
 });
 
-describe('expandAddresses', () => {
-    it('should handle a single address', () => {
-        expect(expandAddresses('example@example.com')).toEqual([{ address: 'example@example.com' }]);
+describe('normaliseSendTo', () => {
+    it('should handle a single address string', () => {
+        expect(normaliseSendTo('example@example.com')).toEqual([{ address: 'example@example.com' }]);
     });
 
-    it('should handle multiple addresses', () => {
-        expect(expandAddresses('example@example.com,another@example.com')).toEqual([
+    it('should handle a multiple address string', () => {
+        expect(normaliseSendTo('example@example.com,another@example.com')).toEqual([
             { address: 'example@example.com' },
             { address: 'another@example.com' }
+        ]);
+    });
+
+    it('should handle a single address object', () => {
+        expect(normaliseSendTo({ address: 'example@example.com' })).toEqual([{ address: 'example@example.com' }]);
+
+        expect(normaliseSendTo({ name: 'Example Name', address: 'example@example.com' })).toEqual([
+            { name: 'Example Name', address: 'example@example.com' }
+        ]);
+    });
+
+    it('should handle an array of address objects', () => {
+        expect(normaliseSendTo([{ address: 'example@example.com' }])).toEqual([{ address: 'example@example.com' }]);
+
+        expect(
+            normaliseSendTo([
+                { name: 'Example Name', address: 'example@example.com' },
+                { name: 'Another Name', address: 'another@example.com' }
+            ])
+        ).toEqual([
+            { name: 'Example Name', address: 'example@example.com' },
+            { name: 'Another Name', address: 'another@example.com' }
         ]);
     });
 });

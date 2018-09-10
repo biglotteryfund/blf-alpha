@@ -116,7 +116,7 @@ const sendResetEmail = (req, res) => {
                     sendEmail({
                         name: 'user_password_reset',
                         mailConfig: {
-                            sendTo: { address: email },
+                            sendTo: email,
                             subject: 'Reset the password for your Big Lottery Fund website account',
                             content: `Please click the following link to reset your password: ${resetUrl}`,
                             type: 'text'

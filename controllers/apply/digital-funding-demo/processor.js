@@ -34,7 +34,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         sendEmail({
             name: 'digital_funding_demo_customer',
             mailConfig: {
-                sendTo: [customerSendTo],
+                sendTo: customerSendTo,
                 subject: 'Thank you for getting in touch with the Big Lottery Fund!',
                 type: 'html',
                 content: customerHtml
@@ -44,7 +44,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         sendEmail({
             name: 'digital_funding_demo_internal',
             mailConfig: {
-                sendTo: appData.isDev ? [customerSendTo] : [{ address: DIGITAL_FUND_DEMO_EMAIL }],
+                sendTo: appData.isDev ? customerSendTo : DIGITAL_FUND_DEMO_EMAIL,
                 subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml
