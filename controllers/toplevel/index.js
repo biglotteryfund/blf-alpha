@@ -8,7 +8,6 @@ const homepageRoute = require('./homepage');
 const robotRoutes = require('./robots');
 const searchRoute = require('./search');
 const surveyRoute = require('./survey');
-const patternLibrary = require('../pattern-library');
 
 module.exports = ({ router, pages }) => {
     /**
@@ -69,8 +68,6 @@ module.exports = ({ router, pages }) => {
      * Feedback
      */
     feedbackRoute.init({ router });
-
-    router.use('/patterns', patternLibrary);
 
     return router;
 };

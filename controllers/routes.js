@@ -66,7 +66,11 @@ const toplevel = {
         search: customRoute({
             path: '/search',
             allowAllQueryStrings: true
-        })
+        }),
+        patterns: {
+            path: '/patterns',
+            router: require('./pattern-library')
+        }
     }
 };
 
@@ -275,16 +279,10 @@ const blog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
-    controller: function(options) {
-        return require('./blog')(options);
-    },
     pages: {
         root: customRoute({
             path: '/',
-            isDraft: true
-        }),
-        articles: customRoute({
-            path: '/*',
+            router: require('./blog'),
             isDraft: true
         })
     }
