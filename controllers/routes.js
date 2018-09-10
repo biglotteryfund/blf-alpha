@@ -330,18 +330,8 @@ const otherUrls = [
     legacyRoute({ path: '*~/link.aspx' })
 ];
 
-/**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
- */
-const archivedRoutes = [
-    customRoute({ path: '/funding/funding-guidance/applying-for-funding/*' }),
-    customRoute({ path: '/about-big/10-big-lottery-fund-facts' })
-];
-
 module.exports = {
     aliases,
-    archivedRoutes,
     otherUrls,
     sections
 };

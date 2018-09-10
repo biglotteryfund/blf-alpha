@@ -22,12 +22,6 @@ const testRoutes = {
             }
         }
     },
-    archivedRoutes: [
-        {
-            path: '/some/archived/path/*',
-            live: true
-        }
-    ],
     otherUrls: [
         {
             path: '/unicorns',
