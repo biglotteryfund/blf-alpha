@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
-const { get, isEmpty } = require('lodash');
+const { concat, get, isEmpty } = require('lodash');
 const { isBilingual, shouldServe } = require('../../modules/pageLogic');
-const { injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
+const { injectBreadcrumbs, injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
 
 /**
  * Build pagination
@@ -29,56 +29,28 @@ function buildPagination(paginationMeta) {
     }
 }
 
-function buildBreadcrumbs(req, activeItem) {
-    const trail = [
-        {
-            label: req.i18n.__('global.nav.blog'),
-            url: req.baseUrl
-        }
-    ];
-
-    if (activeItem) {
-        trail.push(activeItem);
-    }
-
-    return trail;
-}
-
-function renderPost({ req, res, entry }) {
-    res.render(path.resolve(__dirname, './views/post'), {
-        entry: entry,
-        title: entry.title,
-        isBilingual: isBilingual(entry.availableLanguages),
-        activeBreadcrumbs: buildBreadcrumbs(req, {
-            label: entry.category.title,
-            url: entry.category.link
-        })
-    });
-}
-
-function renderListing({ res, title, entries = [], entriesMeta = null, activeBreadcrumbs = [] }) {
+function renderListing({ res, title, entries = [], entriesMeta = null, breadcrumbs = [] }) {
     const pagination = buildPagination(entriesMeta.pagination);
     res.render(path.resolve(__dirname, './views/listing'), {
         title,
         entries,
         entriesMeta,
         pagination,
-        activeBreadcrumbs
+        breadcrumbs
     });
 }
 
 function initLanding({ router, routeConfig }) {
-    router.get(routeConfig.path, injectBlogPosts, (req, res, next) => {
-        const { blogPosts } = res.locals;
+    router.get(routeConfig.path, injectBreadcrumbs, injectBlogPosts, (req, res, next) => {
+        const { blogPosts, breadcrumbs } = res.locals;
         if (blogPosts) {
             const title = req.i18n.__('global.nav.blog');
-            const activeBreadcrumbs = buildBreadcrumbs(req);
             renderListing({
                 res,
                 title,
                 entries: blogPosts.entries,
                 entriesMeta: blogPosts.meta,
-                activeBreadcrumbs
+                breadcrumbs: breadcrumbs
             });
         } else {
             next();
@@ -87,7 +59,7 @@ function initLanding({ router, routeConfig }) {
 }
 
 function initDetails({ router, routeConfig, sectionPath }) {
-    router.get(routeConfig.path, injectBlogDetail, function(req, res) {
+    router.get(routeConfig.path, injectBreadcrumbs, injectBlogDetail, function(req, res) {
         const { blogDetail } = res.locals;
         const pageType = get(blogDetail, 'meta.pageType');
 
@@ -96,10 +68,15 @@ function initDetails({ router, routeConfig, sectionPath }) {
         }
 
         if (pageType === 'blogpost') {
-            return renderPost({
-                req: req,
-                res: res,
-                entry: blogDetail.result
+            const entry = blogDetail.result;
+
+            res.render(path.resolve(__dirname, './views/post'), {
+                entry: entry,
+                title: entry.title,
+                isBilingual: isBilingual(entry.availableLanguages),
+                breadcrumbs: concat(res.locals.breadcrumbs, {
+                    label: entry.category.title
+                })
             });
         } else if (pageType === 'authors') {
             const activeAuthor = blogDetail.meta.activeAuthor;
@@ -109,9 +86,8 @@ function initDetails({ router, routeConfig, sectionPath }) {
                 title: `Author: ${activeAuthor.title}`,
                 entries: blogDetail.result,
                 entriesMeta: blogDetail.meta,
-                activeBreadcrumbs: buildBreadcrumbs(req, {
-                    label: activeAuthor.title,
-                    url: activeAuthor.link
+                breadcrumbs: concat(res.locals.breadcrumbs, {
+                    label: activeAuthor.title
                 })
             });
         } else if (pageType === 'category') {
@@ -122,9 +98,8 @@ function initDetails({ router, routeConfig, sectionPath }) {
                 title: `Category: ${activeCategory.title}`,
                 entries: blogDetail.result,
                 entriesMeta: blogDetail.meta,
-                activeBreadcrumbs: buildBreadcrumbs(req, {
-                    label: activeCategory.title,
-                    url: activeCategory.link
+                breadcrumbs: concat(res.locals.breadcrumbs, {
+                    label: activeCategory.title
                 })
             });
         } else if (pageType === 'tags') {
@@ -135,9 +110,8 @@ function initDetails({ router, routeConfig, sectionPath }) {
                 title: `Tag: ${activeTag.title}`,
                 entries: blogDetail.result,
                 entriesMeta: blogDetail.meta,
-                activeBreadcrumbs: buildBreadcrumbs(req, {
-                    label: activeTag.title,
-                    url: activeTag.link
+                breadcrumbs: concat(res.locals.breadcrumbs, {
+                    label: activeTag.title
                 })
             });
         } else {
