@@ -3,7 +3,6 @@
 const landingPageRoute = require('./funding');
 const programmesRoute = require('../programmes');
 const tenKRoutes = require('./10k');
-const pastGrantsRoutes = require('./grants');
 const materials = require('../materials');
 
 module.exports = ({ router, pages }) => {
@@ -34,10 +33,7 @@ module.exports = ({ router, pages }) => {
     /**
      * Search past grants
      */
-    pastGrantsRoutes.init({
-        router: router,
-        routeConfig: pages.pastGrantsAlpha
-    });
+    router.use(pages.pastGrantsAlpha.path, require('../past-grants'));
 
     /**
      * Strategic investments
