@@ -70,31 +70,33 @@ function injectCopy(page) {
 
 function injectBreadcrumbs(req, res, next) {
     const locale = req.i18n.getLocale();
-    const { title, copy, content } = res.locals;
 
-    const cleanedSection = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
-    const sectionSlug = cleanedSection === '' ? 'home' : cleanedSection;
-    const sectionLabel = req.i18n.__(`global.nav.${sectionSlug}`);
-    const sectionUrl = req.baseUrl === '' ? '/' : req.baseUrl;
-
-    if (sectionLabel) {
+    if (res.locals.sectionTitle && res.locals.sectionUrl) {
         const topLevelCrumb = {
-            label: sectionLabel,
-            url: localify(locale)(sectionUrl)
+            label: res.locals.sectionTitle,
+            url: res.locals.sectionUrl
         };
 
-        const ancestors = getOr([], 'ancestors')(content);
-        const ancestorCrumbs = ancestors.map(ancestor => ({
-            label: ancestor.title,
-            url: localify(locale)(`/${ancestor.path}`)
-        }));
+        const ancestors = getOr([], 'ancestors')(res.locals.content);
+        const ancestorCrumbs = ancestors.map(ancestor => {
+            return {
+                label: ancestor.title,
+                url: localify(locale)(`/${ancestor.path}`)
+            };
+        });
+
+        const breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs]);
 
         const getTitle = get('title');
-        const currentCrumb = {
-            label: title || getTitle(content) || getTitle(copy)
-        };
+        const injectedTitle = res.locals.title || getTitle(res.locals.content);
 
-        res.locals.breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs, currentCrumb]);
+        if (injectedTitle) {
+            breadcrumbs.push({
+                label: injectedTitle
+            });
+        }
+
+        res.locals.breadcrumbs = breadcrumbs;
     }
 
     next();
