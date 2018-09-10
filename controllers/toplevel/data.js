@@ -11,7 +11,8 @@ function init({ router, routeConfig }) {
             contentApi.getDataStats({
                 locale: locale,
                 previewMode: res.locals.PREVIEW_MODE || false
-            })])
+            })
+        ])
             .then(responses => {
                 const [statRegions, statPage] = responses;
                 res.render(routeConfig.template, {
