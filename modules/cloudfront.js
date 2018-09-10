@@ -24,9 +24,7 @@ function hasSpecialRequirements(route) {
         route.allowAllQueryStrings ||
         (route.queryStrings && route.queryStrings.length > 0) ||
         // Any route specific cookies?
-        has(route, 'cookies') ||
-        // Any route specific a/b tests?
-        has(route, 'abTest')
+        has(route, 'cookies')
     );
 }
 
@@ -60,12 +58,14 @@ function generateUrlList(routes) {
         }
     }
 
-    function pushRouteConfig(routeConfig) {
-        urls.push(makeUrlObject(routeConfig));
-    }
+    // Cloudfront rules
+    routes.cloudfrontRules.filter(pageNeedsCustomRouting).forEach(routeConfig => {
+        urls.push(makeUrlObject(routeConfig, routeConfig.path));
 
-    // Other Routes
-    routes.cloudfrontRules.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
+        if (routeConfig.isBilingual) {
+            urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
+        }
+    });
 
     return urls;
 }

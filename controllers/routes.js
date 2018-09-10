@@ -64,10 +64,6 @@ const toplevel = {
         }),
         jobsBenefits: basicContentRoute({
             path: '/jobs/benefits'
-        }),
-        search: customRoute({
-            path: '/search',
-            allowAllQueryStrings: true
         })
     }
 };
@@ -313,10 +309,9 @@ const sections = {
  * or custom cookies to be whitelisted you must define those rules here.
  */
 const cloudfrontRules = [
-    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true },
-    { path: '/welsh/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true },
-    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true },
-    { path: '/welsh/funding/funding-finder', isPostable: true, allowAllQueryStrings: true },
+    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/contrast/*', queryStrings: ['url'] },
     { path: '/user/*', isPostable: true, queryStrings: ['token'] }
