@@ -200,7 +200,7 @@ function getProfiles({ locale, section }) {
     });
 }
 
-function getDataStats(locale){
+function getDataStats(locale) {
     return fetch(`/v1/${locale}/data`).then(response => response.data.attributes);
 }
 
