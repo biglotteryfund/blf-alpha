@@ -3,33 +3,15 @@
 const config = require('config');
 const {
     CONTENT_TYPES,
-    createSection,
     customRoute,
     sessionRoute,
     staticContentRoute,
     basicContentRoute,
     flexibleContentRoute,
     legacyRoute
-} = require('./route-types');
+} = require('../route-types');
 
 describe('Route types', () => {
-    it('should create a new section', () => {
-        const section = createSection({
-            path: '/example',
-            langTitlePath: 'global.nav.about'
-        });
-
-        section.addRoutes({
-            exampleSection: customRoute({
-                path: '/some/url'
-            })
-        });
-
-        expect(section.path).toBe('/example');
-        expect(section.find('exampleSection')).toBe('/example/some/url');
-        expect(() => section.find('doesNotExist')).toThrowError('No route found for doesNotExist');
-    });
-
     it('should define a custom route schema', () => {
         const route = customRoute({ path: '/some/url', queryStrings: ['foo', 'bar'] });
         expect(route).toEqual({
