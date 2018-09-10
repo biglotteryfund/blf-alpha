@@ -13,7 +13,9 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=biglotteryfund:*; nodemon --inspect ./bin/www",
-    "test": "npm audit && eslint . && jest --env=node --maxWorkers=4",
+    "test-unit": "jest --maxWorkers=4",
+    "test-watch": "jest --watch",
+    "test": "npm audit && eslint . && npm run test-unit",
     "test-cypress": "wait-on http://localhost:8090 && cypress run",
     "pretest-ci": "npm run build",
     "test-ci": "./bin/start-test-server & concurrently --success --raw 'npm test' 'npm run test-cypress'",
@@ -42,6 +44,9 @@
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
       "./bin/generate-cloudfront-config"
     ]
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "prettier": {
     "singleQuote": true

@@ -1,66 +1,61 @@
 'use strict';
-const { get, groupBy, sortBy, isArray } = require('lodash');
 const path = require('path');
 
-const mail = require('../../../modules/mail');
+const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const appData = require('../../../modules/appData');
 
-const { PROJECT_LOCATIONS, DEFAULT_EMAIL } = require('./constants');
+const { determineInternalSendTo, orderStepsForInternalUse } = require('./helpers');
 
-function orderStepsForInternalUse(stepData) {
-    // rank steps by their internal order (if provided), falling back to original (source) order
-    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
-    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
-}
+module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
+    const customerSendTo = {
+        name: `${data['first-name']} ${data['last-name']}`,
+        address: data['email']
+    };
 
-module.exports = function processor({ form, data, stepsWithValues }) {
-    /**
-     * Construct a primary address (i.e. customer email)
-     */
-    const primaryAddress = data['email'];
     let organisationName = `${data['organisation-name']}`;
     if (data['additional-organisations']) {
         organisationName += ` (plus ${data['additional-organisations']})`;
     }
 
-    /**
-     * Determine which internal address to send to:
-     * - If in test then send to primaryAddress
-     * - If multi-region, send to default/england-wide inbox
-     * - Otherwise send to the matching inbox for the selected region
-     */
-    const internalAddress = (function() {
-        if (appData.isNotProduction) {
-            return primaryAddress;
-        } else if (isArray(data.location)) {
-            return DEFAULT_EMAIL;
-        } else {
-            const matchedLocation = PROJECT_LOCATIONS.find(l => l.value === data.location);
-            return get(matchedLocation, 'email', DEFAULT_EMAIL);
+    const customerHtml = await generateHtmlEmail({
+        template: path.resolve(__dirname, './customer-email.njk'),
+        templateData: {
+            data: data,
+            summary: stepsWithValues,
+            isArray: xs => Array.isArray(xs)
         }
-    })();
+    });
 
-    return mail.generateAndSend([
-        {
-            name: 'reaching_communities_customer',
-            sendTo: primaryAddress,
-            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
-            template: path.resolve(__dirname, './customer-email'),
-            templateData: {
-                data: data,
-                summary: stepsWithValues
-            }
-        },
-        {
-            name: 'reaching_communities_internal',
-            sendTo: internalAddress,
-            subject: `New idea submission from website: ${organisationName}`,
-            template: path.resolve(__dirname, './internal-email'),
-            templateData: {
-                title: form.title,
-                data: data,
-                summary: orderStepsForInternalUse(stepsWithValues)
-            }
+    const internalHtml = await generateHtmlEmail({
+        template: path.resolve(__dirname, './internal-email.njk'),
+        templateData: {
+            title: form.title,
+            data: data,
+            summary: orderStepsForInternalUse(stepsWithValues),
+            isArray: xs => Array.isArray(xs)
         }
+    });
+
+    return Promise.all([
+        sendEmail({
+            name: 'reaching_communities_customer',
+            mailConfig: {
+                sendTo: customerSendTo,
+                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                type: 'html',
+                content: customerHtml
+            },
+            mailTransport: mailTransport
+        }),
+        sendEmail({
+            name: 'reaching_communities_internal',
+            mailConfig: {
+                sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
+                subject: `New idea submission from website: ${organisationName}`,
+                type: 'html',
+                content: internalHtml
+            },
+            mailTransport: mailTransport
+        })
     ]);
 };

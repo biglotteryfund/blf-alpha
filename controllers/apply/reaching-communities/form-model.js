@@ -3,7 +3,7 @@ const path = require('path');
 const { check } = require('express-validator/check');
 
 const processor = require('./processor');
-const { PROJECT_LOCATIONS } = require('./constants');
+const { PROJECT_LOCATIONS } = require('./helpers');
 
 const stepIdea = {
     name: 'Your idea',

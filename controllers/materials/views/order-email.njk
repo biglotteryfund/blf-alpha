@@ -5,14 +5,16 @@
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedRealPath }}">
-        <link href="//fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
     </head>
     <body>
         <div class="logo">
-            <img src="https://{{ appData.config.get('siteDomain') }}{{ logoToUse | getImagePath }}" alt="Big Lottery Fund logo" />
+            <img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png"
+                alt="Big Lottery Fund logo" />
         </div>
+
         {% if locale == 'cy' %}<h3>This is a bilingual message, please scroll down for English</h3>
 
         <h1 class="t1">Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
@@ -74,6 +76,5 @@
         <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.biglotteryfund.org.uk/welcome">www.biglotteryfund.org.uk/welcome</a>.</p>
 
         <p>If you have any questions about your order, get in touch at <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
-
     </body>
 </html>

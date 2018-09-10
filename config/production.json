@@ -1,6 +1,7 @@
 {
   "googleAnalyticsCode": "UA-637620-2",
   "features": {
-    "enableTimingMetrics": true
+    "enableTimingMetrics": true,
+    "enableMailSendMetrics": true
   }
 }
