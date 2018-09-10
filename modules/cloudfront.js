@@ -1,36 +1,8 @@
 'use strict';
 const config = require('config');
-const { assign, compact, concat, flatten, get, has, sortBy, uniq } = require('lodash');
+const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-
-/**
- * makeUrlObject
- * Apply defaults to route object
- */
-function makeUrlObject(page, customPath) {
-    return assign({}, page, {
-        path: customPath || page.path,
-        isPostable: page.isPostable || false,
-        queryStrings: page.queryStrings || [],
-        allowAllQueryStrings: page.allowAllQueryStrings || false
-    });
-}
-
-// take the routes.js configuration and output locale-friendly URLs
-// with support for POST, querystrings and redirects for Cloudfront
-function generateUrlList(cloudfrontRules) {
-    const urls = [];
-    cloudfrontRules.forEach(routeConfig => {
-        urls.push(makeUrlObject(routeConfig, routeConfig.path));
-
-        if (routeConfig.isBilingual) {
-            urls.push(makeUrlObject(routeConfig, makeWelsh(routeConfig.path)));
-        }
-    });
-
-    return urls;
-}
 
 const makeBehaviourItem = ({
     originId,
@@ -133,7 +105,17 @@ const makeBehaviourItem = ({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours({ cloudfrontRules, origins }) {
-    const urlsToSupport = generateUrlList(cloudfrontRules);
+    const urlsToSupport = flatMap(cloudfrontRules, routeConfig => {
+        if (routeConfig.isBilingual) {
+            const welshRouteConfig = assign({}, routeConfig, {
+                path: makeWelsh(routeConfig.path)
+            });
+
+            return [routeConfig, welshRouteConfig];
+        } else {
+            return routeConfig;
+        }
+    });
 
     const defaultCookies = [
         config.get('cookies.contrast'),
@@ -208,7 +190,6 @@ function generateBehaviours({ cloudfrontRules, origins }) {
 }
 
 module.exports = {
-    generateUrlList,
     makeBehaviourItem,
     generateBehaviours
 };
