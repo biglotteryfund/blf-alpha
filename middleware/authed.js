@@ -4,9 +4,9 @@ const passport = require('passport');
 const { makeUserLink } = require('../controllers/user/utils');
 
 const checkAuthStatus = (req, res, next, minimumLevel) => {
-    if (!minimumLevel) {
-        minimumLevel = 0;
-    }
+    // if (!minimumLevel) {
+    //     minimumLevel = 0;
+    // }
     if ((!minimumLevel && req.user) || (req.user && req.user.level >= minimumLevel)) {
         return next();
     } else {

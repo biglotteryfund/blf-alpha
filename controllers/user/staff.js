@@ -9,13 +9,17 @@ const { AZURE_AUTH } = require('../../modules/secrets');
 router.get('/', (req, res) => {
     // send the logged-in user to the place they wanted to get to
     if (req.isAuthenticated() && req.session.redirectUrl) {
+        // authorised and need redirecting
         const redirectUrl = req.session.redirectUrl;
         delete req.session.redirectUrl;
         req.session.save(() => {
             res.redirect(redirectUrl);
         });
+    } else if (req.isAuthenticated()) {
+        // authorised, no redirect
+        res.redirect('/user/staff/account');
     } else {
-        // @TODO
+        // not authorised
         res.send('<a href="/user/staff/login">login?</a>');
     }
 });
