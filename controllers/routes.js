@@ -154,8 +154,10 @@ const funding = {
         },
         fundingGuidanceLogos: {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            template: 'pages/funding/logos',
-            lang: 'funding.guidance.logos'
+            lang: 'funding.guidance.logos',
+            router: basicContent({
+                customTemplate: 'pages/funding/logos'
+            })
         },
         fundingGuidanceMaterials: {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
