@@ -28,7 +28,7 @@ const formHelpers = require('./modules/forms');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
-const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
@@ -231,10 +231,7 @@ app.get('/error', renderNotFound);
 app.get('/error-unauthorised', renderUnauthorised);
 
 /**
- * Final wildcard handler.
- *
- * First strip the CSP handler, our policy is too strict for legacy pages
- * We then attempt the following:
+ * Final wildcard handler, attempting the following:
  * 1. Check for a matching vanity url defined in the CMS
  * 2. Otherwise, attempy to proxy the page from the legacy website
  * 3. Otherwise, strip /welsh from the url and try again
@@ -242,7 +239,6 @@ app.get('/error-unauthorised', renderUnauthorised);
  * 4. If unsuccessful pass through to the 404 handler.
  */
 app.route('*')
-    .all(stripCSPHeader)
     .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
 

@@ -108,17 +108,8 @@ function toolsSecurityHeaders() {
     });
 }
 
-function stripCSPHeader(req, res, next) {
-    if (!res.headersSent) {
-        res.removeHeader('Content-Security-Policy');
-    }
-
-    next();
-}
-
 module.exports = {
     buildSecurityMiddleware,
     defaultSecurityHeaders,
-    toolsSecurityHeaders,
-    stripCSPHeader
+    toolsSecurityHeaders
 };
