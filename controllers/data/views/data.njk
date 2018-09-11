@@ -43,10 +43,12 @@
                                         <span class="map-info__stat-caption"><strong>{{ copy.map.totalAwarded }}</strong></span>
                                     </p>
 
-                                    <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.beneficiaries | numberWithCommas }}</span>
-                                        <span class="map-info__stat-caption"><strong>{{ copy.map.totalGrants }}</strong></span>
-                                    </p>
+                                    {% if region.totalGrants %}
+                                        <p class="map-info__stat">
+                                            <span class="map-info__stat-data t2 accent--pink a--text">{{ region.totalGrants | numberWithCommas }}</span>
+                                            <span class="map-info__stat-caption"><strong>{{ copy.map.totalGrants }}</strong></span>
+                                        </p>
+                                    {% endif %}
                                 </article>
                             </section>
                         {% endfor %}
