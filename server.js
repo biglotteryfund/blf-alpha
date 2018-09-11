@@ -1,5 +1,5 @@
 'use strict';
-const { forEach } = require('lodash');
+const { forEach, pickBy } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -20,7 +20,6 @@ if (appData.isDev) {
 }
 
 const { makeWelsh, localify } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
@@ -96,36 +95,17 @@ app.use('/assets', express.static(path.join(__dirname, './public')));
  * @see https://expressjs.com/en/api.html#app.locals
  */
 function initAppLocals() {
-    /**
-     * Environment metadata
-     */
+    // Environment metadata
     app.locals.appData = appData;
-
-    /**
-     * Common date formats
-     */
+    // Common date formats
     app.locals.DATE_FORMATS = config.get('dateFormats');
-
-    /**
-     * Is this page bilingual?
-     * i.e. do we have a Welsh translation
-     * Default to true unless overridden by a route
-     */
+    // Assume page is bilingual by default
     app.locals.isBilingual = true;
-
-    /**
-     * Navigation sections for top-level nav
-     */
-    app.locals.navigationSections = getSectionsForNavigation();
-
-    /**
-     * Default pageAccent colour
-     */
+    // Navigation sections for top-level nav
+    app.locals.navigationSections = pickBy(routes.sections, s => s.showInNavigation);
+    // Default pageAccent colour
     app.locals.pageAccent = 'pink';
-
-    /**
-     * Form helpers
-     */
+    // Form helpers
     app.locals.formHelpers = formHelpers;
 }
 

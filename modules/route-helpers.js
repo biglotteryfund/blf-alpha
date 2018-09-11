@@ -1,6 +1,5 @@
 'use strict';
 
-const { omitBy } = require('lodash/fp');
 const { concat, flatMap, sortedUniq } = require('lodash');
 
 const contentApi = require('../services/content-api');
@@ -27,12 +26,6 @@ async function getCanonicalRoutes() {
     return sortedUniq(combined.sort());
 }
 
-function getSectionsForNavigation() {
-    const inNav = omitBy(section => section.showInNavigation === false);
-    return inNav(routes.sections);
-}
-
 module.exports = {
-    getCanonicalRoutes,
-    getSectionsForNavigation
+    getCanonicalRoutes
 };
