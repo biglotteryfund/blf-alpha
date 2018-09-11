@@ -1,16 +1,10 @@
 'use strict';
-
-const programmesRoute = require('../programmes');
 const materials = require('../materials');
 
 module.exports = ({ router, pages }) => {
-    /**
-     * Funding programmes
-     */
-    programmesRoute.init({
-        router: router,
-        routeConfigs: pages
-    });
+    router.use('/programmes', require('../programmes'));
+
+    router.use('/funding-finder', require('../funding-finder'));
 
     /**
      * Free materials

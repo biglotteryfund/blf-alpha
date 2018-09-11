@@ -6,7 +6,7 @@ const ms = require('ms');
 const request = require('request-promise-native');
 
 const appData = require('./appData');
-const { isWelsh, makeWelsh, removeWelsh } = require('../modules/urls');
+const { isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 
 const { JSDOM } = jsdom;
 const legacyUrl = config.get('legacyDomain');
@@ -79,8 +79,11 @@ function cleanDom(dom, originalUrlPath) {
 function proxyLegacyPage({ req, res, followRedirect = true }) {
     res.cacheControl = { maxAge: 0 };
 
+    const proxyUrl = legacyUrl + req.originalUrl;
+    const originalUrlPath = stripTrailingSlashes(req.baseUrl + req.path);
+
     return request({
-        url: legacyUrl + req.originalUrl,
+        url: proxyUrl,
         strictSSL: false,
         jar: true,
         followRedirect: followRedirect,
@@ -91,7 +94,6 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         const contentType = response.headers['content-type'];
 
         if (/^text\/html/.test(contentType)) {
-            const originalUrlPath = req.baseUrl + req.path;
             // Fix meta tags in HTML which use the wrong CNAME
             const body = response.body.replace(/wwwlegacy/g, 'www');
             const dom = new JSDOM(body);
