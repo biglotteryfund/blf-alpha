@@ -4,35 +4,9 @@ const moment = require('moment');
 
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
-const homepageRoute = require('./homepage');
-const robotRoutes = require('./robots');
 const surveyRoute = require('./survey');
-const patternLibrary = require('../pattern-library');
 
 module.exports = ({ router, pages }) => {
-    /**
-     * Robots / Sitemap
-     */
-    robotRoutes.init({
-        router
-    });
-
-    /**
-     * Homepage
-     */
-    homepageRoute.init({
-        router: router,
-        routeConfig: pages.home
-    });
-
-    /**
-     * Search
-     */
-    router.use('/search', require('./search'));
-
-    /**
-     * Data
-     */
     dataRoute.init({
         router: router,
         routeConfig: pages.data
@@ -56,17 +30,8 @@ module.exports = ({ router, pages }) => {
         res.redirect(redirectUrl);
     });
 
-    /**
-     * Survey (Did you find what you were looking for?)
-     */
     surveyRoute.init({ router });
-
-    /**
-     * Feedback
-     */
     feedbackRoute.init({ router });
-
-    router.use('/patterns', patternLibrary);
 
     return router;
 };

@@ -3,7 +3,6 @@ const express = require('express');
 
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const { userBasePath, userEndpoints, emailPasswordValidations, formValidations, STATUSES } = require('./utils');
-const appData = require('../../modules/appData');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
 const dashboard = require('./dashboard');
