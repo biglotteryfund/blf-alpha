@@ -79,16 +79,12 @@ const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
-    controller: function(options) {
-        return require('./funding')(options);
-    },
     pages: {
         root: {
             path: '/',
             lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities',
-            // @TODO: When PR#1274 has been merged remove extra path
-            router: require('./funding/funding')
+            router: require('./funding')
         },
         rootTest: {
             path: '/test',
@@ -181,7 +177,7 @@ const funding = {
         },
         fundingGuidanceMaterials: {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials'
+            router: require('./materials')
         },
         fundingGuidance: {
             path: '/funding-guidance/*',
