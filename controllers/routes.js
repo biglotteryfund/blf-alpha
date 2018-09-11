@@ -35,7 +35,7 @@ const toplevel = {
             heroSlug: 'down-right-brilliant',
             router: staticPage({
                 disableLanguageLink: true,
-                template: 'pages/toplevel/region'
+                template: 'static-pages/region'
             })
         },
         wales: {
@@ -43,7 +43,7 @@ const toplevel = {
             lang: 'toplevel.wales',
             heroSlug: 'grassroots-wales',
             router: staticPage({
-                template: 'pages/toplevel/region'
+                template: 'static-pages/region'
             })
         },
         contact: {
@@ -96,7 +96,7 @@ const funding = {
             heroSlug: 'ragroof-players',
             isDraft: true,
             router: staticPage({
-                template: 'pages/funding/index-test'
+                template: 'static-pages/funding-test'
             })
         },
         thinkingOfApplying: {
@@ -105,7 +105,7 @@ const funding = {
             heroSlug: 'building-bridges',
             isDraft: true,
             router: staticPage({
-                template: 'pages/funding/thinking-of-applying'
+                template: 'static-pages/thinking-of-applying'
             })
         },
         under10k: {
@@ -156,7 +156,7 @@ const funding = {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
             lang: 'funding.guidance.logos',
             router: basicContent({
-                customTemplate: 'pages/funding/logos'
+                customTemplate: 'static-pages/logos'
             })
         },
         fundingGuidanceMaterials: {
@@ -186,7 +186,7 @@ const local = {
             isDraft: true,
             router: staticPage({
                 disableLanguageLink: true,
-                template: 'pages/toplevel/local'
+                template: 'static-pages/local'
             })
         }
     }
