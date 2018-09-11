@@ -4,15 +4,9 @@ const moment = require('moment');
 
 const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
-const searchRoute = require('./search');
 const surveyRoute = require('./survey');
 
 module.exports = ({ router, pages }) => {
-    searchRoute.init({
-        router: router,
-        routeConfig: pages.search
-    });
-
     dataRoute.init({
         router: router,
         routeConfig: pages.data

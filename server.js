@@ -19,7 +19,7 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { cymreigio, localify } = require('./modules/urls');
+const { makeWelsh, localify } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
@@ -200,10 +200,13 @@ routes.aliases.forEach(redirect => {
 
 /**
  * Archived Routes
- * Redirect to the National Archives
+ * Paths in this array will be redirected to the National Archives
  */
-routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), cached.noCache, redirectsMiddleware.redirectArchived);
+const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
+
+archivedRoutes.forEach(urlPath => {
+    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
+    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
@@ -265,9 +268,8 @@ forEach(routes.sections, (section, sectionId) => {
     /**
      * Mount section router
      */
-    cymreigio(section.path).forEach(urlPath => {
-        app.use(urlPath, router);
-    });
+    app.use(section.path, router);
+    app.use(makeWelsh(section.path), router);
 });
 
 /**

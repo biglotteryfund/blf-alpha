@@ -1,8 +1,6 @@
 'use strict';
 
 const aliases = require('./aliases');
-const { sessionRoute, legacyRoute } = require('./route-types');
-
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
@@ -64,7 +62,7 @@ const toplevel = {
         },
         search: {
             path: '/search',
-            allowAllQueryStrings: true
+            router: require('./search')
         },
         patterns: {
             path: '/patterns',
@@ -133,9 +131,7 @@ const funding = {
         pastGrantsAlpha: {
             path: '/search-past-grants-alpha',
             isDraft: true,
-            template: 'pages/grants/search',
-            isPostable: true,
-            allowAllQueryStrings: true
+            template: 'pages/grants/search'
         },
         programmes: {
             path: '/programmes',
@@ -158,25 +154,17 @@ const funding = {
         },
         fundingGuidanceLogos: {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            lang: 'funding.guidance.logos',
-            router: basicContent({ customTemplate: 'pages/funding/logos' })
+            template: 'pages/funding/logos',
+            lang: 'funding.guidance.logos'
         },
-        fundingGuidanceMaterials: sessionRoute({
+        fundingGuidanceMaterials: {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials',
-            isPostable: true
-        }),
-        fundingGuidanceMaterialsActions: sessionRoute({
-            path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-            isPostable: true
-        }),
+            lang: 'funding.guidance.order-free-materials'
+        },
         fundingGuidance: {
             path: '/funding-guidance/*',
             router: basicContent()
-        },
-        fundingFinderLegacy: legacyRoute({
-            path: '/funding-finder'
-        })
+        }
     }
 };
 
@@ -260,8 +248,7 @@ const about = {
             path: '/ebulletin',
             template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams',
-            isPostable: true
+            heroSlug: 'street-dreams'
         },
         content: {
             path: '/*',
@@ -300,11 +287,7 @@ const apply = {
     pages: {
         root: {
             path: '/'
-        },
-        applicationForms: sessionRoute({
-            path: '/*',
-            isPostable: true
-        })
+        }
     }
 };
 
@@ -323,29 +306,22 @@ const sections = {
 };
 
 /**
- * Other Routes
- * These are other paths that should be routed to this app via Cloudfront
- * but aren't explicit page routes (eg. static files, custom pages etc)
+ * Custom cloudfront rules
+ * If any cached url paths need custom cloudfront rules like query strings
+ * or custom cookies to be whitelisted you must define those rules here.
  */
-const otherUrls = [
-    sessionRoute({ path: '/tools/*', isPostable: true }),
+const cloudfrontRules = [
+    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/contrast/*', queryStrings: ['url'] },
-    sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
-    legacyRoute({ path: '*~/link.aspx' })
-];
-
-/**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
- */
-const archivedRoutes = [
-    { path: '/funding/funding-guidance/applying-for-funding/*' },
-    { path: '/about-big/10-big-lottery-fund-facts' }
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/user/*', isPostable: true, queryStrings: ['token'] }
 ];
 
 module.exports = {
     aliases,
-    archivedRoutes,
-    otherUrls,
+    cloudfrontRules,
     sections
 };

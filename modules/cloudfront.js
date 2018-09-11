@@ -1,74 +1,13 @@
 'use strict';
 const config = require('config');
-const { assign, compact, concat, flatten, get, has, sortBy, uniq } = require('lodash');
+const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
-/**
- * makeUrlObject
- * Apply defaults to route object
- */
-function makeUrlObject(page, customPath) {
-    return assign({}, page, {
-        path: customPath || page.path,
-        isPostable: page.isPostable || false,
-        queryStrings: page.queryStrings || [],
-        allowAllQueryStrings: page.allowAllQueryStrings || false
-    });
-}
-
-function hasSpecialRequirements(route) {
-    return (
-        // Any route specific query strings?
-        route.allowAllQueryStrings ||
-        (route.queryStrings && route.queryStrings.length > 0) ||
-        // Any route specific cookies?
-        has(route, 'cookies') ||
-        // Any route specific a/b tests?
-        has(route, 'abTest')
-    );
-}
-
-function pageNeedsCustomRouting(page) {
-    return hasSpecialRequirements(page);
-}
-
-// take the routes.js configuration and output locale-friendly URLs
-// with support for POST, querystrings and redirects for Cloudfront
-function generateUrlList(routes) {
-    const urls = [];
-
-    // add auto URLs from route config
-    for (let s in routes.sections) {
-        let section = routes.sections[s];
-        let pages = section.pages;
-
-        for (let p in pages) {
-            let page = pages[p];
-            let url = section.path + page.path;
-
-            if (pageNeedsCustomRouting(page)) {
-                // create route mapping for canonical URLs
-                urls.push(makeUrlObject(page, url));
-                urls.push(makeUrlObject(page, makeWelsh(url)));
-            }
-        }
-    }
-
-    function pushRouteConfig(routeConfig) {
-        urls.push(makeUrlObject(routeConfig));
-    }
-
-    // Other Routes
-    routes.otherUrls.filter(pageNeedsCustomRouting).forEach(pushRouteConfig);
-
-    return urls;
-}
-
 const makeBehaviourItem = ({
     originId,
-    pathPattern,
-    isPostable,
+    pathPattern = null,
+    isPostable = false,
     cookiesInUse = [],
     allowAllCookies = false,
     queryStringWhitelist = [],
@@ -165,9 +104,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours({ routesConfig, origins }) {
-    const urlsToSupport = generateUrlList(routesConfig);
-
+function generateBehaviours({ cloudfrontRules, origins }) {
     const defaultCookies = [
         config.get('cookies.contrast'),
         config.get('cookies.features'),
@@ -204,28 +141,33 @@ function generateBehaviours({ routesConfig, origins }) {
     );
 
     // direct all custom routes (eg. with non-standard config) to Express
-    const primaryBehaviours = urlsToSupport.map(url => {
-        const cookiesInUse = uniq(
-            compact(
-                flatten([
-                    // Global cookies
-                    defaultCookies,
-                    // Route specific a/b test cookie
-                    get(url, 'abTest.cookie'),
-                    // Custom route specific cookies
-                    get(url, 'cookies', [])
-                ])
-            )
-        );
+    const primaryBehaviours = flatMap(cloudfrontRules, rule => {
+        // Merge default cookies with rule specific cookie
+        const cookiesInUse = uniq(compact(flatten([defaultCookies, get(rule, 'cookies', [])])));
 
-        return makeBehaviourItem({
+        const behaviour = makeBehaviourItem({
             originId: origins.newSite,
-            pathPattern: url.path,
-            isPostable: url.isPostable,
-            queryStringWhitelist: url.queryStrings,
-            allowAllQueryStrings: url.allowAllQueryStrings,
+            pathPattern: rule.path,
+            isPostable: rule.isPostable,
+            queryStringWhitelist: rule.queryStrings,
+            allowAllQueryStrings: rule.allowAllQueryStrings,
             cookiesInUse: cookiesInUse
         });
+
+        if (rule.isBilingual) {
+            const welshBehaviour = makeBehaviourItem({
+                originId: origins.newSite,
+                pathPattern: makeWelsh(rule.path),
+                isPostable: rule.isPostable,
+                queryStringWhitelist: rule.queryStrings,
+                allowAllQueryStrings: rule.allowAllQueryStrings,
+                cookiesInUse: cookiesInUse
+            });
+
+            return [behaviour, welshBehaviour];
+        } else {
+            return [behaviour];
+        }
     });
 
     const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
@@ -241,7 +183,6 @@ function generateBehaviours({ routesConfig, origins }) {
 }
 
 module.exports = {
-    generateUrlList,
     makeBehaviourItem,
     generateBehaviours
 };
