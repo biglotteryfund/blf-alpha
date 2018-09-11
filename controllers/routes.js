@@ -52,9 +52,9 @@ const toplevel = {
         },
         data: {
             path: '/data',
-            template: 'pages/toplevel/data',
             lang: 'toplevel.data',
-            heroSlug: 'young-shoulders-programme'
+            heroSlug: 'young-shoulders-programme',
+            router: require('./data')
         },
         jobs: {
             path: '/jobs*',
@@ -85,10 +85,10 @@ const funding = {
     pages: {
         root: {
             path: '/',
-            sMaxAge: '30m',
-            template: 'pages/funding/index',
             lang: 'toplevel.funding',
-            heroSlug: 'active-plus-communities'
+            heroSlug: 'active-plus-communities',
+            // @TODO: When PR#1274 has been merged remove extra path
+            router: require('./funding/funding')
         },
         rootTest: {
             path: '/test',
@@ -110,15 +110,21 @@ const funding = {
         },
         under10k: {
             path: '/under10k',
-            template: 'pages/funding/under10k',
             lang: 'funding.under10k',
-            heroSlug: 'friends-of-greenwich'
+            heroSlug: 'friends-of-greenwich',
+            router: staticPage({
+                template: 'static-pages/under10k',
+                caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
+            })
         },
         over10k: {
             path: '/over10k',
-            template: 'pages/funding/over10k',
             lang: 'funding.over10k',
-            heroSlug: 'passion-4-fusion-3'
+            heroSlug: 'passion-4-fusion-3',
+            router: staticPage({
+                template: 'static-pages/over10k',
+                caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
+            })
         },
         programmes: {
             path: '/programmes',
@@ -231,9 +237,6 @@ const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
-    controller: function(options) {
-        return require('./about')(options);
-    },
     pages: {
         root: {
             path: '/',
@@ -241,21 +244,17 @@ const about = {
         },
         seniorManagement: {
             path: '/our-people/senior-management-team',
-            template: 'pages/about/senior-management-team',
             lang: 'about.ourPeople.seniorManagement',
-            heroSlug: 'mental-health-foundation'
-        },
-        board: {
-            path: '/our-people/board',
-            template: 'pages/about/board',
-            lang: 'about.ourPeople.board',
-            isDraft: true
+            heroSlug: 'mental-health-foundation',
+            router: require('./profiles')({
+                profilesSection: 'seniorManagementTeam'
+            })
         },
         ebulletin: {
             path: '/ebulletin',
-            template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams'
+            heroSlug: 'street-dreams',
+            router: require('./ebulletin')
         },
         content: {
             path: '/*',

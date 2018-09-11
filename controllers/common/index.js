@@ -3,14 +3,19 @@ const express = require('express');
 const { isEmpty } = require('lodash');
 const path = require('path');
 
-const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../../middleware/inject-content');
+const {
+    injectBreadcrumbs,
+    injectCaseStudies,
+    injectFlexibleContent,
+    injectListingContent
+} = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { isWelsh } = require('../../modules/urls');
 
-function staticPage({ disableLanguageLink = false, template = null } = {}) {
+function staticPage({ template = null, caseStudies = [], disableLanguageLink = false } = {}) {
     const router = express.Router();
 
-    router.get('/', injectBreadcrumbs, function(req, res, next) {
+    router.get('/', injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
         const { copy, heroImage } = res.locals;
         const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
         if (shouldRedirectLang) {

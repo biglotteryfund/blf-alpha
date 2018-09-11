@@ -1,27 +1,9 @@
 'use strict';
 
-const landingPageRoute = require('./funding');
 const programmesRoute = require('../programmes');
-const tenKRoutes = require('./10k');
 const materials = require('../materials');
 
 module.exports = ({ router, pages }) => {
-    /**
-     * Funding landing page
-     */
-    landingPageRoute.init({
-        router: router,
-        routeConfig: pages.root
-    });
-
-    /**
-     * 10k pages
-     */
-    tenKRoutes.init({
-        router: router,
-        routeConfigs: pages
-    });
-
     /**
      * Funding programmes
      */
