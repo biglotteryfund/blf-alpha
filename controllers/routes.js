@@ -231,9 +231,6 @@ const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
-    controller: function(options) {
-        return require('./about')(options);
-    },
     pages: {
         root: {
             path: '/',
@@ -249,9 +246,9 @@ const about = {
         },
         ebulletin: {
             path: '/ebulletin',
-            template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams'
+            heroSlug: 'street-dreams',
+            router: require('./ebulletin')
         },
         content: {
             path: '/*',
