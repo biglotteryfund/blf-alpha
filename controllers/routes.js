@@ -110,15 +110,21 @@ const funding = {
         },
         under10k: {
             path: '/under10k',
-            template: 'pages/funding/under10k',
             lang: 'funding.under10k',
-            heroSlug: 'friends-of-greenwich'
+            heroSlug: 'friends-of-greenwich',
+            router: staticPage({
+                template: 'static-pages/under10k',
+                caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
+            })
         },
         over10k: {
             path: '/over10k',
-            template: 'pages/funding/over10k',
             lang: 'funding.over10k',
-            heroSlug: 'passion-4-fusion-3'
+            heroSlug: 'passion-4-fusion-3',
+            router: staticPage({
+                template: 'static-pages/over10k',
+                caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
+            })
         },
         programmes: {
             path: '/programmes',
