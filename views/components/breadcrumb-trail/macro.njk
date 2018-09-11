@@ -5,10 +5,9 @@
             {%- if isTinted %} breadcrumb-trail--tinted{% endif -%}">
             {% for crumb in trail %}
                 <li class="breadcrumb-trail__item">
-                    {% set showUrl = crumb.url %}
-                    {%- if showUrl -%}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{%- endif -%}
-                    {{ crumb.label }}{% if crumb.count %} ({{ crumb.count }}){% endif %}
-                    {%- if showUrl -%}</a>{%- endif -%}
+                    {%- if crumb.url -%}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{%- endif -%}
+                    {{ crumb.label }}
+                    {%- if crumb.url -%}</a>{%- endif -%}
                 </li>
             {% endfor %}
         </ol>
