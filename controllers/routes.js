@@ -1,6 +1,5 @@
 'use strict';
 
-const aliases = require('./aliases');
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
@@ -303,7 +302,6 @@ const cloudfrontRules = [
 ];
 
 module.exports = {
-    aliases,
     cloudfrontRules,
     sections
 };

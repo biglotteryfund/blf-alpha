@@ -23,9 +23,9 @@ const { makeWelsh, localify } = require('./modules/urls');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { shouldServe } = require('./modules/pageLogic');
-const routes = require('./controllers/routes');
+const aliases = require('./controllers/aliases');
 const formHelpers = require('./modules/forms');
+const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
@@ -76,16 +76,8 @@ i18n.expressBind(app, {
 });
 
 /**
- * Robots
- * status endpoint, sitemap, robots.txt
- * Mount early to avoid being processed by any middleware
- */
-app.use('/', require('./controllers/robots'));
-
-/**
  * Static asset paths
  * Mount early to avoid being processed by any middleware
- * @see https://expressjs.com/en/4x/api.html#express.static
  */
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
@@ -112,16 +104,10 @@ function initAppLocals() {
 initAppLocals();
 
 /**
- * Configure views
- * 1. Configure Nunjucks
- * 2. Add custom filters
- * 3. Add custom view globals
+ * Configure view engine
+ * @see https://mozilla.github.io/nunjucks/api.html
  */
 function initViewEngine() {
-    /**
-     * Only watch files if we explicitly request
-     * (eg. for CI, which tries to watch node_modules)
-     */
     const shouldWatchTemplates = !!process.env.WATCH_TEMPLATES === true;
     if (shouldWatchTemplates) {
         debug('Watching templates for changes');
@@ -130,18 +116,17 @@ function initViewEngine() {
     const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
-        noCache: true, // Disable nunjucks memory cache
+        noCache: true,
         watch: shouldWatchTemplates
     });
 
+    // Add custom view filters
     forEach(viewFilters, (filterFn, filterName) => {
         templateEnv.addFilter(filterName, filterFn);
     });
 
     app.set('view engine', 'njk').set('engineEnv', templateEnv);
-
-    // Disable express  view cache
-    app.disable('view cache');
+    app.disable('view cache'); // Disable express view cache
 }
 
 initViewEngine();
@@ -163,57 +148,49 @@ app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(portalMiddleware);
 
-// Mount tools controller
+/**
+ * Mount any non-customer-facing controllers
+ * Routes mounted here are not translated or localised
+ */
+app.use('/', require('./controllers/robots'));
 app.use('/tools', require('./controllers/tools'));
-
-// Mount user auth controller
 app.use('/user', require('./controllers/user'));
-
-// Mount patterns controller
 app.use('/patterns', require('./controllers/pattern-library'));
-
-// Mount API controller
 app.use('/api', require('./controllers/api'));
 
 /**
- * Handle Aliases
+ * Handle aliases from controllers/aliases
  */
-routes.aliases.forEach(redirect => {
-    app.get(redirect.from, (req, res) => {
-        res.redirect(301, redirect.to);
+aliases.forEach(alias => {
+    app.get(alias.from, (req, res) => {
+        res.redirect(301, alias.to);
     });
 });
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
+ * Redirect archived paths to the National Archives
  */
-const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
-
-archivedRoutes.forEach(urlPath => {
-    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
-    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
+// prettier-ignore
+const archivedRoutes = [
+    '/funding/funding-guidance/applying-for-funding/*',
+    '/about-big/10-big-lottery-fund-facts'
+]; // prettier-ignore-end
+archivedRoutes.forEach(route => {
+    app.get(route, cached.noCache, redirectsMiddleware.redirectArchived);
+    app.get(makeWelsh(route), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
- * Initialise section routes
- * - Creates a new router for each section
- * - Apply shared middleware
- * - Apply section specific controller logic
- * - Add common routing (for static/fully-CMS powered pages)
+ * Initialise sections
  */
 forEach(routes.sections, (section, sectionId) => {
-    let router = express.Router();
+    const router = express.Router();
 
-    /**
-     * Custom routers
-     * Apply route-level custom routers
-     */
     section.pages.forEach(page => {
         /**
-         * Common middelware
-         * - Dynamically inject copy
-         * - Dynamically inject hero image based on slug
+         * Common middleware
+         * - Dynamically inject copy if a language path is provided
+         * - Dynamically inject hero image if a slug is provided
          * - Set sectionId for determining current navigation section
          * - Set sectionTitle and sectionUrl for injecting dynamic breadcrumbs
          */
@@ -225,7 +202,11 @@ forEach(routes.sections, (section, sectionId) => {
             next();
         });
 
-        if (shouldServe(page) && page.router) {
+        /**
+         * Apply route-level custom router if provided
+         */
+        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
+        if (shouldServe && page.router) {
             router.use(page.path, page.router);
         }
     });
@@ -250,9 +231,15 @@ app.get('/error', renderNotFound);
 app.get('/error-unauthorised', renderUnauthorised);
 
 /**
- * Final wildcard request handled
- * Attempt to proxy pages from the legacy site,
- * if unsuccessful pass through to the 404 handler.
+ * Final wildcard handler.
+ *
+ * First strip the CSP handler, our policy is too strict for legacy pages
+ * We then attempt the following:
+ * 1. Check for a matching vanity url defined in the CMS
+ * 2. Otherwise, attempy to proxy the page from the legacy website
+ * 3. Otherwise, strip /welsh from the url and try again
+ *    (for handling 404 requests to monolingual pages)
+ * 4. If unsuccessful pass through to the 404 handler.
  */
 app.route('*')
     .all(stripCSPHeader)
@@ -260,8 +247,7 @@ app.route('*')
     .post(postToLegacyForm);
 
 /**
- * 404 Handler
- * Catch 404s render not found page
+ * Global 404 Handler
  */
 app.use(renderNotFound);
 
