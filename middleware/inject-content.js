@@ -55,10 +55,10 @@ function injectHeroImage(heroSlug) {
     };
 }
 
-function injectCopy(page) {
+function injectCopy(lang) {
     return function(req, res, next) {
-        if (page.lang) {
-            const copy = req.i18n.__(page.lang);
+        if (lang) {
+            const copy = req.i18n.__(lang);
             res.locals.copy = copy;
             res.locals.title = copy.title;
             res.locals.description = copy.description || false;

@@ -220,20 +220,10 @@ const research = {
     path: '/research',
     showInNavigation: true,
     langTitlePath: 'global.nav.research',
-    controller: function(options) {
-        return require('./research')(options);
-    },
     pages: {
         root: {
             path: '/',
-            lang: 'toplevel.research',
-            heroSlug: 'grassroots-project'
-        },
-        rootNew: {
-            path: '/landing-new',
-            lang: 'toplevel.research',
-            heroSlug: 'grassroots-project',
-            isDraft: true
+            router: require('./research')
         }
     }
 };
