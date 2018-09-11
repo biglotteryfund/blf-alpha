@@ -1,0 +1,1412 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+Object {
+  "CacheBehaviors": Object {
+    "Items": Array [
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "*~/link.aspx",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/-/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/PastGrants.ashx",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature",
+              "url",
+            ],
+            "Quantity": 5,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/contrast/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/css/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/default.css",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/funding-finder",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature",
+              "location",
+              "amount",
+              "min",
+              "max",
+            ],
+            "Quantity": 8,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/programmes",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/search-past-grants",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/search-past-grants-alpha",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/search-past-grants/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/images/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/js/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "all",
+          },
+          "Headers": Object {
+            "Items": Array [
+              "*",
+            ],
+            "Quantity": 1,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/news-and-events",
+        "SmoothStreaming": false,
+        "TargetOriginId": "LEGACY",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "allow-all",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/search",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature",
+              "token",
+            ],
+            "Quantity": 5,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/user/*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/funding/funding-finder",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature",
+              "location",
+              "amount",
+              "min",
+              "max",
+            ],
+            "Quantity": 8,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/funding/programmes",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/funding/search-past-grants-alpha",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/search",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+    ],
+    "Quantity": 20,
+  },
+  "DefaultCacheBehavior": Object {
+    "AllowedMethods": Object {
+      "CachedMethods": Object {
+        "Items": Array [
+          "HEAD",
+          "GET",
+        ],
+        "Quantity": 2,
+      },
+      "Items": Array [
+        "HEAD",
+        "DELETE",
+        "POST",
+        "GET",
+        "OPTIONS",
+        "PUT",
+        "PATCH",
+      ],
+      "Quantity": 7,
+    },
+    "Compress": true,
+    "DefaultTTL": 86400,
+    "FieldLevelEncryptionId": "",
+    "ForwardedValues": Object {
+      "Cookies": Object {
+        "Forward": "whitelist",
+        "WhitelistedNames": Object {
+          "Items": Array [
+            "contrastMode",
+            "blf-features",
+            "blf-alpha-session",
+          ],
+          "Quantity": 3,
+        },
+      },
+      "Headers": Object {
+        "Items": Array [
+          "Accept",
+          "Host",
+        ],
+        "Quantity": 2,
+      },
+      "QueryString": true,
+      "QueryStringCacheKeys": Object {
+        "Items": Array [
+          "draft",
+          "version",
+          "enable-feature",
+          "disable-feature",
+        ],
+        "Quantity": 4,
+      },
+    },
+    "LambdaFunctionAssociations": Object {
+      "Items": Array [],
+      "Quantity": 0,
+    },
+    "MaxTTL": 31536000,
+    "MinTTL": 0,
+    "SmoothStreaming": false,
+    "TargetOriginId": "ELB_LIVE",
+    "TrustedSigners": Object {
+      "Enabled": false,
+      "Items": Array [],
+      "Quantity": 0,
+    },
+    "ViewerProtocolPolicy": "redirect-to-https",
+  },
+}
+`;
+
+exports[`#makeBehaviourItem should allow all cookies and querystrings 1`] = `
+Object {
+  "AllowedMethods": Object {
+    "CachedMethods": Object {
+      "Items": Array [
+        "HEAD",
+        "GET",
+      ],
+      "Quantity": 2,
+    },
+    "Items": Array [
+      "HEAD",
+      "DELETE",
+      "POST",
+      "GET",
+      "OPTIONS",
+      "PUT",
+      "PATCH",
+    ],
+    "Quantity": 7,
+  },
+  "Compress": true,
+  "DefaultTTL": 86400,
+  "FieldLevelEncryptionId": "",
+  "ForwardedValues": Object {
+    "Cookies": Object {
+      "Forward": "all",
+    },
+    "Headers": Object {
+      "Items": Array [
+        "*",
+      ],
+      "Quantity": 1,
+    },
+    "QueryString": true,
+    "QueryStringCacheKeys": Object {
+      "Items": Array [],
+      "Quantity": 0,
+    },
+  },
+  "LambdaFunctionAssociations": Object {
+    "Items": Array [],
+    "Quantity": 0,
+  },
+  "MaxTTL": 31536000,
+  "MinTTL": 0,
+  "PathPattern": "/~/*",
+  "SmoothStreaming": false,
+  "TargetOriginId": "BLF_LEGACY_EXAMPLE",
+  "TrustedSigners": Object {
+    "Enabled": false,
+    "Items": Array [],
+    "Quantity": 0,
+  },
+  "ViewerProtocolPolicy": "allow-all",
+}
+`;
+
+exports[`#makeBehaviourItem should return cloudfront behaviour for route 1`] = `
+Object {
+  "AllowedMethods": Object {
+    "CachedMethods": Object {
+      "Items": Array [
+        "HEAD",
+        "GET",
+      ],
+      "Quantity": 2,
+    },
+    "Items": Array [
+      "HEAD",
+      "DELETE",
+      "POST",
+      "GET",
+      "OPTIONS",
+      "PUT",
+      "PATCH",
+    ],
+    "Quantity": 7,
+  },
+  "Compress": true,
+  "DefaultTTL": 86400,
+  "FieldLevelEncryptionId": "",
+  "ForwardedValues": Object {
+    "Cookies": Object {
+      "Forward": "whitelist",
+      "WhitelistedNames": Object {
+        "Items": Array [
+          "example",
+        ],
+        "Quantity": 1,
+      },
+    },
+    "Headers": Object {
+      "Items": Array [
+        "Accept",
+        "Host",
+      ],
+      "Quantity": 2,
+    },
+    "QueryString": true,
+    "QueryStringCacheKeys": Object {
+      "Items": Array [
+        "draft",
+        "version",
+        "enable-feature",
+        "disable-feature",
+        "q",
+      ],
+      "Quantity": 5,
+    },
+  },
+  "LambdaFunctionAssociations": Object {
+    "Items": Array [],
+    "Quantity": 0,
+  },
+  "MaxTTL": 31536000,
+  "MinTTL": 0,
+  "PathPattern": "/",
+  "SmoothStreaming": false,
+  "TargetOriginId": "BLF_EXAMPLE",
+  "TrustedSigners": Object {
+    "Enabled": false,
+    "Items": Array [],
+    "Quantity": 0,
+  },
+  "ViewerProtocolPolicy": "redirect-to-https",
+}
+`;

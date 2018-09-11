@@ -1,7 +1,8 @@
 'use strict';
 const path = require('path');
+const express = require('express');
 const { concat } = require('lodash');
-const appData = require('../../modules/appData');
+
 const {
     injectBreadcrumbs,
     injectListingContent,
@@ -9,45 +10,22 @@ const {
     injectStrategicProgrammes
 } = require('../../middleware/inject-content');
 
-function initStrategicInvestmentsLanding(router) {
-    router.get('/strategic-investments', injectListingContent, injectBreadcrumbs, injectStrategicProgrammes, function(
-        req,
-        res
-    ) {
-        res.render(path.resolve(__dirname, './views/strategic-investments'));
-    });
-}
+const router = express.Router();
 
-function initStrategicProgrammeDetail(router) {
-    router.get('/strategic-investments/:slug', injectStrategicProgramme, function(req, res, next) {
-        const { strategicProgramme } = res.locals;
-        if (strategicProgramme) {
-            const breadcrumbs = concat(
-                [
-                    {
-                        label: req.i18n.__('global.nav.funding'),
-                        url: req.baseUrl
-                    }
-                ],
-                strategicProgramme.sectionBreadcrumbs
-            );
+router.get('/', injectListingContent, injectBreadcrumbs, injectStrategicProgrammes, function(req, res) {
+    res.render(path.resolve(__dirname, './views/strategic-investments'));
+});
 
-            res.render(path.resolve(__dirname, './views/strategic-programme'), {
-                breadcrumbs
-            });
-        } else {
-            next();
-        }
-    });
-}
-
-function init({ router }) {
-    if (appData.isNotProduction) {
-        initStrategicInvestmentsLanding(router);
-        initStrategicProgrammeDetail(router);
+router.get('/:slug', injectBreadcrumbs, injectStrategicProgramme, function(req, res, next) {
+    const { strategicProgramme } = res.locals;
+    if (strategicProgramme) {
+        const breadcrumbs = concat(res.locals.breadcrumbs, strategicProgramme.sectionBreadcrumbs);
+        res.render(path.resolve(__dirname, './views/strategic-programme'), {
+            breadcrumbs
+        });
+    } else {
+        next();
     }
-}
+});
 
-module.exports = {
-    init
-};
+module.exports = router;

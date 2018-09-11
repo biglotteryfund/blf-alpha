@@ -127,3 +127,56 @@
         flex: 1 1 0%;
     }
 }
+
+/* =========================================================================
+   Step Progress
+   ========================================================================= */
+
+.step-progress {
+    $counterSize: 52px;
+
+    @include reset-list();
+    padding-left: $spacingUnit;
+    margin-left: $counterSize / 2;
+    border-left: 4px solid palette('border');
+    max-width: $constrained;
+    counter-reset: step-counter;
+
+    .step-progress__item {
+        counter-increment: step-counter;
+        position: relative;
+        padding: 0.5em 0 0 $spacingUnit;
+        margin: 0 0 $spacingUnit * 2 0;
+        list-style: none;
+
+        &:before {
+            content: counter(step-counter);
+            font-size: 21px;
+            font-weight: bold;
+            position: absolute;
+            left: -($counterSize - 4px);
+            line-height: $counterSize - 4px;
+            width: $counterSize;
+            height: $counterSize;
+            top: 0;
+            background: white;
+            border: 2px solid;
+            border-radius: 50%;
+            outline: 6px solid white;
+            text-align: center;
+        }
+    }
+
+    .step-progress__item--completed {
+        &:before {
+            content: '✔';
+            color: white;
+            background-color: #3255bb;
+        }
+    }
+
+    .step-progress__item-title {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+}

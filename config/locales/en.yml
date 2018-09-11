@@ -350,6 +350,8 @@ toplevel:
       href: "/funding/programmes"
     - label: View all closed funding programmes
       href: "/funding/funding-finder?sc=1"
+    - label: Strategic investments in England
+      href: "/funding/strategic-investments"
     - label: Search funded projects
       href: "/funding/past-grants"
     - label: Help with managing your grant
@@ -401,13 +403,14 @@ toplevel:
         caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
   data:
-    title: "Key data about the Big Lottery Fund: financial year 2016/17"
+    title: "Key data about the Big Lottery Fund: financial year 2017/18"
     keyStats: Key statistics
     map:
       title: Our Year in Numbers
       population: Population
       totalAwarded: Total awarded
       totalBeneficiaries: Total beneficiaries
+      totalGrants: Total grants
 about:
   ourPeople:
     navigation:

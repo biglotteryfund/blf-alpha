@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`buildMailOptions should build mail options for a html email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "html": "<p>This is a test</p>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+    },
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+    },
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for a text email with a name 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@biglotteryfund.org.uk>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@example.com",
+      "name": "Example Person",
+    },
+  ],
+}
+`;
+
+exports[`buildMailOptions should build mail options for an internal html email 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@blf.digital>",
+  "html": "<p>This is a test</p>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@biglotteryfund.org.uk",
+    },
+  ],
+}
+`;
+
+exports[`buildMailOptions should handle multiple send to addresses 1`] = `
+Object {
+  "from": "Big Lottery Fund <noreply@blf.digital>",
+  "subject": "Test",
+  "text": "This is a test",
+  "to": Array [
+    Object {
+      "address": "example@biglotteryfund.org.uk",
+    },
+    Object {
+      "address": "example@blah.com",
+    },
+  ],
+}
+`;
+
+exports[`generateHtmlEmail should generate html email content 1`] = `
+"<h1>Test email</h1>
+<p>Example data</p>
+"
+`;
+
+exports[`sendEmail should create a html email response to be sent 1`] = `
+Object {
+  "from": "noreply@biglotteryfund.org.uk",
+  "to": Array [
+    "example@example.com",
+  ],
+}
+`;
+
+exports[`sendEmail should create a html email response to be sent 2`] = `
+"Content-Type: multipart/alternative;
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: example@example.com
+Subject: Mock email
+MIME-Version: 1.0
+
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+TEST EMAIL
+Example data
+Content-Type: text/html
+Content-Transfer-Encoding: 7bit
+
+<h1>Test email</h1>
+<p>Example data</p>
+
+"
+`;
+
+exports[`sendEmail should create a text email response to be sent 1`] = `
+Object {
+  "from": "noreply@biglotteryfund.org.uk",
+  "to": Array [
+    "example@example.com",
+  ],
+}
+`;
+
+exports[`sendEmail should create a text email response to be sent 2`] = `
+"Content-Type: text/plain
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: example@example.com
+Subject: Mock email
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+This is a test email
+"
+`;

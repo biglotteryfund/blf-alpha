@@ -8,32 +8,28 @@ const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 
 const { generateBehaviours } = require('../modules/cloudfront');
-const routes = require('../controllers/routes');
+const { cloudfrontRules } = require('../controllers/routes');
 
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 
 /**
  * For each CloudFront distribution generate a config and store it
  */
-forEach(cloudfrontDistributions, (distribution, distributionName) => {
+forEach(cloudfrontDistributions, async (distribution, distributionName) => {
     const behaviours = generateBehaviours({
-        routesConfig: routes,
+        cloudfrontRules,
         origins: distribution.origins
     });
 
-    const distributionTag = `[${distributionName.toUpperCase()}]`;
-    const behaviourCount = behaviours.CacheBehaviors.Items.length;
-
-    const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
-    const relativeFilePath = path.relative(process.cwd(), filePath);
-
-    writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8')
-        .then(() => {
-            console.log(
-                `${distributionTag} Cloudfront configuration with ${behaviourCount} behaviours saved at ${relativeFilePath}.`
-            );
-        })
-        .catch(err => {
-            console.error('Error saving config', err);
-        });
+    try {
+        const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
+        await writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8');
+        console.log(
+            `[${distributionName}] Cloudfront configuration with ${
+                behaviours.CacheBehaviors.Items.length
+            } behaviours saved at ${path.relative(process.cwd(), filePath)}.`
+        );
+    } catch (error) {
+        console.error('Error saving config', error);
+    }
 });

@@ -1,0 +1,39 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'blue' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="s-prose u-constrained">
+                    <p><strong>We’re sorry</strong></p>
+
+                    <p>This programme is specifically designed to help organisations that:</p>
+                    <ul>
+                        <li>Have 25 or more staff</li>
+                        <li>Have registered charity status</li>
+                        <li>Primarily help people in the UK</li>
+                    </ul>
+                    <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding-demo/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
+
+                    <p>We have various other funding streams for which you might be eligible</p>
+
+                    <p><a href="/funding/programmes" class="btn btn--medium btn--outline">See other funding programmes</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

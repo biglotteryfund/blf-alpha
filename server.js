@@ -19,13 +19,11 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { cymreigio } = require('./modules/urls');
+const { makeWelsh, localify } = require('./modules/urls');
 const { getSectionsForNavigation } = require('./modules/route-helpers');
-const { heroImages } = require('./modules/images');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { shouldServe } = require('./modules/pageLogic');
 const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
@@ -120,11 +118,6 @@ function initAppLocals() {
     app.locals.navigationSections = getSectionsForNavigation();
 
     /**
-     * Common hero images
-     */
-    app.locals.heroImages = heroImages;
-
-    /**
      * Default pageAccent colour
      */
     app.locals.pageAccent = 'pink';
@@ -206,10 +199,13 @@ routes.aliases.forEach(redirect => {
 
 /**
  * Archived Routes
- * Redirect to the National Archives
+ * Paths in this array will be redirected to the National Archives
  */
-routes.archivedRoutes.filter(shouldServe).forEach(route => {
-    app.get(cymreigio(route.path), cached.noCache, redirectsMiddleware.redirectArchived);
+const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
+
+archivedRoutes.forEach(urlPath => {
+    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
+    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
@@ -223,11 +219,14 @@ forEach(routes.sections, (section, sectionId) => {
     let router = express.Router();
 
     /**
-     * Middleware to add a section ID to requests with a known section
-     * (eg. to mark a section as current in the nav)
+     * Add section locals
+     * Used for determining top-level section for navigation and breadcrumbs
      */
     router.use(function(req, res, next) {
+        const locale = req.i18n.getLocale();
         res.locals.sectionId = sectionId;
+        res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
+        res.locals.sectionUrl = localify(locale)(req.baseUrl);
         next();
     });
 
@@ -267,9 +266,8 @@ forEach(routes.sections, (section, sectionId) => {
     /**
      * Mount section router
      */
-    cymreigio(section.path).forEach(urlPath => {
-        app.use(urlPath, router);
-    });
+    app.use(section.path, router);
+    app.use(makeWelsh(section.path), router);
 });
 
 /**

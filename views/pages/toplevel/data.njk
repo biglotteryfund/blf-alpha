@@ -16,36 +16,36 @@
         <div class="nudge-up">
             <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.keyStats }}</h2>
-                {{ statsGrid(statBlocks) }}
+                {{ statsGrid(statPage.stats) }}
             </div>
 
-            <aside class="map-holder accent--{{ pageAccent }} a--border-top">
+            <aside class="map-holder u-accent-border-top-{{ pageAccent }}">
                 <div class="map-holder__inner u-inner-wide-only u-padded">
                     <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.map.title }}</h2>
 
                     <div class="map-wrapper" role="tablist">
-                        {% include "includes/uk-svg.njk" %}
+                        {% include "includes/uk-countries.njk" %}
                     </div>
 
                     <div id="js-map-panes" class="map-panes js-paneset">
                         {% for region in statRegions %}
                             <section id="region-{{ region.slug }}" class="js-tab-pane tab__pane{% if loop.first %} is-active{% endif %}">
-                                <article class="map-info accent--{{ pageAccent }} a--border-top u-padded region--{{ region.slug }}--b-t">
-                                    <h3 class="t2 t--underline region--{{ region.slug }}--b-b">{{ region.title }}</h3>
+                                <article class="map-info accent--pink a--border-top u-padded">
+                                    <h3 class="t2 t--underline">{{ region.title }}</h3>
 
                                     <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.population | numberWithCommas }}</span>
+                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.population | numberWithCommas }}</span>
                                         <span class="map-info__stat-caption"><strong>{{ copy.map.population }}</strong></span>
                                     </p>
 
                                     <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.totalAwarded }}</span>
+                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.totalAwarded }}</span>
                                         <span class="map-info__stat-caption"><strong>{{ copy.map.totalAwarded }}</strong></span>
                                     </p>
 
                                     <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--{{ pageAccent }} a--text">{{ region.beneficiaries | numberWithCommas }}</span>
-                                        <span class="map-info__stat-caption"><strong>{{ copy.map.totalBeneficiaries }}</strong></span>
+                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.beneficiaries | numberWithCommas }}</span>
+                                        <span class="map-info__stat-caption"><strong>{{ copy.map.totalGrants }}</strong></span>
                                     </p>
                                 </article>
                             </section>

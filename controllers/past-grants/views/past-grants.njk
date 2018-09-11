@@ -1,0 +1,101 @@
+{% from "components/split-nav/macro.njk" import splitNav with context %}
+
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>Search past grants</h1>
+
+            <form method="get">
+                <div class="form-field">
+                    <label class="ff-label" for="field-q">Search</label>
+                    <input class="ff-text" type="search" name="q" id="field-q" value="{{ queryParams.q }}" />
+                </div>
+
+                <div class="form-field">
+                    <label class="ff-label" for="field-postcode">Postcode</label>
+                    <input class="ff-text" type="text" name="postcode" id="field-postcode" value="{{ queryParams.postcode }}" />
+                </div>
+
+                {% if facets.grantProgramme %}
+                    <div class="form-field">
+                        <label class="ff-label" for="programme">Funding programme</label>
+                        <select name="programme" id="programme">
+                            <option value="">Select a programme</option>
+                            {% for programme in facets.grantProgramme | sortBy ('_id') %}
+                                <option value="{{ programme._id }}"{% if queryParams.programme === programme._id %} selected{% endif %}>
+                                    {{ programme._id }} ({{ programme.count }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+
+                <div class="form-actions o-button-group">
+                    <input type="submit" value="Filter" class="btn btn--medium">
+                </div>
+            </form>
+
+            <section class="s-prose">
+                <h2>
+                    Showing <em>{{ meta.totalResults }}</em> results{% if queryParams %} filtered by:{% endif %}
+                </h2>
+
+                {% if queryParams %}
+                    <ul class="u-margin-bottom-l">
+                        {% if queryParams.q %}
+                            <li>
+                                <strong>Search term:</strong> "{{ queryParams.q }}"
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('q') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.postcode %}
+                            <li>
+                                <strong>Postcode:</strong> {{ queryParams.postcode }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('postcode') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.programme %}
+                            <li>
+                                <strong>Funding Programme:</strong> {{ queryParams.programme }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('programme') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+
+                        {% if queryParams.orgType %}
+                            <li>
+                                <strong>Organisation Type:</strong> {{ queryParams.orgType }}
+                                &mdash; <a href="?{{ queryParams | removeQueryParam('orgType') }}">Remove?</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+                <h2>Results</h2>
+                {% for grant in grants %}
+                    <article class="s-prose">
+                        <h3 class="t2">
+                            {{ grant['Recipient Org:Name'] }}
+                            <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
+                        </h3>
+                        <p>{{ grant['Title'] }}</p>
+                        <p><small>{{ grant['Description'] }}</small></p>
+                        <dl class="o-definition-list o-definition-list--compact">
+                            <dt>Amount awarded</dt>
+                            <dd>£{{ grant['Amount Awarded'] | numberWithCommas}}</dd>
+                            <dt>Grant programme</dt>
+                            <dd><a href="?programme={{ grant['Grant Programme:Title'] }}">{{ grant['Grant Programme:Title'] }}</a></dd>
+                        </dl>
+                        <hr />
+                    </article>
+                {% endfor %}
+
+                {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+            </section>
+        </div>
+    </main>
+{% endblock %}

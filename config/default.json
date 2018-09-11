@@ -31,13 +31,14 @@
     }
   },
   "features": {
-    "enablePrompt": true,
+    "enablePrompt": false,
     "enableSurvey": true,
     "enableAbTests": true,
     "useHotjar": true,
     "useRemoteAssets": true,
     "enableTimingMetrics": false,
-    "azureAuthEnabled": true
+    "azureAuthEnabled": true,
+    "enableMailSendMetrics": false
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"

@@ -1,3 +1,4 @@
+{% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconArrowDown %}
 {% from "components/form-fields.njk" import formHeader with context %}
 
@@ -5,16 +6,27 @@
 
 {% block title %}{{ stepConfig.title }} | {{ form.title }} | {% endblock %}
 
-{% set bodyClass = 'has-static-header' %}
+{% set pageAccent = form.pageAccent if form.pageAccent else 'pink' %}
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
     <main role="main" id="content">
+
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
         <form action="" method="POST"
             class="js-application-form js-application-form-review
-            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
 
-            {{ formHeader(form.title, stepProgress) }}
+            {{ formHeader(form, stepProgress) }}
 
             <h2>{{ stepConfig.title }}</h2>
 

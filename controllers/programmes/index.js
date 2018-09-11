@@ -3,22 +3,22 @@ const path = require('path');
 const Raven = require('raven');
 const { map } = require('lodash');
 
-const { heroImages } = require('../../modules/images');
 const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { programmeFilters, reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
 const { stripCSPHeader } = require('../../middleware/securityHeaders');
+const appData = require('../../modules/appData');
 
 /**
  * Route: Legacy funding finder
  * Proxy the legacy funding finder for closed programmes (where `sc` query is present)
  * For all other requests normalise the query string and redirect to the new funding programmes list.
  */
-function initLegacyFundingFinder({ router, routeConfig }) {
+function initLegacyFundingFinder(router) {
     router
-        .route(routeConfig.path)
+        .route('/funding-finder')
         .get(stripCSPHeader, (req, res) => {
             req.query = normaliseQuery(req.query);
             const showClosed = parseInt(req.query.sc, 10) === 1;
@@ -137,7 +137,7 @@ function initProgrammeDetail(router) {
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 title: entry.summary.title,
-                heroImage: entry.hero || heroImages.fallbackHeroImage,
+                heroImage: entry.hero || res.locals.fallbackHeroImage,
                 isBilingual: isBilingual(entry.availableLanguages)
             });
         } else {
@@ -152,12 +152,12 @@ function init({ router, routeConfigs }) {
         routeConfig: routeConfigs.programmes
     });
 
-    initProgrammeDetail(router);
+    if (appData.isNotProduction) {
+        router.use('/programmes/digital-funding-demo', require('./digital-fund'));
+    }
 
-    initLegacyFundingFinder({
-        router: router,
-        routeConfig: routeConfigs.fundingFinderLegacy
-    });
+    initProgrammeDetail(router);
+    initLegacyFundingFinder(router);
 }
 
 module.exports = {

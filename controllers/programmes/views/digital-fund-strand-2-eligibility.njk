@@ -1,0 +1,53 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'cyan' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="s-prose u-constrained">
+                    <p><strong>Your time is precious — we don’t want to waste it</strong>.</p>
+                    <p>Please answer this question so that we can be sure that we’ll have a worthwhile call.</p>
+
+                    <p><strong>Do you currently operate a service that benefits at least 50 people every week?</strong></p>
+
+                    <div class="o-button-group u-margin-bottom">
+                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-demo-2/1">Yes</a>
+                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
+                            href="/funding/programmes/digital-funding-demo/strand-2/eligibility/no">No</a>
+                    </div>
+
+                    <details class="u-margin-bottom">
+                        <summary>I'm not sure</summary>
+                        <div class="u-tone-background-tint u-padded">
+                            <div class="s-prose">
+                                <p>This programme is specifically designed to help organisations that:</p>
+
+                                <ul>
+                                    <li>Are past the idea or prototype stage, and that are being used to help at least 50 people a week already</li>
+                                    <li>Use digital to open the possibility to large scale impact. This doesn’t necessarily mean that they are first and foremost and app, though, they might be a project that uses technology to arrange volunteers in many different places</li>
+                                    <li>Have some strong digital skills within the founding team</li>
+                                </ul>
+
+                                <p>For more information, please <a href="/funding/programmes/digital-funding-demo/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'cyan' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="s-prose u-constrained">
+                    <p><strong>We’re sorry</strong></p>
+
+                    <p>This kind of funding is only available to organisations that have already got a live service that’s being used to help modest number people, every week.</p>
+                    <p>For more information, please see the <a href="/funding/programmes/digital-funding-demo/strand-2/eligibility">full detailed eligibility criteria</a> for this programme
+                    If you are at an earlier stage than this, we recommend looking at:</p>
+                    <ul>
+                        <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures</a></li>
+                        <li><a href="https://socialtechtrust.org/">Social Tech Trust</a></li>
+                        <li><a href="https://www.comicrelief.com/">Comic Relief</a></li>
+                        <li><a href="https://www.unltd.org.uk/">UnLtd</a></li>
+                        <li><a href="https://www.biglotteryfund.org.uk/funding/programmes/national-lottery-awards-for-all-england">National Lottery Awards for All</a></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

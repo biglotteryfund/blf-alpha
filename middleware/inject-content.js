@@ -3,7 +3,6 @@ const { flatten, get, getOr, last } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { heroImages } = require('../modules/images');
 const { localify, removeWelsh } = require('../modules/urls');
 const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
@@ -31,9 +30,11 @@ function setCommonLocals(res, entry) {
 function injectHeroImage(heroSlug) {
     return async function(req, res, next) {
         if (heroSlug) {
+            const { fallbackHeroImage } = res.locals;
+
             // Set defaults
-            res.locals.heroImage = heroImages.fallbackHeroImage;
-            res.locals.socialImage = heroImages.fallbackHeroImage;
+            res.locals.heroImage = fallbackHeroImage;
+            res.locals.socialImage = fallbackHeroImage;
 
             try {
                 const heroImage = await contentApi.getHeroImage({
@@ -69,31 +70,33 @@ function injectCopy(page) {
 
 function injectBreadcrumbs(req, res, next) {
     const locale = req.i18n.getLocale();
-    const { title, copy, content } = res.locals;
 
-    const cleanedSection = removeWelsh(req.baseUrl).replace(/^\/+/g, '');
-    const sectionSlug = cleanedSection === '' ? 'home' : cleanedSection;
-    const sectionLabel = req.i18n.__(`global.nav.${sectionSlug}`);
-    const sectionUrl = req.baseUrl === '' ? '/' : req.baseUrl;
-
-    if (sectionLabel) {
+    if (res.locals.sectionTitle && res.locals.sectionUrl) {
         const topLevelCrumb = {
-            label: sectionLabel,
-            url: localify(locale)(sectionUrl)
+            label: res.locals.sectionTitle,
+            url: res.locals.sectionUrl
         };
 
-        const ancestors = getOr([], 'ancestors')(content);
-        const ancestorCrumbs = ancestors.map(ancestor => ({
-            label: ancestor.title,
-            url: localify(locale)(`/${ancestor.path}`)
-        }));
+        const ancestors = getOr([], 'ancestors')(res.locals.content);
+        const ancestorCrumbs = ancestors.map(ancestor => {
+            return {
+                label: ancestor.title,
+                url: localify(locale)(`/${ancestor.path}`)
+            };
+        });
+
+        const breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs]);
 
         const getTitle = get('title');
-        const currentCrumb = {
-            label: title || getTitle(content) || getTitle(copy)
-        };
+        const injectedTitle = res.locals.title || getTitle(res.locals.content);
 
-        res.locals.breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs, currentCrumb]);
+        if (injectedTitle) {
+            breadcrumbs.push({
+                label: injectedTitle
+            });
+        }
+
+        res.locals.breadcrumbs = breadcrumbs;
     }
 
     next();

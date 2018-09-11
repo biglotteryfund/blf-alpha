@@ -56,6 +56,7 @@ const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.mat
 const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
 const DIGITAL_FUND_DEMO_EMAIL = process.env.DIGITAL_FUND_DEMO_EMAIL || getSecret('emails.digitalfund.demo');
+const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri');
 
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
@@ -87,6 +88,7 @@ module.exports = {
     SENTRY_DSN,
     SESSION_SECRET,
     DIGITAL_FUND_DEMO_EMAIL,
+    PAST_GRANTS_API_URI,
     AZURE_AUTH: {
         MS_IDENTITY_URL,
         MS_CLIENT_ID,

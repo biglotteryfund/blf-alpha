@@ -1,221 +1,23 @@
 'use strict';
 const path = require('path');
 const { check } = require('express-validator/check');
+const { cloneDeep } = require('lodash');
 
 const processor = require('./processor');
 
-const stepIdea = {
-    name: 'Your idea',
-    fieldsets: [
-        {
-            legend: 'Find out how we can help you',
-            introduction: `
-                <p>
-                    If you have already read our guidance about telling us your idea for
-                    <a href="/funding/programmes/digital-funding-demo#section-3">Digital Funding</a>, you can use the box
-                    below to share it with us, and details about your organisation. Remember, you don’t have to have
-                    all the details, but try to include:
-                </p>
-                <ul>
-                    <li>what you want to do and why</li>
-                    <li>what difference you think your idea will make</li>
-                    <li>how people and communities are involved with your project</li>
-                    <li>the background to your organisation</li>
-                    <li>the length of your project budget and how much funding you’ll need from us</li>
-                    <li>how your idea fits in with other activities</li>
-                </ul>
-                <p>
-                    This information will go to one of our funding officers who will get in touch within fifteen working
-                    days to find out more. If it is something we could fund, this is just the start of the conversation.
-                </p>
-            `,
-            fields: [
-                {
-                    name: 'your-idea',
-                    type: 'textarea',
-                    isRequired: true,
-                    rows: 12,
-                    label: 'Briefly explain your idea and why it’ll make a difference',
-                    helpText: `<p>We support ideas that meet our three funding priorities. Show us how you plan to:</p>
-                    <ul>
-                        <li>bring people together and build strong relationships in and across communities
-                        <li>improve the places and spaces that matter to communities</li>
-                        <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
-                    </ul>`,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Please tell us your idea');
-                    }
-                }
-            ]
-        }
-    ]
-};
-
-const stepLocation = {
-    name: 'Project location',
-    internalOrder: 3,
-    fieldsets: [
-        {
-            legend: 'Where will your project take place?',
-            fields: [
-                {
-                    label: 'Select all regions that apply',
-                    type: 'checkbox',
-                    options: [
-                        {
-                            label: 'East Midlands',
-                            value: 'East Midlands'
-                        },
-                        {
-                            label: 'East of England',
-                            value: 'East of England'
-                        },
-                        {
-                            label: 'London',
-                            value: 'London'
-                        },
-                        {
-                            label: 'North East',
-                            value: 'North East'
-                        },
-                        {
-                            label: 'North West',
-                            value: 'North West'
-                        },
-                        {
-                            label: 'Northern Ireland',
-                            value: 'Northern Ireland'
-                        },
-                        {
-                            label: 'Scotland',
-                            value: 'Scotland'
-                        },
-                        {
-                            label: 'South East',
-                            value: 'South East'
-                        },
-                        {
-                            label: 'South West',
-                            value: 'South West'
-                        },
-                        {
-                            label: 'Wales',
-                            value: 'Wales'
-                        },
-                        {
-                            label: 'West Midlands',
-                            value: 'West Midlands'
-                        },
-                        {
-                            label: 'Yorkshire and the Humber',
-                            value: 'Yorkshire and the Humber'
-                        }
-                    ],
-                    isRequired: true,
-                    name: 'location',
-                    validator: function(field) {
-                        return check(field.name)
-                            .not()
-                            .isEmpty()
-                            .withMessage('Project region must be provided');
-                    }
-                },
-                {
-                    type: 'text',
-                    name: 'project-location',
-                    label: 'Project location',
-                    explanation:
-                        'In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.',
-                    isRequired: true,
-                    size: 60,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Project location must be provided');
-                    }
-                }
-            ]
-        }
-    ]
-};
-
-const stepOrganisation = {
-    name: 'Your organisation',
-    internalOrder: 2,
-    fieldsets: [
-        {
-            legend: 'Your organisation',
-            fields: [
-                {
-                    type: 'text',
-                    name: 'organisation-name',
-                    label: 'Legal name',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Organisation must be provided');
-                    }
-                },
-                {
-                    type: 'text',
-                    name: 'additional-organisations',
-                    label: 'Add another organisation',
-                    explanation:
-                        'If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.',
-                    isRequired: false,
-                    size: 60,
-                    validator: function(field) {
-                        return check(field.name).trim();
-                    }
-                }
-            ]
-        }
-    ]
-};
-
 const stepDetails = {
     name: 'Your details',
-    internalOrder: 1,
     fieldsets: [
         {
-            legend: 'Your details',
+            legend: 'Your contact details',
+            introduction: 'Please tell us a little about your project and organisation so that we can get in touch',
             fields: [
                 {
                     type: 'text',
-                    name: 'first-name',
-                    autocompleteName: 'given-name',
-                    label: 'First name',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('First name must be provided');
-                    }
-                },
-                {
-                    type: 'text',
-                    name: 'last-name',
-                    autocompleteName: 'family-name',
-                    label: 'Last name',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Last name must be provided');
-                    }
+                    name: 'name',
+                    autocompleteName: 'name',
+                    label: 'Name',
+                    isRequired: true
                 },
                 {
                     type: 'email',
@@ -235,44 +37,81 @@ const stepDetails = {
                 },
                 {
                     type: 'text',
-                    name: 'phone-number',
-                    autocompleteName: 'tel',
-                    label: 'Phone number',
+                    name: 'organisation-name',
+                    label: 'Organisation name',
+                    isRequired: true
+                }
+            ]
+        },
+        {
+            legend: 'Your organisation',
+            introduction: 'Please tell us a little about your project and organisation so that we can get in touch',
+            fields: [
+                {
+                    name: 'about-your-organisation',
+                    type: 'textarea',
                     isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Please provide a contact telephone number');
-                    }
+                    rows: 12,
+                    label: 'About your organisation',
+                    helpText: `<p>Briefly tell us:</p>
+                        <ul>
+                            <li>What your organisation does</li>
+                            <li>What sort of significant changes you've been thinking about</li>
+                        </ul>`
                 }
             ]
         }
     ]
 };
 
-module.exports = {
-    id: 'digital-funding-demo',
-    title: 'Digital Funding (Demo)',
-    shortCode: 'DF-ALPHA',
-    steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
-    processor: processor,
-    startPage: {
-        template: path.resolve(__dirname, './startpage')
-    },
-    reviewStep: {
-        title: 'Check this is right before submitting your idea',
-        proceedLabel: 'Submit'
-    },
-    successStep: {
-        template: path.resolve(__dirname, './success')
-    },
-    errorStep: {
-        title: 'There was an problem submitting your idea',
-        message: `
-            <p>There was a problem submitting your idea, we have been notified of the problem.</p>
-            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
-        `
+// make a copy of the above step and add a question (for alternate strand)
+let stepDetailsAdditional = cloneDeep(stepDetails);
+stepDetailsAdditional.fieldsets[1].fields.push({
+    name: 'how-technology-helps-scale',
+    type: 'textarea',
+    isRequired: true,
+    rows: 12,
+    label: 'Briefly tell us how technology helps you scale your impact',
+    validator: function(field) {
+        return check(field.name)
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Please tell us about your organisation');
     }
+});
+
+const strandSteps = {
+    strand1: [stepDetails],
+    strand2: [stepDetailsAdditional]
+};
+
+module.exports = strandNumber => {
+    return {
+        id: `digital-funding-strand-${strandNumber}`,
+        title: `Digital Funding Strand ${strandNumber} (Demo)`,
+        subtitle:
+            'The <a href="/funding/programmes/digital-funding-demo">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
+        pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
+        heroSlug: 'whizz-kidz',
+        shortCode: `DF${strandNumber}-ALPHA`,
+        steps: strandSteps[`strand${strandNumber}`],
+        processor: processor,
+        startPage: {
+            urlPath: `/funding/programmes/digital-funding-demo/strand-${strandNumber}`
+        },
+        reviewStep: {
+            title: 'Check this is right before submitting your information',
+            proceedLabel: 'Submit'
+        },
+        successStep: {
+            template: path.resolve(__dirname, './success')
+        },
+        errorStep: {
+            title: 'There was an problem submitting your information',
+            message: `
+            <p>There was a problem submitting your information, we have been notified of the problem.</p>
+            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>`
+        }
+    };
 };
