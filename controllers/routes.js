@@ -52,9 +52,9 @@ const toplevel = {
         },
         data: {
             path: '/data',
-            template: 'pages/toplevel/data',
             lang: 'toplevel.data',
-            heroSlug: 'young-shoulders-programme'
+            heroSlug: 'young-shoulders-programme',
+            router: require('./data')
         },
         jobs: {
             path: '/jobs*',

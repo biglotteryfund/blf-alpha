@@ -2,16 +2,11 @@
 const config = require('config');
 const moment = require('moment');
 
-const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
 const surveyRoute = require('./survey');
 
-module.exports = ({ router, pages }) => {
-    dataRoute.init({
-        router: router,
-        routeConfig: pages.data
-    });
-
+module.exports = ({ router }) => {
+    // @TODO: Move to /api
     // handle contrast shifter
     router.get('/contrast/:mode', (req, res) => {
         res.cacheControl = { maxAge: 1 };
