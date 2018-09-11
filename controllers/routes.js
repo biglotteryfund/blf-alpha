@@ -241,15 +241,11 @@ const about = {
         },
         seniorManagement: {
             path: '/our-people/senior-management-team',
-            template: 'pages/about/senior-management-team',
             lang: 'about.ourPeople.seniorManagement',
-            heroSlug: 'mental-health-foundation'
-        },
-        board: {
-            path: '/our-people/board',
-            template: 'pages/about/board',
-            lang: 'about.ourPeople.board',
-            isDraft: true
+            heroSlug: 'mental-health-foundation',
+            router: require('./profiles')({
+                profilesSection: 'seniorManagementTeam'
+            })
         },
         ebulletin: {
             path: '/ebulletin',

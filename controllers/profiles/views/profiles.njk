@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/nav.njk" import nestedMenu, quickLinks %}
+{% from "components/document-list/macro.njk" import documentList %}
 
 {% extends "layouts/main.njk" %}
 
@@ -32,7 +33,12 @@
                     </article>
                 {% endfor %}
 
-                {% block extraPrimaryContent %}{% endblock %}
+                {% if copy.expenses %}
+                    <section class="content-box accent--{{ pageAccent }} a--border-top">
+                        <h3 class="t1 accent--{{ pageAccent }} a--text">{{ copy.expenses.title }}</h3>
+                        {{ documentList(copy.expenses.documents) }}
+                    </section>
+                {% endif %}
             </div>
             <div class="page-section__supplementary u-accent-border-top-{{ pageAccent }}">
                 {% set navigation = __('about.ourPeople.navigation') %}
