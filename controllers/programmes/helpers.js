@@ -1,15 +1,16 @@
 'use strict';
 const { find, get, uniq } = require('lodash');
 
-const programmeFilters = {
-    getValidLocation(programmes, requestedLocation) {
-        const validLocations = programmes
-            .map(programme => get(programme, 'content.area.value', false))
-            .filter(location => location !== false);
+function getValidLocation(programmes, requestedLocation) {
+    const validLocations = programmes
+        .map(programme => get(programme, 'content.area.value', false))
+        .filter(location => location !== false);
 
-        const uniqLocations = uniq(validLocations);
-        return find(uniqLocations, location => location === requestedLocation);
-    },
+    const uniqLocations = uniq(validLocations);
+    return find(uniqLocations, location => location === requestedLocation);
+}
+
+const programmeFilters = {
     filterByLocation(locationValue) {
         return function(programme) {
             if (!locationValue) {
@@ -45,5 +46,6 @@ const programmeFilters = {
 };
 
 module.exports = {
+    getValidLocation,
     programmeFilters
 };

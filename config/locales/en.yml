@@ -346,9 +346,11 @@ toplevel:
       href: "/under10k"
     - label: Learn how to apply for funding above £10,000
       href: "/over10k"
-    - label: View all open funding programmes
+    - label: Open funding programmes
       href: "/funding/programmes"
-    - label: View all closed funding programmes
+    - label: Funding programmes closed to applicants
+      href: "/funding/programmes/closed"
+    - label: Archived funding programmes
       href: "/funding/funding-finder?sc=1"
     - label: Strategic investments in England
       href: "/funding/strategic-investments"
@@ -643,12 +645,11 @@ funding:
           body: If you need a smaller logo just close this box and select the Print
             or Digital versions.
   programmes:
-    title: Funding Programmes
+    title: Funding programmes
     under10k: Awards under £10,000
     over10k: Awards over £10,000
-    breadcrumbAll: All Programmes
   programmesClosed:
-    title: "Funding Programmes: Closed to applicants"
+    title: Funding programmes closed to applicants
 research:
   detail:
     documents: Documents

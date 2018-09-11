@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const { map } = require('lodash');
 const express = require('express');
 
 const {
@@ -8,40 +9,37 @@ const {
     injectFundingProgrammes
 } = require('../../middleware/inject-content');
 const { isBilingual } = require('../../modules/pageLogic');
-const { programmeFilters } = require('./helpers');
 const appData = require('../../modules/appData');
+
+const { getValidLocation, programmeFilters } = require('./helpers');
 
 const router = express.Router();
 
 /**
  * Programmes list
  */
-router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res, next) => {
-    const { copy, fundingProgrammes } = res.locals;
+router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res) => {
+    const allFundingProgrammes = res.locals.fundingProgrammes || [];
 
-    if (!fundingProgrammes) {
-        next();
-    }
+    const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
-    const locationParam = programmeFilters.getValidLocation(fundingProgrammes, req.query.location);
-
-    const programmes = fundingProgrammes
-        // @TODO: Move 'null' check when all programmes have been resaved to get a default type
-        .filter(p => p.programmeType === 'activeProgramme' || p.programmeType === null)
+    const programmes = allFundingProgrammes
+        // @TODO: Remove fallback condition once active programme field exists in production
+        .filter(p => (p.programmeType ? p.programmeType === 'activeProgramme' : true))
         .filter(programmeFilters.filterByLocation(locationParam))
         .filter(programmeFilters.filterByMinAmount(req.query.min))
         .filter(programmeFilters.filterByMaxAmount(req.query.max));
 
     if (parseInt(req.query.min, 10) === 10000) {
         res.locals.breadcrumbs.push({
-            label: copy.over10k,
+            label: res.locals.copy.over10k,
             url: '/over10k'
         });
     }
 
     if (parseInt(req.query.max, 10) === 10000) {
         res.locals.breadcrumbs.push({
-            label: copy.under10k,
+            label: res.locals.copy.under10k,
             url: '/under10k'
         });
     }
@@ -75,19 +73,20 @@ router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res, next) => 
 /**
  * Programmes list: closed to applicants
  */
-router.get('/closed', injectFundingProgrammes, (req, res, next) => {
-    const { fundingProgrammes } = res.locals;
+if (appData.isNotProduction) {
+    router.get('/closed', injectBreadcrumbs, injectFundingProgrammes, (req, res, next) => {
+        const allFundingProgrammes = res.locals.fundingProgrammes || [];
+        const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
 
-    if (!fundingProgrammes) {
-        next();
-    }
-
-    const templateData = {
-        programmes: fundingProgrammes.filter(p => p.programmeType === 'closedToApplicants')
-    };
-
-    res.render(path.resolve(__dirname, './views/programmes-list'), templateData);
-});
+        if (programmes.length > 0) {
+            res.render(path.resolve(__dirname, './views/programmes-list'), {
+                programmes
+            });
+        } else {
+            next();
+        }
+    });
+}
 
 /**
  * Programme detail: Digital funding demo
