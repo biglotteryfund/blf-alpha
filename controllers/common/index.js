@@ -1,10 +1,11 @@
 'use strict';
 const express = require('express');
 const { isEmpty } = require('lodash');
+const path = require('path');
 
-const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../middleware/inject-content');
-const { isBilingual } = require('../modules/pageLogic');
-const { isWelsh } = require('../modules/urls');
+const { injectBreadcrumbs, injectListingContent, injectFlexibleContent } = require('../../middleware/inject-content');
+const { isBilingual } = require('../../modules/pageLogic');
+const { isWelsh } = require('../../modules/urls');
 
 function staticPage({ disableLanguageLink = false, template = null } = {}) {
     const router = express.Router();
@@ -38,9 +39,9 @@ function basicContent({ customTemplate = null } = {}) {
                 if (customTemplate) {
                     return customTemplate;
                 } else if (content.children) {
-                    return 'common/listingPage';
+                    return path.resolve(__dirname, './views/listing-page');
                 } else {
-                    return 'common/informationPage';
+                    return path.resolve(__dirname, './views/information-page');
                 }
             })();
 
@@ -59,7 +60,7 @@ function flexibleContent(customTemplate) {
     router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
         const { entry, breadcrumbs } = res.locals;
         if (entry) {
-            const template = customTemplate || 'common/flexibleContent';
+            const template = customTemplate || path.resolve(__dirname, './views/flexible-content');
             res.render(template, {
                 content: entry,
                 title: entry.title,
