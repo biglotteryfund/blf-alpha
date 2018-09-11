@@ -120,19 +120,6 @@ const funding = {
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3'
         },
-        pastGrants: {
-            path: '/past-grants',
-            lang: 'funding.pastGrants',
-            heroSlug: 'active-plus-communities',
-            router: staticPage({
-                template: 'pages/funding/past-grants'
-            })
-        },
-        pastGrantsAlpha: {
-            path: '/search-past-grants-alpha',
-            isDraft: true,
-            template: 'pages/grants/search'
-        },
         programmes: {
             path: '/programmes',
             template: 'pages/funding/programmes',
@@ -151,6 +138,24 @@ const funding = {
         buildingBetterOpportunitiesResources: {
             path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
             router: basicContent()
+        },
+        strategicInvestments: {
+            path: '/strategic-investments',
+            router: require('./strategic-investments')
+        },
+        pastGrants: {
+            path: '/past-grants',
+            lang: 'funding.pastGrants',
+            heroSlug: 'active-plus-communities',
+            router: staticPage({
+                template: 'static-pages/past-grants'
+            })
+        },
+        pastGrantsAlpha: {
+            path: '/search-past-grants-alpha',
+            isDraft: true,
+            template: 'pages/grants/search',
+            router: require('./past-grants')
         },
         fundingGuidanceLogos: {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',

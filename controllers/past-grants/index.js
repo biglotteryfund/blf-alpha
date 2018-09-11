@@ -1,9 +1,9 @@
 'use strict';
+const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { head } = require('lodash');
-const path = require('path');
+const { head, sortBy } = require('lodash');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 
@@ -81,6 +81,8 @@ router.get('/', async (req, res) => {
 
     // @TODO: Should facets be array?
     const facets = head(data.facets);
+    // TODO: Sort at the service level?
+    facets.grantProgramme = sortBy(facets.grantProgramme, '_id');
 
     res.render(path.resolve(__dirname, './views/past-grants'), {
         title: 'Past grants search',

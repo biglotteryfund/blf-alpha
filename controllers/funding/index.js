@@ -31,16 +31,6 @@ module.exports = ({ router, pages }) => {
     });
 
     /**
-     * Search past grants
-     */
-    router.use(pages.pastGrantsAlpha.path, require('../past-grants'));
-
-    /**
-     * Strategic investments
-     */
-    router.use('/strategic-investments', require('../strategic-investments'));
-
-    /**
      * Free materials
      */
     router.use(pages.fundingGuidanceMaterials.path, materials(pages.fundingGuidanceMaterials));

@@ -24,7 +24,7 @@
                         <label class="ff-label" for="programme">Funding programme</label>
                         <select name="programme" id="programme">
                             <option value="">Select a programme</option>
-                            {% for programme in facets.grantProgramme | sortBy ('_id') %}
+                            {% for programme in facets.grantProgramme %}
                                 <option value="{{ programme._id }}"{% if queryParams.programme === programme._id %} selected{% endif %}>
                                     {{ programme._id }} ({{ programme.count }})
                                 </option>
