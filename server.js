@@ -192,6 +192,9 @@ app.use('/user', require('./controllers/user'));
 // Mount patterns controller
 app.use('/patterns', require('./controllers/pattern-library'));
 
+// Mount API controller
+app.use('/api', require('./controllers/api'));
+
 /**
  * Handle Aliases
  */

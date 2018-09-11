@@ -20,9 +20,6 @@ const toplevel = {
     path: '',
     showInNavigation: true,
     langTitlePath: 'global.nav.home',
-    controller: function(options) {
-        return require('./toplevel')(options);
-    },
     pages: {
         home: {
             path: '/',
@@ -295,7 +292,7 @@ const sections = {
  */
 const cloudfrontRules = [
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
-    { path: '/contrast/*', queryStrings: ['url'] },
+    { path: '/api/contrast/*', queryStrings: ['url'] },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
     { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
     { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },

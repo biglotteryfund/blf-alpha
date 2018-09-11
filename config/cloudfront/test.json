@@ -306,7 +306,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/contrast/*"
+        "PathPattern": "/api/contrast/*"
       },
       {
         "TargetOriginId": "LEGACY",
