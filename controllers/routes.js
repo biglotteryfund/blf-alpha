@@ -85,10 +85,10 @@ const funding = {
     pages: {
         root: {
             path: '/',
-            sMaxAge: '30m',
-            template: 'pages/funding/index',
             lang: 'toplevel.funding',
-            heroSlug: 'active-plus-communities'
+            heroSlug: 'active-plus-communities',
+            // @TODO: When PR#1274 has been merged remove extra path
+            router: require('./funding/funding')
         },
         rootTest: {
             path: '/test',
