@@ -77,10 +77,11 @@ i18n.expressBind(app, {
 });
 
 /**
- * Status endpoint
+ * Robots
+ * status endpoint, sitemap, robots.txt
  * Mount early to avoid being processed by any middleware
  */
-app.get('/status', require('./controllers/toplevel/status'));
+app.use('/', require('./controllers/robots'));
 
 /**
  * Static asset paths
