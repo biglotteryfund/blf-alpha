@@ -128,10 +128,15 @@ const funding = {
         },
         programmes: {
             path: '/programmes',
-            template: 'pages/funding/programmes',
             lang: 'funding.programmes',
             heroSlug: 'the-young-foundation',
-            queryStrings: ['location', 'amount', 'min', 'max']
+            queryStrings: ['location', 'amount', 'min', 'max'],
+            router: require('./programmes')
+        },
+        programmesClosed: {
+            path: '/programmes/closed',
+            lang: 'funding.programmesClosed',
+            heroSlug: 'the-young-foundation'
         },
         programmeDetail: {
             path: '/programmes/*',
@@ -148,6 +153,10 @@ const funding = {
         strategicInvestments: {
             path: '/strategic-investments',
             router: require('./strategic-investments')
+        },
+        fundingFinder: {
+            path: '/funding-finder',
+            router: require('./funding-finder')
         },
         pastGrants: {
             path: '/past-grants',

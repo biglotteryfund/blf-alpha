@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const { map } = require('lodash');
 const express = require('express');
 
 const { injectFundingProgramme, injectFundingProgrammes } = require('../../middleware/inject-content');
@@ -40,51 +39,21 @@ router.get('/', injectFundingProgrammes, (req, res, next) => {
         label: globalCopy.nav.funding,
         url: req.baseUrl
     });
+});
 
-    if (!minAmountParam && !maxAmountParam && !locationParam) {
-        templateData.activeBreadcrumbs.push({
-            label: copy.breadcrumbAll
-        });
-    } else {
-        templateData.activeBreadcrumbs.push({
-            label: copy.title,
-            url: req.baseUrl + req.path
-        });
+/**
+ * Programmes list: closed to applicants
+ */
+router.get('/closed', injectFundingProgrammes, (req, res, next) => {
+    const { fundingProgrammes } = res.locals;
 
-        if (parseInt(minAmountParam, 10) === 10000) {
-            templateData.activeBreadcrumbs.push({
-                label: copy.over10k,
-                url: '/over10k'
-            });
-        }
-
-        if (parseInt(maxAmountParam, 10) === 10000) {
-            templateData.activeBreadcrumbs.push({
-                label: copy.under10k,
-                url: '/under10k'
-            });
-        }
-
-        if (locationParam) {
-            const locationParamToTranslation = key => {
-                const regions = {
-                    england: globalCopy.regions.england,
-                    wales: globalCopy.regions.wales,
-                    scotland: globalCopy.regions.scotland,
-                    northernIreland: globalCopy.regions.northernIreland,
-                    ukWide: globalCopy.regions.ukWide
-                };
-                return regions[key];
-            };
-
-            templateData.activeBreadcrumbs.push({
-                label: locationParamToTranslation(locationParam),
-                count: templateData.programmes.length
-            });
-        }
+    if (!fundingProgrammes) {
+        next();
     }
 
-    templateData.activeBreadcrumbsSummary = map(templateData.activeBreadcrumbs, 'label').join(', ');
+    const templateData = {
+        programmes: fundingProgrammes.filter(p => p.programmeType === 'closedToApplicants')
+    };
 
     res.render(path.resolve(__dirname, './views/programmes-list'), templateData);
 });
