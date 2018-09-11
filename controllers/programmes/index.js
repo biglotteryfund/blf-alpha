@@ -16,9 +16,9 @@ const appData = require('../../modules/appData');
  * Proxy the legacy funding finder for closed programmes (where `sc` query is present)
  * For all other requests normalise the query string and redirect to the new funding programmes list.
  */
-function initLegacyFundingFinder({ router, routeConfig }) {
+function initLegacyFundingFinder(router) {
     router
-        .route(routeConfig.path)
+        .route('/funding-finder')
         .get(stripCSPHeader, (req, res) => {
             req.query = normaliseQuery(req.query);
             const showClosed = parseInt(req.query.sc, 10) === 1;
@@ -157,11 +157,7 @@ function init({ router, routeConfigs }) {
     }
 
     initProgrammeDetail(router);
-
-    initLegacyFundingFinder({
-        router: router,
-        routeConfig: routeConfigs.fundingFinderLegacy
-    });
+    initLegacyFundingFinder(router);
 }
 
 module.exports = {

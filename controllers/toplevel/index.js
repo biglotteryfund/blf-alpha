@@ -6,7 +6,6 @@ const dataRoute = require('./data');
 const feedbackRoute = require('./feedback');
 const homepageRoute = require('./homepage');
 const robotRoutes = require('./robots');
-const searchRoute = require('./search');
 const surveyRoute = require('./survey');
 const patternLibrary = require('../pattern-library');
 
@@ -29,10 +28,7 @@ module.exports = ({ router, pages }) => {
     /**
      * Search
      */
-    searchRoute.init({
-        router: router,
-        routeConfig: pages.search
-    });
+    router.use('/search', require('./search'));
 
     /**
      * Data

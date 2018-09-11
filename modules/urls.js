@@ -48,14 +48,6 @@ function localify(locale) {
     };
 }
 
-/**
- * cymreigio aka welshify
- * Create an array of paths: default (english) and welsh variant
- */
-function cymreigio(urlPath) {
-    return [urlPath, makeWelsh(urlPath)];
-}
-
 function getBaseUrl(req) {
     const headerProtocol = req.get('X-Forwarded-Proto');
     const protocol = headerProtocol ? headerProtocol : req.protocol;
@@ -166,7 +158,6 @@ function getCurrentUrl(req, requestedLocale) {
 }
 
 module.exports = {
-    cymreigio,
     getAbsoluteUrl,
     getBaseUrl,
     getCurrentUrl,

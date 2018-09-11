@@ -1,14 +1,7 @@
 'use strict';
 
 const aliases = require('./aliases');
-const {
-    customRoute,
-    sessionRoute,
-    staticContentRoute,
-    basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
-} = require('./route-types');
+const { customRoute, staticContentRoute, basicContentRoute, flexibleContentRoute } = require('./route-types');
 
 /**
  * @typedef {object} Section
@@ -34,8 +27,7 @@ const toplevel = {
         home: customRoute({
             path: '/',
             template: 'pages/toplevel/home',
-            lang: 'toplevel.home',
-            isPostable: true
+            lang: 'toplevel.home'
         }),
         northernIreland: staticContentRoute({
             path: '/northern-ireland',
@@ -66,10 +58,6 @@ const toplevel = {
         }),
         jobsBenefits: basicContentRoute({
             path: '/jobs/benefits'
-        }),
-        search: customRoute({
-            path: '/search',
-            allowAllQueryStrings: true
         })
     }
 };
@@ -128,16 +116,13 @@ const funding = {
         pastGrantsAlpha: customRoute({
             path: '/search-past-grants-alpha',
             live: false,
-            template: 'pages/grants/search',
-            isPostable: true,
-            allowAllQueryStrings: true
+            template: 'pages/grants/search'
         }),
         programmes: customRoute({
             path: '/programmes',
             template: 'pages/funding/programmes',
             lang: 'funding.programmes',
-            heroSlug: 'the-young-foundation',
-            queryStrings: ['location', 'amount', 'min', 'max']
+            heroSlug: 'the-young-foundation'
         }),
         programmeDetail: customRoute({
             path: '/programmes/*',
@@ -154,20 +139,12 @@ const funding = {
             template: 'pages/funding/logos',
             lang: 'funding.guidance.logos'
         }),
-        fundingGuidanceMaterials: sessionRoute({
+        fundingGuidanceMaterials: customRoute({
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials',
-            isPostable: true
-        }),
-        fundingGuidanceMaterialsActions: sessionRoute({
-            path: '/funding-guidance/managing-your-funding/ordering-free-materials/*',
-            isPostable: true
+            lang: 'funding.guidance.order-free-materials'
         }),
         fundingGuidance: basicContentRoute({
             path: '/funding-guidance/*'
-        }),
-        fundingFinderLegacy: legacyRoute({
-            path: '/funding-finder'
         })
     }
 };
@@ -249,8 +226,7 @@ const about = {
             path: '/ebulletin',
             template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams',
-            isPostable: true
+            heroSlug: 'street-dreams'
         }),
         content: basicContentRoute({
             path: '/*'
@@ -294,10 +270,6 @@ const apply = {
     pages: {
         root: customRoute({
             path: '/'
-        }),
-        applicationForms: sessionRoute({
-            path: '/*',
-            isPostable: true
         })
     }
 };
@@ -317,31 +289,22 @@ const sections = {
 };
 
 /**
- * Other Routes
- * These are other paths that should be routed to this app via Cloudfront
- * but aren't explicit page routes (eg. static files, custom pages etc)
+ * Custom cloudfront rules
+ * If any cached url paths need custom cloudfront rules like query strings
+ * or custom cookies to be whitelisted you must define those rules here.
  */
-const otherUrls = [
-    customRoute({ path: '/assets/*' }),
-    customRoute({ path: '/error' }),
-    sessionRoute({ path: '/tools/*', isPostable: true }),
-    customRoute({ path: '/contrast/*', queryStrings: ['url'] }),
-    sessionRoute({ path: '/user/*', isPostable: true, queryStrings: ['token'] }),
-    legacyRoute({ path: '*~/link.aspx' })
-];
-
-/**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
- */
-const archivedRoutes = [
-    customRoute({ path: '/funding/funding-guidance/applying-for-funding/*' }),
-    customRoute({ path: '/about-big/10-big-lottery-fund-facts' })
+const cloudfrontRules = [
+    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+    { path: '/contrast/*', queryStrings: ['url'] },
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/user/*', isPostable: true, queryStrings: ['token'] }
 ];
 
 module.exports = {
     aliases,
-    archivedRoutes,
-    otherUrls,
+    cloudfrontRules,
     sections
 };

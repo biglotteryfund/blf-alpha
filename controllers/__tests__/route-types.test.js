@@ -1,14 +1,11 @@
 /* eslint-env jest */
 'use strict';
-const config = require('config');
 const {
     CONTENT_TYPES,
     customRoute,
-    sessionRoute,
     staticContentRoute,
     basicContentRoute,
-    flexibleContentRoute,
-    legacyRoute
+    flexibleContentRoute
 } = require('../route-types');
 
 describe('Route types', () => {
@@ -19,16 +16,6 @@ describe('Route types', () => {
             isPostable: false,
             live: true,
             queryStrings: ['foo', 'bar']
-        });
-    });
-
-    it('should define a session route schema', () => {
-        const route = sessionRoute({ path: '/some/url' });
-        expect(route).toEqual({
-            path: '/some/url',
-            isPostable: true,
-            cookies: [config.get('cookies.session')],
-            live: true
         });
     });
 
@@ -58,16 +45,6 @@ describe('Route types', () => {
             contentType: CONTENT_TYPES.CMS_FLEXIBLE_CONTENT,
             isPostable: false,
             path: '/some/url',
-            live: true
-        });
-    });
-
-    it('should define a legacy schema', () => {
-        const route = legacyRoute({ path: '/some/url' });
-        expect(route).toEqual({
-            path: '/some/url',
-            isPostable: true,
-            allowAllQueryStrings: true,
             live: true
         });
     });
