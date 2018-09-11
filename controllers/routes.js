@@ -29,6 +29,10 @@ const toplevel = {
             lang: 'toplevel.home',
             router: require('./home')
         },
+        apply: {
+            path: '/apply',
+            router: require('./apply')
+        },
         northernIreland: {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
@@ -286,23 +290,6 @@ const blog = {
 };
 
 /**
- * Apply section
- * @type {Section}
- */
-const apply = {
-    path: '/apply',
-    showInNavigation: false,
-    controller: function(options) {
-        return require('./apply')(options);
-    },
-    pages: {
-        root: {
-            path: '/'
-        }
-    }
-};
-
-/**
  * Sections
  * The order here defines the order of the navigation
  */
@@ -312,8 +299,7 @@ const sections = {
     local: local,
     research: research,
     about: about,
-    blog: blog,
-    apply: apply
+    blog: blog
 };
 
 /**
