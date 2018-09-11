@@ -67,10 +67,6 @@ const toplevel = {
         search: {
             path: '/search',
             router: require('./search')
-        },
-        patterns: {
-            path: '/patterns',
-            router: require('./pattern-library')
         }
     }
 };
