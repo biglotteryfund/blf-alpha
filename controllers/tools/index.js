@@ -14,7 +14,6 @@ router.use(noCache, toolsSecurityHeaders());
  **************************************/
 
 router.use('/seed', require('./seed'));
-router.use('/pages', require('./pagelist'));
 
 /**************************************
  * Internal / Authed Tools
@@ -24,7 +23,6 @@ router.use(requireAuthedLevel(5));
 
 router.route('/').get((req, res) => {
     const links = [
-        { label: 'View a list of all published pages', href: '/tools/pages' },
         { label: 'View micro-survey results', href: '/tools/survey-results' },
         { label: 'View feedback results', href: '/tools/feedback-results' },
         { label: 'View recent materials order stats', href: '/tools/order-stats' }

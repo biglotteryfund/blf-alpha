@@ -44,29 +44,26 @@ router.get('/robots.txt', noCache, (req, res) => {
     res.send(text);
 });
 
-router.get('/sitemap.xml', sMaxAge('30m'), async (req, res, next) => {
+router.get('/sitemap.xml', sMaxAge('30m'), async (req, res) => {
     try {
         const canonicalRoutes = await getCanonicalRoutes();
 
         // @ts-ignore
         const sitemapInstance = sitemap.createSitemap({
             hostname: getBaseUrl(req),
-            urls: canonicalRoutes.map(route => ({
-                url: route.path
-            }))
+            urls: canonicalRoutes.map(route => ({ url: route }))
         });
 
         sitemapInstance.toXML(function(error, xml) {
             if (error) {
-                next(error);
+                res.status(500).json(error);
             }
             res.header('Content-Type', 'application/xml');
             res.send(xml);
         });
     } catch (error) {
-        next(error);
+        res.status(500).json(error);
     }
 });
 
 module.exports = router;
-

@@ -4,12 +4,20 @@ const aliases = require('./aliases');
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
+ * @typedef {object} Route
+ * @property {string} path
+ * @property {string} [lang]
+ * @property {string} [heroSlug]
+ * @property {function} [router]
+ * @property {boolean} [isDraft]
+ */
+
+/**
  * @typedef {object} Section
  * @property {string} path
  * @property {boolean} showInNavigation
- * @property {object} pages
- * @property {function} [controller]
  * @property {string} [langTitlePath]
+ * @property {Array<Route>} pages
  */
 
 /**
@@ -20,17 +28,17 @@ const toplevel = {
     path: '',
     showInNavigation: true,
     langTitlePath: 'global.nav.home',
-    pages: {
-        home: {
+    pages: [
+        {
             path: '/',
             lang: 'toplevel.home',
             router: require('./home')
         },
-        apply: {
+        {
             path: '/apply',
             router: require('./apply')
         },
-        northernIreland: {
+        {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
             heroSlug: 'down-right-brilliant',
@@ -39,7 +47,7 @@ const toplevel = {
                 template: 'static-pages/region'
             })
         },
-        wales: {
+        {
             path: '/wales',
             lang: 'toplevel.wales',
             heroSlug: 'grassroots-wales',
@@ -47,25 +55,25 @@ const toplevel = {
                 template: 'static-pages/region'
             })
         },
-        contact: {
+        {
             path: '/contact',
             router: basicContent()
         },
-        data: {
+        {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
             router: require('./data')
         },
-        jobs: {
+        {
             path: '/jobs*',
             router: basicContent()
         },
-        search: {
+        {
             path: '/search',
             router: require('./search')
         }
-    }
+    ]
 };
 
 /**
@@ -76,14 +84,14 @@ const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
-    pages: {
-        root: {
+    pages: [
+        {
             path: '/',
             lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities',
             router: require('./funding')
         },
-        rootTest: {
+        {
             path: '/test',
             lang: 'toplevel.funding',
             heroSlug: 'ragroof-players',
@@ -92,7 +100,7 @@ const funding = {
                 template: 'static-pages/funding-test'
             })
         },
-        thinkingOfApplying: {
+        {
             path: '/thinking-of-applying',
             lang: 'funding.thinkingOfApplying',
             heroSlug: 'building-bridges',
@@ -101,7 +109,7 @@ const funding = {
                 template: 'static-pages/thinking-of-applying'
             })
         },
-        under10k: {
+        {
             path: '/under10k',
             lang: 'funding.under10k',
             heroSlug: 'friends-of-greenwich',
@@ -110,7 +118,7 @@ const funding = {
                 caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
             })
         },
-        over10k: {
+        {
             path: '/over10k',
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3',
@@ -119,39 +127,34 @@ const funding = {
                 caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
             })
         },
-        programmes: {
+        {
             path: '/programmes',
             lang: 'funding.programmes',
             heroSlug: 'the-young-foundation',
-            queryStrings: ['location', 'amount', 'min', 'max'],
             router: require('./programmes')
         },
-        programmesClosed: {
+        {
             path: '/programmes/closed',
             lang: 'funding.programmesClosed',
             heroSlug: 'the-young-foundation'
         },
-        programmeDetail: {
-            path: '/programmes/*',
-            template: 'pages/funding/programme-detail'
-        },
-        buildingBetterOpportunities: {
+        {
             path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
             router: basicContent()
         },
-        buildingBetterOpportunitiesResources: {
+        {
             path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
             router: basicContent()
         },
-        strategicInvestments: {
+        {
             path: '/strategic-investments',
             router: require('./strategic-investments')
         },
-        fundingFinder: {
+        {
             path: '/funding-finder',
             router: require('./funding-finder')
         },
-        pastGrants: {
+        {
             path: '/past-grants',
             lang: 'funding.pastGrants',
             heroSlug: 'active-plus-communities',
@@ -159,28 +162,27 @@ const funding = {
                 template: 'static-pages/past-grants'
             })
         },
-        pastGrantsAlpha: {
+        {
             path: '/search-past-grants-alpha',
             isDraft: true,
-            template: 'pages/grants/search',
             router: require('./past-grants')
         },
-        fundingGuidanceLogos: {
+        {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
             lang: 'funding.guidance.logos',
             router: basicContent({
                 customTemplate: 'static-pages/logos'
             })
         },
-        fundingGuidanceMaterials: {
+        {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
             router: require('./materials')
         },
-        fundingGuidance: {
+        {
             path: '/funding-guidance/*',
             router: basicContent()
         }
-    }
+    ]
 };
 
 /**
@@ -191,8 +193,8 @@ const local = {
     path: '/local',
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
-    pages: {
-        root: {
+    pages: [
+        {
             path: '/',
             lang: 'toplevel.local',
             heroSlug: 'arkwright-meadows',
@@ -202,7 +204,7 @@ const local = {
                 template: 'static-pages/local'
             })
         }
-    }
+    ]
 };
 
 /**
@@ -213,12 +215,12 @@ const research = {
     path: '/research',
     showInNavigation: true,
     langTitlePath: 'global.nav.research',
-    pages: {
-        root: {
+    pages: [
+        {
             path: '/',
             router: require('./research')
         }
-    }
+    ]
 };
 
 /**
@@ -229,12 +231,12 @@ const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
-    pages: {
-        root: {
+    pages: [
+        {
             path: '/',
             router: flexibleContent()
         },
-        seniorManagement: {
+        {
             path: '/our-people/senior-management-team',
             lang: 'about.ourPeople.seniorManagement',
             heroSlug: 'mental-health-foundation',
@@ -242,17 +244,17 @@ const about = {
                 profilesSection: 'seniorManagementTeam'
             })
         },
-        ebulletin: {
+        {
             path: '/ebulletin',
             lang: 'toplevel.ebulletin',
             heroSlug: 'street-dreams',
             router: require('./ebulletin')
         },
-        content: {
+        {
             path: '/*',
             router: basicContent()
         }
-    }
+    ]
 };
 
 /**
@@ -263,13 +265,13 @@ const blog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
-    pages: {
-        root: {
+    pages: [
+        {
             path: '/',
             router: require('./blog'),
             isDraft: true
         }
-    }
+    ]
 };
 
 /**

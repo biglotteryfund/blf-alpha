@@ -229,7 +229,7 @@ forEach(routes.sections, (section, sectionId) => {
      * Custom routers
      * Apply route-level custom routers
      */
-    forEach(section.pages, page => {
+    section.pages.forEach(page => {
         /**
          * Common middelware
          * - Dynamically inject copy
