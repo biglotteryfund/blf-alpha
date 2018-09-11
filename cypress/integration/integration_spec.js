@@ -1,3 +1,4 @@
+// @ts-nocheck
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {

@@ -48,6 +48,7 @@ router.get('/sitemap.xml', sMaxAge('30m'), async (req, res, next) => {
     try {
         const canonicalRoutes = await getCanonicalRoutes();
 
+        // @ts-ignore
         const sitemapInstance = sitemap.createSitemap({
             hostname: getBaseUrl(req),
             urls: canonicalRoutes.map(route => ({
@@ -63,8 +64,7 @@ router.get('/sitemap.xml', sMaxAge('30m'), async (req, res, next) => {
             res.send(xml);
         });
     } catch (error) {
-        console.log(error);
-        // next(error);
+        next(error);
     }
 });
 
