@@ -14,25 +14,12 @@ function getMetaTitle(base, pageTitle) {
 }
 
 /**
- * Get current navigation section
- */
-function getCurrentSection(sectionId, pageId) {
-    const isHomepage = sectionId === 'toplevel' && pageId === 'home';
-    if (isHomepage) {
-        return 'toplevel';
-    } else if (sectionId !== 'toplevel') {
-        return sectionId;
-    }
-}
-
-/**
  * Set request locals
  * - Local properties that depend on the request
  * - Local methods for use in views that depend on the request
  */
 module.exports = {
     // Export for tests
-    getCurrentSection,
     getMetaTitle,
     // Export middleware
     middleware: function(req, res, next) {
@@ -83,7 +70,6 @@ module.exports = {
          ***********************************************/
 
         res.locals.getMetaTitle = getMetaTitle;
-        res.locals.getCurrentSection = getCurrentSection;
 
         /**
          * Absolute URL helper
