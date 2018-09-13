@@ -6,7 +6,7 @@ const debug = require('debug')('biglotteryfund:timings');
 
 const CloudWatch = new AWS.CloudWatch({
     apiVersion: '2010-08-01',
-    region: config.get('aws.region')
+    region: config.get('awsRegion')
 });
 
 const featureIsEnabled = config.get('features.enableTimingMetrics');

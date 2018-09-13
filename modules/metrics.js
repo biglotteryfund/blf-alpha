@@ -15,7 +15,7 @@ const config = require('config');
 function countEvent({ namespace, metric, name, value }) {
     const CloudWatch = new AWS.CloudWatch({
         apiVersion: '2010-08-01',
-        region: config.get('aws.region')
+        region: config.get('awsRegion')
     });
 
     return CloudWatch.putMetricData({

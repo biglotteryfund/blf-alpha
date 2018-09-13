@@ -2,7 +2,18 @@
 const config = require('config');
 const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
-const { makeWelsh, stripTrailingSlashes } = require('./urls');
+const { makeWelsh, stripTrailingSlashes } = require('../modules/urls');
+
+const CLOUDFRONT_ORIGINS = {
+    test: {
+        legacy: 'LEGACY',
+        newSite: 'ELB-TEST'
+    },
+    live: {
+        legacy: 'LEGACY',
+        newSite: 'ELB_LIVE'
+    }
+};
 
 /**
  * Custom cloudfront rules
@@ -135,7 +146,13 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours(origins) {
+function generateBehaviours(environment) {
+    const origins = CLOUDFRONT_ORIGINS[environment];
+
+    if (!origins) {
+        throw new Error(`No origins found for ${environment}`);
+    }
+
     const defaultCookies = [
         config.get('cookies.contrast'),
         config.get('cookies.features'),
@@ -202,6 +219,7 @@ function generateBehaviours(origins) {
 }
 
 module.exports = {
+    CLOUDFRONT_ORIGINS,
     makeBehaviourItem,
     generateBehaviours
 };
