@@ -67,6 +67,7 @@ module.exports = function() {
                     if (!profile.oid) {
                         return done(new Error('No oid found'), null);
                     }
+                    // @TODO do we need this?
                     // asynchronous verification, for effect...
                     process.nextTick(() => {
                         userService.findStaffUser(profile.oid, (err, user) => {
@@ -91,11 +92,15 @@ module.exports = function() {
         );
     }
 
-    passport.serializeUser((user, cb) => {
-        cb(null, {
+    const makeUserObject = (user) => {
+        return {
             userType: user.constructor.name,
             userData: user
-        });
+        };
+    };
+
+    passport.serializeUser((user, cb) => {
+        cb(null, makeUserObject(user));
     });
 
     passport.deserializeUser((user, cb) => {
@@ -103,7 +108,7 @@ module.exports = function() {
             userService
                 .findById(user.userData.id)
                 .then(userObj => {
-                    cb(null, userObj);
+                    cb(null, makeUserObject(userObj));
                 })
                 .catch(err => {
                     return cb(err);
@@ -112,7 +117,7 @@ module.exports = function() {
             userService
                 .findStaffUserById(user.userData.id)
                 .then(staffUser => {
-                    cb(null, staffUser);
+                    cb(null, makeUserObject(staffUser));
                 })
                 .catch(err => {
                     return cb(err);

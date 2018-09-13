@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const { get } = require('lodash');
 
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const { userBasePath, userEndpoints, emailPasswordValidations, formValidations, STATUSES } = require('./utils');
@@ -14,6 +15,33 @@ const staffRoutes = require('./staff');
 const router = express.Router();
 
 router.use(toolsSecurityHeaders());
+
+
+function ensureUserOnly(req, res, next) {
+    if (req.isAuthenticated() && get(req, ['user', 'userType'], false) === 'user') {
+        return next();
+    }
+    res.redirect('/user/login');
+}
+
+function ensureStaffOnly(req, res, next) {
+    if (req.isAuthenticated() && get(req, ['user', 'userType'], false) === 'staff') {
+        return next();
+    }
+    req.session.redirectUrl = req.originalUrl;
+    req.session.save(() => {
+        console.log('sess', req.session);
+        res.redirect('/user/staff/login');
+    });
+}
+
+router.get('/user-only', ensureUserOnly, (req, res) => {
+   res.send(req.user);
+});
+
+router.get('/staff-only', ensureStaffOnly, (req, res) => {
+    res.send(req.user);
+});
 
 // serve a logged-in user's dashboard
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);

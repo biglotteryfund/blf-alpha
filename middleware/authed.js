@@ -7,9 +7,11 @@ const checkAuthStatus = (req, res, next, minimumLevel) => {
     // if (!minimumLevel) {
     //     minimumLevel = 0;
     // }
-    if ((!minimumLevel && req.user) || (req.user && req.user.level >= minimumLevel)) {
+    if ((!minimumLevel && req.isAuthenticated) || (req.user && req.user.level >= minimumLevel)) {
+        console.log('user valid for min level');
         return next();
     } else {
+        console.log('user not authed');
         // we use req.originalUrl not req.path to preserve querystring
         req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
@@ -39,15 +41,17 @@ const requireUnauthed = (req, res, next) => {
 function staffAuthMiddleware(req, res, next) {
     passport.authenticate('azuread-openidconnect', {
         response: res,
-        failureRedirect: '/user/error'
+        failureRedirect: '/user/staff/error'
     })(req, res, next);
 }
 
+// @TODO work out why we need this
+// see https://github.com/AzureAD/passport-azure-ad
 function staffAuthMiddlewareLogin(req, res, next) {
     passport.authenticate('azuread-openidconnect', {
         response: res,
         resourceURL: 'https://graph.windows.net',
-        failureRedirect: '/user/error'
+        failureRedirect: '/user/staff/error'
     })(req, res, next);
 }
 
