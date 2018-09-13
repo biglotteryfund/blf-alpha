@@ -201,12 +201,6 @@ forEach(routes.sections, (section, sectionId) => {
 
     section.routes.forEach(route => {
         /**
-         * - Dynamically inject copy if a language path is provided
-         * - Dynamically inject hero image if a slug is provided
-         */
-        router.route(route.path).all(injectHeroImage(route.heroSlug));
-
-        /**
          * Apply route-level custom router if provided
          */
         const shouldServe = appData.isNotProduction ? true : !route.isDraft;

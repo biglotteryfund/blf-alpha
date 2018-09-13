@@ -7,27 +7,28 @@ const {
     injectCaseStudies,
     injectCopy,
     injectFlexibleContent,
+    injectHeroImage,
     injectListingContent
 } = require('../../middleware/inject-content');
 const { isWelsh } = require('../../modules/urls');
 
-function staticPage({ template, lang, isBilingual = true, caseStudies = [] }) {
+function staticPage({ template, heroSlug, lang, isBilingual = true, caseStudies = [] }) {
     const router = express.Router();
 
-    router.get('/', injectCopy(lang), injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
-        const { copy, heroImage } = res.locals;
-        if (isBilingual === false && isWelsh(req.originalUrl)) {
-            next();
-        } else {
-            res.render(template, {
-                copy: copy,
-                title: copy.title,
-                description: copy.description || false,
-                heroImage: heroImage || null,
-                isBilingual: isBilingual
-            });
+    router.get(
+        '/',
+        injectHeroImage(heroSlug),
+        injectCopy(lang),
+        injectBreadcrumbs,
+        injectCaseStudies(caseStudies),
+        function(req, res, next) {
+            if (isBilingual === false && isWelsh(req.originalUrl)) {
+                next();
+            } else {
+                res.render(template, { isBilingual });
+            }
         }
-    });
+    );
 
     return router;
 }

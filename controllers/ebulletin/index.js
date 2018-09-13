@@ -10,7 +10,7 @@ const config = require('config');
 const { customEvent } = require('../../modules/analytics');
 const { DOTMAILER_API } = require('../../modules/secrets');
 const { FORM_STATES } = require('../../modules/forms');
-const { injectCopy } = require('../../middleware/inject-content');
+const { injectCopy, injectHeroImage } = require('../../middleware/inject-content');
 const { noCache } = require('../../middleware/cached');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 
@@ -95,7 +95,7 @@ function renderForm({ res, formStatus = FORM_STATES.NOT_SUBMITTED, formData = nu
 
 router
     .route('/')
-    .all(noCache, injectCopy('toplevel.ebulletin'))
+    .all(noCache, injectHeroImage('street-dreams'), injectCopy('toplevel.ebulletin'))
     .get((req, res) => {
         renderForm({ res });
     })
