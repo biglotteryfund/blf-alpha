@@ -1,5 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 
@@ -20,6 +21,7 @@
         <div class="nudge-up">
             <section class="content-box content-box--tinted
                 u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     {% if entry.intro %}
                         {{ entry.intro | safe }}

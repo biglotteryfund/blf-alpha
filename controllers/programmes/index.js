@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const { map } = require('lodash');
+const { concat, map } = require('lodash');
 const express = require('express');
 
 const {
@@ -98,15 +98,27 @@ if (appData.isNotProduction) {
 /**
  * Programme detail
  */
-router.get('/:slug', injectFundingProgramme, (req, res, next) => {
-    const entry = res.locals.fundingProgramme;
+router.get('/:slug', injectFundingProgramme, injectBreadcrumbs, (req, res, next) => {
+    const { breadcrumbs, fundingProgramme } = res.locals;
 
-    if (entry && entry.contentSections.length > 0) {
+    const title = fundingProgramme.summary.title;
+
+    res.locals.breadcrumbs = concat(breadcrumbs, [
+        {
+            label: req.i18n.__('funding.programmes.title'),
+            url: req.baseUrl
+        },
+        {
+            label: title
+        }
+    ]);
+
+    if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
         res.render(path.resolve(__dirname, './views/programme'), {
-            entry: entry,
-            title: entry.summary.title,
-            heroImage: entry.hero || res.locals.fallbackHeroImage,
-            isBilingual: isBilingual(entry.availableLanguages)
+            entry: fundingProgramme,
+            title: title,
+            heroImage: fundingProgramme.hero || res.locals.fallbackHeroImage,
+            isBilingual: isBilingual(fundingProgramme.availableLanguages)
         });
     } else {
         next();
