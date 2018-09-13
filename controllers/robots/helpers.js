@@ -3,14 +3,14 @@
 const { concat, flatMap, sortedUniq } = require('lodash');
 
 const contentApi = require('../../services/content-api');
-const routes = require('../../controllers/routes');
+const sections = require('../../controllers/sections');
 
 /**
  * Build a flat list of all canonical routes
  * Combines application routes and routes defined by the CMS
  */
 async function getCanonicalRoutes() {
-    const routerCanonicalUrls = flatMap(routes.sections, section => {
+    const routerCanonicalUrls = flatMap(sections, section => {
         // Remove wildcard and draft routes
         return section.routes
             .filter(route => {

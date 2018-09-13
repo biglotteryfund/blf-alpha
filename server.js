@@ -23,9 +23,9 @@ const { makeWelsh, localify } = require('./modules/urls');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
+const sections = require('./controllers/sections');
 const aliases = require('./controllers/aliases');
 const formHelpers = require('./modules/forms');
-const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
 const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
@@ -90,7 +90,7 @@ function initAppLocals() {
     // Assume page is bilingual by default
     app.locals.isBilingual = true;
     // Navigation sections for top-level nav
-    app.locals.navigationSections = pickBy(routes.sections, s => s.showInNavigation);
+    app.locals.navigationSections = pickBy(sections, s => s.showInNavigation);
     // Default pageAccent colour
     app.locals.pageAccent = 'pink';
     // Form helpers
@@ -179,7 +179,7 @@ archivedRoutes.forEach(route => {
 /**
  * Initialise sections
  */
-forEach(routes.sections, (section, sectionId) => {
+forEach(sections, (section, sectionId) => {
     const router = express.Router();
 
     /**

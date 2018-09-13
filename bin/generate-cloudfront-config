@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 'use strict';
 const { forEach } = require('lodash');
 const config = require('config');
@@ -8,19 +9,11 @@ const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 
 const { generateBehaviours } = require('../modules/cloudfront');
-const { cloudfrontRules } = require('../controllers/routes');
 
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 
-/**
- * For each CloudFront distribution generate a config and store it
- */
 forEach(cloudfrontDistributions, async (distribution, distributionName) => {
-    const behaviours = generateBehaviours({
-        cloudfrontRules,
-        origins: distribution.origins
-    });
-
+    const behaviours = generateBehaviours(distribution.origins);
     try {
         const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
         await writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8');
