@@ -233,7 +233,7 @@ Object {
         },
         "MaxTTL": 31536000,
         "MinTTL": 0,
-        "PathPattern": "/contrast/*",
+        "PathPattern": "/api/contrast/*",
         "SmoothStreaming": false,
         "TargetOriginId": "ELB_LIVE",
         "TrustedSigners": Object {

@@ -78,6 +78,8 @@ function cleanDom(dom, originalUrlPath) {
 
 function proxyLegacyPage({ req, res, followRedirect = true }) {
     res.cacheControl = { maxAge: 0 };
+    // strip the CSP handler, our policy is too strict for legacy pages
+    res.removeHeader('Content-Security-Policy');
 
     const proxyUrl = legacyUrl + req.originalUrl;
     const originalUrlPath = stripTrailingSlashes(req.baseUrl + req.path);

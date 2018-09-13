@@ -2,7 +2,49 @@
 const config = require('config');
 const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
-const { makeWelsh, stripTrailingSlashes } = require('./urls');
+const { makeWelsh, stripTrailingSlashes } = require('../modules/urls');
+
+const CLOUDFRONT_ORIGINS = {
+    test: {
+        legacy: 'LEGACY',
+        newSite: 'ELB-TEST'
+    },
+    live: {
+        legacy: 'LEGACY',
+        newSite: 'ELB_LIVE'
+    }
+};
+
+/**
+ * Custom cloudfront rules
+ * If any cached url paths need custom cloudfront rules like query strings
+ * or custom cookies to be whitelisted you must define those rules here.
+ */
+const CUSTOM_RULES = [
+    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+    { path: '/api/contrast/*', queryStrings: ['url'] },
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/user/*', isPostable: true, queryStrings: ['token'] }
+];
+
+/**
+ * Legacy allowlist
+ * Send paths in allowlist directly to the legacy origin with no proxying
+ */
+const LEGACY_ALLOWLIST = [
+    '/-/*',
+    '/js/*',
+    '/css/*',
+    '/images/*',
+    '/default.css',
+    '/PastGrants.ashx',
+    '/news-and-events',
+    '/funding/search-past-grants',
+    '/funding/search-past-grants/*'
+];
 
 const makeBehaviourItem = ({
     originId,
@@ -104,7 +146,13 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours({ cloudfrontRules, origins }) {
+function generateBehaviours(environment) {
+    const origins = CLOUDFRONT_ORIGINS[environment];
+
+    if (!origins) {
+        throw new Error(`No origins found for ${environment}`);
+    }
+
     const defaultCookies = [
         config.get('cookies.contrast'),
         config.get('cookies.features'),
@@ -117,18 +165,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
         cookiesInUse: defaultCookies
     });
 
-    // Serve legacy static files
-    const customBehaviours = [
-        '/-/*',
-        '/js/*',
-        '/css/*',
-        '/images/*',
-        '/default.css',
-        '/PastGrants.ashx',
-        '/news-and-events',
-        '/funding/search-past-grants',
-        '/funding/search-past-grants/*'
-    ].map(path =>
+    const legacyBehaviours = LEGACY_ALLOWLIST.map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
             pathPattern: path,
@@ -140,8 +177,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
         })
     );
 
-    // direct all custom routes (eg. with non-standard config) to Express
-    const primaryBehaviours = flatMap(cloudfrontRules, rule => {
+    const primaryBehaviours = flatMap(CUSTOM_RULES, rule => {
         // Merge default cookies with rule specific cookie
         const cookiesInUse = uniq(compact(flatten([defaultCookies, get(rule, 'cookies', [])])));
 
@@ -170,7 +206,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
         }
     });
 
-    const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
+    const combinedBehaviours = concat(legacyBehaviours, primaryBehaviours);
     const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
 
     return {
@@ -183,6 +219,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
 }
 
 module.exports = {
+    CLOUDFRONT_ORIGINS,
     makeBehaviourItem,
     generateBehaviours
 };

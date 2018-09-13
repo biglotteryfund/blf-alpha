@@ -1,0 +1,1762 @@
+{
+    "DefaultCacheBehavior": {
+        "TargetOriginId": "ELB-TEST",
+        "ForwardedValues": {
+            "QueryString": true,
+            "Cookies": {
+                "Forward": "whitelist",
+                "WhitelistedNames": {
+                    "Quantity": 3,
+                    "Items": [
+                        "blf-alpha-session",
+                        "blf-features",
+                        "contrastMode"
+                    ]
+                }
+            },
+            "Headers": {
+                "Quantity": 2,
+                "Items": [
+                    "Accept",
+                    "Host"
+                ]
+            },
+            "QueryStringCacheKeys": {
+                "Quantity": 4,
+                "Items": [
+                    "disable-feature",
+                    "draft",
+                    "enable-feature",
+                    "version"
+                ]
+            }
+        },
+        "TrustedSigners": {
+            "Enabled": false,
+            "Quantity": 0,
+            "Items": []
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "AllowedMethods": {
+            "Quantity": 7,
+            "Items": [
+                "HEAD",
+                "DELETE",
+                "POST",
+                "GET",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+            ],
+            "CachedMethods": {
+                "Quantity": 2,
+                "Items": [
+                    "HEAD",
+                    "GET"
+                ]
+            }
+        },
+        "SmoothStreaming": false,
+        "DefaultTTL": 86400,
+        "MaxTTL": 31536000,
+        "Compress": true,
+        "LambdaFunctionAssociations": {
+            "Quantity": 0,
+            "Items": []
+        },
+        "FieldLevelEncryptionId": ""
+    },
+    "CacheBehaviors": {
+        "Quantity": 27,
+        "Items": [
+            {
+                "PathPattern": "*~/link.aspx",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/-/*",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/PastGrants.ashx",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/apply/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/contrast/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 5,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "url",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 2,
+                    "Items": [
+                        "HEAD",
+                        "GET"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/css/*",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/default.css",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/funding-finder",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/funding-guidance/managing-your-funding/ordering-free-materials/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/programmes",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 8,
+                        "Items": [
+                            "amount",
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "location",
+                            "max",
+                            "min",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 2,
+                    "Items": [
+                        "HEAD",
+                        "GET"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/search-past-grants",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/search-past-grants-alpha",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/funding/search-past-grants/*",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/images/*",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/js/*",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/news-and-events",
+                "TargetOriginId": "LEGACY",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "all"
+                    },
+                    "Headers": {
+                        "Quantity": 1,
+                        "Items": [
+                            "*"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "allow-all",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/search",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 2,
+                    "Items": [
+                        "HEAD",
+                        "GET"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/tools/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/user/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 5,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "token",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/apply/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/funding/funding-finder",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials/*",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 4,
+                        "Items": [
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/funding/programmes",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 8,
+                        "Items": [
+                            "amount",
+                            "disable-feature",
+                            "draft",
+                            "enable-feature",
+                            "location",
+                            "max",
+                            "min",
+                            "version"
+                        ]
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 2,
+                    "Items": [
+                        "HEAD",
+                        "GET"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/funding/search-past-grants-alpha",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 7,
+                    "Items": [
+                        "HEAD",
+                        "DELETE",
+                        "POST",
+                        "GET",
+                        "OPTIONS",
+                        "PUT",
+                        "PATCH"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            },
+            {
+                "PathPattern": "/welsh/search",
+                "TargetOriginId": "ELB-TEST",
+                "ForwardedValues": {
+                    "QueryString": true,
+                    "Cookies": {
+                        "Forward": "whitelist",
+                        "WhitelistedNames": {
+                            "Quantity": 3,
+                            "Items": [
+                                "blf-alpha-session",
+                                "blf-features",
+                                "contrastMode"
+                            ]
+                        }
+                    },
+                    "Headers": {
+                        "Quantity": 2,
+                        "Items": [
+                            "Accept",
+                            "Host"
+                        ]
+                    },
+                    "QueryStringCacheKeys": {
+                        "Quantity": 0,
+                        "Items": []
+                    }
+                },
+                "TrustedSigners": {
+                    "Enabled": false,
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "MinTTL": 0,
+                "AllowedMethods": {
+                    "Quantity": 2,
+                    "Items": [
+                        "HEAD",
+                        "GET"
+                    ],
+                    "CachedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ]
+                    }
+                },
+                "SmoothStreaming": false,
+                "DefaultTTL": 86400,
+                "MaxTTL": 31536000,
+                "Compress": true,
+                "LambdaFunctionAssociations": {
+                    "Quantity": 0,
+                    "Items": []
+                },
+                "FieldLevelEncryptionId": ""
+            }
+        ]
+    }
+}

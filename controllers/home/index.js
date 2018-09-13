@@ -3,7 +3,9 @@ const { get } = require('lodash');
 const Raven = require('raven');
 const path = require('path');
 const express = require('express');
+
 const contentApi = require('../../services/content-api');
+const { injectCopy } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
@@ -19,7 +21,7 @@ async function injectHomepageContent(req, res, next) {
     }
 }
 
-router.get('/', injectHomepageContent, (req, res) => {
+router.get('/', injectCopy('toplevel.home'), injectHomepageContent, (req, res) => {
     const fallbackSuperheroImage = {
         small: '/assets/images/hero/superhero-fallback-small.jpg',
         medium: '/assets/images/hero/superhero-fallback-medium.jpg',

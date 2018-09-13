@@ -26,7 +26,7 @@ export default {
             this.response.choice = choice;
 
             $.ajax({
-                url: `/survey`,
+                url: `/api/survey`,
                 type: 'POST',
                 dataType: 'json',
                 data: this.response

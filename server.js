@@ -1,5 +1,5 @@
 'use strict';
-const { forEach } = require('lodash');
+const { forEach, pickBy } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -20,17 +20,15 @@ if (appData.isDev) {
 }
 
 const { makeWelsh, localify } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { shouldServe } = require('./modules/pageLogic');
-const routes = require('./controllers/routes');
+const sections = require('./controllers/sections');
+const aliases = require('./controllers/aliases');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
 
-const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
-const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
+const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
@@ -53,11 +51,8 @@ Raven.config(SENTRY_DSN, {
     release: appData.commitId,
     autoBreadcrumbs: true,
     dataCallback(data) {
-        // Clear installed node_modules
-        delete data.modules;
-        // Clear POST data
-        delete data.request.data;
-
+        delete data.modules; // Clear installed node_modules
+        delete data.request.data; // Clear POST data
         return data;
     }
 }).install();
@@ -77,16 +72,8 @@ i18n.expressBind(app, {
 });
 
 /**
- * Robots
- * status endpoint, sitemap, robots.txt
- * Mount early to avoid being processed by any middleware
- */
-app.use('/', require('./controllers/robots'));
-
-/**
  * Static asset paths
  * Mount early to avoid being processed by any middleware
- * @see https://expressjs.com/en/4x/api.html#express.static
  */
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
@@ -96,52 +83,27 @@ app.use('/assets', express.static(path.join(__dirname, './public')));
  * @see https://expressjs.com/en/api.html#app.locals
  */
 function initAppLocals() {
-    /**
-     * Environment metadata
-     */
+    // Environment metadata
     app.locals.appData = appData;
-
-    /**
-     * Common date formats
-     */
+    // Common date formats
     app.locals.DATE_FORMATS = config.get('dateFormats');
-
-    /**
-     * Is this page bilingual?
-     * i.e. do we have a Welsh translation
-     * Default to true unless overridden by a route
-     */
+    // Assume page is bilingual by default
     app.locals.isBilingual = true;
-
-    /**
-     * Navigation sections for top-level nav
-     */
-    app.locals.navigationSections = getSectionsForNavigation();
-
-    /**
-     * Default pageAccent colour
-     */
+    // Navigation sections for top-level nav
+    app.locals.navigationSections = pickBy(sections, s => s.showInNavigation);
+    // Default pageAccent colour
     app.locals.pageAccent = 'pink';
-
-    /**
-     * Form helpers
-     */
+    // Form helpers
     app.locals.formHelpers = formHelpers;
 }
 
 initAppLocals();
 
 /**
- * Configure views
- * 1. Configure Nunjucks
- * 2. Add custom filters
- * 3. Add custom view globals
+ * Configure view engine
+ * @see https://mozilla.github.io/nunjucks/api.html
  */
 function initViewEngine() {
-    /**
-     * Only watch files if we explicitly request
-     * (eg. for CI, which tries to watch node_modules)
-     */
     const shouldWatchTemplates = !!process.env.WATCH_TEMPLATES === true;
     if (shouldWatchTemplates) {
         debug('Watching templates for changes');
@@ -150,18 +112,17 @@ function initViewEngine() {
     const templateEnv = nunjucks.configure(['.', 'views'], {
         autoescape: true,
         express: app,
-        noCache: true, // Disable nunjucks memory cache
+        noCache: true,
         watch: shouldWatchTemplates
     });
 
+    // Add custom view filters
     forEach(viewFilters, (filterFn, filterName) => {
         templateEnv.addFilter(filterName, filterFn);
     });
 
     app.set('view engine', 'njk').set('engineEnv', templateEnv);
-
-    // Disable express  view cache
-    app.disable('view cache');
+    app.disable('view cache'); // Disable express view cache
 }
 
 initViewEngine();
@@ -183,87 +144,63 @@ app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(portalMiddleware);
 
-// Mount tools controller
+/**
+ * Mount any non-customer-facing controllers
+ * Routes mounted here are not translated or localised
+ */
+app.use('/', require('./controllers/robots'));
 app.use('/tools', require('./controllers/tools'));
-
-// Mount user auth controller
 app.use('/user', require('./controllers/user'));
+app.use('/patterns', require('./controllers/pattern-library'));
+app.use('/api', require('./controllers/api'));
 
 /**
- * Handle Aliases
+ * Handle aliases from controllers/aliases
  */
-routes.aliases.forEach(redirect => {
-    app.get(redirect.from, (req, res) => {
-        res.redirect(301, redirect.to);
+aliases.forEach(alias => {
+    app.get(alias.from, (req, res) => {
+        res.redirect(301, alias.to);
     });
 });
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives
+ * Redirect archived paths to the National Archives
  */
-const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
-
-archivedRoutes.forEach(urlPath => {
-    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
-    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
+// prettier-ignore
+const archivedRoutes = [
+    '/funding/funding-guidance/applying-for-funding/*',
+    '/about-big/10-big-lottery-fund-facts'
+]; // prettier-ignore-end
+archivedRoutes.forEach(route => {
+    app.get(route, cached.noCache, redirectsMiddleware.redirectArchived);
+    app.get(makeWelsh(route), cached.noCache, redirectsMiddleware.redirectArchived);
 });
 
 /**
- * Initialise section routes
- * - Creates a new router for each section
- * - Apply shared middleware
- * - Apply section specific controller logic
- * - Add common routing (for static/fully-CMS powered pages)
+ * Initialise sections
  */
-forEach(routes.sections, (section, sectionId) => {
-    let router = express.Router();
+forEach(sections, (section, sectionId) => {
+    const router = express.Router();
 
     /**
-     * Add section locals
-     * Used for determining top-level section for navigation and breadcrumbs
+     * Common middleware
+     * - Set sectionId for determining current navigation section
+     * - Set sectionTitle and sectionUrl for injecting dynamic breadcrumbs
      */
-    router.use(function(req, res, next) {
-        const locale = req.i18n.getLocale();
+    router.use((req, res, next) => {
         res.locals.sectionId = sectionId;
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-        res.locals.sectionUrl = localify(locale)(req.baseUrl);
+        res.locals.sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
         next();
     });
 
-    /**
-     * Page specific middleware
-     */
-    forEach(section.pages, (page, pageId) => {
-        router.route(page.path).all(injectCopy(page), injectHeroImage(page.heroSlug), (req, res, next) => {
-            res.locals.pageId = pageId;
-            next();
-        });
+    const shouldServe = route => (appData.isNotProduction ? true : !route.isDraft);
+    section.routes.filter(shouldServe).forEach(route => {
+        router.use(route.path, route.router);
     });
 
     /**
-     * Apply section specific controller logic
-     */
-    if (section.controller) {
-        router = section.controller({
-            router: router,
-            pages: section.pages,
-            sectionPath: section.path,
-            sectionId: sectionId
-        });
-    }
-
-    /**
-     * Apply page/route level router if we have one.
-     */
-    forEach(section.pages, page => {
-        if (shouldServe(page) && page.router) {
-            router.use(page.path, page.router);
-        }
-    });
-
-    /**
-     * Mount section router
+     * Mount section router at both english and welsh language path
      */
     app.use(section.path, router);
     app.use(makeWelsh(section.path), router);
@@ -282,18 +219,19 @@ app.get('/error', renderNotFound);
 app.get('/error-unauthorised', renderUnauthorised);
 
 /**
- * Final wildcard request handled
- * Attempt to proxy pages from the legacy site,
- * if unsuccessful pass through to the 404 handler.
+ * Final wildcard handler, attempting the following:
+ * 1. Check for a matching vanity url defined in the CMS
+ * 2. Otherwise, attempy to proxy the page from the legacy website
+ * 3. Otherwise, strip /welsh from the url and try again
+ *    (for handling 404 requests to monolingual pages)
+ * 4. If unsuccessful pass through to the 404 handler.
  */
 app.route('*')
-    .all(stripCSPHeader)
     .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
     .post(postToLegacyForm);
 
 /**
- * 404 Handler
- * Catch 404s render not found page
+ * Global 404 Handler
  */
 app.use(renderNotFound);
 

@@ -1,30 +1,25 @@
 'use strict';
-const { flatten, get, getOr, last } = require('lodash/fp');
+const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
-const Raven = require('raven');
 
 const { localify } = require('../modules/urls');
-const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
-
-function getPreviewStatus(entry) {
-    return {
-        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
-        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
-    };
-}
 
 /**
  * Sets locals that are common to many enries.
  * - heroImage (with fallback)
  * - title based on content
  * - isBilingual based on availableLanguages property
+ * - preview status based on entry and date updated
  */
 function setCommonLocals(res, entry) {
     res.locals.title = entry.displayTitle || entry.title;
     res.locals.heroImage = entry.hero;
-    res.locals.isBilingual = isBilingual(entry.availableLanguages);
-    res.locals.previewStatus = getPreviewStatus(entry);
+    res.locals.isBilingual = entry.availableLanguages.length === 2;
+    res.locals.previewStatus = {
+        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
+        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
+    };
 }
 
 function injectHeroImage(heroSlug) {
@@ -46,7 +41,6 @@ function injectHeroImage(heroSlug) {
                 res.locals.socialImage = heroImage;
                 next();
             } catch (error) {
-                Raven.captureException(error);
                 next();
             }
         } else {
@@ -55,10 +49,10 @@ function injectHeroImage(heroSlug) {
     };
 }
 
-function injectCopy(page) {
+function injectCopy(lang) {
     return function(req, res, next) {
-        if (page.lang) {
-            const copy = req.i18n.__(page.lang);
+        const copy = lang && req.i18n.__(lang);
+        if (copy && typeof copy === 'object') {
             res.locals.copy = copy;
             res.locals.title = copy.title;
             res.locals.description = copy.description || false;
@@ -130,7 +124,8 @@ async function injectFlexibleContent(req, res, next) {
         });
 
         res.locals.entry = entry;
-        res.locals.previewStatus = getPreviewStatus(entry);
+        setCommonLocals(res, entry);
+
         next();
     } catch (error) {
         next(error);
@@ -155,16 +150,17 @@ function injectCaseStudies(caseStudySlugs = []) {
 async function injectFundingProgramme(req, res, next) {
     try {
         const entry = await contentApi.getFundingProgramme({
-            slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
+            // Assumes a parameter of :slug in the request
+            slug: req.params.slug,
             locale: req.i18n.getLocale(),
             previewMode: res.locals.PREVIEW_MODE || false
         });
 
-        res.locals.fundingProgramme = entry;
-        res.locals.previewStatus = getPreviewStatus(entry);
+        res.locals.entry = entry;
+        setCommonLocals(res, entry);
         next();
     } catch (error) {
-        next();
+        next(error);
     }
 }
 
@@ -265,7 +261,7 @@ async function injectBlogDetail(req, res, next) {
             res.locals.blogDetail = blogDetail;
 
             if (blogDetail.meta.pageType === 'blogpost') {
-                res.locals.previewStatus = getPreviewStatus(blogDetail.result);
+                setCommonLocals(res, blogDetail.result);
             }
 
             next();
@@ -296,14 +292,12 @@ function injectProfiles(section) {
             });
             next();
         } catch (error) {
-            Raven.captureException(error);
-            next();
+            next(error);
         }
     };
 }
 
 module.exports = {
-    getPreviewStatus,
     injectBlogDetail,
     injectBlogPosts,
     injectBreadcrumbs,

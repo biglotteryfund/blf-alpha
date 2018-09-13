@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 'use strict';
 const { cloneDeep, filter, find, has, groupBy } = require('lodash');
 const AWS = require('aws-sdk');
-const config = require('config');
 const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
@@ -11,7 +11,10 @@ const rp = require('request-promise-native');
 
 require('dotenv').config();
 
-const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
+const DISTRIBUTIONS = {
+    LIVE: 'E2WYWBLMWIN5U1',
+    TEST: 'E3D5QJTWAG3GDP'
+};
 
 const argv = require('yargs')
     .boolean('l')
@@ -57,8 +60,7 @@ function getEnvStatus(env) {
 }
 
 const configFilename = IS_LIVE ? 'live' : 'test';
-const configPath = `config/cloudfront/${configFilename}.json`;
-const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
+const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/cloudfront/${configFilename}.json`;
 
 // are we using a custom config (eg. a backup file)?
 if (customConfig) {
@@ -120,7 +122,7 @@ if (customConfig) {
 function storeBackup(existingConfig) {
     try {
         const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-        const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
+        const confPath = path.join(__dirname, `../cloudfront/backup/${timestamp}.json`);
         const backup = {
             DefaultCacheBehavior: existingConfig.Distribution.DistributionConfig.DefaultCacheBehavior,
             CacheBehaviors: existingConfig.Distribution.DistributionConfig.CacheBehaviors
@@ -150,12 +152,12 @@ function beginUpdate(savedConfig) {
     const cloudfront = new AWS.CloudFront();
 
     // decide which config to use (pass --live to this script to use live)
-    const cloudfrontDistribution = IS_LIVE ? cloudfrontDistributions.live : cloudfrontDistributions.test;
+    const cloudfrontDistribution = IS_LIVE ? DISTRIBUTIONS.LIVE : DISTRIBUTIONS.TEST;
 
     // get existing cloudfront config
     const getDistributionConfig = cloudfront
         .getDistribution({
-            Id: cloudfrontDistribution.distributionId
+            Id: cloudfrontDistribution
         })
         .promise();
 
@@ -213,7 +215,7 @@ function beginUpdate(savedConfig) {
 
             // prompt to confirm change
             let promptSchema = {
-                description: `Are you sure you want to make this change to ${cloudfrontDistribution.distributionId}?`,
+                description: `Are you sure you want to make this change to ${cloudfrontDistribution}?`,
                 name: 'yesno',
                 type: 'string',
                 pattern: /y[es]*|n[o]?/,
@@ -234,7 +236,7 @@ function beginUpdate(savedConfig) {
                     let updateDistributionConfig = cloudfront
                         .updateDistribution({
                             DistributionConfig: newConfigToWrite.Distribution.DistributionConfig,
-                            Id: cloudfrontDistribution.distributionId,
+                            Id: cloudfrontDistribution,
                             IfMatch: etag
                         })
                         .promise();

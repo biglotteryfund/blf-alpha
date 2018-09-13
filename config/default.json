@@ -1,23 +1,5 @@
 {
-  "aws": {
-    "region": "eu-west-2",
-    "cloudfrontDistributions": {
-      "test": {
-        "distributionId": "E3D5QJTWAG3GDP",
-        "origins": {
-          "legacy": "LEGACY",
-          "newSite": "ELB-TEST"
-        }
-      },
-      "live": {
-        "distributionId": "E2WYWBLMWIN5U1",
-        "origins": {
-          "legacy": "LEGACY",
-          "newSite": "ELB_LIVE"
-        }
-      }
-    }
-  },
+  "awsRegion": "eu-west-2",
   "siteDomain": "www.biglotteryfund.org.uk",
   "dateFormats": {
     "month": "MMMM YYYY",
@@ -38,9 +20,6 @@
     "useRemoteAssets": true,
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false
-  },
-  "imgix": {
-    "mediaDomain": "biglotteryfund-assets.imgix.net"
   },
   "cookies": {
     "contrast": "contrastMode",

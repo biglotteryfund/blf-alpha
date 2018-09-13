@@ -8,10 +8,11 @@ const rp = require('request-promise-native');
 const config = require('config');
 
 const { customEvent } = require('../../modules/analytics');
-const { FORM_STATES } = require('../../modules/forms');
 const { DOTMAILER_API } = require('../../modules/secrets');
+const { FORM_STATES } = require('../../modules/forms');
+const { injectCopy, injectHeroImage } = require('../../middleware/inject-content');
+const { noCache } = require('../../middleware/cached');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
-const cached = require('../../middleware/cached');
 
 const router = express.Router();
 
@@ -94,7 +95,7 @@ function renderForm({ res, formStatus = FORM_STATES.NOT_SUBMITTED, formData = nu
 
 router
     .route('/')
-    .all(cached.noCache)
+    .all(noCache, injectHeroImage('street-dreams'), injectCopy('toplevel.ebulletin'))
     .get((req, res) => {
         renderForm({ res });
     })

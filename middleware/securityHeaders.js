@@ -61,7 +61,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com'],
-        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', config.get('imgix.mediaDomain')],
+        imgSrc: ['biglotteryfund-assets.imgix.net', 'stats.g.doubleclick.net', 'via.placeholder.com'],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],
@@ -108,17 +108,8 @@ function toolsSecurityHeaders() {
     });
 }
 
-function stripCSPHeader(req, res, next) {
-    if (!res.headersSent) {
-        res.removeHeader('Content-Security-Policy');
-    }
-
-    next();
-}
-
 module.exports = {
     buildSecurityMiddleware,
     defaultSecurityHeaders,
-    toolsSecurityHeaders,
-    stripCSPHeader
+    toolsSecurityHeaders
 };
