@@ -29,7 +29,6 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
 const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
-const { injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
@@ -52,11 +51,8 @@ Raven.config(SENTRY_DSN, {
     release: appData.commitId,
     autoBreadcrumbs: true,
     dataCallback(data) {
-        // Clear installed node_modules
-        delete data.modules;
-        // Clear POST data
-        delete data.request.data;
-
+        delete data.modules; // Clear installed node_modules
+        delete data.request.data; // Clear POST data
         return data;
     }
 }).install();
@@ -192,21 +188,15 @@ forEach(routes.sections, (section, sectionId) => {
      * - Set sectionTitle and sectionUrl for injecting dynamic breadcrumbs
      */
     router.use((req, res, next) => {
-        const locale = req.i18n.getLocale();
         res.locals.sectionId = sectionId;
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-        res.locals.sectionUrl = localify(locale)(req.baseUrl);
+        res.locals.sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
         next();
     });
 
-    section.routes.forEach(route => {
-        /**
-         * Apply route-level custom router if provided
-         */
-        const shouldServe = appData.isNotProduction ? true : !route.isDraft;
-        if (shouldServe && route.router) {
-            router.use(route.path, route.router);
-        }
+    const shouldServe = route => (appData.isNotProduction ? true : !route.isDraft);
+    section.routes.filter(shouldServe).forEach(route => {
+        router.use(route.path, route.router);
     });
 
     /**
