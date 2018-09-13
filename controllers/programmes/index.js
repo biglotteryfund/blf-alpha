@@ -78,13 +78,9 @@ if (appData.isNotProduction) {
         const allFundingProgrammes = res.locals.fundingProgrammes || [];
         const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
 
-        if (programmes.length > 0) {
-            res.render(path.resolve(__dirname, './views/programmes-list'), {
-                programmes
-            });
-        } else {
-            next();
-        }
+        res.render(path.resolve(__dirname, './views/programmes-list'), {
+            programmes
+        });
     });
 }
 
