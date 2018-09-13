@@ -33,15 +33,19 @@
                                 <article class="map-info accent--pink a--border-top u-padded">
                                     <h3 class="t2 t--underline">{{ region.title }}</h3>
 
-                                    <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.population | numberWithCommas }}</span>
-                                        <span class="map-info__stat-caption"><strong>{{ copy.map.population }}</strong></span>
-                                    </p>
+                                    {% if region.population %}
+                                        <p class="map-info__stat">
+                                            <span class="map-info__stat-data t2 accent--pink a--text">{{ region.population | numberWithCommas }}</span>
+                                            <span class="map-info__stat-caption"><strong>{{ copy.map.population }}</strong></span>
+                                        </p>
+                                    {% endif %}
 
-                                    <p class="map-info__stat">
-                                        <span class="map-info__stat-data t2 accent--pink a--text">{{ region.totalAwarded }}</span>
-                                        <span class="map-info__stat-caption"><strong>{{ copy.map.totalAwarded }}</strong></span>
-                                    </p>
+                                    {% if region.totalAwarded %}
+                                        <p class="map-info__stat">
+                                            <span class="map-info__stat-data t2 accent--pink a--text">{{ region.totalAwarded }}</span>
+                                            <span class="map-info__stat-caption"><strong>{{ copy.map.totalAwarded }}</strong></span>
+                                        </p>
+                                    {% endif %}
 
                                     {% if region.totalGrants %}
                                         <p class="map-info__stat">
