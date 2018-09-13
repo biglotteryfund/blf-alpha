@@ -5,10 +5,10 @@ const express = require('express');
 
 const {
     injectBreadcrumbs,
+    injectCopy,
     injectFundingProgramme,
     injectFundingProgrammes
 } = require('../../middleware/inject-content');
-const { isBilingual } = require('../../modules/pageLogic');
 const appData = require('../../modules/appData');
 
 const { getValidLocation, programmeFilters } = require('./helpers');
@@ -18,7 +18,7 @@ const router = express.Router();
 /**
  * Programmes list
  */
-router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res) => {
+router.get('/', injectCopy('funding.programmes'), injectFundingProgrammes, injectBreadcrumbs, (req, res) => {
     const allFundingProgrammes = res.locals.fundingProgrammes || [];
 
     const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
@@ -74,14 +74,17 @@ router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res) => {
  * Programmes list: closed to applicants
  */
 if (appData.isNotProduction) {
-    router.get('/closed', injectBreadcrumbs, injectFundingProgrammes, (req, res, next) => {
-        const allFundingProgrammes = res.locals.fundingProgrammes || [];
-        const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
-
-        res.render(path.resolve(__dirname, './views/programmes-list'), {
-            programmes
-        });
-    });
+    router.get(
+        '/closed',
+        injectCopy('funding.programmesClosed'),
+        injectBreadcrumbs,
+        injectFundingProgrammes,
+        (req, res) => {
+            const allFundingProgrammes = res.locals.fundingProgrammes || [];
+            const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
+            res.render(path.resolve(__dirname, './views/programmes-list'), { programmes });
+        }
+    );
 }
 
 /**
@@ -94,27 +97,21 @@ if (appData.isNotProduction) {
 /**
  * Programme detail
  */
-router.get('/:slug', injectFundingProgramme, injectBreadcrumbs, (req, res, next) => {
-    const { breadcrumbs, fundingProgramme } = res.locals;
+router.get('/:slug', injectBreadcrumbs, injectFundingProgramme, (req, res, next) => {
+    const { breadcrumbs, entry } = res.locals;
+    if (entry && entry.contentSections.length > 0) {
+        res.locals.breadcrumbs = concat(breadcrumbs, [
+            {
+                label: req.i18n.__('funding.programmes.title'),
+                url: req.baseUrl
+            },
+            {
+                label: res.locals.title
+            }
+        ]);
 
-    const title = fundingProgramme.summary.title;
-
-    res.locals.breadcrumbs = concat(breadcrumbs, [
-        {
-            label: req.i18n.__('funding.programmes.title'),
-            url: req.baseUrl
-        },
-        {
-            label: title
-        }
-    ]);
-
-    if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
         res.render(path.resolve(__dirname, './views/programme'), {
-            entry: fundingProgramme,
-            title: title,
-            heroImage: fundingProgramme.hero || res.locals.fallbackHeroImage,
-            isBilingual: isBilingual(fundingProgramme.availableLanguages)
+            heroImage: res.locals.heroImage || res.locals.fallbackHeroImage
         });
     } else {
         next();

@@ -11,7 +11,7 @@ const routes = require('../controllers/routes');
  */
 async function getCanonicalRoutes() {
     const routerCanonicalUrls = flatMap(routes.sections, section => {
-        return section.pages
+        return section.routes
             .filter(route => {
                 // Remove wildcard and draft routes
                 return route.path.indexOf('*') === -1 && !route.isDraft;

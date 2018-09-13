@@ -3,12 +3,11 @@ const path = require('path');
 const express = require('express');
 const { find, get } = require('lodash');
 
-const { injectFundingProgrammes } = require('../../middleware/inject-content');
-const { sMaxAge } = require('../../middleware/cached');
+const { injectCopy, injectFundingProgrammes } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.get('/', sMaxAge('30m'), injectFundingProgrammes, (req, res) => {
+router.get('/', injectCopy('toplevel.funding'), injectFundingProgrammes, (req, res) => {
     const { copy, fundingProgrammes } = res.locals;
 
     /**

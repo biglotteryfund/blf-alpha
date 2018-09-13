@@ -4,10 +4,11 @@ const express = require('express');
 const { sortBy } = require('lodash');
 
 const contentApi = require('../../services/content-api');
+const { injectCopy } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', injectCopy('toplevel.data'), async (req, res, next) => {
     const locale = req.i18n.getLocale();
 
     try {

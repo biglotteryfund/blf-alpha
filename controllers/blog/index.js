@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const { concat, get, isEmpty } = require('lodash');
-const { isBilingual } = require('../../modules/pageLogic');
 const { injectBreadcrumbs, injectBlogDetail, injectBlogPosts } = require('../../middleware/inject-content');
 
 const router = express.Router();
@@ -73,7 +72,6 @@ router.get('/*', injectBreadcrumbs, injectBlogDetail, function(req, res) {
         res.render(path.resolve(__dirname, './views/post'), {
             entry: entry,
             title: entry.title,
-            isBilingual: isBilingual(entry.availableLanguages),
             breadcrumbs: concat(res.locals.breadcrumbs, {
                 label: entry.category.title
             })

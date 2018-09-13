@@ -5,7 +5,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
 /**
  * @typedef {object} Route
  * @property {string} path
- * @property {string} [lang]
  * @property {string} [heroSlug]
  * @property {function} [router]
  * @property {boolean} [isDraft]
@@ -16,7 +15,7 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} path
  * @property {boolean} showInNavigation
  * @property {string} [langTitlePath]
- * @property {Array<Route>} pages
+ * @property {Array<Route>} routes
  */
 
 /**
@@ -27,10 +26,9 @@ const toplevel = {
     path: '',
     showInNavigation: true,
     langTitlePath: 'global.nav.home',
-    pages: [
+    routes: [
         {
             path: '/',
-            lang: 'toplevel.home',
             router: require('./home')
         },
         {
@@ -39,19 +37,19 @@ const toplevel = {
         },
         {
             path: '/northern-ireland',
-            lang: 'toplevel.northernIreland',
             heroSlug: 'down-right-brilliant',
             router: staticPage({
-                disableLanguageLink: true,
-                template: 'static-pages/region'
+                template: 'static-pages/region',
+                lang: 'toplevel.northernIreland',
+                isBilingual: false
             })
         },
         {
             path: '/wales',
-            lang: 'toplevel.wales',
             heroSlug: 'grassroots-wales',
             router: staticPage({
-                template: 'static-pages/region'
+                template: 'static-pages/region',
+                lang: 'toplevel.wales'
             })
         },
         {
@@ -60,7 +58,6 @@ const toplevel = {
         },
         {
             path: '/data',
-            lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
             router: require('./data')
         },
@@ -83,58 +80,55 @@ const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
-    pages: [
+    routes: [
         {
             path: '/',
-            lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities',
             router: require('./funding')
         },
         {
             path: '/test',
-            lang: 'toplevel.funding',
             heroSlug: 'ragroof-players',
             isDraft: true,
             router: staticPage({
+                lang: 'toplevel.funding',
                 template: 'static-pages/funding-test'
             })
         },
         {
             path: '/thinking-of-applying',
-            lang: 'funding.thinkingOfApplying',
             heroSlug: 'building-bridges',
             isDraft: true,
             router: staticPage({
-                template: 'static-pages/thinking-of-applying'
+                template: 'static-pages/thinking-of-applying',
+                lang: 'funding.thinkingOfApplying'
             })
         },
         {
             path: '/under10k',
-            lang: 'funding.under10k',
             heroSlug: 'friends-of-greenwich',
             router: staticPage({
                 template: 'static-pages/under10k',
+                lang: 'funding.under10k',
                 caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
             })
         },
         {
             path: '/over10k',
-            lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3',
             router: staticPage({
                 template: 'static-pages/over10k',
+                lang: 'funding.over10k',
                 caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
             })
         },
         {
             path: '/programmes',
-            lang: 'funding.programmes',
             heroSlug: 'the-young-foundation',
             router: require('./programmes')
         },
         {
             path: '/programmes/closed',
-            lang: 'funding.programmesClosed',
             heroSlug: 'the-young-foundation'
         },
         {
@@ -155,10 +149,10 @@ const funding = {
         },
         {
             path: '/past-grants',
-            lang: 'funding.pastGrants',
             heroSlug: 'active-plus-communities',
             router: staticPage({
-                template: 'static-pages/past-grants'
+                template: 'static-pages/past-grants',
+                lang: 'funding.pastGrants'
             })
         },
         {
@@ -168,8 +162,8 @@ const funding = {
         },
         {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            lang: 'funding.guidance.logos',
             router: basicContent({
+                lang: 'funding.guidance.logos',
                 customTemplate: 'static-pages/logos'
             })
         },
@@ -192,15 +186,15 @@ const local = {
     path: '/local',
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
-    pages: [
+    routes: [
         {
             path: '/',
-            lang: 'toplevel.local',
             heroSlug: 'arkwright-meadows',
             isDraft: true,
             router: staticPage({
-                disableLanguageLink: true,
-                template: 'static-pages/local'
+                template: 'static-pages/local',
+                lang: 'toplevel.local',
+                isBilingual: false
             })
         }
     ]
@@ -214,7 +208,7 @@ const research = {
     path: '/research',
     showInNavigation: true,
     langTitlePath: 'global.nav.research',
-    pages: [
+    routes: [
         {
             path: '/',
             router: require('./research')
@@ -230,22 +224,21 @@ const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
-    pages: [
+    routes: [
         {
             path: '/',
             router: flexibleContent()
         },
         {
             path: '/our-people/senior-management-team',
-            lang: 'about.ourPeople.seniorManagement',
             heroSlug: 'mental-health-foundation',
             router: require('./profiles')({
+                lang: 'about.ourPeople.seniorManagement',
                 profilesSection: 'seniorManagementTeam'
             })
         },
         {
             path: '/ebulletin',
-            lang: 'toplevel.ebulletin',
             heroSlug: 'street-dreams',
             router: require('./ebulletin')
         },
@@ -264,7 +257,7 @@ const blog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
-    pages: [
+    routes: [
         {
             path: '/',
             router: require('./blog'),

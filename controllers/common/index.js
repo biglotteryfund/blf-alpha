@@ -1,24 +1,22 @@
 'use strict';
 const express = require('express');
-const { isEmpty } = require('lodash');
 const path = require('path');
 
 const {
     injectBreadcrumbs,
     injectCaseStudies,
+    injectCopy,
     injectFlexibleContent,
     injectListingContent
 } = require('../../middleware/inject-content');
-const { isBilingual } = require('../../modules/pageLogic');
 const { isWelsh } = require('../../modules/urls');
 
-function staticPage({ template = null, caseStudies = [], disableLanguageLink = false } = {}) {
+function staticPage({ template, lang, isBilingual = true, caseStudies = [] }) {
     const router = express.Router();
 
-    router.get('/', injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
+    router.get('/', injectCopy(lang), injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
         const { copy, heroImage } = res.locals;
-        const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
-        if (shouldRedirectLang) {
+        if (isBilingual === false && isWelsh(req.originalUrl)) {
             next();
         } else {
             res.render(template, {
@@ -26,7 +24,7 @@ function staticPage({ template = null, caseStudies = [], disableLanguageLink = f
                 title: copy.title,
                 description: copy.description || false,
                 heroImage: heroImage || null,
-                isBilingual: disableLanguageLink === false
+                isBilingual: isBilingual
             });
         }
     });
@@ -34,11 +32,11 @@ function staticPage({ template = null, caseStudies = [], disableLanguageLink = f
     return router;
 }
 
-function basicContent({ customTemplate = null } = {}) {
+function basicContent({ lang = null, customTemplate = null } = {}) {
     const router = express.Router();
 
-    router.get('/', injectListingContent, injectBreadcrumbs, (req, res, next) => {
-        const { content, breadcrumbs } = res.locals;
+    router.get('/', injectCopy(lang), injectListingContent, injectBreadcrumbs, (req, res, next) => {
+        const { content } = res.locals;
         if (content) {
             const template = (() => {
                 if (customTemplate) {
@@ -50,7 +48,7 @@ function basicContent({ customTemplate = null } = {}) {
                 }
             })();
 
-            res.render(template, { breadcrumbs });
+            res.render(template);
         } else {
             next();
         }
@@ -63,15 +61,12 @@ function flexibleContent(customTemplate) {
     const router = express.Router();
 
     router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
-        const { entry, breadcrumbs } = res.locals;
+        const { entry } = res.locals;
         if (entry) {
             const template = customTemplate || path.resolve(__dirname, './views/flexible-content');
             res.render(template, {
                 content: entry,
-                title: entry.title,
-                heroImage: entry.hero,
-                breadcrumbs: breadcrumbs,
-                isBilingual: isBilingual(entry.availableLanguages)
+                heroImage: entry.hero
             });
         } else {
             next();

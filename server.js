@@ -29,7 +29,7 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
 const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
-const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
+const { injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
@@ -186,28 +186,32 @@ archivedRoutes.forEach(route => {
 forEach(routes.sections, (section, sectionId) => {
     const router = express.Router();
 
-    section.pages.forEach(page => {
+    /**
+     * Common middleware
+     * - Set sectionId for determining current navigation section
+     * - Set sectionTitle and sectionUrl for injecting dynamic breadcrumbs
+     */
+    router.use((req, res, next) => {
+        const locale = req.i18n.getLocale();
+        res.locals.sectionId = sectionId;
+        res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
+        res.locals.sectionUrl = localify(locale)(req.baseUrl);
+        next();
+    });
+
+    section.routes.forEach(route => {
         /**
-         * Common middleware
          * - Dynamically inject copy if a language path is provided
          * - Dynamically inject hero image if a slug is provided
-         * - Set sectionId for determining current navigation section
-         * - Set sectionTitle and sectionUrl for injecting dynamic breadcrumbs
          */
-        router.use(page.path, injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
-            const locale = req.i18n.getLocale();
-            res.locals.sectionId = sectionId;
-            res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-            res.locals.sectionUrl = localify(locale)(req.baseUrl);
-            next();
-        });
+        router.route(route.path).all(injectHeroImage(route.heroSlug));
 
         /**
          * Apply route-level custom router if provided
          */
-        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
-        if (shouldServe && page.router) {
-            router.use(page.path, page.router);
+        const shouldServe = appData.isNotProduction ? true : !route.isDraft;
+        if (shouldServe && route.router) {
+            router.use(route.path, route.router);
         }
     });
 

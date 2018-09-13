@@ -10,7 +10,6 @@ const {
     injectResearch,
     injectResearchEntry
 } = require('../../middleware/inject-content');
-const { isBilingual } = require('../../modules/pageLogic');
 const appData = require('../../modules/appData');
 
 const router = express.Router();
@@ -117,8 +116,7 @@ router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) =>
     if (researchEntry) {
         res.render(path.resolve(__dirname, './views/research-detail'), {
             entry: researchEntry,
-            heroImage: researchEntry.hero || res.locals.fallbackHeroImage,
-            isBilingual: isBilingual(researchEntry.availableLanguages)
+            heroImage: researchEntry.hero || res.locals.fallbackHeroImage
         });
     } else {
         next();
