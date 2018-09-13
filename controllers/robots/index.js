@@ -5,9 +5,9 @@ const moment = require('moment');
 const sitemap = require('sitemap');
 
 const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
-const { getCanonicalRoutes } = require('../../modules/route-helpers');
 const { noCache, sMaxAge } = require('../../middleware/cached');
 const appData = require('../../modules/appData');
+const { getCanonicalRoutes } = require('./helpers');
 
 const router = express.Router();
 

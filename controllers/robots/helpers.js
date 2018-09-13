@@ -2,8 +2,8 @@
 
 const { concat, flatMap, sortedUniq } = require('lodash');
 
-const contentApi = require('../services/content-api');
-const routes = require('../controllers/routes');
+const contentApi = require('../../services/content-api');
+const routes = require('../../controllers/routes');
 
 /**
  * Build a flat list of all canonical routes
@@ -11,9 +11,9 @@ const routes = require('../controllers/routes');
  */
 async function getCanonicalRoutes() {
     const routerCanonicalUrls = flatMap(routes.sections, section => {
+        // Remove wildcard and draft routes
         return section.routes
             .filter(route => {
-                // Remove wildcard and draft routes
                 return route.path.indexOf('*') === -1 && !route.isDraft;
             })
             .map(route => section.path + route.path);
