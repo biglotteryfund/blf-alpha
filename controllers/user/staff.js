@@ -31,24 +31,23 @@ router.get('/', (req, res) => {
     }
 });
 
-
 // router.get('/login', auth.staffAuthMiddlewareLogin, (req, res) => {
 //     console.log('### login path GET');
 //     res.redirect('/user/staff');
 // });
 
-router.get('/login',
+router.get(
+    '/login',
     function(req, res, next) {
-        passport.authenticate('azuread-openidconnect',
-            {
-                response: res,
-                failureRedirect: '/user/staff/error'
-            }
-        )(req, res, next);
+        passport.authenticate('azuread-openidconnect', {
+            response: res,
+            failureRedirect: '/user/staff/error'
+        })(req, res, next);
     },
     function(req, res) {
         res.redirect('/user/staff');
-    });
+    }
+);
 
 // router.get('/auth/openid/return', auth.staffAuthMiddleware, (req, res) => {
 //     console.log('### return path GET');
@@ -60,14 +59,15 @@ router.get('/login',
 //     res.redirect('/user/staff');
 // });
 
-router.post('/auth/openid/return',
-    passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
-    function(req, res) {
-        console.log('### return path POST');
-        req.session.save(() => {
-            res.redirect('/user/staff');
-        });
+router.post('/auth/openid/return', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), function(
+    req,
+    res
+) {
+    console.log('### return path POST');
+    req.session.save(() => {
+        res.redirect('/user/staff');
     });
+});
 
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {

@@ -16,7 +16,6 @@ const router = express.Router();
 
 router.use(toolsSecurityHeaders());
 
-
 function ensureUserOnly(req, res, next) {
     if (req.isAuthenticated() && get(req, ['user', 'userType'], false) === 'user') {
         return next();
@@ -36,7 +35,7 @@ function ensureStaffOnly(req, res, next) {
 }
 
 router.get('/user-only', ensureUserOnly, (req, res) => {
-   res.send(req.user);
+    res.send(req.user);
 });
 
 router.get('/staff-only', ensureStaffOnly, (req, res) => {
@@ -81,7 +80,6 @@ router
     .route(userEndpoints.resetpassword)
     .get(auth.requireUnauthed, cached.noCache, password.changePasswordForm)
     .post(auth.requireUnauthed, formValidations.password, password.updatePassword);
-
 
 router.use('/staff', staffRoutes);
 

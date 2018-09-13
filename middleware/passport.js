@@ -92,7 +92,7 @@ module.exports = function() {
         );
     }
 
-    const makeUserObject = (user) => {
+    const makeUserObject = user => {
         return {
             userType: user.constructor.name,
             userData: user
