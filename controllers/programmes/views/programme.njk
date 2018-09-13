@@ -1,5 +1,4 @@
 {% from "components/hero.njk" import hero %}
-{% from "components/tabs.njk" import tabs %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
@@ -11,7 +10,6 @@
 {% endif %}
 
 {% block content %}
-
     <main role="main">
         {{ hero(
             titleText = title,
@@ -39,14 +37,10 @@
                 </div>
             </section>
 
-
-
             <div class="u-inner-wide-only">
                 {% if entry.contentSections.length > 1 %}
-
                     {% set tabItems = [] %}
                     {% for section in entry.contentSections -%}
-
                         {% set tabContent -%}
                             <div class="content-box content-box--frameless">
                                 <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
@@ -63,20 +57,7 @@
                         }), tabItems) %}
                     {%- endfor %}
 
-                    {#
-                        Test new content tabs macro on a single programme
-                        If everything looks OK then switch over to new tabs
-                    #}
-                    {% if entry.path === "funding/programmes/awards-from-the-uk-portfolio" %}
-                        {{ contentTabs(tabItems) }}
-                    {% else %}
-                        {{ tabs(
-                            id = entry.title | slugify,
-                            content = tabItems,
-                            showPagination = true
-                        ) }}
-                    {% endif %}
-
+                    {{ contentTabs(tabItems) }}
                 {% else %}
                     {% set section = entry.contentSections[0] %}
                     <div class="content-box content-box--borderless">
