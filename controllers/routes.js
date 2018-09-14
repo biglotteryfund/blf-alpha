@@ -126,10 +126,6 @@ const funding = {
             path: '/programmes',
             router: require('./programmes')
         },
-        programmeDetail: {
-            path: '/programmes/*',
-            template: 'pages/funding/programme-detail'
-        },
         buildingBetterOpportunities: {
             path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
             router: basicContent()
