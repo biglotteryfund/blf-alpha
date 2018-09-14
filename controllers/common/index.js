@@ -9,7 +9,6 @@ const {
     injectFlexibleContent,
     injectListingContent
 } = require('../../middleware/inject-content');
-const { isBilingual } = require('../../modules/pageLogic');
 const { isWelsh } = require('../../modules/urls');
 
 function staticPage({ template = null, caseStudies = [], disableLanguageLink = false } = {}) {
@@ -63,16 +62,9 @@ function flexibleContent(customTemplate) {
     const router = express.Router();
 
     router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
-        const { entry, breadcrumbs } = res.locals;
-        if (entry) {
+        if (res.locals.entry) {
             const template = customTemplate || path.resolve(__dirname, './views/flexible-content');
-            res.render(template, {
-                content: entry,
-                title: entry.title,
-                heroImage: entry.hero,
-                breadcrumbs: breadcrumbs,
-                isBilingual: isBilingual(entry.availableLanguages)
-            });
+            res.render(template, { content: res.locals.entry });
         } else {
             next();
         }

@@ -2,7 +2,6 @@
 const { concat, get } = require('lodash');
 const path = require('path');
 
-const { isBilingual } = require('../../modules/pageLogic');
 const { injectBreadcrumbs, injectResearch, injectResearchEntry } = require('../../middleware/inject-content');
 const appData = require('../../modules/appData');
 
@@ -99,12 +98,10 @@ module.exports = ({ router }) => {
 
     router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
         const { researchEntry } = res.locals;
-
         if (researchEntry) {
             res.render(path.resolve(__dirname, './views/research-detail'), {
                 entry: researchEntry,
-                heroImage: researchEntry.hero || res.locals.fallbackHeroImage,
-                isBilingual: isBilingual(researchEntry.availableLanguages)
+                heroImage: researchEntry.hero || res.locals.fallbackHeroImage
             });
         } else {
             next();

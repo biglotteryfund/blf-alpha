@@ -24,7 +24,6 @@ const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const { shouldServe } = require('./modules/pageLogic');
 const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
@@ -257,7 +256,8 @@ forEach(routes.sections, (section, sectionId) => {
      * Apply page/route level router if we have one.
      */
     forEach(section.pages, page => {
-        if (shouldServe(page) && page.router) {
+        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
+        if (shouldServe && page.router) {
             router.use(page.path, page.router);
         }
     });
