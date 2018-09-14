@@ -19,7 +19,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
-                    <p><strong>Big Lottery Fund offers grants of up to £500,000 for digital-native social impact organisations that have already launched promising services.</strong></p>
+                    <p><strong>Big Lottery Fund offers grants of up to £500,000 for tech for good organisations that have already launched promising services.</strong></p>
 
                     <p>Organisations that apply successfully will:</p>
                     <ul>
@@ -42,7 +42,7 @@
                         </div>
 
                         {{ stepProgress([{
-                            "title": "Book in a call",
+                            "title": "Request a call",
                             "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time"
                         }, {
                             "title": "Talk to us",
@@ -61,10 +61,10 @@
                             <header class="card__header">
                                 <h3 class="card__title">Get started</h3>
                                 <div class="card__body">
-                                    <p>We’re really interested in hearing your ideas. Please talk to us, even if you’re still at an early stage</p>
+                                    <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
 
                                     <a href="/funding/programmes/digital-funding-demo/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                                        Book in a call
+                                        Request a call
                                     </a>
                                 </div>
                             </header>
@@ -74,17 +74,6 @@
             </section>
 
             {% call contentBox(pageAccent, id='eligibility') %}
-                <h2>Digital Funding priorities</h2>
-                <p>The <a href="./">Digital Funding Programme</a> is currently planning to make awards to just two kinds of organisation:</p>
-
-                <ul>
-                    <li><strong>Strand 1: Long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens. <a href="./strand-1">Learn more</a></strong></li>
-                    <li><strong>Strand 2: Smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale</strong></li>
-                </ul>
-
-                <p>The Big Lottery Fund will also soon be commissioning digital experts to offer free assistance to hundreds of voluntary sector organisations looking to build their basic digital skills. The Digital Fund will therefore not be making grants that are focused on basic skills.
-                <a href="./alternative-funding">You can sign up for updates about free digital assistance here.</a></p>
-
                 <h2>Are you eligible for strand 2 funding?</h2>
 
                 <p>With this strand of the Digital Fund we are looking to fund smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale. It can also provide <a href="./strand-1">funding for larger organisations who would like to use digital to change their core business.</a></p>
@@ -107,9 +96,24 @@
 
                 <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
 
-                <a href="/funding/programmes/digital-funding-demo/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                    Book in a call
-                </a>
+                <p><a href="/funding/programmes/digital-funding-demo/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                    Request a call
+                </a></p>
+            {% endcall %}
+
+            {% call contentBox(pageAccent) %}
+                <h2>Does this not sound like you?</h2>
+
+                <p>Choose one of the following options instead.</p>
+
+                <p><a href="/funding/programmes/digital-funding-demo/alternative-funding"
+                    class="btn btn--medium accent--pink a--btn">
+                    We want help getting started with digital
+                </a></p>
+                <p><a href="/funding/programmes/digital-funding-demo/strand-1"
+                    class="btn btn--medium accent--blue a--btn">
+                    We want to use digital to change our core business
+                </a></p>
             {% endcall %}
         </div>
     </main>
