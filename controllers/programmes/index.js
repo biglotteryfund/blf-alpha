@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const { concat, map } = require('lodash');
+const { map } = require('lodash');
 const express = require('express');
 
 const {
@@ -94,20 +94,9 @@ if (appData.isNotProduction) {
 /**
  * Programme detail
  */
-router.get('/:slug', injectFundingProgramme, injectBreadcrumbs, (req, res, next) => {
-    const { breadcrumbs, fundingProgramme } = res.locals;
-
+router.get('/:slug', injectFundingProgramme, (req, res, next) => {
+    const { fundingProgramme } = res.locals;
     const title = fundingProgramme.summary.title;
-
-    res.locals.breadcrumbs = concat(breadcrumbs, [
-        {
-            label: req.i18n.__('funding.programmes.title'),
-            url: req.baseUrl
-        },
-        {
-            label: title
-        }
-    ]);
 
     if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
         res.render(path.resolve(__dirname, './views/programme'), {
