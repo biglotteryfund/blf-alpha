@@ -74,7 +74,7 @@ router.get('/', injectBreadcrumbs, injectFundingProgrammes, (req, res) => {
  * Programmes list: closed to applicants
  */
 if (appData.isNotProduction) {
-    router.get('/closed', injectBreadcrumbs, injectFundingProgrammes, (req, res, next) => {
+    router.get('/closed', injectBreadcrumbs, injectFundingProgrammes, (req, res) => {
         const allFundingProgrammes = res.locals.fundingProgrammes || [];
         const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
 
