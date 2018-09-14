@@ -8,7 +8,6 @@ const {
     injectFundingProgramme,
     injectFundingProgrammes
 } = require('../../middleware/inject-content');
-const { isBilingual } = require('../../modules/pageLogic');
 const appData = require('../../modules/appData');
 
 const { getValidLocation, programmeFilters } = require('./helpers');
@@ -96,14 +95,9 @@ if (appData.isNotProduction) {
  */
 router.get('/:slug', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
-    const title = fundingProgramme.summary.title;
-
     if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
         res.render(path.resolve(__dirname, './views/programme'), {
-            entry: fundingProgramme,
-            title: title,
-            heroImage: fundingProgramme.hero || res.locals.fallbackHeroImage,
-            isBilingual: isBilingual(fundingProgramme.availableLanguages)
+            entry: fundingProgramme
         });
     } else {
         next();

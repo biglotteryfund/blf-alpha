@@ -4,8 +4,11 @@ const moment = require('moment');
 const Raven = require('raven');
 
 const { localify } = require('../modules/urls');
-const { isBilingual } = require('../modules/pageLogic');
 const contentApi = require('../services/content-api');
+
+function isBilingual(availableLanguages) {
+    return availableLanguages.length === 2;
+}
 
 function getPreviewStatus(entry) {
     return {
@@ -130,7 +133,7 @@ async function injectFlexibleContent(req, res, next) {
         });
 
         res.locals.entry = entry;
-        res.locals.previewStatus = getPreviewStatus(entry);
+        setCommonLocals(res, entry);
         next();
     } catch (error) {
         next(error);
@@ -161,10 +164,13 @@ async function injectFundingProgramme(req, res, next) {
         });
 
         res.locals.fundingProgramme = entry;
+        res.locals.title = entry.summary.title;
+        res.locals.heroImage = entry.hero || res.locals.fallbackHeroImage;
+        res.locals.isBilingual = isBilingual(entry.availableLanguages);
         res.locals.previewStatus = getPreviewStatus(entry);
         next();
     } catch (error) {
-        next();
+        next(error);
     }
 }
 
@@ -265,7 +271,7 @@ async function injectBlogDetail(req, res, next) {
             res.locals.blogDetail = blogDetail;
 
             if (blogDetail.meta.pageType === 'blogpost') {
-                res.locals.previewStatus = getPreviewStatus(blogDetail.result);
+                setCommonLocals(res, blogDetail.result);
             }
 
             next();
