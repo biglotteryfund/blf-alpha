@@ -1,0 +1,76 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box content-box--tinted
+                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
+                <div class="s-prose u-constrained-content-wide">
+                    <p>Digital tools and working practices can help civil society organisations to serve people better than ever before. The digital fund makes grants of <strong>£100,000 to £500,000</strong> to help organisations to become more successful.</p>
+                </div>
+            </section>
+
+            {% call contentBox(pageAccent) %}
+                <h2>What’s it all about?</h2>
+                <p>A slightly longer description establishing what the digital fund is. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium ex nesciunt enim culpa.</p>
+                <p>At ab fugiat deserunt quae a quidem ipsam tempora? Debitis odio ipsam minus saepe aliquam quis id animi hic inventore. Nostrum unde sunt non doloremque eligendi cum, voluptatem possimus adipisci rem impedit quasi veniam accusantium libero, animi voluptatibus repellat ducimus ratione, velit officiis pariatur maxime voluptas aut ab.</p>
+                <p><a href="#">Read our post announcing this programme</a></p>
+            {% endcall %}
+
+            {% call contentBox(pageAccent, id="get-started") %}
+                <h2>Get started</h2>
+
+                <p>The Digital Fund has multiple strands of funding, each with their own eligibility criteria. Please choose one of the following options so we can provide the right guidance for you.</p>
+
+                <div class="flex-grid">
+                    <div class="flex-grid__item">
+                        <div class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">We want to use digital to change our core business</h3>
+                            </header>
+                            <div class="card__body">
+                                <p>Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward</p>
+
+                                <p><a href="/funding/programmes/digital-funding-demo/strand-1"
+                                    class="btn btn--medium accent--blue a--btn">
+                                    Find out more about this strand
+                                </a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grid__item">
+                        <div class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">We are already highly digital, and want to scale our impact</h3>
+                            </header>
+                            <div class="card__body">
+                                <p>Grants of up to £500,000 for tech for good organisations that have already launched promising services</p>
+
+
+                                <p><a href="/funding/programmes/digital-funding-demo/strand-2"
+                                    class="btn btn--medium accent--cyan a--btn">
+                                    Find out more about this strand
+                                </a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Does this not sound like you?</h2>
+
+                <p>Do you work or volunteer for a voluntary sector organisation and are looking to learn how to use apps, websites, and social media to make your work more effective? <a href="/funding/programmes/digital-funding-demo/alternative-funding">You can sign up for updates about free digital assistance here.</a></p>
+            {% endcall %}
+        </div>
+    </main>
+{% endblock %}

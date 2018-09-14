@@ -22,6 +22,12 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/alt', (req, res) => {
+    res.render(path.resolve(__dirname, './views/digital-fund-landing-alt'), {
+        title: 'Digital Funding'
+    });
+});
+
 router.get('/alternative-funding', (req, res) => {
     const title = 'Alternative funding';
     res.render(path.resolve(__dirname, './views/digital-fund-alternative-funding'), {
