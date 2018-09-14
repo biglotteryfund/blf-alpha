@@ -121,7 +121,8 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
     if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
         res.render(path.resolve(__dirname, './views/programme'), {
-            entry: fundingProgramme
+            entry: fundingProgramme,
+            breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
         });
     } else {
         next();
