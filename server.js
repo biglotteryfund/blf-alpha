@@ -234,7 +234,7 @@ forEach(routes.sections, (section, sectionId) => {
      * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        router.route(page.path).all(injectCopy(page), injectHeroImage(page.heroSlug), (req, res, next) => {
+        router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });

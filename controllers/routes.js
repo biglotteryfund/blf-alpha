@@ -124,15 +124,7 @@ const funding = {
         },
         programmes: {
             path: '/programmes',
-            lang: 'funding.programmes',
-            heroSlug: 'the-young-foundation',
-            queryStrings: ['location', 'amount', 'min', 'max'],
             router: require('./programmes')
-        },
-        programmesClosed: {
-            path: '/programmes/closed',
-            lang: 'funding.programmesClosed',
-            heroSlug: 'the-young-foundation'
         },
         programmeDetail: {
             path: '/programmes/*',
