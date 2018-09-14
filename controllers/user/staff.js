@@ -4,10 +4,17 @@ const passport = require('passport');
 const path = require('path');
 const router = express.Router();
 
-const auth = require('../../middleware/authed');
+// const auth = require('../../middleware/authed');
+const cached = require('../../middleware/cached');
 const { AZURE_AUTH } = require('../../modules/secrets');
 
-router.get('/', (req, res) => {
+
+router.get('/lol', (req, res) => {
+    res.redirect('/user/staff');
+});
+
+router.get('/', cached.noCache, (req, res) => {
+    console.log('req for /user/staff');
     // @TODO when the user is sent here after auth,
     // req.user / req.isAuthenticated are falsey
     // but a reload means they work... hmm.
@@ -31,52 +38,97 @@ router.get('/', (req, res) => {
     }
 });
 
-// router.get('/login', auth.staffAuthMiddlewareLogin, (req, res) => {
-//     console.log('### login path GET');
-//     res.redirect('/user/staff');
-// });
 
 router.get(
     '/login',
+    cached.noCache,
     function(req, res, next) {
         passport.authenticate('azuread-openidconnect', {
             response: res,
-            failureRedirect: '/user/staff/error'
+            failureRedirect: '/user/staff/error',
+            successRedirect: '/user/staff/lol'
         })(req, res, next);
-    },
-    function(req, res) {
-        res.redirect('/user/staff');
-    }
-);
+    });
 
-// router.get('/auth/openid/return', auth.staffAuthMiddleware, (req, res) => {
+
+// router.get('/auth/openid/return', cached.noCache, auth.staffAuthMiddleware, (req, res) => {
 //     console.log('### return path GET');
 //     res.redirect('/user/staff');
 // });
 
-// router.post('/auth/openid/return', auth.staffAuthMiddleware, (req, res) => {
+// router.post('/auth/openid/return', cached.noCache, auth.staffAuthMiddleware, (req, res) => {
 //     console.log('### return path POST');
 //     res.redirect('/user/staff');
 // });
 
-router.post('/auth/openid/return', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), function(
-    req,
-    res
-) {
-    console.log('### return path POST');
-    req.session.save(() => {
-        res.redirect('/user/staff');
-    });
-});
+// router.post('/auth/openid/return',
+//     cached.noCache,
+//     passport.authenticate('azuread-openidconnect', {
+//         failureRedirect: '/',
+//         successRedirect: '/user/staff?from=test'
+//     }, function(err, user, info) {
+//         console.log({
+//             err,
+//             user,
+//             info
+//         });
+//     }),
+//     function(req, res) {
+//         console.log('### return path POST');
+//         req.session.save(() => {
+//             res.redirect('/user/staff?from=post');
+//         });
+// });
 
-router.get('/logout', (req, res) => {
+router.post('/auth/openid/return',
+    cached.noCache,
+    function(req, res, next) {
+        passport.authenticate('azuread-openidconnect', {
+            response: res,
+            failureRedirect: '/user/staff/error',
+            successRedirect: '/user/staff?from=postsuccess'
+        }, function(err, user) {
+            if (err) { return next(err); }
+            if (!user) {
+                return res.redirect("/user/login");
+            }
+
+            req.login(user, {}, function(err) {
+                console.log('got a user and logged in');
+                if (err) { return next(err); }
+                req.session.user = user;
+                return req.session.save(() => {
+                    return res.redirect('/user/staff/lol');
+                });
+            });
+        })(req, res, next);
+        // return;
+    }
+);
+
+
+
+// router.post('/auth/openid/return',
+//     cached.noCache,
+//     passport.authenticate('azuread-openidconnect', {
+//         failureRedirect: '/',
+//         successRedirect: '/user/staff?from=test'
+//     }),
+//     function(req, res) {
+//         console.log('### return path POST');
+//         req.session.save(() => {
+//             res.redirect('/user/staff?from=post');
+//         });
+// });
+
+router.get('/logout', cached.noCache, (req, res) => {
     req.session.destroy(() => {
         req.logOut();
         res.redirect(AZURE_AUTH.MS_DESTROY_URL);
     });
 });
 
-router.get('/error', (req, res) => {
+router.get('/error', cached.noCache, (req, res) => {
     res.render(path.resolve(__dirname, 'views/error'), {});
 });
 

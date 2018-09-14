@@ -57,7 +57,7 @@ module.exports = function() {
                     issuer: null,
                     passReqToCallback: false,
                     scope: null,
-                    loggingLevel: 'info',
+                    loggingLevel: 'warn',
                     nonceLifetime: null,
                     nonceMaxAmount: 5,
                     useCookieInsteadOfSession: true,
@@ -69,7 +69,7 @@ module.exports = function() {
                     }
                     // @TODO do we need this?
                     // asynchronous verification, for effect...
-                    process.nextTick(() => {
+                    // process.nextTick(() => {
                         userService.findStaffUser(profile.oid, (err, user) => {
                             if (err) {
                                 return done(err);
@@ -86,7 +86,7 @@ module.exports = function() {
                             }
                             return done(null, user);
                         });
-                    });
+                    // });
                 }
             )
         );
@@ -100,10 +100,12 @@ module.exports = function() {
     };
 
     passport.serializeUser((user, cb) => {
+        console.log('### SERIALIZING USER');
         cb(null, makeUserObject(user));
     });
 
     passport.deserializeUser((user, cb) => {
+        console.log('### DEEEEEESERIALIZING USER');
         if (user.userType === 'user') {
             userService
                 .findById(user.userData.id)
