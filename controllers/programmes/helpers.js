@@ -1,16 +1,16 @@
 'use strict';
-const { find, get, uniq, toString } = require('lodash');
-const queryString = require('query-string');
+const { find, get, uniq } = require('lodash');
+
+function getValidLocation(programmes, requestedLocation) {
+    const validLocations = programmes
+        .map(programme => get(programme, 'content.area.value', false))
+        .filter(location => location !== false);
+
+    const uniqLocations = uniq(validLocations);
+    return find(uniqLocations, location => location === requestedLocation);
+}
 
 const programmeFilters = {
-    getValidLocation(programmes, requestedLocation) {
-        const validLocations = programmes
-            .map(programme => get(programme, 'content.area.value', false))
-            .filter(location => location !== false);
-
-        const uniqLocations = uniq(validLocations);
-        return find(uniqLocations, location => location === requestedLocation);
-    },
     filterByLocation(locationValue) {
         return function(programme) {
             if (!locationValue) {
@@ -45,31 +45,7 @@ const programmeFilters = {
     }
 };
 
-function reformatQueryString({ originalAreaQuery, originalAmountQuery }) {
-    originalAreaQuery = toString(originalAreaQuery).toLowerCase();
-    originalAmountQuery = toString(originalAmountQuery).toLowerCase();
-
-    let newQuery = {};
-    if (originalAreaQuery) {
-        newQuery.location = {
-            england: 'england',
-            'northern ireland': 'northernIreland',
-            scotland: 'scotland',
-            wales: 'wales',
-            'uk-wide': 'ukWide'
-        }[originalAreaQuery];
-    }
-
-    if (originalAmountQuery && originalAmountQuery === 'up to 10000') {
-        newQuery.max = '10000';
-    } else if (originalAmountQuery && originalAmountQuery !== 'up to 10000') {
-        newQuery.min = '10000';
-    }
-
-    return queryString.stringify(newQuery);
-}
-
 module.exports = {
-    programmeFilters,
-    reformatQueryString
+    getValidLocation,
+    programmeFilters
 };

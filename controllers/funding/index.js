@@ -1,21 +1,33 @@
 'use strict';
+const path = require('path');
+const express = require('express');
+const { find, get } = require('lodash');
 
-const programmesRoute = require('../programmes');
-const materials = require('../materials');
+const { injectFundingProgrammes } = require('../../middleware/inject-content');
+const { sMaxAge } = require('../../middleware/cached');
 
-module.exports = ({ router, pages }) => {
+const router = express.Router();
+
+router.get('/', sMaxAge('30m'), injectFundingProgrammes, (req, res) => {
+    const { copy, fundingProgrammes } = res.locals;
+
     /**
-     * Funding programmes
+     * "Latest" programmes
+     * Hardcoded for now but we may want to fetch these dynamically.
      */
-    programmesRoute.init({
-        router: router,
-        routeConfigs: pages
+    function getLatestProgrammes(programmes) {
+        if (programmes) {
+            const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
+            const programmeSlugs = get(copy, 'recentProgrammes', []);
+            return programmeSlugs.map(findBySlug);
+        } else {
+            return [];
+        }
+    }
+
+    res.render(path.resolve(__dirname, './views/funding-landing'), {
+        latestProgrammes: getLatestProgrammes(fundingProgrammes)
     });
+});
 
-    /**
-     * Free materials
-     */
-    router.use(pages.fundingGuidanceMaterials.path, materials(pages.fundingGuidanceMaterials));
-
-    return router;
-};
+module.exports = router;

@@ -79,16 +79,12 @@ const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
-    controller: function(options) {
-        return require('./funding')(options);
-    },
     pages: {
         root: {
             path: '/',
             lang: 'toplevel.funding',
             heroSlug: 'active-plus-communities',
-            // @TODO: When PR#1274 has been merged remove extra path
-            router: require('./funding/funding')
+            router: require('./funding')
         },
         rootTest: {
             path: '/test',
@@ -128,10 +124,15 @@ const funding = {
         },
         programmes: {
             path: '/programmes',
-            template: 'pages/funding/programmes',
             lang: 'funding.programmes',
             heroSlug: 'the-young-foundation',
-            queryStrings: ['location', 'amount', 'min', 'max']
+            queryStrings: ['location', 'amount', 'min', 'max'],
+            router: require('./programmes')
+        },
+        programmesClosed: {
+            path: '/programmes/closed',
+            lang: 'funding.programmesClosed',
+            heroSlug: 'the-young-foundation'
         },
         programmeDetail: {
             path: '/programmes/*',
@@ -148,6 +149,10 @@ const funding = {
         strategicInvestments: {
             path: '/strategic-investments',
             router: require('./strategic-investments')
+        },
+        fundingFinder: {
+            path: '/funding-finder',
+            router: require('./funding-finder')
         },
         pastGrants: {
             path: '/past-grants',
@@ -172,7 +177,7 @@ const funding = {
         },
         fundingGuidanceMaterials: {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials'
+            router: require('./materials')
         },
         fundingGuidance: {
             path: '/funding-guidance/*',
