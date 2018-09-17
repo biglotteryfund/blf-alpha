@@ -6,8 +6,9 @@ const router = express.Router();
 const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const { requireAuthedLevel } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
+const { noindex } = require('../../middleware/robots');
 
-router.use(noCache, toolsSecurityHeaders());
+router.use(noCache, noindex, toolsSecurityHeaders());
 
 /**************************************
  * Public / Unauthed Tools

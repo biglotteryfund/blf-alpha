@@ -29,15 +29,12 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/robots.txt', noCache, (req, res) => {
-    const blacklist = ['/sitecore/', '/internalcontent/', '/tools/', '/patterns', '/surveys/', '/user/'];
-
-    // Block blacklisted urls in production, otherwise block all
-    const pathsToBlock = req.get('host') === config.get('siteDomain') ? blacklist : ['/'];
+    const isProductionDomain = req.get('host') === config.get('siteDomain');
 
     const text = [
         `User-agent: *`,
         `Sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
-        `${pathsToBlock.map(urlPath => `Disallow: ${urlPath}`).join('\n')}`
+        `${isProductionDomain === true ? '' : 'Disallow /'}`
     ].join('\n');
 
     res.setHeader('Content-Type', 'text/plain');
@@ -69,4 +66,3 @@ router.get('/sitemap.xml', sMaxAge('30m'), async (req, res, next) => {
 });
 
 module.exports = router;
-
