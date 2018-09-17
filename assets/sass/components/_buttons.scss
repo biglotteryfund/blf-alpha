@@ -42,7 +42,6 @@ $btnConf: (
     font-weight: 500;
     background-color: palette('blue');
     color: #ffffff;
-    text-align: center;
     text-decoration: none;
     border: none;
     border-radius: 50px;
@@ -53,6 +52,10 @@ $btnConf: (
     @include getBtnVertPadding(map-get($btnConf, 'default'));
     padding-left: $spacingUnit;
     padding-right: $spacingUnit;
+
+    @include mq('medium') {
+        text-align: center;
+    }
 
     @include mq('large') {
         padding-right: $spacingUnit * 1.5;
