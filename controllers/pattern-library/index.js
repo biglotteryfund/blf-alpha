@@ -1,10 +1,13 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { capitalize, concat } = require('lodash');
-const express = require('express');
-const router = express.Router();
 const globby = require('globby');
+const express = require('express');
+const { capitalize, concat } = require('lodash');
+
+const { noindex } = require('../../middleware/robots');
+
+const router = express.Router();
 
 function buildBreadcrumbs(req, trail = []) {
     const core = [
@@ -16,6 +19,8 @@ function buildBreadcrumbs(req, trail = []) {
 
     return concat(core, trail);
 }
+
+router.use(noindex);
 
 router.get('/', (req, res) => {
     const breadcrumbs = buildBreadcrumbs(req);

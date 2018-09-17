@@ -5,6 +5,8 @@ const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
 const { userBasePath, userEndpoints, emailPasswordValidations, formValidations, STATUSES } = require('./utils');
 const auth = require('../../middleware/authed');
 const cached = require('../../middleware/cached');
+const { noindex } = require('../../middleware/robots');
+
 const dashboard = require('./dashboard');
 const login = require('./login');
 const password = require('./password');
@@ -12,7 +14,7 @@ const register = require('./register');
 
 const router = express.Router();
 
-router.use(toolsSecurityHeaders());
+router.use(noindex, toolsSecurityHeaders());
 
 // serve a logged-in user's dashboard
 router.get(userEndpoints.dashboard, cached.noCache, auth.requireAuthed, dashboard.dashboard);
