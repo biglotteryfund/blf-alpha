@@ -1,5 +1,6 @@
 'use strict';
 const passport = require('passport');
+const path = require('path');
 const { makeErrorList, makeUserLink, STATUSES } = require('./utils');
 
 // try to validate a user's login request
@@ -38,10 +39,25 @@ const attemptAuth = (req, res, next) =>
 
 const loginForm = (req, res) => {
     res.locals.STATUSES = STATUSES;
-    res.render('user/login', {
+
+    let alertMessage;
+    switch (req.query.s) {
+        case STATUSES.LOGGED_OUT:
+            alertMessage = 'You were successfully logged out.';
+            break;
+        case STATUSES.PASSWORD_UPDATED:
+            alertMessage = 'Your password was successfully updated! Please log in below.';
+            break;
+        case STATUSES.PASSWORD_RESET_REQUESTED:
+            alertMessage =
+                'Password reset requested. If the email address entered is correct, you will receive further instructions via email.';
+            break;
+    }
+
+    res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),
         makeUserLink: makeUserLink,
-        status: req.query.s || false
+        alertMessage: alertMessage
     });
 };
 

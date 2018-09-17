@@ -1,9 +1,10 @@
 'use strict';
+const path = require('path');
 const { makeUserLink, STATUSES } = require('./utils');
 
 const dashboard = (req, res) => {
     res.locals.STATUSES = STATUSES;
-    res.render('user/dashboard', {
+    res.render(path.resolve(__dirname, './views/dashboard'), {
         user: req.user,
         makeUserLink: makeUserLink,
         errors: res.locals.errors || [],

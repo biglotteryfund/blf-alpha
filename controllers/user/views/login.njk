@@ -4,32 +4,17 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-
-    {{ listErrors() }}
-
-    {% set justLoggedOut = status === STATUSES.LOGGED_OUT %}
-    {% set passwordUpdated = status === STATUSES.PASSWORD_UPDATED %}
-    {% set passwordResetRequested = status === STATUSES.PASSWORD_RESET_REQUESTED %}
-
-    {% if justLoggedOut %}
-        <div class="alert alert-success" role="alert">
-            <p>You were successfully logged out.</p>
-        </div>
-    {% endif %}
-
-    {% if passwordUpdated or passwordResetRequested %}
-        <div class="alert alert-warning" role="alert">
-            {% if passwordUpdated %}
-                <p>Your password was successfully updated! Please log in below.</p>
-            {% endif %}
-            {% if passwordResetRequested %}
-                <p>Your password reset request was sent to your registered email address.</p>
-            {% endif %}
+    {% if alertMessage %}
+        <div class="alert alert-info" role="alert">
+            {{ alertMessage }}
         </div>
     {% endif %}
 
     <h1>Log in</h1>
-    <form action="{{ makeUserLink('login') }}" method="post">
+
+    <form action="{{ makeUserLink('login') }}" method="post" autocomplete="off">
+        {{ listErrors() }}
+
         {% if csrfToken %}
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
         {% endif %}
@@ -59,6 +44,6 @@
             <input type="submit" class="btn btn-primary" value="Log in" />
             or <a href="{{ makeUserLink('register') }}">register</a>
         </div>
-        <small><a href="{{ makeUserLink('requestpasswordreset') }}">Forgotten your password?</a></small>
+        <small><a href="/user/forgotten-password">Forgotten your password?</a></small>
     </form>
 {% endblock %}

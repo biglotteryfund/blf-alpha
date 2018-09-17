@@ -9,7 +9,6 @@ const { noindex } = require('../../middleware/robots');
 
 const dashboard = require('./dashboard');
 const login = require('./login');
-const password = require('./password');
 const register = require('./register');
 
 const router = express.Router();
@@ -44,15 +43,8 @@ router.get(userEndpoints.logout, cached.noCache, (req, res) => {
 router.get(userEndpoints.activate, cached.noCache, auth.requireAuthed, register.activateUser);
 
 // request a password reset email
-router
-    .route(userEndpoints.requestpasswordreset)
-    .get(auth.requireUnauthed, cached.noCache, password.requestResetForm)
-    .post(auth.requireUnauthed, formValidations.emailAddress, password.sendResetEmail);
+router.use('/forgotten-password', require('./forgotten-password'));
 
-// change a password (with a token)
-router
-    .route(userEndpoints.resetpassword)
-    .get(auth.requireUnauthed, cached.noCache, password.changePasswordForm)
-    .post(auth.requireUnauthed, formValidations.password, password.updatePassword);
+router.use('/reset-password', require('./reset-password'));
 
 module.exports = router;

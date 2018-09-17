@@ -104,7 +104,7 @@ function defaultSecurityHeaders() {
 
 function toolsSecurityHeaders() {
     return buildSecurityMiddleware({
-        defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
+        defaultSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
     });
 }
 
