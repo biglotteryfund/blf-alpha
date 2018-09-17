@@ -1,43 +1,15 @@
 'use strict';
-const passport = require('passport');
 const path = require('path');
-const { makeErrorList, makeUserLink, STATUSES } = require('./utils');
+const express = require('express');
+const passport = require('passport');
 
-// try to validate a user's login request
-// @TODO consider rate limiting?
-const attemptAuth = (req, res, next) =>
-    passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            return next(err);
-        } else {
-            req.logIn(user, loginErr => {
-                if (loginErr) {
-                    // user not valid, send them to login again
-                    res.locals.errors = makeErrorList(info.message);
-                    res.locals.formValues = req.body;
-                    return loginForm(req, res);
-                } else {
-                    // user is valid, send them on
-                    let redirectUrl = makeUserLink('dashboard');
+const router = express.Router();
 
-                    if (req.body.redirectUrl) {
-                        redirectUrl = req.body.redirectUrl;
-                    } else if (req.session.redirectUrl) {
-                        redirectUrl = req.session.redirectUrl;
-                        delete req.session.redirectUrl;
-                    } else if (res.locals.newStatus) {
-                        redirectUrl += `?s=${res.locals.newStatus}`;
-                    }
+const { csrfProtection } = require('../../middleware/cached');
+const { requireUnauthed } = require('../../middleware/authed');
+const { STATUSES } = require('./helpers');
 
-                    req.session.save(() => {
-                        res.redirect(redirectUrl);
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-
-const loginForm = (req, res) => {
+function renderForm(req, res) {
     res.locals.STATUSES = STATUSES;
 
     let alertMessage;
@@ -56,12 +28,47 @@ const loginForm = (req, res) => {
 
     res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),
-        makeUserLink: makeUserLink,
         alertMessage: alertMessage
     });
-};
+}
 
-module.exports = {
-    attemptAuth,
-    loginForm
-};
+// @TODO consider rate limiting?
+function handleLogin(req, res, next) {
+    return passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        } else {
+            req.logIn(user, loginErr => {
+                if (loginErr) {
+                    // User not valid, send them to login again
+                    res.locals.errors = [{ msg: info.message }];
+                    res.locals.formValues = req.body;
+                    return renderForm(req, res);
+                } else {
+                    // User is valid, send them on
+                    let redirectUrl = '/user';
+                    if (req.body.redirectUrl) {
+                        redirectUrl = req.body.redirectUrl;
+                    } else if (req.session.redirectUrl) {
+                        redirectUrl = req.session.redirectUrl;
+                        delete req.session.redirectUrl;
+                    } else if (res.locals.newStatus) {
+                        redirectUrl += `?s=${res.locals.newStatus}`;
+                    }
+
+                    req.session.save(() => {
+                        res.redirect(redirectUrl);
+                    });
+                }
+            });
+        }
+    })(req, res, next);
+}
+
+router
+    .route('/')
+    .all(csrfProtection, requireUnauthed)
+    .get(renderForm)
+    .post(handleLogin);
+
+module.exports = router;

@@ -1,0 +1,10 @@
+{% extends "controllers/tools/views/layout.njk" %}
+
+{% block title %}Activate{% endblock %}
+
+{% block content %}
+    <h1>Activate</h1>
+    <div class="alert alert-info" role="alert">
+        Your activation link was invalid or has expired. <a href="/user/activate">Please try again</a>.
+    </div>
+{% endblock %}

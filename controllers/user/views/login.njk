@@ -12,8 +12,8 @@
 
     <h1>Log in</h1>
 
-    <form action="{{ makeUserLink('login') }}" method="post" autocomplete="off">
-        {{ listErrors() }}
+    <form action="" method="post" autocomplete="off">
+        {{ listErrors(errors) }}
 
         {% if csrfToken %}
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -24,7 +24,6 @@
             <input type="email"
                    class="form-control"
                    id="username"
-                   placeholder="Your email address"
                    name="username"
                    required
                    aria-required="true"
@@ -35,14 +34,13 @@
             <input type="password"
                    class="form-control"
                    id="password"
-                   placeholder="Your password"
                    name="password"
                    required
                    aria-required="true">
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Log in" />
-            or <a href="{{ makeUserLink('register') }}">register</a>
+            or <a href="/user/register">register</a>
         </div>
         <small><a href="/user/forgotten-password">Forgotten your password?</a></small>
     </form>

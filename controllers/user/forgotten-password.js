@@ -3,6 +3,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
+const Raven = require('raven');
 
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
@@ -10,7 +11,7 @@ const { noCache } = require('../../middleware/cached');
 const { purifyUserInput } = require('../../modules/validators');
 const { requireUnauthed } = require('../../middleware/authed');
 const { sendEmail } = require('../../services/mail');
-const { trackError, formValidations } = require('./utils');
+const { validators } = require('./helpers');
 const userService = require('../../services/user');
 
 const router = express.Router();
@@ -60,7 +61,7 @@ async function handleRequestReset(req, res) {
 
             renderRequestReset(req, res);
         } catch (error) {
-            trackError(error);
+            Raven.captureException(error);
             renderRequestReset(req, res);
         }
     } else {
@@ -75,6 +76,6 @@ router
     .route('/')
     .all(requireUnauthed)
     .get(noCache, renderRequestReset)
-    .post(formValidations.emailAddress, handleRequestReset);
+    .post(validators.emailAddress, handleRequestReset);
 
 module.exports = router;

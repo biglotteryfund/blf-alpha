@@ -6,10 +6,10 @@ const express = require('express');
 
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const { noCache } = require('../../middleware/cached');
-const { requireUnauthed, STATUSES } = require('../../middleware/authed');
+const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
-const { formValidations } = require('./utils');
+const { validators, STATUSES } = require('./helpers');
 
 const router = express.Router();
 
@@ -68,7 +68,7 @@ router
             renderFormExpired(req, res);
         }
     })
-    .post(formValidations.password, async (req, res) => {
+    .post(validators.password, async (req, res) => {
         const changePasswordToken = req.body.token;
 
         if (!changePasswordToken) {
