@@ -93,7 +93,6 @@ module.exports = strandNumber => {
         subtitle:
             'The <a href="/funding/programmes/digital-funding-demo">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
-        heroSlug: 'whizz-kidz',
         shortCode: `DF${strandNumber}-ALPHA`,
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,

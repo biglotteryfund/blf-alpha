@@ -7,7 +7,13 @@ const router = express.Router();
 
 router.use((req, res, next) => {
     res.locals.isBilingual = false;
-    res.locals.heroImage = res.locals.fallbackHeroImage;
+    res.locals.heroImage = {
+        small: '/assets/images/hero/blank-small.jpg',
+        medium: '/assets/images/hero/blank-medium.jpg',
+        large: '/assets/images/hero/blank-large.jpg',
+        default: '/assets/images/hero/blank-medium.jpg'
+    };
+
     const routerCrumb = {
         label: 'Digital Funding',
         url: req.baseUrl
@@ -29,7 +35,7 @@ router.get('/alt', (req, res) => {
 });
 
 router.get('/alternative-funding', (req, res) => {
-    const title = 'Alternative funding';
+    const title = 'Help getting started with digital';
     res.render(path.resolve(__dirname, './views/digital-fund-alternative-funding'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
@@ -37,10 +43,10 @@ router.get('/alternative-funding', (req, res) => {
 });
 
 router.get('/strand-1', (req, res) => {
-    const title = 'Digital Funding: Strand 1';
+    const title = 'Using digital to change your business';
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 1' }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
     });
 });
 
@@ -48,37 +54,45 @@ router.get('/strand-1/eligibility', (req, res) => {
     const title = 'Request a call';
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1-eligibility'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 1', url: './' }, { label: 'Request a call' }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: 'Using digital to change your business', url: './' },
+            { label: title }
+        ])
     });
 });
 
 router.get('/strand-1/eligibility/no', (req, res) => {
-    const title = 'Digital Funding: Strand 1 Eligibility';
+    const title = 'Request a call';
     res.render(path.resolve(__dirname, './views/digital-fund-strand-1-no'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 1', url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: 'Using digital to change your business', url: './' },
+            { label: title }
+        ])
     });
 });
 
 router.get('/strand-2', (req, res) => {
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2'), {
-        title: 'Digital Funding: Strand 2',
+        title: 'Using digital to scale your impact',
         heroImage: res.locals.heroImage,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 2' }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact' }])
     });
 });
 
 router.get('/strand-2/eligibility', (req, res) => {
+    const title = 'Request a call';
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2-eligibility'), {
-        title: 'Digital Funding: Strand 2 Eligibility',
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 2', url: './' }, { label: 'Eligibility' }])
+        title: title,
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact', url: './' }, { label: title }])
     });
 });
 
 router.get('/strand-2/eligibility/no', (req, res) => {
+    const title = 'Request a call';
     res.render(path.resolve(__dirname, './views/digital-fund-strand-2-no'), {
-        title: 'Digital Funding: Strand 2 Eligibility',
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Strand 2', url: './' }, { label: 'Eligibility' }])
+        title: title,
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact', url: './' }, { label: title }])
     });
 });
 
