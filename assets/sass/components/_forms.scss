@@ -503,34 +503,4 @@
         display: inline-block;
         vertical-align: middle;
     }
-
-    .post-submit {
-        display: none;
-    }
-
-    &.is-submitted {
-        .pre-submit {
-            display: none;
-        }
-        .post-submit {
-            display: block;
-        }
-    }
-
-    .post-submit__text {
-        font-size: 16px;
-    }
-
-    .post-submit__text,
-    .post-submit__icon {
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .post-submit__icon svg {
-        margin-left: $spacingUnit * 2;
-        $iconDimension: 50px;
-        width: $iconDimension;
-        height: $iconDimension;
-    }
 }

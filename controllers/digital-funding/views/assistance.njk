@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/form-fields.njk" import formErrors with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -15,13 +16,32 @@
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
-                <div class="s-prose u-constrained-content-wide">
+                <div class="s-prose u-constrained-wide">
                     <p><strong>Do you work or volunteer for a voluntary sector organisation and are looking to learn how to use apps, websites, and social media to make your work more effective?</strong></p>
 
                     <p>We are not currently making grants that are focused on basic skills but we will soon be commissioning experts to offer free assistance to hundreds of organisations in this position. If you’d like us to email you when the offer of free assistance is available, please enter your email address below.</p>
 
-                    <form class="email-signup u-constrained js-email-signup">
-                        <div class="pre-submit">
+                    {% if status === 'SUBMISSION_SUCCESS' %}
+                        <div class="email-signup">
+                            <div class="submission-message">
+                                <div class="submission-message__icon">
+                                    {{ iconTick() }}
+                                </div>
+                                <div class="submission-message__text">
+                                    <p><strong>Thanks for signing up</strong></p>
+                                    <p>We'll be in touch soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% if status === 'SUBMISSION_ERROR' %}
+                            <div class="message" role="alert">
+                                There was a problem with your submission, please try again.
+                            </div>
+                        {% endif %}
+
+                        <form class="email-signup" method="post" action="">
+                            {{ formErrors(errors) }}
                             <label for="email" class="ff-label">
                                 Email address
                             </label>
@@ -34,19 +54,11 @@
                                     class="ff-text ff-text--inline"
                                     size="30"/>
                             <input type="submit"
-                                   value="Submit"
-                                   class="btn btn--small accent--blue a--btn js-email-signup-trigger" />
-                        </div>
-                        <div class="post-submit">
-                            <div class="post-submit__text">
-                                <p class="u-no-margin"><strong>Thanks for signing up</strong></p>
-                                <p class="u-no-margin">We'll be in touch soon</p>
-                            </div>
-                            <div class="post-submit__icon">
-                                {{ iconTick() }}
-                            </div>
-                        </div>
-                    </form>
+                                value="Submit"
+                                class="btn btn--small accent--blue a--btn js-email-signup-trigger" />
+                        </form>
+                    {% endif %}
+
                 </div>
             </section>
 
@@ -73,11 +85,11 @@
                     <h2>Not sure this is for you?</h2>
 
                     <p>Choose one of the following options instead.</p>
-                    <p><a href="/funding/programmes/digital-funding-demo/strand-1"
+                    <p><a href="/funding/programmes/digital-funding/strand-1"
                         class="btn btn--medium accent--blue a--btn">
                         We want to use digital to change our business
                     </a></p>
-                    <p><a href="/funding/programmes/digital-funding-demo/strand-2"
+                    <p><a href="/funding/programmes/digital-funding/strand-2"
                         class="btn btn--medium accent--cyan a--btn">
                         We are already highly digital, and want to scale our impact
                     </a></p>

@@ -380,7 +380,7 @@ describe('e2e', function() {
 
     it('should submit a digital funding application form', () => {
         const submitSelector = '.js-application-form input[type="submit"]';
-        cy.visit('/apply/digital-funding-demo-1/1/');
+        cy.visit('/apply/digital-funding-1/1/');
 
         // Step 1
         cy.get('#field-name').type('Anne Example', { delay: 0 });

@@ -19,6 +19,40 @@
 }
 
 /* =========================================================================
+   Submission Message
+   ========================================================================= */
+
+.submission-message {
+    .submission-message__text {
+        font-size: 16px;
+
+        > p {
+            margin-bottom: 3px;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .submission-message__text,
+    .submission-message__icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .submission-message__icon {
+        margin-right: $spacingUnit;
+    }
+
+    .submission-message__icon svg {
+        $iconDimension: 50px;
+        width: $iconDimension;
+        height: $iconDimension;
+    }
+}
+
+/* =========================================================================
    Messages: Preview Banner
    ========================================================================= */
 

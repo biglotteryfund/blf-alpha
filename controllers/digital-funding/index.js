@@ -2,10 +2,11 @@
 const express = require('express');
 const path = require('path');
 const { concat } = require('lodash');
+const { injectBreadcrumbs } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.use((req, res, next) => {
+router.use(injectBreadcrumbs, (req, res, next) => {
     res.locals.isBilingual = false;
     res.locals.heroImage = {
         small: '/assets/images/hero/blank-small.jpg',
@@ -14,33 +15,26 @@ router.use((req, res, next) => {
         default: '/assets/images/hero/blank-medium.jpg'
     };
 
-    const routerCrumb = {
-        label: 'Digital Funding',
-        url: req.baseUrl
-    };
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [routerCrumb]);
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
+        {
+            label: req.i18n.__('funding.programmes.title'),
+            url: req.baseUrl
+        },
+        {
+            label: 'Digital Funding',
+            url: req.baseUrl
+        }
+    ]);
     next();
 });
 
 router.get('/', (req, res) => {
-    res.render(path.resolve(__dirname, './views/digital-fund-landing'), {
+    res.render(path.resolve(__dirname, './views/landing'), {
         title: 'Digital Funding'
     });
 });
 
-router.get('/alt', (req, res) => {
-    res.render(path.resolve(__dirname, './views/digital-fund-landing-alt'), {
-        title: 'Digital Funding'
-    });
-});
-
-router.get('/alternative-funding', (req, res) => {
-    const title = 'Help getting started with digital';
-    res.render(path.resolve(__dirname, './views/digital-fund-alternative-funding'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
-    });
-});
+router.use('/assistance', require('./digital-assistance'));
 
 router.get('/strand-1', (req, res) => {
     const title = 'Using digital to change your business';

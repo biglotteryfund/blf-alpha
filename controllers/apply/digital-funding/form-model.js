@@ -91,13 +91,13 @@ module.exports = strandNumber => {
         id: `digital-funding-strand-${strandNumber}`,
         title: `Digital Funding Strand ${strandNumber} (Demo)`,
         subtitle:
-            'The <a href="/funding/programmes/digital-funding-demo">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
+            'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
         shortCode: `DF${strandNumber}-ALPHA`,
         steps: strandSteps[`strand${strandNumber}`],
         processor: processor,
         startPage: {
-            urlPath: `/funding/programmes/digital-funding-demo/strand-${strandNumber}`
+            urlPath: `/funding/programmes/digital-funding/strand-${strandNumber}`
         },
         reviewStep: {
             title: 'Check this is right before submitting your information',

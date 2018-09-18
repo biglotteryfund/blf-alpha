@@ -2,6 +2,7 @@
 const config = require('config');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:newsletter-service');
+const raven = require('raven');
 
 const metrics = require('../modules/metrics');
 const { DOTMAILER_API } = require('../modules/secrets');
@@ -36,6 +37,7 @@ function subscribe({ addressBookId, subscriptionData }) {
             });
             return response;
         } else {
+            raven.captureMessage(response.message);
             throw new Error(response.message);
         }
     });

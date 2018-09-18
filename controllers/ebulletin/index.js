@@ -1,11 +1,9 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const Raven = require('raven');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const { customEvent } = require('../../modules/analytics');
 const { FORM_STATES } = require('../../modules/forms');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
@@ -37,20 +35,32 @@ const formValidators = [
         .withMessage(translateError('location'))
 ];
 
-function renderForm({ res, formStatus = FORM_STATES.NOT_SUBMITTED, formData = null, formErrors = [] }) {
-    res.render(path.resolve(__dirname, './views/ebulletin'), {
-        status: formStatus,
-        data: formData,
-        errors: formErrors
-    });
+function buildSubscriptionData(formData) {
+    const subscriptionData = {
+        email: formData.email,
+        emailType: 'Html',
+        dataFields: [
+            { key: 'FIRSTNAME', value: formData.firstName },
+            { key: 'LASTNAME', value: formData.lastName },
+            { key: formData.location, value: 'yes' }
+        ]
+    };
+
+    if (formData.organisation) {
+        subscriptionData.dataFields.push({ key: 'ORGANISATION', value: formData.organisation });
+    }
+
+    return subscriptionData;
+}
+
+function renderForm(req, res) {
+    res.render(path.resolve(__dirname, './views/ebulletin'));
 }
 
 router
     .route('/')
     .all(cached.noCache)
-    .get((req, res) => {
-        renderForm({ res });
-    })
+    .get(renderForm)
     .post(formValidators, async (req, res) => {
         for (let key in req.body) {
             req.body[key] = purifyUserInput(req.body[key]);
@@ -59,51 +69,25 @@ router
         const formData = matchedData(req);
         const formErrors = validationResult(req);
 
+        res.locals.data = formData;
+
         if (formErrors.isEmpty()) {
-            const handleSignupError = errMsg => {
-                Raven.captureMessage(errMsg || 'Error with ebulletin');
-                renderForm({
-                    res: res,
-                    formStatus: FORM_STATES.SUBMISSION_ERROR,
-                    formData: formData
-                });
-            };
-
-            const subscriptionData = {
-                email: formData.email,
-                emailType: 'Html',
-                dataFields: [
-                    { key: 'FIRSTNAME', value: formData.firstName },
-                    { key: 'LASTNAME', value: formData.lastName },
-                    { key: formData.location, value: 'yes' }
-                ]
-            };
-
-            if (formData.organisation) {
-                subscriptionData.dataFields.push({ key: 'ORGANISATION', value: formData.organisation });
-            }
-
             try {
                 await newsletterService.subscribe({
                     addressBookId: '589755',
-                    subscriptionData: subscriptionData
+                    subscriptionData: buildSubscriptionData(formData)
                 });
 
-                renderForm({
-                    res: res,
-                    formStatus: FORM_STATES.SUBMISSION_SUCCESS,
-                    formData: formData
-                });
+                res.locals.status = FORM_STATES.SUBMISSION_SUCCESS;
+                renderForm(req, res);
             } catch (error) {
-                return handleSignupError(error.message || error);
+                res.locals.status = FORM_STATES.SUBMISSION_ERROR;
+                renderForm(req, res);
             }
         } else {
-            renderForm({
-                res: res,
-                formStatus: FORM_STATES.VALIDATION_ERROR,
-                formData: formData,
-                formErrors: formErrors.array()
-            });
+            res.locals.status = FORM_STATES.VALIDATION_ERROR;
+            res.locals.errors = formErrors.array();
+            renderForm(req, res);
         }
     });
 

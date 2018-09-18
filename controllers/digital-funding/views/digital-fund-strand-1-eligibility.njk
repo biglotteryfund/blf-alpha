@@ -4,7 +4,7 @@
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = 'cyan' %}
+{% set pageAccent = 'blue' %}
 
 {% block content %}
     <main role="main">
@@ -25,12 +25,12 @@
 
                     <p>To get started, please answer the first question below.</p>
 
-                    <p><strong>Do you currently operate a service that benefits at least 50 people every week?</strong></p>
+                    <p><strong>Are you from a UK-based, registered charity with over 25 staff?</strong></p>
 
                     <div class="o-button-group u-margin-bottom">
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-demo-2/1">Yes</a>
+                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-1/1">Yes</a>
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                            href="/funding/programmes/digital-funding-demo/strand-2/eligibility/no">No</a>
+                            href="/funding/programmes/digital-funding/strand-1/eligibility/no">No</a>
                     </div>
 
                     <details class="u-margin-bottom-l">
@@ -38,14 +38,12 @@
                         <div class="u-tone-background-tint u-padded">
                             <div class="s-prose">
                                 <p>This programme is specifically designed to help organisations that:</p>
-
                                 <ul>
-                                    <li>Are past the idea or prototype stage, and that are being used to help at least 50 people a week already</li>
-                                    <li>Use digital to open the possibility to large scale impact. This doesn’t necessarily mean that they are first and foremost and app, though, they might be a project that uses technology to arrange volunteers in many different places</li>
-                                    <li>Have some strong digital skills within the founding team</li>
+                                    <li>Have 25 or more staff</li>
+                                    <li>Have registered charity status</li>
+                                    <li>Primarily help people in the UK</li>
                                 </ul>
-
-                                <p>For more information, please <a href="/funding/programmes/digital-funding-demo/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
+                                <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
                             </div>
                         </div>
                     </details>
