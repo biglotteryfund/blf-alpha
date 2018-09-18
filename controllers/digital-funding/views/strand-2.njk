@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "./view-helpers.njk" import steps, getStarted %}
 
 {% extends "layouts/main.njk" %}
@@ -21,19 +22,31 @@
                 <div class="s-prose u-constrained-content-wide">
                     <p><strong>Big Lottery Fund offers grants of up to £500,000 for tech for good organisations that have already launched promising services.</strong></p>
 
-                    <p>Organisations that apply successfully will:</p>
+                    <p>Successful proposals will:</p>
+
                     <ul>
-                        <li>Have been founded since the year 2000, by a team which really understand digital</li>
-                        <li>Be able to show evidence on both the use and impact of services</li>
-                        <li>Use digital technology to enable impact that would not otherwise be possible</li>
-                        <li>Be dedicated primarily to public good, not private gain</li>
+                        <li>Demonstrate a firm commitment by organisational leadership to changing the way that services are delivered.</li>
+                        <li>Contain a plan that has been developed in accordance with good digital practices.</li>
+                        <li>Supply evidence that the organisation has already invested in digital, prior to this proposal.</li>
+                        <li>Show a commitment to working generously, sharing what you learn and the products or services you produce with others.</li>
                     </ul>
 
-                    <p><a href="#eligibility">The full detailed eligibility criteria can be seen here</a></p>
+                    <p>We are not looking for:</p>
+                    <ul>
+                        <li>Proposals that contain a highly detailed plan setting out every detail of your forthcoming transformation. Instead we welcome proposals that clearly differentiate between what you know now, and what you will learn along the journey.</li>
+                        <li>Proposals that are driven by a desire to use technology, rather than by a desire to make change.</li>
+                        <li>Proposals that are based around core budget shortfalls.</li>
+                    </ul>
                 </div>
+
+                {{ segmentLinks([{
+                    "title": "How the process works"
+                }, {
+                    "title": "Full eligibility criteria"
+                }] )}}
             </section>
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="content-sidebar">
                     <div class="content-sidebar__primary">
                         <div class="s-prose">
@@ -53,19 +66,64 @@
                 </div>
             </section>
 
-            {% call contentBox(pageAccent, id='eligibility') %}
-                <h2>Are you eligible for strand 2 funding?</h2>
+            {% call contentBox(pageAccent, id='segment-2') %}
+                <h2>Eligibility criteria</h2>
 
-                <p>With this strand of the Digital Fund we are looking to fund smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale. It can also provide <a href="./strand-1">funding for larger organisations who would like to use digital to change their business.</a></p>
+                <p><strong>The following eligibility criteria apply to both strands of funding. There are specific criteria for each strand below this section.</strong></p>
 
-                <h3>Eligibility</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p>You can apply if you’re a:</p>
 
-                <h3>Success factors</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <ul>
+                    <li>voluntary and community organisation</li>
+                    <li>registered charity</li>
+                    <li>social enterprise</li>
+                    <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
+                    <li>Community interest companies (with two or more directors).</li>
+                </ul>
 
-                <h3>Support offered</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p>We <strong>can’t</strong> accept applications from:</p>
+                <ul>
+                    <li>individuals</li>
+                    <li>sole traders</li>
+                    <li>organisations based outside the UK</li>
+                    <li>anyone who is applying on behalf of another organisation</li>
+                    <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
+                    <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+                </ul>
+
+                <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
+
+                <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+
+                <h2>Eligibility criteria specific to this strand</h2>
+
+                <ul>
+                    <li>Your organisation must have an income over £500,000 per year. If your organisation had income of over £10m last year, we will ask for a matching contribution that will be tailored to your size.</li>
+                    <li>Your organisation must be incorporated within the UK, and must work primarily in the voluntary and community sector</li>
+                </ul>
+
+                <h2>What can you spend the money on?</h2>
+
+                <p>We can fund:</p>
+                <ul>
+                    <li>staff salaries</li>
+                    <li>project activities</li>
+                    <li>running costs</li>
+                    <li>small-scale refurbishment</li>
+                    <li>equipment</li>
+                    <li>organisational development</li>
+                </ul>
+
+                <p>We <strong>can’t</strong> fund:</p>
+                <ul>
+                    <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution</li>
+                    <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
+                    <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
+                    <li>activities that benefit individuals, rather than the wider community</li>
+                    <li>political activities</li>
+                    <li>retrospective costs</li>
+                    <li>loan repayments</li>
+                </ul>
 
                 <h2>Our policies</h2>
 
@@ -80,7 +138,7 @@
 
                 <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
 
-                <p><a href="/funding/programmes/digital-funding/strand-2/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                <p><a href="/funding/programmes/digital-funding/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
                     Request a call
                 </a></p>
 
