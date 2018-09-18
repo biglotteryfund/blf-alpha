@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-export DEBUG=biglotteryfund:*;
 export DB_CONNECTION_URI=sqlite://:memory;
 export PORT=8090;
 export DONT_SEND_EMAIL=true;
