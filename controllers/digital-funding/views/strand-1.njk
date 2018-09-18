@@ -1,7 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/step-progress/macro.njk" import stepProgress %}
+{% from "./view-helpers.njk" import steps, getStarted %}
 
 {% extends "layouts/main.njk" %}
 {% set pageAccent = 'blue' %}
@@ -40,34 +40,14 @@
                             <p>Intro sentence or two to the conversational approach this fund will take and how it’s designed to help the customer experience.</p>
                         </div>
 
-                        {{ stepProgress([{
-                            "title": "Request a call",
-                            "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time"
-                        }, {
-                            "title": "Talk to us",
-                            "description": "We call you and ask a few questions"
-                        }, {
-                            "title": "Submit a full proposal",
-                            "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
-                        }, {
-                            "title": "Submit a detailed plan",
-                            "description": "If you are successful, we ask you to submit a more detailed plan which is then judged by our panel"
-                        }])}}
+                        {{ steps() }}
                     </div>
 
                     <div class="content-sidebar__secondary">
-                        <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
-                            <header class="card__header">
-                                <h3 class="card__title">Get started</h3>
-                                <div class="card__body">
-                                    <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
-
-                                    <a href="/funding/programmes/digital-funding/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                                        Request a call
-                                    </a>
-                                </div>
-                            </header>
-                        </aside>
+                        {{ getStarted(
+                            url = '/funding/programmes/digital-funding/strand-1/eligibility',
+                            accent = pageAccent
+                        ) }}
                     </div>
                 </div>
             </section>

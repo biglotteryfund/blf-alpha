@@ -34,60 +34,8 @@ router.get('/', (req, res) => {
     });
 });
 
-router.use('/assistance', require('./digital-assistance'));
-
-router.get('/strand-1', (req, res) => {
-    const title = 'Using digital to change your business';
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-1'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
-    });
-});
-
-router.get('/strand-1/eligibility', (req, res) => {
-    const title = 'Request a call';
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-1-eligibility'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [
-            { label: 'Using digital to change your business', url: './' },
-            { label: title }
-        ])
-    });
-});
-
-router.get('/strand-1/eligibility/no', (req, res) => {
-    const title = 'Request a call';
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-1-no'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [
-            { label: 'Using digital to change your business', url: './' },
-            { label: title }
-        ])
-    });
-});
-
-router.get('/strand-2', (req, res) => {
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-2'), {
-        title: 'Using digital to scale your impact',
-        heroImage: res.locals.heroImage,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact' }])
-    });
-});
-
-router.get('/strand-2/eligibility', (req, res) => {
-    const title = 'Request a call';
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-2-eligibility'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact', url: './' }, { label: title }])
-    });
-});
-
-router.get('/strand-2/eligibility/no', (req, res) => {
-    const title = 'Request a call';
-    res.render(path.resolve(__dirname, './views/digital-fund-strand-2-no'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: 'Scale your impact', url: './' }, { label: title }])
-    });
-});
+router.use('/assistance', require('./assistance'));
+router.use('/strand-1', require('./strand-1'));
+router.use('/strand-2', require('./strand-2'));
 
 module.exports = router;
