@@ -34,6 +34,14 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/eligibility', (req, res) => {
+    const title = 'Full eligibility criteria';
+    res.render(path.resolve(__dirname, './views/full-eligibility'), {
+        title: title,
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
+    });
+});
+
 router.use('/assistance', require('./assistance'));
 router.use('/strand-1', require('./strand-1'));
 router.use('/strand-2', require('./strand-2'));
