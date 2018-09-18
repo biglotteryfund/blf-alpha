@@ -3,7 +3,7 @@ const path = require('path');
 
 const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
-const { DIGITAL_FUND_DEMO_EMAIL } = require('../../../modules/secrets');
+const { DIGITAL_FUNDING_EMAIL } = require('../../../modules/secrets');
 
 module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
     const customerSendTo = {
@@ -44,7 +44,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         sendEmail({
             name: 'digital_funding_demo_internal',
             mailConfig: {
-                sendTo: appData.isDev ? customerSendTo : DIGITAL_FUND_DEMO_EMAIL,
+                sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUNDING_EMAIL,
                 subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml

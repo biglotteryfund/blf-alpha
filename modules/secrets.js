@@ -5,7 +5,7 @@ const { flow, get, keyBy, mapValues } = require('lodash/fp');
 function getRawParameters() {
     let rawParameters;
     try {
-        rawParameters = JSON.parse(fs.readFileSync('/etc/blf/parameters.json'), 'utf8');
+        rawParameters = JSON.parse(fs.readFileSync('/etc/blf/parameters.json', 'utf8'));
     } catch (e) {} // eslint-disable-line no-empty
     return rawParameters;
 }
@@ -55,7 +55,7 @@ const DOTMAILER_API = { user: getSecret('dotmailer.api.user'), password: getSecr
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
 const SENTRY_DSN = process.env.SENTRY_DSN || getSecret('sentry.dsn');
-const DIGITAL_FUND_DEMO_EMAIL = process.env.DIGITAL_FUND_DEMO_EMAIL || getSecret('emails.digitalfund.demo');
+const DIGITAL_FUNDING_EMAIL = process.env.DIGITAL_FUNDING_EMAIL || getSecret('emails.digitalfund.demo');
 const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri');
 
 module.exports = {
@@ -71,6 +71,6 @@ module.exports = {
     PREVIEW_DOMAIN,
     SENTRY_DSN,
     SESSION_SECRET,
-    DIGITAL_FUND_DEMO_EMAIL,
+    DIGITAL_FUNDING_EMAIL,
     PAST_GRANTS_API_URI
 };
