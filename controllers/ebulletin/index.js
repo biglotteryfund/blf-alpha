@@ -4,61 +4,14 @@ const express = require('express');
 const Raven = require('raven');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-const rp = require('request-promise-native');
-const config = require('config');
 
 const { customEvent } = require('../../modules/analytics');
 const { FORM_STATES } = require('../../modules/forms');
-const { DOTMAILER_API } = require('../../modules/secrets');
 const { purifyUserInput, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
+const newsletterService = require('../../services/newsletter-service');
 
 const router = express.Router();
-
-function subscribeToNewsletter(formData) {
-    const dataToSend = {
-        email: formData.email,
-        emailType: 'Html',
-        dataFields: [
-            {
-                key: 'FIRSTNAME',
-                value: formData.firstName
-            },
-            {
-                key: 'LASTNAME',
-                value: formData.lastName
-            },
-            {
-                key: formData.location,
-                value: 'yes'
-            }
-        ]
-    };
-
-    // optional fields
-    if (formData.organisation) {
-        dataToSend.dataFields.push({
-            key: 'ORGANISATION',
-            value: formData.organisation
-        });
-    }
-
-    const ADDRESS_BOOK_ID = 589755;
-    const ENDPOINT = `${config.get('ebulletinApiEndpoint')}/address-books/${ADDRESS_BOOK_ID}/contacts`;
-
-    return rp({
-        uri: ENDPOINT,
-        method: 'POST',
-        auth: {
-            user: DOTMAILER_API.user,
-            pass: DOTMAILER_API.password,
-            sendImmediately: true
-        },
-        json: true,
-        body: dataToSend,
-        resolveWithFullResponse: true
-    });
-}
 
 const translateError = errorTranslator('toplevel.ebulletin.errors');
 const formValidators = [
@@ -98,7 +51,7 @@ router
     .get((req, res) => {
         renderForm({ res });
     })
-    .post(formValidators, (req, res) => {
+    .post(formValidators, async (req, res) => {
         for (let key in req.body) {
             req.body[key] = purifyUserInput(req.body[key]);
         }
@@ -106,23 +59,7 @@ router
         const formData = matchedData(req);
         const formErrors = validationResult(req);
 
-        if (!formErrors.isEmpty()) {
-            renderForm({
-                res: res,
-                formStatus: FORM_STATES.VALIDATION_ERROR,
-                formData: formData,
-                formErrors: formErrors.array()
-            });
-        } else {
-            const handleSignupSuccess = () => {
-                customEvent('emailNewsletter', 'signup', formData.location);
-                renderForm({
-                    res: res,
-                    formStatus: FORM_STATES.SUBMISSION_SUCCESS,
-                    formData: formData
-                });
-            };
-
+        if (formErrors.isEmpty()) {
             const handleSignupError = errMsg => {
                 Raven.captureMessage(errMsg || 'Error with ebulletin');
                 renderForm({
@@ -132,17 +69,41 @@ router
                 });
             };
 
-            subscribeToNewsletter(formData)
-                .then(response => {
-                    if (response.statusCode === 200) {
-                        handleSignupSuccess();
-                    } else {
-                        return handleSignupError(response.message);
-                    }
-                })
-                .catch(error => {
-                    return handleSignupError(error.message || error);
+            const subscriptionData = {
+                email: formData.email,
+                emailType: 'Html',
+                dataFields: [
+                    { key: 'FIRSTNAME', value: formData.firstName },
+                    { key: 'LASTNAME', value: formData.lastName },
+                    { key: formData.location, value: 'yes' }
+                ]
+            };
+
+            if (formData.organisation) {
+                subscriptionData.dataFields.push({ key: 'ORGANISATION', value: formData.organisation });
+            }
+
+            try {
+                await newsletterService.subscribe({
+                    addressBookId: '589755',
+                    subscriptionData: subscriptionData
                 });
+
+                renderForm({
+                    res: res,
+                    formStatus: FORM_STATES.SUBMISSION_SUCCESS,
+                    formData: formData
+                });
+            } catch (error) {
+                return handleSignupError(error.message || error);
+            }
+        } else {
+            renderForm({
+                res: res,
+                formStatus: FORM_STATES.VALIDATION_ERROR,
+                formData: formData,
+                formErrors: formErrors.array()
+            });
         }
     });
 

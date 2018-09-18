@@ -9,7 +9,7 @@ const htmlToText = require('html-to-text');
 const debug = require('debug')('biglotteryfund:mail');
 const { isString, isArray } = require('lodash');
 
-const { countEvent } = require('../modules/metrics');
+const metrics = require('../modules/metrics');
 
 /**
  * @typedef {object} MailAddress
@@ -171,11 +171,10 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
              * istanbul ignore if
              */
             if (config.get('features.enableMailSendMetrics')) {
-                const environment = config.util.getEnv('NODE_ENV').toUpperCase();
-                countEvent({
+                metrics.count({
+                    name: name,
                     namespace: 'SITE/MAIL',
-                    metric: `MAIL_SENT_${environment}_${name.toUpperCase()}`,
-                    name: 'MAIL_SENT',
+                    dimension: 'MAIL_SENT',
                     value: 'SEND_COUNT'
                 });
             }
