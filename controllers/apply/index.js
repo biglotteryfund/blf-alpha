@@ -12,7 +12,7 @@ const { injectHeroImage } = require('../../middleware/inject-content');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
-const digitalFundingDemoForm = require('./digital-funding/form-model');
+const digitalFundingForm = require('./digital-funding/form-model');
 
 /**
  * Collect all validators associated with each field for express-validator
@@ -259,8 +259,8 @@ module.exports = ({ router }) => {
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     if (appData.isNotProduction) {
-        router.use('/digital-funding-1', initFormRouter(digitalFundingDemoForm(1)));
-        router.use('/digital-funding-2', initFormRouter(digitalFundingDemoForm(2)));
+        router.use('/digital-funding-1', initFormRouter(digitalFundingForm(1)));
+        router.use('/digital-funding-2', initFormRouter(digitalFundingForm(2)));
     }
 
     return router;

@@ -1,100 +1,89 @@
 'use strict';
 const path = require('path');
 const { check } = require('express-validator/check');
-const { cloneDeep } = require('lodash');
 
 const processor = require('./processor');
 
-const stepDetails = {
-    name: 'Your details',
-    fieldsets: [
-        {
-            legend: 'Your contact details',
-            introduction: 'Please tell us a little about your project and organisation so that we can get in touch',
-            fields: [
-                {
-                    type: 'text',
-                    name: 'name',
-                    autocompleteName: 'name',
-                    label: 'Name',
-                    isRequired: true
-                },
-                {
-                    type: 'email',
-                    name: 'email',
-                    autocompleteName: 'email',
-                    label: 'Email address',
-                    isRequired: true,
-                    validator: function(field) {
-                        return check(field.name)
-                            .trim()
-                            .not()
-                            .isEmpty()
-                            .withMessage('Please provide your email address')
-                            .isEmail()
-                            .withMessage('Please provide a valid email address');
-                    }
-                },
-                {
-                    type: 'text',
-                    name: 'organisation-name',
-                    label: 'Organisation name',
-                    isRequired: true
-                }
-            ]
-        },
-        {
-            legend: 'Your organisation',
-            introduction: 'Please tell us a little about your project and organisation so that we can get in touch',
-            fields: [
-                {
-                    name: 'about-your-organisation',
-                    type: 'textarea',
-                    isRequired: true,
-                    rows: 12,
-                    label: 'About your organisation',
-                    helpText: `<p>Briefly tell us:</p>
-                        <ul>
-                            <li>What your organisation does</li>
-                            <li>What sort of significant changes you've been thinking about</li>
-                        </ul>`
-                }
-            ]
-        }
-    ]
+const fieldName = {
+    type: 'text',
+    name: 'name',
+    autocompleteName: 'name',
+    label: 'Name',
+    isRequired: true
 };
 
-// make a copy of the above step and add a question (for alternate strand)
-let stepDetailsAdditional = cloneDeep(stepDetails);
-stepDetailsAdditional.fieldsets[1].fields.push({
-    name: 'how-technology-helps-scale',
-    type: 'textarea',
+const fieldEmail = {
+    type: 'email',
+    name: 'email',
+    autocompleteName: 'email',
+    label: 'Email address',
     isRequired: true,
-    rows: 12,
-    label: 'Briefly tell us how technology helps you scale your impact',
     validator: function(field) {
         return check(field.name)
             .trim()
             .not()
             .isEmpty()
-            .withMessage('Please tell us about your organisation');
+            .isEmail()
+            .withMessage('Please provide a valid email address');
     }
-});
+};
 
-const strandSteps = {
-    strand1: [stepDetails],
-    strand2: [stepDetailsAdditional]
+const fieldOrgName = {
+    type: 'text',
+    name: 'organisation-name',
+    label: 'Organisation name',
+    isRequired: true
+};
+
+const fieldAbout = {
+    name: 'about-your-organisation',
+    type: 'textarea',
+    isRequired: true,
+    label: 'About your organisation',
+    helpText:
+        'Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.',
+    lengthHint: {
+        rows: 12,
+        text: 'Please keep it to a couple of paragraphs'
+    }
+};
+
+const fieldScale = {
+    name: 'how-technology-helps-scale',
+    type: 'textarea',
+    isRequired: true,
+    label: 'Briefly tell us how technology helps you scale your impact',
+    lengthHint: {
+        rows: 12,
+        text: 'Please keep it to a couple of paragraphs'
+    }
 };
 
 module.exports = strandNumber => {
     return {
         id: `digital-funding-strand-${strandNumber}`,
-        title: `Digital Funding Strand ${strandNumber} (Demo)`,
+        title: `Digital Funding: Strand ${strandNumber}`,
         subtitle:
             'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
-        shortCode: `DF${strandNumber}-ALPHA`,
-        steps: strandSteps[`strand${strandNumber}`],
+        shortCode: `DF-STRAND-${strandNumber}`,
+        steps: [
+            {
+                name: 'Your details',
+                fieldsets: [
+                    {
+                        legend: 'Your contact details',
+                        introduction:
+                            'Please tell us a little about your project and organisation so that we can get in touch',
+                        fields: [fieldName, fieldEmail, fieldOrgName]
+                    },
+                    {
+                        legend: 'Your organisation',
+                        fields: strandNumber === 1 ? [fieldAbout] : [fieldAbout, fieldScale]
+                    }
+                ]
+            }
+        ],
         processor: processor,
         startPage: {
             urlPath: `/funding/programmes/digital-funding/strand-${strandNumber}`

@@ -32,7 +32,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
 
     return Promise.all([
         sendEmail({
-            name: 'digital_funding_demo_customer',
+            name: 'digital_funding_customer',
             mailConfig: {
                 sendTo: customerSendTo,
                 subject: 'Thank you for getting in touch with the Big Lottery Fund!',
@@ -42,7 +42,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
             mailTransport: mailTransport
         }),
         sendEmail({
-            name: 'digital_funding_demo_internal',
+            name: 'digital_funding_internal',
             mailConfig: {
                 sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUNDING_EMAIL,
                 subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
