@@ -45,7 +45,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
             name: 'digital_funding_internal',
             mailConfig: {
                 sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUNDING_EMAIL,
-                subject: `New Digital Funding idea submission from website: ${data['organisation-name']}`,
+                subject: `New digital funding submission: ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml
             },
