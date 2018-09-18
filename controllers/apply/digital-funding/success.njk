@@ -1,8 +1,6 @@
-{% from "components/hero.njk" import hero %}
-{% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/step-progress/macro.njk" import stepProgress %}
-
 {% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% block title %}Success | {{ form.title }} | {% endblock %}
 
@@ -14,7 +12,6 @@
 
 {% block content %}
     <main role="main" id="content">
-
         {% if heroImage %}
             {{ hero(
                 titleText = form.title,
@@ -23,32 +20,26 @@
             ) }}
         {% endif %}
 
-        <div class="content-box u-inner-wide-only accent--pink a--border-top{% if heroImage %} nudge-up{% endif %}">
+        {% if heroImage %}<div class="nudge-up">{% endif %}
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top">
             <div class="s-prose u-constrained-wide">
                 <div class="form-message">
-                    <h1 class="t1 form-message__title">Thank you for submitting your idea</h1>
+                    <h1 class="t1 form-message__title">Thank you for getting in touch</h1>
                 </div>
 
                 <h2 class="t2 t--underline accent--pink">What happens next?</h2>
-                <p>Thank you for submitting your idea. We have emailed you a copy of your submission and a local funding officer will contact you within fifteen working days.</p>
-
-                {{ inlineFeedback(
-                    description = form.title,
-                    promptLabel = "Can you spare a minute to give us some feedback?",
-                    fieldLabel = "How was your experience of submitting an idea?",
-                    helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
-                    isToggleable = false
-                )  }}
+                <p>We will get back to you with a fixed time for a call as quickly as we can.</p>
             </div>
         </div>
 
-        <div class="content-box u-inner-wide-only accent--pink a--border-top{% if heroImage %} nudge-up{% endif %}">
+        <div class="content-box u-inner-wide-only accent--pink a--border-top">
             <div class="s-prose u-constrained-wide">
                 <h2>What happens next?</h2>
 
                 {{ stepProgress([{
                     "title": "Request a call",
-                    "description": "The information you have submitted will be reviewed by Big Lottery Fund staff. A Funding Officer will be in touch as quickly as we can, to arrange a call. You’ll need x, y and z handy. We’ll talk about a and b. We’ll work on c together.",
+                    "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time",
                     "isCompleted": true
                 }, {
                     "title": "Talk to us",
@@ -56,11 +47,10 @@
                 }, {
                     "title": "Submit a full proposal",
                     "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
-                }, {
-                    "title": "Submit a detailed plan",
-                    "description": "If you are successful, we ask you to submit a more detailed plan which is then judged by our panel"
-                }])}}
+                }] )}}
             </div>
         </div>
+
+        {% if heroImage %}</div>{% endif %}
     </main>
 {% endblock %}
