@@ -34,7 +34,7 @@ function verify(token) {
                         reject(error);
                     }
                 } else {
-                    reject(new Error('invalid token reson'));
+                    reject(new Error('invalid token reason'));
                 }
             }
         });

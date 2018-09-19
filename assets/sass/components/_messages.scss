@@ -16,6 +16,14 @@
         background-color: palette('green-bg');
         border-left-color: palette('green');
     }
+
+    > p {
+        margin-bottom: .5em;
+    }
+
+    > p:last-of-type {
+        margin-bottom: 0;
+    }
 }
 
 /* =========================================================================
