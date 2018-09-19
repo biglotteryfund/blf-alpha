@@ -78,17 +78,12 @@ router.get('/', async (req, res) => {
         json: true,
         qs: query
     });
-
-    // @TODO: Should facets be array?
-    const facets = head(data.facets);
-    // TODO: Sort at the service level?
-    facets.grantProgramme = sortBy(facets.grantProgramme, '_id');
-
+    
     res.render(path.resolve(__dirname, './views/past-grants'), {
         title: 'Past grants search',
         queryParams: req.query,
         grants: data.results,
-        facets: facets,
+        facets: data.facets,
         meta: data.meta,
         pagination: buildPagination(data.meta.pagination, req.query)
     });
