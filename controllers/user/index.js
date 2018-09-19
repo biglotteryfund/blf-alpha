@@ -1,11 +1,12 @@
 'use strict';
 const express = require('express');
 
+const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
 const router = express.Router();
 
-router.use(noindex, (req, res, next) => {
+router.use(noCache, noindex, (req, res, next) => {
     res.locals.isBilingual = false;
     next();
 });

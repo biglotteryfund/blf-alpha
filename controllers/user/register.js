@@ -10,7 +10,7 @@ const { csrfProtection } = require('../../middleware/cached');
 const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
-const { validators, sendActivationEmail, STATUSES } = require('./helpers');
+const { validators, sendActivationEmail } = require('./helpers');
 
 const router = express.Router();
 
@@ -58,7 +58,7 @@ async function handleRegister(req, res, next) {
                                 if (loginErr) {
                                     next(loginErr);
                                 } else {
-                                    res.redirect(`/user?s=${STATUSES.ACTIVATION_SENT}`);
+                                    res.redirect('/user?s=activationSent');
                                 }
                             });
                         }

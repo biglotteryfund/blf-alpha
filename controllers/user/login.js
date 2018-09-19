@@ -7,20 +7,17 @@ const router = express.Router();
 
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUnauthed } = require('../../middleware/authed');
-const { STATUSES } = require('./helpers');
 
 function renderForm(req, res) {
-    res.locals.STATUSES = STATUSES;
-
     let alertMessage;
     switch (req.query.s) {
-        case STATUSES.LOGGED_OUT:
+        case 'loggedOut':
             alertMessage = 'You were successfully logged out.';
             break;
-        case STATUSES.PASSWORD_UPDATED:
+        case 'passwordUpdated':
             alertMessage = 'Your password was successfully updated! Please log in below.';
             break;
-        case STATUSES.PASSWORD_RESET_REQUESTED:
+        case 'passwordResetRequest':
             alertMessage =
                 'Password reset requested. If the email address entered is correct, you will receive further instructions via email.';
             break;

@@ -6,13 +6,6 @@ const { sendEmail } = require('../../services/mail');
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 
-const STATUSES = {
-    ACTIVATION_SENT: 'activationSent',
-    PASSWORD_RESET_REQUESTED: 'passwordResetRequest',
-    PASSWORD_UPDATED: 'passwordUpdated',
-    LOGGED_OUT: 'loggedOut'
-};
-
 // configure form validation
 const PASSWORD_MIN_LENGTH = 8;
 const validators = {
@@ -63,7 +56,6 @@ async function sendActivationEmail(req, user) {
 }
 
 module.exports = {
-    STATUSES,
     validators,
     sendActivationEmail
 };

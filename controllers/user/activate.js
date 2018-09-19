@@ -9,7 +9,7 @@ const { requireAuthed } = require('../../middleware/authed');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
 
-const { sendActivationEmail, STATUSES } = require('./helpers');
+const { sendActivationEmail } = require('./helpers');
 
 const router = express.Router();
 
@@ -60,7 +60,7 @@ router.route('/').get(noCache, requireAuthed, async (req, res) => {
         }
 
         req.session.save(() => {
-            res.redirect(`/user?s=${STATUSES.ACTIVATION_SENT}`);
+            res.redirect('/user?s=activationSent');
         });
     }
 });

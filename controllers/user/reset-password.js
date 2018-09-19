@@ -9,7 +9,7 @@ const { noCache } = require('../../middleware/cached');
 const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
-const { validators, STATUSES } = require('./helpers');
+const { validators } = require('./helpers');
 
 const router = express.Router();
 
@@ -88,7 +88,7 @@ router
                             newPassword: req.body.password
                         });
 
-                        res.redirect(`/user/login?s=${STATUSES.PASSWORD_UPDATED}`);
+                        res.redirect('/user/login?s=passwordUpdated');
                     } catch (error) {
                         res.locals.alertMessage = 'There was an error updating your password - please try again';
                         renderForm(req, res);
