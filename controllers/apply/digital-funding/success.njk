@@ -1,0 +1,56 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
+
+{% block title %}Success | {{ form.title }} | {% endblock %}
+
+{# We always use pink here regardless of form settings to match accents below #}
+{% set pageAccent = 'pink' %}
+{% if not heroImage %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% if heroImage %}
+            {{ hero(
+                titleText = form.title,
+                image = heroImage,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        {% if heroImage %}<div class="nudge-up">{% endif %}
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top">
+            <div class="s-prose u-constrained-wide">
+                <div class="form-message">
+                    <h1 class="t1 form-message__title">Thank you for getting in touch</h1>
+                </div>
+
+                <h2 class="t2 t--underline accent--pink">What happens next?</h2>
+                <p>We will get back to you with a fixed time for a call as quickly as we can.</p>
+            </div>
+        </div>
+
+        <div class="content-box u-inner-wide-only accent--pink a--border-top">
+            <div class="s-prose u-constrained-wide">
+                <h2>What happens next?</h2>
+
+                {{ stepProgress([{
+                    "title": "Request a call",
+                    "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time",
+                    "isCompleted": true
+                }, {
+                    "title": "Talk to us",
+                    "description": "We call you and ask a few questions"
+                }, {
+                    "title": "Submit a full proposal",
+                    "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
+                }] )}}
+            </div>
+        </div>
+
+        {% if heroImage %}</div>{% endif %}
+    </main>
+{% endblock %}
