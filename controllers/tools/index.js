@@ -3,12 +3,18 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-const { toolsSecurityHeaders } = require('../../middleware/securityHeaders');
+const { buildSecurityMiddleware } = require('../../middleware/securityHeaders');
 const { requireAuthedLevel } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
-router.use(noCache, noindex, toolsSecurityHeaders());
+router.use(
+    noCache,
+    noindex,
+    buildSecurityMiddleware({
+        defaultSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
+    })
+);
 
 /**************************************
  * Public / Unauthed Tools
