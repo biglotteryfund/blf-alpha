@@ -1,6 +1,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
-{% from "components/form-fields.njk" import errorList, formErrors, formFieldset, formHeader with context %}
+{% from "components/form-fields.njk" import formHeader, formErrors, formField with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -30,7 +30,19 @@
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
             {% for fieldset in step.fieldsets %}
-                {{ formFieldset(fieldset, errors) }}
+                <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+                    <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+                        {{ fieldset.legend }}
+                    </legend>
+                    {% if fieldset.introduction %}
+                        <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
+                    {% endif %}
+                    <div class="form-fieldset__fields">
+                        {% for field in fieldset.fields %}
+                            {{ formField(field, errors) }}
+                        {% endfor %}
+                    </div>
+                </fieldset>
             {% endfor %}
 
             {% if csrfToken %}

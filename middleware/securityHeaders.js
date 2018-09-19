@@ -102,12 +102,6 @@ function defaultSecurityHeaders() {
     return buildSecurityMiddleware(directives);
 }
 
-function toolsSecurityHeaders() {
-    return buildSecurityMiddleware({
-        defaultSrc: ['maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
-    });
-}
-
 function stripCSPHeader(req, res, next) {
     if (!res.headersSent) {
         res.removeHeader('Content-Security-Policy');
@@ -119,6 +113,5 @@ function stripCSPHeader(req, res, next) {
 module.exports = {
     buildSecurityMiddleware,
     defaultSecurityHeaders,
-    toolsSecurityHeaders,
     stripCSPHeader
 };

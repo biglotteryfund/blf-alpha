@@ -12,12 +12,7 @@
             <nav class="navbar navbar-dark bg-dark">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Big Lottery Fund</a>
-                        {% if request.user %}
-                            <p class="navbar-text">Logged in as <strong>{{ request.user.username }}</strong> [<a href="/user/logout">Log out?</a>]</p>
-                        {% else %}
-                            <p class="navbar-text"><a href="/user/login">Log in</a></p>
-                        {% endif %}
+                        <a class="navbar-brand" href="/">Big Lottery Fund</a>
                     </div>
                     {% block headerAction %}{% endblock %}
                 </div>

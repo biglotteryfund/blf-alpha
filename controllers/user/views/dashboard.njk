@@ -1,0 +1,29 @@
+{% extends "layouts/main.njk" %}
+
+{% set title = 'Your account' %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>{{ title }}</h1>
+
+            {% if not user.is_active %}
+                <div class="message" role="alert">
+                    <p>You haven't activated your account yet.</p>
+                    {% if activationSent %}
+                        <p><strong>We just sent an email to {{ user.username }} with a link to activate your account.</strong></p>
+                    {% endif %}
+                    <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
+                </div>
+            {% endif %}
+
+            {% if user %}
+                <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong>
+                <p><a class="btn btn--small" href="/user/logout">Log out?</a></p>
+            {% else %}
+                <p class="navbar-text"><a href="/user/login">Log in</a></p>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

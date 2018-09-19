@@ -1,8 +1,7 @@
 {% from "components/form-fields.njk" import formErrors, formField with context %}
 
 {% macro renderField(field) %}
-    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
+    {{ formField(formHelpers.withFieldValue(field, data), errors) }}
 {% endmacro %}
 
 {% macro submissionMessage(title, message) %}

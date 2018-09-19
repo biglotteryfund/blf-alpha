@@ -1,6 +1,4 @@
 'use strict';
-const { makeUserLink } = require('../controllers/user/utils');
-
 const checkAuthStatus = (req, res, next, minimumLevel) => {
     if (!minimumLevel) {
         minimumLevel = 0;
@@ -11,7 +9,7 @@ const checkAuthStatus = (req, res, next, minimumLevel) => {
         // we use req.originalUrl not req.path to preserve querystring
         req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
-            res.redirect(makeUserLink('login'));
+            res.redirect('/user/login');
         });
     }
 };
@@ -30,7 +28,7 @@ const requireUnauthed = (req, res, next) => {
     if (!req.user) {
         return next();
     } else {
-        res.redirect(makeUserLink('dashboard'));
+        res.redirect('/user');
     }
 };
 

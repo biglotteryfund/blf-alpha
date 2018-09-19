@@ -228,6 +228,12 @@
     max-width: $constrainedWide;
     border-top: 1px solid palette('border');
     padding: 1em 0;
+
+    > .btn {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
 }
 
 /* =========================================================================
