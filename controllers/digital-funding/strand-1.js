@@ -22,11 +22,11 @@ router.get('/eligibility', (req, res) => {
     });
 });
 
-router.get('/eligibility/no', (req, res) => {
-    const title = 'Request a call';
-    res.render(path.resolve(__dirname, './views/strand-1-no'), {
+router.get('/eligibility/ineligible', (req, res) => {
+    const title = 'Sorry, you’re ineligible';
+    res.render(path.resolve(__dirname, './views/strand-1-ineligible'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: 'Ineligible' }])
     });
 });
 

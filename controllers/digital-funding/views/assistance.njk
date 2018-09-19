@@ -42,20 +42,23 @@
 
                         <form class="email-signup" method="post" action="">
                             {{ formErrors(errors) }}
+
                             <label for="email" class="ff-label">
                                 Email address
                             </label>
+
                             <p class="ff-help">
                                 We’ll only use this to send you information about free digital assistance
                             </p>
+
                             <input id="email"
                                     type="email"
                                     name="email"
                                     class="ff-text ff-text--inline"
                                     size="30"/>
-                            <input type="submit"
-                                value="Submit"
-                                class="btn btn--small accent--blue a--btn js-email-signup-trigger" />
+
+                            <input class="btn btn--small accent--blue a--btn"
+                                type="submit" value="Submit" />
                         </form>
                     {% endif %}
 
