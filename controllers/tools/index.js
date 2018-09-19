@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const { buildSecurityMiddleware } = require('../../middleware/securityHeaders');
-const { requireAuthedLevel } = require('../../middleware/authed');
+const { ensureStaffOnly } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
@@ -27,7 +27,10 @@ router.use('/pages', require('./pagelist'));
  * Internal / Authed Tools
  **************************************/
 
-router.use(requireAuthedLevel(5));
+
+// Staff only routes
+router.use(ensureStaffOnly);
+
 
 router.route('/').get((req, res) => {
     const links = [

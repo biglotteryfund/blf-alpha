@@ -78,7 +78,7 @@ router.get('/', async (req, res) => {
         json: true,
         qs: query
     });
-    
+
     res.render(path.resolve(__dirname, './views/past-grants'), {
         title: 'Past grants search',
         queryParams: req.query,
