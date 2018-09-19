@@ -1,10 +1,15 @@
-{% extends "controllers/tools/views/layout.njk" %}
+{% extends "layouts/main.njk" %}
 
-{% block title %}Activate{% endblock %}
+{% set title = 'Activate' %}
+{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
-    <h1>Activate</h1>
-    <div class="alert alert-info" role="alert">
-        Your activation link was invalid or has expired. <a href="/user/activate">Please try again</a>.
-    </div>
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>{{ title }}</h1>
+            <div class="message" role="alert">
+                Your activation link was invalid or has expired. <a href="/user/activate">Please try again</a>.
+            </div>
+        </div>
+    </main>
 {% endblock %}

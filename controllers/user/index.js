@@ -14,7 +14,6 @@ router.use('/logout', require('./logout'));
 router.use('/register', require('./register'));
 router.use('/activate', require('./activate'));
 
-
 router.use(toolsSecurityHeaders());
 
 router.use('/forgotten-password', require('./forgotten-password'));
