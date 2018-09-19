@@ -11,12 +11,12 @@ router.use(noindex);
 router.use('/', require('./dashboard'));
 router.use('/login', require('./login'));
 router.use('/logout', require('./logout'));
+router.use('/register', require('./register'));
 router.use('/activate', require('./activate'));
 
 
 router.use(toolsSecurityHeaders());
 
-router.use('/register', require('./register'));
 router.use('/forgotten-password', require('./forgotten-password'));
 router.use('/reset-password', require('./reset-password'));
 
