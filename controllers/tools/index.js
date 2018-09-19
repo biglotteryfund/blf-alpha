@@ -27,10 +27,8 @@ router.use('/pages', require('./pagelist'));
  * Internal / Authed Tools
  **************************************/
 
-
 // Staff only routes
 router.use(ensureStaffOnly);
-
 
 router.route('/').get((req, res) => {
     const links = [

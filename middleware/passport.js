@@ -67,26 +67,22 @@ module.exports = function() {
                     if (!profile.oid) {
                         return done(new Error('No oid found'), null);
                     }
-                    // @TODO do we need this?
-                    // asynchronous verification, for effect...
-                    // process.nextTick(() => {
-                        userService.findStaffUser(profile.oid, (err, user) => {
-                            if (err) {
-                                return done(err);
-                            }
-                            if (!user) {
-                                userService
-                                    .createStaffUser(profile)
-                                    .then(() => {
-                                        return done(null, profile);
-                                    })
-                                    .catch(() => {
-                                        return done(null, user);
-                                    });
-                            }
-                            return done(null, user);
-                        });
-                    // });
+                    userService.findStaffUser(profile.oid, (err, user) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        if (!user) {
+                            userService
+                                .createStaffUser(profile)
+                                .then(() => {
+                                    return done(null, profile);
+                                })
+                                .catch(() => {
+                                    return done(null, user);
+                                });
+                        }
+                        return done(null, user);
+                    });
                 }
             )
         );
@@ -100,12 +96,10 @@ module.exports = function() {
     };
 
     passport.serializeUser((user, cb) => {
-        console.log('### SERIALIZING USER');
         cb(null, makeUserObject(user));
     });
 
     passport.deserializeUser((user, cb) => {
-        console.log('### DEEEEEESERIALIZING USER');
         if (user.userType === 'user') {
             userService
                 .findById(user.userData.id)
