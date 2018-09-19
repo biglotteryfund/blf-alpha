@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_buildCountMetricData should build count metric data 1`] = `
+Object {
+  "MetricData": Array [
+    Object {
+      "Dimensions": Array [
+        Object {
+          "Name": "SUBSCRIBED",
+          "Value": "SUBSCRIBED_COUNT",
+        },
+      ],
+      "MetricName": "SUBSCRIBED_TEST_123456",
+      "Unit": "Count",
+      "Value": 1,
+    },
+  ],
+  "Namespace": "SITE/NEWSLETTER",
+}
+`;
+
+exports[`_buildCountMetricData should build count metric data 2`] = `
+Object {
+  "MetricData": Array [
+    Object {
+      "Dimensions": Array [
+        Object {
+          "Name": "MAIL_SENT",
+          "Value": "SEND_COUNT",
+        },
+      ],
+      "MetricName": "MAIL_SENT_TEST_EXAMPLE_EMAIL",
+      "Unit": "Count",
+      "Value": 1,
+    },
+  ],
+  "Namespace": "SITE/MAIL",
+}
+`;

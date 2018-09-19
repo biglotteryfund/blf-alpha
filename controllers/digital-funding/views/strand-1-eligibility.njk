@@ -1,7 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/step-progress/macro.njk" import stepProgress %}
+{% from "./view-helpers.njk" import eligibilityFaqs %}
 
 {% extends "layouts/main.njk" %}
 {% set pageAccent = 'blue' %}
@@ -28,9 +28,9 @@
                     <p><strong>Are you from a UK-based, registered charity with over 25 staff?</strong></p>
 
                     <div class="o-button-group u-margin-bottom">
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-demo-1/1">Yes</a>
+                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-1/1">Yes</a>
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                            href="/funding/programmes/digital-funding-demo/strand-1/eligibility/no">No</a>
+                            href="/funding/programmes/digital-funding/strand-1/eligibility/ineligible">No</a>
                     </div>
 
                     <details class="u-margin-bottom-l">
@@ -43,21 +43,14 @@
                                     <li>Have registered charity status</li>
                                     <li>Primarily help people in the UK</li>
                                 </ul>
-                                <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding-demo/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
+                                <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
                             </div>
                         </div>
                     </details>
 
                     <hr>
 
-                    <p><strong>Why do I need to speak to you? Can’t I just send an application in?</strong></p>
-                    <p>We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.</p>
-
-                    <p><strong>Do I need to prepare for the call?</strong></p>
-                    <p>You don’t need to do any special preparation. The phone call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for so that we can offer the correct advice.</p>
-
-                    <p><strong>How do I request a call?</strong></p>
-                    <p>We need to ask a few questions in advance of our call to make sure we have some background information that we can use to help you. We’ll ask you to supply these online now in a quick form that should take about x minutes to fill in. After you’ve submitted this information, we’ll be in touch by email to arrange the best time for us to have a chat.</p>
+                    {{ eligibilityFaqs() }}
                 </div>
             </section>
         </div>

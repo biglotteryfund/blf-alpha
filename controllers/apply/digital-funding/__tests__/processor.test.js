@@ -3,7 +3,7 @@
 const nodemailer = require('nodemailer');
 
 // Mock email secret
-process.env.DIGITAL_FUND_DEMO_EMAIL = 'digital@example.com';
+process.env.DIGITAL_FUNDING_EMAIL = 'digital@example.com';
 
 const processor = require('../processor');
 const form = require('../form-model');

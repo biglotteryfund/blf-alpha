@@ -1,0 +1,174 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
+{% from "./view-helpers.njk" import steps, getStarted %}
+
+{% extends "layouts/main.njk" %}
+{% set pageAccent = 'blue' %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="s-prose u-constrained-content-wide">
+                    <p>Big Lottery Fund offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</p>
+                </div>
+
+                {{ segmentLinks([{
+                    "title": "How the process works"
+                }, {
+                    "title": "Success factors"
+                }, {
+                    "title": "Eligibility criteria"
+                }] )}}
+            </section>
+
+            <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="content-sidebar">
+                    <div class="content-sidebar__primary">
+                        <div class="s-prose">
+                            <h2>How the process works</h2>
+                            {# @TODO: We need some real copy here #}
+                            <p>Intro sentence or two to the conversational approach this fund will take and how it’s designed to help the customer experience.</p>
+                        </div>
+
+                        {{ steps() }}
+                    </div>
+
+                    <div class="content-sidebar__secondary">
+                        {{ getStarted(
+                            url = '/funding/programmes/digital-funding/strand-1/eligibility',
+                            accent = pageAccent
+                        ) }}
+                    </div>
+                </div>
+            </section>
+
+
+            {% call contentBox(pageAccent, id='segment-2') %}
+                <h2>Success factors</h2>
+
+                <p>Successful proposals will:</p>
+
+                <ul>
+                    <li>Clearly demonstrate either the potential to scale impact at low cost, or clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
+                    <li>Be driven by teams that combine knowledge of a social issue with experience of digital delivery.</li>
+                    <li>Relate to a product or service that is far enough through its development process that real users are currently benefiting from it.</li>
+                    <li>Be able to provide at least some evidence of impact upon those real users.</li>
+                    <li>Have a theory of change or similar document showing how the product or service will achieve social impact.</li>
+                    <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+                </ul>
+
+                <p>We are <strong>not</strong> looking for:</p>
+                <ul>
+                    <li>Products or services that are not yet mature enough to be benefiting at least a few people</li>
+                    <li>Products of services that cannot show considerable evidence of user research in their composition</li>
+                    <li>Products or services that duplicate existing services with no substantial innovation</li>
+                </ul>
+
+            {% endcall %}
+            {% call contentBox(pageAccent, id='segment-2') %}
+                <h2>Eligibility criteria</h2>
+
+                <ul>
+                    <li>Your organisation must have a clear social impact mission that is embedded in your governing documents and your working culture.</li>
+                    <li>Your organisation must have been incorporated after the year 2000</li>
+                    <li>You must currently operate a product or service that is functional and being used by the kinds of beneficiaries you plan to serve in future</li>
+                </ul>
+
+                <p>You can apply if you’re a:</p>
+
+                <ul>
+                    <li>voluntary and community organisation</li>
+                    <li>registered charity</li>
+                    <li>social enterprise</li>
+                    <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
+                    <li>community interest companies (with two or more directors).</li>
+                </ul>
+
+                <p>We <strong>can’t</strong> accept applications from:</p>
+                <ul>
+                    <li>individuals</li>
+                    <li>sole traders</li>
+                    <li>organisations based outside the UK</li>
+                    <li>anyone who is applying on behalf of another organisation</li>
+                    <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
+                    <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+                </ul>
+
+                <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
+
+                <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+
+                <h2>What can you spend the money on?</h2>
+
+                <p>We can fund:</p>
+                <ul>
+                    <li>staff salaries</li>
+                    <li>project activities</li>
+                    <li>running costs</li>
+                    <li>small-scale refurbishment</li>
+                    <li>equipment</li>
+                    <li>organisational development</li>
+                </ul>
+
+                <p>We <strong>can’t</strong> fund:</p>
+                <ul>
+                    <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution</li>
+                    <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
+                    <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
+                    <li>activities that benefit individuals, rather than the wider community</li>
+                    <li>political activities</li>
+                    <li>retrospective costs</li>
+                    <li>loan repayments</li>
+                </ul>
+
+                <h2>Our policies</h2>
+
+                <p>It is important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
+
+                <ul>
+                    <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
+                    <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
+                </ul>
+
+                <h2>Get started</h2>
+
+                <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
+
+                <p><a href="/funding/programmes/digital-funding/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                    Request a call
+                </a></p>
+
+                <h2>Have any questions?</h2>
+
+                <p>If you have any questions about eligibility, get in touch with us.</p>
+                <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+            {% endcall %}
+
+            {% call contentBox(pageAccent) %}
+                <h2>Not sure this is for you?</h2>
+
+                <p>Choose one of the following options instead.</p>
+
+                <p><a href="/funding/programmes/digital-funding/assistance"
+                    class="btn btn--medium accent--pink a--btn">
+                    We want help getting started with digital
+                </a></p>
+                <p><a href="/funding/programmes/digital-funding/strand-2"
+                    class="btn btn--medium accent--cyan a--btn">
+                    We are already highly digital, and want to scale our impact
+                </a></p>
+            {% endcall %}
+        </div>
+    </main>
+{% endblock %}

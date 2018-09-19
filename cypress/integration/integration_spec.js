@@ -382,7 +382,7 @@ describe('e2e', function() {
 
     it('should submit a digital funding application form', () => {
         const submitSelector = '.js-application-form input[type="submit"]';
-        cy.visit('/apply/digital-funding-demo-1/1/');
+        cy.visit('/apply/digital-funding-1/1/');
 
         // Step 1
         cy.get('#field-name').type('Anne Example', { delay: 0 });
@@ -408,20 +408,7 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Success
-        cy.get('.form-message').should('contain', 'Thank you for submitting your idea');
-
-        // ================================================
-        // Step: Inline feedback
-        // ================================================ //
-
-        cy.get('#js-feedback').as('feedbackForm');
-        cy.get('@feedbackForm')
-            .find('textarea')
-            .type('Test feedback');
-        cy.get('@feedbackForm')
-            .find('form')
-            .submit();
-        cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
+        cy.get('.form-message').should('contain', 'Thank you for getting in touch');
     });
 
     it('should submit materials order', () => {
