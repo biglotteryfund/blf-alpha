@@ -1,14 +1,14 @@
 {% macro breadcrumbTrail(trail, isFlush = true, isTinted = false) %}
-    {% if trail | length > 0 %}
+    {% if trail.length > 1 %}
         <ol class="breadcrumb-trail
             {%- if isFlush %} breadcrumb-trail--flush{% endif -%}
             {%- if isTinted %} breadcrumb-trail--tinted{% endif -%}">
             {% for crumb in trail %}
+                {% set isLinked = crumb.url and not loop.last  %}
                 <li class="breadcrumb-trail__item">
-                    {% set showUrl = crumb.url %}
-                    {%- if showUrl -%}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{%- endif -%}
-                    {{ crumb.label }}{% if crumb.count %} ({{ crumb.count }}){% endif %}
-                    {%- if showUrl -%}</a>{%- endif -%}
+                    {%- if isLinked -%}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{%- endif -%}
+                    {{ crumb.label }}
+                    {%- if isLinked -%}</a>{%- endif -%}
                 </li>
             {% endfor %}
         </ol>

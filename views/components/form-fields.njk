@@ -137,7 +137,8 @@
     </fieldset>
 {% endmacro %}
 
-{% macro formField(field, fieldErrors) %}
+{% macro formField(field, errors) %}
+    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
@@ -145,12 +146,10 @@
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
-                {% endif %}
-                {% if field.type === 'text' or field.type === 'email' or field.type === 'search' or field.type === 'number' %}
-                    {{ inputText(field, field.type) }}
-                {% endif %}
-                {% if field.type === 'checkbox' or field.type === 'radio' %}
+                {% elseif field.type === 'checkbox' or field.type === 'radio' %}
                     {{ inputChoice(field) }}
+                {% else %}
+                    {{ inputText(field, field.type) }}
                 {% endif %}
             </div>
             {% if fieldErrors | length > 0 %}
@@ -160,26 +159,4 @@
             {% endif %}
         </div>
     </div>
-{% endmacro %}
-
-{% macro renderFieldWithErrors(errors, field) %}
-    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-    {{ formField(formHelpers.withFieldValue(field, data), fieldErrors) }}
-{% endmacro %}
-
-{% macro formFieldset(fieldset, errors) %}
-    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
-        <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
-            {{ fieldset.legend }}
-        </legend>
-        {% if fieldset.introduction %}
-            <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
-        {% endif %}
-        <div class="form-fieldset__fields">
-            {% for field in fieldset.fields %}
-                {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
-                {{ formField(field, fieldErrors) }}
-            {% endfor %}
-        </div>
-    </fieldset>
 {% endmacro %}

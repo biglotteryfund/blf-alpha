@@ -14,7 +14,7 @@ module.exports = {
         }
     },
     rules: {
-        'no-console': 'off',
+        'no-console': 'warn',
         'no-shadow': 'warn',
         'no-unused-vars': 'warn',
         eqeqeq: 'error',

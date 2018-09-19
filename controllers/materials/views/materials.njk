@@ -2,7 +2,7 @@
 {% from "components/icons.njk" import iconClose %}
 {% from "./materials-fields.njk" import textInput, radios with context %}
 
-{% extends "common/informationPage.njk" %}
+{% extends "controllers/common/views/information-page.njk" %}
 
 {% macro textField(field) %}
     {{ textInput(

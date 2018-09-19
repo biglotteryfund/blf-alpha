@@ -1,21 +1,15 @@
 'use strict';
-const passport = require('passport');
-
-const { makeUserLink } = require('../controllers/user/utils');
-
 const checkAuthStatus = (req, res, next, minimumLevel) => {
-    // if (!minimumLevel) {
-    //     minimumLevel = 0;
-    // }
+    if (!minimumLevel) {
+        minimumLevel = 0;
+    }
     if ((!minimumLevel && req.isAuthenticated) || (req.user && req.user.level >= minimumLevel)) {
-        console.log('user valid for min level');
         return next();
     } else {
-        console.log('user not authed');
         // we use req.originalUrl not req.path to preserve querystring
         req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
-            res.redirect(makeUserLink('login'));
+            res.redirect('/user/login');
         });
     }
 };
@@ -34,31 +28,12 @@ const requireUnauthed = (req, res, next) => {
     if (!req.user) {
         return next();
     } else {
-        res.redirect(makeUserLink('dashboard'));
+        res.redirect('/user');
     }
 };
-
-function staffAuthMiddleware(req, res, next) {
-    passport.authenticate('azuread-openidconnect', {
-        response: res,
-        failureRedirect: '/user/staff/error'
-    })(req, res, next);
-}
-
-// @TODO work out why we need this
-// see https://github.com/AzureAD/passport-azure-ad
-function staffAuthMiddlewareLogin(req, res, next) {
-    passport.authenticate('azuread-openidconnect', {
-        response: res,
-        resourceURL: 'https://graph.windows.net',
-        failureRedirect: '/user/staff/error'
-    })(req, res, next);
-}
 
 module.exports = {
     requireAuthed,
     requireUnauthed,
-    requireAuthedLevel,
-    staffAuthMiddleware,
-    staffAuthMiddlewareLogin
+    requireAuthedLevel
 };

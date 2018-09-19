@@ -24,7 +24,6 @@ const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
-const routeCommon = require('./controllers/common');
 const routes = require('./controllers/routes');
 const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
@@ -77,10 +76,11 @@ i18n.expressBind(app, {
 });
 
 /**
- * Status endpoint
+ * Robots
+ * status endpoint, sitemap, robots.txt
  * Mount early to avoid being processed by any middleware
  */
-app.get('/status', require('./controllers/toplevel/status'));
+app.use('/', require('./controllers/robots'));
 
 /**
  * Static asset paths
@@ -234,13 +234,10 @@ forEach(routes.sections, (section, sectionId) => {
      * Page specific middleware
      */
     forEach(section.pages, (page, pageId) => {
-        router
-            .route(page.path)
-            .all(injectCopy(page), injectHeroImage(page.heroSlug), (req, res, next) => {
-                res.locals.pageId = pageId;
-                next();
-            })
-            .get(cached.sMaxAge(page.sMaxAge));
+        router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
+            res.locals.pageId = pageId;
+            next();
+        });
     });
 
     /**
@@ -256,11 +253,13 @@ forEach(routes.sections, (section, sectionId) => {
     }
 
     /**
-     * Add common routing (for static/fully-CMS powered pages)
+     * Apply page/route level router if we have one.
      */
-    router = routeCommon.init({
-        router: router,
-        pages: section.pages
+    forEach(section.pages, page => {
+        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
+        if (shouldServe && page.router) {
+            router.use(page.path, page.router);
+        }
     });
 
     /**

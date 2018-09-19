@@ -24,7 +24,7 @@
                         <label class="ff-label" for="programme">Funding programme</label>
                         <select name="programme" id="programme">
                             <option value="">Select a programme</option>
-                            {% for programme in facets.grantProgramme | sortBy ('_id') %}
+                            {% for programme in facets.grantProgramme %}
                                 <option value="{{ programme._id }}"{% if queryParams.programme === programme._id %} selected{% endif %}>
                                     {{ programme._id }} ({{ programme.count }})
                                 </option>
@@ -79,16 +79,23 @@
                 {% for grant in grants %}
                     <article class="s-prose">
                         <h3 class="t2">
-                            {{ grant['Recipient Org:Name'] }}
-                            <small>({{ grant['Recipient Org:Location:0:Name'] }}, {{ grant['Recipient Org:Location:1:Name'] }})</small>
+                            {{ grant.recipientOrganization[0].name }}
+                            <small>
+                                {% set comma = joiner() %}
+                                {% for location in grant.beneficiaryLocation -%}
+                                    {{ comma() }} {{ location.name }}
+                                {%- endfor %}
+                            </small>
                         </h3>
-                        <p>{{ grant['Title'] }}</p>
-                        <p><small>{{ grant['Description'] }}</small></p>
+                        <p>{{ grant.title }}</p>
+                        <p><small>{{ grant.description }}</small></p>
                         <dl class="o-definition-list o-definition-list--compact">
                             <dt>Amount awarded</dt>
-                            <dd>£{{ grant['Amount Awarded'] | numberWithCommas}}</dd>
+                            <dd>£{{ grant.amountAwarded | numberWithCommas}}</dd>
                             <dt>Grant programme</dt>
-                            <dd><a href="?programme={{ grant['Grant Programme:Title'] }}">{{ grant['Grant Programme:Title'] }}</a></dd>
+                            {% for programme in grant.grantProgramme %}
+                                <dd><a href="?programme={{ programme.title }}">{{ programme.title }}</a></dd>
+                            {% endfor %}
                         </dl>
                         <hr />
                     </article>

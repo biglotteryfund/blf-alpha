@@ -1,49 +1,33 @@
 'use strict';
+const path = require('path');
+const express = require('express');
+const { find, get } = require('lodash');
 
-const landingPageRoute = require('./funding');
-const programmesRoute = require('../programmes');
-const tenKRoutes = require('./10k');
-const materials = require('../materials');
+const { injectFundingProgrammes } = require('../../middleware/inject-content');
+const { sMaxAge } = require('../../middleware/cached');
 
-module.exports = ({ router, pages }) => {
+const router = express.Router();
+
+router.get('/', sMaxAge('30m'), injectFundingProgrammes, (req, res) => {
+    const { copy, fundingProgrammes } = res.locals;
+
     /**
-     * Funding landing page
+     * "Latest" programmes
+     * Hardcoded for now but we may want to fetch these dynamically.
      */
-    landingPageRoute.init({
-        router: router,
-        routeConfig: pages.root
+    function getLatestProgrammes(programmes) {
+        if (programmes) {
+            const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
+            const programmeSlugs = get(copy, 'recentProgrammes', []);
+            return programmeSlugs.map(findBySlug);
+        } else {
+            return [];
+        }
+    }
+
+    res.render(path.resolve(__dirname, './views/funding-landing'), {
+        latestProgrammes: getLatestProgrammes(fundingProgrammes)
     });
+});
 
-    /**
-     * 10k pages
-     */
-    tenKRoutes.init({
-        router: router,
-        routeConfigs: pages
-    });
-
-    /**
-     * Funding programmes
-     */
-    programmesRoute.init({
-        router: router,
-        routeConfigs: pages
-    });
-
-    /**
-     * Search past grants
-     */
-    router.use(pages.pastGrantsAlpha.path, require('../past-grants'));
-
-    /**
-     * Strategic investments
-     */
-    router.use('/strategic-investments', require('../strategic-investments'));
-
-    /**
-     * Free materials
-     */
-    router.use(pages.fundingGuidanceMaterials.path, materials(pages.fundingGuidanceMaterials));
-
-    return router;
-};
+module.exports = router;

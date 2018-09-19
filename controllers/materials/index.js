@@ -112,152 +112,150 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     });
 }
 
-module.exports = function(routeConfig) {
-    function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
-        const lang = req.i18n.__(routeConfig.lang);
-        const availableItems = res.locals.availableItems;
-        const orders = req.session[sessionOrderKey] || [];
+function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
+    const lang = req.i18n.__('funding.guidance.order-free-materials');
+    const availableItems = res.locals.availableItems;
+    const orders = req.session[sessionOrderKey] || [];
 
-        // @TODO: Remove this if/when migrating materials form fields to use new shared fields
-        // Function for finding errors from a form array
-        res.locals.getFormErrorForField = function(errorList, fieldName) {
-            if (errorList && errorList.length > 0) {
-                return errorList.find(e => e.param === fieldName);
-            }
-        };
+    // @TODO: Remove this if/when migrating materials form fields to use new shared fields
+    // Function for finding errors from a form array
+    res.locals.getFormErrorForField = function(errorList, fieldName) {
+        if (errorList && errorList.length > 0) {
+            return errorList.find(e => e.param === fieldName);
+        }
+    };
 
-        res.render(path.resolve(__dirname, './views/materials'), {
-            copy: lang,
-            csrfToken: req.csrfToken(),
-            materials: availableItems,
-            formFields: materialFields,
-            orders: orders,
-            orderStatus: status,
-            formActionBase: req.baseUrl,
-            formAnchorName: 'your-details'
-        });
-    }
+    res.render(path.resolve(__dirname, './views/materials'), {
+        copy: lang,
+        csrfToken: req.csrfToken(),
+        materials: availableItems,
+        formFields: materialFields,
+        orders: orders,
+        orderStatus: status,
+        formActionBase: req.baseUrl,
+        formAnchorName: 'your-details'
+    });
+}
 
-    router
-        .route('/')
-        .all(cached.csrfProtection, injectListingContent)
-        .get(injectMerchandise({}), (req, res) => {
-            renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
-        })
-        .post(
-            injectMerchandise({ locale: 'en' }),
-            map(materialFields, field => field.validator(field)),
-            purify,
-            (req, res) => {
-                const errors = validationResult(req);
-
-                if (errors.isEmpty()) {
-                    const details = req.body;
-                    const availableItems = res.locals.availableItems;
-
-                    const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                        const material = availableItems.find(i => i.itemId === item.materialId);
-                        const product = material.products.find(p => p.id === item.productId);
-                        // prevent someone who really loves plaques from hacking the form to increase the maximum
-                        if (item.quantity > material.maximum) {
-                            item.quantity = material.maximum;
-                        }
-                        return {
-                            name: product.name ? product.name : material.title,
-                            code: product.code,
-                            quantity: item.quantity
-                        };
-                    });
-
-                    const orderText = makeOrderText(itemsToEmail, details);
-
-                    storeOrderSummary({
-                        orderItems: itemsToEmail,
-                        orderDetails: details
-                    })
-                        .then(async () => {
-                            const customerSendTo = details.yourEmail;
-                            const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
-
-                            const customerHtml = await generateHtmlEmail({
-                                template: path.resolve(__dirname, './views/order-email.njk'),
-                                templateData: { locale: req.i18n.getLocale() }
-                            });
-
-                            const customerEmail = sendEmail({
-                                name: 'material_customer',
-                                mailConfig: {
-                                    sendTo: customerSendTo,
-                                    subject: 'Thank you for your Big Lottery Fund order',
-                                    type: 'html',
-                                    content: customerHtml
-                                }
-                            });
-
-                            const supplierEmail = sendEmail({
-                                name: 'material_supplier',
-                                mailConfig: {
-                                    sendTo: supplierSendTo,
-                                    sendMode: 'bcc',
-                                    subject: `Order from Big Lottery Fund website - ${moment().format(
-                                        'dddd, MMMM Do YYYY, h:mm:ss a'
-                                    )}`,
-                                    type: 'text',
-                                    content: orderText
-                                }
-                            });
-
-                            return Promise.all([customerEmail, supplierEmail]).then(() => {
-                                // Clear order details if successful
-                                delete req.session[sessionOrderKey];
-                                delete req.session[sessionBlockedItemKey];
-                                req.session.save(() => {
-                                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
-                                });
-                            });
-                        })
-                        .catch(err => {
-                            Raven.captureException(err);
-                            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
-                        });
-                } else {
-                    // The form has failed validation
-                    res.locals.formErrors = errors.array();
-                    res.locals.formValues = req.body;
-                    renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
-                }
-            }
-        );
-
-    /**
-     * Handle adding and removing items
-     */
-    router.post(
-        '/update-basket',
-        [sanitizeBody('action').escape(), sanitizeBody('code').escape()],
-        cached.noCache,
+router
+    .route('/')
+    .all(cached.csrfProtection, injectListingContent)
+    .get(injectMerchandise({}), (req, res) => {
+        renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
+    })
+    .post(
+        injectMerchandise({ locale: 'en' }),
+        map(materialFields, field => field.validator(field)),
+        purify,
         (req, res) => {
-            // Update the session with ordered items
-            modifyItems(req);
+            const errors = validationResult(req);
 
-            res.format({
-                html: () => {
-                    req.session.save(() => {
-                        res.redirect(req.baseUrl);
-                    });
-                },
-                json: () => {
-                    req.session.save(() => {
-                        res.send({
-                            status: 'success',
-                            orders: req.session[sessionOrderKey],
-                            itemBlocked: req.session[sessionBlockedItemKey] || false
+            if (errors.isEmpty()) {
+                const details = req.body;
+                const availableItems = res.locals.availableItems;
+
+                const itemsToEmail = req.session[sessionOrderKey].map(item => {
+                    const material = availableItems.find(i => i.itemId === item.materialId);
+                    const product = material.products.find(p => p.id === item.productId);
+                    // prevent someone who really loves plaques from hacking the form to increase the maximum
+                    if (item.quantity > material.maximum) {
+                        item.quantity = material.maximum;
+                    }
+                    return {
+                        name: product.name ? product.name : material.title,
+                        code: product.code,
+                        quantity: item.quantity
+                    };
+                });
+
+                const orderText = makeOrderText(itemsToEmail, details);
+
+                storeOrderSummary({
+                    orderItems: itemsToEmail,
+                    orderDetails: details
+                })
+                    .then(async () => {
+                        const customerSendTo = details.yourEmail;
+                        const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+
+                        const customerHtml = await generateHtmlEmail({
+                            template: path.resolve(__dirname, './views/order-email.njk'),
+                            templateData: { locale: req.i18n.getLocale() }
                         });
+
+                        const customerEmail = sendEmail({
+                            name: 'material_customer',
+                            mailConfig: {
+                                sendTo: customerSendTo,
+                                subject: 'Thank you for your Big Lottery Fund order',
+                                type: 'html',
+                                content: customerHtml
+                            }
+                        });
+
+                        const supplierEmail = sendEmail({
+                            name: 'material_supplier',
+                            mailConfig: {
+                                sendTo: supplierSendTo,
+                                sendMode: 'bcc',
+                                subject: `Order from Big Lottery Fund website - ${moment().format(
+                                    'dddd, MMMM Do YYYY, h:mm:ss a'
+                                )}`,
+                                type: 'text',
+                                content: orderText
+                            }
+                        });
+
+                        return Promise.all([customerEmail, supplierEmail]).then(() => {
+                            // Clear order details if successful
+                            delete req.session[sessionOrderKey];
+                            delete req.session[sessionBlockedItemKey];
+                            req.session.save(() => {
+                                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        Raven.captureException(err);
+                        renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
                     });
-                }
-            });
+            } else {
+                // The form has failed validation
+                res.locals.formErrors = errors.array();
+                res.locals.formValues = req.body;
+                renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
+            }
         }
     );
 
-    return router;
-};
+/**
+ * Handle adding and removing items
+ */
+router.post(
+    '/update-basket',
+    [sanitizeBody('action').escape(), sanitizeBody('code').escape()],
+    cached.noCache,
+    (req, res) => {
+        // Update the session with ordered items
+        modifyItems(req);
+
+        res.format({
+            html: () => {
+                req.session.save(() => {
+                    res.redirect(req.baseUrl);
+                });
+            },
+            json: () => {
+                req.session.save(() => {
+                    res.send({
+                        status: 'success',
+                        orders: req.session[sessionOrderKey],
+                        itemBlocked: req.session[sessionBlockedItemKey] || false
+                    });
+                });
+            }
+        });
+    }
+);
+
+module.exports = router;

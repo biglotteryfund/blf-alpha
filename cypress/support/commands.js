@@ -74,7 +74,7 @@ Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 3
 });
 
 Cypress.Commands.add('uiRegisterUser', (username, password) => {
-    cy.get('#username').type(username);
-    cy.get('#password').type(password);
+    cy.get('#field-username').type(username);
+    cy.get('#field-password').type(password);
     cy.get('input[type="submit"]').click();
 });

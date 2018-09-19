@@ -1,16 +1,17 @@
 'use strict';
-const { makeUserLink, STATUSES } = require('./utils');
+const path = require('path');
+const express = require('express');
+const router = express.Router();
 
-const dashboard = (req, res) => {
-    res.locals.STATUSES = STATUSES;
-    res.render('user/dashboard', {
+const { noCache } = require('../../middleware/cached');
+const { requireAuthed } = require('../../middleware/authed');
+
+router.get('/', noCache, requireAuthed, (req, res) => {
+    res.render(path.resolve(__dirname, './views/dashboard'), {
         user: req.user,
-        makeUserLink: makeUserLink,
         errors: res.locals.errors || [],
-        status: req.query.s || false
+        activationSent: req.query.s === 'activationSent'
     });
-};
+});
 
-module.exports = {
-    dashboard
-};
+module.exports = router;

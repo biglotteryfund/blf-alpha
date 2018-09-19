@@ -51,7 +51,7 @@ function mailto(str) {
     return `<a href="mailto:${str}">${str}</a>`;
 }
 
-function numberWithCommas(str) {
+function numberWithCommas(str = '') {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 

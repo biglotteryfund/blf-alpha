@@ -1,3 +1,4 @@
+// @ts-nocheck
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
@@ -116,7 +117,9 @@ describe('common', function() {
             expect(response.body).to.include('Cymunedau a lleoedd');
         });
     });
+});
 
+describe('user', () => {
     it('should allow users to register', () => {
         cy.visit('/user/register');
         const now = Date.now();
@@ -127,13 +130,13 @@ describe('common', function() {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.alert').contains('Your username and password combination is invalid');
+        cy.get('.form-errors').contains('Your username and password combination is invalid');
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.alert').contains('Please provide a password that contains at least one number');
+        cy.get('.form-errors').contains('Please provide a password that contains at least one number');
     });
 
     it('should email valid users with a token', () => {

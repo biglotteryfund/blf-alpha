@@ -3,9 +3,12 @@ const { flatten, get, getOr, last } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
-const { localify, removeWelsh } = require('../modules/urls');
-const { isBilingual } = require('../modules/pageLogic');
+const { localify } = require('../modules/urls');
 const contentApi = require('../services/content-api');
+
+function isBilingual(availableLanguages) {
+    return availableLanguages.length === 2;
+}
 
 function getPreviewStatus(entry) {
     return {
@@ -55,10 +58,10 @@ function injectHeroImage(heroSlug) {
     };
 }
 
-function injectCopy(page) {
+function injectCopy(lang) {
     return function(req, res, next) {
-        if (page.lang) {
-            const copy = req.i18n.__(page.lang);
+        if (lang) {
+            const copy = req.i18n.__(lang);
             res.locals.copy = copy;
             res.locals.title = copy.title;
             res.locals.description = copy.description || false;
@@ -130,11 +133,26 @@ async function injectFlexibleContent(req, res, next) {
         });
 
         res.locals.entry = entry;
-        res.locals.previewStatus = getPreviewStatus(entry);
+        setCommonLocals(res, entry);
         next();
     } catch (error) {
         next(error);
     }
+}
+
+function injectCaseStudies(caseStudySlugs = []) {
+    return async function(req, res, next) {
+        if (caseStudySlugs.length > 0) {
+            res.locals.caseStudies = await contentApi.getCaseStudies({
+                locale: req.i18n.getLocale(),
+                slugs: caseStudySlugs
+            });
+
+            next();
+        } else {
+            next();
+        }
+    };
 }
 
 async function injectFundingProgramme(req, res, next) {
@@ -146,10 +164,13 @@ async function injectFundingProgramme(req, res, next) {
         });
 
         res.locals.fundingProgramme = entry;
+        res.locals.title = entry.summary.title;
+        res.locals.heroImage = entry.hero || res.locals.fallbackHeroImage;
+        res.locals.isBilingual = isBilingual(entry.availableLanguages);
         res.locals.previewStatus = getPreviewStatus(entry);
         next();
     } catch (error) {
-        next();
+        next(error);
     }
 }
 
@@ -250,7 +271,7 @@ async function injectBlogDetail(req, res, next) {
             res.locals.blogDetail = blogDetail;
 
             if (blogDetail.meta.pageType === 'blogpost') {
-                res.locals.previewStatus = getPreviewStatus(blogDetail.result);
+                setCommonLocals(res, blogDetail.result);
             }
 
             next();
@@ -292,16 +313,17 @@ module.exports = {
     injectBlogDetail,
     injectBlogPosts,
     injectBreadcrumbs,
+    injectCaseStudies,
     injectCopy,
     injectFlexibleContent,
     injectFundingProgramme,
     injectFundingProgrammes,
-    injectStrategicProgramme,
-    injectStrategicProgrammes,
-    injectResearch,
-    injectResearchEntry,
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
-    injectProfiles
+    injectProfiles,
+    injectResearch,
+    injectResearchEntry,
+    injectStrategicProgramme,
+    injectStrategicProgrammes
 };

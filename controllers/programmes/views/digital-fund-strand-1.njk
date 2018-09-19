@@ -41,7 +41,7 @@
                         </div>
 
                         {{ stepProgress([{
-                            "title": "Book in a call",
+                            "title": "Request a call",
                             "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time"
                         }, {
                             "title": "Talk to us",
@@ -60,10 +60,10 @@
                             <header class="card__header">
                                 <h3 class="card__title">Get started</h3>
                                 <div class="card__body">
-                                    <p>We’re really interested in hearing your ideas. Please talk to us, even if you’re still at an early stage</p>
+                                    <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
 
                                     <a href="/funding/programmes/digital-funding-demo/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                                        Book in a call
+                                        Request a call
                                     </a>
                                 </div>
                             </header>
@@ -73,19 +73,9 @@
             </section>
 
             {% call contentBox(pageAccent, id='eligibility') %}
-                <p>The <a href="./">Digital Funding Programme</a> is currently planning to make awards to just two kinds of organisation:</p>
-
-                <ul>
-                    <li><strong>Strand 1: Long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens.</strong></li>
-                    <li><strong>Strand 2: Smaller organisations that have no ‘pre-digital’ legacy structures to modernise, which are poised to deliver impact at real scale. <a href="./strand-2">Learn more</a></strong></li>
-                </ul>
-
-                <p>The Big Lottery Fund will also soon be commissioning digital experts to offer free assistance to hundreds of voluntary sector organisations looking to build their basic digital skills. The Digital Fund will therefore not be making grants that are focused on basic skills.
-                <a href="./alternative-funding">You can sign up for updates about free digital assistance here.</a></p>
-
                 <h2>Are you eligible for strand 1 funding?</h2>
 
-                <p>With this strand of the Digital Fund we are looking to fund long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens.</p>
+                <p>With this strand of the Digital Fund we are looking to fund long-established charities with 25 or more staff want to reassess their core activities and fundamental business models, through a digital lens. <a href="//funding/programmes/digital-funding-demo/strand-2">It can also provide funding for tech for good organisations that have already launched promising services</a>.</p>
 
                 <h3>Eligibility</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
@@ -96,14 +86,42 @@
                 <h3>Support offered</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus elit at facilisis auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
 
-                <p>It’s also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities policy and your environmental policy if we’re interested in your idea.</p>
+                <h2>Our policies</h2>
+
+                <p>It is important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
 
                 <ul>
                     <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
                     <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
                 </ul>
 
+                <h2>Get started</h2>
+
                 <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
+
+                <p><a href="/funding/programmes/digital-funding-demo/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                    Request a call
+                </a></p>
+
+                <h2>Have any questions?</h2>
+
+                <p>If you have any questions about eligibility, get in touch with us.</p>
+                <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+            {% endcall %}
+
+            {% call contentBox(pageAccent) %}
+                <h2>Not sure this is for you?</h2>
+
+                <p>Choose one of the following options instead.</p>
+
+                <p><a href="/funding/programmes/digital-funding-demo/alternative-funding"
+                    class="btn btn--medium accent--pink a--btn">
+                    We want help getting started with digital
+                </a></p>
+                <p><a href="/funding/programmes/digital-funding-demo/strand-2"
+                    class="btn btn--medium accent--cyan a--btn">
+                    We are already highly digital, and want to scale our impact
+                </a></p>
             {% endcall %}
         </div>
     </main>

@@ -9,20 +9,18 @@ const sortedUniqByPath = compose(
     sortBy('path'),
     uniqBy('path')
 );
-const isLive = route => route.live === true;
 
 /**
  * Build a flat list of all canonical routes
  * Combines application routes and routes defined by the CMS
  */
-async function getCanonicalRoutes({ includeDraft = false } = {}) {
+async function getCanonicalRoutes() {
     const routerCanonicalUrls = flatMap(section => {
         const withoutWildcards = filter(_ => _.path.indexOf('*') === -1);
         const mapSummary = map((page, key) => {
             return {
                 title: key,
-                path: section.path + page.path,
-                live: page.live
+                path: section.path + page.path
             };
         });
 
@@ -34,7 +32,7 @@ async function getCanonicalRoutes({ includeDraft = false } = {}) {
 
     const cmsCanonicalUrls = await contentApi.getRoutes();
     const combined = concat(routerCanonicalUrls, cmsCanonicalUrls);
-    const filtered = includeDraft === true ? combined : combined.filter(isLive);
+    const filtered = combined.filter(route => !route.isDraft);
     return sortedUniqByPath(filtered);
 }
 

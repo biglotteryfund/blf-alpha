@@ -643,10 +643,11 @@ funding:
           body: If you need a smaller logo just close this box and select the Print
             or Digital versions.
   programmes:
-    title: Funding Programmes
+    title: Funding programmes
     under10k: Awards under £10,000
     over10k: Awards over £10,000
-    breadcrumbAll: All Programmes
+  programmesClosed:
+    title: Funding programmes closed to applicants
 research:
   detail:
     documents: Documents

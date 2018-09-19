@@ -9,8 +9,10 @@ const cached = require('../../middleware/cached');
 const { AZURE_AUTH } = require('../../modules/secrets');
 
 
-router.get('/lol', (req, res) => {
-    res.redirect('/user/staff');
+router.get('/interstitial', (req, res) => {
+    res.render('user/interstitial', {
+        redirectUrl: '/user/staff-only'
+    });
 });
 
 router.get('/', cached.noCache, (req, res) => {
@@ -46,7 +48,6 @@ router.get(
         passport.authenticate('azuread-openidconnect', {
             response: res,
             failureRedirect: '/user/staff/error',
-            successRedirect: '/user/staff/lol'
         })(req, res, next);
     });
 
@@ -86,7 +87,6 @@ router.post('/auth/openid/return',
         passport.authenticate('azuread-openidconnect', {
             response: res,
             failureRedirect: '/user/staff/error',
-            successRedirect: '/user/staff?from=postsuccess'
         }, function(err, user) {
             if (err) { return next(err); }
             if (!user) {
@@ -98,7 +98,7 @@ router.post('/auth/openid/return',
                 if (err) { return next(err); }
                 req.session.user = user;
                 return req.session.save(() => {
-                    return res.redirect('/user/staff/lol');
+                    return res.redirect('/user/staff/interstitial');
                 });
             });
         })(req, res, next);

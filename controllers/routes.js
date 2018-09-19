@@ -1,7 +1,7 @@
 'use strict';
 
 const aliases = require('./aliases');
-const { customRoute, staticContentRoute, basicContentRoute, flexibleContentRoute } = require('./route-types');
+const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
  * @typedef {object} Section
@@ -24,41 +24,50 @@ const toplevel = {
         return require('./toplevel')(options);
     },
     pages: {
-        home: customRoute({
+        home: {
             path: '/',
-            template: 'pages/toplevel/home',
-            lang: 'toplevel.home'
-        }),
-        northernIreland: staticContentRoute({
+            lang: 'toplevel.home',
+            router: require('./home')
+        },
+        northernIreland: {
             path: '/northern-ireland',
-            sMaxAge: '30m',
-            template: 'pages/toplevel/region',
             lang: 'toplevel.northernIreland',
-            isBilingual: false,
-            heroSlug: 'down-right-brilliant'
-        }),
-        wales: staticContentRoute({
+            heroSlug: 'down-right-brilliant',
+            router: staticPage({
+                disableLanguageLink: true,
+                template: 'static-pages/region'
+            })
+        },
+        wales: {
             path: '/wales',
-            sMaxAge: '30m',
-            template: 'pages/toplevel/region',
             lang: 'toplevel.wales',
-            heroSlug: 'grassroots-wales'
-        }),
-        contact: basicContentRoute({
-            path: '/contact'
-        }),
-        data: customRoute({
+            heroSlug: 'grassroots-wales',
+            router: staticPage({
+                template: 'static-pages/region'
+            })
+        },
+        contact: {
+            path: '/contact',
+            router: basicContent()
+        },
+        data: {
             path: '/data',
-            template: 'pages/toplevel/data',
             lang: 'toplevel.data',
-            heroSlug: 'young-shoulders-programme'
-        }),
-        jobs: basicContentRoute({
-            path: '/jobs'
-        }),
-        jobsBenefits: basicContentRoute({
-            path: '/jobs/benefits'
-        })
+            heroSlug: 'young-shoulders-programme',
+            router: require('./data')
+        },
+        jobs: {
+            path: '/jobs*',
+            router: basicContent()
+        },
+        search: {
+            path: '/search',
+            router: require('./search')
+        },
+        patterns: {
+            path: '/patterns',
+            router: require('./pattern-library')
+        }
     }
 };
 
@@ -70,82 +79,98 @@ const funding = {
     path: '/funding',
     showInNavigation: true,
     langTitlePath: 'global.nav.funding',
-    controller: function(options) {
-        return require('./funding')(options);
-    },
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
-            sMaxAge: '30m',
-            template: 'pages/funding/index',
             lang: 'toplevel.funding',
-            heroSlug: 'active-plus-communities'
-        }),
-        rootTest: staticContentRoute({
+            heroSlug: 'active-plus-communities',
+            router: require('./funding')
+        },
+        rootTest: {
             path: '/test',
-            template: 'pages/funding/index-test',
             lang: 'toplevel.funding',
             heroSlug: 'ragroof-players',
-            live: false
-        }),
-        thinkingOfApplying: staticContentRoute({
+            isDraft: true,
+            router: staticPage({
+                template: 'static-pages/funding-test'
+            })
+        },
+        thinkingOfApplying: {
             path: '/thinking-of-applying',
-            template: 'pages/funding/thinking-of-applying',
             lang: 'funding.thinkingOfApplying',
             heroSlug: 'building-bridges',
-            live: false
-        }),
-        under10k: customRoute({
+            isDraft: true,
+            router: staticPage({
+                template: 'static-pages/thinking-of-applying'
+            })
+        },
+        under10k: {
             path: '/under10k',
-            template: 'pages/funding/under10k',
             lang: 'funding.under10k',
-            heroSlug: 'friends-of-greenwich'
-        }),
-        over10k: customRoute({
+            heroSlug: 'friends-of-greenwich',
+            router: staticPage({
+                template: 'static-pages/under10k',
+                caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
+            })
+        },
+        over10k: {
             path: '/over10k',
-            template: 'pages/funding/over10k',
             lang: 'funding.over10k',
-            heroSlug: 'passion-4-fusion-3'
-        }),
-        pastGrants: staticContentRoute({
-            path: '/past-grants',
-            template: 'pages/funding/past-grants',
-            lang: 'funding.pastGrants',
-            heroSlug: 'active-plus-communities'
-        }),
-        pastGrantsAlpha: customRoute({
-            path: '/search-past-grants-alpha',
-            live: false,
-            template: 'pages/grants/search'
-        }),
-        programmes: customRoute({
+            heroSlug: 'passion-4-fusion-3',
+            router: staticPage({
+                template: 'static-pages/over10k',
+                caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
+            })
+        },
+        programmes: {
             path: '/programmes',
-            template: 'pages/funding/programmes',
-            lang: 'funding.programmes',
-            heroSlug: 'the-young-foundation'
-        }),
-        programmeDetail: customRoute({
-            path: '/programmes/*',
-            template: 'pages/funding/programme-detail'
-        }),
-        buildingBetterOpportunities: basicContentRoute({
-            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding'
-        }),
-        buildingBetterOpportunitiesResources: basicContentRoute({
-            path: '/programmes/building-better-opportunities/building-better-opportunities-resources'
-        }),
-        fundingGuidanceLogos: basicContentRoute({
+            router: require('./programmes')
+        },
+        buildingBetterOpportunities: {
+            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
+            router: basicContent()
+        },
+        buildingBetterOpportunitiesResources: {
+            path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
+            router: basicContent()
+        },
+        strategicInvestments: {
+            path: '/strategic-investments',
+            router: require('./strategic-investments')
+        },
+        fundingFinder: {
+            path: '/funding-finder',
+            router: require('./funding-finder')
+        },
+        pastGrants: {
+            path: '/past-grants',
+            lang: 'funding.pastGrants',
+            heroSlug: 'active-plus-communities',
+            router: staticPage({
+                template: 'static-pages/past-grants'
+            })
+        },
+        pastGrantsAlpha: {
+            path: '/search-past-grants-alpha',
+            isDraft: true,
+            template: 'pages/grants/search',
+            router: require('./past-grants')
+        },
+        fundingGuidanceLogos: {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            template: 'pages/funding/logos',
-            lang: 'funding.guidance.logos'
-        }),
-        fundingGuidanceMaterials: customRoute({
+            lang: 'funding.guidance.logos',
+            router: basicContent({
+                customTemplate: 'static-pages/logos'
+            })
+        },
+        fundingGuidanceMaterials: {
             path: '/funding-guidance/managing-your-funding/ordering-free-materials',
-            lang: 'funding.guidance.order-free-materials'
-        }),
-        fundingGuidance: basicContentRoute({
-            path: '/funding-guidance/*'
-        })
+            router: require('./materials')
+        },
+        fundingGuidance: {
+            path: '/funding-guidance/*',
+            router: basicContent()
+        }
     }
 };
 
@@ -158,14 +183,16 @@ const local = {
     langTitlePath: 'global.nav.local',
     showInNavigation: false,
     pages: {
-        root: staticContentRoute({
+        root: {
             path: '/',
-            template: 'pages/toplevel/local',
-            isBilingual: false,
             lang: 'toplevel.local',
             heroSlug: 'arkwright-meadows',
-            live: false
-        })
+            isDraft: true,
+            router: staticPage({
+                disableLanguageLink: true,
+                template: 'static-pages/local'
+            })
+        }
     }
 };
 
@@ -181,17 +208,17 @@ const research = {
         return require('./research')(options);
     },
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
             lang: 'toplevel.research',
             heroSlug: 'grassroots-project'
-        }),
-        rootNew: customRoute({
+        },
+        rootNew: {
             path: '/landing-new',
             lang: 'toplevel.research',
             heroSlug: 'grassroots-project',
-            live: false
-        })
+            isDraft: true
+        }
     }
 };
 
@@ -203,34 +230,29 @@ const about = {
     path: '/about',
     showInNavigation: true,
     langTitlePath: 'global.nav.about',
-    controller: function(options) {
-        return require('./about')(options);
-    },
     pages: {
-        root: flexibleContentRoute({
-            path: '/'
-        }),
-        seniorManagement: customRoute({
+        root: {
+            path: '/',
+            router: flexibleContent()
+        },
+        seniorManagement: {
             path: '/our-people/senior-management-team',
-            template: 'pages/about/senior-management-team',
             lang: 'about.ourPeople.seniorManagement',
-            heroSlug: 'mental-health-foundation'
-        }),
-        board: customRoute({
-            path: '/our-people/board',
-            template: 'pages/about/board',
-            lang: 'about.ourPeople.board',
-            live: false
-        }),
-        ebulletin: customRoute({
+            heroSlug: 'mental-health-foundation',
+            router: require('./profiles')({
+                profilesSection: 'seniorManagementTeam'
+            })
+        },
+        ebulletin: {
             path: '/ebulletin',
-            template: 'pages/about/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams'
-        }),
-        content: basicContentRoute({
-            path: '/*'
-        })
+            heroSlug: 'street-dreams',
+            router: require('./ebulletin')
+        },
+        content: {
+            path: '/*',
+            router: basicContent()
+        }
     }
 };
 
@@ -242,18 +264,12 @@ const blog = {
     path: '/blog',
     showInNavigation: false,
     langTitlePath: 'global.nav.blog',
-    controller: function(options) {
-        return require('./blog')(options);
-    },
     pages: {
-        root: customRoute({
+        root: {
             path: '/',
-            live: false
-        }),
-        articles: customRoute({
-            path: '/*',
-            live: false
-        })
+            router: require('./blog'),
+            isDraft: true
+        }
     }
 };
 
@@ -268,9 +284,9 @@ const apply = {
         return require('./apply')(options);
     },
     pages: {
-        root: customRoute({
+        root: {
             path: '/'
-        })
+        }
     }
 };
 
