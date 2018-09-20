@@ -1,0 +1,47 @@
+/* =========================================================================
+   Past grants
+   ========================================================================= */
+
+/* =========================================================================
+   Grant Search Layout
+   ========================================================================= */
+
+.grants-search {
+    @include clearfix();
+}
+.grants-search__filters {
+    float: left;
+    width: 27%;
+    margin-right: 3%;
+}
+.grants-search__results {
+    float: left;
+    width: 70%;
+}
+
+/* =========================================================================
+    Grant Result
+    ========================================================================= */
+
+.grant-result {
+    margin-bottom: $spacingUnit;
+
+    border-bottom: 1px solid palette('border');
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+
+    .grant-result__title,
+    .grant-result__summary {
+        margin-bottom: 3px;
+    }
+
+    .grant-result__header {
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    .grant-result__meta {
+        font-size: 18px;
+    }
+}

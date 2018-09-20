@@ -99,6 +99,21 @@
     >{{ field.value }}</textarea>
 {% endmacro %}
 
+{% macro inputSelect(field) %}
+    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+    {{ fieldHelpText(field) }}
+    <select
+        class="ff-select"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}">
+        {% for option in field.options %}
+            <option value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
+                {{ option.label }}
+            </option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
 {% macro inputChoice(field) %}
     <fieldset class="ff-choice">
         <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
@@ -146,6 +161,8 @@
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
+                {% elseif field.type === 'select' %}
+                    {{ inputSelect(field) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
                     {{ inputChoice(field) }}
                 {% else %}
