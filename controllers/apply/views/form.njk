@@ -41,18 +41,21 @@
             <h2>{{ stepCopy.name or step.name }}</h2>
 
             {% for fieldset in step.fieldsets %}
-                {% set fieldsetCopy = stepCopy.fieldsets[loop.index - 1] %}
-                <pre>{{ fieldsetCopy | dump(2) }}</pre>
+                {% set fieldsetCopy = stepCopy.fieldsets[loop.index0] %}
                 <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
                     <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
                         {{ fieldsetCopy.legend or fieldset.legend }}
                     </legend>
-                    {% if fieldsetCopy.introduction or fieldset.introduction %}
-                        <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
+
+                    {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
+                    {% if introduction %}
+                        <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
                     {% endif %}
+
                     <div class="form-fieldset__fields">
                         {% for field in fieldset.fields %}
-                            {{ formField(field, errors) }}
+                            {% set fieldCopy = fieldsetCopy.fields[field.name] %}
+                            {{ formField(field, fieldCopy, errors) }}
                         {% endfor %}
                     </div>
                 </fieldset>

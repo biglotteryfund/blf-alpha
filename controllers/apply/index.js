@@ -14,30 +14,32 @@ const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers'
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingForm = require('./digital-funding/form-model');
 
-/**
- * Collect all validators associated with each field for express-validator
- */
-function getValidators(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return fields.map(field => {
-        if (field.validator) {
-            return field.validator(field);
-        } else if (field.isRequired === true) {
-            return check(field.name)
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage(field.errorMessage || `“${field.label}” must be provided`);
-        } else {
-            return check(field.name)
-                .trim()
-                .optional();
-        }
-    });
-}
-
 function initFormRouter(form) {
     const router = express.Router();
+
+    /**
+     * Collect all validators associated with each field for express-validator
+     */
+    function getValidators(step) {
+        const fields = flatMap(step.fieldsets, 'fields');
+        return fields.map(field => {
+            if (field.validator) {
+                return field.validator(field);
+            } else if (field.isRequired === true) {
+                return check(field.name)
+                    .trim()
+                    .not()
+                    .isEmpty()
+                    .withMessage((value, { req }) => {
+                        return req.i18n.__(`${field.name} must be provided`);
+                    });
+            } else {
+                return check(field.name)
+                    .trim()
+                    .optional();
+            }
+        });
+    }
 
     function getSessionProp(stepNo) {
         const baseProp = `form.${form.id}`;
