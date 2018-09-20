@@ -61,18 +61,14 @@ const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgr
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
  */
-const MS_IDENTITY_URL = process.env.MS_IDENTITY_URL || getSecret('ms.auth.identityUrl');
 const MS_CLIENT_ID = process.env.MS_CLIENT_ID || getSecret('ms.auth.clientId');
-const MS_REDIRECT_URL = process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl');
-const MS_ALLOW_HTTP = !!process.env.MS_ALLOW_HTTP || getSecret('ms.auth.allowHttpForRedirectUrl');
 const MS_CLIENT_SECRET = process.env.MS_CLIENT_SECRET || getSecret('ms.auth.clientSecret');
-const MS_LOGOUT_URL = process.env.MS_LOGOUT_URL || getSecret('ms.auth.logoutUrl');
-const MS_DESTROY_URL = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${MS_LOGOUT_URL}`;
+const MS_REDIRECT_URL = process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl');
 
-const MS_COOKIE_ENC_KEY_1 = process.env.MS_COOKIE_ENC_KEY_1 || getSecret('ms.auth.cookie1.key');
-const MS_COOKIE_ENC_IV_1 = process.env.MS_COOKIE_ENC_IV_1 || getSecret('ms.auth.cookie1.iv');
-const MS_COOKIE_ENC_KEY_2 = process.env.MS_COOKIE_ENC_KEY_2 || getSecret('ms.auth.cookie2.key');
-const MS_COOKIE_ENC_IV_2 = process.env.MS_COOKIE_ENC_IV_2 || getSecret('ms.auth.cookie2.iv');
+// We store these strings in one parameter for the sake of sanity
+// in the format <string:32>;<string:12>
+const MS_COOKIE_1 = process.env.MS_COOKIE_1 || getSecret('ms.cookie.1');
+const MS_COOKIE_2 = process.env.MS_COOKIE_2 || getSecret('ms.cookie.2');
 
 module.exports = {
     getRawParameters,
@@ -90,21 +86,9 @@ module.exports = {
     DIGITAL_FUNDING_EMAIL,
     PAST_GRANTS_API_URI,
     AZURE_AUTH: {
-        MS_IDENTITY_URL,
         MS_CLIENT_ID,
         MS_REDIRECT_URL,
-        MS_ALLOW_HTTP,
         MS_CLIENT_SECRET,
-        MS_DESTROY_URL,
-        COOKIES: {
-            ONE: {
-                KEY: MS_COOKIE_ENC_KEY_1,
-                IV: MS_COOKIE_ENC_IV_1
-            },
-            TWO: {
-                KEY: MS_COOKIE_ENC_KEY_2,
-                IV: MS_COOKIE_ENC_IV_2
-            }
-        }
+        MS_COOKIES: [MS_COOKIE_1, MS_COOKIE_2]
     }
 };

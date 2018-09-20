@@ -6,6 +6,7 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
 const userService = require('../services/user');
 const { AZURE_AUTH } = require('../modules/secrets');
+const appData = require('../modules/appData');
 
 module.exports = function() {
     // Configure standard user sign-in (eg. members of the public)
@@ -30,26 +31,28 @@ module.exports = function() {
         })
     );
 
-    if (config.get('features.azureAuthEnabled')) {
+    // Only initialise this auth strategy if secrets exist (eg. not on CI)
+    if (config.get('features.azureAuthEnabled') && AZURE_AUTH.MS_CLIENT_ID) {
+
         // Configure staff user sign-in (eg. internal authentication)
+        const authEndpoint =
+            'https://login.microsoftonline.com/biglotteryfund.onmicrosoft.com/.well-known/openid-configuration';
+
+        // Separate out the combined cookie encryption keys
+        const cookieKeys = AZURE_AUTH.MS_COOKIES.map(keyPair => {
+            const [key, iv] = keyPair.split(';');
+            return { key, iv };
+        });
+
         passport.use(
             new OIDCStrategy(
                 {
-                    identityMetadata: AZURE_AUTH.MS_IDENTITY_URL,
+                    identityMetadata: authEndpoint,
                     clientID: AZURE_AUTH.MS_CLIENT_ID,
-                    allowHttpForRedirectUrl: AZURE_AUTH.MS_ALLOW_HTTP,
+                    allowHttpForRedirectUrl: appData.isDev,
                     redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
                     clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
-                    cookieEncryptionKeys: [
-                        {
-                            key: AZURE_AUTH.COOKIES.ONE.KEY,
-                            iv: AZURE_AUTH.COOKIES.ONE.IV
-                        },
-                        {
-                            key: AZURE_AUTH.COOKIES.TWO.KEY,
-                            iv: AZURE_AUTH.COOKIES.TWO.IV
-                        }
-                    ],
+                    cookieEncryptionKeys: cookieKeys,
                     responseType: 'code id_token',
                     responseMode: 'form_post',
                     validateIssuer: true,
