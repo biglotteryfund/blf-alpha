@@ -38,12 +38,16 @@
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
+            <h2>{{ stepCopy.name or step.name }}</h2>
+
             {% for fieldset in step.fieldsets %}
+                {% set fieldsetCopy = stepCopy.fieldsets[loop.index - 1] %}
+                <pre>{{ fieldsetCopy | dump(2) }}</pre>
                 <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
                     <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
-                        {{ fieldset.legend }}
+                        {{ fieldsetCopy.legend or fieldset.legend }}
                     </legend>
-                    {% if fieldset.introduction %}
+                    {% if fieldsetCopy.introduction or fieldset.introduction %}
                         <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
                     {% endif %}
                     <div class="form-fieldset__fields">

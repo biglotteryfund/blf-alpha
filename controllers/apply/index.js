@@ -105,10 +105,13 @@ function initFormRouter(form) {
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
+            const stepsCopy = get(res.locals.copy, 'steps', []);
+            const stepCopy = stepsCopy.length > 0 ? stepsCopy[idx] : {};
 
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: form,
+                stepCopy: stepCopy,
                 step: stepWithValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors

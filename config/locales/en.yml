@@ -661,6 +661,15 @@ apply:
   digitalFundingStrand1:
     title: "[lang] Digital Funding: Strand"
     description: '[lang] The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    steps:
+      - name: lang Your details
+        fieldsets:
+        - legend: lang Your contact details
+          introduction: lang Please tell us a little about your project and organisation so that we can get in touch
+          fields:
+            name:
+              label: lang Name
+        - legend: lang Your organisation
     review:
       title: '[lang] Check this is right before submitting your information'
       proceedLabel: '[lang] Submit'

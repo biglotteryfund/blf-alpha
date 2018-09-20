@@ -68,18 +68,9 @@ module.exports = strandNumber => {
         isBilingual: true,
         steps: [
             {
-                name: 'Your details',
                 fieldsets: [
-                    {
-                        legend: 'Your contact details',
-                        introduction:
-                            'Please tell us a little about your project and organisation so that we can get in touch',
-                        fields: [fieldName, fieldEmail, fieldOrgName]
-                    },
-                    {
-                        legend: 'Your organisation',
-                        fields: strandNumber === 1 ? [fieldAbout] : [fieldAbout, fieldScale]
-                    }
+                    { fields: [fieldName, fieldEmail, fieldOrgName] },
+                    { fields: strandNumber === 1 ? [fieldAbout] : [fieldAbout, fieldScale] }
                 ]
             }
         ],
