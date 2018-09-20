@@ -1,6 +1,5 @@
 {
   "features": {
-    "azureAuthEnabled": false,
     "enableMailSendMetrics": true
   }
 }

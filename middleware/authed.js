@@ -1,5 +1,6 @@
 'use strict';
 const { get } = require('lodash');
+const config = require('config');
 
 const checkAuthStatus = (req, res, next) => {
     if (req.isAuthenticated || req.user) {
@@ -36,6 +37,9 @@ const requireUserAuth = (req, res, next) => {
 
 // Middleware for staff users only
 const requireStaffAuth = (req, res, next) => {
+    if (!config.get('features.azureAuthEnabled')) {
+        res.redirect('/user/login');
+    }
     if (req.isAuthenticated() && get(req, 'user.userType', false) === 'staff') {
         return next();
     }
