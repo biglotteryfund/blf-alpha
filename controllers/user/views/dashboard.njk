@@ -8,18 +8,24 @@
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <h1>{{ title }}</h1>
 
-            {% if not user.is_active %}
-                <div class="message" role="alert">
-                    <p>You haven't activated your account yet.</p>
-                    {% if activationSent %}
-                        <p><strong>We just sent an email to {{ user.username }} with a link to activate your account.</strong></p>
-                    {% endif %}
-                    <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
-                </div>
+            {% if user.userType === 'user' %}
+                {% if not user.is_active %}
+                    <div class="message" role="alert">
+                        <p>You haven't activated your account yet.</p>
+                        {% if activationSent %}
+                            <p><strong>We just sent an email to {{ user.username }} with a link to activate your account.</strong></p>
+                        {% endif %}
+                        <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
+                    </div>
+                {% endif %}
             {% endif %}
 
             {% if user %}
-                <p class="navbar-text">Logged in as <strong>{{ user.username }}</strong>
+                {% if user.userType === 'user' %}
+                    <p class="navbar-text">Logged in as <strong>{{ user.userData.username }}</strong>
+                {% elseif user.userType === 'staff' %}
+                    <p class="navbar-text">Logged in as <strong>{{ user.userData.fullName }}</strong>
+                {% endif %}
                 <p><a class="btn btn--small" href="/user/logout">Log out?</a></p>
             {% else %}
                 <p class="navbar-text"><a href="/user/login">Log in</a></p>

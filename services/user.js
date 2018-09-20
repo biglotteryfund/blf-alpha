@@ -1,6 +1,6 @@
 'use strict';
 const { Op } = require('sequelize');
-const { Users } = require('../models');
+const { Users, Staff } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
 
 function getSanitizedUser({ username, password, level }) {
@@ -96,6 +96,43 @@ function __destroyAll() {
     return Users.destroy({ where: {} });
 }
 
+// Staff-specific user functions
+const findOrCreateStaffUser = (userProfile, cb) => {
+    return Staff.findOrCreate({
+        where: {
+            oid: {
+                [Op.eq]: userProfile.oid
+            }
+        },
+        defaults: {
+            oid: userProfile.oid,
+            email: userProfile.upn,
+            given_name: userProfile.name.givenName,
+            family_name: userProfile.name.familyName
+        }
+    })
+        .spread((user, wasCreated) => {
+            // update last login date
+            user.changed('updatedAt', true);
+            return user.save().then(() => {
+                return cb(null, { user, wasCreated });
+            });
+        })
+        .catch(() => {
+            return cb(null, null);
+        });
+};
+
+const findStaffUserById = id => {
+    return Staff.findOne({
+        where: {
+            id: {
+                [Op.eq]: id
+            }
+        }
+    });
+};
+
 module.exports = {
     findById,
     findByUsername,
@@ -104,5 +141,7 @@ module.exports = {
     updateNewPassword,
     updateActivateUser,
     createUser,
+    findOrCreateStaffUser,
+    findStaffUserById,
     __destroyAll
 };

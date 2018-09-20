@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1 class="border-bottom pb-2 mb-4">What would you like to do?</h1>
+    <p class="navbar-text">Logged in as <strong>{{ user.userData.fullName }}</strong>
 
     <ul>
         {% for link in links %}

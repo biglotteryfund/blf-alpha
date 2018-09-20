@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { head, sortBy } = require('lodash');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 
@@ -78,7 +77,7 @@ router.get('/', async (req, res) => {
         json: true,
         qs: query
     });
-    
+
     res.render(path.resolve(__dirname, './views/past-grants'), {
         title: 'Past grants search',
         queryParams: req.query,

@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const { buildSecurityMiddleware } = require('../../middleware/securityHeaders');
-const { requireAuthedLevel } = require('../../middleware/authed');
+const { requireStaffAuth } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
@@ -27,7 +27,8 @@ router.use('/pages', require('./pagelist'));
  * Internal / Authed Tools
  **************************************/
 
-router.use(requireAuthedLevel(5));
+// Staff only routes
+router.use(requireStaffAuth);
 
 router.route('/').get((req, res) => {
     const links = [
@@ -37,7 +38,10 @@ router.route('/').get((req, res) => {
         { label: 'View recent materials order stats', href: '/tools/order-stats' }
     ];
 
-    res.render(path.resolve(__dirname, './views/index'), { links });
+    res.render(path.resolve(__dirname, './views/index'), {
+        links,
+        user: req.user
+    });
 });
 
 router.use('/feedback-results', require('./feedback'));
