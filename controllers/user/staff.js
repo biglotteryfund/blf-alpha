@@ -41,9 +41,9 @@ router.post('/auth/openid/return', function(req, res, next) {
                 return res.redirect('/user/login');
             }
 
-            req.login(user, {}, loginError => {
-                if (loginError) {
-                    return next(loginError);
+            req.login(user, loginErr => {
+                if (loginErr) {
+                    return next(loginErr);
                 }
 
                 // HACKY WORKAROUND:
