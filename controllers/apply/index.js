@@ -31,7 +31,11 @@ function initFormRouter(form) {
                     .not()
                     .isEmpty()
                     .withMessage((value, { req }) => {
-                        return req.i18n.__(`${field.name} must be provided`);
+                        const formCopy = form.lang ? req.i18n.__(form.lang) : {};
+                        const errorMessage = get(formCopy, `fields.${field.name}.errorMessage`);
+                        // @TODO: Translate fallback error message;
+                        const fallbackErrorMessage = `${field.label} must be provided`;
+                        return req.i18n.__(errorMessage || fallbackErrorMessage);
                     });
             } else {
                 return check(field.name)
@@ -226,7 +230,8 @@ function initFormRouter(form) {
                     await form.processor({
                         form: form,
                         data: flattenFormData(formData),
-                        stepsWithValues: stepsWithValues(form.steps, formData)
+                        stepsWithValues: stepsWithValues(form.steps, formData),
+                        copy: res.locals.copy
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {

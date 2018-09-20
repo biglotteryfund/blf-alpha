@@ -29,9 +29,10 @@
             <h2>{{ title }}</h2>
 
             {% for step in summary %}
+                {% set stepCopy = copy.steps[loop.index0] %}
                 <div class="review-step">
                     <h3 class="review-step__title">
-                        {{ step.name }}
+                        {{ stepCopy.name or step.name }}
                         <a class="review-step__edit js-application-form-review-link"
                            href="{{ baseUrl }}/{{ loop.index }}/edit"
                            aria-label="Edit {{ step.name }}">
@@ -41,9 +42,11 @@
                     {% for fieldset in step.fieldsets %}
                         <dl class="review-step__list">
                             {% for field in fieldset.fields %}
+                                {% set fieldCopy = copy.fields[field.name] %}
+                                {% set fieldLabel = fieldCopy.label or field.label %}
                                 {% if field.value %}
                                     <dt class="review-step__item-label{% if field.type === 'textarea' %} is-stacked{% endif %}">
-                                        {{ field.label }}
+                                        {{ fieldLabel }}
                                     </dt>
                                     <dd class="review-step__item-value{% if field.type === 'textarea' %} is-stacked is-constrained{% endif %}">
                                         <div class="s-prose" data-hj-suppress>

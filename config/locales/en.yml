@@ -659,38 +659,43 @@ research:
     contact: Contact
 apply:
   digitalFunding:
-    title: "lang Digital Funding"
-    description: 'lang The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    title: "Digital Funding"
+    description: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    errorTitle: There was a problem with your submission
+    fields:
+      name:
+        label: Name
+        errorMessage: Please provide your name
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      organisation-name:
+        label: Organisation name
+        errorMessage: Please provide the name of your organisation
+      about-your-organisation:
+        label: About your organisation
+        helpText: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      how-technology-helps-scale:
+        label: Briefly tell us how technology helps you scale your impact
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us how technology helps you scale your impact
     steps:
-      - name: lang Your details
+      - name: Your details
         fieldsets:
-        - legend: lang Your contact details
-          introduction: lang Please tell us a little about your project and organisation so that we can get in touch
-          fields:
-            name:
-              label: lang Name
-            email:
-              label: lang Email address
-            organisation-name:
-              label: lang Organisation name
-        - legend: lang Your organisation
-          fields:
-            about-your-organisation:
-              label: lang About your organisation
-              helpText: lang Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
-              lengthHint: lang Please keep it to a couple of paragraphs
-            how-technology-helps-scale:
-              label: lang Briefly tell us how technology helps you scale your impact
-              lengthHint: lang Please keep it to a couple of paragraphs
+        - legend: Your contact details
+          introduction: Please tell us a little about your project and organisation so that we can get in touch
+        - legend: Your organisation
     review:
-      title: 'lang Check this is right before submitting your information'
-      proceedLabel: 'lang Submit'
+      title: 'Check this is right before submitting your information'
+      proceedLabel: 'Submit'
     success:
-      title: 'lang Thank you for getting in touch'
-      message: 'lang We will get back to you with a fixed time for a call as quickly as we can.'
-      nextStepsTitle: 'lang What happens next?'
+      title: 'Thank you for getting in touch'
+      message: 'We will get back to you with a fixed time for a call as quickly as we can.'
+      nextStepsTitle: 'What happens next?'
     error:
-      title: 'lang There was an problem submitting your information'
-      message: 'lang <p>There was a problem submitting your information, we have been notified of the problem.</p>
+      title: 'There was an problem submitting your information'
+      message: '<p>There was a problem submitting your information, we have been notified of the problem.</p>
         <p>Please return to the review step and try again. If you still see an error please call
         <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>'

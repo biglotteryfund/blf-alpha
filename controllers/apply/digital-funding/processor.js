@@ -5,7 +5,7 @@ const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { DIGITAL_FUNDING_EMAIL } = require('../../../modules/secrets');
 
-module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null }) {
+module.exports = async function processor({ form, data, stepsWithValues, mailTransport = null, copy = null }) {
     const customerSendTo = {
         name: `${data['name']}`,
         address: data['email']
@@ -15,6 +15,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         template: path.resolve(__dirname, './customer-email.njk'),
         templateData: {
             data: data,
+            copy: copy,
             summary: stepsWithValues,
             isArray: xs => Array.isArray(xs)
         }
@@ -25,6 +26,7 @@ module.exports = async function processor({ form, data, stepsWithValues, mailTra
         templateData: {
             title: form.title,
             data: data,
+            copy: copy,
             summary: stepsWithValues,
             isArray: xs => Array.isArray(xs)
         }

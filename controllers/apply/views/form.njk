@@ -36,7 +36,8 @@
                 <p>{{ description | safe }}</p>
             {% endif %}
 
-            {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+            {% set errorTitle = copy.errorTitle | default('There was a problem with your submission', true) %}
+            {{ formErrors(errors = errors, title = errorTitle) }}
 
             <h2>{{ stepCopy.name or step.name }}</h2>
 
@@ -54,7 +55,7 @@
 
                     <div class="form-fieldset__fields">
                         {% for field in fieldset.fields %}
-                            {% set fieldCopy = fieldsetCopy.fields[field.name] %}
+                            {% set fieldCopy = copy.fields[field.name] %}
                             {{ formField(field, fieldCopy, errors) }}
                         {% endfor %}
                     </div>
