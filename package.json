@@ -1,6 +1,6 @@
 {
   "name": "biglotteryfund",
-  "description": "Big Lottery Fund",
+  "description": "Big Lottery Fund website",
   "version": "1.0.0",
   "private": true,
   "config": {
