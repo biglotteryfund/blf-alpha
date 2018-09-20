@@ -49,8 +49,9 @@ function initFormRouter(form) {
     }
 
     router.use((req, res, next) => {
-        res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.isBilingual = form.isBilingual;
+        res.locals.pageAccent = form.pageAccent || 'pink';
+        res.locals.enablePrompt = false; // Disable prompts on apply pages
         next();
     });
 

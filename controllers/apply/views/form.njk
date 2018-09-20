@@ -6,7 +6,6 @@
 
 {% block title %}Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }} | {{ form.title }} | {% endblock %}
 
-{% set pageAccent = form.pageAccent if form.pageAccent else 'pink' %}
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
