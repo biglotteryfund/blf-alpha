@@ -101,56 +101,55 @@ information</h2>
 16px; border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
 700;\\">Your details</h4>
                =20
-                   =20
                        =20
-                            <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Name</h5>
-                           =20
-                                <p =
-style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
-400; line-height: 1.35;\\">Example Person</p>
-                           =20
                        =20
-                   =20
-                       =
+                       =20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Name</h5>
+                           =
 =20
-                            <h5 style=3D\\"color: #e20087; margin: 0 0 =
-20px; font-size: 14px; font-weight: 700;\\">Email address</h5>
+                                <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example =
+Person</p>
+                           =20
+                       =20
+                       =20
+                       =20
+                       =20
+                            <h5 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Email =
+address</h5>
+                           =20
+                               =
+ <p style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight:=
+ 400; line-height: 1.35;\\">example@example.com</p>
+                         =
+  =20
+                       =20
+                       =20
+                       =20
+                       =20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Organisation name</h5>
                            =20
                                 <p =
 style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
-400; line-height: 1.35;\\">example@example.com</p>
-                          =
- =20
-                       =20
-                   =20
-                       =20
-                            <h5 style=3D\\"color: =
-#e20087; margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Organisation=
- name</h5>
-                           =20
-                                =
-<p style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
 400; line-height: 1.35;\\">Test Organisation</p>
                            =
 =20
                        =20
-                   =20
-               =20
-                   =20
                        =20
-                         =
-   <h5 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; =
-font-weight: 700;\\">About your organisation</h5>
-                           =
-=20
-                                <p style=3D\\"color: #333; font-family: =
-arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Lorem ipsum =
-dolor sit amet consectetur adipisicing elit. Porro, inventore.</p>
+                       =20
+                       =20
+                            <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">About your organisation</h5>
+                           =20
+                                <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Lorem ipsum dolor sit amet consectetur adipisicing=
+ elit. Porro, inventore.</p>
                            =20
                        =20
-                   =20
-               =20
            =20
         </div>
 
