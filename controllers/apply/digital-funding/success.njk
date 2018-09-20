@@ -2,10 +2,8 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
-{% block title %}Success | {{ form.title }} | {% endblock %}
+{% block title %} {{ title }} | {{ formTitle }} | {% endblock %}
 
-{# We always use pink here regardless of form settings to match accents below #}
-{% set pageAccent = 'pink' %}
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
@@ -22,18 +20,13 @@
 
         {% if heroImage %}<div class="nudge-up">{% endif %}
 
-        <div class="content-box u-inner-wide-only accent--pink a--border-top">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose u-constrained-wide">
                 <h1>{{ title }}</h1>
 
-                <h2 class="t2 t--underline accent--pink">What happens next?</h2>
-                <p>We will get back to you with a fixed time for a call as quickly as we can.</p>
-            </div>
-        </div>
+                <p>{{ stepCopy.message }}</p>
 
-        <div class="content-box u-inner-wide-only accent--pink a--border-top">
-            <div class="s-prose u-constrained-wide">
-                <h2>What happens next?</h2>
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ stepCopy.nextStepsTitle }}</h2>
 
                 {{ stepProgress([{
                     "title": "Request a call",

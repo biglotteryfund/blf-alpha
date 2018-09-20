@@ -49,6 +49,10 @@ function initFormRouter(form) {
     }
 
     router.use((req, res, next) => {
+        const copy = form.lang ? req.i18n.__(form.lang) : {};
+        res.locals.copy = copy;
+        res.locals.formTitle = copy.title || form.title;
+        res.locals.formSubtitle = copy.subtitle || form.subtitle;
         res.locals.isBilingual = form.isBilingual;
         res.locals.pageAccent = form.pageAccent || 'pink';
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -102,6 +106,7 @@ function initFormRouter(form) {
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
+
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: form,
@@ -119,29 +124,26 @@ function initFormRouter(form) {
             }
         }
 
-        function handleSubmitStep({ isEditing = false } = {}) {
-            return [
-                getValidators(step),
-                function(req, res) {
-                    const sessionProp = getSessionProp(currentStepNumber);
-                    const stepData = get(req.session, sessionProp, {});
-                    const bodyData = matchedData(req, { locations: ['body'] });
-                    set(req.session, sessionProp, Object.assign(stepData, bodyData));
+        function handleSubmitStep(isEditing = false) {
+            return function(req, res) {
+                const sessionProp = getSessionProp(currentStepNumber);
+                const stepData = get(req.session, sessionProp, {});
+                const bodyData = matchedData(req, { locations: ['body'] });
+                set(req.session, sessionProp, Object.assign(stepData, bodyData));
 
-                    req.session.save(() => {
-                        const errors = validationResult(req);
-                        if (errors.isEmpty()) {
-                            if (isEditing === true || currentStepNumber === form.steps.length) {
-                                res.redirect(`${req.baseUrl}/review`);
-                            } else {
-                                res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
-                            }
+                req.session.save(() => {
+                    const errors = validationResult(req);
+                    if (errors.isEmpty()) {
+                        if (isEditing === true || currentStepNumber === form.steps.length) {
+                            res.redirect(`${req.baseUrl}/review`);
                         } else {
-                            renderStep(req, res, errors.array());
+                            res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
                         }
-                    });
-                }
-            ];
+                    } else {
+                        renderStep(req, res, errors.array());
+                    }
+                });
+            };
         }
 
         /**
@@ -151,7 +153,7 @@ function initFormRouter(form) {
             .route(`/${currentStepNumber}`)
             .all(cached.csrfProtection)
             .get(renderStepIfAllowed)
-            .post(handleSubmitStep());
+            .post(getValidators(step), handleSubmitStep());
 
         /**
          * Step edit router
@@ -168,8 +170,21 @@ function initFormRouter(form) {
                     renderStepIfAllowed(req, res);
                 }
             })
-            .post(handleSubmitStep({ isEditing: true }));
+            .post(getValidators(step), handleSubmitStep(true));
     });
+
+    function renderError(error, req, res) {
+        const stepConfig = form.errorStep;
+        const stepCopy = get(res.locals.copy, 'error', {});
+        res.render(path.resolve(__dirname, './views/error'), {
+            error: error,
+            form: form,
+            title: stepCopy.title || stepConfig.title,
+            stepCopy: stepCopy,
+            stepConfig: stepConfig,
+            returnUrl: `${req.baseUrl}/review`
+        });
+    }
 
     /**
      * Route: Review
@@ -182,23 +197,22 @@ function initFormRouter(form) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                const { reviewStep } = form;
-                if (!reviewStep) {
-                    throw new Error('No review step provided');
-                }
+                const stepConfig = form.reviewStep;
+                const stepCopy = get(res.locals.copy, 'review', {});
 
                 res.render(path.resolve(__dirname, './views/review'), {
-                    csrfToken: req.csrfToken(),
                     form: form,
-                    stepConfig: reviewStep,
+                    title: stepCopy.title || stepConfig.title,
+                    stepCopy: stepCopy,
+                    stepConfig: stepConfig,
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
                     summary: stepsWithValues(form.steps, formData),
-                    baseUrl: req.baseUrl
+                    baseUrl: req.baseUrl,
+                    csrfToken: req.csrfToken()
                 });
             }
         })
         .post(async function(req, res) {
-            const { errorStep } = form;
             const formData = getFormSession(req);
 
             if (isEmpty(formData)) {
@@ -213,12 +227,7 @@ function initFormRouter(form) {
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
-                    res.render(path.resolve(__dirname, './views/error'), {
-                        error: error,
-                        form: form,
-                        stepConfig: errorStep,
-                        returnUrl: `${req.baseUrl}/review`
-                    });
+                    renderError(error, req, res);
                 }
             }
         });
@@ -228,20 +237,20 @@ function initFormRouter(form) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
-        const { successStep } = form;
+        const stepConfig = form.successStep;
+        const stepCopy = get(res.locals.copy, 'success', {});
 
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            // Disable global survey on success pages
-            res.locals.enableSurvey = false;
-
             // Clear the submission from the session on success
             unset(req.session, getSessionProp());
             req.session.save(() => {
-                res.render(successStep.template, {
+                res.render(stepConfig.template, {
                     form: form,
-                    stepConfig: successStep
+                    title: stepCopy.title,
+                    stepCopy: stepCopy,
+                    stepConfig: stepConfig
                 });
             });
         }

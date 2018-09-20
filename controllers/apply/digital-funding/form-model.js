@@ -62,9 +62,7 @@ const fieldScale = {
 module.exports = strandNumber => {
     return {
         id: `digital-funding-strand-${strandNumber}`,
-        title: `Digital Funding: Strand ${strandNumber}`,
-        subtitle:
-            'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.',
+        lang: 'apply.digitalFundingStrand' + strandNumber,
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
         shortCode: `DF-STRAND-${strandNumber}`,
         isBilingual: true,
@@ -89,18 +87,8 @@ module.exports = strandNumber => {
         startPage: {
             urlPath: `/funding/programmes/digital-funding/strand-${strandNumber}`
         },
-        reviewStep: {
-            title: 'Check this is right before submitting your information',
-            proceedLabel: 'Submit'
-        },
         successStep: {
             template: path.resolve(__dirname, './success')
-        },
-        errorStep: {
-            title: 'There was an problem submitting your information',
-            message: `
-            <p>There was a problem submitting your information, we have been notified of the problem.</p>
-            <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>`
         }
     };
 };

@@ -4,7 +4,7 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}{{ stepConfig.title }} | {{ form.title }} | {% endblock %}
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
@@ -15,7 +15,7 @@
 
         {% if heroImage %}
             {{ hero(
-                titleText = form.title,
+                titleText = title,
                 image = heroImage,
                 accent = pageAccent
             ) }}
@@ -25,9 +25,13 @@
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
 
-            {{ formHeader(form, stepProgress) }}
+            {{ formHeader(
+                title = formTitle,
+                subtitle = formSubtitle,
+                stepProgress = stepProgress
+            ) }}
 
-            <h2>{{ stepConfig.title }}</h2>
+            <h2>{{ title }}</h2>
 
             {% for step in summary %}
                 <div class="review-step">
@@ -89,7 +93,7 @@
                     {{ stepConfig.declaration | safe }}
                 </aside>
             {% endif %}
-            <input class="btn btn--next" type="submit" value="{{ stepConfig.proceedLabel }}" />
+            <input class="btn btn--next" type="submit" value="{{ stepCopy.proceedLabel or stepConfig.proceedLabel }}" />
         </form>
     </main>
 {% endblock %}

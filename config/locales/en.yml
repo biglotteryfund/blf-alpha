@@ -657,3 +657,22 @@ research:
     datePublished: Date published
     researchPartners: Research partners
     contact: Contact
+apply:
+  digitalFundingStrand1:
+    title: "[lang] Digital Funding: Strand"
+    subtitle: '[lang] The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    review:
+      title: '[lang] Check this is right before submitting your information'
+      proceedLabel: '[lang] Submit'
+    success:
+      title: '[lang] Thank you for getting in touch'
+      message: '[lang] We will get back to you with a fixed time for a call as quickly as we can.'
+      nextStepsTitle: '[lang] What happens next?'
+    error:
+      title: '[lang] There was an problem submitting your information'
+      message: '[lang] <p>There was a problem submitting your information, we have been notified of the problem.</p>
+        <p>Please return to the review step and try again. If you still see an error please call
+        <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>'
+  digitalFundingStrand2:
+    title: "Digital Funding: Strand 2"
+    subtitle: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'

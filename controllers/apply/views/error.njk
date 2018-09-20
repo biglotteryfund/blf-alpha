@@ -1,16 +1,14 @@
 {% from "components/hero.njk" import hero %}
 {% extends "layouts/main.njk" %}
 
-{% block title %}Error | {{ form.title }} | {% endblock %}
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
 
 {% block content %}
-
     <main role="main" id="content">
-
         {% if heroImage %}
             {{ hero(
                 titleText = form.title,
@@ -23,9 +21,9 @@
             <div class="u-constrained-content s-prose u-margin-bottom">
                 <h1>{{ title }}</h1>
 
-                {{ stepConfig.message | safe }}
+                <div class="message" role="alert">{{ (stepCopy.message or stepConfig.message) | safe }}</div>
 
-                <p><a class="btn" href="{{returnUrl}}">Back</a></p>
+                <p><a class="btn" href="{{returnUrl}}">{{ __('global.misc.back') | capitalize }}</a></p>
 
                 {% if error and appData.isNotProduction %}
                     <h4>Stack trace:</h4>

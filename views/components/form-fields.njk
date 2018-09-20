@@ -1,6 +1,6 @@
 {% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
 
-{% macro formHeader(form, stepProgress) %}
+{% macro formHeader(title, subtitle, stepProgress) %}
     <div class="form-header">
         {% if not form.hidePagination %}
             {% if stepProgress.prevStepUrl %}
@@ -13,11 +13,10 @@
                 Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }}
             </p>
         {% endif %}
-        <h1 class="form-header__title">{{ form.title }}</h1>
-        {% if form.subtitle %}
-            <p class="form-header__subtitle">{{ form.subtitle | safe }}</p>
+        <h1 class="form-header__title">{{ title }}</h1>
+        {% if subtitle %}
+            <p class="form-header__subtitle">{{ subtitle | safe }}</p>
         {% endif %}
-
     </div>
 {% endmacro %}
 
