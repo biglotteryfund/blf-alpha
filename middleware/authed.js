@@ -27,16 +27,16 @@ const requireUnauthed = (req, res, next) => {
 };
 
 // Middleware for pages only authenticated users should see
-const ensureUserOnly = (req, res, next) => {
-    if (req.isAuthenticated() && get(req, ['user', 'userType'], false) === 'user') {
+const requireUserAuth = (req, res, next) => {
+    if (req.isAuthenticated() && get(req, 'user.userType', false) === 'user') {
         return next();
     }
     res.redirect('/user/login');
 };
 
 // Middleware for staff users only
-const ensureStaffOnly = (req, res, next) => {
-    if (req.isAuthenticated() && get(req, ['user', 'userType'], false) === 'staff') {
+const requireStaffAuth = (req, res, next) => {
+    if (req.isAuthenticated() && get(req, 'user.userType', false) === 'staff') {
         return next();
     }
     req.session.redirectUrl = req.originalUrl;
@@ -48,6 +48,6 @@ const ensureStaffOnly = (req, res, next) => {
 module.exports = {
     requireAuthed,
     requireUnauthed,
-    ensureUserOnly,
-    ensureStaffOnly
+    requireUserAuth,
+    requireStaffAuth
 };
