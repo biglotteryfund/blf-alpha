@@ -29,7 +29,7 @@
                             {% if field.type === 'textarea' %}
                                 <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
                             {% elseif isArray(field.value) %}
-                                {# <p>{{ field.value | join(', ') }}</p> #}
+                                <p>{{ field.value | join(', ') }}</p>
                             {% else %}
                                 <p>{{ field.value }}</p>
                             {% endif %}
