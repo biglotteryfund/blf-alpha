@@ -209,6 +209,7 @@ module.exports = {
     id: 'reaching-communities-idea',
     title: 'Reaching Communities & Partnerships',
     shortCode: 'RC',
+    isBilingual: false,
     steps: [stepIdea, stepLocation, stepOrganisation, stepDetails],
     processor: processor,
     startPage: {

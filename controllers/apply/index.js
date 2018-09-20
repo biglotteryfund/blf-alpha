@@ -49,10 +49,8 @@ function initFormRouter(form) {
     }
 
     router.use((req, res, next) => {
-        // Disable prompts on apply pages
-        res.locals.enablePrompt = false;
-        // @TODO: Allow translations for apply forms
-        res.locals.isBilingual = false;
+        res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.isBilingual = form.isBilingual;
         next();
     });
 
