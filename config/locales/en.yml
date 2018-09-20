@@ -660,7 +660,7 @@ research:
 apply:
   digitalFundingStrand1:
     title: "[lang] Digital Funding: Strand"
-    subtitle: '[lang] The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    description: '[lang] The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     review:
       title: '[lang] Check this is right before submitting your information'
       proceedLabel: '[lang] Submit'
@@ -674,5 +674,4 @@ apply:
         <p>Please return to the review step and try again. If you still see an error please call
         <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>'
   digitalFundingStrand2:
-    title: "Digital Funding: Strand 2"
-    subtitle: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+

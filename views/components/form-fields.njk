@@ -1,22 +1,18 @@
 {% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
 
-{% macro formHeader(title, subtitle, stepProgress) %}
+{% macro formHeader(title, prefix = null, backUrl = null) %}
     <div class="form-header">
-        {% if not form.hidePagination %}
-            {% if stepProgress.prevStepUrl %}
-                <div class="form-header__actions">
-                    <a href="{{ stepProgress.prevStepUrl }}"
-                        class="js-application-form-review-link">← {{ __('global.misc.back') | capitalize }}</a>
-                </div>
-            {% endif %}
-            <p class="form-header__prefix">
-                Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }}
-            </p>
+        {% if backUrl %}
+            <div class="form-header__actions">
+                <a href="{{ backUrl }}" class="js-application-form-review-link">
+                    ← {{ __('global.misc.back') | capitalize }}
+                </a>
+            </div>
+        {% endif %}
+        {% if prefix %}
+            <p class="form-header__prefix">{{ prefix }}</p>
         {% endif %}
         <h1 class="form-header__title">{{ title }}</h1>
-        {% if subtitle %}
-            <p class="form-header__subtitle">{{ subtitle | safe }}</p>
-        {% endif %}
     </div>
 {% endmacro %}
 

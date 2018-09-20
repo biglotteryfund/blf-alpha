@@ -1,18 +1,13 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconArrowDown %}
 {% from "components/form-fields.njk" import formHeader with context %}
 
-{% extends "layouts/main.njk" %}
-
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
-
-{% if not heroImage %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
+{% if not heroImage %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
     <main role="main" id="content">
-
         {% if heroImage %}
             {{ hero(
                 titleText = title,
@@ -25,10 +20,10 @@
             class="js-application-form js-application-form-review
             content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
 
-            {{ formHeader(
+           {{ formHeader(
                 title = formTitle,
-                subtitle = formSubtitle,
-                stepProgress = stepProgress
+                prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
+                backUrl = stepProgress.prevStepUrl
             ) }}
 
             <h2>{{ title }}</h2>

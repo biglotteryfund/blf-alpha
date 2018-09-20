@@ -52,7 +52,6 @@ function initFormRouter(form) {
         const copy = form.lang ? req.i18n.__(form.lang) : {};
         res.locals.copy = copy;
         res.locals.formTitle = copy.title || form.title;
-        res.locals.formSubtitle = copy.subtitle || form.subtitle;
         res.locals.isBilingual = form.isBilingual;
         res.locals.pageAccent = form.pageAccent || 'pink';
         res.locals.enablePrompt = false; // Disable prompts on apply pages

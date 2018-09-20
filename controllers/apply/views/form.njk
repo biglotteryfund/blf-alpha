@@ -4,7 +4,8 @@
 
 {% extends "layouts/main.njk" %}
 
-{% block title %}Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }} | {{ form.title }} | {% endblock %}
+{% set stepProgressDescription = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps %}
+{% block title %} {{ stepProgressDescription }} | {{ formTitle }} | {% endblock %}
 
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
@@ -25,10 +26,15 @@
             class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
 
             {{ formHeader(
-                title = copy.title or form.title,
-                subtitle = copy.subtitle or form.subtitle,
-                stepProgress = stepProgress
+                title = formTitle,
+                prefix = stepProgressDescription,
+                backUrl = stepProgress.prevStepUrl
             ) }}
+
+            {% set description = copy.description or form.description %}
+            {% if description %}
+                <p>{{ description | safe }}</p>
+            {% endif %}
 
             {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
