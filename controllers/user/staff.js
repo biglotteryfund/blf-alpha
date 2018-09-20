@@ -59,7 +59,7 @@ router.post('/auth/openid/return', function(req, res, next) {
 });
 
 router.get('/error', (req, res) => {
-    res.render(path.resolve(__dirname, 'views/error'), {});
+    res.render(path.resolve(__dirname, 'views/staff-error'), {});
 });
 
 module.exports = router;

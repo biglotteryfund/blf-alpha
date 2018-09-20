@@ -74,7 +74,7 @@ module.exports = function() {
                             return done(err);
                         }
                         if (response.wasCreated) {
-                            return done(null, profile);
+                            return done(null, response.user);
                         }
                         return done(null, response.user);
                     });
