@@ -97,36 +97,31 @@ function __destroyAll() {
 }
 
 // Staff-specific user functions
-const createStaffUser = user => {
-    return Staff.create({
-        oid: user.oid,
-        email: user.upn,
-        given_name: user.name.givenName,
-        family_name: user.name.familyName
+const findOrCreateStaffUser = (userProfile, cb) => {
+    return Staff.findOrCreate({
+        where: {
+            oid: {
+                [Op.eq]: userProfile.oid
+            }
+        },
+        defaults: {
+            oid: userProfile.oid,
+            email: userProfile.upn,
+            given_name: userProfile.name.givenName,
+            family_name: userProfile.name.familyName
+        }
+    }).spread((user, wasCreated) => {
+        // update last login date
+        user.changed('updatedAt', true);
+        return user.save().then(() => {
+            return cb(null, { user, wasCreated });
+        });
+    }).catch(() => {
+        return cb(null, null);
     });
 };
 
-const findStaffUser = (oid, cb) => {
-    return Staff.findOne({
-        where: {
-            oid: {
-                [Op.eq]: oid
-            }
-        }
-    })
-        .then(user => {
-            // update last login date
-            user.changed('updatedAt', true);
-            return user.save().then(() => {
-                return cb(null, user);
-            });
-        })
-        .catch(() => {
-            return cb(null, null);
-        });
-};
-
-const findStaffUserById = (id, cb) => {
+const findStaffUserById = id => {
     return Staff.findOne({
         where: {
             id: {
@@ -144,8 +139,7 @@ module.exports = {
     updateNewPassword,
     updateActivateUser,
     createUser,
-    createStaffUser,
-    findStaffUser,
+    findOrCreateStaffUser,
     findStaffUserById,
     __destroyAll
 };

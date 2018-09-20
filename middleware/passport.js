@@ -67,21 +67,14 @@ module.exports = function() {
                     if (!profile.oid) {
                         return done(new Error('No oid found'), null);
                     }
-                    userService.findStaffUser(profile.oid, (err, user) => {
+                    userService.findOrCreateStaffUser(profile, (err, response) => {
                         if (err) {
                             return done(err);
                         }
-                        if (!user) {
-                            userService
-                                .createStaffUser(profile)
-                                .then(() => {
-                                    return done(null, profile);
-                                })
-                                .catch(() => {
-                                    return done(null, user);
-                                });
+                        if (response.wasCreated) {
+                            return done(null, profile);
                         }
-                        return done(null, user);
+                        return done(null, response.user);
                     });
                 }
             )
