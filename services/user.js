@@ -110,15 +110,17 @@ const findOrCreateStaffUser = (userProfile, cb) => {
             given_name: userProfile.name.givenName,
             family_name: userProfile.name.familyName
         }
-    }).spread((user, wasCreated) => {
-        // update last login date
-        user.changed('updatedAt', true);
-        return user.save().then(() => {
-            return cb(null, { user, wasCreated });
+    })
+        .spread((user, wasCreated) => {
+            // update last login date
+            user.changed('updatedAt', true);
+            return user.save().then(() => {
+                return cb(null, { user, wasCreated });
+            });
+        })
+        .catch(() => {
+            return cb(null, null);
         });
-    }).catch(() => {
-        return cb(null, null);
-    });
 };
 
 const findStaffUserById = id => {

@@ -38,7 +38,10 @@ router.route('/').get((req, res) => {
         { label: 'View recent materials order stats', href: '/tools/order-stats' }
     ];
 
-    res.render(path.resolve(__dirname, './views/index'), { links });
+    res.render(path.resolve(__dirname, './views/index'), {
+        links,
+        user: req.user
+    });
 });
 
 router.use('/feedback-results', require('./feedback'));
