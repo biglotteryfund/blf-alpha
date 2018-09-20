@@ -75,21 +75,23 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
-    search: Search
-    latestNews: Latest news
-    viewAllNews: View all news articles
-    seeProgramme: See programme
-    projectExamples: Examples of projects that have been funded
+    back: back
+    backToTop: Back to the top
     caseStudies: Case studies
-    readMore: Read more
-    readMoreAbout: "Read more about %s"
-    or: or
-    topics: topics
-    imageCredit: Image credit
     documents: documents
     download: download
+    imageCredit: Image credit
+    latestNews: Latest news
+    next: next
+    or: or
     printThisPage: Print this page
-    backToTop: Back to the top
+    projectExamples: Examples of projects that have been funded
+    readMore: Read more
+    readMoreAbout: "Read more about %s"
+    search: Search
+    seeProgramme: See programme
+    topics: topics
+    viewAllNews: View all news articles
   programmes:
     programmeLabels:
       area: Area

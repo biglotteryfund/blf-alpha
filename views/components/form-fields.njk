@@ -6,7 +6,7 @@
             {% if stepProgress.prevStepUrl %}
                 <div class="form-header__actions">
                     <a href="{{ stepProgress.prevStepUrl }}"
-                        class="js-application-form-review-link">← Back</a>
+                        class="js-application-form-review-link">← {{ __('global.misc.back') | capitalize }}</a>
                 </div>
             {% endif %}
             <p class="form-header__prefix">
