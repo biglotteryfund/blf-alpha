@@ -33,7 +33,6 @@ module.exports = function() {
 
     // Only initialise this auth strategy if secrets exist (eg. not on CI)
     if (config.get('features.azureAuthEnabled') && AZURE_AUTH.MS_CLIENT_ID) {
-
         // Configure staff user sign-in (eg. internal authentication)
         const authEndpoint =
             'https://login.microsoftonline.com/biglotteryfund.onmicrosoft.com/.well-known/openid-configuration';
