@@ -30,9 +30,7 @@ module.exports = function(app) {
         cookie: {
             sameSite: false,
             secure: !appData.isDev,
-            expires: moment()
-                .add(7, 'days')
-                .toDate()
+            maxAge: 604800000 // 7 days in ms
         },
         store: store,
         rolling: true
