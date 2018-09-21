@@ -658,6 +658,11 @@ research:
     researchPartners: Research partners
     contact: Contact
 apply:
+  error:
+    title: There was an problem submitting your idea
+    message: >
+      <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+      <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
   reachingCommunities:
     title: Reaching Communities & Partnerships
     description: Apply for a grant over £10,000
@@ -745,11 +750,6 @@ apply:
     review:
       title: 'Check this is right before submitting your idea'
       proceedLabel: 'Submit'
-    error:
-      title: There was an problem submitting your idea
-      message: >
-        <p>There was a problem submitting your idea, we have been notified of the problem.</p>
-        <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
   digitalFunding:
     title: "Digital Funding"
     description: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
@@ -786,8 +786,55 @@ apply:
       title: 'Thank you for getting in touch'
       message: 'We will get back to you with a fixed time for a call as quickly as we can.'
       nextStepsTitle: 'What happens next?'
-    error:
-      title: 'There was an problem submitting your information'
-      message: '<p>There was a problem submitting your information, we have been notified of the problem.</p>
-        <p>Please return to the review step and try again. If you still see an error please call
-        <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>'
+  youthCapacity:
+    title: Youth Capacity Funding
+    description: Expression of interest
+    fields:
+      current-work:
+        label: How does your current work help young people not in employment, education or training facing barriers to work?
+        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+      location:
+        label: Select which area you are working in
+        options:
+        - label: Birmingham
+        - label: Bradford
+        - label:  Barking and Dagenham
+      project-aims:
+        label: Select which programme aim you are most aligned with
+        options:
+        - label: Build capacity to get involved with future youth
+          explanation: e.g. by developing staff and volunteers or improving the voice of young people in leading on the  design and delivery of services.
+        - label: Develop partnerships led by grassroots organisations
+          explanation: Working with other local organisations, including public bodies and businesses who can achieve wider impact together.
+      people-and-communities:
+        label: Describe the people and communities you are working with, and if required provide more information about where they are based
+        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+      contact-name:
+        label: Your name
+      contact-email:
+        label: Email address
+      contact-phone:
+        label: Phone number
+    steps:
+      - name: Your current work
+        fieldsets:
+        - legend: Your current work
+      - name: How you will use the grant
+        fieldsets:
+        - legend: How you will use the grant
+      - name: People and communities
+        fieldsets:
+        - legend: Tell us about the people and communities you work with
+      - name: Main contact
+        fieldsets:
+        - legend: Main contact
+          introduction: Who should we contact if we have questions about your expression of interest?
+    review:
+      title: Check this is right before submitting your expression of interest
+      declaration: >
+        <p>By submitting this form, you confirm that you have read the programme guidance on our web pages and are eligible to submit an application. This declaration confirms that:</p>
+        <ul>
+          <li>your organisation’s annual income is less than £250,000</li>
+          <li>your activity is based in either Birmingham, Bradford or Barking and Dagenham</li>
+        </ul>
+      proceedLabel: Submit my expression of interest

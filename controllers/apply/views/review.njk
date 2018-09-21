@@ -22,6 +22,7 @@
             {{ formHeader(
                     title = formTitle,
                     prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
+                    suffix = copy.description | safe,
                     backUrl = stepProgress.prevStepUrl
                 ) }}
 
@@ -84,7 +85,15 @@
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 {% endif %}
 
-                <input class="btn btn--next" type="submit" value="{{ stepCopy.proceedLabel }}" />
+                {% if stepCopy.declaration %}
+                    <aside class="review-step__declaration s-prose">
+                        {{ stepCopy.declaration | safe }}
+                    </aside>
+                {% endif %}
+
+                <div class="form-actions">
+                    <input class="btn" type="submit" value="{{ stepCopy.proceedLabel }}" />
+                </div>
             </form>
         </div>
     </main>

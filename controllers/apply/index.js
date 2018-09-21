@@ -13,6 +13,7 @@ const { injectHeroImage } = require('../../middleware/inject-content');
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingForm = require('./digital-funding/form-model');
+const youthCapacityForm = require('./youth-capacity/form-model');
 
 function initFormRouter(form) {
     const router = express.Router();
@@ -182,12 +183,11 @@ function initFormRouter(form) {
     });
 
     function renderError(error, req, res) {
-        const stepCopy = get(res.locals.copy, 'error', {});
+        const errorCopy = req.i18n.__('apply.error');
         res.render(path.resolve(__dirname, './views/error'), {
             error: error,
-            form: form,
-            title: stepCopy.title,
-            stepCopy: stepCopy,
+            title: errorCopy.title,
+            errorCopy: errorCopy,
             returnUrl: `${req.baseUrl}/review`
         });
     }
@@ -271,6 +271,7 @@ module.exports = ({ router }) => {
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     if (appData.isNotProduction) {
+        router.use('/youth-capacity', initFormRouter(youthCapacityForm));
         router.use('/digital-funding-1', initFormRouter(digitalFundingForm(1)));
         router.use('/digital-funding-2', initFormRouter(digitalFundingForm(2)));
     }

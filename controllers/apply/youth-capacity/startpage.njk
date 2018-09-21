@@ -1,0 +1,47 @@
+{% from "components/buttons.njk" import startButton %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/form-fields.njk" import formHeader %}
+
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ formHeader(
+                title = title,
+                suffix = copy.description | safe
+            ) }}
+
+            <div class="u-constrained-content s-prose u-margin-bottom-l">
+                <p>The Government is investing up to £1.2 million from dormant bank and building society accounts in three areas to develop the capacity of local, frontline grassroots organisations who help young people who are facing barriers to work.
+                <a href="/funding/programmes/youth-capacity-fund">View full programme details</a>.</p>
+
+                {{ startButton(startUrl) }}
+
+                <h2>What you’ll be asked</h2>
+
+                <p>Organisations and community groups are invited to tell us about their current work using this simple online form, which contains three questions:</p>
+
+                <p><strong>Your current work</strong></p>
+                <ul>
+                    <li>How does your current work help young people not in employment, education or training facing barriers to work? (maximum 1-2 paragraphs)</li>
+                </ul>
+
+                <p><strong>How you will use the grant</strong></p>
+                <ul>
+                    <li>Select which programme aim you are most aligned with [tick box]</li>
+                    <li>Describe what you will use the money for. (maximum 1-2 paragraphs)</li>
+                </ul>
+
+                <p><strong>Tell us about the people and communities you work with</strong></p>
+                <ul>
+                    <li>Select which area you are working in [tick box]</li>
+                    <li>Describe the people and communities you are working with, and if required provide more information about where they are based. (maximum 1-2 paragraphs)</li>
+                </ul>
+
+                <p>We will also ask you: Organisation name and address, Main Contact name, email address and phone number.</p>
+            </div>
+        </div>
+    </main>
+{% endblock %}
