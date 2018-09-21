@@ -10,7 +10,7 @@
             <h3 class="grant-result__title"><a href="#">{{ grant.title }}</a></h3>
             <p class="grant-result__summary">
                 £{{ grant.amountAwarded | numberWithCommas}} to
-                {{ grant.recipientOrganization[0].name }}
+                <strong>{{ grant.recipientOrganization[0].name }}</strong>
                 on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
             </p>
         </header>
