@@ -8,16 +8,18 @@
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose accent-content-{{ pageAccent }} u-constrained-wide">
-                <h1>Thank you for submitting your idea</h1>
+                <h1>{{ stepCopy.title }}</h1>
 
-                <h2>What happens next?</h2>
+                <div class="message" role="alert">
+                    {{ stepCopy.emailConfirmation }}
+                </div>
 
-                <p>Thank you for submitting your expression of interest. We have emailed you a copy of your submission and a local funding officer will contact you within fifteen working days.</p>
+                <p>{{ stepCopy.whatToExpect }}</p>
 
                 {{ inlineFeedback(
-                    description = formTitle,
+                    description = 'Youth capacity funding',
                     promptLabel = "Can you spare a minute to give us some feedback?",
-                    fieldLabel = "How was your experience of submitting an idea?",
+                    fieldLabel = "How was your experience of submitting an expression of itnerest?",
                     helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
                     isToggleable = false
                 )  }}

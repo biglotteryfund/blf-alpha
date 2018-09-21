@@ -5,7 +5,7 @@ const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { DIGITAL_FUNDING_EMAIL } = require('../../../modules/secrets');
 
-module.exports = async function processor({ form, data, stepsWithValues, copy, mailTransport = null }) {
+module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
     const customerSendTo = {
         name: `${data['name']}`,
         address: data['email']
@@ -25,8 +25,8 @@ module.exports = async function processor({ form, data, stepsWithValues, copy, m
     const internalHtml = await generateHtmlEmail({
         template: path.resolve(__dirname, './internal-email.njk'),
         templateData: {
-            title: form.title,
             data: data,
+            title: copy.title,
             stepsCopy: copy.steps,
             fieldsCopy: copy.fields,
             summary: stepsWithValues,

@@ -1,14 +1,7 @@
+{% extends "../views/email-layout.njk" %}
 {% from "../views/view-helpers.njk" import emailSummary %}
-<!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
-        <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
-    </head>
-    <body>
-        <h1>New submission for {{ title }}</h1>
-        <p>Customer information</p>
-        {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
-    </body>
-</html>
+
+{% block content %}
+    <h1>New submission for {{ title }}</h1>
+    {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
+{% endblock %}

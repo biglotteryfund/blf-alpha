@@ -6,7 +6,7 @@ const appData = require('../../../modules/appData');
 
 const { determineInternalSendTo } = require('./helpers');
 
-module.exports = async function processor({ form, data, stepsWithValues, copy, mailTransport = null }) {
+module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
     const customerSendTo = {
         name: `${data['first-name']} ${data['last-name']}`,
         address: data['email']
@@ -44,8 +44,8 @@ module.exports = async function processor({ form, data, stepsWithValues, copy, m
     const internalHtml = await generateHtmlEmail({
         template: path.resolve(__dirname, './internal-email.njk'),
         templateData: {
-            title: form.title,
             data: data,
+            title: copy.title,
             fieldsCopy: copy.fields,
             stepsCopy: stepsCopyInternalOrder,
             summary: stepsWithValuesInternalOrder,
