@@ -344,7 +344,7 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Success
-        cy.get('.form-message').should('contain', 'Thank you for submitting your idea');
+        cy.get('h1').should('contain', 'Thank you for submitting your idea');
 
         // ================================================
         // Step: Inline feedback
@@ -388,7 +388,7 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Success
-        cy.get('.form-message').should('contain', 'Thank you for getting in touch');
+        cy.get('h1').should('contain', 'Thank you for getting in touch');
     });
 
     it('should submit materials order', () => {
