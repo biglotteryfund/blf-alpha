@@ -73,6 +73,15 @@ const stepDetails = {
             fields: [
                 {
                     type: 'text',
+                    name: 'organisation-name',
+                    isRequired: true
+                }
+            ]
+        },
+        {
+            fields: [
+                {
+                    type: 'text',
                     name: 'contact-name',
                     isRequired: true
                 },

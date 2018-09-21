@@ -793,12 +793,14 @@ apply:
       current-work:
         label: How does your current work help young people not in employment, education or training facing barriers to work?
         lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        errorMessage: Please tell us about your current work
       location:
         label: Select which area you are working in
         options:
         - label: Birmingham
         - label: Bradford
         - label:  Barking and Dagenham
+        errorMessage: Please tell us which area you are working in
       project-aims:
         label: Select which programme aim you are most aligned with
         options:
@@ -806,15 +808,23 @@ apply:
           explanation: e.g. by developing staff and volunteers or improving the voice of young people in leading on the  design and delivery of services.
         - label: Develop partnerships led by grassroots organisations
           explanation: Working with other local organisations, including public bodies and businesses who can achieve wider impact together.
+        errorMessage: Please select which programme aim you are most aligned with
       people-and-communities:
         label: Describe the people and communities you are working with, and if required provide more information about where they are based
         lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        errorMessage: Please describe the people and communities you are working with
+      organisation-name:
+        label: Organisation name
+        errorMessage: Please tell us your organisation name
       contact-name:
         label: Your name
+        errorMessage: Please tell us your main contact name
       contact-email:
         label: Email address
+        errorMessage: Please provide a valid email address
       contact-phone:
         label: Phone number
+        errorMessage: Please provide a phone number
     steps:
       - name: Your current work
         fieldsets:
@@ -825,8 +835,9 @@ apply:
       - name: People and communities
         fieldsets:
         - legend: Tell us about the people and communities you work with
-      - name: Main contact
+      - name: Your details
         fieldsets:
+        - legend: Organisation details
         - legend: Main contact
           introduction: Who should we contact if we have questions about your expression of interest?
     review:
