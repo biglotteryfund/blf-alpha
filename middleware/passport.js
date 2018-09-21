@@ -62,7 +62,7 @@ module.exports = function() {
                     loggingLevel: 'warn',
                     nonceLifetime: null,
                     nonceMaxAmount: 5,
-                    useCookieInsteadOfSession: true,
+                    useCookieInsteadOfSession: false,
                     clockSkew: null
                 },
                 (iss, sub, profile, accessToken, refreshToken, done) => {
