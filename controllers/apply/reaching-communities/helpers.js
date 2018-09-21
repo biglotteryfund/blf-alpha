@@ -1,5 +1,5 @@
 'use strict';
-const { get, groupBy, sortBy, isArray } = require('lodash');
+const { get, isArray } = require('lodash');
 
 const HUB_EMAILS = {
     england: 'englandteam@biglotteryfund.org.uk',
@@ -54,17 +54,8 @@ function determineInternalSendTo(location) {
     }
 }
 
-/**
- * Rank steps by their internal order (if provided), falling back to original (source) order
- */
-function orderStepsForInternalUse(stepData) {
-    const stepGroups = groupBy(stepData, s => (s.internalOrder ? 'ordered' : 'unordered'));
-    return sortBy(stepGroups.ordered, 'internalOrder').concat(stepGroups.unordered);
-}
-
 module.exports = {
     DEFAULT_EMAIL,
     PROJECT_LOCATIONS,
-    determineInternalSendTo,
-    orderStepsForInternalUse
+    determineInternalSendTo
 };

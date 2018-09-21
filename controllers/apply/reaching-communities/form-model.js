@@ -23,7 +23,6 @@ const stepIdea = {
 };
 
 const stepLocation = {
-    internalOrder: 3,
     fieldsets: [
         {
             fields: [
@@ -45,7 +44,6 @@ const stepLocation = {
 };
 
 const stepOrganisation = {
-    internalOrder: 2,
     fieldsets: [
         {
             fields: [
@@ -66,7 +64,6 @@ const stepOrganisation = {
 };
 
 const stepDetails = {
-    internalOrder: 1,
     fieldsets: [
         {
             fields: [

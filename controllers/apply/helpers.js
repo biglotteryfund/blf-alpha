@@ -33,7 +33,6 @@ function stepsWithValues(steps, data) {
     });
 }
 
-
 /**
  * Validate email address with translated error message;
  * @param {string} langKey
@@ -49,7 +48,6 @@ function validateIsEmail(langKey, fieldName) {
             return req.i18n.__(errorMessage);
         });
 }
-
 
 module.exports = {
     stepWithValues,
