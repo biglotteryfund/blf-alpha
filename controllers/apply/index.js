@@ -57,7 +57,7 @@ function initFormRouter(form) {
     router.use((req, res, next) => {
         const copy = form.lang ? req.i18n.__(form.lang) : {};
         res.locals.copy = copy;
-        res.locals.formTitle = copy.title || form.title;
+        res.locals.formTitle = copy.title;
         res.locals.isBilingual = form.isBilingual;
         res.locals.pageAccent = form.pageAccent || 'pink';
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -91,7 +91,7 @@ function initFormRouter(form) {
 
         if (startPage.template) {
             res.render(startPage.template, {
-                title: form.title,
+                title: res.locals.copy.title,
                 startUrl: `${req.baseUrl}/1`,
                 stepConfig: startPage,
                 form: form
@@ -182,14 +182,12 @@ function initFormRouter(form) {
     });
 
     function renderError(error, req, res) {
-        const stepConfig = form.errorStep;
         const stepCopy = get(res.locals.copy, 'error', {});
         res.render(path.resolve(__dirname, './views/error'), {
             error: error,
             form: form,
-            title: stepCopy.title || stepConfig.title,
+            title: stepCopy.title,
             stepCopy: stepCopy,
-            stepConfig: stepConfig,
             returnUrl: `${req.baseUrl}/review`
         });
     }
@@ -205,14 +203,11 @@ function initFormRouter(form) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                const stepConfig = form.reviewStep;
                 const stepCopy = get(res.locals.copy, 'review', {});
-
                 res.render(path.resolve(__dirname, './views/review'), {
                     form: form,
-                    title: stepCopy.title || stepConfig.title,
+                    title: stepCopy.title,
                     stepCopy: stepCopy,
-                    stepConfig: stepConfig,
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
                     summary: stepsWithValues(form.steps, formData),
                     baseUrl: req.baseUrl,

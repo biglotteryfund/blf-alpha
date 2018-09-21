@@ -1,5 +1,6 @@
 'use strict';
 const { cloneDeep, find, flatMap } = require('lodash');
+const { check } = require('express-validator/check');
 
 function flattenFormData(formData) {
     return Object.assign({}, ...flatMap(formData));
@@ -32,8 +33,27 @@ function stepsWithValues(steps, data) {
     });
 }
 
+
+/**
+ * Validate email address with translated error message;
+ * @param {string} langKey
+ * @param {string} fieldName
+ */
+function validateIsEmail(langKey, fieldName) {
+    return check(fieldName)
+        .trim()
+        .isEmail()
+        .withMessage((value, { req }) => {
+            const formCopy = req.i18n.__(langKey);
+            const errorMessage = formCopy.fields[fieldName].errorMessage;
+            return req.i18n.__(errorMessage);
+        });
+}
+
+
 module.exports = {
     stepWithValues,
     stepsWithValues,
-    flattenFormData
+    flattenFormData,
+    validateIsEmail
 };

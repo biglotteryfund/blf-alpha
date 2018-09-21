@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
-const { check } = require('express-validator/check');
 
+const { validateIsEmail } = require('../helpers');
 const processor = require('./processor');
 
 module.exports = strandNumber => {
@@ -20,14 +20,7 @@ module.exports = strandNumber => {
         autocompleteName: 'email',
         isRequired: true,
         validator: function(field) {
-            return check(field.name)
-                .trim()
-                .isEmail()
-                .withMessage((value, { req }) => {
-                    const formCopy = req.i18n.__(formLang);
-                    const errorMessage = formCopy.fields[field.name].errorMessage;
-                    return req.i18n.__(errorMessage);
-                });
+            return validateIsEmail(formLang, field.name);
         }
     };
 

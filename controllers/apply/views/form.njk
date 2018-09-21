@@ -13,62 +13,54 @@
 
 {% block content %}
     <main role="main" id="content">
-
         {% if heroImage %}
             {{ hero(
-                titleText = form.title,
+                titleText = formTitle,
                 image = heroImage,
                 accent = pageAccent
             ) }}
         {% endif %}
 
-        <form action="" method="POST"
-            class="js-application-form content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+            <form action="" method="POST" class="js-application-form">
+                {{ formHeader(
+                    title = formTitle,
+                    prefix = stepProgressDescription,
+                    suffix = copy.description | safe,
+                    backUrl = stepProgress.prevStepUrl
+                ) }}
 
-            {{ formHeader(
-                title = formTitle,
-                prefix = stepProgressDescription,
-                backUrl = stepProgress.prevStepUrl
-            ) }}
+                {{ formErrors(errors = errors, title = copy.errorTitle) }}
 
-            {% set description = copy.description or form.description %}
-            {% if description %}
-                <p>{{ description | safe }}</p>
-            {% endif %}
+                {% for fieldset in step.fieldsets %}
+                    {% set fieldsetCopy = stepCopy.fieldsets[loop.index0] %}
+                    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+                        <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+                            {{ fieldsetCopy.legend or fieldset.legend }}
+                        </legend>
 
-            {% set errorTitle = copy.errorTitle | default('There was a problem with your submission', true) %}
-            {{ formErrors(errors = errors, title = errorTitle) }}
+                        {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
+                        {% if introduction %}
+                            <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
+                        {% endif %}
 
-            <h2>{{ stepCopy.name or step.name }}</h2>
+                        <div class="form-fieldset__fields">
+                            {% for field in fieldset.fields %}
+                                {% set fieldCopy = copy.fields[field.name] %}
+                                {{ formField(field, fieldCopy, errors) }}
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                {% endfor %}
 
-            {% for fieldset in step.fieldsets %}
-                {% set fieldsetCopy = stepCopy.fieldsets[loop.index0] %}
-                <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
-                    <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
-                        {{ fieldsetCopy.legend or fieldset.legend }}
-                    </legend>
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
 
-                    {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
-                    {% if introduction %}
-                        <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
-                    {% endif %}
-
-                    <div class="form-fieldset__fields">
-                        {% for field in fieldset.fields %}
-                            {% set fieldCopy = copy.fields[field.name] %}
-                            {{ formField(field, fieldCopy, errors) }}
-                        {% endfor %}
-                    </div>
-                </fieldset>
-            {% endfor %}
-
-            {% if csrfToken %}
-                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            {% endif %}
-
-            <div class="form-actions">
-                <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
-            </div>
-        </form>
+                <div class="form-actions">
+                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                </div>
+            </form>
+        </div>
     </main>
 {% endblock %}

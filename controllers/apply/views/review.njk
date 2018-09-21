@@ -16,82 +16,76 @@
             ) }}
         {% endif %}
 
-        <form action="" method="POST"
-            class="js-application-form js-application-form-review
-            content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+            <form action="" method="POST" class="js-application-form js-application-form-review">
 
-           {{ formHeader(
-                title = formTitle,
-                prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
-                backUrl = stepProgress.prevStepUrl
-            ) }}
+            {{ formHeader(
+                    title = formTitle,
+                    prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
+                    backUrl = stepProgress.prevStepUrl
+                ) }}
 
-            <h2>{{ title }}</h2>
+                <h2>{{ title }}</h2>
 
-            {% for step in summary %}
-                {% set stepCopy = copy.steps[loop.index0] %}
-                <div class="review-step">
-                    <h3 class="review-step__title">
-                        {{ stepCopy.name or step.name }}
-                        <a class="review-step__edit js-application-form-review-link"
-                           href="{{ baseUrl }}/{{ loop.index }}/edit"
-                           aria-label="Edit {{ step.name }}">
-                            Edit
-                        </a>
-                    </h3>
-                    {% for fieldset in step.fieldsets %}
-                        <dl class="review-step__list">
-                            {% for field in fieldset.fields %}
-                                {% set fieldCopy = copy.fields[field.name] %}
-                                {% set fieldLabel = fieldCopy.label or field.label %}
-                                {% if field.value %}
-                                    <dt class="review-step__item-label{% if field.type === 'textarea' %} is-stacked{% endif %}">
-                                        {{ fieldLabel }}
-                                    </dt>
-                                    <dd class="review-step__item-value{% if field.type === 'textarea' %} is-stacked is-constrained{% endif %}">
-                                        <div class="s-prose" data-hj-suppress>
-                                            {% if field.type === 'textarea' %}
-                                                {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                                {% if cleanValue | wordcount > 50 %}
-                                                    <div class="review-step__answer-preview js-toggle-answer">
+                {% for step in summary %}
+                    {% set stepCopy = copy.steps[loop.index0] %}
+                    <div class="review-step">
+                        <h3 class="review-step__title">
+                            {{ stepCopy.name or step.name }}
+                            <a class="review-step__edit js-application-form-review-link"
+                            href="{{ baseUrl }}/{{ loop.index }}/edit"
+                            aria-label="Edit {{ step.name }}">
+                                Edit
+                            </a>
+                        </h3>
+                        {% for fieldset in step.fieldsets %}
+                            <dl class="review-step__list">
+                                {% for field in fieldset.fields %}
+                                    {% set fieldCopy = copy.fields[field.name] %}
+                                    {% set fieldLabel = fieldCopy.label or field.label %}
+                                    {% if field.value %}
+                                        <dt class="review-step__item-label{% if field.type === 'textarea' %} is-stacked{% endif %}">
+                                            {{ fieldLabel }}
+                                        </dt>
+                                        <dd class="review-step__item-value{% if field.type === 'textarea' %} is-stacked is-constrained{% endif %}">
+                                            <div class="s-prose" data-hj-suppress>
+                                                {% if field.type === 'textarea' %}
+                                                    {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                                    {% if cleanValue | wordcount > 50 %}
+                                                        <div class="review-step__answer-preview js-toggle-answer">
+                                                            {{ cleanValue }}
+                                                            <p class="review-step__answer-more">
+                                                                <button type="button" class="btn-link">
+                                                                    <span class="js-toggle-answer-label" data-toggle-label="Show less">
+                                                                        Show more
+                                                                    </span>
+                                                                    {{ iconArrowDown() }}
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                    {% else %}
                                                         {{ cleanValue }}
-                                                        <p class="review-step__answer-more">
-                                                            <button type="button" class="btn-link">
-                                                                <span class="js-toggle-answer-label" data-toggle-label="Show less">
-                                                                    Show more
-                                                                </span>
-                                                                {{ iconArrowDown() }}
-                                                            </button>
-                                                        </p>
-                                                    </div>
+                                                    {% endif %}
+                                                {% elseif (field.value | isArray) %}
+                                                    {{ field.value | join(', ') }}
                                                 {% else %}
-                                                    {{ cleanValue }}
+                                                    {{ field.value }}
                                                 {% endif %}
-                                            {% elseif (field.value | isArray) %}
-                                                {{ field.value | join(', ') }}
-                                            {% else %}
-                                                {{ field.value }}
-                                            {% endif %}
-                                        </div>
-                                    </dd>
-                                {% endif %}
-                            {% endfor %}
-                        </dl>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+                                            </div>
+                                        </dd>
+                                    {% endif %}
+                                {% endfor %}
+                            </dl>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
 
-            {% if csrfToken %}
-                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            {% endif %}
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
 
-            {% if stepConfig.declaration %}
-                <aside class="review-step__declaration">
-                    <h5>Declaration</h5>
-                    {{ stepConfig.declaration | safe }}
-                </aside>
-            {% endif %}
-            <input class="btn btn--next" type="submit" value="{{ stepCopy.proceedLabel or stepConfig.proceedLabel }}" />
-        </form>
+                <input class="btn btn--next" type="submit" value="{{ stepCopy.proceedLabel }}" />
+            </form>
+        </div>
     </main>
 {% endblock %}

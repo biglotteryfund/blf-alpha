@@ -658,6 +658,98 @@ research:
     researchPartners: Research partners
     contact: Contact
 apply:
+  reachingCommunities:
+    title: Reaching Communities & Partnerships
+    description: Apply for a grant over £10,000
+    errorTitle: There was a problem with your submission
+    fields:
+      your-idea:
+        label: Briefly explain your idea and why it’ll make a difference
+        helpText: >
+          <p>We support ideas that meet our three funding priorities. Show us how you plan to:</p>
+          <ul>
+            <li>bring people together and build strong relationships in and across communities
+            <li>improve the places and spaces that matter to communities</li>
+            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+          </ul>
+        errorMessage: Please tell us your idea
+      location:
+        label: Select all regions that apply
+        options:
+        - label: North East & Cumbria
+          explanation: covering Newcastle, Cumbria and the north-east of England
+        - label: North West
+          explanation: covering Greater Manchester, Lancashire, Cheshire and Merseyside
+        - label: Yorkshire and the Humber
+          explanation: covering Yorkshire, north and north-east Lincolnshire
+        - label: South West
+          explanation: covering Exeter, Bristol and the south-west of England
+        - label: London, South East and East of England
+        - label: East and West Midlands
+        errorMessage: Project region must be provided
+      project-location:
+        label: Project location
+        explanation: In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.
+        errorMessage: Project location must be provided
+      organisation-name:
+        label: Legal name
+        errorMessage: Organisation must be provided
+      additional-organisations:
+        label: Add another organisation
+        explanation: If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.
+      first-name:
+        label: First name
+        errorMessage: First name must be provided
+      last-name:
+        label: Last name
+        errorMessage: Last name must be provided
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      phone-number:
+        label: Phone number
+        errorMessage: Please provide a contact telephone number
+    steps:
+      - name: Your idea
+        fieldsets:
+        - legend: Find out how we can help you
+          introduction: >
+            <p>
+              If you have already read our guidance about telling us your idea for either
+              <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or
+              <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box
+              below to share it with us, and details about your organisation. Remember, you don’t have to have
+              all the details, but try to include:
+            </p>
+            <ul>
+              <li>what you want to do and why</li>
+              <li>what difference you think your idea will make</li>
+              <li>how people and communities are involved with your project</li>
+              <li>the background to your organisation</li>
+              <li>the length of your project budget and how much funding you’ll need from us</li>
+              <li>how your idea fits in with other activities</li>
+            </ul>
+            <p>
+              This information will go to one of our funding officers who will get in touch within fifteen working
+              days to find out more. If it is something we could fund, this is just the start of the conversation.
+            </p>
+      - name: Project location
+        fieldsets:
+        - legend: Where will your project take place?
+      - name: Your organisation
+        fieldsets:
+          - legend: Your organisation
+      - name: Your details
+        fieldsets:
+          - legend: Your details
+    review:
+      title: 'Check this is right before submitting your idea'
+      proceedLabel: 'Submit'
+    error:
+      title: There was an problem submitting your idea
+      message: >
+        <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+        <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
   digitalFunding:
     title: "Digital Funding"
     description: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'

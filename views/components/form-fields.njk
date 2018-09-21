@@ -1,6 +1,6 @@
 {% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
 
-{% macro formHeader(title, prefix = null, backUrl = null) %}
+{% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
     <div class="form-header">
         {% if backUrl %}
             <div class="form-header__actions">
@@ -13,6 +13,9 @@
             <p class="form-header__prefix">{{ prefix }}</p>
         {% endif %}
         <h1 class="form-header__title">{{ title }}</h1>
+        {% if suffix %}
+            <p class="form-header__suffix">{{ suffix }}</p>
+        {% endif %}
     </div>
 {% endmacro %}
 
@@ -137,6 +140,7 @@
         {{ fieldHelpText(field, fieldCopy) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}
+                {% set optionCopy = fieldCopy.options[loop.index0] %}
                 <li class="ff-choice__option">
                     <div class="ff-choice__input">
                         {% if field.type === 'checkbox' %}
@@ -158,9 +162,10 @@
                         {% endif %}
                     </div>
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
-                        {% if option.explanation %}
-                            <small class="ff-choice__caption">{{ option.explanation }}</small>
+                        {{ optionCopy.label or option.label }}
+                        {% set explanation = optionCopy.explanation or option.explanation %}
+                        {% if explanation %}
+                            <small class="ff-choice__caption">{{ explanation }}</small>
                         {% endif %}
                     </label>
                 </li>
@@ -181,7 +186,7 @@
                 {% elseif field.type === 'select' %}
                     {{ inputSelect(field) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
-                    {{ inputChoice(field) }}
+                    {{ inputChoice(field, fieldCopy) }}
                 {% else %}
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}
