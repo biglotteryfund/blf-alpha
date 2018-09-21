@@ -105,7 +105,7 @@
                     </form>
                 </div>
 
-                <div class="grants-search__results">
+                <div class="grants-search__results s-prose">
                     <p>Showing <strong>{{ meta.totalResults }}</strong> results{% if queryParams %} filtered by:{% endif %}</p>
 
                     {% macro activeQueryItem(label, queryProp) %}
@@ -128,6 +128,18 @@
                     {% endif %}
 
                     {% if grants.length > 0 %}
+
+                        <p>Sort these results:</p>
+                        <ul class="u-margin-bottom-l">
+                            {% for s in sortableFields %}
+                                <li>
+                                    <strong>{{ s.title }}</strong>
+                                    <a href="?{{ queryParams | addQueryParam([['sort', s.key]]) }}">asc</a> |
+                                    <a href="?{{ queryParams | addQueryParam([['sort', s.key], ['dir', 'desc']]) }}">desc</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
                         {% for grant in grants %}
                             {{ grantResult(grant) }}
                         {% endfor %}

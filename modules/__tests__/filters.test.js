@@ -74,16 +74,26 @@ describe('pluralise', () => {
 });
 
 describe('addQueryParam', () => {
-    it('should add query parameter', () => {
+    it('should add a query parameter', () => {
         expect(
             addQueryParam(
                 {
                     something: 'example'
                 },
-                'programme_id',
-                12
+                [['programme_id', 12]]
             )
         ).toBe('something=example&programme_id=12');
+    });
+
+    it('should add multiple query parameters', () => {
+        expect(
+            addQueryParam(
+                {
+                    something: 'example'
+                },
+                [['programme_id', 12], ['sort', 'date']]
+            )
+        ).toBe('something=example&programme_id=12&sort=date');
     });
 });
 
