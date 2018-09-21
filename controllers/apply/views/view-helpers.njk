@@ -19,3 +19,49 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{% macro questionsPreview(steps, copy) %}
+    {% for step in steps %}
+        <div class="step-preview accent-content--{{ pageAccent }}">
+            {% set stepCopy = copy.steps[loop.index0] %}
+            <h3 class="step-preview__title">{{ loop.index }}. {{ stepCopy.name }}</h3>
+            {% for fieldset in step.fieldsets %}
+                {% set fieldsetCopy = stepCopy.fieldsets[loop.index0] %}
+                <div class="step-preview__fieldset">
+                    {% for field in fieldset.fields %}
+                        {% set fieldCopy = copy.fields[field.name] %}
+                        <div class="step-preview__field">
+                            <p class="step-preview__field-label">
+                                {{ fieldCopy.label }}
+                            </p>
+                            {% if field.type === 'checkbox' %}
+                                Choose all that apply:
+                                {% for option in field.options -%}
+                                    {% set optionCopy = fieldCopy.options[loop.index0] %}
+                                    {{ optionCopy.label }}{% if not loop.last %}, {% endif %}
+                                {%- endfor %}
+                            {% endif %}
+                            {% if field.type === 'radio' %}
+                                Choose one of:
+                                {% for option in field.options -%}
+                                    {% set optionCopy = fieldCopy.options[loop.index0] %}
+                                    {{ optionCopy.label }}{% if not loop.last %}, {% endif %}
+                                {%- endfor %}
+                            {% endif %}
+                            {% if fieldCopy.helpText %}
+                                <div class="step-preview__field-guidance">
+                                    {{ fieldCopy.helpText | safe }}
+                                </div>
+                            {% endif %}
+                            {% if fieldCopy.lengthHint %}
+                                <small class="step-preview__field-length-hint ff-length-hint">
+                                    {{ fieldCopy.lengthHint }}
+                                </small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endmacro %}
