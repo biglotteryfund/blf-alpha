@@ -1,3 +1,4 @@
+{% from "../views/view-helpers.njk" import emailSummary %}
 <!doctype html>
 <html>
     <head>
@@ -6,29 +7,9 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <p>A customer has submitted an idea from the {{ title }} web form.</p>
+        <h1>A customer has submitted an idea from the {{ title }} web form.</h1>
         <p>The details they provided are included below:</p>
-
         <h2 class="space-above">Customer information</h2>
-
-        <div class="summary">
-            {% for step in summary %}
-                <h4>{{ step.name }}</h4>
-                {% for fieldset in step.fieldsets %}
-                    {% for field in fieldset.fields %}
-                        {% if field.value %}
-                            <h5>{{ field.label }}</h5>
-                            {% if field.type === 'textarea' %}
-                                <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
-                            {% elseif isArray(field.value) %}
-                                <p>{{ field.value | join(', ') }}</p>
-                            {% else %}
-                                <p>{{ field.value }}</p>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            {% endfor %}
-        </div>
+        {{ emailSummary(copy, summary) }}
     </body>
 </html>

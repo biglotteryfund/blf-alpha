@@ -1,3 +1,4 @@
+{% from "../views/view-helpers.njk" import emailSummary %}
 <!doctype html>
 <html>
     <head>
@@ -6,29 +7,8 @@
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
     </head>
     <body>
-        <p>New submission for {{ title }}</p>
-
-        <h2 class="space-above">Customer information</h2>
-
-        <div class="summary">
-            {% for step in summary -%}
-                {% set stepCopy = copy.steps[loop.index0] %}
-                <h4>{{ stepCopy.name or step.name }}</h4>
-                {% for fieldset in step.fieldsets -%}
-                    {% for field in fieldset.fields %}
-                        {% set fieldCopy = copy.fields[field.name] %}
-                        {% set fieldLabel = fieldCopy.label or field.label %}
-                        {% if field.value %}
-                            <h5>{{ fieldLabel }}</h5>
-                            {% if field.type === 'textarea' %}
-                                <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
-                            {% else %}
-                                <p>{{ field.value }}</p>
-                            {% endif %}
-                        {% endif %}
-                    {%- endfor %}
-                {%- endfor %}
-            {% endfor %}
-        </div>
+        <h1>New submission for {{ title }}</h1>
+        <p>Customer information</p>
+        {{ emailSummary(copy, summary) }}
     </body>
 </html>
