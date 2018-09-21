@@ -29,43 +29,46 @@ function renderForm(req, res) {
     });
 }
 
-// @TODO consider rate limiting?
-function handleLogin(req, res, next) {
-    return passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            return next(err);
-        } else {
-            req.logIn(user, loginErr => {
-                if (loginErr) {
-                    // User not valid, send them to login again
-                    res.locals.errors = [{ msg: info.message }];
-                    res.locals.formValues = req.body;
-                    return renderForm(req, res);
-                } else {
-                    // User is valid, send them on
-                    let redirectUrl = '/user';
-                    if (req.body.redirectUrl) {
-                        redirectUrl = req.body.redirectUrl;
-                    } else if (req.session.redirectUrl) {
-                        redirectUrl = req.session.redirectUrl;
-                        delete req.session.redirectUrl;
-                    } else if (res.locals.newStatus) {
-                        redirectUrl += `?s=${res.locals.newStatus}`;
-                    }
-
-                    req.session.save(() => {
-                        res.redirect(redirectUrl);
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-}
-
 router
     .route('/')
     .all(csrfProtection, requireUnauthed)
     .get(renderForm)
-    .post(handleLogin);
+    .post((req, res, next) => {
+        // @TODO consider rate limiting?
+        passport.authenticate('local', (err, user, info) => {
+
+            if (!user) {
+                // User not valid, send them to login again
+                res.locals.errors = [{ msg: info.message }];
+                res.locals.formValues = req.body;
+                return renderForm(req, res);
+            }
+
+            if (err) {
+                next(err);
+            } else {
+                req.logIn(user, loginErr => {
+                    if (loginErr) {
+                        next(loginErr);
+                    } else {
+                        // User is valid, send them on
+                        let redirectUrl = '/user';
+                        if (req.body.redirectUrl) {
+                            redirectUrl = req.body.redirectUrl;
+                        } else if (req.session.redirectUrl) {
+                            redirectUrl = req.session.redirectUrl;
+                            delete req.session.redirectUrl;
+                        } else if (res.locals.newStatus) {
+                            redirectUrl += `?s=${res.locals.newStatus}`;
+                        }
+
+                        req.session.save(() => {
+                            res.redirect(redirectUrl);
+                        });
+                    }
+                });
+            }
+        })(req, res, next);
+    });
 
 module.exports = router;

@@ -28,7 +28,7 @@ module.exports = function(app) {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            sameSite: true,
+            sameSite: false,
             secure: !appData.isDev,
             expires: moment()
                 .add(7, 'days')

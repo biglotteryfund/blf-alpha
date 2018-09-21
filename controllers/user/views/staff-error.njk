@@ -1,0 +1,15 @@
+{% extends "layouts/main.njk" %}
+
+{% set title = 'Error' %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <h1>{{ title }}</h1>
+            <div class="message" role="alert">
+                There was an error logging you into the staff section.
+            </div>
+        </div>
+    </main>
+{% endblock %}
