@@ -69,14 +69,6 @@ router.get('/', async (req, res) => {
         {
             key: 'amountAwarded',
             title: 'Amount awarded'
-        },
-        {
-            key: 'title',
-            title: 'Project title'
-        },
-        {
-            key: 'grantProgramme.title',
-            title: 'Funding programme title'
         }
     ];
 
