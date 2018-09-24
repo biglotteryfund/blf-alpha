@@ -4,22 +4,8 @@
 
 {% block title %} {{ title }} | {{ formTitle }} | {% endblock %}
 
-{% if not heroImage %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
-
 {% block content %}
     <main role="main" id="content">
-        {% if heroImage %}
-            {{ hero(
-                titleText = formTitle,
-                image = heroImage,
-                accent = pageAccent
-            ) }}
-        {% endif %}
-
-        {% if heroImage %}<div class="nudge-up">{% endif %}
-
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <div class="s-prose u-constrained-wide">
                 <h1>{{ title }}</h1>
@@ -41,7 +27,5 @@
                 }] )}}
             </div>
         </div>
-
-        {% if heroImage %}</div>{% endif %}
     </main>
 {% endblock %}

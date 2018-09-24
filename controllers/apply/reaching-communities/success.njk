@@ -1,8 +1,7 @@
+{% extends "layouts/main.njk" %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 
-{% extends "layouts/main.njk" %}
 {% block title %}Thank you for submitting your idea | {{ formTitle }} | {% endblock %}
-{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
@@ -21,7 +20,6 @@
                     isToggleable = false
                 )  }}
             </div>
-
         </div>
     </main>
 {% endblock %}

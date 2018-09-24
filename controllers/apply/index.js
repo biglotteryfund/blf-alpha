@@ -8,7 +8,6 @@ const Raven = require('raven');
 
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const { injectHeroImage } = require('../../middleware/inject-content');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
@@ -62,10 +61,9 @@ function initFormRouter(form) {
         res.locals.isBilingual = form.isBilingual;
         res.locals.pageAccent = form.pageAccent || 'pink';
         res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });
-
-    router.use(injectHeroImage(form.heroSlug));
 
     const totalSteps = form.steps.length + 1; // allow for the review 'step'
 

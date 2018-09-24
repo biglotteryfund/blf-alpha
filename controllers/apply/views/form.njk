@@ -1,27 +1,14 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/form-fields.njk" import formHeader, formErrors, formField with context %}
 
-{% extends "layouts/main.njk" %}
-
 {% set stepProgressDescription = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps %}
 {% block title %} {{ stepProgressDescription }} | {{ formTitle }} | {% endblock %}
 
-{% if not heroImage %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
-
 {% block content %}
     <main role="main" id="content">
-        {% if heroImage %}
-            {{ hero(
-                titleText = formTitle,
-                image = heroImage,
-                accent = pageAccent
-            ) }}
-        {% endif %}
-
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <form action="" method="POST" class="js-application-form">
                 {{ formHeader(
                     title = formTitle,
