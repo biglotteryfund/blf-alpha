@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { getSecretFromRawParameters } = require('../secrets');
+const { getSecretFromRawParameters } = require('../parameter-store');
 
 describe('Get secrets', () => {
     const mockParameters = [
