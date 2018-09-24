@@ -2,8 +2,13 @@
 'use strict';
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const assert = require('assert');
+
 const isProduction = process.env.NODE_ENV === 'production';
-const pkgConfig = require('./package.json').config;
+const pkg = require('./package.json');
+const pkgConfig = pkg.config;
+
+assert(pkg.browserslist.length > 0);
 
 const babelOptions = {
     plugins: ['syntax-dynamic-import'],
@@ -13,7 +18,7 @@ const babelOptions = {
             {
                 modules: false,
                 targets: {
-                    browsers: ['>0.25% in GB', 'ie >= 10', 'not op_mini all']
+                    browsers: pkg.browserslist
                 }
             }
         ]
