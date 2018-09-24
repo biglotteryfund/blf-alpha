@@ -8,11 +8,11 @@ const Raven = require('raven');
 
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const { injectHeroImage } = require('../../middleware/inject-content');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingForm = require('./digital-funding/form-model');
+const youthCapacityForm = require('./youth-capacity/form-model');
 
 function initFormRouter(form) {
     const router = express.Router();
@@ -61,10 +61,9 @@ function initFormRouter(form) {
         res.locals.isBilingual = form.isBilingual;
         res.locals.pageAccent = form.pageAccent || 'pink';
         res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });
-
-    router.use(injectHeroImage(form.heroSlug));
 
     const totalSteps = form.steps.length + 1; // allow for the review 'step'
 
@@ -182,12 +181,11 @@ function initFormRouter(form) {
     });
 
     function renderError(error, req, res) {
-        const stepCopy = get(res.locals.copy, 'error', {});
+        const errorCopy = req.i18n.__('apply.error');
         res.render(path.resolve(__dirname, './views/error'), {
             error: error,
-            form: form,
-            title: stepCopy.title,
-            stepCopy: stepCopy,
+            title: errorCopy.title,
+            errorCopy: errorCopy,
             returnUrl: `${req.baseUrl}/review`
         });
     }
@@ -223,7 +221,6 @@ function initFormRouter(form) {
             } else {
                 try {
                     await form.processor({
-                        form: form,
                         data: flattenFormData(formData),
                         stepsWithValues: stepsWithValues(form.steps, formData),
                         copy: res.locals.copy
@@ -271,6 +268,7 @@ module.exports = ({ router }) => {
     router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
     if (appData.isNotProduction) {
+        router.use('/youth-capacity', initFormRouter(youthCapacityForm));
         router.use('/digital-funding-1', initFormRouter(digitalFundingForm(1)));
         router.use('/digital-funding-2', initFormRouter(digitalFundingForm(2)));
     }

@@ -51,7 +51,6 @@ time.
 Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
-
 <!doctype html>
 <html>
     <head>
@@ -84,24 +83,22 @@ uk/assets/images/logos/logo.png\\" alt=3D\\"Big Lottery Fund logo\\" =
 style=3D\\"width: 150px;\\" width=3D\\"150\\">
         </div>
 
-        <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+       =20
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
 font-weight: 400; line-height: 1.35;\\">Thank you for getting in touch with =
 us.</p>
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Here is a copy of the information =
+you've submitted. We'll be in touch as soon as we can.</p>
 
-        <p style=3D\\"color: #333; font-family: arial; font-size: =
-20px; font-weight: 400; line-height: 1.35;\\">Here is a copy of the =
-information you've submitted. We'll be in touch as soon as we can.</p>
-
-        <h2 class=3D\\"space-above\\" style=3D\\"color: #e20087; font-weight: =
-500; margin: 0 0 20px; font-size: 22px; margin-top: 50px;\\">Your =
-information</h2>
-
-       =20
+    <h2 style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; =
+font-size: 22px;\\">Your information</h2>
+   =20
     <div class=3D\\"summary\\">
        =20
-            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px;=
- border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
-700;\\">Your details</h4>
+            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: 3px; =
+font-weight: 700;\\">Your details</h4>
            =20
                    =20
                    =20
@@ -148,6 +145,7 @@ sit amet consectetur adipisicing elit. Porro, inventore.</p>
                    =20
        =20
     </div>
+
 
 
         <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; font-weight: =

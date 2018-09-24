@@ -1,29 +1,15 @@
-{% from "components/hero.njk" import hero %}
 {% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
-{% if not heroImage %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
-
 {% block content %}
     <main role="main" id="content">
-        {% if heroImage %}
-            {{ hero(
-                titleText = formTitle,
-                image = heroImage,
-                accent = pageAccent
-            ) }}
-        {% endif %}
-
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
-            <div class="u-constrained-content s-prose u-margin-bottom">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose">
                 <h1>{{ title }}</h1>
-
-                <div class="message" role="alert">{{ stepCopy.message | safe }}</div>
-
-                <p><a class="btn" href="{{returnUrl}}">{{ __('global.misc.back') | capitalize }}</a></p>
+                <div class="message" role="alert">{{ errorCopy.message | safe }}</div>
+                <p><a class="btn" href="{{ returnUrl }}">{{ __('global.misc.back') | capitalize }}</a></p>
 
                 {% if error and appData.isNotProduction %}
                     <h4>Stack trace:</h4>
