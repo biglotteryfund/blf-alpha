@@ -93,10 +93,19 @@ function removeQueryParam(queryParams, paramToRemove) {
     return querystring.stringify(newParams);
 }
 
-function addQueryParam(queryParams, paramToAdd, paramValue) {
-    let newParams = Object.assign({}, queryParams);
-    newParams[paramToAdd] = paramValue;
-    return querystring.stringify(newParams);
+/**
+ * addQueryParam
+ * @param {string} queryParams - The existing querystring object
+ * @param {array} newParams - An array of arrays of key/value pairs
+ * (eg. [['foo', 'bar'], ['baz', 'quux']]
+ */
+function addQueryParam(queryParams, newParams) {
+    let clone = Object.assign({}, queryParams);
+    newParams.forEach(pair => {
+        let [key, value] = pair;
+        clone[key] = value;
+    });
+    return querystring.stringify(clone);
 }
 
 module.exports = {
