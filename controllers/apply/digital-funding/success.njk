@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
-{% from "components/step-progress/macro.njk" import stepProgress %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
 
 {% block title %} {{ title }} | {{ formTitle }} | {% endblock %}
 
@@ -10,21 +10,20 @@
             <div class="s-prose u-constrained-wide">
                 <h1>{{ title }}</h1>
 
-                <p>{{ stepCopy.message }}</p>
+                <div class="message" role="alert">
+                    {{ stepCopy.confirmation }}
+                </div>
 
                 <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ stepCopy.nextStepsTitle }}</h2>
+                <p>{{ stepCopy.message }}</p>
 
-                {{ stepProgress([{
-                    "title": "Request a call",
-                    "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time",
-                    "isCompleted": true
-                }, {
-                    "title": "Talk to us",
-                    "description": "We call you and ask a few questions"
-                }, {
-                    "title": "Submit a full proposal",
-                    "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
-                }] )}}
+                {{ inlineFeedback(
+                    description = formTitle,
+                    promptLabel = "Can you spare a minute to give us some feedback?",
+                    fieldLabel = "How was your experience of this process?",
+                    helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
+                    isToggleable = false
+                )  }}
             </div>
         </div>
     </main>

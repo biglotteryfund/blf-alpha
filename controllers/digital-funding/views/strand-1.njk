@@ -23,24 +23,19 @@
                     <p>Big Lottery Fund offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</p>
                 </div>
 
-                {{ segmentLinks([{
-                    "title": "How the process works"
-                }, {
-                    "title": "Success factors"
-                }, {
-                    "title": "Eligibility criteria"
-                }] )}}
+                {{ segmentLinks([
+                    { "title": "How the process works" },
+                    { "title": "Eligibility criteria" },
+                    { "title": "What can you spend the money on?" },
+                    { "title": "Success factors" },
+                    { "title": "Get started" }
+                ] )}}
             </section>
 
             <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="content-sidebar">
-                    <div class="content-sidebar__primary">
-                        <div class="s-prose">
-                            <h2>How the process works</h2>
-                            {# @TODO: We need some real copy here #}
-                            <p>Intro sentence or two to the conversational approach this fund will take and how it’s designed to help the customer experience.</p>
-                        </div>
-
+                    <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
+                        <h2 class="t2 t--underline">How the process works</h2>
                         {{ steps() }}
                     </div>
 
@@ -53,29 +48,6 @@
                 </div>
             </section>
 
-
-            {% call contentBox(pageAccent, id='segment-2') %}
-                <h2>Success factors</h2>
-
-                <p>Successful proposals will:</p>
-
-                <ul>
-                    <li>Clearly demonstrate either the potential to scale impact at low cost, or clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
-                    <li>Be driven by teams that combine knowledge of a social issue with experience of digital delivery.</li>
-                    <li>Relate to a product or service that is far enough through its development process that real users are currently benefiting from it.</li>
-                    <li>Be able to provide at least some evidence of impact upon those real users.</li>
-                    <li>Have a theory of change or similar document showing how the product or service will achieve social impact.</li>
-                    <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
-                </ul>
-
-                <p>We are <strong>not</strong> looking for:</p>
-                <ul>
-                    <li>Products or services that are not yet mature enough to be benefiting at least a few people</li>
-                    <li>Products of services that cannot show considerable evidence of user research in their composition</li>
-                    <li>Products or services that duplicate existing services with no substantial innovation</li>
-                </ul>
-
-            {% endcall %}
             {% call contentBox(pageAccent, id='segment-2') %}
                 <h2>Eligibility criteria</h2>
 
@@ -108,10 +80,12 @@
                 <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
 
                 <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+            {% endcall %}
 
+            {% call contentBox(pageAccent, id="segment-3") %}
                 <h2>What can you spend the money on?</h2>
 
-                <p>We can fund:</p>
+                <p>We <strong>can</strong> fund:</p>
                 <ul>
                     <li>staff salaries</li>
                     <li>project activities</li>
@@ -131,16 +105,38 @@
                     <li>retrospective costs</li>
                     <li>loan repayments</li>
                 </ul>
+            {% endcall %}
 
-                <h2>Our policies</h2>
+            {% call contentBox(pageAccent, id="segment-4") %}
+                <h2>Success factors</h2>
 
-                <p>It is important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
+                <p>Successful proposals will:</p>
+
+                <ul>
+                    <li>Clearly demonstrate either the potential to scale impact at low cost, or clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
+                    <li>Be driven by teams that combine knowledge of a social issue with experience of digital delivery.</li>
+                    <li>Relate to a product or service that is far enough through its development process that real users are currently benefiting from it.</li>
+                    <li>Be able to provide at least some evidence of impact upon those real users.</li>
+                    <li>Have a theory of change or similar document showing how the product or service will achieve social impact.</li>
+                    <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+                </ul>
+
+                <p>We are <strong>not</strong> looking for:</p>
+                <ul>
+                    <li>Products or services that are not yet mature enough to be benefiting at least a few people</li>
+                    <li>Products of services that cannot show considerable evidence of user research in their composition</li>
+                    <li>Products or services that duplicate existing services with no substantial innovation</li>
+                </ul>
+
+                <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
 
                 <ul>
                     <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
                     <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
                 </ul>
+            {% endcall %}
 
+            {% call contentBox(pageAccent, id="segment-5") %}
                 <h2>Get started</h2>
 
                 <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
