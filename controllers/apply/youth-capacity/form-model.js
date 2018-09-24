@@ -6,7 +6,7 @@ const { validateIsEmail } = require('../helpers');
 
 const formLang = 'apply.youthCapacity';
 
-const PROJECT_LOCATIONS = [{ value: 'Birmingham' }, { value: 'Bradford' }, { value: ' Barking and Dagenham' }];
+const PROJECT_LOCATIONS = [{ value: 'Birmingham' }, { value: 'Bradford' }, { value: 'Barking and Dagenham' }];
 
 const PROJECT_AIMS = [{ value: 'Build capacity' }, { value: 'Develop partnerships' }];
 
