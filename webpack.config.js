@@ -5,6 +5,26 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 const pkgConfig = require('./package.json').config;
 
+const babelOptions = {
+    plugins: ['syntax-dynamic-import'],
+    presets: [
+        [
+            'env',
+            {
+                modules: false,
+                targets: {
+                    browsers: ['>0.25% in GB', 'ie >= 10', 'not op_mini all']
+                }
+            }
+        ]
+    ],
+    env: {
+        test: {
+            plugins: ['transform-es2015-modules-commonjs']
+        }
+    }
+};
+
 const commonConfig = {
     mode: isProduction ? 'production' : 'development',
     performance: {
@@ -15,7 +35,8 @@ const commonConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                options: babelOptions
             },
             {
                 test: /\.vue$/,
