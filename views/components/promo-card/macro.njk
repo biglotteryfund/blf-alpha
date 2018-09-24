@@ -21,7 +21,7 @@ featured: {Boolean} - Use featured style for promo card
                 <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
                 {% if props.link.url %}</a>{% endif %}
                 {% if props.kicker %}
-                    <span class="promo-card__kicker t6">
+                    <span class="promo-card__kicker">
                         {% call overlayText(accent = accent) %}
                             {{ props.kicker }}
                         {% endcall %}
