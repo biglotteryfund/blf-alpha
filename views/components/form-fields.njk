@@ -116,16 +116,17 @@
     >{{ field.value }}</textarea>
 {% endmacro %}
 
-{% macro inputSelect(field) %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+{% macro inputSelect(field, fieldCopy) %}
+    {{ formLabel(field, fieldCopy)}}
     {{ fieldHelpText(field) }}
     <select
         class="ff-select"
         id="field-{{ field.name }}"
         name="{{ field.name }}">
         {% for option in field.options %}
+            {% set optionCopy = fieldCopy.options[loop.index0] %}
             <option value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
-                {{ option.label }}
+                {{ optionCopy.label or option.label }}
             </option>
         {% endfor %}
     </select>
@@ -182,9 +183,9 @@
         <div class="form-field__main">
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
-                    {{ inputTextarea(field) }}
+                    {{ inputTextarea(field, fieldCopy) }}
                 {% elseif field.type === 'select' %}
-                    {{ inputSelect(field) }}
+                    {{ inputSelect(field, fieldCopy) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
                     {{ inputChoice(field, fieldCopy) }}
                 {% else %}
