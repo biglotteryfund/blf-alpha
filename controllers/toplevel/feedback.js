@@ -1,7 +1,6 @@
 'use strict';
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
-const { FORM_STATES } = require('../../modules/forms');
 const feedbackService = require('../../services/feedback');
 
 function init({ router }) {
@@ -30,21 +29,18 @@ function init({ router }) {
                 })
                 .then(() => {
                     res.json({
-                        status: FORM_STATES.SUBMISSION_SUCCESS,
                         message: messageSuccess,
                         data: formData
                     });
                 })
                 .catch(err => {
                     res.status(400).json({
-                        status: FORM_STATES.SUBMISSION_ERROR,
                         message: messageError,
                         err: err
                     });
                 });
         } else {
             res.status(400).json({
-                status: FORM_STATES.VALIDATION_ERROR,
                 message: messageError,
                 err: 'Please supply all fields'
             });
