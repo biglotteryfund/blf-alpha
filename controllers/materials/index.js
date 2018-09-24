@@ -10,7 +10,6 @@ const Raven = require('raven');
 
 const router = express.Router();
 
-const { FORM_STATES } = require('../../modules/forms');
 const { injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
@@ -18,6 +17,13 @@ const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
 const { generateHtmlEmail, sendEmail } = require('../../services/mail');
 const ordersService = require('../../services/orders');
+
+const FORM_STATES = {
+    NOT_SUBMITTED: 'NOT_SUBMITTED',
+    VALIDATION_ERROR: 'VALIDATION_ERROR',
+    SUBMISSION_ERROR: 'SUBMISSION_ERROR',
+    SUBMISSION_SUCCESS: 'SUBMISSION_SUCCESS'
+};
 
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
@@ -133,7 +139,8 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         orders: orders,
         orderStatus: status,
         formActionBase: req.baseUrl,
-        formAnchorName: 'your-details'
+        formAnchorName: 'your-details',
+        FORM_STATES
     });
 }
 

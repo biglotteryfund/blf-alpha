@@ -25,7 +25,6 @@ const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const routes = require('./controllers/routes');
-const formHelpers = require('./modules/forms');
 const viewFilters = require('./modules/filters');
 
 const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
@@ -121,11 +120,6 @@ function initAppLocals() {
      * Default pageAccent colour
      */
     app.locals.pageAccent = 'pink';
-
-    /**
-     * Form helpers
-     */
-    app.locals.formHelpers = formHelpers;
 }
 
 initAppLocals();
