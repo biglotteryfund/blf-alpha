@@ -15,8 +15,9 @@ const SESSION_SECRET = process.env.SESSION_SECRET || getSecret('session.secret',
  * We allow overriding through an environment variable for CI and to allow
  * using a local MySQL database locally as an option.
  */
-const defaultConnectionUri = appData.isDev ? 'sqlite://:memory' : getSecret('db.connection-uri', true);
-const DB_CONNECTION_URI = process.env.DB_CONNECTION_URI || defaultConnectionUri;
+const DB_CONNECTION_URI = appData.isDev
+    ? process.env.DB_CONNECTION_URI || 'sqlite://:memory'
+    : process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
 
 /**
  * Content API url
