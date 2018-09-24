@@ -30,9 +30,9 @@ html {
 
 body,
 input,
+select,
 textarea,
-button,
-blockquote {
+button {
     color: palette('charcoal');
     font-family: font-stack('body');
     font-weight: 400;
@@ -196,4 +196,8 @@ button,
 /* Allow only vertical resizing of textareas. */
 textarea {
     resize: vertical;
+}
+
+select {
+    max-width: 100%;
 }

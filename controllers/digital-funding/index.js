@@ -18,7 +18,7 @@ router.use(injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
         {
             label: req.i18n.__('funding.programmes.title'),
-            url: req.baseUrl
+            url: '/funding/programmes'
         },
         {
             label: 'Digital Funding',
