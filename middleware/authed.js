@@ -40,10 +40,7 @@ const requireStaffAuth = (req, res, next) => {
     if (req.isAuthenticated() && get(req, 'user.userType', false) === 'staff') {
         return next();
     } else {
-        req.session.redirectUrl = req.originalUrl;
-        req.session.save(() => {
-            res.redirect('/user/staff/login');
-        });
+        res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
     }
 };
 
