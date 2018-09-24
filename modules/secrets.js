@@ -65,11 +65,6 @@ const MS_CLIENT_ID = process.env.MS_CLIENT_ID || getSecret('ms.auth.clientId');
 const MS_CLIENT_SECRET = process.env.MS_CLIENT_SECRET || getSecret('ms.auth.clientSecret');
 const MS_REDIRECT_URL = process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl');
 
-// We store these strings in one parameter for the sake of sanity
-// in the format <string:32>;<string:12>
-const MS_COOKIE_1 = process.env.MS_COOKIE_1 || getSecret('ms.cookie.1');
-const MS_COOKIE_2 = process.env.MS_COOKIE_2 || getSecret('ms.cookie.2');
-
 module.exports = {
     getRawParameters,
     getSecretFromRawParameters,
@@ -88,7 +83,6 @@ module.exports = {
     AZURE_AUTH: {
         MS_CLIENT_ID,
         MS_REDIRECT_URL,
-        MS_CLIENT_SECRET,
-        MS_COOKIES: [MS_COOKIE_1, MS_COOKIE_2]
+        MS_CLIENT_SECRET
     }
 };
