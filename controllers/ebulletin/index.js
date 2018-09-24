@@ -4,8 +4,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const { FORM_STATES } = require('../../modules/forms');
-const { purifyUserInput, errorTranslator } = require('../../modules/validators');
+const { purify, errorTranslator } = require('../../modules/validators');
 const cached = require('../../middleware/cached');
 const newsletterService = require('../../services/newsletter-service');
 
@@ -35,7 +34,7 @@ const formValidators = [
         .withMessage(translateError('location'))
 ];
 
-function buildSubscriptionData(formData) {
+function subscribe(formData) {
     const subscriptionData = {
         email: formData.email,
         emailType: 'Html',
@@ -50,7 +49,10 @@ function buildSubscriptionData(formData) {
         subscriptionData.dataFields.push({ key: 'ORGANISATION', value: formData.organisation });
     }
 
-    return subscriptionData;
+    return newsletterService.subscribe({
+        addressBookId: '589755',
+        subscriptionData: subscriptionData
+    });
 }
 
 function renderForm(req, res) {
@@ -61,11 +63,7 @@ router
     .route('/')
     .all(cached.noCache)
     .get(renderForm)
-    .post(formValidators, async (req, res) => {
-        for (let key in req.body) {
-            req.body[key] = purifyUserInput(req.body[key]);
-        }
-
+    .post(formValidators, purify, async (req, res) => {
         const formData = matchedData(req);
         const formErrors = validationResult(req);
 
@@ -73,19 +71,14 @@ router
 
         if (formErrors.isEmpty()) {
             try {
-                await newsletterService.subscribe({
-                    addressBookId: '589755',
-                    subscriptionData: buildSubscriptionData(formData)
-                });
-
-                res.locals.status = FORM_STATES.SUBMISSION_SUCCESS;
+                await subscribe(formData);
+                res.locals.status = 'SUCCESS';
                 renderForm(req, res);
             } catch (error) {
-                res.locals.status = FORM_STATES.SUBMISSION_ERROR;
+                res.locals.status = 'ERROR';
                 renderForm(req, res);
             }
         } else {
-            res.locals.status = FORM_STATES.VALIDATION_ERROR;
             res.locals.errors = formErrors.array();
             renderForm(req, res);
         }

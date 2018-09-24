@@ -113,13 +113,13 @@
 {% block contentPrimary %}
     {% set pageAccent = content.themeColour %}
 
-    {% if orderStatus == formHelpers.FORM_STATES.SUBMISSION_SUCCESS %}
+    {% if orderStatus == FORM_STATES.SUBMISSION_SUCCESS %}
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
             <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
             <p>{{ copy.orderSubmitted.success.body | safe }}</p>
         </div>
-    {% elseif orderStatus == formHelpers.FORM_STATES.SUBMISSION_ERROR %}
+    {% elseif orderStatus == FORM_STATES.SUBMISSION_ERROR %}
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
             <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
@@ -127,7 +127,7 @@
     {% else %}
 
         {# Warn about validation errors and link to anchor #}
-        {% if orderStatus == formHelpers.FORM_STATES.VALIDATION_ERROR %}
+        {% if orderStatus == FORM_STATES.VALIDATION_ERROR %}
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <h2 class="t2 accent--pink a--text">{{ copy.validationError.title }}</h2>
                 <h3 class="t2 accent--{{ pageAccent }} a--text">

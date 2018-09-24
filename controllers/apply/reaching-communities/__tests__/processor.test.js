@@ -1,10 +1,17 @@
 /* eslint-env jest */
 'use strict';
+const fs = require('fs');
 const nodemailer = require('nodemailer');
+const path = require('path');
+const yaml = require('js-yaml');
+const { get } = require('lodash');
 
 const processor = require('../processor');
 const form = require('../form-model');
 const { flattenFormData, stepsWithValues } = require('../../helpers');
+
+const langData = fs.readFileSync(path.resolve(__dirname, '../../../../config/locales/en.yml'), 'utf-8');
+const enCopy = yaml.safeLoad(langData);
 
 const mockFormData = {
     'step-1': {
@@ -47,6 +54,7 @@ describe('processor', () => {
         const results = await processor({
             form: form,
             data: flattenFormData(mockFormData),
+            copy: get(enCopy, form.lang),
             stepsWithValues: stepsWithValues(form.steps, mockFormData),
             mailTransport: mockTransport
         });

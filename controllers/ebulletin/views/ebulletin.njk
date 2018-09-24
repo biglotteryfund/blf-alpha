@@ -12,7 +12,17 @@
 
     <main role="main" class="nudge-up">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            {{ ebulletinForm() }}
+            {% if status === 'SUCCESS' %}
+                <div class="s-prose">
+                    <h3>{{ copy.responses.success.title }}</h3>
+                    <p>{{ copy.responses.success.body | safe }}</p>
+                </div>
+            {% elseif status === 'ERROR' %}
+                <h3>{{ copy.responses.error.title }}</h3>
+                <p>{{ copy.responses.error.body | safe }}</p>
+            {% else %}
+                {{ ebulletinForm() }}
+            {% endif %}
         </div>
     </main>
 {% endblock %}

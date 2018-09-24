@@ -1,20 +1,17 @@
 {% from "components/hero.njk" import hero %}
 {% extends "layouts/main.njk" %}
 
-{% block title %}Error | {{ form.title }} | {% endblock %}
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
-{% set pageAccent = form.pageAccent if form.pageAccent else 'pink' %}
 {% if not heroImage %}
     {% set bodyClass = 'has-static-header' %}
 {% endif %}
 
 {% block content %}
-
     <main role="main" id="content">
-
         {% if heroImage %}
             {{ hero(
-                titleText = form.title,
+                titleText = formTitle,
                 image = heroImage,
                 accent = pageAccent
             ) }}
@@ -22,13 +19,11 @@
 
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if heroImage %} nudge-up{% endif %}">
             <div class="u-constrained-content s-prose u-margin-bottom">
-                <div class="form-message">
-                    <h1 class="t1 form-message__title">{{ stepConfig.title }}</h1>
-                </div>
+                <h1>{{ title }}</h1>
 
-                {{ stepConfig.message | safe }}
+                <div class="message" role="alert">{{ stepCopy.message | safe }}</div>
 
-                <p><a class="btn" href="{{returnUrl}}">Back</a></p>
+                <p><a class="btn" href="{{returnUrl}}">{{ __('global.misc.back') | capitalize }}</a></p>
 
                 {% if error and appData.isNotProduction %}
                     <h4>Stack trace:</h4>

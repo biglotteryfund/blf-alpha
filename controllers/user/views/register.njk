@@ -28,14 +28,14 @@
                     label: 'Email address',
                     isRequired: true,
                     value: formValues['username']
-                }, errors) }}
+                }, errors = errors) }}
 
                 {{ formField({
                     type: 'password',
                     name: 'password',
                     label: 'Password',
                     isRequired: true
-                }, errors) }}
+                }, errors = errors) }}
 
                 <div class="form-actions">
                     <input type="submit" class="btn" value="Register" />

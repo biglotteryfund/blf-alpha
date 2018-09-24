@@ -75,21 +75,23 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
-    search: Search
-    latestNews: Latest news
-    viewAllNews: View all news articles
-    seeProgramme: See programme
-    projectExamples: Examples of projects that have been funded
+    back: back
+    backToTop: Back to the top
     caseStudies: Case studies
-    readMore: Read more
-    readMoreAbout: "Read more about %s"
-    or: or
-    topics: topics
-    imageCredit: Image credit
     documents: documents
     download: download
+    imageCredit: Image credit
+    latestNews: Latest news
+    next: next
+    or: or
     printThisPage: Print this page
-    backToTop: Back to the top
+    projectExamples: Examples of projects that have been funded
+    readMore: Read more
+    readMoreAbout: "Read more about %s"
+    search: Search
+    seeProgramme: See programme
+    topics: topics
+    viewAllNews: View all news articles
   programmes:
     programmeLabels:
       area: Area
@@ -655,3 +657,137 @@ research:
     datePublished: Date published
     researchPartners: Research partners
     contact: Contact
+apply:
+  reachingCommunities:
+    title: Reaching Communities & Partnerships
+    description: Apply for a grant over £10,000
+    errorTitle: There was a problem with your submission
+    fields:
+      your-idea:
+        label: Briefly explain your idea and why it’ll make a difference
+        helpText: >
+          <p>We support ideas that meet our three funding priorities. Show us how you plan to:</p>
+          <ul>
+            <li>bring people together and build strong relationships in and across communities
+            <li>improve the places and spaces that matter to communities</li>
+            <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage.</li>
+          </ul>
+        errorMessage: Please tell us your idea
+      location:
+        label: Select all regions that apply
+        options:
+        - label: North East & Cumbria
+          explanation: covering Newcastle, Cumbria and the north-east of England
+        - label: North West
+          explanation: covering Greater Manchester, Lancashire, Cheshire and Merseyside
+        - label: Yorkshire and the Humber
+          explanation: covering Yorkshire, north and north-east Lincolnshire
+        - label: South West
+          explanation: covering Exeter, Bristol and the south-west of England
+        - label: London, South East and East of England
+        - label: East and West Midlands
+        errorMessage: Project region must be provided
+      project-location:
+        label: Project location
+        explanation: In your own words, describe the locations that you’ll be running your project in. eg. “Newcastle community centre” or “Alfreton, Derby and Ripley”.
+        errorMessage: Project location must be provided
+      organisation-name:
+        label: Legal name
+        errorMessage: Organisation must be provided
+      additional-organisations:
+        label: Add another organisation
+        explanation: If you’re working with other organisations to deliver your idea, list them below. If you don’t know yet we can discuss this later on.
+      first-name:
+        label: First name
+        errorMessage: First name must be provided
+      last-name:
+        label: Last name
+        errorMessage: Last name must be provided
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      phone-number:
+        label: Phone number
+        errorMessage: Please provide a contact telephone number
+    steps:
+      - name: Your idea
+        fieldsets:
+        - legend: Find out how we can help you
+          introduction: >
+            <p>
+              If you have already read our guidance about telling us your idea for either
+              <a href="/funding/programmes/reaching-communities-england#section-3">Reaching Communities</a> or
+              <a href="/funding/programmes/partnerships-england#section-3">Partnerships</a>, you can use the box
+              below to share it with us, and details about your organisation. Remember, you don’t have to have
+              all the details, but try to include:
+            </p>
+            <ul>
+              <li>what you want to do and why</li>
+              <li>what difference you think your idea will make</li>
+              <li>how people and communities are involved with your project</li>
+              <li>the background to your organisation</li>
+              <li>the length of your project budget and how much funding you’ll need from us</li>
+              <li>how your idea fits in with other activities</li>
+            </ul>
+            <p>
+              This information will go to one of our funding officers who will get in touch within fifteen working
+              days to find out more. If it is something we could fund, this is just the start of the conversation.
+            </p>
+      - name: Project location
+        fieldsets:
+        - legend: Where will your project take place?
+      - name: Your organisation
+        fieldsets:
+          - legend: Your organisation
+      - name: Your details
+        fieldsets:
+          - legend: Your details
+    review:
+      title: 'Check this is right before submitting your idea'
+      proceedLabel: 'Submit'
+    error:
+      title: There was an problem submitting your idea
+      message: >
+        <p>There was a problem submitting your idea, we have been notified of the problem.</p>
+        <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+  digitalFunding:
+    title: "Digital Funding"
+    description: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    errorTitle: There was a problem with your submission
+    fields:
+      name:
+        label: Name
+        errorMessage: Please provide your name
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      organisation-name:
+        label: Organisation name
+        errorMessage: Please provide the name of your organisation
+      about-your-organisation:
+        label: About your organisation
+        helpText: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      how-technology-helps-scale:
+        label: Briefly tell us how technology helps you scale your impact
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us how technology helps you scale your impact
+    steps:
+      - name: Your details
+        fieldsets:
+        - legend: Your contact details
+          introduction: Please tell us a little about your project and organisation so that we can get in touch
+        - legend: Your organisation
+    review:
+      title: 'Check this is right before submitting your information'
+      proceedLabel: 'Submit'
+    success:
+      title: 'Thank you for getting in touch'
+      message: 'We will get back to you with a fixed time for a call as quickly as we can.'
+      nextStepsTitle: 'What happens next?'
+    error:
+      title: 'There was an problem submitting your information'
+      message: '<p>There was a problem submitting your information, we have been notified of the problem.</p>
+        <p>Please return to the review step and try again. If you still see an error please call
+        <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>'

@@ -14,30 +14,36 @@ const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers'
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundingForm = require('./digital-funding/form-model');
 
-/**
- * Collect all validators associated with each field for express-validator
- */
-function getValidators(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return fields.map(field => {
-        if (field.validator) {
-            return field.validator(field);
-        } else if (field.isRequired === true) {
-            return check(field.name)
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage(field.errorMessage || `“${field.label}” must be provided`);
-        } else {
-            return check(field.name)
-                .trim()
-                .optional();
-        }
-    });
-}
-
 function initFormRouter(form) {
     const router = express.Router();
+
+    /**
+     * Collect all validators associated with each field for express-validator
+     */
+    function getValidators(step) {
+        const fields = flatMap(step.fieldsets, 'fields');
+        return fields.map(field => {
+            if (field.validator) {
+                return field.validator(field);
+            } else if (field.isRequired === true) {
+                return check(field.name)
+                    .trim()
+                    .not()
+                    .isEmpty()
+                    .withMessage((value, { req }) => {
+                        const formCopy = form.lang ? req.i18n.__(form.lang) : {};
+                        const errorMessage = get(formCopy, `fields.${field.name}.errorMessage`);
+                        // @TODO: Translate fallback error message;
+                        const fallbackErrorMessage = `${field.label} must be provided`;
+                        return req.i18n.__(errorMessage || fallbackErrorMessage);
+                    });
+            } else {
+                return check(field.name)
+                    .trim()
+                    .optional();
+            }
+        });
+    }
 
     function getSessionProp(stepNo) {
         const baseProp = `form.${form.id}`;
@@ -49,10 +55,12 @@ function initFormRouter(form) {
     }
 
     router.use((req, res, next) => {
-        // Disable prompts on apply pages
-        res.locals.enablePrompt = false;
-        // @TODO: Allow translations for apply forms
-        res.locals.isBilingual = false;
+        const copy = form.lang ? req.i18n.__(form.lang) : {};
+        res.locals.copy = copy;
+        res.locals.formTitle = copy.title;
+        res.locals.isBilingual = form.isBilingual;
+        res.locals.pageAccent = form.pageAccent || 'pink';
+        res.locals.enablePrompt = false; // Disable prompts on apply pages
         next();
     });
 
@@ -83,7 +91,7 @@ function initFormRouter(form) {
 
         if (startPage.template) {
             res.render(startPage.template, {
-                title: form.title,
+                title: res.locals.copy.title,
                 startUrl: `${req.baseUrl}/1`,
                 stepConfig: startPage,
                 form: form
@@ -103,9 +111,13 @@ function initFormRouter(form) {
 
         function renderStep(req, res, errors = []) {
             const stepData = getFormSession(req, currentStepNumber);
+            const stepsCopy = get(res.locals.copy, 'steps', []);
+            const stepCopy = stepsCopy.length > 0 ? stepsCopy[idx] : {};
+
             res.render(path.resolve(__dirname, './views/form'), {
                 csrfToken: req.csrfToken(),
                 form: form,
+                stepCopy: stepCopy,
                 step: stepWithValues(step, stepData),
                 stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
                 errors: errors
@@ -120,29 +132,26 @@ function initFormRouter(form) {
             }
         }
 
-        function handleSubmitStep({ isEditing = false } = {}) {
-            return [
-                getValidators(step),
-                function(req, res) {
-                    const sessionProp = getSessionProp(currentStepNumber);
-                    const stepData = get(req.session, sessionProp, {});
-                    const bodyData = matchedData(req, { locations: ['body'] });
-                    set(req.session, sessionProp, Object.assign(stepData, bodyData));
+        function handleSubmitStep(isEditing = false) {
+            return function(req, res) {
+                const sessionProp = getSessionProp(currentStepNumber);
+                const stepData = get(req.session, sessionProp, {});
+                const bodyData = matchedData(req, { locations: ['body'] });
+                set(req.session, sessionProp, Object.assign(stepData, bodyData));
 
-                    req.session.save(() => {
-                        const errors = validationResult(req);
-                        if (errors.isEmpty()) {
-                            if (isEditing === true || currentStepNumber === form.steps.length) {
-                                res.redirect(`${req.baseUrl}/review`);
-                            } else {
-                                res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
-                            }
+                req.session.save(() => {
+                    const errors = validationResult(req);
+                    if (errors.isEmpty()) {
+                        if (isEditing === true || currentStepNumber === form.steps.length) {
+                            res.redirect(`${req.baseUrl}/review`);
                         } else {
-                            renderStep(req, res, errors.array());
+                            res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
                         }
-                    });
-                }
-            ];
+                    } else {
+                        renderStep(req, res, errors.array());
+                    }
+                });
+            };
         }
 
         /**
@@ -152,7 +161,7 @@ function initFormRouter(form) {
             .route(`/${currentStepNumber}`)
             .all(cached.csrfProtection)
             .get(renderStepIfAllowed)
-            .post(handleSubmitStep());
+            .post(getValidators(step), handleSubmitStep());
 
         /**
          * Step edit router
@@ -169,8 +178,19 @@ function initFormRouter(form) {
                     renderStepIfAllowed(req, res);
                 }
             })
-            .post(handleSubmitStep({ isEditing: true }));
+            .post(getValidators(step), handleSubmitStep(true));
     });
+
+    function renderError(error, req, res) {
+        const stepCopy = get(res.locals.copy, 'error', {});
+        res.render(path.resolve(__dirname, './views/error'), {
+            error: error,
+            form: form,
+            title: stepCopy.title,
+            stepCopy: stepCopy,
+            returnUrl: `${req.baseUrl}/review`
+        });
+    }
 
     /**
      * Route: Review
@@ -183,23 +203,19 @@ function initFormRouter(form) {
             if (isEmpty(formData)) {
                 res.redirect(req.baseUrl);
             } else {
-                const { reviewStep } = form;
-                if (!reviewStep) {
-                    throw new Error('No review step provided');
-                }
-
+                const stepCopy = get(res.locals.copy, 'review', {});
                 res.render(path.resolve(__dirname, './views/review'), {
-                    csrfToken: req.csrfToken(),
                     form: form,
-                    stepConfig: reviewStep,
+                    title: stepCopy.title,
+                    stepCopy: stepCopy,
                     stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
                     summary: stepsWithValues(form.steps, formData),
-                    baseUrl: req.baseUrl
+                    baseUrl: req.baseUrl,
+                    csrfToken: req.csrfToken()
                 });
             }
         })
         .post(async function(req, res) {
-            const { errorStep } = form;
             const formData = getFormSession(req);
 
             if (isEmpty(formData)) {
@@ -209,17 +225,13 @@ function initFormRouter(form) {
                     await form.processor({
                         form: form,
                         data: flattenFormData(formData),
-                        stepsWithValues: stepsWithValues(form.steps, formData)
+                        stepsWithValues: stepsWithValues(form.steps, formData),
+                        copy: res.locals.copy
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
                     Raven.captureException(error);
-                    res.render(path.resolve(__dirname, './views/error'), {
-                        error: error,
-                        form: form,
-                        stepConfig: errorStep,
-                        returnUrl: `${req.baseUrl}/review`
-                    });
+                    renderError(error, req, res);
                 }
             }
         });
@@ -229,20 +241,20 @@ function initFormRouter(form) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const formData = getFormSession(req);
-        const { successStep } = form;
+        const stepConfig = form.successStep;
+        const stepCopy = get(res.locals.copy, 'success', {});
 
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            // Disable global survey on success pages
-            res.locals.enableSurvey = false;
-
             // Clear the submission from the session on success
             unset(req.session, getSessionProp());
             req.session.save(() => {
-                res.render(successStep.template, {
+                res.render(stepConfig.template, {
                     form: form,
-                    stepConfig: successStep
+                    title: stepCopy.title,
+                    stepCopy: stepCopy,
+                    stepConfig: stepConfig
                 });
             });
         }

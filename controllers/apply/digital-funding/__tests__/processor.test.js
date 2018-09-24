@@ -1,13 +1,20 @@
 /* eslint-env jest */
 'use strict';
+const fs = require('fs');
 const nodemailer = require('nodemailer');
+const path = require('path');
+const yaml = require('js-yaml');
+const { get } = require('lodash');
 
 // Mock email secret
 process.env.DIGITAL_FUNDING_EMAIL = 'digital@example.com';
 
 const processor = require('../processor');
-const form = require('../form-model');
+const formModel = require('../form-model');
 const { flattenFormData, stepsWithValues } = require('../../helpers');
+
+const langData = fs.readFileSync(path.resolve(__dirname, '../../../../config/locales/en.yml'), 'utf-8');
+const enCopy = yaml.safeLoad(langData);
 
 const mockFormData = {
     'step-1': {
@@ -36,11 +43,13 @@ describe('processor', () => {
             buffer: true
         });
 
+        const form = formModel(1);
         const results = await processor({
             form: form,
             data: flattenFormData(mockFormData),
-            stepsWithValues: stepsWithValues(form(1).steps, mockFormData),
-            mailTransport: mockTransport
+            stepsWithValues: stepsWithValues(form.steps, mockFormData),
+            mailTransport: mockTransport,
+            copy: get(enCopy, form.lang)
         });
 
         const [customerEmail] = results.map(cleanMailForSnaphot);

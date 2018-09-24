@@ -1,99 +1,82 @@
 {% from "components/form-fields.njk" import formErrors, formField with context %}
 
-{% macro renderField(field) %}
-    {{ formField(formHelpers.withFieldValue(field, data), errors) }}
-{% endmacro %}
-
-{% macro submissionMessage(title, message) %}
-    <div class="s-prose">
-        <h3>{{ title }}</h3>
-        <p>{{ message | safe }}</p>
-    </div>
-{% endmacro %}
-
 {% macro ebulletinForm() %}
-<form class="form-ebulletin" method="post" action="/about/ebulletin">
-    <h2 class="t1 t--underline accent--pink a--text">{{ __('toplevel.ebulletin.introHeading') }}</h2>
+    <form class="form-ebulletin" method="post" action="/about/ebulletin">
+        {% set formCopy = __('toplevel.ebulletin') %}
+        <h2 class="t1 t--underline accent--pink a--text">{{ formCopy.introHeading }}</h2>
 
-    {% if status === formHelpers.FORM_STATES.SUBMISSION_SUCCESS %}
-        {{ submissionMessage(
-            title = __('toplevel.ebulletin.responses.success.title'),
-            message = __('toplevel.ebulletin.responses.success.body')
-        ) }}
-    {% elseif status ===  formHelpers.FORM_STATES.SUBMISSION_ERROR %}
-        {{ submissionMessage(
-            title = __('toplevel.ebulletin.responses.error.title'),
-            message = __('toplevel.ebulletin.responses.error.body')
-        ) }}
-    {% else %}
-        <p>{{ __('toplevel.ebulletin.intro') }}</p>
+        <p>{{ formCopy.intro }}</p>
 
         {{ formErrors(
             errors = errors,
-            title = __('toplevel.ebulletin.responses.error.title')
+            title = formCopy.responses.error.title
         ) }}
 
-        {{ renderField({
+        {{ formField({
             name: 'location',
             type: 'radio',
-            label: __('toplevel.ebulletin.location'),
+            label: formCopy.location,
+            value: data.location,
             options: [{
-                label: __('toplevel.ebulletin.locations.england'),
+                label: formCopy.locations.england,
                 value: 'ENGLAND_MAIL'
             }, {
-                label: __('toplevel.ebulletin.locations.wales'),
+                label: formCopy.locations.wales,
                 value: 'WALES_MAIL'
             }, {
-                label: __('toplevel.ebulletin.locations.scotland'),
+                label: formCopy.locations.scotland,
                 value: 'SCOTLAND_MAIL'
             }, {
-                label: __('toplevel.ebulletin.locations.northernIreland'),
+                label: formCopy.locations.northernIreland,
                 value: 'NI_MAIL'
             }]
-        }) }}
+        }, errors = errors) }}
 
         <fieldset class="form-fieldset form-fieldset--details">
             <legend class="form-fieldset__legend u-visually-hidden">
-                {{ __('toplevel.ebulletin.yourDetails') }}
+                {{ formCopy.yourDetails }}
             </legend>
             <div class="form-fieldset__fields">
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'firstName',
                     autocompleteName: 'given-name',
-                    label: __('toplevel.ebulletin.fields.firstName'),
+                    label: formCopy.fields.firstName,
+                    value: data.firstName,
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'lastName',
                     autocompleteName: 'family-name',
-                    label: __('toplevel.ebulletin.fields.lastName'),
+                    label: formCopy.fields.lastName,
+                    value: data.lastName,
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'organisation',
                     autocompleteName: 'organization',
-                    label: __('toplevel.ebulletin.fields.organisation'),
+                    label: formCopy.fields.organisation,
+                    value: data.organisation,
                     isRequired: false
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'email',
                     name: 'email',
                     autocompleteName: 'email',
-                    label: __('toplevel.ebulletin.fields.emailAddress'),
+                    label: formCopy.fields.emailAddress,
+                    value: data.email,
                     placeholder: 'yourname@example.com',
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
             </div>
         </fieldset>
 
-        <input type="submit" value="{{ __('toplevel.ebulletin.callToAction') }}"
+        <input type="submit" value="{{ formCopy.callToAction }}"
             class="btn btn--small accent--pink a--btn u-block-full"/>
-    {% endif %}
-</form>
+    </form>
 {% endmacro %}

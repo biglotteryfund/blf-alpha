@@ -67,21 +67,23 @@ global:
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:
-    search: Chwilio
-    latestNews: Newyddion diweddaraf
-    viewAllNews: Gweld pob erthygl newyddion
-    seeProgramme: Gweld y rhaglen
+    back: yn ôl
+    backToTop: "Yn ôl i'r frig"
     caseStudies: Astudiaethau achos
+    documents: dogfennau
+    download: lawrlwytho'r
+    imageCredit: Cydnabyddiaeth i’r llun
+    latestNews: Newyddion diweddaraf
+    next: nesaf
+    or: neu
+    printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
-    or: neu
+    search: Chwilio
+    seeProgramme: Gweld y rhaglen
     topics: pynciau
-    imageCredit: Cydnabyddiaeth i’r llun
-    documents: dogfennau
-    download: lawrlwytho'r
-    printThisPage: Argraffu'r dudalen hon
-    backToTop: "Yn ôl i'r frig"
+    viewAllNews: Gweld pob erthygl newyddion
   programmes:
     programmeLabels:
       area: Ardal

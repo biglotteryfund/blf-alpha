@@ -1,23 +1,21 @@
 {% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
 
-{% macro formHeader(form, stepProgress) %}
+{% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
     <div class="form-header">
-        {% if not form.hidePagination %}
-            {% if stepProgress.prevStepUrl %}
-                <div class="form-header__actions">
-                    <a href="{{ stepProgress.prevStepUrl }}"
-                        class="js-application-form-review-link">← Back</a>
-                </div>
-            {% endif %}
-            <p class="form-header__prefix">
-                Step {{ stepProgress.currentStepNumber }} of {{ stepProgress.totalSteps }}
-            </p>
+        {% if backUrl %}
+            <div class="form-header__actions">
+                <a href="{{ backUrl }}" class="js-application-form-review-link">
+                    ← {{ __('global.misc.back') | capitalize }}
+                </a>
+            </div>
         {% endif %}
-        <h1 class="form-header__title">{{ form.title }}</h1>
-        {% if form.subtitle %}
-            <p class="form-header__subtitle">{{ form.subtitle | safe }}</p>
+        {% if prefix %}
+            <p class="form-header__prefix">{{ prefix }}</p>
         {% endif %}
-
+        <h1 class="form-header__title">{{ title }}</h1>
+        {% if suffix %}
+            <p class="form-header__suffix">{{ suffix }}</p>
+        {% endif %}
     </div>
 {% endmacro %}
 
@@ -48,78 +46,102 @@
     {% endif %}
 {% endmacro %}
 
-{% macro fieldHelpText(field) %}
-    {% if field.lengthHint %}
-        <small class="ff-length-hint">
-            <strong>Suggested answer length:</strong> {{ field.lengthHint.text }}
-        </small>
+{% macro fieldHelpText(field, fieldCopy) %}
+    {% set lengthHint = fieldCopy.lengthHint or field.lengthHint %}
+    {% if lengthHint %}
+        <small class="ff-length-hint">{{ lengthHint }}</small>
     {% endif %}
-    {% if field.explanation %}
-        <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
+    {% set explanation = fieldCopy.explanation or field.explanation %}
+    {% if explanation %}
+        <div class="ff-help s-prose">{{ explanation | safe }}</div>
     {% endif %}
-    {% if field.helpText %}
-        <div class="ff-help s-prose">{{ field.helpText | safe }}</div>
+    {% set helpText = fieldCopy.helpText or field.helpText %}
+    {% if helpText %}
+        <div class="ff-help s-prose">{{ helpText | safe }}</div>
     {% endif %}
 {% endmacro %}
 
-{% macro inputText(field, type="text") %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    {{ fieldHelpText(field) }}
-    {% if field.isCurrency %}
-        <div class="ff-field-prepend">£</div>
-    {% endif %}
+{% macro formLabel(field, fieldCopy) %}
+    <label
+        class="ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}"
+        for="field-{{ field.name }}"
+    >{{ fieldCopy.label or field.label }}</label>
+{% endmacro %}
+
+{% macro inputText(field, fieldCopy) %}
+    {{ formLabel(field, fieldCopy)}}
+    {{ fieldHelpText(field, fieldCopy) }}
     <input
-        class="ff-text{% if field.isCurrency %} ff-text--currency{% endif %}"
-        type="{{ type }}"
+        class="ff-text"
+        type="{{ field.type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
-        {% if field.placeholder %}placeholder="{{ field.placeholder | escape }}"{% endif %}
-        size="{% if field.size %}{{ field.size }}{% else %}40{% endif %}"
-        value="{% if field.value %}{{ field.value }}{% endif %}"
-        {% if field.min %}min="{{ field.min }}"{% endif %}
-        {% if field.max %}max="{{ field.max }}"{% endif %}
+        size="{{ field.size | default(40, true) }}"
+        {% if field.value %}value="{{ field.value }}"{% endif %}
         {% if field.customRegex %}pattern="{{ field.customRegex }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
     />
-    {% if field.isCurrency %}
-        <div class="ff-field-append">Type a number</div>
-    {% endif %}
 {% endmacro %}
 
-{% macro inputTextarea(field) %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
-    {{ fieldHelpText(field) }}
+{# @TODO: Extracted currency field. Hook this up properly #}
+{% macro inputCurrency(field, fieldCopy) %}
+    {{ formLabel(field, fieldCopy)}}
+    {{ fieldHelpText(field, fieldCopy) }}
+    <div class="ff-field-prepend">£</div>
+    <input
+        class="ff-text ff-text--currency"
+        type="number"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
+        size="40"
+        min="{{ field.min }}"
+        max="{{ field.max }}"
+        value="{% if field.value %}{{ field.value }}{% endif %}"
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+    />
+    <div class="ff-field-append">Type a number</div>
+{% endmacro %}
+
+{% macro inputTextarea(field, fieldCopy) %}
+    {{ formLabel(field, fieldCopy)}}
+    {{ fieldHelpText(field, fieldCopy) }}
     <textarea
         class="ff-textarea"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.lengthHint %}rows="{{ field.lengthHint.rows }}"{% elseif field.rows %}rows="{{ field.rows }}"{% endif %}
+        {% if field.rows %}rows="{{ field.rows }}"{% endif %}
     >{{ field.value }}</textarea>
 {% endmacro %}
 
-{% macro inputSelect(field) %}
-    <label class="{{ getLabelClasses(field) }}" for="field-{{ field.name }}">{{ field.label }}</label>
+{% macro inputSelect(field, fieldCopy) %}
+    {{ formLabel(field, fieldCopy)}}
     {{ fieldHelpText(field) }}
     <select
         class="ff-select"
         id="field-{{ field.name }}"
         name="{{ field.name }}">
         {% for option in field.options %}
+            {% set optionCopy = fieldCopy.options[loop.index0] %}
             <option value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
-                {{ option.label }}
+                {{ optionCopy.label or option.label }}
             </option>
         {% endfor %}
     </select>
 {% endmacro %}
 
-{% macro inputChoice(field) %}
+{% macro inputChoice(field, fieldCopy) %}
     <fieldset class="ff-choice">
-        <legend class="{{ getLabelClasses(field) }}">{{ field.label }}</legend>
-        {{ fieldHelpText(field) }}
+        <legend
+            class="ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}"
+            for="field-{{ field.name }}"
+        >{{ fieldCopy.label or field.label }}</legend>
+        {{ fieldHelpText(field, fieldCopy) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}
+                {% set optionCopy = fieldCopy.options[loop.index0] %}
                 <li class="ff-choice__option">
                     <div class="ff-choice__input">
                         {% if field.type === 'checkbox' %}
@@ -141,9 +163,10 @@
                         {% endif %}
                     </div>
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
-                        {% if option.explanation %}
-                            <small class="ff-choice__caption">{{ option.explanation }}</small>
+                        {{ optionCopy.label or option.label }}
+                        {% set explanation = optionCopy.explanation or option.explanation %}
+                        {% if explanation %}
+                            <small class="ff-choice__caption">{{ explanation }}</small>
                         {% endif %}
                     </label>
                 </li>
@@ -152,21 +175,21 @@
     </fieldset>
 {% endmacro %}
 
-{% macro formField(field, errors) %}
-    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+{% macro formField(field, fieldCopy = {}, errors = []) %}
+    {% set fieldErrors = errors | filter('param', field.name) %}
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
         <div class="form-field__main">
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
-                    {{ inputTextarea(field) }}
+                    {{ inputTextarea(field, fieldCopy) }}
                 {% elseif field.type === 'select' %}
-                    {{ inputSelect(field) }}
+                    {{ inputSelect(field, fieldCopy) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
-                    {{ inputChoice(field) }}
+                    {{ inputChoice(field, fieldCopy) }}
                 {% else %}
-                    {{ inputText(field, field.type) }}
+                    {{ inputText(field, fieldCopy) }}
                 {% endif %}
             </div>
             {% if fieldErrors | length > 0 %}
