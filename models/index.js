@@ -5,9 +5,7 @@ const debug = require('debug')('biglotteryfund:models');
 
 const { DB_CONNECTION_URI } = require('../modules/secrets');
 
-const useSqlite = process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqlite://');
-const dialect = useSqlite ? 'sqlite' : 'mysql';
-
+const dialect = startsWith(DB_CONNECTION_URI, 'sqlite://') ? 'sqlite' : 'mysql';
 debug(`Using ${dialect} database`);
 
 const sequelize = new Sequelize(DB_CONNECTION_URI, {
