@@ -7,7 +7,6 @@ const Raven = require('raven');
 
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
-const { noCache } = require('../../middleware/cached');
 const { purifyUserInput } = require('../../modules/validators');
 const { requireUnauthed } = require('../../middleware/authed');
 const { sendEmail } = require('../../services/mail');
@@ -75,7 +74,7 @@ async function handleRequestReset(req, res) {
 router
     .route('/')
     .all(requireUnauthed)
-    .get(noCache, renderRequestReset)
+    .get(renderRequestReset)
     .post(validators.emailAddress, handleRequestReset);
 
 module.exports = router;

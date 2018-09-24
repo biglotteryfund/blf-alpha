@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const Raven = require('raven');
 const path = require('path');
 
-const { noCache } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const userService = require('../../services/user');
@@ -42,7 +41,7 @@ function activate(token, user) {
     });
 }
 
-router.route('/').get(noCache, requireUserAuth, async (req, res) => {
+router.route('/').get(requireUserAuth, async (req, res) => {
     const token = req.query.token;
 
     if (token) {

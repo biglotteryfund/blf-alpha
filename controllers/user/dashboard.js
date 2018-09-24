@@ -3,10 +3,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-const { noCache } = require('../../middleware/cached');
-const { requireAuthed } = require('../../middleware/authed');
-
-router.get('/', noCache, requireAuthed, (req, res) => {
+router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/dashboard'), {
         user: req.user,
         errors: res.locals.errors || [],

@@ -161,7 +161,6 @@ describe('user', () => {
             status: 302
         });
     });
-
 });
 
 const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.

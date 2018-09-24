@@ -1,10 +1,10 @@
 'use strict';
-const path = require('path');
 const express = require('express');
-const { validationResult } = require('express-validator/check');
-const { matchedData } = require('express-validator/filter');
-const Raven = require('raven');
 const passport = require('passport');
+const path = require('path');
+const Raven = require('raven');
+const { matchedData } = require('express-validator/filter');
+const { validationResult } = require('express-validator/check');
 
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUnauthed } = require('../../middleware/authed');
