@@ -1,9 +1,5 @@
 {% from "components/form-fields.njk" import formErrors, formField with context %}
 
-{% macro renderField(field) %}
-    {{ formField(formHelpers.withFieldValue(field, data), errors) }}
-{% endmacro %}
-
 {% macro submissionMessage(title, message) %}
     <div class="s-prose">
         <h3>{{ title }}</h3>
@@ -33,10 +29,11 @@
             title = __('toplevel.ebulletin.responses.error.title')
         ) }}
 
-        {{ renderField({
+        {{ formField({
             name: 'location',
             type: 'radio',
             label: __('toplevel.ebulletin.location'),
+            value: data.location,
             options: [{
                 label: __('toplevel.ebulletin.locations.england'),
                 value: 'ENGLAND_MAIL'
@@ -50,45 +47,49 @@
                 label: __('toplevel.ebulletin.locations.northernIreland'),
                 value: 'NI_MAIL'
             }]
-        }) }}
+        }, errors = errors) }}
 
         <fieldset class="form-fieldset form-fieldset--details">
             <legend class="form-fieldset__legend u-visually-hidden">
                 {{ __('toplevel.ebulletin.yourDetails') }}
             </legend>
             <div class="form-fieldset__fields">
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'firstName',
                     autocompleteName: 'given-name',
                     label: __('toplevel.ebulletin.fields.firstName'),
+                    value: data.firstName,
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'lastName',
                     autocompleteName: 'family-name',
                     label: __('toplevel.ebulletin.fields.lastName'),
+                    value: data.lastName,
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'text',
                     name: 'organisation',
                     autocompleteName: 'organization',
                     label: __('toplevel.ebulletin.fields.organisation'),
+                    value: data.organisation,
                     isRequired: false
-                }) }}
+                }, errors = errors) }}
 
-                {{ renderField({
+                {{ formField({
                     type: 'email',
                     name: 'email',
                     autocompleteName: 'email',
                     label: __('toplevel.ebulletin.fields.emailAddress'),
+                    value: data.email,
                     placeholder: 'yourname@example.com',
                     isRequired: true
-                }) }}
+                }, errors = errors) }}
             </div>
         </fieldset>
 

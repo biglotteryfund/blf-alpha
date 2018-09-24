@@ -26,6 +26,38 @@ function appendUuid(str) {
     return str + uuid();
 }
 
+/**
+ * Filter
+ * Allow filtering of a list as nunjucks' selectattr
+ * only supports boolean (eg. valueless) filtering
+ * @param {array} list
+ * @param {string} key
+ * @param {string} value
+ */
+function filter(list = [], key, value) {
+    return list.filter(item => item[key] === value);
+}
+
+/**
+ * Find
+ * @param {array} list
+ * @param {string} key
+ * @param {string} value
+ */
+function find(list = [], key, value) {
+    return list.find(item => item[key] === value);
+}
+
+/**
+ * Pluralisation helper
+ * @param {number} number
+ * @param {string} singular
+ * @param {string} plural
+ */
+function pluralise(number, singular, plural) {
+    return number === 1 ? singular : plural;
+}
+
 function getImagePath(urlPath) {
     if (/^http(s?):\/\//.test(urlPath)) {
         return urlPath;
@@ -55,28 +87,6 @@ function numberWithCommas(str = '') {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function pluralise(number, singular, plural) {
-    if (number === 1) {
-        return singular;
-    } else {
-        return plural;
-    }
-}
-
-// @TODO: Specific to materials code?
-// allow filtering of a list as nunjucks' selectattr
-// only supports boolean (eg. valueless) filtering
-/* istanbul ignore next */
-function filter(arr, key, value) {
-    return arr.filter(a => a[key] === value);
-}
-
-// @TODO: Specific to materials code?
-/* istanbul ignore next */
-function find(arr, key, value) {
-    return arr.find(a => a[key] === value);
-}
-
 function removeQueryParam(queryParams, paramToRemove) {
     let newParams = Object.assign({}, queryParams);
     delete newParams[paramToRemove];
@@ -90,6 +100,7 @@ function addQueryParam(queryParams, paramToAdd, paramValue) {
 }
 
 module.exports = {
+    addQueryParam,
     appendUuid,
     filter,
     find,
@@ -100,7 +111,6 @@ module.exports = {
     makePhoneLink,
     numberWithCommas,
     pluralise,
-    slugify,
     removeQueryParam,
-    addQueryParam
+    slugify
 };

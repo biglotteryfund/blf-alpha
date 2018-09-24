@@ -175,7 +175,7 @@
 {% endmacro %}
 
 {% macro formField(field, fieldCopy = {}, errors = []) %}
-    {% set fieldErrors = formHelpers.errorsForField(field, errors) %}
+    {% set fieldErrors = errors | filter('param', field.name) %}
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
