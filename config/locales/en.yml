@@ -801,6 +801,10 @@ apply:
         - label: Bradford
         - label:  Barking and Dagenham
         errorMessage: Please tell us which area you are working in
+      money:
+        label: Describe what you will use the money for
+        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        errorMessage: Please describe what you will use the money for
       project-aims:
         label: Select which programme aim you are most aligned with
         options:

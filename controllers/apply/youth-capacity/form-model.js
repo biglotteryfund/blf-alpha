@@ -36,7 +36,7 @@ const stepGrant = {
                     isRequired: true
                 },
                 {
-                    name: 'people-and-communities',
+                    name: 'money',
                     type: 'textarea',
                     isRequired: true,
                     rows: 12
