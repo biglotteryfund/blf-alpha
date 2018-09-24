@@ -41,9 +41,7 @@ module.exports = strandNumber => {
         name: 'how-technology-helps-scale',
         type: 'textarea',
         rows: 12,
-        isRequired: true,
-        label: 'Briefly tell us how technology helps you scale your impact',
-        lengthHint: 'Please keep it to a couple of paragraphs'
+        isRequired: true
     };
 
     const step1 = {
