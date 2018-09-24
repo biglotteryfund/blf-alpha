@@ -51,7 +51,8 @@ router.get('/', async (req, res) => {
      * @type {object}
      */
     const facetParams = pick(req.query, ['q', 'postcode', 'programme', 'year', 'orgType']);
-    const queryWithPage = Object.assign({}, facetParams, { page: req.query.page || 1 });
+    const sortParams = pick(req.query, ['sort', 'dir']);
+    const queryWithPage = Object.assign({}, facetParams, sortParams, { page: req.query.page || 1 });
 
     const data = await request({
         url: PAST_GRANTS_API_URI,
@@ -59,12 +60,25 @@ router.get('/', async (req, res) => {
         qs: queryWithPage
     });
 
+    // @TODO should we define this in the API?
+    const sortableFields = [
+        {
+            key: 'awardDate',
+            title: 'Date awarded'
+        },
+        {
+            key: 'amountAwarded',
+            title: 'Amount awarded'
+        }
+    ];
+
     res.render(path.resolve(__dirname, './views/past-grants'), {
         title: 'Past grants search',
         queryParams: isEmpty(facetParams) ? false : facetParams,
         grants: data.results,
         facets: data.facets,
         meta: data.meta,
+        sortableFields: sortableFields,
         pagination: buildPagination(data.meta.pagination, queryWithPage)
     });
 });
