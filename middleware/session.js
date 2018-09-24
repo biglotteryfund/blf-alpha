@@ -2,7 +2,6 @@
 const config = require('config');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const moment = require('moment');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const { SESSION_SECRET } = require('../modules/secrets');
