@@ -37,16 +37,14 @@ const requireUserAuth = (req, res, next) => {
 
 // Middleware for staff users only
 const requireStaffAuth = (req, res, next) => {
-    if (!config.get('features.azureAuthEnabled')) {
-        res.redirect('/user/login');
-    }
     if (req.isAuthenticated() && get(req, 'user.userType', false) === 'staff') {
         return next();
+    } else {
+        req.session.redirectUrl = req.originalUrl;
+        req.session.save(() => {
+            res.redirect('/user/staff/login');
+        });
     }
-    req.session.redirectUrl = req.originalUrl;
-    req.session.save(() => {
-        res.redirect('/user/staff/login');
-    });
 };
 
 module.exports = {

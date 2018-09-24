@@ -1,6 +1,5 @@
 'use strict';
 const passport = require('passport');
-const config = require('config');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
@@ -31,9 +30,11 @@ module.exports = function() {
         })
     );
 
-    // Only initialise this auth strategy if secrets exist (eg. not on CI)
-    if (config.get('features.azureAuthEnabled') && AZURE_AUTH.MS_CLIENT_ID) {
-        // Configure staff user sign-in (eg. internal authentication)
+    /**
+     * Configure staff user sign-in (eg. internal authentication)
+     * Only initialise this auth strategy if secrets exist (eg. not on CI)
+     */
+    if (AZURE_AUTH.MS_CLIENT_ID) {
         passport.use(
             new OIDCStrategy(
                 {
