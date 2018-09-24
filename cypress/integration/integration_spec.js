@@ -157,7 +157,7 @@ describe('user', () => {
     it('should block access to staff-only tools', () => {
         cy.checkRedirect({
             from: '/tools/survey-results',
-            to: '/user/staff/login',
+            to: '/user/staff/login?redirectUrl=/tools/survey-results',
             status: 302
         });
     });
