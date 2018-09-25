@@ -70,6 +70,10 @@ router.get('/', async (req, res) => {
 
     const commonSortOptions = [
         {
+            label: 'Oldest first',
+            value: 'awardDate|desc'
+        },
+        {
             label: 'Lowest amount first',
             value: 'amountAwarded|asc'
         },
