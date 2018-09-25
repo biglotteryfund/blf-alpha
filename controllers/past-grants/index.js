@@ -7,6 +7,7 @@ const { concat, pick, isEmpty } = require('lodash');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs } = require('../../middleware/inject-content');
+const { sMaxAge } = require('../../middleware/cached');
 
 const router = express.Router();
 
@@ -46,7 +47,7 @@ function buildPagination(paginationMeta, currentQuery = {}) {
     }
 }
 
-router.use(injectBreadcrumbs, (req, res, next) => {
+router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Search past grants',
         url: req.baseUrl
