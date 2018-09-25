@@ -59,9 +59,8 @@ router.get('/', async (req, res) => {
      * Pick out an allowed list of query parameters for forward on to the grants API
      * @type {object}
      */
-    const facetParams = pick(req.query, ['q', 'postcode', 'programme', 'year', 'orgType']);
-    const sortParams = pick(req.query, ['sort', 'dir']);
-    const queryWithPage = Object.assign({}, facetParams, sortParams, { page: req.query.page || 1 });
+    const facetParams = pick(req.query, ['q', 'amount', 'postcode', 'programme', 'year', 'orgType', 'sort']);
+    const queryWithPage = Object.assign({}, facetParams, { page: req.query.page || 1 });
 
     const data = await request({
         url: PAST_GRANTS_API_URI,
@@ -69,12 +68,51 @@ router.get('/', async (req, res) => {
         qs: queryWithPage
     });
 
+    const commonSortOptions = [
+        {
+            label: 'Lowest amount first',
+            value: 'amountAwarded|asc'
+        },
+        {
+            label: 'Highest amount first',
+            value: 'amountAwarded|desc'
+        }
+    ];
+
+    let sortOptions = [];
+    if (facetParams.q) {
+        sortOptions = concat(
+            [
+                {
+                    label: 'Most relevant first',
+                    value: ''
+                },
+                {
+                    label: 'Newest first',
+                    value: 'awardDate|asc'
+                }
+            ],
+            commonSortOptions
+        );
+    } else {
+        sortOptions = concat(
+            [
+                {
+                    label: 'Newest first',
+                    value: ''
+                }
+            ],
+            commonSortOptions
+        );
+    }
+
     res.render(path.resolve(__dirname, './views/index'), {
         title: 'Past grants search',
         queryParams: isEmpty(facetParams) ? false : facetParams,
         grants: data.results,
         facets: data.facets,
         meta: data.meta,
+        sortOptions: sortOptions,
         pagination: buildPagination(data.meta.pagination, queryWithPage)
     });
 });
@@ -82,7 +120,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const data = await request({
-            url: `${PAST_GRANTS_API_URI}/360G-blf-${req.params.id}`,
+            url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
             json: true
         });
 

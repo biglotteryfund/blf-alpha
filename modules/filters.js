@@ -109,7 +109,7 @@ function addQueryParam(queryParams, newParams) {
     return querystring.stringify(clone);
 }
 
-function ieBeforeNow(dt) {
+function isBeforeNow(dt) {
     const now = new Date();
     return moment(dt).isBefore(now);
 }
@@ -122,11 +122,11 @@ module.exports = {
     getCachebustedPath,
     getImagePath,
     isArray,
+    isBeforeNow,
     mailto,
     makePhoneLink,
     numberWithCommas,
     pluralise,
     removeQueryParam,
-    slugify,
-    ieBeforeNow
+    slugify
 };
