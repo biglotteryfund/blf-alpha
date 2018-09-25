@@ -30,12 +30,12 @@
    Filters
    ========================================================================= */
 
-.search-fitlers {
-    $fitlerSpacing: 8px;
+.search-filters {
+    $filterSpacing: 8px;
     position: sticky;
-    top: $fitlerSpacing;
+    top: $filterSpacing;
     background-color: palette('pale-grey');
-    padding: $fitlerSpacing;
+    padding: $filterSpacing;
 
     &,
     select {
@@ -43,9 +43,9 @@
     }
 
     .form-field {
-        margin-bottom: $fitlerSpacing;
+        margin-bottom: $filterSpacing;
         background-color: white;
-        padding: $fitlerSpacing;
+        padding: $filterSpacing;
     }
 
     .form-actions {
