@@ -3,9 +3,10 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { pick, isEmpty } = require('lodash');
+const { concat, pick, isEmpty } = require('lodash');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
+const { injectBreadcrumbs } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
@@ -45,6 +46,14 @@ function buildPagination(paginationMeta, currentQuery = {}) {
     }
 }
 
+router.use(injectBreadcrumbs, (req, res, next) => {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Search past grants',
+        url: req.baseUrl
+    });
+    next();
+});
+
 router.get('/', async (req, res) => {
     /**
      * Pick out an allowed list of query parameters for forward on to the grants API
@@ -60,27 +69,35 @@ router.get('/', async (req, res) => {
         qs: queryWithPage
     });
 
-    // @TODO should we define this in the API?
-    const sortableFields = [
-        {
-            key: 'awardDate',
-            title: 'Date awarded'
-        },
-        {
-            key: 'amountAwarded',
-            title: 'Amount awarded'
-        }
-    ];
-
-    res.render(path.resolve(__dirname, './views/past-grants'), {
+    res.render(path.resolve(__dirname, './views/index'), {
         title: 'Past grants search',
         queryParams: isEmpty(facetParams) ? false : facetParams,
         grants: data.results,
         facets: data.facets,
         meta: data.meta,
-        sortableFields: sortableFields,
         pagination: buildPagination(data.meta.pagination, queryWithPage)
     });
+});
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const data = await request({
+            url: `${PAST_GRANTS_API_URI}/360G-blf-${req.params.id}`,
+            json: true
+        });
+
+        if (data) {
+            res.render(path.resolve(__dirname, './views/grant-detail'), {
+                title: data.title,
+                grant: data,
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.title })
+            });
+        } else {
+            next();
+        }
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;

@@ -6,15 +6,22 @@
    Grant Search Layout
    ========================================================================= */
 
-.grants-search {
-    @include clearfix();
+.grants-search__totals {
+    font-size: 16px;
+    text-align: right;
+}
+.grants-search__content {
+    display: flex;
 }
 .grants-search__filters {
-    float: left;
-    width: 27%;
-    margin-right: 3%;
+    flex: 0 0 280px;
+    padding-right: $spacingUnit * 2;
+
+    select {
+        width: 100%;
+    }
 }
 .grants-search__results {
-    float: left;
-    width: 70%;
+    order: 2;
+    flex: 1 1 auto;
 }

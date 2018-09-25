@@ -1,0 +1,165 @@
+{% from "components/split-nav/macro.njk" import splitNav with context %}
+{% from "components/form-fields.njk" import formField with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
+
+{% macro grantResult(grant) %}
+    <article class="grant-result">
+        <header class="grant-result__header">
+            <h3 class="grant-result__title"><a href="#">{{ grant.title }}</a></h3>
+            <p class="grant-result__summary">
+                £{{ grant.amountAwarded | numberWithCommas}} to
+                {{ grant.recipientOrganization[0].name }}
+                on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+            </p>
+        </header>
+    </article>
+{% endmacro %}
+
+{% block content %}
+    <main role="main">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            <form class="grants-search" method="get" action="">
+                <h1>Search past grants</h1>
+
+                <div class="search-bar">
+                    <label class="search-bar__label" for="search-query">
+                        Search
+                    </label>
+                    <input class="search-bar__field" type="search"
+                        id="search-query" name="q"
+                        value="{{ queryParams.q }}"
+                        placeholder="Enter a search term, location, or postcode">
+                    <div class="search-bar__submit">
+                        <input class="btn btn--medium" type="submit" value="Search" />
+                    </div>
+                </div>
+
+                <div class="grants-search__totals">
+                    Showing <strong>{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
+                </div>
+
+                <div class="grants-search__content">
+
+                    <div class="grants-search__results">
+                        {% macro activeQueryItem(label, queryProp) %}
+                            {% if queryParams[queryProp] %}
+                                <li>
+                                    <strong>{{ label }}</strong> "{{ queryParams[queryProp] }}"
+                                    &mdash; <a href="?{{ queryParams | removeQueryParam(queryProp) }}">Remove</a>
+                                </li>
+                            {% endif %}
+                        {% endmacro %}
+
+                        {% if queryParams %}
+                            <ul class="u-margin-bottom-l">
+                                <p>Showing results for:</p>
+                                {{ activeQueryItem('Search term:', 'q') }}
+                                {{ activeQueryItem('Postcode:', 'postcode') }}
+                                {{ activeQueryItem('Funding Programme:', 'programme') }}
+                                {{ activeQueryItem('Award year:', 'year') }}
+                                {{ activeQueryItem('Organisation Type:', 'orgType') }}
+                            </ul>
+                        {% endif %}
+
+                        {% if grants.length > 0 %}
+                            {% for grant in grants %}
+                                <div class="u-margin-bottom">
+                                    {# @TODO: Remove grant.plannedDates[1].endDate when import issue has been fixed  #}
+                                    {% set endDate = grant.plannedDates.endDate or grant.plannedDates[1].endDate  %}
+                                    {% set subtitle %}
+                                        £{{ grant.amountAwarded | numberWithCommas}} to
+                                        <strong>{{ grant.recipientOrganization[0].name }}</strong>
+                                        on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+                                        {% if endDate | ieBeforeNow %}
+                                            <strong>(Active project)</strong>
+                                        {% endif %}
+                                    {% endset %}
+                                    {% call promoCard({
+                                        "kicker": "Active programme",
+                                        "title": grant.title,
+                                        "subtitle": subtitle | safe,
+                                        "trailText": grant.description,
+                                        "link": {
+                                            "url": "/funding/search-past-grants-alpha/" + grant.id | replace('360G-blf-', ''),
+                                            "label": "View full details"
+                                        }
+                                    }) %}
+                                        <dl class="o-definition-list o-definition-list--compact">
+                                            {% if grant.beneficiaryLocation %}
+                                                <dt>Location</dt>
+                                                <dd>
+                                                {% set comma = joiner() %}
+                                                {% for location in grant.beneficiaryLocation -%}
+                                                    {{ comma() }} {{ location.name }}
+                                                {%- endfor %}
+                                                </dd>
+                                            {% endif %}
+                                            <dt>Grant programme</dt>
+                                            {% for programme in grant.grantProgramme %}
+                                                <dd><a href="?programme={{ programme.title }}">{{ programme.title }}</a></dd>
+                                            {% endfor %}
+                                        </dl>
+                                    {% endcall %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No results</p>
+                        {% endif %}
+
+                        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+                    </div>
+
+                    <div class="grants-search__filters">
+                        {% if facets.awardDate %}
+                            {% set options = [{ 'label': 'Select a year', 'value': '' }] %}
+                            {% for item in facets.awardDate %}
+                                {% set options = (options.push({
+                                    'label': item._id + " (" + item.count + ")",
+                                    'value': item._id.toString()
+                                }), options) %}
+                            {% endfor %}
+
+                            {{ formField({
+                                type: 'select',
+                                name: 'year',
+                                label: 'Award year',
+                                value: queryParams.year,
+                                options: options,
+                                silentlyOptional: true
+                            }) }}
+                        {% endif %}
+
+                        {% if facets.grantProgramme %}
+                            {% set options = [{ 'label': 'Select a programme', 'value': '' }] %}
+                            {% for item in facets.grantProgramme %}
+                                {% set options = (options.push({
+                                    'label': item._id + " (" + item.count + ")",
+                                    'value': item._id.toString()
+                                }), options) %}
+                            {% endfor %}
+
+                            {{ formField({
+                                type: 'select',
+                                name: 'programme',
+                                label: 'Funding programme',
+                                value: queryParams.programme,
+                                options: options,
+                                silentlyOptional: true
+                            }) }}
+                        {% endif %}
+
+                        <div class="form-actions">
+                            <input type="submit" value="Filter" class="btn btn--medium">
+                            <a href="/funding/search-past-grants-alpha" class="btn-link">Clear filters</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}
