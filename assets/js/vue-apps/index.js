@@ -8,27 +8,20 @@ import Survey from './components/survey.vue';
 import materials from './materials';
 
 function initCookieConsent() {
-    const cookieEl = document.getElementById('js-cookie-consent');
-    if (cookieEl) {
+    const el = document.getElementById('js-cookie-consent');
+    if (el) {
         new Vue({
-            el: cookieEl,
-            components: { CookieConsent },
-            data() {
-                return { lang: null };
-            },
-            created() {
-                this.lang = JSON.parse(cookieEl.getAttribute('data-lang'));
-            },
-            template: `<CookieConsent :lang=lang />`
+            el: el,
+            components: { 'cookie-consent': CookieConsent }
         });
     }
 }
 
 function initSurvey() {
-    const surveyEl = document.getElementById('js-survey');
-    if (surveyEl) {
+    const el = document.getElementById('js-survey');
+    if (el) {
         new Vue({
-            el: surveyEl,
+            el: el,
             components: { survey: Survey }
         });
     }
@@ -45,10 +38,10 @@ function initPrompts() {
 }
 
 function initInlineFeedback() {
-    const feedbackEl = document.getElementById('js-feedback');
-    if (feedbackEl) {
+    const el = document.getElementById('js-feedback');
+    if (el) {
         new Vue({
-            el: feedbackEl,
+            el: el,
             components: { 'feedback-form': Feedback }
         });
     }
