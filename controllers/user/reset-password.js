@@ -5,7 +5,6 @@ const { validationResult } = require('express-validator/check');
 const express = require('express');
 
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
-const { noCache } = require('../../middleware/cached');
 const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
@@ -54,7 +53,7 @@ function renderFormExpired(req, res) {
 router
     .route('/')
     .all(requireUnauthed)
-    .get(noCache, async (req, res) => {
+    .get(async (req, res) => {
         let token = req.query.token ? req.query.token : res.locals.token;
         if (!token) {
             return res.redirect('/user/login');

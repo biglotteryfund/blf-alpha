@@ -51,37 +51,15 @@
   "prettier": {
     "singleQuote": true
   },
-  "babel": {
-    "plugins": [
-      "syntax-dynamic-import"
-    ],
-    "presets": [
-      [
-        "env",
-        {
-          "modules": false,
-          "targets": {
-            "browsers": [
-              ">0.25% in GB",
-              "ie >= 10",
-              "not op_mini all"
-            ]
-          }
-        }
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "transform-es2015-modules-commonjs"
-        ]
-      }
-    }
-  },
   "browserslist": [
     ">0.25% in GB",
     "ie >= 10",
     "not op_mini all"
+  ],
+  "eslintIgnore": [
+    "public/",
+    "views/",
+    "coverage/"
   ],
   "nodemonConfig": {
     "verbose": true,

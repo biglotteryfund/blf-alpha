@@ -37,7 +37,6 @@
     "useHotjar": true,
     "useRemoteAssets": true,
     "enableTimingMetrics": false,
-    "azureAuthEnabled": true,
     "enableMailSendMetrics": false
   },
   "imgix": {

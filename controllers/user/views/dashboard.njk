@@ -22,13 +22,13 @@
 
             {% if user %}
                 {% if user.userType === 'user' %}
-                    <p class="navbar-text">Logged in as <strong>{{ user.userData.username }}</strong>
+                    <p>Logged in as <strong>{{ user.userData.username }}</strong>
                 {% elseif user.userType === 'staff' %}
-                    <p class="navbar-text">Logged in as <strong>{{ user.userData.fullName }}</strong>
+                    <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong>
                 {% endif %}
                 <p><a class="btn btn--small" href="/user/logout">Log out?</a></p>
             {% else %}
-                <p class="navbar-text"><a href="/user/login">Log in</a></p>
+                <p><a class="btn btn--small" href="/user/login">Log in</a></p>
             {% endif %}
         </div>
     </main>

@@ -1,6 +1,5 @@
 'use strict';
 const passport = require('passport');
-const config = require('config');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
@@ -31,27 +30,20 @@ module.exports = function() {
         })
     );
 
-    // Only initialise this auth strategy if secrets exist (eg. not on CI)
-    if (config.get('features.azureAuthEnabled') && AZURE_AUTH.MS_CLIENT_ID) {
-        // Configure staff user sign-in (eg. internal authentication)
-        const authEndpoint =
-            'https://login.microsoftonline.com/biglotteryfund.onmicrosoft.com/.well-known/openid-configuration';
-
-        // Separate out the combined cookie encryption keys
-        const cookieKeys = AZURE_AUTH.MS_COOKIES.map(keyPair => {
-            const [key, iv] = keyPair.split(';');
-            return { key, iv };
-        });
-
+    /**
+     * Configure staff user sign-in (eg. internal authentication)
+     * Only initialise this auth strategy if secrets exist (eg. not on CI)
+     */
+    if (AZURE_AUTH.MS_CLIENT_ID) {
         passport.use(
             new OIDCStrategy(
                 {
-                    identityMetadata: authEndpoint,
+                    identityMetadata:
+                        'https://login.microsoftonline.com/biglotteryfund.onmicrosoft.com/.well-known/openid-configuration',
                     clientID: AZURE_AUTH.MS_CLIENT_ID,
                     allowHttpForRedirectUrl: appData.isDev,
                     redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
                     clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
-                    cookieEncryptionKeys: cookieKeys,
                     responseType: 'code id_token',
                     responseMode: 'form_post',
                     validateIssuer: true,

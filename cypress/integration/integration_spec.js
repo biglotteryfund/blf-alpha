@@ -157,11 +157,10 @@ describe('user', () => {
     it('should block access to staff-only tools', () => {
         cy.checkRedirect({
             from: '/tools/survey-results',
-            to: '/user/staff/login',
+            to: '/user/staff/login?redirectUrl=/tools/survey-results',
             status: 302
         });
     });
-
 });
 
 const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
