@@ -17,10 +17,14 @@
             {{ previewBanner(previewStatus) }}
 
             {# Cookie consent #}
-            {% if appData.isNotProduction %}
-                <div id="js-cookie-consent"
-                    data-lang='{{ __('global.cookieConsent') | dump | safe }}'></div>
-            {% endif %}
+            {% set cookieLang = __('global.cookieConsent') %}
+            <div id="js-cookie-consent">
+                <cookie-consent
+                    title='{{ cookieLang.title }}'
+                    message='{{ cookieLang.message }}'
+                    action='{{ cookieLang.action }}'
+                />
+            </div>
 
             {% if useNewHeader %}
                 {% include "includes/global-header-next.njk" %}

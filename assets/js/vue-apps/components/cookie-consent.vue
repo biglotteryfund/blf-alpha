@@ -7,7 +7,7 @@ const canStore = storageAvailable('localStorage');
 const STORAGE_KEY = 'biglotteryfund:cookie-consent';
 
 export default {
-    props: ['lang'],
+    props: ['title', 'message', 'action'],
     data() {
         const hasAccepted = canStore && window.localStorage.getItem(STORAGE_KEY) === 'true';
         return { isShown: hasAccepted === false };
@@ -23,14 +23,14 @@ export default {
 </script>
 
 <template>
-    <aside class="cookie-consent" v-bind:class="{ 'is-shown': isShown }" v-if="lang">
+    <aside class="cookie-consent" v-bind:class="{ 'is-shown': isShown }">
         <div class="cookie-consent__inner">
             <div class="cookie-consent__content">
-                <h4 class="cookie-consent__title">{{ lang.title }}</h4>
-                <div class="cookie-consent__message" v-html="lang.message"></div>
+                <h4 class="cookie-consent__title">{{ title }}</h4>
+                <div class="cookie-consent__message" v-html="message"></div>
             </div>
             <div class="cookie-consent__actions">
-                <button class="btn btn--small" @click="handleAccept()">{{ lang.action }}</button>
+                <button class="btn btn--small" @click="handleAccept()">{{ action }}</button>
             </div>
         </div>
     </aside>
