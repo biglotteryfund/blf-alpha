@@ -448,37 +448,37 @@
 }
 
 /* =========================================================================
-   Location Search
+   Search bar
    ========================================================================= */
 
-.location-search {
+.search-bar {
     padding: $spacingUnit;
-    margin-bottom: $spacingUnit * 2;
+    margin-bottom: $spacingUnit / 2;
     background: palette('pale-grey');
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .location-search__label,
-    .location-search__submit {
+    .search-bar__label,
+    .search-bar__submit {
         flex: 0 0 auto;
     }
 
-    .location-search__field {
+    .search-bar__field {
         flex: 1 1 0%;
         border: none;
         font-size: 18px;
         padding: 0.5em 1em;
     }
 
-    .location-search__label {
+    .search-bar__label {
         font-family: font-stack('display');
         font-size: 18px;
         font-weight: bold;
         padding-right: $spacingUnit;
     }
 
-    .location-search__submit {
+    .search-bar__submit {
         padding-left: $spacingUnit;
     }
 }
