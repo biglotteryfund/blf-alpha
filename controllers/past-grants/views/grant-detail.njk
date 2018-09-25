@@ -1,0 +1,33 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            <div class="s-prose u-constrained-wide">
+                <h1>{{ title }}</h1>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Key</td>
+                            <td>Value</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, val in grant %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ val | dump(2) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+{% endblock %}

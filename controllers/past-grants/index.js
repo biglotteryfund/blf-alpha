@@ -3,9 +3,11 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { pick, isEmpty } = require('lodash');
+const { concat, pick, isEmpty } = require('lodash');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
+const { injectBreadcrumbs } = require('../../middleware/inject-content');
+const { sMaxAge } = require('../../middleware/cached');
 
 const router = express.Router();
 
@@ -45,14 +47,21 @@ function buildPagination(paginationMeta, currentQuery = {}) {
     }
 }
 
+router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Search past grants',
+        url: req.baseUrl
+    });
+    next();
+});
+
 router.get('/', async (req, res) => {
     /**
      * Pick out an allowed list of query parameters for forward on to the grants API
      * @type {object}
      */
-    const facetParams = pick(req.query, ['q', 'postcode', 'programme', 'year', 'orgType']);
-    const sortParams = pick(req.query, ['sort', 'dir']);
-    const queryWithPage = Object.assign({}, facetParams, sortParams, { page: req.query.page || 1 });
+    const facetParams = pick(req.query, ['q', 'amount', 'postcode', 'programme', 'year', 'orgType', 'sort']);
+    const queryWithPage = Object.assign({}, facetParams, { page: req.query.page || 1 });
 
     const data = await request({
         url: PAST_GRANTS_API_URI,
@@ -60,27 +69,78 @@ router.get('/', async (req, res) => {
         qs: queryWithPage
     });
 
-    // @TODO should we define this in the API?
-    const sortableFields = [
+    const commonSortOptions = [
         {
-            key: 'awardDate',
-            title: 'Date awarded'
+            label: 'Oldest first',
+            value: 'awardDate|desc'
         },
         {
-            key: 'amountAwarded',
-            title: 'Amount awarded'
+            label: 'Lowest amount first',
+            value: 'amountAwarded|asc'
+        },
+        {
+            label: 'Highest amount first',
+            value: 'amountAwarded|desc'
         }
     ];
 
-    res.render(path.resolve(__dirname, './views/past-grants'), {
+    let sortOptions = [];
+    if (facetParams.q) {
+        sortOptions = concat(
+            [
+                {
+                    label: 'Most relevant first',
+                    value: ''
+                },
+                {
+                    label: 'Newest first',
+                    value: 'awardDate|asc'
+                }
+            ],
+            commonSortOptions
+        );
+    } else {
+        sortOptions = concat(
+            [
+                {
+                    label: 'Newest first',
+                    value: ''
+                }
+            ],
+            commonSortOptions
+        );
+    }
+
+    res.render(path.resolve(__dirname, './views/index'), {
         title: 'Past grants search',
         queryParams: isEmpty(facetParams) ? false : facetParams,
         grants: data.results,
         facets: data.facets,
         meta: data.meta,
-        sortableFields: sortableFields,
+        sortOptions: sortOptions,
         pagination: buildPagination(data.meta.pagination, queryWithPage)
     });
+});
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const data = await request({
+            url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
+            json: true
+        });
+
+        if (data) {
+            res.render(path.resolve(__dirname, './views/grant-detail'), {
+                title: data.title,
+                grant: data,
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.title })
+            });
+        } else {
+            next();
+        }
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;

@@ -10,6 +10,7 @@ const path = require('path');
 const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
+const moment = require('moment');
 
 let assets = {};
 try {
@@ -108,6 +109,11 @@ function addQueryParam(queryParams, newParams) {
     return querystring.stringify(clone);
 }
 
+function isBeforeNow(dt) {
+    const now = new Date();
+    return moment(dt).isBefore(now);
+}
+
 module.exports = {
     addQueryParam,
     appendUuid,
@@ -116,6 +122,7 @@ module.exports = {
     getCachebustedPath,
     getImagePath,
     isArray,
+    isBeforeNow,
     mailto,
     makePhoneLink,
     numberWithCommas,

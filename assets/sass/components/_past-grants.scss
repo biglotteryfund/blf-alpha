@@ -6,42 +6,50 @@
    Grant Search Layout
    ========================================================================= */
 
-.grants-search {
-    @include clearfix();
+.grants-search__totals {
+    font-size: 16px;
+    text-align: right;
+}
+.grants-search__content {
+    display: flex;
 }
 .grants-search__filters {
-    float: left;
-    width: 27%;
-    margin-right: 3%;
+    flex: 0 0 280px;
+    padding-right: $spacingUnit;
+
+    select {
+        width: 100%;
+    }
 }
 .grants-search__results {
-    float: left;
-    width: 70%;
+    order: 2;
+    flex: 1 1 auto;
 }
 
 /* =========================================================================
-    Grant Result
-    ========================================================================= */
+   Filters
+   ========================================================================= */
 
-.grant-result {
-    margin-bottom: $spacingUnit;
+.search-filters {
+    $filterSpacing: 8px;
+    position: sticky;
+    top: $filterSpacing;
+    background-color: palette('pale-grey');
+    padding: $filterSpacing;
 
-    border-bottom: 1px solid palette('border');
-
-    &:last-of-type {
-        border-bottom: none;
+    &,
+    select {
+        font-size: 16px;
     }
 
-    .grant-result__title,
-    .grant-result__summary {
-        margin-bottom: 3px;
+    .form-field {
+        margin-bottom: $filterSpacing;
+        background-color: white;
+        padding: $filterSpacing;
     }
 
-    .grant-result__header {
-        margin-bottom: $spacingUnit / 2;
-    }
-
-    .grant-result__meta {
-        font-size: 18px;
+    .form-actions {
+        padding: 5px 0;
+        border: none;
     }
 }
