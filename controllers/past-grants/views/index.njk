@@ -35,13 +35,11 @@
                         {% if grants.length > 0 %}
                             {% for grant in grants %}
                                 <div class="u-margin-bottom">
-                                    {# @TODO: Remove grant.plannedDates[1].endDate when import issue has been fixed  #}
-                                    {% set endDate = grant.plannedDates.endDate or grant.plannedDates[1].endDate  %}
                                     {% set subtitle %}
                                         £{{ grant.amountAwarded | numberWithCommas}} to
                                         <strong>{{ grant.recipientOrganization[0].name }}</strong>
                                         on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                                        {% if endDate | isBeforeNow %}
+                                        {% if grant.plannedDates.endDate | isBeforeNow %}
                                             <strong>(Active project)</strong>
                                         {% endif %}
                                     {% endset %}
