@@ -6,19 +6,6 @@
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
 
-{% macro grantResult(grant) %}
-    <article class="grant-result">
-        <header class="grant-result__header">
-            <h3 class="grant-result__title"><a href="#">{{ grant.title }}</a></h3>
-            <p class="grant-result__summary">
-                £{{ grant.amountAwarded | numberWithCommas}} to
-                {{ grant.recipientOrganization[0].name }}
-                on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-            </p>
-        </header>
-    </article>
-{% endmacro %}
-
 {% block content %}
     <main role="main">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
