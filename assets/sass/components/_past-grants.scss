@@ -15,7 +15,7 @@
 }
 .grants-search__filters {
     flex: 0 0 280px;
-    padding-right: $spacingUnit * 2;
+    padding-right: $spacingUnit;
 
     select {
         width: 100%;
@@ -24,4 +24,29 @@
 .grants-search__results {
     order: 2;
     flex: 1 1 auto;
+}
+
+/* =========================================================================
+   Filters
+   ========================================================================= */
+
+.search-fitlers {
+    background-color: palette('pale-grey');
+    padding: 10px;
+
+    &, select {
+        font-size: 16px;
+    }
+
+    .form-field {
+        margin-bottom: 10px;
+        background-color: white;
+        padding: 10px;
+    }
+
+    .form-actions {
+        padding: 0;
+        margin-bottom: 5px;
+        border: none;
+    }
 }
