@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/eligibility', (req, res) => {
-    const title = 'Full eligibility criteria';
+    const title = res.locals.copy.fullEligiblity.title;
     res.render(path.resolve(__dirname, './views/full-eligibility'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])

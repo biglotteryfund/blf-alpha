@@ -654,8 +654,8 @@ funding:
   programmesClosed:
     title: Funding programmes closed to applicants
   digitalFunding:
-    title: Digital Fund
-    intro: The Digital Fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
+    title: Digital fund
+    intro: The digital fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
     closedMessage: This fund opens for applications on 22nd October 2018
     aboutStrandLabel: Find out more about this strand
     summary:
@@ -938,6 +938,53 @@ funding:
           url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
         - title: Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
           url: 'https://digitalmaturity.co.uk/'
+    fullEligiblity:
+      title: Full eligibility criteria
+      introduction: >
+        <p>The Digital Fund will open in phases over the next two years.  The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.</p>
+        <p>Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</p>
+        <p>Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact</p>
+      successFactors:
+        title: Success factors
+        strand1:
+          body: >
+            <p>Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</p>
+
+            <p>Successful Strand 1 proposals will:</p>
+            <ul>
+              <li>Demonstrate a firm commitment by organisational leadership to changing the way that the organisation serves people and communities.</li>
+              <li>Contain a plan that has been developed in accordance with good digital practices, such as committing to an iterative approach, and always putting people in the lead.</li>
+              <li>Supply evidence that the organisation has already invested in digital, prior to this proposal.</li>
+              <li>Show a commitment to working generously, sharing what you learn and the products or services you produce with others.</li>
+            </ul>
+
+            <p>We are not looking for:</p>
+            <ul>
+              <li>Proposals that contain a highly detailed plan setting out every detail of your forthcoming transformation. Instead we welcome proposals that clearly differentiate between what you know now, and what you will learn along the journey.</li>
+              <li>Proposals that are driven by a desire to use technology, rather than a desire to help people and communities thrive.</li>
+              <li>Proposals that are based around core budget shortfalls.</li>
+            </ul>
+          linkText: Start applying for strand 1
+        strand2:
+          body: >
+            <p>Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact</p>
+            <p>Successful Strand 2 proposals will:</p>
+            <ul>
+              <li>Have made use of user-centered design, to ensure that the development and operation of your product or service has and will put people in the lead.</li>
+              <li>Clearly demonstrate either the potential to scale your impact at low cost, or clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
+              <li>Be driven by teams that combine knowledge of an issue that matters to people and communities, with experience of digital delivery.</li>
+              <li>Relate to a product or service that is far enough through its development process that real users are currently benefiting from it.</li>
+              <li>Be able to provide at least some evidence of impact upon those real users.</li>
+              <li>Have a theory of change or similar document showing how the product or service will achieve aims that benefit a specific group of people.</li>
+              <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+            </ul>
+            <p>We are not looking for:</p>
+            <ul>
+              <li>Products or services that are not yet mature enough to be benefiting at least a few people.</li>
+              <li>Products or services that cannot show considerable evidence of user research in their creation.</li>
+              <li>Products or services that duplicate existing services with no substantial innovation.</li>
+            </ul>
+          linkText: Start applying for strand 2
 research:
   detail:
     documents: Documents
