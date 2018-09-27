@@ -704,6 +704,7 @@ funding:
       assistance: We want help getting started with digital
       strand1: We want to use digital to change our business
       strand2: We are already highly digital, and want to scale our impact
+      otherProgrammes: Finally, we offer a range of <a href="/funding/programmes">open funding programmes</a>. All of these are open to the use of digital technologies to help people and communities to thrive.
     spending:
       title: What can you spend the money on?
       body: >
@@ -739,7 +740,7 @@ funding:
         title: We want to use digital to change our business
         description: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
         linkText: Find out more about this strand
-      introduction: Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+      introduction: Digital Fund Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
       eligibilityCriteria:
         title: Eligibility criteria
         body: >
@@ -765,7 +766,7 @@ funding:
             <li>organisations based outside the UK</li>
             <li>anyone who is applying on behalf of another organisation</li>
             <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
-            <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+            <li>Companies that are aimed at generating profits primarily for private distribution.</li>
           </ul>
 
           <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
@@ -817,6 +818,56 @@ funding:
         title: We are already highly digital, and want to scale our impact
         description: Grants of up to £500,000 for tech for good organisations that have already launched promising services
         linkText: Find out more about this strand
+      introduction: Digital Fund Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
+      eligibilityCriteria:
+        title: Eligibility criteria
+        body: >
+          <ul>
+            <li>Your organisation must have been incorporated after the year 2000</li>
+            <li>You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future</li>
+          </ul>
+
+          <p>You can apply if you’re a:</p>
+
+          <ul>
+            <li>voluntary and community organisation</li>
+            <li>registered charity</li>
+            <li>social enterprise</li>
+            <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
+            <li>community interest companies (with two or more directors).</li>
+          </ul>
+
+          <p>We <strong>can’t</strong> accept applications from:</p>
+          <ul>
+            <li>individuals</li>
+            <li>sole traders</li>
+            <li>organisations based outside the UK</li>
+            <li>anyone who is applying on behalf of another organisation</li>
+            <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
+            <li>Companies that are aimed at generating profits primarily for private distribution.</li>
+          </ul>
+          <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
+          <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+      successFactors:
+        title: Success factors
+        body: >
+          <p>Successful strand 2 proposals will:</p>
+          <ul>
+            <li>Have made use of user-centered design, to ensure that the development and operation of your product or service has and will put people in the lead.</li>
+            <li>Clearly demonstrate <strong>either</strong> the potential to scale your impact at low cost, <strong>or</strong> clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
+            <li>Be driven by teams that combine knowledge of an issue that matters to people and communities, with experience of digital delivery.</li>
+            <li>Relate to a product or service that is far enough through its development process that real users are currently benefiting from it.</li>
+            <li>Be able to provide at least some evidence of impact upon those real users.</li>
+            <li>Have a theory of change or similar document showing how the product or service will achieve aims that benefit a specific group of people.</li>
+            <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+          </ul>
+
+          <p>We are not looking for:</p>
+          <ul>
+            <li>Products or services that are not yet mature enough to be benefiting at least a few people.</li>
+            <li>Products or services that cannot show considerable evidence of user research in their creation.</li>
+            <li>Products or services that duplicate existing services with no substantial innovation.</li>
+          </ul>
 research:
   detail:
     documents: Documents

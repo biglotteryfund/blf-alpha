@@ -1,12 +1,10 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
-{% from "./view-helpers.njk" import steps, getStarted %}
-
-{% extends "layouts/main.njk" %}
 {% set pageAccent = 'blue' %}
 
 {% block content %}
@@ -89,6 +87,7 @@
                     class="btn btn--medium accent--cyan a--btn">
                     {{ copy.wayfinding.strand2 }}
                 </a></p>
+                <p>{{ copy.wayfinding.otherProgrammes }}</p>
             {% endcall %}
         </div>
     </main>
