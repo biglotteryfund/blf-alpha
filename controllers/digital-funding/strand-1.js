@@ -2,8 +2,9 @@
 const path = require('path');
 const express = require('express');
 const { concat } = require('lodash');
-
 const router = express.Router();
+
+const { injectCopy } = require('../../middleware/inject-content');
 
 const strandTitle = 'Using digital to change your business';
 
@@ -14,8 +15,8 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/eligibility', (req, res) => {
-    const title = 'Request a call';
+router.get('/eligibility', injectCopy('funding.digitalFunding.strand1.eligibilityDetail'), (req, res) => {
+    const title = res.locals.copy.title;
     res.render(path.resolve(__dirname, './views/strand-1-eligibility'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: title }])
