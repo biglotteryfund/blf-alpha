@@ -736,6 +736,7 @@ funding:
     - question: How do I request a call?
       answer: Just answer the ‘yes/no’ question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     strand1:
+      overallTitle: Using digital to change your business
       teaser:
         title: We want to use digital to change our business
         description: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
@@ -827,6 +828,7 @@ funding:
             <p>We have various other funding streams for which you might be eligible</p>
           otherProgrammes: See other funding programmes
     strand2:
+      overallTitle: Scale your impact
       teaser:
         title: We are already highly digital, and want to scale our impact
         description: Grants of up to £500,000 for tech for good organisations that have already launched promising services
