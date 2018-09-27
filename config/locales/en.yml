@@ -813,6 +813,19 @@ funding:
           - Primarily help people in the UK
           readMore: >
             If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="%s">see the full detailed eligibility criteria for this programme</a>
+      ineligible:
+        title: Sorry, you’re ineligible
+        subtitle: We’re sorry
+        requirements:
+          title: 'This programme is specifically designed to help organisations that:'
+          criteria:
+          - Have 25 or more staff
+          - Have registered charity status
+          - Primarily help people in the UK
+          moreInfo: >
+            <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="%s">see the full detailed eligibility criteria for this programme</a></p>
+            <p>We have various other funding streams for which you might be eligible</p>
+          otherProgrammes: See other funding programmes
     strand2:
       teaser:
         title: We are already highly digital, and want to scale our impact
@@ -884,6 +897,24 @@ funding:
           - Have some strong digital skills within the founding team
           readMore: >
             For more information, please see the <a href="%s">full detailed eligibility criteria</a> for this programme.
+      ineligible:
+        title: Sorry, you’re ineligible
+        subtitle: We’re sorry
+        body: >
+          <p>This kind of funding is only available to organisations that have already got a live service that’s being used to help a modest number of people, every week.</p>
+          <p>For more information, please see the <a href="%s">full detailed eligibility criteria</a> for this programme.</p>
+          <p>If you are at an earlier stage than this, we recommend looking at:</p>
+        links:
+        - title: Bethnal Green Ventures
+          url: https://bethnalgreenventures.com/
+        - title: Social Tech Trust
+          url: https://socialtechtrust.org/
+        - title: Comic Relief
+          url: https://www.comicrelief.com/
+        - title: UnLtd
+          url: https://www.unltd.org.uk/
+        - title: National Lottery Awards for All
+          url: https://www.biglotteryfund.org.uk/funding/programmes/national-lottery-awards-for-all-england
     assistance:
       title: Help getting started with digital
       intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
