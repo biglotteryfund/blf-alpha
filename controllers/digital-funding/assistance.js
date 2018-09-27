@@ -6,7 +6,6 @@ const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
 const newsletterService = require('../../services/newsletter-service');
-const { injectCopy } = require('../../middleware/inject-content');
 const { errorTranslator } = require('../../modules/validators');
 
 const translateError = errorTranslator('toplevel.ebulletin.errors');
@@ -24,16 +23,15 @@ const validators = [
 ];
 
 function renderAlternativeFunding(req, res) {
-    const title = res.locals.copy.title;
     res.render(path.resolve(__dirname, './views/assistance'), {
-        title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
+        title: res.locals.copy.assistance.title,
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.assistance.title }])
     });
 }
 
 router
     .route('/')
-    .get(injectCopy('funding.digitalFunding.assistance'), renderAlternativeFunding)
+    .get(renderAlternativeFunding)
     .post(validators, async (req, res) => {
         const formData = matchedData(req);
         const formErrors = validationResult(req);
