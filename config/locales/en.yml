@@ -654,9 +654,10 @@ funding:
   programmesClosed:
     title: Funding programmes closed to applicants
   digitalFunding:
-    closedMessage: This fund opens for applications on 22nd October 2018
     title: Digital Fund
     intro: The Digital Fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
+    closedMessage: This fund opens for applications on 22nd October 2018
+    aboutStrandLabel: Find out more about this strand
     summary:
       title: What’s it all about?
       body: >
@@ -737,10 +738,8 @@ funding:
       answer: Just answer the ‘yes/no’ question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     strand1:
       overallTitle: Using digital to change your business
-      teaser:
-        title: We want to use digital to change our business
-        description: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
-        linkText: Find out more about this strand
+      title: We want to use digital to change our business
+      teaserDescription: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
       introduction: Digital Fund Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
       eligibilityCriteria:
         title: Eligibility criteria
@@ -829,10 +828,8 @@ funding:
           otherProgrammes: See other funding programmes
     strand2:
       overallTitle: Scale your impact
-      teaser:
-        title: We are already highly digital, and want to scale our impact
-        description: Grants of up to £500,000 for tech for good organisations that have already launched promising services
-        linkText: Find out more about this strand
+      title: We are already highly digital, and want to scale our impact
+      teaserDescription: Grants of up to £500,000 for tech for good organisations that have already launched promising services
       introduction: Digital Fund Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
       eligibilityCriteria:
         title: Eligibility criteria

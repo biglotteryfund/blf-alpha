@@ -11,7 +11,7 @@ const getStrandTitle = req => req.i18n.__('funding.digitalFunding.strand1.overal
 router.get('/', (req, res) => {
     const strandTitle = getStrandTitle(req);
     res.render(path.resolve(__dirname, './views/strand-1'), {
-        title: strandTitle,
+        title: res.locals.copy.strand1.title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle }])
     });
 });
@@ -21,7 +21,10 @@ router.get('/eligibility', injectCopy('funding.digitalFunding.strand1.eligibilit
     const strandTitle = getStrandTitle(req);
     res.render(path.resolve(__dirname, './views/strand-1-eligibility'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: strandTitle, url: './' },
+            { label: title }
+        ])
     });
 });
 
