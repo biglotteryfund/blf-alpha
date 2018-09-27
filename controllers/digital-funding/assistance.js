@@ -6,6 +6,10 @@ const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
 const newsletterService = require('../../services/newsletter-service');
+const { injectCopy } = require('../../middleware/inject-content');
+const { errorTranslator } = require('../../modules/validators');
+
+const translateError = errorTranslator('toplevel.ebulletin.errors');
 
 const router = express.Router();
 
@@ -14,13 +18,13 @@ const validators = [
         .exists()
         .not()
         .isEmpty()
-        .withMessage('Please provide your email address')
+        .withMessage(translateError('emailMissing'))
         .isEmail()
-        .withMessage('Please provide a valid email address')
+        .withMessage(translateError('emailInvalid'))
 ];
 
 function renderAlternativeFunding(req, res) {
-    const title = 'Help getting started with digital';
+    const title = res.locals.copy.title;
     res.render(path.resolve(__dirname, './views/assistance'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: title }])
@@ -29,7 +33,7 @@ function renderAlternativeFunding(req, res) {
 
 router
     .route('/')
-    .get(renderAlternativeFunding)
+    .get(injectCopy('funding.digitalFunding.assistance'), renderAlternativeFunding)
     .post(validators, async (req, res) => {
         const formData = matchedData(req);
         const formErrors = validationResult(req);

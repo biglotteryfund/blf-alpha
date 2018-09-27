@@ -884,6 +884,30 @@ funding:
           - Have some strong digital skills within the founding team
           readMore: >
             For more information, please see the <a href="%s">full detailed eligibility criteria</a> for this programme.
+    assistance:
+      title: Help getting started with digital
+      intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
+      body: >
+        <p>We will soon be commissioning digital specialists to offer free assistance to hundreds of small organisations with sub-£50,000/year revenues. Coverage and eligibility is still to be determined, but if you’d like us to email you when the programme is ready, please submit your details here.</p>
+      submission:
+        explanation: We’ll only use this to send you information about free digital assistance
+        emailAddress: Email Address
+        proceedLabel: Submit
+        success:
+          title: Thanks for signing up
+          message: We'll be in touch soon
+        error:
+          message: There was a problem with your submission, please try again.
+      helpAndSupport:
+        title: Help & Support
+        intro: "There’s lots of useful advice on the internet about how get started with digital. Here’s a few links to get you started:"
+        links:
+        - title: Digital design principles for charities (betterdigital.services)
+          url: 'https://betterdigital.services/principles/'
+        - title: Building a digital workforce (knowhownonprofit.org)
+          url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
+        - title: Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
+          url: 'https://digitalmaturity.co.uk/'
 research:
   detail:
     documents: Documents
