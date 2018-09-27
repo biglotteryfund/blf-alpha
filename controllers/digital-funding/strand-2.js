@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/eligibility', (req, res) => {
-    const title = res.locals.copy.strand2.eligibilityDetail;
+    const title = res.locals.copy.strand2.eligibilityDetail.title;
     res.render(path.resolve(__dirname, './views/strand-2-eligibility'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [
@@ -24,7 +24,7 @@ router.get('/eligibility', (req, res) => {
 });
 
 router.get('/eligibility/ineligible', (req, res) => {
-    const title = res.locals.copy.title;
+    const title = res.locals.copy.strand2.ineligible.title;
     res.render(path.resolve(__dirname, './views/strand-2-ineligible'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [
