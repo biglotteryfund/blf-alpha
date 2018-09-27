@@ -31,7 +31,7 @@
 
                 {{ segmentLinks([
                     { "title": copy.process.title },
-                    { "title": copy.strand1.eligibilityCriteria.title },
+                    { "title": copy.eligibility.title },
                     { "title": copy.spending.title },
                     { "title": copy.strand1.successFactors.title }
                 ] )}}
@@ -59,8 +59,13 @@
             </section>
 
             {% call contentBox(pageAccent, id='segment-2') %}
-                <h2>{{ copy.strand1.eligibilityCriteria.title }}</h2>
-                {{ copy.strand1.eligibilityCriteria.body | safe }}
+                <h2>{{ copy.eligibility.title }}</h2>
+                <ul>
+                    {% for criteria in copy.eligibility.strand1.criteria %}
+                        <li>{{ criteria }}</li>
+                    {% endfor %}
+                </ul>
+                {{ copy.eligibility.commonCriteria.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-3") %}
