@@ -4,36 +4,29 @@ const express = require('express');
 const { concat } = require('lodash');
 const router = express.Router();
 
-const { injectCopy } = require('../../middleware/inject-content');
-
-const getStrandTitle = req => req.i18n.__('funding.digitalFunding.strand1.overallTitle');
-
 router.get('/', (req, res) => {
-    const strandTitle = getStrandTitle(req);
     res.render(path.resolve(__dirname, './views/strand-1'), {
         title: res.locals.copy.strand1.title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.strand1.shortTitle }])
     });
 });
 
-router.get('/eligibility', injectCopy('funding.digitalFunding.strand1.eligibilityDetail'), (req, res) => {
-    const title = res.locals.copy.title;
-    const strandTitle = getStrandTitle(req);
+router.get('/eligibility', (req, res) => {
+    const title = res.locals.copy.strand1.eligibilityDetail.title;
     res.render(path.resolve(__dirname, './views/strand-1-eligibility'), {
         title: title,
         breadcrumbs: concat(res.locals.breadcrumbs, [
-            { label: strandTitle, url: './' },
+            { label: res.locals.copy.strand1.shortTitle, url: './' },
             { label: title }
         ])
     });
 });
 
-router.get('/eligibility/ineligible', injectCopy('funding.digitalFunding.strand1.ineligible'), (req, res) => {
-    const title = res.locals.copy.title;
-    const strandTitle = getStrandTitle(req);
+router.get('/eligibility/ineligible', (req, res) => {
+    const title = res.locals.copy.strand1.ineligible.title;
     res.render(path.resolve(__dirname, './views/strand-1-ineligible'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.strand1.shortTitle, url: './' }, { label: title }])
     });
 });
 

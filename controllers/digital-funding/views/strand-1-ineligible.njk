@@ -19,11 +19,11 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained">
-                    <p><strong>{{ copy.subtitle }}</strong></p>
+                    <p><strong>{{ copy.strand1.ineligible.subtitle }}</strong></p>
 
-                    <p>{{ copy.requirements.title }}</p>
+                    <p>{{ copy.strand1.ineligible.requirements.title }}</p>
                     <ul>
-                        {% for criterion in copy.requirements.criteria %}
+                        {% for criterion in copy.strand1.ineligible.requirements.criteria %}
                             <li>{{ criterion }}</li>
                         {% endfor %}
                     </ul>
@@ -32,7 +32,7 @@
                     {{ __('funding.digitalFunding.strand1.ineligible.requirements.moreInfo', readMoreLink) | safe }}
 
                     <p><a href="{{ localify('/funding/programmes') }}" class="btn btn--medium btn--outline">
-                        {{ copy.requirements.otherProgrammes }}
+                        {{ copy.strand1.ineligible.requirements.otherProgrammes }}
                     </a></p>
                 </div>
             </section>
