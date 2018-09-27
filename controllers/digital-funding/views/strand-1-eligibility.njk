@@ -19,31 +19,32 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-wide">
-                    <p><strong>Your time is precious — we don’t want to waste it</strong>.</p>
-
-                    <p>Therefore, we’ll need to ask a couple of quick questions about your organisation and your funding needs in advance of our call. We’ll also need your contact details so we can arrange a convenient time for us to chat. This shouldn’t take more than a few minutes.</p>
-
-                    <p>To get started, please answer the first question below.</p>
-
-                    <p><strong>Are you from a UK-based, registered charity with over 25 staff?</strong></p>
+                    {{ copy.intro | safe }}
 
                     <div class="o-button-group u-margin-bottom">
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn" href="/apply/digital-funding-1/1">Yes</a>
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                            href="/funding/programmes/digital-funding/strand-1/eligibility/ineligible">No</a>
+                           href="{{ localify('/apply/digital-funding-1/1') }}">
+                            {{ __('global.misc.yes') }}
+                        </a>
+                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
+                            href="{{ localify('/funding/programmes/digital-funding/strand-1/eligibility/ineligible') }}">
+                            {{ __('global.misc.no') }}
+                        </a>
                     </div>
 
                     <details class="u-margin-bottom-l">
-                        <summary>I'm not sure</summary>
+                        <summary>{{ copy.unsure.title }}</summary>
                         <div class="u-tone-background-tint u-padded">
                             <div class="s-prose">
-                                <p>This programme is specifically designed to help organisations that:</p>
+                                <p>{{ copy.unsure.intro }}</p>
                                 <ul>
-                                    <li>Have 25 or more staff</li>
-                                    <li>Have registered charity status</li>
-                                    <li>Primarily help people in the UK</li>
+                                    {% for criterion in copy.unsure.criteria %}
+                                        <li>{{ criterion }}</li>
+                                    {% endfor %}
                                 </ul>
-                                <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
+                                {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-1#eligibility') %}
+                                <p>{{ __('funding.digitalFunding.strand1.eligibilityDetail.unsure.readMore', readMoreLink) | safe }}</p>
+
                             </div>
                         </div>
                     </details>

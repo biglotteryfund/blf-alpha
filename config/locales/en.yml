@@ -93,6 +93,8 @@ global:
     seeProgramme: See programme
     topics: topics
     viewAllNews: View all news articles
+    yes: Yes
+    no: No
   programmes:
     programmeLabels:
       area: Area
@@ -786,6 +788,22 @@ funding:
             <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
             <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
           </ul>
+      eligibilityDetail:
+        title: Request a call
+        intro: >
+          <p><strong>Your time is precious — we don’t want to waste it</strong>.</p>
+          <p>Therefore, we’ll need to ask a couple of quick questions about your organisation and your funding needs in advance of our call. We’ll also need your contact details so we can arrange a convenient time for us to chat. This shouldn’t take more than a few minutes.</p>
+          <p>To get started, please answer the first question below.</p>
+          <p><strong>Are you from a UK-based, registered charity with over 25 staff?</strong></p>
+        unsure:
+          title: I'm not sure
+          intro: 'This programme is specifically designed to help organisations that:'
+          criteria:
+          - Have 25 or more staff
+          - Have registered charity status
+          - Primarily help people in the UK
+          readMore: >
+            If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="%s">see the full detailed eligibility criteria for this programme</a>
     strand2:
       teaser:
         title: We are already highly digital, and want to scale our impact
