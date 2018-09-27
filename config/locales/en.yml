@@ -652,13 +652,14 @@ funding:
   programmesClosed:
     title: Funding programmes closed to applicants
   digitalFunding:
-    title: Digital Funding
+    closedMessage: This fund opens for applications on 22nd October 2018
+    title: Digital Fund
     intro: The Digital Fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
     summary:
       title: What’s it all about?
       body: >
         <p>Digital technology is not a silver bullet. However, when applied thoughtfully and carefully, digital technology can help civil society organisations to offer better services to more people.</p>
-        <p>Our first phase, open until 3rd December 2018 focuses on two specific kinds of organisation.</p>
+        <p>Our first phase, open from 22nd October 2018 until 3rd December 2018, focuses on two specific kinds of organisation.</p>
         <p><a href="#">Read our post announcing this programme</a></p>
     getStarted:
       title: Get started
@@ -674,11 +675,117 @@ funding:
           <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
           <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some free digital support from 2019.
           <a href="/funding/programmes/digital-funding/assistance">Read more about that here</a></p>
+    process:
+      title: How the process works
+      introduction: We don’t want you to have to sink a huge amount of time into preparation before we even talk for the first time. Here’s how we do things
+      steps:
+      - title: Request a call
+        description: Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time
+      - title: Talk to us
+        description: We call you and ask a few questions
+      - title: Submit a full proposal
+        description: If we feel this fund could work for you, we’ll ask you to submit a full proposal
+      getStarted:
+        title: Get started
+        body: >
+          <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
+        linkText: Request a call
+        disabledLinkText: Opens on 22nd October
+    questions:
+      title: Have any questions?
+      body: >
+        <p>If you have any questions about eligibility, get in touch with us.</p>
+        <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+    wayfinding:
+      title: Not sure this is for you?
+      description: Choose one of the following options instead.
+      assistance: We want help getting started with digital
+      strand1: We want to use digital to change our business
+      strand2: We are already highly digital, and want to scale our impact
+    spending:
+      title: What can you spend the money on?
+      body: >
+        <p>We <strong>can</strong> fund:</p>
+        <ul>
+          <li>staff salaries</li>
+          <li>project activities</li>
+          <li>running costs</li>
+          <li>small-scale refurbishment</li>
+          <li>equipment</li>
+          <li>organisational development</li>
+        </ul>
+
+        <p>We <strong>can’t</strong> fund:</p>
+        <ul>
+          <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution</li>
+          <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
+          <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
+          <li>activities that benefit individuals, rather than the wider community</li>
+          <li>political activities</li>
+          <li>retrospective costs</li>
+          <li>loan repayments</li>
+        </ul>
     strand1:
       teaser:
         title: We want to use digital to change our business
         description: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
         linkText: Find out more about this strand
+      introduction: Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+      eligibilityCriteria:
+        title: Eligibility criteria
+        body: >
+          <ul>
+            <li>Your organisation must have an income over £500,000 per year. If your organisation had income of over £10m last year, we will ask for a matching contribution that will be tailored to your size.</li>
+            <li>Your organisation must be incorporated within the UK, and must work primarily in the voluntary and community sector </li>
+          </ul>
+
+          <p>You can apply if you’re a:</p>
+
+          <ul>
+            <li>voluntary and community organisation</li>
+            <li>registered charity</li>
+            <li>social enterprise</li>
+            <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
+            <li>community interest companies (with two or more directors).</li>
+          </ul>
+
+          <p>We <strong>can’t</strong> accept applications from:</p>
+          <ul>
+            <li>individuals</li>
+            <li>sole traders</li>
+            <li>organisations based outside the UK</li>
+            <li>anyone who is applying on behalf of another organisation</li>
+            <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
+            <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+          </ul>
+
+          <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
+
+          <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+      successFactors:
+        title: Success factors
+        body: >
+          <p>Successful Strand 1 proposals will:</p>
+          <ul>
+            <li>Demonstrate a firm commitment by organisational leadership to changing the way that the organisation serves people and communities.</li>
+            <li>Contain a plan that has been developed in accordance with good digital practices, such as committing to an iterative approach, and always putting people in the lead.</li>
+            <li>Supply evidence that the organisation has already invested in digital, prior to this proposal.</li>
+            <li>Show a commitment to working generously, sharing what you learn and the products or services you produce with others.</li>
+          </ul>
+
+          <p>We are <strong>not</strong> looking for:</p>
+          <ul>
+            <li>Proposals that contain a highly detailed plan setting out every detail of your forthcoming transformation. Instead we welcome proposals that clearly differentiate between what you know now, and what you will learn along the journey.</li>
+            <li>Proposals that are driven by a desire to use technology, rather than a desire to help people and communities thrive</li>
+            <li>Proposals that are based around core budget shortfalls.</li>
+          </ul>
+
+          <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
+
+          <ul>
+            <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
+            <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
+          </ul>
     strand2:
       teaser:
         title: We are already highly digital, and want to scale our impact
@@ -817,8 +924,8 @@ apply:
       title: 'Check this is right before submitting your idea'
       proceedLabel: 'Submit'
   digitalFunding:
-    title: "Digital Funding"
-    description: 'The <a href="/funding/programmes/digital-funding">Digital Funding programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    title: Digital Fund
+    description: 'The <a href="/funding/programmes/digital-funding">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     errorTitle: There was a problem with your submission
     fields:
       name:
