@@ -19,13 +19,13 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained">
-                    <p><strong>{{ copy.subtitle }}</strong></p>
+                    <p><strong>{{ copy.strand2.ineligible.subtitle }}</strong></p>
 
                     {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-2/eligibility') %}
                     {{ __('funding.digitalFunding.strand2.ineligible.body', readMoreLink) | safe }}
 
                     <ul>
-                        {% for link in copy.links %}
+                        {% for link in copy.strand2.ineligible.links %}
                             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                         {% endfor %}
                     </ul>

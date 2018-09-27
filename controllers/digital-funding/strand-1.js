@@ -26,7 +26,10 @@ router.get('/eligibility/ineligible', (req, res) => {
     const title = res.locals.copy.strand1.ineligible.title;
     res.render(path.resolve(__dirname, './views/strand-1-ineligible'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.strand1.shortTitle, url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: res.locals.copy.strand1.shortTitle, url: './' },
+            { label: title }
+        ])
     });
 });
 
