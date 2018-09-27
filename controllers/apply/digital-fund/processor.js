@@ -3,7 +3,7 @@ const path = require('path');
 
 const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
-const { DIGITAL_FUNDING_EMAIL } = require('../../../modules/secrets');
+const { DIGITAL_FUND_EMAIL } = require('../../../modules/secrets');
 
 module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
     const customerSendTo = {
@@ -36,7 +36,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
 
     return Promise.all([
         sendEmail({
-            name: 'digital_funding_customer',
+            name: 'digital_fund_customer',
             mailConfig: {
                 sendTo: customerSendTo,
                 subject: 'Thank you for getting in touch with the Big Lottery Fund!',
@@ -46,9 +46,9 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
             mailTransport: mailTransport
         }),
         sendEmail({
-            name: 'digital_funding_internal',
+            name: 'digital_fund_internal',
             mailConfig: {
-                sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUNDING_EMAIL,
+                sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUND_EMAIL,
                 subject: `New digital funding submission: ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml

@@ -677,7 +677,7 @@ funding:
           <p>First, the Big Lottery Fund’s <a href="/funding/programmes">other funding programmes</a> are still open to you, and fully embrace digitally enabled ideas, so long as they help people and communities to thrive.</p>
           <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
           <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some free digital support from 2019.
-          <a href="/funding/programmes/digital-funding/assistance">Read more about that here</a></p>
+          <a href="/funding/programmes/digital-fund/assistance">Read more about that here</a></p>
     process:
       title: How the process works
       introduction: We don’t want you to have to sink a huge amount of time into preparation before we even talk for the first time. Here’s how we do things
@@ -1040,7 +1040,7 @@ apply:
       proceedLabel: 'Submit'
   digitalFunding:
     title: Digital Fund
-    description: 'The <a href="/funding/programmes/digital-funding">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    description: 'The <a href="/funding/programmes/digital-fund">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     errorTitle: There was a problem with your submission
     fields:
       name:

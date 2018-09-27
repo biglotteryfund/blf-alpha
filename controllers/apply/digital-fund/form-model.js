@@ -52,14 +52,14 @@ module.exports = strandNumber => {
     };
 
     return {
-        id: `digital-funding-strand-${strandNumber}`,
+        id: `digital-fund-strand-${strandNumber}`,
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
         shortCode: `DF-STRAND-${strandNumber}`,
         lang: formLang,
         isBilingual: true,
         steps: [step1],
         processor: processor,
-        startPage: { urlPath: `/funding/programmes/digital-funding/strand-${strandNumber}` },
+        startPage: { urlPath: `/funding/programmes/digital-fund/strand-${strandNumber}` },
         successStep: { template: path.resolve(__dirname, './success') }
     };
 };

@@ -7,7 +7,7 @@ const yaml = require('js-yaml');
 const { get } = require('lodash');
 
 // Mock email secret
-process.env.DIGITAL_FUNDING_EMAIL = 'digital@example.com';
+process.env.DIGITAL_FUND_EMAIL = 'digital@example.com';
 
 const processor = require('../processor');
 const formModel = require('../form-model');

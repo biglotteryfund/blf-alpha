@@ -4,7 +4,7 @@
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = 'blue' %}
+{% set pageAccent = 'cyan' %}
 
 {% block content %}
     <main role="main">
@@ -19,21 +19,16 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained">
-                    <p><strong>{{ copy.strand1.ineligible.subtitle }}</strong></p>
+                    <p><strong>{{ copy.strand2.ineligible.subtitle }}</strong></p>
 
-                    <p>{{ copy.strand1.ineligible.requirements.title }}</p>
+                    {% set readMoreLink = localify('/funding/programmes/digital-fund/strand-2/eligibility') %}
+                    {{ __('funding.digitalFunding.strand2.ineligible.body', readMoreLink) | safe }}
+
                     <ul>
-                        {% for criterion in copy.strand1.ineligible.requirements.criteria %}
-                            <li>{{ criterion }}</li>
+                        {% for link in copy.strand2.ineligible.links %}
+                            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                         {% endfor %}
                     </ul>
-
-                    {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-1#eligibility') %}
-                    {{ __('funding.digitalFunding.strand1.ineligible.requirements.moreInfo', readMoreLink) | safe }}
-
-                    <p><a href="{{ localify('/funding/programmes') }}" class="btn btn--medium btn--outline">
-                        {{ copy.strand1.ineligible.requirements.otherProgrammes }}
-                    </a></p>
                 </div>
             </section>
         </div>

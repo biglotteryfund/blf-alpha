@@ -108,10 +108,10 @@ if (appData.isNotProduction) {
 }
 
 /**
- * Digital funding programme
+ * Digital Fund
  */
 if (appData.isNotProduction) {
-    router.use('/digital-funding', require('../digital-funding'));
+    router.use('/digital-fund', require('../digital-fund'));
 }
 
 /**
