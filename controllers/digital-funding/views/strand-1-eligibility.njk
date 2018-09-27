@@ -44,14 +44,13 @@
                                 </ul>
                                 {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-1#eligibility') %}
                                 <p>{{ __('funding.digitalFunding.strand1.eligibilityDetail.unsure.readMore', readMoreLink) | safe }}</p>
-
                             </div>
                         </div>
                     </details>
 
                     <hr>
 
-                    {{ eligibilityFaqs() }}
+                    {{ eligibilityFaqs(__('funding.digitalFunding.eligibilityFaqs')) }}
                 </div>
             </section>
         </div>
