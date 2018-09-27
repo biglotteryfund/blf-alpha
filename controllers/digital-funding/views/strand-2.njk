@@ -5,6 +5,8 @@
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
+{% from "./view-helpers.njk" import wayfinding with context %}
+
 {% set pageAccent = 'cyan' %}
 
 {% block content %}
@@ -77,17 +79,7 @@
             {% endcall %}
 
             {% call contentBox(pageAccent) %}
-                <h2>{{ copy.wayfinding.title }}</h2>
-                <p>{{ copy.wayfinding.description }}</p>
-                <p><a href="{{ localify('/funding/programmes/digital-funding/assistance') }}"
-                    class="btn btn--medium accent--pink a--btn">
-                    {{ copy.wayfinding.assistance }}
-                </a></p>
-                <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
-                    class="btn btn--medium accent--blue a--btn">
-                    {{ copy.wayfinding.strand1 }}
-                </a></p>
-                <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
+                {{ wayfinding('strand2') }}
             {% endcall %}
         </div>
     </main>

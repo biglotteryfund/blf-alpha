@@ -19,7 +19,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-wide">
-                    {{ copy.intro | safe }}
+                    {{ copy.strand1.eligibilityDetail.intro | safe }}
 
                     <div class="o-button-group u-margin-bottom">
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
@@ -33,12 +33,12 @@
                     </div>
 
                     <details class="u-margin-bottom-l">
-                        <summary>{{ copy.unsure.title }}</summary>
+                        <summary>{{ copy.strand1.eligibilityDetail.unsure.title }}</summary>
                         <div class="u-tone-background-tint u-padded">
                             <div class="s-prose">
-                                <p>{{ copy.unsure.intro }}</p>
+                                <p>{{ copy.strand1.eligibilityDetail.unsure.intro }}</p>
                                 <ul>
-                                    {% for criterion in copy.unsure.criteria %}
+                                    {% for criterion in copy.strand1.eligibilityDetail.unsure.criteria %}
                                         <li>{{ criterion }}</li>
                                     {% endfor %}
                                 </ul>
@@ -50,7 +50,7 @@
 
                     <hr>
 
-                    {{ eligibilityFaqs(__('funding.digitalFunding.eligibilityFaqs')) }}
+                    {{ eligibilityFaqs(copy.eligibilityFaqs) }}
                 </div>
             </section>
         </div>
