@@ -15,34 +15,6 @@
     </div>
 {% endmacro %}
 
-{% macro steps() %}
-    {{ stepProgress([{
-        "title": "Request a call",
-        "description": "Contact us to arrange a call to talk about your idea - we love to have a chat before you invest too much time"
-    }, {
-        "title": "Talk to us",
-        "description": "We call you and ask a few questions"
-    }, {
-        "title": "Submit a full proposal",
-        "description": "If we feel this fund could work for you, we’ll ask you to submit a full proposal"
-    }] )}}
-{% endmacro %}
-
-{% macro getStarted(url, accent) %}
-    <aside class="card u-accent-border-top-{{ accent }} u-sticky-offset">
-        <header class="card__header">
-            <h3 class="card__title">Get started</h3>
-            <div class="card__body">
-                <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
-
-                <a href="{{ url}}" class="btn btn--medium accent--{{ accent }} a--btn">
-                    Request a call
-                </a>
-            </div>
-        </header>
-    </aside>
-{% endmacro %}
-
 {% macro eligibilityFaqs() %}
     <p><strong>Why do I need to speak to you? Can’t I just send an application in?</strong></p>
     <p>We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.</p>
