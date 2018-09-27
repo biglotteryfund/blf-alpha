@@ -122,11 +122,6 @@ const funding = {
                 caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
             })
         },
-        digitalFund: {
-            path: '/programmes/digital-funding',
-            router: require('./digital-funding'),
-            isDraft: true
-        },
         programmes: {
             path: '/programmes',
             router: require('./programmes')

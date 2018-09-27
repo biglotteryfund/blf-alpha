@@ -108,6 +108,13 @@ if (appData.isNotProduction) {
 }
 
 /**
+ * Digital funding programme
+ */
+if (appData.isNotProduction) {
+    router.use('/digital-funding', require('../digital-funding'));
+}
+
+/**
  * Programme detail
  */
 router.get('/:slug', injectFundingProgramme, (req, res, next) => {

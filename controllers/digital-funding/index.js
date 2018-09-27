@@ -2,24 +2,19 @@
 const express = require('express');
 const path = require('path');
 const { concat } = require('lodash');
-const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
+const { injectCopy, injectHeroImage } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.use(
-    injectHeroImage('digital-buddies-2'),
-    injectBreadcrumbs,
-    injectCopy('funding.digitalFunding'),
-    (req, res, next) => {
-        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
-            {
-                label: res.locals.title,
-                url: req.baseUrl
-            }
-        ]);
-        next();
-    }
-);
+router.use(injectHeroImage('digital-buddies-2'), injectCopy('funding.digitalFunding'), (req, res, next) => {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
+        {
+            label: res.locals.title,
+            url: req.baseUrl
+        }
+    ]);
+    next();
+});
 
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/landing'));
