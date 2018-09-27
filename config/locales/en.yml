@@ -727,6 +727,13 @@ funding:
           <li>retrospective costs</li>
           <li>loan repayments</li>
         </ul>
+    eligibilityFaqs:
+    - question: Why do I need to speak to you? Can’t I just send an application in?
+      answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
+    - question: Do I need to prepare for the call?
+      answer: You don’t need to do any special preparation. The phone call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
+    - question: How do I request a call?
+      answer: Just answer the ‘yes/no’ question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     strand1:
       teaser:
         title: We want to use digital to change our business
