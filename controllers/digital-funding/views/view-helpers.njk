@@ -15,6 +15,29 @@
     </div>
 {% endmacro %}
 
+{% macro wayfinding(currentStrand) %}
+    <h2>{{ copy.wayfinding.title }}</h2>
+    {% if currentStrand !== 'assistance' %}
+        <p><a href="{{ localify('/funding/programmes/digital-funding/assistance') }}"
+            class="btn btn--medium accent--pink a--btn">
+            {{ copy.wayfinding.assistance }}
+        </a></p>
+    {% endif %}
+    {% if currentStrand !== 'strand1' %}
+        <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
+            class="btn btn--medium accent--blue a--btn">
+            {{ copy.wayfinding.strand1 }}
+        </a></p>
+    {% endif %}
+    {% if currentStrand !== 'strand2' %}
+        <p><a href="{{ localify('/funding/programmes/digital-funding/strand-2') }}"
+            class="btn btn--medium accent--cyan a--btn">
+            {{ copy.wayfinding.strand2 }}
+        </a></p>
+    {% endif %}
+    <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
+{% endmacro %}
+
 {% macro eligibilityFaqs(faqs) %}
     {% for faq in faqs %}
         <p><strong>{{ faq.question }}</strong></p>
