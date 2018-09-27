@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "./view-helpers.njk" import strandTeaserCard %}
 
 {% extends "layouts/main.njk" %}
 
@@ -17,62 +18,51 @@
                 u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
-                    <p>The Digital Funding Programme is a £15m fund that has been established to help social impact organisations to serve people better. The first phase will be open from late October 2018, for six weeks. Further phases will run over the next 2 years.</p>
+                    <p>{{ copy.intro }}</p>
                 </div>
             </section>
 
             {% call contentBox(pageAccent) %}
-                <h2>What’s it all about?</h2>
-                <p>Digital technology is not a silver bullet that can create social impact on its own. However, when applied thoughtfully and carefully, digital technology can help social impact organisations to offer better services to more people.</p>
-
-                <p>We have listened carefully and widely, and have developed a programme with three initial strands, designed to unlock different kinds of impact from different kinds of organisation. This isn’t a bleeding-edge experimentation programme - this is about taking the lessons of an increasingly mature internet era and using them to drive brilliant performance from great organisations. Dive in and see if we can help you.</p>
-                <p><a href="#">Read our post announcing this programme</a></p>
+                <h2>{{ copy.summary.title }}</h2>
+                {{ copy.summary.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="get-started") %}
-                <h2>Get started</h2>
-
-                <p>The Digital Funding Programme is initially offering two strands of funding, and one strand of non-grants based skills support. To find the right strand for your organisation, choose one of these options.</p>
+                <h2>{{ copy.getStarted.title }}</h2>
+                <p>{{ copy.getStarted.intro }}</p>
 
                 <div class="flex-grid">
                     <div class="flex-grid__item">
-                        <div class="card">
-                            <header class="card__header">
-                                <h3 class="card__title">We want to use digital to change our business</h3>
-                            </header>
-                            <div class="card__body">
-                                <p>Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward</p>
-
-                                <p><a href="/funding/programmes/digital-funding/strand-1"
-                                    class="btn btn--medium accent--blue a--btn">
-                                    Find out more about this strand
-                                </a></p>
-                            </div>
-                        </div>
+                        {{ strandTeaserCard({
+                            title: copy.strand1.teaser.title,
+                            description: copy.strand1.teaser.description,
+                            link: {
+                                url: localify('/funding/programmes/digital-funding/strand-1'),
+                                label: copy.strand1.teaser.linkText
+                            }
+                        }, accent = 'blue') }}
                     </div>
                     <div class="flex-grid__item">
-                        <div class="card">
-                            <header class="card__header">
-                                <h3 class="card__title">We are already highly digital, and want to scale our impact</h3>
-                            </header>
-                            <div class="card__body">
-                                <p>Grants of up to £500,000 for tech for good organisations that have already launched promising services</p>
-
-
-                                <p><a href="/funding/programmes/digital-funding/strand-2"
-                                    class="btn btn--medium accent--cyan a--btn">
-                                    Find out more about this strand
-                                </a></p>
-                            </div>
-                        </div>
+                        {{ strandTeaserCard({
+                            title: copy.strand2.teaser.title,
+                            description: copy.strand2.teaser.description,
+                            link: {
+                                url: localify('/funding/programmes/digital-funding/strand-2'),
+                                label: copy.strand2.teaser.linkText
+                            }
+                        }, accent = 'cyan') }}
                     </div>
                 </div>
 
-                <p>Already know what you’re looking for? <a href="/funding/programmes/digital-funding/eligibility">View full eligibility critiera</a></p>
+                <p>
+                    {{ copy.getStarted.fullEligiblity.prefix }}
+                    <a href="{{ localify('/funding/programmes/digital-funding/eligibility') }}">
+                        {{ copy.getStarted.fullEligiblity.linkText }}
+                    </a>
+                </p>
 
-                <h2>Not sure this is for you?</h2>
-
-                <p>Do you work or volunteer for a voluntary sector organisation and are looking to learn how to use apps, websites, and social media to make your work more effective? <a href="/funding/programmes/digital-funding/assistance">You can sign up for updates about free digital assistance here.</a></p>
+                <h2>{{ copy.getStarted.assistance.title }}</h2>
+                {{ copy.getStarted.assistance.body | safe }}
             {% endcall %}
         </div>
     </main>
