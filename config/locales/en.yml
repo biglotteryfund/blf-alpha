@@ -983,7 +983,7 @@ apply:
     fields:
       current-work:
         label: How does your current work help young people not in employment, education or training facing barriers to work?
-        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        lengthHint: "Suggested answer length: 1–2 paragraphs"
         errorMessage: Please tell us about your current work
       location:
         label: Select which area you are working in
@@ -994,7 +994,7 @@ apply:
         errorMessage: Please tell us which area you are working in
       money:
         label: Describe what you will use the money for
-        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        lengthHint: "Suggested answer length: 1–2 paragraphs"
         errorMessage: Please describe what you will use the money for
       project-aims:
         label: Select which programme aim you are most aligned with
@@ -1006,7 +1006,7 @@ apply:
         errorMessage: Please select which programme aim you are most aligned with
       people-and-communities:
         label: Describe the people and communities you are working with, and if required provide more information about where they are based
-        lengthHint: "Suggested anwser length: 1–2 paragraphs"
+        lengthHint: "Suggested answer length: 1–2 paragraphs"
         errorMessage: Please describe the people and communities you are working with
       organisation-name:
         label: Organisation name
