@@ -1,10 +1,12 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
-{% from "./view-helpers.njk" import steps, getStarted %}
+{% from "components/step-progress/macro.njk" import stepProgress %}
 
-{% extends "layouts/main.njk" %}
+{% from "./view-helpers.njk" import wayfinding with context %}
+
 {% set pageAccent = 'cyan' %}
 
 {% block content %}
@@ -20,146 +22,64 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
-                    <p>Big Lottery Fund offers grants of up to £500,000 for tech for good organisations that have already launched promising services.</p>
+                    <p>{{ copy.strand2.introduction }}</p>
+                </div>
+
+                <div class="message">
+                    {{ copy.closedMessage }}
                 </div>
 
                 {{ segmentLinks([
-                    { "title": "How the process works" },
-                    { "title": "Eligibility criteria" },
-                    { "title": "What can you spend the money on?" },
-                    { "title": "Success factors" },
-                    { "title": "Get started" }
+                    { "title": copy.process.title },
+                    { "title": copy.strand2.eligibilityCriteria.title },
+                    { "title": copy.spending.title },
+                    { "title": copy.strand2.successFactors.title }
                 ] )}}
             </section>
 
             <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="content-sidebar">
                     <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
-                        <h2 class="t2 t--underline">How the process works</h2>
-                        {{ steps() }}
+                        <h2 class="t2 t--underline">{{ copy.process.title }}</h2>
+                        <p>{{ copy.process.introduction }}</p>
+                        {{ stepProgress(copy.process.steps)}}
                     </div>
 
                     <div class="content-sidebar__secondary">
-                        {{ getStarted(
-                            url = '/funding/programmes/digital-funding/strand-2/eligibility',
-                            accent = pageAccent
-                        ) }}
+                        <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
+                            <header class="card__header">
+                                <h3 class="card__title">{{ copy.closedMessage }}</h3>
+                                <div class="card__body">
+                                    {{ copy.process.getStarted.body | safe }}
+                                </div>
+                            </header>
+                        </aside>
                     </div>
                 </div>
             </section>
 
             {% call contentBox(pageAccent, id='segment-2') %}
-                <h2>Eligibility criteria</h2>
-
-                <ul>
-                    <li>Your organisation must have an income over £500,000 per year. If your organisation had income of over £10m last year, we will ask for a matching contribution that will be tailored to your size.</li>
-                    <li>Your organisation must be incorporated within the UK, and must work primarily in the voluntary and community sector</li>
-                </ul>
-
-                <p>You can apply if you’re a:</p>
-
-                <ul>
-                    <li>voluntary and community organisation</li>
-                    <li>registered charity</li>
-                    <li>social enterprise</li>
-                    <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
-                    <li>community interest companies (with two or more directors).</li>
-                </ul>
-
-                <p>We <strong>can’t</strong> accept applications from:</p>
-                <ul>
-                    <li>individuals</li>
-                    <li>sole traders</li>
-                    <li>organisations based outside the UK</li>
-                    <li>anyone who is applying on behalf of another organisation</li>
-                    <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
-                    <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
-                </ul>
-
-                <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
-
-                <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
+                <h2>{{ copy.strand2.eligibilityCriteria.title }}</h2>
+                {{ copy.strand2.eligibilityCriteria.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-3") %}
-                <h2>What can you spend the money on?</h2>
-
-                <p>We can fund:</p>
-                <ul>
-                    <li>staff salaries</li>
-                    <li>project activities</li>
-                    <li>running costs</li>
-                    <li>small-scale refurbishment</li>
-                    <li>equipment</li>
-                    <li>organisational development</li>
-                </ul>
-
-                <p>We <strong>can’t</strong> fund:</p>
-                <ul>
-                    <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution</li>
-                    <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
-                    <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
-                    <li>activities that benefit individuals, rather than the wider community</li>
-                    <li>political activities</li>
-                    <li>retrospective costs</li>
-                    <li>loan repayments</li>
-                </ul>
-
-                <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
-
-                <ul>
-                    <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
-                    <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
-                </ul>
+                <h2>{{ copy.spending.title }}</h2>
+                {{ copy.spending.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-4") %}
-                <h2>Success factors</h2>
-                <p>Successful proposals will:</p>
-
-                <ul>
-                    <li>Demonstrate a firm commitment by organisational leadership to changing the way that services are delivered.</li>
-                    <li>Contain a plan that has been developed in accordance with good digital practices.</li>
-                    <li>Supply evidence that the organisation has already invested in digital, prior to this proposal.</li>
-                    <li>Show a commitment to working generously, sharing what you learn and the products or services you produce with others.</li>
-                </ul>
-
-                <p>We are not looking for:</p>
-                <ul>
-                    <li>Proposals that contain a highly detailed plan setting out every detail of your forthcoming transformation. Instead we welcome proposals that clearly differentiate between what you know now, and what you will learn along the journey.</li>
-                    <li>Proposals that are driven by a desire to use technology, rather than by a desire to make change.</li>
-                    <li>Proposals that are based around core budget shortfalls.</li>
-                </ul>
+                <h2>{{ copy.strand2.successFactors.title }}</h2>
+                {{ copy.strand2.successFactors.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-5") %}
-                <h2>Get started</h2>
-
-                <p>If you think this fund might be right for you, the first stage is to talk to us.</p>
-
-                <p><a href="/funding/programmes/digital-funding/strand-1/eligibility" class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                    Request a call
-                </a></p>
-
-                <h2>Have any questions?</h2>
-
-                <p>If you have any questions about eligibility, get in touch with us.</p>
-                <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+                <h2>{{ copy.questions.title }}</h2>
+                {{ copy.questions.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent) %}
-                <h2>Not sure this is for you?</h2>
-
-                <p>Choose one of the following options instead.</p>
-
-                <p><a href="/funding/programmes/digital-funding/assistance"
-                    class="btn btn--medium accent--pink a--btn">
-                    We want help getting started with digital
-                </a></p>
-                <p><a href="/funding/programmes/digital-funding/strand-1"
-                    class="btn btn--medium accent--blue a--btn">
-                    We want to use digital to change our business
-                </a></p>
+                {{ wayfinding('strand2') }}
             {% endcall %}
         </div>
     </main>

@@ -19,6 +19,7 @@
                 {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
+                    <p><strong>{{ copy.closedMessage }}</strong></p>
                 </div>
             </section>
 
@@ -34,21 +35,21 @@
                 <div class="flex-grid">
                     <div class="flex-grid__item">
                         {{ strandTeaserCard({
-                            title: copy.strand1.teaser.title,
-                            description: copy.strand1.teaser.description,
+                            title: copy.strand1.title,
+                            description: copy.strand1.teaserDescription,
                             link: {
                                 url: localify('/funding/programmes/digital-funding/strand-1'),
-                                label: copy.strand1.teaser.linkText
+                                label: copy.aboutStrandLabel
                             }
                         }, accent = 'blue') }}
                     </div>
                     <div class="flex-grid__item">
                         {{ strandTeaserCard({
-                            title: copy.strand2.teaser.title,
-                            description: copy.strand2.teaser.description,
+                            title: copy.strand2.title,
+                            description: copy.strand2.teaserDescription,
                             link: {
                                 url: localify('/funding/programmes/digital-funding/strand-2'),
-                                label: copy.strand2.teaser.linkText
+                                label: copy.aboutStrandLabel
                             }
                         }, accent = 'cyan') }}
                     </div>

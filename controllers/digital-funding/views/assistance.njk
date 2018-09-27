@@ -1,9 +1,10 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/form-fields.njk" import formErrors with context %}
 
-{% extends "layouts/main.njk" %}
+{% from "./view-helpers.njk" import wayfinding with context %}
 
 {% block content %}
     <main role="main">
@@ -17,9 +18,9 @@
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="s-prose u-constrained-wide">
-                    <p><strong>{{ copy.intro }}</strong></p>
+                    <p><strong>{{ copy.assistance.intro }}</strong></p>
 
-                    {{ copy.body | safe }}
+                    {{ copy.assistance.body | safe }}
 
                     {% if status === 'SUBMISSION_SUCCESS' %}
                         <div class="email-signup">
@@ -28,15 +29,15 @@
                                     {{ iconTick() }}
                                 </div>
                                 <div class="submission-message__text">
-                                    <p><strong>{{ copy.submission.success.title }}</strong></p>
-                                    <p>{{ copy.submission.success.message }}</p>
+                                    <p><strong>{{ copy.assistance.submission.success.title }}</strong></p>
+                                    <p>{{ copy.assistance.submission.success.message }}</p>
                                 </div>
                             </div>
                         </div>
                     {% else %}
                         {% if status === 'SUBMISSION_ERROR' %}
                             <div class="message" role="alert">
-                                {{ copy.submission.error.message }}
+                                {{ copy.assistance.submission.error.message }}
                             </div>
                         {% endif %}
 
@@ -44,11 +45,11 @@
                             {{ formErrors(errors) }}
 
                             <label for="email" class="ff-label">
-                                {{ copy.submission.emailAddress }}
+                                {{ copy.assistance.submission.emailAddress }}
                             </label>
 
                             <p class="ff-help">
-                                {{ copy.submission.explanation }}
+                                {{ copy.assistance.submission.explanation }}
                             </p>
 
                             <input id="email"
@@ -58,7 +59,7 @@
                                     size="30"/>
 
                             <input class="btn btn--small accent--blue a--btn"
-                                type="submit" value="{{ copy.submission.proceedLabel }}" />
+                                type="submit" value="{{ copy.assistance.submission.proceedLabel }}" />
                         </form>
                     {% endif %}
 
@@ -67,10 +68,10 @@
 
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
-                    <h2>{{ copy.helpAndSupport.title }}</h2>
-                    <p>{{ copy.helpAndSupport.intro }}</p>
+                    <h2>{{ copy.assistance.helpAndSupport.title }}</h2>
+                    <p>{{ copy.assistance.helpAndSupport.intro }}</p>
                     <ul>
-                        {% for link in copy.helpAndSupport.links %}
+                        {% for link in copy.assistance.helpAndSupport.links %}
                             <li><a href="{{ link.url }}">
                                 {{ link.title }}
                             </a></li>
@@ -81,19 +82,7 @@
 
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
-                    <h2>{{ copy.notSure.title }}</h2>
-
-                    <p>{{ copy.notSure.intro }}</p>
-                    <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
-                        class="btn btn--medium accent--blue a--btn">
-                        {{ copy.notSure.strand1 }}
-                    </a></p>
-                    <p><a href="{{ localify('/funding/programmes/digital-funding/strand-2') }}"
-                        class="btn btn--medium accent--cyan a--btn">
-                        {{ copy.notSure.strand2 }}
-                    </a></p>
-
-                    <p>{{ copy.notSure.otherProgrammes | safe }}</p>
+                    {{ wayfinding('assistance') }}
                 </div>
             </section>
         </div>

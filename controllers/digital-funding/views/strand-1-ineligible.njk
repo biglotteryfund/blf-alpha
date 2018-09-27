@@ -19,19 +19,21 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained">
-                    <p><strong>We’re sorry</strong></p>
+                    <p><strong>{{ copy.strand1.ineligible.subtitle }}</strong></p>
 
-                    <p>This programme is specifically designed to help organisations that:</p>
+                    <p>{{ copy.strand1.ineligible.requirements.title }}</p>
                     <ul>
-                        <li>Have 25 or more staff</li>
-                        <li>Have registered charity status</li>
-                        <li>Primarily help people in the UK</li>
+                        {% for criterion in copy.strand1.ineligible.requirements.criteria %}
+                            <li>{{ criterion }}</li>
+                        {% endfor %}
                     </ul>
-                    <p>If you’re not sure about any of these please go and check with colleagues before proceeding. For more information, please <a href="/funding/programmes/digital-funding/strand-1#eligibility">see the full detailed eligibility criteria for this programme</a></p>
 
-                    <p>We have various other funding streams for which you might be eligible</p>
+                    {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-1#eligibility') %}
+                    {{ __('funding.digitalFunding.strand1.ineligible.requirements.moreInfo', readMoreLink) | safe }}
 
-                    <p><a href="/funding/programmes" class="btn btn--medium btn--outline">See other funding programmes</a></p>
+                    <p><a href="{{ localify('/funding/programmes') }}" class="btn btn--medium btn--outline">
+                        {{ copy.strand1.ineligible.requirements.otherProgrammes }}
+                    </a></p>
                 </div>
             </section>
         </div>

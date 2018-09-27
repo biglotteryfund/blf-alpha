@@ -5,29 +5,32 @@ const { concat } = require('lodash');
 
 const router = express.Router();
 
-const strandTitle = 'Scale your impact';
-
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/strand-2'), {
-        title: 'Using digital to scale your impact',
-        heroImage: res.locals.heroImage,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle }])
+        title: res.locals.copy.strand2.title,
+        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.strand2.shortTitle }])
     });
 });
 
 router.get('/eligibility', (req, res) => {
-    const title = 'Request a call';
+    const title = res.locals.copy.strand2.eligibilityDetail;
     res.render(path.resolve(__dirname, './views/strand-2-eligibility'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: title }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: res.locals.copy.strand2.shortTitle, url: './' },
+            { label: title }
+        ])
     });
 });
 
 router.get('/eligibility/ineligible', (req, res) => {
-    const title = 'Sorry, you’re ineligible';
+    const title = res.locals.copy.title;
     res.render(path.resolve(__dirname, './views/strand-2-ineligible'), {
         title: title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: strandTitle, url: './' }, { label: 'Ineligible' }])
+        breadcrumbs: concat(res.locals.breadcrumbs, [
+            { label: res.locals.copy.strand2.shortTitle, url: './' },
+            { label: title }
+        ])
     });
 });
 
