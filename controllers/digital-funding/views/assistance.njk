@@ -17,9 +17,9 @@
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="s-prose u-constrained-wide">
-                    <p><strong>Do you work or volunteer for a voluntary sector organisation and are looking to learn how to use apps, websites, and social media to make your work more effective?</strong></p>
+                    <p><strong>{{ copy.intro }}</strong></p>
 
-                    <p>We are not currently making grants that are focused on basic skills but we will soon be commissioning experts to offer free assistance to hundreds of organisations in this position. If you’d like us to email you when the offer of free assistance is available, please enter your email address below.</p>
+                    {{ copy.body | safe }}
 
                     {% if status === 'SUBMISSION_SUCCESS' %}
                         <div class="email-signup">
@@ -28,15 +28,15 @@
                                     {{ iconTick() }}
                                 </div>
                                 <div class="submission-message__text">
-                                    <p><strong>Thanks for signing up</strong></p>
-                                    <p>We'll be in touch soon</p>
+                                    <p><strong>{{ copy.submission.success.title }}</strong></p>
+                                    <p>{{ copy.submission.success.message }}</p>
                                 </div>
                             </div>
                         </div>
                     {% else %}
                         {% if status === 'SUBMISSION_ERROR' %}
                             <div class="message" role="alert">
-                                There was a problem with your submission, please try again.
+                                {{ copy.submission.error.message }}
                             </div>
                         {% endif %}
 
@@ -44,11 +44,11 @@
                             {{ formErrors(errors) }}
 
                             <label for="email" class="ff-label">
-                                Email address
+                                {{ copy.submission.emailAddress }}
                             </label>
 
                             <p class="ff-help">
-                                We’ll only use this to send you information about free digital assistance
+                                {{ copy.submission.explanation }}
                             </p>
 
                             <input id="email"
@@ -58,7 +58,7 @@
                                     size="30"/>
 
                             <input class="btn btn--small accent--blue a--btn"
-                                type="submit" value="Submit" />
+                                type="submit" value="{{ copy.submission.proceedLabel }}" />
                         </form>
                     {% endif %}
 
@@ -67,37 +67,33 @@
 
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
-                    <h2>Help &amp; Support</h2>
-                    <p>There’s lots of useful advice on the internet about how get started with digital. Here’s a few links to get you started:</p>
+                    <h2>{{ copy.helpAndSupport.title }}</h2>
+                    <p>{{ copy.helpAndSupport.intro }}</p>
                     <ul>
-                        <li><a href="https://betterdigital.services/principles/">
-                            Digital design principles for charities (betterdigital.services)
-                        </a></li>
-                        <li><a href="https://knowhownonprofit.org/tools-resources/building-a-digital-workforce">
-                            Building a digital workforce (knowhownonprofit.org)
-                        </a></li>
-                        <li><a href="https://digitalmaturity.co.uk/">
-                            Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
-                        </a></li>
+                        {% for link in copy.helpAndSupport.links %}
+                            <li><a href="{{ link.url }}">
+                                {{ link.title }}
+                            </a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </section>
 
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
-                    <h2>Not sure this is for you?</h2>
+                    <h2>{{ copy.notSure.title }}</h2>
 
-                    <p>Choose one of the following options instead.</p>
-                    <p><a href="/funding/programmes/digital-funding/strand-1"
+                    <p>{{ copy.notSure.intro }}</p>
+                    <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
                         class="btn btn--medium accent--blue a--btn">
-                        We want to use digital to change our business
+                        {{ copy.notSure.strand1 }}
                     </a></p>
-                    <p><a href="/funding/programmes/digital-funding/strand-2"
+                    <p><a href="{{ localify('/funding/programmes/digital-funding/strand-2') }}"
                         class="btn btn--medium accent--cyan a--btn">
-                        We are already highly digital, and want to scale our impact
+                        {{ copy.notSure.strand2 }}
                     </a></p>
 
-                    <p>In addition, we offer other funding programmes which regularly support digital projects. If you don't think you are eligible for this programme, please consider one of our <a href="/funding/programmes">other open programmes</a>.</p>
+                    <p>{{ copy.notSure.otherProgrammes | safe }}</p>
                 </div>
             </section>
         </div>
