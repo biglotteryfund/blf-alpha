@@ -1,5 +1,20 @@
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
+{% macro strandTeaserCard(props, accent) %}
+    <div class="card">
+        <header class="card__header">
+            <h3 class="card__title">{{ props.title }}</h3>
+        </header>
+        <div class="card__body">
+            <p>{{ props.description }}</p>
+            <p><a href="{{ props.link.url }}"
+                class="btn btn--medium accent--{{ accent }} a--btn">
+                {{ props.link.label }}
+            </a></p>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro steps() %}
     {{ stepProgress([{
         "title": "Request a call",
@@ -37,5 +52,5 @@
 
     <p><strong>How do I request a call?</strong></p>
     {# @TODO: x minutes #}
-    <p>We need to ask a few questions in advance of our call to make sure we have some background information that we can use to help you. We’ll ask you to supply these online now in a quick form that should take about x minutes to fill in. After you’ve submitted this information, we’ll be in touch by email to arrange the best time for us to have a chat.</p>
+    <p>We need to ask a few questions in advance of our call to make sure we have some background information that we can use to help you. We’ll ask you to supply these online now in a quick form that should take a few minutes to fill in. After you’ve submitted this information, we’ll be in touch by email to arrange the best time for us to have a chat.</p>
 {% endmacro %}

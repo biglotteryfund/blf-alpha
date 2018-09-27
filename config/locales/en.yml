@@ -651,6 +651,39 @@ funding:
     over10k: Awards over £10,000
   programmesClosed:
     title: Funding programmes closed to applicants
+  digitalFunding:
+    title: Digital Funding
+    intro: The Digital Fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
+    summary:
+      title: What’s it all about?
+      body: >
+        <p>Digital technology is not a silver bullet. However, when applied thoughtfully and carefully, digital technology can help civil society organisations to offer better services to more people.</p>
+        <p>Our first phase, open until 3rd December 2018 focuses on two specific kinds of organisation.</p>
+        <p><a href="#">Read our post announcing this programme</a></p>
+    getStarted:
+      title: Get started
+      intro: The Digital Fund’s first phase offers two strands of funding
+      fullEligiblity:
+        prefix: Just want to see all the details on one page?
+        linkText: View full eligibility critiera
+      assistance:
+        title: Not sure this is for you?
+        body: >
+          <p>If you don’t fit in either of the strands of funding, don’t despair!</p>
+          <p>First, the Big Lottery Fund’s <a href="/funding/programmes">other funding programmes</a> are still open to you, and fully embrace digitally enabled ideas, so long as they help people and communities to thrive.</p>
+          <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
+          <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some free digital support from 2019.
+          <a href="/funding/programmes/digital-funding/assistance">Read more about that here</a></p>
+    strand1:
+      teaser:
+        title: We want to use digital to change our business
+        description: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
+        linkText: Find out more about this strand
+    strand2:
+      teaser:
+        title: We are already highly digital, and want to scale our impact
+        description: Grants of up to £500,000 for tech for good organisations that have already launched promising services
+        linkText: Find out more about this strand
 research:
   detail:
     documents: Documents
