@@ -868,6 +868,22 @@ funding:
             <li>Products or services that cannot show considerable evidence of user research in their creation.</li>
             <li>Products or services that duplicate existing services with no substantial innovation.</li>
           </ul>
+      eligibilityDetail:
+        title: Request a call
+        intro: >
+          <p><strong>Your time is precious — we don’t want to waste it</strong>.</p>
+          <p>Therefore, we’ll need to ask a couple of quick questions about your organisation and your funding needs in advance of our call. We’ll also need your contact details so we can arrange a convenient time for us to chat. This shouldn’t take more than a few minutes.</p>
+          <p>To get started, please answer the first question below.</p>
+          <p><strong>Do you currently operate a service that benefits at least 50 people every week?</strong></p>
+        unsure:
+          title: I'm not sure
+          intro: 'This programme is specifically designed to help organisations that:'
+          criteria:
+          - Are past the idea or prototype stage, and that are being used to help at least 50 people a week already
+          - Use digital to open the possibility to large scale impact. This doesn’t necessarily mean that they are first and foremost and app, though, they might be a project that uses technology to arrange volunteers in many different places
+          - Have some strong digital skills within the founding team
+          readMore: >
+            For more information, please see the <a href="%s">full detailed eligibility criteria</a> for this programme.
 research:
   detail:
     documents: Documents
