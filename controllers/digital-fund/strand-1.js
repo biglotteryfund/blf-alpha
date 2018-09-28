@@ -2,6 +2,9 @@
 const path = require('path');
 const express = require('express');
 const { concat } = require('lodash');
+
+const { localify } = require('../../modules/urls');
+
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -17,9 +20,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/eligibility', (req, res) => {
-    const title = res.locals.copy.strand1.eligibilityDetail.title;
-    res.render(path.resolve(__dirname, './views/strand-1-eligibility'), {
+    const { copy } = res.locals;
+    const title = copy.eligibilityChecker.title;
+    res.render(path.resolve(__dirname, './views/eligibility-checker'), {
         title: title,
+        strandCopy: copy.eligibilityChecker.strand1,
+        yesUrl: localify(req.i18n.getLocale())('/apply/digital-fund-strand-1/1'),
+        noUrl: req.baseUrl + '/eligibility/ineligible',
         breadcrumbs: concat(res.locals.breadcrumbs, [
             { label: res.locals.copy.strand1.shortTitle, url: './' },
             { label: title }
