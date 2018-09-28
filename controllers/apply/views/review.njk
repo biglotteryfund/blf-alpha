@@ -9,15 +9,11 @@
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <form action="" method="POST" class="js-application-form js-application-form-review">
-
-            {{ formHeader(
-                    title = formTitle,
+                {{ formHeader(
+                    title = title,
                     prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
-                    suffix = copy.description | safe,
                     backUrl = stepProgress.prevStepUrl
                 ) }}
-
-                <h2>{{ title }}</h2>
 
                 {% for step in summary %}
                     {% set stepCopy = copy.steps[loop.index0] %}
