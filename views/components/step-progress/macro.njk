@@ -2,10 +2,12 @@
     <ol class="step-progress">
         {% for step in steps %}
             <li class="step-progress__item{% if step.isCompleted %} step-progress__item--completed{% endif %}">
-                <h3 class="step-progress__item-title">{{ step.title }}</h3>
-                <p class="step-progress__item-description">
-                    {{ step.description }}
-                </p>
+                <div class="step-progress__content">
+                    <h3 class="step-progress__item-title">{{ step.title }}</h3>
+                    <p class="step-progress__item-description">
+                        {{ step.description }}
+                    </p>
+                </div>
             </li>
         {% endfor %}
     </ol>
