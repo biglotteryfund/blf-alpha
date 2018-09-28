@@ -1,10 +1,8 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "./view-helpers.njk" import eligibilityFaqs %}
-
-{% extends "layouts/main.njk" %}
-{% set pageAccent = 'cyan' %}
 
 {% block content %}
     <main role="main">
