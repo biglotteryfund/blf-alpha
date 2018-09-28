@@ -851,7 +851,7 @@ funding:
     ineligible:
       title: Sorry, you’re ineligible
       strand1: >
-        <p>Sorry, you’re ineligible</p>
+        <p>Sorry, you’re probably not eligible for Strand 1 funding.</p>
         <p>This strand of the Digital Fund is specifically designed to help organisations that:</p>
         <ul>
           <li>Are medium or large in size</li>
@@ -864,16 +864,16 @@ funding:
         <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
         <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a></p>
       strand2: >
-        <p>Sorry, you’re ineligible</p>
-        <p>This kind of funding is only available to organisations that have already got a live service that’s being used to help a modest number of people, every week.</p>
+        <p>Sorry, you’re probably not eligible for Strand 2 funding.</p>
+        <p>This kind of funding is only available to organisations whose ideas are mature enough to be actually in operation, being used by people.</p>
         <p>For more information, please see the <a href="./eligibility">full detailed eligibility criteria</a> for this programme.</p>
         <p>If you are at an earlier stage than this, we recommend looking at:</p>
         <ul>
-          <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures</a>
-          <li><a href="https://socialtechtrust.org/">Social Tech Trust</a>
-          <li><a href="https://www.comicrelief.com/">Comic Relief</a>
-          <li><a href="https://www.unltd.org.uk/">UnLtd</a>
-          <li><a href="/funding/programmes/national-lottery-awards-for-all-england">National Lottery Awards for All</a>
+          <li><a href="/funding/programmes">Our other funding programmes</a>
+          <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (external)</a>
+          <li><a href="https://socialtechtrust.org/">Social Tech Trust (external)</a>
+          <li><a href="https://www.comicrelief.com/">Comic Relief (external)</a>
+          <li><a href="https://www.unltd.org.uk/">UnLtd (external)</a>
         </li>
     assistance:
       title: Help getting started with digital
