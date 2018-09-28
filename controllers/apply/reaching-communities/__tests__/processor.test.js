@@ -52,7 +52,6 @@ describe('processor', () => {
         });
 
         const results = await processor({
-            form: form,
             data: flattenFormData(mockFormData),
             copy: get(enCopy, form.lang),
             stepsWithValues: stepsWithValues(form.steps, mockFormData),

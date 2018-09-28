@@ -359,34 +359,37 @@ describe('e2e', function() {
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
     });
 
-    it('should submit a digital fund application form', () => {
-        const submitSelector = '.js-application-form input[type="submit"]';
+    it.only('should submit a digital fund application form', () => {
         cy.visit('/apply/digital-fund-strand-1/1/');
 
-        // Step 1
-        cy.get('#field-name').type('Anne Example', { delay: 0 });
+        cy.get('#field-name').type('Example Name', { delay: 0 });
         cy.get('#field-email').type('example@example.com', { delay: 0 });
         cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
-        cy.get('#field-about-your-organisation')
+        cy.get('#field-your-idea')
             .invoke('val', loremLong)
             .trigger('change');
 
-        cy.get(submitSelector).click();
+        cy.get('input[type="submit"]').click();
+        cy.get('h1').should('contain', 'Check this is right');
+        cy.get('input[type="submit"]').click();
+        cy.get('h1').should('contain', 'Thank you for getting in touch');
 
-        // Review, toggle answer
-        cy.get('.js-toggle-answer').as('toggleAnswer');
-        cy.get('@toggleAnswer')
-            .find('button')
-            .click();
+        cy.visit('/apply/digital-fund-strand-2/1/');
 
-        cy.get('@toggleAnswer').should('have.class', 'is-active');
-        cy.get('@toggleAnswer')
-            .find('button')
-            .should('contain', 'Show less')
-            .click();
-        cy.get(submitSelector).click();
+        cy.get('#field-name').type('Example Name', { delay: 0 });
+        cy.get('#field-email').type('example@example.com', { delay: 0 });
+        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
+        cy.get('#field-your-idea-product')
+            .invoke('val', loremLong)
+            .trigger('change');
 
-        // Success
+        cy.get('#field-technology')
+            .invoke('val', loremLong)
+            .trigger('change');
+
+        cy.get('input[type="submit"]').click();
+        cy.get('h1').should('contain', 'Check this is right');
+        cy.get('input[type="submit"]').click();
         cy.get('h1').should('contain', 'Thank you for getting in touch');
     });
 

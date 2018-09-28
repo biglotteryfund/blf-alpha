@@ -5,7 +5,7 @@ const appData = require('../../../modules/appData');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { DIGITAL_FUND_EMAIL } = require('../../../modules/secrets');
 
-module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
+module.exports = async function processor({ formModel, data, stepsWithValues, copy, mailTransport = null }) {
     const customerSendTo = {
         name: `${data['name']}`,
         address: data['email']
@@ -26,7 +26,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
         template: path.resolve(__dirname, './internal-email.njk'),
         templateData: {
             data: data,
-            title: copy.title,
+            description: formModel.description,
             stepsCopy: copy.steps,
             fieldsCopy: copy.fields,
             summary: stepsWithValues,
@@ -49,7 +49,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
             name: 'digital_fund_internal',
             mailConfig: {
                 sendTo: appData.isNotProduction ? customerSendTo : DIGITAL_FUND_EMAIL,
-                subject: `New Digital Fund submission: ${data['organisation-name']}`,
+                subject: `New submission for ${formModel.description} from ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml
             },

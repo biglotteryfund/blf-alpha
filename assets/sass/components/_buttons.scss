@@ -87,12 +87,18 @@ $btnConf: (
         @include disabledBtn();
     }
 
-    .btn__icon {
+    .btn__icon,
+    .btn__icon-right {
         vertical-align: middle;
         display: inline-block;
         line-height: 1;
         margin-right: 0.5em;
         margin-left: -5px; // Optically align
+    }
+
+    .btn__icon-right {
+        margin-left: 0.5em;
+        margin-right: -5px; // Optically align
     }
 }
 
@@ -294,11 +300,6 @@ $btnConf: (
 
 .start-button {
     margin: 1.5em 0;
-
-    .btn .icon {
-        fill: currentColor;
-        margin-left: 2px;
-    }
 }
 
 /* =========================================================================
