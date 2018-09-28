@@ -5,7 +5,7 @@ const { validateIsEmail } = require('../helpers');
 const processor = require('./processor');
 
 module.exports = strandNumber => {
-    const formLang = 'apply.digitalFunding';
+    const formLang = strandNumber === 1 ? 'apply.digitalFundStrand1' : 'apply.digitalFundStrand2';
 
     const fieldName = {
         type: 'text',

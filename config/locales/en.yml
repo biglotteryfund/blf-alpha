@@ -1012,13 +1012,13 @@ apply:
     review:
       title: 'Check this is right before submitting your idea'
       proceedLabel: 'Submit'
-  digitalFunding:
-    title: Digital Fund
+  digitalFundDefaults: &digitalFundDefaults
+    title: Let’s Talk
     description: 'The <a href="/funding/programmes/digital-funding">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     errorTitle: There was a problem with your submission
     fields:
       name:
-        label: Name
+        label: Your name
         errorMessage: Please provide your name
       email:
         label: Email address
@@ -1027,8 +1027,7 @@ apply:
         label: Organisation name
         errorMessage: Please provide the name of your organisation
       about-your-organisation:
-        label: About your organisation
-        helpText: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
+        label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
         lengthHint: Please keep it to a couple of paragraphs
         errorMessage: Briefly tell us what your organisation does
       how-technology-helps-scale:
@@ -1040,14 +1039,20 @@ apply:
         fieldsets:
         - legend: Your contact details
           introduction: Please tell us a little about your project and organisation so that we can get in touch
-        - legend: Your organisation
+        - legend: Your idea
     review:
       title: 'Check this is right before submitting your information'
       proceedLabel: 'Submit'
     success:
       title: 'Thank you for getting in touch'
-      message: 'We will get back to you with a fixed time for a call as quickly as we can.'
+      message: 'We’ll get back to you about a call as soon as we can.'
       nextStepsTitle: 'What happens next?'
+  digitalFundStrand1:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-funding/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+  digitalFundStrand2:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-funding/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest
