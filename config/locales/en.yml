@@ -653,7 +653,7 @@ funding:
     over10k: Awards over £10,000
   programmesClosed:
     title: Funding programmes closed to applicants
-  digitalFunding:
+  digitalFund:
     title: Digital fund
     intro: The digital fund is a two year £15m fund that will be open in phases, starting in October 2018. It is about enabling civil society organisations to serve people and communities more effectively.
     closedMessage: This fund opens for applications on 22nd October 2018
@@ -677,7 +677,7 @@ funding:
           <p>First, the Big Lottery Fund’s <a href="/funding/programmes">other funding programmes</a> are still open to you, and fully embrace digitally enabled ideas, so long as they help people and communities to thrive.</p>
           <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
           <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some free digital support from 2019.
-          <a href="/funding/programmes/digital-funding/assistance">Read more about that here</a></p>
+          <a href="/funding/programmes/digital-fund/assistance">Read more about that here</a></p>
     process:
       title: How the process works
       introduction: We don’t want you to have to sink a huge amount of time into preparation before we even talk for the first time. Here’s how we do things
@@ -869,7 +869,7 @@ funding:
         <p>There are, however, other possibilities.</p>
         <p>First, the Big Lottery Fund’s <a href="/funding/programmes">other funding programmes</a> are still open to you, and fully embrace digitally enabled ideas, so long as they help people and communities to thrive.</p>
         <p>Next, this is just the first phase of a two year programme. <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a> or keep checking back to find out what’s next.</p>
-        <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some <a href="/funding/programmes/digital-funding/assistance">free digital support from 2019</a></p>
+        <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a></p>
       strand2: >
         <p>Sorry, you’re ineligible</p>
         <p>This kind of funding is only available to organisations that have already got a live service that’s being used to help a modest number of people, every week.</p>
@@ -1014,7 +1014,7 @@ apply:
       proceedLabel: 'Submit'
   digitalFundDefaults: &digitalFundDefaults
     title: Let’s Talk
-    description: 'The <a href="/funding/programmes/digital-funding">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
+    description: 'The <a href="/funding/programmes/digital-fund">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     errorTitle: There was a problem with your submission
     fields:
       name:
@@ -1049,10 +1049,10 @@ apply:
       nextStepsTitle: 'What happens next?'
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-funding/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-funding/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest

@@ -72,16 +72,16 @@ const DOTMAILER_API = { user: getSecret('dotmailer.api.user'), password: getSecr
 const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 
 /**
- * Digital funding email
- * Email address used to send expressions of interest from digital funding applicaiton forms
+ * Digital fund email
+ * Email address used to send expressions of interest from digital fund applicaiton forms
  */
-const DIGITAL_FUNDING_EMAIL = process.env.DIGITAL_FUNDING_EMAIL || getSecret('emails.digitalfund.demo');
+const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
 module.exports = {
     AZURE_AUTH,
     CONTENT_API_URL,
     DB_CONNECTION_URI,
-    DIGITAL_FUNDING_EMAIL,
+    DIGITAL_FUND_EMAIL,
     DOTMAILER_API,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,

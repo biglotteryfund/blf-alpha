@@ -6,7 +6,7 @@ const { injectCopy, injectHeroImage } = require('../../middleware/inject-content
 
 const router = express.Router();
 
-router.use(injectHeroImage('digital-buddies-2'), injectCopy('funding.digitalFunding'), (req, res, next) => {
+router.use(injectHeroImage('digital-buddies-2'), injectCopy('funding.digitalFund'), (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
         {
             label: res.locals.title,

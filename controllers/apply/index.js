@@ -11,7 +11,7 @@ const cached = require('../../middleware/cached');
 
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
-const digitalFundingForm = require('./digital-funding/form-model');
+const digitalFundForm = require('./digital-fund/form-model');
 const youthCapacityForm = require('./youth-capacity/form-model');
 
 function initFormRouter(form) {
@@ -269,8 +269,8 @@ module.exports = ({ router }) => {
 
     if (appData.isNotProduction) {
         router.use('/youth-capacity', initFormRouter(youthCapacityForm));
-        router.use('/digital-funding-1', initFormRouter(digitalFundingForm(1)));
-        router.use('/digital-funding-2', initFormRouter(digitalFundingForm(2)));
+        router.use('/digital-fund-strand-1', initFormRouter(digitalFundForm(1)));
+        router.use('/digital-fund-strand-2', initFormRouter(digitalFundForm(2)));
     }
 
     return router;
