@@ -22,11 +22,11 @@
 
                     <div class="o-button-group u-margin-bottom">
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                           href="{{ localify('/apply/digital-funding-1/1') }}">
+                           href="{{ localify('/apply/digital-fund-strand-1/1') }}">
                             {{ __('global.misc.yes') }}
                         </a>
                         <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                            href="{{ localify('/funding/programmes/digital-funding/strand-1/eligibility/ineligible') }}">
+                            href="{{ localify('/funding/programmes/digital-fund/strand-1/eligibility/ineligible') }}">
                             {{ __('global.misc.no') }}
                         </a>
                     </div>
@@ -41,8 +41,8 @@
                                         <li>{{ criterion }}</li>
                                     {% endfor %}
                                 </ul>
-                                {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-1#eligibility') %}
-                                <p>{{ __('funding.digitalFunding.strand1.eligibilityDetail.unsure.readMore', readMoreLink) | safe }}</p>
+                                {% set readMoreLink = localify('/funding/programmes/digital-fund/strand-1#eligibility') %}
+                                <p>{{ __('funding.digitalFund.strand1.eligibilityDetail.unsure.readMore', readMoreLink) | safe }}</p>
                             </div>
                         </div>
                     </details>

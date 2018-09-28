@@ -359,9 +359,9 @@ describe('e2e', function() {
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
     });
 
-    it('should submit a digital funding application form', () => {
+    it('should submit a digital fund application form', () => {
         const submitSelector = '.js-application-form input[type="submit"]';
-        cy.visit('/apply/digital-funding-1/1/');
+        cy.visit('/apply/digital-fund-strand-1/1/');
 
         // Step 1
         cy.get('#field-name').type('Anne Example', { delay: 0 });
