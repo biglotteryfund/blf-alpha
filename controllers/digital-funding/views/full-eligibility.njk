@@ -25,7 +25,7 @@
                 </div>
 
                 {{ segmentLinks([{
-                    "title": copy.fullEligiblity.successFactors.title
+                    "title": copy.successFactors.title
                 }, {
                     "title": copy.eligibility.title
                 }, {
@@ -34,21 +34,25 @@
             </section>
 
             {% call contentBox(pageAccent, id="segment-1") %}
-                <h2>{{ copy.fullEligiblity.successFactors.title }}</h2>
+                <h2>{{ copy.successFactors.title }}</h2>
 
-                {{ copy.fullEligiblity.successFactors.strand1.body | safe }}
+                <p>{{ copy.strand1.introduction }}</p>
+                {{ copy.successFactors.strand1 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.fullEligiblity.successFactors.strand1.linkText }}
+                    {{ copy.strand1.startApplying }}
                 </a></p>
 
-                {{ copy.fullEligiblity.successFactors.strand2.body | safe }}
+                <p>{{ copy.strand2.introduction }}</p>
+                {{ copy.successFactors.strand2 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-funding/strand-2') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.fullEligiblity.successFactors.strand2.linkText }}
+                    {{ copy.strand2.startApplying }}
                 </a></p>
+
+                {{ copy.successFactors.equalities | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id = "segment-2") %}

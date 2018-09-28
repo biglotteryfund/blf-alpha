@@ -33,7 +33,7 @@
                     { "title": copy.process.title },
                     { "title": copy.eligibility.title },
                     { "title": copy.spending.title },
-                    { "title": copy.strand2.successFactors.title }
+                    { "title": copy.successFactors.title }
                 ] )}}
             </section>
 
@@ -74,8 +74,8 @@
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-4") %}
-                <h2>{{ copy.strand2.successFactors.title }}</h2>
-                {{ copy.strand2.successFactors.body | safe }}
+                <h2>{{ copy.successFactors.title }}</h2>
+                {{ copy.successFactors.strand2 | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-5") %}
