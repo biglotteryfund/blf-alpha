@@ -643,6 +643,46 @@ Array [
     "to": "/welsh/about/ebulletin",
   },
   Object {
+    "from": "/about-big/helping-millions-change-their-lives",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/about-big/helping-millions-change-their-lives",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/england/about-big/helping-millions-change-their-lives",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/england/about-big/helping-millions-change-their-lives",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/scotland/about-big/helping-millions-change-their-lives",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/helping-millions-change-their-lives",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/northernireland/about-big/helping-millions-change-their-lives",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/helping-millions-change-their-lives",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/wales/about-big/helping-millions-change-their-lives",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/helping-millions-change-their-lives",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
     "from": "/about-big/jobs",
     "to": "/jobs",
   },
@@ -920,6 +960,46 @@ Array [
   },
   Object {
     "from": "/welsh/wales/about-big/strategic-framework",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/about-big/strategic-framework/our-vision",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/about-big/strategic-framework/our-vision",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/england/about-big/strategic-framework/our-vision",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/england/about-big/strategic-framework/our-vision",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/scotland/about-big/strategic-framework/our-vision",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/strategic-framework/our-vision",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/northernireland/about-big/strategic-framework/our-vision",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/strategic-framework/our-vision",
+    "to": "/welsh/about/strategic-framework",
+  },
+  Object {
+    "from": "/wales/about-big/strategic-framework/our-vision",
+    "to": "/about/strategic-framework",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/strategic-framework/our-vision",
     "to": "/welsh/about/strategic-framework",
   },
   Object {
