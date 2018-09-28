@@ -661,8 +661,8 @@ funding:
     strand1:
       title: We want to use digital to change our business
       shortTitle: Using digital to change your business
-      teaserDescription: Grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward
-      introduction: Digital Fund Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+      teaserDescription: Grants of up to £500,000, plus a package of tailored support, to help established charities that want to use digital to help take a major leap forward
+      introduction: Digital Fund Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established charities that want to use digital to help take a major leap forward.
       startApplying: Start applying for strand 1
     strand2:
       title: We are already highly digital, and want to scale our impact
@@ -836,7 +836,7 @@ funding:
           <p>This programme is specifically designed to help organisations that:</p>
           <ul>
             <li>Are medium or large in size</li>
-            <li>Have structures and ways of working were developed before the internet became widespread</li>
+            <li>Have structures and ways of working which were developed before the internet became widespread</li>
             <li>Are looking to make a big change to the way they work</li>
             <li>Primarily help people in the UK</li>
           </ul>
@@ -855,7 +855,7 @@ funding:
         <p>This strand of the Digital Fund is specifically designed to help organisations that:</p>
         <ul>
           <li>Are medium or large in size</li>
-          <li>Have structures and ways of working were developed before the internet became widespread</li>
+          <li>Have structures and ways of working which were developed before the internet became widespread</li>
           <li>Are looking to make a big change to the way they work</li>
           <li>Primarily help people in the UK</li>
         </ul>
@@ -865,7 +865,7 @@ funding:
         <p>Finally, if you’re from a small charity or small community group, we’re planning on offering you some <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a></p>
       strand2: >
         <p>Sorry, you’re probably not eligible for Strand 2 funding.</p>
-        <p>This kind of funding is only available to organisations whose ideas are mature enough to be actually in operation, being used by people.</p>
+        <p>This kind of funding is only available to organisations whose ideas are mature enough to actually be in operation and being used by people.</p>
         <p>For more information, please see the <a href="./eligibility">full detailed eligibility criteria</a> for this programme.</p>
         <p>If you are at an earlier stage than this, we recommend looking at:</p>
         <ul>
@@ -1041,7 +1041,7 @@ apply:
       nextStepsTitle: What happens next?
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established charities that want to use digital to help take a major leap forward.
   digitalFundStrand2:
     <<: *digitalFundDefaults
     description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
