@@ -4,10 +4,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
-
 {% from "./view-helpers.njk" import wayfinding with context %}
-
-{% set pageAccent = 'cyan' %}
 
 {% block content %}
     <main role="main">
@@ -31,9 +28,9 @@
 
                 {{ segmentLinks([
                     { "title": copy.process.title },
-                    { "title": copy.strand2.eligibilityCriteria.title },
+                    { "title": copy.eligibility.title },
                     { "title": copy.spending.title },
-                    { "title": copy.strand2.successFactors.title }
+                    { "title": copy.successFactors.title }
                 ] )}}
             </section>
 
@@ -59,8 +56,13 @@
             </section>
 
             {% call contentBox(pageAccent, id='segment-2') %}
-                <h2>{{ copy.strand2.eligibilityCriteria.title }}</h2>
-                {{ copy.strand2.eligibilityCriteria.body | safe }}
+                <h2>{{ copy.eligibility.title }}</h2>
+                <ul>
+                    {% for criteria in copy.eligibility.strand2.criteria %}
+                        <li>{{ criteria }}</li>
+                    {% endfor %}
+                </ul>
+                {{ copy.eligibility.commonCriteria.body | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-3") %}
@@ -69,8 +71,8 @@
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-4") %}
-                <h2>{{ copy.strand2.successFactors.title }}</h2>
-                {{ copy.strand2.successFactors.body | safe }}
+                <h2>{{ copy.successFactors.title }}</h2>
+                {{ copy.successFactors.strand2 | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-5") %}

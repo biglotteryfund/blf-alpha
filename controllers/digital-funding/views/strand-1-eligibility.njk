@@ -4,7 +4,6 @@
 {% from "./view-helpers.njk" import eligibilityFaqs %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = 'blue' %}
 
 {% block content %}
     <main role="main">
@@ -50,7 +49,7 @@
 
                     <hr>
 
-                    {{ eligibilityFaqs(copy.eligibilityFaqs) }}
+                    {{ eligibilityFaqs(copy.eligibility.faqs) }}
                 </div>
             </section>
         </div>

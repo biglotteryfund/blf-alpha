@@ -5,7 +5,6 @@
 {% from "components/print-button/macro.njk" import printButton %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = 'blue' %}
 
 {% block content %}
     <main role="main">
@@ -25,73 +24,54 @@
                 </div>
 
                 {{ segmentLinks([{
-                    "title": copy.fullEligiblity.successFactors.title
+                    "title": copy.successFactors.title
+                }, {
+                    "title": copy.eligibility.title
                 }, {
                     "title": copy.spending.title
-                }, {
-                    "title": "Eligibility criteria"
                 }] )}}
             </section>
 
             {% call contentBox(pageAccent, id="segment-1") %}
-                <h2>{{ copy.fullEligiblity.successFactors.title }}</h2>
+                <h2>{{ copy.successFactors.title }}</h2>
 
-                {{ copy.fullEligiblity.successFactors.strand1.body | safe }}
+                <p>{{ copy.strand1.introduction }}</p>
+                {{ copy.successFactors.strand1 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-funding/strand-1') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.fullEligiblity.successFactors.strand1.linkText }}
+                    {{ copy.strand1.startApplying }}
                 </a></p>
 
-                {{ copy.fullEligiblity.successFactors.strand2.body | safe }}
+                <p>{{ copy.strand2.introduction }}</p>
+                {{ copy.successFactors.strand2 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-funding/strand-2') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.fullEligiblity.successFactors.strand2.linkText }}
+                    {{ copy.strand2.startApplying }}
                 </a></p>
+
+                {{ copy.successFactors.equalities | safe }}
             {% endcall %}
 
             {% call contentBox(pageAccent, id = "segment-2") %}
-                <h2>Eligibility criteria</h2>
+                <h2>{{ copy.eligibility.title }}</h2>
 
-                <p><strong>The following eligibility criteria apply to both strands of funding. There are specific criteria for each strand below this section.</strong></p>
+                <p><strong>{{ copy.eligibility.commonCriteria.summary }}</strong></p>
+                {{ copy.eligibility.commonCriteria.body | safe }}
 
-                <p>You can apply if you’re a:</p>
-
+                <h2>{{ copy.eligibility.strand1.title }}</h2>
                 <ul>
-                    <li>voluntary and community organisation</li>
-                    <li>registered charity</li>
-                    <li>social enterprise</li>
-                    <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
-                    <li>community interest companies (with two or more directors).</li>
+                    {% for criteria in copy.eligibility.strand1.criteria %}
+                        <li>{{ criteria }}</li>
+                    {% endfor %}
                 </ul>
 
-                <p>We <strong>can’t</strong> accept applications from:</p>
+                <h2>{{ copy.eligibility.strand2.title }}</h2>
                 <ul>
-                    <li>individuals</li>
-                    <li>sole traders</li>
-                    <li>organisations based outside the UK</li>
-                    <li>anyone who is applying on behalf of another organisation</li>
-                    <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
-                    <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
-                </ul>
-
-                <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
-
-                <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
-
-                <h2>Additional eligibility criteria that apply only to Strand 1:</h2>
-
-                <ul>
-                    <li>Your organisation must have an income over £500,000 per year. If your organisation had income of over £10m last year, we will ask for a matching contribution that will be tailored to your size.</li>
-                    <li>Your organisation must be incorporated within the UK, and must work primarily in the voluntary and community sector </li>
-                </ul>
-
-                <h2>Additional eligibility criteria that apply only to Strand 2:</h2>
-
-                <ul>
-                    <li>Your organisation must have been incorporated after the year 2000</li>
-                    <li>You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future</li>
+                    {% for criteria in copy.eligibility.strand2.criteria %}
+                        <li>{{ criteria }}</li>
+                    {% endfor %}
                 </ul>
             {% endcall %}
 

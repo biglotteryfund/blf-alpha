@@ -1,10 +1,8 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
-
-{% extends "layouts/main.njk" %}
-{% set pageAccent = 'cyan' %}
 
 {% block content %}
     <main role="main">
@@ -17,18 +15,8 @@
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
-
                 <div class="s-prose u-constrained">
-                    <p><strong>{{ copy.strand2.ineligible.subtitle }}</strong></p>
-
-                    {% set readMoreLink = localify('/funding/programmes/digital-funding/strand-2/eligibility') %}
-                    {{ __('funding.digitalFunding.strand2.ineligible.body', readMoreLink) | safe }}
-
-                    <ul>
-                        {% for link in copy.strand2.ineligible.links %}
-                            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                        {% endfor %}
-                    </ul>
+                    {{ bodyCopy | safe }}
                 </div>
             </section>
         </div>
