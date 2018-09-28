@@ -182,6 +182,9 @@ app.use('/tools', require('./controllers/tools'));
 // Mount user auth controller
 app.use('/user', require('./controllers/user'));
 
+// Mount design patterns controller
+app.use('/patterns', require('./controllers/pattern-library'));
+
 /**
  * Handle Aliases
  */

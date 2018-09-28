@@ -1,24 +1,25 @@
 'use strict';
-const appData = require('../../modules/appData');
+const express = require('express');
 
+const appData = require('../../modules/appData');
 const { initFormRouter } = require('./form-router');
 
-const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const digitalFundForm = require('./digital-fund/form-model');
+const reachingCommunitiesForm = require('./reaching-communities/form-model');
 const youthCapacityForm = require('./youth-capacity/form-model');
 
-module.exports = ({ router }) => {
-    router.get('/', (req, res) => {
-        res.redirect('/');
-    });
+const router = express.Router();
 
-    router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
+router.get('/', (req, res) => {
+    res.redirect('/');
+});
 
-    if (appData.isNotProduction) {
-        router.use('/youth-capacity', initFormRouter(youthCapacityForm));
-        router.use('/digital-fund-strand-1', initFormRouter(digitalFundForm.strand1));
-        router.use('/digital-fund-strand-2', initFormRouter(digitalFundForm.strand2));
-    }
+router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
 
-    return router;
-};
+if (appData.isNotProduction) {
+    router.use('/youth-capacity', initFormRouter(youthCapacityForm));
+    router.use('/digital-fund-strand-1', initFormRouter(digitalFundForm.strand1));
+    router.use('/digital-fund-strand-2', initFormRouter(digitalFundForm.strand2));
+}
+
+module.exports = router;

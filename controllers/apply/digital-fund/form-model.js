@@ -44,8 +44,8 @@ function buildStrand(strandNumber) {
         isRequired: true
     };
 
-    const fieldImpactScale = {
-        name: 'impact-and-scale',
+    const fieldTechnology = {
+        name: 'technology',
         type: 'textarea',
         rows: 12,
         isRequired: true
@@ -54,7 +54,7 @@ function buildStrand(strandNumber) {
     const step1 = {
         fieldsets: [
             { fields: [fieldName, fieldEmail, fieldOrgName] },
-            { fields: strandNumber === 1 ? [fieldIdea] : [fieldIdeaProduct, fieldImpactScale] }
+            { fields: strandNumber === 1 ? [fieldIdea] : [fieldIdeaProduct, fieldTechnology] }
         ]
     };
 

@@ -1021,10 +1021,10 @@ apply:
         label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
         lengthHint: Please keep it to a couple of paragraphs
         errorMessage: Briefly tell us what your organisation does
-      impact-and-scale:
-        label: Briefly tell us how technology helps you scale your impact
+      technology:
+        label: Briefly tell us how and why digital technology is a fundamental enabler of your project
         lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us how technology helps you scale your impact
+        errorMessage: Briefly tell us how and why digital technology is a fundamental enabler of your project
     steps:
       - name: Your details
         fieldsets:
