@@ -1013,11 +1013,15 @@ apply:
       organisation-name:
         label: Organisation name
         errorMessage: Please provide the name of your organisation
-      about-your-organisation:
+      your-idea:
         label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
         lengthHint: Please keep it to a couple of paragraphs
         errorMessage: Briefly tell us what your organisation does
-      how-technology-helps-scale:
+      your-idea-product:
+        label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      impact-and-scale:
         label: Briefly tell us how technology helps you scale your impact
         lengthHint: Please keep it to a couple of paragraphs
         errorMessage: Briefly tell us how technology helps you scale your impact

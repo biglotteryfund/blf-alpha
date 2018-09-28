@@ -4,7 +4,7 @@ const path = require('path');
 const { validateIsEmail } = require('../helpers');
 const processor = require('./processor');
 
-module.exports = strandNumber => {
+function buildStrand(strandNumber) {
     const formLang = strandNumber === 1 ? 'apply.digitalFundStrand1' : 'apply.digitalFundStrand2';
 
     const fieldName = {
@@ -30,15 +30,22 @@ module.exports = strandNumber => {
         isRequired: true
     };
 
-    const fieldAbout = {
-        name: 'about-your-organisation',
+    const fieldIdea = {
+        name: 'your-idea',
         type: 'textarea',
         rows: 12,
         isRequired: true
     };
 
-    const fieldScale = {
-        name: 'how-technology-helps-scale',
+    const fieldIdeaProduct = {
+        name: 'your-idea-product',
+        type: 'textarea',
+        rows: 12,
+        isRequired: true
+    };
+
+    const fieldImpactScale = {
+        name: 'impact-and-scale',
         type: 'textarea',
         rows: 12,
         isRequired: true
@@ -47,7 +54,7 @@ module.exports = strandNumber => {
     const step1 = {
         fieldsets: [
             { fields: [fieldName, fieldEmail, fieldOrgName] },
-            { fields: strandNumber === 1 ? [fieldAbout] : [fieldAbout, fieldScale] }
+            { fields: strandNumber === 1 ? [fieldIdea] : [fieldIdeaProduct, fieldImpactScale] }
         ]
     };
 
@@ -62,4 +69,9 @@ module.exports = strandNumber => {
         startPage: { urlPath: `/funding/programmes/digital-fund/strand-${strandNumber}` },
         successStep: { template: path.resolve(__dirname, './success') }
     };
+}
+
+module.exports = {
+    strand1: buildStrand(1),
+    strand2: buildStrand(2)
 };

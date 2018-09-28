@@ -43,9 +43,8 @@ describe('processor', () => {
             buffer: true
         });
 
-        const form = formModel(1);
+        const form = formModel.strand1;
         const results = await processor({
-            form: form,
             data: flattenFormData(mockFormData),
             stepsWithValues: stepsWithValues(form.steps, mockFormData),
             mailTransport: mockTransport,
