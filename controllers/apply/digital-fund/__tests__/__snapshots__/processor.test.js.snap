@@ -15,7 +15,6 @@ Thank you for getting in touch with us.
 Here is a copy of the information =
 you've submitted. We'll be in touch as soon as we can.
 
-YOUR INFORMATION
 YOUR DETAILS
 YOUR NAME
 Example Person
@@ -86,24 +85,22 @@ us.</p>
     <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
 font-weight: 400; line-height: 1.35;\\">Here is a copy of the information =
 you've submitted. We'll be in touch as soon as we can.</p>
-
-    <h2 style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; =
-font-size: 22px;\\">Your information</h2>
    =20
     <div class=3D\\"summary\\">
        =20
-            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 16px; border-bottom: 1px solid #e20087; padding-bottom: 3px; =
-font-weight: 700;\\">Your details</h4>
+            <h4 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid =
+#e20087; padding-bottom: 3px; font-weight: 700;\\">Your details</h4>
            =20
                    =20
                    =20
-                        <h5 style=3D\\"color: #e20087;=
- margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Your name</h5>
-                       =20
-                            <p style=3D\\"color: =
-#333; font-family: arial; font-size: 20px; font-weight: 400; line-height: 1=
-.35;\\">Example Person</p>
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Your name</h5>
+                       =
+=20
+                            <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example =
+Person</p>
                        =20
                    =20
                    =20

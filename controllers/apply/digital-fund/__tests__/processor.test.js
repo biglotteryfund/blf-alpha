@@ -45,6 +45,7 @@ describe('processor', () => {
 
         const form = formModel.strand1;
         const results = await processor({
+            formModel: formModel,
             data: flattenFormData(mockFormData),
             stepsWithValues: stepsWithValues(form.steps, mockFormData),
             mailTransport: mockTransport,
