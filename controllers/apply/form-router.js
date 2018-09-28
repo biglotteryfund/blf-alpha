@@ -216,6 +216,7 @@ function initFormRouter(form) {
             } else {
                 try {
                     await form.processor({
+                        formModel: form,
                         data: flattenFormData(formData),
                         stepsWithValues: stepsWithValues(form.steps, formData),
                         copy: res.locals.copy

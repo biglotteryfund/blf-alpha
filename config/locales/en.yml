@@ -1035,9 +1035,10 @@ apply:
       title: 'Check this is right before submitting your information'
       proceedLabel: 'Submit'
     success:
-      title: 'Thank you for getting in touch'
-      message: 'We’ll get back to you about a call as soon as we can.'
-      nextStepsTitle: 'What happens next?'
+      title: Thank you for getting in touch
+      confirmation: We have emailed you a copy of your submission
+      message: We’ll get back to you about a call as soon as we can.
+      nextStepsTitle: What happens next?
   digitalFundStrand1:
     <<: *digitalFundDefaults
     description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.

@@ -2,6 +2,6 @@
 {% from "../views/view-helpers.njk" import emailSummary %}
 
 {% block content %}
-    <h1>New submission for {{ title }}</h1>
+    <h1>New submission for {{ description }}</h1>
     {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
 {% endblock %}

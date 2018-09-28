@@ -60,6 +60,7 @@ function buildStrand(strandNumber) {
 
     return {
         id: `digital-fund-strand-${strandNumber}`,
+        description: `Digital Fund Strand ${strandNumber}`,
         pageAccent: strandNumber === 1 ? 'blue' : 'cyan',
         shortCode: `DF-STRAND-${strandNumber}`,
         lang: formLang,
