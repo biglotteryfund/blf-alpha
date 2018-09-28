@@ -837,7 +837,7 @@ funding:
       title: We are already highly digital, and want to scale our impact
       shortTitle: Scale your impact
       teaserDescription: Grants of up to £500,000 for tech for good organisations that have already launched promising services
-      introduction: Digital Fund Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
+      introduction: Digital Fund Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
       startApplying: Start applying for strand 2
       eligibilityDetail:
         title: Request a call
@@ -908,10 +908,7 @@ funding:
           url: 'https://digitalmaturity.co.uk/'
     fullEligiblity:
       title: Full eligibility criteria
-      introduction: >
-        <p>The Digital Fund will open in phases over the next two years.  The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.</p>
-        <p>Strand 1 offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.</p>
-        <p>Strand 2 offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact</p>
+      introduction: The Digital Fund will open in phases over the next two years. The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.
 research:
   detail:
     documents: Documents
@@ -1052,7 +1049,7 @@ apply:
     description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000, plus a package of tailored support, to help established established charities that want to use digital to help take a major leap forward.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that uses digital to achieve scale or impact.
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest
