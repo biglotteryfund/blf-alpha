@@ -54,6 +54,7 @@
 .content-sidebar {
     @include mq('medium-major') {
         display: flex;
+        flex: 1;
     }
 
     .content-sidebar__primary {
@@ -62,14 +63,15 @@
         margin-bottom: $spacingUnit;
 
         @include mq('medium-major') {
-            flex: 0 0 68%;
+            max-width: 100%;
+            flex: 1 1 0%;
             padding-right: $spacingUnit;
         }
     }
 
     .content-sidebar__secondary {
         @include mq('medium-major') {
-            flex: 0 0 32%;
+            flex: 0 0 320px;
         }
     }
 }
