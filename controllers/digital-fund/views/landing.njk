@@ -19,7 +19,9 @@
                 {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
-                    <p><strong>{{ copy.closedMessage }}</strong></p>
+                    {% if not featurePreviewDigitalFund %}
+                        <p><strong>{{ copy.closedMessage }}</strong></p>
+                    {% endif %}
                 </div>
             </section>
 

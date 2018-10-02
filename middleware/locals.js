@@ -130,11 +130,11 @@ module.exports = {
 
         /**
          * Allows feature flags to be passed through as query strings
-         * e.g. ?feature=use-new-header
+         * e.g. ?enable-feature=use-new-header
          * Useful for testing new features
          */
-        res.locals.queryFeature = function(name) {
-            const featureNames = ['use-new-header'];
+        function queryFeature(name) {
+            const featureNames = ['use-new-header', 'preview-digital-fund'];
             const enableFeatures = req.query['enable-feature'] ? req.query['enable-feature'].split(',') : [];
             const disableFeatures = req.query['disable-feature'] ? req.query['disable-feature'].split(',') : [];
 
@@ -169,7 +169,11 @@ module.exports = {
             } else {
                 return false;
             }
-        };
+        }
+
+        /* Configure per-feature queries for use in templates */
+        res.locals.featureUseNewHeader = appData.isNotProduction && queryFeature('use-new-header');
+        res.locals.featurePreviewDigitalFund = appData.isNotProduction && queryFeature('preview-digital-fund');
 
         next();
     }

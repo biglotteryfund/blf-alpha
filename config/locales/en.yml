@@ -703,7 +703,8 @@ funding:
       getStarted:
         title: Get started
         body: >
-          <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call</p>
+          <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call.</p>
+        teaser: If you think this fund might be right for you, the first stage is to talk to us.
         linkText: Request a call
         disabledLinkText: Opens on 22nd October
     questions:
