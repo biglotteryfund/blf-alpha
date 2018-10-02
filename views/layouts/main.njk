@@ -1,4 +1,4 @@
-{% set useNewHeader = appData.isNotProduction and queryFeature('use-new-header') %}
+{% set useNewHeader = appData.isNotProduction and featureUseNewHeader %}
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
 <!doctype html>
