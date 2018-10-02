@@ -6,7 +6,6 @@
 const config = require('config');
 const rp = require('request-promise-native');
 const uuidv4 = require('uuid/v4');
-const { getFullUrl } = require('./urls');
 
 const gaCode = config.get('googleAnalyticsCode');
 
@@ -42,14 +41,6 @@ function customEvent(category, action, label) {
     return sendPayload(payload);
 }
 
-function trackPageview(req) {
-    return sendPayload({
-        t: 'pageview',
-        dl: getFullUrl(req)
-    });
-}
-
 module.exports = {
-    customEvent,
-    trackPageview
+    customEvent
 };
