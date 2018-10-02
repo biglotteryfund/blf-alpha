@@ -4,6 +4,8 @@ const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
 const { concat, pick, isEmpty } = require('lodash');
+const nunjucks = require('nunjucks');
+const Raven = require('raven');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs } = require('../../middleware/inject-content');
@@ -92,8 +94,36 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
 
 router
     .route('/')
-    .get(async (req, res) => {
+    .post(async (req, res) => {
+        // @TODO how can this handle page numbers / sort options?
+        // Do we need hidden input fields?
+        const queryWithPage = addPaginationParameters(buildAllowedParams(req.body), req.body.page);
+        const grantData = await queryGrantsApi(queryWithPage);
 
+        // Repopulate existing app globals so Nunjucks can read them
+        // outside of Express's view engine context
+        const context = Object.assign({}, res.locals, { grants: grantData.results });
+        const template = path.resolve(__dirname, './views/ajax-results.njk');
+
+        nunjucks.render(template, context, (renderErr, html) => {
+            if (renderErr) {
+                Raven.captureException(renderErr);
+                res.send({
+                    status: 'error'
+                });
+            } else {
+                res.send(
+                    JSON.stringify({
+                        status: 'success',
+                        meta: grantData.meta,
+                        facets: grantData.facets,
+                        resultsHtml: html
+                    })
+                );
+            }
+        });
+    })
+    .get(async (req, res) => {
         const facetParams = buildAllowedParams(req.query);
         const queryWithPage = addPaginationParameters(facetParams, req.query.page);
         const data = await queryGrantsApi(queryWithPage);
