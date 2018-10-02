@@ -103,14 +103,12 @@ router
                     status: 'error'
                 });
             } else {
-                res.send(
-                    JSON.stringify({
-                        status: 'success',
-                        meta: grantData.meta,
-                        facets: grantData.facets,
-                        resultsHtml: html
-                    })
-                );
+                res.send({
+                    status: 'success',
+                    meta: grantData.meta,
+                    facets: grantData.facets,
+                    resultsHtml: html
+                });
             }
         });
     })
