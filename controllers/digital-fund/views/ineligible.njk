@@ -16,7 +16,14 @@
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="s-prose u-constrained">
-                    {{ bodyCopy | safe }}
+                    <p>{{ strandCopy.ineligible.introduction }}</p>
+                    <p>{{ strandCopy.eligibilitySummary.introduction }}</p>
+                    <ul>
+                        {% for item in strandCopy.eligibilitySummary.criteria %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {{ strandCopy.ineligible.body | safe }}
                 </div>
             </section>
         </div>
