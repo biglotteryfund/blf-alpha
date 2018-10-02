@@ -1,7 +1,7 @@
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "components/form-fields.njk" import formField with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "./grant-results.njk" import grantResultList with context %}
 
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
@@ -32,49 +32,7 @@
 
                 <div class="grants-search__content">
                     <div class="grants-search__results">
-                        {% if grants.length > 0 %}
-                            {% for grant in grants %}
-                                <div class="u-margin-bottom">
-                                    {% set subtitle %}
-                                        £{{ grant.amountAwarded | numberWithCommas}} to
-                                        <strong>{{ grant.recipientOrganization[0].name }}</strong>
-                                        on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                                        {% if grant.plannedDates.endDate | isBeforeNow %}
-                                            <strong>(Active project)</strong>
-                                        {% endif %}
-                                    {% endset %}
-                                    {% call promoCard({
-                                        "kicker": "Active programme",
-                                        "title": grant.title,
-                                        "subtitle": subtitle | safe,
-                                        "trailText": grant.description,
-                                        "link": {
-                                            "url": "/funding/search-past-grants-alpha/" + grant.id,
-                                            "label": "View full details"
-                                        }
-                                    }) %}
-                                        <dl class="o-definition-list o-definition-list--compact">
-                                            {% if grant.beneficiaryLocation %}
-                                                <dt>Location</dt>
-                                                <dd>
-                                                {% set comma = joiner() %}
-                                                {% for location in grant.beneficiaryLocation -%}
-                                                    {{ comma() }} {{ location.name }}
-                                                {%- endfor %}
-                                                </dd>
-                                            {% endif %}
-                                            <dt>Grant programme</dt>
-                                            {% for programme in grant.grantProgramme %}
-                                                <dd><a href="?programme={{ programme.title }}">{{ programme.title }}</a></dd>
-                                            {% endfor %}
-                                        </dl>
-                                    {% endcall %}
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <p>No results</p>
-                        {% endif %}
-
+                        {{ grantResultList(grants) }}
                         {{ splitNav(pagination.prevLink, pagination.nextLink) }}
                     </div>
 
