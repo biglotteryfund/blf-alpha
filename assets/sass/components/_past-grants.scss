@@ -91,14 +91,29 @@
         font-size: 16px;
     }
 
-    .form-field {
+    .search-filters__facet {
         margin-bottom: $filterSpacing;
         background-color: white;
         padding: $filterSpacing;
     }
 
-    .form-actions {
+    .search-filters__actions {
         padding: 5px 0;
-        border: none;
+
+        > .btn {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        > .btn-link {
+            font-size: 16px;
+        }
+    }
+
+    .search-filters__clear-facet {
+        display: block;
+        padding-top: 5px;
+        font-size: 15px;
     }
 }
