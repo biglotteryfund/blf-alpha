@@ -54,16 +54,7 @@ function buildPagination(paginationMeta, currentQuery = {}) {
  * @type {object}
  */
 function buildAllowedParams(queryParams) {
-    const allowedParams = [
-        'q',
-        'amount',
-        'postcode',
-        'programme',
-        'year',
-        'orgType',
-        'sort',
-        'country'
-    ];
+    const allowedParams = ['q', 'amount', 'postcode', 'programme', 'year', 'orgType', 'sort', 'country'];
     return pick(queryParams, allowedParams);
 }
 
