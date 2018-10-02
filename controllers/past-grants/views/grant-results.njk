@@ -1,0 +1,51 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+{% macro grantResultItem(grant) %}
+    <div class="u-margin-bottom">
+        {% set subtitle %}
+            £{{ grant.amountAwarded | numberWithCommas}} to
+            <strong>{{ grant.recipientOrganization[0].name }}</strong>
+            on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+            {% if grant.plannedDates.endDate | isBeforeNow %}
+                <strong>(Active project)</strong>
+            {% endif %}
+        {% endset %}
+        {% call promoCard({
+            "kicker": "Active programme",
+            "title": grant.title,
+            "subtitle": subtitle | safe,
+            "trailText": grant.description,
+            "link": {
+                "url": "/funding/search-past-grants-alpha/" + grant.id,
+                "label": "View full details"
+            }
+        }) %}
+            <dl class="o-definition-list o-definition-list--compact">
+                {% if grant.beneficiaryLocation %}
+                    <dt>Location</dt>
+                    <dd>
+                        {% set comma = joiner() %}
+                        {% for location in grant.beneficiaryLocation -%}
+                            {{ comma() }} {{ location.name }}
+                        {%- endfor %}
+                    </dd>
+                {% endif %}
+                <dt>Grant programme</dt>
+                {% for programme in grant.grantProgramme %}
+                    <dd><a href="?programme={{ programme.title }}">{{ programme.title }}</a></dd>
+                {% endfor %}
+            </dl>
+        {% endcall %}
+    </div>
+{% endmacro %}
+
+{% macro grantResultList(grants) %}
+    {% if grants.length > 0 %}
+        {% for grant in grants %}
+            {{ grantResultItem(grant) }}
+        {% endfor %}
+    {% else %}
+        {# @TODO add suggested search results etc #}
+        <p>No results</p>
+    {% endif %}
+{% endmacro %}
