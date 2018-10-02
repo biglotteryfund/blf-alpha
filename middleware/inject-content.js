@@ -1,5 +1,5 @@
 'use strict';
-const { flatten, get, getOr, last } = require('lodash/fp');
+const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
 
@@ -155,10 +155,14 @@ function injectCaseStudies(caseStudySlugs = []) {
     };
 }
 
+/**
+ * Inject funding programme detail
+ * Assumes a parameter of :slug in the request
+ */
 async function injectFundingProgramme(req, res, next) {
     try {
         const entry = await contentApi.getFundingProgramme({
-            slug: last(req.path.split('/')), // @TODO: Is there a cleaner way to define this?
+            slug: req.params.slug,
             locale: req.i18n.getLocale(),
             previewMode: res.locals.PREVIEW_MODE || false
         });
