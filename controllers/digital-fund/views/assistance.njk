@@ -23,15 +23,13 @@
                     {{ copy.assistance.body | safe }}
 
                     {% if status === 'SUBMISSION_SUCCESS' %}
-                        <div class="email-signup">
-                            <div class="submission-message">
-                                <div class="submission-message__icon">
-                                    {{ iconTick() }}
-                                </div>
-                                <div class="submission-message__text">
-                                    <p><strong>{{ copy.assistance.submission.success.title }}</strong></p>
-                                    <p>{{ copy.assistance.submission.success.message }}</p>
-                                </div>
+                        <div class="submission-message u-tone-background-pale-grey u-padded">
+                            <div class="submission-message__icon">
+                                {{ iconTick() }}
+                            </div>
+                            <div class="submission-message__text">
+                                <p><strong>{{ copy.assistance.submission.success.title }}</strong></p>
+                                <p>{{ copy.assistance.submission.success.message }}</p>
                             </div>
                         </div>
                     {% else %}
@@ -41,7 +39,7 @@
                             </div>
                         {% endif %}
 
-                        <form class="email-signup" method="post" action="">
+                        <form class="u-tone-background-pale-grey u-padded" method="post" action="">
                             {{ formErrors(errors) }}
 
                             <label for="email" class="ff-label">
@@ -52,13 +50,14 @@
                                 {{ copy.assistance.submission.explanation }}
                             </p>
 
-                            <div class="email-signup__field">
-                                <input class="email-signup__field-input"
+                            <div class="form-field-addon u-constrained">
+                                <input class="form-field-addon__input"
                                     id="email"
                                     type="email"
                                     name="email"
+                                    placeholder="your.email@example.com"
                                 />
-                                <input class="email-signup__field-action"
+                                <input class="form-field-addon__action"
                                     type="submit"
                                     value="{{ copy.assistance.submission.proceedLabel }}"
                                 />
