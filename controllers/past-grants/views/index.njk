@@ -36,13 +36,13 @@
                             <span class="sort-controls__prefix">
                                 Sort:
                             </span>
-                            {% if currentSort.type === 'awardDate' and currentSort.direction === 'desc' %}
+                            {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
                                     aria-label="Sort by newest first">
                                     Award date
                                 </a>
-                            {% elseif currentSort.type === 'awardDate' and currentSort.direction === 'asc'  %}
+                            {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
                                     aria-label="Sort by oldest first">
@@ -56,13 +56,13 @@
                                 </a>
                             {% endif %}
 
-                            {% if currentSort.type === 'amountAwarded' and currentSort.direction === 'desc' %}
+                            {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
                                     aria-label="Sort by higest amount awarded first">
                                     Amount awarded
                                 </a>
-                            {% elseif currentSort.type === 'amountAwarded' and currentSort.direction === 'asc'  %}
+                            {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
                                     aria-label="Sort by lowest amount awarded first">
@@ -76,8 +76,8 @@
                                 </a>
                             {% endif %}
 
-                            {% if currentSort %}
-                                <input type="hidden" name="sort" value="{{ currentSort.type }}|{{ currentSort.direction }}">
+                            {% if meta.currentSort %}
+                                <input type="hidden" name="sort" value="{{ meta.currentSort.type }}|{{ meta.currentSort.direction }}">
                             {% endif %}
                         </div>
                     </div>
