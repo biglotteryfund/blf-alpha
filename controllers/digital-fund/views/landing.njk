@@ -2,6 +2,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "./view-helpers.njk" import strandTeaserCard %}
+{% set featurePreviewDigitalFund = appData.isNotProduction and featurePreviewDigitalFund %}
 
 {% extends "layouts/main.njk" %}
 
@@ -19,7 +20,9 @@
                 {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
-                    <p><strong>{{ copy.closedMessage }}</strong></p>
+                    {% if not featurePreviewDigitalFund %}
+                        <p><strong>{{ copy.closedMessage }}</strong></p>
+                    {% endif %}
                 </div>
             </section>
 

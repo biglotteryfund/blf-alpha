@@ -5,6 +5,9 @@
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 {% from "./view-helpers.njk" import wayfinding with context %}
+{% set featurePreviewDigitalFund = appData.isNotProduction and featurePreviewDigitalFund %}
+
+{% set eligibilityLink = localify('/funding/programmes/digital-fund/strand-1/eligibility') %}
 
 {% block content %}
     <main role="main">
@@ -22,9 +25,11 @@
                     <p>{{ copy.strand1.introduction }}</p>
                 </div>
 
-                <div class="message">
-                    {{ copy.closedMessage }}
-                </div>
+                {% if not featurePreviewDigitalFund %}
+                    <div class="message">
+                        {{ copy.closedMessage }}
+                    </div>
+                {% endif %}
 
                 {{ segmentLinks([
                     { "title": copy.process.title },
@@ -45,9 +50,21 @@
                     <div class="content-sidebar__secondary">
                         <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
                             <header class="card__header">
-                                <h3 class="card__title">{{ copy.closedMessage }}</h3>
+                                <h3 class="card__title">
+                                    {% if featurePreviewDigitalFund %}
+                                        {{ copy.process.getStarted.title }}
+                                    {% else %}
+                                        {{ copy.closedMessage }}
+                                    {% endif %}
+                                </h3>
                                 <div class="card__body">
                                     {{ copy.process.getStarted.body | safe }}
+                                    {% if featurePreviewDigitalFund %}
+                                        <a href="{{ eligibilityLink }}"
+                                           class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                                            {{ copy.process.getStarted.linkText }}
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </header>
                         </aside>
@@ -75,7 +92,20 @@
                 {{ copy.successFactors.strand1 | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="segment-5") %}
+            {% if featurePreviewDigitalFund %}
+                {% call contentBox(pageAccent, id="segment-5") %}
+                    <h2>{{ copy.process.getStarted.title }}</h2>
+                    <p>{{ copy.process.getStarted.teaser }}</p>
+                    <p>
+                        <a href="{{ eligibilityLink }}"
+                           class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                            {{ copy.process.getStarted.linkText }}
+                        </a>
+                    </p>
+                {% endcall %}
+            {% endif %}
+
+            {% call contentBox(pageAccent, id="segment-6") %}
                 <h2>{{ copy.questions.title }}</h2>
                 {{ copy.questions.body | safe }}
             {% endcall %}
