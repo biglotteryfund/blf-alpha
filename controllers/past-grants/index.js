@@ -47,6 +47,41 @@ function buildPagination(paginationMeta, currentQuery = {}) {
     }
 }
 
+/**
+ * Pick out an allowed list of query parameters to forward on to the grants API
+ * @type {object}
+ */
+function buildAllowedParams(queryParams) {
+    const allowedParams = [
+        'q',
+        'amount',
+        'postcode',
+        'programme',
+        'year',
+        'orgType',
+        'sort',
+        'country'
+    ];
+    return pick(queryParams, allowedParams);
+}
+
+/**
+ * Append a page number parameter to a map of query parameters
+ * @type {object}
+ */
+function addPaginationParameters(existingParams, pageNumber = 1) {
+    return Object.assign({}, existingParams, { page: pageNumber });
+}
+
+// Query the API with a set of parameters and return a promise
+async function queryGrantsApi(parameters) {
+    return request({
+        url: PAST_GRANTS_API_URI,
+        json: true,
+        qs: parameters
+    });
+}
+
 router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Search past grants',
@@ -55,72 +90,66 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-router.get('/', async (req, res) => {
-    /**
-     * Pick out an allowed list of query parameters for forward on to the grants API
-     * @type {object}
-     */
-    const facetParams = pick(req.query, ['q', 'amount', 'postcode', 'programme', 'year', 'orgType', 'sort']);
-    const queryWithPage = Object.assign({}, facetParams, { page: req.query.page || 1 });
+router
+    .route('/')
+    .get(async (req, res) => {
 
-    const data = await request({
-        url: PAST_GRANTS_API_URI,
-        json: true,
-        qs: queryWithPage
-    });
+        const facetParams = buildAllowedParams(req.query);
+        const queryWithPage = addPaginationParameters(facetParams, req.query.page);
+        const data = await queryGrantsApi(queryWithPage);
 
-    const commonSortOptions = [
-        {
-            label: 'Oldest first',
-            value: 'awardDate|desc'
-        },
-        {
-            label: 'Lowest amount first',
-            value: 'amountAwarded|asc'
-        },
-        {
-            label: 'Highest amount first',
-            value: 'amountAwarded|desc'
+        const commonSortOptions = [
+            {
+                label: 'Oldest first',
+                value: 'awardDate|desc'
+            },
+            {
+                label: 'Lowest amount first',
+                value: 'amountAwarded|asc'
+            },
+            {
+                label: 'Highest amount first',
+                value: 'amountAwarded|desc'
+            }
+        ];
+
+        let sortOptions = [];
+        if (facetParams.q) {
+            sortOptions = concat(
+                [
+                    {
+                        label: 'Most relevant first',
+                        value: ''
+                    },
+                    {
+                        label: 'Newest first',
+                        value: 'awardDate|asc'
+                    }
+                ],
+                commonSortOptions
+            );
+        } else {
+            sortOptions = concat(
+                [
+                    {
+                        label: 'Newest first',
+                        value: ''
+                    }
+                ],
+                commonSortOptions
+            );
         }
-    ];
 
-    let sortOptions = [];
-    if (facetParams.q) {
-        sortOptions = concat(
-            [
-                {
-                    label: 'Most relevant first',
-                    value: ''
-                },
-                {
-                    label: 'Newest first',
-                    value: 'awardDate|asc'
-                }
-            ],
-            commonSortOptions
-        );
-    } else {
-        sortOptions = concat(
-            [
-                {
-                    label: 'Newest first',
-                    value: ''
-                }
-            ],
-            commonSortOptions
-        );
-    }
-
-    res.render(path.resolve(__dirname, './views/index'), {
-        title: 'Past grants search',
-        queryParams: isEmpty(facetParams) ? false : facetParams,
-        grants: data.results,
-        facets: data.facets,
-        meta: data.meta,
-        sortOptions: sortOptions,
-        pagination: buildPagination(data.meta.pagination, queryWithPage)
+        res.render(path.resolve(__dirname, './views/index'), {
+            title: 'Past grants search',
+            queryParams: isEmpty(facetParams) ? false : facetParams,
+            grants: data.results,
+            facets: data.facets,
+            meta: data.meta,
+            sortOptions: sortOptions,
+            pagination: buildPagination(data.meta.pagination, queryWithPage)
+        });
     });
-});
 
 router.get('/:id', async (req, res, next) => {
     try {
