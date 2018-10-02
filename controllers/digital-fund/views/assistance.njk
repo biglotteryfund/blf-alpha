@@ -52,14 +52,17 @@
                                 {{ copy.assistance.submission.explanation }}
                             </p>
 
-                            <input id="email"
+                            <div class="email-signup__field">
+                                <input class="email-signup__field-input"
+                                    id="email"
                                     type="email"
                                     name="email"
-                                    class="ff-text ff-text--inline"
-                                    size="30"/>
-
-                            <input class="btn btn--small accent--blue a--btn"
-                                type="submit" value="{{ copy.assistance.submission.proceedLabel }}" />
+                                />
+                                <input class="email-signup__field-action"
+                                    type="submit"
+                                    value="{{ copy.assistance.submission.proceedLabel }}"
+                                />
+                            </div>
                         </form>
                     {% endif %}
 

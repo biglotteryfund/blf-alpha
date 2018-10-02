@@ -136,34 +136,54 @@
     $counterSize: 52px;
 
     @include reset-list();
-    padding-left: $spacingUnit;
-    margin-left: $counterSize / 2;
-    border-left: 4px solid palette('border');
-    max-width: $constrained;
     counter-reset: step-counter;
+    max-width: $constrained;
+    position: relative;
+
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 4px;
+        top: 0;
+        left: $counterSize / 2;
+        height: 100%;
+        background: palette('border');
+    }
 
     .step-progress__item {
         counter-increment: step-counter;
-        position: relative;
-        padding: 0.5em 0 0 $spacingUnit;
-        margin: 0 0 $spacingUnit * 2 0;
+        padding-bottom: $spacingUnit;
         list-style: none;
+        position: relative;
+        z-index: 2;
+        display: flex;
 
         &:before {
             content: counter(step-counter);
+
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 $counterSize;
+            height: $counterSize;
+            line-height: $counterSize - 4px;
+            margin-right: $spacingUnit;
+
             font-size: 21px;
             font-weight: bold;
-            position: absolute;
-            left: -($counterSize - 4px);
-            line-height: $counterSize - 4px;
-            width: $counterSize;
-            height: $counterSize;
-            top: 0;
-            background: white;
             border: 2px solid;
             border-radius: 50%;
             outline: 6px solid white;
+            background: white;
             text-align: center;
+        }
+
+        &:last-child {
+            background: white;
+        }
+
+        .step-progress__content {
+            flex: 1 1 auto;
         }
     }
 
@@ -177,6 +197,6 @@
 
     .step-progress__item-title {
         font-size: 18px;
-        margin-bottom: 5px;
+        margin: 5px 0;
     }
 }

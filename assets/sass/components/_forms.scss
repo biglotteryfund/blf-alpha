@@ -142,11 +142,6 @@
         border-left: none;
         margin: 0;
     }
-
-    &.ff-text--inline {
-        display: inline-block;
-        margin-right: $spacingUnit;
-    }
 }
 
 .ff-field-prepend {
@@ -487,12 +482,41 @@
     }
 }
 
+/* =========================================================================
+   Email Signup
+   ========================================================================= */
+
 .email-signup {
     background-color: palette('pale-grey');
     padding: $spacingUnit;
 
-    input[type='submit'] {
-        display: inline-block;
-        vertical-align: middle;
+    .email-signup__field {
+        display: flex;
+        max-width: 25em;
+    }
+
+    .email-signup__field-input {
+        flex: 1 1 0%;
+
+        padding: 6px 12px;
+        border: 2px solid palette('blue');
+
+        &:focus {
+            outline: 3px solid lighten(palette('turquoise'), 25%);
+            outline-offset: 0;
+        }
+    }
+
+    .email-signup__field-action {
+        font-size: 18px;
+        font-family: font-stack('display');
+        font-weight: 500;
+        color: white;
+        border: none;
+        -webkit-appearance: none;
+        background-color: palette('blue');
+        padding-left: $spacingUnit / 2;
+        padding-right: $spacingUnit;
+        border-radius: 0 50px 50px 0;
     }
 }
