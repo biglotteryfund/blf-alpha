@@ -26,8 +26,61 @@
                     </div>
                 </div>
 
-                <div class="grants-search__totals">
-                    Showing <strong>{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
+                <div class="grants-search__meta">
+                    <span class="grants-search__total">
+                        Showing <strong>{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
+                    </span>
+
+                    <div class="grants-search__sort">
+                        <div class="sort-controls">
+                            <span class="sort-controls__prefix">
+                                Sort:
+                            </span>
+                            {% if currentSort.type === 'awardDate' and currentSort.direction === 'desc' %}
+                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
+                                    aria-label="Sort by newest first">
+                                    Award date
+                                </a>
+                            {% elseif currentSort.type === 'awardDate' and currentSort.direction === 'asc'  %}
+                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
+                                    aria-label="Sort by oldest first">
+                                    Award date
+                                </a>
+                            {% else %}
+                                <a class="sort-controls__item"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
+                                    aria-label="Sort by oldest first">
+                                    Award date
+                                </a>
+                            {% endif %}
+
+                            {% if currentSort.type === 'amountAwarded' and currentSort.direction === 'desc' %}
+                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
+                                    aria-label="Sort by higest amount awarded first">
+                                    Amount awarded
+                                </a>
+                            {% elseif currentSort.type === 'amountAwarded' and currentSort.direction === 'asc'  %}
+                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
+                                    aria-label="Sort by lowest amount awarded first">
+                                    Amount awarded
+                                </a>
+                            {% else %}
+                                <a class="sort-controls__item"
+                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
+                                    aria-label="Sort by higest amount awarded first">
+                                    Amount awarded
+                                </a>
+                            {% endif %}
+
+                            {% if currentSort %}
+                                <input type="hidden" name="sort" value="{{ currentSort.type }}|{{ currentSort.direction }}">
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grants-search__content">
@@ -38,15 +91,6 @@
 
                     <div class="grants-search__filters">
                         <div class="search-filters">
-                            {{ formField({
-                                type: 'select',
-                                name: 'sort',
-                                label: 'Sort',
-                                value: queryParams.sort,
-                                options: sortOptions,
-                                silentlyOptional: true
-                            }) }}
-
                             {{ formField({
                                 type: 'radio',
                                 name: 'amount',

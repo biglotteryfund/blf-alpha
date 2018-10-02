@@ -117,46 +117,15 @@ router
         const queryWithPage = addPaginationParameters(facetParams, req.query.page);
         const data = await queryGrantsApi(queryWithPage);
 
-        const commonSortOptions = [
-            {
-                label: 'Oldest first',
-                value: 'awardDate|desc'
-            },
-            {
-                label: 'Lowest amount first',
-                value: 'amountAwarded|asc'
-            },
-            {
-                label: 'Highest amount first',
-                value: 'amountAwarded|desc'
-            }
-        ];
+        let currentSort = { type: 'awardDate', direction: 'desc' };
 
-        let sortOptions = [];
         if (facetParams.q) {
-            sortOptions = concat(
-                [
-                    {
-                        label: 'Most relevant first',
-                        value: ''
-                    },
-                    {
-                        label: 'Newest first',
-                        value: 'awardDate|asc'
-                    }
-                ],
-                commonSortOptions
-            );
-        } else {
-            sortOptions = concat(
-                [
-                    {
-                        label: 'Newest first',
-                        value: ''
-                    }
-                ],
-                commonSortOptions
-            );
+            currentSort = null;
+        }
+
+        if (facetParams.sort) {
+            const [sortType, sortDirection] = facetParams.sort.split('|');
+            currentSort = { type: sortType, direction: sortDirection };
         }
 
         res.render(path.resolve(__dirname, './views/index'), {
@@ -165,7 +134,7 @@ router
             grants: data.results,
             facets: data.facets,
             meta: data.meta,
-            sortOptions: sortOptions,
+            currentSort: currentSort,
             pagination: buildPagination(data.meta.pagination, queryWithPage)
         });
     });
