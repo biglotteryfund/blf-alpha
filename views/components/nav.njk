@@ -1,10 +1,11 @@
 {% from "components/icons.njk" import iconSearch %}
 
 {% macro navlinks(itemClass) %}
-    {% for id, section in navigationSections %}
-        {% set currentSectionId = getCurrentSection(sectionId, pageId)  %}
-        <li class="{% if currentSectionId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %} qa-nav-link qa-nav-link--{{ id }}">
-            <a href="{{ localify(section.path | default('/', true)) }}">{{ __(section.langTitlePath) }}</a>
+    {% for section in navigationSections %}
+        <li class="{% if sectionUrl === section.path %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %} qa-nav-link qa-nav-link--{{ id }}">
+            <a href="{{ section.path }}">
+                {{ section.label }}
+            </a>
         </li>
     {% endfor %}
 {% endmacro %}

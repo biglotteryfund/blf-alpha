@@ -47,8 +47,7 @@
     <ul>
         {% for item in navigation %}
             {% set hasChildren = item.children.length > 0 %}
-            {% set pathname = request.baseUrl + request.path | replace(r/\/$/, '') %}
-            <li class="{% if hasChildren %}has-children{% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}{% if pathname === item.url %} is-current{% endif %}">
+            <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}">
                 <a href="{{ item.url }}">
                     {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
                 </a>
