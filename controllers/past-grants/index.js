@@ -93,7 +93,7 @@ router
 
         // Repopulate existing app globals so Nunjucks can read them
         // outside of Express's view engine context
-        const context = Object.assign({}, res.locals, { grants: grantData.results });
+        const context = Object.assign({}, res.locals, req.app.locals, { grants: grantData.results });
         const template = path.resolve(__dirname, './views/ajax-results.njk');
 
         nunjucks.render(template, context, (renderErr, html) => {
