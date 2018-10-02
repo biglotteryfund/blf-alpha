@@ -1,11 +1,12 @@
 /* global ga, cxApi */
 
+const { forEach } = require('lodash');
 const { isDownloadLink } = require('../helpers/urls');
 const { trackEvent } = require('../helpers/metrics');
 
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('.content-box a[href]');
-    [].forEach.call(links, function(link) {
+    forEach(links, function(link) {
         if (isDownloadLink(link.href)) {
             link.addEventListener('click', () => {
                 trackEvent('Documents', 'Downloaded a document', link.href);
@@ -14,19 +15,21 @@ function trackDocumentDownloads() {
     });
 }
 
+function trackSearchTerms() {
+    forEach(document.querySelectorAll('.js-global-search-form'), function(form) {
+        const searchInput = form.querySelector('input[type=search]');
+        form.addEventListener('submit', function() {
+            trackEvent('Search', 'Term', searchInput.value);
+        });
+    });
+}
+
 export const init = () => {
     const thisScript = document.getElementById('js-script-main');
     const CONFIG = {
         uaCode: thisScript.getAttribute('data-ga-code'),
         abId: thisScript.getAttribute('data-ab-id'),
-        abVariant: thisScript.getAttribute('data-ab-variant'),
-        customMetrics: {
-            maxScrollPercentage: {
-                idx: 1,
-                name: 'metric1',
-                description: 'Max Scroll Percentage'
-            }
-        }
+        abVariant: thisScript.getAttribute('data-ab-variant')
     };
 
     /**
@@ -74,14 +77,6 @@ export const init = () => {
     });
 
     /**
-     * Max scroll tracker plugin
-     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/max-scroll-tracker.md
-     */
-    ga('require', 'maxScrollTracker', {
-        maxScrollMetricIndex: CONFIG.customMetrics.maxScrollPercentage.idx
-    });
-
-    /**
      * A/B Tests
      * If we're in a test variant, record it
      */
@@ -96,15 +91,6 @@ export const init = () => {
      */
     ga('send', 'pageview');
 
-    /**
-     * Track document downloads
-     */
     trackDocumentDownloads();
-
-    /**
-     * Report connection type
-     */
-    try {
-        trackEvent('Network', 'Effective Connection Type', navigator.connection.effectiveType);
-    } catch (e) {} // eslint-disable-line no-empty
+    trackSearchTerms();
 };

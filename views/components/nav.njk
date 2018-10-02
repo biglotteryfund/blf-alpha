@@ -1,10 +1,11 @@
 {% from "components/icons.njk" import iconSearch %}
 
 {% macro navlinks(itemClass) %}
-    {% for id, section in navigationSections %}
-        {% set currentSectionId = getCurrentSection(sectionId, pageId)  %}
-        <li class="{% if currentSectionId === id %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %} qa-nav-link qa-nav-link--{{ id }}">
-            <a href="{{ localify(section.path | default('/', true)) }}">{{ __(section.langTitlePath) }}</a>
+    {% for section in navigationSections %}
+        <li class="{% if sectionUrl === section.path %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %} qa-nav-link qa-nav-link--{{ id }}">
+            <a href="{{ section.path }}">
+                {{ section.label }}
+            </a>
         </li>
     {% endfor %}
 {% endmacro %}
@@ -21,10 +22,7 @@
 
 {% macro navSearchForm(isOffset = false) %}
     {% set id = 'global-search-input-' | appendUuid %}
-    <form class="global-search{% if isOffset %} global-search--offset{% endif %}" role="search" action="/search">
-        <input type="hidden" name="lang" value="en-GB">
-        <input type="hidden" name="type" value="All">
-        <input type="hidden" name="order" value="r">
+    <form class="global-search{% if isOffset %} global-search--offset{% endif %} js-global-search-form" role="search" action="/search">
         <label class="u-visually-hidden" for="{{ id }}">
             {{ __("global.misc.search") }}
         </label>

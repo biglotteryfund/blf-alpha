@@ -20,7 +20,6 @@ if (appData.isDev) {
 }
 
 const { makeWelsh, localify } = require('./modules/urls');
-const { getSectionsForNavigation } = require('./modules/route-helpers');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
@@ -110,11 +109,6 @@ function initAppLocals() {
      * Default to true unless overridden by a route
      */
     app.locals.isBilingual = true;
-
-    /**
-     * Navigation sections for top-level nav
-     */
-    app.locals.navigationSections = getSectionsForNavigation();
 
     /**
      * Default pageAccent colour

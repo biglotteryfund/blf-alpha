@@ -1,10 +1,11 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { includes } = require('lodash');
-const appData = require('../modules/appData');
+const { includes, map, omitBy } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
+const appData = require('../modules/appData');
+const routes = require('../controllers/routes');
 
 /**
  * Get normalised page title for metadata
@@ -39,6 +40,17 @@ module.exports = {
         const locale = req.i18n.getLocale();
 
         /**
+         * Navigation sections for top-level nav
+         */
+        const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
+        res.locals.navigationSections = map(itemsToShow, section => {
+            return {
+                path: localify(locale)(section.path),
+                label: req.i18n.__(section.langTitlePath)
+            };
+        });
+
+        /**
          * High-contrast mode
          */
         const contrastPref = req.cookies[config.get('cookies.contrast')];
@@ -49,14 +61,6 @@ module.exports = {
          */
         res.locals.enablePrompt = config.get('features.enablePrompt');
         res.locals.enableSurvey = config.get('features.enableSurvey');
-
-        /**
-         * Add the request object as a local variable
-         * for URL rewriting in templates
-         * (eg. locale versions, high-contrast redirect etc)
-         * @TODO: Remove the need for this
-         */
-        res.locals.request = req;
 
         /**
          * Metadata (e.g. global title, description)

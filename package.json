@@ -25,7 +25,7 @@
     "build-js": "webpack",
     "build": "npm run clean && npm run build-css && npm run build-js",
     "build-production": "export NODE_ENV=production && npm run build && ./bin/hash-rev",
-    "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker,maxScrollTracker",
+    "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker",
     "watch-livereload": "livereload $npm_package_config_dist_css/style.css",
     "watch-css": "watch 'npm run build-css' assets/sass",
     "watch-js": "webpack --watch",
