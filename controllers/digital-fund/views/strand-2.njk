@@ -5,7 +5,6 @@
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 {% from "./view-helpers.njk" import wayfinding with context %}
-{% set featurePreviewDigitalFund = appData.isNotProduction and featurePreviewDigitalFund %}
 {% set eligibilityLink = localify('/funding/programmes/digital-fund/strand-2/eligibility') %}
 
 {% block content %}

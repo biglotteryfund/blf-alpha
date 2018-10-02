@@ -172,8 +172,8 @@ module.exports = {
         }
 
         /* Configure per-feature queries for use in templates */
-        res.locals.featureUseNewHeader = queryFeature('use-new-header');
-        res.locals.featurePreviewDigitalFund = queryFeature('preview-digital-fund');
+        res.locals.featureUseNewHeader = appData.isNotProduction && queryFeature('use-new-header');
+        res.locals.featurePreviewDigitalFund = appData.isNotProduction && queryFeature('preview-digital-fund');
 
         next();
     }
