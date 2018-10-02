@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* global ga, cxApi */
 
 const { isDownloadLink } = require('../helpers/urls');
@@ -19,14 +20,7 @@ export const init = () => {
     const CONFIG = {
         uaCode: thisScript.getAttribute('data-ga-code'),
         abId: thisScript.getAttribute('data-ab-id'),
-        abVariant: thisScript.getAttribute('data-ab-variant'),
-        customMetrics: {
-            maxScrollPercentage: {
-                idx: 1,
-                name: 'metric1',
-                description: 'Max Scroll Percentage'
-            }
-        }
+        abVariant: thisScript.getAttribute('data-ab-variant')
     };
 
     /**
@@ -71,14 +65,6 @@ export const init = () => {
      */
     ga('require', 'eventTracker', {
         attributePrefix: 'data-ga-'
-    });
-
-    /**
-     * Max scroll tracker plugin
-     * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/max-scroll-tracker.md
-     */
-    ga('require', 'maxScrollTracker', {
-        maxScrollMetricIndex: CONFIG.customMetrics.maxScrollPercentage.idx
     });
 
     /**
