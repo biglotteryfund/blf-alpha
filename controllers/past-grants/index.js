@@ -99,11 +99,11 @@ router
         nunjucks.render(template, context, (renderErr, html) => {
             if (renderErr) {
                 Raven.captureException(renderErr);
-                res.send({
+                res.json({
                     status: 'error'
                 });
             } else {
-                res.send({
+                res.json({
                     status: 'success',
                     meta: grantData.meta,
                     facets: grantData.facets,
