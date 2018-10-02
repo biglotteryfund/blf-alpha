@@ -25,11 +25,6 @@
                 </div>
             </section>
 
-            {% call contentBox(pageAccent) %}
-                <h2>{{ copy.summary.title }}</h2>
-                {{ copy.summary.body | safe }}
-            {% endcall %}
-
             {% call contentBox(pageAccent, id="get-started") %}
                 <h2>{{ copy.getStarted.title }}</h2>
                 <p>{{ copy.getStarted.intro }}</p>

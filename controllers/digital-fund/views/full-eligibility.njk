@@ -20,8 +20,8 @@
 
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.fullEligiblity.introduction }}</p>
-                    <p>{{ copy.strand1.introduction }}</p>
-                    <p>{{ copy.strand2.introduction }}</p>
+                    <p>{{ copy.strand1.introduction | safe }}</p>
+                    <p>{{ copy.strand2.introduction | safe }}</p>
                     <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
                 </div>
 
@@ -37,7 +37,7 @@
             {% call contentBox(pageAccent, id="segment-1") %}
                 <h2>{{ copy.successFactors.title }}</h2>
 
-                <p>{{ copy.strand1.introduction }}</p>
+                <p>{{ copy.strand1.introduction | safe }}</p>
                 {{ copy.successFactors.strand1 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
@@ -45,7 +45,7 @@
                     {{ copy.strand1.startApplying }}
                 </a></p>
 
-                <p>{{ copy.strand2.introduction }}</p>
+                <p>{{ copy.strand2.introduction | safe }}</p>
                 {{ copy.successFactors.strand2 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
