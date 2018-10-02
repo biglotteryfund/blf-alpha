@@ -10,7 +10,12 @@
     <main role="main">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
-            <form class="grants-search" method="get" action="">
+            <form class="grants-search"
+                  id="js-grant-filters"
+                  data-facets="{{ facets | dump }}"
+                  method="get"
+                  action=""
+                  v-on:submit.prevent="filterResults($event)">
                 <h1>Search past grants</h1>
 
                 <div class="search-bar">
@@ -20,7 +25,8 @@
                     <input class="search-bar__field" type="search"
                         id="search-query" name="q"
                         value="{{ queryParams.q }}"
-                        placeholder="Enter a search term, location, or postcode">
+                        placeholder="Enter a search term, location, or postcode"
+                        v-on:change="filterResults">
                     <div class="search-bar__submit">
                         <input class="btn btn--medium" type="submit" value="Search" />
                     </div>
@@ -28,7 +34,7 @@
 
                 <div class="grants-search__meta">
                     <span class="grants-search__total">
-                        Showing <strong>{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
+                        Showing <strong id="js-count">{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
                     </span>
 
                     <div class="grants-search__sort">
@@ -84,8 +90,11 @@
                 </div>
 
                 <div class="grants-search__content">
+
                     <div class="grants-search__results">
-                        {{ grantResultList(grants) }}
+                        <div id="js-grant-results">
+                            {{ grantResultList(grants) }}
+                        </div>
                         {{ splitNav(pagination.prevLink, pagination.nextLink) }}
                     </div>
 
@@ -159,20 +168,37 @@
                                 {% endfor %}
 
                                 <div class="search-filters__facet">
-                                    {{ inputSelect({
-                                        type: 'select',
-                                        name: 'programme',
-                                        label: 'Programme',
-                                        value: queryParams.programme,
-                                        options: options,
-                                        silentlyOptional: true
-                                    }) }}
-                                    {% if queryParams.programme %}
-                                        <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('programme') }}">
-                                            Clear programme
-                                        </a>
-                                    {% endif %}
+
+                                    <noscript>
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'programme',
+                                            label: 'Programme',
+                                            value: queryParams.programme,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                        {% if queryParams.programme %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('programme') }}">
+                                                Clear programme
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    <div v-cloak>
+                                        <label class="ff-label">Programme</label>
+                                        <select name="programme"
+                                                class="ff-select"
+                                                v-on:change="filterResults">
+                                            <option value="">All programmes</option>
+                                            <option v-for="option in facets.grantProgramme"
+                                                    v-bind:value="option._id">
+                                                <% option._id %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
+
                             {% endif %}
 
                             <div class="search-filters__actions">

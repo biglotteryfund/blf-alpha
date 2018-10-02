@@ -5,6 +5,8 @@ import CookieConsent from './components/cookie-consent.vue';
 import Feedback from './components/feedback.vue';
 import Prompt from './components/prompt.vue';
 import Survey from './components/survey.vue';
+
+import GrantFilters from './grant-filters.js';
 import materials from './materials';
 
 function initCookieConsent() {
@@ -56,4 +58,5 @@ export const init = () => {
     initInlineFeedback();
 
     materials.init();
+    GrantFilters.init();
 };
