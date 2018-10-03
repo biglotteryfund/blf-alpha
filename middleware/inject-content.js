@@ -131,14 +131,17 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
-        const entry = await contentApi.getFlexibleContent({
+        const content = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
             previewMode: res.locals.PREVIEW_MODE || false
         });
 
-        res.locals.entry = entry;
-        setCommonLocals({ res, entry });
+        if (content) {
+            res.locals.content = content;
+            setCommonLocals({ res, entry: content });
+        }
+
         next();
     } catch (error) {
         next(error);
@@ -287,7 +290,7 @@ async function injectBlogDetail(req, res, next) {
     }
 }
 
-function injectMerchandise({ locale = false, showAll = false }) {
+function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
             const localeToUse = locale ? locale : req.i18n.getLocale();
