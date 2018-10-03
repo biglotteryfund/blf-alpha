@@ -23,11 +23,9 @@
                     <p>{{ copy.strand2.introduction | safe }}</p>
                 </div>
 
-                {% if not featurePreviewDigitalFund %}
-                    <div class="message">
-                        {{ copy.closedMessage }}
-                    </div>
-                {% endif %}
+                <div class="message">
+                    {{ copy.openingDates }}
+                </div>
 
                 {{ segmentLinks([
                     { "title": copy.process.title },
