@@ -65,9 +65,7 @@ function init() {
                 const $results = $('#js-grant-results');
                 $results.text('Please wait, updating results...');
                 $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: this.filters,
+                    url: `${url}?${this.filtersToString()}`,
                     dataType: 'json',
                     success: response => {
                         if (response.status === 'success') {
