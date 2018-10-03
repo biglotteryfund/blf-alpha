@@ -45,7 +45,7 @@
 
                 <div class="grants-search__meta">
                     <span class="grants-search__total">
-                        Showing <strong id="js-count">{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}</p>
+                        Showing <strong id="js-count">{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}
                     </span>
 
                     {# @TODO these links need to swap when clicked #}
@@ -80,7 +80,7 @@
                             {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
-                                    aria-label="Sort by higest amount awarded first"
+                                    aria-label="Sort by highest amount awarded first"
                                     v-on:click.prevent="sort('amountAwarded', 'asc')">
                                     Amount awarded
                                 </a>
@@ -94,7 +94,7 @@
                             {% else %}
                                 <a class="sort-controls__item"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                    aria-label="Sort by higest amount awarded first"
+                                    aria-label="Sort by highest amount awarded first"
                                     v-on:click.prevent="sort('amountAwarded', 'desc')">
                                     Amount awarded
                                 </a>

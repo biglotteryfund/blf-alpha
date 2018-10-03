@@ -32,11 +32,15 @@ function init() {
                 .removeAttr('disabled');
             // Populate the facets object
             if (window._PAST_GRANTS_SEARCH && window._PAST_GRANTS_SEARCH.facets) {
-                this.facets = window._PAST_GRANTS_SEARCH.facets
+                this.facets = Object.assign({}, window._PAST_GRANTS_SEARCH.facets);
             }
             // Populate any existing query parameters
-            if (window._PAST_GRANTS_SEARCH && window._PAST_GRANTS_SEARCH.queryParams && !!window._PAST_GRANTS_SEARCH.queryParams) {
-                this.filters = window._PAST_GRANTS_SEARCH.queryParams
+            if (
+                window._PAST_GRANTS_SEARCH &&
+                window._PAST_GRANTS_SEARCH.queryParams &&
+                !!window._PAST_GRANTS_SEARCH.queryParams
+            ) {
+                this.filters = Object.assign({}, window._PAST_GRANTS_SEARCH.queryParams);
             }
         },
         methods: {
