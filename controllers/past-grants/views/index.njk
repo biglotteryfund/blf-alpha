@@ -103,10 +103,10 @@
                 <div class="grants-search__content">
 
                     <div class="grants-search__results">
-                        <pre><% filters %></pre>
                         <div id="js-grant-results">
                             {{ grantResultList(grants) }}
                         </div>
+                        {# @TODO update these dynamically from API #}
                         {{ splitNav(pagination.prevLink, pagination.nextLink) }}
                     </div>
 
@@ -254,21 +254,6 @@
 
                             {% endif %}
 
-                            {# Filter: Country #}
-                            <div class="search-filters__facet js-only" v-cloak>
-                                <label class="ff-label">Country</label>
-                                <select name="country"
-                                        class="ff-select"
-                                        v-on:change="filterResults"
-                                        v-model="filters.country" disabled>
-                                    <option value="">All countries</option>
-                                    <option value="england">England</option>
-                                    <option value="scotland">Scotland</option>
-                                    <option value="wales">Wales</option>
-                                    <option value="northern-ireland">Northern Ireland</option>
-                                </select>
-                            </div>
-
                             {# Filter: Local Authority #}
                             {# @TODO add a noscript fallback #}
                             <div class="search-filters__facet js-only" v-cloak>
@@ -286,6 +271,22 @@
                                 </select>
                             </div>
 
+                            {# Filter: Country #}
+                            {# @TODO make this a facet?  #}
+                            {#<div class="search-filters__facet js-only" v-cloak>#}
+                                {#<label class="ff-label">Country</label>#}
+                                {#<select name="country"#}
+                                        {#class="ff-select"#}
+                                        {#v-on:change="filterResults"#}
+                                        {#v-model="filters.country" disabled>#}
+                                    {#<option value="">All countries</option>#}
+                                    {#<option value="england">England</option>#}
+                                    {#<option value="scotland">Scotland</option>#}
+                                    {#<option value="wales">Wales</option>#}
+                                    {#<option value="northern-ireland">Northern Ireland</option>#}
+                                {#</select>#}
+                            {#</div>#}
+
                             <div class="search-filters__actions">
                                 <input type="submit" value="Filter" class="btn btn--medium">
                                 <a href="/funding/search-past-grants-alpha"
@@ -295,6 +296,8 @@
                                 </a>
                             </div>
                         </div>
+
+                        <pre><% filters %></pre>
                     </div>
                 </div>
             </form>

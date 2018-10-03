@@ -16,18 +16,20 @@ function init() {
                 year: '',
                 programme: '',
                 country: '',
-                localAuthority: '',
+                localAuthority: ''
             };
             let filters = Object.assign({}, defaultFilters);
             return {
                 facets,
                 defaultFilters,
                 filters
-            }
+            };
         },
         mounted: function() {
             // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
-            $(this.$el).find('[disabled]').removeAttr('disabled');
+            $(this.$el)
+                .find('[disabled]')
+                .removeAttr('disabled');
             // Populate the facets object
             let facets = this.$el.getAttribute('data-facets');
             if (facets) {
@@ -45,9 +47,11 @@ function init() {
                 this.filterResults();
             },
             filtersToString: function() {
-                return Object.keys(this.filters).map(key => {
-                    return `${encodeURIComponent(key)}=${encodeURIComponent(this.filters[key])}`
-                }).join('&');
+                return Object.keys(this.filters)
+                    .map(key => {
+                        return `${encodeURIComponent(key)}=${encodeURIComponent(this.filters[key])}`;
+                    })
+                    .join('&');
             },
             clearFilters: function() {
                 this.filters = Object.assign({}, this.defaultFilters);
