@@ -671,7 +671,7 @@ funding:
       startApplying: Start applying for strand 2
     getStarted:
       title: Get started
-      intro: "The Digital Fund is currently offering two strands  of funding. To find the right kind of support for your organisation, choose one of the following options:"
+      intro: "The Digital Fund is currently offering two strands of funding. To find the right kind of support for your organisation, choose one of the following options:"
       assistance:
         title: Not sure this is for you?
         body: >
@@ -696,7 +696,6 @@ funding:
           <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call.</p>
         teaser: If you think this fund might be right for you, the first stage is to talk to us.
         linkText: Request a call
-        disabledLinkText: Opens on 22nd October
     questions:
       title: Have any questions?
       body: >
@@ -752,7 +751,7 @@ funding:
       strand2: >
         <p>Successful strand 2 proposals will:</p>
         <ul>
-          <li>Have made use of user-centered design.</li>
+          <li>Have made use of user-centred design.</li>
           <li>Clearly demonstrate <strong>either</strong> the potential to scale your impact at low cost, <strong>or</strong> clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
           <li>Be driven by teams that combine knowledge of an issue that matters to people and communities, with experience of digital delivery.</li>
           <li>Relate to a product or service that is far enough through its development process that people are currently benefiting from it.</li>
@@ -775,13 +774,13 @@ funding:
     fullEligiblity:
       title: Full eligibility criteria
       introduction: >
-        <p>The Digital Fund will open in phases over the next two years. The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.</p>
+        <p>The Digital Fund will open in phases over the next two years. The first phase, open from 22nd October 2018 to 3rd December 2018, will accept proposals in two strands.</p>
         <p><strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.</p>
         <p><strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.</p>
         <p>We expect grants to both strands to last from 1 to 4 years.</p>
       teaser:
         prefix: Just want to see all the details on one page?
-        linkText: View full eligibility critiera
+        linkText: View full eligibility criteria
     eligibility:
       title: Eligibility criteria
       commonCriteria:
@@ -792,7 +791,7 @@ funding:
             <li>voluntary and community organisation</li>
             <li>registered charity</li>
             <li>social enterprise</li>
-            <li>group of organisations, as long as they are led by a voluntary and community organisations or social enterprise</li>
+            <li>group of organisations, if they are led by a voluntary and community organisations or social enterprise</li>
             <li>community interest companies (with two or more directors).</li>
           </ul>
           <p>We <strong>can’t</strong> accept applications from:</p>
