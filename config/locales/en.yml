@@ -729,7 +729,7 @@ funding:
 
         <p>We <strong>can’t</strong> fund:</p>
         <ul>
-          <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution</li>
+          <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution, or any activities that generate profits for private gain</li>
           <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
           <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
           <li>activities that benefit individuals, rather than the wider community</li>
@@ -800,10 +800,9 @@ funding:
               <li>organisations based outside the UK</li>
               <li>anyone who is applying on behalf of another organisation</li>
               <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
-              <li>Companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+              <li>companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
           </ul>
           <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
-          <p>We will consider funding unincorporated groups, but normally expect the groups to use our funding to incorporate and, where appropriate, register as a charity.</p>
       strand1:
         title: Additional eligibility criteria that apply only to Strand 1
         criteria:
