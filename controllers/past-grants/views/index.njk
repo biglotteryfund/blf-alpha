@@ -6,14 +6,21 @@
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
 
+{% block extraHead %}
+    <script>
+        window._PAST_GRANTS_SEARCH = {
+            facets: {{ facets | dump | safe }},
+            queryParams: {{ queryParams | dump | safe }}
+        };
+    </script>
+{% endblock %}
+
 {% block content %}
     <main role="main">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
             <form class="grants-search"
                   id="js-grant-filters"
-                  data-facets="{{ facets | dump }}"
-                  {% if queryParams %}data-query-params="{{ queryParams | dump }}"{% endif %}
                   method="get"
                   action=""
                   v-on:submit.prevent="filterResults($event)">

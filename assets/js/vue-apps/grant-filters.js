@@ -31,14 +31,12 @@ function init() {
                 .find('[disabled]')
                 .removeAttr('disabled');
             // Populate the facets object
-            let facets = this.$el.getAttribute('data-facets');
-            if (facets) {
-                this.facets = JSON.parse(facets);
+            if (window._PAST_GRANTS_SEARCH && window._PAST_GRANTS_SEARCH.facets) {
+                this.facets = window._PAST_GRANTS_SEARCH.facets
             }
             // Populate any existing query parameters
-            let queryParams = this.$el.getAttribute('data-query-params');
-            if (queryParams) {
-                this.filters = JSON.parse(queryParams);
+            if (window._PAST_GRANTS_SEARCH && window._PAST_GRANTS_SEARCH.queryParams && !!window._PAST_GRANTS_SEARCH.queryParams) {
+                this.filters = window._PAST_GRANTS_SEARCH.queryParams
             }
         },
         methods: {
