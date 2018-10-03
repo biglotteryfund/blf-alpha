@@ -662,21 +662,16 @@ funding:
     strand1:
       title: We want to use digital to change our business
       shortTitle: Strand 1
-      teaserDescription: Grants of up to £500,000, plus a package of tailored support, to help established charities that want to use digital to help take a major leap forward
-      introduction: <strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.
+      introduction: <strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
       startApplying: Start applying for strand 1
     strand2:
       title: We are already highly digital, and want to scale our impact
       shortTitle: Strand 2
-      teaserDescription: Grants of up to £500,000 for tech for good organisations that have already launched promising services
-      introduction: <strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
+      introduction: <strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
       startApplying: Start applying for strand 2
     getStarted:
       title: Get started
       intro: "The Digital Fund is currently offering two strands  of funding. To find the right kind of support for your organisation, choose one of the following options:"
-      fullEligiblity:
-        prefix: Just want to see all the details on one page?
-        linkText: View full eligibility critiera
       assistance:
         title: Not sure this is for you?
         body: >
@@ -779,7 +774,14 @@ funding:
         </ul>
     fullEligiblity:
       title: Full eligibility criteria
-      introduction: The Digital Fund will open in phases over the next two years. The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.
+      introduction: >
+        <p>The Digital Fund will open in phases over the next two years. The first phase, open from October 22nd 2018 to December 3rd 2018, will accept proposals in two strands.</p>
+        <p><strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.</p>
+        <p><strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.</p>
+        <p>We expect grants to both strands to last from 1 to 4 years.</p>
+      teaser:
+        prefix: Just want to see all the details on one page?
+        linkText: View full eligibility critiera
     eligibility:
       title: Eligibility criteria
       commonCriteria:
@@ -1026,10 +1028,10 @@ apply:
       nextStepsTitle: What happens next?
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> ooffers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest

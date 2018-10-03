@@ -19,9 +19,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
-                    <p>{{ copy.fullEligiblity.introduction }}</p>
-                    <p>{{ copy.strand1.introduction | safe }}</p>
-                    <p>{{ copy.strand2.introduction | safe }}</p>
+                    {{ copy.fullEligiblity.introduction | safe }}
                     <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
                 </div>
 

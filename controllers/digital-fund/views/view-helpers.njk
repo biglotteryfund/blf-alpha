@@ -7,10 +7,12 @@
         </header>
         <div class="card__body">
             <p>{{ props.description }}</p>
-            <p><a href="{{ props.link.url }}"
+        </div>
+        <div class="card__footer">
+            <a href="{{ props.link.url }}"
                 class="btn btn--medium accent--{{ accent }} a--btn">
                 {{ props.link.label }}
-            </a></p>
+            </a>
         </div>
     </div>
 {% endmacro %}
