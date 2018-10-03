@@ -9,28 +9,59 @@ function init() {
     new Vue({
         el: mountEl,
         delimiters: ['<%', '%>'],
-        data: {
-            facets: {}
+        data() {
+            let facets = {};
+            let defaultFilters = {
+                amount: '',
+                year: '',
+                programme: '',
+                country: '',
+                localAuthority: '',
+            };
+            let filters = Object.assign({}, defaultFilters);
+            return {
+                facets,
+                defaultFilters,
+                filters
+            }
         },
         mounted: function() {
+            // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
+            $(this.$el).find('[disabled]').removeAttr('disabled');
+            // Populate the facets object
             let facets = this.$el.getAttribute('data-facets');
             if (facets) {
                 this.facets = JSON.parse(facets);
             }
+            // Populate any existing query parameters
+            let queryParams = this.$el.getAttribute('data-query-params');
+            if (queryParams) {
+                this.filters = JSON.parse(queryParams);
+            }
         },
         methods: {
+            sort: function(sortKey, direction) {
+                this.filters.sort = `${sortKey}|${direction}`;
+                this.filterResults();
+            },
+            filtersToString: function() {
+                return Object.keys(this.filters).map(key => {
+                    return `${encodeURIComponent(key)}=${encodeURIComponent(this.filters[key])}`
+                }).join('&');
+            },
+            clearFilters: function() {
+                this.filters = Object.assign({}, this.defaultFilters);
+                this.filterResults();
+            },
             filterResults: function() {
-                const $results = $('#js-grant-results');
                 const $form = $(this.$el);
-                $form.find('noscript').remove();
                 const url = $form.attr('action');
-                const data = $form.serialize();
-                $results.text('Please wait, searching...');
-
+                const $results = $('#js-grant-results');
+                $results.text('Please wait, updating results...');
                 $.ajax({
                     url: url,
                     type: 'POST',
-                    data: data,
+                    data: this.filters,
                     dataType: 'json',
                     success: response => {
                         if (response.status === 'success') {
@@ -40,7 +71,7 @@ function init() {
 
                             if (window.history.pushState) {
                                 const newURL = new URL(window.location.href);
-                                newURL.search = `?${data}`;
+                                newURL.search = `?${this.filtersToString()}`;
                                 window.history.pushState({ path: newURL.href }, '', newURL.href);
                             }
                         } else {
