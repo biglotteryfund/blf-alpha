@@ -682,7 +682,7 @@ funding:
           <p>If either strand of funding doesn’t work for your project or idea, that’s ok.
             There are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
           <p>There will be further funding opportunities within the Digital Fund in 2019.
-            <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us</a>Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+            <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
           <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
     process:
       title: How the process works
@@ -846,12 +846,12 @@ funding:
         eligibilitySummary:
           introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
           criteria:
-            - Your organisation must have been incorporated after the year 2000
-            - You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
+            - have been incorporated after the year 2000
+            - operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
         ineligible:
           introduction: We’re sorry you’re not eligible for Strand 2 funding.
           body: >
-            <p>For more information, please see the <a href="./eligibility">full detailed eligibility criteria</a> for this programme.</p>
+            <p>For more information, please see the <a href="/funding/programmes/digital-fund/eligibility">full detailed eligibility criteria</a> for this programme.</p>
             <p>If you are at an earlier stage than this, we recommend looking at:</p>
             <ul>
               <li><a href="/funding/programmes">Our other funding programmes</a>
