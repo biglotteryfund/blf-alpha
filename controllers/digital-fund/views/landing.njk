@@ -19,16 +19,9 @@
                 {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.intro }}</p>
-                    {% if not featurePreviewDigitalFund %}
-                        <p><strong>{{ copy.closedMessage }}</strong></p>
-                    {% endif %}
+                    <p><strong>{{ copy.openingDates }}</strong></p>
                 </div>
             </section>
-
-            {% call contentBox(pageAccent) %}
-                <h2>{{ copy.summary.title }}</h2>
-                {{ copy.summary.body | safe }}
-            {% endcall %}
 
             {% call contentBox(pageAccent, id="get-started") %}
                 <h2>{{ copy.getStarted.title }}</h2>

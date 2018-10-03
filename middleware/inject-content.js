@@ -174,7 +174,7 @@ async function injectFundingProgramme(req, res, next) {
         res.locals.previewStatus = getPreviewStatus(entry);
         next();
     } catch (error) {
-        next(error);
+        next();
     }
 }
 

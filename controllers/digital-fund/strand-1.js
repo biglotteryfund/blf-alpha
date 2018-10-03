@@ -35,10 +35,10 @@ router.get('/eligibility', (req, res) => {
 });
 
 router.get('/eligibility/ineligible', (req, res) => {
-    const title = res.locals.copy.ineligible.title;
+    const title = res.locals.copy.eligibilityChecker.ineligibleTitle;
     res.render(path.resolve(__dirname, './views/ineligible'), {
         title: title,
-        bodyCopy: res.locals.copy.ineligible.strand1,
+        strandCopy: res.locals.copy.eligibilityChecker.strand1,
         breadcrumbs: concat(res.locals.breadcrumbs, [
             { label: res.locals.copy.strand1.shortTitle, url: './' },
             { label: title }

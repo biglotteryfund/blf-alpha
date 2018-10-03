@@ -25,11 +25,6 @@ export const FEATURES = [
         isEnabled: !window.AppConfig.blockAnalytics && !isDoNotTrack
     }),
     createFeature({
-        id: 'hotjar',
-        description: 'Enable HotJar',
-        isEnabled: !isDoNotTrack
-    }),
-    createFeature({
         id: 'review-abandonment-message',
         description: 'Show abandonment message on the review step',
         isEnabled: true

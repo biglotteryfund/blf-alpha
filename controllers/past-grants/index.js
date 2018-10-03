@@ -127,24 +127,12 @@ router
         const queryWithPage = addPaginationParameters(facetParams, req.query.page);
         const data = await queryGrantsApi(queryWithPage);
 
-        let currentSort = { type: 'awardDate', direction: 'desc' };
-
-        if (facetParams.q) {
-            currentSort = null;
-        }
-
-        if (facetParams.sort) {
-            const [sortType, sortDirection] = facetParams.sort.split('|');
-            currentSort = { type: sortType, direction: sortDirection };
-        }
-
         res.render(path.resolve(__dirname, './views/index'), {
             title: 'Past grants search',
             queryParams: isEmpty(facetParams) ? false : facetParams,
             grants: data.results,
             facets: data.facets,
             meta: data.meta,
-            currentSort: currentSort,
             pagination: buildPagination(data.meta.pagination, queryWithPage)
         });
     });

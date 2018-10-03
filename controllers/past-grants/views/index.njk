@@ -17,22 +17,22 @@
                   method="get"
                   action=""
                   v-on:submit.prevent="filterResults($event)">
+
                 <h1>Search past grants</h1>
 
-                <div class="search-bar">
-                    <label class="search-bar__label" for="search-query">
-                        Search
-                    </label>
-                    <input class="search-bar__field"
-                           type="search"
-                           id="search-query"
-                           name="q"
-                           value="{{ queryParams.q }}"
-                           placeholder="Enter a search term, location, or postcode"
-                           v-on:change="filterResults"
-                           v-model="filters.q">
-                    <div class="search-bar__submit">
-                        <input class="btn btn--medium" type="submit" value="Search" />
+
+                <div class="u-tone-background-pale-grey u-padded">
+                    <label class="u-visually-hidden" for="search-query">Search</label>
+                    <div class="form-field-addon">
+                        <input class="form-field-addon__input"
+                               type="search"
+                               id="search-query"
+                               name="q"
+                               value="{{ queryParams.q }}"
+                               placeholder="Enter a search term, location, or postcode"
+                               v-on:change="filterResults"
+                               v-model="filters.q">
+                        <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
                 </div>
 
@@ -47,14 +47,14 @@
                             <span class="sort-controls__prefix">
                                 Sort:
                             </span>
-                            {% if currentSort.type === 'awardDate' and currentSort.direction === 'desc' %}
+                            {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
                                     aria-label="Sort by newest first"
                                     v-on:click.prevent="sort('awardDate', 'asc')">
                                     Award date
                                 </a>
-                            {% elseif currentSort.type === 'awardDate' and currentSort.direction === 'asc'  %}
+                            {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
                                     aria-label="Sort by oldest first"
@@ -70,14 +70,14 @@
                                 </a>
                             {% endif %}
 
-                            {% if currentSort.type === 'amountAwarded' and currentSort.direction === 'desc' %}
+                            {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
                                     aria-label="Sort by higest amount awarded first"
                                     v-on:click.prevent="sort('amountAwarded', 'asc')">
                                     Amount awarded
                                 </a>
-                            {% elseif currentSort.type === 'amountAwarded' and currentSort.direction === 'asc'  %}
+                            {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
                                 <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
                                     href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
                                     aria-label="Sort by lowest amount awarded first"
@@ -93,8 +93,8 @@
                                 </a>
                             {% endif %}
 
-                            {% if currentSort %}
-                                <input type="hidden" name="sort" value="{{ currentSort.type }}|{{ currentSort.direction }}">
+                            {% if meta.currentSort %}
+                                <input type="hidden" name="sort" value="{{ meta.currentSort.type }}|{{ meta.currentSort.direction }}">
                             {% endif %}
                         </div>
                     </div>
