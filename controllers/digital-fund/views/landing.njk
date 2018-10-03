@@ -31,7 +31,7 @@
                     <div class="flex-grid__item">
                         {{ strandTeaserCard({
                             title: copy.strand1.title,
-                            description: copy.strand1.teaserDescription,
+                            description: copy.strand1.introduction | safe,
                             link: {
                                 url: localify('/funding/programmes/digital-fund/strand-1'),
                                 label: copy.aboutStrandLabel
@@ -41,7 +41,7 @@
                     <div class="flex-grid__item">
                         {{ strandTeaserCard({
                             title: copy.strand2.title,
-                            description: copy.strand2.teaserDescription,
+                            description: copy.strand2.introduction | safe,
                             link: {
                                 url: localify('/funding/programmes/digital-fund/strand-2'),
                                 label: copy.aboutStrandLabel
