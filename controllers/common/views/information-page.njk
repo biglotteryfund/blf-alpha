@@ -7,7 +7,6 @@
 
 {% extends "layouts/main.njk" %}
 {% if not heroImage %}{% set bodyClass = 'has-static-header' %}{% endif %}
-{% set pageAccent = content.themeColour | default('pink') %}
 
 {% block content %}
     {% if heroImage %}

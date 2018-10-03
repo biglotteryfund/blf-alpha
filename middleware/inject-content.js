@@ -6,28 +6,33 @@ const Raven = require('raven');
 const { localify } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
-function isBilingual(availableLanguages) {
-    return availableLanguages.length === 2;
-}
+/**
+ * Sets locals that are common to many entries.
+ * - title based on content
+ * - isBilingual based on availableLanguages property
+ * - preview status metadata
+ * - heroImage (with optional fallback)
+ * - optional custom theme colour
+ */
+function setCommonLocals({ res, entry, withFallbackHeroImage = false }) {
+    res.locals.title = entry.displayTitle || entry.title;
 
-function getPreviewStatus(entry) {
-    return {
+    res.locals.isBilingual = entry.availableLanguages.length === 2;
+
+    res.locals.previewStatus = {
         isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
         lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
     };
-}
 
-/**
- * Sets locals that are common to many enries.
- * - heroImage (with fallback)
- * - title based on content
- * - isBilingual based on availableLanguages property
- */
-function setCommonLocals(res, entry) {
-    res.locals.title = entry.displayTitle || entry.title;
-    res.locals.heroImage = entry.hero;
-    res.locals.isBilingual = isBilingual(entry.availableLanguages);
-    res.locals.previewStatus = getPreviewStatus(entry);
+    if (withFallbackHeroImage) {
+        res.locals.heroImage = entry.hero || res.locals.fallbackHeroImage;
+    } else {
+        res.locals.heroImage = entry.hero;
+    }
+
+    if (entry.themeColour) {
+        res.locals.pageAccent = entry.themeColour;
+    }
 }
 
 function injectHeroImage(heroSlug) {
@@ -115,7 +120,7 @@ async function injectListingContent(req, res, next) {
 
         if (content) {
             res.locals.content = content;
-            setCommonLocals(res, content);
+            setCommonLocals({ res, entry: content });
         }
 
         next();
@@ -133,7 +138,7 @@ async function injectFlexibleContent(req, res, next) {
         });
 
         res.locals.entry = entry;
-        setCommonLocals(res, entry);
+        setCommonLocals({ res, entry });
         next();
     } catch (error) {
         next(error);
@@ -168,10 +173,7 @@ async function injectFundingProgramme(req, res, next) {
         });
 
         res.locals.fundingProgramme = entry;
-        res.locals.title = entry.summary.title;
-        res.locals.heroImage = entry.hero || res.locals.fallbackHeroImage;
-        res.locals.isBilingual = isBilingual(entry.availableLanguages);
-        res.locals.previewStatus = getPreviewStatus(entry);
+        setCommonLocals({ res, entry, withFallbackHeroImage: true });
         next();
     } catch (error) {
         next();
@@ -194,13 +196,13 @@ async function injectStrategicProgramme(req, res, next) {
         // Assumes a parameter of :slug in the request
         const { slug } = req.params;
         if (slug) {
-            const strategicProgramme = await contentApi.getStrategicProgrammes({
+            const entry = await contentApi.getStrategicProgrammes({
                 locale: req.i18n.getLocale(),
                 slug: slug
             });
 
-            res.locals.strategicProgramme = strategicProgramme;
-            setCommonLocals(res, strategicProgramme);
+            res.locals.strategicProgramme = entry;
+            setCommonLocals({ res, entry });
         }
         next();
     } catch (error) {
@@ -243,7 +245,7 @@ async function injectResearchEntry(req, res, next) {
             });
 
             res.locals.researchEntry = entry;
-            setCommonLocals(res, entry);
+            setCommonLocals({ res, entry });
         }
         next();
     } catch (error) {
@@ -275,7 +277,7 @@ async function injectBlogDetail(req, res, next) {
             res.locals.blogDetail = blogDetail;
 
             if (blogDetail.meta.pageType === 'blogpost') {
-                setCommonLocals(res, blogDetail.result);
+                setCommonLocals({ res, entry: blogDetail.result });
             }
 
             next();
@@ -313,7 +315,6 @@ function injectProfiles(section) {
 }
 
 module.exports = {
-    getPreviewStatus,
     injectBlogDetail,
     injectBlogPosts,
     injectBreadcrumbs,
