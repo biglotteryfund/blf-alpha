@@ -49,14 +49,14 @@
                             <header class="card__header">
                                 <h3 class="card__title">
                                     {% if featurePreviewDigitalFund %}
-                                        {{ copy.process.getStarted.title }}
-                                    {% else %}
                                         {{ copy.closedMessage }}
+                                    {% else %}
+                                        {{ copy.process.getStarted.title }}
                                     {% endif %}
                                 </h3>
                                 <div class="card__body">
                                     {{ copy.process.getStarted.body | safe }}
-                                    {% if featurePreviewDigitalFund %}
+                                    {% if not featurePreviewDigitalFund %}
                                         <a href="{{ eligibilityLink }}"
                                            class="btn btn--medium accent--{{ pageAccent }} a--btn">
                                             {{ copy.process.getStarted.linkText }}
@@ -89,7 +89,7 @@
                 {{ copy.successFactors.strand1 | safe }}
             {% endcall %}
 
-            {% if featurePreviewDigitalFund %}
+            {% if not featurePreviewDigitalFund %}
                 {% call contentBox(pageAccent, id="segment-5") %}
                     <h2>{{ copy.process.getStarted.title }}</h2>
                     <p>{{ copy.process.getStarted.teaser }}</p>
