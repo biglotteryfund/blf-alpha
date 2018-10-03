@@ -58,6 +58,10 @@
     }
 }
 
+/* =========================================================================
+   Form field container
+   ========================================================================= */
+
 .form-field {
     margin-bottom: 1.5em;
 
@@ -80,6 +84,44 @@
 .no-js .form-field[hidden] {
     display: block;
 }
+
+/* =========================================================================
+   Form field add-on
+   ========================================================================= */
+/* @see https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
+
+.form-field-addon {
+    display: flex;
+
+    .form-field-addon__input {
+        flex: 1 1 0%;
+
+        padding: 6px 12px;
+        border: 2px solid palette('blue');
+
+        &:focus {
+            outline: 3px solid lighten(palette('turquoise'), 25%);
+            outline-offset: 0;
+        }
+    }
+
+    .form-field-addon__action {
+        font-size: 18px;
+        font-family: font-stack('display');
+        font-weight: 500;
+        color: white;
+        border: none;
+        -webkit-appearance: none;
+        background-color: palette('blue');
+        padding-left: $spacingUnit / 2;
+        padding-right: $spacingUnit;
+        border-radius: 0 50px 50px 0;
+    }
+}
+
+/* =========================================================================
+   Fields (individual field styles)
+   ========================================================================= */
 
 .ff-label {
     display: block;
@@ -201,9 +243,10 @@
     }
 }
 
-/**
- * Form actions
- */
+
+/* =========================================================================
+   Form Actions
+   ========================================================================= */
 .form-actions {
     max-width: $constrainedWide;
     border-top: 1px solid palette('border');
@@ -446,77 +489,3 @@
     }
 }
 
-/* =========================================================================
-   Search bar
-   ========================================================================= */
-
-.search-bar {
-    padding: $spacingUnit;
-    margin-bottom: $spacingUnit / 2;
-    background: palette('pale-grey');
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .search-bar__label,
-    .search-bar__submit {
-        flex: 0 0 auto;
-    }
-
-    .search-bar__field {
-        flex: 1 1 0%;
-        border: none;
-        font-size: 18px;
-        padding: 0.5em 1em;
-    }
-
-    .search-bar__label {
-        font-family: font-stack('display');
-        font-size: 18px;
-        font-weight: bold;
-        padding-right: $spacingUnit;
-    }
-
-    .search-bar__submit {
-        padding-left: $spacingUnit;
-    }
-}
-
-/* =========================================================================
-   Email Signup
-   ========================================================================= */
-
-.email-signup {
-    background-color: palette('pale-grey');
-    padding: $spacingUnit;
-
-    .email-signup__field {
-        display: flex;
-        max-width: 25em;
-    }
-
-    .email-signup__field-input {
-        flex: 1 1 0%;
-
-        padding: 6px 12px;
-        border: 2px solid palette('blue');
-
-        &:focus {
-            outline: 3px solid lighten(palette('turquoise'), 25%);
-            outline-offset: 0;
-        }
-    }
-
-    .email-signup__field-action {
-        font-size: 18px;
-        font-family: font-stack('display');
-        font-weight: 500;
-        color: white;
-        border: none;
-        -webkit-appearance: none;
-        background-color: palette('blue');
-        padding-left: $spacingUnit / 2;
-        padding-right: $spacingUnit;
-        border-radius: 0 50px 50px 0;
-    }
-}
