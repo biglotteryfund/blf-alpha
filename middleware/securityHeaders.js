@@ -73,7 +73,7 @@ function defaultSecurityHeaders() {
      * Hotjar CSP rules
      * @see https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
      */
-    if (config.get('features.useHotjar')) {
+    if (config.get('features.enableHotjar')) {
         directives.imgSrc = directives.imgSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
         directives.scriptSrc = directives.scriptSrc.concat([
             'http://*.hotjar.com',

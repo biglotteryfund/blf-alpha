@@ -1,5 +1,7 @@
 {
+  "hotjarId": 1036292,
   "features": {
+    "enableHotjar": true,
     "enableMailSendMetrics": true
   }
 }

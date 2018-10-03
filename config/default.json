@@ -34,7 +34,7 @@
     "enablePrompt": false,
     "enableSurvey": true,
     "enableAbTests": true,
-    "useHotjar": true,
+    "enableHotjar": false,
     "useRemoteAssets": true,
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false
