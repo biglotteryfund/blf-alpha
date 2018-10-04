@@ -1,0 +1,604 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatDataForStorage should format data for storage 1`] = `
+Array [
+  Object {
+    "fieldsets": Array [
+      Object {
+        "fields": Array [
+          Object {
+            "label": "How does your current work help young people not in employment, education or training facing barriers to work?",
+            "name": "current-work",
+            "value": "Test",
+          },
+        ],
+      },
+    ],
+  },
+  Object {
+    "fieldsets": Array [
+      Object {
+        "fields": Array [
+          Object {
+            "label": "Select which area you are working in",
+            "name": "location",
+            "value": "Barking and Dagenham",
+          },
+          Object {
+            "label": "Describe what you will use the money for",
+            "name": "money",
+            "value": "Test",
+          },
+        ],
+      },
+    ],
+  },
+  Object {
+    "fieldsets": Array [
+      Object {
+        "fields": Array [
+          Object {
+            "label": "Select which programme aim you are most aligned with",
+            "name": "project-aims",
+            "value": "Develop partnerships",
+          },
+          Object {
+            "label": "Describe the people and communities you are working with, and if required provide more information about where they are based",
+            "name": "people-and-communities",
+            "value": "Test",
+          },
+        ],
+      },
+    ],
+  },
+  Object {
+    "fieldsets": Array [
+      Object {
+        "fields": Array [
+          Object {
+            "label": "Organisation name",
+            "name": "organisation-name",
+            "value": "Big Lottery Fund",
+          },
+        ],
+      },
+      Object {
+        "fields": Array [
+          Object {
+            "label": "Your name",
+            "name": "contact-name",
+            "value": "Example",
+          },
+          Object {
+            "label": "Email address",
+            "name": "contact-email",
+            "value": "example@example.com",
+          },
+          Object {
+            "label": "Phone number",
+            "name": "contact-phone",
+            "value": "3454102030",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`processor should create success emails 1`] = `
+"Content-Type: multipart/alternative;
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: Example <example@example.com>
+Subject: Thank you for getting in touch with the Big Lottery Fund!
+MIME-Version: 1.0
+
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Thank you for getting in touch with us.
+
+Here is a copy of the information =
+you've submitted. We'll be in touch as soon as we can.
+
+YOUR CURRENT WORK
+HOW DOES YOUR CURRENT WORK HELP YOUNG PEOPLE NOT IN EMPLOYMENT, EDUCATION =
+OR TRAINING FACING BARRIERS TO WORK?
+Test
+
+HOW YOU WILL USE THE GRANT
+SELECT WHICH AREA YOU ARE WORKING IN
+Barking and Dagenham
+
+DESCRIBE WHAT YOU WILL USE THE MONEY FOR
+Test
+
+PEOPLE AND COMMUNITIES
+SELECT WHICH PROGRAMME AIM YOU ARE MOST ALIGNED WITH
+Develop partnerships
+
+DESCRIBE THE PEOPLE AND COMMUNITIES YOU ARE WORKING WITH, AND IF REQUIRED =
+PROVIDE MORE INFORMATION ABOUT WHERE THEY ARE BASED
+Test
+
+YOUR DETAILS
+ORGANISATION NAME
+Big Lottery Fund
+
+YOUR NAME
+Example
+
+EMAIL ADDRESS
+example@example.com
+
+PHONE NUMBER
+3454102030
+
+DATA PROTECTION
+The Big Lottery Fund is a public body with a duty to distribute National =
+Lottery and other money in grants for good causes. We use
+the personal data you provide, such as contact details for individuals at =
+your organisation, to help you apply for a grant and to
+assess your application. We may share your personal data with organisations=
+ which help us with our grant making activities or
+others which have a =
+legitimate interest in our work or have funded your grant. We will only =
+share personal data which they need to
+carry out their work and subject to =
+appropriate safety measures. Our Data Protection and Privacy Notice gives =
+more information
+about how we store and use personal data and the lawful =
+basis for this. Please read the full Notice which is published on our
+website at www.biglotteryfund.org.uk/data-protection or contact us to =
+request a hard copy. The Notice may be updated from time to
+time.
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset=3D\\"UTF-8\\">
+       =20
+        <style>
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Poppins Light'), =
+local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v5/pxiByp8k=
+v8JHgFVrLDz8Z1xlEA.ttf) format('truetype');}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Poppins Medium'), local('Poppins-Medium'), url(https://fonts.=
+gstatic.com/s/poppins/v5/pxiByp8kv8JHgFVrLGT9Z1xlEA.ttf) =
+format('truetype');}
+</style>
+    </head>
+    <body style=3D\\"margin: auto; =
+max-width: 75%; padding: 20px; color: #333; font-family: arial; font-size: =
+20px; font-weight: 400; line-height: 1.35;\\">
+        <div class=3D\\"logo\\" =
+style=3D\\"display: block; margin-bottom: 20px; text-align: right;\\">
+            <img src=3D\\"https://www.biglotteryfund.org.=
+uk/assets/images/logos/logo.png\\" alt=3D\\"Big Lottery Fund logo\\" =
+style=3D\\"width: 150px;\\" width=3D\\"150\\">
+        </div>
+
+       =20
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Thank you for getting in touch with =
+us.</p>
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Here is a copy of the information =
+you've submitted. We'll be in touch as soon as we can.</p>
+   =20
+    <div class=3D\\"summary\\">
+       =20
+            <h4 style=3D\\"color: =
+#e20087; margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid =
+#e20087; padding-bottom: 3px; font-weight: 700;\\">Your current work</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">How does your current work help young =
+people not in employment, education or training facing barriers to work?=
+</h5>
+                       =20
+                            <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; =
+margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid #e20087; =
+padding-bottom: 3px; font-weight: 700;\\">How you will use the grant</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Select which area you are working =
+in</h5>
+                       =20
+                            <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Barking and Dagenham</p>
+                       =
+=20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Describe what you will use the money =
+for</h5>
+                       =20
+                            <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; =
+margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid #e20087; =
+padding-bottom: 3px; font-weight: 700;\\">People and communities</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Select which programme aim you are most=
+ aligned with</h5>
+                       =20
+                            =
+<p style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Develop partnerships</p>
+                       =
+=20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Describe the people and communities you=
+ are working with, and if required provide more information about where =
+they are based</h5>
+                       =20
+                            =
+<p style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; =
+margin: 0 0 20px; font-size: 16px; border-bottom: 1px solid #e20087; =
+padding-bottom: 3px; font-weight: 700;\\">Your details</h4>
+           =20
+                   =20
+                   =20
+                        <h5 =
+style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; font-weight: =
+700;\\">Organisation name</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-family: arial; =
+font-size: 20px; font-weight: 400; line-height: 1.35;\\">Big Lottery Fund</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Your name</h5>
+                       =20
+                            <p style=3D\\"color: =
+#333; font-family: arial; font-size: 20px; font-weight: 400; line-height: 1=
+.35;\\">Example</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 =
+style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; font-weight: =
+700;\\">Email address</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-family: arial; =
+font-size: 20px; font-weight: 400; line-height: 1.35;\\">example@example.=
+com</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 =
+style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; font-weight: =
+700;\\">Phone number</h5>
+                       =20
+                        =
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">3454102030</p>
+                       =20
+                   =20
+       =20
+    </div>
+
+
+
+        <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; font-weight: =
+500; margin: 0 0 20px; font-size: 14px; margin-top: 50px;\\">Data =
+protection</h5>
+        <small style=3D\\"color: #666; display: block; =
+font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a public =
+body with a duty to distribute National Lottery and other money in grants =
+for good causes. We use the personal data you provide, such as contact =
+details for individuals at your organisation, to help you apply for a grant=
+ and to assess your application.</small>
+        <small style=3D\\"color: =
+#666; display: block; font-size: 11px; margin-bottom: 10px;\\">We may share =
+your personal data with organisations which help us with our grant making =
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data which they need to =
+carry out their work and subject to appropriate safety measures.</small>
+        <small style=3D\\"color: #666; display: block; font-size: 11px; =
+margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
+information about how we store and use personal data and the lawful basis =
+for this. Please read the full Notice which is published on our website at =
+www.biglotteryfund.org.uk/data-protection or contact us to request a hard =
+copy. The Notice may be updated from time to time.</small>
+    </body>
+</html>
+
+"
+`;
+
+exports[`processor should create success emails 2`] = `
+"Content-Type: multipart/alternative;
+From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+To: Example <example@example.com>
+Subject: Youth Capacity Funding: New expression of interest from Big
+ Lottery Fund
+MIME-Version: 1.0
+
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+NEW EXPRESSION OF INTEREST FOR YOUTH CAPACITY FUNDING
+YOUR CURRENT WORK
+HOW DOES YOUR CURRENT WORK HELP YOUNG PEOPLE NOT IN EMPLOYMENT, EDUCATION =
+OR TRAINING FACING BARRIERS TO WORK?
+Test
+
+HOW YOU WILL USE THE GRANT
+SELECT WHICH AREA YOU ARE WORKING IN
+Barking and Dagenham
+
+DESCRIBE WHAT YOU WILL USE THE MONEY FOR
+Test
+
+PEOPLE AND COMMUNITIES
+SELECT WHICH PROGRAMME AIM YOU ARE MOST ALIGNED WITH
+Develop partnerships
+
+DESCRIBE THE PEOPLE AND COMMUNITIES YOU ARE WORKING WITH, AND IF REQUIRED =
+PROVIDE MORE INFORMATION ABOUT WHERE THEY ARE BASED
+Test
+
+YOUR DETAILS
+ORGANISATION NAME
+Big Lottery Fund
+
+YOUR NAME
+Example
+
+EMAIL ADDRESS
+example@example.com
+
+PHONE NUMBER
+3454102030
+
+DATA PROTECTION
+The Big Lottery Fund is a public body with a duty to distribute National =
+Lottery and other money in grants for good causes. We use
+the personal data you provide, such as contact details for individuals at =
+your organisation, to help you apply for a grant and to
+assess your application. We may share your personal data with organisations=
+ which help us with our grant making activities or
+others which have a =
+legitimate interest in our work or have funded your grant. We will only =
+share personal data which they need to
+carry out their work and subject to =
+appropriate safety measures. Our Data Protection and Privacy Notice gives =
+more information
+about how we store and use personal data and the lawful =
+basis for this. Please read the full Notice which is published on our
+website at www.biglotteryfund.org.uk/data-protection or contact us to =
+request a hard copy. The Notice may be updated from time to
+time.
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset=3D\\"UTF-8\\">
+       =20
+        <style>
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Poppins Light'), =
+local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v5/pxiByp8k=
+v8JHgFVrLDz8Z1xlEA.ttf) format('truetype');}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Poppins Medium'), local('Poppins-Medium'), url(https://fonts.=
+gstatic.com/s/poppins/v5/pxiByp8kv8JHgFVrLGT9Z1xlEA.ttf) =
+format('truetype');}
+</style>
+    </head>
+    <body style=3D\\"margin: auto; =
+max-width: 75%; padding: 20px; color: #333; font-family: arial; font-size: =
+20px; font-weight: 400; line-height: 1.35;\\">
+        <div class=3D\\"logo\\" =
+style=3D\\"display: block; margin-bottom: 20px; text-align: right;\\">
+            <img src=3D\\"https://www.biglotteryfund.org.=
+uk/assets/images/logos/logo.png\\" alt=3D\\"Big Lottery Fund logo\\" =
+style=3D\\"width: 150px;\\" width=3D\\"150\\">
+        </div>
+
+       =20
+    <h1 style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; =
+font-size: 26px;\\">New expression of interest for Youth Capacity =
+Funding</h1>
+   =20
+    <div class=3D\\"summary\\">
+       =20
+            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px;=
+ border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
+700;\\">Your current work</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">How does your =
+current work help young people not in employment, education or training =
+facing barriers to work?</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-family: arial; =
+font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px;=
+ border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
+700;\\">How you will use the grant</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Select which area =
+you are working in</h5>
+                       =20
+                        =
+    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Barking and Dagenham</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Describe what you =
+will use the money for</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-family: arial; =
+font-size: 20px; font-weight: 400; line-height: 1.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px;=
+ border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
+700;\\">People and communities</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Select which =
+programme aim you are most aligned with</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-family: arial; =
+font-size: 20px; font-weight: 400; line-height: 1.35;\\">Develop =
+partnerships</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 =
+style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 14px; font-weight: =
+700;\\">Describe the people and communities you are working with, and if =
+required provide more information about where they are based</h5>
+                       =20
+                            <p style=3D\\"color: =
+#333; font-family: arial; font-size: 20px; font-weight: 400; line-height: 1=
+.35;\\">Test</p>
+                       =20
+                   =20
+       =20
+            <h4 style=3D\\"color: #e20087; margin: 0 0 20px; font-size: 16px;=
+ border-bottom: 1px solid #e20087; padding-bottom: 3px; font-weight: =
+700;\\">Your details</h4>
+           =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Organisation =
+name</h5>
+                       =20
+                            <p =
+style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
+400; line-height: 1.35;\\">Big Lottery Fund</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Your name</h5>
+                       =
+=20
+                            <p style=3D\\"color: #333; font-family: =
+arial; font-size: 20px; font-weight: 400; line-height: 1.35;\\">Example</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087;=
+ margin: 0 0 20px; font-size: 14px; font-weight: 700;\\">Email address</h5>
+                       =20
+                            <p style=3D\\"color: =
+#333; font-family: arial; font-size: 20px; font-weight: 400; line-height: 1=
+.35;\\">example@example.com</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
+font-size: 14px; font-weight: 700;\\">Phone number</h5>
+                       =20
+                            <p style=3D\\"color: =
+#333; font-family: arial; font-size: 20px; font-weight: 400; line-height: 1=
+.35;\\">3454102030</p>
+                       =20
+                   =20
+       =20
+    </div>
+
+
+
+        <h5 class=3D\\"space-above\\" style=3D\\"color: =
+#e20087; font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
+50px;\\">Data protection</h5>
+        <small style=3D\\"color: #666; display: =
+block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
+public body with a duty to distribute National Lottery and other money in =
+grants for good causes. We use the personal data you provide, such as =
+contact details for individuals at your organisation, to help you apply for=
+ a grant and to assess your application.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">We may share your personal data with organisations which help us =
+with our grant making activities or others which have a legitimate interest=
+ in our work or have funded your grant. We will only share personal data =
+which they need to carry out their work and subject to appropriate safety =
+measures.</small>
+        <small style=3D\\"color: #666; display: block; =
+font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
+Notice gives more information about how we store and use personal data and =
+the lawful basis for this. Please read the full Notice which is published =
+on our website at www.biglotteryfund.org.uk/data-protection or contact us =
+to request a hard copy. The Notice may be updated from time to time.=
+</small>
+    </body>
+</html>
+
+"
+`;

@@ -1,14 +1,12 @@
+// 'use strict';
 'use strict';
 const path = require('path');
 
-const processor = require('./processor');
+const { processor } = require('./processor');
 const { validateIsEmail } = require('../helpers');
+const { PROJECT_AIMS, PROJECT_LOCATIONS } = require('./constants');
 
 const formLang = 'apply.youthCapacity';
-
-const PROJECT_LOCATIONS = [{ value: 'Birmingham' }, { value: 'Bradford' }, { value: 'Barking and Dagenham' }];
-
-const PROJECT_AIMS = [{ value: 'Build capacity' }, { value: 'Develop partnerships' }];
 
 const stepCurrentWork = {
     fieldsets: [

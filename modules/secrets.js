@@ -43,7 +43,8 @@ const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgr
  * Applications service API url
  * Secure service for storing grant programme applications
  */
-const APPLICATIONS_SERVICE_ENDPOINT = process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint', true);
+const APPLICATIONS_SERVICE_ENDPOINT =
+    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint', true);
 
 /**
  * JWT signing token, used for user authentication

@@ -12,6 +12,6 @@ function store(formModel, applicationData) {
     });
 }
 
-module.exports =  {
+module.exports = {
     store
 };
