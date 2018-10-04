@@ -37,9 +37,9 @@ featured: {Boolean} - Use featured style for promo card
             </h3>
             <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             <div class="promo-card__trail-text s-prose">
-                {{ props.trailText | safe  }}
+                {{ props.trailText | safe }}
                 {% if props.link.url %}
-                    <a href="{{ props.link.url }}" {% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}{% endif %}">
+                    <a href="{{ props.link.url }}"{% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}"{% endif %}>
                         {{ props.link.label }}
                     </a>
                 {% endif %}

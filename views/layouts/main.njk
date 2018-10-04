@@ -8,6 +8,7 @@
 
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
+        {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         {{ accessibilityNav() }}
