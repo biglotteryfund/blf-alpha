@@ -575,3 +575,54 @@ research:
     # @TODO: Translate me!
     researchPartners: Research partners
     contact: Manylion cyswllt
+apply:
+  error:
+    title: There was a problem with your submission
+    message: >
+      <p>We have been notified of the problem.</p>
+      <p>Please return to the review step and try again. If you still see an error, please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+  digitalFundDefaults: &digitalFundDefaults
+    title: Let’s Talk
+    errorTitle: There was a problem with your submission
+    fields:
+      name:
+        label: Your name
+        errorMessage: Please provide your name
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      organisation-name:
+        label: Organisation name
+        errorMessage: Please provide the name of your organisation
+      your-idea:
+        label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      your-idea-product:
+        label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      technology:
+        label: Briefly tell us how digital technology is important to your project
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us how digital technology is important to your project
+    steps:
+      - name: Your details
+        fieldsets:
+        - legend: Your contact details
+          introduction: Please tell us a little about your project and organisation so that we can get in touch
+        - legend: Your idea
+    review:
+      title: 'Check this is right before submitting your information'
+      proceedLabel: 'Submit'
+    success:
+      title: Thank you for getting in touch
+      confirmation: We have emailed you a copy of your submission
+      message: We’ll get back to you about a call as soon as we can.
+      nextStepsTitle: What happens next?
+  digitalFundStrand1:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+  digitalFundStrand2:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
