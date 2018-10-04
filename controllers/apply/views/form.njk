@@ -3,7 +3,7 @@
 {% from "components/icons.njk" import iconTick %}
 {% from "components/form-fields.njk" import formHeader, formErrors, formField with context %}
 
-{% set stepProgressDescription = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps %}
+{% set stepProgressDescription = __('global.misc.stepProgress', stepProgress.currentStepNumber, stepProgress.totalSteps) %}
 {% block title %} {{ stepProgressDescription }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}

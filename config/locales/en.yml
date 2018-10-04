@@ -84,6 +84,7 @@ global:
     imageCredit: Image credit
     latestNews: Latest news
     next: next
+    no: No
     or: or
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
@@ -91,10 +92,10 @@ global:
     readMoreAbout: "Read more about %s"
     search: Search
     seeProgramme: See programme
+    stepProgress: "Step %s of %s"
     topics: topics
     viewAllNews: View all news articles
     yes: Yes
-    no: No
   programmes:
     programmeLabels:
       area: Area

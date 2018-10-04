@@ -83,6 +83,7 @@ global:
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
+    no: Naddo
     or: neu
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
@@ -90,8 +91,10 @@ global:
     readMoreAbout: Darllenwch fwy am
     search: Chwilio
     seeProgramme: Gweld y rhaglen
+    stepProgress: "Step %s of %s"
     topics: pynciau
     viewAllNews: Gweld pob erthygl newyddion
+    yes: Do
   programmes:
     programmeLabels:
       area: Ardal
