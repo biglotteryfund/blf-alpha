@@ -117,7 +117,10 @@ router.get('/', async (req, res, next) => {
             'application/json': () => {
                 // Repopulate existing app globals so Nunjucks can read them
                 // outside of Express's view engine context
-                const context = Object.assign({}, res.locals, req.app.locals, { grants: data.results });
+                const context = Object.assign({}, res.locals, req.app.locals, {
+                    grants: data.results,
+                    pagination: buildPagination(data.meta.pagination, queryWithPage)
+                });
                 const template = path.resolve(__dirname, './views/ajax-results.njk');
 
                 nunjucks.render(template, context, (renderErr, html) => {

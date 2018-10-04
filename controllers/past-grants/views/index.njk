@@ -1,4 +1,3 @@
-{% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "components/form-fields.njk" import inputChoice, inputSelect %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "./grant-results.njk" import grantResultList with context %}
@@ -127,10 +126,6 @@
                             {{ grantResultList(grants) }}
                         </div>
 
-                        {# @TODO update these dynamically from API - or render them with the template? #}
-                        <div v-show="!isCalculating">
-                            {{ splitNav(pagination.prevLink, pagination.nextLink) }}
-                        </div>
                     </div>
 
                     <div class="grants-search__filters">

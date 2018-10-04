@@ -1,4 +1,5 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/split-nav/macro.njk" import splitNav with context %}
 
 {% macro grantResultItem(grant) %}
     <div class="u-margin-bottom">
@@ -44,6 +45,7 @@
         {% for grant in grants %}
             {{ grantResultItem(grant) }}
         {% endfor %}
+        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
     {% else %}
         {# @TODO add suggested search results etc #}
         <p>No results</p>
