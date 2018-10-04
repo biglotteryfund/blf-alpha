@@ -93,48 +93,53 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     const facetParams = buildAllowedParams(req.query);
     const queryWithPage = addPaginationParameters(facetParams, req.query.page);
-    const data = await queryGrantsApi(queryWithPage);
 
-    res.format({
-        // Initial / server-only search
-        html: () => {
-            res.render(path.resolve(__dirname, './views/index'), {
-                title: 'Past grants search',
-                queryParams: isEmpty(facetParams) ? false : facetParams,
-                grants: data.results,
-                facets: data.facets,
-                meta: data.meta,
-                pagination: buildPagination(data.meta.pagination, queryWithPage)
-            });
-        },
+    try {
+        const data = await queryGrantsApi(queryWithPage);
 
-        // AJAX search for client-side app
-        'application/json': () => {
-            // Repopulate existing app globals so Nunjucks can read them
-            // outside of Express's view engine context
-            const context = Object.assign({}, res.locals, req.app.locals, { grants: data.results });
-            const template = path.resolve(__dirname, './views/ajax-results.njk');
+        res.format({
+            // Initial / server-only search
+            html: () => {
+                res.render(path.resolve(__dirname, './views/index'), {
+                    title: 'Past grants search',
+                    queryParams: isEmpty(facetParams) ? false : facetParams,
+                    grants: data.results,
+                    facets: data.facets,
+                    meta: data.meta,
+                    pagination: buildPagination(data.meta.pagination, queryWithPage)
+                });
+            },
 
-            nunjucks.render(template, context, (renderErr, html) => {
-                if (renderErr) {
-                    Raven.captureException(renderErr);
-                    res.json({
-                        status: 'error'
-                    });
-                } else {
-                    res.json({
-                        status: 'success',
-                        meta: data.meta,
-                        facets: data.facets,
-                        resultsHtml: html
-                    });
-                }
-            });
-        }
-    });
+            // AJAX search for client-side app
+            'application/json': () => {
+                // Repopulate existing app globals so Nunjucks can read them
+                // outside of Express's view engine context
+                const context = Object.assign({}, res.locals, req.app.locals, { grants: data.results });
+                const template = path.resolve(__dirname, './views/ajax-results.njk');
+
+                nunjucks.render(template, context, (renderErr, html) => {
+                    if (renderErr) {
+                        Raven.captureException(renderErr);
+                        res.json({
+                            status: 'error'
+                        });
+                    } else {
+                        res.json({
+                            status: 'success',
+                            meta: data.meta,
+                            facets: data.facets,
+                            resultsHtml: html
+                        });
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.get('/:id', async (req, res, next) => {
