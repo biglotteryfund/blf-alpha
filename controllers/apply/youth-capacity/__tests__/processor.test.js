@@ -19,7 +19,7 @@ const mockFormData = {
     'step-2': { location: 'Barking and Dagenham', money: 'Test' },
     'step-3': { 'project-aims': 'Develop partnerships', 'people-and-communities': 'Test' },
     'step-4': {
-        'organisation-name': 'Big Lottery Fund',
+        'organisation-name': 'Test organisation',
         'contact-name': 'Example',
         'contact-email': 'example@example.com',
         'contact-phone': '3454102030'
@@ -57,7 +57,8 @@ describe('processor', () => {
             data: flattenFormData(mockFormData),
             copy: get(enCopy, form.lang),
             stepsWithValues: stepsWithValues(form.steps, mockFormData),
-            mailTransport: mockTransport
+            mailTransport: mockTransport,
+            storeApplication: false
         });
 
         const [customerEmail, internalEmail] = results.map(cleanMailForSnaphot);

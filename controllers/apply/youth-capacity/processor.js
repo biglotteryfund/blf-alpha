@@ -23,12 +23,14 @@ function formatDataForStorage(stepsData, formCopy) {
     });
 }
 
-async function processor({ formModel, data, stepsWithValues, copy, mailTransport = null }) {
+async function processor({ formModel, data, stepsWithValues, copy, mailTransport = null, storeApplication = true }) {
     /**
      * Store the application
      */
-    const dataToStore = formatDataForStorage(stepsWithValues, copy);
-    await applications.store(formModel, dataToStore);
+    if (storeApplication === true) {
+        const dataToStore = formatDataForStorage(stepsWithValues, copy);
+        await applications.store(formModel, dataToStore);
+    }
 
     const customerSendTo = { name: data['contact-name'], address: data['contact-email'] };
 
