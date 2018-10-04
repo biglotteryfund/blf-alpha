@@ -1,0 +1,27 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macros.njk" import formField with context %}
+
+{% set exampleErrors =  [{
+    "location": "body",
+    "param": "example-name",
+    "value": "",
+    "msg": "Please provide your name"
+}] %}
+
+{% call sgExample('Text input') %}
+    {{ formField({
+        type: 'text',
+        name: 'example-name',
+        label: 'Your name',
+        isRequired: true
+    }) }}
+{% endcall %}
+
+{% call sgExample('Text input with errors') %}
+    {{ formField({
+        type: 'text',
+        name: 'example-name',
+        label: 'Your name',
+        isRequired: true
+    }, errors = exampleErrors) }}
+{% endcall %}

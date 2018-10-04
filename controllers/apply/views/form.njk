@@ -2,7 +2,7 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
-{% from "components/form-fields.njk" import formErrors, formField with context %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/language/macros.njk" import languageServiceMessage with context %}
 
 {% set stepProgressDescription = __('global.misc.stepProgress', stepProgress.currentStepNumber, stepProgress.totalSteps) %}

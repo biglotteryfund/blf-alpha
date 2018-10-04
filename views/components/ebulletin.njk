@@ -1,4 +1,4 @@
-{% from "components/form-fields.njk" import formErrors, formField with context %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 
 {% macro ebulletinForm() %}
     <form class="form-ebulletin" method="post" action="/about/ebulletin">
