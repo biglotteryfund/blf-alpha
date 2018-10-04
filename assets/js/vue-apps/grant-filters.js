@@ -12,8 +12,8 @@ function init() {
         delimiters: ['<%', '%>'],
         data() {
             let PGS = window._PAST_GRANTS_SEARCH;
-            let queryParams = (PGS && PGS.queryParams) ? PGS.queryParams : {};
-            let existingFacets = (PGS && PGS.facets) ? PGS.facets : {};
+            let queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
+            let existingFacets = PGS && PGS.facets ? PGS.facets : {};
             let defaultFilters = {
                 amount: '',
                 year: '',
@@ -32,7 +32,7 @@ function init() {
         watch: {
             // Watch for changes to filters then make AJAX call
             filters: {
-                handler: function () {
+                handler: function() {
                     this.filterResults();
                 },
                 deep: true
@@ -45,7 +45,6 @@ function init() {
                 .removeAttr('disabled');
         },
         methods: {
-
             // Create the sort parameters
             sort: function(sortKey, direction) {
                 this.filters.sort = `${sortKey}|${direction}`;
@@ -81,36 +80,38 @@ function init() {
                 }
             },
 
-            filterResults: _.debounce(function () {
+            filterResults: _.debounce(function() {
                 this.isCalculating = true;
                 this.updateUrl();
 
-                setTimeout(function () {
-                    const $form = $(this.$el);
-                    const url = $form.attr('action');
-                    const urlWithParams = `${url}?${this.filtersToString()}`;
-                    $.ajax({
-                        url: urlWithParams,
-                        dataType: 'json',
-                        success: response => {
-                            if (response.status === 'success') {
-                                // @TODO vue-ize this
-                                $('#js-grant-results').html(response.resultsHtml);
-                                this.totalResults = response.meta.totalResults;
-                                this.facets = response.facets;
-                            } else {
+                setTimeout(
+                    function() {
+                        const $form = $(this.$el);
+                        const url = $form.attr('action');
+                        const urlWithParams = `${url}?${this.filtersToString()}`;
+                        $.ajax({
+                            url: urlWithParams,
+                            dataType: 'json',
+                            success: response => {
+                                if (response.status === 'success') {
+                                    // @TODO vue-ize this
+                                    $('#js-grant-results').html(response.resultsHtml);
+                                    this.totalResults = response.meta.totalResults;
+                                    this.facets = response.facets;
+                                } else {
+                                    this.handleError(urlWithParams);
+                                }
+                                this.isCalculating = false;
+                            },
+                            timeout: 20000,
+                            error: function() {
                                 this.handleError(urlWithParams);
                             }
-                            this.isCalculating = false;
-                        },
-                        timeout: 20000,
-                        error: function() {
-                            this.handleError(urlWithParams);
-                        }
-                    });
-                }.bind(this), 1000);
-            }, 500),
-
+                        });
+                    }.bind(this),
+                    1000
+                );
+            }, 500)
         }
     });
 }
