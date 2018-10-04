@@ -37,22 +37,20 @@
 .form-errors {
     border: 3px solid palette('error');
     margin-bottom: $spacingUnit;
-}
-.form-errors__title {
-    color: white;
-    background-color: palette('error');
-    font-weight: bold;
-    margin: 0;
-    margin-bottom: $spacingUnit / 2;
-    padding: $spacingUnit / 3;
-}
-.form-errors__body {
-    padding: $spacingUnit / 2;
-}
 
-.error-list {
-    &,
-    a {
+    .form-errors__title {
+        color: white;
+        background-color: palette('error');
+        font-weight: bold;
+        margin: 0;
+        padding: $spacingUnit / 3;
+    }
+    .form-errors__list {
+        padding: $spacingUnit / 2;
+    }
+
+    .form-errors__list li,
+    .form-errors__list li a {
         color: palette('error');
         font-weight: bold;
     }
@@ -68,16 +66,21 @@
     &:target {
         background-color: rgba(255, 255, 0, 0.5);
     }
-}
 
-.form-field__errors {
-    margin-top: $spacingUnit / 3;
-}
+    .form-field__errors {
+        margin-top: $spacingUnit / 3;
+    }
+    .form-field__errors li,
+    .form-field__errors li a {
+        color: palette('error');
+        font-weight: bold;
+    }
 
-.form-field.has-errors {
-    .form-field__main {
-        border-left: 3px solid palette('error');
-        padding-left: $spacingUnit / 2;
+    &.has-errors {
+        .form-field__main {
+            border-left: 3px solid palette('error');
+            padding-left: $spacingUnit / 2;
+        }
     }
 }
 
