@@ -40,23 +40,23 @@ function basicContent({ customTemplate = null } = {}) {
         const { content, breadcrumbs } = res.locals;
         const viewData = { breadcrumbs };
 
-        if (!content) {
-            next();
-        }
-
-        /**
-         * Determine template to render:
-         * 1. If using a custom template defer to that
-         * 2. If the response has child pages then render a listing page
-         * 3. Otherwise, render an information page
-         */
-        if (customTemplate) {
-            res.render(customTemplate, viewData);
-        } else if (content.children) {
-            res.render(path.resolve(__dirname, './views/listing-page'), viewData);
-        } else if (content.introduction || content.segments.length > 0) {
-            // ↑ information pages must have at least an introduction or some content segments
-            res.render(path.resolve(__dirname, './views/information-page'), viewData);
+        if (content) {
+            /**
+             * Determine template to render:
+             * 1. If using a custom template defer to that
+             * 2. If the response has child pages then render a listing page
+             * 3. Otherwise, render an information page
+             */
+            if (customTemplate) {
+                res.render(customTemplate, viewData);
+            } else if (content.children) {
+                res.render(path.resolve(__dirname, './views/listing-page'), viewData);
+            } else if (content.introduction || content.segments.length > 0) {
+                // ↑ information pages must have at least an introduction or some content segments
+                res.render(path.resolve(__dirname, './views/information-page'), viewData);
+            } else {
+                next();
+            }
         } else {
             next();
         }
