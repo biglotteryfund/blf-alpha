@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+/* eslint-disable no-console */
 require('dotenv').config();
 const config = require('config');
 
@@ -198,37 +199,25 @@ function verifyCommitsToDeploy() {
     return new Promise((resolve, reject) => {
         return getCommitsToBeDeployed()
             .then(commits => {
-                // list the commits
-                let commitStr = '';
-                console.log('This deployment will push the following commits live:');
-                commits.forEach(c => {
-                    let msg = c.commit.message;
-                    // merge commits have newlines for descriptions so let's remove them
-                    let newLineSearch = '\n\n';
-                    if (msg.indexOf(newLineSearch) !== -1) {
-                        msg = msg.replace(newLineSearch, ' (');
-                        msg += ')';
-                    }
-                    let line = ` - ${msg} \n`;
-                    commitStr += line;
-                    console.log('\t' + line);
-                });
+                const commitStr = [
+                    'This deployment will push the following commits live:',
+                    commits.map(info => `- ${info.sha.slice(0, 12)} ${info.commit.message}`).join('\n')
+                ].join('\n');
 
-                // make sure the user is happy to push these commits
-                let promptSchema = {
+                console.log(commitStr);
+
+                prompt.start();
+
+                prompt.get({
                     description: `Are you sure you want to push the above commits live?`,
                     name: 'yesno',
                     type: 'string',
                     pattern: /y[es]*|n[o]?/,
                     message: 'Please answer the question properly',
                     required: true
-                };
-
-                prompt.start();
-
-                prompt.get(promptSchema, (err, result) => {
+                }, (err, result) => {
                     if (['y', 'yes'].indexOf(result.yesno) !== -1) {
-                        resolve('\nThe following commits will be deployed: \n' + commitStr);
+                        resolve(commitStr);
                     } else {
                         reject('Bailing out!');
                     }
@@ -267,15 +256,14 @@ function deployRevision(id) {
     // if we're deploying to PROD, look up the commits this will push live
     if (env === 'PRODUCTION') {
         verifyCommitsToDeploy()
-            .then(commitStr => {
-                pushOutDeploy(env, id, commitStr);
+            .then(() => {
+                pushOutDeploy(env, id);
             })
             .catch(err => {
                 console.log(err);
                 process.exit(1);
             });
     } else {
-        // it's a non-prod deploy, no need to verify commits
         pushOutDeploy(env, id);
     }
 }
