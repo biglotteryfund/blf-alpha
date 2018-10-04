@@ -1,12 +1,21 @@
 {% from "components/styleguide.njk" import sgExample %}
-{% from "./macros.njk" import formField with context %}
+{% from "./macros.njk" import formField, formErrors with context %}
 
 {% set exampleErrors =  [{
     "location": "body",
-    "param": "example-name",
+    "param": "example-name-with-error",
     "value": "",
     "msg": "Please provide your name"
+}, {
+    "location": "body",
+    "param": "example-textarea-with-error",
+    "value": "",
+    "msg": "Please tell us your idea"
 }] %}
+
+{% call sgExample('Form errors') %}
+    {{ formErrors(exampleErrors, title = 'There was a problem with your submission') }}
+{% endcall %}
 
 {% call sgExample('Text input') %}
     {{ formField({
@@ -20,8 +29,30 @@
 {% call sgExample('Text input with errors') %}
     {{ formField({
         type: 'text',
-        name: 'example-name',
+        name: 'example-name-with-error',
         label: 'Your name',
+        isRequired: true
+    }, errors = exampleErrors) }}
+{% endcall %}
+
+{% call sgExample('Textarea') %}
+    {{ formField({
+        type: 'textarea',
+        name: 'example-textarea',
+        label: 'Briefly explain your idea and why it’ll make a difference',
+        rows: 8,
+        lengthHint: 'Suggested answer length: 1–2 paragraphs',
+        isRequired: true
+    }) }}
+{% endcall %}
+
+{% call sgExample('Textarea with errors') %}
+    {{ formField({
+        type: 'textarea',
+        name: 'example-textarea-with-error',
+        label: 'Briefly explain your idea and why it’ll make a difference',
+        rows: 8,
+        lengthHint: 'Suggested answer length: 1–2 paragraphs',
         isRequired: true
     }, errors = exampleErrors) }}
 {% endcall %}
