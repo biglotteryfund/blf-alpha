@@ -1,0 +1,38 @@
+{% from "components/icons.njk" import iconTick %}
+
+{% macro languageLink(currentLocale) %}
+    {% if isBilingual %}
+        {% if currentLocale == 'en' %}
+            <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+        {% else %}
+            <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro languageSwitcher(currentLocale) %}
+    {% for item in [{ "id": "en", "label": "English" }, { "id": "cy", "label": "Cymraeg" }] %}
+        {% if item.id === currentLocale %}
+            <span class="language-control is-current">
+                {{ iconTick() }} {{ item.label }}
+            </span>
+        {% else %}
+            <a href="{{ getCurrentUrl(item.id) }}"
+                class="language-control">
+                {{ item.label }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro languageServiceMessage(currentLocale) %}
+    {% if isBilingual %}
+        <div class="message">
+            {% if currentLocale == 'en' %}
+                <a href="{{ getCurrentUrl('cy') }}">This service is also available in Welsh (Cymraeg)</a>
+            {% else %}
+                <a href="{{ getCurrentUrl('en') }}">Mae’r gwasanaeth ar-lein ar gael yn Saesneg (English) hefyd</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
