@@ -894,10 +894,10 @@ research:
     contact: Contact
 apply:
   error:
-    title: There was an problem submitting your idea
+    title: There was a problem with your submission
     message: >
-      <p>There was a problem submitting your idea, we have been notified of the problem.</p>
-      <p>Please return to the review step and try again. If you still see an error please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+      <p>We have been notified of the problem.</p>
+      <p>Please return to the review step and try again. If you still see an error, please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
   reachingCommunities:
     title: Reaching Communities & Partnerships
     description: Apply for a grant over £10,000
@@ -987,7 +987,6 @@ apply:
       proceedLabel: 'Submit'
   digitalFundDefaults: &digitalFundDefaults
     title: Let’s Talk
-    description: 'The <a href="/funding/programmes/digital-fund">Digital Fund programme</a> makes grants of £100,000 to £500,000 to help civil society organisations to become more successful and more impactful.'
     errorTitle: There was a problem with your submission
     fields:
       name:
