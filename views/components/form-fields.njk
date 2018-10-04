@@ -1,5 +1,3 @@
-{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
-
 {% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
     <div class="form-header">
         {% if backUrl %}
