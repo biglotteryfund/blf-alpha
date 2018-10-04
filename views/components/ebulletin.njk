@@ -1,7 +1,7 @@
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 
 {% macro ebulletinForm() %}
-    <form class="form-ebulletin" method="post" action="/about/ebulletin">
+    <form class="form-ebulletin form-theme-slim" method="post" action="/about/ebulletin">
         {% set formCopy = __('toplevel.ebulletin') %}
         <h2 class="t1 t--underline accent--pink a--text">{{ formCopy.introHeading }}</h2>
 

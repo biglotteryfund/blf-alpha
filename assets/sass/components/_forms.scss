@@ -266,6 +266,27 @@
 }
 
 /* =========================================================================
+   Slim form theme
+   ========================================================================= */
+/* e.g. ebulletin form */
+
+.form-theme-slim {
+    font-size: 18px;
+
+    .form-field {
+        margin-bottom: 0.5em;
+    }
+
+    .ff-text {
+        display: block;
+        width: 100%;
+        padding: 0.35em;
+        font-size: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* =========================================================================
    Start pages
    ========================================================================= */
 
@@ -398,31 +419,6 @@
     margin: 1em 0;
     padding: 10px;
     font-size: 18px;
-}
-
-/* =========================================================================
-   Custom Form: Ebulletin
-   ========================================================================= */
-// @TODO: can we define this a general modifier? Slim? Tinted? Slim Shady?
-
-.form-ebulletin {
-    .form-field {
-        margin-bottom: 0.5em;
-    }
-
-    &,
-    .ff-label {
-        font-size: 18px;
-    }
-
-    .ff-text,
-    .ff-textarea {
-        display: block;
-        width: 100%;
-        padding: 0.35em;
-        font-size: 16px;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-    }
 }
 
 /* =========================================================================
