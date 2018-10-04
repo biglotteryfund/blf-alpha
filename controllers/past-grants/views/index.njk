@@ -163,8 +163,8 @@
                                             v-model="filters.amount" disabled>
                                         <option value="">Any amount</option>
                                         <option v-for="option in facets.amountAwarded"
-                                                v-bind:value="option._id">
-                                            £<% option._id %> (<% option.count %>)
+                                                v-bind:value="option.value">
+                                            <% option.title %> (<% option.count %>)
                                         </option>
                                     </select>
                                 </div>
@@ -263,6 +263,7 @@
 
                             {# Filter: Local Authority #}
                             {# @TODO add a noscript fallback #}
+                            {# @TODO filter out empty options at API end #}
                             <div class="search-filters__facet js-only" v-cloak>
                                 <label class="ff-label">Local Authority</label>
                                 <select name="localAuthority"
@@ -279,20 +280,19 @@
                             </div>
 
                             {# Filter: Country #}
-                            {# @TODO make this a facet?  #}
-                            {#<div class="search-filters__facet js-only" v-cloak>#}
-                                {#<label class="ff-label">Country</label>#}
-                                {#<select name="country"#}
-                                        {#class="ff-select"#}
-                                        {#v-on:change="filterResults"#}
-                                        {#v-model="filters.country" disabled>#}
-                                    {#<option value="">All countries</option>#}
-                                    {#<option value="england">England</option>#}
-                                    {#<option value="scotland">Scotland</option>#}
-                                    {#<option value="wales">Wales</option>#}
-                                    {#<option value="northern-ireland">Northern Ireland</option>#}
-                                {#</select>#}
-                            {#</div>#}
+                            <div class="search-filters__facet js-only" v-cloak>
+                                <label class="ff-label">Country</label>
+                                <select name="country"
+                                        class="ff-select"
+                                        v-on:change="filterResults"
+                                        v-model="filters.country" disabled>
+                                    <option value="">All countries</option>
+                                    <option v-for="option in facets.countries"
+                                            v-bind:value="option.value">
+                                        <% option.name %> (<% option.count %>)
+                                    </option>
+                                </select>
+                            </div>
 
                             <div class="search-filters__actions">
                                 <input type="submit" value="Filter" class="btn btn--medium">
