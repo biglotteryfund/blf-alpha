@@ -38,7 +38,7 @@ $spinnerColour: palette('pink');
     height: $spinnerSize;
 }
 .icon--loading-spinner:after {
-    content: " ";
+    content: ' ';
     display: block;
     width: $spinnerSize;
     height: $spinnerSize;

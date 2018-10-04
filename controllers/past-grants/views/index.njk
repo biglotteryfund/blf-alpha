@@ -10,7 +10,8 @@
     <script>
         window._PAST_GRANTS_SEARCH = {
             facets: {{ facets | dump | safe }},
-            queryParams: {{ queryParams | dump | safe }}
+            queryParams: {{ queryParams | dump | safe }},
+            totalResults: {{ meta.totalResults }}
         };
     </script>
 {% endblock %}
@@ -23,10 +24,9 @@
                   id="js-grant-filters"
                   method="get"
                   action=""
-                  v-on:submit.prevent="filterResults($event)">
+                  v-on:submit.prevent>
 
                 <h1>Search past grants</h1>
-
 
                 <div class="u-tone-background-pale-grey u-padded">
                     <label class="u-visually-hidden" for="search-query">Search</label>
@@ -37,15 +37,22 @@
                                name="q"
                                value="{{ queryParams.q }}"
                                placeholder="Enter a search term, location, or postcode"
-                               v-on:change="filterResults"
+                               autocomplete="nope"
                                v-model="filters.q">
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
                 </div>
 
-                <div class="grants-search__meta">
+                <div class="grants-search__meta"
+                     v-bind:class="{ 'u-invisible': isCalculating }">
+
                     <span class="grants-search__total">
-                        Showing <strong id="js-count">{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}
+                        Showing
+                        <strong>
+                            <span v-cloak><% totalResults.toLocaleString() %></span>
+                            <noscript>{{ meta.totalResults | numberWithCommas }}</noscript>
+                        </strong>
+                        results
                     </span>
 
                     {# @TODO these links need to swap when clicked #}
@@ -110,15 +117,25 @@
                 <div class="grants-search__content">
 
                     <div class="grants-search__results">
-                        <div id="js-grant-results">
+
+                        <p v-show="isCalculating" v-cloak>
+                            <i class="icon--loading-spinner"></i>
+                            Searching, please wait...
+                        </p>
+
+                        <div id="js-grant-results" v-show="!isCalculating">
                             {{ grantResultList(grants) }}
                         </div>
-                        {# @TODO update these dynamically from API #}
-                        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+
+                        {# @TODO update these dynamically from API - or render them with the template? #}
+                        <div v-show="!isCalculating">
+                            {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+                        </div>
                     </div>
 
                     <div class="grants-search__filters">
-                        <div class="search-filters">
+                        <div class="search-filters"
+                             v-bind:class="{ 'search-filters--locked': isCalculating }">
 
                             {# Filter: Amount awarded #}
                             {% if facets.amountAwarded %}
@@ -198,7 +215,6 @@
                                         <label class="ff-label">Award year</label>
                                         <select name="year"
                                                 class="ff-select"
-                                                v-on:change="filterResults"
                                                 v-model="filters.year" disabled>
                                             <option value="">All years</option>
                                             <option v-for="option in facets.awardDate"
@@ -243,7 +259,6 @@
                                         <label class="ff-label">Programme</label>
                                         <select name="programme"
                                                 class="ff-select"
-                                                v-on:change="filterResults"
                                                 v-model="filters.programme" disabled>
                                             <option value="">All programmes</option>
                                             <option v-for="option in facets.grantProgramme"
@@ -358,7 +373,6 @@
                             </div>
                         </div>
 
-                        <pre><% filters %></pre>
                     </div>
                 </div>
             </form>

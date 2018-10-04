@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Vue from 'vue';
+import _ from 'lodash';
 
 function init() {
     const mountEl = document.getElementById('js-grant-filters');
@@ -10,7 +11,9 @@ function init() {
         el: mountEl,
         delimiters: ['<%', '%>'],
         data() {
-            let facets = {};
+            let PGS = window._PAST_GRANTS_SEARCH;
+            let queryParams = (PGS && PGS.queryParams) ? PGS.queryParams : {};
+            let existingFacets = (PGS && PGS.facets) ? PGS.facets : {};
             let defaultFilters = {
                 amount: '',
                 year: '',
@@ -18,36 +21,38 @@ function init() {
                 country: '',
                 localAuthority: ''
             };
-            let filters = Object.assign({}, defaultFilters);
             return {
-                facets,
                 defaultFilters,
-                filters
+                facets: Object.assign({}, existingFacets),
+                filters: Object.assign({}, defaultFilters, queryParams),
+                isCalculating: false,
+                totalResults: PGS.totalResults || 0
             };
+        },
+        watch: {
+            // Watch for changes to filters then make AJAX call
+            filters: {
+                handler: function () {
+                    this.filterResults();
+                },
+                deep: true
+            }
         },
         mounted: function() {
             // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
             $(this.$el)
                 .find('[disabled]')
                 .removeAttr('disabled');
-            // Populate the facets object
-            if (window._PAST_GRANTS_SEARCH && window._PAST_GRANTS_SEARCH.facets) {
-                this.facets = Object.assign({}, window._PAST_GRANTS_SEARCH.facets);
-            }
-            // Populate any existing query parameters
-            if (
-                window._PAST_GRANTS_SEARCH &&
-                window._PAST_GRANTS_SEARCH.queryParams &&
-                !!window._PAST_GRANTS_SEARCH.queryParams
-            ) {
-                this.filters = Object.assign({}, window._PAST_GRANTS_SEARCH.queryParams);
-            }
         },
         methods: {
+
+            // Create the sort parameters
             sort: function(sortKey, direction) {
                 this.filters.sort = `${sortKey}|${direction}`;
                 this.filterResults();
             },
+
+            // Convert filters into URL-friendly state
             filtersToString: function() {
                 return Object.keys(this.filters)
                     .map(key => {
@@ -55,35 +60,57 @@ function init() {
                     })
                     .join('&');
             },
+
+            // Reset the filters back to their default state
             clearFilters: function() {
                 this.filters = Object.assign({}, this.defaultFilters);
                 this.filterResults();
             },
-            filterResults: function() {
-                const $form = $(this.$el);
-                const url = $form.attr('action');
-                const $results = $('#js-grant-results');
-                $results.text('Please wait, updating results...');
-                $.ajax({
-                    url: `${url}?${this.filtersToString()}`,
-                    dataType: 'json',
-                    success: response => {
-                        if (response.status === 'success') {
-                            $results.html(response.resultsHtml);
-                            $('#js-count').text(response.meta.totalResults);
-                            this.facets = response.facets;
 
-                            if (window.history.pushState) {
-                                const newURL = new URL(window.location.href);
-                                newURL.search = `?${this.filtersToString()}`;
-                                window.history.pushState({ path: newURL.href }, '', newURL.href);
+            // Redirect the user to the server-side page
+            handleError: function(redirectUrl) {
+                window.location = redirectUrl;
+            },
+
+            // Push URL state (@TODO support back/forward nav)
+            updateUrl: function() {
+                if (window.history.pushState) {
+                    const newURL = new URL(window.location.href);
+                    newURL.search = `?${this.filtersToString()}`;
+                    window.history.pushState({ path: newURL.href }, '', newURL.href);
+                }
+            },
+
+            filterResults: _.debounce(function () {
+                this.isCalculating = true;
+                this.updateUrl();
+
+                setTimeout(function () {
+                    const $form = $(this.$el);
+                    const url = $form.attr('action');
+                    const urlWithParams = `${url}?${this.filtersToString()}`;
+                    $.ajax({
+                        url: urlWithParams,
+                        dataType: 'json',
+                        success: response => {
+                            if (response.status === 'success') {
+                                // @TODO vue-ize this
+                                $('#js-grant-results').html(response.resultsHtml);
+                                this.totalResults = response.meta.totalResults;
+                                this.facets = response.facets;
+                            } else {
+                                this.handleError(urlWithParams);
                             }
-                        } else {
-                            alert('There was an error');
+                            this.isCalculating = false;
+                        },
+                        timeout: 20000,
+                        error: function() {
+                            this.handleError(urlWithParams);
                         }
-                    }
-                });
-            }
+                    });
+                }.bind(this), 1000);
+            }, 500),
+
         }
     });
 }
