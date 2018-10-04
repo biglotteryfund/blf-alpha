@@ -80,15 +80,18 @@ global:
     caseStudies: Astudiaethau achos
     documents: dogfennau
     download: lawrlwytho'r
+    edit: Edit
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
     no: Naddo
+    optional: Optional
     or: neu
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
+    required: Required
     search: Chwilio
     seeProgramme: Gweld y rhaglen
     stepProgress: "Step %s of %s"

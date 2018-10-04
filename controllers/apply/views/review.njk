@@ -23,8 +23,8 @@
                             {{ stepCopy.name or step.name }}
                             <a class="review-step__edit js-application-form-review-link"
                                 href="{{ baseUrl }}/{{ loop.index }}/edit"
-                                aria-label="Edit {{ step.name }}">
-                                Edit
+                                aria-label="{{ __('global.misc.edit') }} {{ step.name }}">
+                                {{ __('global.misc.edit') }}
                             </a>
                         </h3>
                         {% for fieldset in step.fieldsets %}

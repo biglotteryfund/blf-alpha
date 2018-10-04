@@ -81,15 +81,18 @@ global:
     caseStudies: Case studies
     documents: documents
     download: download
+    edit: Edit
     imageCredit: Image credit
     latestNews: Latest news
     next: next
     no: No
+    optional: Optional
     or: or
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
     readMore: Read more
     readMoreAbout: "Read more about %s"
+    required: Required
     search: Search
     seeProgramme: See programme
     stepProgress: "Step %s of %s"
