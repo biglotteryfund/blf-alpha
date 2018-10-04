@@ -567,6 +567,238 @@ funding:
     title: Rhaglenni ariannu
     under10k: Grantiau dan £10,000
     over10k: Grantiau dros £10,000
+  digitalFund:
+    title: Digital fund
+    intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.
+    openingDates: Applications initially open on 22nd October 2018 and close on 3rd December 2018. There will be further opportunities to apply in 2019.
+    closedMessage: Applications initially open on 22nd October 2018
+    aboutStrandLabel: Find out more about this strand
+    strand1:
+      title: We want to use digital to change our work
+      shortTitle: Strand 1
+      introduction: <strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+      startApplying: Start applying for strand 1
+    strand2:
+      title: We are already highly digital, and want to scale our impact
+      shortTitle: Strand 2
+      introduction: <strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+      startApplying: Start applying for strand 2
+    getStarted:
+      title: Get started
+      intro: "The Digital Fund is currently offering two strands of funding. To find the right kind of support for your organisation, choose one of the following options:"
+      assistance:
+        title: Not sure this is for you?
+        body: >
+          <p>If either strand of funding doesn’t work for your project or idea, that’s ok.
+            There are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
+          <p>There will be further funding opportunities within the Digital Fund in 2019.
+            <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+          <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
+    process:
+      title: How the process works
+      introduction: We don’t want you to spend a huge amount of time preparing to have an initial conversation with us. We would like to talk to you about your idea before you start developing a detailed funding proposal.
+      steps:
+      - title: Request a call
+        description: Contact us to arrange a call to talk about your idea—we’d love to have a chat at an early stage
+      - title: Talk to us
+        description: We call you and ask a few questions
+      - title: Submit a full proposal
+        description: If we feel the Digital Fund could work for you, we’ll ask you to submit a full proposal
+      getStarted:
+        title: Get started
+        body: >
+          <p><strong>We’re really interested in hearing your ideas</strong>. Please talk to us, even if you’re still at an early stage. You don't need to have done any special prep before requesting a call.</p>
+        teaser: If you think this fund might be right for you, the first stage is to talk to us.
+        linkText: Request a call
+    questions:
+      title: Have any questions?
+      body: >
+        <p>If you have any questions about eligibility, get in touch with us.</p>
+        <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+    wayfinding:
+      title: Not sure this is for you?
+      description: Choose one of the following options instead.
+      assistance: We want help getting started with digital
+      strand1: We want to use digital to change our work
+      strand2: We are already highly digital, and want to scale our impact
+      otherProgrammes: Finally, we offer a range of <a href="/funding/programmes">open funding programmes</a> that can help you support people and communities to thrive.
+    spending:
+      title: What can you spend the money on?
+      body: >
+        <p>We <strong>can</strong> fund:</p>
+        <ul>
+          <li>staff salaries</li>
+          <li>project activities</li>
+          <li>running costs</li>
+          <li>small-scale refurbishment</li>
+          <li>equipment</li>
+          <li>organisational development</li>
+        </ul>
+
+        <p>We <strong>can’t</strong> fund:</p>
+        <ul>
+          <li>proposals from organisations that are run primarily for private gain or to generate profits for private distribution, or any activities that generate profits for private gain</li>
+          <li>religious activity (although we can fund religious organisations if their project benefits the wider community and doesn’t include religious content)</li>
+          <li>activities that replace government funding (for example, we can only fund school activities that are additional to the curriculum)</li>
+          <li>activities that benefit individuals, rather than the wider community</li>
+          <li>political activities</li>
+          <li>retrospective costs</li>
+          <li>loan repayments</li>
+        </ul>
+    successFactors:
+      title: Success factors
+      strand1: >
+        <p>Successful Strand 1 proposals will:</p>
+        <ul>
+          <li>Demonstrate a firm commitment by organisational leadership to changing the way that the organisation serves people and communities.</li>
+          <li>Contain a plan that has been developed in accordance with good digital practices, such as committing to an iterative approach, and making sure that people are in the lead.</li>
+          <li>Supply evidence that the organisation has already invested in digital, prior to this proposal.</li>
+          <li>Show a commitment to working generously, sharing what you learn and the products or services you produce with others.</li>
+        </ul>
+
+        <p>We are <strong>not</strong> looking for:</p>
+        <ul>
+          <li>Proposals that contain a highly detailed plan setting out every detail of your forthcoming transformation. Instead we welcome proposals that clearly differentiate between what you know now, and what you will learn along the journey.</li>
+          <li>Proposals that are driven by a desire to use technology.</li>
+          <li>Proposals that are based around core budget shortfalls.</li>
+        </ul>
+      strand2: >
+        <p>Successful strand 2 proposals will:</p>
+        <ul>
+          <li>Have made use of user-centred design.</li>
+          <li>Clearly demonstrate <strong>either</strong> the potential to scale your impact at low cost, <strong>or</strong> clearly demonstrate potential to use digital to bring substantial benefits to a specific group of people.</li>
+          <li>Be driven by teams that combine knowledge of an issue that matters to people and communities, with experience of digital delivery.</li>
+          <li>Relate to a product or service that is far enough through its development process that people are currently benefiting from it.</li>
+          <li>Provide evidence of impact upon those people.</li>
+          <li>Have a theory of change or similar document showing how the product or service will achieve aims that benefit a specific group of people.</li>
+          <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+        </ul>
+        <p>We are not looking for:</p>
+        <ul>
+          <li>Products or services that are not yet mature enough to be benefiting people.</li>
+          <li>Products or services that cannot show considerable evidence of user research in their creation.</li>
+          <li>Products or services that duplicate existing services with no substantial innovation.</li>
+        </ul>
+      equalities: >
+        <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
+        <ul>
+          <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
+          <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
+        </ul>
+    fullEligiblity:
+      title: Full eligibility criteria
+      introduction: >
+        <p>The Digital Fund will open in phases over the next two years. The first phase, open from 22nd October 2018 to 3rd December 2018, will accept proposals in two strands.</p>
+        <p><strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.</p>
+        <p><strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.</p>
+        <p>We expect grants to both strands to last from 1 to 4 years.</p>
+      teaser:
+        prefix: Just want to see all the details on one page?
+        linkText: View full eligibility criteria
+    eligibility:
+      title: Eligibility criteria
+      commonCriteria:
+        summary: The following eligibility criteria apply to both strands of funding. There are specific criteria for each strand below this section.
+        body: >
+          <p>You can apply if you’re a:</p>
+          <ul>
+            <li>voluntary and community organisation</li>
+            <li>registered charity</li>
+            <li>social enterprise</li>
+            <li>group of organisations, if they are led by a voluntary and community organisations or social enterprise</li>
+            <li>community interest companies (with two or more directors).</li>
+          </ul>
+          <p>We <strong>can’t</strong> accept applications from:</p>
+          <ul>
+              <li>individuals</li>
+              <li>sole traders</li>
+              <li>organisations based outside the UK</li>
+              <li>anyone who is applying on behalf of another organisation</li>
+              <li>organisations without at least two unconnected<em>*</em> people on the board or committee.</li>
+              <li>companies that are aimed at generating profits primarily for private distribution. This may change for a future application period for this programme.</li>
+          </ul>
+          <p><em>(* not a relation by blood, marriage, in a long-term relationship or people living together at the same address)</em></p>
+      strand1:
+        title: Additional eligibility criteria that apply only to Strand 1
+        criteria:
+        - Your organisation must have an income over £500,000 per year. If your organisation had income of over £10m last year, we will ask for a matching contribution that will be tailored to your size
+        - Your organisation must be incorporated within the UK, and must work primarily in the voluntary and community sector
+      strand2:
+        title: Additional eligibility criteria that apply only to Strand 2
+        criteria:
+        - Your organisation must have been incorporated after the year 2000
+        - You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
+      faqs:
+      - question: Why do I need to speak to you? Can I just send an application in?
+        answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
+      - question: Do I need to prepare for the call?
+        answer: You don’t need to do any special preparation. The call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
+      - question: How do I request a call?
+        answer: Answer the yes/no question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
+    eligibilityChecker:
+      title: Request a call
+      introduction: To get started arranging a call, please answer this first question.
+      unsureTitle: I'm not sure
+      ineligibleTitle: Ineligible for funding
+      strand1:
+        question: Are you from a UK-based, registered charity which had income of over £500,000 last year?
+        eligibilitySummary:
+          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          criteria:
+            - have over £500,000 a year income
+            - have structures and ways of working that were developed before the internet became widespread
+            - are looking to make a big change to the way they work
+            - primarily help people in the UK
+        ineligible:
+          introduction: We’re sorry you’re not eligible for Strand 1 funding.
+          body: >
+            <p>Don’t worry, there are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
+            <p>There will be further funding opportunities within the Digital Fund in 2019.
+              <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+            <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a>.</p>
+      strand2:
+        question: Do you currently have a product or service that is operational and that is being used by the type of people and communities you plan to serve in future?
+        eligibilitySummary:
+          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          criteria:
+            - have been incorporated after the year 2000
+            - operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
+        ineligible:
+          introduction: We’re sorry you’re not eligible for Strand 2 funding.
+          body: >
+            <p>For more information, please see the <a href="/funding/programmes/digital-fund/eligibility">full detailed eligibility criteria</a> for this programme.</p>
+            <p>If you are at an earlier stage than this, we recommend looking at:</p>
+            <ul>
+              <li><a href="/funding/programmes">Our other funding programmes</a>
+              <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (external)</a>
+              <li><a href="https://socialtechtrust.org/">Social Tech Trust (external)</a>
+              <li><a href="https://www.comicrelief.com/">Comic Relief (external)</a>
+              <li><a href="https://www.unltd.org.uk/">UnLtd (external)</a>
+            </li>
+    assistance:
+      title: Help getting started with digital
+      intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
+      body: >
+        <p>We are looking at how we can enable digital specialists to offer free assistance to small organisations. Eligibility criteria are not yet confirmed, but if you’d like us to email you when the programme is ready, please submit your details here.</p>
+      submission:
+        explanation: We’ll only use this to send you information about free digital assistance
+        emailAddress: Email Address
+        proceedLabel: Submit
+        success:
+          title: Thanks for signing up
+          message: We'll be in touch soon
+        error:
+          message: There was a problem with your submission, please try again.
+      helpAndSupport:
+        title: Help & Support
+        intro: "There’s lots of useful advice on the internet about how get started with digital. Here’s a few links to get you started:"
+        links:
+        - title: Digital design principles for charities (betterdigital.services)
+          url: 'https://betterdigital.services/principles/'
+        - title: Building a digital workforce (knowhownonprofit.org)
+          url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
+        - title: Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
+          url: 'https://digitalmaturity.co.uk/'
 research:
   detail:
     documents: Dogfennau
