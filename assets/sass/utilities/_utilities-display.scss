@@ -114,6 +114,10 @@
     @include visually-hidden();
 }
 
+.u-invisible {
+    visibility: hidden;
+}
+
 // hide JS things for users without JS
 .no-js {
     .js-only {

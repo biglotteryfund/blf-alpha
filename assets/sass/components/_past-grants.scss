@@ -85,6 +85,14 @@
     top: $filterSpacing;
     background-color: palette('pale-grey');
     padding: $filterSpacing;
+    transition: all 0.15s ease-in-out;
+
+    &.search-filters--locked {
+        opacity: 0.4;
+        background-color: #eeeeee;
+        cursor: progress;
+        pointer-events: none;
+    }
 
     &,
     select {

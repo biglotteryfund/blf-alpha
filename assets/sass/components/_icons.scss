@@ -25,3 +25,34 @@
 .icon--bottom {
     vertical-align: bottom;
 }
+
+// Loading spinner
+// via https://loading.io/css/
+$spinnerSize: 25px;
+$spinnerColour: palette('pink');
+.icon--loading-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: $spinnerSize;
+    height: $spinnerSize;
+}
+.icon--loading-spinner:after {
+    content: " ";
+    display: block;
+    width: $spinnerSize;
+    height: $spinnerSize;
+    //margin: 1px;
+    border-radius: 50%;
+    border: 5px solid $spinnerColour;
+    border-color: $spinnerColour transparent $spinnerColour transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
