@@ -704,7 +704,9 @@ funding:
       title: Have any questions?
       body: >
         <p>If you have any questions about eligibility, get in touch with us.</p>
-        <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><strong><br>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<strong><br>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+        <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
+        <strong>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<br/>
+        <strong>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
     wayfinding:
       title: Not sure this is for you?
       description: Choose one of the following options instead.
@@ -772,7 +774,7 @@ funding:
       equalities: >
         <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
         <ul>
-          <li><a href="https://www.biglotteryfund.org.uk/about-big/our-approach/equalities">Our equality principles</a></li>
+          <li><a href="/about-big/our-approach/equalities">Our equality principles</a></li>
           <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
         </ul>
     fullEligiblity:
