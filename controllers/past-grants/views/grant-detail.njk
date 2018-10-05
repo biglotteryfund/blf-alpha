@@ -4,29 +4,66 @@
 
 {% set bodyClass = 'has-static-header' %}
 
+{% macro pgLink(key, value) -%}
+    {{ localify('/funding/search-past-grants-alpha?' + key + '=' + value) }}
+{% endmacro %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
             <div class="s-prose u-constrained-wide">
-                <h1>{{ title }}</h1>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Key</td>
-                            <td>Value</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for key, val in grant %}
-                            <tr>
-                                <td>{{ key }}</td>
-                                <td>{{ val | dump(2) }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <h1>{{ title }}</h1>
+                <h4>Award details</h4>
+                <p>£{{ grant.amountAwarded | numberWithCommas}} to
+                    <strong><a href="{{ pgLink('recipient', grant.recipientOrganization[0].id) }}">{{ grant.recipientOrganization[0].name }}</a></strong>
+                on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+                </p>
+                <h4>Applicant location</h4>
+                <p>
+                    {% for location in grant.beneficiaryLocation -%}
+                        {%- if location.geoCodeType === 'CMLAD' -%}
+                            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
+                        {%- elseif location.geoCodeType === 'WPC' -%}
+                            <a href="{{ pgLink('constituency', location.geoCode) }}">
+                        {%- endif -%}
+                        {{ location.name -}}
+                        {%- if location.geoCodeType === 'CMLAD' or location.geoCodeType === 'WPC' -%}
+                            </a>
+                        {%- endif -%}
+                        {%- if not loop.last -%}, {% endif %}
+                    {%- endfor -%}
+                </p>
+                <h4>Grant description</h4>
+                <p>{{ grant.description }}</p>
+
+                <h4>Grant programme</h4>
+                <p>
+                    {% for programme in grant.grantProgramme %}
+                        <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
+                    {% endfor %}
+                </p>
+
+                <h4>Organisation type</h4>
+                <p>
+                    {% set comma = joiner() %}
+                    {% for org in grant.recipientOrganization -%}
+                        {{ comma() }} <a href="{{ pgLink('orgType', org.organisationType) }}">{{ org.organisationType }}</a>
+                    {%- endfor %}
+                </p>
+
+                {% if grant.plannedDates %}
+                    <h4>Project date</h4>
+                    {% for dates in grant.plannedDates %}
+                        <p>
+                            {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
+                            {% if dates.endDate %}
+                                – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </main>

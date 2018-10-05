@@ -1,16 +1,30 @@
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/icons.njk" import iconClose %}
 {% from "./grant-results.njk" import grantResultList with context %}
 
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
 
+{% macro labelWithClearButton(label, fieldName) %}
+    <label class="ff-label">
+        {{ label }}
+        <i class="ff-label__icon"
+           v-if="filters['{{ fieldName }}'] && !isCalculating"
+           v-on:click="clearFilters('{{ fieldName }}')">
+            {{ iconClose(title='Remove this filter') }}
+        </i>
+    </label>
+{% endmacro %}
+
 {% block extraHead %}
     <script>
         window._PAST_GRANTS_SEARCH = {
             facets: {{ facets | dump | safe }},
-            queryParams: {{ queryParams | dump | safe }}
+            queryParams: {{ queryParams | dump | safe }},
+            totalResults: {{ meta.totalResults }},
+            sort: {{ meta.currentSort | dump | safe }}
         };
     </script>
 {% endblock %}
@@ -23,10 +37,17 @@
                   id="js-grant-filters"
                   method="get"
                   action=""
-                  v-on:submit.prevent="filterResults($event)">
+                  v-on:submit.prevent>
 
-                <h1>Search past grants</h1>
-
+                <h1>
+                    Search past grants
+                    {% if queryParams.recipient %}
+                        <small v-show="filters.recipient">(Recipient: {{ grants[0].recipientOrganization[0].name }})</small>
+                    {% endif %}
+                    {% if queryParams.orgType %}
+                        <small v-show="filters.orgType">(Organisation Type: {{ grants[0].recipientOrganization[0].organisationType }})</small>
+                    {% endif %}
+                </h1>
 
                 <div class="u-tone-background-pale-grey u-padded">
                     <label class="u-visually-hidden" for="search-query">Search</label>
@@ -37,72 +58,101 @@
                                name="q"
                                value="{{ queryParams.q }}"
                                placeholder="Enter a search term, location, or postcode"
-                               v-on:change="filterResults"
+                               autocomplete="nope"
                                v-model="filters.q">
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
                 </div>
 
-                <div class="grants-search__meta">
+                <div class="grants-search__meta"
+                     v-bind:class="{ 'u-invisible': isCalculating }">
+
                     <span class="grants-search__total">
-                        Showing <strong id="js-count">{{ meta.totalResults | numberWithCommas }}</strong> results{% if queryParams %} {% endif %}
+                        Showing
+                        <strong>
+                            <span v-cloak><% totalResults.toLocaleString() %></span>
+                            <noscript>{{ meta.totalResults | numberWithCommas }}</noscript>
+                        </strong>
+                        results
                     </span>
 
-                    {# @TODO these links need to swap when clicked #}
                     <div class="grants-search__sort">
                         <div class="sort-controls">
                             <span class="sort-controls__prefix">
                                 Sort:
                             </span>
-                            {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
-                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
-                                    aria-label="Sort by newest first"
-                                    v-on:click.prevent="sort('awardDate', 'asc')">
-                                    Award date
-                                </a>
-                            {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
-                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                    aria-label="Sort by oldest first"
-                                    v-on:click.prevent="sort('awardDate', 'desc')">
-                                    Award date
-                                </a>
-                            {% else %}
-                                <a class="sort-controls__item"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                    aria-label="Sort by oldest first"
-                                    v-on:click.prevent="sort('awardDate', 'desc')">
-                                    Award date
-                                </a>
-                            {% endif %}
 
-                            {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
-                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
-                                    aria-label="Sort by highest amount awarded first"
-                                    v-on:click.prevent="sort('amountAwarded', 'asc')">
-                                    Amount awarded
-                                </a>
-                            {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
-                                <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                    aria-label="Sort by lowest amount awarded first"
-                                    v-on:click.prevent="sort('amountAwarded', 'desc')">
-                                    Amount awarded
-                                </a>
-                            {% else %}
-                                <a class="sort-controls__item"
-                                    href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                    aria-label="Sort by highest amount awarded first"
-                                    v-on:click.prevent="sort('amountAwarded', 'desc')">
-                                    Amount awarded
-                                </a>
-                            {% endif %}
+                            <noscript>
+                                {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
+                                    <a class="sort-controls__item is-active is-descending"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
+                                        aria-label="Sort by newest first">
+                                        Award date
+                                    </a>
+                                {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
+                                    <a class="sort-controls__item is-active is-ascending"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
+                                        aria-label="Sort by oldest first">
+                                        Award date
+                                    </a>
+                                {% else %}
+                                    <a class="sort-controls__item"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
+                                        aria-label="Sort by oldest first">
+                                        Award date
+                                    </a>
+                                {% endif %}
 
-                            {% if meta.currentSort %}
-                                <input type="hidden" name="sort" value="{{ meta.currentSort.type }}|{{ meta.currentSort.direction }}">
-                            {% endif %}
+                                {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
+                                    <a class="sort-controls__item is-active is-descending"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
+                                        aria-label="Sort by highest amount awarded first">
+                                        Amount awarded
+                                    </a>
+                                {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
+                                    <a class="sort-controls__item is-active is-ascending"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
+                                        aria-label="Sort by lowest amount awarded first">
+                                        Amount awarded
+                                    </a>
+                                {% else %}
+                                    <a class="sort-controls__item"
+                                        href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
+                                        aria-label="Sort by highest amount awarded first">
+                                        Amount awarded
+                                    </a>
+                                {% endif %}
+
+                                {% if meta.currentSort %}
+                                    <input type="hidden" name="sort" value="{{ meta.currentSort.type }}|{{ meta.currentSort.direction }}">
+                                {% endif %}
+                            </noscript>
+
+                            <span class="js-only">
+
+                                <a class="sort-controls__item"
+                                   v-bind:title="getSortTitle('Sort by newest first', 'Sort by oldest first')"
+                                   v-bind:aria-label="getSortTitle('Sort by newest first', 'Sort by oldest first')"
+                                   v-bind:class="sortLinkClasses('awardDate')"
+                                   v-bind:href="'?' + filtersToString()"
+                                   v-on:click.prevent="sortData('awardDate', sort.direction)"
+                                   v-cloak>
+                                    Award date
+                                </a>
+
+                                <a class="sort-controls__item"
+                                   v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
+                                   v-bind:aria-label="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
+                                   v-bind:class="sortLinkClasses('amountAwarded')"
+                                   v-bind:href="'?' + filtersToString()"
+                                   v-on:click.prevent="sortData('amountAwarded', sort.direction)"
+                                   v-cloak>
+                                    Amount awarded
+                                </a>
+                            </span>
+
+                            {# @TODO should there be a way to remove sorts and return to default? #}
+
                         </div>
                     </div>
                 </div>
@@ -110,65 +160,72 @@
                 <div class="grants-search__content">
 
                     <div class="grants-search__results">
-                        <div id="js-grant-results">
+
+                        <p v-show="isCalculating" v-cloak>
+                            <i class="icon--loading-spinner"></i>
+                            Searching, please wait...
+                        </p>
+
+                        <p v-show="searchError" v-cloak>
+                            <span v-if="searchError === 'ERR-POSTCODE'">The postcode you entered was invalid – please try another one.</span>
+                            <span v-else>There was an error with your search.</span>
+                        </p>
+
+                        <div id="js-grant-results" v-show="!isCalculating && !searchError">
                             {{ grantResultList(grants) }}
                         </div>
-                        {# @TODO update these dynamically from API #}
-                        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+
                     </div>
 
                     <div class="grants-search__filters">
-                        <div class="search-filters">
+                        <div class="search-filters"
+                             v-bind:class="{ 'search-filters--locked': isCalculating }">
 
                             {# Filter: Amount awarded #}
-                            <div class="search-filters__facet">
+                            {% if facets.amountAwarded %}
+                                {% set options = [{ 'label': 'Any amount', 'value': '' }] %}
+                                {% for item in facets.amountAwarded %}
+                                    {% set options = (options.push({
+                                        'label': item.title + " (" + item.count + ")",
+                                        'value': item.value
+                                    }), options) %}
+                                {% endfor %}
 
-                                <noscript>
-                                    {{ inputChoice({
-                                        type: 'radio',
-                                        name: 'amount',
-                                        label: 'Amount awarded',
-                                        value: queryParams.amount,
-                                        options: [{
-                                            'label': 'Any amount',
-                                            'value': ''
-                                        }, {
-                                            'label': 'Under £10,000',
-                                            'value': '0|10000'
-                                        }, {
-                                            'label': '£10,000–£50,000',
-                                            'value': '10000|50000'
-                                        }, {
-                                            'label': '£50,000-£100,000',
-                                            'value': '50000|100000'
-                                        }, {
-                                            'label': 'Over £100,000',
-                                            'value': '100000'
-                                        }],
-                                        silentlyOptional: true
-                                    }) }}
+                                <div class="search-filters__facet">
 
-                                    {% if queryParams.amount %}
-                                        <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('amount') }}">
-                                            Clear amount
-                                        </a>
-                                    {% endif %}
-                                </noscript>
+                                    <noscript>
+                                        {{ inputChoice({
+                                            type: 'radio',
+                                            name: 'amount',
+                                            label: 'Amount awarded',
+                                            value: queryParams.amount,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
 
-                                <div class="js-only" v-cloak>
-                                    <label class="ff-label">Amount awarded</label>
-                                    <select name="amount"
-                                            class="ff-select"
-                                            v-on:change="filterResults"
-                                            v-model="filters.amount" disabled>
-                                        <option value="">Any amount</option>
-                                        <option v-for="option in facets.amountAwarded"
-                                                v-bind:value="option.value">
-                                            <% option.title %> (<% option.count %>)
-                                        </option>
-                                    </select>
+                                        {% if queryParams.amount %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('amount') }}">
+                                                Clear amount
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    {# @TODO make this into a radio component #}
+                                    <div class="js-only" v-cloak>
+                                        {{ labelWithClearButton('Amount awarded', 'amount') }}
+                                        <select name="amount"
+                                                class="ff-select"
+                                                v-model="filters.amount"
+                                                disabled>
+                                            <option value="">Any amount</option>
+                                            <option v-for="option in facets.amountAwarded"
+                                                    v-bind:value="option.value">
+                                                <% option.title %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Filter: Date of award #}
                             {% if facets.awardDate %}
@@ -199,10 +256,9 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Award year</label>
+                                        {{ labelWithClearButton('Award Year', 'year') }}
                                         <select name="year"
                                                 class="ff-select"
-                                                v-on:change="filterResults"
                                                 v-model="filters.year" disabled>
                                             <option value="">All years</option>
                                             <option v-for="option in facets.awardDate"
@@ -244,10 +300,9 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Programme</label>
+                                        {{ labelWithClearButton('Programme', 'programme') }}
                                         <select name="programme"
                                                 class="ff-select"
-                                                v-on:change="filterResults"
                                                 v-model="filters.programme" disabled>
                                             <option value="">All programmes</option>
                                             <option v-for="option in facets.grantProgramme"
@@ -262,37 +317,138 @@
                             {% endif %}
 
                             {# Filter: Local Authority #}
-                            {# @TODO add a noscript fallback #}
-                            {# @TODO filter out empty options at API end #}
-                            <div class="search-filters__facet js-only" v-cloak>
-                                <label class="ff-label">Local Authority</label>
-                                <select name="localAuthority"
-                                        class="ff-select"
-                                        v-on:change="filterResults"
-                                        v-model="filters.localAuthority" disabled>
-                                    <option value="">All areas</option>
-                                    <option v-for="option in facets.localAuthorities"
-                                            v-bind:value="option.code"
-                                            v-if="option._id">
-                                        <% option._id %> (<% option.count %>)
-                                    </option>
-                                </select>
-                            </div>
+                            {% if facets.localAuthorities %}
+                                {% set options = [{ 'label': 'All areas', 'value': '' }] %}
+                                {% for item in facets.localAuthorities %}
+                                    {% set options = (options.push({
+                                        'label': item._id + " (" + item.count + ")",
+                                        'value': item.code
+                                    }), options) %}
+                                {% endfor %}
+
+                                <div class="search-filters__facet">
+
+                                    <noscript>
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'localAuthority',
+                                            label: 'Local Authority',
+                                            value: queryParams.localAuthority,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                        {% if queryParams.localAuthority %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('localAuthority') }}">
+                                                Clear Local Authority
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    <div class="js-only" v-cloak>
+                                        {{ labelWithClearButton('Local Authority', 'localAuthority') }}
+                                        <select name="localAuthority"
+                                                class="ff-select"
+                                                v-model="filters.localAuthority" disabled>
+                                            <option value="">All areas</option>
+                                            <option v-for="option in facets.localAuthorities"
+                                                    v-bind:value="option.code">
+                                                <% option._id %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                            {# Filter: Constituency #}
+                            {% if facets.westminsterConstituencies %}
+                                {% set options = [{ 'label': 'All areas', 'value': '' }] %}
+                                {% for item in facets.westminsterConstituencies %}
+                                    {% set options = (options.push({
+                                        'label': item._id + " (" + item.count + ")",
+                                        'value': item.code
+                                    }), options) %}
+                                {% endfor %}
+
+                                <div class="search-filters__facet">
+
+                                    <noscript>
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'constituency',
+                                            label: 'Westminster Constituency',
+                                            value: queryParams.constituency,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                        {% if queryParams.constituency %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('constituency') }}">
+                                                Clear Constituency
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    <div class="js-only" v-cloak>
+                                        {{ labelWithClearButton('Westminster Constituency', 'constituency') }}
+                                        <select name="constituency"
+                                                class="ff-select"
+                                                v-model="filters.constituency" disabled>
+                                            <option value="">All areas</option>
+                                            <option v-for="option in facets.westminsterConstituencies"
+                                                    v-bind:value="option.code">
+                                                <% option._id %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
 
                             {# Filter: Country #}
-                            <div class="search-filters__facet js-only" v-cloak>
-                                <label class="ff-label">Country</label>
-                                <select name="country"
-                                        class="ff-select"
-                                        v-on:change="filterResults"
-                                        v-model="filters.country" disabled>
-                                    <option value="">All countries</option>
-                                    <option v-for="option in facets.countries"
-                                            v-bind:value="option.value">
-                                        <% option.name %> (<% option.count %>)
-                                    </option>
-                                </select>
-                            </div>
+                            {% if facets.countries %}
+                                {% set options = [{ 'label': 'All countries', 'value': '' }] %}
+                                {% for item in facets.countries %}
+                                    {% set options = (options.push({
+                                        'label': item.name + " (" + item.count + ")",
+                                        'value': item.value
+                                    }), options) %}
+                                {% endfor %}
+
+                                <div class="search-filters__facet">
+
+                                    <noscript>
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'country',
+                                            label: 'Country',
+                                            value: queryParams.country,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                        {% if queryParams.country %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('country') }}">
+                                                Clear Country
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    <div class="js-only" v-cloak>
+                                        {{ labelWithClearButton('Country', 'country') }}
+                                        <select name="country"
+                                                class="ff-select"
+                                                v-model="filters.country" disabled>
+                                            <option value="">All countries</option>
+                                            <option v-for="option in facets.countries"
+                                                    v-bind:value="option.value">
+                                                <% option.name %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            {% endif %}
 
                             <div class="search-filters__actions">
                                 <input type="submit" value="Filter" class="btn btn--medium">
@@ -304,7 +460,6 @@
                             </div>
                         </div>
 
-                        <pre><% filters %></pre>
                     </div>
                 </div>
             </form>

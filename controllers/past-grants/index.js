@@ -63,7 +63,9 @@ function buildAllowedParams(queryParams) {
         'orgType',
         'sort',
         'country',
-        'localAuthority'
+        'localAuthority',
+        'constituency',
+        'recipient'
     ];
     return pick(queryParams, allowedParams);
 }
@@ -93,10 +95,25 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     const facetParams = buildAllowedParams(req.query);
     const queryWithPage = addPaginationParameters(facetParams, req.query.page);
-    const data = await queryGrantsApi(queryWithPage);
+    let data;
+
+    try {
+        data = await queryGrantsApi(queryWithPage);
+    } catch (errorResponse) {
+        return res.format({
+            html: () => {
+                next(errorResponse.error);
+            },
+            'application/json': () => {
+                res.status(errorResponse.error.error.status || 400).json({
+                    error: errorResponse.error.error
+                });
+            }
+        });
+    }
 
     res.format({
         // Initial / server-only search
@@ -115,18 +132,18 @@ router.get('/', async (req, res) => {
         'application/json': () => {
             // Repopulate existing app globals so Nunjucks can read them
             // outside of Express's view engine context
-            const context = Object.assign({}, res.locals, req.app.locals, { grants: data.results });
+            const context = Object.assign({}, res.locals, req.app.locals, {
+                grants: data.results,
+                pagination: buildPagination(data.meta.pagination, queryWithPage)
+            });
             const template = path.resolve(__dirname, './views/ajax-results.njk');
 
             nunjucks.render(template, context, (renderErr, html) => {
                 if (renderErr) {
                     Raven.captureException(renderErr);
-                    res.json({
-                        status: 'error'
-                    });
+                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
                 } else {
                     res.json({
-                        status: 'success',
                         meta: data.meta,
                         facets: data.facets,
                         resultsHtml: html
@@ -146,9 +163,9 @@ router.get('/:id', async (req, res, next) => {
 
         if (data) {
             res.render(path.resolve(__dirname, './views/grant-detail'), {
-                title: data.title,
-                grant: data,
-                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.title })
+                title: data.result.title,
+                grant: data.result,
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
         } else {
             next();
