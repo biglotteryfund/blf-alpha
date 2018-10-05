@@ -649,7 +649,7 @@ funding:
           <li>ad-dalu benthyciadau</li>
         </ul>
     successFactors:
-      title: Success factors
+      title: Ffactorau llwyddiant
       strand1: >
         <p>Bydd cynigion Edefyn 1 llwyddiannus yn:</p>
         <ul>
@@ -807,8 +807,7 @@ research:
     documents: Dogfennau
     relatedProgrammes: Rhaglenni cysylltiedig
     datePublished: Dyddiad cyhoeddi
-    # @TODO: Translate me!
-    researchPartners: Research partners
+    researchPartners: Partneriaid ymchwil
     contact: Manylion cyswllt
 apply:
   error:
