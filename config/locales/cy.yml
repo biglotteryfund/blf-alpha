@@ -80,21 +80,21 @@ global:
     caseStudies: Astudiaethau achos
     documents: dogfennau
     download: lawrlwytho'r
-    edit: Edit
+    edit: Golygu
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
     no: Nac ydw
-    optional: Optional
+    optional: Dewisol
     or: neu
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
-    required: Required
+    required: Gorfodol
     search: Chwilio
     seeProgramme: Gweld y rhaglen
-    stepProgress: "Step %s of %s"
+    stepProgress: "Cam %s o %s"
     topics: pynciau
     viewAllNews: Gweld pob erthygl newyddion
     yes: Ydw
@@ -812,52 +812,56 @@ research:
     contact: Manylion cyswllt
 apply:
   error:
-    title: There was a problem with your submission
+    title: Cafwyd problem gyda'ch cyflwyniad
     message: >
-      <p>We have been notified of the problem.</p>
-      <p>Please return to the review step and try again. If you still see an error, please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+      <p>Rydym wedi cael ein hysbysu am y broblem.</p>
+      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03454102030">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
   digitalFundDefaults: &digitalFundDefaults
-    title: Let’s Talk
+    title: Cael Sgwrs
     errorTitle: There was a problem with your submission
     fields:
       name:
-        label: Your name
-        errorMessage: Please provide your name
+        label: Eich enw
+        errorMessage: Rhowch eich enw
       email:
-        label: Email address
-        errorMessage: Please provide a valid email address
+        label: Cyfeiriad e-bost
+        errorMessage: Rhowch gyfeiriad e-bost dilys
       organisation-name:
-        label: Organisation name
-        errorMessage: Please provide the name of your organisation
+        label: Enw’r mudiad
+        errorMessage: Rhowch enw eich mudiad
       your-idea:
-        label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us what your organisation does
+        label: Dywedwch yn fras wrthym beth mae eich mudiad yn ei wneud a pha fathau o newidiadau sylweddol rydych wedi bod yn eu hystyried.
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
       your-idea-product:
-        label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us what your organisation does
+        label: Dywedwch wrthym yn gryno am eich mudiad, y cynnyrch neu wasanaeth yr ydych wedi'i ddatblygu, a'r bobl a fydd yn ei ddefnyddio.
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
       technology:
-        label: Briefly tell us how digital technology is important to your project
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us how digital technology is important to your project
+        label: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
     steps:
-      - name: Your details
+      - name: Eich manylion
         fieldsets:
-        - legend: Your contact details
-          introduction: Please tell us a little about your project and organisation so that we can get in touch
-        - legend: Your idea
+        - legend: Eich manylion cyswllt
+          introduction: Dywedwch ychydig wrthym am eich prosiect a mudiad fel y gallwn gysylltu â chi
+        - legend: Eich syniad
     review:
-      title: 'Check this is right before submitting your information'
-      proceedLabel: 'Submit'
+      title: Gwiriwch fod hyn yn gywir cyn cyflwyno eich gwybodaeth
+      proceedLabel: Cyflwyno
     success:
-      title: Thank you for getting in touch
-      confirmation: We have emailed you a copy of your submission
-      message: We’ll get back to you about a call as soon as we can.
-      nextStepsTitle: What happens next?
+      title: Diolch am gysylltu â ni
+      confirmation: Rydym wedi gyrru copi o'r hyn a gyflwynoch atoch trwy e-bost
+      message: Byddwn yn cysylltu â chi ynglŷn â galwad mor fuan ag y gallwn.
+      nextStepsTitle: Beth sy'n digwydd nesaf?
+      feedback:
+        promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
+        fieldLabel: "Sut oedd eich profiad o'r broses hon?"
+        helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+    description: <a href="/welsh/funding/programmes/digital-fund/strand-1">Mae Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+    description: <a href="/welsh/funding/programmes/digital-fund/strand-2">Mae Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.

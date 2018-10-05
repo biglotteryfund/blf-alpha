@@ -1030,12 +1030,16 @@ apply:
       confirmation: We have emailed you a copy of your submission
       message: We’ll get back to you about a call as soon as we can.
       nextStepsTitle: What happens next?
+      feedback:
+        promptLabel: "Can you spare a minute to give us some feedback?"
+        fieldLabel: "How was your experience of this process?"
+        helpText: "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest
