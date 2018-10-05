@@ -62,8 +62,12 @@ function init() {
             },
 
             // Reset the filters back to their default state
-            clearFilters: function() {
-                this.filters = Object.assign({}, this.defaultFilters);
+            clearFilters: function(key) {
+                if (key) {
+                    this.filters[key] = this.defaultFilters[key];
+                } else {
+                    this.filters = Object.assign({}, this.defaultFilters);
+                }
                 this.filterResults();
             },
 
@@ -115,7 +119,7 @@ function init() {
                             }
                         });
                     }.bind(this),
-                    1000
+                    500
                 );
             }, 500)
         }

@@ -1,9 +1,21 @@
 {% from "components/form-fields.njk" import inputChoice, inputSelect %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/icons.njk" import iconClose %}
 {% from "./grant-results.njk" import grantResultList with context %}
 
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
+
+{% macro labelWithClearButton(label, fieldName) %}
+    <label class="ff-label">
+        {{ label }}
+        <i class="ff-label__icon"
+           v-if="filters['{{ fieldName }}'] && !isCalculating"
+           v-on:click="clearFilters('{{ fieldName }}')">
+            {{ iconClose(title='Remove this filter') }}
+        </i>
+    </label>
+{% endmacro %}
 
 {% block extraHead %}
     <script>
@@ -168,7 +180,7 @@
 
                                     {# @TODO make this into a radio component #}
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Amount awarded</label>
+                                        {{ labelWithClearButton('Amount awarded', 'amount') }}
                                         <select name="amount"
                                                 class="ff-select"
                                                 v-model="filters.amount"
@@ -212,7 +224,7 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Award year</label>
+                                        {{ labelWithClearButton('Award Year', 'year') }}
                                         <select name="year"
                                                 class="ff-select"
                                                 v-model="filters.year" disabled>
@@ -256,7 +268,7 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Programme</label>
+                                        {{ labelWithClearButton('Programme', 'programme') }}
                                         <select name="programme"
                                                 class="ff-select"
                                                 v-model="filters.programme" disabled>
@@ -301,7 +313,7 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Local Authority</label>
+                                        {{ labelWithClearButton('Local Authority', 'localAuthority') }}
                                         <select name="localAuthority"
                                                 class="ff-select"
                                                 v-model="filters.localAuthority" disabled>
@@ -346,7 +358,7 @@
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        <label class="ff-label">Country</label>
+                                        {{ labelWithClearButton('Country', 'country') }}
                                         <select name="country"
                                                 class="ff-select"
                                                 v-model="filters.country" disabled>
