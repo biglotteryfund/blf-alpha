@@ -10,7 +10,7 @@ const Raven = require('raven');
 
 const router = express.Router();
 
-const { injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
+const { injectBreadcrumbs, injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
@@ -146,7 +146,7 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
 
 router
     .route('/')
-    .all(cached.csrfProtection, injectListingContent)
+    .all(cached.csrfProtection, injectListingContent, injectBreadcrumbs)
     .get(injectMerchandise({}), (req, res) => {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })

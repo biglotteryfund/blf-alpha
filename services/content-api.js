@@ -137,7 +137,7 @@ function getFundingProgramme({ locale, slug, previewMode }) {
     });
 }
 
-function getResearch({ locale, slug, searchQuery = false, previewMode }) {
+function getResearch({ locale, slug = null, searchQuery = null, previewMode = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
             qs: addPreviewParams(previewMode)
@@ -153,7 +153,7 @@ function getResearch({ locale, slug, searchQuery = false, previewMode }) {
     }
 }
 
-function getStrategicProgrammes({ locale, slug, previewMode }) {
+function getStrategicProgrammes({ locale, slug = null, previewMode = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
             qs: addPreviewParams(previewMode)
