@@ -30,7 +30,7 @@ function init() {
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
                 totalResults: PGS.totalResults || 0,
-                searchError: false,
+                searchError: false
             };
         },
         watch: {
@@ -52,7 +52,7 @@ function init() {
             // Create the sort parameters
             sortData: function(sortKey, currentDirection) {
                 // Flip reverse it
-                let direction = (currentDirection === 'asc') ? 'desc' : 'asc';
+                let direction = currentDirection === 'asc' ? 'desc' : 'asc';
                 this.sort = {
                     type: sortKey,
                     direction: direction
