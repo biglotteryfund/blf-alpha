@@ -1,45 +1,18 @@
-{% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
-    <div class="form-header">
-        {% if backUrl %}
-            <div class="form-header__actions">
-                <a href="{{ backUrl }}" class="js-application-form-review-link">
-                    ← {{ __('global.misc.back') | capitalize }}
-                </a>
-            </div>
-        {% endif %}
-        {% if prefix %}
-            <p class="form-header__prefix">{{ prefix }}</p>
-        {% endif %}
-        <h1 class="form-header__title">{{ title }}</h1>
-        {% if suffix %}
-            <p class="form-header__suffix">{{ suffix }}</p>
-        {% endif %}
-    </div>
-{% endmacro %}
-
-{% macro errorList(errors, shouldBeLinked)  %}
-    {% if errors | length > 0 %}
-        <ol class="error-list">
-            {% for error in errors %}
-            <li>
-                {% if shouldBeLinked %}<a href="#form-field-{{ error.param }}">{% endif %}
-                {{ error.msg }}
-                {% if shouldBeLinked %}</a>{% endif %}
-            </li>
-            {% endfor %}
-        </ol>
-    {% endif %}
-{% endmacro %}
-
 {% macro formErrors(errors, title) %}
     {% if errors | length > 0 %}
         <div class="form-errors">
             {% if title %}
                 <h3 class="form-errors__title">{{ title }}</h3>
             {% endif %}
-            <div class="form-errors__body">
-                {{ errorList(errors, shouldBeLinked = true) }}
-            </div>
+            {% if errors.length > 0 %}
+                <ol class="form-errors__list">
+                    {% for error in errors %}
+                        <li>
+                            <a href="#form-field-{{ error.param }}">{{ error.msg }}</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
         </div>
     {% endif %}
 {% endmacro %}
@@ -199,10 +172,12 @@
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}
             </div>
-            {% if fieldErrors | length > 0 %}
-                <div class="form-field__errors">
-                    {{ errorList(fieldErrors) }}
-                </div>
+            {% if fieldErrors.length > 0 %}
+                <ol class="form-field__errors">
+                    {% for error in fieldErrors %}
+                        <li>{{ error.msg }}</li>
+                    {% endfor %}
+                </ol>
             {% endif %}
         </div>
     </div>

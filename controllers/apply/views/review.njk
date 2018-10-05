@@ -1,7 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/icons.njk" import iconArrowDown %}
-{% from "components/form-fields.njk" import formHeader with context %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
 
 {% set stepProgressDescription = __('global.misc.stepProgress', stepProgress.currentStepNumber, stepProgress.totalSteps) %}
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
