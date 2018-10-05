@@ -1,5 +1,3 @@
-{% macro getLabelClasses(field) %}ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}{% endmacro %}
-
 {% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
     <div class="form-header">
         {% if backUrl %}
@@ -61,15 +59,19 @@
     {% endif %}
 {% endmacro %}
 
-{% macro formLabel(field, fieldCopy) %}
-    <label
-        class="ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}"
-        for="field-{{ field.name }}"
-    >{{ fieldCopy.label or field.label }}</label>
-{% endmacro %}
+{% macro fieldLabelText(field, fieldCopy) -%}
+    {{ fieldCopy.label or field.label }}
+    {% if field.isRequired %}
+        <span class="ff-label-note ff-label-note--required">* {{ __('global.misc.required') }}</span>
+    {% elseif not field.silentlyOptional %}
+        <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
+    {% endif %}
+{%- endmacro %}
 
 {% macro inputText(field, fieldCopy) %}
-    {{ formLabel(field, fieldCopy)}}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
     {{ fieldHelpText(field, fieldCopy) }}
     <input
         class="ff-text"
@@ -86,7 +88,9 @@
 
 {# @TODO: Extracted currency field. Hook this up properly #}
 {% macro inputCurrency(field, fieldCopy) %}
-    {{ formLabel(field, fieldCopy)}}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
     {{ fieldHelpText(field, fieldCopy) }}
     <div class="ff-field-prepend">£</div>
     <input
@@ -105,7 +109,9 @@
 {% endmacro %}
 
 {% macro inputTextarea(field, fieldCopy) %}
-    {{ formLabel(field, fieldCopy)}}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
     {{ fieldHelpText(field, fieldCopy) }}
     <textarea
         class="ff-textarea"
@@ -117,7 +123,9 @@
 {% endmacro %}
 
 {% macro inputSelect(field, fieldCopy) %}
-    {{ formLabel(field, fieldCopy)}}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
     {{ fieldHelpText(field) }}
     <select
         class="ff-select"
@@ -134,10 +142,9 @@
 
 {% macro inputChoice(field, fieldCopy) %}
     <fieldset class="ff-choice">
-        <legend
-            class="ff-label{% if field.isRequired %} ff-label--required{% elseif not field.silentlyOptional %} ff-label--optional{% endif %}"
-            for="field-{{ field.name }}"
-        >{{ fieldCopy.label or field.label }}</legend>
+        <legend class="ff-label" for="field-{{ field.name }}">
+            {{ fieldLabelText(field, fieldCopy) }}
+        </legend>
         {{ fieldHelpText(field, fieldCopy) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}

@@ -80,18 +80,24 @@ global:
     caseStudies: Astudiaethau achos
     documents: dogfennau
     download: lawrlwytho'r
+    edit: Edit
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
+    no: Naddo
+    optional: Optional
     or: neu
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
+    required: Required
     search: Chwilio
     seeProgramme: Gweld y rhaglen
+    stepProgress: "Step %s of %s"
     topics: pynciau
     viewAllNews: Gweld pob erthygl newyddion
+    yes: Do
   programmes:
     programmeLabels:
       area: Ardal
@@ -561,11 +567,296 @@ funding:
     title: Rhaglenni ariannu
     under10k: Grantiau dan £10,000
     over10k: Grantiau dros £10,000
+  digitalFund:
+    title: Y Gronfa Ddigidol
+    intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
+    openingDates: Bydd y rhaglen yn agor i geisiadau ar 22 Hydref 2018 ac yn cau ar 3 Rhagfyr 2018. Bydd cyfleoedd pellach i ymgeisio yn 2019.
+    closedMessage: Bydd y rhaglen yn agor i geisiadau ar 22 Hydref 2018
+    aboutStrandLabel: Mwy o wybodaeth am yr edefyn hwn
+    strand1:
+      title: Rydym eisiau defnyddio digidol i newid ein gwaith
+      shortTitle: Edefyn 1
+      introduction: <strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blwyddyn. 
+      startApplying: Dechrau ymgeisio am edefyn 1
+    strand2:
+      title: Rydym eisoes yn defnyddio digidol llawer, ac eisiau ehangu ein heffaith
+      shortTitle: Edefyn 2
+      introduction: <strong>Mae Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blynedd.
+      startApplying: Dechrau ymgeisio am edefyn 2
+    getStarted:
+      title: Cychwyn arni
+      intro: "Mae'r Gronfa Ddigidol yn cynnig dau edefyn ariannu ar hyn o bryd. I ddod o hyd i'r math iawn o gefnogaeth ar gyfer eich mudiad chi, dewiswch un o'r opsiynau a ganlyn:"
+      assistance:
+        title: "Ddim yn siŵr bod hwn yn addas i chi?"
+        body: >
+          <p>Os nad yw'r naill na'r llall o'r edafedd ariannu'n gweithio i'ch prosiect neu syniad, mae hynny'n iawn.
+            <a href="/welsh/funding/programmes">Mae rhaglenni ariannu eraill sy'n agored i geisiadau</a>.</p>
+          <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019.
+            <a href="https://en-gb.facebook.com/BigLotteryFund/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+          <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
+            <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
+    process:
+      title: Sut mae'r broses yn gweithio
+      introduction: Nid ydym eisiau i chi dreulio llawer o amser yn paratoi i gael sgwrs gychwynnol gyda ni. Hoffem siarad a chi am eich syniad cyn i chi ddechrau datblygu cais manwl am grant.
+      steps:
+      - title: Gofyn am alwad
+        description: Cysylltwch â ni i drefnu galwad i siarad am eich syniad—hoffem yn fawr gael sgwrs gyda chi mewn cam cynnar
+      - title: "Siarad â ni"
+        description: Byddwn yn ffonio chi ac yn gofyn ychydig o gwestiynau
+      - title: Cyflwyno cais llawn
+        description: Os ydym yn teimlo y gallai'r Gronfa Ddigidol weithio i chi, byddwn yn gofyn i chi  gyflwyno cais llawn
+      getStarted:
+        title: Cychwyn arni
+        body: >
+          <p><strong>Mae gennym ddiddordeb mawr mewn clywed eich syniadau</strong>. Siaradwch â ni, hyd yn oed os ydych mewn cam cynnar. Does dim angen i chi fod wedi gwneud unrhyw waith paratoi arbennig cyn gofyn am alwad.</p>
+        teaser: Os tybiwch y gallai'r Gronfa hon fod yn iawn i chi, y cam cyntaf yw cael sgwrs gyda ni.
+        linkText: Gofyn am alwad
+    questions:
+      title: Oes gennych gwestiynau?
+      body: >
+        <p>Cysylltwch â ni os oes gennych unrhyw gwestiynau ynglŷn â chymhwyster.</p>
+        <p><strong>Ffôn</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
+        <strong>Cyfnewid testun</strong>: 18001 plws 0300 123 0735 (ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd)<br/>
+        <strong>E-bost</strong>: <a href="mailto:cymru@cronfaloterifawr.org.uk">cymru@cronfaloterifawr.org.uk</a></p>
+    wayfinding:
+      title: Ddim yn siŵr bod hwn yn addas i chi?
+      description: Dewiswch un o'r opsiynau a ganlyn yn lle.
+      assistance: Rydym eisiau cymorth i gychwyn arni gyda digidol
+      strand1: Rydym eisiau defnyddio digidol i newid ein gwaith
+      strand2: Rydym eisoes yn defnyddio digidol llawer, ac eisiau ehangu ein heffaith
+      otherProgrammes: Yn olaf, rydym yn cynnig ystod o <a href="/welsh/funding/programmes">raglenni ariannu agored</a> a all eich helpu cefnogi pobl a chymunedau i ffynnu.
+    spending:
+      title: Ar beth allwch chi wario'r arian?
+      body: >
+        <p>Gallwn ariannu:</p>
+        <ul>
+          <li>cyflogau staff</li>
+          <li>gweithgareddau prosiect</li>
+          <li>costau rhedeg</li>
+          <li>gwaith adnewyddu ar raddfa fach</li>
+          <li>cyfarpar</li>
+          <li>datblygu sefydliadol</li>
+        </ul>
+
+        <p>Allwn ni ddim ariannu:</p>
+        <ul>
+          <li>cynigion gan fudiadau a redir yn bennaf er budd preifat neu i gynhyrchu elw i'w ddosbarthu'n breifat, neu unrhyw weithgareddau sy'n cynhyrchu elw er budd preifat</li>
+          <li>gweithgareddau crefyddol (er y gallwn ariannu mudiadau crefyddol os yw eu prosiect o fudd i'r gymuned ehangach ac nid yw'n ymwneud â chynnwys crefyddol)</li>
+          <li>gweithgareddau sy'n disodli'r rhai a ariennir gan y llywodraeth (er enghraifft, gallwn ariannu dim ond gweithgareddau ysgol sy'n ychwanegol at y cwricwlwm)</li>
+          <li>gweithgareddau y gall unigolion yn unig elwa ohonynt, yn hytrach na'r gymuned ehangach</li>
+          <li>gweithgareddau gwleidyddol</li>
+          <li>costau sydd eisoes wedi'u talu</li>
+          <li>ad-dalu benthyciadau</li>
+        </ul>
+    successFactors:
+      title: Ffactorau llwyddiant
+      strand1: >
+        <p>Bydd cynigion Edefyn 1 llwyddiannus yn:</p>
+        <ul>
+          <li>Dangos ymrwymiad cryf arweinwyr y mudiad i newid y ffordd y mae'r mudiad yn gwasanaethu pobl a chymunedau.</li>
+          <li>Cynnwys cynllun a ddatblygwyd yn unol ag arferion digidol da, megis ymrwymo i ddull iteraidd, a sicrhau mai pobl sy'n arwain.</li>
+          <li>Darparu tystiolaeth bod y mudiad eisoes wedi buddsoddi mewn digidol, cyn y cynnig hwn.</li>
+          <li>Dangos ymrwymiad i weithio'n hael, gan rannu'r hyn a ddysgwch a'r cynnyrch a gwasanaethau a gynhyrchwch ag eraill.</li>
+        </ul>
+
+        <p>Nid ydym yn chwilio am:</p>
+        <ul>
+          <li>Gynigion gyda chynllun hynod fanwl sy'n disgrifio holl fanylion y trawsnewidiad sydd ar ddod. Yn hytrach na hynny rydym yn croesawu cynigion sy'n gwahaniaethu'n glir rhwng yr hyn rydych yn ei wybod nawr, a'r hyn y byddwch yn ei ddysgu ar y daith.</li>
+          <li>Cynigion sydd wedi'u symbylu gan ddymuniad i ddefnyddio technoleg.</li>
+          <li>Cynigion sy'n seiliedig ar fylchau yn y gyllideb graidd.</li>
+        </ul>
+      strand2: >
+        <p>Bydd cynigion Edefyn 2 llwyddiannus yn:</p>
+        <ul>
+          <li>Manteisio ar ddylunio sy'n canolbwyntio ar y defnyddiwr.</li>
+          <li>Dangos yn glir naill ai'r potensial i gynyddu eich effaith am gost isel, neu ddangos yn glir y potensial i defnyddio digidol i greu buddion sylweddol ar gyfer grŵp penodol o bobl.</li>
+          <li>Cael eich symbylu gan dimau sy'n cyfuno gwybodaeth am fater sydd o bwys i bobl a chymunedau gyda phrofiad o gyflwyno digidol.</li>
+          <li>Cysylltiedig â chynnyrch neu wasanaeth sy'n ddigon pell trwy ei broses ddatblygu y mae pobl yn elwa ohoni ar hyn o bryd.</li>
+          <li>Darparu tystiolaeth o effaith ar y bobl hynny.</li>
+          <li>Dangos theori newid neu ddogfen debyg sy'n dangos sut fydd y cynnyrch neu wasanaeth yn cyflawni nodau y gall grŵp penodol o bobl elwa ohonynt.</li>
+          <li>Dangos dealltwriaeth o her cynnal effaith ar ôl i gefnogaeth gan y Gronfa Loteri Fawr ddod i ben.</li>
+        </ul>
+        <p>Nid ydym yn chwilio am:</p>
+        <ul>
+          <li>Gynnyrch neu wasanaethau nad ydynt yn ddigon aeddfed i fod o fudd i bobl eto.</li>
+          <li>Cynnyrch neu wasanaethau na allant ddangos tystiolaeth sylweddol o ymchwil gyda defnyddwyr wrth eu creu.</li>
+          <li>Cynnyrch neu wasanaethau sy'n dyblygu gwasanaethau presennol heb unrhyw arloesedd sylweddol.</li>
+        </ul>
+      equalities: >
+        <p>Mae'n bwysig i ni hefyd eich bod yn ymroddedig i gydraddoldeb a'r amgylchedd. Byddwn eisiau gwybod am eich polisïau cydraddoldeb ac amgylcheddol os bydd gennym ddiddordeb yn eich syniad.</p>
+        <ul>
+          <li><a href="/welsh/about-big/our-approach/equalities">Ein hegwyddorion cydraddoldeb</a></li>
+          <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Ewch i gov.uk i gael mwy o wybodaeth am gyfrifoldeb amgylcheddol</a></li>
+        </ul>
+    fullEligiblity:
+      title: Meini prawf cymhwyster llawn
+      introduction: >
+        <p>Bydd y Gronfa Ddigidol yn agor fesul cam dros y ddwy flynedd nesaf. Bydd y cam cyntaf, sydd ar agor rhwng 22 Hydref 2018 a 3 Rhagfyr 2018, yn derbyn ceisiadau trwy ddau edefyn.</p>
+        <p><strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.</p>
+        <p><strong>Mae Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.</p>
+        <p>Rydym yn disgwyl i grantiau yn y ddau edefyn bara rhwng 1 a 4 blynedd.</p>
+      teaser:
+        prefix: Ydych chi eisiau gweld yr holl fanylion ar un dudalen?
+        linkText: Gweld y meini prawf cymhwyster llawn
+    eligibility:
+      title: Meini prawf cymhwyster
+      commonCriteria:
+        summary: Mae'r meini prawf cymhwyster a ganlyn yn berthnasol i'r ddau edefyn ariannu. Mae meini prawf penodol ar gyfer pob edefyn islaw'r adran hon.
+        body: >
+          <p>Gallwch ymgeisio os yw eich mudiad yn:</p>
+          <ul>
+            <li>fudiad gwirfoddol a chymunedol</li>
+            <li>elusen gofrestredig</li>
+            <li>menter gymdeithasol</li>
+            <li>grwpiau o fudiadau, os ydynt wedi'u harwain gan fudiadau gwirfoddol a chymunedol neu fenter gymdeithasol</li>
+            <li>cwmnïau buddiant cymunedol (gyda dau neu fwy o gyfarwyddwyr).</li>
+          </ul>
+          <p>Ni fyddwn yn derbyn ceisiadau gan:</p>
+          <ul>
+              <li>unigolion</li>
+              <li>unig fasnachwyr</li>
+              <li>mudiadau sydd wedi’u lleoli y tu allan i'r Deyrnas Unedig</li>
+              <li>eitemau sy'n cael eu prynu ar ran mudiad arall</li>
+              <li>mae gan eich mudiad o leiaf dau o bobl nad oes cyswllt rhyngddynt ar y bwrdd neu bwyllgor.</li>
+              <li>cwmnïau y mae eu bwriad yw creu elw yn bennaf i'w ddosbarthu'n breifat. Gallai hyn newid mewn rownd ymgeisio'r rhaglen hon yn y dyfodol.</li>
+          </ul>
+          <p><em>(* wrth 'nad oes unrhyw gyswllt rhyngddynt', rydym yn golygu perthynas trwy waed, wedi priodi, mewn perthynas hir dymor neu bobl sy'n cydfyw yn yr un cyfeiriad)</em></p>
+      strand1:
+        title: Meini prawf cymhwyster ychwanegol sy'n berthnasol dim ond i Edefyn 1
+        criteria:
+        - Mae'n rhaid bod gan eich mudiad incwm o dros £500,000 y flwyddyn. Os oedd gan eich mudiad incwm o dros £10m y llynedd, byddwn yn gofyn am gyfraniad cyfatebol a fydd wedi'i deilwra i'ch maint
+        - Mae'n rhaid bod eich mudiad yn gorfforedig yn y Deyrnas Unedig, a gweithio'n bennaf yn y sector gwirfoddol a chymunedol
+      strand2:
+        title: Meini prawf cymhwyster ychwanegol sy'n berthnasol dim ond i Edefyn 2
+        criteria:
+        - Mae'n rhaid bod eich mudiad wedi cael ei gorffori ar ôl 2000
+        - Mae'n rhaid i chi weithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
+      faqs:
+      - question: Why do I need to speak to you? Can I just send an application in?
+        answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
+      - question: Do I need to prepare for the call?
+        answer: You don’t need to do any special preparation. The call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
+      - question: How do I request a call?
+        answer: Answer the yes/no question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
+    eligibilityChecker:
+      title: Request a call
+      introduction: To get started arranging a call, please answer this first question.
+      unsureTitle: I'm not sure
+      ineligibleTitle: Ineligible for funding
+      strand1:
+        question: Are you from a UK-based, registered charity which had income of over £500,000 last year?
+        eligibilitySummary:
+          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          criteria:
+            - have over £500,000 a year income
+            - have structures and ways of working that were developed before the internet became widespread
+            - are looking to make a big change to the way they work
+            - primarily help people in the UK
+        ineligible:
+          introduction: We’re sorry you’re not eligible for Strand 1 funding.
+          body: >
+            <p>Don’t worry, there are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
+            <p>There will be further funding opportunities within the Digital Fund in 2019.
+              <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+            <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a>.</p>
+      strand2:
+        question: Do you currently have a product or service that is operational and that is being used by the type of people and communities you plan to serve in future?
+        eligibilitySummary:
+          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          criteria:
+            - have been incorporated after the year 2000
+            - operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
+        ineligible:
+          introduction: We’re sorry you’re not eligible for Strand 2 funding.
+          body: >
+            <p>For more information, please see the <a href="/funding/programmes/digital-fund/eligibility">full detailed eligibility criteria</a> for this programme.</p>
+            <p>If you are at an earlier stage than this, we recommend looking at:</p>
+            <ul>
+              <li><a href="/funding/programmes">Our other funding programmes</a>
+              <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (external)</a>
+              <li><a href="https://socialtechtrust.org/">Social Tech Trust (external)</a>
+              <li><a href="https://www.comicrelief.com/">Comic Relief (external)</a>
+              <li><a href="https://www.unltd.org.uk/">UnLtd (external)</a>
+            </li>
+    assistance:
+      title: Cymorth i gychwyn arni gyda digidol
+      intro: Ydych chi'n gweithio neu'n gwirfoddoli dros fudiad sector gwirfoddol bach? Hoffech chi wybod sut gallai offer digidol fel apiau, gwefannau a chyfryngau cymdeithasol wneud eich gwaith yn fwy effeithiol?
+      body: >
+        <p>Rydym yn edrych ar sut y gallwn alluogi arbenigwyr digidol i gynnig cymorth am ddim i fudiadau llai. Nid yw'r meini prawf cymhwysedd wedi'u cadarnhau eto, ond os ydych am i ni yrru e-bost atoch pan fydd y rhaglen yn barod, rhowch eich manylion yma.</p>
+      submission:
+        explanation: Byddwn yn defnyddio hwn dim ond i yrru gwybodaeth atoch am gymorth digidol am ddim
+        emailAddress: Cyfeiriad E-bost
+        proceedLabel: Cofrestru
+        success:
+          title: Diolch am gofrestru
+          message: Byddwn mewn cyswllt cyn bo hir
+        error:
+          message: Cafwyd problem gyda'ch gwybodaeth, rhowch gynnig arall arni.
+      helpAndSupport:
+        title: Cymorth a Chefnogaeth
+        intro: "Mae llawer o wybodaeth ddefnyddiol ar y we am sut i gychwyn arni gyda digidol. Dyma rai dolenni i'ch dechrau i feddwl:"
+        links:
+        - title: Egwyddorion dylunio digidol ar gyfer elusennau (betterdigital.services)
+          url: 'https://betterdigital.services/principles/'
+        - title: Adeiladu gweithlu digidol (knowhownonprofit.org)
+          url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
+        - title: Matrics aeddfedrwydd digidol y sector gwirfoddol (digitalmaturity.co.uk)
+          url: 'https://digitalmaturity.co.uk/'
 research:
   detail:
     documents: Dogfennau
     relatedProgrammes: Rhaglenni cysylltiedig
     datePublished: Dyddiad cyhoeddi
-    # @TODO: Translate me!
-    researchPartners: Research partners
+    researchPartners: Partneriaid ymchwil
     contact: Manylion cyswllt
+apply:
+  error:
+    title: There was a problem with your submission
+    message: >
+      <p>We have been notified of the problem.</p>
+      <p>Please return to the review step and try again. If you still see an error, please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+  digitalFundDefaults: &digitalFundDefaults
+    title: Let’s Talk
+    errorTitle: There was a problem with your submission
+    fields:
+      name:
+        label: Your name
+        errorMessage: Please provide your name
+      email:
+        label: Email address
+        errorMessage: Please provide a valid email address
+      organisation-name:
+        label: Organisation name
+        errorMessage: Please provide the name of your organisation
+      your-idea:
+        label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      your-idea-product:
+        label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us what your organisation does
+      technology:
+        label: Briefly tell us how digital technology is important to your project
+        lengthHint: Please keep it to a couple of paragraphs
+        errorMessage: Briefly tell us how digital technology is important to your project
+    steps:
+      - name: Your details
+        fieldsets:
+        - legend: Your contact details
+          introduction: Please tell us a little about your project and organisation so that we can get in touch
+        - legend: Your idea
+    review:
+      title: 'Check this is right before submitting your information'
+      proceedLabel: 'Submit'
+    success:
+      title: Thank you for getting in touch
+      confirmation: We have emailed you a copy of your submission
+      message: We’ll get back to you about a call as soon as we can.
+      nextStepsTitle: What happens next?
+  digitalFundStrand1:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+  digitalFundStrand2:
+    <<: *digitalFundDefaults
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.

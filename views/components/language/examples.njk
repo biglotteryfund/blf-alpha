@@ -1,0 +1,14 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macros.njk" import languageLink, languageSwitcher, languageServiceMessage with context %}
+
+{% call sgExample('Language link') %}
+    {{ languageLink(currentLocale = locale) }}
+{% endcall %}
+
+{% call sgExample('Language switcher') %}
+    {{ languageSwitcher(currentLocale = locale) }}
+{% endcall %}
+
+{% call sgExample('Language service message') %}
+    {{ languageServiceMessage(currentLocale = locale) }}
+{% endcall %}

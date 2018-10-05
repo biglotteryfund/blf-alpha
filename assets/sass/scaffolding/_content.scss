@@ -90,16 +90,6 @@
         padding: $spacingUnit;
     }
 
-    &.content-box--flex {
-        display: flex;
-        flex-flow: column nowrap;
-        flex: 1 1 0%;
-    }
-
-    &.content-box--flush {
-        margin-bottom: 0;
-    }
-
     &.content-box--borderless {
         border-right: none;
         border-bottom: none;

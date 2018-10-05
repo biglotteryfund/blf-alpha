@@ -3,7 +3,7 @@
    ========================================================================= */
 
 .form-header {
-    margin-bottom: $spacingUnit * 2;
+    margin-bottom: $spacingUnit;
 
     .form-header__actions {
         margin-bottom: $spacingUnit / 2;
@@ -123,31 +123,33 @@
    Fields (individual field styles)
    ========================================================================= */
 
+/**
+ * Field labels
+ */
 .ff-label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.ff-label--required,
-.ff-label--optional {
-    &:after {
-        content: '* Required field';
-        font-weight: normal;
-        margin-left: 10px;
-        font-size: smaller;
+/**
+ * Field label notes
+ */
+.ff-label-note {
+    font-weight: normal;
+    margin-left: 0.5em;
+    font-size: smaller;
+    color: palette('charcoal-note');
+    white-space: nowrap;
+
+    &.ff-label-note--required {
         color: palette('pink');
-        white-space: nowrap;
     }
 }
 
-.ff-label--optional {
-    &:after {
-        content: 'Optional';
-        color: palette('charcoal-note');
-    }
-}
-
+/**
+ * Field help text
+ */
 .ff-help {
     font-size: 18px;
     margin-bottom: 10px;
@@ -243,10 +245,10 @@
     }
 }
 
-
 /* =========================================================================
    Form Actions
    ========================================================================= */
+
 .form-actions {
     max-width: $constrainedWide;
     border-top: 1px solid palette('border');
@@ -488,4 +490,3 @@
         }
     }
 }
-

@@ -2,7 +2,7 @@
 {% from "../views/view-helpers.njk" import emailSummary %}
 
 {% block content %}
-    <p>Thank you for getting in touch with us.</p>
+    <p>Thank you for getting in touch.</p>
     <p>Here is a copy of the information you've submitted. We'll be in touch as soon as we can.</p>
     {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
 {% endblock %}

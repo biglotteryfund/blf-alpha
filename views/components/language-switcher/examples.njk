@@ -1,6 +1,0 @@
-{% from "components/styleguide.njk" import sgExample %}
-{% from "./macro.njk" import languageSwitcher with context %}
-
-{% call sgExample() %}
-    {{ languageSwitcher(currentLocale = locale) }}
-{% endcall %}

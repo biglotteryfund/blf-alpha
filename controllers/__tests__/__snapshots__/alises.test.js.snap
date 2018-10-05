@@ -1443,46 +1443,6 @@ Array [
     "to": "/welsh/funding",
   },
   Object {
-    "from": "/funding/Awards-For-All",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/funding/Awards-For-All",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/england/funding/Awards-For-All",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/england/funding/Awards-For-All",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/scotland/funding/Awards-For-All",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/Awards-For-All",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/northernireland/funding/Awards-For-All",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/Awards-For-All",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/wales/funding/Awards-For-All",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/wales/funding/Awards-For-All",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
     "from": "/funding/awards-for-all",
     "to": "/funding/under10k",
   },
@@ -1520,6 +1480,46 @@ Array [
   },
   Object {
     "from": "/welsh/wales/funding/awards-for-all",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/funding/Awards-For-All",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/funding/Awards-For-All",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/england/funding/Awards-For-All",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/england/funding/Awards-For-All",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/scotland/funding/Awards-For-All",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/Awards-For-All",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/northernireland/funding/Awards-For-All",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/Awards-For-All",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/wales/funding/Awards-For-All",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/wales/funding/Awards-For-All",
     "to": "/welsh/funding/under10k",
   },
   Object {
@@ -1921,6 +1921,46 @@ Array [
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/self-evaluation",
     "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+  },
+  Object {
+    "from": "/funding/programmes/digital-funding",
+    "to": "/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/welsh/funding/programmes/digital-funding",
+    "to": "/welsh/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/england/funding/programmes/digital-funding",
+    "to": "/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/welsh/england/funding/programmes/digital-funding",
+    "to": "/welsh/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/scotland/funding/programmes/digital-funding",
+    "to": "/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/programmes/digital-funding",
+    "to": "/welsh/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/northernireland/funding/programmes/digital-funding",
+    "to": "/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/programmes/digital-funding",
+    "to": "/welsh/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/wales/funding/programmes/digital-funding",
+    "to": "/funding/programmes/digital-fund",
+  },
+  Object {
+    "from": "/welsh/wales/funding/programmes/digital-funding",
+    "to": "/welsh/funding/programmes/digital-fund",
   },
   Object {
     "from": "/funding/scotland-portfolio",

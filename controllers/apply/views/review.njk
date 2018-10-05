@@ -3,6 +3,7 @@
 {% from "components/icons.njk" import iconArrowDown %}
 {% from "components/form-fields.njk" import formHeader with context %}
 
+{% set stepProgressDescription = __('global.misc.stepProgress', stepProgress.currentStepNumber, stepProgress.totalSteps) %}
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
@@ -11,7 +12,7 @@
             <form action="" method="POST" class="js-application-form js-application-form-review">
                 {{ formHeader(
                     title = title,
-                    prefix = "Step " + stepProgress.currentStepNumber + " of " + stepProgress.totalSteps,
+                    prefix = stepProgressDescription,
                     backUrl = stepProgress.prevStepUrl
                 ) }}
 
@@ -22,8 +23,8 @@
                             {{ stepCopy.name or step.name }}
                             <a class="review-step__edit js-application-form-review-link"
                                 href="{{ baseUrl }}/{{ loop.index }}/edit"
-                                aria-label="Edit {{ step.name }}">
-                                Edit
+                                aria-label="{{ __('global.misc.edit') }} {{ step.name }}">
+                                {{ __('global.misc.edit') }}
                             </a>
                         </h3>
                         {% for fieldset in step.fieldsets %}
