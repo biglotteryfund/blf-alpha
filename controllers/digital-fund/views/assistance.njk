@@ -4,8 +4,6 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/form-fields.njk" import formErrors with context %}
 
-{% from "./view-helpers.njk" import wayfinding with context %}
-
 {% block content %}
     <main role="main">
         {{ hero(
@@ -84,7 +82,16 @@
 
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 <div class="s-prose u-constrained-content-wide">
-                    {{ wayfinding('assistance') }}
+                    <h2>{{ copy.wayfinding.title }}</h2>
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                        class="btn btn--medium accent--blue a--btn">
+                        {{ copy.wayfinding.strand1 }}
+                    </a></p>
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                        class="btn btn--medium accent--cyan a--btn">
+                        {{ copy.wayfinding.strand2 }}
+                    </a></p>
+                    <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
                 </div>
             </section>
         </div>

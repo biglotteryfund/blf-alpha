@@ -5,7 +5,6 @@
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 {% from "components/action-card/macro.njk" import actionCard %}
-{% from "./view-helpers.njk" import wayfinding with context %}
 
 {% block content %}
     <main role="main">
@@ -108,7 +107,23 @@
             {% endcall %}
 
             {% call contentBox(pageAccent) %}
-                {{ wayfinding(currentStrand) }}
+                <h2>{{ copy.wayfinding.title }}</h2>
+                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
+                    class="btn btn--medium accent--pink a--btn">
+                    {{ copy.wayfinding.assistance }}
+                </a></p>
+                {% if currentStrand === 'strand1' %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                        class="btn btn--medium accent--cyan a--btn">
+                        {{ copy.wayfinding.strand2 }}
+                    </a></p>
+                {% else %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                        class="btn btn--medium accent--blue a--btn">
+                        {{ copy.wayfinding.strand1 }}
+                    </a></p>
+                {% endif %}
+                <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
             {% endcall %}
         </div>
     </main>
