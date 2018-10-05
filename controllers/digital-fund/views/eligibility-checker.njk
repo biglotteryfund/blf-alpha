@@ -2,7 +2,6 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "./view-helpers.njk" import eligibilityFaqs %}
 
 {% block content %}
     <main role="main">
@@ -47,7 +46,10 @@
 
                     <hr>
 
-                    {{ eligibilityFaqs(copy.eligibility.faqs) }}
+                     {% for faq in copy.eligibility.faqs %}
+                        <p><strong>{{ faq.question }}</strong></p>
+                        <p>{{ faq.answer }}</p>
+                    {% endfor %}
                 </div>
             </section>
         </div>

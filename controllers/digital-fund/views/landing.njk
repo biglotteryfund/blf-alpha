@@ -1,9 +1,8 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "./view-helpers.njk" import strandTeaserCard %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/action-card/macro.njk" import actionCard %}
 
 {% block content %}
     <main role="main">
@@ -29,24 +28,26 @@
 
                 <div class="flex-grid">
                     <div class="flex-grid__item">
-                        {{ strandTeaserCard({
+                        {% call actionCard({
                             title: copy.strand1.title,
-                            description: copy.strand1.introduction | safe,
                             link: {
                                 url: localify('/funding/programmes/digital-fund/strand-1'),
                                 label: copy.aboutStrandLabel
                             }
-                        }, accent = 'blue') }}
+                        }, accent = 'blue') %}
+                            <p>{{ copy.strand1.introduction | safe }}</p>
+                        {% endcall %}
                     </div>
                     <div class="flex-grid__item">
-                        {{ strandTeaserCard({
+                        {% call actionCard({
                             title: copy.strand2.title,
-                            description: copy.strand2.introduction | safe,
                             link: {
                                 url: localify('/funding/programmes/digital-fund/strand-2'),
                                 label: copy.aboutStrandLabel
                             }
-                        }, accent = 'cyan') }}
+                        }, accent = 'cyan') %}
+                            <p>{{ copy.strand2.introduction | safe }}</p>
+                        {% endcall %}
                     </div>
                 </div>
 

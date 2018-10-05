@@ -1,0 +1,24 @@
+{% from "components/styleguide.njk" import sgExample, sgUsage %}
+{% from "./macro.njk" import actionCard %}
+
+{% call sgExample('Defaults') %}
+    {% call actionCard({
+        title: 'We want to use digital to change our work',
+        link: { url: '#', label: 'Find out more about this strand' }
+    }) %}
+        <p>Digital Fund Strand 1 offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.</p>
+    {% endcall %}
+{% endcall %}
+
+{% call sgExample('With accent') %}
+    {% call actionCard({
+        title: 'We want to use digital to change our work',
+        link: { url: '#', label: 'Find out more about this strand' }
+    }, accent = 'cyan') %}
+        <p>Digital Fund Strand 1 offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.</p>
+    {% endcall %}
+{% endcall %}
+
+{% call sgUsage() %}
+    Card component for calls to action. Consists of a title, body copy, and link. Takes an optional accent colour.
+{% endcall %}

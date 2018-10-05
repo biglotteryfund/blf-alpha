@@ -1,22 +1,3 @@
-{% from "components/step-progress/macro.njk" import stepProgress %}
-
-{% macro strandTeaserCard(props, accent) %}
-    <div class="card">
-        <header class="card__header">
-            <h3 class="card__title">{{ props.title }}</h3>
-        </header>
-        <div class="card__body">
-            <p>{{ props.description }}</p>
-        </div>
-        <div class="card__footer">
-            <a href="{{ props.link.url }}"
-                class="btn btn--medium accent--{{ accent }} a--btn">
-                {{ props.link.label }}
-            </a>
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro wayfinding(currentStrand) %}
     <h2>{{ copy.wayfinding.title }}</h2>
     {% if currentStrand !== 'assistance' %}
@@ -38,11 +19,4 @@
         </a></p>
     {% endif %}
     <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
-{% endmacro %}
-
-{% macro eligibilityFaqs(faqs) %}
-    {% for faq in faqs %}
-        <p><strong>{{ faq.question }}</strong></p>
-        <p>{{ faq.answer }}</p>
-    {% endfor %}
 {% endmacro %}

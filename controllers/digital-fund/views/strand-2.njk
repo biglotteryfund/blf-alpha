@@ -4,7 +4,9 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
+{% from "components/action-card/macro.njk" import actionCard %}
 {% from "./view-helpers.njk" import wayfinding with context %}
+
 {% set eligibilityLink = localify('/funding/programmes/digital-fund/strand-2/eligibility') %}
 
 {% block content %}
@@ -44,26 +46,27 @@
                     </div>
 
                     <div class="content-sidebar__secondary">
-                        <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
-                            <header class="card__header">
-                                <h3 class="card__title">
-                                    {% if featurePreviewDigitalFund %}
-                                        {{ copy.process.getStarted.title }}
-                                    {% else %}
-                                        {{ copy.closedMessage }}
-                                    {% endif %}
-                                </h3>
-                                <div class="card__body">
+                        {% if featurePreviewDigitalFund %}
+                            {# Open to applicants #}
+                            <div class="u-sticky-offset">
+                                {% call actionCard({
+                                    title: copy.process.getStarted.title,
+                                    link: {
+                                        url: eligibilityLink,
+                                        label: copy.process.getStarted.linkText
+                                    }
+                                }, accent = pageAccent) %}
                                     {{ copy.process.getStarted.body | safe }}
-                                    {% if featurePreviewDigitalFund %}
-                                        <a href="{{ eligibilityLink }}"
-                                           class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                                            {{ copy.process.getStarted.linkText }}
-                                        </a>
-                                    {% endif %}
-                                </div>
-                            </header>
-                        </aside>
+                                {% endcall %}
+                            </div>
+                        {% else %}
+                            {# Closed to applicants #}
+                            {% call actionCard({
+                                title: copy.closedMessage
+                            }, accent = pageAccent) %}
+                                {{ copy.process.getStarted.body | safe }}
+                            {% endcall %}
+                        {% endif %}
                     </div>
                 </div>
             </section>
