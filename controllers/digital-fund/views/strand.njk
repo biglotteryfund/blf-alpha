@@ -7,8 +7,6 @@
 {% from "components/action-card/macro.njk" import actionCard %}
 {% from "./view-helpers.njk" import wayfinding with context %}
 
-{% set eligibilityLink = localify('/funding/programmes/digital-fund/strand-1/eligibility') %}
-
 {% block content %}
     <main role="main">
         {{ hero(
@@ -22,7 +20,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
-                    <p>{{ copy.strand1.introduction | safe }}</p>
+                    <p>{{ copy[currentStrand].introduction | safe }}</p>
                 </div>
 
                 <div class="message">
@@ -74,7 +72,7 @@
             {% call contentBox(pageAccent, id='segment-2') %}
                 <h2>{{ copy.eligibility.title }}</h2>
                 <ul>
-                    {% for criteria in copy.eligibility.strand1.criteria %}
+                    {% for criteria in copy.eligibility[currentStrand].criteria %}
                         <li>{{ criteria }}</li>
                     {% endfor %}
                 </ul>
@@ -88,7 +86,7 @@
 
             {% call contentBox(pageAccent, id="segment-4") %}
                 <h2>{{ copy.successFactors.title }}</h2>
-                {{ copy.successFactors.strand1 | safe }}
+                {{ copy.successFactors[currentStrand] | safe }}
             {% endcall %}
 
             {% if featurePreviewDigitalFund %}
@@ -110,7 +108,7 @@
             {% endcall %}
 
             {% call contentBox(pageAccent) %}
-                {{ wayfinding('strand1') }}
+                {{ wayfinding(currentStrand) }}
             {% endcall %}
         </div>
     </main>
