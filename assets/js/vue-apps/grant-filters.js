@@ -11,9 +11,11 @@ function init() {
         el: mountEl,
         delimiters: ['<%', '%>'],
         data() {
+            // Populate data from global object (eg. to share server/client state)
             let PGS = window._PAST_GRANTS_SEARCH;
             let queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
             let existingFacets = PGS && PGS.facets ? PGS.facets : {};
+            let existingSort = PGS && PGS.sort ? PGS.sort : {};
             let defaultFilters = {
                 amount: '',
                 year: '',
@@ -23,11 +25,12 @@ function init() {
             };
             return {
                 defaultFilters,
+                sort: Object.assign({}, existingSort),
                 facets: Object.assign({}, existingFacets),
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
                 totalResults: PGS.totalResults || 0,
-                searchError: false
+                searchError: false,
             };
         },
         watch: {
@@ -47,9 +50,26 @@ function init() {
         },
         methods: {
             // Create the sort parameters
-            sort: function(sortKey, direction) {
+            sortData: function(sortKey, currentDirection) {
+                // Flip reverse it
+                let direction = (currentDirection === 'asc') ? 'desc' : 'asc';
+                this.sort = {
+                    type: sortKey,
+                    direction: direction
+                };
                 this.filters.sort = `${sortKey}|${direction}`;
                 this.filterResults();
+            },
+
+            // Generate CSS classes for sort links
+            sortLinkClasses: function(sortKey) {
+                const type = this.sort.type;
+                const dir = this.sort.direction;
+                return {
+                    'sort-controls__item--active': type === sortKey,
+                    'sort-controls__item--desc': type === sortKey && dir === 'desc',
+                    'sort-controls__item--asc': type === sortKey && dir === 'asc'
+                };
             },
 
             // Convert filters into URL-friendly state
@@ -85,6 +105,7 @@ function init() {
                 }
             },
 
+            // Send the data to the AJAX endpoint and output the results to the page
             filterResults: _.debounce(function() {
                 this.isCalculating = true;
                 this.searchError = false;
