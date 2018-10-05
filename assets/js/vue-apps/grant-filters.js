@@ -113,30 +113,32 @@ function init() {
                 this.isCalculating = true;
                 this.searchError = false;
 
-                setTimeout( () => {
+                setTimeout(() => {
                     const $form = $(this.$el);
                     const url = $form.attr('action');
                     const urlWithParams = `${url}?${this.filtersToString()}`;
                     $.ajax({
                         url: urlWithParams,
                         dataType: 'json',
-                        timeout: 20000,
-                    }).then(response => {
-                        // @TODO vue-ize this
-                        $('#js-grant-results').html(response.resultsHtml);
-                        this.totalResults = response.meta.totalResults;
-                        this.facets = response.facets;
-                        this.updateUrl();
-                        this.isCalculating = false;
-                    }).catch(err => {
-                        const error = err.responseJSON.error;
-                        this.isCalculating = false;
-                        if (error && error.code) {
-                            this.searchError = error.code;
-                        } else {
-                            this.searchError = true;
-                        }
-                    });
+                        timeout: 20000
+                    })
+                        .then(response => {
+                            // @TODO vue-ize this
+                            $('#js-grant-results').html(response.resultsHtml);
+                            this.totalResults = response.meta.totalResults;
+                            this.facets = response.facets;
+                            this.updateUrl();
+                            this.isCalculating = false;
+                        })
+                        .catch(err => {
+                            const error = err.responseJSON.error;
+                            this.isCalculating = false;
+                            if (error && error.code) {
+                                this.searchError = error.code;
+                            } else {
+                                this.searchError = true;
+                            }
+                        });
                 }, 500);
             }, 500)
         }
