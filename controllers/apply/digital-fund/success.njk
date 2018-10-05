@@ -19,9 +19,9 @@
 
                 {{ inlineFeedback(
                     description = formTitle,
-                    promptLabel = "Can you spare a minute to give us some feedback?",
-                    fieldLabel = "How was your experience of this process?",
-                    helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
+                    promptLabel = stepCopy.feedback.promptLabel,
+                    fieldLabel = stepCopy.feedback.fieldLabel,
+                    helpText = stepCopy.feedback.helpText,
                     isToggleable = false
                 )  }}
             </div>

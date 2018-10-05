@@ -820,13 +820,6 @@ funding:
         criteria:
         - Your organisation must have been incorporated after the year 2000
         - You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
-      faqs:
-      - question: Why do I need to speak to you? Can I just send an application in?
-        answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
-      - question: Do I need to prepare for the call?
-        answer: You don’t need to do any special preparation. The call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
-      - question: How do I request a call?
-        answer: Answer the yes/no question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     eligibilityChecker:
       title: Request a call
       introduction: To get started arranging a call, please answer this first question.
@@ -867,6 +860,13 @@ funding:
               <li><a href="https://www.comicrelief.com/">Comic Relief (external)</a>
               <li><a href="https://www.unltd.org.uk/">UnLtd (external)</a>
             </li>
+      faqs:
+      - question: Why do I need to speak to you? Can I just send an application in?
+        answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
+      - question: Do I need to prepare for the call?
+        answer: You don’t need to do any special preparation. The call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
+      - question: How do I request a call?
+        answer: Answer the yes/no question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     assistance:
       title: Help getting started with digital
       intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
@@ -1030,12 +1030,16 @@ apply:
       confirmation: We have emailed you a copy of your submission
       message: We’ll get back to you about a call as soon as we can.
       nextStepsTitle: What happens next?
+      feedback:
+        promptLabel: "Can you spare a minute to give us some feedback?"
+        fieldLabel: "How was your experience of this process?"
+        helpText: "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Funding
     description: Expression of interest

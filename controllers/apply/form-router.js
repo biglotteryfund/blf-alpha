@@ -216,7 +216,8 @@ function initFormRouter(form) {
             } else {
                 try {
                     await form.processor({
-                        formModel: form,
+                        form: form,
+                        locale: req.i18n.getLocale(),
                         data: flattenFormData(formData),
                         stepsWithValues: stepsWithValues(form.steps, formData),
                         copy: res.locals.copy

@@ -80,24 +80,24 @@ global:
     caseStudies: Astudiaethau achos
     documents: dogfennau
     download: lawrlwytho'r
-    edit: Edit
+    edit: Golygu
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
-    no: Naddo
-    optional: Optional
+    no: Nac ydw
+    optional: Dewisol
     or: neu
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
     readMoreAbout: Darllenwch fwy am
-    required: Required
+    required: Gorfodol
     search: Chwilio
     seeProgramme: Gweld y rhaglen
-    stepProgress: "Step %s of %s"
+    stepProgress: "Cam %s o %s"
     topics: pynciau
     viewAllNews: Gweld pob erthygl newyddion
-    yes: Do
+    yes: Ydw
   programmes:
     programmeLabels:
       area: Ardal
@@ -731,53 +731,54 @@ funding:
         criteria:
         - Mae'n rhaid bod eich mudiad wedi cael ei gorffori ar ôl 2000
         - Mae'n rhaid i chi weithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
-      faqs:
-      - question: Why do I need to speak to you? Can I just send an application in?
-        answer: We like to chat at the earliest possible opportunity, so we can help you determine if this funding is right for you. The call also gives us an opportunity to answer any questions you may have.
-      - question: Do I need to prepare for the call?
-        answer: You don’t need to do any special preparation. The call is not a full submission and it’s ok if you don’t have all the answers right now. We just want to hear a little about you and what you’d like funding for.
-      - question: How do I request a call?
-        answer: Answer the yes/no question above and then fill in the form. After you’ve submitted this information, we’ll be in touch by email to confirm that a call is a good idea, and to arrange a time.
     eligibilityChecker:
-      title: Request a call
-      introduction: To get started arranging a call, please answer this first question.
-      unsureTitle: I'm not sure
-      ineligibleTitle: Ineligible for funding
+      title: Gofyn am alwad
+      introduction: I ddechrau trefnu galwad, atebwch y cwestiwn hwn yn gyntaf.
+      unsureTitle: Dydw i ddim yn siŵ
+      ineligibleTitle: Anghymwys i gael eich ariannu
       strand1:
-        question: Are you from a UK-based, registered charity which had income of over £500,000 last year?
+        question: Ydych chi'n rhan o elusen gofrestredig a leolir yn y Deyrnas Unedig yr oedd ei hincwm dros £500,000 y llynedd?
         eligibilitySummary:
-          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          introduction: "Mae edefyn hwn y Gronfa Ddigidol wedi'i dylunio'n benodol i helpu mudiadau sydd:"
           criteria:
-            - have over £500,000 a year income
-            - have structures and ways of working that were developed before the internet became widespread
-            - are looking to make a big change to the way they work
-            - primarily help people in the UK
+            - ag incwm o dros £500,000 y flwyddyn
+            - â strwythurau a dulliau gweithio a ddatblygwyd cyn i'r rhyngrwyd gael ei ddefnyddio'n gyffredinol
+            - am wneud newid mawr i'r ffordd yr ydym yn gweithio
+            - yn helpu pobl yn y Deyrnas Unedig yn bennaf
         ineligible:
-          introduction: We’re sorry you’re not eligible for Strand 1 funding.
+          introduction: Mae'n flin gennym, dydych chi ddim yn gymwys i dderbyn grant Edefyn 1.
           body: >
-            <p>Don’t worry, there are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
-            <p>There will be further funding opportunities within the Digital Fund in 2019.
-              <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
-            <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support from 2019</a>.</p>
+            <p>Peidiwch â phoeni, mae <a href="/funding/programmes">rhaglenni ariannu eraill sy'n derbyn ceisiadau</a></p>
+            <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019
+              <a href="https://en-gb.facebook.com/BigLotteryFund/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+            <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
+            <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
       strand2:
-        question: Do you currently have a product or service that is operational and that is being used by the type of people and communities you plan to serve in future?
+        question: Oes gennych gynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol?
         eligibilitySummary:
-          introduction: "This strand of the Digital Fund is specifically designed to help organisations that:"
+          introduction: "Mae edefyn hwn y Gronfa Ddigidol wedi'i dylunio'n benodol i helpu mudiadau sydd:"
           criteria:
-            - have been incorporated after the year 2000
-            - operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
+            - wedi cael ei gorffori ar ôl 2000
+            - yn gweithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
         ineligible:
-          introduction: We’re sorry you’re not eligible for Strand 2 funding.
+          introduction: Mae'n flin gennym, dydych chi ddim yn gymwys i dderbyn grant Edefyn 2.
           body: >
-            <p>For more information, please see the <a href="/funding/programmes/digital-fund/eligibility">full detailed eligibility criteria</a> for this programme.</p>
-            <p>If you are at an earlier stage than this, we recommend looking at:</p>
+            <p>I gael mwy o wybodaeth, gweler y <a href="/welsh/funding/programmes/digital-fund/eligibility">meini prawf cymhwysedd</a> manwl llawn ar gyfer y rhaglen hon.</p>
+            <p>Os ydych mewn cam cynharach na hwn, rydym yn argymell i chi fwrw golwg ar:</p>
             <ul>
-              <li><a href="/funding/programmes">Our other funding programmes</a>
-              <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (external)</a>
-              <li><a href="https://socialtechtrust.org/">Social Tech Trust (external)</a>
-              <li><a href="https://www.comicrelief.com/">Comic Relief (external)</a>
-              <li><a href="https://www.unltd.org.uk/">UnLtd (external)</a>
+              <li><a href="/welsh/funding/programmes">Ein rhaglenni ariannu eraill</a>
+              <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (allanol)</a>
+              <li><a href="https://socialtechtrust.org/">Social Tech Trust (allanol)</a>
+              <li><a href="https://www.comicrelief.com/">Comic Relief (allanol)</a>
+              <li><a href="https://www.unltd.org.uk/">UnLtd (allanol)</a>
             </li>
+      faqs:
+      - question: Pam mae angen i mi siarad â chi? A allaf anfon cais i mewn yn unig?
+        answer: Rydym yn hoffi siarad â chi mor gynnar â phosib, fel y gallwn eich helpu penderfynu ai dyma'r grant iawn i chi ai beidio. Mae'r alwad hefyd yn rhoi cyfle i ni ateb unrhyw gwestiynau sydd gennych.
+      - question: Oes angen i mi baratoi ar gyfer yr alwad?
+        answer: Nid oes angen i chi wneud unrhyw waith paratoi arbennig. Dydy'r alwad ddim yn gais llawn ac mae'n iawn os nad oes gennych yr atebion i gyd ar hyn o bryd. Y cyfan rydym eisiau yw clywed ychydig amdanoch chi ac ar gyfer beth yr hoffech gael eich ariannu.
+      - question: Sut ydw i'n gofyn am alwad?
+        answer: Atebwch y cwestiwn ydw/nad ydw uchod ac wedyn llenwch y ffurflen. Ar ôl i chi gyflwyno'r wybodaeth hon, byddwn mewn cyswllt â chi trwy e-bost i gadarnhau bod galwad yn syniad da ac i drefnu amser.
     assistance:
       title: Cymorth i gychwyn arni gyda digidol
       intro: Ydych chi'n gweithio neu'n gwirfoddoli dros fudiad sector gwirfoddol bach? Hoffech chi wybod sut gallai offer digidol fel apiau, gwefannau a chyfryngau cymdeithasol wneud eich gwaith yn fwy effeithiol?
@@ -811,52 +812,56 @@ research:
     contact: Manylion cyswllt
 apply:
   error:
-    title: There was a problem with your submission
+    title: Cafwyd problem gyda'ch cyflwyniad
     message: >
-      <p>We have been notified of the problem.</p>
-      <p>Please return to the review step and try again. If you still see an error, please call <a href="tel:03454102030">0345 4 10 20 30</a> (Monday–Friday 9am–5pm).</p>
+      <p>Rydym wedi cael ein hysbysu am y broblem.</p>
+      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03454102030">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
   digitalFundDefaults: &digitalFundDefaults
-    title: Let’s Talk
+    title: Cael Sgwrs
     errorTitle: There was a problem with your submission
     fields:
       name:
-        label: Your name
-        errorMessage: Please provide your name
+        label: Eich enw
+        errorMessage: Rhowch eich enw
       email:
-        label: Email address
-        errorMessage: Please provide a valid email address
+        label: Cyfeiriad e-bost
+        errorMessage: Rhowch gyfeiriad e-bost dilys
       organisation-name:
-        label: Organisation name
-        errorMessage: Please provide the name of your organisation
+        label: Enw’r mudiad
+        errorMessage: Rhowch enw eich mudiad
       your-idea:
-        label: Briefly tell us what your organisation does and what sort of significant changes you’ve been thinking about.
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us what your organisation does
+        label: Dywedwch yn fras wrthym beth mae eich mudiad yn ei wneud a pha fathau o newidiadau sylweddol rydych wedi bod yn eu hystyried.
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
       your-idea-product:
-        label: Briefly tell us about your organisation, the product or service that you have developed, and the people who will use it.
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us what your organisation does
+        label: Dywedwch wrthym yn gryno am eich mudiad, y cynnyrch neu wasanaeth yr ydych wedi'i ddatblygu, a'r bobl a fydd yn ei ddefnyddio.
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
       technology:
-        label: Briefly tell us how digital technology is important to your project
-        lengthHint: Please keep it to a couple of paragraphs
-        errorMessage: Briefly tell us how digital technology is important to your project
+        label: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
+        lengthHint: Cadwch hwn i gwpl o baragraffau
+        errorMessage: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
     steps:
-      - name: Your details
+      - name: Eich manylion
         fieldsets:
-        - legend: Your contact details
-          introduction: Please tell us a little about your project and organisation so that we can get in touch
-        - legend: Your idea
+        - legend: Eich manylion cyswllt
+          introduction: Dywedwch ychydig wrthym am eich prosiect a mudiad fel y gallwn gysylltu â chi
+        - legend: Eich syniad
     review:
-      title: 'Check this is right before submitting your information'
-      proceedLabel: 'Submit'
+      title: Gwiriwch fod hyn yn gywir cyn cyflwyno eich gwybodaeth
+      proceedLabel: Cyflwyno
     success:
-      title: Thank you for getting in touch
-      confirmation: We have emailed you a copy of your submission
-      message: We’ll get back to you about a call as soon as we can.
-      nextStepsTitle: What happens next?
+      title: Diolch am gysylltu â ni
+      confirmation: Rydym wedi gyrru copi o'r hyn a gyflwynoch atoch trwy e-bost
+      message: Byddwn yn cysylltu â chi ynglŷn â galwad mor fuan ag y gallwn.
+      nextStepsTitle: Beth sy'n digwydd nesaf?
+      feedback:
+        promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
+        fieldLabel: "Sut oedd eich profiad o'r broses hon?"
+        helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-1">Digital Fund Strand 1</a> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+    description: <a href="/welsh/funding/programmes/digital-fund/strand-1">Mae Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+    description: <a href="/welsh/funding/programmes/digital-fund/strand-2">Mae Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.

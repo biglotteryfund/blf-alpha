@@ -52,12 +52,14 @@ describe('Reaching communities', () => {
     };
 
     it('should create success emails', async () => {
-        const results = await processor({
-            data: flattenFormData(mockFormData),
-            copy: formCopy,
-            stepsWithValues: stepsWithValues(form.steps, mockFormData),
-            mailTransport: mockTransport
-        });
+        const results = await processor(
+            {
+                data: flattenFormData(mockFormData),
+                copy: formCopy,
+                stepsWithValues: stepsWithValues(form.steps, mockFormData)
+            },
+            mockTransport
+        );
 
         const [customerEmail, internalEmail] = results.map(cleanMailForSnaphot);
 
@@ -81,13 +83,16 @@ describe('Digital fund', () => {
     };
 
     it('should create success emails', async () => {
-        const results = await processor({
-            formModel: form,
-            data: flattenFormData(mockFormData),
-            stepsWithValues: stepsWithValues(form.steps, mockFormData),
-            mailTransport: mockTransport,
-            copy: formCopy
-        });
+        const results = await processor(
+            {
+                form: form,
+                locale: 'en',
+                data: flattenFormData(mockFormData),
+                stepsWithValues: stepsWithValues(form.steps, mockFormData),
+                copy: formCopy
+            },
+            mockTransport
+        );
 
         const [customerEmail, internalEmail] = results.map(cleanMailForSnaphot);
         expect(customerEmail.message).toMatchSnapshot();
@@ -119,14 +124,16 @@ describe('Youth capacity fund', () => {
     });
 
     it('should create success emails', async () => {
-        const results = await processor({
-            formModel: form,
-            data: flattenFormData(mockFormData),
-            copy: get(enCopy, form.lang),
-            stepsWithValues: stepsWithValues(form.steps, mockFormData),
-            mailTransport: mockTransport,
-            storeApplication: false
-        });
+        const results = await processor(
+            {
+                form: form,
+                data: flattenFormData(mockFormData),
+                copy: get(enCopy, form.lang),
+                stepsWithValues: stepsWithValues(form.steps, mockFormData)
+            },
+            mockTransport,
+            false
+        );
 
         const [customerEmail, internalEmail] = results.map(cleanMailForSnaphot);
 

@@ -13,9 +13,15 @@
 
         {% block content %}{% endblock %}
 
+        {% if locale === 'cy' %}
+            <h5 class="space-above">Diogelu data</h5>
+            <small>Mae'r Gronfa Loteri Fawr yn gorff cyhoeddus sydd â dyletswydd i ddosbarthu arian y Loteri Genedlaethol ac arian arall ar ffurf grantiau ar gyfer achosion da. Rydym yn defnyddio'r data personol a ddarparwch, fel manylion cyswllt unigolion yn eich mudiad, i'ch helpu ymgeisio am grant ac asesu'ch cais.</small>
+            <small>Mae'n bosib y byddwn yn rhannu'ch data personol gyda mudiadau sy'n ein helpu gyda'n gweithgareddau gwneud grantiau neu eraill sydd â diddordeb dilys yn ein gwaith neu sydd wedi ariannu'ch grant. Byddwn yn rhannu dim ond y data personol y mae ei angen arnynt i wneud eu gwaith ac yn amodol ar fesurau diogelwch priodol.</small>
+            <small>Mae ein Hysbysiad Diogelu Data a Phreifatrwydd yn darparu mwy o wybodaeth am sut rydym yn storio ac yn defnyddio data personol a'r sail gyfreithiol dros hyn. Darllenwch yr Hysbysiad llawn sydd wedi'i gyhoeddi ar ein gwefan yn <a href="https://www.biglotteryfund.org.uk/diogeludata">www.biglotteryfund.org.uk/diogeludata</a> neu cysylltwch â ni i ofyn am gopi caled. Mae'n bosib y caiff yr Hysbysiad ei ddiweddaru o dro i dro.</small>
+        {% endif %}
+
         <h5 class="space-above">Data protection</h5>
         <small>The Big Lottery Fund is a public body with a duty to distribute National Lottery and other money in grants for good causes. We use the personal data you provide, such as contact details for individuals at your organisation, to help you apply for a grant and to assess your application.</small>
         <small>We may share your personal data with organisations which help us with our grant making activities or others which have a legitimate interest in our work or have funded your grant. We will only share personal data which they need to carry out their work and subject to appropriate safety measures.</small>
-        <small>Our Data Protection and Privacy Notice gives more information about how we store and use personal data and the lawful basis for this. Please read the full Notice which is published on our website at www.biglotteryfund.org.uk/data-protection or contact us to request a hard copy. The Notice may be updated from time to time.</small>
-    </body>
+        <small>Our Data Protection and Privacy Notice gives more information about how we store and use personal data and the lawful basis for this. Please read the full Notice which is published on our website at <a href="https://www.biglotteryfund.org.uk/data-protection">www.biglotteryfund.org.uk/data-protection</a> or contact us to request a hard copy. The Notice may be updated from time to time.</small>
 </html>
