@@ -576,12 +576,12 @@ funding:
     strand1:
       title: Rydym eisiau defnyddio digidol i newid ein gwaith
       shortTitle: Edefyn 1
-      introduction: <strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blwyddyn. 
+      introduction: Mae <strong>Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blwyddyn. 
       startApplying: Dechrau ymgeisio am edefyn 1
     strand2:
       title: Rydym eisoes yn defnyddio digidol llawer, ac eisiau ehangu ein heffaith
       shortTitle: Edefyn 2
-      introduction: <strong>Mae Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blynedd.
+      introduction: Mae <strong>Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blynedd.
       startApplying: Dechrau ymgeisio am edefyn 2
     getStarted:
       title: Cychwyn arni
@@ -592,7 +592,7 @@ funding:
           <p>Os nad yw'r naill na'r llall o'r edafedd ariannu'n gweithio i'ch prosiect neu syniad, mae hynny'n iawn.
             <a href="/welsh/funding/programmes">Mae rhaglenni ariannu eraill sy'n agored i geisiadau</a>.</p>
           <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019.
-            <a href="https://en-gb.facebook.com/BigLotteryFund/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+            <a href="https://en-gb.facebook.com/biglotteryfundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
           <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
             <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
     process:
@@ -615,7 +615,7 @@ funding:
       title: Oes gennych gwestiynau?
       body: >
         <p>Cysylltwch â ni os oes gennych unrhyw gwestiynau ynglŷn â chymhwyster.</p>
-        <p><strong>Ffôn</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
+        <p><strong>Ffôn</strong>: <a href="tel:03001230735">0300 123 0735</a><br/>
         <strong>Cyfnewid testun</strong>: 18001 plws 0300 123 0735 (ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd)<br/>
         <strong>E-bost</strong>: <a href="mailto:cymru@cronfaloterifawr.org.uk">cymru@cronfaloterifawr.org.uk</a></p>
     wayfinding:
@@ -750,7 +750,7 @@ funding:
           body: >
             <p>Peidiwch â phoeni, mae <a href="/funding/programmes">rhaglenni ariannu eraill sy'n derbyn ceisiadau</a></p>
             <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019
-              <a href="https://en-gb.facebook.com/BigLotteryFund/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+              <a href="https://en-gb.facebook.com/biglotteryfundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
             <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
             <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
       strand2:
@@ -815,7 +815,7 @@ apply:
     title: Cafwyd problem gyda'ch cyflwyniad
     message: >
       <p>Rydym wedi cael ein hysbysu am y broblem.</p>
-      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03454102030">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
+      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03001230735">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
   digitalFundDefaults: &digitalFundDefaults
     title: Cael Sgwrs
     errorTitle: There was a problem with your submission
@@ -861,7 +861,7 @@ apply:
         helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: <a href="/welsh/funding/programmes/digital-fund/strand-1">Mae Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.
+    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-1">Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.
   digitalFundStrand2:
     <<: *digitalFundDefaults
-    description: <a href="/welsh/funding/programmes/digital-fund/strand-2">Mae Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
+    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
