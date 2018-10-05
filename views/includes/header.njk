@@ -1,5 +1,6 @@
 {% from "components/icons.njk" import iconHamburger %}
-{% from "components/nav.njk" import navlinks, navLangLink, navSearchForm with context %}
+{% from "components/nav.njk" import navlinks, navSearchForm with context %}
+{% from "components/language/macros.njk" import languageLink with context %}
 
 <header class="global-header" role="banner">
     <div class="global-header__inner u-inner">
@@ -19,7 +20,7 @@
                 <ul class="global-nav">
                     {{ navlinks('global-nav__link') }}
                     <li class="global-nav__lang">
-                        {{ navLangLink() }}
+                        {{ languageLink(currentLocale = locale) }}
                     </li>
                     <li class="global-nav__search">
                         {{ navSearchForm(isOffset = true) }}

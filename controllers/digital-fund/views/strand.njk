@@ -4,9 +4,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
-{% from "./view-helpers.njk" import wayfinding with context %}
-
-{% set eligibilityLink = localify('/funding/programmes/digital-fund/strand-1/eligibility') %}
+{% from "components/action-card/macro.njk" import actionCard %}
 
 {% block content %}
     <main role="main">
@@ -21,7 +19,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
-                    <p>{{ copy.strand1.introduction | safe }}</p>
+                    <p>{{ copy[currentStrand].introduction | safe }}</p>
                 </div>
 
                 <div class="message">
@@ -45,26 +43,27 @@
                     </div>
 
                     <div class="content-sidebar__secondary">
-                        <aside class="card u-accent-border-top-{{ pageAccent }} u-sticky-offset">
-                            <header class="card__header">
-                                <h3 class="card__title">
-                                    {% if featurePreviewDigitalFund %}
-                                        {{ copy.process.getStarted.title }}
-                                    {% else %}
-                                        {{ copy.closedMessage }}
-                                    {% endif %}
-                                </h3>
-                                <div class="card__body">
+                        {% if featurePreviewDigitalFund %}
+                            {# Open to applicants #}
+                            <div class="u-sticky-offset">
+                                {% call actionCard({
+                                    title: copy.process.getStarted.title,
+                                    link: {
+                                        url: eligibilityLink,
+                                        label: copy.process.getStarted.linkText
+                                    }
+                                }, accent = pageAccent) %}
                                     {{ copy.process.getStarted.body | safe }}
-                                    {% if featurePreviewDigitalFund %}
-                                        <a href="{{ eligibilityLink }}"
-                                           class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                                            {{ copy.process.getStarted.linkText }}
-                                        </a>
-                                    {% endif %}
-                                </div>
-                            </header>
-                        </aside>
+                                {% endcall %}
+                            </div>
+                        {% else %}
+                            {# Closed to applicants #}
+                            {% call actionCard({
+                                title: copy.closedMessage
+                            }, accent = pageAccent) %}
+                                {{ copy.process.getStarted.body | safe }}
+                            {% endcall %}
+                        {% endif %}
                     </div>
                 </div>
             </section>
@@ -72,7 +71,7 @@
             {% call contentBox(pageAccent, id='segment-2') %}
                 <h2>{{ copy.eligibility.title }}</h2>
                 <ul>
-                    {% for criteria in copy.eligibility.strand1.criteria %}
+                    {% for criteria in copy.eligibility[currentStrand].criteria %}
                         <li>{{ criteria }}</li>
                     {% endfor %}
                 </ul>
@@ -86,7 +85,7 @@
 
             {% call contentBox(pageAccent, id="segment-4") %}
                 <h2>{{ copy.successFactors.title }}</h2>
-                {{ copy.successFactors.strand1 | safe }}
+                {{ copy.successFactors[currentStrand] | safe }}
             {% endcall %}
 
             {% if featurePreviewDigitalFund %}
@@ -108,7 +107,23 @@
             {% endcall %}
 
             {% call contentBox(pageAccent) %}
-                {{ wayfinding('strand1') }}
+                <h2>{{ copy.wayfinding.title }}</h2>
+                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
+                    class="btn btn--medium accent--pink a--btn">
+                    {{ copy.wayfinding.assistance }}
+                </a></p>
+                {% if currentStrand === 'strand1' %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                        class="btn btn--medium accent--cyan a--btn">
+                        {{ copy.wayfinding.strand2 }}
+                    </a></p>
+                {% else %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                        class="btn btn--medium accent--blue a--btn">
+                        {{ copy.wayfinding.strand1 }}
+                    </a></p>
+                {% endif %}
+                <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
             {% endcall %}
         </div>
     </main>

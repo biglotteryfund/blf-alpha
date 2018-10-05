@@ -5,7 +5,6 @@
 
 {% block content %}
     <main role="main">
-        {% set pageAccent = entry.themeColour  %}
         {{ hero(
             titleText = title,
             image = heroImage,
@@ -14,7 +13,7 @@
 
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ flexibleContent(entry.flexibleContent) }}
+                {{ flexibleContent(content.flexibleContent, pageAccent) }}
             </section>
         </div>
     </main>

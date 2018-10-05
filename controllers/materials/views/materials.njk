@@ -111,8 +111,6 @@
 {% endmacro %}
 
 {% block contentPrimary %}
-    {% set pageAccent = content.themeColour %}
-
     {% if orderStatus == FORM_STATES.SUBMISSION_SUCCESS %}
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>

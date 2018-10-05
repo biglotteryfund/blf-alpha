@@ -1,0 +1,18 @@
+{% macro formHeader(title, prefix = null, suffix = null, backUrl = null) %}
+    <div class="form-header">
+        {% if backUrl %}
+            <div class="form-header__actions">
+                <a href="{{ backUrl }}" class="js-application-form-review-link">
+                    ← {{ __('global.misc.back') | capitalize }}
+                </a>
+            </div>
+        {% endif %}
+        {% if prefix %}
+            <p class="form-header__prefix">{{ prefix }}</p>
+        {% endif %}
+        <h1 class="form-header__title">{{ title }}</h1>
+        {% if suffix %}
+            <p class="form-header__suffix">{{ suffix }}</p>
+        {% endif %}
+    </div>
+{% endmacro %}

@@ -37,8 +37,7 @@ function basicContent({ customTemplate = null } = {}) {
     const router = express.Router();
 
     router.get('/', injectListingContent, injectBreadcrumbs, (req, res, next) => {
-        const { content, breadcrumbs } = res.locals;
-        const viewData = { breadcrumbs };
+        const { content } = res.locals;
 
         if (content) {
             /**
@@ -48,12 +47,12 @@ function basicContent({ customTemplate = null } = {}) {
              * 3. Otherwise, render an information page
              */
             if (customTemplate) {
-                res.render(customTemplate, viewData);
+                res.render(customTemplate);
             } else if (content.children) {
-                res.render(path.resolve(__dirname, './views/listing-page'), viewData);
+                res.render(path.resolve(__dirname, './views/listing-page'));
             } else if (content.introduction || content.segments.length > 0) {
                 // ↑ information pages must have at least an introduction or some content segments
-                res.render(path.resolve(__dirname, './views/information-page'), viewData);
+                res.render(path.resolve(__dirname, './views/information-page'));
             } else {
                 next();
             }
@@ -65,13 +64,12 @@ function basicContent({ customTemplate = null } = {}) {
     return router;
 }
 
-function flexibleContent(customTemplate) {
+function flexibleContent() {
     const router = express.Router();
 
     router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
-        if (res.locals.entry) {
-            const template = customTemplate || path.resolve(__dirname, './views/flexible-content');
-            res.render(template, { content: res.locals.entry });
+        if (res.locals.content) {
+            res.render(path.resolve(__dirname, './views/flexible-content'));
         } else {
             next();
         }

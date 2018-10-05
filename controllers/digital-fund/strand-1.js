@@ -13,8 +13,10 @@ router.use((req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    res.render(path.resolve(__dirname, './views/strand-1'), {
+    res.render(path.resolve(__dirname, './views/strand'), {
         title: res.locals.copy.strand1.title,
+        currentStrand: 'strand1',
+        eligibilityLink: localify(req.i18n.getLocale())('/funding/programmes/digital-fund/strand-1/eligibility'),
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.strand1.shortTitle }])
     });
 });

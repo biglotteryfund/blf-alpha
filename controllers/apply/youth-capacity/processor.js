@@ -1,13 +1,43 @@
 'use strict';
 const path = require('path');
+const { pick } = require('lodash/fp');
 
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
+const applications = require('../../../services/applications');
+const appData = require('../../../modules/appData');
+const { PROJECT_LOCATIONS } = require('./constants');
 
-module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
+function formatDataForStorage(stepsData, formCopy) {
+    return stepsData.map(originalStep => {
+        const step = pick(['name', 'fieldsets'])(originalStep);
+        step.fieldsets = step.fieldsets.map(originalFieldset => {
+            const fieldset = pick(['legend', 'fields'])(originalFieldset);
+            fieldset.fields = fieldset.fields.map(pick(['label', 'name', 'value'])).map(field => {
+                // Merge in label from translation copy
+                field.label = field.label || formCopy.fields[field.name].label;
+                return field;
+            });
+            return fieldset;
+        });
+        return step;
+    });
+}
+
+async function processor({ formModel, data, stepsWithValues, copy, mailTransport = null, storeApplication = true }) {
+    /**
+     * Store the application
+     */
+    if (storeApplication === true) {
+        const dataToStore = formatDataForStorage(stepsWithValues, copy);
+        await applications.store(formModel, dataToStore);
+    }
+
     const customerSendTo = { name: data['contact-name'], address: data['contact-email'] };
 
+    const locationMatch = PROJECT_LOCATIONS.find(l => l.value === data.location);
+
     const customerHtml = await generateHtmlEmail({
-        template: path.resolve(__dirname, './customer-email.njk'),
+        template: path.resolve(__dirname, './emails/customer-email.njk'),
         templateData: {
             data: data,
             copy: copy,
@@ -19,7 +49,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
     });
 
     const internalHtml = await generateHtmlEmail({
-        template: path.resolve(__dirname, './internal-email.njk'),
+        template: path.resolve(__dirname, './emails/internal-email.njk'),
         templateData: {
             data: data,
             title: copy.title,
@@ -44,7 +74,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
         sendEmail({
             name: 'youth_capacity_internal',
             mailConfig: {
-                sendTo: customerSendTo, // @TODO: Determine correct internal send address
+                sendTo: appData.isNotProduction ? customerSendTo : locationMatch.email,
                 subject: `${copy.title}: New expression of interest from ${data['organisation-name']}`,
                 type: 'html',
                 content: internalHtml
@@ -52,4 +82,9 @@ module.exports = async function processor({ data, stepsWithValues, copy, mailTra
             mailTransport: mailTransport
         })
     ]);
+}
+
+module.exports = {
+    formatDataForStorage,
+    processor
 };

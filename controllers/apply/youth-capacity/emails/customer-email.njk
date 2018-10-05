@@ -1,10 +1,8 @@
-{% extends "../views/email-layout.njk" %}
-{% from "../views/view-helpers.njk" import emailSummary %}
+{% extends "../../views/email-layout.njk" %}
+{% from "../../views/view-helpers.njk" import emailSummary %}
 
 {% block content %}
     <p>Thank you for getting in touch with us.</p>
     <p>Here is a copy of the information you've submitted. We'll be in touch as soon as we can.</p>
-
-    <h2>Your information</h2>
     {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
 {% endblock %}
