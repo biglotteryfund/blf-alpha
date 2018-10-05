@@ -7,19 +7,13 @@ To: Example Person <example@example.com>
 Subject: Thank you for getting in touch with the Big Lottery Fund!
 MIME-Version: 1.0
 
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 Thank you for getting in touch.
 
 Here is a copy of the information you've =
 submitted. We'll be in touch as soon as we can.
-
-Diolch am gysylltu =C3=A2 =
-ni
-
-Dyma gopi o'r wybodaeth rydych wedi'i chyflwyno. Byddwn mewn cyswllt =
-mor fuan ag y gallwn.
 
 YOUR DETAILS
 YOUR NAME
@@ -32,10 +26,11 @@ ORGANISATION NAME
 Test Organisation
 
 DATA PROTECTION
-The Big Lottery Fund is a public body with a duty to distribute National =
-Lottery and other money in grants for good causes. We use
-the personal data you provide, such as contact details for individuals at =
-your organisation, to help you apply for a grant and to
+The Big Lottery Fund is a public body =
+with a duty to distribute National Lottery and other money in grants for =
+good causes. We use
+the personal data you provide, such as contact details =
+for individuals at your organisation, to help you apply for a grant and to
 assess your application. We may share your personal data with organisations=
  which help us with our grant making activities or
 others which have a =
@@ -48,26 +43,8 @@ about how we store and use personal data and the lawful =
 basis for this. Please read the full Notice which is published on our
 website at www.biglotteryfund.org.uk/data-protection [https://www.=
 biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time. DIOGELU DATA
-Mae'r Gronfa Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i =
-ddosbarthu arian y Loteri Genedlaethol ac arian arall ar ffurf
-grantiau ar gyfer achosion da. Rydym yn defnyddio'r data personol a =
-ddarparwch, fel manylion cyswllt unigolion yn eich mudiad,
-i'ch helpu ymgeisio am grant ac asesu'ch cais. Mae'n bosib y byddwn yn =
-rhannu'ch data personol gyda mudiadau sy'n ein helpu gyda'n
-gweithgareddau gwneud grantiau neu eraill sydd =C3=A2 diddordeb dilys yn =
-ein gwaith neu sydd wedi ariannu'ch grant. Byddwn yn rhannu
-dim ond y data personol y mae ei angen arnynt i wneud eu gwaith ac yn =
-amodol ar fesurau diogelwch priodol. Mae ein Hysbysiad
-Diogelu Data a Phreifatrwydd yn darparu mwy o wybodaeth am sut rydym yn =
-storio ac yn defnyddio data personol a'r sail gyfreithiol
-dros hyn. Darllenwch yr Hysbysiad llawn sydd wedi'i gyhoeddi ar ein gwefan =
-yn www.biglotteryfund.org.uk/diogeludata
-[https://www.biglotteryfund.org.=
-uk/diogeludata] neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n bosib =
-y caiff yr Hysbysiad ei
-ddiweddaru o dro i dro.
-Content-Type: text/html; charset=utf-8
+a hard copy. The Notice may be updated from time to time.
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
 <!doctype html>
@@ -103,17 +80,13 @@ style=3D\\"width: 150px;\\" width=3D\\"150\\">
         </div>
 
        =20
+   =20
+
     <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
 font-weight: 400; line-height: 1.35;\\">Thank you for getting in touch.</p>
     <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
 font-weight: 400; line-height: 1.35;\\">Here is a copy of the information =
 you've submitted. We'll be in touch as soon as we can.</p>
-
-    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
-font-weight: 400; line-height: 1.35;\\">Diolch am gysylltu =C3=A2 ni</p>
-    <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
-font-weight: 400; line-height: 1.35;\\">Dyma gopi o'r wybodaeth rydych wedi'i=
- chyflwyno. Byddwn mewn cyswllt mor fuan ag y gallwn.</p>
 
    =20
     <div class=3D\\"summary\\">
@@ -162,55 +135,33 @@ Organisation</p>
 
 
 
-        <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; font-weight: =
-500; margin: 0 0 20px; font-size: 14px; margin-top: 50px;\\">Data =
-protection</h5>
-        <small style=3D\\"color: #666; display: block; =
-font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a public =
-body with a duty to distribute National Lottery and other money in grants =
-for good causes. We use the personal data you provide, such as contact =
-details for individuals at your organisation, to help you apply for a grant=
- and to assess your application.</small>
-        <small style=3D\\"color: =
-#666; display: block; font-size: 11px; margin-bottom: 10px;\\">We may share =
-your personal data with organisations which help us with our grant making =
-activities or others which have a legitimate interest in our work or have =
-funded your grant. We will only share personal data which they need to =
-carry out their work and subject to appropriate safety measures.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
-information about how we store and use personal data and the lawful basis =
-for this. Please read the full Notice which is published on our website at =
-<a href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" =
-style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.uk/data-protection</a> or =
-contact us to request a hard copy. The Notice may be updated from time to =
-time.</small>
+       =20
 
         <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; =
 font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
-50px;\\">Diogelu data</h5>
+50px;\\">Data protection</h5>
         <small style=3D\\"color: #666; display: =
-block; font-size: 11px; margin-bottom: 10px;\\">Mae'r Gronfa Loteri Fawr yn =
-gorff cyhoeddus sydd =C3=A2 dyletswydd i ddosbarthu arian y Loteri =
-Genedlaethol ac arian arall ar ffurf grantiau ar gyfer achosion da. Rydym =
-yn defnyddio'r data personol a ddarparwch, fel manylion cyswllt unigolion =
-yn eich mudiad, i'ch helpu ymgeisio am grant ac asesu'ch cais.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae'n bosib y byddwn yn rhannu'ch data personol gyda =
-mudiadau sy'n ein helpu gyda'n gweithgareddau gwneud grantiau neu eraill =
-sydd =C3=A2 diddordeb dilys yn ein gwaith neu sydd wedi ariannu'ch grant. =
-Byddwn yn rhannu dim ond y data personol y mae ei angen arnynt i wneud eu =
-gwaith ac yn amodol ar fesurau diogelwch priodol.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae ein Hysbysiad Diogelu Data a Phreifatrwydd yn =
-darparu mwy o wybodaeth am sut rydym yn storio ac yn defnyddio data =
-personol a'r sail gyfreithiol dros hyn. Darllenwch yr Hysbysiad llawn sydd =
-wedi'i gyhoeddi ar ein gwefan yn <a href=3D\\"https://www.biglotteryfund.org.=
-uk/diogeludata\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/diogeludata</a> neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n =
-bosib y caiff yr Hysbysiad ei ddiweddaru o dro i dro.</small>
-    </body>
-</html>
+block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
+public body with a duty to distribute National Lottery and other money in =
+grants for good causes. We use the personal data you provide, such as =
+contact details for individuals at your organisation, to help you apply for=
+ a grant and to assess your application.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">We may share your personal data with organisations which help us =
+with our grant making activities or others which have a legitimate interest=
+ in our work or have funded your grant. We will only share personal data =
+which they need to carry out their work and subject to appropriate safety =
+measures.</small>
+        <small style=3D\\"color: #666; display: block; =
+font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
+Notice gives more information about how we store and use personal data and =
+the lawful basis for this. Please read the full Notice which is published =
+on our website at <a href=3D\\"https://www.biglotteryfund.org.=
+uk/data-protection\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
+uk/data-protection</a> or contact us to request a hard copy. The Notice may=
+ be updated from time to time.</small>
+</body></html>
 
 "
 `;
@@ -222,7 +173,7 @@ To: Example Person <example@example.com>
 Subject: New submission for Digital Fund Strand 1 from Test Organisation
 MIME-Version: 1.0
 
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 NEW SUBMISSION FOR DIGITAL FUND STRAND 1
@@ -254,26 +205,8 @@ about how we store and use personal data and the lawful =
 basis for this. Please read the full Notice which is published on our
 website at www.biglotteryfund.org.uk/data-protection [https://www.=
 biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time. DIOGELU DATA
-Mae'r Gronfa Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i =
-ddosbarthu arian y Loteri Genedlaethol ac arian arall ar ffurf
-grantiau ar gyfer achosion da. Rydym yn defnyddio'r data personol a =
-ddarparwch, fel manylion cyswllt unigolion yn eich mudiad,
-i'ch helpu ymgeisio am grant ac asesu'ch cais. Mae'n bosib y byddwn yn =
-rhannu'ch data personol gyda mudiadau sy'n ein helpu gyda'n
-gweithgareddau gwneud grantiau neu eraill sydd =C3=A2 diddordeb dilys yn =
-ein gwaith neu sydd wedi ariannu'ch grant. Byddwn yn rhannu
-dim ond y data personol y mae ei angen arnynt i wneud eu gwaith ac yn =
-amodol ar fesurau diogelwch priodol. Mae ein Hysbysiad
-Diogelu Data a Phreifatrwydd yn darparu mwy o wybodaeth am sut rydym yn =
-storio ac yn defnyddio data personol a'r sail gyfreithiol
-dros hyn. Darllenwch yr Hysbysiad llawn sydd wedi'i gyhoeddi ar ein gwefan =
-yn www.biglotteryfund.org.uk/diogeludata
-[https://www.biglotteryfund.org.=
-uk/diogeludata] neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n bosib =
-y caiff yr Hysbysiad ei
-ddiweddaru o dro i dro.
-Content-Type: text/html; charset=utf-8
+a hard copy. The Notice may be updated from time to time.
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
 <!doctype html>
@@ -358,55 +291,33 @@ Organisation</p>
 
 
 
-        <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; font-weight: =
-500; margin: 0 0 20px; font-size: 14px; margin-top: 50px;\\">Data =
-protection</h5>
-        <small style=3D\\"color: #666; display: block; =
-font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a public =
-body with a duty to distribute National Lottery and other money in grants =
-for good causes. We use the personal data you provide, such as contact =
-details for individuals at your organisation, to help you apply for a grant=
- and to assess your application.</small>
-        <small style=3D\\"color: =
-#666; display: block; font-size: 11px; margin-bottom: 10px;\\">We may share =
-your personal data with organisations which help us with our grant making =
-activities or others which have a legitimate interest in our work or have =
-funded your grant. We will only share personal data which they need to =
-carry out their work and subject to appropriate safety measures.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
-information about how we store and use personal data and the lawful basis =
-for this. Please read the full Notice which is published on our website at =
-<a href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" =
-style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.uk/data-protection</a> or =
-contact us to request a hard copy. The Notice may be updated from time to =
-time.</small>
+       =20
 
         <h5 class=3D\\"space-above\\" style=3D\\"color: #e20087; =
 font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
-50px;\\">Diogelu data</h5>
+50px;\\">Data protection</h5>
         <small style=3D\\"color: #666; display: =
-block; font-size: 11px; margin-bottom: 10px;\\">Mae'r Gronfa Loteri Fawr yn =
-gorff cyhoeddus sydd =C3=A2 dyletswydd i ddosbarthu arian y Loteri =
-Genedlaethol ac arian arall ar ffurf grantiau ar gyfer achosion da. Rydym =
-yn defnyddio'r data personol a ddarparwch, fel manylion cyswllt unigolion =
-yn eich mudiad, i'ch helpu ymgeisio am grant ac asesu'ch cais.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae'n bosib y byddwn yn rhannu'ch data personol gyda =
-mudiadau sy'n ein helpu gyda'n gweithgareddau gwneud grantiau neu eraill =
-sydd =C3=A2 diddordeb dilys yn ein gwaith neu sydd wedi ariannu'ch grant. =
-Byddwn yn rhannu dim ond y data personol y mae ei angen arnynt i wneud eu =
-gwaith ac yn amodol ar fesurau diogelwch priodol.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae ein Hysbysiad Diogelu Data a Phreifatrwydd yn =
-darparu mwy o wybodaeth am sut rydym yn storio ac yn defnyddio data =
-personol a'r sail gyfreithiol dros hyn. Darllenwch yr Hysbysiad llawn sydd =
-wedi'i gyhoeddi ar ein gwefan yn <a href=3D\\"https://www.biglotteryfund.org.=
-uk/diogeludata\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/diogeludata</a> neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n =
-bosib y caiff yr Hysbysiad ei ddiweddaru o dro i dro.</small>
-    </body>
-</html>
+block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
+public body with a duty to distribute National Lottery and other money in =
+grants for good causes. We use the personal data you provide, such as =
+contact details for individuals at your organisation, to help you apply for=
+ a grant and to assess your application.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">We may share your personal data with organisations which help us =
+with our grant making activities or others which have a legitimate interest=
+ in our work or have funded your grant. We will only share personal data =
+which they need to carry out their work and subject to appropriate safety =
+measures.</small>
+        <small style=3D\\"color: #666; display: block; =
+font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
+Notice gives more information about how we store and use personal data and =
+the lawful basis for this. Please read the full Notice which is published =
+on our website at <a href=3D\\"https://www.biglotteryfund.org.=
+uk/data-protection\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
+uk/data-protection</a> or contact us to request a hard copy. The Notice may=
+ be updated from time to time.</small>
+</body></html>
 
 "
 `;
@@ -891,7 +802,7 @@ To: Example <example@example.com>
 Subject: Thank you for getting in touch with the Big Lottery Fund!
 MIME-Version: 1.0
 
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 Thank you for getting in touch with us.
@@ -949,26 +860,8 @@ about how we store and use personal data and the lawful =
 basis for this. Please read the full Notice which is published on our
 website at www.biglotteryfund.org.uk/data-protection [https://www.=
 biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time. DIOGELU DATA
-Mae'r Gronfa Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i =
-ddosbarthu arian y Loteri Genedlaethol ac arian arall ar ffurf
-grantiau ar gyfer achosion da. Rydym yn defnyddio'r data personol a =
-ddarparwch, fel manylion cyswllt unigolion yn eich mudiad,
-i'ch helpu ymgeisio am grant ac asesu'ch cais. Mae'n bosib y byddwn yn =
-rhannu'ch data personol gyda mudiadau sy'n ein helpu gyda'n
-gweithgareddau gwneud grantiau neu eraill sydd =C3=A2 diddordeb dilys yn =
-ein gwaith neu sydd wedi ariannu'ch grant. Byddwn yn rhannu
-dim ond y data personol y mae ei angen arnynt i wneud eu gwaith ac yn =
-amodol ar fesurau diogelwch priodol. Mae ein Hysbysiad
-Diogelu Data a Phreifatrwydd yn darparu mwy o wybodaeth am sut rydym yn =
-storio ac yn defnyddio data personol a'r sail gyfreithiol
-dros hyn. Darllenwch yr Hysbysiad llawn sydd wedi'i gyhoeddi ar ein gwefan =
-yn www.biglotteryfund.org.uk/diogeludata
-[https://www.biglotteryfund.org.=
-uk/diogeludata] neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n bosib =
-y caiff yr Hysbysiad ei
-ddiweddaru o dro i dro.
-Content-Type: text/html; charset=utf-8
+a hard copy. The Notice may be updated from time to time.
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
 <!doctype html>
@@ -1138,57 +1031,33 @@ font-size: 14px; font-weight: 700;\\">Phone number</h5>
 
 
 
-        <h5 class=3D\\"space-above\\" style=3D\\"color: =
-#e20087; font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
-50px;\\">Data protection</h5>
-        <small style=3D\\"color: #666; display: =
-block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
-public body with a duty to distribute National Lottery and other money in =
-grants for good causes. We use the personal data you provide, such as =
-contact details for individuals at your organisation, to help you apply for=
- a grant and to assess your application.</small>
-        <small =
-style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
-10px;\\">We may share your personal data with organisations which help us =
-with our grant making activities or others which have a legitimate interest=
- in our work or have funded your grant. We will only share personal data =
-which they need to carry out their work and subject to appropriate safety =
-measures.</small>
-        <small style=3D\\"color: #666; display: block; =
-font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
-Notice gives more information about how we store and use personal data and =
-the lawful basis for this. Please read the full Notice which is published =
-on our website at <a href=3D\\"https://www.biglotteryfund.org.=
-uk/data-protection\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/data-protection</a> or contact us to request a hard copy. The Notice may=
- be updated from time to time.</small>
+       =20
 
         <h5 class=3D\\"space-above\\" =
 style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; font-size: =
-14px; margin-top: 50px;\\">Diogelu data</h5>
-        <small style=3D\\"color: =
-#666; display: block; font-size: 11px; margin-bottom: 10px;\\">Mae'r Gronfa =
-Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i ddosbarthu arian y =
-Loteri Genedlaethol ac arian arall ar ffurf grantiau ar gyfer achosion da. =
-Rydym yn defnyddio'r data personol a ddarparwch, fel manylion cyswllt =
-unigolion yn eich mudiad, i'ch helpu ymgeisio am grant ac asesu'ch cais.=
+14px; margin-top: 50px;\\">Data protection</h5>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">The Big Lottery Fund is a public body with a duty to distribute =
+National Lottery and other money in grants for good causes. We use the =
+personal data you provide, such as contact details for individuals at your =
+organisation, to help you apply for a grant and to assess your application.=
 </small>
         <small style=3D\\"color: #666; display: block; font-size: =
-11px; margin-bottom: 10px;\\">Mae'n bosib y byddwn yn rhannu'ch data personol=
- gyda mudiadau sy'n ein helpu gyda'n gweithgareddau gwneud grantiau neu =
-eraill sydd =C3=A2 diddordeb dilys yn ein gwaith neu sydd wedi ariannu'ch =
-grant. Byddwn yn rhannu dim ond y data personol y mae ei angen arnynt i =
-wneud eu gwaith ac yn amodol ar fesurau diogelwch priodol.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae ein Hysbysiad Diogelu Data a Phreifatrwydd yn =
-darparu mwy o wybodaeth am sut rydym yn storio ac yn defnyddio data =
-personol a'r sail gyfreithiol dros hyn. Darllenwch yr Hysbysiad llawn sydd =
-wedi'i gyhoeddi ar ein gwefan yn <a href=3D\\"https://www.biglotteryfund.org.=
-uk/diogeludata\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/diogeludata</a> neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n =
-bosib y caiff yr Hysbysiad ei ddiweddaru o dro i dro.</small>
-    </body>
-</html>
+11px; margin-bottom: 10px;\\">We may share your personal data with =
+organisations which help us with our grant making activities or others =
+which have a legitimate interest in our work or have funded your grant. We =
+will only share personal data which they need to carry out their work and =
+subject to appropriate safety measures.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">Our Data Protection and Privacy Notice gives more information about =
+how we store and use personal data and the lawful basis for this. Please =
+read the full Notice which is published on our website at <a =
+href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" style=3D\\"color: =
+#365cc9;\\">www.biglotteryfund.org.uk/data-protection</a> or contact us to =
+request a hard copy. The Notice may be updated from time to time.</small>
+</body></html>
 
 "
 `;
@@ -1201,7 +1070,7 @@ Subject: Youth Capacity Funding: New expression of interest from Test
  organisation
 MIME-Version: 1.0
 
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 NEW EXPRESSION OF INTEREST FOR YOUTH CAPACITY FUNDING
@@ -1255,26 +1124,8 @@ about how we store and use personal data and the lawful =
 basis for this. Please read the full Notice which is published on our
 website at www.biglotteryfund.org.uk/data-protection [https://www.=
 biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time. DIOGELU DATA
-Mae'r Gronfa Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i =
-ddosbarthu arian y Loteri Genedlaethol ac arian arall ar ffurf
-grantiau ar gyfer achosion da. Rydym yn defnyddio'r data personol a =
-ddarparwch, fel manylion cyswllt unigolion yn eich mudiad,
-i'ch helpu ymgeisio am grant ac asesu'ch cais. Mae'n bosib y byddwn yn =
-rhannu'ch data personol gyda mudiadau sy'n ein helpu gyda'n
-gweithgareddau gwneud grantiau neu eraill sydd =C3=A2 diddordeb dilys yn =
-ein gwaith neu sydd wedi ariannu'ch grant. Byddwn yn rhannu
-dim ond y data personol y mae ei angen arnynt i wneud eu gwaith ac yn =
-amodol ar fesurau diogelwch priodol. Mae ein Hysbysiad
-Diogelu Data a Phreifatrwydd yn darparu mwy o wybodaeth am sut rydym yn =
-storio ac yn defnyddio data personol a'r sail gyfreithiol
-dros hyn. Darllenwch yr Hysbysiad llawn sydd wedi'i gyhoeddi ar ein gwefan =
-yn www.biglotteryfund.org.uk/diogeludata
-[https://www.biglotteryfund.org.=
-uk/diogeludata] neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n bosib =
-y caiff yr Hysbysiad ei
-ddiweddaru o dro i dro.
-Content-Type: text/html; charset=utf-8
+a hard copy. The Notice may be updated from time to time.
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
 <!doctype html>
@@ -1436,57 +1287,33 @@ font-size: 14px; font-weight: 700;\\">Phone number</h5>
 
 
 
-        <h5 class=3D\\"space-above\\" style=3D\\"color: =
-#e20087; font-weight: 500; margin: 0 0 20px; font-size: 14px; margin-top: =
-50px;\\">Data protection</h5>
-        <small style=3D\\"color: #666; display: =
-block; font-size: 11px; margin-bottom: 10px;\\">The Big Lottery Fund is a =
-public body with a duty to distribute National Lottery and other money in =
-grants for good causes. We use the personal data you provide, such as =
-contact details for individuals at your organisation, to help you apply for=
- a grant and to assess your application.</small>
-        <small =
-style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
-10px;\\">We may share your personal data with organisations which help us =
-with our grant making activities or others which have a legitimate interest=
- in our work or have funded your grant. We will only share personal data =
-which they need to carry out their work and subject to appropriate safety =
-measures.</small>
-        <small style=3D\\"color: #666; display: block; =
-font-size: 11px; margin-bottom: 10px;\\">Our Data Protection and Privacy =
-Notice gives more information about how we store and use personal data and =
-the lawful basis for this. Please read the full Notice which is published =
-on our website at <a href=3D\\"https://www.biglotteryfund.org.=
-uk/data-protection\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/data-protection</a> or contact us to request a hard copy. The Notice may=
- be updated from time to time.</small>
+       =20
 
         <h5 class=3D\\"space-above\\" =
 style=3D\\"color: #e20087; font-weight: 500; margin: 0 0 20px; font-size: =
-14px; margin-top: 50px;\\">Diogelu data</h5>
-        <small style=3D\\"color: =
-#666; display: block; font-size: 11px; margin-bottom: 10px;\\">Mae'r Gronfa =
-Loteri Fawr yn gorff cyhoeddus sydd =C3=A2 dyletswydd i ddosbarthu arian y =
-Loteri Genedlaethol ac arian arall ar ffurf grantiau ar gyfer achosion da. =
-Rydym yn defnyddio'r data personol a ddarparwch, fel manylion cyswllt =
-unigolion yn eich mudiad, i'ch helpu ymgeisio am grant ac asesu'ch cais.=
+14px; margin-top: 50px;\\">Data protection</h5>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">The Big Lottery Fund is a public body with a duty to distribute =
+National Lottery and other money in grants for good causes. We use the =
+personal data you provide, such as contact details for individuals at your =
+organisation, to help you apply for a grant and to assess your application.=
 </small>
         <small style=3D\\"color: #666; display: block; font-size: =
-11px; margin-bottom: 10px;\\">Mae'n bosib y byddwn yn rhannu'ch data personol=
- gyda mudiadau sy'n ein helpu gyda'n gweithgareddau gwneud grantiau neu =
-eraill sydd =C3=A2 diddordeb dilys yn ein gwaith neu sydd wedi ariannu'ch =
-grant. Byddwn yn rhannu dim ond y data personol y mae ei angen arnynt i =
-wneud eu gwaith ac yn amodol ar fesurau diogelwch priodol.</small>
-        <small style=3D\\"color: #666; display: block; font-size: 11px; =
-margin-bottom: 10px;\\">Mae ein Hysbysiad Diogelu Data a Phreifatrwydd yn =
-darparu mwy o wybodaeth am sut rydym yn storio ac yn defnyddio data =
-personol a'r sail gyfreithiol dros hyn. Darllenwch yr Hysbysiad llawn sydd =
-wedi'i gyhoeddi ar ein gwefan yn <a href=3D\\"https://www.biglotteryfund.org.=
-uk/diogeludata\\" style=3D\\"color: #365cc9;\\">www.biglotteryfund.org.=
-uk/diogeludata</a> neu cysylltwch =C3=A2 ni i ofyn am gopi caled. Mae'n =
-bosib y caiff yr Hysbysiad ei ddiweddaru o dro i dro.</small>
-    </body>
-</html>
+11px; margin-bottom: 10px;\\">We may share your personal data with =
+organisations which help us with our grant making activities or others =
+which have a legitimate interest in our work or have funded your grant. We =
+will only share personal data which they need to carry out their work and =
+subject to appropriate safety measures.</small>
+        <small =
+style=3D\\"color: #666; display: block; font-size: 11px; margin-bottom: =
+10px;\\">Our Data Protection and Privacy Notice gives more information about =
+how we store and use personal data and the lawful basis for this. Please =
+read the full Notice which is published on our website at <a =
+href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" style=3D\\"color: =
+#365cc9;\\">www.biglotteryfund.org.uk/data-protection</a> or contact us to =
+request a hard copy. The Notice may be updated from time to time.</small>
+</body></html>
 
 "
 `;
