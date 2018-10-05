@@ -26,7 +26,8 @@ function init() {
                 facets: Object.assign({}, existingFacets),
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
-                totalResults: PGS.totalResults || 0
+                totalResults: PGS.totalResults || 0,
+                searchError: false
             };
         },
         watch: {
@@ -82,7 +83,7 @@ function init() {
 
             filterResults: _.debounce(function() {
                 this.isCalculating = true;
-                this.updateUrl();
+                this.searchError = false;
 
                 setTimeout(
                     function() {
@@ -98,8 +99,13 @@ function init() {
                                     $('#js-grant-results').html(response.resultsHtml);
                                     this.totalResults = response.meta.totalResults;
                                     this.facets = response.facets;
+                                    this.updateUrl();
                                 } else {
-                                    this.handleError(urlWithParams);
+                                    if (response.error.error.error && response.error.error.error.code) {
+                                        this.searchError = response.error.error.error.code;
+                                    } else {
+                                        this.searchError = true;
+                                    }
                                 }
                                 this.isCalculating = false;
                             },

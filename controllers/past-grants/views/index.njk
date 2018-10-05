@@ -122,6 +122,11 @@
                             Searching, please wait...
                         </p>
 
+                        <p v-show="searchError" v-cloak>
+                            <span v-if="searchError === 'ERR-POSTCODE'">The postcode you entered was invalid – please try another one.</span>
+                            <span v-else>There was an error with your search.</span>
+                        </p>
+
                         <div id="js-grant-results" v-show="!isCalculating">
                             {{ grantResultList(grants) }}
                         </div>
@@ -295,7 +300,6 @@
                                         {% endif %}
                                     </noscript>
 
-                                    {# @TODO filter out empty options at API end #}
                                     <div class="js-only" v-cloak>
                                         <label class="ff-label">Local Authority</label>
                                         <select name="localAuthority"
@@ -303,8 +307,7 @@
                                                 v-model="filters.localAuthority" disabled>
                                             <option value="">All areas</option>
                                             <option v-for="option in facets.localAuthorities"
-                                                    v-bind:value="option.code"
-                                                    v-if="option._id">
+                                                    v-bind:value="option.code">
                                                 <% option._id %> (<% option.count %>)
                                             </option>
                                         </select>

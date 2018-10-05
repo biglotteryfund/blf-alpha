@@ -141,7 +141,18 @@ router.get('/', async (req, res, next) => {
             }
         });
     } catch (error) {
-        next(error);
+        res.format({
+            html: () => {
+                // @TODO should we throw a 500 because of a postcode lookup fail?
+                next(error);
+            },
+            'application/json': () => {
+                res.json({
+                    status: 'error',
+                    error: error
+                });
+            }
+        });
     }
 });
 
