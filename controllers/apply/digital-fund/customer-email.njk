@@ -2,11 +2,15 @@
 {% from "../views/view-helpers.njk" import emailSummary %}
 
 {% block content %}
+    {% if locale === 'cy' %}
+        <p>This is a bilingual message, please scroll down for English</p>
+
+        <p>Diolch am gysylltu â ni</p>
+        <p>Dyma gopi o'r wybodaeth rydych wedi'i chyflwyno. Byddwn mewn cyswllt mor fuan ag y gallwn.</p>
+    {% endif %}
+
     <p>Thank you for getting in touch.</p>
     <p>Here is a copy of the information you've submitted. We'll be in touch as soon as we can.</p>
-
-    <p>Diolch am gysylltu â ni</p>
-    <p>Dyma gopi o'r wybodaeth rydych wedi'i chyflwyno. Byddwn mewn cyswllt mor fuan ag y gallwn.</p>
 
     {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
 {% endblock %}

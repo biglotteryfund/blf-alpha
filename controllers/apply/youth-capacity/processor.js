@@ -23,13 +23,23 @@ function formatDataForStorage(stepsData, formCopy) {
     });
 }
 
-async function processor({ formModel, data, stepsWithValues, copy, mailTransport = null, storeApplication = true }) {
+/**
+ * Process form submissions
+ * @param {object} options
+ * @param {object} options.form
+ * @param {object} options.data
+ * @param {object} options.stepsWithValues
+ * @param {object} options.copy
+ * @param {any} mailTransport?
+ * @param {boolean} storeApplication?
+ */
+async function processor({ form, data, stepsWithValues, copy }, mailTransport = null, storeApplication = true) {
     /**
      * Store the application
      */
     if (storeApplication === true) {
         const dataToStore = formatDataForStorage(stepsWithValues, copy);
-        await applications.store(formModel, dataToStore);
+        await applications.store(form, dataToStore);
     }
 
     const customerSendTo = { name: data['contact-name'], address: data['contact-email'] };

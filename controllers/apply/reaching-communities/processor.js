@@ -6,7 +6,15 @@ const appData = require('../../../modules/appData');
 
 const { determineInternalSendTo } = require('./helpers');
 
-module.exports = async function processor({ data, stepsWithValues, copy, mailTransport = null }) {
+/**
+ * Process form submissions
+ * @param {object} options
+ * @param {object} options.data
+ * @param {object} options.stepsWithValues
+ * @param {object} options.copy
+ * @param {any} mailTransport
+ */
+module.exports = async function processor({ data, stepsWithValues, copy }, mailTransport = null) {
     const customerSendTo = {
         name: `${data['first-name']} ${data['last-name']}`,
         address: data['email']
