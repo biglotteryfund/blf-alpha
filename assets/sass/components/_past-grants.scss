@@ -54,24 +54,24 @@
             font-weight: bold;
             text-decoration: underline;
         }
-    }
 
-    .sort-controls__item--active {
-        font-weight: bold;
-    }
+        &.is-active {
+            font-weight: bold;
+        }
 
-    .sort-controls__item--asc::before,
-    .sort-controls__item--asc::after {
-        position: relative;
-        top: 2px; // Optically align
-    }
+        &.is-ascending::before,
+        &.is-ascending::after {
+            position: relative;
+            top: 2px; // Optically align
+        }
 
-    .sort-controls__item--asc::before {
-        content: '↑ ';
-    }
+        &.is-ascending::before {
+            content: '↑ ';
+        }
 
-    .sort-controls__item--desc::before {
-        content: '↓ ';
+        &.is-descending::before {
+            content: '↓ ';
+        }
     }
 }
 

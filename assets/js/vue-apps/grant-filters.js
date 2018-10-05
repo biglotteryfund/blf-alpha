@@ -66,9 +66,9 @@ function init() {
                 const type = this.sort.type;
                 const dir = this.sort.direction;
                 return {
-                    'sort-controls__item--active': type === sortKey,
-                    'sort-controls__item--desc': type === sortKey && dir === 'desc',
-                    'sort-controls__item--asc': type === sortKey && dir === 'asc'
+                    'is-active': type === sortKey,
+                    'is-descending': type === sortKey && dir === 'desc',
+                    'is-ascending': type === sortKey && dir === 'asc'
                 };
             },
 

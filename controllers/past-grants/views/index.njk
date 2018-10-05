@@ -67,7 +67,6 @@
                         results
                     </span>
 
-                    {# @TODO these links need to swap when clicked #}
                     <div class="grants-search__sort">
                         <div class="sort-controls">
                             <span class="sort-controls__prefix">
@@ -76,47 +75,41 @@
 
                             <noscript>
                                 {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
-                                    <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
+                                    <a class="sort-controls__item is-active is-descending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
-                                        aria-label="Sort by newest first"
-                                        v-on:click.prevent="sortData('awardDate', 'asc')">
+                                        aria-label="Sort by newest first">
                                         Award date
                                     </a>
                                 {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
-                                    <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
+                                    <a class="sort-controls__item is-active is-ascending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                        aria-label="Sort by oldest first"
-                                        v-on:click.prevent="sortData('awardDate', 'desc')">
+                                        aria-label="Sort by oldest first">
                                         Award date
                                     </a>
                                 {% else %}
                                     <a class="sort-controls__item"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                        aria-label="Sort by oldest first"
-                                        v-on:click.prevent="sortData('awardDate', 'desc')">
+                                        aria-label="Sort by oldest first">
                                         Award date
                                     </a>
                                 {% endif %}
 
                                 {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
-                                    <a class="sort-controls__item sort-controls__item--active sort-controls__item--desc"
+                                    <a class="sort-controls__item is-active is-descending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
-                                        aria-label="Sort by highest amount awarded first"
-                                        v-on:click.prevent="sortData('amountAwarded', 'asc')">
+                                        aria-label="Sort by highest amount awarded first">
                                         Amount awarded
                                     </a>
                                 {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
-                                    <a class="sort-controls__item sort-controls__item--active sort-controls__item--asc"
+                                    <a class="sort-controls__item is-active is-ascending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                        aria-label="Sort by lowest amount awarded first"
-                                        v-on:click.prevent="sortData('amountAwarded', 'desc')">
+                                        aria-label="Sort by lowest amount awarded first">
                                         Amount awarded
                                     </a>
                                 {% else %}
                                     <a class="sort-controls__item"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                        aria-label="Sort by highest amount awarded first"
-                                        v-on:click.prevent="sortData('amountAwarded', 'desc')">
+                                        aria-label="Sort by highest amount awarded first">
                                         Amount awarded
                                     </a>
                                 {% endif %}
@@ -126,25 +119,28 @@
                                 {% endif %}
                             </noscript>
 
-                            <a class="sort-controls__item"
-                               v-bind:title="getSortTitle('Sort by newest first', 'Sort by oldest first')"
-                               v-bind:aria-label="getSortTitle('Sort by newest first', 'Sort by oldest first')"
-                               v-bind:class="sortLinkClasses('awardDate')"
-                               v-bind:href="'?' + filtersToString()"
-                               v-on:click.prevent="sortData('awardDate', sort.direction)"
-                               v-cloak>
-                                Award date
-                            </a>
+                            <span class="js-only">
 
-                            <a class="sort-controls__item"
-                               v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
-                               v-bind:aria-label="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
-                               v-bind:class="sortLinkClasses('amountAwarded')"
-                               v-bind:href="'?' + filtersToString()"
-                               v-on:click.prevent="sortData('amountAwarded', sort.direction)"
-                               v-cloak>
-                                Amount awarded
-                            </a>
+                                <a class="sort-controls__item"
+                                   v-bind:title="getSortTitle('Sort by newest first', 'Sort by oldest first')"
+                                   v-bind:aria-label="getSortTitle('Sort by newest first', 'Sort by oldest first')"
+                                   v-bind:class="sortLinkClasses('awardDate')"
+                                   v-bind:href="'?' + filtersToString()"
+                                   v-on:click.prevent="sortData('awardDate', sort.direction)"
+                                   v-cloak>
+                                    Award date
+                                </a>
+
+                                <a class="sort-controls__item"
+                                   v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
+                                   v-bind:aria-label="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
+                                   v-bind:class="sortLinkClasses('amountAwarded')"
+                                   v-bind:href="'?' + filtersToString()"
+                                   v-on:click.prevent="sortData('amountAwarded', sort.direction)"
+                                   v-cloak>
+                                    Amount awarded
+                                </a>
+                            </span>
 
                             {# @TODO should there be a way to remove sorts and return to default? #}
 
