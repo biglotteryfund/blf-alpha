@@ -38,7 +38,15 @@
                   action=""
                   v-on:submit.prevent>
 
-                <h1>Search past grants</h1>
+                <h1>
+                    Search past grants
+                    {% if queryParams.recipient %}
+                        <small v-show="filters.recipient">(Recipient: {{ grants[0].recipientOrganization[0].name }})</small>
+                    {% endif %}
+                    {% if queryParams.orgType %}
+                        <small v-show="filters.orgType">(Organisation Type: {{ grants[0].recipientOrganization[0].organisationType }})</small>
+                    {% endif %}
+                </h1>
 
                 <div class="u-tone-background-pale-grey u-padded">
                     <label class="u-visually-hidden" for="search-query">Search</label>
@@ -342,6 +350,51 @@
                                                 v-model="filters.localAuthority" disabled>
                                             <option value="">All areas</option>
                                             <option v-for="option in facets.localAuthorities"
+                                                    v-bind:value="option.code">
+                                                <% option._id %> (<% option.count %>)
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                            {# Filter: Constituency #}
+                            {% if facets.westminsterConstituencies %}
+                                {% set options = [{ 'label': 'All areas', 'value': '' }] %}
+                                {% for item in facets.westminsterConstituencies %}
+                                    {% set options = (options.push({
+                                        'label': item._id + " (" + item.count + ")",
+                                        'value': item.code
+                                    }), options) %}
+                                {% endfor %}
+
+                                <div class="search-filters__facet">
+
+                                    <noscript>
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'constituency',
+                                            label: 'Westminster Constituency',
+                                            value: queryParams.constituency,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                        {% if queryParams.constituency %}
+                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('constituency') }}">
+                                                Clear Constituency
+                                            </a>
+                                        {% endif %}
+                                    </noscript>
+
+                                    <div class="js-only" v-cloak>
+                                        {{ labelWithClearButton('Westminster Constituency', 'constituency') }}
+                                        <select name="constituency"
+                                                class="ff-select"
+                                                v-model="filters.constituency" disabled>
+                                            <option value="">All areas</option>
+                                            <option v-for="option in facets.westminsterConstituencies"
                                                     v-bind:value="option.code">
                                                 <% option._id %> (<% option.count %>)
                                             </option>

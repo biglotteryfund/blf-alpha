@@ -63,7 +63,9 @@ function buildAllowedParams(queryParams) {
         'orgType',
         'sort',
         'country',
-        'localAuthority'
+        'localAuthority',
+        'constituency',
+        'recipient'
     ];
     return pick(queryParams, allowedParams);
 }

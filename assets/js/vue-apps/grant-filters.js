@@ -21,7 +21,8 @@ function init() {
                 year: '',
                 programme: '',
                 country: '',
-                localAuthority: ''
+                localAuthority: '',
+                constituency: ''
             };
             return {
                 defaultFilters,
