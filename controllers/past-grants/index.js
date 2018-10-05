@@ -165,9 +165,9 @@ router.get('/:id', async (req, res, next) => {
 
         if (data) {
             res.render(path.resolve(__dirname, './views/grant-detail'), {
-                title: data.title,
-                grant: data,
-                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.title })
+                title: data.result.title,
+                grant: data.result,
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
         } else {
             next();
