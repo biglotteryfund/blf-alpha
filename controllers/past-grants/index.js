@@ -98,64 +98,60 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
 router.get('/', async (req, res, next) => {
     const facetParams = buildAllowedParams(req.query);
     const queryWithPage = addPaginationParameters(facetParams, req.query.page);
+    let data;
 
     try {
-        const data = await queryGrantsApi(queryWithPage);
-
-        res.format({
-            // Initial / server-only search
+        data = await queryGrantsApi(queryWithPage);
+    } catch (errorResponse) {
+        return res.format({
             html: () => {
-                res.render(path.resolve(__dirname, './views/index'), {
-                    title: 'Past grants search',
-                    queryParams: isEmpty(facetParams) ? false : facetParams,
-                    grants: data.results,
-                    facets: data.facets,
-                    meta: data.meta,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage)
-                });
-            },
-
-            // AJAX search for client-side app
-            'application/json': () => {
-                // Repopulate existing app globals so Nunjucks can read them
-                // outside of Express's view engine context
-                const context = Object.assign({}, res.locals, req.app.locals, {
-                    grants: data.results,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage)
-                });
-                const template = path.resolve(__dirname, './views/ajax-results.njk');
-
-                nunjucks.render(template, context, (renderErr, html) => {
-                    if (renderErr) {
-                        Raven.captureException(renderErr);
-                        res.json({
-                            status: 'error'
-                        });
-                    } else {
-                        res.json({
-                            status: 'success',
-                            meta: data.meta,
-                            facets: data.facets,
-                            resultsHtml: html
-                        });
-                    }
-                });
-            }
-        });
-    } catch (error) {
-        res.format({
-            html: () => {
-                // @TODO should we throw a 500 because of a postcode lookup fail?
-                next(error);
+                next(errorResponse.error);
             },
             'application/json': () => {
-                res.json({
-                    status: 'error',
-                    error: error
+                res.status(errorResponse.error.error.status || 400).json({
+                    error: errorResponse.error.error
                 });
             }
         });
     }
+
+    res.format({
+        // Initial / server-only search
+        html: () => {
+            res.render(path.resolve(__dirname, './views/index'), {
+                title: 'Past grants search',
+                queryParams: isEmpty(facetParams) ? false : facetParams,
+                grants: data.results,
+                facets: data.facets,
+                meta: data.meta,
+                pagination: buildPagination(data.meta.pagination, queryWithPage)
+            });
+        },
+
+        // AJAX search for client-side app
+        'application/json': () => {
+            // Repopulate existing app globals so Nunjucks can read them
+            // outside of Express's view engine context
+            const context = Object.assign({}, res.locals, req.app.locals, {
+                grants: data.results,
+                pagination: buildPagination(data.meta.pagination, queryWithPage)
+            });
+            const template = path.resolve(__dirname, './views/ajax-results.njk');
+
+            nunjucks.render(template, context, (renderErr, html) => {
+                if (renderErr) {
+                    Raven.captureException(renderErr);
+                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                } else {
+                    res.json({
+                        meta: data.meta,
+                        facets: data.facets,
+                        resultsHtml: html
+                    });
+                }
+            });
+        }
+    });
 });
 
 router.get('/:id', async (req, res, next) => {

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 
 function init() {
     const mountEl = document.getElementById('js-grant-filters');
@@ -99,11 +99,6 @@ function init() {
                 this.filterResults();
             },
 
-            // Redirect the user to the server-side page
-            handleError: function(redirectUrl) {
-                window.location = redirectUrl;
-            },
-
             // Push URL state (@TODO support back/forward nav)
             updateUrl: function() {
                 if (window.history.pushState) {
@@ -114,42 +109,35 @@ function init() {
             },
 
             // Send the data to the AJAX endpoint and output the results to the page
-            filterResults: _.debounce(function() {
+            filterResults: debounce(function() {
                 this.isCalculating = true;
                 this.searchError = false;
 
-                setTimeout(
-                    function() {
-                        const $form = $(this.$el);
-                        const url = $form.attr('action');
-                        const urlWithParams = `${url}?${this.filtersToString()}`;
-                        $.ajax({
-                            url: urlWithParams,
-                            dataType: 'json',
-                            success: response => {
-                                if (response.status === 'success') {
-                                    // @TODO vue-ize this
-                                    $('#js-grant-results').html(response.resultsHtml);
-                                    this.totalResults = response.meta.totalResults;
-                                    this.facets = response.facets;
-                                    this.updateUrl();
-                                } else {
-                                    if (response.error.error.error && response.error.error.error.code) {
-                                        this.searchError = response.error.error.error.code;
-                                    } else {
-                                        this.searchError = true;
-                                    }
-                                }
-                                this.isCalculating = false;
-                            },
-                            timeout: 20000,
-                            error: function() {
-                                this.handleError(urlWithParams);
-                            }
-                        });
-                    }.bind(this),
-                    500
-                );
+                setTimeout( () => {
+                    const $form = $(this.$el);
+                    const url = $form.attr('action');
+                    const urlWithParams = `${url}?${this.filtersToString()}`;
+                    $.ajax({
+                        url: urlWithParams,
+                        dataType: 'json',
+                        timeout: 20000,
+                    }).then(response => {
+                        // @TODO vue-ize this
+                        $('#js-grant-results').html(response.resultsHtml);
+                        this.totalResults = response.meta.totalResults;
+                        this.facets = response.facets;
+                        this.updateUrl();
+                        this.isCalculating = false;
+                    }).catch(err => {
+                        const error = err.responseJSON.error;
+                        this.isCalculating = false;
+                        if (error && error.code) {
+                            this.searchError = error.code;
+                        } else {
+                            this.searchError = true;
+                        }
+                    });
+                }, 500);
             }, 500)
         }
     });
