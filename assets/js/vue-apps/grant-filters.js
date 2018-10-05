@@ -72,6 +72,13 @@ function init() {
                 };
             },
 
+            getSortTitle: function(ascTitle, descTitle) {
+                if (this.sort.direction === 'asc') {
+                    return ascTitle;
+                }
+                return descTitle;
+            },
+
             // Convert filters into URL-friendly state
             filtersToString: function() {
                 return Object.keys(this.filters)

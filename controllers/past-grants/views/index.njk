@@ -127,18 +127,22 @@
                             </noscript>
 
                             <a class="sort-controls__item"
-                               aria-label="TODO Sort by newest|oldest first"
+                               v-bind:title="getSortTitle('Sort by newest first', 'Sort by oldest first')"
+                               v-bind:aria-label="getSortTitle('Sort by newest first', 'Sort by oldest first')"
                                v-bind:class="sortLinkClasses('awardDate')"
                                v-bind:href="'?' + filtersToString()"
-                               v-on:click.prevent="sortData('awardDate', sort.direction)">
+                               v-on:click.prevent="sortData('awardDate', sort.direction)"
+                               v-cloak>
                                 Award date
                             </a>
 
                             <a class="sort-controls__item"
-                               aria-label="TODO Sort by lowest|highest amount awarded first"
+                               v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
+                               v-bind:aria-label="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
                                v-bind:class="sortLinkClasses('amountAwarded')"
                                v-bind:href="'?' + filtersToString()"
-                               v-on:click.prevent="sortData('amountAwarded', sort.direction)">
+                               v-on:click.prevent="sortData('amountAwarded', sort.direction)"
+                               v-cloak>
                                 Amount awarded
                             </a>
 
