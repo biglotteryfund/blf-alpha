@@ -6,5 +6,6 @@ export DB_CONNECTION_URI=sqlite://:memory;
 export PORT=8090;
 export DONT_SEND_EMAIL=true;
 export SKIP_LOGS=true;
+export PREVIEW_DOMAIN=localhost:8090
 
 npm run start

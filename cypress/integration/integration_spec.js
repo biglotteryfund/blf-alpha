@@ -117,6 +117,14 @@ describe('common', function() {
             expect(response.body).to.include('Cymunedau a lleoedd');
         });
     });
+
+    it('should project preview links with staff auth', () => {
+        cy.checkRedirect({
+            from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            to: '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            status: 302
+        });
+    });
 });
 
 describe('user', () => {
