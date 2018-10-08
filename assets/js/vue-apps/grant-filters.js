@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import debounce from 'lodash/debounce';
+import cloneDeep from 'lodash/cloneDeep';
+import omit from 'lodash/omit';
 
 function init() {
     const mountEl = document.getElementById('js-grant-filters');
@@ -91,11 +93,9 @@ function init() {
 
             // Convert filters into URL-friendly state
             filtersToString: function() {
-                let filterClone = Object.assign({}, this.filters);
-                if (this.ignoreSort && filterClone.sort) {
-                    delete filterClone.sort;
-                }
-                return Object.keys(filterClone)
+                const filterClone = cloneDeep(this.filters);
+                const cleanFilters = this.ignoreSort && filterClone.sort ? omit(filterClone, 'sort') : filterClone;
+                return Object.keys(cleanFilters)
                     .filter(key => !!filterClone[key])
                     .map(key => {
                         return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
