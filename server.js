@@ -1,5 +1,5 @@
 'use strict';
-const { forEach } = require('lodash');
+const { forEach, flatMap } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -19,7 +19,7 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { makeWelsh, localify } = require('./modules/urls');
+const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
@@ -27,7 +27,7 @@ const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
-const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
@@ -40,6 +40,7 @@ const previewMiddleware = require('./middleware/preview');
 const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
+const vanityMiddleware = require('./middleware/vanity');
 
 /**
  * Configure Sentry client
@@ -166,7 +167,7 @@ app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(redirectsMiddleware.common);
+app.use(redirectsMiddleware);
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 app.use(portalMiddleware);
@@ -270,13 +271,20 @@ app.get('/error', renderNotFound);
 app.get('/error-unauthorised', renderUnauthorised);
 
 /**
- * Final wildcard request handled
- * Attempt to proxy pages from the legacy site,
- * if unsuccessful pass through to the 404 handler.
+ * Final wildcard request handler
+ * - Lookup vanity URLs and redirect if any match
+ * - Attempt to proxy pages from the legacy site
+ * - Othewise, if the URL is welsh strip that from the URL and try again
+ * - If all else fails, pass through to the 404 handler.
  */
 app.route('*')
-    .all(stripCSPHeader)
-    .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
+    .get(vanityMiddleware, proxyPassthrough, function(req, res, next) {
+        if (isWelsh(req.originalUrl)) {
+            res.redirect(removeWelsh(req.originalUrl));
+        } else {
+            next();
+        }
+    })
     .post(postToLegacyForm);
 
 /**
