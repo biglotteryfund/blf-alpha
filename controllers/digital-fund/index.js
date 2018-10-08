@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const { concat } = require('lodash');
 const { injectCopy, injectHeroImage } = require('../../middleware/inject-content');
+const appData = require('../../modules/appData');
 
 const router = express.Router();
 
@@ -30,8 +31,12 @@ router.get('/eligibility', (req, res) => {
     });
 });
 
-router.use('/assistance', require('./assistance'));
 router.use('/strand-1', require('./strand-1'));
 router.use('/strand-2', require('./strand-2'));
+
+// @TODO: Find out if this is temporarily or permanently disabled?
+if (appData.isNotProduction) {
+    router.use('/assistance', require('./assistance'));
+}
 
 module.exports = router;
