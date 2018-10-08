@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import debounce from 'lodash/debounce';
+import cloneDeep from 'lodash/cloneDeep';
+import omit from 'lodash/omit';
 
 function init() {
     const mountEl = document.getElementById('js-grant-filters');
@@ -27,10 +29,12 @@ function init() {
             return {
                 defaultFilters,
                 sort: Object.assign({}, existingSort),
+                ignoreSort: false,
                 facets: Object.assign({}, existingFacets),
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
                 totalResults: PGS.totalResults || 0,
+                totalAwarded: PGS.totalAwarded || 0,
                 searchError: false
             };
         },
@@ -38,6 +42,8 @@ function init() {
             // Watch for changes to filters then make AJAX call
             filters: {
                 handler: function() {
+                    this.ignoreSort = !!this.filters.q;
+                    this.isCalculating = true;
                     this.filterResults();
                 },
                 deep: true
@@ -53,17 +59,22 @@ function init() {
             // Create the sort parameters
             sortData: function(sortKey, currentDirection) {
                 // Flip reverse it
+                this.ignoreSort = false;
                 let direction = currentDirection === 'asc' ? 'desc' : 'asc';
                 this.sort = {
                     type: sortKey,
                     direction: direction
                 };
                 this.filters.sort = `${sortKey}|${direction}`;
+                this.isCalculating = true;
                 this.filterResults();
             },
 
             // Generate CSS classes for sort links
             sortLinkClasses: function(sortKey) {
+                if (this.ignoreSort) {
+                    return;
+                }
                 const type = this.sort.type;
                 const dir = this.sort.direction;
                 return {
@@ -82,9 +93,12 @@ function init() {
 
             // Convert filters into URL-friendly state
             filtersToString: function() {
-                return Object.keys(this.filters)
+                const filterClone = cloneDeep(this.filters);
+                const cleanFilters = this.ignoreSort && filterClone.sort ? omit(filterClone, 'sort') : filterClone;
+                return Object.keys(cleanFilters)
+                    .filter(key => !!filterClone[key])
                     .map(key => {
-                        return `${encodeURIComponent(key)}=${encodeURIComponent(this.filters[key])}`;
+                        return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
                     })
                     .join('&');
             },
@@ -110,7 +124,6 @@ function init() {
 
             // Send the data to the AJAX endpoint and output the results to the page
             filterResults: debounce(function() {
-                this.isCalculating = true;
                 this.searchError = false;
 
                 setTimeout(() => {
@@ -126,6 +139,7 @@ function init() {
                             // @TODO vue-ize this
                             $('#js-grant-results').html(response.resultsHtml);
                             this.totalResults = response.meta.totalResults;
+                            this.totalAwarded = response.meta.totalAwarded;
                             this.facets = response.facets;
                             this.updateUrl();
                             this.isCalculating = false;

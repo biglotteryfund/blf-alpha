@@ -24,6 +24,7 @@
             facets: {{ facets | dump | safe }},
             queryParams: {{ queryParams | dump | safe }},
             totalResults: {{ meta.totalResults }},
+            totalAwarded: {{ meta.totalAwarded}},
             sort: {{ meta.currentSort | dump | safe }}
         };
     </script>
@@ -74,6 +75,10 @@
                             <noscript>{{ meta.totalResults | numberWithCommas }}</noscript>
                         </strong>
                         results
+                        <span v-cloak v-show="totalAwarded">totalling <strong>£<% totalAwarded.toLocaleString() %></strong></span>
+                        {% if meta.totalAwarded %}
+                            <noscript>totalling <strong>£{{ meta.totalAwarded | numberWithCommas }}</strong></noscript>
+                        {% endif %}
                     </span>
 
                     <div class="grants-search__sort">
@@ -86,41 +91,29 @@
                                 {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
                                     <a class="sort-controls__item is-active is-descending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
-                                        aria-label="Sort by newest first">
-                                        Award date
-                                    </a>
+                                        aria-label="Sort by newest first">Award date</a>
                                 {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
                                     <a class="sort-controls__item is-active is-ascending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                        aria-label="Sort by oldest first">
-                                        Award date
-                                    </a>
+                                        aria-label="Sort by oldest first">Award date</a>
                                 {% else %}
                                     <a class="sort-controls__item"
                                         href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                        aria-label="Sort by oldest first">
-                                        Award date
-                                    </a>
+                                        aria-label="Sort by oldest first">Award date</a>
                                 {% endif %}
 
                                 {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
                                     <a class="sort-controls__item is-active is-descending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
-                                        aria-label="Sort by highest amount awarded first">
-                                        Amount awarded
-                                    </a>
+                                        aria-label="Sort by highest amount awarded first">Amount awarded</a>
                                 {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
                                     <a class="sort-controls__item is-active is-ascending"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                        aria-label="Sort by lowest amount awarded first">
-                                        Amount awarded
-                                    </a>
+                                        aria-label="Sort by lowest amount awarded first">Amount awarded</a>
                                 {% else %}
                                     <a class="sort-controls__item"
                                         href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                        aria-label="Sort by highest amount awarded first">
-                                        Amount awarded
-                                    </a>
+                                        aria-label="Sort by highest amount awarded first">Amount awarded</a>
                                 {% endif %}
 
                                 {% if meta.currentSort %}
@@ -136,9 +129,7 @@
                                    v-bind:class="sortLinkClasses('awardDate')"
                                    v-bind:href="'?' + filtersToString()"
                                    v-on:click.prevent="sortData('awardDate', sort.direction)"
-                                   v-cloak>
-                                    Award date
-                                </a>
+                                   v-cloak>Award date</a>
 
                                 <a class="sort-controls__item"
                                    v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
@@ -146,9 +137,7 @@
                                    v-bind:class="sortLinkClasses('amountAwarded')"
                                    v-bind:href="'?' + filtersToString()"
                                    v-on:click.prevent="sortData('amountAwarded', sort.direction)"
-                                   v-cloak>
-                                    Amount awarded
-                                </a>
+                                   v-cloak>Amount awarded</a>
                             </span>
 
                             {# @TODO should there be a way to remove sorts and return to default? #}

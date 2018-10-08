@@ -119,7 +119,7 @@ router.get('/', async (req, res, next) => {
         // Initial / server-only search
         html: () => {
             res.render(path.resolve(__dirname, './views/index'), {
-                title: 'Past grants search',
+                title: 'Search Past Grants',
                 queryParams: isEmpty(facetParams) ? false : facetParams,
                 grants: data.results,
                 facets: data.facets,

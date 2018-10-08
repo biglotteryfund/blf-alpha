@@ -2,7 +2,7 @@
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 
 {% macro grantResultItem(grant) %}
-    <div class="u-margin-bottom">
+    <div class="u-margin-bottom" data-score="{{ grant._textScore }}">
         {% set subtitle %}
             £{{ grant.amountAwarded | numberWithCommas}} to
             <strong>{{ grant.recipientOrganization[0].name }}</strong>
