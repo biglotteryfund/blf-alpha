@@ -60,9 +60,12 @@
         }
 
         &.is-ascending::before,
-        &.is-ascending::after {
+        &.is-descending::before {
             position: relative;
             top: 2px; // Optically align
+            margin-right: 4px;
+            display: inline-block;
+            text-decoration: none;
         }
 
         &.is-ascending::before {

@@ -27,6 +27,7 @@ function init() {
             return {
                 defaultFilters,
                 sort: Object.assign({}, existingSort),
+                ignoreSort: false,
                 facets: Object.assign({}, existingFacets),
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
@@ -38,6 +39,11 @@ function init() {
             // Watch for changes to filters then make AJAX call
             filters: {
                 handler: function() {
+                    if (this.filters.q) {
+                        this.ignoreSort = true;
+                    } else {
+                        this.ignoreSort = false;
+                    }
                     this.filterResults();
                 },
                 deep: true
@@ -53,6 +59,7 @@ function init() {
             // Create the sort parameters
             sortData: function(sortKey, currentDirection) {
                 // Flip reverse it
+                this.ignoreSort = false;
                 let direction = currentDirection === 'asc' ? 'desc' : 'asc';
                 this.sort = {
                     type: sortKey,
@@ -64,6 +71,9 @@ function init() {
 
             // Generate CSS classes for sort links
             sortLinkClasses: function(sortKey) {
+                if (this.ignoreSort) {
+                    return;
+                }
                 const type = this.sort.type;
                 const dir = this.sort.direction;
                 return {
@@ -82,9 +92,13 @@ function init() {
 
             // Convert filters into URL-friendly state
             filtersToString: function() {
-                return Object.keys(this.filters)
+                let filterClone = Object.assign({}, this.filters);
+                if (this.ignoreSort && filterClone.sort) {
+                    delete filterClone.sort;
+                }
+                return Object.keys(filterClone)
                     .map(key => {
-                        return `${encodeURIComponent(key)}=${encodeURIComponent(this.filters[key])}`;
+                        return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
                     })
                     .join('&');
             },
