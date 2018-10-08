@@ -255,9 +255,14 @@
         "AllowedMethods": {
           "Items": [
             "HEAD",
-            "GET"
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH"
           ],
-          "Quantity": 2,
+          "Quantity": 7,
           "CachedMethods": {
             "Items": [
               "HEAD",
@@ -275,14 +280,8 @@
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
-            "Items": [
-              "draft",
-              "version",
-              "enable-feature",
-              "disable-feature",
-              "url"
-            ],
-            "Quantity": 5
+            "Items": [],
+            "Quantity": 0
           },
           "QueryString": true,
           "Cookies": {
@@ -306,7 +305,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/contrast/*"
+        "PathPattern": "/api/*"
       },
       {
         "TargetOriginId": "LEGACY",
