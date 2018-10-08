@@ -366,9 +366,9 @@ toplevel:
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
     recentProgrammes:
+    - "digital-fund"
     - "reaching-communities-england"
     - "national-lottery-awards-for-all-england"
-    - "empowering-young-people"
   local:
     title: In your area
   research:
