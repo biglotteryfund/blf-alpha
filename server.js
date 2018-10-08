@@ -7,6 +7,7 @@ const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
+const slashes = require('connect-slashes');
 const yaml = require('js-yaml');
 const debug = require('debug')('biglotteryfund:server');
 
@@ -158,6 +159,8 @@ initViewEngine();
 /**
  * Register global middlewares
  */
+app.use(slashes(false));
+app.use(redirectsMiddleware);
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
 app.use(cached.defaultVary);
@@ -167,7 +170,6 @@ app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(redirectsMiddleware);
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 app.use(portalMiddleware);
@@ -188,12 +190,14 @@ aliases.forEach(redirect => {
 
 /**
  * Archived Routes
- * Paths in this array will be redirected to the National Archives
+ * Paths in this array will be redirected to the National Archives.
+ * We show an interstitial page a) to let people know the page has been archived
+ * and b) to allow us to record the redirect as a pageview using standard analytics behaviour.
  */
 // prettier-ignore
 flatMap([
-    '/funding/funding-guidance/applying-for-funding/*',
-    '/about-big/10-big-lottery-fund-facts'
+    '/about-big/10-big-lottery-fund-facts',
+    '/funding/funding-guidance/applying-for-funding/*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     app.get(urlPath, cached.noCache, function(req, res) {
         const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;

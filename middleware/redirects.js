@@ -1,27 +1,23 @@
 'use strict';
-const slashes = require('connect-slashes');
 const { cleanLinkNoise } = require('../modules/urls');
 
-function redirectNonWww(req, res, next) {
+/**
+ * Global redirects
+ * - Redirect non-www to www-
+ * - clean link noise from urls and redirect
+ */
+module.exports = function(req, res, next) {
     const host = req.headers.host;
     const domainProd = 'biglotteryfund.org.uk';
     if (host === domainProd) {
         const redirectUrl = `${req.protocol}://www.${domainProd}${req.originalUrl}`;
         return res.redirect(301, redirectUrl);
     } else {
-        return next();
+        const cleanedUrl = cleanLinkNoise(req.originalUrl);
+        if (cleanedUrl !== req.originalUrl) {
+            res.redirect(301, cleanedUrl);
+        } else {
+            next();
+        }
     }
-}
-
-function redirectLinkNoise(req, res, next) {
-    const cleanedUrl = cleanLinkNoise(req.originalUrl);
-    if (cleanedUrl !== req.originalUrl) {
-        res.redirect(301, cleanedUrl);
-    } else {
-        next();
-    }
-}
-
-const removeTrailingSlashes = slashes(false);
-
-module.exports = [redirectNonWww, redirectLinkNoise, removeTrailingSlashes];
+};

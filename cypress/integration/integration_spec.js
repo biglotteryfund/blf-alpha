@@ -51,10 +51,10 @@ describe('common', function() {
 
     it('should redirect archived pages to the national archives', () => {
         const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
-        cy.checkRedirect({
-            from: urlPath,
-            to: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`,
-            isRelative: false
+        cy.request(urlPath).then(response => {
+            expect(response.body).to.include(
+                `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`
+            );
         });
     });
 
