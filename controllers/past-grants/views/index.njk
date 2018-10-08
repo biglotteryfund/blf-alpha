@@ -24,6 +24,7 @@
             facets: {{ facets | dump | safe }},
             queryParams: {{ queryParams | dump | safe }},
             totalResults: {{ meta.totalResults }},
+            totalAwarded: {{ meta.totalAwarded}},
             sort: {{ meta.currentSort | dump | safe }}
         };
     </script>
@@ -74,6 +75,10 @@
                             <noscript>{{ meta.totalResults | numberWithCommas }}</noscript>
                         </strong>
                         results
+                        <span v-cloak v-show="totalAwarded">totalling <strong>£<% totalAwarded.toLocaleString() %></strong></span>
+                        {% if meta.totalAwarded %}
+                            <noscript>totalling <strong>£{{ meta.totalAwarded | numberWithCommas }}</strong></noscript>
+                        {% endif %}
                     </span>
 
                     <div class="grants-search__sort">

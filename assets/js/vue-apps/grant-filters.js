@@ -32,6 +32,7 @@ function init() {
                 filters: Object.assign({}, defaultFilters, queryParams),
                 isCalculating: false,
                 totalResults: PGS.totalResults || 0,
+                totalAwarded: PGS.totalAwarded || 0,
                 searchError: false
             };
         },
@@ -137,6 +138,7 @@ function init() {
                             // @TODO vue-ize this
                             $('#js-grant-results').html(response.resultsHtml);
                             this.totalResults = response.meta.totalResults;
+                            this.totalAwarded = response.meta.totalAwarded;
                             this.facets = response.facets;
                             this.updateUrl();
                             this.isCalculating = false;
