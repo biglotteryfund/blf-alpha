@@ -1,23 +1,33 @@
 'use strict';
 const { PREVIEW_DOMAIN } = require('../modules/secrets');
+const { requireStaffAuth } = require('./authed');
 
 /**
- * Adds a PREVIEW_MODE object to locals if this request came from a preview domain
+ * Preview mode
+ * Staff-auth powered preview mode
  */
 module.exports = (req, res, next) => {
     if (req.get('host') === PREVIEW_DOMAIN) {
-        const previewData = {};
-        const allowedModes = ['version', 'draft'];
-        allowedModes.some(mode => {
-            const queryData = req.query[mode];
-            if (queryData) {
-                previewData.mode = mode;
-                previewData.id = parseInt(queryData);
-            }
-            return queryData;
-        });
-        res.locals.PREVIEW_MODE = previewData;
-    }
+        let previewMode = null;
+        if (req.query.draft) {
+            previewMode = {
+                mode: 'draft',
+                id: parseInt(req.query.draft)
+            };
+        } else if (req.query.version) {
+            previewMode = {
+                mode: 'version',
+                id: parseInt(req.query.version)
+            };
+        }
 
-    next();
+        if (previewMode) {
+            res.locals.PREVIEW_MODE = previewMode;
+            requireStaffAuth(req, res, next);
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 };
