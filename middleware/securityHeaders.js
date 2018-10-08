@@ -102,16 +102,7 @@ function defaultSecurityHeaders() {
     return buildSecurityMiddleware(directives);
 }
 
-function stripCSPHeader(req, res, next) {
-    if (!res.headersSent) {
-        res.removeHeader('Content-Security-Policy');
-    }
-
-    next();
-}
-
 module.exports = {
     buildSecurityMiddleware,
-    defaultSecurityHeaders,
-    stripCSPHeader
+    defaultSecurityHeaders
 };
