@@ -43,8 +43,9 @@ module.exports = {
          * Navigation sections for top-level nav
          */
         const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
-        res.locals.navigationSections = map(itemsToShow, section => {
+        res.locals.navigationSections = map(itemsToShow, (section, id) => {
             return {
+                id: id,
                 path: localify(locale)(section.path),
                 label: req.i18n.__(section.langTitlePath)
             };
