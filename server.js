@@ -158,7 +158,6 @@ initViewEngine();
  */
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
-app.use(previewMiddleware);
 app.use(cached.defaultVary);
 app.use(cached.defaultCacheControl);
 app.use(loggerMiddleware);
@@ -168,15 +167,14 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
+app.use(previewMiddleware);
 app.use(portalMiddleware);
 
-// Mount tools controller
+/**
+ * Mount utility routes
+ */
 app.use('/tools', require('./controllers/tools'));
-
-// Mount user auth controller
 app.use('/user', require('./controllers/user'));
-
-// Mount design patterns controller
 app.use('/patterns', require('./controllers/pattern-library'));
 
 /**
