@@ -20,10 +20,7 @@ const defaultVary = (req, res, next) => {
 const defaultCacheControl = [
     cacheControl(),
     (req, res, next) => {
-        const shouldHaveNoCache = res.locals.PREVIEW_MODE;
-        res.cacheControl = shouldHaveNoCache
-            ? { noStore: true }
-            : { maxAge: DEFAULT_MAX_AGE, sMaxAge: DEFAULT_S_MAX_AGE };
+        res.cacheControl = { maxAge: DEFAULT_MAX_AGE, sMaxAge: DEFAULT_S_MAX_AGE };
         next();
     }
 ];

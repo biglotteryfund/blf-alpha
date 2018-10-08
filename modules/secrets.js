@@ -20,12 +20,6 @@ const DB_CONNECTION_URI = appData.isDev
     : process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
 
 /**
- * Preview domain
- * Define what domain to use for CMS content previewing
- */
-const PREVIEW_DOMAIN = process.env.PREVIEW_DOMAIN || getSecret('preview.domain');
-
-/**
  * Content API url
  * We allow overriding through an environment variable for CI and to allow
  * switching to a local instance of the CMS in development
@@ -94,7 +88,6 @@ module.exports = {
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
-    PREVIEW_DOMAIN,
     SENTRY_DSN,
     SESSION_SECRET
 };
