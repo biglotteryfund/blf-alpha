@@ -84,7 +84,6 @@ const stepOrgInfo = {
     ]
 };
 
-
 const stepDetails = {
     fieldsets: [
         {

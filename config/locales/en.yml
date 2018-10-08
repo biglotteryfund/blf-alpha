@@ -1039,7 +1039,7 @@ apply:
     <<: *digitalFundDefaults
     description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
-    title: Youth Capacity Funding
+    title: Youth Capacity Fund
     description: Expression of interest
     fields:
       current-work:
