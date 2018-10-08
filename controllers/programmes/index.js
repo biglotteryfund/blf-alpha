@@ -110,9 +110,7 @@ if (appData.isNotProduction) {
 /**
  * Digital Fund
  */
-if (appData.isNotProduction) {
-    router.use('/digital-fund', require('../digital-fund'));
-}
+router.use('/digital-fund', require('../digital-fund'));
 
 /**
  * Programme detail
