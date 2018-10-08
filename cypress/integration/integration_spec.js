@@ -243,7 +243,7 @@ describe('e2e', function() {
         cy.checkMetaTitles('Hafan | Cronfa Loteri Fawr');
         cy.get('.qa-global-nav .qa-nav-link a')
             .first()
-            .should('have.text', 'Hafan');
+            .should('contain', 'Hafan');
 
         // ================================================
         // Step: Micro-surveys (Welsh)
@@ -359,7 +359,7 @@ describe('e2e', function() {
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
     });
 
-    it.only('should submit a digital fund application form', () => {
+    it('should submit a digital fund application form', () => {
         cy.visit('/apply/digital-fund-strand-1/1/');
 
         cy.get('#field-name').type('Example Name', { delay: 0 });
