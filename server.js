@@ -23,6 +23,7 @@ const { makeWelsh, localify } = require('./modules/urls');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
+const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
@@ -180,10 +181,8 @@ app.use('/patterns', require('./controllers/pattern-library'));
 /**
  * Handle Aliases
  */
-routes.aliases.forEach(redirect => {
-    app.get(redirect.from, (req, res) => {
-        res.redirect(301, redirect.to);
-    });
+aliases.forEach(redirect => {
+    app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
 });
 
 /**
