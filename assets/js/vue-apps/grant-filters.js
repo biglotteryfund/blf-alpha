@@ -39,11 +39,8 @@ function init() {
             // Watch for changes to filters then make AJAX call
             filters: {
                 handler: function() {
-                    if (this.filters.q) {
-                        this.ignoreSort = true;
-                    } else {
-                        this.ignoreSort = false;
-                    }
+                    this.ignoreSort = !!this.filters.q;
+                    this.isCalculating = true;
                     this.filterResults();
                 },
                 deep: true
@@ -66,6 +63,7 @@ function init() {
                     direction: direction
                 };
                 this.filters.sort = `${sortKey}|${direction}`;
+                this.isCalculating = true;
                 this.filterResults();
             },
 
@@ -124,7 +122,6 @@ function init() {
 
             // Send the data to the AJAX endpoint and output the results to the page
             filterResults: debounce(function() {
-                this.isCalculating = true;
                 this.searchError = false;
 
                 setTimeout(() => {
