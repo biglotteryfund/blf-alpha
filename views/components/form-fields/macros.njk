@@ -168,6 +168,8 @@
                     {{ inputSelect(field, fieldCopy) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
                     {{ inputChoice(field, fieldCopy) }}
+                {% elseif field.type === 'currency' %}
+                    {{ inputCurrency(field, fieldCopy) }}
                 {% else %}
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}

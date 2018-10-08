@@ -1,10 +1,9 @@
-// 'use strict';
 'use strict';
 const path = require('path');
 
 const { processor } = require('./processor');
 const { validateIsEmail } = require('../helpers');
-const { PROJECT_AIMS, PROJECT_LOCATIONS } = require('./constants');
+const { PROJECT_AIMS, PROJECT_LOCATIONS, GROUP_CHOICES } = require('./constants');
 
 const formLang = 'apply.youthCapacity';
 
@@ -23,14 +22,14 @@ const stepCurrentWork = {
     ]
 };
 
-const stepGrant = {
+const stepHowYouWillUse = {
     fieldsets: [
         {
             fields: [
                 {
-                    name: 'location',
+                    name: 'how-you-will-use',
                     type: 'radio',
-                    options: PROJECT_LOCATIONS,
+                    options: PROJECT_AIMS,
                     isRequired: true
                 },
                 {
@@ -49,9 +48,9 @@ const stepLocation = {
         {
             fields: [
                 {
-                    name: 'project-aims',
+                    name: 'location',
                     type: 'radio',
-                    options: PROJECT_AIMS,
+                    options: PROJECT_LOCATIONS,
                     isRequired: true
                 },
                 {
@@ -65,13 +64,39 @@ const stepLocation = {
     ]
 };
 
+const stepOrgInfo = {
+    fieldsets: [
+        {
+            fields: [
+                {
+                    name: 'group-size',
+                    type: 'checkbox',
+                    options: GROUP_CHOICES,
+                    isRequired: false
+                },
+                {
+                    name: 'annual-income',
+                    type: 'currency',
+                    isRequired: false
+                }
+            ]
+        }
+    ]
+};
+
+
 const stepDetails = {
     fieldsets: [
         {
             fields: [
                 {
-                    type: 'text',
                     name: 'organisation-name',
+                    type: 'text',
+                    isRequired: true
+                },
+                {
+                    name: 'organisation-address',
+                    type: 'textarea',
                     isRequired: true
                 }
             ]
@@ -79,13 +104,13 @@ const stepDetails = {
         {
             fields: [
                 {
-                    type: 'text',
                     name: 'contact-name',
+                    type: 'text',
                     isRequired: true
                 },
                 {
-                    type: 'email',
                     name: 'contact-email',
+                    type: 'email',
                     autocompleteName: 'email',
                     isRequired: true,
                     validator: function(field) {
@@ -93,8 +118,8 @@ const stepDetails = {
                     }
                 },
                 {
-                    type: 'text',
                     name: 'contact-phone',
+                    type: 'text',
                     autocompleteName: 'tel',
                     isRequired: true
                 }
@@ -108,7 +133,7 @@ module.exports = {
     shortCode: 'YCF',
     lang: formLang,
     isBilingual: false,
-    steps: [stepCurrentWork, stepGrant, stepLocation, stepDetails],
+    steps: [stepCurrentWork, stepHowYouWillUse, stepLocation, stepOrgInfo, stepDetails],
     processor: processor,
     startPage: { template: path.resolve(__dirname, './startpage') },
     successStep: { template: path.resolve(__dirname, './success') }
