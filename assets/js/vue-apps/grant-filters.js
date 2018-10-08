@@ -96,6 +96,7 @@ function init() {
                     delete filterClone.sort;
                 }
                 return Object.keys(filterClone)
+                    .filter(key => !!filterClone[key])
                     .map(key => {
                         return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
                     })
