@@ -190,11 +190,19 @@ aliases.forEach(redirect => {
  * Archived Routes
  * Paths in this array will be redirected to the National Archives
  */
-const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
-
-archivedRoutes.forEach(urlPath => {
-    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
-    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
+// prettier-ignore
+flatMap([
+    '/funding/funding-guidance/applying-for-funding/*',
+    '/about-big/10-big-lottery-fund-facts'
+], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
+    app.get(urlPath, cached.noCache, function(req, res) {
+        const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
+        const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${fullUrl}`;
+        res.render('static-pages/archived', {
+            title: 'Archived',
+            archiveUrl: archiveUrl
+        });
+    });
 });
 
 /**
