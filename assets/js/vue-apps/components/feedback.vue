@@ -12,7 +12,7 @@ export default {
     methods: {
         handleSubmit() {
             $.ajax({
-                url: '/feedback',
+                url: '/api/feedback',
                 type: 'POST',
                 data: {
                     description: this.description,

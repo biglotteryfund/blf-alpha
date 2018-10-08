@@ -177,8 +177,9 @@ app.use(portalMiddleware);
 /**
  * Mount utility routes
  */
-app.use('/tools', require('./controllers/tools'));
+app.use('/api', require('./controllers/api'));
 app.use('/user', require('./controllers/user'));
+app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
 
 /**
