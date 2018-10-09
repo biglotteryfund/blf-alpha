@@ -811,19 +811,20 @@ Here is a copy of the information =
 you've submitted. We'll be in touch as soon as we can.
 
 YOUR CURRENT WORK
-HOW DOES YOUR CURRENT WORK HELP YOUNG PEOPLE NOT IN EMPLOYMENT, EDUCATION =
-OR TRAINING FACING BARRIERS TO WORK?
+HOW DOES YOUR CURRENT WORK HELP DISADVANTAGED YOUNG PEOPLE NOT IN =
+EMPLOYMENT, EDUCATION OR TRAINING FACING BARRIERS TO WORK?
 Test
 
 HOW WILL YOU USE THE GRANT
-DESCRIBE WHAT YOU WILL USE THE MONEY FOR AND HOW THIS WILL ENABLE YOU TO =
-DELIVER MORE AND IMPROVE YOUR SUPPORT FOR YOUNG PEOPLE
+DESCRIBE WHAT YOU WILL USE THE MONEY FOR AND HOW=
+ THIS WILL ENABLE YOU TO DELIVER MORE AND IMPROVE YOUR SUPPORT FOR YOUNG =
+PEOPLE
 Test
 
 PEOPLE AND COMMUNITIES
-DESCRIBE THE AREA YOU ARE BASED WITHIN AND THE =
-PEOPLE AND COMMUNITIES YOU WORK WITH AND THE YOUNG PEOPLE YOU ARE ENGAGED =
-WITH.
+DESCRIBE THE AREA YOU ARE BASED WITHIN =
+AND THE PEOPLE AND COMMUNITIES YOU WORK WITH AND THE YOUNG PEOPLE YOU ARE =
+ENGAGED WITH.
 Test
 
 ABOUT YOUR ORGANISATION
@@ -898,13 +899,13 @@ you've submitted. We'll be in touch as soon as we can.</p>
                    =20
                    =20
                         <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">How does your current work help young =
-people not in employment, education or training facing barriers to work?=
-</h5>
+font-size: 14px; font-weight: 700;\\">How does your current work help =
+disadvantaged young people not in employment, education or training facing =
+barriers to work?</h5>
                        =20
-                            <p =
-style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
-400; line-height: 1.35;\\">Test</p>
+                         =
+   <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Test</p>
                        =20
                    =20
        =20
@@ -1018,19 +1019,20 @@ Content-Transfer-Encoding: quoted-printable
 
 NEW EXPRESSION OF INTEREST FOR YOUTH CAPACITY FUND
 YOUR CURRENT WORK
-HOW DOES YOUR CURRENT WORK HELP YOUNG PEOPLE NOT IN EMPLOYMENT, EDUCATION =
-OR TRAINING FACING BARRIERS TO WORK?
+HOW DOES YOUR CURRENT WORK HELP DISADVANTAGED YOUNG PEOPLE NOT IN =
+EMPLOYMENT, EDUCATION OR TRAINING FACING BARRIERS TO WORK?
 Test
 
 HOW WILL YOU USE THE GRANT
-DESCRIBE WHAT YOU WILL USE THE MONEY FOR AND HOW THIS WILL ENABLE YOU TO =
-DELIVER MORE AND IMPROVE YOUR SUPPORT FOR YOUNG PEOPLE
+DESCRIBE WHAT YOU WILL USE THE MONEY FOR AND HOW=
+ THIS WILL ENABLE YOU TO DELIVER MORE AND IMPROVE YOUR SUPPORT FOR YOUNG =
+PEOPLE
 Test
 
 PEOPLE AND COMMUNITIES
-DESCRIBE THE AREA YOU ARE BASED WITHIN AND THE =
-PEOPLE AND COMMUNITIES YOU WORK WITH AND THE YOUNG PEOPLE YOU ARE ENGAGED =
-WITH.
+DESCRIBE THE AREA YOU ARE BASED WITHIN =
+AND THE PEOPLE AND COMMUNITIES YOU WORK WITH AND THE YOUNG PEOPLE YOU ARE =
+ENGAGED WITH.
 Test
 
 ABOUT YOUR ORGANISATION
@@ -1102,13 +1104,13 @@ work</h4>
                    =20
                    =20
                         <h5 style=3D\\"color: #e20087; margin: 0 0 20px; =
-font-size: 14px; font-weight: 700;\\">How does your current work help young =
-people not in employment, education or training facing barriers to work?=
-</h5>
+font-size: 14px; font-weight: 700;\\">How does your current work help =
+disadvantaged young people not in employment, education or training facing =
+barriers to work?</h5>
                        =20
-                            <p =
-style=3D\\"color: #333; font-family: arial; font-size: 20px; font-weight: =
-400; line-height: 1.35;\\">Test</p>
+                         =
+   <p style=3D\\"color: #333; font-family: arial; font-size: 20px; =
+font-weight: 400; line-height: 1.35;\\">Test</p>
                        =20
                    =20
        =20
@@ -1216,7 +1218,7 @@ Array [
       Object {
         "fields": Array [
           Object {
-            "label": "How does your current work help young people not in employment, education or training facing barriers to work?",
+            "label": "How does your current work help disadvantaged young people not in employment, education or training facing barriers to work?",
             "name": "current-work",
             "value": "Test",
           },
