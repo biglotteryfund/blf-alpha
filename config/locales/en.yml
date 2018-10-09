@@ -1039,13 +1039,25 @@ apply:
     <<: *digitalFundDefaults
     description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
-    title: Youth Capacity Funding
+    title: Youth Capacity Fund
     description: Expression of interest
     fields:
       current-work:
         label: How does your current work help young people not in employment, education or training facing barriers to work?
-        lengthHint: "Suggested answer length: 1–2 paragraphs"
+        lengthHint: "Suggested answer length: maximum 1–2 paragraphs"
         errorMessage: Please tell us about your current work
+      how-you-will-use:
+        label: Tell us which programme aim the grant will help towards
+        options:
+        - label: Build capacity to get involved with future youth
+          explanation: e.g. by developing staff and volunteers or improving the voice of young people in leading on the design and delivery of services.
+        - label: Develop partnerships led by grassroots organisations
+          explanation: Working with other local organisations, including public bodies and businesses who can achieve wider impact together.
+        errorMessage: Please select which programme aim you are most aligned with
+      money:
+        label: Describe what you will use the money for and how this will enable you to deliver more and improve your support for young people
+        lengthHint: "Suggested answer length: maximum 1–2 paragraphs"
+        errorMessage: Please describe what you will use the money for
       location:
         label: Select which area you are working in
         options:
@@ -1053,25 +1065,23 @@ apply:
         - label: Bradford
         - label:  Barking and Dagenham
         errorMessage: Please tell us which area you are working in
-      money:
-        label: Describe what you will use the money for
-        lengthHint: "Suggested answer length: 1–2 paragraphs"
-        errorMessage: Please describe what you will use the money for
-      project-aims:
-        label: Select which programme aim you are most aligned with
-        options:
-        - label: Build capacity to get involved with future youth
-          explanation: e.g. by developing staff and volunteers or improving the voice of young people in leading on the  design and delivery of services.
-        - label: Develop partnerships led by grassroots organisations
-          explanation: Working with other local organisations, including public bodies and businesses who can achieve wider impact together.
-        errorMessage: Please select which programme aim you are most aligned with
       people-and-communities:
-        label: Describe the people and communities you are working with, and if required provide more information about where they are based
-        lengthHint: "Suggested answer length: 1–2 paragraphs"
+        label: Describe the area you are based within and the people and communities you work with and the young people you are engaged with.
+        lengthHint: "Suggested answer length: maximum 1–2 paragraphs"
         errorMessage: Please describe the people and communities you are working with
+      group-size:
+        label: We would like to understand the number of very small groups we have applying, please tick the boxes below which describe your group (these are not eligibility criteria but will give us more information about you)
+        options:
+        - label: We have not been funded by Big Lottery before
+        - label: We are an un-constituted group
+      annual-income:
+        label: Please tell us your annual income, from your last annual accounts (if you have them)
       organisation-name:
         label: Organisation name
         errorMessage: Please tell us your organisation name
+      organisation-address:
+        label: Organisation address
+        errorMessage: Please tell us your organisation address
       contact-name:
         label: Your name
         errorMessage: Please tell us your main contact name
@@ -1085,10 +1095,13 @@ apply:
       - name: Your current work
         fieldsets:
         - legend: Your current work
-      - name: How you will use the grant
+      - name: How will you use the grant
         fieldsets:
-        - legend: How you will use the grant
+        - legend: How will you use the grant
       - name: People and communities
+        fieldsets:
+        - legend: Tell us about the people and communities you work with
+      - name: About your organisation
         fieldsets:
         - legend: Tell us about the people and communities you work with
       - name: Your details
@@ -1101,8 +1114,8 @@ apply:
       declaration: >
         <p>By submitting this form, you confirm that you have read the programme guidance on our web pages and are eligible to submit an application. This declaration confirms that:</p>
         <ul>
-          <li>your organisation’s annual income is less than £250,000</li>
-          <li>your activity is based in either Birmingham, Bradford or Barking and Dagenham</li>
+          <li>your organisation’s annual income is less than £250,000 and/or has less than 3 FTE staff members</li>
+          <li>your activity is based in either Birmingham, Bradford or Barking & Dagenham</li>
         </ul>
       proceedLabel: Submit my expression of interest
     success:
