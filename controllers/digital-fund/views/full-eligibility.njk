@@ -40,7 +40,11 @@
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.strand1.startApplying }}
+                    {% if featurePreviewDigitalFund %}
+                        {{ copy.strand1.startApplying }}
+                    {% else %}
+                        {{ copy.aboutStrandLabel }}
+                    {% endif %}
                 </a></p>
 
                 <p>{{ copy.strand2.introduction | safe }}</p>
@@ -48,7 +52,11 @@
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
                     class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.strand2.startApplying }}
+                    {% if featurePreviewDigitalFund %}
+                        {{ copy.strand2.startApplying }}
+                    {% else %}
+                        {{ copy.aboutStrandLabel }}
+                    {% endif %}
                 </a></p>
 
                 {{ copy.successFactors.equalities | safe }}
