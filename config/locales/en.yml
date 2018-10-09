@@ -1040,19 +1040,19 @@ apply:
     description: <a href="/funding/programmes/digital-fund/strand-2">Digital Fund Strand 2</a> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.
   youthCapacity:
     title: Youth Capacity Fund
-    description: Expression of interest
+    description: Submit your ideas
     fields:
       current-work:
-        label: How does your current work help young people not in employment, education or training facing barriers to work?
+        label: How does your current work help disadvantaged young people not in employment, education or training facing barriers to work?
         lengthHint: "Suggested answer length: maximum 1–2 paragraphs"
         errorMessage: Please tell us about your current work
       how-you-will-use:
         label: Tell us which programme aim the grant will help towards
         options:
-        - label: Build capacity to get involved with future youth
-          explanation: e.g. by developing staff and volunteers or improving the voice of young people in leading on the design and delivery of services.
-        - label: Develop partnerships led by grassroots organisations
-          explanation: Working with other local organisations, including public bodies and businesses who can achieve wider impact together.
+        - label: Build their own capacity to deliver more for young people in the future
+          explanation: 'for example: improving fundraising capacity, organisational and staff development, business development work or youth voice development.'
+        - label: Develop partnerships across organisations
+          explanation: eg. to help support grassroots organisations collaborate with other local organisations, including public bodies and businesses who can achieve wider impact together.
         errorMessage: Please select which programme aim you are most aligned with
       money:
         label: Describe what you will use the money for and how this will enable you to deliver more and improve your support for young people
@@ -1103,21 +1103,21 @@ apply:
         - legend: Tell us about the people and communities you work with
       - name: About your organisation
         fieldsets:
-        - legend: Tell us about the people and communities you work with
+        - legend: About your organisation
       - name: Your details
         fieldsets:
         - legend: Organisation details
         - legend: Main contact
-          introduction: Who should we contact if we have questions about your expression of interest?
+          introduction: Who should we contact if we have questions about your ideas?
     review:
-      title: Check this is right before submitting your expression of interest
+      title: Check this is right before submitting your ideas
       declaration: >
         <p>By submitting this form, you confirm that you have read the programme guidance on our web pages and are eligible to submit an application. This declaration confirms that:</p>
         <ul>
           <li>your organisation’s annual income is less than £250,000 and/or has less than 3 FTE staff members</li>
           <li>your activity is based in either Birmingham, Bradford or Barking & Dagenham</li>
         </ul>
-      proceedLabel: Submit my expression of interest
+      proceedLabel: Submit your ideas
     success:
       title: 'Thank you for getting in touch'
       emailConfirmation: We have emailed your a copy of your submission
