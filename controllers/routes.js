@@ -271,22 +271,6 @@ const sections = {
     blog: blog
 };
 
-/**
- * Custom cloudfront rules
- * If any cached url paths need custom cloudfront rules like query strings
- * or custom cookies to be whitelisted you must define those rules here.
- */
-const cloudfrontRules = [
-    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
-    { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
-    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
-    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
-    { path: '/user/*', isPostable: true, queryStrings: ['token'] }
-];
-
 module.exports = {
-    cloudfrontRules,
     sections
 };

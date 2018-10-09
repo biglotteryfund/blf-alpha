@@ -1,10 +1,7 @@
 /* eslint-env jest */
 'use strict';
 const config = require('config');
-
-const { cloudfrontRules } = require('../../controllers/routes');
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
-
 const { makeBehaviourItem, generateBehaviours } = require('../cloudfront');
 
 describe('#makeBehaviourItem', () => {
@@ -36,10 +33,6 @@ describe('#makeBehaviourItem', () => {
 });
 
 describe('generateBehaviours', () => {
-    const behaviours = generateBehaviours({
-        cloudfrontRules: cloudfrontRules,
-        origins: cloudfrontDistributions.live.origins
-    });
-
+    const behaviours = generateBehaviours(cloudfrontDistributions.live.origins);
     expect(behaviours).toMatchSnapshot();
 });
