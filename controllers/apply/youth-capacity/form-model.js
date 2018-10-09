@@ -128,7 +128,7 @@ const stepDetails = {
 };
 
 module.exports = {
-    id: 'youth-capacity-funding',
+    id: 'youth-capacity-fund',
     shortCode: 'YCF',
     lang: formLang,
     isBilingual: false,
