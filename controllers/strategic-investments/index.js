@@ -18,7 +18,12 @@ router.get('/', injectListingContent, injectBreadcrumbs, injectStrategicProgramm
 
 router.get('/:slug', injectBreadcrumbs, injectStrategicProgramme, function(req, res, next) {
     const { strategicProgramme } = res.locals;
-    if (strategicProgramme) {
+
+    /**
+     * Only render strategic investment pages if *not* using an external path
+     * @TODO: Remove this when all strategic programmes pages are published on the new website.
+     */
+    if (strategicProgramme && /^\/funding\/strategic-investments/.test(strategicProgramme.path)) {
         const breadcrumbs = concat(res.locals.breadcrumbs, strategicProgramme.sectionBreadcrumbs);
         res.render(path.resolve(__dirname, './views/strategic-programme'), {
             breadcrumbs

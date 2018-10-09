@@ -200,8 +200,9 @@ async function injectStrategicProgramme(req, res, next) {
         const { slug } = req.params;
         if (slug) {
             const entry = await contentApi.getStrategicProgrammes({
+                slug: slug,
                 locale: req.i18n.getLocale(),
-                slug: slug
+                previewMode: res.locals.PREVIEW_MODE || false
             });
 
             res.locals.strategicProgramme = entry;
