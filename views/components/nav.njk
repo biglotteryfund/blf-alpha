@@ -3,7 +3,7 @@
 {% macro navlinks(itemClass) %}
     {% for section in navigationSections %}
         <li class="{% if sectionUrl === section.path %}is-selected{% endif %}{% if itemClass %} {{ itemClass }}{% if loop.last %} {{ itemClass }}--last{% endif %}{% endif %} qa-nav-link qa-nav-link--{{ section.id }}">
-            <a href="{{ section.path }}">
+            <a href="{{ section.path | default('/', true) }}">
                 {{ section.label }}
             </a>
         </li>

@@ -217,8 +217,8 @@ flatMap([
  * - Apply section specific controller logic
  * - Add common routing (for static/fully-CMS powered pages)
  */
-forEach(routes.sections, (section, sectionId) => {
-    let router = express.Router();
+forEach(routes.sections, function(section, sectionId) {
+    const router = express.Router();
 
     /**
      * Add section locals
@@ -236,7 +236,7 @@ forEach(routes.sections, (section, sectionId) => {
      * Page-level logic
      * Apply page level middleware and mount router if we have one
      */
-    forEach(section.pages, page => {
+    section.pages.forEach(function(page) {
         router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
             next();
         });
