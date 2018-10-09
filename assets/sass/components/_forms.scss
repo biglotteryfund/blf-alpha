@@ -135,24 +135,6 @@
     font-weight: bold;
 }
 
-.ff-label__icon {
-    $iconSize: 18px;
-    float: right;
-    margin-bottom: 3px;
-    svg {
-        cursor: pointer;
-        background-color: palette('charcoal-note');
-        border-radius: 100%;
-        width: $iconSize;
-        height: $iconSize;
-        fill: #ffffff;
-        vertical-align: middle;
-        @include on-interact {
-            background-color: palette('charcoal');
-        }
-    }
-}
-
 /**
  * Field label notes
  */
