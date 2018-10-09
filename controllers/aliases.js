@@ -1,5 +1,5 @@
 'use strict';
-const { flatMapDeep } = require('lodash');
+const { flatMap } = require('lodash');
 const { makeWelsh } = require('../modules/urls');
 
 /**
@@ -107,14 +107,16 @@ const aliases = {
     '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
 };
 
-const mappedAliases = flatMapDeep(aliases, (to, from) => {
+/**
+ * Map aliases into an array with all legacy country sections prefixed
+ * @type {Array<{ from: string, to: string }>}
+ */
+module.exports = flatMap(aliases, (to, from) => {
     const prefixes = ['', '/england', '/scotland', '/northernireland', '/wales'];
-    return prefixes.map(prefix => {
+    return flatMap(prefixes, prefix => {
         const withPrefix = `${prefix}${from}`;
         const enRedirect = { from: withPrefix, to: to };
         const cyRedirect = { from: makeWelsh(withPrefix), to: makeWelsh(to) };
         return [enRedirect, cyRedirect];
     });
 });
-
-module.exports = mappedAliases;

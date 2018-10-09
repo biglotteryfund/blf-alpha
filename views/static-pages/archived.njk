@@ -1,0 +1,27 @@
+{% from "components/hero.njk" import hero %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% extends "layouts/main.njk" %}
+
+{% block extraHead %}
+    <meta http-equiv="refresh" content="2;url={{ archiveUrl }}" />
+{% endblock %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = fallbackHeroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            {% call contentBox(pageAccent) %}
+                <h2>This page has been archived</h2>
+
+                <p><strong>Automatically redirecting you to the National Archives in two seconds…</strong></p>
+                <p>If you are not redirected automatically, please use this link: <a href="{{ archiveUrl }}">{{ archiveUrl }}</a></p>
+            {% endcall %}
+        </div>
+    </main>
+{% endblock %}

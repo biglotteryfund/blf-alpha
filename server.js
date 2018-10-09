@@ -1,5 +1,5 @@
 'use strict';
-const { forEach } = require('lodash');
+const { forEach, flatMap } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -7,6 +7,7 @@ const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const Raven = require('raven');
+const slashes = require('connect-slashes');
 const yaml = require('js-yaml');
 const debug = require('debug')('biglotteryfund:server');
 
@@ -19,14 +20,15 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { makeWelsh, localify } = require('./modules/urls');
+const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
 const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
+const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
-const { defaultSecurityHeaders, stripCSPHeader } = require('./middleware/securityHeaders');
+const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
@@ -39,6 +41,7 @@ const previewMiddleware = require('./middleware/preview');
 const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
+const vanityMiddleware = require('./middleware/vanity');
 
 /**
  * Configure Sentry client
@@ -156,6 +159,8 @@ initViewEngine();
 /**
  * Register global middlewares
  */
+app.use(slashes(false));
+app.use(redirectsMiddleware);
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
 app.use(cached.defaultVary);
@@ -165,7 +170,6 @@ app.use(defaultSecurityHeaders());
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(redirectsMiddleware.common);
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
 app.use(portalMiddleware);
@@ -180,21 +184,29 @@ app.use('/patterns', require('./controllers/pattern-library'));
 /**
  * Handle Aliases
  */
-routes.aliases.forEach(redirect => {
-    app.get(redirect.from, (req, res) => {
-        res.redirect(301, redirect.to);
-    });
+aliases.forEach(redirect => {
+    app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
 });
 
 /**
  * Archived Routes
- * Paths in this array will be redirected to the National Archives
+ * Paths in this array will be redirected to the National Archives.
+ * We show an interstitial page a) to let people know the page has been archived
+ * and b) to allow us to record the redirect as a pageview using standard analytics behaviour.
  */
-const archivedRoutes = ['/funding/funding-guidance/applying-for-funding/*', '/about-big/10-big-lottery-fund-facts'];
-
-archivedRoutes.forEach(urlPath => {
-    app.get(urlPath, cached.noCache, redirectsMiddleware.redirectArchived);
-    app.get(makeWelsh(urlPath), cached.noCache, redirectsMiddleware.redirectArchived);
+// prettier-ignore
+flatMap([
+    '/about-big/10-big-lottery-fund-facts',
+    '/funding/funding-guidance/applying-for-funding/*'
+], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
+    app.get(urlPath, cached.noCache, function(req, res) {
+        const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
+        const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${fullUrl}`;
+        res.render('static-pages/archived', {
+            title: 'Archived',
+            archiveUrl: archiveUrl
+        });
+    });
 });
 
 /**
@@ -271,13 +283,20 @@ app.get('/error', renderNotFound);
 app.get('/error-unauthorised', renderUnauthorised);
 
 /**
- * Final wildcard request handled
- * Attempt to proxy pages from the legacy site,
- * if unsuccessful pass through to the 404 handler.
+ * Final wildcard request handler
+ * - Lookup vanity URLs and redirect if any match
+ * - Attempt to proxy pages from the legacy site
+ * - Othewise, if the URL is welsh strip that from the URL and try again
+ * - If all else fails, pass through to the 404 handler.
  */
 app.route('*')
-    .all(stripCSPHeader)
-    .get(redirectsMiddleware.vanityLookup, proxyPassthrough, redirectsMiddleware.redirectNoWelsh)
+    .get(vanityMiddleware, proxyPassthrough, function(req, res, next) {
+        if (isWelsh(req.originalUrl)) {
+            res.redirect(removeWelsh(req.originalUrl));
+        } else {
+            next();
+        }
+    })
     .post(postToLegacyForm);
 
 /**

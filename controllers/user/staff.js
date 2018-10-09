@@ -10,7 +10,7 @@ router.get('/interstitial', (req, res) => {
     if (req.query.redirectUrl) {
         redirectUrl = req.query.redirectUrl;
     }
-    res.render('user/interstitial', {
+    res.render(path.resolve(__dirname, 'views/interstitial'), {
         redirectUrl: redirectUrl
     });
 });

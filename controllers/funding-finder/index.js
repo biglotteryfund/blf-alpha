@@ -4,7 +4,6 @@ const Raven = require('raven');
 const { localify, normaliseQuery } = require('../../modules/urls');
 const { reformatQueryString } = require('./helpers');
 const { proxyLegacyPage, postToLegacyForm } = require('../../modules/legacy');
-const { stripCSPHeader } = require('../../middleware/securityHeaders');
 
 const router = express.Router();
 
@@ -15,7 +14,7 @@ const router = express.Router();
  */
 router
     .route('')
-    .get(stripCSPHeader, (req, res) => {
+    .get((req, res) => {
         req.query = normaliseQuery(req.query);
         const showClosed = parseInt(req.query.sc, 10) === 1;
         const programmesUrl = localify(req.i18n.getLocale())('/funding/programmes');
