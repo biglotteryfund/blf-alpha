@@ -189,9 +189,14 @@ Object {
           },
           "Items": Array [
             "HEAD",
+            "DELETE",
+            "POST",
             "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
           ],
-          "Quantity": 2,
+          "Quantity": 7,
         },
         "Compress": true,
         "DefaultTTL": 86400,
@@ -217,14 +222,8 @@ Object {
           },
           "QueryString": true,
           "QueryStringCacheKeys": Object {
-            "Items": Array [
-              "draft",
-              "version",
-              "enable-feature",
-              "disable-feature",
-              "url",
-            ],
-            "Quantity": 5,
+            "Items": Array [],
+            "Quantity": 0,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -233,7 +232,7 @@ Object {
         },
         "MaxTTL": 31536000,
         "MinTTL": 0,
-        "PathPattern": "/contrast/*",
+        "PathPattern": "/api/*",
         "SmoothStreaming": false,
         "TargetOriginId": "ELB_LIVE",
         "TrustedSigners": Object {
