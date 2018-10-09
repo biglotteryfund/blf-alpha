@@ -29,7 +29,7 @@
         {% endif %}
         {% if fields.applicationDeadline %}
             <dt>{{ __('global.programmes.programmeLabels.applicationDeadline') }}</dt>
-            <dd>{{ fields.applicationDeadline }}</dd>
+            <dd>{{ fields.applicationDeadline | safe }}</dd>
         {% endif %}
     </dl>
 {% endmacro %}
