@@ -4,6 +4,38 @@ const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
+/**
+ * Custom cloudfront rules
+ * If any cached url paths need custom cloudfront rules like query strings
+ * or custom cookies to be whitelisted you must define those rules here.
+ */
+const CLOUDFRONT_PATHS = [
+    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+    { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
+    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
+];
+
+/**
+ * Legacy route paths
+ * Paths in this list will be routed
+ * directly to the legacy site origin
+ */
+const LEGACY_PATHS = [
+    '/-/*',
+    '/js/*',
+    '/css/*',
+    '/images/*',
+    '/default.css',
+    '/PastGrants.ashx',
+    '/news-and-events',
+    '/funding/search-past-grants',
+    '/funding/search-past-grants/*'
+];
+
 const makeBehaviourItem = ({
     originId,
     pathPattern = null,
@@ -104,7 +136,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours({ cloudfrontRules, origins }) {
+function generateBehaviours(origins) {
     const defaultCookies = [
         config.get('cookies.contrast'),
         config.get('cookies.features'),
@@ -118,17 +150,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
     });
 
     // Serve legacy static files
-    const customBehaviours = [
-        '/-/*',
-        '/js/*',
-        '/css/*',
-        '/images/*',
-        '/default.css',
-        '/PastGrants.ashx',
-        '/news-and-events',
-        '/funding/search-past-grants',
-        '/funding/search-past-grants/*'
-    ].map(path =>
+    const customBehaviours = LEGACY_PATHS.map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
             pathPattern: path,
@@ -141,7 +163,7 @@ function generateBehaviours({ cloudfrontRules, origins }) {
     );
 
     // direct all custom routes (eg. with non-standard config) to Express
-    const primaryBehaviours = flatMap(cloudfrontRules, rule => {
+    const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {
         // Merge default cookies with rule specific cookie
         const cookiesInUse = uniq(compact(flatten([defaultCookies, get(rule, 'cookies', [])])));
 

@@ -177,8 +177,9 @@ app.use(portalMiddleware);
 /**
  * Mount utility routes
  */
-app.use('/tools', require('./controllers/tools'));
+app.use('/api', require('./controllers/api'));
 app.use('/user', require('./controllers/user'));
+app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
 
 /**
@@ -216,8 +217,8 @@ flatMap([
  * - Apply section specific controller logic
  * - Add common routing (for static/fully-CMS powered pages)
  */
-forEach(routes.sections, (section, sectionId) => {
-    let router = express.Router();
+forEach(routes.sections, function(section, sectionId) {
+    const router = express.Router();
 
     /**
      * Add section locals
@@ -232,31 +233,14 @@ forEach(routes.sections, (section, sectionId) => {
     });
 
     /**
-     * Page specific middleware
+     * Page-level logic
+     * Apply page level middleware and mount router if we have one
      */
-    forEach(section.pages, (page, pageId) => {
+    section.pages.forEach(function(page) {
         router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
-            res.locals.pageId = pageId;
             next();
         });
-    });
 
-    /**
-     * Apply section specific controller logic
-     */
-    if (section.controller) {
-        router = section.controller({
-            router: router,
-            pages: section.pages,
-            sectionPath: section.path,
-            sectionId: sectionId
-        });
-    }
-
-    /**
-     * Apply page/route level router if we have one.
-     */
-    forEach(section.pages, page => {
         const shouldServe = appData.isNotProduction ? true : !page.isDraft;
         if (shouldServe && page.router) {
             router.use(page.path, page.router);
