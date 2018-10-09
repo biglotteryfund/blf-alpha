@@ -233,31 +233,15 @@ forEach(routes.sections, (section, sectionId) => {
     });
 
     /**
-     * Page specific middleware
+     * Page-level logic
+     * Apply page level middleware and mount router if we have one
      */
     forEach(section.pages, (page, pageId) => {
         router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
             res.locals.pageId = pageId;
             next();
         });
-    });
 
-    /**
-     * Apply section specific controller logic
-     */
-    if (section.controller) {
-        router = section.controller({
-            router: router,
-            pages: section.pages,
-            sectionPath: section.path,
-            sectionId: sectionId
-        });
-    }
-
-    /**
-     * Apply page/route level router if we have one.
-     */
-    forEach(section.pages, page => {
         const shouldServe = appData.isNotProduction ? true : !page.isDraft;
         if (shouldServe && page.router) {
             router.use(page.path, page.router);

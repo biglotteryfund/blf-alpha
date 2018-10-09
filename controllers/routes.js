@@ -7,7 +7,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} path
  * @property {boolean} showInNavigation
  * @property {object} pages
- * @property {function} [controller]
  * @property {string} [langTitlePath]
  */
 
@@ -200,20 +199,10 @@ const research = {
     path: '/research',
     showInNavigation: true,
     langTitlePath: 'global.nav.research',
-    controller: function(options) {
-        return require('./research')(options);
-    },
     pages: {
         root: {
             path: '/',
-            lang: 'toplevel.research',
-            heroSlug: 'grassroots-project'
-        },
-        rootNew: {
-            path: '/landing-new',
-            lang: 'toplevel.research',
-            heroSlug: 'grassroots-project',
-            isDraft: true
+            router: require('./research')
         }
     }
 };
