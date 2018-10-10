@@ -15,9 +15,9 @@ router.get('/', (req, res) => {
 });
 
 router.use('/your-idea', initFormRouter(reachingCommunitiesForm));
+router.use('/youth-capacity', initFormRouter(youthCapacityForm));
 
 if (appData.isNotProduction) {
-    router.use('/youth-capacity', initFormRouter(youthCapacityForm));
     router.use('/digital-fund-strand-1', initFormRouter(digitalFundForm.strand1));
     router.use('/digital-fund-strand-2', initFormRouter(digitalFundForm.strand2));
 }

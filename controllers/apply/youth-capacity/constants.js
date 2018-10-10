@@ -4,9 +4,9 @@ const PROJECT_AIMS = [{ value: 'Build capacity' }, { value: 'Develop partnership
 const GROUP_CHOICES = [{ value: 'Not funded by Big Lottery before' }, { value: 'Unconstituted group' }];
 
 const PROJECT_LOCATIONS = [
-    { value: 'Birmingham', email: 'noreply@blf.digital' },
-    { value: 'Bradford', email: 'noreply@blf.digital' },
-    { value: 'Barking and Dagenham', email: 'noreply@blf.digital' }
+    { value: 'Birmingham', email: 'birmingham.ycf@biglotteryfund.org.uk' },
+    { value: 'Bradford', email: 'bradford.ycf@biglotteryfund.org.uk' },
+    { value: 'Barking and Dagenham', email: 'barking.ycf@biglotteryfund.org.uk' }
 ];
 
 module.exports = {
