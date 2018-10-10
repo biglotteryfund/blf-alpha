@@ -5,8 +5,8 @@ const GROUP_CHOICES = [{ value: 'Not funded by Big Lottery before' }, { value: '
 
 const PROJECT_LOCATIONS = [
     { value: 'Birmingham', email: 'birmingham.ycf@biglotteryfund.org.uk' },
-    { value: 'Bradford', email: 'bradford.ycf@biglotteryfund.org.uk' },
-    { value: 'Barking and Dagenham', email: 'barking.ycf@biglotteryfund.org.uk' }
+    { value: 'Bradford', email: 'Bradford.YCF@biglotteryfund.org.uk' },
+    { value: 'Barking and Dagenham', email: 'barkinganddagenham.ycf@biglotteryfund.org.uk'}
 ];
 
 module.exports = {
